@@ -10,6 +10,14 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/getpacket', async (req, res) => {
+  let directory = req.query.directory;
+  let packetnumber = req.query.packetnumber;
+  directory = './packets/' + directory + '/' + packetnumber + '.json';
+  var jsonfile = require(directory);
+  res.send(JSON.stringify(jsonfile));
+});
+
 app.use((req, res) => {
 	res.sendFile(__dirname + req.url);
 });
