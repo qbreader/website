@@ -7,8 +7,10 @@ packetnumber = -1;
 
 document.getElementById('start').addEventListener('click', async () => {
     packetname = document.getElementById('year-select').value + '-' + document.getElementById('name-select').value;
+    if (packetname.length == 1) return;
     packetname = packetname.toLowerCase();
     packetnumbers = document.getElementById('packet-select').value;
+    if (packetnumbers.length == 1) return;
     // process string
     packetnumbers = packetnumbers.split(',');
     for (let i = 0; i < packetnumbers.length; i++) {
@@ -25,9 +27,6 @@ document.getElementById('start').addEventListener('click', async () => {
     readQuestion();
 });
 
-function buzz() {
-    currentlyBuzzing = true;
-}
 
 async function getquestions(set, packet) {
     return await fetch(`/getpacket?directory=${encodeURI(set)}&packetnumber=${encodeURI(packet)}`)
@@ -57,12 +56,13 @@ function readQuestion() {
     questiontext = questions[currentQuestionNumber]['question_sanitized'];
     console.log(questiontext);
     questiontextsplit = questiontext.split(' ');
+    readingspeed = document.getElementById('reading-speed').value;
     var intervalId = window.setInterval(() => {
         document.getElementById('question').innerHTML += questiontextsplit.shift() + ' ';
         if (currentlyBuzzing || questiontext.length == 0) {
             clearInterval(intervalId);
         }
-    }, 300);
+    }, readingspeed);
 }
 
 function displayRestOfQuestion() {

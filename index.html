@@ -8,25 +8,38 @@
 </head>
 
 <body>
-    <h1>QB Packet Reader</h1>
-    <div id="buttons">
-        <button id="start">Start</button>
-        <button id="buzz">Buzz</button>
-        <button id="next">Next</button>
-    </div>
+    <div class="container">
+        <div class="header">QB Packet Reader</div>
+        <div class="buttons" id="buttons">
+            <button id="start">Search for Questions and Start</button>
+            <button id="buzz">Buzz</button>
+            <button id="next">Next</button>
+        </div>
 
-    <div id="options">
-        <input id="year-select" placeholder="Enter set year">
-        <input id="name-select" placeholder="Enter set name">
-        <input id="packet-select" placeholder="Enter packet numbers">
-        <input id="question-select" placeholder="Enter starting question number">
-    </div>
+        <div class="options" id="options">
+            <div>Options:</div><br>
+            <input id="reading-speed" type="range" min="10" max="1000" value="300">
+            <div id="reading-speed-display">Reading speed [ms between words]: 300</div><br><br>
 
-    <div id="question-info"></div>
+            <script>
+                document.getElementById('reading-speed').oninput = function () {
+                    document.getElementById('reading-speed-display').innerHTML 
+                        = 'Reading speed [ms between words]: ' + this.value;
+                }
+            </script>
 
-    <div id="question-text">
-        <p id="question"></p>
-        <p id="answer"></p>
+            <input id="year-select" placeholder="Set year"><br>
+            <input id="name-select" placeholder="Set name"><br>
+            <input id="packet-select" placeholder="Packet numbers"><br>
+            <div><input id="question-select" placeholder="Starting question number"> (Default: 1)</div>
+        </div>
+
+        <div class="question-info" id="question-info"></div>
+
+        <div class="question-text" id="question-text">
+            <p id="question"></p>
+            <p id="answer"></p>
+        </div>
     </div>
 
     <script src="/index.js"></script>

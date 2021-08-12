@@ -1,7 +1,7 @@
 import json 
 import os
 
-directory = 'packets/2018-nasat'
+directory = 'test'
 
 for filename in os.listdir(directory):
     f = open(directory + '/' + filename)
