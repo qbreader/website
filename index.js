@@ -1,26 +1,88 @@
 currentlyBuzzing = false
+currentQuestionNumber = 0
 
-questiontext = '1 j s s f g d s s s a a  s s 3 4 6 7 9 1 2 2 1 1 2 1 2 3  4 5 3  2 2';
-questiontext = questiontext.split(' ');
-console.log(questiontext);
+questions = 0;
+packetnumbers = -1;
+packetnumber = -1;
 
-document.getElementById('start').addEventListener('click', () => {
-    var intervalId = window.setInterval(() => {
-        document.getElementById('question').innerHTML += questiontext.shift() + ' ';
-        if (currentlyBuzzing || questiontext.length == 0) {
-            clearInterval(intervalId);
-        }
-    }, 300);
+document.getElementById('start').addEventListener('click', async () => {
+    packetname = document.getElementById('year-select').value + '-' + document.getElementById('name-select').value;
+    packetname = packetname.toLowerCase();
+    packetnumbers = document.getElementById('packet-select').value;
+    // process string
+    packetnumbers = packetnumbers.split(',');
+    for (let i = 0; i < packetnumbers.length; i++) {
+        packetnumbers[i] = packetnumbers[i].trim();
+        packetnumbers[i] = parseInt(packetnumbers[i]);
+    }
+
+    packetnumber = packetnumbers.shift();
+    questions = await getquestions(packetname, packetnumber);
+
+    currentQuestionNumber = document.getElementById('question-select').value;
+    if (currentQuestionNumber == '') currentQuestionNumber = '1';
+    currentQuestionNumber = parseInt(currentQuestionNumber) - 1;
+    readQuestion();
 });
 
 function buzz() {
     currentlyBuzzing = true;
 }
 
+async function getquestions(set, packet) {
+    return await fetch(`/getpacket?directory=${encodeURI(set)}&packetnumber=${encodeURI(packet)}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data['tossups']);
+        return data['tossups'];
+    });
+}
+
+async function next() {
+    document.getElementById('question').innerHTML = '';
+    document.getElementById('answer').innerHTML = '';
+    currentQuestionNumber++;
+    currentlyBuzzing = false;
+    if (currentQuestionNumber >= questions.length) {
+        packetnumber = packetnumbers.shift();
+        questions = await getquestions('2018-nasat', packetnumber);
+        currentQuestionNumber = 0;
+    }
+    readQuestion();
+}
+
+function readQuestion() {
+    document.getElementById('question-info').innerHTML = `${packetname} Packet ${packetnumber} Question ${currentQuestionNumber+1}`
+
+    questiontext = questions[currentQuestionNumber]['question_sanitized'];
+    console.log(questiontext);
+    questiontextsplit = questiontext.split(' ');
+    var intervalId = window.setInterval(() => {
+        document.getElementById('question').innerHTML += questiontextsplit.shift() + ' ';
+        if (currentlyBuzzing || questiontext.length == 0) {
+            clearInterval(intervalId);
+        }
+    }, 300);
+}
+
+function displayRestOfQuestion() {
+    document.getElementById('question').innerHTML = questiontext;
+    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer_sanitized'];
+}
+
 document.getElementById('buzz').addEventListener('click', buzz);
+document.getElementById('next').addEventListener('click', next);
 
 document.addEventListener('keyup', () => {
-    if (event.which == 32) {
-        buzz();
+    if (packetnumbers != -1) {
+        if (event.which == 32) {  // spacebar
+            if (currentlyBuzzing) {
+                displayRestOfQuestion();
+            } else {
+                currentlyBuzzing = true;
+            }
+        } else if (event.which == 78) { // pressing 'N'
+            next();
+        }
     }
-})
+});
