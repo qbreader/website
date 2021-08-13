@@ -38,14 +38,14 @@ async function nextQuestion() {
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
     document.getElementById('info-text').innerHTML = 'Press space to buzz';
-    
+
     currentQuestionNumber++;
     if (currentQuestionNumber >= questions.length) {
         packetNumber = packetNumbers.shift();
         questions = await getQuestions(packetName, packetNumber);
         currentQuestionNumber = 0;
     }
-    
+
     readQuestion();
 }
 
