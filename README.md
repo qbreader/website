@@ -7,3 +7,5 @@ TODO:
 
 add more packets
 packet number selector should support dashes
+add category and subcategory
+bonus support
