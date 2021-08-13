@@ -41,6 +41,7 @@ async function nextQuestion() {
 
     currentQuestionNumber++;
     if (currentQuestionNumber >= questions.length) {
+        if (packetNumbers.length == 0) return;  // do nothing if there are no more packets
         packetNumber = packetNumbers.shift();
         questions = await getQuestions(packetName, packetNumber);
         currentQuestionNumber = 0;
@@ -72,24 +73,22 @@ document.getElementById('start').addEventListener('click', async () => {
     document.getElementById('answer').innerHTML = '';
     document.getElementById('info-text').innerHTML = 'Press space to buzz';
 
-    packetyear = document.getElementById('year-select').value;
+    packetyear = document.getElementById('year-select').value.trim();
     if (packetyear.length == 0) {
         window.alert('Enter a packet year.');
         return;
     }
-    packetabbreviation = document.getElementById('name-select').value;
+    packetabbreviation = document.getElementById('name-select').value.trim();
     if (packetabbreviation.length == 0) {
         window.alert('Enter a packet name.');
         return;
     }
+    packetabbreviation = packetabbreviation.replaceAll(' ', '_');
     packetName = packetyear + '-' + packetabbreviation;
     packetName = packetName.toLowerCase();
 
-    packetNumbers = document.getElementById('packet-select').value;
-    if (packetNumbers.length == 0) {
-        window.alert('Enter packet numbers.');
-        return;
-    }
+    packetNumbers = document.getElementById('packet-select').value.trim();
+    if (packetNumbers.length == 0) packetNumbers = '1'
     packetNumbers = packetNumbers.split(',');
     for (let i = 0; i < packetNumbers.length; i++) {
         packetNumbers[i] = packetNumbers[i].trim();
