@@ -1,0 +1,346 @@
+{
+    "tossups": [
+        {
+            "question_sanitized": "This quantity multiplies the square of the speed of light, divided by three, in the Friedmann equations used to derive the FLRW metric. Problematically, the observed value for this quantity is about 120 times smaller than a theoretical \u201czero point\u201d predicted by quantum field theory. Along with one-half the scalar curvature, this quantity appears as the coefficient to the metric tensor in a set of twelve (*) field equations. The originator of this quantity introduced it to maintain his view that the universe was static, and abandoned it after Edwin Hubble proved the universe was expanding. Einstein said his \u201cbiggest blunder\u201d was, for 10 points, what quantity that represents the vacuum energy density of space and is denoted with a capital lambda? ",
+            "answer_sanitized": "cosmological constant [accept vacuum energy density before \u201cvacuum\u201d; accept cosmological after \u201cconstant\u201d; accept lambda before \u201clambda\u201d; prompt on density or energy density or dark energy density; do NOT accept or prompt on \u201cdark energy\u201d] "
+        },
+        {
+            "question_sanitized": "The speaker of a poem by this author is led by an \u201cElder Lament\u201d to the \u201cfountain of joy\u201d before climbing \u201cthe mountains of primeval grief.\u201d That poem by this author ends by stating how \u201cwe, who think of ascending joy, would feel the emotion, that almost dismays us, when a joyful thing falls.\u201d Stephen Mitchell translated a poem by this author that describes a \u201cmighty will that stands paralyzed\u201d of an animal that (*) \u201cpaces in cramped circles\u201d. He imagines the \u201clegendary head / with eyes like ripening fruit\u201d of a statue in a poem that declares \u201cYou must change your life.\u201d This author of \u201cThe Panther\u201d opened a collection by asking \u201cWho if I cried out, would hear me among the angelic orders?\u201d For 10 points, name this German poet of the Duino Elegies.",
+            "answer_sanitized": "Rainer Maria Rilke "
+        },
+        {
+            "question_sanitized": "This character\u2019s memories are altered to forget an alien encounter before a flying saucer is summoned to whisk them away by Mik Kanrokitoff. This character gets involved in a civil war in San Theodoros between the general Tapioca and his friend, general Alcazar. While in Peru, this character pretends to cause an eclipse to help a friend escape from a group of Incas. In this character\u2019s namesake books, which include (*) Prisoner of the Sun, he is acquainted with the professor Cuthbert Calculus, the incompetent detectives Thomson and Thompson, and a sailor who often says \u201cblistering barnacles\u201d named Captain Haddock. For 10 points, name this reporter often accompanied by his dog Snowy in a comic by the Belgian artist Herg\u00e9 (\u201chair-SHAY\u201d).",
+            "answer_sanitized": "Tintin "
+        },
+        {
+            "question_sanitized": "One of these objects called the Alta was designed by Oscar Niemeyer in collaboration with his daughter. One of these objects produced by Knoll, Inc. reflects an ancient Roman curule design and was first displayed in the Villa Tugendhat. Eero Aarnio designed some of these objects named for bubbles and balls. Lilly Reich and Mies van der Rohe collaborated on one of these first featured in a (*) Barcelona pavilion. The TV show Star Trek featured a \u201ctulip\u201d one designed by Eero Saarinen. Herman Miller\u2019s Aeron one of these objects is often touted for its ergonomics and is commonly used in offices. For 10 points, name these pieces of furniture, which come in lounge and arm types.",
+            "answer_sanitized": "chairs [accept lounge chairs; accept arm chairs] "
+        },
+        {
+            "question_sanitized": "In a political cartoon, a headless man hands a holder of this position an axe and says \u201cyou might need this, Artie.\u201d A holder of this position supposedly nicknamed Treasurer Peter Costello \u201cThallium\u201d before referring to him as a \u201cslow-acting dope.\u201d Another holder of this position was first elected with his country\u2019s \u201cUnited\u201d party and championed his country\u2019s neglected middle class as the backbone of his country in speeches named for \u201cThe (*) Forgotten People.\u201d A constitutional crisis erupted in 1975 when Governor-General John Kerr dismissed Gough Whitlam from this position. Held by Harold Holt and Robert Menzies, for ten points, name this position, which serves as the head of government of a country down under. ",
+            "answer_sanitized": "Prime Minister of Australia [prompt on Prime Minister or PM] "
+        },
+        {
+            "question_sanitized": "This character observes a \u201cfair Creature\u201d admiring her reflection in the water but flees after a pair of golden scales appear in the sky. Nature is heard \u201csighing through all her works\u201d after this figure flatters a woman and recounts how he learned to speak. This figure laments \u201cfarewell, happy fields, where joy forever dwells\u201d after Abdiel renounces him. This figure shapeshifts into a toad to whisper to a (*) sleeping woman. Mammon commands Mulciber to design a city called Pandaemonium for this figure, who is turned into a snake for tempting a couple to eat from the Tree of Knowledge. For 10 points, name this figure who declares \u201cbetter to reign in Hell than serve in Heaven\u201d in Paradise Lost.",
+            "answer_sanitized": "Satan [accept Lucifer; prompt on the Devil or alternate names like Mephistopheles or Beelzebub] "
+        },
+        {
+            "question_sanitized": "Choosing a lower value for this quantity to prevent overfitting is commonly done using LASSO regression, which introduces a shrinkage penalty. When doing principal component analysis, you specify a desired lower value of this quantity for your model, which can help avoid a \u201ccurse\u201d named for it. The value of this quantity for the image and the kernel of a linear map sums to the value of this quantity for the map by the (*) rank-nullity theorem. For a linear regression, it is the number of independent variables used. The number of elements in a basis equals this quantity for the vector space spanned by the basis. For 10 points, name this minimum number of coordinates needed to specify a point\u2019s location in space which, in Euclidean geometry, equals three.",
+            "answer_sanitized": "dimensions [or degrees of freedom, or rank; accept curse of dimensionality; accept number of features or number of variables before \u201cnumber of variables\u201d] "
+        },
+        {
+            "question_sanitized": "A hemp rope with paper streamers is used to denote the entrances to these locations. These structures are often flanked by stone lion-dogs sculpted to make their namesake noises. One can often buy amulets for traffic safety and healthy pregnancies in these places, which feature ladled water to rinse one\u2019s hands and mouth. Visitors to these places traditionally clap twice after concluding a (*) prayer. Visitors can hang up ema, picture-horses on which they can note any of their wishes, or draw a lot which relates their luck, ranging from great curse to great blessing. One of these structures is said to house three imperial regalia and is rebuilt every 20 years. For 10 points, name these Japanese structures that are often built with vermilion torii, said to house kami.",
+            "answer_sanitized": "Shinto shrines [or Shinto temples; or jingu; or jinja; or shinsha; or gongen; or gongu; or jingu; or mori; or myojin; or myosha; or taisha; or ubusuna; or yashiro; prompt on shrines or temples or synonyms; do NOT accept \u201cBuddhist temples\u201d or \u201cotera\u201d at any point ] "
+        },
+        {
+            "question_sanitized": "At the beginning of one novel, a soldier from this family recalls how his father unearthed a suit of armor while hunting for gold with a pair of magnetic ingots. A member of this family invites Mr. Herbert to lunch after he lands in a hot-air balloon while the blood of a man in this family trickles across town after he is mysteriously shot. This family\u2019s home is washed away by four years of rain after a (*) pig-tailed child is born to one of seventeen sons who are all named Aureliano. The gypsy Melquiades sells ice to this family\u2019s patriarch, Jos\u00e9 Arcadio, who establishes the town of Macondo. For 10 points, name this central family in Gabriel Garcia Marquez\u2019s One Hundred Years of Solitude.",
+            "answer_sanitized": "Buend\u00edas [or Buend\u00eda family] "
+        },
+        {
+            "question_sanitized": "An overture to one of this composer\u2019s operas begins with the violins rushing down an F-major-pentatonic scale before the strings begin a fast fugue. An E-flat-major theme performed by two harps represents Lum\u00edr\u2019s song, evoking the title castle, in the first section of a cycle of pieces by this composer. A string quartet by this composer features a second-movement polka and a fourth movement containing a high violin (*) E to represent his deafness. This composer of a quartet subtitled \u201cFrom My Life\u201d included \u201cVy\u0161erhad\u201d (\u201cvee-SHARE-hod\u201d) in an epic six-part cycle of symphonic poems. For 10 points, name this Czech composer of The Bartered Bride whose work M\u00e1 vlast also contains \u201cThe Moldau.\u201d",
+            "answer_sanitized": "Bedrich Smetana "
+        },
+        {
+            "question_sanitized": "The Chuvash people claim descent from a group of these people who settled on the Volga river. A popular Gnostic heresy that originated among these people held that Satan created the world and that the cross was evil and was called Bogomilism. An empire ruled by these people included a school at Preslav where the Cyrillic alphabet was developed. The emperor (*) Nikephoros I had his skull turned into a silver cup after he was killed by some of these people at the battle of Pliska, at which their leader was Krum. These people were defeated at the Battle of Kleidion, after which 15,000 prisoners were blinded by Basil II, who was nicknamed for \u201cslaying\u201d them. For 10 points, the country named for what people has its capital at Sofia?",
+            "answer_sanitized": "Bulgars [or Bulgarians, prompt on Turks before \u201cGnostic\u201d] "
+        },
+        {
+            "question_sanitized": "The Groningen Protocol provides guidelines for when this action is appropriate for infants. Phillip Nitschke has attracted international criticism for marketing a sleek pod intended for performers of this action. A gold-medal-winning Belgian paralympic athlete, Marieke Vervoort, completed this action in October 2019. A list of methods of of performing this action is provided by the (*) Peaceful Pill organization. The case of Aruna Shanbaug, a nurse left in a permanently vegetative state after being raped, led India\u2019s supreme court to legalize this action. Significant controversy in bioethics surrounds, for 10 points, what action whose legalization is advocated for by the \u201cRight to Die\u201d movement, and which involves intentionally ending life to prevent suffering?",
+            "answer_sanitized": "euthanasia [or assisted suicide; prompt on suicide] "
+        },
+        {
+            "question_sanitized": "Intron A improves stability in one type of these substances that uses rabbit beta-globulin as a polyadenylation sequence. Adenovirus is attractive for its use as a vector in the \u201csubunit\u201d variety of these substances. Precipitated aluminum hydroxide and CpG are examples of adjuvants added to these substances to increase the potency of (*) inactivated ones that may require additional \u201cboosters.\u201d Attenuated versions of these substances are considered \u201clive.\u201d The preservative thimerosal was phased out from use in examples of these substances such as DTaP. A rejected Lancet paper by Andrew Wakefield claimed that these substances caused autism. For 10 points, name these preparations that provide acquired immunity using weakened versions of viruses.",
+            "answer_sanitized": "vaccines [accept DNA vaccines; accept subunit vaccines; accept RNA vaccines; accept inactivated vaccines; accept attenuated vaccines or live vaccines; prompt on inoculations] "
+        },
+        {
+            "question_sanitized": "A telegram message sent during this war reading \"weather today fine but high waves\" became a common phrase in a participating country. A priest was killed after the cruiser Aurora was hit by friendly fire during an incident in this war. During a battle in this war, an admiral communicated to his fleet by raising the 'Z' flag. The United Kingdom almost joined this war after one side\u2019s navy fired on fishing trawlers in the (*) Dogger Bank incident. Theodore Roosevelt won a Nobel Peace Prize for negotiating an end to this conflict at the Treaty of Portsmouth. For 10 points, name this war in which Japan established itself as a world power by defeating a European nation.",
+            "answer_sanitized": "Russo-Japanese War "
+        },
+        {
+            "question_sanitized": "Rudi Dornbusch postulated that high volatility in these quantities was caused by them \u201covershooting\u201d when compared to sticky prices. The \u201cspot\u201d values of these quantities are related to their \u201cforward\u201d values by the condition of interest rate parity. Attempting to mitigate fluctuations in these quantities due to speculation is the goal of a Tobin tax. These quantities normalize long run according to the theory of (*) purchasing power parity, which reflects their \u201creal\u201d as opposed to \u201cnominal\u201d variety. China has been repeatedly accused of manipulating these quantities to boost exports. \u201cPegging\u201d to the U.S. dollar is one way of stabilizing, for 10 points, what quantities, which are the amount of one currency that can be traded for another?",
+            "answer_sanitized": "exchange rates [prompt on currency strength or currency value or the strength or value of a specific currency] "
+        },
+        {
+            "question_sanitized": "This figure is granted super strength in an episode in which he steals a team of fine horses and intimidates a weeping deity into fleeing to Dione (\u201cdye-OH-nee\u201d). In the Aeneid, this figure, whom Aeneas calls \u201cgreatest of the Greeks,\u201d urges Turnus to make peace with Aeneas and refuses to fight on either man\u2019s side. In the Iliad, this son of Tydeus has an aristeia in which he kills Pandarus and crushes the hip of Aeneas with a rock. With (*) Odysseus, this king of Argos steals the horses of Rhesus and the Palladium. Athena aids this character in wounding both Ares and Aphrodite on the same day and driving them from the battlefield. For 10 points, name this Trojan War hero who shares his name with the owner of a group of flesh-eating mares.",
+            "answer_sanitized": "Diomedes "
+        },
+        {
+            "question_sanitized": "A woman frantically urges this character to pray as he recounts being \u201cburied alive\u201d in the penitentiary as a young man. This man insists that his father died of the flu and snarls that Jesus threw \u201ceverything off balance\u201d by raising the dead. While driving his \u201cbattered, black hearse,\u201d this man stops to help fix a car and recoils from an old lady who would have been decent if had there been someone to (*) \u201cshoot her every minute of her life.\u201d This character orders his accomplice Bobby Lee to take Bailey and his children into the woods and picks up the cat Pitty Sing after shooting the grandmother. For 10 points, name this fugitive who kills the family in Flannery O\u2019Connor\u2019s \u201cA Good Man is Hard to Find\u201d.",
+            "answer_sanitized": "The Misfit "
+        },
+        {
+            "question_sanitized": "The plaintiff in this case submitted a handwritten writ of certiorari after researching in a prison library. Precedent from Powell v. Alabama was cited in this case, which overturned the \u201cspecial circumstance\u201d requirement set in Betts v. Brady in which this case\u2019s majority opinion writer, Hugo Black, had dissented. Future Supreme Court Justice Abe Fortas was appointed to represent the plaintiff in this case, who was arrested in Panama City, (*) Florida for breaking into a pool hall. This case incorporated the Sixth Amendment, which provides defendants with a right to counsel. For 10 points, name this 1963 Supreme Court case that required states to provide a lawyer to defendants who could not afford one.",
+            "answer_sanitized": "Gideon v. Wainwright [accept either underlined portion] "
+        },
+        {
+            "question_sanitized": "When transport properties are stronger than predicted by this equation, they have super-A behavior and the VTF equation may be used. The Bell\u2013Limbach model takes into account tunneling and isotope effects when analyzing this equation. One modification of this equation uses K-sub-b times temperature all over Planck's constant. That equation uses (*) delta-G-double-dagger instead of a similar variable and is named for Eyring. A linear graph is acquired when the natural log of k is plotted against 1/T using this equation. In this equation, the product of steric factor and the collision frequency gives the pre-exponential factor which is multiplied by e to the minus E-a over RT. For 10 points, name this kinetics equation that calculates reaction rate.",
+            "answer_sanitized": "Arrhenius equation "
+        },
+        {
+            "question_sanitized": "Erwin Panofsky used the phrase \u201cpaysage moralis\u00e9\u201d to describe how the landscape of this painting is divided between a dimly lit forest with two hares on the left and a church on the right. A pair of lovers sit among sheep as a hunting scene unfolds in this painting which features a large castle emerging in the distance on the left. A carving of a man being lashed appears on a marble frieze in this painting, in which a woman with gloves leans on a bowl while another figure raises a jar of burning (*) incense. Cupid dips his arm into a sarcophagus filled with water between the central figures of this painting, one of whom wears a white dress while the other is exposed. For 10 points, name this Titian painting titled for two aspects of Venus.",
+            "answer_sanitized": "Sacred and Profane Love [or Amor Sacro e Amor Profano] "
+        }
+    ],
+    "bonuses": [
+        {
+            "leadin_sanitized": "For 10 points each, answer the following about Democratic party fundraising for the 2020 election:",
+            "answers_sanitized": [
+                "Michael (Mike) Bloomberg",
+                "\u201cI am once again asking for your financial support\u201d",
+                "The Lincoln Project "
+            ],
+            "parts_sanitized": [
+                "This financier self-funded a campaign which, despite paying Instagram influencers and buying over $400 million in TV commercials, failed to win any state's primary. He then dropped out after Super Tuesday.",
+                "Bernie Sanders was the only major candidate without a super PAC funding his campaign, relying entirely on small donors. In a December 2019 fundraising video, Bernie Sanders said this 9-word phrase, calling for the public to donate to his campaign, which has since become memetic. Please give the exact phrase - you have 10 seconds.",
+                "One of the major contributors to Joe Biden\u2019s campaign was this PAC, founded by GOP strategists, political consultants, and neoconservatives who are dissatisfied with Trump. It is named for a Republican president."
+            ]
+        },
+        {
+            "leadin_sanitized": "A work in this building depicts a crowd of people gesturing wildly as Jesus raises the dead Lazarus, who is wrapped tightly in sheets. For 10 points each:",
+            "answers_sanitized": [
+                "Scrovegni Chapel [or Arena Chapel]",
+                "Giotto di Bondone",
+                "Judas "
+            ],
+            "parts_sanitized": [
+                "Name this chapel located in Padua named for a banking family. The walls of this chapel contain a fresco cycle noted for its lapis lazuli skies and rocky landscapes.",
+                "The Scrovegni Chapel was painted by this proto-Renaissance artist whose Ognissanti (\u201con-yee-SAHN-tee\u201d) Madonna represents an early shift towards naturalism. ",
+                "In a fresco from the Scrovegni Chapel, this man appears in gold robes as he betrays Jesus with a kiss."
+            ]
+        },
+        {
+            "leadin_sanitized": "In one story, the chimney-sweep J.P. narrates the failure of his abusive marriage with Roxy to a group of people who suffer from this condition. For 10 points each:",
+            "answers_sanitized": [
+                "alcoholism [accept equivalent descriptions like drinking problem; prompt on addiction with \u201cto what?\u201d]",
+                "Raymond Carver",
+                "Jack London "
+            ],
+            "parts_sanitized": [
+                "Name this condition. The narrator of the short story \u201cWhere I\u2019m Calling From\u201d tries to recover from this condition while staying at \u201cFrank Martin\u2019s Drying-Out Facility.\u201d",
+                "This American writer drew on his own struggle with alcohol to write short stories such as \u201cWhere I\u2019m Calling From.\u201d Terri, Mel, Laura, and Nick sit around drinking in this man\u2019s short story \u201cWhat We Talk about When We Talk About Love.\u201d",
+                "In \u201cWhere I\u2019m Calling From\u201d, the narrator can only remember reading this author\u2019s story \u201cTo Build a Fire.\u201d This author also wrote The Call of the Wild. "
+            ]
+        },
+        {
+            "leadin_sanitized": "A setup of graphite electrodes with a biofilm of Shewanella oneidensis can be used to characterize microbial fuel cells with this technique. For 10 points each:",
+            "answers_sanitized": [
+                "cyclic voltammetry [or CV; prompt on voltammetry]",
+                "current",
+                "protons [or H+; accept proton-exchange membranes] "
+            ],
+            "parts_sanitized": [
+                "Name this electrochemical technique whose characteristic duck-shaped curves show the output of a ramped potential that is reversed when a set potential is reached. This technique differs from a similar \u201clinear-sweep\u201d variety.",
+                "Microbial fuel cells typically use cytochromes that can transfer electrons directly to the anode resulting in a production of this quantity. This quantity is measured against potential in cyclic voltammetry and has units of amps.",
+                "Some microbial fuel cells can use an inoculum and an exchange membrane that conducts these species to be used in wastewater treatment. The standard reduction potential of this species is zero. "
+            ]
+        },
+        {
+            "leadin_sanitized": "In one of this composer\u2019s compositions, the devil does not sing, but rather shouts all of his lines, as the composer thought singing to be a purely divine ability. For 10 points each:",
+            "answers_sanitized": [
+                "Hildegard of Bingen [or Hildegard von Bingen; or Saint Hildegard; or the Sibyl of the Rhine]",
+                "the Roman Catholic Church",
+                "Giovanni Pierluigi da Palestrina "
+            ],
+            "parts_sanitized": [
+                "Name this composer of Ordo Virtutum, possibly the oldest surviving medieval morality play. ",
+                "Hildegard\u2019s choral works are good examples of monophony, the preferred musical texture of this religious organization until the Council of Trent. This organization officially canonized Hildegard in 2012.",
+                "This Italian composer\u2019s Pope Marcellus Mass supposedly convinced the Council of Trent to embrace polyphony."
+            ]
+        },
+        {
+            "leadin_sanitized": "In 1405, the Yongle Emperor of the Ming Dynasty sent out his envoy Yin Qing to this sultanate to help establish it as a tributary state. For ten points each:",
+            "answers_sanitized": [
+                "Malacca Sultanate [or Kesultanan Melayu Melaka]",
+                "Singapore [or Singapura; accept Kingdom of Singapura; accept Kerajaan Singapura]",
+                "Majapahit Empire "
+            ],
+            "parts_sanitized": [
+                "Name this sultanate which ruled the southern Malay Peninsula. It was named for a city which, in turn, names a strategically important waterway through which much trade flowed from East Asia to the Indian Ocean.",
+                "The founder of the Malacca Sultanate, King Parameswara, converted from Hinduism to Islam after the fall of his kingdom in this modern-day country located near the Malay Peninsula, whose name means \u201cLion City.\u201d",
+                "The Kingdom of Singapore fell to this empire founded by Raden Wijaya in 1293. This empire's prime minister Gajah Mada slew the entire court of the Sunda Kingdom during the rule of its king Hayam Wuruk."
+            ]
+        },
+        {
+            "leadin_sanitized": "For 10 points each, name these characters whom Prometheus meets while chained in the Caucasus:",
+            "answers_sanitized": [
+                "Oceanus [or Ocean, or Okeanos]",
+                "Io",
+                "Heracles [or Hercules] "
+            ],
+            "parts_sanitized": [
+                "In Aeschylus\u2019s Prometheus Bound, he is visited by this uncle of his, a Titan who is said to circle the world. The play\u2019s chorus consists of nymphs born to Tethys and this Titan.",
+                "In another episode, Prometheus meets this daughter of Inachus and tells her where to continue her journey. Throughout her wanderings of the Earth, she is pursued by a gadfly sent by Hera.",
+                "Prometheus is eventually freed from his chains by this hero, who shoots the eagle who torments him. This hero also used his bow to shoot down the Stymphalian Birds in one of the 12 tasks ordered by his cousin Eurystheus."
+            ]
+        },
+        {
+            "leadin_sanitized": "Delayed umbilical cord separation is associated with defects in the adhesion of these cells. For 10 points each:",
+            "answers_sanitized": [
+                "neutrophils",
+                "pre-eclampsia",
+                "vitamin B12 [accept cobalamin] "
+            ],
+            "parts_sanitized": [
+                "Name these white blood cells whose nuclei characteristically have two to five distinct segments or lobes.",
+                "Research has shown that in patients with this condition, neutrophil extracellular traps are aberrantly activated in the intervillous space, leading to placental hypoxia. This pregnancy disorder can cause seizures if untreated.",
+                "Neutrophil hypersegmentation is a diagnostic feature of megaloblastic anaemia, which is caused by a deficiency of this B vitamin that has a central cobalt atom."
+            ]
+        },
+        {
+            "leadin_sanitized": "One album by this musician includes the songs \u201cOpen Letter to Duke\u201d and \u201cJelly Roll\u201d as a reference to Duke Ellington and Jelly Roll Morton, respectively. For 10 points each:",
+            "answers_sanitized": [
+                "Charles Mingus",
+                "\u201cMoanin\u2019\u201d",
+                "double bass "
+            ],
+            "parts_sanitized": [
+                "Name this artist, who included a tribute to the recently deceased saxophonist Lester Young, \u201cGoodbye Pork Pie Hat,\u201d on his 1959 album titled for [his last name] Ah Um.",
+                "This track from Mingus\u2019s album Blues and Roots opens with a long baritone sax solo. Another track with the same name was famously performed by Art Blakey and the Jazz Messengers and composed by Bobby Timmons. ",
+                "Mingus was a player of this string instrument, which is often plucked in jazz to produce a \u201cwalking\u201d line."
+            ]
+        },
+        {
+            "leadin_sanitized": "Alcanivorax borkumensis can be used in bioremediation strategies for the cleanup of these events by forming biofilms around petroleum droplets. For 10 points each:",
+            "answers_sanitized": [
+                "oil spills [accept Deepwater Horizon oil spill]",
+                "Pseudomonas [accept Pseudomonas putida or Pseudomonas aeruginosa]",
+                "hydrocarbons [accept polycyclic aromatic hydrocarbons or PAHs] "
+            ],
+            "parts_sanitized": [
+                "Name these disastrous events that can be cleaned up using dispersants and containment booms such as the one that occurred on the Deepwater Horizon drilling rig.",
+                "Another organism used for the degradation of BTX in the cleanup of oil spills was the putida species of this genus. The aeruginosa species of this genus creates biofilms via quorum sensing.",
+                "Pseudomonas putida and Alcanivorax borkumensis are used in oil spill bioremediation by breaking down the polycyclic aromatic form of these compounds like naphthalene. Linear examples of these compounds are also a minor component of petroleum."
+            ]
+        },
+        {
+            "leadin_sanitized": "In one of this author\u2019s novels, a character\u2019s bicycle tire deflates while riding to the house of Major Callendar. For 10 points each:",
+            "answers_sanitized": [
+                "E. M. Forster [or Edward Morgan Forster]",
+                "Where Angels Fear to Tread",
+                "horse-drawn carriage  [do not accept or prompt on answers like \u201cwagon\u201d or \u201ccart\u201d] "
+            ],
+            "parts_sanitized": [
+                "Name this author who wrote a novel in which Ronny Heaslop breaks up with Adela Quested after she withdraws her rape accusation towards Dr. Aziz, titled A Passage to India.",
+                "Forster also wrote this novel in which Lillia Herton falls in love with the Italian Gino and decides to stay in Italy, much to the dismay of the Carella family. This novel is named for a line from Alexander Pope\u2019s An Essay on Criticism describing a place in which \u201cfools walk in.\u201d",
+                "In Where Angels Fear to Tread, Lillia\u2019s infant son is killed by one of these things. After killing a child with one of these objects, the Marquis tosses a gold coin to the boy\u2019s family in Charles Dickens\u2019 A Tale of Two Cities."
+            ]
+        },
+        {
+            "leadin_sanitized": "Answer the following about the illustrious career of Colin Campbell, for 10 points each:",
+            "answers_sanitized": [
+                "Peninsular War [or Peninsular Campaign]",
+                "Siege of Lucknow",
+                "The Thin Red Line [do not accept or prompt on partial answers] "
+            ],
+            "parts_sanitized": [
+                "Campbell first saw action at the 1808 Battle of Vimeiro during this war, where the Duke of Wellington attempted to stop Napoleon's invasion of Spain and Portugal",
+                "Later in his career, Campbell served in India, where he helped to relieve the 181 day long siege of this city during the Sepoy Mutiny.",
+                "Towards the end of his life, Campbell served in the Crimean War, where he led this group of soldiers that repulsed a Russian cavalry charge during the Battle of Balaclava. They are referred to by a nickname that indicates features of their uniforms and formation."
+            ]
+        },
+        {
+            "leadin_sanitized": "Tablets of Visitation are prominently displayed in places of worship for this religion, often in multiple languages such as English and Arabic. For 10 points each:",
+            "answers_sanitized": [
+                "Baha\u2019i faith",
+                "Israel [or State of Israel, or Eretz Yisra\u2019el]",
+                "Kit\u00e1b-i-Aqdas [or al-Kit\u0101b al-Aqdas] "
+            ],
+            "parts_sanitized": [
+                "Name this religion whose temples include the \u201cMountain of Light\u201d found on the slopes of Mount Carmel. It is governed by a nine-membered council which is elected every five years.",
+                "The Baha\u2019i religion is led from the Universal House of Justice which, like the Shrine of the Bab, is in this country\u2019s city of Haifa. The remains of Baha'u'llah are housed near its city of Acre.",
+                "The Baha\u2019i principle of governance by elected Spiritual Assemblies is outlined in this book, as are most other core laws of Baha\u2019i. Its name literally translates as \u201cthe most Holy book.\u201d"
+            ]
+        },
+        {
+            "leadin_sanitized": "After hearing a character\u2019s plan of making another character dress as a woman, a group of characters in this play asks \u201cwhat is wisdom\u201d before stating that \u201cwhat\u2019s good is always loved.\u201d For 10 points each:",
+            "answers_sanitized": [
+                "The Bacchae [by Euripides]",
+                "lion [accept The Lion and the Jewel]",
+                "Wole Soyinka "
+            ],
+            "parts_sanitized": [
+                "Name this play. An African author wrote an adaptation of this Greek play subtitled \u201cthe communion rite\u201d that involves a second group of slaves as the chorus.",
+                "In The Bacchae, after Agave kills Pentheus, she believes that her son\u2019s head is the head of this animal. Another play titled for this animal features the \u201cDance of the Lost Traveler,\u201d where four women pretend to be a car\u2019s wheels.",
+                "This Nigerian author created the \u201ccommunion rite\u201d in his adaptation of The Bacchae, but is more famous for his plays The Lion and the Jewel and Death and the King\u2019s Horseman. "
+            ]
+        },
+        {
+            "leadin_sanitized": "Answer the following about battles at Issus. For 10 points each:",
+            "answers_sanitized": [
+                "Alexander the Great [or Alexander III; prompt on Alexander] ",
+                "Lucius Septimius Severus [prompt on Septimius; prompt on Severus] ",
+                "Cappadocia [accept John the Cappadocian] "
+            ],
+            "parts_sanitized": [
+                "This Macedonian conqueror defeated Darius III at the 333 B.C. Battle of Issus. His realm was split by the Diodochi after his death in Babylon.",
+                "This Roman Emperor from Libya defeated his rival Pescennius Niger at the 194 A.D. Battle of Issus. He founded a namesake dynasty whose emperors included his son, Caracalla.",
+                "The Third Battle of Issus, between the Byzantines and Sassanids, actually occurred in this region. A tax collector and Praetorian prefect who feuded with Theodora had an epithet indicating that he was from this region."
+            ]
+        },
+        {
+            "leadin_sanitized": "In October 2019, Google announced that its Sycamore machine took 200 seconds to compute a result that would take 10,000 years on an ordinary supercomputer. For 10 points each:",
+            "answers_sanitized": [
+                "qubits (\u201ccue-bits\u201d) [or quantum bits; do NOT accept or prompt on \u201cbits\u201d]",
+                "quantum computers [prompt on computers]",
+                "quantum decoherence [do NOT accept or prompt on \u201ccoherence\u201d] "
+            ],
+            "parts_sanitized": [
+                "Sycamore was made of fifty-four of these informational units, which represent a two-level system and can take on a superposition of values of 0 and 1.",
+                "Sycamore was one of these devices, which use entanglement and superposition to speed up calculations. The qubit is the informational unit in these devices.",
+                "One obstacle to building commercial quantum computers like Sycamore is the difficulty of controlling this quantum phenomenon, in which a system becomes entangled with its environment."
+            ]
+        },
+        {
+            "leadin_sanitized": "For 10 points each, name the following logical fallacies which, unsurprisingly, are rather common in politics:",
+            "answers_sanitized": [
+                "argumentum ad hominem",
+                "whataboutism [accept tu quoque; prompt on double standard or unclean hands]",
+                "petitio principii "
+            ],
+            "parts_sanitized": [
+                "This sort of argument, whose Latin name means \u201cto the person,\u201d refers to a tactic of sidestepping an opponent\u2019s actual argument and attacking their personal characteristics instead.",
+                "This variant of logical fallacy challenges the opponent\u2019s position by referring to alleged hypocrisy without actually refuting his or her argument. Its name refers to two words which commonly precede such statements.",
+                "This two-word Latin phrase can be used to refer to a variety of logical fallacies, such as begging the question, assuming a conclusion, or circular reasoning. Its name means \u201casking for the first thing.\u201d"
+            ]
+        },
+        {
+            "leadin_sanitized": "In his book The Utopia of Rules, David Graeber cites this novel as the paradigm of bureaucratic literature because it emphasizes the \u201ccomic senselessness of bureaucratic life\u201d with violent undertones. For 10 points each:",
+            "answers_sanitized": [
+                "The Trial [accept Der Prozess]",
+                "Franz Kafka",
+                "Ismail Kadare "
+            ],
+            "parts_sanitized": [
+                "Name this novel which contains a parable about a man who spends years trying to pass through a gate to gain entry to the law, only to be denied entrance by the gatekeeper.",
+                "This author of The Trial also wrote about Gregor Samsa in The Metamorphosis.",
+                "Graeber also cites this man\u2019s novel about the government official Mark-Alem, whose ministry is responsible for studying dreams. This Albanian author also wrote about a colonel who is sent to gather the bones of his countrymen in The General of the Dead Army."
+            ]
+        },
+        {
+            "leadin_sanitized": "This phenomenon has come under discussion increasingly over the past 10 years with an increase in school resource officers across the United States. For 10 points each: ",
+            "answers_sanitized": [
+                "school-to-prison pipeline [accept equivalent statements such as school-to-prison link or schoolhouse-to-jailhouse track or just pipeline to prison]",
+                "zero-tolerance policies",
+                "acting white [do not accept or prompt on other answers] "
+            ],
+            "parts_sanitized": [
+                "Give the common name for this phenomenon in which minors and young adults from disadvantaged backgrounds, particularly Latino and African American boys, become disproportionately incarcerated.",
+                "These disciplinary approaches designed to curb drug use and violence in schools have increasingly come under fire for developing exclusionary environments. A notable incident in 2010 where a Michigan kindergartener was suspended for making a finger gun highlights the strictness of these approaches.",
+                "The \u201cpipeline to prison\u201d is often partly blamed by conservative commentators on the disparaging of this two-word phenomenon, whose \u201cburden\u201d John Ogbu described in an attempt to explain the racial achievement gap. This term refers to minority youth discouraging their peers from emulating children of other races."
+            ]
+        },
+        {
+            "leadin_sanitized": "To discourage looting in the aftermath of this event, a politician issued a \u201cShoot-to-Kill\u201d order, only for soldiers to start looting themselves. For 10 points each:",
+            "answers_sanitized": [
+                "1906 San Francisco earthquake",
+                "Eugene Schmitz",
+                "the original Bear Flag [do not accept or prompt on \"the California flag\", since it's different and also the bear design wasn't adopted as the California state flag yet] "
+            ],
+            "parts_sanitized": [
+                "Name this 1906 natural disaster that affected a city on the San Andreas Fault. ",
+                "This mayor of San Francisco issued the Shoot-to-Kill Order. Governor George Pardee led recovery efforts after this man's Committee of Fifty was unable to manage the crisis.",
+                "The fires which ensued from the earthquake resulted in the destruction of this object, which had been created as a symbol of an 1846 revolt in modern-day Sonoma."
+            ]
+        }
+    ]
+}
