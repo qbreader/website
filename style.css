@@ -10,31 +10,37 @@ html, body {
 .container {
     min-height: 100%;
     display: grid;
-    grid-template-columns: 0.5fr 1.5fr 1fr;
-    grid-template-rows: 0.5fr 0.3fr 0.3fr 2.9fr;
-    gap: 0px 0px;
+    grid-template-columns: 0.5fr 1.5fr 0.6fr 0.4fr;
+    grid-template-rows: 0.5fr 0.3fr 3.2fr;
+    gap: 0px 15px;
     grid-auto-flow: row;
     justify-items: stretch;
     grid-template-areas:
-      ". Header Header"
-      ". buttons options"
-      ". question-info options"
-      ". question-text options";
-  }
-  
-  .header {grid-area: Header; font-size: 36px; margin-top: 2.5%; }
-  
-  .buttons { grid-area: buttons; }
-  
-  .question-info { grid-area: question-info; }
-  
-  .options { grid-area: options; }
-  
-  .question-text { grid-area: question-text; }
+        ". Header Header Header" 
+        ". buttons options ." 
+        ". question-text options .";
+}
+
+.header {
+    grid-area: Header;
+    font-size: 36px;
+    margin-top: 2.5%;
+}
+
+.buttons {
+    grid-area: buttons;
+}
+
+.options {
+    grid-area: options;
+}
+
+.question-text {
+    grid-area: question-text;
+}
 
 button {
     font-size: 16px;
     padding: 10px;
     border-radius: 5px;
-    /* border: 5px; */
 }

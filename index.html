@@ -4,7 +4,6 @@
 <head>
     <title>QB Packet Reader</title>
     <link rel="stylesheet" href="style.css">
-    <!-- <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/> -->
 </head>
 
 <body>
@@ -12,18 +11,20 @@
         <div class="header">QB Packet Reader</div>
         <div class="buttons" id="buttons">
             <button id="start">Search for Questions and Start</button>
-            <button id="buzz">Buzz</button>
+            <button id="buzz"> Buzz </button>
             <button id="next">Next</button>
         </div>
 
         <div class="options" id="options">
-            <div>Options:</div><br>
+            <p>Input the set year and name and which packets you want to do in the options below. </p>
+            <p>[Space] = buzz, [n] = next</p>
+            <p>Options:</p>
             <input id="reading-speed" type="range" min="10" max="1000" value="300">
             <div id="reading-speed-display">Reading speed [ms between words]: 300</div><br><br>
 
             <script>
                 document.getElementById('reading-speed').oninput = function () {
-                    document.getElementById('reading-speed-display').innerHTML 
+                    document.getElementById('reading-speed-display').innerHTML
                         = 'Reading speed [ms between words]: ' + this.value;
                 }
             </script>
@@ -39,14 +40,13 @@
                 <li>2019 pace</li>
                 <li>2021 pace</li>
             </ul>
-
         </div>
 
-        <div class="question-info" id="question-info"></div>
-
         <div class="question-text" id="question-text">
+            <div class="question-info" id="question-info"></div>
             <p id="question"></p>
             <p id="answer"></p>
+            <p id="info-text">Press space to buzz</p>
         </div>
     </div>
 

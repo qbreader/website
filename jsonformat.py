@@ -1,7 +1,7 @@
 import json 
 import os
 
-directory = 'test'
+directory = 'output'
 
 for filename in os.listdir(directory):
     f = open(directory + '/' + filename)
