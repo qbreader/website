@@ -5,8 +5,7 @@ useful packet parser: https://github.com/alopezlago/YetAnotherPacketParser
 
 TODO: 
 
-add more packets
-packet number selector should support dashes
-add category and subcategory
+keep track of score
 bonus support
+add more packets
 multiplayer
