@@ -18,16 +18,16 @@ for filename in os.listdir(directory):
         if 'answer' in data['tossups'][i]:
             del data['tossups'][i]['answer']
 
-    for i in range(len(data['bonuses'])):
-        if 'answers' in data['bonuses'][i]:
-            del data['bonuses'][i]['answers']
-        if 'leadin' in data['bonuses'][i]:
-            del data['bonuses'][i]['leadin']
-        if 'parts' in data['bonuses'][i]:
-            del data['bonuses'][i]['parts']
-        if 'values' in data['bonuses'][i]:
-            del data['bonuses'][i]['values']
-
+    if 'bonuses' in data:
+        for i in range(len(data['bonuses'])):
+            if 'answers' in data['bonuses'][i]:
+                del data['bonuses'][i]['answers']
+            if 'leadin' in data['bonuses'][i]:
+                del data['bonuses'][i]['leadin']
+            if 'parts' in data['bonuses'][i]:
+                del data['bonuses'][i]['parts']
+            if 'values' in data['bonuses'][i]:
+                del data['bonuses'][i]['values']
 
     f = open(directory + '/' + filename, 'w')
     json.dump(data, f)
