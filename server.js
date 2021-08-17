@@ -1,20 +1,19 @@
 const express = require('express');
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
+const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
-
-app.use(express.json());
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/getpacket', async (req, res) => {
-    directory = './packets/' + req.query.directory + '/' + req.query.packetNumber + '.json';
+    var directory = './packets/' + req.query.directory + '/' + req.query.packetNumber + '.json';
     var jsonfile = require(directory);
     res.send(JSON.stringify(jsonfile));
 });
+
+app.use(express.json());
 
 app.use((req, res) => {
     res.sendFile(__dirname + req.url);
