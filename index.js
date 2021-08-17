@@ -84,6 +84,17 @@ document.getElementById('start').addEventListener('click', async () => {
     for (let i = 0; i < packetNumbers.length; i++) {
         packetNumbers[i] = packetNumbers[i].trim();
     }
+    for (let i = 0; i < packetNumbers.length; i++) {
+        if (packetNumbers[i].toString().includes('-')) {
+            let bounds = packetNumbers[i].split('-');
+            for (let i = parseInt(bounds[0]); i <= parseInt(bounds[1]); i++) {
+                packetNumbers.push(i);
+            }
+            packetNumbers.splice(i, 1);
+            i--;
+        }
+    }
+    console.log(packetNumbers);
     packetNumber = packetNumbers.shift();
 
     currentQuestionNumber = document.getElementById('question-select').value;
