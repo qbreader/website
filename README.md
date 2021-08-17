@@ -5,6 +5,5 @@ useful packet parser: https://github.com/alopezlago/YetAnotherPacketParser
 
 TODO: 
 
-bonus support
 add more packets
 multiplayer
