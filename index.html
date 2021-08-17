@@ -10,9 +10,9 @@
     <div class="container">
         <div class="header">QB Packet Reader</div>
         <div class="buttons" id="buttons">
-            <button id="start">Search for Questions and Start</button>
-            <button id="buzz">Buzz</button>
-            <button id="next">Next</button>
+            <button class="big-button" id="start">Search for Questions and Start</button>
+            <button class="big-button" id="buzz">Buzz</button>
+            <button class="big-button" id="next">Next</button>
         </div>
 
         <div class="options" id="options">
@@ -23,8 +23,8 @@
             <input id="reading-speed" type="range" min="10" max="500" value="250">
             <div id="reading-speed-display">Reading speed [ms between words]: 250</div><br><br>
 
-            <input id="year-select" placeholder="Set year"><br>
-            <input id="name-select" placeholder="Set name"><br>
+            <div><input id="year-select" placeholder="Set year"> (e.g. 2021)<br></div>
+            <div><input id="name-select" placeholder="Set name"> (e.g. pace)<br></div>
             <div><input id="packet-select" placeholder="Packet numbers"> (Default: All)</div>
             <div><input id="question-select" placeholder="Starting question number"> (Default: 1)</div>
             <div class="category-select">
@@ -75,10 +75,12 @@
         </div>
 
         <div class="question-text" id="question-text">
-            <div class="question-info" id="question-info"></div>
+            <p id="statline">Current Statline: 0/0/0 with 0 TUH</p>
+            <p class="question-info" id="question-info"></p>
             <p id="question"></p>
             <p id="answer"></p>
             <p id="info-text">Press space to buzz</p>
+            <div class="toggle-correct"><button id="toggle-correct">I was wrong</button></div>
         </div>
     </div>
 
