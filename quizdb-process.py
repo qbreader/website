@@ -1,6 +1,8 @@
 import json
+import os
 
 def xyz(a):
+    a['round'] = a['round'].split()[0]
     try:
         return 100*int(a['round']) + a['number']
     except ValueError:
@@ -14,6 +16,7 @@ data['tossups'].sort(key=xyz)
 data['bonuses'].sort(key=xyz)
 
 directory = 'output/'
+os.mkdir(directory)
 
 for a in data['tossups']:
     try:
