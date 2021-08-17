@@ -22,26 +22,25 @@
             <input id="reading-speed" type="range" min="10" max="500" value="250">
             <div id="reading-speed-display">Reading speed [ms between words]: 250</div><br><br>
 
-            <script>
-                document.getElementById('reading-speed').oninput = function () {
-                    document.getElementById('reading-speed-display').innerHTML
-                        = 'Reading speed [ms between words]: ' + this.value;
-                }
-            </script>
-
             <input id="year-select" placeholder="Set year"><br>
             <input id="name-select" placeholder="Set name"><br>
             <div><input id="packet-select" placeholder="Packet numbers"> (Default: All)</div>
             <div><input id="question-select" placeholder="Starting question number"> (Default: 1)</div>
-            <p>Select Categories:</p>
-            <input type="checkbox" id="literature" checked><label> Literature</label><br>
-            <input type="checkbox" id="history" checked><label> History</label><br>
-            <input type="checkbox" id="science" checked><label> Science</label><br>
-            <input type="checkbox" id="arts" checked><label> Fine Arts</label><br>
-            <input type="checkbox" id="religion" checked><label> Religion</label><br>
-            <input type="checkbox" id="mythology" checked><label> Mythology</label><br>
-            <input type="checkbox" id="philosophy" checked><label> Philosophy</label><br>
-            <input type="checkbox" id="ss" checked><label> Social Science</label><br>
+            <div class="category-select">
+                <p>Select Categories (leaving them all blank selects every category):</p>
+                <input type="checkbox" id="literature"><label> Literature</label><br>
+                <input type="checkbox" id="history"><label> History</label><br>
+                <input type="checkbox" id="science"><label> Science</label><br>
+                <input type="checkbox" id="arts"><label> Fine Arts</label><br>
+                <input type="checkbox" id="religion"><label> Religion</label><br>
+                <input type="checkbox" id="mythology"><label> Mythology</label><br>
+                <input type="checkbox" id="philosophy"><label> Philosophy</label><br>
+                <input type="checkbox" id="ss"><label> Social Science</label><br>
+                <input type="checkbox" id="ce"><label> Current Events</label><br>
+                <input type="checkbox" id="geography"><label> Geography</label><br>
+                <input type="checkbox" id="other-ac"><label> Other Academic</label><br>
+                <input type="checkbox" id="trash"><label> Trash</label><br>
+            </div>
         </div>
 
         <div class="uploaded-packets">
@@ -68,7 +67,7 @@
             <div class="question-info" id="question-info"></div>
             <p id="question"></p>
             <p id="answer"></p>
-            <p id="info-text">Press space to buzz.</p>
+            <p id="info-text">Press space to buzz</p>
         </div>
     </div>
 
