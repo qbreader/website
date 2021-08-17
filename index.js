@@ -5,7 +5,7 @@ packetName = '';
 packetNumbers = [];
 packetNumber = -1;
 questions = [{}];
-
+validCategories = [];
 
 function buzz() {
     if (currentlyBuzzing) {
@@ -30,7 +30,7 @@ async function getQuestions(set, packet) {
         });
 }
 
-async function nextQuestion() {
+async function readQuestion() {
     clearInterval(intervalId);
     currentlyBuzzing = false;
 
@@ -39,18 +39,16 @@ async function nextQuestion() {
     document.getElementById('buzz').innerHTML = 'Buzz';
     document.getElementById('info-text').innerHTML = 'Press space to buzz';
 
-    currentQuestionNumber++;
-    if (currentQuestionNumber >= questions.length) {
-        if (packetNumbers.length == 0) return;  // do nothing if there are no more packets
-        packetNumber = packetNumbers.shift();
-        questions = await getQuestions(packetName, packetNumber);
-        currentQuestionNumber = 0;
-    }
+    do {
+        currentQuestionNumber++;
+        if (currentQuestionNumber >= questions.length) {
+            if (packetNumbers.length == 0) return;  // do nothing if there are no more packets
+            packetNumber = packetNumbers.shift();
+            questions = await getQuestions(packetName, packetNumber);
+            currentQuestionNumber = 0;
+        }
+    } while (!validCategories.includes(questions[currentQuestionNumber]['category']));
 
-    readQuestion();
-}
-
-function readQuestion() {
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     questiontext = questions[currentQuestionNumber]['question_sanitized'];
@@ -66,13 +64,6 @@ function readQuestion() {
 
 
 document.getElementById('start').addEventListener('click', async () => {
-    clearInterval(intervalId);
-    currentlyBuzzing = false;
-
-    document.getElementById('question').innerHTML = '';
-    document.getElementById('answer').innerHTML = '';
-    document.getElementById('info-text').innerHTML = 'Press space to buzz';
-
     packetyear = document.getElementById('year-select').value.trim();
     if (packetyear.length == 0) {
         window.alert('Enter a packet year.');
@@ -95,17 +86,27 @@ document.getElementById('start').addEventListener('click', async () => {
     }
     packetNumber = packetNumbers.shift();
 
-    questions = await getQuestions(packetName, packetNumber);
-
     currentQuestionNumber = document.getElementById('question-select').value;
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
-    currentQuestionNumber = parseInt(currentQuestionNumber) - 1;
+    currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
+
+    validCategories = [];
+    if (document.getElementById('literature').checked) validCategories.push('Literature');
+    if (document.getElementById('history').checked) validCategories.push('History');
+    if (document.getElementById('science').checked) validCategories.push('Science');
+    if (document.getElementById('arts').checked) validCategories.push('Fine Arts');
+    if (document.getElementById('religion').checked) validCategories.push('Religion');
+    if (document.getElementById('mythology').checked) validCategories.push('Mythology');
+    if (document.getElementById('philosophy').checked) validCategories.push('Philosophy');
+    if (document.getElementById('ss').checked) validCategories.push('Social Science');
+
+    questions = await getQuestions(packetName, packetNumber);
 
     readQuestion();
 });
 
 document.getElementById('buzz').addEventListener('click', buzz);
-document.getElementById('next').addEventListener('click', nextQuestion);
+document.getElementById('next').addEventListener('click', readQuestion);
 
 document.addEventListener('keyup', () => {
     if (document.activeElement.tagName != 'BODY') return;
@@ -113,7 +114,7 @@ document.addEventListener('keyup', () => {
         if (event.which == 32) {  // spacebar
             buzz();
         } else if (event.which == 78) { // pressing 'N'
-            nextQuestion();
+            readQuestion();
         }
     }
 });
