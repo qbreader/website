@@ -18,7 +18,7 @@ html, body {
     grid-template-areas:
         ". Header Header Header" 
         ". buttons options ." 
-        ". question-text options .";
+        "uploaded-packets question-text options .";
 }
 
 .header {
@@ -37,6 +37,11 @@ html, body {
 
 .question-text {
     grid-area: question-text;
+}
+
+.uploaded-packets {
+    grid-area: uploaded-packets;
+    margin-left: 30px;
 }
 
 button {
