@@ -30,7 +30,7 @@ function buzz() {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) powers++; else tens++;
-        document.getElementById('statline').innerHTML = `Current Statline: ${powers}/${tens}/${negs} with ${powers + tens + negs} TUH`
+        document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs} TUH (${15*powers+10*tens-5*negs} pts)`
 
         // Update question text and show answer:
         document.getElementById('question').innerHTML = questionText;
@@ -110,7 +110,7 @@ async function readQuestion() {
 
 
 document.getElementById('start').addEventListener('click', async () => {
-    document.getElementById('statline').innerHTML = 'Current Statline: 0/0/0 with 0 TUH';
+    document.getElementById('statline').innerHTML = '0/0/0 with 0 TUH (0 pts)';
     powers = 0; tens = 0; negs = 0;
 
     let packetYear = document.getElementById('year-select').value.trim();
@@ -182,7 +182,7 @@ document.getElementById('toggle-correct').addEventListener('click', () => {
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
 
-    document.getElementById('statline').innerHTML = `Current Statline: ${powers}/${tens}/${negs} with ${powers + tens + negs} TUH`;
+    document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs} TUH (${15*powers+10*tens-5*negs} pts)`;
     toggleCorrectClicked = !toggleCorrectClicked;
 });
 
