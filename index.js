@@ -5,12 +5,23 @@ packetName = '';
 packetNumbers = [];
 packetNumber = -1;
 questions = [{}];
+questiontext = ''
 validCategories = [];
+inPower = false;
+
+powers = 0;
+tens = 0;
+negs = 0;
+clicked = false
 
 function buzz() {
     if (currentlyBuzzing) {
+        inPower = !document.getElementById('question').innerHTML.includes('(*)') && questiontext.includes('(*)')
         displayRestOfQuestion();
         document.getElementById('buzz').innerHTML = 'Buzz';
+        if (inPower) powers++;
+        else tens++;
+        document.getElementById('statline').innerHTML = `Current Statline: ${powers}/${tens}/${negs} with ${powers+tens+negs} TUH`
     } else {
         currentlyBuzzing = true;
         document.getElementById('buzz').innerHTML = 'Reveal';
@@ -33,6 +44,8 @@ async function getQuestions(set, packet) {
 async function readQuestion() {
     clearInterval(intervalId);
     currentlyBuzzing = false;
+    clicked = false;
+    document.getElementById('toggle-correct').innerHTML = 'I was wrong'
 
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
@@ -69,6 +82,28 @@ document.getElementById('reading-speed').oninput = function () {
 }
 
 document.getElementById('start').addEventListener('click', async () => {
+    document.getElementById('statline').innerHTML = 'Current Statline: 0/0/0 with 0 TUH';
+    powers = 0; 
+    tens = 0;
+    negs = 0;
+
+    document.getElementById('toggle-correct').addEventListener('click', () => {
+        if (clicked) {
+            if (inPower) powers++;
+            else tens++;
+            negs--;
+            document.getElementById('toggle-correct').innerHTML = 'I was wrong'
+            document.getElementById('statline').innerHTML = `Current Statline: ${powers}/${tens}/${negs} with ${powers+tens+negs} TUH`
+        } else {
+            if (inPower) powers--;
+            else tens--;
+            negs++;
+            document.getElementById('toggle-correct').innerHTML = 'I was right'
+            document.getElementById('statline').innerHTML = `Current Statline: ${powers}/${tens}/${negs} with ${powers+tens+negs} TUH`
+        }
+        clicked = !clicked
+    });
+
     packetyear = document.getElementById('year-select').value.trim();
     if (packetyear.length == 0) {
         window.alert('Enter a packet year.');
