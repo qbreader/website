@@ -70,9 +70,9 @@ subcat = {
 }
 
 f = open('categories.txt')
-directory = 'packets/2020-ikea/'
+directory = 'output/'
 
-for j in range(15):
+for j in range(14):
     print(directory + str(j+1) + '.json')
 
     g = open(directory + str(j+1) + '.json')
