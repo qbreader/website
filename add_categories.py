@@ -68,7 +68,6 @@ subcat = {
     "Other Academic": "Other Academic",
     "Trash": "Trash",
 }
-categories = ['Literature', 'History', 'Science', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography']
 
 f = open('categories.txt')
 directory = 'packets/2020-ikea/'
