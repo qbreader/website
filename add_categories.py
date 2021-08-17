@@ -71,14 +71,14 @@ subcat = {
 categories = ['Literature', 'History', 'Science', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography']
 
 f = open('categories.txt')
-dir = 'packets/2020-stash/'
+directory = 'packets/2020-ikea/'
 
 for j in range(15):
-    print(dir + str(j+1) + '.json')
+    print(directory + str(j+1) + '.json')
 
-    g = open(dir + str(j+1) + '.json')
+    g = open(directory + str(j+1) + '.json')
     data = json.load(g)
-    h = open(dir + str(j+1) + '.json', 'w')
+    h = open(directory + str(j+1) + '.json', 'w')
 
     num_tu = len(data['tossups']) if 'tossups' in data else 0
     num_bonus = len(data['bonuses']) if 'bonuses' in data else 0
