@@ -47,7 +47,7 @@ async function readQuestion() {
             questions = await getQuestions(packetName, packetNumber);
             currentQuestionNumber = 0;
         }
-    } while (!validCategories.includes(questions[currentQuestionNumber]['category']));
+    } while (validCategories.length != 0 && !validCategories.includes(questions[currentQuestionNumber]['category']));
 
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
@@ -62,6 +62,11 @@ async function readQuestion() {
     }, document.getElementById('reading-speed').value);
 }
 
+
+document.getElementById('reading-speed').oninput = function () {
+    document.getElementById('reading-speed-display').innerHTML
+        = 'Reading speed [ms between words]: ' + this.value;
+}
 
 document.getElementById('start').addEventListener('click', async () => {
     packetyear = document.getElementById('year-select').value.trim();
@@ -94,7 +99,6 @@ document.getElementById('start').addEventListener('click', async () => {
             i--;
         }
     }
-    console.log(packetNumbers);
     packetNumber = packetNumbers.shift();
 
     currentQuestionNumber = document.getElementById('question-select').value;
@@ -110,6 +114,10 @@ document.getElementById('start').addEventListener('click', async () => {
     if (document.getElementById('mythology').checked) validCategories.push('Mythology');
     if (document.getElementById('philosophy').checked) validCategories.push('Philosophy');
     if (document.getElementById('ss').checked) validCategories.push('Social Science');
+    if (document.getElementById('ce').checked) validCategories.push('Current Events');
+    if (document.getElementById('geography').checked) validCategories.push('Geography');
+    if (document.getElementById('other-ac').checked) validCategories.push('Other Academic');
+    if (document.getElementById('trash').checked) validCategories.push('Trash');
 
     questions = await getQuestions(packetName, packetNumber);
 
