@@ -3,5 +3,4 @@ package-lock.json
 .DS_store
 categories.txt
 
-quizdb-process.py
 quizdb.json
