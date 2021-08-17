@@ -4,7 +4,7 @@ const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/tossups.html');
+    res.redirect('/tossups.html');
 });
 
 app.get('/getpacket', async (req, res) => {
