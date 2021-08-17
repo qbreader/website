@@ -11,7 +11,7 @@
         <div class="header">QB Packet Reader</div>
         <div class="buttons" id="buttons">
             <button id="start">Search for Questions and Start</button>
-            <button id="buzz"> Buzz </button>
+            <button id="buzz">Buzz</button>
             <button id="next">Next</button>
         </div>
 
@@ -19,7 +19,7 @@
             <p>Input the set year and name and which packets you want to do in the options below. </p>
             <p>[Space] = buzz, [n] = next</p>
             <p>Options:</p>
-            <input id="reading-speed" type="range" min="10" max="1000" value="250">
+            <input id="reading-speed" type="range" min="10" max="500" value="250">
             <div id="reading-speed-display">Reading speed [ms between words]: 250</div><br><br>
 
             <script>
@@ -33,17 +33,28 @@
             <input id="name-select" placeholder="Set name"><br>
             <div><input id="packet-select" placeholder="Packet numbers"> (Default: 1)</div>
             <div><input id="question-select" placeholder="Starting question number"> (Default: 1)</div>
+            <p>Select Categories:</p>
+            <input type="checkbox" id="literature" checked><label> Literature</label><br>
+            <input type="checkbox" id="history" checked><label> History</label><br>
+            <input type="checkbox" id="science" checked><label> Science</label><br>
+            <input type="checkbox" id="arts" checked><label> Fine Arts</label><br>
+            <input type="checkbox" id="religion" checked><label> Religion</label><br>
+            <input type="checkbox" id="mythology" checked><label> Mythology</label><br>
+            <input type="checkbox" id="philosophy" checked><label> Philosophy</label><br>
+            <input type="checkbox" id="ss" checked><label> Social Science</label><br>
+        </div>
 
+        <div class="uploaded-packets">
             <p>Packets uploaded:</p>
             <ul>
                 <li>2021-pace</li>
-                <li>2021-spring_novice</li>
-                <li>2021-tiny_science_tossups</li>
-                <li>2020-ikea</li>
+                <!-- <li>2021-spring_novice</li> -->
+                <li>2021-tiny science tossups</li>
+                <!-- <li>2020-ikea</li> -->
                 <li>2020-lit</li>
                 <li>2020-stash</li>
-                <li>2019-pace</li>
-                <li>2018-nasat</li>
+                <!-- <li>2019-pace</li> -->
+                <!-- <li>2018-nasat</li> -->
             </ul>
         </div>
 
