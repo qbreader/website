@@ -2,10 +2,10 @@ import json
 import os
 
 def xyz(a):
-    a['round'] = a['round'].split()[0]
     try:
+        a['round'] = a['round'].split()[0]
         return 100*int(a['round']) + a['number']
-    except ValueError:
+    except:
         return -1 + a['number']
 
 max_round = -1
