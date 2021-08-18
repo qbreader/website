@@ -174,11 +174,11 @@ document.getElementById('start').addEventListener('click', async () => {
 document.getElementById('toggle-correct').addEventListener('click', () => {
     if (toggleCorrectClicked) {
         if (inPower) powers++; else tens++;
-        negs--;
+        if (questionTextSplit.length != 0) negs--; // Check if there is more question to be read
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
     } else {
         if (inPower) powers--; else tens--;
-        negs++;
+        if (questionTextSplit.length != 0) negs++;
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
 
