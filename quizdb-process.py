@@ -38,7 +38,8 @@ for i in range(max_round):
             b['answer_sanitized'] = a['answer']
             if 'name' in a['subcategory']:
                 b['subcategory'] = a['subcategory']['name']
-            b['category'] = a['category']['name']
+            if 'name' in a['category']:
+                b['category'] = a['category']['name']
             output['tossups'].append(b)
 
     for a in data['bonuses']:
@@ -49,7 +50,8 @@ for i in range(max_round):
             b['parts_sanitized'] = a['texts']
             if 'name' in a['subcategory']:
                 b['subcategory'] = a['subcategory']['name']
-            b['category'] = a['category']['name']
+            if 'name' in a['category']:
+                b['category'] = a['category']['name']
             output['bonuses'].append(b)
     
     json.dump(output, g)
