@@ -2,24 +2,26 @@
 <html>
 
 <head>
-    <title>QB Packet Reader - Bonuses</title>
+    <title>QB Packet Reader - Tossups</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
-        <div class="header">QB Packet Reader - Bonuses</div>
+        <div class="header">QB Packet Reader - Tossups</div>
         <div class="buttons" id="buttons">
             <button class="big-button" id="start">Search for Questions and Start</button>
-            <button class="big-button" id="reveal">Reveal</button>
+            <button class="big-button" id="buzz">Buzz</button>
             <button class="big-button" id="next">Next</button>
         </div>
 
         <div class="options" id="options">
-            <a href="/tossups.html">Go to tossups</a>
+            <a href="/static/bonuses.html">Go to bonuses</a>
             <p>Input the set year, name, and which packets you want to do in the options below. Packet numbers should
                 use only uses numbers, dashes, and commas.</p>
-            <p>[Space] = reveal, [n] = next question</p>
+            <p>[Space] = buzz, [n] = next question</p>
+            <input id="reading-speed" type="range" min="10" max="500" value="250">
+            <div id="reading-speed-display">Reading speed [ms between words]: 250</div><br>
 
             <div><input id="year-select" placeholder="Set year"> (e.g. 2021)</div>
             <div><input id="name-select" placeholder="Set name"> (e.g. pace)</div>
@@ -107,18 +109,16 @@
         </div>
 
         <div class="question-text" id="question-text">
-            <p id="statline">0.00 points per bonus with 0 bonuses seen (0/0/0/0, 0 pts)</p>
+            <p id="statline">0/0/0 with 0 TUH (0 pts)</p>
             <p class="question-info" id="question-info"></p>
             <p id="question"></p>
-            <p id="info-text">Press space to reveal</p>
-            <button id="30">30</button>
-            <button id="20">20</button>
-            <button id="10">10</button>
-            <button id="0"> 0</button>
+            <p id="answer"></p>
+            <p id="info-text">Press space to buzz</p>
+            <div class="toggle-correct"><button id="toggle-correct">I was wrong</button></div>
         </div>
     </div>
 
-    <script src="/bonuses.js"></script>
+    <script src="/static/tossups.js"></script>
 </body>
 
 </html>
