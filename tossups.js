@@ -9,6 +9,7 @@ var questionText = '';
 var currentQuestionNumber = 0;
 
 var currentlyBuzzing = false;
+var shownAnswer = false;
 
 var validCategories = [];
 
@@ -26,6 +27,7 @@ var toggleCorrectClicked = false;
  * and updates the score.
  */
 function buzz() {
+    if (shownAnswer) return;
     if (currentlyBuzzing) {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
@@ -36,6 +38,8 @@ function buzz() {
         document.getElementById('question').innerHTML = questionText;
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer_sanitized'];
         document.getElementById('buzz').innerHTML = 'Buzz';
+
+        shownAnswer = true;
     } else {
         currentlyBuzzing = true;
         document.getElementById('buzz').innerHTML = 'Reveal';
@@ -66,6 +70,7 @@ async function readQuestion() {
     // Stop reading the current question:
     clearInterval(intervalId);
     currentlyBuzzing = false;
+    shownAnswer = false;
 
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
