@@ -16,9 +16,9 @@ html, body {
     grid-auto-flow: row;
     justify-items: stretch;
     grid-template-areas:
-        "uploaded-packets Header Header Header" 
-        "uploaded-packets buttons options ." 
-        "uploaded-packets question-text options .";
+        ". Header Header Header" 
+        ". buttons options ." 
+        ". question-text options .";
 }
 
 .header {
@@ -37,12 +37,6 @@ html, body {
 
 .question-text {
     grid-area: question-text;
-}
-
-.uploaded-packets {
-    grid-area: uploaded-packets;
-    margin-left: 30px;
-    font-size: 10px;
 }
 
 button {
