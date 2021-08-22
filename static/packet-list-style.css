@@ -1,0 +1,40 @@
+* {
+    font-family: Helvetica, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1.05fr 1.05fr 0.4fr;
+    grid-template-rows: 0.5fr 0.2fr 3.3fr;
+    gap: 0px 15px;
+    grid-auto-flow: row;
+    justify-items: stretch;
+    grid-template-areas:
+        ". header header header" 
+        ". links links ."
+        ". uploaded-packets-1 uploaded-packets-2 .";
+}
+
+.header {
+    grid-area: header;
+    font-size: 36px;
+    margin-top: 2.5%;
+}
+
+.links {
+    grid-area: links;
+}
+
+.uploaded-packets-1 {
+    grid-area: uploaded-packets-1;
+}
+
+.uploaded-packets-2 {
+    grid-area: uploaded-packets-2;
+}
