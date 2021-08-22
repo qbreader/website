@@ -4,6 +4,7 @@ import os
 directory = 'output'
 
 for filename in os.listdir(directory):
+    if '.DS_Store' in filename: continue
     print(directory + '/' + filename)
 
     f = open(directory + '/' + filename)
