@@ -1,0 +1,423 @@
+{
+    "tossups": [
+        {
+            "question_sanitized": "A philandering king belonging to this royal house was married to the Polish Marie Leszczynska, who was the longest-serving queen of her country. This dynasty allied with Sweden\u2019s Vasa Dynasty in the Treaty of Barwalde. A member of this dynasty kept Madame de Pompadour as his mistress, who tellingly stated \u201cAfter us, the deluge.\u201d The founding member of this dynasty said \u201cParis is well worth a mass\u201d after coming to power and ending the French Wars of Religion. This house was restored to power from 1815 to 1830, following Napoleon\u2019s defeat at the Battle of Waterloo. For 10 points, name this French royal house founded by Henry IV, the last French dynasty.",
+            "answer_sanitized": "House of Bourbon",
+            "subcategory": "History European",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "A racist in this novel cites Goddard\u2019s book The Rise of the Colored Empires to argue that white \u201cNordics\u201d have created \u201call the things that go to make civilization.\u201d Its narrator describes a rich couple as \u201ccareless people\u201d who \u201csmashed up things and creatures\u201d and \u201clet other people clean up the mess they had made.\u201d Near the end of this novel, the title character\u2019s gold car runs over Myrtle Wilson, causing the title character to be murdered by Myrtle\u2019s husband George. Its final page compares the discovery of America to the title character\u2019s pursuit of the \u201cgreen light,\u201d which symbolizes his dream of Daisy Buchanan. For 10 points, name this novel by F. Scott Fitzgerald.",
+            "answer_sanitized": "The Great Gatsby",
+            "subcategory": "Literature American",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "The \u201cbrown\u201d type of this mineral is used as an abrasive and produced by melting and then reducing bauxite. This mineral can be artificially created by crystallizing droplets of this substance into a boule in a flame-fusion process invented by Auguste Verneuil. A pink-orange type of this mineral is known as padparadscha (POD-par-ODD-shuh). This mineral is found as the dominant component alongside iron oxides in the rock emery. Although the pure form of this mineral is transparent, the presence of chromium in it can give it a deep red tint. This mineral, which is made of aluminum oxide, has a Mohs hardness of 9. For 10 points, name this mineral that is found in sapphires and rubies.",
+            "answer_sanitized": "corundum [prompt on alumina or Al2O3; prompt on aluminum oxide until read; prompt on rubies or sapphires until read]",
+            "subcategory": "Science Other",
+            "category": "Science"
+        },
+        {
+            "question_sanitized": "In one opera, the title character performs this action while singing the aria \u201cAh! Non credea mirarti\u201d (ah non cre-DAY-uh meer-AR-tee) and walking across a bridge into Elvino\u2019s arms. In a ballet partly titled for this action, townspeople dance the Garland Waltz to welcome a princess, who then dances the Rose Adagio with four suitors. In that ballet named for this action, the evil fairy Carabosse places a curse that the Lilac Fairy counteracts so that a princess will perform this action instead of dying after she pricks her finger on a spinning wheel. For 10 points, name this action that Aurora does for a hundred years as the title \u201cBeauty\u201d of a ballet by Pyotr Ilyich Tchaikovsky.",
+            "answer_sanitized": "sleeping [or sleepwalking]",
+            "subcategory": "Fine Arts Audiovisual",
+            "category": "Fine Arts"
+        },
+        {
+            "question_sanitized": "In one of this thinker\u2019s works, one character considers the creation myth of a planet inhabited by spiders to critique the argument from design. This man classified all objects of inquiry into two categories exemplified by the Pythagorean theorem and the statement \u201cthe sun will rise tomorrow.\u201d This thinker described how all ideas are derived from impressions in his \u201ccopy principle.\u201d This man divided all knowledge into relations of ideas and matters of fact. This author of Dialogues Concerning Natural Religion formulated the is-ought problem. For 10 points, name this Scottish empiricist who wrote A Treatise of Human Nature and An Enquiry Concerning Human Understanding.",
+            "answer_sanitized": "David Hume",
+            "subcategory": "Philosophy European",
+            "category": "Philosophy"
+        },
+        {
+            "question_sanitized": "A character in this novel gives a biscuit to a dying man who has a bit of white worsted tied around his neck. The true narrator of this novel sees a \u201cbrooding gloom\u201d over \u201cthe greatest town on Earth.\u201d The protagonist of this novel discovers a painting of a blindfolded woman holding a torch against a dark background. That same character later throws his shoes overboard along with his dead helmsman, upsetting the starving cannibals he had hired to help transport the Manager upriver. A mission in this novel seeks to find a man whose last words are \u201cthe horror, the horror.\u201d For 10 points, name this novel in which Marlow travels up the Congo to meet Kurtz, by Joseph Conrad.",
+            "answer_sanitized": "Heart of Darkness",
+            "subcategory": "Literature British",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "Pope Paul VI wrote the Paenitemini (PAH-ay-nee-tay-mee-nee) to explain that this practice is not required in \u201ccountries where the standard of living is lower.\u201d This practice is forbidden during the Bright Week, which follows Easter. A two-week period of this activity precedes the Feast of the Dormition, and some people practice the \u201cNativity\u201d form of this practice during Advent. This custom is often practiced starting on Ash Wednesday, throughout the time of Lent, to mirror the 40 days that Jesus spent doing this action in the desert. For 10 points, name this practice that involves abstaining from eating food.",
+            "answer_sanitized": "fasting [or not eating or equivalents; prompt on abstinence; prompt on asceticism]",
+            "category": "Religion"
+        },
+        {
+            "question_sanitized": "The relativistic kinetic energy of a photon equals this quantity times the speed of light. Applying a Fourier transform on wavefunctions in position space gives the eigenfunctions of the operator named for this quantity. Dropping a Galilean cannon, a stack of balls with a large ball at the bottom and a small ball on top, demonstrates this quantity\u2019s conservation. There is a limit to how accurately this property and position can be measured, according to Heisenberg\u2019s uncertainty principle. Newton\u2019s second law equates the time derivative of this quantity to force, so it is always conserved in the absence of external forces. For 10 points, name this quantity defined as mass times velocity.",
+            "answer_sanitized": "linear momentum [do not accept or prompt on \u201cangular momentum\u201d; prompt on p]",
+            "subcategory": "Science Physics",
+            "category": "Science"
+        },
+        {
+            "question_sanitized": "A 1995 popular referendum in this sub-national region was defeated because of \u201cmoney and the ethnic vote,\u201d according to a leader of its independence movement. This region was the home of the most heated resistance during its country\u2019s 1917 conscription crisis. This province was wooed into accepting a change in the 1982 constitution by the Meech Lake Accord. A period of great social change in this region in the 1960s was called the Quiet Revolution. A group advocating for this province\u2019s independence kidnapped James Cross and Pierre Laporte in October 1970, leading limitations placed on civil liberties by Pierre Trudeau. For 10 points, name this French-speaking Canadian province.",
+            "answer_sanitized": "Quebec",
+            "subcategory": "History World",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "In one work by this artist, three heads of various ages each face a different direction above the heads of a lion, wolf, and a dog. A large red banner adorned with the Papal arms appears in another work by this artist, in which Francis of Assisi stands above five kneeling members of the Pesaro family. This artist of the Allegory of Prudence painted an eight-star constellation ring at the top left corner of a painting showing a figure in a pink cape leaping out of a cheetah-drawn chariot. His most famous work sees a maid rummaging in a background chest behind a nude, reclining woman that stares at the viewer. For 10 points, name this painter of Bacchus and Ariadne and Venus of Urbino.",
+            "answer_sanitized": "Titian [or Tiziano; or Tiziano Vecelli; or Tiziano Vecello]",
+            "subcategory": "Fine Arts Visual",
+            "category": "Fine Arts"
+        },
+        {
+            "question_sanitized": "Carbon dioxide undergoes this type of reaction in the Sabatier process. Another type of this reaction uses borane and the CBS catalyst in a reaction named for Corey and Itsuno. One type of this reaction uses hydrochloric acid and zinc amalgam on carbonyls, and another type uses sodium dissolved in liquid ammonia and produces 1,4-cyclohexadienes from benzene. Sodium borohydride is used for this type of reaction, types of which are named for Clemmensen and Birch. In an electrochemical cell, this reaction occurs at the cathode. For 10 points, name this type of reaction which involves a gain of electrons and is contrasted with oxidation.",
+            "answer_sanitized": "reductions [prompt on redox reactions or reduction-oxidations]",
+            "subcategory": "Science Chemistry",
+            "category": "Science"
+        },
+        {
+            "question_sanitized": "This author depicted a dictator named Kamini, who tries to solve a financial crisis by printing more money, in A Play of Giants. In a novel, this man wrote on how studying abroad affected men like the artist Kola and a foreign ministry clerk called Egbo. In a play by this author, Amusa reacts in horror when he sees a British couple dancing while wearing egungun masks. This author depicted his country after independence in The Interpreters. In a play by this author, Simon Pilkings prevents Elesin from committing ritual suicide, even though the title position requires him to do so in Yoruba culture. For 10 points, name this Nigerian playwright of Death and the King\u2019s Horseman.",
+            "answer_sanitized": "Wole Soyinka",
+            "subcategory": "Literature World",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "This president aided rebels fighting against Jose Santos Zelaya\u2019s government, before beginning the twenty-year long occupation of Nicaragua. Before becoming president, he served as the first Governor-General of the Philippines. During this president\u2019s term, the Payne-Aldrich tariff increased taxes on imported goods. This president\u2019s Secretary of State Philander Knox furthered American interests abroad with the policy of \u201cdollar diplomacy.\u201d This president, who became Chief Justice in 1921, finished in third place behind the Bull Moose Party and Woodrow Wilson in the Election of 1912. For 10 points, name this overweight president who succeeded Theodore Roosevelt.",
+            "answer_sanitized": "William Howard Taft",
+            "subcategory": "History American",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "Mary Cover Jones, a member of this school of psychology, conducted the Peter experiment and concluded that \u201cdesensitization\u201d is an effective way to treat phobias. An application of mathematics to this school of psychology was developed by Clark Hull. Another member of this school of psychology shortened the distance that a rat had to run to find food, causing it to run into a wall. Thorndike\u2019s law of effect influenced the founder of one branch of this school who performed operant conditioning in his namesake \u201cbox.\u201d For 10 points, identify this school of psychology identified with John B. Watson and B.F. Skinner that uses positive and negative rewards to reinforce desired actions.",
+            "answer_sanitized": "behaviorism [or radical behaviorism; or word forms]",
+            "category": "Social Science"
+        },
+        {
+            "question_sanitized": "In this city, a clock with the times of 148 major cities around the globe is topped by a sculpture of an atom and is known as the Urania World Clock. A major boulevard in this city is named after a June 17, 1953, workers\u2019 uprising, and is continued by an avenue whose name translates as \u201cUnder the Lindens\u201d after it passes through the Tiergarten. Checkpoint Charlie was a heavily-guarded crossing point between the American and Soviet occupation sectors in this city, whose Brandenburg Gate lay between its very-separated west and east portions. For 10 points, name this city that used to be divided by a wall during the Cold War, the capital of Germany.",
+            "answer_sanitized": "Berlin",
+            "category": "Geography"
+        },
+        {
+            "question_sanitized": "The first and last stanzas of Philip Larkin\u2019s poem \u201cAnnus Mirabilis\u201d mention this novel before \u201cThe Beatles\u2019 first LP.\u201d This novel\u2019s main character is incensed after the failure of a motorised wheelchair forces its occupant to be pushed up a hill. Its protagonist rejects a proposal from the Irish playwright Michaelis and embarks on a passionate affair with the husband of Bertha Coutts. The explicit descriptions of that affair caused this novel\u2019s publisher, Penguin, to be sued in a landmark 1960 obscenity trial. For 10 points, name this novel whose title character, Constance, has an affair with the gamekeeper Oliver Mellors, written by D.H. Lawrence.",
+            "answer_sanitized": "Lady Chatterley\u2019s Lover",
+            "subcategory": "Literature British",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "\u201cBitter enders\u201d seeking to re-establish the Transvaal Republic took advantage of the start of this conflict to revolt in the Five Shillings Rebellion. Frederick Selous of Rhodesia was killed by a sniper at the Rufiji River during this war\u2019s East African campaign. An Anglo-French expedition captured and partitioned the colony of Togoland in the early days of this war. As a result of this war, colonies roughly corresponding to the present-day countries of Cameroon, Tanzania, and Namibia were given out as League of Nations mandates. The invasion of German South-West Africa was part of\u2014for 10 points\u2014what larger global conflict which pitted the Entente Powers against the Central Powers?",
+            "answer_sanitized": "World War I [or WWI; or the Great War; ask for less specificity for answers like the invasion of German South-West Africa or the invasion of German East Africa]",
+            "subcategory": "History World",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "Some cells in this structure can become hyperpolarized when the activation of the G-protein transducin triggers phospho-di-ester-ase to cleave cGMP. This structure contains amacrine cells in its inner plexiform layer, and many of its cells are supported by M\u00fcller glia. A compound named for this structure can photo-isomerize from the 11-cis state to an all-trans state. Bipolar cells in this structure transmit signals to ganglion cells. This structure lies right on top of the choroid and the sclera, and this structure\u2019s macula lutea contains the fovea at its center. For 10 points, name this structure made of rod and cone cells, onto which the lens of the eye focuses light.",
+            "answer_sanitized": "retina [prompt on rod cells or cone cells before mentioned; prompt on eye]",
+            "subcategory": "Science Biology",
+            "category": "Science"
+        },
+        {
+            "question_sanitized": "This god was often depicted carrying a yellow and black fan and wearing a cross-section of a conch shell called the \u201cwind jewel.\u201d After being banished from the city of Tula, he was burned on a pyre and his heart became the planet Venus. In one instance, this god, who retrieved bones from the underworld to create humanity, got drunk on the alcoholic pulque [\u201cpool-kay\u201d] and slept with his sister. This god is commonly described as being fair skinned and bearded, and he sailed off into the East on a raft made of snakes. This god frequently fought with his brother Tezcatlipoca. For 10 points, name this \u201cfeathered serpent\u201d god of Aztec Mythology.",
+            "answer_sanitized": "Quetzalcoatl",
+            "category": "Mythology"
+        },
+        {
+            "question_sanitized": "In 1952, Yehudi Menuhin resurrected this non-Schumann composer\u2019s early D minor violin concerto. This composer instructs the bassoon to hold a B to link the first two movements of another concerto. The soloist enters after just two bars of orchestral introduction with a theme that gave this composer \u201cno peace\u201d in that concerto in E minor. A \u201cSpinner\u2019s Song\u201d appears alongside three separate Venetian boat songs in this composer\u2019s collection Songs without Words. For 10 points, name this German Romantic composer of incidental music to A Midsummer Night\u2019s Dream, which includes his famous \u201cWedding March.\u201d",
+            "answer_sanitized": "Felix Mendelssohn Bartholdy",
+            "subcategory": "Fine Arts Auditory",
+            "category": "Fine Arts"
+        },
+        {
+            "question_sanitized": ". Members of this religion commonly greet their friends with the phrase \u201cMicchama Dukkadam\u201d (mich-CHAA-mi DUK-a-dum) on the day of Kshamavani (ksha-MAA-vaa-ni), known as \u201cforgiveness day.\u201d That day is the end of this religion\u2019s holiday Paryushana (PAR-yu-SHA-na). Members of this religion can undergo Sallekhana (SAL-le-KA-na), or starving to death. This religion is split into the Svetambara and Digambara sects, which respectively consist of white-clad and sky-clad monastics. Many followers of this religion do not eat root vegetables, onions, or garlic. For 10 points, name this Indian religion, led by Mahavira, that emphasizes ahimsa, or nonviolence.",
+            "answer_sanitized": "Jainism [or Jains; or Jain Dharma; anti-prompt on Svetambara Jainism or Digambara Jainism before mentioned] Bonuses",
+            "category": "Religion"
+        }
+    ],
+    "bonuses": [
+        {
+            "leadin_sanitized": "Recurrent stories in this novel include an exterminator whose family hates him and an aspirin salesman who runs over a child with his car. For 10 points each:",
+            "answers_sanitized": [
+                "Aunt Julia and the Scriptwriter [or La t\u00eda Julia y el escribidor]",
+                "radio plays [or radionovelas; prompt on partial answer]",
+                "soccer [or football]"
+            ],
+            "parts_sanitized": [
+                "Name this 1977 semi-autobiographical novel in which an eighteen-year-old version of the author works at a radio station and falls in love with the title divorcee.",
+                "Every other chapter in Aunt Julia and the Scriptwriter is one of these things, supposedly written by the eccentric Brazilian Pedro Camacho. Dylan Thomas\u2019s Under Milk Wood is in this genre.",
+                "One of Pedro Camacho\u2019s radio plays is about the son of a wealthy family who is good at nothing but refereeing this sport. Eduardo Galeano wrote about the history of this sport in Latin America and Europe."
+            ],
+            "subcategory": "Literature World",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "In one story, this character captures the python Onini by tricking him into letting himself be tied to a tree branch. For 10 points each:",
+            "answers_sanitized": [
+                "Anansi",
+                "spider",
+                "bees [or wasps or hornets; or bee-keeping]"
+            ],
+            "parts_sanitized": [
+                "Name this trickster figure who receives all the stories of the world after capturing three creatures for Nyame.",
+                "Anansi often takes the form of one of these animals, which he uses to ensnare the leopard Osebo in a web.",
+                "Anansi tricks these creatures into thinking that it is raining and seals them inside a calabash. The pastoral god Aristaeus introduced the art of raising and rearing these flying creatures."
+            ],
+            "category": "Mythology"
+        },
+        {
+            "leadin_sanitized": "These systems can scatter light in the Tyndall effect. For 10 points each:",
+            "answers_sanitized": [
+                "colloids",
+                "flocculation [or coagulation; or aggregation; or agglomeration]",
+                "micelles"
+            ],
+            "parts_sanitized": [
+                "Name these systems, which consist of microscopic insoluble particles suspended throughout a medium. Examples of these systems include paint, ink, and emulsions such as mayonnaise.",
+                "The colloidal particles must be stabilized to prevent this process from occurring, where the particles clump together. DLVO theory predicts that this process becomes easier with increasing salt concentration.",
+                "Surfactant molecules dispersed in a colloid can aggregate to form these structures above the Krafft temperature. Spontaneous interfacial curvature determines whether these structures are spherical or bilayered."
+            ],
+            "subcategory": "Science Chemistry",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "Elizabeth Siddal contracted a severe cold whilst sitting in a bath to model for this man\u2019s painting of <em>Ophelia</em>. For 10 points each:",
+            "answers_sanitized": [
+                "John Everett Millais",
+                "Raphael Sanzio da Urbino",
+                "John Ruskin"
+            ],
+            "parts_sanitized": [
+                "Name this English artist who portrayed a young Jesus having injured himself in a carpentry workshop in his painting Christ in the House of his Parents.",
+                "Millais, along with William Holman Hunt and Dante Gabriel Rossetti, was part of a \u201cbrotherhood\u201d which believed that this artist of The School of Athens had corrupted the teaching of art.",
+                "Millais married Effie Gray, who was previously married to this Victorian art critic, the author of Modern Painters. He criticized Whistler\u2019s Nocturne in Black and Gold for \u201cflinging a pot of paint in the public's face.\u201d"
+            ],
+            "subcategory": "Fine Arts Visual",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin_sanitized": "This leader was an important member of the Free Officers Movement. For 10 points each:",
+            "answers_sanitized": [
+                "Gamal Abdel Nasser",
+                "Israel",
+                "United Arab Republic [or UAR]"
+            ],
+            "parts_sanitized": [
+                "Name this longtime president of Egypt, who overthrew the monarchy and lost the Six-Day War.",
+                "Nasser lost the Six-Day War against this country, which gained the Sinai Peninsula, the West Bank, and the Golan Heights after the war. Egypt signed the Camp David Accords with this country.",
+                "Nasser\u2019s pan-Arab ideology led to the creation of this short-lived union with Syria, which only lasted from 1958 to 1961."
+            ],
+            "subcategory": "History World",
+            "category": "History"
+        },
+        {
+            "leadin_sanitized": "A 2016 study found a compressive fracture in the upper right arm of this specimen. For 10 points each:",
+            "answers_sanitized": [
+                "Lucy",
+                "Australopithecus [or Australopithecus afarensis; or Australopithecus africanus]",
+                "stone tools [prompt on tools]"
+            ],
+            "parts_sanitized": [
+                "Name this hominid specimen discovered in 1974, which is one of the most complete sets of human ancestor remains. This specimen takes its name from a Beatles song.",
+                "Lucy belonged to this species of early humans. This species pre-dates the homo genus of modern humans and is divided into two groups: afarensis in East Africa and africanus in South Africa.",
+                "Australopithecus were not able to use these objects, and the ability to do so was not developed by human ancestors until homo habilis. Mary and Louis Leakey discovered examples of these objects at Olduvai Gorge."
+            ],
+            "subcategory": "Science Other",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "According to Haitz\u2019s law, every ten years the amount of light generated by these devices increases by a factor of 20 and the cost per lumen falls by a factor of 10. For 10 points each:",
+            "answers_sanitized": [
+                "LEDs [or light-emitting diodes]",
+                "blue [or Blu-Ray discs]",
+                "gallium [or Ga]"
+            ],
+            "parts_sanitized": [
+                "Name these devices, which use a p-n junction to induce electroluminescence.",
+                "The 2014 Nobel Prize in Physics was awarded for developing LEDs of this color. That discovery paved the way for discs named for this color and \u201cray,\u201d which have superseded DVDs for video storage.",
+                "The first blue LED used a compound of this element and nitrogen. This element\u2019s arsenide is commonly used in place of silicon as a semiconductor."
+            ],
+            "subcategory": "Science Physics",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "Enrico Caruso\u2019s recording of this aria was the first record to sell over a million copies. For 10 points each:",
+            "answers_sanitized": [
+                "\u201cVesti la giubba\u201d (JOO-bah)",
+                "I Pagliacci",
+                "Tosca"
+            ],
+            "parts_sanitized": [
+                "Name this aria in which Canio laments that he must pretend to be happy despite his wife Nedda\u2019s infidelity. Canio sings this aria as he dons his costume.",
+                "\u201cVesti la giubba\u201d closes out the first of two acts of this verismo opera about a troupe of clowns by Ruggiero Leoncavallo (roo-ZHAIR-oh leon-ca-VA-low). Opera companies often perform this opera alongside Pietro Mascagni\u2019s (moss-CAH-nyee\u2019s) Cavelleria Rusticana (ca-va-LAIR-ia roos-ti-CAH-na).",
+                "In this other verismo opera by Giacomo Puccini, Baron Scarpia executes Cavaradossi despite his promise to the title character, who throws herself off a tower to her death."
+            ],
+            "subcategory": "Fine Arts Audiovisual",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin_sanitized": "The narrator of this tale notes that King Solomon had many wives, so it should be acceptable for her to have had five husbands. For 10 points each:",
+            "answers_sanitized": [
+                "Wife of Bath\u2019s Tale",
+                "Geoffrey Chaucer",
+                "the General Prologue [or anything indicating that it\u2019s the frame story or the beginning]"
+            ],
+            "parts_sanitized": [
+                "Name this tale, which describes a knight who seeks to learn what women desire the most and then is forced into marrying a hag who transforms into a beautiful maiden.",
+                "The Wife of Bath\u2019s Tale is part of this medieval English author\u2019s Canterbury Tales.",
+                "A competition to win a free supper is proposed in this other section of The Canterbury Tales, which describes a trip to the shrine of St Thomas Becket."
+            ],
+            "subcategory": "Literature British",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "Ada of Caria, a ruler of this city, formally adopted Alexander the Great as her son after she surrendered it to him. For 10 points each:",
+            "answers_sanitized": [
+                "Halicarnassus [or Mausoleum of Halicarnassus]",
+                "historian [accept \u201chistory\u201d; accept any answer indicating a person who studies history; prompt on writer]",
+                "Battle of Salamis"
+            ],
+            "parts_sanitized": [
+                "Name this city, home to a famous mausoleum which was one of the Seven Wonders of the Ancient World.",
+                "Perhaps the most famous native of Halicarnassus was Herodotus, who was known as \u201cthe father of\u201d this profession. Herodotus influenced later members of this profession such as Thucydides and Xenophon.",
+                "Herodotus wrote about Artemisia of Halicarnassus, who fought on the side of the Persians in this 480 BC decisive victory for Themistocles."
+            ],
+            "subcategory": "History Classical",
+            "category": "History"
+        },
+        {
+            "leadin_sanitized": "Robert Schumann once exclaimed \u201cHats off, gentlemen! A genius!\u201d after hearing this composer\u2019s Variations on \u201cL\u00e0 ci darem la mano.\u201d For 10 points each:",
+            "answers_sanitized": [
+                "Fr\u00e9d\u00e9ric Chopin",
+                "Minute Waltz [or Waltz in D-flat major Opus 64, No. 1; prompt on Waltz of the Little Dog or Valse du petit chien or \u201cWaltz in D-flat major\u201d or \u201cWaltz in D-flat major Opus 64.\u201d]",
+                "C-sharp minor [do not accept \u201cC-sharp major\u201d]"
+            ],
+            "parts_sanitized": [
+                "Name this composer of the Raindrop Prelude, a Polish piano virtuoso.",
+                "Chopin was inspired to write this short piano piece after witnessing a dog chasing its tail. This piece\u2019s publisher gave it a commonly-used nickname meant to reflect the piece\u2019s proportions rather than duration.",
+                "Chopin used this key, the enharmonic minor of the Minute Waltz\u2019s key, for his second Opus 64 waltz and his Fantaisie Impromptu. Rachmaninoff\u2019s most frequently performed prelude is in this key."
+            ],
+            "subcategory": "Fine Arts Auditory",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin_sanitized": "The Weierstrass function possesses this property throughout its entire domain. For 10 points each:",
+            "answers_sanitized": [
+                "continuity [or continuous]",
+                "differentiability [or differentiable; or being able to take a derivative or word forms]",
+                "zero"
+            ],
+            "parts_sanitized": [
+                "Name this property, which for a function on the real numbers, can be defined as the fact that for any point c, the limit as x approaches c of f(x) equals f(c). Functions with this property have no jumps.",
+                "The Weierstrass function, although continuous everywhere, does not possess this property anywhere. Complex-valued functions that possess the \u201ccomplex\u201d type of this property are called holomorphic.",
+                "By Rolle\u2019s theorem, a continuous and differentiable function that has equal values at two different points must have a point in between where the slope equals this number. Inflection points\u2019 second derivatives equal this value."
+            ],
+            "subcategory": "Science Math",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "In a novel by this man, a boy named Tom Canty learns to read from a priest and he is later repeatedly asked about the missing \u201cGreat Seal.\u201d For 10 points each:",
+            "answers_sanitized": [
+                "Mark Twain [or Samuel Langhorne Clemens]",
+                "The Mysterious Stranger",
+                "The Celebrated Jumping Frog of Calaveras County"
+            ],
+            "parts_sanitized": [
+                "Name this author of The Prince and the Pauper and The Adventures of Tom Sawyer.",
+                "Twain never finished this novel about a supernatural figure that different editions call \u201cNo. 44\u201d or \u201cSatan,\u201d who visits Theodor Fischer in Esseldorf and magically transports him around the universe.",
+                "In this Twain short story, the narrator is told of the tale of Jim Smiley, who captures and trains an animal named Dan\u2019l Webster over the course of three months."
+            ],
+            "subcategory": "Literature American",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "One character in this movie removed the E from his H-A-T-E tattoo to better his job prospects. For 10 points each:",
+            "answers_sanitized": [
+                "Baby Driver",
+                "Jon Hamm",
+                "Edgar Wright"
+            ],
+            "parts_sanitized": [
+                "Name this 2017 movie. The title character of this movie, played by Ansel Elgort, constantly listens to music to drown out his tinnitus.",
+                "This actor plays Buddy, another member of Baby's heist crew, in Baby Driver. He is better known for a role in which he plays the creative director of Sterling Cooper Partners, Don Draper in Mad Men.",
+                "This English director of Baby Driver collaborated with Simon Pegg and Nick Frost on the Cornetto trilogy of World\u2019s End, Hot Fuzz, and Shaun of the Dead."
+            ],
+            "category": "Trash"
+        },
+        {
+            "leadin_sanitized": "For 10 points each, name some things about Napoleonic puppet states.",
+            "answers_sanitized": [
+                "Naples [or Napoli; or Kingdom of Naples; accept Regno di Napoli]",
+                "Rhine River [or Confederation of the Rhine]",
+                "Spain [or Espa\u00f1a]"
+            ],
+            "parts_sanitized": [
+                "A state named after this city was ruled by the flamboyant dandy Joachim Murat. This city was previously the center of the Parthenopean Republic, which was opposed by its lazzaroni lower class.",
+                "After the Battle of Austerlitz, remnants of the Holy Roman Empire were formed into a confederation named after this river, which forms the modern boundary between France and Germany.",
+                "Napoleon put his brother Joseph on the throne of this country after forcing the abdication of its king Charles IV. The Pyrenees separate France from this country, which fought the Peninsular War against French occupation."
+            ],
+            "subcategory": "History European",
+            "category": "History"
+        },
+        {
+            "leadin_sanitized": "This man described that one cannot deny consciousness of the soul in his \u201cfloating man\u201d argument. For 10 points each:",
+            "answers_sanitized": [
+                "Avicenna [or Ibn Sina; or Abu Ali Sina]",
+                "Islam",
+                "cause [or causer or other word forms]"
+            ],
+            "parts_sanitized": [
+                "Name this thinker who wrote the Book of Healing. His enormously influential The Canon of Medicine was based on the ideas of Galen.",
+                "Avicenna was a member of this religion. The \u201cGolden Age\u201d of this religion, a flourishing of science, philosophy, and culture, was nourished by the House of Wisdom, a library built in Baghdad.",
+                "The Islamic philosopher al-Ghazali championed occasionalism, which states that God, not objects, have this role in the world. Aristotle distinguished between the material, formal, efficient, and final types of this concept."
+            ],
+            "category": "Philosophy"
+        },
+        {
+            "leadin_sanitized": "On this holiday, the youngest child is responsible for singing the Four Questions. For 10 points each:",
+            "answers_sanitized": [
+                "Passover [or Pesach]",
+                "ritual washing [or handwashing; or washing hands or equivalents]",
+                "matzo [or matzah; prompt on bread]"
+            ],
+            "parts_sanitized": [
+                "Name this holiday that begins with a Seder and celebrates the Jews\u2019 exodus from Egypt.",
+                "This action, often accompanied by the prayer netilat yadayim (ne-til-AT YA-da-yeem), is performed during the Passover Seder. Performing this action requires a special two-handled cup.",
+                "At the end of the Seder, children search for a hidden piece of this thing called the afikoman. When the preparation of this thing is specially supervised, it is known as \u201cShmurah.\u201d"
+            ],
+            "category": "Religion"
+        },
+        {
+            "leadin_sanitized": "A character in this novel writes a 72 page tract on cider. For 10 points each:",
+            "answers_sanitized": [
+                "Madame Bovary",
+                "Gustave Flaubert",
+                "apricots"
+            ],
+            "parts_sanitized": [
+                "Name this novel in which the title character pretends to attend her piano lessons so that she may actually carry on an affair with L\u00e9on.",
+                "This author of Sentimental Education wrote Madame Bovary.",
+                "In Madame Bovary, Rodolphe breaks up with Emma by placing a letter in a basket of these fruits, which her husband Charles later eats."
+            ],
+            "subcategory": "Literature European",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "This effect occurred in the North Atlantic due to the Eyjafjallaj\u00f6kull (ey-YA-fa-la-YO-kul) volcano in Iceland, and it is usually caused by excess levels of nitrates and phosphates in the water. For 10 points each:",
+            "answers_sanitized": [
+                "harmful algal blooms [or harmful phytoplankton blooms; accept algae blooms; prompt on eutrophication]",
+                "oxygen gas [or O2]",
+                "dinoflagellates"
+            ],
+            "parts_sanitized": [
+                "Name this phenomenon, in which a sharp increase in photosynthetic organisms in a marine system can lead to large-scale fish and plant death.",
+                "Algal blooms can be harmful because the decay of algae reduces levels of this gas that is dissolved in the water. As a result, fish are no longer able to take in this gas through their gills.",
+                "An especially harmful form of algal blooms is red tide, which is caused by these protists. These photosynthetic eukaryotes have a modified nucleus with no histones and were once called \u201cfire algae\u201d due to their bioluminescence."
+            ],
+            "subcategory": "Science Biology",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "Answer some questions about violent and deadly events in Chicago, for 10 points each:",
+            "answers_sanitized": [
+                "Great Fire of Chicago",
+                "Saint Valentine's Day Massacre",
+                "1968 Democratic National Convention [or 1968 DNC; prompt on partial answer]"
+            ],
+            "parts_sanitized": [
+                "An event of this type devastated Chicago in 1871 and was apocryphally caused by Catherine O\u2019Leary\u2019s cow kicking over a lantern.",
+                "Seven members of Bugs Moran\u2019s North Side Gang were gunned down in this 1929 event by mobsters belonging to Al Capone\u2019s notorious Chicago Outfit.",
+                "The Chicago Seven were arrested in the aftermath of this event. Richard Daley ordered the Chicago police to suppress rioters during this event, which was accused of being \u201cGestapo tactics in the streets of Chicago.\u201d"
+            ],
+            "subcategory": "History American",
+            "category": "History"
+        }
+    ]
+}
