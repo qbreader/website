@@ -4,7 +4,6 @@ const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-    // res.redirect('/static/tossups.html');
     res.sendFile(__dirname + '/static/tossups.html');
 });
 
