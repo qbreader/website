@@ -12,7 +12,7 @@ html, body {
     display: grid;
     grid-template-columns: 0.5fr 1.5fr 0.6fr 0.4fr;
     grid-template-rows: 0.5fr 0.3fr 3.2fr;
-    gap: 0px 15px;
+    gap: 0px 0px;
     grid-auto-flow: row;
     justify-items: stretch;
     grid-template-areas:
@@ -37,6 +37,7 @@ html, body {
 
 .question-text {
     grid-area: question-text;
+    padding-right: 15px;
 }
 
 button {
