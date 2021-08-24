@@ -9,6 +9,6 @@ for filename in os.listdir('packets'):
     filename = re.sub('_', ' ', filename)
     names.append(filename)
 
-names.sort(reverse=True)
+names.sort()
 for filename in names:
     print('<li>' + filename + '</li>')
