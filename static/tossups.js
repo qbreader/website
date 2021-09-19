@@ -137,7 +137,7 @@ document.getElementById('start').addEventListener('click', async () => {
 
     packetNumbers = document.getElementById('packet-select').value.trim();
     if (packetNumbers.length == 0 || packetNumbers.toLowerCase() == 'all') {
-        packetNumbers = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24';
+        packetNumbers = '1-24';
     }
     packetNumbers = packetNumbers.split(',');
     for (let i = 0; i < packetNumbers.length; i++) {
