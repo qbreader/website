@@ -33,10 +33,10 @@ function buzz() {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) powers++; else tens++;
-        document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs} TUH (${15*powers+10*tens-5*negs} pts)`
+        updateStatDisplay();
 
         // Update question text and show answer:
-        document.getElementById('question').innerHTML += '(#) ' + questionTextSplit.join(' ');
+        document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer_sanitized'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
@@ -44,7 +44,23 @@ function buzz() {
     } else {
         currentlyBuzzing = true;
         document.getElementById('buzz').innerHTML = 'Reveal';
+        document.getElementById('info-text').innerHTML = 'Press space to reveal';
     }
+}
+
+
+/**
+ * Updates the displayed stat line.
+ */
+function updateStatDisplay() {
+    let points = 0;
+    if (packetName.includes('pace')) {  // Use pace scoring: powers = 20, negs = 0
+        points = 20 * powers + 10 * tens;
+    } else {
+        points = 15 * powers + 10 * tens - 5 * negs;
+    }
+    let includePlural = (powers + tens + negs == 1) ? '' : 's';
+    document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs} tossup${includePlural} seen (${points} pts)`
 }
 
 
@@ -109,15 +125,17 @@ async function readQuestion() {
         // If the user buzzes, stop reading:
         if (currentlyBuzzing || questionTextSplit.length == 0) {
             clearInterval(intervalId);
-            document.getElementById('info-text').innerHTML = 'Press space to reveal';
+
+            // Include buzzpoint
+            document.getElementById('question').innerHTML += '(#) ';
         }
     }, document.getElementById('reading-speed').value);
 }
 
 
 document.getElementById('start').addEventListener('click', async () => {
-    document.getElementById('statline').innerHTML = '0/0/0 with 0 TUH (0 pts)';
     powers = 0; tens = 0; negs = 0;
+    updateStatDisplay();
 
     let packetYear = document.getElementById('year-select').value.trim();
     if (packetYear.length == 0) {
@@ -187,8 +205,7 @@ document.getElementById('toggle-correct').addEventListener('click', () => {
         if (questionTextSplit.length != 0) negs++;
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
-
-    document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs} TUH (${15*powers+10*tens-5*negs} pts)`;
+    updateStatDisplay();
     toggleCorrectClicked = !toggleCorrectClicked;
 });
 

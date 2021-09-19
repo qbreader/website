@@ -9,21 +9,27 @@ var currentBonusPart = -1;
 
 var validCategories = [];
 
+/**
+ * An array that represents
+ * [# of 30's, # of 20's, # of 10's, # of 0's].
+ */
 var stats = [0, 0, 0, 0];
+
 
 /**
  * Calculates that points per bonus and updates the display.
  */
-function updateStats() {
-    let sum = stats[0] + stats[1] + stats[2] + stats[3];
+function updateStatDisplay() {
+    let numBonusesHeard = stats[0] + stats[1] + stats[2] + stats[3];
     let ppb = 0;
     let points = 0;
-    if (sum != 0) {
-        points = 30*stats[0] + 20*stats[1] + 10*stats[2] + 0*stats[3];
-        ppb = Math.round(100*points/sum) / 100;
+    if (numBonusesHeard != 0) {
+        points = 30 * stats[0] + 20 * stats[1] + 10 * stats[2] + 0 * stats[3];
+        ppb = Math.round(100 * points / numBonusesHeard) / 100;
     }
-    document.getElementById('statline').innerHTML 
-        = `${ppb} points per bonus with ${sum} bonuses seen (${stats[0]}/${stats[1]}/${stats[2]}/${stats[3]}, ${points} pts)`;
+    let includePlural = (numBonusesHeard == 1) ? '' : 'es';
+    document.getElementById('statline').innerHTML
+        = `${ppb} points per bonus with ${numBonusesHeard} bonus${includePlural} seen (${stats[0]}/${stats[1]}/${stats[2]}/${stats[3]}, ${points} pts)`;
 }
 
 /**
@@ -40,7 +46,7 @@ function reveal() {
         if (currentBonusPart <= 2) {
             paragraph1 = document.createElement('p');
             paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts_sanitized'][currentBonusPart]));
-            document.getElementById('question').appendChild(paragraph1);    
+            document.getElementById('question').appendChild(paragraph1);
         }
     }
 }
@@ -87,19 +93,19 @@ async function readQuestion() {
 
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
-    paragraph = document.createElement('p');
+    let paragraph = document.createElement('p');
     paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin_sanitized']));
     document.getElementById('question').appendChild(paragraph);
 
-    paragraph1 = document.createElement('p');
+    let paragraph1 = document.createElement('p');
     paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts_sanitized'][0]));
     document.getElementById('question').appendChild(paragraph1);
 }
 
 
 document.getElementById('start').addEventListener('click', async () => {
-    document.getElementById('statline').innerHTML = '0.00 points per bonus with 0 bonuses seen (0/0/0/0, 0 pts)';
     stats = [0, 0, 0, 0];
+    updateStatDisplay();
 
     let packetYear = document.getElementById('year-select').value.trim();
     if (packetYear.length == 0) {
@@ -119,7 +125,7 @@ document.getElementById('start').addEventListener('click', async () => {
 
     packetNumbers = document.getElementById('packet-select').value.trim();
     if (packetNumbers.length == 0 || packetNumbers.toLowerCase() == 'all') {
-        packetNumbers = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24';
+        packetNumbers = '1-24';
     }
     packetNumbers = packetNumbers.split(',');
     for (let i = 0; i < packetNumbers.length; i++) {
@@ -172,22 +178,22 @@ document.addEventListener('keyup', () => {
 
 document.getElementById('30').addEventListener('click', () => {
     stats[0]++;
-    updateStats();
+    updateStatDisplay();
 });
 
 document.getElementById('20').addEventListener('click', () => {
     stats[1]++;
-    updateStats();
+    updateStatDisplay();
 });
 
 document.getElementById('10').addEventListener('click', () => {
     stats[2]++;
-    updateStats();
+    updateStatDisplay();
 });
 
 document.getElementById('0').addEventListener('click', () => {
     stats[3]++;
-    updateStats();
+    updateStatDisplay();
 });
 
 document.getElementById('reveal').addEventListener('click', reveal);
