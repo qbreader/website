@@ -6,6 +6,7 @@ var packetNumber = -1;
 
 var questions = [{}];
 var questionText = '';
+var questionTextSplit = [];
 var currentQuestionNumber = 0;
 
 var currentlyBuzzing = false;
@@ -35,7 +36,7 @@ function buzz() {
         document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs} TUH (${15*powers+10*tens-5*negs} pts)`
 
         // Update question text and show answer:
-        document.getElementById('question').innerHTML = questionText;
+        document.getElementById('question').innerHTML += '(#) ' + questionTextSplit.join(' ');
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer_sanitized'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
