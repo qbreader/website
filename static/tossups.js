@@ -18,6 +18,7 @@ var inPower = false;
 var powers = 0;
 var tens = 0;
 var negs = 0;
+var dead = 0;
 
 var toggleCorrectClicked = false;
 
@@ -59,8 +60,8 @@ function updateStatDisplay() {
     } else {
         points = 15 * powers + 10 * tens - 5 * negs;
     }
-    let includePlural = (powers + tens + negs == 1) ? '' : 's';
-    document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs} tossup${includePlural} seen (${points} pts)`
+    let includePlural = (powers + tens + negs + dead == 1) ? '' : 's';
+    document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs + dead} tossup${includePlural} seen (${points} pts)`
 }
 
 
@@ -199,10 +200,12 @@ document.getElementById('toggle-correct').addEventListener('click', () => {
     if (toggleCorrectClicked) {
         if (inPower) powers++; else tens++;
         if (questionTextSplit.length != 0) negs--; // Check if there is more question to be read
+        else dead--;
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
     } else {
         if (inPower) powers--; else tens--;
         if (questionTextSplit.length != 0) negs++;
+        else dead++;
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
     updateStatDisplay();
