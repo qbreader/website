@@ -8,3 +8,7 @@
 ## how to use
 - run the server file by using the command `node server.js` (requires `node.js`, I have version 14.16.0), website is at localhost:3000 or 127.0.0.1:3000
 - pull requests are welcome
+
+## to do
+- celerity
+- migrate packet parsing to new repository
