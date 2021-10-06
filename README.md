@@ -11,4 +11,3 @@
 
 ## to do
 - celerity
-- migrate packet parsing to new repository
