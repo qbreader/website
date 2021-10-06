@@ -10,15 +10,15 @@ html, body {
 .container {
     min-height: 100%;
     display: grid;
-    grid-template-columns: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
+    grid-template-columns: 0.5fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr 0.5fr;
     grid-template-rows: 0.5fr 0.2fr 3.3fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     justify-items: stretch;
     grid-template-areas:
-        ". header header header header header"
-        ". links links . . ."
-        ". packets-1 packets-2 packets-3 packets-4 .";
+        ". header header header header header header"
+        ". links links . . . ."
+        ". packets-1 packets-2 packets-3 packets-4 packets-5 .";
 }
 
 .header {
@@ -45,4 +45,8 @@ html, body {
 
 .packets-4 {
     grid-area: packets-4;
+}
+
+.packets-5 {
+    grid-area: packets-5;
 }
