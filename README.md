@@ -1,7 +1,7 @@
 # qb-packet-reader
 - a [quizbug](https://quizbug2.karangurazada.com/)/[protobowl](https://protobowl.com/)/tkbot where you can input a packet and it reads it (tossups and/or bonuses) to you
 - front end uses html/css and backend uses express.js server
-- check out the website at https://quizbowl-packet-reader.herokuapp.com/
+- check out the website at https://qbreader.herokuapp.com/
 - a useful packet parser I used: https://github.com/alopezlago/YetAnotherPacketParser
 - I also wrote a rudimentary regex-based packet parser in python: https://github.com/thedoge42/qb-packet-parser
 - credit goes to https://github.com/kgurazad/quizbug2 as i probably could not have done this without consulting this
