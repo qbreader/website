@@ -19,6 +19,7 @@ var powers = 0;
 var tens = 0;
 var negs = 0;
 var dead = 0;
+var totalCelerity = 0;
 
 var toggleCorrectClicked = false;
 
@@ -34,16 +35,24 @@ function buzz() {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) powers++; else tens++;
-        updateStatDisplay();
 
         // Update question text and show answer:
+        let characterCount = document.getElementById('question').innerHTML.length;
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
+        totalCelerity += 1 - characterCount / document.getElementById('question').innerHTML.length;
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer_sanitized'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
+        updateStatDisplay();
         shownAnswer = true;
     } else {
+        // Stop the question reading
+        clearInterval(intervalId);
         currentlyBuzzing = true;
+
+        // Include buzzpoint
+        document.getElementById('question').innerHTML += '(#) ';
+
         document.getElementById('buzz').innerHTML = 'Reveal';
         document.getElementById('info-text').innerHTML = 'Press space to reveal';
     }
@@ -54,14 +63,18 @@ function buzz() {
  * Updates the displayed stat line.
  */
 function updateStatDisplay() {
+    let numTossups = powers + tens + negs + dead;
     let points = 0;
     if (packetName.includes('pace')) {  // Use pace scoring: powers = 20, negs = 0
         points = 20 * powers + 10 * tens;
     } else {
         points = 15 * powers + 10 * tens - 5 * negs;
     }
-    let includePlural = (powers + tens + negs + dead == 1) ? '' : 's';
-    document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${powers + tens + negs + dead} tossup${includePlural} seen (${points} pts)`
+    let celerity = numTossups != 0 ? totalCelerity / numTossups : 0;
+    celerity = Math.round(1000 * celerity) / 1000;
+    let includePlural = (numTossups == 1) ? '' : 's';
+    document.getElementById('statline').innerHTML
+        = `${powers}/${tens}/${negs} with ${numTossups} tossup${includePlural} seen (${points} pts) (celerity: ${celerity})`;
 }
 
 
@@ -123,19 +136,16 @@ async function readQuestion() {
     intervalId = window.setInterval(() => {
         document.getElementById('question').innerHTML += questionTextSplit.shift() + ' ';
 
-        // If the user buzzes, stop reading:
-        if (currentlyBuzzing || questionTextSplit.length == 0) {
+        // If the question runs out of text, stop reading:
+        if (questionTextSplit.length == 0) {
             clearInterval(intervalId);
-
-            // Include buzzpoint
-            document.getElementById('question').innerHTML += '(#) ';
         }
     }, document.getElementById('reading-speed').value);
 }
 
 
 document.getElementById('start').addEventListener('click', async () => {
-    powers = 0; tens = 0; negs = 0;
+    powers = 0; tens = 0; negs = 0; totalCelerity = 0;
     updateStatDisplay();
 
     let packetYear = document.getElementById('year-select').value.trim();
@@ -199,13 +209,11 @@ document.getElementById('start').addEventListener('click', async () => {
 document.getElementById('toggle-correct').addEventListener('click', () => {
     if (toggleCorrectClicked) {
         if (inPower) powers++; else tens++;
-        if (questionTextSplit.length != 0) negs--; // Check if there is more question to be read
-        else dead--;
+        if (questionTextSplit.length != 0) negs--; else dead--;  // Check if there is more question to be read 
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
     } else {
         if (inPower) powers--; else tens--;
-        if (questionTextSplit.length != 0) negs++;
-        else dead++;
+        if (questionTextSplit.length != 0) negs++; else dead++;
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
     updateStatDisplay();
