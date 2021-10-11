@@ -17,25 +17,9 @@ var stats = [0, 0, 0, 0];
 
 
 /**
- * Calculates that points per bonus and updates the display.
- */
-function updateStatDisplay() {
-    let numBonusesHeard = stats[0] + stats[1] + stats[2] + stats[3];
-    let ppb = 0;
-    let points = 0;
-    if (numBonusesHeard != 0) {
-        points = 30 * stats[0] + 20 * stats[1] + 10 * stats[2] + 0 * stats[3];
-        ppb = Math.round(100 * points / numBonusesHeard) / 100;
-    }
-    let includePlural = (numBonusesHeard == 1) ? '' : 'es';
-    document.getElementById('statline').innerHTML
-        = `${ppb} points per bonus with ${numBonusesHeard} bonus${includePlural} seen (${stats[0]}/${stats[1]}/${stats[2]}/${stats[3]}, ${points} pts)`;
-}
-
-/**
  * Called when the users wants to reveal the next bonus part.
  */
-function reveal() {
+ function reveal() {
     if (currentBonusPart > 2) {
         return;
     } else {
@@ -49,6 +33,23 @@ function reveal() {
             document.getElementById('question').appendChild(paragraph1);
         }
     }
+}
+
+
+/**
+ * Calculates that points per bonus and updates the display.
+ */
+function updateStatDisplay() {
+    let numBonuses = stats[0] + stats[1] + stats[2] + stats[3];
+    let ppb = 0;
+    let points = 0;
+    if (numBonuses != 0) {
+        points = 30 * stats[0] + 20 * stats[1] + 10 * stats[2] + 0 * stats[3];
+        ppb = Math.round(100 * points / numBonuses) / 100;
+    }
+    let includePlural = (numBonuses == 1) ? '' : 'es';
+    document.getElementById('statline').innerHTML
+        = `${ppb} points per bonus with ${numBonuses} bonus${includePlural} seen (${stats[0]}/${stats[1]}/${stats[2]}/${stats[3]}, ${points} pts)`;
 }
 
 
