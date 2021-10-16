@@ -1,0 +1,443 @@
+{
+    "tossups": [
+        {
+            "question_sanitized": "In a short story by this author, an eighty year-old man leaves the title establishment just before 2:30 am after being refused an additional brandy. At the end of that story, a waiter afflicted with insomnia recites an altered version of Lord's Prayer interspersed with the word \"nada.\" This author created a character whose wounded knee is repaired by the Italian Dr. Valentini. This author of \"A Clean, Well-Lighted Place\" wrote a novel in which Lieutenant Rinaldi's best friend deserts the army following the Battle of Caporetto, and rows to Switzerland with the nurse Catherine Barkley. For 10 points, name this author who wrote about the soldier Frederic Henry in A Farewell to Arms. ",
+            "answer_sanitized": "Ernest Miller Hemingway",
+            "subcategory": "Literature American",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "The unfinished Manchester Madonna is attributed to this artist. This student of Ghirlandaio painted a group of nudes frolicing in the background of his sole surviving panel painting, the Doni Tondo. This artist's final fresco is The Crucifixion of Saint Peter. This artist included a Libyan and Cumean Sibyl in a building that houses many of his paintings. Daniele da Volterra painted fig leaves over one of this artist's works to cover up the nudity. That work by this artist includes a self portrait as the flayed skin in the hands of Saint Bartholomew. For 10 points, identify this Renaissance artist who painted a Last Judgment in the Sistine Chapel. ",
+            "answer_sanitized": "Michelangelo di Ludovico Buonarroti Simoni [accept either underlined name]",
+            "subcategory": "Fine Arts Visual",
+            "category": "Fine Arts"
+        },
+        {
+            "question_sanitized": "This play's setting is decorated with a lamp covered by an opal glass shade as well as a portrait of a deceased general. The loss of a precious object prompts a character in this play to return to a brothel run by Mademoiselle Diana. That character is an alcoholic, is given a pistol by the protagonist, and is urged to die \"beautifully.\" Judge Brack attempts to coerce this play's title character into becoming his mistress after he learns that she burned Eilert Lovborg's manuscript; she refuses, steps into an adjacent room and shoots herself in the head. For 10 points, name this play about George Tesman's unhappy and manipulative wife, written by the Norwegian playwright Henrik Ibsen. ",
+            "answer_sanitized": "Hedda Gabler",
+            "subcategory": "Literature European",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "During this event, all valuables found inside the Savoy Palace were systematically destroyed. The last remnants of this event were crushed by troops under Henry le Despenser. The phrase \"When Adam delved and Eve span, who was then the gentleman?\" was used in a speech to rally participants in this event by preacher John Ball. This event's leader was killed by William Walworth during negotiations with the king at Smithfield. This event's immediate cause was the introduction of a poll tax, though underlying reasons include a labor shortage caused by the Black Death. For 10 points, name this 1381 uprising against Richard II by the namesake group of people led by Wat Tyler.",
+            "answer_sanitized": "Peasants' Revolt [or Wat Tyler's Rebellion before \"Wat Tyler\" is mentioned; accept the Great Rising]",
+            "subcategory": "History British",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "Ketones can be converted to carboxylic acids by reacting them with sodium hydroxide and elements from this group of the periodic table. An element in this group yields two peaks of equal height separated by two mass units in mass spectrometry. Mercury and an element from this group are the only two elements liquid at STP and every element in this group is diatomic at STP. They have the highest electron affinity, and one of their members is the most electronegative element. Elements in this group acquire one additional electron to fill their p orbitals and form \"minus 1\" ions. For 10 points, name this group of elements that includes bromine and fluorine.",
+            "answer_sanitized": "halogens [or group 17 or group 7A]",
+            "subcategory": "Science Chemistry",
+            "category": "Science"
+        },
+        {
+            "question_sanitized": "Because he lost the earlier failed siege of Fort Stanwix, Barry St. Leger failed to bring much-needed reinforcements to the losers of this battle. Simon Fraser was killed by a sniper during a phase of this battle at Bemis Heights, which followed an earlier clash at Freeman's Farm. Benedict Arnold suffered a severe wound to his left leg during this battle, which prevented the losers from reaching Albany and controlling the Hudson River Valley. France formally entered into an alliance with the fledgling United States as a result of this victory over John Burgoyne by the forces of Horatio Gates. For 10 points, name this 1777 battle in upstate New York, the turning point of the American Revolution.",
+            "answer_sanitized": "Battle of Saratoga [anti-prompt on Battle of Bemis Heights or Battle of Freeman's Farm before mentioned]",
+            "subcategory": "History American",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "In attempting to explain a pang of desire, one character in this play asks another if he's ever felt a sudden lust for soup. A pair of characters in this play suggest that a judge determine their identities by whipping them. During an argument in this play, one character is bothered when another character blurts out \"lost his jug of oil.\" This play opens as its protagonist and his servant Xanthias question Heracles about how to reach the underworld, and as the protagonist boards Charon's ship, he hears the title group nonsensically chanting: \"Brekekek\u00c3\u00a8x-ko\u00c3\u00a0x-ko\u00c3\u00a0x.\" For 10 points, name this comedy in which Dionysus seeks out the playwright Euripides in Hades, written by Aristophanes.",
+            "answer_sanitized": "The Frogs [or B\u00c3\u00a1trachoi]",
+            "subcategory": "Literature Classical",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "The Chinese goddess N\u00c3\u00bcwa used some rope when performing this action because her original material was not strong enough. Quetzalcoatl ground up bones retrieved from Mictlan and mixed them with the blood of the gods to perform this action. Attempts to perform this action with mud and wood failed in Mayan mythology, in which it was ultimately performed with maize. This action was brought about when Deucalion and Pyrrha threw stones over their shoulders after the flood. The products of this action in Norse mythology reside in Midgard. For 10 points, identify this action also performed by Prometheus involving the formation of certain intelligent beings out of clay.",
+            "answer_sanitized": "creation of humans [accept word forms or obvious equivalents; do not accept \"creation of the world\"]",
+            "category": "Mythology"
+        },
+        {
+            "question_sanitized": "The work of fracture is directly proportional to the stress intensity factor squared divided by this quantity. When Hooke's law is generalized to three dimensions, each of the three xx, yy and zz vectors is divided by this quantity. This quantity is multiplied by the moment of inertia in the Euler-Bernoulli beam equation to give the beam stiffness. This quantity is no longer constant after the limit of proportionality, and is defined as the ratio of stress to strain in a material. For 10 points, name this quantity describing the stiffness of a material, named for the creator of the double-slit experiment.",
+            "answer_sanitized": "Young's modulus",
+            "subcategory": "Science Physics",
+            "category": "Science"
+        },
+        {
+            "question_sanitized": "In this novel, a idle character's \"forked little beard and\u00c2\u2026 hooked nose\" prompt the narrator to call him a \"papier-mache Mephistopheles.\" This novel's narrator encounters an accountant fond of wearing all white, and a pair of women knitting black wool. This novel's central action is delayed by a lazy brickmaker. The narrator of this novel is led to his objective by a Russian man dressed as a harlequin, and tells his story while floating on the Thames aboard the Nellie. This novel's climax occurs as a dying ivory trader whispers the words: \"The horror, the horror!\" For 10 points, name this novel about Marlow's search for Kurtz in the Congo, written by Joseph Conrad.",
+            "answer_sanitized": "Heart of Darkness ",
+            "subcategory": "Literature European",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "This object is celebrated a day or two after Sukkot, the only time that it is used at night. This object is usually supplemented with a tikkun, because its script does not include markings for vowels or cantillation. It is usually concealed behind a parochet, covered with a mantle and decorated with a crown and a breastplate. A yad is used when reading from this text because it is forbidden to touch it with bare hands. A portion from this text is read every week in a yearly cycle. That reading takes place at the bimah, whereas this object is otherwise kept in the ark of a synagogue. For 10 points, name this holy text in Judaism, the first five books of the Hebrew Bible.",
+            "answer_sanitized": "Sefer Torah [or Torah scrolls; do not prompt on or accept \"Tanakh\" or \"Pentateuch\" or \"Hebrew Bible\"]",
+            "category": "Religion"
+        },
+        {
+            "question_sanitized": "A piece named for this city uses a harp in its first and fourth movements to imitate chimes. Since a falling chandelier didn't injure anyone during the premiere of a symphony in this city, that symphony was nicknamed Miracle. While Johann Peter Salomon lived in this city, he helped bring the former Kapellmeister for the Esterh\u00c3\u00a1zy family from Vienna to work here. A set of symphonies nicknamed for this city composed between 1791 and 1795 includes one nicknamed Drumroll and another which contains a sudden fortissimo chord during a quiet passage, nicknamed Surprise. Franz Joseph Haydn's last twelve symphonies are nicknamed after, for 10 points, what capital of England?",
+            "answer_sanitized": "London [accept A London Symphony; accept London symphonies]",
+            "subcategory": "Fine Arts Auditory",
+            "category": "Fine Arts"
+        },
+        {
+            "question_sanitized": "A microbalance built with crystals of this mineral is used to measure rates of thin film deposition. This mineral is the most resistant to weathering according to the Goldich dissolution series. Tridymite and cristobalite are polymorphs of this mineral. Amethyst and onyx are varieties of this mineral, which is found at the bottom of Bowen's reaction series. Massive pressures at sites like the Chicxulub crater have deformed this mineral into its \"shocked\" variety. Certain clocks rely on the piezoelectric properties of this mineral to keep time. For 10 points, name this mostly translucent mineral with empirical form SiO2. ",
+            "answer_sanitized": "quartz",
+            "subcategory": "Science Other",
+            "category": "Science"
+        },
+        {
+            "question_sanitized": "In a novel set in this city, the unscrupulous dentist Mr. Booshy harvests false teeth from corpses, and the barber Abbas is arrested for assaulting the prostitute Hamida. A character living in this city shatters her collarbone after being hit by a car when she disobeys her husband's orders about visiting a mosque. Kirsha owns a cafe in this city's Midaq Alley. This city is home to the patriarch Sayyid Ahmad and his children Yasir, Kemal and Fahmy. A series of novels set in this city focuses on three generations of the al-Jawad family, and includes Palace Walk, Palace of Desire and Sugar Street. For 10 points, name this setting of a namesake Trilogy by native son Naguib Mahfouz. ",
+            "answer_sanitized": "Cairo, Egypt [or al-Q\u0101hirah; accept Cairo Trilogy]",
+            "subcategory": "Literature World",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "This group used a threatening slogan that stated \"To keep you is no benefit. To destroy you is no loss.\" During his trial in 1997, this group's leader was interviewed by Nate Thayer. This group converted a high school into a torture center known as S-21, in which over twenty thousand prisoners were killed. King Norodom Sihanouk was placed under house arrest by this group, which forced urban \"New People\" to relocate to the countryside to become \"Old People.\" A Vietnamese invasion in 1979 ended the rule of this group, which massacred millions of people in areas known as \"Killing Fields.\" For 10 points, name this group headed by Pol Pot that terrorized 1970s Cambodia.",
+            "answer_sanitized": "Khmer Rouge [or Communist Party of Kampuchea; or CPK; or Khmer Communist Party; prompt on \"Democratic Kampuchea\"]",
+            "subcategory": "History World",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "This country's Tansandio pipeline was destroyed by a 2015 bombing by a group whose leader, Timochenko, negotiated with this country's president at a summit held in Havana. The current president of this country is a founding member of a party known as \"La U.\" Alvaro Uribe is leading a movement to reject an agreement between this country's government and a Marxist guerilla group. This country's president edged out Nadia Murad and Edward Snowden to the 2016 Nobel Peace Prize and is named Juan Manuel Santos. For 10 points, name this South American country where a recent plebiscite rejected a proposed peace accord between FARC and the government in Bogot\u00c3\u00a1.",
+            "answer_sanitized": "Republic of Colombia [or Rep\u00c3\u00bablica de Colombia]",
+            "category": "Current Events"
+        },
+        {
+            "question_sanitized": "Carnitine transports fatty acids into this organelle for beta oxidation. The malate-aspartate shuttle transports reducing equivalents of NADH into this organelle. Uncoupling agents like thermogenin interfere with a process that occurs in this organelle. Ubiquinone and cytochrome c are electron carriers found in its inner membrane. This organelle possesses its own ribosomes and replicates its own DNA because of its endosymbiotic origin. It has many folds called cristae and its interior is known as the matrix. For 10 points, name this organelle which generates most of the cell's ATP through the Krebs cycle and the electron transport chain.",
+            "answer_sanitized": "mitochondria",
+            "subcategory": "Science Biology",
+            "category": "Science"
+        },
+        {
+            "question_sanitized": "This philosopher analyzed possible responses of a commoner to his love for a princess to illustrate a concept in one work. In that work, he argued that Agamemnon's dilemma was entirely ethical but Abraham had to choose between ethics and religion in this man's analysis of the sacrifice of their respective children. This writer believed that Abraham's willingness to sacrifice Isaac demonstrated that he was one of two people to move beyond infinite resignation to become a knight of faith, and he described that event as an example of a teleological suspension of the ethical. For 10 points, name this Danish existentialist philosopher who wrote Fear and Trembling.",
+            "answer_sanitized": "S\u00c3\u00b8ren Aabye Kierkegaard [accept Johannes de Silentio]",
+            "category": "Philosophy"
+        },
+        {
+            "question_sanitized": "Two artists who worked primarily in this medium, William Warrington and John Hardman, gained prominence due to a movement led by Augustus Welby Pugin. Clara Driscoll led a team of women who designed a series of artworks in this medium that used motifs like daffodils and dragonflies. A huge memorial to Dag Hammarskj\u00c3\u00b6ld called Peace and a series depicting the twelve tribes of Israel found in the Hadassah Medical Center synagogue are among the works in this medium created by Marc Chagall. The so-called \"Notre Dame de la Belle Verriere\" is a surviving twelfth-century work in this medium found in Chartres Cathedral. For 10 points, name this medium in which Louis Comfort Tiffany designed lampshades and windows.",
+            "answer_sanitized": "stained glass [prompt on glass or windows or lampshades]",
+            "subcategory": "Fine Arts Other",
+            "category": "Fine Arts"
+        },
+        {
+            "question_sanitized": "During an early battle in this conflict, the winning side's king abandoned his troops on the advice of his field marshal Count Schwerin when he thought the battle was lost. This was the last major European conflict fought before the \"reversal of alliances\" in the Diplomatic Revolution. Much of the British army was overseas fighting this war when the Second Jacobite Rising broke out. This war opened with Frederick the Great's invasion of the province of Silesia, and was sparked by claims that Charles VI's successor was illegitimate due to her being a woman. For 10 points, name this conflict nominally fought over whether Maria Theresa could succeed to the throne of a Central European country.",
+            "answer_sanitized": "War of the Austrian Succession [prompt on any of the Silesian Wars; do not accept King George's War, Carnatic Wars, or any non-European theaters of the War of the Austrian Succession since none of the clues apply to any of them]",
+            "subcategory": "History European",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "Granules containing excessive amounts of this element in certain cells are known as Pappenheimer bodies and this element is chelated by siderophores. A gamma ray emitting isotope of this element with a molecular weight of 57 was used to verify the predictions of general relativity by Pound and Rebka. This element can be dumped into the ocean to induce algal blooms. This element is found between two cyclopentadiene ligands in the first \"sandwich\" metallocene complex ever synthesized. This element is generally purified from ores like magnetite and hematite. A deficiency of this element can lead to anemia. For 10 points, name this element found in hemoglobin, with symbol Fe. ",
+            "answer_sanitized": "iron [or Fe] ",
+            "subcategory": "Science Other",
+            "category": "Science"
+        }
+    ],
+    "bonuses": [
+        {
+            "leadin_sanitized": "Linus Pauling described this disorder as the first \u201cmolecular disease.\u201d For 10 points each:",
+            "answers_sanitized": [
+                "sickle-cell anemia",
+                "fetal hemoglobin [accept hemoglobin F or HbF]",
+                "heterozygote advantage [accept heterosis, hybrid vigor, or outbreeding advantage]"
+            ],
+            "parts_sanitized": [
+                "Name this disease caused by a glutamate-to-valine mutation in hemoglobin, causing it to form insoluble polymers. Red blood cells in patients with this disease deviate from their characteristic biconcave shape.",
+                "A common treatment for sickle-cell is hydroxyurea, which increases production of this isoform of hemoglobin, with a much higher oxygen affinity than adult hemoglobin, and two gamma chains in place of two beta chains.",
+                "People with one sickle-cell allele and one normal allele exhibit an increased resistance to malaria, a phenomenon given this name."
+            ],
+            "subcategory": "Science Biology",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "A character in this play grows emotional upon spotting a hundred-year-old bookcase. For 10 points each:",
+            "answers_sanitized": [
+                "The Cherry Orchard [or Vishnevyi sad]",
+                "Anton Pavlovich Chekhov",
+                "billiards [accept Billiards at Half-Past Nine; accept pool]"
+            ],
+            "parts_sanitized": [
+                "Name this play, in which Lopakhin purchases the title estate from Madame Ranevskaya. At the end of this play, the elderly servant Firs mourns his pitiful existence while the sound of swinging axes echo from a distance.",
+                "Constance Garnett translated this Russian playwright\u2019s The Cherry Orchard. The struggling writer Treplyev shoots the title bird in this author\u2019s The Seagull.",
+                "In The Cherry Orchard, Gaevs hollers out words related to this game when he is nervous. A novel titled for this game is set on September 6, 1958, and relates stories about three generations of the Faehmel family."
+            ],
+            "subcategory": "Literature European",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "The final judgment according to this religion will be brought about by the Saoshyant, in an event called the Frashokereti. For 10 points each:",
+            "answers_sanitized": [
+                "Zoroastrianism",
+                "asha [or Asha Veshishta]",
+                "fire [accept fire temples]"
+            ],
+            "parts_sanitized": [
+                "Name this religion that worships Ahura Mazda, who is engaged in a struggle with Angra Mainyu.",
+                "In his creation, Ahura Mazda primarily promotes this concept, represented by the second of the Amesha Spenta. Contrasted with druj, it can be roughly translated as \u201ctruth\u201d or \u201crighteousness.\u201d",
+                "Zoroastrian places of worship are temples characterized by this phenomenon, called atar. This sacred phenomenon was symbolically believed to reveal asha through a trial by ordeal."
+            ],
+            "subcategory": "Religion Other",
+            "category": "Religion"
+        },
+        {
+            "leadin_sanitized": "A solo for this instrument represents a bard telling tales in the Ballade from the Karelia Suite. For 10 points each:",
+            "answers_sanitized": [
+                "cor anglais [or English horn; do not accept \u201chorn\u201d alone]",
+                "Jean Sibelius [or Johan Julian Christian Sibelius]",
+                "New World Symphony [or Symphony No. 9 by Anton\u00edn Dvo\u0159\u00e1k; or \u201cFrom the New World\u201d]"
+            ],
+            "parts_sanitized": [
+                "Name this instrument, which represents the title bird swimming in the underworld in the piece The Swan of Tuonela.",
+                "The Karelia Suite and The Swan of Tuonela are both by this Finnish composer of Finlandia.",
+                "This E minor symphony by a different composer contains a famous English horn solo in its Largo second movement, which later changes key and depicts a storm in C-sharp minor."
+            ],
+            "subcategory": "Fine Arts Auditory",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin_sanitized": "This effect is explained by a set of two equations derived by brothers Fritz and Hans London. For 10 points each:",
+            "answers_sanitized": [
+                "Meissner effect",
+                "superconductors",
+                "diamagnetism"
+            ],
+            "parts_sanitized": [
+                "Name this effect in which the magnetic field of a material is expelled as it is cooled below a transition temperature.",
+                "The Meissner effect occurs as a substance transitions into one of these materials which have zero electrical resistance.",
+                "After expelling their magnetic fields superconductors behave like these materials. These materials are repelled by external magnetic fields by generating a magnetic field opposite to the direction of the applied field unlike paramagnets."
+            ],
+            "subcategory": "Science Physics",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "Answer the following about macroeconomic modeling, for 10 points each.",
+            "answers_sanitized": [
+                "IS\u2013LM model [or Hicks\u2013Hansen Model]",
+                "John Maynard Keynes",
+                "general equilibrium theory [prompt on equilibrium theory or Walrasian Equilibrium; do not accept \u201cpartial equilibrium theory\u201d]"
+            ],
+            "parts_sanitized": [
+                "The interest rate is on the vertical axis and the real output on the horizontal axis in this model. The equilibrium is the intersection of a curve representing the goods market and another curve represents the liquidity market.",
+                "The IS curve can be found by using a \u201ccross\u201d named for this economist who offered opinions on the nature of full employment in his 1936 The General Theory of Employment, Interest and Money.",
+                "Leon Walras posited this theory that seeks to show that excess demand is zero. This model was criticized by von Mises who developed the alternative Evenly Rotating Economy theory."
+            ],
+            "subcategory": "Social Science Economics",
+            "category": "Social Science"
+        },
+        {
+            "leadin_sanitized": "This man\u2019s most famous work discusses the Battle of Sphacteria and the Sicilian Expedition in its eight books. For 10 points each:",
+            "answers_sanitized": [
+                "Thucydides [or Thoukud\u00edd\u0113s]",
+                "funerals [or Pericles\u2019 funeral oration]",
+                "Melos [or Milos; accept the Melian Dialogue]"
+            ],
+            "parts_sanitized": [
+                "Name this author of the History of the Peloponnesian War.",
+                "One of the best-known parts of the History of the Peloponnesian War is a speech given at one of these events by Pericles, who gave the speech to honor fallen Athenian war dead.",
+                "Another oft-quoted section of the History of the Peloponnesian War is a dialogue between representatives of Athens and this island. After this island refused to surrender to Athens, it was brutally destroyed."
+            ],
+            "subcategory": "History Classical",
+            "category": "History"
+        },
+        {
+            "leadin_sanitized": "The towers of Notre Dame can be seen on the far right of this work\u2019s background. For 10 points each:",
+            "answers_sanitized": [
+                "Liberty Leading the People [La Libert\u00e9 guidant le peuple]",
+                "The Death of Sardanapalus [La Mort de Sardanapale]",
+                "Th\u00e9odore G\u00e9ricault [or Jean-Louis Andr\u00e9 Th\u00e9odore G\u00e9ricault]"
+            ],
+            "parts_sanitized": [
+                "Name this painting by Eug\u00e8ne Delacroix in which a group of armed men surround a bare-breasted woman holding aloft a tricolore.",
+                "This other work by Delacroix shows concubines being murdered and possessions destroyed as the title Assyrian king reclines on a bed.",
+                "Delacroix was one of this French painter\u2019s contemporaries. This artist\u2019s portrayals of soldiers include his Wounded Cuirassier and Charging Chasseur."
+            ],
+            "subcategory": "Fine Arts Visual",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin_sanitized": "A poem written in this language is set in a place \u201cwhere the mind is without fear\u201d and \u201cwhere knowledge is free.\u201d For 10 points each:",
+            "answers_sanitized": [
+                "Bengali [or Bangla]",
+                "Rabindranath Tagore",
+                "William Butler Yeats"
+            ],
+            "parts_sanitized": [
+                "Identify this language used to describe a \u201cfrail vessel [which] thou emptiest again and again.\u201d That poem written in this language opens: \u201cThou hast made me endless, such is thy pleasure.\u201d",
+                "This Bengali poet translated selections from his Gitanjali into English, and included them in the collection Song Offerings. As a playwright, his literary output includes Red Oleanders and The Post Office.",
+                "The preface to Tagore\u2019s Song Offerings was written by this other writer, whose own poems include \u201cThe Lake Isle of Innisfree\u201d and \u201cThe Wild Swans at Coole.\u201d"
+            ],
+            "subcategory": "Literature Other",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "This concept is usually contrasted with the state of nature. For 10 points each:",
+            "answers_sanitized": [
+                "social contract [prompt on contract]",
+                "Leviathan, or The Matter, Forme and Power of a Common Wealth Ecclesiasticall and Civil",
+                "war of all against all [or bellum omnium contra omnes]"
+            ],
+            "parts_sanitized": [
+                "Name this concept that describes an unspoken agreement by citizens to give up certain rights in exchange for the protection of other rights, which include life, liberty, and property according to John Locke.",
+                "One of the first formulations of the social contract was in this book, whose author argues that it is not possible for the sovereign to breach the social contract because it authorizes him to do whatever he believes necessary.",
+                "In Leviathan, Thomas Hobbes described the state of nature as this type of situation of \u201call against all,\u201d where life is \u201csolitary, poor, nasty, brutish, and short.\u201d"
+            ],
+            "subcategory": "Philosophy European",
+            "category": "Philosophy"
+        },
+        {
+            "leadin_sanitized": "Name the following members of Andrew Jackson\u2019s Cabinet, for 10 points each.",
+            "answers_sanitized": [
+                "Roger Brooke Taney",
+                "Martin Van Buren",
+                "John Henry Eaton"
+            ],
+            "parts_sanitized": [
+                "As Secretary of the Treasury, this man was vital in killing the Bank of the United States by ending federal deposits in the Bank. Jackson nominated this man as Chief Justice, during which he presided over the infamous Dred Scott case.",
+                "This Secretary of State succeeded John C. Calhoun as Jackson\u2019s Vice President, before becoming President himself in 1837. This \u201cLittle Magician\u201d later ran for president again in 1848 for the Free Soil Party.",
+                "This Secretary of War resigned after he and his wife Peggy were snubbed by other cabinet members\u2019 wives in the Petticoat Affair, after which all but one member of Jackson\u2019s cabinet resigned."
+            ],
+            "subcategory": "History American",
+            "category": "History"
+        },
+        {
+            "leadin_sanitized": "A Carnegie Hall usher who temporarily resides in the Waldorf Astoria Hotel eventually jumps in front of a train in this author\u2019s short story \u201cPaul\u2019s Case.\u201d For 10 points each:",
+            "answers_sanitized": [
+                "Willa Sibert Cather",
+                "O Pioneers!",
+                "Thea Kronborg [accept either underlined name]"
+            ],
+            "parts_sanitized": [
+                "Name this author, whose home state of Nebraska serves as the setting to a novel in her Prairie Trilogy, titled My \u00c1ntonia.",
+                "In this Cather novel, Frank Shabata murders his wife Marie after catching her making love to Emil underneath a white mulberry tree. This novel is primarily centered on Alexandra Bergson\u2019s love for Carl Linstrum.",
+                "The second novel in Cather\u2019s Prairie Trilogy is titled The Song of the Lark, and centers on this native of Moonstone, Colorado, an aspiring opera singer whose dreams are realized when she performs in Die Walk\u00fcre."
+            ],
+            "subcategory": "Literature American",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "The waiting time between successive events that follow this distribution is modeled by the exponential distribution. For 10 points each:",
+            "answers_sanitized": [
+                "Poisson distribution",
+                "variance [or var; prompt on sigma-squared; do not prompt on \u201csigma\u201d]",
+                "one"
+            ],
+            "parts_sanitized": [
+                "Name this discrete probability distribution that models the probability of a given number of events occurring in a time period given the rate of that event.",
+                "The rate parameter of the Poisson distribution is equal to both its expected value and this other metric. This value is equal to the square of standard deviation and describes how spread out a distribution is.",
+                "For discrete probability distributions, the sum of the values of the mass function always equals this number. The integral of probability density functions from negative to positive infinity also equals this number."
+            ],
+            "subcategory": "Science Math",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "This opera\u2019s aria \u201cCome scoglio\u201d (KOH-may SKOH-lee-oh) features a large number of jumps from the top to the bottom of the soprano range, supposedly included to make Adriana Ferrarese look silly while singing. For 10 points each:",
+            "answers_sanitized": [
+                "Cosi fan tutte, ossia La scuola degli amanti [or Thus Do They All, or The School for Lovers]",
+                "Wolfgang Amadeus Mozart [or Johannes Chrysostomus Wolfgangus Theophilus Mozart]",
+                "Don Giovanni [or Il dissoluto punito, ossia il Don Giovanni; accept The Rake Punished, namely Don Giovanni]"
+            ],
+            "parts_sanitized": [
+                "Name this comic opera centering on a wager between Don Alfonso and the soon-to-marry Ferrando and Guglielmo, based on the former\u2019s belief that women are incapable of being faithful.",
+                "Cosi fan tutte was created by this Austrian composer and the librettist Lorenzo Da Ponte, who also collaborated with this man on The Marriage of Figaro.",
+                "Da Ponte and Mozart also worked together on this opera buffa, in which the servant Leporello sings the \u201cCatalogue Aria\u201d to his master\u2019s former lover Donna Elvira."
+            ],
+            "subcategory": "Fine Arts Opera",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin_sanitized": "In her article \u201cDangerous Obsession,\u201d Kathryn Harrison drew parallels between this author\u2019s novel The Bad Girl and Madame Bovary. For 10 points each:",
+            "answers_sanitized": [
+                "Mario Vargas Llosa [or Jorge Mario Pedro Vargas Llosa]",
+                "scriptwriter [or obvious equivalents; accept Aunt Julia and the Scriptwriter]",
+                "Federative Republic of Brazil [or Rep\u00fablica Federativa do Brasil]"
+            ],
+            "parts_sanitized": [
+                "Identify this author, who also completed a book-length analysis of Madame Bovary, titled The Perpetual Orgy. Edith Grossman\u2019s translations of this author include English editions of Dream of the Celt and The Discreet Hero.",
+                "Vargas Llosa wrote a novel titled for Aunt Julia and an eighteen-year old with this profession named Mario who works for Radio Panamericana.",
+                "Vargas Llosa fictionalized a rebellion in this country in The War of the End of the World. This nation\u2019s literary output includes Dom Casmurro by Machado de Assis and Gabriela, Clove and Cinnamon by Jorge Amado."
+            ],
+            "subcategory": "Literature World",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "In this play, Sir Politick Would-Be is pranked by Peregrine into disguising himself as a tortoise to hide from a group of merchants. For 10 points each:",
+            "answers_sanitized": [
+                "Volpone",
+                "Ben Jonson",
+                "Celia [accept \u201cTo Celia\u201d]"
+            ],
+            "parts_sanitized": [
+                "Name this play in which Voltore, Corbaccio and Corvino compete for the legacy of the title rogue.",
+                "Volpone was written this English author of The Alchemist and Bartholomew Fair.",
+                "Volpone attempts to seduce Corvino\u2019s wife, who has this name. Jonson wrote a poem addressed to another woman of this name which opens: \u201cDrink to me only with thine eyes.\u201d"
+            ],
+            "subcategory": "Literature British",
+            "category": "Literature"
+        },
+        {
+            "leadin_sanitized": "A catalyst that performs this type of reaction consists of a rhodium atom bonded to three equivalents of triphenylphosphine and is named for Geoffrey Wilkinson. For 10 points each:",
+            "answers_sanitized": [
+                "hydrogenation [do not accept \u201chydration\u201d]",
+                "benzene",
+                "Lindlar\u2019s catalyst"
+            ],
+            "parts_sanitized": [
+                "Name this type of reaction in which the diatomic form of the lightest element is added across a double bond.",
+                "Complete hydrogenation of this six carbon compound yields cyclohexane. This prototypical example of an aromatic compound is drawn as a hexagon with a circle in the middle.",
+                "This catalyst is capable of stopping the reduction of an alkyne at the alkene state. It consists of palladium on calcium carbonate poisoned by lead acetate."
+            ],
+            "subcategory": "Science Chemistry",
+            "category": "Science"
+        },
+        {
+            "leadin_sanitized": "The heating of the atmosphere above this plateau contributes to the monsoon patterns in South Asia. For 10 points each:",
+            "answers_sanitized": [
+                "Tibetan Plateau [or bod sa mtho; or Qingzang Gaoyuan; or Qingzang Plateau]",
+                "Yarlung Tsangpo",
+                "Yangtze River [or Chang Jiang; or Yangzi Jiang]"
+            ],
+            "parts_sanitized": [
+                "Name this plateau from which many of the rivers of South, East and Southeast Asia originate. It borders the Himalayas to the south, and it holds the most water-ice in the world outside of the poles in its many glaciers.",
+                "This is the longest river in Tibet, known for its extreme conditions for whitewater kayaking. It flows through the deepest canyon in the world and becomes the Brahmaputra River when it flows into India.",
+                "China\u2019s South to North Water Transfer Project aims to redirect water from this river originating in the Tibetan Plateau towards the drier north of the country."
+            ],
+            "subcategory": "Geography World",
+            "category": "Geography"
+        },
+        {
+            "leadin_sanitized": "The Siege Perilous was reserved for the person who succeeded in finding this object. For 10 points each:",
+            "answers_sanitized": [
+                "Holy Grail",
+                "Galahad",
+                "Fisher King [or Wounded King; or Anfortas]"
+            ],
+            "parts_sanitized": [
+                "Name this object, the center of a quest taken by many Knights of the Round Table. Joseph of Arimathea used this object to collect Jesus\u2019 blood, and later brought it to England.",
+                "This son of Lancelot sat at the Siege Perilous and eventually found the Holy Grail, accompanied by Bors and Percival. He was assumed into heaven while journeying back to Camelot.",
+                "The Holy Grail was kept by this figure, who was portrayed as impotent and thus ruled over a wasteland. Galahad eventually healed him with the Grail, although in earlier versions, Percival healed him."
+            ],
+            "subcategory": "Mythology Other",
+            "category": "Mythology"
+        },
+        {
+            "leadin_sanitized": "To get his father Murad II to fight the Battle of Varna, this ruler wrote a letter to him demanding \u201cIf you are the sultan, come and lead your armies. If I am the sultan, I order you to lead my armies.\u201d For 10 points each:",
+            "answers_sanitized": [
+                "Mehmet II [or Mehmet the Conqueror; or Fatih Sultan Mehmet; or Mahomet II; or Mohammed II; prompt on Mehmet]",
+                "Ottoman Empire [or Devlet-i \u02bfAl\u012bye-i \u02bfOsm\u0101n\u012bye; or Osmanl\u0131 Devleti]",
+                "killing all his male relatives [accept more specific answers such as killing all his brothers; accept fratricide; prompt on less specific answers such as killing his family or killing all possible claimants to the throne; do not accept or prompt on killing specific family members or killing family members that aren\u2019t male]"
+            ],
+            "parts_sanitized": [
+                "Name this ruler, who at the age of twenty-one, ended the Byzantine Empire by capturing its capital of Constantinople in 1453.",
+                "After Mehmet II\u2019s victory, Constantinople was renamed Istanbul and served as the capital of this empire until its fall over five hundred years later.",
+                "Mehmet II set a precedent for this practice when he succeeded to the throne. Since the Ottomans did not practice primogeniture, all Ottoman sultans adhered to this practice until 1603, when Ahmed I put Mustafa into a kafes instead."
+            ],
+            "subcategory": "History World",
+            "category": "History"
+        },
+        {
+            "leadin_sanitized": "This man once \u201caccidentally\u201d dropped some fresh figs on the Senate floor to show that Carthage was only three days away by sea from Rome. For 10 points each:",
+            "answers_sanitized": [
+                "Cato the Elder [or Cato the Censor; or Marcus Porcius Cato; or Cato the Wise; or Cato the Ancient; prompt on Cato; do not accept or prompt on Marcus Porcius Cato Uticensis because that refers to Cato the Younger]",
+                "Gaius Julius Caesar",
+                "Optimates"
+            ],
+            "parts_sanitized": [
+                "Identify this Roman senator whose hatred of Carthage led him to end every speech with \u201cCarthago delenda est,\u201d or \u201cCarthage must be destroyed.\u201d",
+                "Cato the Elder\u2019s great-grandson, Cato the Younger, was famous for his opposition to this Roman dictator, who won a civil war against Pompey.",
+                "Cato the Younger was part of this conservative group in the Senate, contrasted with the Populares. This group, whose members included Sulla and Cicero, supported the Roman aristocracy and opposed the plebeian councils."
+            ],
+            "subcategory": "History Classical",
+            "category": "History"
+        }
+    ]
+}
