@@ -196,6 +196,3 @@ document.getElementById('0').addEventListener('click', () => {
     stats[3]++;
     updateStatDisplay();
 });
-
-document.getElementById('reveal').addEventListener('click', reveal);
-document.getElementById('next').addEventListener('click', readQuestion);
