@@ -234,6 +234,3 @@ document.addEventListener('keyup', () => {
 document.getElementById('reading-speed').oninput = function () {
     document.getElementById('reading-speed-display').innerHTML = 'Reading speed [ms between words]: ' + this.value;
 }
-
-document.getElementById('buzz').addEventListener('click', buzz);
-document.getElementById('next').addEventListener('click', readQuestion);
