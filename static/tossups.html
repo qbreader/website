@@ -17,42 +17,38 @@
 
         <div class="options" id="options">
             <div>
-                <a href="/static/bonuses.html">Go to bonuses</a>
-                &nbsp
-                <a href="/static/packet-list.html">List of packets</a>
-                &nbsp
+                <a href="/static/bonuses.html">Go to bonuses</a>&nbsp
+                <a href="/static/packet-list.html">List of packets</a>&nbsp
                 <a href="https://github.com/thedoge42/qb-packet-reader">Github</a>
             </div>
-            <p>Input the set year, name, and which packets you want to do in the options below. Packet numbers should
-                use only uses numbers, dashes, and commas.</p>
             <p>[Space] = buzz, [n] = next question</p>
-            <input id="reading-speed" type="range" min="10" max="500" value="250">
-            <div id="reading-speed-display">Reading speed [ms between words]: 250</div><br>
 
-            <div><input id="year-select" placeholder="Set year"> (e.g. 2021)</div>
-            <div><input id="name-select" placeholder="Set name"> (e.g. pace)</div>
-            <div><input id="packet-select" placeholder="Packet numbers"> (Default: All)</div>
-            <div><input id="question-select" placeholder="Starting question number"> (Default: 1)</div>
+            <div><input type="text" id="year-select"     placeholder="Set year"> (e.g. 2021)</div>
+            <div><input type="text" id="name-select"     placeholder="Set name"> (e.g. pace)</div>
+            <div><input type="text" id="packet-select"   placeholder="Packet numbers (e.g. 1-5)"> (Default: all)</div>
+            <div><input type="text" id="question-select" placeholder="Starting question number"> (Default: 1)</div>
             <div class="category-select">
-                <p>Select Categories (leaving them all blank selects every category):</p>
-                <input type="checkbox" id="literature"><label> Literature</label><br>
-                <input type="checkbox" id="history"><label> History</label><br>
-                <input type="checkbox" id="science"><label> Science</label><br>
-                <input type="checkbox" id="arts"><label> Fine Arts</label><br>
-                <input type="checkbox" id="religion"><label> Religion</label><br>
-                <input type="checkbox" id="mythology"><label> Mythology</label><br>
-                <input type="checkbox" id="philosophy"><label> Philosophy</label><br>
-                <input type="checkbox" id="ss"><label> Social Science</label><br>
-                <input type="checkbox" id="ce"><label> Current Events</label><br>
-                <input type="checkbox" id="geography"><label> Geography</label><br>
-                <input type="checkbox" id="other-ac"><label> Other Academic</label><br>
-                <input type="checkbox" id="trash"><label> Trash</label><br>
-            </div>
+                <p>Select categories (leaving them blank selects all):</p>
+                <button id="literature" clicked="false" onclick="onCategoryClick(this)"> Literature</button>
+                <button id="history"    clicked="false" onclick="onCategoryClick(this)"> History</button><br>
+                <button id="science"    clicked="false" onclick="onCategoryClick(this)"> Science</button>
+                <button id="arts"       clicked="false" onclick="onCategoryClick(this)"> Fine Arts </button><br>
+                <button id="religion"   clicked="false" onclick="onCategoryClick(this)"> Religion</button>
+                <button id="mythology"  clicked="false" onclick="onCategoryClick(this)"> Mythology</button><br>
+                <button id="philosophy" clicked="false" onclick="onCategoryClick(this)"> Philosophy</button>
+                <button id="ss"         clicked="false" onclick="onCategoryClick(this)"> Social Science</button><br>
+                <button id="ce"         clicked="false" onclick="onCategoryClick(this)"> Current Events</button>
+                <button id="geography"  clicked="false" onclick="onCategoryClick(this)"> Geography</button><br>
+                <button id="other-ac"   clicked="false" onclick="onCategoryClick(this)"> Other Academic</button>
+                <button id="trash"      clicked="false" onclick="onCategoryClick(this)"> Trash</button><br>
+            </div><br>
+            <div id="reading-speed-display">Reading speed [ms between words]: 250</div><br>
+            <input id="reading-speed" type="range" min="10" max="500" value="250">
         </div>
 
         <div class="question-text" id="question-text">
-            <p id="statline">0/0/0 with 0 tossups seen (0 pts) (celerity: 0)</p>
-            <p class="question-info" id="question-info"></p>
+            <p id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</p>
+            <p id="question-info"></p>
             <p id="question"></p>
             <p id="answer"></p>
             <p id="info-text">Press space to buzz</p>
