@@ -113,6 +113,23 @@ async function getQuestions(name, number) {
  * Loads and reads the next question.
  */
 async function readQuestion() {
+    do {  // Get the next question
+        currentQuestionNumber++;
+
+        // Go to the next packet if you reach the end of this packet
+        if (currentQuestionNumber >= questions.length) {
+            if (packetNumbers.length == 0) {
+                window.alert("No more questions left");
+                return;  // alert the user if there are no more packets
+            }
+            packetNumber = packetNumbers.shift();
+            questions = await getQuestions(packetName, packetNumber);
+            currentQuestionNumber = 0;
+        }
+
+        // Check that the question is in the right category
+    } while (validCategories.length != 0 && !validCategories.includes(questions[currentQuestionNumber]['category']));
+
     // Stop reading the current question:
     clearInterval(intervalId);
     currentlyBuzzing = false;
@@ -127,20 +144,6 @@ async function readQuestion() {
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
     document.getElementById('info-text').innerHTML = 'Press space to buzz';
-
-    do {  // Get the next packet number
-        currentQuestionNumber++;
-
-        // Go to the next packet if you reach the end of this packet
-        if (currentQuestionNumber >= questions.length) {
-            if (packetNumbers.length == 0) return;  // do nothing if there are no more packets
-            packetNumber = packetNumbers.shift();
-            questions = await getQuestions(packetName, packetNumber);
-            currentQuestionNumber = 0;
-        }
-
-        // Check that the question is in the right category
-    } while (validCategories.length != 0 && !validCategories.includes(questions[currentQuestionNumber]['category']));
 
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 

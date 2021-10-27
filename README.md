@@ -12,4 +12,3 @@
 
 ## todo
 - add a back button
-- add more feedback for no packet and running out of questions
