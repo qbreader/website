@@ -10,8 +10,8 @@ html, body {
 .container {
     min-height: 100%;
     display: grid;
-    grid-template-columns: 0.5fr 0.4fr 0.4fr 0.4fr 0.4fr 0.4fr 0.5fr;
-    grid-template-rows: 0.5fr 0.2fr 3.3fr;
+    grid-template-columns: 0.25fr 0.46fr 0.46fr 0.46fr 0.46fr 0.46fr 0.45fr;
+    grid-template-rows: 0.6fr 0.2fr 3.2fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     justify-items: stretch;
@@ -24,7 +24,7 @@ html, body {
 .header {
     grid-area: header;
     font-size: 36px;
-    margin-top: 2.5%;
+    margin-top: 4.25%;
 }
 
 .links {

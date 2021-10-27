@@ -58,6 +58,21 @@ function buzz() {
     }
 }
 
+/**
+ * Called whenever a category is clicked.
+ * This function changes the color of the button and updates the "clicked" attribute.
+ * 
+ * @param {HTMLElement} thisE - the HTMLElement that represents the button.
+ */
+function onCategoryClick(thisE) {
+    thisE.setAttribute('clicked', (thisE.getAttribute('clicked') === 'true') ? 'false' : 'true');
+    if (thisE.getAttribute('clicked') === 'true') {
+        thisE.style.backgroundColor = '#a6ffbe';
+    } else {
+        thisE.style.backgroundColor = 'white';
+    }
+}
+
 
 /**
  * Updates the displayed stat line.
@@ -74,7 +89,7 @@ function updateStatDisplay() {
     celerity = Math.round(1000 * celerity) / 1000;
     let includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
-        = `${powers}/${tens}/${negs} with ${numTossups} tossup${includePlural} seen (${points} pts) (celerity: ${celerity})`;
+        = `${powers}/${tens}/${negs} with ${numTossups} tossup${includePlural} seen (${points} pts, celerity: ${celerity})`;
 }
 
 
@@ -189,18 +204,18 @@ document.getElementById('start').addEventListener('click', async () => {
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
     validCategories = [];
-    if (document.getElementById('literature').checked) validCategories.push('Literature');
-    if (document.getElementById('history').checked) validCategories.push('History');
-    if (document.getElementById('science').checked) validCategories.push('Science');
-    if (document.getElementById('arts').checked) validCategories.push('Fine Arts');
-    if (document.getElementById('religion').checked) validCategories.push('Religion');
-    if (document.getElementById('mythology').checked) validCategories.push('Mythology');
-    if (document.getElementById('philosophy').checked) validCategories.push('Philosophy');
-    if (document.getElementById('ss').checked) validCategories.push('Social Science');
-    if (document.getElementById('ce').checked) validCategories.push('Current Events');
-    if (document.getElementById('geography').checked) validCategories.push('Geography');
-    if (document.getElementById('other-ac').checked) validCategories.push('Other Academic');
-    if (document.getElementById('trash').checked) validCategories.push('Trash');
+    if (document.getElementById('literature').getAttribute('clicked') === 'true') validCategories.push('Literature');
+    if (document.getElementById('history').getAttribute('clicked') === 'true') validCategories.push('History');
+    if (document.getElementById('science').getAttribute('clicked') === 'true') validCategories.push('Science');
+    if (document.getElementById('arts').getAttribute('clicked') === 'true') validCategories.push('Fine Arts');
+    if (document.getElementById('religion').getAttribute('clicked') === 'true') validCategories.push('Religion');
+    if (document.getElementById('mythology').getAttribute('clicked') === 'true') validCategories.push('Mythology');
+    if (document.getElementById('philosophy').getAttribute('clicked') === 'true') validCategories.push('Philosophy');
+    if (document.getElementById('ss').getAttribute('clicked') === 'true') validCategories.push('Social Science');
+    if (document.getElementById('ce').getAttribute('clicked') === 'true') validCategories.push('Current Events');
+    if (document.getElementById('geography').getAttribute('clicked') === 'true') validCategories.push('Geography');
+    if (document.getElementById('other-ac').getAttribute('clicked') === 'true') validCategories.push('Other Academic');
+    if (document.getElementById('trash').getAttribute('clicked') === 'true') validCategories.push('Trash');
 
     questions = await getQuestions(packetName, packetNumber);
     readQuestion();
