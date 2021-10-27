@@ -88,17 +88,15 @@ async function getQuestions(name, number) {
  * Loads and reads the next question.
  */
 async function readQuestion() {
-    currentBonusPart = 0;
-
-    // Update the question text:
-    document.getElementById('question').innerHTML = '';
-
-    do {  // Get the next packet number
+    do {  // Get the next question
         currentQuestionNumber++;
 
         // Go to the next packet if you reach the end of this packet
         if (currentQuestionNumber >= questions.length) {
-            if (packetNumbers.length == 0) return;  // do nothing if there are no more packets
+            if (packetNumbers.length == 0) {
+                window.alert("No more questions left");
+                return;  // alert the user if there are no more packets
+            }
             packetNumber = packetNumbers.shift();
             questions = await getQuestions(packetName, packetNumber);
             currentQuestionNumber = 0;
@@ -106,6 +104,11 @@ async function readQuestion() {
 
         // Check that the question is in the right category
     } while (validCategories.length != 0 && !validCategories.includes(questions[currentQuestionNumber]['category']));
+
+    currentBonusPart = 0;
+
+    // Update the question text:
+    document.getElementById('question').innerHTML = '';
 
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
