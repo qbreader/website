@@ -1,0 +1,69 @@
+{
+    "tossups": [
+        {
+            "question_sanitized": "One candidate in this election gave a speech where he denounced the views of his former pastor Jeremiah Wright. In a debate during this election, one candidate used the chant \"drill, baby, drill\" to describe the Republican energy policy. This presidential election marks the last time the Democrats have won Indiana or North Carolina. The Republicans in this election were hurt by an ongoing financial crisis, which saw the bankruptcy of Lehman Brothers. For 10 points, name this presidential election in which John McCain was defeated by the first African-American to become president, Barack Obama.",
+            "answer_sanitized": "2008 United States presidential election",
+            "subcategory": "American History",
+            "category": "History"
+        },
+        {
+            "question_sanitized": "A recent novel by this author is titled for a character who, unlike all his friends who had colors in their names, was \"colorless.\" A character in a novel by this author works with a mother-son pair named Nutmeg and Cinnamon and notices a blue mark on his face after leaving a well. A hitwoman listens to Sinfonietta in a taxi in the beginning of a novel by this author. In that novel by this author, Aomame realizes she has entered a new world when she sees two moons in the sky. This author wrote about Toru Okada's search for his missing cat, originally named Noboru Wataya after his evil brother-in-law. For 10 points, name this author of 1Q84 and The Wind-Up Bird Chronicle.",
+            "answer_sanitized": "Haruki Murakami",
+            "subcategory": "World Literature",
+            "category": "Literature"
+        },
+        {
+            "question_sanitized": "This technique can be analyzed using a diagram whose rectifying and stripping sections are separated by the q-line. One form of this technique can be performed using Raschig rings. This technique can be analyzed using the McCabe\u2013Thiele equation. A rotovap may be used in the \"vacuum\" form of this technique. The outputs of this technique can be returned to it in reflux. A Liebig condenser is often used in this technique's \"simple\" form, while petroleum refining involves its \"fractional\" form. This technique cannot be performed on unbroken azeotropes. For 10 points, name this technique that separates a liquid mixture by boiling and condensing its components.",
+            "answer_sanitized": "distillation [accept vacuum distillation or fractional distillation or simple distillation]",
+            "subcategory": "Chemistry",
+            "category": "Science"
+        }
+    ],
+    "bonuses": [
+        {
+            "leadin_sanitized": "This composer scored three films by Godfred Reggio whose titles all contain the Hopi word for \"life.\" For 10 points each:",
+            "answers_sanitized": [
+                "Philip Glass",
+                "Albert Einstein",
+                "Orpheus [or Orfeo or Orph\u00e9e] "
+            ],
+            "parts_sanitized": [
+                "Name this 20th century American composer of the Qatsi trilogy. An opera by this composer is connected by a series of \"knee plays.\"",
+                "The aforementioned Glass opera, which itself forms the Portrait Trilogy with Satyagraha and Akhnaten, is named for this physicist \"on the Beach.\"",
+                "The first opera in a Glass trilogy based on the films of Jean Cocteau is named for this character. This is the first namesake character in Christoph Gluck's first reform opera."
+            ],
+            "subcategory": "Other Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin_sanitized": "A widely criticized painting from this movement that was first exhibited at the Salon des Ind\u00e9pendants depicts nude people relaxing in a colorful landscape. For 10 points each:",
+            "answers_sanitized": [
+                "Fauvism",
+                "Henri Matisse",
+                "Roy (Fox) Lichtenstein "
+            ],
+            "parts_sanitized": [
+                "Name this art movement that included paintings like The Joy of Life and Woman with a Hat.",
+                "This Fauvist artist created the aforementioned paintings as well as The Dance, a painting in which five nudes hold hands in a circle.",
+                "This American artist painted a version of The Dance in one of his Artist's Studios. This artist also painted Ohhh...Alright\u2026 and Whaam!"
+            ],
+            "subcategory": "Visual Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin_sanitized": "In one passage, this usually-sullen character tells the woman he loves, \"think now and then that there is a man who would give his life, to keep a life you love beside you!\" For 10 points each:",
+            "answers_sanitized": [
+                "Sydney Carton [accept either underlined portion]",
+                "Charles Dickens [or Charles John Huffam Dickens]",
+                "The Hunchback of Notre Dame [or Notre-Dame de Paris] (by Victor Hugo) "
+            ],
+            "parts_sanitized": [
+                "Name this character who notes that \"it is a far, far better rest that I go to than I have ever known\" after his death which causes a group of knitting-women to count \"Twenty-Three.\"",
+                "Sydney Carton gives up his life for Charles Darnay during the French Revolution in A Tale of Two Cities, a novel by this author of Great Expectations.",
+                "In A Tale of Two Cities, Miss Pross becomes deaf after killing Madame Defarge. At the beginning of this other novel set in Paris, Archdeacon Frollo orders the title character, who became deaf due to his job as a bellringer, to capture a sixteen year old girl."
+            ],
+            "subcategory": "British Literature",
+            "category": "Literature"
+        }
+    ]
+}
