@@ -78,7 +78,7 @@ label {
 }
 
 input[type="text"] {
-    padding: 4px;
+    padding: 3px 3px 3px 5px;
     height: 20px;
     width: 180px;
     margin: 2px 1px 2px 1px;
