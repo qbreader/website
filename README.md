@@ -12,3 +12,5 @@
 
 ## todo
 - add a back button
+- add a better method of selecting subcategories:
+    - add optgroups and when all options in an optgroup are empty, they should all be valid
