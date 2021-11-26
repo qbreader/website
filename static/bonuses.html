@@ -79,8 +79,109 @@
 
             <p>[Space] = reveal, [n] = next question</p>
 
-            <div><input type="text" id="year-select"     placeholder="Set year"> (e.g. 2021)</div>
-            <div><input type="text" id="name-select"     placeholder="Set name"> (e.g. pace)</div>
+            <div>
+                <input type="text" id="name-select" placeholder="Set name (e.g. 2021 pace)" list="suggestions">
+                <datalist id="suggestions">
+                    <!-- Recently added: -->
+                    <option>2021 penn bowl</option>
+                    <option>2021 acf winter</option>
+                    <option>2021 workshop</option>
+                    <option>2021 remember the women</option>
+                    <option>2021 acf fall</option>
+                    <!-- All other packets -->
+                    <option>2021 twait</option>
+                    <option>2021 tiny science tossups</option>
+                    <option>2021 spring novice</option>
+                    <option>2021 skuffed</option>
+                    <option>2021 pace</option>
+                    <option>2021 gorky ii</option>
+                    <option>2021 acf regionals</option>
+                    <option>2020 terrapin</option>
+                    <option>2020 stash</option>
+                    <option>2020 scale</option>
+                    <option>2020 raft</option>
+                    <option>2020 oxford</option>
+                    <option>2020 lit</option>
+                    <option>2020 ikea</option>
+                    <option>2020 gorky</option>
+                    <option>2020 flopen</option>
+                    <option>2020 calisto</option>
+                    <option>2020 aqbl october</option>
+                    <option>2020 acf winter</option>
+                    <option>2020 acf regionals</option>
+                    <option>2020 acf fall</option>
+                    <option>2019 terrapin</option>
+                    <option>2019 spartan housewrite</option>
+                    <option>2019 rmbat</option>
+                    <option>2019 prison bowl</option>
+                    <option>2019 piano</option>
+                    <option>2019 penn bowl</option>
+                    <option>2019 pace</option>
+                    <option>2019 nasat</option>
+                    <option>2019 logic</option>
+                    <option>2019 lederberg</option>
+                    <option>2019 illiac</option>
+                    <option>2019 hft</option>
+                    <option>2019 eft</option>
+                    <option>2019 chicago open</option>
+                    <option>2019 bhsat</option>
+                    <option>2019 acf regionals</option>
+                    <option>2019 acf nationals</option>
+                    <option>2019 acf fall</option>
+                    <option>2018 sun god</option>
+                    <option>2018 smt</option>
+                    <option>2018 rmbat</option>
+                    <option>2018 prison bowl</option>
+                    <option>2018 penn bowl</option>
+                    <option>2018 pace</option>
+                    <option>2018 nasat</option>
+                    <option>2018 mbat</option>
+                    <option>2018 imsanity</option>
+                    <option>2018 historature</option>
+                    <option>2018 hft</option>
+                    <option>2018 glrac</option>
+                    <option>2018 eft</option>
+                    <option>2018 cmst</option>
+                    <option>2018 chicago open</option>
+                    <option>2018 cambridge open</option>
+                    <option>2018 bhsat</option>
+                    <option>2018 acf regionals</option>
+                    <option>2018 acf nationals</option>
+                    <option>2018 acf fall</option>
+                    <option>2017 whaq</option>
+                    <option>2017 wao</option>
+                    <option>2017 rmbct</option>
+                    <option>2017 prison bowl</option>
+                    <option>2017 penn bowl</option>
+                    <option>2017 pace</option>
+                    <option>2017 nasat</option>
+                    <option>2017 massolit</option>
+                    <option>2017 list</option>
+                    <option>2017 jakob</option>
+                    <option>2017 hft</option>
+                    <option>2017 gsac</option>
+                    <option>2017 emt</option>
+                    <option>2017 eft</option>
+                    <option>2017 chicago open</option>
+                    <option>2017 bhsat</option>
+                    <option>2017 acf regionals</option>
+                    <option>2017 acf nationals</option>
+                    <option>2017 acf fall</option>
+                    <option>2016 scop</option>
+                    <option>2016 pace</option>
+                    <option>2016 nasat</option>
+                    <option>2016 hft</option>
+                    <option>2016 acf fall</option>
+                    <option>2015 prison bowl</option>
+                    <option>2015 pace</option>
+                    <option>2015 maryland fall</option>
+                    <option>2015 hft</option>
+                    <option>2015 acf fall</option>
+                    <option>2014 pace</option>
+                    <option>2013 pace</option>
+                    <option>2012 pace</option>
+                </datalist>
+            </div>
             <div><input type="text" id="packet-select"   placeholder="Packet numbers (e.g. 1-5)"> (Default: all)</div>
             <div><input type="text" id="question-select" placeholder="Starting question number"> (Default: 1)</div>
             <p></p>

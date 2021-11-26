@@ -118,20 +118,14 @@ document.getElementById('start').addEventListener('click', async () => {
     stats = [0, 0, 0, 0];
     updateStatDisplay();
 
-    let packetYear = document.getElementById('year-select').value.trim();
-    if (packetYear.length == 0) {
-        window.alert('Enter a packet year.');
-        return;
-    }
-
-    let packetAbbreviation = document.getElementById('name-select').value.trim();
-    if (packetAbbreviation.length == 0) {
+    let packetName = document.getElementById('name-select').value.trim();
+    if (packetName.length == 0) {
         window.alert('Enter a packet name.');
         return;
     }
 
-    packetAbbreviation = packetAbbreviation.replaceAll(' ', '_');
-    packetName = packetYear + '-' + packetAbbreviation;
+    packetName = packetName.replace(' ', '-');
+    packetName = packetName.replaceAll(' ', '_');
     packetName = packetName.toLowerCase();
 
     packetNumbers = document.getElementById('packet-select').value.trim();
