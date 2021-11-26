@@ -118,7 +118,7 @@ document.getElementById('start').addEventListener('click', async () => {
     stats = [0, 0, 0, 0];
     updateStatDisplay();
 
-    let packetName = document.getElementById('name-select').value.trim();
+    packetName = document.getElementById('name-select').value.trim();
     if (packetName.length == 0) {
         window.alert('Enter a packet name.');
         return;
