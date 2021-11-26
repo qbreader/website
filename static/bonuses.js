@@ -35,21 +35,6 @@ var stats = [0, 0, 0, 0];
     }
 }
 
-/**
- * Called whenever a category is clicked.
- * This function changes the color of the button and updates the "clicked" attribute.
- * 
- * @param {HTMLElement} thisE - the HTMLElement that represents the button.
- */
-function onCategoryClick(thisE) {
-    thisE.setAttribute('clicked', (thisE.getAttribute('clicked') === 'true') ? 'false' : 'true');
-    if (thisE.getAttribute('clicked') === 'true') {
-        thisE.style.backgroundColor = '#a6ffbe';
-    } else {
-        thisE.style.backgroundColor = 'white';
-    }
-}
-
 
 /**
  * Calculates that points per bonus and updates the display.
@@ -102,8 +87,15 @@ async function readQuestion() {
             currentQuestionNumber = 0;
         }
 
-        // Check that the question is in the right category
-    } while (validCategories.length != 0 && !validCategories.includes(questions[currentQuestionNumber]['category']));
+        // Get the next question if the current one is in the wrong category and subcategory
+    } while (false === (
+        (validCategories.length == 0 || validCategories.includes(questions[currentQuestionNumber]['category']))
+        && (
+            !('subcategory' in questions[currentQuestionNumber]) 
+            || validSubcategories.length === 0
+            || validSubcategories.includes(questions[currentQuestionNumber]['subcategory'])
+        )
+    ));
 
     currentBonusPart = 0;
 
@@ -166,20 +158,6 @@ document.getElementById('start').addEventListener('click', async () => {
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
-    validCategories = [];
-    if (document.getElementById('literature').getAttribute('clicked') === 'true') validCategories.push('Literature');
-    if (document.getElementById('history').getAttribute('clicked') === 'true') validCategories.push('History');
-    if (document.getElementById('science').getAttribute('clicked') === 'true') validCategories.push('Science');
-    if (document.getElementById('arts').getAttribute('clicked') === 'true') validCategories.push('Fine Arts');
-    if (document.getElementById('religion').getAttribute('clicked') === 'true') validCategories.push('Religion');
-    if (document.getElementById('mythology').getAttribute('clicked') === 'true') validCategories.push('Mythology');
-    if (document.getElementById('philosophy').getAttribute('clicked') === 'true') validCategories.push('Philosophy');
-    if (document.getElementById('ss').getAttribute('clicked') === 'true') validCategories.push('Social Science');
-    if (document.getElementById('ce').getAttribute('clicked') === 'true') validCategories.push('Current Events');
-    if (document.getElementById('geography').getAttribute('clicked') === 'true') validCategories.push('Geography');
-    if (document.getElementById('other-ac').getAttribute('clicked') === 'true') validCategories.push('Other Academic');
-    if (document.getElementById('trash').getAttribute('clicked') === 'true') validCategories.push('Trash');
-
     questions = await getQuestions(packetName, packetNumber);
     readQuestion();
 });
@@ -191,6 +169,8 @@ document.addEventListener('keyup', () => {
             reveal();
         } else if (event.which == 78) {  // pressing 'N'
             readQuestion();
+        } else if (event.which == 27) {  // escape key
+            modal.style.display = "none";
         }
     }
 });
