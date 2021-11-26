@@ -7,6 +7,61 @@
 </head>
 
 <body>
+    <div id="modal" style="display: none">
+        <div id="modal-content">
+            <div id="modal-header">
+                Select Categories/Subcategories:
+                <span class="close" onclick="document.getElementById('modal').style.display = 'none'">&times;</span>
+            </div>
+            <div id="selections">
+                <select multiple name="category-select" id="category-select" size="20" onclick="updateCategories()">
+                    <option value="Literature">Literature</option>
+                    <option value="History">History</option>
+                    <option value="Science">Science</option>
+                    <option value="Fine Arts">Fine Arts</option>
+                    <option value="Religion">Religion</option>
+                    <option value="Mythology">Mythology</option>
+                    <option value="Philosophy">Philosophy</option>
+                    <option value="Social Science">Social Science</option>
+                    <option value="Current Events">Current Events</option>
+                    <option value="Geography">Geography</option>
+                    <option value="Other Academic">Other Academic</option>
+                    <option value="Trash">Trash</option>
+                </select>
+
+                <select multiple name="subcategory-select" size="20" id="subcategory-select" onclick="updateSubcategories()">
+                    <option value="American Literature">American Literature</option>
+                    <option value="British Literature">British Literature</option>
+                    <option value="Classical Literature">Classical Literature</option>
+                    <option value="European Literature">European Literature</option>
+                    <option value="World Literature">World Literature</option>
+                    <option value="Other Literature">Other Literature</option>
+                    <option value="American History">American History </option>
+                    <option value="Ancient History">Ancient History</option>
+                    <option value="European History">European History</option>
+                    <option value="World History">World History</option>
+                    <option value="Other History">Other History</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Math">Math</option>
+                    <option value="Other Science">Other Science</option>
+                    <option value="Visual Fine Arts">Visual Fine Arts</option>
+                    <option value="Auditory Fine Arts">Auditory Fine Arts</option>
+                    <option value="Other Fine Arts">Other Fine Arts</option>
+                    <option value="Religion">Religion</option>
+                    <option value="Mythology">Mythology</option>
+                    <option value="Philosophy">Philosophy</option>
+                    <option value="Social Science">Social Science</option>
+                    <option value="Current Events">Current Events</option>
+                    <option value="Geography">Geography</option>
+                    <option value="Other Academic">Other Academic</option>
+                    <option value="Trash">Trash</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">QB Packet Reader - Bonuses</div>
         <div class="buttons" id="buttons">
@@ -21,27 +76,16 @@
                 <a href="/static/packet-list.html">List of packets</a>&nbsp
                 <a href="https://github.com/thedoge42/qb-packet-reader">Github</a>
             </div>
+
             <p>[Space] = reveal, [n] = next question</p>
 
             <div><input type="text" id="year-select"     placeholder="Set year"> (e.g. 2021)</div>
             <div><input type="text" id="name-select"     placeholder="Set name"> (e.g. pace)</div>
             <div><input type="text" id="packet-select"   placeholder="Packet numbers (e.g. 1-5)"> (Default: all)</div>
             <div><input type="text" id="question-select" placeholder="Starting question number"> (Default: 1)</div>
-            <div class="category-select">
-                <p>Select categories (leaving them blank selects all):</p>
-                <button id="literature" clicked="false" onclick="onCategoryClick(this)"> Literature</button>
-                <button id="history"    clicked="false" onclick="onCategoryClick(this)"> History</button><br>
-                <button id="science"    clicked="false" onclick="onCategoryClick(this)"> Science</button>
-                <button id="arts"       clicked="false" onclick="onCategoryClick(this)"> Fine Arts </button><br>
-                <button id="religion"   clicked="false" onclick="onCategoryClick(this)"> Religion</button>
-                <button id="mythology"  clicked="false" onclick="onCategoryClick(this)" > Mythology</button><br>
-                <button id="philosophy" clicked="false" onclick="onCategoryClick(this)"> Philosophy</button>
-                <button id="ss"         clicked="false" onclick="onCategoryClick(this)"> Social Science</button><br>
-                <button id="ce"         clicked="false" onclick="onCategoryClick(this)"> Current Events</button>
-                <button id="geography"  clicked="false" onclick="onCategoryClick(this)"> Geography</button><br>
-                <button id="other-ac"   clicked="false" onclick="onCategoryClick(this)"> Other Academic</button>
-                <button id="trash"      clicked="false" onclick="onCategoryClick(this)"> Trash</button><br>
-            </div>
+            <p></p>
+            <button id="category-select-button" onclick="document.getElementById('modal').style = ''">Adjust Categories</button>
+            <p></p>
         </div>
 
         <div class="question-text" id="question-text">
@@ -56,6 +100,7 @@
         </div>
     </div>
 
+    <script src="/static/script.js"></script>
     <script src="/static/bonuses.js"></script>
 </body>
 
