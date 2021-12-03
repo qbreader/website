@@ -52,6 +52,13 @@ function updateStatDisplay() {
         = `${ppb} points per bonus with ${numBonuses} bonus${includePlural} seen (${stats[0]}/${stats[1]}/${stats[2]}/${stats[3]}, ${points} pts)`;
 }
 
+/**
+ * Clears user stats.
+ */
+function clearStats() {
+    stats = [0, 0, 0, 0];
+    updateStatDisplay();
+}
 
 /**
  * 
@@ -115,9 +122,6 @@ async function readQuestion() {
 
 
 document.getElementById('start').addEventListener('click', async () => {
-    stats = [0, 0, 0, 0];
-    updateStatDisplay();
-
     packetName = document.getElementById('name-select').value.trim();
     if (packetName.length == 0) {
         window.alert('Enter a packet name.');

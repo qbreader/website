@@ -19,6 +19,7 @@ var powers = 0;
 var tens = 0;
 var negs = 0;
 var dead = 0;
+var points = 0;
 var totalCelerity = 0;
 
 var toggleCorrectClicked = false;
@@ -34,7 +35,19 @@ function buzz() {
     if (currentlyBuzzing) {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
-        if (inPower) powers++; else tens++;
+        if (inPower) {
+            powers++;
+            if (packetName.includes('pace')) {
+                points += 20;
+            }
+            else {
+                points += 15;
+            }
+        }
+        else {
+            tens++;
+            points += 10;
+        }
 
         // Update question text and show answer:
         let characterCount = document.getElementById('question').innerHTML.length;
@@ -64,17 +77,20 @@ function buzz() {
  */
 function updateStatDisplay() {
     let numTossups = powers + tens + negs + dead;
-    let points = 0;
-    if (packetName.includes('pace')) {  // Use pace scoring: powers = 20, negs = 0
-        points = 20 * powers + 10 * tens;
-    } else {
-        points = 15 * powers + 10 * tens - 5 * negs;
-    }
     let celerity = numTossups != 0 ? totalCelerity / numTossups : 0;
     celerity = Math.round(1000 * celerity) / 1000;
     let includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
         = `${powers}/${tens}/${negs} with ${numTossups} tossup${includePlural} seen (${points} pts, celerity: ${celerity})`;
+}
+
+
+/**
+ * Clears user stats.
+ */
+function clearStats() {
+    powers=tens=negs=dead=points=totalCelerity=0;
+    updateStatDisplay();
 }
 
 
@@ -155,9 +171,6 @@ async function readQuestion() {
 
 
 document.getElementById('start').addEventListener('click', async () => {
-    powers = 0; tens = 0; negs = 0; totalCelerity = 0;
-    updateStatDisplay();
-
     packetName = document.getElementById('name-select').value.trim();
     if (packetName.length == 0) {
         window.alert('Enter a packet name.');
@@ -198,12 +211,49 @@ document.getElementById('start').addEventListener('click', async () => {
 
 document.getElementById('toggle-correct').addEventListener('click', () => {
     if (toggleCorrectClicked) {
-        if (inPower) powers++; else tens++;
-        if (questionTextSplit.length != 0) negs--; else dead--;  // Check if there is more question to be read 
+        if (inPower) {
+            powers++;
+            if (packetName.includes('pace')) {
+                points += 20;
+            }
+            else {
+                points += 15;
+            }
+        }
+        else {
+            tens++;
+            points += 10;
+        }
+        if (questionTextSplit.length != 0) { // Check if there is more question to be read 
+            negs--;
+            points += 5;
+        }
+        else {
+            dead--;
+        }
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
-    } else {
-        if (inPower) powers--; else tens--;
-        if (questionTextSplit.length != 0) negs++; else dead++;
+    }
+    else {
+        if (inPower) {
+            powers--;
+            if (packetName.includes('pace')) {
+                points -= 20;
+            }
+            else {
+                points -= 15;
+            }
+        }
+        else {
+            tens--;
+            points -= 10;
+        }
+        if (questionTextSplit.length != 0) {
+            negs++;
+            points -= 5;
+        }
+        else {
+            dead++;
+        }
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
     updateStatDisplay();
