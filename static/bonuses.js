@@ -13,8 +13,10 @@ var validCategories = [];
  * An array that represents
  * [# of 30's, # of 20's, # of 10's, # of 0's].
  */
-var stats = [0, 0, 0, 0];
+if (sessionStorage.getItem('stats')===null)
+    sessionStorage.setItem('stats',[0,0,0,0]);
 
+updateStatDisplay(); //update stats upon loading site
 
 /**
  * Called when the users wants to reveal the next bonus part.
@@ -40,23 +42,24 @@ var stats = [0, 0, 0, 0];
  * Calculates that points per bonus and updates the display.
  */
 function updateStatDisplay() {
-    let numBonuses = stats[0] + stats[1] + stats[2] + stats[3];
+    let statsArray = sessionStorage.stats.split(',');
+    let numBonuses = parseInt(statsArray[0]) + parseInt(statsArray[1]) + parseInt(statsArray[2]) + parseInt(statsArray[3]);
     let ppb = 0;
     let points = 0;
     if (numBonuses != 0) {
-        points = 30 * stats[0] + 20 * stats[1] + 10 * stats[2] + 0 * stats[3];
+        points = 30 * parseInt(statsArray[0]) + 20 * parseInt(statsArray[1]) + 10 * parseInt(statsArray[2]);
         ppb = Math.round(100 * points / numBonuses) / 100;
     }
     let includePlural = (numBonuses == 1) ? '' : 'es';
     document.getElementById('statline').innerHTML
-        = `${ppb} points per bonus with ${numBonuses} bonus${includePlural} seen (${stats[0]}/${stats[1]}/${stats[2]}/${stats[3]}, ${points} pts)`;
+        = `${ppb} points per bonus with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
 }
 
 /**
  * Clears user stats.
  */
 function clearStats() {
-    stats = [0, 0, 0, 0];
+    sessionStorage.setItem('stats', [0, 0, 0, 0]);
     updateStatDisplay();
 }
 
@@ -174,21 +177,29 @@ document.addEventListener('keyup', () => {
 });
 
 document.getElementById('30').addEventListener('click', () => {
-    stats[0]++;
+    let newStats = sessionStorage.stats.split(',');
+    newStats[0]=(parseInt(newStats[0])+1).toString();
+    sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
 });
 
 document.getElementById('20').addEventListener('click', () => {
-    stats[1]++;
+    let newStats = sessionStorage.stats.split(',');
+    newStats[1]=(parseInt(newStats[1])+1).toString();
+    sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
 });
 
 document.getElementById('10').addEventListener('click', () => {
-    stats[2]++;
+    let newStats = sessionStorage.stats.split(',');
+    newStats[2]=(parseInt(newStats[2])+1).toString();
+    sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
 });
 
 document.getElementById('0').addEventListener('click', () => {
-    stats[3]++;
+    let newStats = sessionStorage.stats.split(',');
+    newStats[3]=(parseInt(newStats[3])+1).toString();
+    sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
 });
