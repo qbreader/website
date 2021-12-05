@@ -15,15 +15,32 @@ var shownAnswer = false;
 var validCategories = [];
 
 var inPower = false;
-var powers = 0;
-var tens = 0;
-var negs = 0;
-var dead = 0;
-var points = 0;
-var totalCelerity = 0;
+if (sessionStorage.getItem('powers')===null)
+    sessionStorage.setItem('powers',0);
+if (sessionStorage.getItem('tens')===null)
+    sessionStorage.setItem('tens',0);
+if (sessionStorage.getItem('negs')===null)
+    sessionStorage.setItem('negs',0);
+if (sessionStorage.getItem('dead')===null)
+    sessionStorage.setItem('dead',0);
+if (sessionStorage.getItem('points')===null)
+    sessionStorage.setItem('points',0);
+if (sessionStorage.getItem('totalCelerity')===null)
+    sessionStorage.setItem('totalCelerity',0);
 
 var toggleCorrectClicked = false;
 
+
+updateStatDisplay(); //update stats upon loading site
+
+/**
+ * Increases or decreases a session storage item by a certain amount.
+ * @param {String} item - The name of the sessionStorage item.
+ * @param {Number} x - The amount to increase/decrease the sessionStorage item.
+ */
+function shift(item, x) {
+    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item))+x);
+}
 
 /**
  * Called when the users buzzes.
@@ -36,23 +53,23 @@ function buzz() {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) {
-            powers++;
+            shift('powers',1);
             if (packetName.includes('pace')) {
-                points += 20;
+                shift('points',20);
             }
             else {
-                points += 15;
+                shift('points',15);
             }
         }
         else {
-            tens++;
-            points += 10;
+            shift('tens',1);
+            shift('points',10);
         }
 
         // Update question text and show answer:
         let characterCount = document.getElementById('question').innerHTML.length;
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
-        totalCelerity += 1 - characterCount / document.getElementById('question').innerHTML.length;
+        shift('totalCelerity',1 - characterCount / document.getElementById('question').innerHTML.length);
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer_sanitized'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
@@ -76,12 +93,12 @@ function buzz() {
  * Updates the displayed stat line.
  */
 function updateStatDisplay() {
-    let numTossups = powers + tens + negs + dead;
-    let celerity = numTossups != 0 ? totalCelerity / numTossups : 0;
+    let numTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens) + parseInt(sessionStorage.negs) + parseInt(sessionStorage.dead);
+    let celerity = numTossups != 0 ? parseFloat(sessionStorage.totalCelerity) / numTossups : 0;
     celerity = Math.round(1000 * celerity) / 1000;
     let includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
-        = `${powers}/${tens}/${negs} with ${numTossups} tossup${includePlural} seen (${points} pts, celerity: ${celerity})`;
+        = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
 }
 
 
@@ -89,7 +106,12 @@ function updateStatDisplay() {
  * Clears user stats.
  */
 function clearStats() {
-    powers=tens=negs=dead=points=totalCelerity=0;
+    sessionStorage.setItem('powers',0);
+    sessionStorage.setItem('tens',0);
+    sessionStorage.setItem('negs',0);
+    sessionStorage.setItem('dead',0);
+    sessionStorage.setItem('points',0);
+    sessionStorage.setItem('totalCelerity',0);
     updateStatDisplay();
 }
 
@@ -212,47 +234,47 @@ document.getElementById('start').addEventListener('click', async () => {
 document.getElementById('toggle-correct').addEventListener('click', () => {
     if (toggleCorrectClicked) {
         if (inPower) {
-            powers++;
+            shift('powers',1);
             if (packetName.includes('pace')) {
-                points += 20;
+                shift('points',20);
             }
             else {
-                points += 15;
+                shift('points',15);
             }
         }
         else {
-            tens++;
-            points += 10;
+            shift('tens',1);
+            shift('points',10);
         }
         if (questionTextSplit.length != 0) { // Check if there is more question to be read 
-            negs--;
-            points += 5;
+            shift('negs',-1);
+            shift('points',5);
         }
         else {
-            dead--;
+            shift('dead',-1);
         }
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
     }
     else {
         if (inPower) {
-            powers--;
+            shift('powers',-1);
             if (packetName.includes('pace')) {
-                points -= 20;
+                shift('points',-20);
             }
             else {
-                points -= 15;
+                shift('points',-15);
             }
         }
         else {
-            tens--;
-            points -= 10;
+            shift('tens',-1);
+            shift('points',-10);
         }
         if (questionTextSplit.length != 0) {
-            negs++;
-            points -= 5;
+            shift('negs',1);
+            shift('points',-5);
         }
         else {
-            dead++;
+            shift('dead',1);
         }
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
