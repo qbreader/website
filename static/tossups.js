@@ -28,6 +28,12 @@ if (sessionStorage.getItem('points')===null)
 if (sessionStorage.getItem('totalCelerity')===null)
     sessionStorage.setItem('totalCelerity',0);
 
+if (localStorage.getItem('speed')===null)
+    localStorage.setItem('speed',220);
+
+document.getElementById('reading-speed-display').innerHTML = 'Reading speed [ms between words]: ' + localStorage.speed;
+document.getElementById('reading-speed').value = localStorage.speed;
+
 var toggleCorrectClicked = false;
 
 
@@ -296,5 +302,6 @@ document.addEventListener('keyup', () => {
 });
 
 document.getElementById('reading-speed').oninput = function () {
+    localStorage.setItem('speed',this.value);
     document.getElementById('reading-speed-display').innerHTML = 'Reading speed [ms between words]: ' + this.value;
 }
