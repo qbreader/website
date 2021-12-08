@@ -15,14 +15,38 @@ var shownAnswer = false;
 var validCategories = [];
 
 var inPower = false;
-var powers = 0;
-var tens = 0;
-var negs = 0;
-var dead = 0;
-var totalCelerity = 0;
+if (sessionStorage.getItem('powers')===null)
+    sessionStorage.setItem('powers',0);
+if (sessionStorage.getItem('tens')===null)
+    sessionStorage.setItem('tens',0);
+if (sessionStorage.getItem('negs')===null)
+    sessionStorage.setItem('negs',0);
+if (sessionStorage.getItem('dead')===null)
+    sessionStorage.setItem('dead',0);
+if (sessionStorage.getItem('points')===null)
+    sessionStorage.setItem('points',0);
+if (sessionStorage.getItem('totalCelerity')===null)
+    sessionStorage.setItem('totalCelerity',0);
+
+if (localStorage.getItem('speed')===null)
+    localStorage.setItem('speed',220);
+
+document.getElementById('reading-speed-display').innerHTML = 'Reading speed [ms between words]: ' + localStorage.speed;
+document.getElementById('reading-speed').value = localStorage.speed;
 
 var toggleCorrectClicked = false;
 
+
+updateStatDisplay(); //update stats upon loading site
+
+/**
+ * Increases or decreases a session storage item by a certain amount.
+ * @param {String} item - The name of the sessionStorage item.
+ * @param {Number} x - The amount to increase/decrease the sessionStorage item.
+ */
+function shift(item, x) {
+    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item))+x);
+}
 
 /**
  * Called when the users buzzes.
@@ -34,12 +58,24 @@ function buzz() {
     if (currentlyBuzzing) {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
-        if (inPower) powers++; else tens++;
+        if (inPower) {
+            shift('powers',1);
+            if (packetName.includes('pace')) {
+                shift('points',20);
+            }
+            else {
+                shift('points',15);
+            }
+        }
+        else {
+            shift('tens',1);
+            shift('points',10);
+        }
 
         // Update question text and show answer:
         let characterCount = document.getElementById('question').innerHTML.length;
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
-        totalCelerity += 1 - characterCount / document.getElementById('question').innerHTML.length;
+        shift('totalCelerity',1 - characterCount / document.getElementById('question').innerHTML.length);
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer_sanitized'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
@@ -63,18 +99,26 @@ function buzz() {
  * Updates the displayed stat line.
  */
 function updateStatDisplay() {
-    let numTossups = powers + tens + negs + dead;
-    let points = 0;
-    if (packetName.includes('pace')) {  // Use pace scoring: powers = 20, negs = 0
-        points = 20 * powers + 10 * tens;
-    } else {
-        points = 15 * powers + 10 * tens - 5 * negs;
-    }
-    let celerity = numTossups != 0 ? totalCelerity / numTossups : 0;
+    let numTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens) + parseInt(sessionStorage.negs) + parseInt(sessionStorage.dead);
+    let celerity = numTossups != 0 ? parseFloat(sessionStorage.totalCelerity) / numTossups : 0;
     celerity = Math.round(1000 * celerity) / 1000;
     let includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
-        = `${powers}/${tens}/${negs} with ${numTossups} tossup${includePlural} seen (${points} pts, celerity: ${celerity})`;
+        = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
+}
+
+
+/**
+ * Clears user stats.
+ */
+function clearStats() {
+    sessionStorage.setItem('powers',0);
+    sessionStorage.setItem('tens',0);
+    sessionStorage.setItem('negs',0);
+    sessionStorage.setItem('dead',0);
+    sessionStorage.setItem('points',0);
+    sessionStorage.setItem('totalCelerity',0);
+    updateStatDisplay();
 }
 
 
@@ -155,9 +199,6 @@ async function readQuestion() {
 
 
 document.getElementById('start').addEventListener('click', async () => {
-    powers = 0; tens = 0; negs = 0; totalCelerity = 0;
-    updateStatDisplay();
-
     packetName = document.getElementById('name-select').value.trim();
     if (packetName.length == 0) {
         window.alert('Enter a packet name.');
@@ -198,12 +239,49 @@ document.getElementById('start').addEventListener('click', async () => {
 
 document.getElementById('toggle-correct').addEventListener('click', () => {
     if (toggleCorrectClicked) {
-        if (inPower) powers++; else tens++;
-        if (questionTextSplit.length != 0) negs--; else dead--;  // Check if there is more question to be read 
+        if (inPower) {
+            shift('powers',1);
+            if (packetName.includes('pace')) {
+                shift('points',20);
+            }
+            else {
+                shift('points',15);
+            }
+        }
+        else {
+            shift('tens',1);
+            shift('points',10);
+        }
+        if (questionTextSplit.length != 0) { // Check if there is more question to be read 
+            shift('negs',-1);
+            shift('points',5);
+        }
+        else {
+            shift('dead',-1);
+        }
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
-    } else {
-        if (inPower) powers--; else tens--;
-        if (questionTextSplit.length != 0) negs++; else dead++;
+    }
+    else {
+        if (inPower) {
+            shift('powers',-1);
+            if (packetName.includes('pace')) {
+                shift('points',-20);
+            }
+            else {
+                shift('points',-15);
+            }
+        }
+        else {
+            shift('tens',-1);
+            shift('points',-10);
+        }
+        if (questionTextSplit.length != 0) {
+            shift('negs',1);
+            shift('points',-5);
+        }
+        else {
+            shift('dead',1);
+        }
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
     updateStatDisplay();
@@ -224,5 +302,6 @@ document.addEventListener('keyup', () => {
 });
 
 document.getElementById('reading-speed').oninput = function () {
+    localStorage.setItem('speed',this.value);
     document.getElementById('reading-speed-display').innerHTML = 'Reading speed [ms between words]: ' + this.value;
 }
