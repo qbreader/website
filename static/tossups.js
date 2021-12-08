@@ -1,4 +1,4 @@
-var intervalId = -1;
+var timeoutID = -1;
 
 var packetName = '';
 var packetNumbers = [];
@@ -29,9 +29,9 @@ if (sessionStorage.getItem('totalCelerity')===null)
     sessionStorage.setItem('totalCelerity',0);
 
 if (localStorage.getItem('speed')===null)
-    localStorage.setItem('speed',220);
+    localStorage.setItem('speed',50);
 
-document.getElementById('reading-speed-display').innerHTML = 'Reading speed [ms between words]: ' + localStorage.speed;
+document.getElementById('reading-speed-display').innerHTML = 'Reading speed: ' + localStorage.speed;
 document.getElementById('reading-speed').value = localStorage.speed;
 
 var toggleCorrectClicked = false;
@@ -83,7 +83,7 @@ function buzz() {
         shownAnswer = true;
     } else {
         // Stop the question reading
-        clearInterval(intervalId);
+        clearTimeout(timeoutID);
         currentlyBuzzing = true;
 
         // Include buzzpoint
@@ -167,7 +167,7 @@ async function readQuestion() {
     ));
 
     // Stop reading the current question:
-    clearInterval(intervalId);
+    clearTimeout(timeoutID);
     currentlyBuzzing = false;
     shownAnswer = false;
 
@@ -187,14 +187,32 @@ async function readQuestion() {
     questionTextSplit = questionText.split(' ');
 
     // Read the question:
-    intervalId = window.setInterval(() => {
-        document.getElementById('question').innerHTML += questionTextSplit.shift() + ' ';
+    printWord();
+}
 
-        // If the question runs out of text, stop reading:
-        if (questionTextSplit.length == 0) {
-            clearInterval(intervalId);
-        }
-    }, document.getElementById('reading-speed').value);
+
+/**
+ * Recursively reads the question based on the reading speed.
+ */
+function printWord() {
+    if (!currentlyBuzzing && questionTextSplit.length>0) {
+        let word = questionTextSplit.shift();
+        document.getElementById('question').innerHTML += word + ' ';
+
+        //calculate time needed before reading next word
+        let time = Math.log(word.length)+1;
+        if ((word.endsWith('.') && word.charCodeAt(word.length-2) > 96 && word.charCodeAt(word.length-2) < 123)
+            || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
+            time += 5;
+        else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
+            time += 2.5;
+        else if (word === "(*)")
+            time = 0;
+        
+        timeoutID = window.setTimeout(() => {
+            printWord();
+        }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
+    }
 }
 
 
@@ -303,5 +321,5 @@ document.addEventListener('keyup', () => {
 
 document.getElementById('reading-speed').oninput = function () {
     localStorage.setItem('speed',this.value);
-    document.getElementById('reading-speed-display').innerHTML = 'Reading speed [ms between words]: ' + this.value;
+    document.getElementById('reading-speed-display').innerHTML = 'Reading speed: ' + this.value;
 }
