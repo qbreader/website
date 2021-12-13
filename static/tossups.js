@@ -203,9 +203,9 @@ function printWord() {
         let time = Math.log(word.length)+1;
         if ((word.endsWith('.') && word.charCodeAt(word.length-2) > 96 && word.charCodeAt(word.length-2) < 123)
             || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
-            time += 5;
+            time += 2;
         else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
-            time += 2.5;
+            time += 0.75;
         else if (word === "(*)")
             time = 0;
         
