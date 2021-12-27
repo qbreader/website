@@ -76,7 +76,7 @@ function buzz() {
         let characterCount = document.getElementById('question').innerHTML.length;
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         shift('totalCelerity',1 - characterCount / document.getElementById('question').innerHTML.length);
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer_sanitized'];
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
         updateStatDisplay();
@@ -183,7 +183,7 @@ async function readQuestion() {
 
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
-    questionText = questions[currentQuestionNumber]['question_sanitized'];
+    questionText = questions[currentQuestionNumber]['question'];
     questionTextSplit = questionText.split(' ');
 
     // Read the question:
