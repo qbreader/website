@@ -129,3 +129,10 @@ select {
 select option {
     font-size: 18px;
 }
+
+
+@media (max-width: 991px) {
+    #numbering-info {
+        display: none
+    }
+}

@@ -3,6 +3,8 @@
 
 <head>
     <title>QB Reader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -80,13 +82,16 @@
             </div>
 
             <p>[Space] = reveal, [n] = next question</p>
-            <p>Packet numbers are numbered starting from 1 based on the order in which they appear on <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">https://quizbowlpackets.com/</a>.</p>
+            <p id="numbering-info">
+                Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
+                Any other non-numbered packets are placed after all of those in the order in which they appear on <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">https://quizbowlpackets.com/</a>.
+            </p>
 
             <div>
                 <input type="text" id="name-select" placeholder="Set name (e.g. 2021 pace)" list="suggestions">
                 <datalist id="suggestions">
                     <!-- Recently added: -->
-                    <option>2021-msqb madness</option>
+                    <option>2021 msqb madness</option>
                     <option>2021 nasat</option>
                     <option>2021 gorky iii</option>
                     <option>2021 geoffrey wu's nfl packet</option>
