@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "This man outlined a seven-step plan to destroy Jews in a lengthy treatise called <em>On the Jews and Their Lies</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Martin Luther",
                 "twelve [or 12; or Twelve Articles; or Twelve Tables]",
                 "knights [or the Knights\u2019 Revolt]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "In this novel, Umuofia is colonized while Okonkwo is in exile. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Things Fall Apart",
                 "Chinua Achebe",
                 "yams"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Creatures in the right-most panel of this painting include a pig wearing a nun\u2019s veil and a giant human-faced monster with a cracked shell impaled on a tree. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Garden of Earthly Delights",
                 "Hieronymus Bosch [or Jheronimus van Aken]",
                 "Joan Mir\u00f3 (i Ferr\u00e0)"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "This scientist one quipped that \"logarithmic plots are the device of the devil,\" but they turned out to be pretty useful for him. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Charles Francis Richter",
                 "Caltech [or California Institute of Technology]",
                 "discontinuity"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "In a horrific accident in the early days of this country\u2019s space program, one of its cosmonauts burned to death in a chamber with a nearly 100% pure oxygen atmosphere. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Soviet Union [or Union of Soviet Socialist Republics; or USSR; or Soyuz Sovetskikh Sotsialisticheskikh Respublik; or CCCP; prompt on Russia]",
                 "Yuri Gagarin",
                 "Vostok [or Vostok 1; or Vostok Station; or Lake Vostok]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "Along with E.E. Cummings, Archibald MacLeish, W. Somerset Maugham, Jean Cocteau, and Walt Disney, this man served as an ambulance driver in World War I. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ernest Hemingway",
                 "Spanish Civil War [or Guerra Civil Espa\u00f1ola]",
                 "Key West"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "This band traveled to London to record their album <em>Fables of the Reconstruction</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "R.E.M.",
                 "\u201cRadio Free Europe\u201d",
                 "MTV"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Answer the following about the man described as having \u201cmore impact on the Earth\u2019s atmosphere than any other single organism in Earth\u2019s history,\u201d Thomas Midgley. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "chlorofluorocarbons [or CFCs]",
                 "lead",
                 "ferrocene"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "King Herod orders the Massacre of the Innocents after he sends these people to find a young boy. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "biblical Magi [or the three Magi; or Three Wise Men; or Three Kings]",
                 "Jesus Christ [accept either]",
                 "Cologne Cathedral"
@@ -258,7 +258,7 @@
         },
         {
             "leadin": "Several men hurry down the sidewalk past a series of tall, dark windows in a platinum palladium print photo taken in this city. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "New York City [or NYC]",
                 "Diane Arbus [or Diane Nemerov]",
                 "giant [or gigantism; accept answers indicating he was very tall]"
@@ -273,7 +273,7 @@
         },
         {
             "leadin": "This policy was supported by George F. Kennan\u2019s Long Telegram. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "containment",
                 "Harry S Truman",
                 "Greece and Turkey [or Elliniki Dimokratia for Greece and Turkiye Cumhuriyeti for Turkey]"
@@ -288,7 +288,7 @@
         },
         {
             "leadin": "A 2017 sequel written by Lucas Hnath opens with this character knocking on a door. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nora Helmer [accept either]",
                 "Henrik Ibsen",
                 "realism [or word forms]"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "This author described three types of authority \u2014 traditional, charismatic, and legal \u2014 in his <em>Three Types of Legitimate Rule</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Max Weber",
                 "the state [do not accept \"country\" or \"government\"]",
                 "Robert Nozick"
@@ -317,7 +317,7 @@
         },
         {
             "leadin": "In cgs units, this constant is equal to e squared over h bar times c, or around 1/137. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "fine structure constant [prompt on alpha]",
                 "Coulomb\u2019s constant [or k; or \u201ck e\u201d; or \u201ck sub e\u201d]",
                 "negative one [or \u201cone over r\u201d or \u201creciprocal of r\u201d or \u201cinverse of r\u201d]"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "The \u201cDvaita\u201d and \u201cAdvaita\u201d forms of this school represent dualism and nondualism, respectively. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Vedanta",
                 "reincarnation [or transmigration of souls; or metempsychosis]",
                 "moksha [or nirvana; or mukti]"
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "This building\u2019s first version was built during the Ashikaga period and was destroyed during the Onin War. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Golden Pavilion [or Kinkaku-ji; accept The Temple of the Golden Pavilion]",
                 "Kyoto",
                 "Heian Period"
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "In a novel by this author, Padre Jose refuses to hear the confession of a condemned man due to pressure from his wife. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Henry Graham Greene",
                 "Catholic Church [or Catholicism; or other reasonable equivalents]",
                 "Our Man in Havana"
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "This composer wrote <em>Variations on a Theme of Frank Bridge</em> as a tribute to his teacher. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Edward Benjamin Britten",
                 "Henry Purcell",
                 "Sir William Turner Walton"
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "The events in Ovid\u2019s version of the Apollo and Daphne story are set in motion by two uses of these objects. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Cupid\u2019s arrows [or Eros\u2019s arrows; accept answers that also mention the bow; prompt on \u201carrows\u201d]",
                 "Apollo [or Phoebus Apollo]",
                 "lead"
@@ -405,7 +405,7 @@
         },
         {
             "leadin": "Yoshinori Ohsumi won the 2016 Nobel Prize in Physiology or Medicine for studying this process. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "autophagy [or autophagocytosis]",
                 "lysosomes",
                 "Saccharomyces cerevisiae [or baker's yeast]"

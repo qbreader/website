@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "These structures can be divided into a zone of accumulation and a zone of ablation, where a net loss of ice occurs through mechanisms like calving. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "glaciers",
                 "moraines",
                 "rock flour [accept glacial flour or glacial milk]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "This character escapes an island prison by hiding in a body bag intended for the deceased Abb\u00e9 Faria. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Edmond Dant\u00e8s [accept The Count of Monte Cristo or Le Comte de Monte-Cristo]",
                 "Alexandre Dumas, p\u00e8re [or Dumas Davy de la Pailleterie]",
                 "Baron Danglars [or Monsieur Danglars]"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Answer the following about the British Labour Party, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Conservative and Union Party [or Tories]",
                 "Winter of Discontent",
                 "Clement Attlee [or Clement Richard Attlee, 1st Earl Attlee]"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "It\u2019s not an azide, but a widely-used reaction in click chemistry reacts an alkene or alkyne with a molecule containing this functional group. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "thiols",
                 "anti-Markovnikov reactions [do not accept or prompt on \u201cMarkovnikov\u201d reactions]",
                 "alcohols"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "In one work, this man ultimately concluded his knowledge of the world was not corrupted by an evil, deceiving demon. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ren\u00e9 Descartes [or Renatus Cartesius]",
                 "Meditations on First Philosophy, in which the existence of God and the immortality of the soul are demonstrated [or Meditationes de prima philosophia, in qua Dei existentia et anim\u00e6 immortalitas demonstratur]",
                 "they must be clear and distinct [or word forms; accept in either order]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "This dynasty was founded after forces led by the peasant rebel Li Zicheng were defeated at the Battle of Shanhaiguan. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Qing Dynasty [or Empire of the Great Qing; or Da Qing Diguo]",
                 "Kangxi Emperor [or Emperor Ren of Qing; or Qing Rendi; or Shengzu of Qing; or Qing Shengzu; or Aisin-Gioro Hiowan Yei; or Aixin-Jueluo Xuanye]",
                 "Russia [or Russian Empire; or Rossiyskaya imperiya]"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "Name these contemporary string performers, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Yo-Yo Ma",
                 "Itzhak Perlman",
                 "Joshua Bell [or Joshua David Bell]"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "A poem addressed to this figure describes her chariot \u201cyoked to wind-whirring sparrows.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Aphrodite [accept \u201cOde to Aphrodite\u201d or \u201cHymn to Aphrodite\u201d]",
                 "Sappho",
                 "Gaius Valerius Catullus"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "During this process, one gave forty-two truthful Negative Confessions. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "weighing of the heart against the feather of Ma\u2019at [or weighing of the soul against the feather of Ma\u2019at; or obvious equivalents; prompt on judgement of the dead or similar answers]",
                 "Thoth [or Djehuty; or Tahuti; or Zehuti; or Techu; or Tetu]",
                 "heart scarab [or scarab beetle]"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "One equation to calculate this quantity sets it equal to the effective exhaust velocity times the natural log of the ratio of the initial mass to the final mass. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "delta-v",
                 "Newton\u2019s second law of motion",
                 "escape velocity"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "This character\u2019s first journal entry is dated to May 3rd, when he arrives in Vienna. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jonathan Harker [accept either underlined name]",
                 "Count Dracula",
                 "Doctor Abraham Van Helsing"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "One of these people named Jimmy Swaggart gave a tearful speech on national television claiming \u201cI have sinned\u201d in response to his habit of visiting prostitutes; three years later, caught in the same position, he bluntly told his followers \u201cThe Lord told me it\u2019s flat none of your business.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "televangelists [or televangelism; prompt on evangelists; prompt on preachers; prompt on ministers; do not accept or prompt on answers indicating \u201cpriests\u201d or \u201c the clergy\u201d]",
                 "earthquake [accept 2010 Haiti earthquake]",
                 "Jerry Lamon Falwell, Sr. [do not accept or prompt on Jerry Falwell, Jr.]"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "Patrick Geddes, a Scottish biologist, drew loosely on Darwinian natural selection to describe how these entities grow, in his book titled for them in Evolution. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "city or cities [accept towns; accept obvious equivalents like metropolises or urban areas]",
                 "Jane Jacobs [or Jane Butzner]",
                 "New York City"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "In this technique, a waxy ground covers a piece of metal, and the artist uses a pointed needle to draw an image which is then bathed in acid. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "etching",
                 "Rembrandt van Rijn (\u201cvan rine\u201d) [accept either underlined name]",
                 "Francisco Jose de Goya y Lucientes"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "One strategy for avoiding this process uses PEP carboxylase and shuttles substrates between mesophyll and bundle sheath cells, while another strategy involves closing of the stomata during the day. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "photorespiration",
                 "chloroplasts",
                 "peroxisome"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "In the eleventh chapter of this work, Krishna reveals himself in the form of the many-headed and many-armed Vishvarupa. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bhagavad Gita",
                 "dharma",
                 "yoga"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "Ignoring their previous promises, the Romans seized the lands of this leader\u2019s husband Prasutagus; to add insult to injury, this woman was flogged and her daughters raped. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Boudicca",
                 "Battle of Watling Street",
                 "Nero [or Nero Claudius Caesar Augustus Germanicus]"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "This character wears a five-cent piece around his neck, which he insists will repel the devil. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jim",
                 "Mark Twain [or Samuel Langhorne Clemens]",
                 "Roughing It"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "One prime minister of this country swore to develop nuclear weapons, even if this country \u201chad to eat grass and leaves for a thousand years.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Islamic Republic of Pakistan [or Isl\u0101m\u012b Jumh\u016briyah P\u0101kist\u0101n]",
                 "Zulfikar Ali Bhutto [prompt on Bhutto]",
                 "Operation Gibraltar [accept Great Siege of Gibraltar]"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "A character in this operetta sings the cs\u00e1rd\u00e1s (\u201cchar-daash\u201d) \"Kl\u00e4nge der Heimat\" in an attempt to prove that she is Hungarian. For ten points each,",
-            "answers_sanitized": [
+            "answer": [
                 "Die Fledermaus [or The Bat]",
                 "trouser role [or breeches role; or pants role]",
                 "Johann Strauss II [or Johann Strauss Jr.; or Johann Strauss the Younger; or Johann Strauss the Son; prompt on Strauss; prompt on J. Strauss]"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "The area around this mountain is home to the Koyukon people, whose name for it means \u201cthe tall one.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Denali [or Mount McKinley]",
                 "Katmai National Park and Preserve",
                 "Kodiak Island"

@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "The Duke of Wellington created the lines of Torres Vedras to protect one capital in this conflict, which was triggered by an 1807 invasion led by Jean-Andoche Junot.",
-            "answers_sanitized": [
+            "answer": [
                 "Peninsular War",
                 "Brazil",
                 "Sixth Coalition"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "The verdict in this event hinged on photographs that showed a wooden ladder matched a plank from an attic as well as handwriting on ransom notes.",
-            "answers_sanitized": [
+            "answer": [
                 "Lindbergh Kidnapping Trial [accept anything including Lindbergh]",
                 "Hawaii",
                 "Vanderbilt"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "Answer the following about literature that's at least as American as mom and apple pie.",
-            "answers_sanitized": [
+            "answer": [
                 "The Natural",
                 "Michael Chabon",
                 "\"Hub Fans Bid Kid Adieu\""
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Answer some questions about titration techniques.",
-            "answers_sanitized": [
+            "answer": [
                 "EDTA [or ethylene diamine tetra-acetic acid or ethylene diamine tetra-acetate]",
                 "bromine [or Br]",
                 "phenolphthalein (FEEN-ol-FAY-leen)"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Answer some questions about the first Christian apostles.",
-            "answers_sanitized": [
+            "answer": [
                 "Simon Peter",
                 "rooster crows",
                 "eating with Gentiles [do NOT accept \"eating unclean food\" or \"eating with unbelievers\"]"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "Answer the following thinly veiled penis jokes masquerading as bonus parts.",
-            "answers_sanitized": [
+            "answer": [
                 "Kokopelli",
                 "The Dagda",
                 "Shiva"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "Respond appropriately to the following non-questions about Emily Bront\u00c3\u00ab's Wuthering Heights.",
-            "answers_sanitized": [
+            "answer": [
                 "Earnshaw",
                 "Heathcliff",
                 "Thrushcross Grange"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "For some reason, this physical law was first proposed in the form of an anagram in Latin.",
-            "answers_sanitized": [
+            "answer": [
                 "Hooke's Law",
                 "damping",
                 "one-half or point five"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "Opportunities for this activity are often quickly eliminated through price convergence.",
-            "answers_sanitized": [
+            "answer": [
                 "arbitrage",
                 "risk",
                 "Harry Markowitz"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "This man's paintings include a \"Last Supper\" in which the eyes of participants are merely suggested.",
-            "answers_sanitized": [
+            "answer": [
                 "Andre Derain (duh-RAIN)",
                 "Henri Matisse",
                 "a pot of paint [do NOT accept equivalents, but prompt on \"paint\"]"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "\"The presbytery has lost nothing of its charm, nor the garden its brightness\" is a recurring sentence in this work.",
-            "answers_sanitized": [
+            "answer": [
                 "The Mystery of the Yellow Room",
                 "The Phantom of the Opera",
                 "the Punjab lasso [prompt on lasso]"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "This mode is a diatonic scale corresponding to the white keys of the piano from D to D.",
-            "answers_sanitized": [
+            "answer": [
                 "Dorian mode",
                 "Kind of Blue",
                 "Miles Davis"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "Though 2015 is not an Olympic year, the top athletes in the world came together for the IAAF World Championships.",
-            "answers_sanitized": [
+            "answer": [
                 "Usain Bolt",
                 "Bird's Nest [accept Beijing National Stadium before mention]",
                 "Ashton Eaton"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "This piece is underlined by a persistent two-bar ostinato for snare drum.",
-            "answers_sanitized": [
+            "answer": [
                 "Bol\u00c3\u00a9ro",
                 "Le tombeau de Couperin [or The Tomb of Couperin]",
                 "violin sonata [prompt on \"sonata\"]"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "This compound is broken down by a namesake transaminase into succinic semialdehyde.",
-            "answers_sanitized": [
+            "answer": [
                 "GABA [or gamma-aminobutyric acid]",
                 "glutamic acid decarboxylase [or glutamate decarboxylase or GAD]",
                 "Dale's principle"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Due to the incomprehensible third section of this text, its author decided to write the Critique of Practical Reason.",
-            "answers_sanitized": [
+            "answer": [
                 "Groundwork of the Metaphysics of Morals [or Grundlegung zur Metaphysik der Sitten or Foundations of the Metaphysics of Morals; or Grounding for the Metamphysics of Morals; do not accept \"The Metaphysics of Morals\"]",
                 "Immanuel Kant",
                 "duty"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "At the Great Debate, this man took the position that mysterious objects observed in space were not their own galaxies.",
-            "answers_sanitized": [
+            "answer": [
                 "Harlow Shapley (SHAPP-lee)",
                 "nebula",
                 "RR Lyrae"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "Notable alumni of this university include Enrico Fermi and Rene Preval.",
-            "answers_sanitized": [
+            "answer": [
                 "The University of Pisa [or UniPi or Universita di Pisa]",
                 "Galileo Galilei [accept either underlined part]",
                 "Urban VIII"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "The Persepolis Fortification Archive details the administration of this empire.",
-            "answers_sanitized": [
+            "answer": [
                 "Achaemenid Empire (ack-uh-MAY-nid)",
                 "Darius the Great [or Darius I; prompt on \"Darius\"]",
                 "Danube"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "In The Possessed, Elif Batuman mentions the theory that the words \"gazelle\" and \"ghazal\" have the same roots while describing her experience with Alisher Navoi's Uzbek version of this story.",
-            "answers_sanitized": [
+            "answer": [
                 "Layla and Majnun [or Layli and Majnun]",
                 "Rostam and Sohrab",
                 "Sharyar and Scheherezade"

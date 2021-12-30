@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "Architecture isn't all elaborate facades and flashy brise-soleils. Answer the following about the humble roof, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Le Corbusier [or Charles-Edouard Jeanneret; accept Le Corb]",
                 "Mansard roof [or Mansart roof; accept curb roof]",
                 "Indonesia [accept the Republic of Indonesia or Republik Indonesia]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "In the kinetic theory of these substances, their constituents are assumed to be infinitely small points that collide perfectly elastically and exert no intermolecular forces on one another. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ideal gases",
                 "van der Waals equation",
                 "Maxwell-Boltzmann distribution"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "The Norns maintain this tree by watering it with water from the Urdarbrunnr, or the Well of Urd. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Yggdrasil",
                 "N\u00eddh\u00f6ggr",
                 "Niflheimr"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "During a siege of this city, a failed attack on the besiegers' supply train was known as the Battle of the Herrings. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Orleans [accept Siege of Orleans]",
                 "Joan of Arc [or Jeanne d'Arc]",
                 "Charles VII [or Charles the Victorious; or Charles the Well-Served]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "In this collection\u2019s third entry, the central character meets Ying Chan while in Thailand on a business trip. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Sea of Fertility tetralogy [or Hojo no Umi]",
                 "Yukio Mishima",
                 "Henry Miller"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "This city was the capital of the Portuguese Empire from 1808 to 1821. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Rio de Janeiro",
                 "Juscelino Kubitschek",
                 "Uruguay"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "While this process generally occurs in oil-in-water emulsions, a similar process, termed Ostwald ripening, occurs in water-in-oil emulsions. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "flocculation",
                 "colloids",
                 "Tyndall effect"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "Name these musical genres that were popular in the Baroque era, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "suite [or partita; or ordre; or Holberg Suite]",
                 "concerto grosso [or concerti grossi; prompt on concerto]",
                 "fugue [or Fuga; or fugato; or Toccata and Fugue in D minor]"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "This novel\u2019s protagonist hides out in Alma Schmidt\u2019s home after going AWOL. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "From Here to Eternity (by James Jones)",
                 "Norman Mailer",
                 "World War II [or WWII]"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This philosopher questioned the validity of inductive reasoning because of an unclear connection between past observation and future events. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "David Hume",
                 "An Enquiry Concerning Human Understanding [do not prompt on or accept An Essay Concerning Human Understanding]",
                 "bundle theory"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "This author wrote a mock-saga subtitled \u201cA Midsummer Night\u2019s Dream\u201d about an escaped bear who revolts against humans. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Heinrich Heine",
                 "Romanticism",
                 "Friedrich Schiller"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "The spitzenkorper, which regulates hyphal development in fungi, is composed of a collection of these structures. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "vesicles",
                 "calcium [accept Ca2+]",
                 "liposomes"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "In 69 AD, Rome was ruled by this number of emperors in succession. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "four [accept Year of the Four Emperors]",
                 "3rd century [accept 200s]",
                 "Constantine I [or Constantine the Great; prompt on Constantine]"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "The variety of leaves used in Assam to make this drink are distinguished by their larger size compared to those from southern China. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "tea",
                 "masala chai",
                 "Darjeeling tea"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "If a man can speak in tongues but does not have this attribute, he is said to be a \u201cclanging cymbal.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "love [do not accept other answers]",
                 "Paul [or Saul of Tarsus]",
                 "uncovered head [accept anything about not wearing something on the head]"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "This man\u2019s namesake proclamation promised freedom to any black slave who joined the Loyalist cause. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Murray, 4th Earl of Dunmore [accept either underlined part; accept Lord Dunmore\u2019s War]",
                 "gunpowder [accept black powder; accept Gunpowder Incident; accept Gunpowder Plot]",
                 "Williamsburg [accept Colonial Williamsburg]"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "The wife of this artist, Lee Krasner, created a charcoal recreation of Picasso\u2019s Seated Nude. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jackson Pollock",
                 "abstract expressionism",
                 "Houston, Texas"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "To prepare for a spectrometric method that helps determine this property, one can mix the sample with DHB or sinapic acid and using a laser to ablate the resulting matrix. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "mass [accept mass spectrometry]",
                 "gas chromatography [accept GC-MS]",
                 "rearrangements"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "After this character is accused of infidelity, the friar suggests that her death be faked so the truth will come out. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Hero",
                 "Beatrice",
                 "comedy"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "Scratch bands from this archipelago play its native fungi (FOON-jee) music, or quelbe. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Virgin Islands",
                 "Antilles",
                 "Republic of Trinidad and Tobago"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "The novel\u2019s title location is a utopia where the ill are imprisoned and murderers cared for. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Erewhon: or, Over the Range",
                 "Samuel Butler",
                 "Ernest [accept \u201cThe Importance of Being Earnest\u201d]"

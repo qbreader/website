@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "Many indigenous cultures of this region carve totem poles to commemorate family lineages. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Pacific Northwest coast [or Northwest coast; prompt on Pacific Coast or Western United States or Western Canada or Oregon or Washington or British Columbia or Northern California or Alaska]",
                 "giving gifts [or gift-giving or gift economy or gift exchange or destroying gifts or anything involving giving away things to other people; do not accept \"receiving gifts\"]",
                 "ethnography [or word forms such as ethnographic]"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This author quoted the Wordsworth poem \u201cThe Tables Turned\u201d to title his novel <em>These Barren Leaves</em>, and parodied Ottoline Morrell\u2019s Garsington Manor in <em>Crome Yellow</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Aldous Leonard Huxley",
                 "The Tempest",
                 "The Doors of Perception"
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "After Bar Kokhba\u2019s revolt, Jews were forbidden from entering this city, which was renamed Aelia Capitolina. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jerusalem",
                 "Titus [or Arch of Titus]",
                 "Domitian"
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This writer\u2019s critique of the <em>Declaration of Independence</em> called American opinions \u201ctoo ridiculous to deserve any notice.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jeremy Bentham",
                 "happiness",
                 "government [or Fragment on Government]"
@@ -183,7 +183,7 @@
         },
         {
             "leadin": "Jeffrey Hall, Michael Rosbash, and Michael Young received the 2017 Nobel Prize in Physiology or Medicine for their research into this phenomenon. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "circadian rhythms [or circadian clocks; or diurnal rhythms; prompt on \u201cbiological clock(s)\u201d]",
                 "fruit fly [or fruit flies; or Drosophila melanogaster; or D. melanogaster]",
                 "melatonin"
@@ -198,7 +198,7 @@
         },
         {
             "leadin": "Answer some questions about people involved in the Shell Crisis of 1915, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "David Lloyd George [do not accept or prompt on just \u201cLloyd\u201d or \u201cGeorge\u201d]",
                 "Lord Kitchener [accept Herbert Kitchener, 1st Earl of Kitchener]",
                 "Herbert Henry Asquith"
@@ -213,7 +213,7 @@
         },
         {
             "leadin": "A pivotal moment in this novel occurs when Big Joe Portagee steals the coins that Pirate had saved to buy a candlestick for St. Francis. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tortilla Flat",
                 "John Steinbeck",
                 "Jim Casy [accept either underlined part]"
@@ -228,7 +228,7 @@
         },
         {
             "leadin": "Zeus had this woman fashioned from clay as punishment for Prometheus giving fire to mankind. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Pandora",
                 "the Graces [or Kharites or Charites; accept answers naming all three of Thalia, Aglaia, and Euphrosyne, prompt on anything less than all three of them]",
                 "Pyrrha"
@@ -242,7 +242,7 @@
         },
         {
             "leadin": "The \u201cstrong\u201d version of this concept involves a computer that can completely emulate the behavior of a human being. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "artificial intelligence [or AI]",
                 "Chinese room argument [or Chinese room thought experiment]",
                 "Turing test"
@@ -257,7 +257,7 @@
         },
         {
             "leadin": "During this time period, Walker Evans photographed a portrait of Allie Mae Burroughs titled <em>Alabama Tenant Farmer Wife</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Great Depression [or the Great Slump; or the Depression; or the Dust Bowl; prompt on the 1930s]",
                 "Dorothea Lange",
                 "child laborers [or synonymous answers, such as child workers; prompt on children and other synonyms]"
@@ -272,7 +272,7 @@
         },
         {
             "leadin": "The United States was debt-free for the only time in history under this president. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Andrew Jackson",
                 "Nicholas Biddle",
                 "Tariff of Abominations"
@@ -287,7 +287,7 @@
         },
         {
             "leadin": "Answer the following about molecular geometries, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "VSEPR [\u201cvesper\u201d] theory [or Valence Shell Electron Pair Repulsion theory]",
                 "square planar",
                 "water [or H2O]"
@@ -302,7 +302,7 @@
         },
         {
             "leadin": "This composer\u2019s youngest son, Johann Christian, was music-master to Queen Charlotte. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Johann Sebastian Bach [prompt on Bach]",
                 "The Well-Tempered Clavier [or Das Wholtemperierte Klavier]",
                 "Wolfgang Amadeus Mozart"
@@ -317,7 +317,7 @@
         },
         {
             "leadin": "At the end of this author's novel <em>Cancer Ward</em>, Oleg boards a train away from the title location into exile. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Aleksandr Solzhenitsyn",
                 "One Day in the Life of Ivan Denisovich",
                 "samizdat"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "This collection of texts is known as \u201cthree baskets,\u201d as it contains the Vinaya [vin-AA-yah], Sutta [SOO-taa], and Abhidhamma [a-bhi-DHAM-ma] Pitakas [pi-ta-KAS]. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Pali Canon [or Tripitaka; or Tipitaka]",
                 "Sanskrit",
                 "Sri Lanka"
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "One painting by this artist shows the aftermath of someone diving into a swimming pool. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "David Hockney",
                 "cat [or kitten, or equivalents]",
                 "pop art"
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "The yearly flooding of this river stopped after the construction of the Aswan High Dam. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nile River",
                 "Khartoum",
                 "Lake Tana"
@@ -375,7 +375,7 @@
         },
         {
             "leadin": "After a chief of these people was whipped by the captain of the <em>Boyd</em>, almost every member of the ship\u2019s crew was killed and cannibalized. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Maori",
                 "muskets [or Musket Wars; prompt on guns or firearms]",
                 "Treaty of Waitangi"
@@ -390,7 +390,7 @@
         },
         {
             "leadin": "The development of this model led to the formulation of a namesake radius and a namesake magneton. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bohr model",
                 "hydrogen [or H]",
                 "Johann Balmer"
@@ -405,7 +405,7 @@
         },
         {
             "leadin": "In this play, a father inadvertently meets his step-daughter in the back room of a brothel. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Six Characters in Search of an Author [or Sei personaggi in cerca d'autore]",
                 "Luigi Pirandello",
                 "Waiting for Godot"

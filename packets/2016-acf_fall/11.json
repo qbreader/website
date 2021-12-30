@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "Answer the following about what you might see if you rudely chop down a tree, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "growth rings [or annual rings]",
                 "xylem",
                 "cohesion-tension hypothesis"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "On certain occasions, this body was believed to be attacked by the Tztzimimeh. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the sun",
                 "Huitzilopochtli",
                 "Quetzalcoatl"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Answer the following about stairs, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "the Paris Opera House [accept the Opera Garnier or the Salle des Capucines; prompt on Palais Garnier or any partial answers]",
                 "Michelangelo [or Michelangelo di Ludovico Buonarotti Simoni]",
                 "Donato Bramante"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "This thinker believed in greater independence between substance and form. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Duns Scotus",
                 "Thomas Aquinas [or Tommaso d\u2019Aquino]",
                 "Averroes [or Ibn Rushd]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "A contingent of Phocians was dispatched to guard a mountain trail during this battle by the eventual losers, who were overwhelmed on both sides by enemy forces utilizing the trail. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Battle of Thermopylae",
                 "Sacred Band of Thebes [or Hieros Lokhos]",
                 "Mithridates VI [or Mithridates the Great; or Eupator Dionysius]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "This man is the reincarnation of the Golden Cicada and the sworn brother of Emperor Tang Taizong, and he frequently recites a mantra which tightens a circlet around the head of a companion as punishment. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Xuanzang [o Tang Sanzang; accept Tang Seng; accept Tripitaka; accept Longevity Monk]",
                 "Journey to the West [plus those other answerlines]",
                 "dragons [accept long; accept Dragonwings]"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "This condition occurs when the density parameter, omega, defined as 8 pi times big G times rho divided by 3 times the Hubble constant squared, is equal to 1. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "flatness",
                 "inflation",
                 "first law of thermodynamics"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "You are noted activist and journalist Stetson Kennedy. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "KKK [or Ku Klux Klan; accept the Klan]",
                 "Akia [or \u201cA Klansman I am\u201d; accept Akai; accept \u201cA Klansman am I\u201d; accept whole sentences incorporating Akia like \u201cYes, and I also know a Mr. Akia\u201d]",
                 "\u201cClan of the Fiery Cross\u201d [accept burning crosses or descriptive answers like crosses on fire; accept crucifix in place of cross; prompt on crosses; prompt on crucifixes]"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "The noise made by this instrument is often stereotyped as sounding like \u201coom-pah.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "tuba",
                 "euphonium",
                 "Symphonie Fantastique [or Fantastic Symphony]"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "A fake Reddit thread claimed that Steam was giving out refunds for this game regardless of time played. For 10 points each,",
-            "answers_sanitized": [
+            "answer": [
                 "No Man\u2019s Sky",
                 "procedural generation [prompt on random generation]",
                 "Minecraft"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "Identify the following playwrights who were involved in France during World War II, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Samuel Beckett",
                 "Eugene Ionesco",
                 "Jean Anouilh"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "This poem\u2019s first line was mirrored by another author\u2019s poem which compares his lover to a slimy fish sought out by other fish. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cThe Passionate Shepherd to His Love\u201d",
                 "Christopher Marlowe",
                 "Helen of Troy"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "This statement predicts the existence of the zero point energy because it implies that a particle can not simply sit at the bottom of a potential well . For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Heisenberg\u2019s uncertainty principle",
                 "Schrodinger\u2019s cat",
                 "Bell\u2019s inequality"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "An example of this effect is the not-real mathematical talent of Clever Hans, the horse who could supposedly perform arithmetic. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "observer-expectancy effect [accept observer effect, or experimenter effect, or expectancy bias]",
                 "double-blind trials [accept synonyms of \u201ctrial\u201d like \u201cexperiment\u201d or \u201cdesign\u201d]",
                 "control groups"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "This poem describes a higher power who guides its subject from \u201czone to zone\u201d and will \u201clead [the speaker\u2019s] steps aright.\u201d For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cTo a Waterfowl\u201d",
                 "William Cullen Bryant",
                 "innumerable caravan"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "The Wye River Memorandum was intended to clarify how the second of these agreements would be implemented. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Oslo Accords [accept Oslo I; accept Oslo II]",
                 "Yasser Arafat",
                 "Nobel Peace Prize [prompt on Nobel Prize]"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "A young man hidden in some bushes is shown gazing up the skirt of this painting\u2019s central figure. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Swing (accept The Happy Accidents of the Swing; or Les Hasards heureux de l\u2019escarpolette)",
                 "Jean-Honor\u00e9 Fragonard",
                 "Francois Boucher"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about censorship in the Soviet Union.",
-            "answers_sanitized": [
+            "answer": [
                 "Joseph Stalin [or Iosef Dzhugashvili]",
                 "Khrushchev\u2019s Thaw [or khrushchovskaya ottepel]",
                 "samizdat"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "Two molecules of this functional group react to give their beta-keto variety in the Claisen condensation.For ten points each;",
-            "answers_sanitized": [
+            "answer": [
                 "esters [accept Fischer esterification]",
                 "oxonium",
                 "Lewis acid [prompt on acid]"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "The Catholic document that provides guidelines for this action was last revised in 1999. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "exorcism [or word forms]",
                 "Legion",
                 "Mary Magdalene [or Mary of Magdala; prompt on Mary]"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "The memorial to this branch of the military was sculpted by Felix de Weldon, and shows six members of this branch raising the flag on Iwo Jima. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "United States Marine Corps [or USMC]",
                 "Chapultepec Castle [accept Battle of Chapultepec]",
                 "Barbary Wars"

@@ -121,7 +121,7 @@
     "bonuses": [
         {
             "leadin": "This composer\u2019s <em>Faschingsschwank aus Wien</em> (fash-ing-shvank aus VEEN) quotes \u201cLa Marseillaise (mar-SAY-ez)\u201d in its first movement. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Robert Schumann [or Jean-Baptiste Nicolas Robert Schumann]",
                 "theme and variations [or tema con variazioni or variation on a theme; accept Geistervariationen or Diabelli Variations]",
                 "Edvard Grieg [or Edward Hagerup Grieg] &lt;Classical Music \u2014\u00a0Gurazada&gt; [Edited]"
@@ -136,7 +136,7 @@
         },
         {
             "leadin": "Glaucus became a god of this domain after becoming immortal by eating a magical herb. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the sea [or the ocean or thalatta; accept specific seas such as the Aegean or Mediterranean; accept fishermen]",
                 "Proteus",
                 "the Trojan War &lt;Mythology \u2014 French&gt; [Edited]"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "A burette with a stopcock is often used to dispense solution in this technique. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "titration [or titrimetry or volumetric analysis or titration; accept acid-base titration or acid-base titrimetry or alkalimetry or acidimetry]",
                 "half-equivalence point [or halfway point; accept any answer that describes a point in the titration that occurs halfway to the equivalence point; do NOT accept or prompt on \u201cequivalence point\u201d]",
                 "colloids [prompt on emulsions with \u201cemulsions are a subtype of what more general class of systems?\u201d] &lt;Chemistry \u2014 Iyer&gt; [Ed. Gurazada]"
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "For 10 points each, name some forms used in Persian poetry:",
-            "answers_sanitized": [
+            "answer": [
                 "ruba\u2019i (roo-bah-EE) [or ruba\u2019iyat; accept Rubaiyat of Omar Khayyam]",
                 "couplets [accept rhyming couplets or Spiritual Couplets]",
                 "ghazal &lt;Poetry \u2014 Iyer&gt; [Ed. French]"
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "This event began when the offices of Rabochi Put were forced to close. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "October Revolution [or Bolshevik Revolution; prompt on November Revolution; prompt on Russian Revolution; do NOT accept or prompt on \u201cFebruary Revolution\u201d]",
                 "Vladimir Iliyich Lenin [or Vladimir Iliyich Ulyanov]",
                 "Leon Trotsky [or Lev Davidovich Bronstein] &lt;World History \u2014 Iyer&gt; [Edited]"
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "Voltage-gated examples of these proteins are instrumental in creating an action potential. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ion channels [or channel proteins or voltage-gated ion channels]",
                 "transport [accept active transport or passive transport]",
                 "tetrodotoxin [or TTX] &lt;Biology \u2014\u00a0Gurazada&gt; [Edited]"
@@ -210,7 +210,7 @@
         },
         {
             "leadin": "This author wrote that \u201cthere is no there, there\u201d in reference to her home city of Oakland. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Gertrude Stein",
                 "Ernest Hemingway",
                 "The Sun Also Rises &lt;Long Fiction \u2014 Schwartz&gt; [Edited]"
@@ -225,7 +225,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about penguins:",
-            "answers_sanitized": [
+            "answer": [
                 "Antarctica",
                 "emperor penguins [or Aptenodytes forsteri]",
                 "Ad\u00e9lie (ah-DAY-lee) penguins [or Pygoscelis adeliae] &lt;Geography \u2014 Venkateswaran&gt; [Edited]"
@@ -240,7 +240,7 @@
         },
         {
             "leadin": "Utilities are a common example of the \u201cnatural\u201d form of this market structure. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "monopoly [accept natural monopoly]",
                 "Herfindahl-Hirschman Index [or HHI]",
                 "marginal revenue and marginal cost [accept in either order; prompt on MR and MC] &lt;Economics \u2014\u00a0Shahriar&gt; [Ed. French]"
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "The Jiaqing (ja-cheeng) Emperor\u2019s refusal to recognize this country as the successor of the ancient Nanyue Kingdom resulted in its modern name. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Vietnam [accept Namviet]",
                 "Trung sisters [or Tru\u2019ng Tr\u1eafc and Tru\u2019ng Nhi]",
                 "Kublai Khan [or Hubilie; accept Emperor Shizu of Yuan] &lt;Asian History \u2014 Iyer/Ma&gt; [Ed. Ma]"
@@ -269,7 +269,7 @@
         },
         {
             "leadin": "In early New Orleans jazz, this section often included a tuba and a banjo. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "rhythm section",
                 "drums [or drum set]",
                 "Gene Krupa &lt;Jazz \u2014 French&gt; [Edited]"
@@ -284,7 +284,7 @@
         },
         {
             "leadin": "One of these beings, Watatsumi, is sometimes equated to Ryujin, the god of the sea. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "kami [prompt on BUT DO NOT REVEAL Shinto gods or Shinto spirits or Shinto deities]",
                 "Shintoism [or kami-no-michi]",
                 "torii &lt;Religion \u2014 Venkateswaran&gt; [Edited]"
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "The wobble method for detecting these objects infers their existence from periodic shifts in a star\u2019s radial velocity. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "exoplanets [or extrasolar planets; prompt on planets; prompt on hot Jupiters or hot Neptunes with \"those are a subclass of what more general class of object?\"]",
                 "Johannes Kepler [accept Kepler Space Telescope]",
                 "transit photometry [or transit; accept transit method; prompt on photometry] &lt;Astronomy \u2014\u00a0Gurazada&gt; [Ed. French]"
@@ -313,7 +313,7 @@
         },
         {
             "leadin": "The title character of this play is cursed to be forgotten by her husband due to the machinations of the short-tempered sage Durvasa. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Recognition of Shakuntala [or The Sign of Shakuntala or The Recognition of Shakuntalam or The Sign of Shakuntalam or Abhijnanashakuntala or Abhij\u00f1\u0101na\u015b\u0101kuntalam or Abhij\u00f1\u0101na Sh\u0101kuntalam]",
                 "Sanskrit",
                 "Johann Wolfgang von Goethe (GUR-tuh) &lt;Drama \u2014 Schwartz&gt; [Edited]"
@@ -328,7 +328,7 @@
         },
         {
             "leadin": "This woman pushed for the replacement of Robert Lansing during a period of \u201cstewardship\u201d that she undertook with Cary Grayson. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Edith Wilson [or Edith Bolling or Edith Galt; prompt on Wilson]",
                 "World War I [or the First World War or the Great War]",
                 "Twenty-Fifth Amendment [or Amendment 25] &lt;US History \u2014\u00a0Gray&gt; [Edited]"
@@ -343,7 +343,7 @@
         },
         {
             "leadin": "The title of this series was taken from Franklin D. Roosevelt\u2019s 1941 State of the Union Address. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Four Freedoms",
                 "Norman Rockwell [or Norman Percevel Rockwell]",
                 "American Regionalism &lt;Painting \u2014\u00a0Li&gt; [Ed. Malouf]"
@@ -358,7 +358,7 @@
         },
         {
             "leadin": "When the moment generated by this force and gravity is self-righting, then a body is statically stable. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "buoyant force [or buoyancy; accept upthrust]",
                 "fluid density",
                 "incompressible flow [or incompressibility; prompt on divergenceless velocity or divergenceless flow or answers indicating a flow or velocity with zero divergence] &lt;Physics \u2014 Gurazada&gt; [Ed. French]"
@@ -373,7 +373,7 @@
         },
         {
             "leadin": "After this character is asked by a dying former teacher to shoot him, this character responds by saying \u201cdo it yourself\u201d and tossing a gun onto the ground. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jesse Pinkman [or Jesse]",
                 "Breaking Bad",
                 "El Camino: A Breaking Bad Movie &lt;Pop Culture \u2014 Schwartz&gt; [Ed. Gray]"
@@ -387,7 +387,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the general Belisarius:",
-            "answers_sanitized": [
+            "answer": [
                 "Justinian I [or Justinian the Great or Flavius Petrus Sabbatius Iustinianus Augustus]",
                 "chariot races",
                 "Sassanids [or Sasanian Empire] &lt;Ancient/Classical History \u2014 Hong&gt; [Edited]"
@@ -402,7 +402,7 @@
         },
         {
             "leadin": "In this novel, Berlioz is decapitated by a streetcar after he slips on sunflower oil. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Master and Margarita",
                 "Jesus Christ [or Jesus of Nazareth or Yeshua Ha-Nozri]",
                 "Fyodor Dostoevsky [or Fyodor Dostoyevsky or Fyodor Mikhailovich Dostoevsky or Fyodor Mikhailovich Dostoyevsky] &lt;Long Fiction \u2014 Iyer&gt; [Ed. French]"

@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This artist's posthumously published memoir begins with his mother \"beating the hell out of [him]\" for donning his sister's dress at age 4. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bill Cunningham [or William John Cunningham Jr.]",
                 "The New York Times [prompt on The Times]",
                 "a subway car [or a train; or the motorman's booth of a subway car; or subway station; or equivalents]"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "After several patrons fall ill in a nightclub, this \"magniloquent spoony\" writer realizes that he is boring them to death. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Arthur Less [or Arthur Less]",
                 "Pulitzer Prizes [accept Pulitzer Prize for Fiction]",
                 "Italian [or italiano] (The Story of the Lost Child is the last entry in the Neapolitan Novels by Elena Ferrante.)"
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "This practice was not criminalized in Mauritania until 2007, and according to several human rights groups, it is still rampant in that country. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "slavery [or enslavement; prompt on forced labor]",
                 "Haratin (\"ha-ra-TEEN\") [or Haratines; or Hartani]",
                 "The Philippines [or Republic of the Philippines; or Filipinas; or Republika ng Pilipinas]"
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Whole Earth Catalog editor Steward Brand hailed this group for \"inventing the future\" after visiting in 1986. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "MIT Media Lab [prompt on MIT or Massachusetts Institute of Technology]",
                 "gene drives [prompt on genetic engineering or similar answers; prompt on using CRISPR or clustered regularly interspaced short palindromic repeats or gene knockout or other answers about manipulating genes]",
                 "Drosophila [or fruit flies; accept Sophophora; accept specific species like Drosophila melanogaster]"
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Because Chuck Palahniuk (\"PAUL-uh-nik\") wrote the intro to this author's novelization of a Freud case study, Dora: A Headcase, many reviewers dubbed it the \"female Fight Club.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Lidia Yuknavitch",
                 "Andy Warhol [or Andy Warhola]",
                 "Chuck Klosterman [or Charles John Klosterman]"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "\u00c0i W\u00e8iw\u00e8i created 3,200 porcelain replicas of these animals to protest the demolition of his Sh\u00e0ngh\u01cei studio. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "river crabs [or h\u00e9xi\u00e8; accept other names such as hairy crabs; or mitten crabs; prompt on crustaceans or arthropods or other non-specific answers]",
                 "rabbits [or bunny rabbits; or hares; or leporids; accept lagomorphs]",
                 "Winnie-the-Pooh [or Winnie-the-Pooh &amp; Pals; or Pooh Bear]"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "This kind of policy is being tested in the Swiss town of Rheinau (\"RHINE-ow\"). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "universal basic income [or UBI or guaranteed income or minimum income or citizen's income or basic living stipend or universal demogrant; prompt on income or pension]",
                 "test prep [accept answers indicating preparing or studying for standardized tests or exams; prompt on tutoring]",
                 "Andrew Ng (\"ing\") [or Andrew Yan-Tak Ng]"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Don't know what to do with your old industrial building? Turn it into an art museum! For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tate Modern [prompt on the Tate; do not accept \"Tate Britain\"]",
                 "oil tanks [or oil depot; or tank farm; accept Tank Sh\u00e0ngh\u0103i; prompt on oil facility; do not accept or prompt on \"oil refinery\"]",
                 "South Africa [or Republic of South Africa; or RSA; or iRiphabhuliki yase Ningizimu Afrika; or iRiphabliki yom Zantsi Afrika; or Republiek van Suid-Afrika; or similar names from other languages]"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "In an article for The Toast, this linguist \"explains the grammar of Doge. Wow.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Gretchen McCulloch",
                 "vocal fry register [or creakiness; or creaky voice; or pulse register/phonation; or croakiness; or laryngealization or word forms; or glottal fry; or glottal rattle; or glottal scrape; or Strohbass; accept popcorning]",
                 "exclamation points! [or exclamation marks!; accept bangs!]"
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "As part of an unusual settlement in a rate raising case, Verizon paid 15 million dollars to increase the number of these things in rural West Virginia. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "street addresses [or house numbers; or building numbers; or postal addresses]",
                 "Florence [or Firenze]",
                 "What3Words [or What3Words Limited]"
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Crispin Wright outlined a pluralist theory of this concept in a book named for it and \"Objectivity.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "truth [accept semantic truth; accept Truth and Objectivity; accept The Death of Truth]",
                 "Hannah Arendt [or Hannah Arendt Bluecher; or Johanna \"Hannah\" Cohn Arendt; accept The Three Escapes of Hannah Arendt: A Tyranny of Truth]",
                 "\u00c1gnes Heller"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Amy Hagstrom Miller, the subject of a prominent Supreme Court case in 2016, was evicted by her landlord in favor of one of these institutions that offered five years' worth of rent up front. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "crisis pregnancy center [or CPC; or pregnancy resource center; or PRC] (The case was Whole Woman's Health v. Hellerstedt.)",
                 "Texas [or TX]",
                 "TRAP Laws [accept targeted restrictions on abortion providers]"
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Answer the following about Rupert Sheldrake's pseudoscience career, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "magnetoreception [or magnetoception; or magnetosensing; accept anything about sensing Earth's magnetic field or magnetism]",
                 "protein crystallization [or word forms like getting a crystal structure; accept X-ray crystallography]",
                 "foveated imaging systems [or word forms; accept fovea centralis]"
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "A caf\u00e9 worker in this musical starts singing a lullaby to his son, but soon starts singing about \"the loser and the loser's wife.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Band's Visit",
                 "Tel Aviv [accept Gush Dan]",
                 "Ireland [or Republic of Ireland; or \u00c9ire; or Poblacht na h\u00c9ireann] (The singer was Brendan Graham.)"
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Visitors to North American caves must clean their shoes and gear to avoid spreading spores that transmit this disease. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "white-nose syndrome [or WNS]",
                 "Pinnacles National Park",
                 "Indiana [or IN; accept Indiana Dunes National Park]"
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "In 2020, this magazine's annual queer issue featured a Cebuano story about a tattoo addict by R. Joseph Dazo. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Words Without Borders [or WWB]",
                 "M\u00e9xico [or Estados Unidos Mexicanos; or United Mexican States]",
                 "Gothic novels [accept Mexican Gothic; accept Southern Gothic or Southern Ontario Gothic]"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Sociologist Nathalie E. Paton documented common tropes in the videos posted prior to these events. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "mass school shootings [prompt on mass shootings or murders or massacres]",
                 "Jack Thompson [or John Bruce Thompson]",
                 "Centers for Disease Control and Prevention [or CDC]"
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "In an episode of the Comedy Central program Corporate that centers on this software, Matt creates a pitch for the CIA. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Microsoft PowerPoint [prompt on Microsoft Office]",
                 "An Inconvenient Truth (The song was Melissa Etheridge's \"I Need to Wake Up.\")",
                 "David Byrne (\"burn\")"
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "This language's developer Fernando P\u00e9rez spun off one of its shells into the language-agnostic Project Jupyter (\"Jupiter\"). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Python [accept iPython]",
                 "conda [or Anaconda; accept Miniconda]",
                 "pip [or pip installs packages]"
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "This country was rocked by the Narcoindultos scandal, when one of its former presidents issued hundreds of commutations and pardons to convicted drug dealers. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Peru [or Republic of Peru; or Rep\u00fablica del Per\u00fa]",
                 "Keiko Fujimori [or Keiko Sof\u00eda Fujimori Higuchi; or Se\u00f1ora K]",
                 "Odebrecht S.A."

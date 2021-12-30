@@ -134,7 +134,7 @@
     "bonuses": [
         {
             "leadin": "The pooling effect occurs in this technique when stationary phase accumulating in the corners of rectangular microcolumns causes band broadening. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "gas chromatography [or GC; prompt on chromatography; prompt on gas analysis; prompt on trace vapor analysis] (A TCD is a thermal conductivity detector.)",
                 "preconcentrators [accept microfabricated preconcentrators; accept preconcetrator-focuser; accept preconcentrator-injector] (SNL is Sandia National Labs.)",
                 "carbon [or C; accept graphitized carbon black] "
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This politician exclaimed \u201cShow my head to the people, it is worth seeing\u201d after losing a show trial largely orchestrated by Robespierre and Saint-Just (\u201csahn-zhoost\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Georges Jacques Danton",
                 "Thermidor [accept Thermidorian Reaction; or R\u00e9action thermidorienne; or Coup of Thermidor; prompt on July or August with \u201cplease give the month of the French Republican calendar\u201d]",
                 "Abb\u00e9 Siey\u00e8s [or Emmanuel Joseph Siey\u00e8s] "
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Zayar, a form of torture that involves crushing one\u2019s toes between two wooden rods, is a key part of this practice. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "leblouh [prompt on gavage]",
                 "corsets [accept whalebone corsets; accept hourglass corset]",
                 "teeth [accept smile; accept specific types of teeth such as canines] "
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Carol Zaleski\u2019s book Otherworldly Journeys reports that these experiences tended to be unpleasant and tortuous in medieval times but generally pleasant and peaceful in modern times. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "near death experiences [accept NDEs; accept answers like almost dying but coming back to life; prompt on dying or death]",
                 "neurotheology [accept neuroscience of religion; accept spiritual neuroscience; prompt on neuroscience]",
                 "Heaven is for Real: A Little Boy\u2019s Astounding Story of His Trip to Heaven and Back "
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "A 2017 NPR article likens Donald Trump\u2019s comments about buying Greenland to a scene in which this character buys all the water in the Caribbean Sea and transports it to the Arizona desert. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the General [or el general; or Zacar\u00edas; accept the Patriarch or el patriarca; accept the dictator from The Autumn of the Patriarch; accept el dictador from El oto\u00f1o del patriarca]",
                 "Gabriel Garc\u00eda M\u00e1rquez",
                 "chicken coop [or gallinero; accept hen house or any type of structure for chickens] "
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "This site was the capital of the Saudeleur dynasty, and it is believed to be the only pre-modern city built atop a coral reef. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nan Madol",
                 "Yap",
                 "breadfruit [or dugdug; or tipolo; accept breadnut] "
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "A leitmotif alternatively known as \u201cConsternation\u201d or named for this character is an inversion of a liefmotif for another character\u2019s \u201chonor.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "King Marke (\u201cMAR-kuh\u201d)",
                 "Tristan und Isolde [or Tristan and Isolde]",
                 "bass clarinet [reject \u201cclarinet\u201d] "
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "A Fredric Jameson essay for the London Review of Books discusses how the \u201cfirst command\u201d granted to this novella\u2019s protagonist represents both a sentimental experience and a transition from labor to management within the superstructure of imperialism. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Shadow-Line",
                 "Joseph Conrad [or J\u00f3zef Teodor Konrad Korzeniowski]",
                 "\u201cYouth\u201d "
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "In the Gibbs paradox, the mixing of two ideal gases with this property causes a decrease in entropy as given by the Sackur\u2013Tetrode equation. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "indistinguishable [or identical; or indiscernible]",
                 "natural log [accept ln]",
                 "replace a sum with an integral [accept approximating a sum with an integral; accept any descriptions indicating that a summation is being changed to an integral; accept word forms of integral like integrate or integration; accept word forms or descriptions of sum like summing or addition; prompt on integration alone] "
@@ -269,7 +269,7 @@
         },
         {
             "leadin": "Patients using this apparatus are asked to make symmetric movements like clapping or mock music conducting to provide a type of visual feedback named for them. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "mirror box [prompt on mirrors]",
                 "phantom limb syndrome [accept phantom limb pain]",
                 "antidepressants [accept tricyclic antidepressants; prompt on TCAs] "
@@ -284,7 +284,7 @@
         },
         {
             "leadin": "Answer the following about the career of American conductor Michael Tilson Thomas, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Young People\u2019s Concerts",
                 "Gustav Mahler",
                 "Carl Ruggles [or Charles Sprague Ruggles] "
@@ -299,7 +299,7 @@
         },
         {
             "leadin": "Entomological illustrator Anna Comstock became a leader of this pedagogical movement after her \u201chandbook\u201d of the same name became a surprise standard science textbook for the first few decades of the 20th century. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "nature study movement [accept \u201cstudy nature, not books\u201d]",
                 "Rachel Carson [or Rachel Louise Carson]",
                 "National Audubon Society "
@@ -314,7 +314,7 @@
         },
         {
             "leadin": "Many of these institutions in Guatemala were closed after a fire at one called Hogar Seguro left 41 people dead. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "orphanages [or children\u2019s homes; prompt on care homes; reject \u201cfoster homes\u201d]",
                 "tourism [accept voluntourism or ecotourism]",
                 "2004 Indian Ocean earthquake and tsunami [or 2004 Asian earthquake and tsunami; or Boxing Day Tsunami; or Sumatra-Andaman earthquake; accept December 26th earthquake and tsunami; prompt on answers mentioning an Indian Ocean or Asian tsunami or earthquake by stating \u201ceither give the year or the date it occurred.\u201d] "
@@ -329,7 +329,7 @@
         },
         {
             "leadin": "This character composes a poem on his deathbed that rues a lover\u2019s suicide resembling a cult sacrifice they had watched together and addresses that lover as \u201cLittle soul, gentle and drifting, guest and companion of my body.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Hadrian [or Hadrien; or accept Caesar Traianus Hadrianus; accept Memoirs of Hadrian or M\u00e9moires d\u2019Hadrien; accept Emperor Hadrian] (Memoirs of Hadrian is by Marguerite Yourcenar, and the poem in the lead-in is \u201cAnimula, vagula, blandula.\u201d)",
                 "Claudius [or Tiberius Claudius Caesar Augustus Germanicus; accept I, Claudius]",
                 "John Williams (The unnamed novel is Stoner.) "
@@ -344,7 +344,7 @@
         },
         {
             "leadin": "The right to be taken care of and exemption from typical social responsibilities are among the rights given to people described by this term. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "sick role",
                 "structural functionalism [accept word forms; accept structuralism or word forms]",
                 "psychological stress [accept biological stress; accept stress; accept Holmes and Rahe stress scale] "
@@ -359,7 +359,7 @@
         },
         {
             "leadin": "Eccentric Civil War veteran Captain William Fowler founded a dinner club dedicated to this number, in which members gleefully ate at tables in imitation of the Last Supper. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "thirteen [accept Friday the Thirteenth]",
                 "seventeen (The Latin word is \u201cvixi.\u201d)",
                 "three "
@@ -374,7 +374,7 @@
         },
         {
             "leadin": "While working in this city, Al-Khwarizmi published the first astronomical text of the Muslim world, his Zij al-Sindhind, or Astronomical Tables from India. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Baghdad",
                 "Nasir al-Din al-Tusi [or Muhammad ibn Muhammad ibn al-Hasan al-T\u016bs\u012b; accept Tusi couple]",
                 "optics [accept Book of Optics; prompt on physics] "
@@ -389,7 +389,7 @@
         },
         {
             "leadin": "A three-column diagram used in the medieval period to organize the various genera and species of being is known as this thinker\u2019s \u201ctree.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Porphyry of Tyre [accept Porphyrian tree]",
                 "Neoplatonism [accept word forms; prompt on Platonism]",
                 "differentia [prompt on diaphora by asking \u201cwhat is the Latin term?\u201d] "
@@ -404,7 +404,7 @@
         },
         {
             "leadin": "Two butterflies \u201cwaltzed above a farm\u201d and encounter an \u201cEther sea\u201d in a poem whose first line notably uses this word. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "noon",
                 "bells [accept \u201cThe Bells\u201d] (The Dickinson poem is number 498.)",
                 "bees [accept \u201cTelling the Bees\u201d] "
@@ -419,7 +419,7 @@
         },
         {
             "leadin": "At these structures, the electrical signal of an action potential is converted to a chemical signal. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "synapses",
                 "m-cubed times h [or m-to-the-third times h; or m3h; accept answers in either order since multiplication is commutative]",
                 "resting membrane potential "
@@ -434,7 +434,7 @@
         },
         {
             "leadin": "This building was designed by Jacob van Campen and had its neo-classical Citizen\u2019s Hall outfitted with sculptures by Artus Quellinus. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Amsterdam Town Hall [or Koninklijk Paleis van Amsterdam; accept the New Town Hall of Amsterdam; accept Royal Palace of Amsterdam; accept Paleis op de Dam; prompt on just Town Hall or Royal Palace by asking \u201cof what city?\u201d]",
                 "Rembrandt van Rijn [or Rembrandt Harmenszoon van Rijn]",
                 "Pieter de Hooch (\u201choh\u201d) "
@@ -449,7 +449,7 @@
         },
         {
             "leadin": "A simple 2-approximation for this algorithm greedily adds both endpoints of any unused edge. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "vertex cover problem [accept descriptions of finding the minimum vertex cover; prompt on cover; prompt on set cover]",
                 "NP [accept NP-complete; accept NP-hard]",
                 "parameterized complexity (FPT is fixed-parameter tractable.) "

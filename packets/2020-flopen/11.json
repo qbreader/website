@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "The Six Masters of the early period of this dynasty include the flower painter Yun Shouping, landscape painter Wu Li and the \u201cFour Wangs,\u201d all of whom were influenced by works of Dong Qichang, who worked in the previous dynasty. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Qing Dynasty",
                 "rivers [accept Qinhuai River or Along the River During the Qingming Festival]",
                 "finger painting [accept using the fingers or hands to paint or alter a painting; accept painting without a brush or equivalents] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Ultimate tensile strength is estimated as 0.35 times the Brinell hardness number, which is calculated from a test that does this action on a material. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "indentation [or denting; accept penetration; accept word forms of all answers]",
                 "fracture [accept rupture; accept word forms like fracturing or rupturing; prompt on cracking; prompt on failure; prompt on fatigue; prompt on cleavage]",
                 "flexural test [or flexure test; accept bending test] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "The Marquess of Atholl quashed a Scottish uprising that coincided with this rebellion at the Battle of Muirdykes. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Monmouth Rebellion [accept the Pitchfork Rebellion; accept the Revolt of the West; accept the West Country rebellion]",
                 "James II of England [or James VII of Scotland; prompt on James]",
                 "Clan Campbell [accept Archibald Campbell, 9th Earl of Argyll] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "A character in this play adopts the \u201cattitude of Rodin\u2019s \u2018The Thinker\u2019\u201d several times, including while reading a speech by \u201cSenator Queen\u201d in a jail cell whose bars he bends in anger. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Hairy Ape",
                 "Eugene O\u2019Neill [or Eugene Gladstone O\u2019Neill]",
                 "socialists AND anarchists "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "Therav\u0101da Buddhists may employ this practice for specific purposes like passing a test and protection from snake bites, but this practice cannot be used to remedy illness related to past karma. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "parrita [prompt on dharani by asking \u201cwhat is the P\u0101li language term?\u201d]",
                 "(Therav\u0101da) Buddhist monks [or bhikkhus; accept Buddhist nuns; accept bhikkhun\u012bs or bhikshun\u012bs]",
                 "a thread [accept cord; accept string; accept yarn; accept yaj\u00f1opav\u012bta or janeu] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "These documents name an 1967 scandal during the Harold Wilson administration, in which the Daily Express refused to censor a Chapman Pincher article. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "D-Notices [accept DSMA-Notice; accept DA-Notice; accept Defence and Security Media Advisory Notice or Defence Advisory Notice or Defense Notice]",
                 "Sergei Viktorobich Skripal [accept Skripal affair]",
                 "WikiLeaks.org "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "A poem compares this author to Nisus who \u201cfell upon the slippery place\u201d and calls him \u201cMarcellus of our tongue.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Oldham (\u201cOLD-um\u201d) [accept Mr. Oldham; accept \u201cTo the Memory of Mr. Oldham\u201d]",
                 "John Dryden",
                 "\u201chail and farewell\u201d [or ave atque vale] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "Scaffolds used in tissue engineering typically include ligands from this structure in an attempt to provide the correct molecular cues to cells. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "extracellular matrix [or ECM]",
                 "freeze-thaw cycles [accept descriptions of repeated freezing and thawing]",
                 "bone [accept bone marrow] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "A series of papers published in the early 1990s by Bikhchandani, Hirshleifer, and Welch outline how these situations lead to herd behavior. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "information cascades",
                 "bounded rationality [or boundedly rational; prompt on partial answers]",
                 "Bayes\u2019 theorem [or Bayes\u2019 rule; or Bayes\u2019 law; accept Bayes\u2019s in place of Bayes\u2019] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "A participant in this event reportedly threw five thousand dollars on the floor of another alleged participant\u2019s hotel room after he refused to be involved in it. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Chicago White Sox throwing/fixing the 1919 World Series [accept the Black Sox Scandal or other descriptive answers relating to the White Sox or Black Sox throwing the World Series; prompt on throwing or fixing the World Series by stating \u201ceither give the year or the team involved.\u201d]",
                 "Arnold Rothstein",
                 "Atlantic City, New Jersey "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Duke Ellington popularized this instrument\u2019s use in the swing era with a song named for a player of it named Joe, and it was played in the ragtime era by the Italian virtuoso Pietro Frosini. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "accordion [accept button accordion, chromatic button accordion, diatonic button accordion, piano accordion; accept concertina or bandoneon; accept squeezebox]",
                 "\u201cHava Nagila\u201d [accept \u201cLet\u2019s Rejoice\u201d or \u201cLet Us Rejoice\u201d]",
                 "Schrammel Brothers [or Josef and Johann Schrammel; accept Schrammelmusik; accept Schrammel accordion or Schrammel guitar] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "This historian\u2019s seminal work is an economic study of the role that Black slavery and the slave trade played in the accumulation of capital that financed the Industrial Revolution in Britain. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Eric Williams [or Eric Eustace Williams]",
                 "Claudia Jones [or Claudia Vera Cumberbatch]",
                 "Haitian Revolution "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "In a 2012 Guardian article on this novel, Julian Barnes describes his \u201cregret\u201d that the location of a mysterious ch\u00e2teau where a main character dances with a girl during a masked ball is eventually revealed. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Le Grand Meaulnes (\u201cluh grawn mohn\u201d) [or The Wanderer; or The Lost Domain; or The Lost Estate; or The Big Meaulnes; or The Land of the Lost Contentment]",
                 "Madame Bovary",
                 "Sal Paradise [accept either underlined name] (He is the protagonist of Jack Kerouac\u2019s On the Road.) "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "This situation is alternatively named for the 1st-century thinker Agrippa the Skeptic or for Jakob Friedrich Fries, who broke it down into dogmatic, psychological and regressive parts. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Munchhausen\u2019s trilemma [prompt on partial answers; prompt on Agrippan trilemma or Agrippa\u2019s trilemma; prompt on Fries trilemma]",
                 "foundationalism [accept foundationalist theory of justification]",
                 "deductive logic [accept word forms like deduction] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "Akun Island in the Aleutians contains a beautiful example of columnar jointing, which are purely hexagonal columns present in these objects. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "igneous rocks [accept basalts; accept flood basalts; accept volcanic rocks; prompt on rocks]",
                 "pumice",
                 "zoning [accept optical zoning; accept chemical zoning] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "These objects both title and inspired Takashi Yoshimatsu\u2019s opus 67 piano concerto. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "flowers [accept cherry blossoms; accept Memo Flora; accept camellias]",
                 "T\u014dru Takemitsu",
                 "Ryuichi Sakamoto "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Since the 16th century, figurines caricaturing Moorish or North African turban-wearing men with their mouths wide open called \u201cgapers\u201d were traditionally displayed outside these businesses in the Netherlands. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "pharmacies [or drugstores; or apothecaries; accept chemists]",
                 "Zwarte Piet (\u201cpeet\u201d) [or Black Peter; or Swarte Pyt; or Swart Pete; prompt on Piet or Peter]",
                 "being bandaged [or wearing a headband, kerchief, or bandana; accept blinded; accept blindfolded] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "Answer the following about Japanese clans that were thorns in the sides of the Great Unifiers, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sanada clan [or Sanada-shi]",
                 "Oda Nobunaga [reject \u201cNobunaga\u201d]",
                 "Battle of Nagashino [accept Nagashino castle] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Answer these questions about books inspired by James Joyce\u2019s Ulysses. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "New York City [accept NYC; accept The New York Trilogy by Paul Auster]",
                 "Leon Forrest [or Leon Richard Forrest]",
                 "Virginia Woolf "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "The Inuit group and the Norse group contain irregular examples of this group of objects. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "moons of Saturn [accept natural satellites of Saturn; prompt on moons or satellites with \u201corbiting what planet?\u201d]",
                 "eccentricity",
                 "serpentinization "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "The streets of Carmel, Indiana are notable for their 128 examples of these features, making up about three percent of the total amount in the US. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "modern roundabouts [accept traffic circles or rotaries]",
                 "Las Vegas, Nevada (The book is Beneath the Neon.)",
                 "Sweden [or Sverige; or Kingdom of Sweden] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "Albert Mehrabian\u2019s 7 percent-38 percent-55 percent rule is widely misinterpreted to mean that 55 percent of human communications are of this type. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "body language",
                 "haptics [accept haptic feedback or haptic technology]",
                 "Edward T. Hall "

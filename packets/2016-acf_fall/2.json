@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "This thermodynamic cycle begins with air being drawn into a compressor where it is pressurized and run through a combustion chamber. The expansion of the heated air is then used to drive a turbine. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Brayton cycle",
                 "adiabatic",
                 "heat capacity [accept specific heat capacity]"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "This E-flat minor piece includes a distinctive dual chord piano vamp that is present throughout the entire track. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cTake Five\u201d",
                 "Dave Brubeck [or David Warren Brubeck]",
                 "drums"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "After this ruler won a battle fought on the slopes of Mount Chimborazo, an opposing general named Atoc was killed and his body gruesomely mutilated. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Atahualpa",
                 "Incan Empire [or Tawantinsuyu]",
                 "roomful of gold [or roomful of silver; accept Ransom Room]"
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "According to a note by the author, a person with this profession works in a \u201cPlexiglas sphere set into the belly of a B-17 or B-24.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the ball turret gunner [accept \u201cThe Death of the Ball Turret Gunner\u201d; prompt on just \u201cgunner\u201d] [by Randall Jarrell]",
                 "John Irving",
                 "Joseph Heller"
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "This prayer is among the texts written on the scrolls in the tefillin, in accordance with the commandment to \u201cbind [these words] on your arm.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Shema Yisrael [prompt on Hear, O Israel]",
                 "doorways",
                 "Deuteronomy [or Devarim]"
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "Chariot racing used to be super popular. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "horses [accept equus]",
                 "Blues and Greens",
                 "Circus Maximus"
@@ -210,7 +210,7 @@
         },
         {
             "leadin": "One section of this poem lists a number of conditions under which its subject should \u201cbe near me,\u201d including \u201cwhen my light is low\u201d and \u201cwhen my faith is dry.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cIn Memoriam A. H. H.\u201d",
                 "Alfred, Lord Tennyson",
                 "the valley of Death"
@@ -225,7 +225,7 @@
         },
         {
             "leadin": "Electrons undergoing this process are used to generate 3D structures of biomolecules in X-Ray crystallography. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "diffraction",
                 "Bragg\u2019s law",
                 "Babinet\u2019s principle"
@@ -240,7 +240,7 @@
         },
         {
             "leadin": "This composer gave a coin to Hans Richter for conducting the premiere of his Symphony No. 4. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Anton Bruckner",
                 "Richard Wagner [or Wilhelm Richard Wagner]",
                 "scherzo"
@@ -255,7 +255,7 @@
         },
         {
             "leadin": "Olson\u2019s law of large groups states that the larger the group, the larger this problem becomes. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "free rider problem",
                 "public goods",
                 "externalities"
@@ -270,7 +270,7 @@
         },
         {
             "leadin": "This man\u2019s jealousy of his nephew Perdix\u2019s inventions caused him to push Perdix off the Acropolis. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Daedalus",
                 "Minos",
                 "taking a bath [or obvious equivalents]"
@@ -285,7 +285,7 @@
         },
         {
             "leadin": "One artist on this track reminisces about watching \u201corange cassette tapes / with Timmy, Tommy and Chuckie,\u201d and bemoans having to wear visine so his grandma will hug him. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cCocoa Butter Kisses\u201d",
                 "Chance the Rapper [accept Lil Chano from 79th or Chancellor Bennett]",
                 "Noname Gypsy"
@@ -300,7 +300,7 @@
         },
         {
             "leadin": "The first published work of a playwright born in this country was titled The Harrowing of Benjy. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Saint Lucia",
                 "Derek Walcott",
                 "Homer"
@@ -315,7 +315,7 @@
         },
         {
             "leadin": "The failed Operation Eagle Claw during this event resulted in the resignation of Secretary of State Cyrus Vance. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Iran Hostage Crisis",
                 "Jimmy Carter [or James Earl Carter, Jr.]",
                 "Nightline"
@@ -330,7 +330,7 @@
         },
         {
             "leadin": "Most cellular ATP is found complexed with a cation of this element. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Magnesium [accept Mg2+]",
                 "chlorophyll",
                 "Gilman reagents [accept organocuprates]"
@@ -345,7 +345,7 @@
         },
         {
             "leadin": "This character\u2019s \u201cSmile\u201d titles the final section of the novel in which she appears. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Karenin",
                 "The Unbearable Lightness of Being [or Nesnesiteln\u00e1 lehkost byt\u00ed]",
                 "Milan Kundera"
@@ -360,7 +360,7 @@
         },
         {
             "leadin": "The only thoroughly documented work by Hugo van der Goes is a triptych of this kind. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "altarpieces",
                 "Matthias Grunewald",
                 "Jan van Eyck"
@@ -375,7 +375,7 @@
         },
         {
             "leadin": "The Western Rebellion and Kett\u2019s Rebellion occurred during this man\u2019s reign. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Edward VI [prompt on Edward]",
                 "Henry VIII [prompt on Henry]",
                 "Cromwell [accept Thomas Cromwell; accept Oliver Cromwell; accept Richard Cromwell]"
@@ -390,7 +390,7 @@
         },
         {
             "leadin": "Fluorescence recovery after photobleaching, or FRAP, can be used to observe the lateral diffusion of molecules in this structure, validating the fluid mosaic model of its behavior. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "plasma membrane [or cell membrane]",
                 "aquaporins",
                 "flippase or floppase"
@@ -405,7 +405,7 @@
         },
         {
             "leadin": "This thinker described how observing a certain individual\u2019s \u201cthoughtlessness\u201d inspired her last, unfinished work, The Life of the Mind. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Hannah Arendt [or Johanna Arendt]",
                 "vita activa [or active life; or word forms]",
                 "totalitarianism [accept The Origins of Totalitarianism]"
@@ -420,7 +420,7 @@
         },
         {
             "leadin": "A rooster appears in the top left of this sculpture, below which a man blows a horn, a man holds a jug, and another man with a knotted rope over his shoulder carries a sword. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Le Depart de 1792 [accept La Marseillaise]",
                 "L\u2019Arc de Triomphe de l\u2019Etoile",
                 "eternal flame [prompt on answers like torch or other equivalents]"

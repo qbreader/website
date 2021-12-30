@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "Weinberg names one of these quantities, which is used to relate the masses of the W and Z bosons. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "mixing angles [prompt on angles]",
                 "CP violation [or charge-parity violation]",
                 "Cecilia Jarlskog"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This country\u2019s Mashramani carnival is held on February 23 on Republic Day, which commemorates the Berbice slave revolt led by a man named Cuffy. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Guyana",
                 "William Wilberforce",
                 "Grover Cleveland [or Stephen Grover Cleveland]"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about bizarre cuisine in China:",
-            "answers_sanitized": [
+            "answer": [
                 "panda poop [prompt on dung or excrement]",
                 "saliva [or spit or equivalents]",
                 "urine of a virgin boy \u201cpreferably under the age of 10\u201d [must give answers indicating urine of a virgin boy; prompt on urine; prompt on urine of a virgin; prompt on urine of a boy; accept similar synonyms for each component of the answer; such as \"pee\" for \"urine\".]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "The protagonist calls this man \u201cmy Rosenkavalier\u201d when he presents her with some roses. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Harold \u201cMitch\u201d Mitchell [accept any of the underlined names]",
                 "A Streetcar Named Desire",
                 "Vincent van Gogh"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "A song on an album titled for one of these places features the line \u201cAnd I will do anything for love,\u201d repeatedly sung in a melody eerily identical to that of the Meat Loaf song. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "airports [Hot in the Airport and Music for Airports]",
                 "Brian Eno [or Brian Peter George St John le Baptiste de la Salle Eno]",
                 "Nixon in China"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "This poem inquires \u201cwhat should we do but sing his praise / That led us through the wat\u2019ry maze\"? For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cBermudas\u201d",
                 "The Tempest",
                 "Thomas Moore"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This company\u2019s nasty disputes with its English counterpart resulted in the Amboyna Massacre, in which 10 English and several Portuguese were executed on Maluku for treason. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Dutch East India Company [or VOC]",
                 "William Adams [prompt on Adams]",
                 "Johor"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "Hannah and Andy are a semi-observant Jewish couple who have recently adopted a puppy. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "tzedakah",
                 "thirteen months/years",
                 "Adar"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "Most of this artist\u2019s work consists of abstract self-portraits and paintings based on masks used in Santeria rituals. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Wifredo Lam [or Wifredo \u00d3scar de la Concepci\u00f3n Lam y Castilla]",
                 "jungle [or rainforest; or tropical forest; accept The Jungle; prompt on forest]",
                 "Henri Rousseau [Henri Julien F\u00e9lix Rousseau]"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "Lavoslav Ruzicka invented a type of this reaction which uses a thorium oxide catalyst. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ring closure [or cyclization; accept ring formation or answers that clearly indicating that a new ring is being created]",
                 "tet, trig, or dig",
                 "Diels-Alder reaction"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "The translation of this chief\u2019s poetic response to an offer to purchase the Salish islands opens \u201cYonder sky that has wept tears of compassion upon my people for centuries untold.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Chief Seattle",
                 "Chinook [or Chinookan peoples]",
                 "Puget Sound"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "Rhesus monkeys punish this behavior by forming screeching coalitions against individuals who decide not to call the community upon discovering food. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "cheating [accept word forms]",
                 "Dictyostelium discoideum [or D. discoideum; prompt on slime molds]",
                 "symbiosis [accept word forms]"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "The last of these works darkens in mood with a trill in its eighth measure that begins on a low F and alternates between the notes G-flat and A-flat, which Alex Ross described as the \u201cTrill of Doom.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "piano sonatas by Franz Schubert [prompt on Schubert sonatas or other partial answers that do not mention all three notions of sonatas for the piano by Franz Peter Schubert]",
                 "Ludwig van Beethoven",
                 "Sir Andr\u00e1s Schiff"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "A ghost-heavy satirical novel in this genre titled <em>What Sort of Book is This?</em> is written primarily using a vernacular dialect. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "gods and demons fiction [or sh\u00e9nm\u00f3 xi\u01ceoshu\u014d]",
                 "Sun Wukong [prompt on Sun; prompt on Wukong]",
                 "Qing Fish [prompt on the Fish Demon or Fish]"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "E. F. Schumacher critiqued the materialistic form of this idea in <em>A Guide for the Perplexed</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "scientism [accept word forms]",
                 "non-overlapping magisteria",
                 "J. L. Mackie [or John Leslie Mackie]"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "This series\u2019s final volume describes the outbreak of the Civil War and incorporates contemporary accounts of white people's mutilation of Sioux corpses from the 1862 Outbreak. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Emigrants [or Utvandarna]",
                 "Giants in the Earth [or Verdens Gr\u00f8de]",
                 "Paradise Reclaimed [or Parad\u00edsarheimt]"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "A \"spiral\" model of the creation of this commodity proceeds through the stages of socialization, externalization, creation, and internalization according to Ikujiro Nonaka. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "knowledge [accept any answers that use the word knowledge in them]",
                 "tacit knowledge",
                 "management [accept scientific management]"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This historian, credited with writing a book entitled \u201cThe Twelve Calamities of Emperor Frederick II,\u201d was the primary source on the life of Frederick II and the Fifth Crusade. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Salimbene of Parma [or Friar Salimbene di Adam]",
                 "Lombard League",
                 "Joachim of Fiore [or Joachim of Flora or Gioacchino da Fiore ]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "A shape parameter characterizes this man\u2019s namesake lambda function, which is unusually based on its own quantile function. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Tukey [or John Wilder Tukey]",
                 "exploratory data analysis",
                 "principal component analysis [or PCA]"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "Increases in this factor are the only way to guarantee growth in the Solow model in the long run without population growth. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "technology",
                 "skill-biased technical/technological change",
                 "David H. Autor"

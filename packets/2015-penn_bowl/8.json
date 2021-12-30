@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "Answer some questions about a Chinese dynasty for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sui Dynasty",
                 "canal",
                 "Kaifeng [also accept Daliang or Bianliang or Bianzhou or Nanjing or Dongjing or Bianjing]"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This branch of mathematics is popularly known for its joke that a coffee mug is equivalent to a donut, and it sometimes concerns itself with objects like Klein bottles and Mobius strips. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "topology",
                 "knots",
                 "Alexander polynomial"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This species of virus is surprisingly large for an RNA virus. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "coronavirus",
                 "positive or plus",
                 "lysogenic cycle"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "The invention of a faster potter's wheel in the 11th century BC shifted the style of Greek pottery. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Proto-Geometric period [do NOT accept \"Geometric period\"]",
                 "Greek Dark Age [accept Homeric Age]",
                 "funerals [or burials]"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "This woman's son Albert is briefly captured by the bandit Luigi Vampa at the behest of the protagonist. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Merc\u00c3\u00a9d\u00c3\u00a8s Herrera [or Merc\u00c3\u00a9d\u00c3\u00a8s Mondego]",
                 "The Count of Monte Cristo",
                 "Chateau d'If (sha-TOE deef)[or If Castle, I suppose]"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "This author helped popularize many early 20th century Anglophone authors with his journals The English Review and The Transatlantic Review. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ford Madox Ford [or Ford Hermann Hueffer]",
                 "Christopher Tietjens [accept either underlined portion]",
                 "Henry James"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "A symbolic stoning of the devil during this event often results in real injuries for participants. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Hajj",
                 "Black Stone [or al-Hajar al-Aswad]",
                 "al-Safah and al-Marwah [both underlined answers required]"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "In this painting, a yellow book and vase of lilies sit on a table while a telephone rests on the floor. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mr. and Mrs. Clark and Percy",
                 "David Hockney",
                 "Pop art [or popular art]"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "This philosophical character \"hath said in his heart, there is no such thing as Justice.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Fool",
                 "Thomas Hobbes",
                 "De Cive [or On the Citizen]"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "Answer the following questions about Zeus's infancy, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Rhea",
                 "Mount Ida",
                 "Korybantes or Kouretes"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "These people won the first Battle of Dragoon Springs in 1862 against invading Confederate forces, but were later attacked by the California Column of Union volunteers at a namesake pass. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Apache",
                 "Geronimo",
                 "Nelson Miles"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "Chris Alexander, Canada's Citizenship and Immigration Minister, briefly suspended his reelection campaign after this boy's death. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Alan Kurdi [or Aylan Kurdi; prompt on \"Kurdi\"]",
                 "Stephen Harper [or clear knowledge equivalents like #HeaveSteve]",
                 "murdered and missing indigenous women [accept obvious equivalents such as female aboriginals, First Nations women; or MMIW; prompt on \"women\" and equivalents; prompt on \"indigenous peoples,\" \"aboriginals,\" \"First Nations\" and equivalents]"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about late 19th and early 20th century American architecture.",
-            "answers_sanitized": [
+            "answer": [
                 "McKim, Meade and White",
                 "Madison Square Garden II",
                 "Cass Gilbert"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "This composer's Piano Concerto No. 1 is scored for a small orchestra of just trumpet and strings. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Dmitri Shostakovich [or Dmitri Dmitriyevich Shostakovich]",
                 "Leningrad Symphony [or Symphony No. 7; or obvious equivalents]",
                 "Symphony No. 5 [or obvious equivalents]"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "Answer the following involving those most classic laws of physics, Newton's Laws, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "inertia",
                 "Tsiolkovsky rocket equation",
                 "Galilean invariance [or Galilean relativity]"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Leonardo da Vinci brought the Mona Lisa to the court of one monarch from this nation, to whom Salai sold it after his death. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "France",
                 "Field of the Cloth of Gold",
                 "Cardinal Thomas Wolsey"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "This process often involves reward and punishment. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "operant conditioning [or Skinnerian conditioning or instrumental learning]",
                 "Edward L. Thorndike",
                 "three-term contingency"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "According to a proverb, the young should not read Water Margin, while the old should not read this book. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Romance of the Three Kingdoms [or Sanguo Yanyi; or ROT3K; prompt on \"Three Kingdoms\"; do not accept \"Records of the Three Kingdoms\" or \"Sanguozhi Pinghua\"]",
                 "Liu Bei [or Liu Xuande]",
                 "Dong Zhuo"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "After being blinded, a character in this novel sets fire to the mattress of the bed above him. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Sea-Wolf",
                 "Jack London [or John Griffith London; or John Griffith Chaney]",
                 "Death [accept Death Larsen or \"I Have a Rendezvous with Death\"]"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about catalytic cycles.",
-            "answers_sanitized": [
+            "answer": [
                 "palladium [accept Pd]",
                 "transmetalation",
                 "base"

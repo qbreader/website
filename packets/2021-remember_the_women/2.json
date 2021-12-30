@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This scientist stopped publishing her most important work after its skeptical reception by the scientific community. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Barbara McClintock",
                 "corn or maize (accept Zea mays)",
                 "Alu elements "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This woman was the first British Special Operations Executive operator to be sent into occupied France. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Noor Inayat Khan (accept Nora Baker)",
                 "radio operators",
                 "Moscow "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "In this ballet sequence, the principal dancer performs a pique arabesque, rolls through her pointe, and dips into an arabesque penchee four times. For 10 points:",
-            "answers_sanitized": [
+            "answer": [
                 "Rose Adage",
                 "Sleeping Beauty",
                 "Pyotr Ilyich Tchaikovsky "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This woman\u2019s peace talks aimed to end a communist insurgency in her country led by the New People\u2019s Army, and the Mendiola massacre led to her passing the Comprehensive Agrarian Reform Program. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Maria Corazon \u201cCory\u201d Cojuangco Aquino",
                 "People Power Revolution [Prompt on PPR]",
                 "Constitution of the Philippines "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "In February 2019, this politician became the first African-American woman to deliver the Democratic response to the State of the Union. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Stacey Abrams",
                 "Georgia",
                 "Fair Fight Action "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Gender equality is a fundamental principle of this religion, which is based on the unity of God, the unity of religion, and the unity of humanity. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bah\u00e1\u02bc\u00ed Faith",
                 "Universal House of Justice",
                 "Bah\u00edyyih Kh\u00e1num [Prompt on last name, prompt on \u201cgreatest holy leaf\u201d] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "At the beginning of a novel, this group\u2019s newest member is told that the daughters her mother had abandoned are still alive. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Joy Luck Club",
                 "Jing-Mei Woo [accept June, prompt on Woo\u201d]",
                 "Mahjong "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "This actress played a character who\u2019s assassination of the Night King supposedly inspired Taylor Swift\u2019s song \u201cLook What You Made Me Do.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Margaret Constance \u201cMaisie\u201d Williams",
                 "Game of Thrones",
                 "Doctor Who "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "This novel ends with the newlyweds Esperanza and Alex returning from their honeymoon to find their ranch burned down, with only a book of recipes remaining. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Like Water for Chocolate",
                 "Mexico",
                 "La Malinche [accept Marina , Malintzin, or Malinalli] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "This woman broke boundaries as the first East and Central African woman to earn a PhD, which was in Veterinary anatomy, and won the Right Livelihood Award for her efforts in reforesting her home country. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Wangari Maathai",
                 "Green Belt Movement",
                 "Kenya "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "For 10 points each, name these indie video games with non-male protagonists.",
-            "answers_sanitized": [
+            "answer": [
                 "Celeste",
                 "Gris",
                 "Undertale "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "The 1935 novel Gaudy Night sees the protagonist return to her alma mater in order to investigate acts of vandalism and anonymous harassment. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Dorothy L. Sayers",
                 "mystery (accept crime fiction, detective fiction, and reasonable equivalents)",
                 "Oxford University "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Name some things about women who worked during the Civil War. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Harriet Tubman",
                 "Dorothea Lynde Dix",
                 "Red Cross "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "This concept is described as \u201ca practice of improvisation within a scene of constraint\u201d in the introduction of an essay titled \u201cundoing\u201d it. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "gender",
                 "Judith Butler",
                 "feminism "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "While performing with the Webb Orchestra, this woman rose to prominence after releasing a cover of the nursery rhyme \u201cA Tisket, A Tasket.\u201d For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ella Fitzgerald",
                 "Marilyn Monroe",
                 "The Mocambo "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "When asked about doing this action, a character replies \u201cBut it's so hard to manage, when it\u2019s, well, raw\u201d. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "straightening hair [accept clear knowledge equivalents]",
                 "A Raisin in the Sun",
                 "George Murchison "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Name some things about powerful West and Northern African women throughout history. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Morocco",
                 "Griotte [accept alternative names such as jali, jeli, or guewel, prompt on bard]",
                 "Ashanti Empire "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Name some things about Southeast Asian goddesses of the seas. In one legend, this woman saves Prince Mahajanaka from a violent storm as he travels to reclaim his father\u2019s Kingdom. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Manimekhala",
                 "Indonesia",
                 "Balinese Hinduism [prompt on Hinduism by asking for the island where it is practiced] "
@@ -392,7 +392,7 @@
         },
         {
             "leadin": "This woman was the first salaried female teacher at a university, where at one point, she was the highest paid teacher there. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Laura Bassi",
                 "Sir Isaac Newton [Accept Newtonian mechanics, prompt on classical mechanics by asking for the scientist]",
                 "electricity "
@@ -407,7 +407,7 @@
         },
         {
             "leadin": "One of these objects is depicted hanging over a mountain range in the painting From the Faraway, Nearby. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "cow skulls [accept clear knowledge equivalents, prompt on skull, bones, and skeleton]",
                 "Georgia O\u2019Keeffe",
                 "Jimson Weed "

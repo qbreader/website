@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "This story details the travels of Tom\u00e1s Rodaja through the cities of Italy before he settles and goes to school. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cThe Lawyer of Glass\u201d [or \u201cEl licenciado Vidriera\u201d; or \u201cThe Glass Graduate\u201d; or \u201cDoctor Glass-Case\u201d; accept translations]",
                 "Exemplary Novels [or Novelas Exemplares]",
                 "Don Quixote &lt;MT, European Literature&gt;"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This theory accounts for two of Einstein\u2019s postulates, one of which states that the speed of light is the same for all observers. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "special relativity [or SR; prompt on relativity; do not accept or prompt on \u201cgeneral relativity\u201d or \u201cGR\u201d]",
                 "Minkowski space [or Minkowski spacetime]",
                 "Poincar\u00e9 (\u201cpwann-kah-RAY\u201d) group &lt;AP, Physics&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This man asserted that \u201csovereign violence\u201d was the unifying theme of the trauerspiel (\u201cTROW-ur-shpeel\u201d) genre in his <em>The Origin of German Tragic Drama</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Walter Benjamin (\u201cVALL-tuh BEN-yah-meen\u201d)",
                 "The Origin of the Work of Art",
                 "a pair of shoes [or more specific types of shoes like boots or clogs; do not accept or prompt on things that look obviously different like \u201csandals\u201d or \u201cstilettos\u201d] &lt;NR, Philosophy&gt;"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "This man wrote that mercury was used to model China\u2019s waterways in the Mausoleum of Qin Shi Huangdi, a finding corroborated by the site\u2019s unusually high mercury levels. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sima Qian (\u201csuh-mah ch\u2019YEN\u201d) [prompt on partial answer; do not accept \u201cSima Guang\u201d]",
                 "Han Dynasty",
                 "Spring and Autumn Annals [or Chunqiu; prompt on Annals; do not accept or prompt on \u201cAnalects\u201d] &lt;NR, World History&gt;"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "This massive work begins with \u201cThe Reed Flute\u2019s Song,\u201d in which the flute laments that it has been separated from its reed bed. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Spiritual Couplets [or Masnawi; or Masnavi]",
                 "Jalal ad-Din Muhammad Rumi [or Mawlana; or Mawlawi]",
                 "Shams-i-Tabrizi [or Shams al-Din Mohammad] &lt;MT, World Literature&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "The initial codename for this beach was Jelly, but Winston Churchill insisted on a more dignified name \u201cfor a beach on which so many men might die.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Juno Beach",
                 "Canada",
                 "Louis Francis Albert Victor Nicholas Mountbatten, 1st Earl Mountbatten of Burma &lt;NR, European History&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "Subjects in a 1983 study were told about Linda, a woman who participated in anti-nuclear demonstrations and majored in philosophy, and thought that it was more likely that she was a <em>feminist</em> bank teller than just a bank teller. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "conjunction fallacy",
                 "heuristics",
                 "confirmation bias [prompt on bias] &lt;MT, Social Science (Psychology)&gt;"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "This artist took inspiration for his paintings from Mayan steles in works such as <em>In the Arsenal</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Diego Rivera",
                 "bullfrog",
                 "Man at the Crossroads [do not accept or prompt on \u201cMan, Controller of the Universe\u201d] &lt;MT, Painting&gt;"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "Being rolled up in a carpet can be sexy, deadly, or politically inconvenient. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Cleopatra VII Philopator",
                 "Hulagu Khan",
                 "Mikl\u00f3s Horthy (\u201cMEEK-lohsh HOR-tee\u201d) &lt;NR, European History&gt;"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "A 15-amino-acid sequence called the AviTag can be used for enzymatic conjugation of this molecule onto proteins. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "biotin [or vitamin B7; or vitamin H; or coenzyme R]",
                 "affinity chromatography [or IMAC; prompt on liquid chromatography or column chromatography or chromatography; prompt on high-performance liquid chromatography or HPLC or fast protein liquid chromatography or FPLC; do not accept or prompt on non-liquid forms of chromatography like \u201cthin-layer chromatography\u201d or \u201cgas chromatography\u201d]",
                 "glucose [or dextrose; or C6H12O6; prompt on hexose] &lt;PL, Biology&gt;"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "An essay about this man notes that literary rules require that the reader be able to tell living characters from corpses, a detail overlooked by this author. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "James Fenimore Cooper",
                 "Mark Twain [or Samuel Langhorne Clemens]",
                 "Mary Baker Eddy &lt;JC, American Literature&gt;"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "Nonstandard versions of these entities include the \u201cthirteen\u201d and \u201cfive\u201d versions. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "tone row [or twelve-tone row; prompt on row]",
                 "Second Viennese School [prompt on Viennese School]",
                 "just tone row [or just intonation] &lt;JJ, Music&gt;"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "An extinct one of these entities in the North Sea is marked by the Rattray volcanic formation. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "triple junctions",
                 "tectonic plates",
                 "Alfred Wegener (\u201cVEG-ner\u201d) &lt;AP, Other Science (Earth Science)&gt;"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "Before this event, Queen Maya had a vision of a white elephant with six tusks entering her body. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "birth of Buddha [accept equivalents in place of \u201cBuddha\u201d like Siddhartha Gautama or Shakyamuni; accept descriptions indicating that Buddha is being born]",
                 "Vesak [or Vesak Day; or Ves\u0101kha; or Vai\u015b\u0101kha]",
                 "soma [or haoma] &lt;AP, Religion&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "Rather confusingly, in one myth, Utgard-Loki judges a contest between Loki and Logi, a god of this phenomenon. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "fire",
                 "Muspelheim [or Muspelheimr]",
                 "Thiazi [or Thiasi] &lt;LC, Mythology&gt;"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "This man was introduced to anarchism through the Sila Club. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Leon Czolgosz (\u201cLEE-on CHOLE-goss\u201d)",
                 "Thomas C. Platt",
                 "Milwaukee &lt;NR, American History&gt;"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "An essay in this collection imagines a meeting between Justin Bieber and Martin Buber. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Feel Free",
                 "Zadie Smith",
                 "hysterical [or hysterical realism] &lt;JC, British Literature&gt;"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This company\u2019s board included secretaries of state George Shultz and Henry Kissinger, and its president used the nonsense word \u201cendofactor\u201d in a Powerpoint after mishearing the term \u201cend effector.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Theranos",
                 "Elizabeth Holmes",
                 "\u201cchemistry\u201d &lt;EM, Current Events&gt;"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "The author of this song\u2019s lyrics, Abel Meeropol, adopted the Rosenberg children after they were orphaned. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cStrange Fruit\u201d",
                 "Nina Simone",
                 "\u201cFour Women\u201d &lt;SC, Other Arts (Jazz)&gt;"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "Crystals are composed of three-dimensional patterns of atoms. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ionic bond",
                 "Kepler conjecture",
                 "polonium [or Po] &lt;AP, Chemistry&gt;"

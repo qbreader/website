@@ -126,7 +126,7 @@
     "bonuses": [
         {
             "leadin": "Philip Johnson described one building in this country as \u201cthe greatest building of our time.\u201d For 10 points each;",
-            "answers_sanitized": [
+            "answer": [
                 "Spain [or Espa\u00f1a]",
                 "Sagrada Familia [or \u201cBasilica I Temple Expiatori de la Sagrada Familia\u201d or \u201cTemple Expiatorio de la Sagrada Familia\u201d]",
                 "Antoni Gaud\u00ed i Cornet"
@@ -141,7 +141,7 @@
         },
         {
             "leadin": "This novel\u2019s main characters are trapped in a cave by their bitter enemy Gagool. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "King Solomon\u2019s Mines",
                 "Treasure Island",
                 "the black spot"
@@ -156,7 +156,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about bread and circuses.",
-            "answers_sanitized": [
+            "answer": [
                 "Publius Clodius Pulcher",
                 "Colosseum [or Flavian Amphitheater]",
                 "Commodus"
@@ -171,7 +171,7 @@
         },
         {
             "leadin": "H\u00fcckel\u2019s rule states that cyclic, planar molecules with [4 n plus two] pi electrons must have this property. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "aromaticity [or word forms]",
                 "benzene",
                 "aliphatic [or word forms]"
@@ -186,7 +186,7 @@
         },
         {
             "leadin": "In one text, these characters are born after a skull of a man killed for playing the ball game loudly somehow impregnates a woman in the underworld. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Hero twins [or Hunahp\u00fa and Xbalanqu\u00e9 (\u201csh-ba-lann-kay\u201d)]",
                 "Mayans",
                 "crabs [prompt on Cancer by asking \u201cwhat animal?\u201d]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "This poem describes people who \u201cthrew potato salad at CCNY lecturers on Dadaism.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cHowl\u201d",
                 "Beat poets [or Beat generation; or the Beats; or Beatniks]",
                 "one single scroll [accept any answer that indicates it is a single sheet of paper, or multiple sheets taped together into one continuous sheet]"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "Saint Stephen and Saint Augustine cradle the body of the title figure of this painting. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Burial of the Count of Orgaz [or El entierro del senor de Orgaz; or El entierro del Conde Orgaz; accept any other reasonable equivalents]",
                 "El Greco [or Dom\u00e9nikos Theotok\u00f3poulos]",
                 "Toledo"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "These people were the target of the Gordon Riots. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Catholics [or Catholicism]",
                 "Robert Peel",
                 "George Canning"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "The distribution of proteins in this structure is described by the fluid mosaic model. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "plasma membrane [or cell membrane]",
                 "lipid rafts [prompt on partial answer]",
                 "cholesterol"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This man explained many of his ideas in his book <em>The Laws of Thought</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "George Boole",
                 "logic [or formal logic; or mathematical logic]",
                 "Augustus De Morgan"
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Answer some questions about George Wallace\u2019s presidential campaign, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Alabama [accept University of Alabama]",
                 "Curtis LeMay",
                 "hippies [do not accept or prompt on any other answers, including hipsters]"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Answer the following about Nobel Prize winning economists, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "behavioral economics [accept behavioral finance]",
                 "John Nash [accept Nash equilibrium]",
                 "international trade"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "A book by this author uses a combination of prose and poetic form known as haiban. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Matsuo Basho [accept either underlined portion; also accept Matsuo Chuemon Munefusa; or Matsuo Kinsaku; or Sobo; or Tosei]",
                 "haiku",
                 "Richard Wright"
@@ -318,7 +318,7 @@
         },
         {
             "leadin": "Initiates in this religion are inducted through the Navjote ceremony, which is still practiced by Parsees. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Zoroastrianism",
                 "Ahura Mazda",
                 "Avestan [or Zend]"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "Despite the intense scientific debate in the 20th century, it is now accepted scientific fact that the Earth\u2019s surface consists of massive, constantly shifting tectonic plates that make up this layer. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "lithosphere",
                 "Juan de Fuca plate",
                 "transform boundary [or transform boundaries; or transform faults; or conservative boundary; or conservative boundaries]"
@@ -347,7 +347,7 @@
         },
         {
             "leadin": "Each work in this collection, written between 1723 and 1725, features solo violin with strings and basso (boss-o) continuo. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Contest Between Harmony and Invention [or Il cimento dell'armonia e dell'inventione]",
                 "The Four Seasons [or Le Quattro Stagioni]",
                 "Antonio Vivaldi"
@@ -362,7 +362,7 @@
         },
         {
             "leadin": "A major center of this civilization was Tyre in modern-day Lebanon. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Phoenicians",
                 "purple dye",
                 "Carthage [or the Carthaginian Empire]"
@@ -377,7 +377,7 @@
         },
         {
             "leadin": "An eyelid-less valet laughs at a character in this place when he asks for a toothbrush. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Hell",
                 "Estelle Rigault",
                 "a newspaper [accept answers describing a newspaper company, such as the press]"
@@ -392,7 +392,7 @@
         },
         {
             "leadin": "This song plays over the sound of helicopters in <em>Forrest Gump</em> when Forrest first deploys to Vietnam. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cFortunate Son\u201d",
                 "Suicide Squad",
                 "Eminem [or Marshall Mathers]"
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Examples of these machines include the SLAC at Stanford and the Large Hadron Collider near Switzerland. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "particle accelerators [prompt on partial answer; prompt on particle colliders]",
                 "synchrotrons",
                 "protons"

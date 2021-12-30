@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "The thirteenth century treatise by Anonymous IV discusses a two-voiced setting of Viderunt Omnes by Leonin and a four-voiced setting by Perotin. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Christmas",
                 "melisma",
                 "hocket [or hoquetus]  "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Here\u2019s some culinary content\u2014religious culinary content. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nation of Islam [or NOI]",
                 "Saint Hildegard von Bingen [or Hildegard of Bingen]",
                 "The Rosicrucian Fellowship [or TRF; prompt on Rosicrucianism, which is the broader esoteric tradition that they belong to] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "An essay on this topic wonders why it has not taken its place with \u201clove, battle, and jealousy among the prime themes of literature.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "illness [prompt on disease]",
                 "Susan Sontag",
                 "leukemia [prompt on cancer] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "One way to create mirrors with this shape is to spin a container filled with liquid mercury at a constant speed. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "parabolic [or parabola or paraboloid]",
                 "coma [or comatic aberration]",
                 "Alhazen [or Hasan Ibn al-Haytham or Abu Ali al-Hasan ibn al-Haytham] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "During a strike in this city, the American Workers Party organized thousands of unemployed workers to surround an Electric Auto-Lite plant for days, precipitating a clash with the state National Guard. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Toledo, Ohio",
                 "A.J. Muste [or Abraham Johannes Muste]",
                 "General Motors Company [or GM] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Luciana Duranti and Heather MacNeil proposed that digital examples of these institutions depend on groupings they called \u201cbonds.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "archives [accept answers mentioning forms of the word archive, such as archival institutions or archivists; do not accept or prompt on \u201clibraries\u201d or \u201cmuseums\u201d or similar answers]",
                 "coding [or labeling; accept answers indicating the assigning of codes or labels]",
                 "Jacques Derrida [or Jackie \u00c9lie Derrida] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "The 1935 film with this title features an abrupt cut from a man vomiting blood to his love interest dropping floral arrangements in her matrimonial home. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Devdas",
                 "method acting",
                 "Tamil and Telugu [accept in either order]  "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "The Clarion\u2013Clipperton Zone is one of four regions of Earth home to these rocks, which take a botryoidal shape and are found exclusively at the bottom of the seafloor. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "manganese nodules [prompt on manganese rocks]",
                 "barium [or Ba]",
                 "ice cores "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Answer the following about the Popular Front for the Liberation of Palestine, a Marxist-Leninist group affiliated with the PLO, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Black September [or Aylul al-Aswad]",
                 "Japan [or Nihon-koku; or Nippon-koku]",
                 "Leila Khaled "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "The narrator of a letter describes opening one of this writer\u2019s books to a passage about people who wonder at the \u201cmighty waves of the sea . . . but themselves they consider not.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Saint Augustine of Hippo [or Aurelius Augustinus]",
                 "Petrarch\u2019s ascent of Mont Ventoux [accept obvious equivalents of Petrarch climbing Mont Ventoux; prompt on answers mentioning mountain-climbing that don\u2019t name Ventoux]",
                 "Giovanni Boccaccio "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "This technique can only be performed on solid samples due to a certain quantity cancelling out in liquid samples. For 10 points each:[10] Name this technique which analyzes nuclei with spin greater than 1. The frequencies of transition in this technique are related to a certain quantity\u2019s interaction with the surrounding electric field gradient.ANSWER: nuclear quadrupole resonance [accept NQR; prompt on nuclear magnetic resonance or NMR]",
-            "answers_sanitized": [
+            "answer": [
                 "nuclear quadrupole resonance [accept NQR; prompt on nuclear magnetic resonance or NMR]",
                 "zero magnetic field [accept no magnetic field; accept \u201cB field\u201d in place of magnetic field]",
                 "radio frequency [accept RF; accept radio waves] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "This liberal thinker used the term weltansicht to refer to an idiosyncratic way of perceiving the world encoded in an individual language. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "(Friedrich) Wilhelm (Christian Karl Ferdinand) von Humboldt [prompt on Humboldt]",
                 "G\u00f6ttingen",
                 "Frankfurt am Main "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "In one scene of this play, Maire recites the phrase \u201cIn Norfolk we besport ourselves around the maypoll\u201d in an effort to communicate with an English-speaking soldier. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Translations",
                 "Brian Friel",
                 "Juno and the Paycock "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "The influence of this region\u2019s music on the Clash can be heard in songs like \u201cRudie Can\u2019t Fail\u201d and \u201cThe Guns of Brixton.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Caribbean [or the West Indies]",
                 "HMT Empire Windrush [or the Windrush generation; or the Windrush scandal; or Windrush immigrants]",
                 "Notting Hill "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "In \"Beyond Entitlement: The Social Obligations of Citizenship,\" Lawrence M. Mead argues these types of programs fail when they are permissive, not authoritative. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "welfare programs [accept welfare state]",
                 "Michael Walzer",
                 "distributive justice [accept word forms] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Answer the following about theories of counterinsurgency and guerilla warfare, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "David Galula",
                 "David (Howell) Petraeus",
                 "fish "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "The high expression of the low-activity, dimeric form of this protein\u2019s M2 isozyme in tumor cells is thought to explain the Warburg effect. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "pyruvate kinase [or PK]",
                 "glycolysis [or Embden\u2013Meyerhof\u2013Parnas pathway; or Entner\u2013Doudoroff pathway; prompt on cellular respiration]",
                 "serine [or Ser; or S] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Camille Corot painted a reclining Mary Magdalene reading a book in one of his \u201chistorical landscapes\u201d set in this place. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Forest of Fontainebleau",
                 "Jean-Fran\u00e7ois Millet",
                 "Rosa Bonheur [or Marie-Rosalie Bonheur]  "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "A 2014 article by Eric Bennett in the Chronicle of Higher Education claims that this institution \u201cflattened literature.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Iowa Writers\u2019 Workshop [or IWW; or Program in Creative Writing; prompt on partial answer]",
                 "Doctor Zhivago",
                 "the Congress for Cultural Freedom [or CCF] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "This god's brothers were his vizier Tashmishu and Aranzah, the personification of the Tigris; the three of them were conceived when their father Kumarbi bit off their grandfather Anu's genitals. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Teshub or Tarhunna [or Tarhunt or Taru or Tessup]",
                 "Jupiter (Optimus Maximus) Dolichenus t",
                 "Mithras [accept Mithra; accept Mithraism] "

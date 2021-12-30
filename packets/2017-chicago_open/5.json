@@ -121,7 +121,7 @@
     "bonuses": [
         {
             "leadin": "The story \"Slippery Elm\" is about an attempt to engage in this action using throat lozenges. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "cheating at chess [prompt on cheating]",
                 "John von Neumann",
                 "Claude Bloodgood [or Klaus Bluttgutt III]"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "D. H. Alexander developed a software tool that improves upon this tool\u2019s speed by using a quasi-Newtonian acceleration method. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "STRUCTURE",
                 "genetic hybridization [or admixture; accept word forms]",
                 "microsatellites [or simple sequence repeats or short tandem repeats or variable number tandem repeats; or SSRs or STRs or VNTRs]"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "Answer the following about musicological studies of particular European societies, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Magyars [or Magyarok]",
                 "Armenia",
                 "Pamela Maxine Potter"
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "This city\u2019s patron saint Domnius was beheaded by the first Roman emperor to voluntarily leave the throne to tend to his vegetable gardens in this city. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Split, Croatia [or Salona or Spalato or Spalatum]",
                 "Peace of Nisibis [or Nasibina or Nisibin or Nusaybin]",
                 "Justinian the Great [or Justinian I, or St. Justinian]"
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "This book's first edition features a cover that includes dragon-shaped clouds and a nude woman whose head is a giant ear. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Colonel Sun",
                 "James Bond [or 007]",
                 "\u201cQuantum of Solace\u201d"
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "Formaldehydes and methanol can often be found in these transient regions that are ultimately depleted through the process of accretion. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "hot cores [accept hot corinos]",
                 "protostars",
                 "masers [or megamasers]"
@@ -210,7 +210,7 @@
         },
         {
             "leadin": "One of these changes involved doubling the number of bassoons on a running 16th note passage in Beethoven\u2019s <em>Consecration of the House</em> overture, and adding pizzicato cellos as well. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Retuschen [or retouchings; accept retouche]",
                 "Eroica Symphony [or Symphony No. 3 in E-flat Major, op. 55 or Third Symphony]",
                 "Don Giovanni [or The Rake Punished, namely Don Giovanni or Il dissoluto punito, ossia il Don Giovanni]"
@@ -225,7 +225,7 @@
         },
         {
             "leadin": "A document of liberation theology named for this word was issued by a group of pastors in Soweto, South Africa in 1985 to protest the Church\u2019s response to Apartheid. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kairos",
                 "Paul Tillich",
                 "Ramon Llull [or Ramon Lully, or Raymond Lull or Raymundus Lullius or Lullus]"
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "This story describes a man who must \u201calways be on his guard and devote every minute and module of life to the decoding of the undulation of things.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Signs and Symbols",
                 "Pale Fire",
                 "Look at the Harlequins!"
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "This format was invented by Wang Anshi, and first appeared around 1465. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Eight-legged essay [or baguwen]",
                 "Song Dynasty",
                 "tea and horses [accept answers in either order; accept Tea and Horse agency]"
@@ -269,7 +269,7 @@
         },
         {
             "leadin": "Mary Jo Salter\u2019s translation of this poem, which appears in <em>Nothing by Design,</em> begins \u201cI can sing my own true story / of journeys through this world / how often I was tried by troubles.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cThe Seafarer\u201d",
                 "Ezra Pound",
                 "Metamorphoses"
@@ -284,7 +284,7 @@
         },
         {
             "leadin": "This man\u2019s namesake fort in Honolulu contains the \u201cPineapple Pentagon,\u201d the base for American Pacific Ocean campaigns in World War II starting in 1943. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "William Rufus Shafter",
                 "El Caney",
                 "Santa Fe"
@@ -299,7 +299,7 @@
         },
         {
             "leadin": "This text notes that within the source material it looks at, \"everybody has an uncle or nephew,\" but there are no fathers and sons. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "How to Read Donald Duck [or Para leer al Pato Donald]",
                 "Time",
                 "Carl Barks"
@@ -314,7 +314,7 @@
         },
         {
             "leadin": "The brown ring test can be used to detect the presence of this polyatomic anion. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "nitrates [or NO3-]",
                 "comproportionation [or synproportionation]",
                 "sulfuric acid [or H2SO4]"
@@ -329,7 +329,7 @@
         },
         {
             "leadin": "In monopolistic competition models where this quantity for the utility function is constant, firms\u2019 markups will also be constant. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "elasticity of substitution",
                 "Joseph Stiglitz",
                 "homotheticity"
@@ -343,7 +343,7 @@
         },
         {
             "leadin": "This dynasty was cursed to only have children in alternating generations when one of its rulers stole the jewels of the Vijayanagara queen Alamelamma, who then jumped off a cliff in despair. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Wodeyars of Mysore [or Wadiyar or Odeyer]",
                 "Congreve rockets",
                 "Ghats"
@@ -358,7 +358,7 @@
         },
         {
             "leadin": "One of this artist's paintings was inspired by a frustrating time at the New York City Building Department and shows clerks' faces almost entirely covered by glass. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "George [Clair] Tooker Jr.",
                 "Andrew Wyeth",
                 "Cy Twombly"
@@ -373,7 +373,7 @@
         },
         {
             "leadin": "Jean Buridan\u2019s <em>Summulae de dialectica</em> aims to reconcile a treatment of this subject laid out in Aristotle\u2019s <em>Organon</em> with the term-based approach of Peter of Spain. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "logic",
                 "obligationes [or disputations de obligationibus]",
                 "William of Ockham"
@@ -387,7 +387,7 @@
         },
         {
             "leadin": "For 10 points each, name these authors who wrote about the gay experience:",
-            "answers_sanitized": [
+            "answer": [
                 "Michael Chabon",
                 "Armistead Maupin",
                 "Bayard Taylor"
@@ -402,7 +402,7 @@
         },
         {
             "leadin": "Name some things about rigid bodies, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "six",
                 "Euler angles [or Euler equations]",
                 "body cone or space cone"

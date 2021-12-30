@@ -121,7 +121,7 @@
     "bonuses": [
         {
             "leadin": "While performing this action, its perpetrator thinks of her husband and children and notes that \"they need not have thought that they could possess her, body and soul.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Edna Pontellier committing suicide [accept descriptive answers that relate that Edna Pontellier died by drowning herself in the Gulf of Mexico (or \"the sea\" as it is called); accept first or last name; prompt on suicide or drowning with \"Who is committing suicide?\"]",
                 "The Awakening",
                 "Kate Chopin [or Katherine O'Flaherty] "
@@ -136,7 +136,7 @@
         },
         {
             "leadin": "A leftist government in this country set up by Bishop Fan Noli was overthrown in 1924 by this country's eventual king. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Republic of Albania [accept Kingdom of Albania]",
                 "Kingdom of Italy",
                 "Russian Civil War "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Protests in this country were sparked by the removal of president Mart\u00edn Vizcarra from power. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Peru [or Republic of Peru]",
                 "Colombia [or Republic of Colombia]",
                 "Brazil [Federative Republic of Brazil] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This quantity can be estimated from the creatinine clearance rate. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "glomerular filtration rate [or GFR; accept estimated glomerular filtration rate or estimated GFR or eGFR]",
                 "nephrons",
                 "urine [accept informal names such as pee or piss] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "A castle that overlooks this feature is represented by the harps' theme \"B-flat E-flat D B-flat\" in one piece. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Moldau River [or Vltava River; prompt on river]",
                 "Bedrich Smetana",
                 "deafness [accept tinnitus] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "The Angarium was an institution that used this structure. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Persian Royal Road",
                 "Darius [accept Darius I; accept Darius the Great; accept Darius III]",
                 "Egypt "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "This object was seized by Hector after the death of Patroclus. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the armor of Achilles [accept answers containing both underlined words; accept the breastplate of Achilles; accept the cuirass of Achilles; prompt on the helmet of a`Achilles; prompt on armor or breastplate or cuirass or helmet by asking \"Who does it belong to?\"]",
                 "Hephaestus",
                 "Diomedes "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "In one work of this type, Count Horeszko and the title character are saved from a bear by the monk Father Robak. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "national epic [prompt on epic poem; prompt on poem] (the other national epic is The Lusiads)",
                 "the Kalevala",
                 "Spain [or Espa\u00f1a] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "Answer the following about the RSA encryption algorithm, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "two",
                 "modulo [or remainder; accept mod n]",
                 "cryptographic hash functions [or CHFs] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "An alternate cover for Secret Empire issue 5 that featured this character sparked backlash for apparently depicting him working with neo-Nazis. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Magneto [or Max Eisenhardt; accept Erik M. Lehnsherr]",
                 "Captain America being a sleeper agent for Hydra [accept reasonable equivalents, such as \"Captain America is part of Hydra\" or \"Captain America says \"Hail Hydra\"]",
                 "skull [accept Red Skull] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "This ruler supposedly enjoyed watching his nobles play the board game patolli. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Montezuma II [or Moctezuma II; prompt on Montezuma or Moctezuma]",
                 "Aztec Empire",
                 "Zapotecs "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Lu Xun (\"loo shween\") used the example of a story in which a man kills his baby to feed his mother in order to criticize China's overreliance on this concept. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "filial piety [or xiao (\"shee-ow\")]",
                 "Confucius [or Kongzi or Kong Fuzi]",
                 "li (\"lee\") "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "Every component of this sequence is a pure sine wave. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "harmonic series [or overtone series; accept harmonics or overtones]",
                 "amplitude",
                 "nodes [do not accept or prompt on \"antinodes\"] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "Three bronze figures cower below a curling piece of onyx marble in this sculptor's small work The Wave. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Camile Claudel",
                 "Auguste Rodin",
                 "dancing [or waltzing; accept word forms; accept ballet; accept Little Dancer of Fourteen Years or The Little Foutreen-Year-Old Dancer; accept The Waltz] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "In a play written by an author from this country, Ariel and Tupolski interrogate the author Katurian since his gruesome stories were the basis for a string of child murders. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Republic of Ireland [or Poblacht na h\u00c9ireann]",
                 "Waiting for Godot [or En attendant Godot]",
                 "Samuel Beckett [or Samuel Barclay Beckett] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "Carbon-14 can be used to determine the age of recent specimens because its value for this quantity is equal to approximately 5,730 years. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "half-life",
                 "one [accept first-order reactions]",
                 "potassium-40 [accept 40K] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "The film Dancer on the Roof captures the craze for this dance style in Soviet bloc nations during the second half of the 1980s. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "breakdancing [or breaking; accept b-boying or b-girling]",
                 "hip-hop music",
                 "capoeira "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Hugh Thompson, Jr. ordered his men to turn their weapons on other American soldiers during this event. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "My Lai massacre",
                 "Colin Luther Powell",
                 "Jimmy Carter [or James Earl Carter, Jr.] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "In this novel, Mrs. Kirsha beats up a young salesman with whom her husband has been having an affair. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Midaq Alley",
                 "Naguib Mahfouz [or Naguib Mahfouz Abdul Aziz Ibrahim Ahmed Pasha]",
                 "Arabic [or al-arabiyyah] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Copies of this text can only be made by specially made scribes called sofer. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Torah [prompt on Pentateuch]",
                 "aliyah",
                 "bar mitzvah [accept bat mitzvah or b'nei mitzvah or b'not mitzvah] "

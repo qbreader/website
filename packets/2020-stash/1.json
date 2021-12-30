@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "The piano-stool complex MMT plays a similar role to this compound when used as an additive to gasoline. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ferrocene",
                 "antiknock agents [accept equivalents such as \u201cadditives that reduce engine knocking\u201d]",
                 "octane [accept octane rating] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Frank Lloyd Wright remarked that \u201call he learned\u201d from a member of this family was \u201chow to make out an expense account.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Saarinen [accept Eliel or Eero Saarinen]",
                 "airports",
                 "Art Nouveau [do not accept or prompt on \u201cArt Deco\u201d] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "The two most common approaches to calculating GDP are the expenditures approach and an approach named after this quantity. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "income [or household income or total national income]",
                 "GNP [or Gross National Product, or GNI, or Gross National Income; do not accept or prompt on \u201cmodified gross national income\u201d or \u201cGNI*\u201d]",
                 "national savings "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Casualties from a border skirmish between these two countries in July 2020 have been hotly contested, with each side claiming to have blown up several of the other\u2019s tanks while losing none. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Armenia AND Azerbaijan [accept Republic of Armenia or Hayastani Hanrapetut'yun for \u201cArmenia\u201d; accept ",
                 "Caucasus mountains",
                 "Minsk "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "This structure is the only palace in England not tied to the church or the royal family. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Blenheim Palace",
                 "John Churchill, 1st Duke of Marlborough [or John Churchill, 1st Duke of Marlborough]",
                 "landscape gardens [accept garden hermits or Hanging Gardens] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "This philosopher stated that \u201cout of the crooked timber of humanity, no straight thing was ever made.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Immanuel Kant ",
                 "Critique of Pure Reason",
                 "aesthetics [accept Transcendental Aesthetic] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "A story in this collection ends with Ignatius Gallaher's son crying after he reads him an excerpt of Lord Byron\u2019s \u201cOn the Death of a Young Lady\u201d. For 10 points:",
-            "answers_sanitized": [
+            "answer": [
                 "Dubliners [the unnamed story is \u201cThe Dead\u201d]",
                 "James Joyce",
                 "a car race [accept equivalents, accept \u201cAfter the Race\u201d] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about unexpected appearances of pasta in astrophysics:",
-            "answers_sanitized": [
+            "answer": [
                 "quark-gluon plasma [or QGP; prompt on plasma; prompt on quark matter or QCD matter]",
                 "supernovas [or supernovae]",
                 "tidal forces [accept tides or tidal bulges] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "This name was given to a set of policies of Tsar Alexander III which severely restricted the freedom of Jews and indirectly gave state sanction to pogroms. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "May Laws",
                 "Kulturkampf",
                 "Otto von Bismarck "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "In this novel, a video artist fantasizes about his sister-in-law\u2019s \u201cMongolian mark\u201d before having sex with her in a studio. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Vegetarian [or Chaesikjuuija]",
                 "South Korea [or Daehan Minguk; or Republic of Korea; prompt on Korea]",
                 "Haruki Murakami "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "After immigrating as a young man to New Bedford, this artist returned to D\u00fcsseldorf to study art in his native Germany before joining several expeditions out west. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Albert Bierstadt",
                 "Hudson River School ",
                 "storms [accept snow storms or thunderstorms or tempests] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Elements above the x-axis of the Bethe\u2013Slater curve have this property in accordance to the Heisenberg model. For 10 points each: ",
-            "answers_sanitized": [
+            "answer": [
                 "ferromagnetism [accept word forms; prompt on magnetism; do not accept or prompt on \u201cparamagnetism\u201d]",
                 "exchange interaction [accept exchange energy or exchange force or exchange mechanism; accept exchange integral]",
                 "Pauli exclusion principle [prompt on exclusion principle] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "After appearing to her future husband as a white horse, this woman fled from him for three days, but agreed to marry him to dodge her engagement to Gwawl. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Rhiannon",
                 "The Mabinogion [accept The Four Branches of the Mabinogi]",
                 "Wales [or Cymru; prompt on Britain, or United Kingdom of Great Britain and Northern Ireland, or UK] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "At this battle, one general chained his ships together to prevent seasickness. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Battle of Red Cliffs [or Battle of Chibi; or Ch\u00ecb\u00ec zh\u012b zh\u00e0n]",
                 "Three Kingdoms period [or S\u0101ngu\u00f3 Sh\u00edd\u00e0i]",
                 "Battle of Yamen "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Answer some questions about Medieval church modes for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "natural minor [prompt on minor]",
                 "Phrygian",
                 "Gregorian chants "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "During one of these sequences, a character protests as a mob of villagers whip an emaciated horse to death. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Raskolnikov's four dreams [prompt on dreams with \u201cWhose dreams?\u201d]",
                 "Crime and Punishment [or Prestupl\u00e9niye i nakaz\u00e1niye]",
                 "Napoleon Bonaparte [the novel not mentioned is War and Peace by Leo Tolstoy]"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Fish in the genus Parapriacanthus gain this trait by \u201cstealing\u201d luciferase from the ostracods they eat. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "bioluminescence",
                 "chlorophyll",
                 "kleptoplasty "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "After Nebuchadnezzar appointed this son of Ahikam to govern Judah, he encouraged his people to tend vineyards. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Gedaliah [accept the Fast of Gedaliah]",
                 "High Holy Days [or High Holidays, or Yamim Noraim, or Days of Awe]",
                 "Yom Kippur "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "This man foolishly chose his rival William Bainbridge as his second, who arranged a near-certain fatal duel at only eight paces. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Stephen Decatur",
                 "Barbary Wars",
                 "Chesapeake affair [or Chesapeake-Leopard affair] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "This leader of the New Criticism movement served as the first Poet Laureate and co-founded The Southern Review with Cleanth Brooks. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Robert Penn Warren",
                 "Joy Harjo",
                 "Gwendolyn Brooks "

@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "The five extant theories of this type were combined into a single theory predicting eleven dimensions called M-theory. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "superstring theory",
                 "GUT [or Grand Unified Theory]",
                 "Edward Witten"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "Answer the following about a foundational comic book character that first appeared in 1962, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Spider-Man [accept Peter Parker]",
                 "Steve Ditko",
                 "The Creeper"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "In West Bengal, gigantic clay idols of the goddess worshiped on this holiday are made and immersed in the river on the fifth day. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Navaratri",
                 "Diwali",
                 "Lakshmi"
@@ -162,7 +162,7 @@
         },
         {
             "leadin": "This man's poems include \"At the call of the race of Sheba.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "L\u00c3\u00a9opold Senghor",
                 "N\u00c3\u00a9gritude",
                 "Aim\u00c3\u00a9 C\u00c3\u00a9saire"
@@ -177,7 +177,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about children in photographs:",
-            "answers_sanitized": [
+            "answer": [
                 "Diane Arbus",
                 "Migrant Mother",
                 "Immediate Family"
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "This character dreams of \"livin off the fatta' the lan'\". For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Lennie Small [accept either underlined portion]",
                 "Of Mice and Men",
                 "Candy"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "Answer the following about revolutionary South America, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Argentina",
                 "Guayaquil Conference",
                 "Ecuador"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "It claims that philosophy is the only thing that can conduct a man. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Meditations [or Ta eis heauton]",
                 "Caesar Marcus Aurelius Antoninus Augustus",
                 "pig [or equivalents of any sex, such as warthogs or spoinks]"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "One member of these people set up a settlement in L'Anse aux Meadows, and these people raided Lindisfarne in 793 AD. For 10 points:",
-            "answers_sanitized": [
+            "answer": [
                 "Vikings",
                 "Varangian Guard",
                 "Rollo [or Robert or Ganger-Hrolf]"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "The pre-electronic field of modern astronomy was remarkably full of discoveries, all by done by hand. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Edward Charles Pickering [prompt on \"Pickering\"; do not accept \"William Pickering\"]",
                 "Cecilia Payne-Gaposchkin",
                 "Harvard"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "These brothers were conceived when their father's skull spat on their mother's hand. For 10 points,",
-            "answers_sanitized": [
+            "answer": [
                 "Hunahpu and Xbalanque [or the Hero Twins]",
                 "Mayans",
                 "Francisco Ximenez"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "This man proposed a war plan against Great Britain that concentrated the US Navy around New York and launched an expedition to seize Halifax. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Alfred Thayer Mahan",
                 "USS Baltimore Affair [accept Baltimore Crisis or anything synonymous]",
                 "Battle of Manila Bay"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "In musical parlance, the fifth scale degree is called the dominant. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "D [or D major]",
                 "cadence",
                 "A, C, and E-flat [accept in any order; do not accept \"E\"]"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "This artist used a number of \"lozenge shapes\" to illustrate his color palette in Four Darks in Reds, a painting which now hangs in the Whitney Museum of Art. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mark Rothko",
                 "abstract expressionism [or abstract painting]",
                 "Barnett Newman"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "This was the last major conflict between Scotland and England before the Union of the Crowns. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The War of the Rough Wooing [or the Eight Years' War or the Nine Years' War]",
                 "Mary, Queen of Scots [do not accept \"Bloody Mary\" or \"Mary Tudor\"]",
                 "James V of Scotland"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Maurice Allington encounters the ghost of Thomas Underhill, who uses a silver figurine to summon the title spirit of the forest, in his novel The Green Man. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kingsley Amis",
                 "Romanticism [accept word forms]",
                 "The Movement"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "Receptors of this kind include those in the JAK-STAT pathway. For 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "tyrosine kinase [prompt on kinase]",
                 "c-Src (pronounced \"sarc\") [or proto-oncogene tyrosine-protein kinase Src]",
                 "bone marrow"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "3-chloropropionic acid has a chloride substituent one carbon further away from the acidic hydrogen than 2-chloropropionic acid does. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "2-chloropropionic acid [also accept alpha-chloropropionic acid]",
                 "inductive effect",
                 "halogens"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "These entities must be equal to the sum of liabilities and equity. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "assets",
                 "par value",
                 "debit [or dr]"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "In this novel, the protagonist's brother Charles Nicholas becomes involved in a marine insurance scam, while the protagonist falls in love with Beda Petterson, who turns out to be Rehnhjelm's former lover Agnes. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Red Room [or R\u00c3\u00b6da Rummet]",
                 "August Strindberg [or Johan August Strindberg]",
                 "The Father [or Fadren]"

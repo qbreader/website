@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "This project was designed to detect strains of the order of magnitude of 10 to the power of -21 meters. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "LIGO [or Laser Interferometer Gravitational-Wave Observatory]",
                 "force of gravity [or gravitational force; prompt on \u201cg\u201d]",
                 "neutron stars"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "After the prophet Zarathustra hears this phrase from an ascetic in the forest, the two part from each other \u201claughing as two boys laugh.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cGod is dead\u201d [or \u201cGott ist tot\u201d]",
                 "Friedrich Wilhelm Nietzsche",
                 "The Gay Science [or The Joyful Wisdom; or Die fr\u00f6hliche Wissenschaft]"
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "These entities can be called down by mambos or houngans, after which they possess people by \u201cmounting the horse.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "loas",
                 "Haitian Voodoo [or Vodoun]",
                 "Bondye"
@@ -168,7 +168,7 @@
         },
         {
             "leadin": "After signing a document, the words \u201cHomo, fuge\u201d ominously appear on the arm of this play\u2019s main character. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Tragical History of the Life and Death of Doctor Faustus [do not accept or prompt on \u201cFaust\u201d]",
                 "Christopher Marlowe [or Kit Marlowe]",
                 "Jews [accept Jewish or Judaism]"
@@ -183,7 +183,7 @@
         },
         {
             "leadin": "Answer the following about the Velvet Divorce, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Czechoslovakia [do not accept or prompt on Czech Republic or Slovakia]",
                 "V\u00e1clav Havel",
                 "Prague [or Praha; accept Prague Spring; accept Defenestration of Prague]"
@@ -198,7 +198,7 @@
         },
         {
             "leadin": "This quantity is unchanged in reversible processes, and it never decreases in an isolated system according to the second law of thermodynamics. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "entropy",
                 "Ludwig Boltzmann",
                 "Rudolf Clausius"
@@ -213,7 +213,7 @@
         },
         {
             "leadin": "Name some things about electronic techniques in classical music, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "John Milton Cage Jr.",
                 "synthesizer",
                 "Karlheinz Stockhausen"
@@ -228,7 +228,7 @@
         },
         {
             "leadin": "This country\u2019s ruling party, Law and Justice, proposed changes to its Constitutional Tribunal in 2015, sparking a constitutional crisis. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Republic of Poland",
                 "The European Union [or EU]",
                 "Viktor Orb\u00e1n"
@@ -243,7 +243,7 @@
         },
         {
             "leadin": "One literary movement in this country was started at a meeting to commemorate the 300th anniversary of the death of Luis de Gongora. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Spain [or Espa\u00f1a]",
                 "F\u00e9lix Lope de Vega y Carpio [prompt on partial answer]",
                 "Federico Garc\u00eda Lorca [prompt on \u201cLorca\u201d]"
@@ -258,7 +258,7 @@
         },
         {
             "leadin": "<em>Quilombos</em> were settlements founded by these people. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "slaves",
                 "Brazil",
                 "Pedro [or Peter; accept Pedro II; accept Pedro I]"
@@ -273,7 +273,7 @@
         },
         {
             "leadin": "<em>Note to moderator: There is a clear difference in pronunciation for the last two answers - please don\u2019t accept the wrong one.</em> Three atoms of this element are doubly-bonded to each other in a line in the azide functional group. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "nitrogen [or N or N2]",
                 "amine [\u201caim-een\u201d]",
                 "imine [\u201cimm-een\u201d]"
@@ -288,7 +288,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about European fairy tales:",
-            "answers_sanitized": [
+            "answer": [
                 "swans [accept cygnets]",
                 "Bluebeard [or Barbe bleu]",
                 "\u201cThe Robber Bridegroom\u201d [accept \u201cMr. Fox\u201d]"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "Some territorial changes made during this meeting gave Russia most of Poland and made Krakow an independent city. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Congress of Vienna",
                 "Charles-Maurice de Talleyrand",
                 "Belgium"
@@ -318,7 +318,7 @@
         },
         {
             "leadin": "Traditionally, the audience claps along during a march by this composer that closes out the New Year\u2019s Concert in Vienna each year. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Johann Baptist Strauss Sr. [or \u201cJohann Baptist Strauss I\u201d; or \u201cJohann Baptist Strauss the Elder\u201d; or \u201cJohann Baptist Strauss the Father\u201d; prompt on \u201cStrauss\u201d or \u201cJohann Baptist Strauss\u201d]",
                 "John Philip Sousa",
                 "\u201cThe Gladiator\u201d March"
@@ -333,7 +333,7 @@
         },
         {
             "leadin": "This author wrote a poem from the perspective of a mirror that ends \u201cIn me she has drowned a young girl, and in me an old woman / Rises toward her day after day, like a terrible fish.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sylvia Plath",
                 "\u201cDaddy\u201d",
                 "Anne Sexton"
@@ -348,7 +348,7 @@
         },
         {
             "leadin": "Although this system was first discovered in the 1980s, it has only recently been proved viable for editing genomes by Jennifer Doudna and Emmanuelle Charpentier. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "CRISPR-Cas9 [or Clustered Regularly Interspaced Short Palindromic Repeats]",
                 "RNA [or ribonucleic acid]",
                 "RNA interference [or RNAi]"
@@ -363,7 +363,7 @@
         },
         {
             "leadin": "This group was formed after Mary Smith Lockwood published a story about Hannah White Arnett in the <em>Washington Post</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Daughters of the American Revolution",
                 "Lincoln Memorial",
                 "Asa Philip Randolph"
@@ -378,7 +378,7 @@
         },
         {
             "leadin": "In one painting by this artist, a topless woman wearing a metal corset is shown with her spine replaced by a crumbling Ionic column. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "(Magdalena Carmen) Frida Kahlo (y Calderon)",
                 "What the Water Gave Me [or Lo que el agua me dio]",
                 "self-portrait [prompt on portrait]"
@@ -393,7 +393,7 @@
         },
         {
             "leadin": "The speaker of this poem becomes \u201ctired and sick\u201d when sitting in a lecture he does not enjoy. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cWhen I Heard the Learn\u2019d Astronomer\u201d",
                 "Walt Whitman",
                 "\u201cI Sing the Body Electric\u201d"
@@ -408,7 +408,7 @@
         },
         {
             "leadin": "This book\u2019s author engaged in a public debate with Bernard Lewis over its main idea. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Orientalism",
                 "Palestine",
                 "Samuel Huntington"

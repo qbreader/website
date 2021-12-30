@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "For 10 points each, answer the following about the Bosnian War.",
-            "answers_sanitized": [
+            "answer": [
                 "1990s",
                 "Srebrenica Massacre",
                 "Slobodan Milo\u0161evi\u0107"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "John Dryden\u2019s poem with this name is comprised of 304 quatrains and was published a year after the Great Fire of London. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cAnnus Mirabilis\u201d",
                 "Philip Larkin",
                 "Mark Antony and Cleopatra [accept Antony and Cleopatra; accept in either order]"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "In this essay, the author finds difficulty trying to classify Leo Tolstoy into one of the two title types of people. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Hedgehog and the Fox: An Essay on Tolstoy\u2019s View of History",
                 "Isaiah Berlin",
                 "liberty"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "A set of equations named for this man relate the Ricci curvature tensor to the stress\u2013energy tensor. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Albert Einstein",
                 "relativity [accept general relativity or special relativity]",
                 "trace"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "Tanngrisnir and Tanngnj\u00f3str are two of these animals that can be slaughtered, cooked, eaten and then resurrected the next day. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "goats",
                 "Utgard-Loki [or Utgarda-Loki; do not prompt on or accept \u201cLoki\u201d]",
                 "J\u00f6rmungandr [or the Midgard Serpent]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "This composer wrote the best-known setting of Thomas Aquinas\u2019 hymn Panis Angelicus. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "C\u00e9sar Franck (frahnk) [or C\u00e9sar-Auguste-Jean-Guillaume-Hubert Franck]",
                 "violin sonata [or sonata for violin and piano; prompt on sonata]",
                 "pipe organ"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "This man represented the US government at the preliminary hearings of the Oklahoma City bomber Timothy McVeigh. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Merrick Garland",
                 "Mitch McConnell [or Addison Mitchell McConnell, Jr.]",
                 "Ruth Bader Ginsburg [prompt on \u201cRBG\u201d]"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "This event in part led to the Exclusion Crisis due to the anti-Catholic sentiment it stoked. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Popish Plot",
                 "Charles [accept Charles II; accept Charles I]",
                 "Whig Party"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "The existence of this substance was proposed to account for the anomalous appearance of galaxy rotation curves. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "dark matter [do not accept or prompt on \u201cdark energy\u201d]",
                 "photons",
                 "galactic halo"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This play\u2019s antagonist is thwarted when it is revealed that she had stolen a diamond broach from Lord Goring\u2019s niece. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "An Ideal Husband",
                 "Oscar Wilde [or Oscar Fingal O\u2019Flahertie Willis Wilde]",
                 "\u201cThe Ballad of Reading Gaol\u201d (\u201credding jail\u201d)"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "Jean-Baptiste Arban was one of the first virtuosi on this instrument, which gained more popularity in the hands of bandleader Herbert L. Clarke and jazz pioneer Buddy Bolden. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "cornet",
                 "Louis Armstrong",
                 "Cannonball Adderley [or Julian Edwin Adderley]"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "Answer the following about Russian chemist Lev Chugaev, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "elimination reaction",
                 "methane",
                 "monoterpenes [accept terpeneoids]"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "Operation Focus, a preemptive airstrike, opened this war. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Six-Day War [or Milhemet Sheshet HaYamim; or Third Arab\u2013Israeli War; or June War; or an-Naksah; prompt on Arab\u2013Israeli War; do not prompt on or accept \u201cal-Nakba\u201d]",
                 "Egypt [or Misr; do not accept or prompt on United Arab Republic, since it only lasted from 1958\u20131961 and thus was not a state at the time of the Six-Day War]",
                 "USS Liberty"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "This author followed the publication of his best-known book with The Life and Death of Mr. Badman. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Bunyan",
                 "Christian [accept \u201cGraceless\u201d]",
                 "Slough of Despond"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "While undergoing this punishment, three men are joined by a figure \u201cwith an appearance like the son of the gods.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "thrown into the fiery furnace [accept anything that suggests they are thrown into fire]",
                 "Book of Daniel",
                 "eating the royal food [or eating royal food; or drinking royal wine; accept \u201cforbidden\u201d or other synonyms for \u201croyal\u201d]"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "This artist painted a giant green apple taking up an entire room in the Listening Room. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ren\u00e9 Magritte [or Ren\u00e9 Fran\u00e7ois Ghislain Magritte]",
                 "Max Ernst",
                 "street [accept equivalents]"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "An annual festival in this city begins with the firing of a rocket called the chupinazo at noon. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Pamplona [or Iru\u00f1a]",
                 "Chartered Community of Navarre [or Comunidad Foral de Navarra; or Nafarroako Foru Komunitatea]",
                 "Basque language [or Euskara]"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "Recalling a ballad from his West Point days, this man described his own retirement with the line \u201cOld soldiers never die; they just fade away.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Douglas MacArthur",
                 "Japan [or Nippon-koku; or Nihon-koku]",
                 "Matthew Bunker Ridgway"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "This poet asks, \u201c Does my sassiness upset you?\u201d in a poem which repeats, \u201cI rise,\u201d and in another claims, \u201cPretty women wonder where my secret lies. / I'm not cute or built to suit a fashion model's size.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Maya Angelou",
                 "bird [or birds; accept \u201cI know why the caged bird sings\u201d]",
                 "\u201cWe Wear the Mask\u201d"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "These cells use their CD16 receptors to bind to the Fc portion of an IgG molecule in antibody-dependent cell-mediated cytotoxicity, or ADCC. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "natural killer cells [or NK cells]",
                 "helper T cells [or Th cells]",
                 "HIV [or Human Immunodeficiency Virus]"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "Athena appears on the roof of a temple to tell the title character who his parents are in this man\u2019s play Ion. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Euripides",
                 "The Bacchae [or The Bacchantes; or Bakchai]",
                 "at the top of a fir tree"

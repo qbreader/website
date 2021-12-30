@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "At the end of one scene in this play, Marco lifts a chair from the very bottom with one hand to show that he is stronger than Eddie. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "A View from the Bridge",
                 "Arthur Miller",
                 "Biff Loman"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "This piece, written in a \u201cTempo di Mazurka,\u201d features only strings and a triangle, with muted violins playing the heavily chromatic melody. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Anitra\u2019s Dance [or Anitras Dans]",
                 "\u201cIn the Hall of the Mountain King\u201d [or I Dovregubbens hall]",
                 "Edvard Hagerup Grieg"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "In this situation, two equally skilled players are interrupted in the middle of a game of chance for a certain amount of money. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "problem of points [or division of (the) stakes]",
                 "Blaise Pascal",
                 "expectation value [or expected value; or first moment; prompt on mean or average]"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "The Stolen Generations were children of these people who were forcibly taken from their families and resettled into white communities. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Aborigines [or Aboriginal people]",
                 "Black War",
                 "gold rushes [prompt on partial answer]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "This statement is defined as a \u201cdeclaration of faith\u201d that is essential for someone who is converting to Islam. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Shahada",
                 "fasting [or equivalents such as not eating]",
                 "Gabriel [or Jibril]"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "The reflections of King Philip IV and his wife Mariana of Austria can be seen in a mirror in the background of this painting. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Las Meninas [or The Ladies-in-Waiting]",
                 "Diego Velazquez",
                 "Breda [or The Surrender of Breda]"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Answer some questions about very tall buildings, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Burj Khalifa [or Khalifa Tower; prompt on Burj Dubai]",
                 "Shanghai",
                 "Chicago"
@@ -228,7 +228,7 @@
         },
         {
             "leadin": "Jacob\u2019s ladders can serve as surge protectors for these devices, which come in \u201cstep-up\u201d and \u201cstep-down\u201d varieties. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "transformers",
                 "voltage [prompt on V or E]",
                 "mutual inductance"
@@ -243,7 +243,7 @@
         },
         {
             "leadin": "This man believed that aesthetic contemplation was a way to escape the suffering caused by the will. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Arthur Schopenhauer",
                 "music",
                 "principle of sufficient reason"
@@ -257,7 +257,7 @@
         },
         {
             "leadin": "For 10 points each, name these Charles Dickens novels which end with someone dying miserably.",
-            "answers_sanitized": [
+            "answer": [
                 "The Old Curiosity Shop",
                 "Bleak House",
                 "A Tale of Two Cities"
@@ -272,7 +272,7 @@
         },
         {
             "leadin": "Answer some questions about the awful economics of Herbert Hoover\u2019s presidency, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Great Depression [or the Depression]",
                 "Hawley-Smoot Tariff Act [or the Smoot-Hawley Tariff]",
                 "Bonus Army"
@@ -287,7 +287,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about Yggdrasil, the world tree which connects the nine worlds of the universe together in Norse cosmology:",
-            "answers_sanitized": [
+            "answer": [
                 "Odin [or Wotan]",
                 "Nidhoggr",
                 "giants [or jotunn; or frost giants]"
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "This author reimagined the Ten Commandments in \u201cThe Artist\u2019s Decalogue.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Gabriela Mistral",
                 "Pablo Neruda",
                 "Chile"
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "This physical process can be modelled using the Brunauer-Emmett-Teller, or BET, isotherm. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "adsorption [or physical adsorption or physisorption; do not accept \u201cabsorption\u201d]",
                 "Irving Langmuir",
                 "pressure [or partial pressure; prompt on P]"
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "Answer the following about questionable fashion decisions from African dictators, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Robert Mugabe",
                 "Democratic Republic of the Congo [or DRC; prompt on the Congo]",
                 "Jean-Bedel Bokassa"
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "In <em>The Chrysanthemum and the Sword</em>, Ruth Benedict uses this country as an example of a \u201cshame culture.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Japan",
                 "guilt cultures",
                 "ostracism [prompt on exile]"
@@ -360,7 +360,7 @@
         },
         {
             "leadin": "A character in this author\u2019s oldest surviving play holds a basket of charcoal hostage from the chorus. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Aristophanes",
                 "comedy",
                 "The Frogs"
@@ -375,7 +375,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about places with unusual languages:",
-            "answers_sanitized": [
+            "answer": [
                 "Martha\u2019s Vineyard",
                 "South Africa [or Republic of South Africa]",
                 "Canary Islands"
@@ -389,7 +389,7 @@
         },
         {
             "leadin": "This organ contains muscle cells known as myocardiocytes. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "heart",
                 "pericardium",
                 "ECG [or EKG; or electrocardiography; or electrocardiogram]"
@@ -404,7 +404,7 @@
         },
         {
             "leadin": "One man with this surname was known as \u201cthe Great Commoner.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Pitt [or William Pitt the Elder; or William Pitt the Younger]",
                 "Frederick North, Lord North",
                 "George III [prompt on George]"

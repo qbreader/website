@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "This figure\u2019s appearance will be signalled by black standards appearing from Khorasan. For 10 point each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mahdi",
                 "Day of Judgment [or Yawmuddin; or Last Judgment]",
                 "Jesus Christ [or Isa ibn Maryam]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "In this film, a woodcutter steals an expensive pearl-handled dagger to provide for an abandoned baby. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Rashomon",
                 "Japan",
                 "Toshiro Mifune"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "In the second novel in this series, a soldier disappears after diving to explore the wreck of a minesweeper. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Danzig Trilogy [or Danziger Trilogie]",
                 "G\u00fcnter Wilhelm Grass",
                 "his Nazi party pin [accept Nazi party pin; accept badge for \"pin\"]"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "This man removed the United States from the gold standard while serving as Secretary of the Treasury. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Bowden Connally, Jr.",
                 "Richard Milhous Nixon",
                 "Election of 1980"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "According to the Bolzano\u2013Weierstrass theorem, every bounded sequence has a subsequence with this property. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "convergence [accept word forms like convergent]",
                 "monotone [accept word forms like monotonic or monotonicity]",
                 "Bernhard Riemann [or Georg Friedrich Bernhard Riemann]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "Pass laws were established as part of this system to limit the autonomy of blacks. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "apartheid",
                 "Frederik Willem de Klerk",
                 "National Party [or Nasionale Party]"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "The temperature-dependence of this region is predicted by Varshnis\u2019 empirical relation. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "band gap",
                 "diodes",
                 "boron nitride [or BN]"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "A system theorized by this thinker includes factors such as intensity, duration, certainty and propinquity. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jeremy Bentham",
                 "utilitarianism",
                 "William Blackstone"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "The protagonist of this video game series has his life changed when his home, Destiny Island, is attacked by monsters known as Heartless and he is separated from his friends Riku and Kairi. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kingdom Hearts [or Kingudamu H\u0101tsu]",
                 "\u201cSimple and Clean\u201d",
                 "Cloud Strife"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This document was intended to be \u201ca red rag on the Gallic bull.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ems Dispatch [or D\u00e9p\u00eache d\u2019Ems; or Emser Depesche]",
                 "House of Hohenzollern",
                 "Otto von Bismarck [or Otto Eduard Leopold, Prince of Bismarck, Duke of Lauenburg]"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "Levinthal\u2019s paradox states that this process must occur through a series of metastable intermediates, or it would take an impossibly long time. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "protein folding",
                 "heat shock proteins [accept HSPs]",
                 "urea"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "This character\u2019s wife reads the article \u201cSex Is Fun\u2014Or Hell\u201d as she waits for the phone operator to connect her to her mother. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Seymour Glass [prompt on Glass]",
                 "\u201cA Perfect Day for Bananafish\u201d",
                 "The Catcher in the Rye"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "Bosch\u2019s treatment of this scene features a dilapidated shack with many onlookers peering through holes in the wall under a blue and yellow sun. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Adoration of the Magi",
                 "Sandro Botticelli [or Alessandro di Mariano di Vanni Filipepi]",
                 "The Mystical Nativity [accept The Mystic Nativity]"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "Name some key players in the Mexican Revolution, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Porfirio D\u00edaz [or Jos\u00e9 de la Cruz Porfirio D\u00edaz Mori]",
                 "Thomas Woodrow Wilson",
                 "Venustiano Carranza [or Jos\u00e9 Venustiano Carranza Garza]"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "In Aztec mythology, this animal was thrown in Tecciztecatl\u2019s face because he stepped back from jumping into a fire. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "rabbit [or Jade Rabbit]",
                 "the moon",
                 "Tsukuyomi [or Tsukuyomi-no-Mikoto]"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "The Caine Prize is a yearly accolade awarded to an outstanding short story author from this continent. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Africa",
                 "Ng\u0169g\u0129 wa Thiong\u2019o",
                 "Republic of Senegal [or R\u00e9publique du S\u00e9n\u00e9gal]"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "This leader was once suspected of being an informant with the codename \u201cBolek\u201d for his country\u2019s secret police force. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Lech Wa\u0142\u0119sa (\u201cva-wen-sa\u201d)",
                 "Republic of Poland [or Rzeczpospolita Polska]",
                 "Gda\u0144sk [or Danzig]"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "\u201cUrlicht,\u201d one of this composer\u2019s settings of poems from Des Knaben Wunderhorn, was later modified and inserted into his second symphony. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Gustav Mahler",
                 "Symphony No. 8 [or Symphony of a Thousand]",
                 "Symphony No. 3 [or third symphony]"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "The Fenske equation can be used to calculate the minimum number of these entities required to separate a binary mixture by a fractionating column refluxing. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "theoretical plates [accept equilibrium stage or ideal stage or theoretical tray]",
                 "distillation [accept different forms of distillation like fractional distillation or steam distillation]",
                 "Raoult\u2019s law"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "This person praised Geoffrey Hill as \u201cthe strong British poet now active\u201d near the end of his life. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Harold Bloom",
                 "Geoffrey Chaucer",
                 "Fernando Pessoa [or Fernando Ant\u00f3nio Nogueira Pessoa]"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "While influenced by this substance, the narrator nearly gets in a carriage accident in the second part of the essay \u201cThe English Mail-Coach.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "opium [accept laudanum; prompt on alcohol with: \u201cand what else?\u201d]",
                 "Thomas Penson De Quincey",
                 "The Tragedy of Macbeth"

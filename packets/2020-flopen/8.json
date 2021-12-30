@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "A group of Black supporters of this cause became known as the \u201cravagers of Georgia\u201d after being left behind during the 1782 evacuation of Savannah. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "loyalists [accept pro-British; accept answers indicating fighting for the British Colonial administration during the American Revolutionary War]",
                 "John Murray, 4th Earl of Dunmore [accept either unlined part; accept Lord Dunmore]",
                 "Colonel Tye [accept Titus Cornelius; accept Titus] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Magid (\u201cmuh-JEED\u201d) returns from Bangladesh to work with Marcus Chalfen on FutureMouse in this novel. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "White Teeth",
                 "Swing Time",
                 "they are made up of emails [prompt on epistolary or correspondence; prompt on internet; reject \u201cletters,\u201d \u201cmail,\u201d \u201ctexts,\u201d or \u201cinstant messages\u201d] (The Matt Beaumont novel is e.) "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "Answer the following about French films featuring fire, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "C\u00e9line Sciamma",
                 "The Wages of Fear [or La Salaire de Peur]",
                 "Fran\u00e7ois Truffaut "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "A thinker argued that this process resulted in reproduction being regarded as sinful and caused life to be seen as a mere \u201cinvestment\u201d in prospects for the afterlife. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "transvaluation of values [accept Umwertung]",
                 "Friedrich Nietzsche",
                 "lies [accept The Holy Lie; accept untruths; accept falsehoods or falsities; accept \u201cOn Truth and Lie in a Nonmoral Sense\u201d] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "Answer these questions about the scholarly work of the 17th century Danish physician and antiquarian Ole (\u201cOOH-luh\u201d) Worm. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the human skull",
                 "Great auk [accept Pinguinus impennis; prompt on auk]",
                 "Runamo [accept Runamo inscription] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "This place is the central concept of a political document whose preamble is an Alurista poem that declares \u201cwe are a nation, we are a union of free pueblos, we are [this place].\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Aztl\u00e1n [accept Floricanto en Aztl\u00e1n]",
                 "Jimi Hendrix [or James Marshall Hendrix; or Johnny Allen Hendrix]",
                 "cockroach [or la cucaracha; prompt on bugs or insects] "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "An \u201calliterative\u201d poem named for this event survives only in the Thornton manuscript, and introduces a blade called Clarent that is thought to represent the concept of peace. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the death of King Arthur [accept synonyms for death; accept Le Morte d\u2019Arthur; accept Alliterative Morte Arthure; prompt on death alone by asking \u201cof whom?\u201d]",
                 "Mont-Saint-Michel [accept the Giant of Mont St. Michel]",
                 "Mordred [accept Modred; accept Medraut or Medrawt; accept Modredus] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "The 1865 British punitive expedition to this modern day country looted many wooden replicas of the Ark of the Covenant called tabots. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ethiopia [accept Abyssinia]",
                 "Zemene Mesafint [accept the Era of Princes, Era of Judges, Age of Princes, or Age of Judges]",
                 "Ras [accept Ras Tafari; accept Ras Mikael Sehul; reject \u201cHaile Selassie\u201d] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "An increase in blood osmolarity stimulates the secretion of this hormone. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ADH [or antidiuretic hormone; accept arginine vasopressin or AVP; accept argipressin]",
                 "nephrons",
                 "atrial volume receptors [accept low-pressure baroreceptors; accept high-pressure baroreceptors; accept veno-atrial stretch receptors; accept pressoreceptors; prompt on mechanoreceptors] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "14th-century pieces in this genre can be divided into a repeating series of pitches called the color and a long recurring rhythmic unit called the talea. For 10 point each:",
-            "answers_sanitized": [
+            "answer": [
                 "isorhythmic motets",
                 "Roman de Fauvel",
                 "tenor "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Along with Hieronymus Georg Zeuthen, this mathematician helped Danish mathematics obtain worldwide recognition. For 10 points:",
-            "answers_sanitized": [
+            "answer": [
                 "Julius Petersen [accept Petersen\u2019s theorem; accept Petersen graph]",
                 "five",
                 "degree [or valency] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "The western movement of the Xiongnu confederacy pushed these people south, which in turn pushed the Sacae into the Greco-Bactrian Kingdom. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Yuezhi [accept Greater Yuezhi or Lesser Yuezhi; prompt on, but DO NOT REVEAL, Kushans]",
                 "Kushan Empire [or Kushana]",
                 "rock inscription [accept Rabatak Inscription; accept relief sculpture or bas-relief; accept Rock Edicts; accept stele or stela; accept carved rocks; prompt on sculpture] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "In the \u201cScylla and Charybdis\u201d episode of Ulysses, Stephen Dedalus states this acronym after borrowing money from real-life author George William Russell, punning on Russell\u2019s short pen name. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "A.E.I.O.U. [accept A.E.I.O.V.] (Russell\u2019s pen name was \u00c6.)",
                 "oida [or olta; or olda]",
                 "sausage [accept hot dog] (The phrase is \u201cDas ist mir Wurst/Wurscht.\u201d) "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "This author wrote an essay titled \u201cHow to Stop Being a Monkey\u201d that mocks the views of European critics with a satirical fable about a monkey who dreams of becoming a writer of satires. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Augusto Monterroso [or Augusto Monterroso Bonilla]",
                 "Mark Twain [or Samuel Langhorne Clemens] (The story is \u201cEl eclipse.\u201d)",
                 "severed heads [accept skulls; accept the head of Julien Sorel; prompt on corpses or dead bodies] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "This venue first opened in 1977 in the building that was once the Gallo Opera House designed by Eugene De Rosa. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Studio 54",
                 "Nico [or Christa P\u00e4ffgen] (The 1967 album is The Velvet Underground & Nico.)",
                 "Andy Warhol [or Andrew Warhola] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "This theologian discussed the attempts of Comte and Nietzsche to construct a moral code apart from God in The Drama of Atheistic Humanism. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Henri de Lubac [or Henri-Marie Joseph Sonier de Lubac]",
                 "scriptural exegesis [accept Biblical exegesis; accept scriptural hermeneutics; accept answers like determining the meaning of or interpreting scripture or Holy writings; accept Medieval Exegesis; prompt on reading scriptures or the Bible]",
                 "the Holy Spirit [accept the Holy Ghost] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Michele Gordigiani painted a seated portrait of this woman with noticeable dark bags under her eyes. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Elizabeth Barrett Browning [accept either underlined part]",
                 "a tomb [accept Tomb of Judith Falconnet or Tomb of Pope Julius II; accept funerary monument]",
                 "peroxyacids [or peracids; or peroxycarboxylic acids]"
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "The first use of tin zeolite beta catalysts was Corma et al.\u2019s attempt to avoid the use of these compounds in favor of cheaper and greener reagents. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "spiro compounds",
                 "oxidation [prompt on redox; prompt on reduction-oxidation; reject \u201creduction\u201d] ",
                 "Fianna F\u00e1il (\u201cFEE-uh-nuh FOYL\u201d) [accept Fianna F\u00e1il - The Republican Party; prompt on Soldiers of Destiny or Warriors of F\u00e1l]"
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "A leader of this party is largely responsible for drafting the Constitution of 1927, which excised all mentions of Northern Ireland and the British monarchy and introduced the position of taoiseach (\u201cTEE-shuk\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cevil literature\u201d [accept Committee on Evil Literature]",
                 "radio [accept radio broadcasting; accept radioplay] ",
                 "shipwrecks [or naufr\u00e1gios; accept Naufr\u00e1gio de Sep\u00falveda] (The \u201ctragic history\u201d is the Hist\u00f3ria tr\u00e1gico-mar\u00edtima.)"
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "Jer\u00f3nimo Corte-Real\u2019s epic poem about one of these events describes how Manuel de Sep\u00falveda walked naked into the bush, never to be seen again, after his family was killed in one of them. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Portugal",
                 "Gil Vicente (\u201czheel vi-SENT\u201d) ",
                 "E cross H [or electric field cross magnetic field intensity; reject \u201cH cross E\u201d] OR D cross B [or electric displacement field cross magnetic field; reject \u201cB cross D\u201d]"
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "Ever since Max Abraham and Hermann Minkowski posited rival expressions for momentum density in linear media, theorists have been embroiled in a debate over who is correct and why. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "mass [or m] AND velocity [or v]",
                 "Lagrangian [accept L] ",
                 "minimum drinking age [accept minimum alcohol purchase age or minimum alcohol consumption age]"
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "A 1984 act amended in 2012 states that the federal government can withhold eight percent of federal highway construction funds to states that do not set one of these policies at 21 years of age. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Craig v. Boren [accept either underlined portion]",
                 "intermediate scrutiny "
             ],

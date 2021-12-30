@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "An English source called Anonymous IV (\u201cfour\u201d) claims that this man was the best composer of organum (\u201cOR-gun-um\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "L\u00e9onin",
                 "Notre Dame School",
                 "motet &lt;LC, Music&gt;"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "This novel is subtitled \u201cA Suicide Note\u201d because it ends with the narrator supposedly losing his identity when he realizes that his father is Fat Vince, making him now Fat John. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Money",
                 "Amis",
                 "Time\u2019s Arrow &lt;JC, British Literature&gt;"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "This effect is typically negative for high-viscosity solvents or large molecules. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "NOE [or nuclear Overhauser effect; prompt on partial answer]",
                 "NMR [or nuclear magnetic resonance spectroscopy]",
                 "2D-NMR [or two; or two-dimensional NMR] &lt;PL, Chemistry&gt;"
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "Brazil\u2019s acquisition of these armaments began a three-way arms race between it, Argentina, and Chile. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "battleships [or warships]",
                 "Charles Evans Hughes",
                 "William Frederick \u201cBull\u201d Halsey Jr. &lt;NR, American History&gt;"
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "Being jealous of a bird \u2013 it happens to the best of us. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Catullus",
                 "Gustavo Adolfo Becquer",
                 "Miss Julie &lt;JC, European Literature&gt;"
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "The first copyright law to deal with visual works was named after this artist and was enacted after he got upset when people reproduced two of his most famous series of prints. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "William Hogarth",
                 "Marriage \u00e0-la-Mode",
                 "beauty [accept The Analysis of Beauty; accept the S-shaped line of beauty; prompt on aesthetics or synonyms by asking \u201cwhat is the exact word in the title?\u201d] &lt;MT, Painting&gt;"
@@ -210,7 +210,7 @@
         },
         {
             "leadin": "Name some commodities from their appearances in European history, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "amber [accept Amber Road]",
                 "porcelain [or ceramics; or china]",
                 "glass &lt;NR, European History&gt;"
@@ -225,7 +225,7 @@
         },
         {
             "leadin": "You are a hobbyist determined to plug in as many gadgets as possible to your Arduino to make a turbocharged Internet of Things cat feeder. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "diode",
                 "motor",
                 "rotary shaft encoder &lt;JC, Physics&gt;"
@@ -240,7 +240,7 @@
         },
         {
             "leadin": "Answer the following about commonly misheard song lyrics, or mondegreens, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Rihanna",
                 "\u201cBlank Space\u201d",
                 "\u201cBad Moon Rising\u201d &lt;JC, Trash (Music)&gt;"
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "Only three people have accomplished this feat more than once, including William Faulkner for <em>A Fable</em> and <em>The Reivers</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "winning the Pulitzer Prize for Fiction [or winning the Pulitzer Prize for Novels; or winning the Pulitzer Prize for Fiction multiple times; prompt on winning the Pulitzer Prize or winning the Pulitzer Prize for literature]",
                 "Alice Adams",
                 "John Hoyer Updike &lt;MT, American Literature&gt;"
@@ -269,7 +269,7 @@
         },
         {
             "leadin": "Having sex in temples is a bad idea in Greek mythology, and probably in real life too. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Laoco\u00f6n",
                 "Atalanta",
                 "Melanippus &lt;JC, Mythology&gt;"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "Answer the following about pre-modern devices used for computation, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Antikythera mechanism",
                 "Stonehenge",
                 "Banu Musa brothers &lt;JC, European History&gt;"
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "Ga\u00ebtan Dugas was long misidentified as Patient Zero for this disease in America after his nickname of Patient \u201cO\u201d was misinterpreted. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "AIDS [or Acquired Immune Deficiency Syndrome; or Human Immunodeficiency Virus; or HIV]",
                 "Tearoom Trade: Impersonal Sex in Public Places",
                 "Alfred Kinsey &lt;MT, Social Science (Sociology)&gt;"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "This book begins with a decree that all male Jewish babies be slaughtered, causing Jochebed to place her newborn son in a basket on the Nile. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Exodus [or Shemot]",
                 "Jethro [or Yitro; or Shuaib]",
                 "\u201cstranger in a strange land\u201d [or \u201csojourner in a foreign land\u201d; or \u201cresident alien in a foreign land\u201d; \u201cforeigner in this country\u201d; or \u201cforeigner in this land\u201d; or \u201cforeigner in a foreign land\u201d] &lt;LC, Religion&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "These cells do not require the presence of MHC class I in order to destroy their targets. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "natural killer cells [or NK cells]",
                 "perforin",
                 "apoptosis &lt;AP, Biology&gt;"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "This character solves a murder by finding out that a slave lied about receiving an apple from his mistress, causing a man to think that his wife cheated on him and kill her. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Haroun al-Rashid",
                 "Arabian Nights [or One Thousand and One Nights]",
                 "Tawfiq al-Hakim &lt;JC, World Literature&gt;"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "Certain photographs have come to symbolize not only specific moments, but entire political movements. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tiananmen Square",
                 "the Pentagon [or the Department of Defense; or the DoD]",
                 "Louisiana &lt;MT, Other Arts (Photography)&gt;"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "Name some techniques used in computer vision, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "colors [or hues or common synonyms]",
                 "keypoints",
                 "convolution [accept convolutional neural network; prompt on CNN] &lt;JC, Other Science (Computer Science)&gt;"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "The founder of this empire claimed descent from Bilal, the first muezzin (\u201cmoo-EH-zin\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mali [or Manden]",
                 "griots [or jeli]",
                 "rihla &lt;AJ, World History&gt;"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "This text states \u201cthe [title group] must be put in its place\u2026 so that each of us may live free of the trampling and the roar of a bewildered herd.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Phantom Public",
                 "John Dewey",
                 "The Structural Transformation of the Public Sphere [or Strukturwandel der \u00d6ffentlichkeit] &lt;NR, Philosophy&gt;"

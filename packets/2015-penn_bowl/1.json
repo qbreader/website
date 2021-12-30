@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "In a poem describing God, he wrote that God \"is indescribable\" even to Jesus.",
-            "answers_sanitized": [
+            "answer": [
                 "Arius",
                 "First Council of Nicaea (nye-SEE-uh)[prompt on partial answer]",
                 "Dionysius Exiguus [or Dionysius the Humble or Dennis the Dwarf]"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "Unlike Democritus, this man believed that atoms do not necessarily move in straight lines, which allowed him to justify free will.",
-            "answers_sanitized": [
+            "answer": [
                 "Epicurus",
                 "ataraxia (at-uh-RACK-see-uh)",
                 "the Garden"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "The invasion of this nation was commanded by Nikolaus von Falkenhorst (FALL-ken-horst), and during its occupation several of its residents sabotaged a heavy water plant here.",
-            "answers_sanitized": [
+            "answer": [
                 "Norway",
                 "Vidkun Abraham Lauritz Jonss\u00c3\u00b8n Quisling",
                 "Fridtjof Nansen"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Answer some questions about the thermodynamics of heat engines.",
-            "answers_sanitized": [
+            "answer": [
                 "temperature",
                 "coefficient of performance [or cop]",
                 "isothermal compressibility"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "Answer the following about the author of Zuleika Dobson, Max Beerbohm.",
-            "answers_sanitized": [
+            "answer": [
                 "Enoch Soames [accept either underlined portion]",
                 "Oscar Wilde [or Oscar Fingal O'Flahertie Wills Wilde]",
                 "The Yellow Book"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "Loam is often called the ideal type of this material.",
-            "answers_sanitized": [
+            "answer": [
                 "soil [prompt on \"dirt\"]",
                 "B horizon",
                 "bedrock"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "Susan Birkenhead wrote the lyrics to a musical depicting this man's \"Last Jam.\"",
-            "answers_sanitized": [
+            "answer": [
                 "Jelly Roll Morton [or Ferdinand Joseph LaMothe]",
                 "Alan Lomax",
                 "New Orleans"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "The speaker of this work asks \"Did I not love him, had I no mercy?\" and begs God to understand her.",
-            "answers_sanitized": [
+            "answer": [
                 "Sonnets of Death [or Sonetos de la Muerte]",
                 "Gabriela Mistral (mis-TRAHL)[or either underlined portion of Lucila Godoy Alcayaga]",
                 "\"Decalogue of the Artist\" [or \"Dec\u00c3\u00a1logo del Artista\"]"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "Stephanie Blake-Rawlings assumed the mayorship of this city in 2010 after its previous mayor, Sheila Dixon, was convicted of embezzlement for stealing gift cards intended for needy families.",
-            "answers_sanitized": [
+            "answer": [
                 "Baltimore",
                 "Larry Hogan",
                 "CVS Pharmacy"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "Answer the following questions about second-wave feminism.",
-            "answers_sanitized": [
+            "answer": [
                 "The Second Sex [or Le Deuxi\u00c3\u00a8me Sexe]",
                 "Simone de Beauvoir",
                 "Camille Paglia"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "These artists published their ideas in  the periodical The Germ.",
-            "answers_sanitized": [
+            "answer": [
                 "The Pre-Raphaelite Brotherhood [or the Pre-Raphaelites; or PRB]",
                 "John Everett Millais",
                 "William Morris"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about electrochemical cells.",
-            "answers_sanitized": [
+            "answer": [
                 "Nernst equation",
                 "salt bridge",
                 "platinum black [also accept Pt black; prompt on \"Adams' catalyst\"; prompt on \"platinum\"]"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "Each movement of this composer's Missa L'homme arm\u00c3\u00a9 super voces musicales (MIS-uh lum ar-MAY su-PAYRE voh-KES mu-SEE-call-uh)  sets the cantus firmus one note higher than in the previous movement.",
-            "answers_sanitized": [
+            "answer": [
                 "Josquin des Prez [or Josquin Lebloitte]",
                 "motet",
                 "Giovanni Palestrina [or Giovanni Pierluigi da Palestrina]"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "This treatise was written in response to the authoritarian rule of Juan Manuel de Rosas.",
-            "answers_sanitized": [
+            "answer": [
                 "Facundo: Civilization and Barbarism [or Facundo: Civilizaci\u00c3\u00b3n y Barbarie]",
                 "Argentina",
                 "Carlos Sa\u00c3\u00bal Menem"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "This god was asked by Di Jun to punish the misbehaving sun-birds.",
-            "answers_sanitized": [
+            "answer": [
                 "Hou Yi [or Shenyi]",
                 "the moon",
                 "peach trees"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "One woman in this novel has a dream in which her husband makes her march around a pool with other naked women as they do knee-bends.",
-            "answers_sanitized": [
+            "answer": [
                 "The Unbearable Lightness of Being [or Nesnesiteln\u00c3\u00a1 lehkost byt\u00c3\u00ad]",
                 "The Book of Laughter and Forgetting",
                 "Milan Kundera"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "This man was asked during a debate whether he would support the death penalty for a criminal who raped his wife Kitty, to which he responded in the negative.",
-            "answers_sanitized": [
+            "answer": [
                 "Michael Dukakis",
                 "George Herbert Walker Bush [do not accept \"George Walker Bush\" or \"George W Bush,\" accept \"Bush 1\" or \"Bush 41\" or anything else distinguishing him from his son]",
                 "Lloyd Bentsen"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This molecule's efficiency limits the rate of the Calvin cycle during the day.",
-            "answers_sanitized": [
+            "answer": [
                 "RuBisCO [or ribulose-1,5-bisphosphate carboxylase/oxygenase]",
                 "photorespiration [or oxidative photosynthetic carbon cycle]",
                 "2-phosphoglycolate [or 2-PG]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "One god in this religion is named Bai-Ulgan, who lives in the sixteenth floor of the sky and accepts horse sacrifices.",
-            "answers_sanitized": [
+            "answer": [
                 "Tengrism [or Tengrianism]",
                 "Turkey",
                 "New Year [accept Lunar New Year or Solar New Year]"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "One woman in this story comments that \"all we do is look at things and try new drinks.\"",
-            "answers_sanitized": [
+            "answer": [
                 "\"Hills like White Elephants\"",
                 "Ernest Hemingway [or Ernest Miller Hemingway]",
                 "Ole Andreson [accept either underlined portion]"

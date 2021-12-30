@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Bj\u00f6rn H\u00f6cke leads the Der Fl\u00fcgel faction of this party, which was placed under federal surveillance in 2020 for its extremism. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Alternative for Germany [or AfD; or Alternative f\u00fcr Deutschland]",
                 "Annegret Kramp-Karrenbauer [or AKK]",
                 "Angela Merkel "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "An artist from this movement who founded the Parsons School of Design was fond of buying fish, quickly painting still lifes, and returning them before they rotted. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "American Impressionism (The artists are William Merritt Chase and Childe Hassam.)",
                 "Mary Cassatt",
                 "snake charmer "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "In one protocol, SYN, SYN-ACK, and ACK are names of these things that are sent between a client and a server as part of a \u201cthree-way handshake.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "network packets [prompt on message]",
                 "IP [or Internet Protocol]",
                 "random early detection [or RED; or random early drop; or random early discard] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "The protagonist of a play titled for one of these places contracts his friend General Du to drive away Sun the Flying Tiger so that he can marry his beloved. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "chambers [or l\u00f3u; wings; or mansions; or bowers]",
                 "orphans [or g\u016b\u2019\u00e9r; accept The Orphan of Zhao or Zh\u00e0osh\u00ec g\u016b\u2019\u00e9r]",
                 "bandits [accept outlaws, criminals, thieves, or equivalents] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "In The True Life, Alain Badiou (\u201cah-LAN bod-YOO\u201d) avowed that his philosophical goal was to perform this action. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "corrupting the youth [accept word forms such as \u201cthe young\u201d in place of \u201cyouth\u201d; prompt on partial answers or synonyms]",
                 "Socrates",
                 "G. E. M. Anscombe "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "In an aria often titled for one of these objects, a pattern of descending two-note phrases played by woodwinds followed by a chord from the harp musically depicts the act of creating one of them. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "letters [accept Letter Aria or Letter Scene]",
                 "Werther (by Jules Massenet)",
                 "Carmen "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In 2005, Antoine Pietrobelli discovered the long-lost treatise On Consolation from Grief, which was written by a famed scholar of this subject after a 191 AD fire in the Temple of Peace destroyed many of his manuscripts. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "medicine [accept De materia medica; accept pharmacy or word forms; prompt on botany or growing plants; do not accept or prompt on \u201cagriculture\u201d or \u201cfarming\u201d]",
                 "Galen of Pergamon [or Aelius Galenus; or Claudius Galenus]",
                 "Arabic [or al-\u2018arabiyyah] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Let\u2019s find the equations of motion of a pendulum swinging from a cart oscillating on a spring. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "kinetic energy",
                 "partial derivative with respect to x AND time derivative [accept d over d-x in place of \u201cpartial derivative with respect to x\u201d; accept d/dt or d over d-t in place of \u201ctime derivative\u201d; accept in either order]",
                 "coupled [or word forms] (For more on this problem, see Exercise 7.31 of Taylor\u2019s Classical Mechanics.) "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Answer the following about the 14th-century Franciscan monk and itinerant wanderer, Odoric of Pordenone, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Sir John Mandeville [or Jean de Mandeville; prompt on Jehan a la Barbe, Jehan de Bourgogne, or Jan de Langhe]",
                 "Il Milione [or \u201cThe Million\u201d; accept The Travels of Marco Polo; accept Book of the Marvels of the World; accept Oriente Poliano; accept Livre des Merveilles du Monde; prompt on answers that describe Marco Polo\u2019s writings or the book by/about Marco Polo]",
                 "China [or People\u2019s Republic of China; or Zh\u014dnggu\u00f3] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "In this story, a group of \u201cWolverines, Suckers, Hoosiers, Buckeyes, and Corncrackers\u201d gather on the Mississippi steamship Invincible to tell tall tales about hunting and various \u201cvarmints.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cThe Big Bear of Arkansas\u201d",
                 "William Faulkner",
                 "Joel Chandler Harris "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Priests hold olive branches while leading one of these events called Shaa\u2019nineh (\u201cshaw-nee-neh\u201d) in the Levant. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "processions [prompt on descriptions like walking around a church; prompt on parades]",
                 "Dormition of the Mother of God [or Dormition of the Theotokos; or Feast of the Dormition]",
                 "funerals "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "The protagonist of this novel visits Doctor Rovina to arrange a medical transfer soon after arriving at Fort Bastiani but abruptly changes his mind. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Tartar Steppe [or Il deserto dei Tartari]",
                 "Waiting for the Barbarians (by J. M. Coetzee)",
                 "comic books [or graphic novels; or cartoons] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Each year, brown algae and diatoms produce around 12 gigatons of laminarin, a polymer of this molecule that they use as a food reserve. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "glucose [or D-glucose]",
                 "salicylic acid [or salicylates; or SA]",
                 "constitutive OR induced "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Though nothing is known about one of these people named Modi, his brother Magni saved their father by lifting the leg of a deceased giant off of his neck. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "children of Thor [or equivalents]",
                 "Loki",
                 "Nine Mothers of Heimdallr [prompt on nine j\u00f6tnar] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "A composer from this country was kidnapped from West Berlin and taken back to this country by its secret service, causing composers like Stravinsky and Stockhausen to petition for his release. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "South Korea (The composers are Isang Yun and Unsuk Chin.)",
                 "Gy\u00f6rgy Ligeti [or Gy\u00f6rgy S\u00e1ndor Ligeti]",
                 "\u00e9tudes [accept piano \u00e9tudes; prompt on study or studies] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "This song is misinterpreted to be about a mother who is afraid that her baby will be taken away from her. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cNever Let Me Go\u201d",
                 "Kazuo Ishiguro",
                 "Kathy H "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "This phenomenon can be commonly observed in binary fluids such as a mixture of methanol and cyclohexane. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "critical opalescence",
                 "coexistence curve [or binodal curve]",
                 "carbon dioxide [or CO2] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "The Colombian government worked with Espejo to create one of these things with Morse code embedded into it to broadcast to FARC hostages. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "songs [or music or albums; accept specific variants like rock music or metal music]",
                 "nueva canci\u00f3n (\u201cn\u2019WAY-vah kon-see-OWN\u201d)",
                 "Years of Lead "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "The sociologist Charles Perrow used this adjective to name a type of accident that is unavoidable in highly complex systems. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "normal [accept normal accidents, normals, or word forms like normalcy or normality]",
                 "Three Mile Island",
                 "heat wave [or heat spell; or extreme heat] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "W. H. Auden paid the heavy fine imposed on this activist for her allegedly hazardous headquarters, from which she ran a newspaper still sold today for one penny. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Dorothy Day",
                 "women\u2019s suffrage [or suffragette movements; or women gaining the right to vote; or equivalents]",
                 "Ellsberg family [accept Robert Ellsberg or Daniel Ellsberg] "

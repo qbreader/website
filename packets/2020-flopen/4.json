@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "In this composer\u2019s Studies in Black and White, the left hand plays only on the black keys while the right plays only on the white keys. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nicolas Slonimsky [or Nikolai Leonidovich Slonimskiy] (The unnamed book is Lexicon of Musical Invective.)",
                 "Frank Zappa [or Frank Vincent Zappa]",
                 "12 [accept 12 tone serialism] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Although sheeted dikes were first discovered in one of these objects that contains the Troodos mountains, Robinson et al. argue that sheeted dike complexes are rare in these objects. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ophiolites [accept ophiolite complexes]",
                 "seafloor spreading [prompt on spreading; prompt on descriptions of the creation of oceanic crust]",
                 "continental drift "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "One of these animals is compared to a \u201cliving shovel\u201d who shuffles \u201caway alive\u201d aftering awakening several dead people in Alice Oswald\u2019s poem \u201cBody.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "badger [accept \u201cThe Badger\u201d]",
                 "Watership Down",
                 "The Once and Future King (by T. H. White) "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "POWs of these people had their legs maimed by pickaxes and had the stumps dipped in boiling tallow to prevent escape. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mapuches [accept Araucanians]",
                 "Chile [or Republic of Chile; or Rep\u00fablica de Chile]",
                 "Destruction of the Seven Cities [accept synonyms in place of destruction; accept Destrucci\u00f3n de las siete ciudades] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "An essay by this thinker examines the disunity arising from a disagreement about how to properly perform funeral rites for a young boy in central Java. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Clifford Geertz [or Clifford James Geertz]",
                 "Sherry Ortner [or Sherry Beth Ortner]",
                 "ideology [accept \u201cIdeology as a Cultural System\u201d; accept Ideology and Utopia] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "This left-handed musician played a right-handed guitar upside-down and backwards until he met Leo Fender, who gave him a left-handed guitar in exchange for testing some new amps that he proceeded to blow out and catch on fire. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Dick Dale [or Richard Anthony Monsour]",
                 "surf rock",
                 "\u201cPipeline\u201d "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "An enormous one of these objects is created by two men on stage in John Logan\u2019s play Red. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "a painting [accept a Mark Rothko painting; accept a white painting; accept an abstract expressionist painting; prompt on an artwork] (The Yasmina Reza play is Art.)",
                 "Wassily Kandinsky [or Wassily Wassilyevich Kandinsky]",
                 "Athol Fugard "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "These soil bacteria secrete Nod factors, which induce root hair elongation and the formation of an infection thread. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "rhizobia [or Rhizobium; reject \u201crhizomes\u201d]",
                 "ammonia [or NH3]",
                 "bioflavonoids "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "Many photographs by this artist focus on the hands of workers, like one of a puppeteer operating a marionette and another of a man grasping a shovel. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tina Modotti [or Assunta Adelaide Luigia Modotti Mondini]",
                 "Edward Weston [or Edward Henry Weston]",
                 "a flag [accept a red flag; accept American flag or synonyms] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "Lord Carnarvon sent this leader to Cape Colony to confederate all British holdings in southern Africa into one territory, though this leader\u2019s mishandling of local resentment resulted in a series of wars. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Henry Bartle Frere [or Sir Henry Bartle Edward Frere, 1st Baronet]",
                 "Bulgaria",
                 "postal system [accept mail or delivery services; accept the Universal Penny Post] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "After fleeing a cursed stone circle at a borah initiation ceremony, this figure\u2019s dog mysteriously gives birth to ferocious puppies with the heads of pigs. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Byamee [accept Baiame, Biame, Baayami, or Byaayama]",
                 "rainbows [accept Rainbow Serpent]",
                 "Izanagi AND Izanami [accept in either order; prompt on partial answer] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "Answer the following about relativistic electrodynamics, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "field-strength tensor [or electromagnetic tensor; or electromagnetic field tensor; or Faraday tensor]",
                 "wave equation [accept electromagnetic wave equation]",
                 "Hendrik Antoon Lorentz "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "This case forced the introduction of Section 7 of the APA\u2019s Principles of Medical Ethics, which discourages psychiatrists from publicly discussing their opinion on the mental health of political figures whom they have not personally examined. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Goldwater v. Ginzburg [accept either underlined part]",
                 "Election of 1972",
                 "Kennedy family [accept the Kennedys; accept Rosemary Kennedy] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "Answer the following about architectural works you can rent on Airbnb (\u201cair-be-n-be\u201d), for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Frank Lloyd Wright",
                 "Los Angeles [or LA; accept LACMA; accept Los Angeles County Museum of Art] (The natural feature is the La Brea Tar Pits.)",
                 "Ricardo Bofill [or Ricardo Bofill Lev\u00ed] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "While poet in residence at Caltech, this author wrote a poem bemoaning, \u201cI don\u2019t care how God-damn smart / these guys are: I\u2019m bored. / It\u2019s been raining like hell all day long and there\u2019s nothing to do.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Richard Brautigan (The poem mentioned in the lead-in is \u201cAt the California Institute of Technology.\u201d)",
                 "the pill [accept birth control pill; accept \u201cThe Pill Versus the Springhill Mine Disaster\u201d]",
                 "milk [accept \u201cMilk for the Duck\u201d; accept Milk and Honey] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "Answer the following about Chilean-Danish artist Marco Evaristti, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "bronze [accept The Bronze Horseman]",
                 "goldfish [accept Goldfish Blenders; prompt on fish; prompt on animals]",
                 "mountain [accept Mount Fuji; accept the Matterhorn] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "In a didactic work by this author, the gambler and boozer Shitsuga is told of the reforming potential of Confucianism by Kibo and Daoism by Kyob\u014d before ultimately being persuaded to become religious by the Buddhist Kamei-kotsuji. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "K\u016bkai [or K\u014db\u014d-Daishi]",
                 "Ennin [or Jikaku Daishi]",
                 "Pure Land [accept Pure Land Buddhism; accept the buddha-field; accept J\u00ecngt\u01d4z\u014dng; accept J\u014ddo bukky\u014d] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "Answer the following about ways to study reaction mechanisms, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "isotopes [accept kinetic isotope effect]",
                 "Louis Plack Hammett [accept Curtin\u2013Hammett principle]",
                 "crossover experiments "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "The Pantone Matching System allows designers to compare and contrast these things using a numbered system. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "colors [accept color spaces]",
                 "CMYK color space system [accept cyan, magenta, and yellow in any order; accept key or black, cyan, magenta, and yellow in any order]",
                 "Munsell color system "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "A character from this country thrice repeats the phrase \u201cthe train carried me to Victoria station and to the world of Jean Morris\u201d as a refrain of sorts while discussing how he seduced English women by comparing himself to Othello. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sudan [or Republic of Sudan]",
                 "Arabic [or al-Adab al-\u2018Arab\u012b]",
                 "Laila Lalami "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "Answer the following about food and cooking during the Italian Renaissance, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "banquets [accept feasts; accept banchetto or banchetti; accept parties or balls; accept f\u00eates; prompt on meals or dinners]",
                 "Marsilio Ficino",
                 "human milk [accept man, men, woman, or women; accept humankind or mankind; accept Oration on the Dignity of Man or De hominis dignitate; accept homo sapiens] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "In 1932, Marx-Engels-Lenin Institute researchers first published a work written in this year. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "1844 [accept Economic and Philosophic Manuscripts of 1844; accept Marx\u2019s 1844 manuscripts]",
                 "Ludwig Feuerbach [or Ludwig Andreas von Feuerbach; accept \u201cTheses on Feuerbach\u201d]",
                 "labor [accept alienation from labor; prompt on work] "

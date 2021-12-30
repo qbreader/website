@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "Hermione Granger claimed that \u201cA lot of the greatest wizards haven\u2019t got an ounce of logic.\u201d Let\u2019s see if that\u2019s true of quizbowlers! For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "vacuous truths [or word forms like vacuously true]",
                 "no [accept anything that means \u201cno\u201d or \u201cfalse\u201d or \u201cthis is not true\u201d]",
                 "quantifiers [or quantification] &lt;JK, Philosophy&gt;"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "In a Douglas Adams novel adapted from a never-produced <em>Doctor Who</em> script, Dirk Gently goes back in time to become a \u201cperson from\u201d this location. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Porlock [or \u201cperson from Porlock\u201d]",
                 "Samuel Taylor Coleridge",
                 "Stevie Smith &lt;JC, British Literature&gt;"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "In some myths, this deity is the mother of the Sirens, who were cursed for not preventing the kidnapping of Persephone. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Melpomene",
                 "the Muses [or Mousai; or Musae]",
                 "Marsyas &lt;MT, Mythology&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "A sonata by this composer was built around the rising phrase [read slowly] \u201cG, B-flat, E-flat, F-sharp, B-flat, C-sharp\u201d that was created by Pulcinella walking on a keyboard. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Scarlatti [accept Domenico Scarlatti or Alessandro Scarlatti]",
                 "hand crossing [accept crossing the left and right hands over each other; or equivalents]",
                 "crux &lt;JC, Music&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "This term is often paired with \u201cfield\u201d to remove the distinction between subjective and objective in sociology. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "habitus",
                 "Pierre Bourdieu",
                 "capital [or kapital; or social capital; or cultural capital; prompt on k] &lt;MT, Social Science (Sociology)&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "This diagram is a graphical tool used by astronomers to classify stars. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Hertzsprung\u2013Russell diagram [or HR diagram]",
                 "instability strip",
                 "kappa mechanism &lt;AP, Other Science (Astronomy)&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This organization was led by a guerilla nicknamed \u201cRed Jesus.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "FMLN [or Farabundo Mart\u00ed National Liberation Front]",
                 "\u00d3scar Romero",
                 "El Salvador &lt;AJ, World History&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "The Ramis and Coata are two of the five major river systems that flow into this lake. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Lake Titicaca",
                 "Aymara",
                 "Isla del Sol [or Island of the Sun] &lt;AJ, Geography&gt;"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "One paper in this field of study attempts to define how long the coast of Britain is, since it gets longer and longer as you try and measure every crinkle in the coastline at smaller length scales. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "chaos theory",
                 "double pendulum [or Acrobot; prompt on pendulum]",
                 "van der Pol oscillator &lt;JC, Physics&gt;"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "In this place, the soul confronts its <em>daena</em>, which can take the form of a beautiful maiden or a terrifying witch, according to its actions during life. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Chinvat Bridge [or Cinvat\u00f4 Peret\u00fbm]",
                 "Zoroastrianism",
                 "Gathas &lt;AP, Religion&gt;"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "Elmer Cowley repeats the phrases \u201cI\u2019ll be washed and ironed\u201d and \u201cI ain\u2019t so queer\u201d after punching a man whom he thinks keeps looking at him. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Winesburg, Ohio",
                 "Sherwood Anderson",
                 "\u201cThe Book of the Grotesque\u201d &lt;JC, American Literature&gt;"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "A chemist from this company described placing sebacoyl chloride in an aqueous solution of hexamethylene diamine to seemingly produce the title object from water in her paper \u201cThe Nylon Rope Trick.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "DuPont",
                 "aniline [or phenylamine; or aminobenzene]",
                 "para-aramid [or meta-aramid] &lt;JC, Chemistry&gt;"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "Due to his attempt to record everything that was known, this person became the patron saint of computers and the Internet. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Isidore of Seville",
                 "Visigoths [prompt on Goths]",
                 "Umayyad Caliphate &lt;AJ, European History&gt;"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "In one work, this man described being drunk as if \u201cmy own ghost [was] trying to take its first solo walk outside the body.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Orhan Pamuk",
                 "The Museum of Innocence",
                 "Fusun\u2019s earring &lt;LC, World Literature&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "At MIT, Linda Griffith connected 10 of these systems together to simulate drug delivery\u2019s stress on the liver. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "organs on a chip [accept, but DO NOT REVEAL, more specific answers like lung on a chip, heart on a chip\u201d; prompt on more vague answers like lab on a chip or artificial organ or bio-MEMS]",
                 "lung",
                 "pulmonary edema &lt;JC, Biology&gt;"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "Bandits of this ethnicity known as klephts carried out pro-independence insurgencies from the mountains. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Greeks",
                 "Phanariots",
                 "Lausanne &lt;NR, European History&gt;"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "Every paragraph in the first chapter of a novel by this author begins with \u201cFor thirty-five years now,\u201d and that phrase is repeated throughout that novel. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bohumil Hrabal",
                 "Milan Kundera",
                 "The Joke [or \u017dert] &lt;MT, European Literature&gt;"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "Name some artists inspired by Shakespeare, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Henry Fuseli",
                 "John William Waterhouse",
                 "Angelica Kauffman &lt;JC, Painting&gt;"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "This enterprise\u2019s original financier, Sir Humphrey Gilbert, drowned near the Azores returning from Newfoundland. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Roanoke Colony",
                 "John White",
                 "Randolph [accept John Randolph or Edmund Randolph] &lt;NR, American History&gt;"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "Part of a sculpture by this artist was eaten by members of Penn Quizbowl. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Felix Gonzalez-Torres",
                 "Claes Oldenburg",
                 "Chicago &lt;JC, Other Arts (Sculpture)&gt;"

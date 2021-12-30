@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "The marriage of Ferdinand and Isabella in 1469 led to the political union of Spain. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kingdom of Aragon [or Reino d\u2019Arag\u00f3n; or Regne d\u2019Arag\u00f3; or Regnum Aragonum; or Reino de Arag\u00f3n]",
                 "Nasrid Dynasty [or ban\u016b Na\u1e63r]",
                 "Charles V of the Holy Roman Empire [or Charles I of Spain; prompt on just Charles I; prompt on Charles]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "The HOMO and LUMO are examples of the frontier type of these constructs. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "orbitals",
                 "s orbitals",
                 "pi backbonding [or backdonation]"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "This artist\u2019s residence, the Blue House, was posthumously turned into a museum dedicated to this artist. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Frida Kahlo de Rivera",
                 "Mexico [or United Mexican States; or Estados Unidos Mexicanos]",
                 "The Suicide of Dorothy Hale"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "As a child, this novel\u2019s narrator owned a rakunk named Killer. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Oryx and Crake",
                 "The Handmaid\u2019s Tale",
                 "Margaret Eleanor Atwood"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "A teacher of this tradition wrote in the One-Sheet Document that anyone can achieve enlightenment if they practice nembutsu. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Pure Land Buddhism [accept J\u014ddo-sh\u016b or J\u014ddo Buddhism]",
                 "Amit\u0101bha [or Amida Butsu; or Emituofo]",
                 "mantra"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "These programming languages are based on the theory of lambda calculus developed by Alonzo Church. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "functional languages",
                 "Java [do not accept \u201cjavascript\u201d]",
                 "currying [after Haskell Curry]"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "This man\u2019s last words at the Battle of Cerro Cora were a defiant \u201cI die with my nation!\u201d after which he was buried by his Irish mistress Eliza Lynch. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Francisco Solano L\u00f3pez [prompt on just Lopez]",
                 "Republic of Paraguay [or Rep\u00fablica de Paraguay]",
                 "landlocked [prompt on descriptive answers indicating not having access to the sea]"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "An ascending A-flat major arpeggio unusually begins this composer\u2019s Ballade No. 1 in G minor, the first of four he wrote for solo piano. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Fr\u00e9d\u00e9ric Chopin [or Fr\u00e9d\u00e9ric Fran\u00e7ois Chopin; or Fryderyk Franciszek Chopin]",
                 "\u00e9tude",
                 "sixteenth notes"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "He described his support for Oriental despotism in Le Despotisme de la Chine. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Fran\u00e7ois Quesnay (\u201ckeh-NAY\u201d)",
                 "Kingdom of France [or Royaume de France]",
                 "land"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "In one poem, the speaker tells this person: \u201clook your last at me, for I come home no more.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Terence [accept \u201cTerence, this is stupid stuff\u201d]",
                 "A. E. Housman",
                 "21 [or one-and-twenty; accept \u201cWhen I was one-and-twenty\u201d]"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "The Eurasian oystercatcher is the national bird of this archipelago, and its return is celebrated on this archipelago every year as the start of spring. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Faroe Islands [or F\u00f8royar; or F\u00e6r\u00f8erne]",
                 "long-fin pilot whales",
                 "Greenland"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the history of communist \u201cWhoa-mania.\u201d",
-            "answers_sanitized": [
+            "answer": [
                 "Nicolae Ceau\u0219escu",
                 "abortion [prompt on descriptive answers like terminating a pregnancy; prompt on birth control; prompt on contraception]",
                 "Soviet invasion of Czechoslovakia [or Warsaw Pact invasion of Czechoslovakia; or Operation Danube; accept occupation of Czechoslovakia; prompt on ending the Prague Spring or other equivalents that don\u2019t mention an invasion or military occupation]"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "Retinoblastoma, a protein encoded by one of these genes, prevents progression from the G1 phase of the cell cycle to the S phase. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "tumor suppressor genes",
                 "DNA replication [accept DNA synthesis; do not accept or prompt on \u201cRNA synthesis\u201d]",
                 "spindle apparatus"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "The Pierides were named after these figures and were turned into magpies after they lost a contest to this group. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Muses [or Mo\u0169sai]",
                 "Mount Helicon",
                 "Orpheus"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "The main argument of this work relies on the fact that self-consciousness can only arise from the synthesis of perceptions into a unified experience. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Critique of Pure Reason [or Kritik der reinen Vernunft; prompt on the First Critique]",
                 "transcendental idealism",
                 "Immanuel Kant"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "Thomas Chittenden served as the first and third governor of this state during its short-lived period as an independent republic. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Vermont [accept Vermont Republic]",
                 "Benedict Arnold",
                 "Henry Knox"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "The Wasmuth Portfolio contains many lithographs of buildings that were designed using this architectural style. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Prairie School",
                 "Frank Lloyd Wright",
                 "Tokyo City [or T\u014dky\u014d-shi; or Tokyo Metropolis; or T\u014dky\u014d-to]"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "The cruel title matriarch of a play by this author keeps her supposedly senile mother Maria Josefa locked up in her room. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Federico Garc\u00eda Lorca [or Federico del Sagrado Coraz\u00f3n de Jes\u00fas Garc\u00eda Lorca]",
                 "Pepe \u201cel Romano\u201d [accept either underlined name]",
                 "bullfighters [accept \u201cLament for the Death of a Bullfighter\u201d]"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "This man developed a tuning fork diagram to classify elliptical and spiral galaxies and he also names a constant that can be used to calculate the recessional velocities of galaxies. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Edwin Powell Hubble",
                 "redshift",
                 "type Ia supernovae [prompt on \u201csupernovae\u201d or \u201ctype I supernovae\u201d]"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "This novel\u2019s narrator reveals he had faked his muteness when he inadvertently thanks one of his fellow inmates for a piece of gum. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "One Flew Over The Cuckoo\u2019s Nest",
                 "Nurse Ratched",
                 "Billy Bibbit [accept either underlined part]"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "Answer this bonus about the life of Yang Kyoungjong to find out how a Korean conscript somehow ended up in the hands of American troops who landed at D-Day. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Battles of Khalkhin Gol [or the Nomonhan Incident]",
                 "German army [or the Nazi Army; or the Wehrmacht; accept army of the Third Reich; do not accept or prompt on Imperial German Army or any other Reich]",
                 "Omaha Beach"

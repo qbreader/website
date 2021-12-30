@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This man represented opposition groups at the Round Table Talks. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Lech Wa\u0142\u0119sa (\u201cva-WEN-suh\u201d)",
                 "shipyard s [accept wharf s or dock yards; accept Lenin Shipyard or Gda\u0144sk Shipyard ]",
                 "Poland [or Republic of Poland ]"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This system uses units of decibels relative to Z &nbsp;to evaluate the intensity of precipitation. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "weather radar [or Doppler radar ; or weather surveillance radar , or WSR ]",
                 "reflectivity [accept reflectance ; do not accept or prompt on \u201calbedo\u201d]",
                 "hail [or hail stones]"
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Remo Giazotto supposedly discovered a piece in G minor titled for this tempo marking. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "adagio [accept Adagio &nbsp;for Strings ]",
                 "pipe organ",
                 "Johann Pachelbel"
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This \u201cbush ballad\u201d is often considered its country\u2019s unofficial national anthem. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201c Waltzing Matilda \u201d [accept \u201cYou\u2019ll come a- waltzing Matilda with me\u201d]",
                 "billabong [prompt on river , dead river , stream , creek , or equivalents; prompt on lake or oxbow lake ]",
                 "Australia"
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "A medieval-themed Season 2 was released for this game in October 2020. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Fall Guys : Ultimate Knockout",
                 "Valve",
                 "soccer [prompt on football ]"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Levi Woodbury\u2019s enforcement of the Specie Circular and the establishment of \u201cpet banks\u201d helped lead to thisevent. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Panic of 1837 [prompt on 1837 ]",
                 "Andrew Jackson",
                 "Nicholas Biddle"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "This fictitious force strongly affects systems with a low Rossby number. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Coriolis force [accept Coriolis effect]",
                 "linear acceleration",
                 "Navier\u2013Stokes equations"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "The controversial tenth section of David Hume\u2019s Enquiry Concerning Human Understanding &nbsp;deals with theseevents, which Hume claims we should only believe in if the testimonial evidence for them is stronger than theevidence of our experience. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "miracle s",
                 "Baruch Spinoza [or Benedictus Spinoza ]",
                 "Saint Augustine of Hippo"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Answer the following about religious movements founded in the United States, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Church of Scientology",
                 "Seventh-Day Adventist Church",
                 "Christian Science [or Church of Christ, Scientist ; accept Christian Science Monitor]"
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "A poem in this form is titled \u201cDeath, be not proud\u201d and ends \u201cDeath, thou shalt die.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "sonnet s [accept \u201cHoly Sonnet s\u201d or \u201cDivine Sonnet s\u201d]",
                 "\u201c Light [accept \u201cWhen I Consider How My Light is Spent\u201d]",
                 "John Milton"
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "In one painting by this artist, one of the title figures wears a bright red hood while he stands on a boat crossingthe River Styx. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Eug\u00e8ne Delacroix (\u201cdel-uh-KWAH\u201d)",
                 "The&nbsp; Death of Sardanapalus",
                 "The&nbsp; Raft of the Medusa"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "As a result of this war, one side took control of the Gaza Strip, the Sinai Peninsula, and the West Bank. For 10points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Six-Day War [prompt on 1967 Arab-Israeli War]",
                 "Palestinian s [prompt on Arab s]"
             ],
@@ -302,7 +302,7 @@
         },
         {
             "leadin": "This planet contains clouds of sulfur dioxide in its atmosphere and large amounts of chlorine gas close to itssurface. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Venus",
                 "phosphine (\u201cFOSS-feen\u201d) [or PH3 ]",
                 "deuterium [prompt on hydrogen by asking \u201cwhat isotope of hydrogen?\u201d; prompt on hydrogen-2 ; prompt"
@@ -317,7 +317,7 @@
         },
         {
             "leadin": "The gangster Benya Krik lives in this city\u2019s Moldavanka ghetto. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Odessa [accept The&nbsp; Odessa &nbsp;Tales ]",
                 "Eugene Onegin",
                 "Aleksandr Pushkin"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "This man helped lead his country to independence from the Netherlands and set up a system of \u201cGuidedDemocracy.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sukarno [or Kusno Sosrodihardjo ]",
                 "Bandung (\u201cbon-doong\u201d) Conference",
                 "Cold War"
@@ -347,7 +347,7 @@
         },
         {
             "leadin": "The 2020 Democratic National Convention began with a prerecorded roll call of all state delegations. For 10points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Pete Buttigieg (\u201cBOOT-uh-jedge\u201d) [prompt on Pete or Mayor Pete ]",
                 "South Carolina",
                 "Khizr Khan"
@@ -362,7 +362,7 @@
         },
         {
             "leadin": "The spiked tails of these dinosaurs are known as \u201cthagomizers.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Stegosaurus",
                 "Jurassic",
                 "Archaeopteryx &nbsp;(\u201cAR-kee-AHP-tuh-riks\u201d)"
@@ -377,7 +377,7 @@
         },
         {
             "leadin": "This musician\u2019s wife collaborated with Pharoah Sanders on the album Ptah, The El Daoud . For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Coltrane",
                 "Giant Steps",
                 "My Favorite Things"
@@ -392,7 +392,7 @@
         },
         {
             "leadin": "This author wrote a novel in which Dana, the wife of Kevin, is transported back in time to Maryland in 1815,where she experiences the lives and narratives of enslaved people. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Octavia E. Butler",
                 "Mars [accept The Martian Chronicles ]",
                 "Ray Bradbury"
@@ -407,7 +407,7 @@
         },
         {
             "leadin": "A shapeshifting figure of this type named Iktomi once got his head stuck in a buffalo skull after trying tobefriend some dancing mice. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Native American trickster deities",
                 "Coyote [accept \u00c1\u0142ts\u00e9 hashk\u00e9 ]",
                 "Kokopelli"

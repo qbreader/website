@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Answer the following about depictions of the Japanese custom of teeth blackening in literature, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "noh",
                 "insects [accept bugs or beetles]",
                 "Junichiro Tanizaki "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Description acceptable. Multiple passages in 1 Kings and 2 Chronicles implicitly support this requirement following instances of \u201cIsrael having been defeated by an enemy because they have sinned against\u201d the Lord. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "facing Jerusalem while praying [accept Holy Land or Holy of Holies in place of \u201cJerusalem\u201d; prompt on facing Israel; prompt on facing east]",
                 "Holy of Holies [or Kodesh Hakkodashim]",
                 "arks [or aron; or aronot] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Myrcene and humulene are simple examples of these compounds. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "terpenes",
                 "squalene",
                 "alkene "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This region gives its name to a breed of cattle with the longest hair of any cow. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Scottish Highlands [accept Highland Boundary Fault; accept Highland cattle; prompt on Scotland; do not accept or prompt on \u201cBritain\u201d or \u201cUnited Kingdom\u201d]",
                 "Isle of Skye",
                 "Loch Ness "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "After the Affair of the Diamond Necklace, a cabinet was included alongside an empty crib in a portrait of Marie Antoinette and Her Children as a possible reference to this historical figure. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Cornelia (The jewel cabinet was supposed to show Marie Antoinette\u2019s concern for family over wealth.)",
                 "\u00c9lisabeth Vig\u00e9e Le Brun [prompt on partial answers]",
                 "Neoclassicism [or word forms] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "The title of Attila J\u00f3zsef\u2019s poem \u201cNo, No, Never!\u201d served as an unofficial irredentist motto in this country, which was controlled by Count Bethlen\u2019s Unity Party from 1922 to 1944. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Hungary [or Magyarorsz\u00e1g; accept Kingdom of Hungary; accept Austria-Hungary]",
                 "B\u00e9la Kun [or B\u00e9la Kohn]",
                 "Tisza [accept Istv\u00e1n Tisza or Stephen Tisza; accept K\u00e1lm\u00e1n Tisza or Coloman Tisza] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Answer the following about how light is manipulated in the design of Gothic cathedrals, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Sainte-Chapelle",
                 "Notre-Dame de Paris",
                 "Basilica of Saint-Denis "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Many of Joseph Wright of Derby\u2019s paintings depicting scientific discovery, including An Experiment on a Bird in the Air Pump, were based on the meetings of this society. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Lunar Society of Birmingham",
                 "James Watt",
                 "Joseph Priestley [accept Priestley riots] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "A biographer of this man admitted to making up the detail that his legs were too short for his body, but claimed that they \u201cought to have been.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Thomas Arnold (the father of Matthew Arnold)",
                 "Bloomsbury Group",
                 "Virginia Woolf "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "A man competing for his wife at a swayamvara must strike the eye of one of these animals attached to a spinning wheel with an arrow. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "fish",
                 "Dushasana",
                 "Mahabharata "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "The poetic term Yuefu (\u201cy\u2019weh-foo\u201d) derives from the Music Bureau established by this Emperor, which was run by his lover and former dog-breeder Li Yannian. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Wu of Han [or Han Wudi]",
                 "Tang Dynasty",
                 "Ban [accept Ban Gu or Ban Zhou] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "As a composer, this musician is mainly known today for the 121 sonatas and four concertos he wrote for his instrument, which are occasionally recorded with Franz Benda\u2019s four concertos written for him. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Frederick the Great [or Frederick II; or Friedrich II or Friedrich der Grosse; prompt on Frederick or Friedrich]",
                 "The Musical Offering [or Musikalisches Opfer; or Das Musikalische Opfer; or BWV 1079]",
                 "canon [accept crab canon] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "A collection of essays in this language reflects on the author\u2019s experience in New York watching media coverage of ethnic cleansing in her homeland. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Serbo-Croatian [or Serbo-Croat-Bosnian; or Serbian; or Croatian; or Bosnian] (Dubravka Ugre\u0161i\u0107 wrote American Fictionary. Ivo Andri\u0107 wrote The Bridge on the Drina.)",
                 "Encyclopedia of the Dead [or Enciklopedija mrtvih]",
                 "red [or le rouge] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Edward Bernays\u2019s \u201cTorches of Freedom\u201d advertising campaign attempted to encourage women to flaunt taboos and use these items in public. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "cigarettes [or cigs]",
                 "Lucy Stone",
                 "Philip Morris [or Altria] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Answer the following about quantum mechanical operators with a certain nice property, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Hermitian [or self-adjoint]",
                 "orthogonal [or orthogonality; accept perpendicular]",
                 "complete "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "The Machina triangle, which allows one to make arguments about risk preference over three potential lotteries, is used in the study of this concept\u2019s \u201cexpected\u201d form. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "utility",
                 "von Neumann\u2013Morgenstern utility [accept VNM utility function or VNM axioms; accept John von Neumman AND Oskar Morgenstern]",
                 "prospect theory "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "The enslaved person Onesimus introduced the technique of inoculating against this disease to Cotton Mather, who helped spread it throughout Boston. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "smallpox [or variola major; or variola minor]",
                 "Jacobson v. Massachusetts",
                 "Lady Mary Wortley Montagu [or Mary Pierrepont] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "John Earman argued that a philosopher\u2019s attempt to provide \u201can everlasting check to all kinds of\u2026 delusion\u201d by disproving these events was an \u201cabject failure.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "miracles",
                 "testimony [or testimonial injustice; or the epistemology/philosophy of testimony; accept testifiers or testifying; do not accept or prompt on other synonyms]",
                 "induction [or inductive reasoning] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Elevated levels of enzymes like aspartate and alanine aminotransferases may indicate a risk of injury to this organ according to Hy\u2019s law. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "liver",
                 "comprehensive metabolic panel [or CMP; prompt on Chem 14]",
                 "sodium [accept Na+] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "In this poem, a man sleeps \u201clike a rock or a man that\u2019s dead\u201d after the narrator observes \u201cThe stars went out and so did the moon.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cThe Weary Blues\u201d",
                 "Langston Hughes [or James Mercer Langston Hughes]",
                 "Murray [accept Pauli Murray or Les Murray] "

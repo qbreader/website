@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "While helping lead the 1965 Delano grape strike, this activist was pejoratively referred to as merely a \u201csidekick.\u201dFor 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Dolores Huerta [or Dolores Clara Fern\u00e1ndez Huerta]",
                 "Mexico [or the United Mexican States]",
                 "International Brotherhood of Teamsters"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Answer the following about horses in a certain conflict, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Troy [or Ilium]",
                 "Diomedes (\u201cdye-OM-uh-deez\u201d)",
                 "Xanthus (\u201cZAN-thoos\u201d)"
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "The G minor fifth piece in an Opus 23 collection of ten of these pieces opens with a very aggressive, march-likelow melody. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "preludes",
                 "piano concerto [prompt on concerto]",
                 "Rhapsody on a Theme of Paganini"
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "The Hungry Generation, who were the targets of government persecution in the 1960s, wrote in this language. For10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bengali (or Bangla)",
                 "Rabindranath Tagore",
                 "India"
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "A whistleblower in this industry said he was \u201clocked in my hotel room with an ice cold grey goose\u201d and wasgoing to \u201cfire off a few dozen inappropriate emails before I call it a night.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "airline industry [or airplane industry; or aviation industry]",
                 "Boeing",
                 "Boeing 737 MAX [prompt on partial answer]"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "The magnitude of this field is infinite everywhere except for a small, square \u201cwell\u201d in the \u201cparticle in a box\u201dmodel. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "scalar potential [do not accept or prompt on \u201cpotential energy\u201d]",
                 "conservative force",
                 "friction force [accept static friction force or kinetic friction force]"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "According to the Spanish, the Mexica people killed Moctezuma II during this event. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "La Noche Triste (\u201cla no-CHAY tree-STAY\u201d) [or the Sad Night; or the Night of Sorrows]",
                 "Aztec Empire",
                 "Flower Wars"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "An Ethiopian artist who lived in one of these places, Fre Seyon, is one of the only known artists of the EarlySolomonic period. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "monasteries",
                 "blue [accept ultramarine; accept Marian blue or celeste]",
                 "Afghanistan"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Carothers\u2019 (\u201cker-OTHERS\u201d) equation can be used to determine the degree of this process. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "polymerization",
                 "chain-growth polymerization",
                 "vulcanization"
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "A member of this family, Edmund, returns home around midnight to find his father playing Solitaire. For 10points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tyrone family",
                 "Long Day\u2019s Journey Into Night",
                 "Eugene O\u2019Neill"
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "This thinker inspired Ursula K. Le Guin\u2019s The Ones Who Walk Away from Omelas with his description of a\u201cutopia\u201d in which \u201ca certain lost soul on the far-off edge of things should lead a life of lonely torture.\u201d For 10 pointseach:",
-            "answers_sanitized": [
+            "answer": [
                 "William James",
                 "Pragmatism",
                 "determinism [accept dilemma of determinism or soft determinism]"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "William Bligh served this man as shipping master during the voyage of the Resolution. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "James Cook",
                 "HMS Bounty",
                 "Abel Janszoon Tasman"
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Name these French fashion houses, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Chanel",
                 "Christian Dior",
                 "Yves Saint Laurent [accept YSL]"
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "The numerical computation of this operation is called quadrature. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "integral [or word forms like integrate or integration; prompt on anti-derivative]",
                 "Archimedes of Syracuse",
                 "weighted [accept weighted sum, weighted average, weighted mean, or weight function]"
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This misogynistic author described his best-known female protagonist as a \u201cman-hating half-woman.\u201d For 10points each:",
-            "answers_sanitized": [
+            "answer": [
                 "August Strindberg",
                 "Sweden",
                 "Selma Lagerl\u00f6f"
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Alain Savary, a co-founder of this party, expressed openness to work with the Communists, who were thedominant left-wing party at the time. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Socialist Party of France [accept Parti socialiste or PS]",
                 "Rainbow Warrior",
                 "nuclear testing [accept word forms like nuclear tests; accept nuclear detonations; accept equivalents"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Answer the following about Japanese \u201ccute culture,\u201d or kawaii (\u201cka-WHY\u201d), for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Pok\u00e9mon [or Pocket Monsters]",
                 "Hello Kitty [or Kitty White]",
                 "Pretty Soldier Sailor Moon [or Pretty Guardian Sailor Moon]"
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "St John (\u201cSIN-jun\u201d) Rivers helps this character find a job teaching at a village school. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jane Eyre [accept either underlined part]",
                 "Bront\u00eb [accept Bell]",
                 "Villette"
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "As a result of following this lifestyle, some traditional Jains do not eat food that has been stored overnight, as itis believed to have a higher concentration of microorganisms. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "vegetarianism [accept lacto-vegetarianism; prompt on descriptions like \u201cthey don\u2019t eat meat\u201d]",
                 "ahimsa",
                 "Digambara OR Shvetambara [accept either]"
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "In humans, this substance is released from eccrine and apocrine glands. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "sweat [or perspiration]",
                 "menopause",
                 "cystic fibrosis [or CF]"

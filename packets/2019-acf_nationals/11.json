@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Proper elongation of this structure releases the GTPase [G-T-P-\"ace\"] Tem1 from inactivation by Kin4, initiating a signaling cascade that releases Cdc14 into the cytoplasm. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "spindle apparatus [or mitotic spindle; prompt on microtubules]",
                 "anaphase promoting complex [or cyclosome; or APC/C]",
                 "Hippo pathway [or Salvador/Warts/Hippo pathway] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "The 1991 publication of an anthology edited by Loraine Hutchins and Lani Ka'ahumanu, titled Bi [\u201cBY\u201d] Any Other Name, galvanized activist efforts to seek justice for people with this identity. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "bisexuality [or pansexuality; grudgingly accept heteroflexibility; prompt on bi; but do not prompt on or accept \u201cbicuriousity\u201d]",
                 "Fred Klein [or Fritz Klein]",
                 "sexual inversion [accept word forms, such as inverts]  "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "A horrified E.M. Forster claimed to hear the \u201cwhinnying of harpies\u201d in a joke about a miscarriage that appears in a letter addressed to this person. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Cassandra Austen [or Cassandra Austen; prompt on Austen or Jane Austen\u2019s sister]",
                 "juvenilia [prompt on synonyms of Austen\u2019s early works or young Jane Austen\u2019s works]",
                 "Persuasion "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "In this system, food must eschew the usage of leeks, onions, asafoetida [ass-ah-FET-ih-dah], shallots, and a type of allium since they comprise a group of five very pungent vegetables. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Buddhism [accept Buddhist cooking; accept any answers indicating a more specific type of Buddhism, such as Mahayana or Theravada Buddhism]",
                 "meditation [accept word forms]",
                 "kuzu [or kudzu; accept arrowroot]  "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "This man seized Constantinople thanks to the assistance of the Greens, a faction of chariot-racing fans, and the defection of the Excubitors, a royal bodyguard led by Priscus. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Emperor Heraclius [or Flavius Heracles Augustus]",
                 "Nika Riots [or Nika revolt]",
                 "Anastasius I Dicorus  "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "This composer wrote a work whose final movement overlays \u201cGreensleeves\u201d in 3/4 time over the folk tune \u201cDargason\u201d in 6/8 time. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Gustav Holst (\u201cI Vow to Thee, My Country\u201d is set to music in \u201cJupiter, the Bringer of Jollity\u201d from The Planets)",
                 "\u201cLand of Hope and Glory\u201d",
                 "Zadok the Priest (by George Frideric Handel) "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "One name for this substance, gelbstoff [GELB-shtohff], was introduced by the limnologist K. Kalle, who found that it was responsible for the greenish color of coastal waters. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "CDOM [or colored dissolved organic matter or chromophoric dissolved organic matter; prompt on DOM or dissolved organic matter]",
                 "drinkable [or potable; accept word forms]",
                 "Secchi depth [accept any answers indicating depth and Secchi disc] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Note to moderator: please read over the answerline first. In the proem that opens Parmenides\u2019 \u201cOn Nature,\u201d he meets a goddess who describes these two paths of inquiry. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the ways of \u201cis\u201d and \u201cis not\u201d [or to eon and to me eon; accept related answers that contrast being and nonbeing or something and nothing; do NOT accept or prompt on \u201ctruth and opinion\u201d]",
                 "monism [accept specific types like neutral monism]",
                 "cosmology [or cosmogony; accept similar answers like \u201castronomy\u201d or  \u201cthe study of the universe\u201d; prompt on physics; prompt on the heavens; prompt on specific astronomical topics like the stars or the moon or light] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "In the 14th century, this state\u2019s sultan al-Hasan ibn Sulaiman built what was then the largest building in sub-Saharan Africa, the coral Palace of Husuni Kubwa. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kilwa Sultanate [or Kilwa Kisiwani]",
                 "gold",
                 "Shiraz, Iran "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "The script of E.T. may have partly ripped off The Alien, a story by a writer in this language who also wrote science fiction stories about Professor Shonku. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bengali [or Bangla] (the author in the leadin is Satyajit Ray)",
                 "Ramayana",
                 "Amitav Ghosh "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "The MLA was passed in 2006 in response to the alarming number of these businesses that had propped up near military bases. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "payday lenders [or personal lenders; or salary lenders; or small dollar lenders; or short term lenders; accept \u201cloan agencies\u201d in place of \u201clenders\u201d, but prompt just on lenders or loan agencies]",
                 "Ohio",
                 "confessions of judgment "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "The Pound-Rebka experiment on gravitational redshift is considered the landmark test of this statement. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Einstein equivalence principle [or strong equivalence principle; do not accept \u201cweak equivalence principle\u201d]",
                 "geodesics",
                 "geodesic deviation equation [or Jacobi equation] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "On his album Heaven to Earth, Kamasi Washington added African-inspired percussion to his cover of jazz trumpeter Freddie Hubbard\u2019s \u201cHub-Tones,\u201d which Washington plays using this instrument. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "tenor saxophone",
                 "Esperanza Spalding",
                 "Al Jarreau  "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Slightly under half of global currency trading takes place in this city, which is the largest foreign exchange market in the world. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "London, United Kingdom",
                 "Black Wednesday",
                 "the Big Bang "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This poem was inspired by a plaster cast its owner described as \u201cbeautiful\u201d and \u201call.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cThe Panther\u201d [or \u201cDer Panther\u201d]",
                 "\u201cYou must change your life\u201d [or \u201cDu mu\u00dft dein Leben \u00e4ndern\u201d]",
                 "Letters to a Young Poet "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "In an act of resistance against this law, attendees of a convention for the Liberty Party broke into a jail in Syracuse to rescue the cooper William Henry, who called himself \"Jerry.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Fugitive Slave Act of 1850 [or the Fugitive Slave Law]",
                 "William Seward",
                 "Christiana Riot [or the Christiana Resistance; or the Battle of Christiana] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "This author studied the title motifs through the examples of characters like Hetty Sorrel, Tess, and Clarissa in one essay. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Elizabeth Hardwick",
                 "Hester Prynne [accept either name]",
                 "Zelda Fitzgerald [or Zelda Sayre; prompt on Fitzgerald] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Susan Sontag\u2019s son David Rieff wrote that Los Angeles had become \u201cthe capital of the third world\u201d in a book published a year after, and often read or reviewed in tandem with, this one. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "City of Quartz [or City of Quartz: Excavating the Future in Los Angeles]",
                 "Hyman Minsky [or Hyman Philip Minsky; accept Minsky moment]",
                 "William H. Whyte [or William Hollingsworth Whyte; or Holly Whyte] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Several monochromatic olive-green paintings by Willem Claesz Heda [VILL-em KLAHSS HAY-dah] exemplified the \u201clate\u201d style of a genre named for these events. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "breakfasts [or breakfast pieces; or ontbijtjes; prompt on meals, but do not accept or prompt on \u201cbanquets,\u201d which name a distinct genre]",
                 "still lifes [or stilleven]",
                 "Chinese porcelain [or Chinese ceramics; or Chinese pottery; or Chinese vases; accept specific items of pottery, such as bowls and plates and vases, as long as Chinese is included; or china; or Kraak ware; prompt on ceramics alone; prompt on pottery alone; prompt on specific items of pottery, such as bowls and plates, if Chinese is not included] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Norleucine serves as one of these substances when analyzing amino acids with GC-MS. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "internal standard",
                 "matrix effects",
                 "calibration [accept calibration curve] "

@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "In this novel, two characters notice that a billboard for Modern Bread has been replaced by a picture of the primeminister. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "A&nbsp; Fine Balance &nbsp;(by Rohinton Mistry)",
                 "Midnight\u2019s Children",
                 "V. S. Naipaul [or Vidiadhar Surajprasad Naipaul ] (The second novel is A House for Mr. Biswas .)"
@@ -144,7 +144,7 @@
         },
         {
             "leadin": "Shibata Zeshin, who was known as the \u201cmaster\u201d of this material, developed a method for painting with it knownas urushi-e &nbsp;(\u201coo-roo-shee-EH\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "lacquer [or lacquer ware]",
                 "kintsugi",
                 "wood [or wood blocks; or wood block printing; prompt on block s; prompt on moku hanga ]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "This leader successfully contained a smallpox epidemic while serving as regent for her brother, \u201cthe MerrieMonarch,\u201d while he was on a world tour. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Queen Lili\u2018uokalani",
                 "Kingdom of Hawai\u2018i [accept Republic of Hawai\u2018i ]",
                 "Sanford B. Dole"
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Answer the following about the chemistry of umami flavor, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "glutamic acid [or glutamate ; accept monosodium glutamate ; prompt on MSG ]",
                 "mirror images [accept reflection s or reflect ed images; prompt on any answer mentioning symmetry ]",
                 "inosinic acid [or inosinate ; or inosine monophosphate; or IMP ; accept inosine ]"
@@ -204,7 +204,7 @@
         },
         {
             "leadin": "In the story \u201cMy Chivalric Fiasco,\u201d a worker at one of these places is promoted after witnessing his boss\u2019s rape ofa coworker, but reveals the crime while on the drug KnightLyfe. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "theme park [or amusement park ; or funfair ; prompt on park or fair ; anti-prompt (ask \u201ccan you be less"
             ],
             "parts": [
@@ -218,7 +218,7 @@
         },
         {
             "leadin": "In a 1993 essay collected in Medieval Queenship , Janet Nelson examined the \u201cmonstrous regiment\u201d of womenthat surrounded this non-Scottish ruler. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Charlemagne [or Carolus Magnus ; or Charles I ; prompt on Charles ]",
                 "Bertrada of Laon [or Bertha Broadfoot ]",
                 "Einhard [or Eginhard ]"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "Mozart\u2019s four concerti for this instrument were written for his friend Joseph Leutgeb (\u201cYO-zef LOYT-geb\u201d). For10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "French horn [accept German horn ; accept Vienna horn ; accept horn in F; accept natural horn ; do not"
             ],
             "parts": [
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "They\u2019re not Amazons, but Michael Speidel identifies Freyd\u00eds, daughter of Erik the Red, as one of these figuresbecause she fought bare-breasted and terrified her enemies. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "berserker s [accept berserk sgangr or berserk ergang] (Michael Speidel discusses Berserker iconography"
             ],
             "parts": [
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "Increased progesterone production during the luteal phase of the ovarian cycle leads to an increase in thisquantity. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "basal body temperature [or BBT or BTP ; prompt on partial answer; prompt on T ; prompt on resting"
             ],
             "parts": [
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "Santiago Ram\u00f3n y Cajal (\u201cka-HALL\u201d) made many pen-and-ink drawings of what he called \u201carborizations\u201dwithin these larger objects, which are collected in the book Beautiful&nbsp; [this object]. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "brain s [accept nerve s or neuron s or the central nervous system; accept specific portions of the brain"
             ],
             "parts": [
@@ -294,7 +294,7 @@
         },
         {
             "leadin": "Along with Sayyid \u2018Ali Akbar, this figure petitioned Mirza Shirazi to support a national boycott of tobacco. For10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jam\u0101l al-D\u012bn al-Afgh\u0101n\u012b [or Jam\u0101l al-D\u012bn al-Asad\u0101b\u0101di ]",
                 "Russia n Empire",
                 "Sepoy Mutiny of 1857 [or Indian Rebellion of 1857 ; or First Indian War of Independence ]"
@@ -314,7 +314,7 @@
         },
         {
             "leadin": "In a play set twenty years after Jaroslav Ha\u0161ek\u2019s (\u201cYAH-roh-slav HAH-shek\u2019s\u201d) novel, the soldier Josef \u0160vejk(\u201cYO-sef sh\u2019VAKE\u201d) gets lost in a snowstorm and meets this man, who performs a \u201cwild dance\u201d of \u201cdesperatethrusts.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Adolf Hitler",
                 "Bertolt Brecht [or Eugen Berthold Friedrich Brecht ] (The play in the bonus lead-in is Brecht\u2019s Schweik"
             ],
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "These materials are described by a Hubbard model near half-filling for which the on-site repulsion is muchlarger than the hopping integral. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mott insulator s [prompt on insulator s]",
                 "charge carrier density [accept carrier concentration ; accept free electron density or free hole"
             ],
@@ -348,7 +348,7 @@
         },
         {
             "leadin": "Answer the following about postmodern architects\u2019 use of verbal and architectural quotations, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "\u201c less is a bore \u201d (The other maxim is \u201cless is more.\u201d)",
                 "furniture [or cabinet ry; accept chair s or any other specific piece of furniture]",
                 "Art Deco"
@@ -368,7 +368,7 @@
         },
         {
             "leadin": "The Professional Quality of Life scale measures this phenomenon often found in trauma workers, oncologynurses, and palliative care specialists. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "compassion fatigue",
                 "emotional labor [do not accept or prompt on \u201cemotion work\u201d]",
                 "gender wage gap [or gender pay gap ]"
@@ -388,7 +388,7 @@
         },
         {
             "leadin": "Eugenio Montale called this author a poet \u201cin C Major\u201d and translated his poem \u201cWhen You Are Old,\u201d whichwas itself based on a poem by Pierre Ronsard. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "W. B. Yeats (\u201cyates\u201d) [or William Butler Yeats ]",
                 "Bengali [or Bangla ; accept Bengali Renaissance]",
                 "Korea [accept North Korea or South Korea ] (The poets are Kim Eok and Kim Sowol.)"
@@ -408,7 +408,7 @@
         },
         {
             "leadin": "This Hebrew word is also called the Tetragrammaton. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jehovah [accept Jehovah \u2019s Witnesses; or Yahweh ; or yud-hey-vav-hey ; or YHWH ]",
                 "Adonai [or Lord ]",
                 "documentary hypothesis [or DH ]"
@@ -428,7 +428,7 @@
         },
         {
             "leadin": "Several cultures built pyramids, but many more built tumuli &nbsp;(\u201cTOOM-yoo-lye\u201d), or earthen burial mounds. For10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "kofun &nbsp;[or kofungun ; accept Kofun period]",
                 "Sutton Hoo",
                 "Mississippi River [accept Mississippi an Culture]"
@@ -448,7 +448,7 @@
         },
         {
             "leadin": "A \u201cuniversal covering problem\u201d named for this mathematician asks for the smallest convex shape that can covera planar set of diameter one. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Henri Lebesgue (\u201cluh-BEG\u201d) [or Lebesgue integral; or Lebesgue integration]",
                 "measure [accept Lebesgue measure ]",
                 "empty set [or null set]"
@@ -468,7 +468,7 @@
         },
         {
             "leadin": "A book structured after this format uses the concept of \u201cbeings of reason\u201d to address the perennial philosophicalproblem of how we can talk about non-existent entities like gryphons. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "disputation s [or disputationes ; accept Metaphysical&nbsp; Disputation s , Disputation es metaphysicae , or"
             ],
             "parts": [

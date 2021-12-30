@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "In 1973, the National Art Gallery of Australia needed authorization from the prime minister to purchase one painting by this artist for over 1 million dollars. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jackson Pollock",
                 "Willem de Kooning",
                 "John F. Kennedy [or JFK; accept Jack Kennedy] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "The acidity of acetic acid is strengthened by this chemical property, since when it loses a proton to become acetate, the negative charge is delocalized over both oxygen atoms. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "resonance [accept resonance structures or resonance forms]",
                 "ozone [or O3]",
                 "Friedel-Crafts alkylation [do not accept or prompt on \"Friedel-Crafts acylation\"] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Two humans named L\u00edf and L\u00edf\u00ferasir (\"leef\" and \"LEEF-thrah-seer\") are foretold to survive this event by hiding in Hoddm\u00edmis (\"hohd-MEE-mees\") holt. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ragnarok",
                 "Gjallarhorn [prompt on horn]",
                 "Jormungandr [accept Midgard Serpent or World Serpent, prompt on serpent] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This dictator's wife was mocked after mispronouncing the formula for carbon dioxide in a public speech. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nicolae Ceau\u0219escu",
                 "Romania",
                 "Mao Zedong "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "This woman says, \"Give me a girl at an impressionable age and she is mine for life.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Miss Jean Brodie [accept either underlined portion; accept The Prime of Miss Jean Brodie]",
                 "Robert Louis Stevenson [Robert Lewis Balfour Stevenson]",
                 "Treasure Island, or the Mutiny of the Hispaniola "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "The expression for this quantity for an electron involves the Land\u00e9 g-factor. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "magnetic moment [or magnetic dipole moment; prompt on moment or dipole moment alone]",
                 "Niels David Henrik Bohr [accept Bohr magneton or Rutherford\u2013Bohr model]",
                 "torque [accept tau or moment of force] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Pope John XXII (\"the 22nd\") banned this type of musical texture, which was described in the 9th century treatise Musica enchiriadis (\"en-keer-ee-AH-dis\"). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "polyphony [accept word forms like polyphonic]",
                 "mass [or Missa; accept requiem mass]",
                 "Giovanni Pierluigi da Palestrina "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "In this poet's Fragment 31, sometimes known as \"phainetai moi\" (\"fye-na-tie moy\"), the speaker observes a man who talks with her love interest. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sappho",
                 "Massachusetts Bay Colony [prompt on America]",
                 "Sor Juana In\u00e9s de la Cruz [or Do\u00f1a In\u00e9s de Asuaje y Ram\u00edrez de Santillana] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Answer some questions about a group of elite warriors called \"The Immortals,\" for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the First Persian Empire [or the Achaemenid Empire]",
                 "Herodotus",
                 "Sparta "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "By one definition, these traits contribute towards eudaimonia (\"you-DIE-mo-nee-ah\"). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "virtues",
                 "G. E. M. Anscombe [or Elizabeth Anscombe or Gertrude Elizabeth Margaret Anscombe]",
                 "golden "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "The Three Rivers Nature Reserve in the Tibetan Plateau contains the headwaters of the three longest Asian rivers: the Yangtze, the Yellow, and this river. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mekong River",
                 "Cambodia",
                 "Tonl\u00e9 Sap "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Similar to an interface, an \"abstract\" one of these things does not implement one or more of its methods. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "classes [accept abstract classes]",
                 "Java",
                 "generic classes [or generics] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "In this short story, intelligent people are forced to wear thought-disrupting radios and beautiful people are forced to wear masks. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\"Harrison Bergeron\"",
                 "Kurt Vonnegut Jr.",
                 "Eliot Rosewater [accept God Bless You, Mr. Rosewater] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about wearable art.",
-            "answers_sanitized": [
+            "answer": [
                 "kimono",
                 "Art Nouveau",
                 "Alexander Calder "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Answer some questions about the Chinese Civil War, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Chinese Communist Party [or CCP]",
                 "Chiang Kai-Shek [or Jiang Jieshi]",
                 "Xi'an [accept Chang'an] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "The oldest existing temple for this religion is located in Wilmette, Illinois, thousands of miles away from its Universal House of Justice in Haifa. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Bah\u00e1\u02bc\u00ed faith",
                 "garden [accept Garden of Ridvan; accept the Najibiyyih Garden; accept the Garden of Eden]",
                 "Shoghi Effendi Rabb\u00e1n\u00ed [accept either underlined portion] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "This author described how a hotel charged him an exorbitant amount of money for trying to refrigerate a fish. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Umberto Eco",
                 "The Name of the Rose [or Il nome della rosa]",
                 "library "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "This psychologist theorized that the reason people experiencing psychosis exhibit excessive inhibition is that they are trying to block out potentially triggering stimuli. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ivan Pavlov",
                 "conditioning [accept classical conditioning]",
                 "rat "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Answer the following about the Miller\u2013Urey experiment, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "oxygen gas [or O2]",
                 "amino acids",
                 "Strecker synthesis [or Strecker reaction or Strecker amino acid synthesis] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Upon his arrival at the Pan-American Exhibition in Buffalo, New York, this man was handed a telegram telling him that President McKinley had just been shot at the event. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Robert Todd Lincoln [prompt on Lincoln]",
                 "James Garfield",
                 "John Wilkes Booth [prompt on Booth] "

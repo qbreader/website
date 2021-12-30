@@ -130,7 +130,7 @@
     "bonuses": [
         {
             "leadin": "Despite the best efforts of Sim\u00f3n Bol\u00edvar and other revolutionaries, Latin American independence was a bloody and turbulent struggle spanning over 150 years. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Thirty-Three Orientals [or the Treinta y Tres Orientales]",
                 "Republic of Nicaragua",
                 "Republic of Panama "
@@ -145,7 +145,7 @@
         },
         {
             "leadin": "Entoptic phenomena, such as floaters, are often found in this structure. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "vitreous humor [or vitreous body; do not accept or prompt on \u201caqueous humor\u201d]",
                 "lens",
                 "eye [or eyeball] "
@@ -160,7 +160,7 @@
         },
         {
             "leadin": "This composer composed an opera that includes the \u201cChorus of Exiled Palestinians\u201d and the \u201cChorus of Exiled Jews.\u201d For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Coolidge Adams [do not accept or prompt on \u201cJohn Luther Adams\u201d]",
                 "Richard Milhous Nixon [accept Nixon in China]",
                 "September 11th, 2001 attacks [accept equivalents like 9/11] "
@@ -175,7 +175,7 @@
         },
         {
             "leadin": " In some of these structures, the bimah is a raised platform used during services. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "synagogues",
                 "Torah [accept Pentateuch]",
                 "eternal light [accept flame or lamp in place of light, accept sanctuary lamp, accept synonyms for eternal, prompt on lamp, light, or flame alone] "
@@ -190,7 +190,7 @@
         },
         {
             "leadin": "For ten points each, answer the following about President Obama\u2019s summer reading lists:",
-            "answers_sanitized": [
+            "answer": [
                 "Toni Morrison",
                 "V. S. Naipaul",
                 "Ta-Nehisi Coates "
@@ -205,7 +205,7 @@
         },
         {
             "leadin": "A part of this piece was later repurposed by its composer to set Cecil Spring Rice\u2019s poem \u201cI Vow to Thee My Country\u201d to music. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jupiter, The Bringer of Jollity [accept either underlined part; prompt on The Planets]",
                 "Gustav (Theodore) Holst",
                 "Leonard Bernstein "
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "Shiva sure does do a lot of smiting. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ganesha [accept Vinayaka or Ganapati; be lenient with vowel stress]",
                 "third eye [prompt on eye]",
                 "dancing [accept word forms] "
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "Depending on the order these data structures are traversed, they can be represented by prefix, infix, or postfix notation. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "trees",
                 "searching [or search algorithm; accept lookup]",
                 "depth [accept depth-first search; prompt on DFS] "
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "Dutch farmers were the first Europeans to colonize this present day country, where they were known as Boers or Afrikaners. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Republic of South Africa",
                 "concentration camps [prompt on camps; prompt on internment camps]",
                 "Horatio Herbert Kitchener, 1st Earl Kitchener [accept Lord Kitchener] "
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "This woman is the addressee of many of the works in a 366 poem collection that begins \u201cYou who hear the sound, in scattered rhymes\u201d For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Laura",
                 "Francesco Petrarch",
                 "Julius Caesar "
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "A recurring joke in one show starring this character consists of his sister-in-law being horrifyingly described but never shown on-screen. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Frasier (Winslow) Crane [accept either underlined name]",
                 "Cheers",
                 "Seattle, Washington "
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "One person with this title wrote the poem \u201cFirst Dream.\u201d For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Tenth Muse",
                 "Sappho of Lesbos",
                 "Archaic Greek [accept ancient Greek, accept modern Greek, accept \u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac [ell-inn-ick-uh]] "
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "Massive demonstrations against pervasive sexual violence and institutional rape culture erupted in this country on International Women\u2019s Day in 2020. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Republic of Chile [accept Rep\u00fablica de Chile]",
                 "subway system [accept rapid transit, prompt on public transportation]",
                 "Mapuche "
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "For ten points each, answer the following about electron paramagnetic resonance spectroscopy:",
-            "answers_sanitized": [
+            "answer": [
                 "free radicals",
                 "Nuclear Magnetic Resonance spectroscopy [or NMR spectroscopy]",
                 "helium [or He] "
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "This economist criticized the Treaty of Versailles in The Economic Consequences of the Peace. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Maynard Keynes",
                 "demand",
                 "Say\u2019s Law "
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "As part of this program, a letter was sent to Martin Luther King encouraging him to commit suicide. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "COINTELPRO [accept Counter Intelligence Program]",
                 "Black Panther Party for Self-Defense [accept Black Panthers]",
                 "Federal Bureau of Investigation "
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "The central figure of this work wears a white shirt and flings his arms out wide. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Third of May, 1808 [or El tres de Mayo, 1808]",
                 "Madrid",
                 "The Disasters of War [or Los Desastres de la guerra] "
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "In a story in this collection, Mr. Bartell D\u2019Arcy sings \u201cThe Lass of Aughrim.\u201d For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Dubliners",
                 "James Joyce",
                 "\u201cAraby\u201d "
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "The negative gradient of this quantity with respect to position is equal to the electric field. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "voltage [or electric potential]",
                 "Ohm\u2019s law [accept Georg Ohm]",
                 "electrical power "
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "This city has seen more than its fair share of sackings since its founding in 482 AD. For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kiev [or Kyiv]",
                 "Golden Horde [accept Altan Ord]",
                 "tithes [or tithing, accept Church of the Tithes, prompt on taxation, do NOT accept or prompt on \u201cDormition of the Virgin Mary,\u201d because that is not a practice used to fund the construction of the church] "

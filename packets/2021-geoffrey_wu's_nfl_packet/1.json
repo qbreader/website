@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": " This player led the Washington State Cougars to a Rose Bowl championship, helping his draft stock skyrocket. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Ryan Leaf",
                 " Indianapolis Colts [accept either underlined part]",
                 " Bill Polian "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": " On May 30th, 2019, this coach suffered a torn Achilles while playing basketball. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Matt LaFleur",
                 " West Coast offense",
                 " Nathaniel Hackett "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": " Answer the following questions about the Cincinnati Bengals. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " James Brown [accept JB]",
                 " Marvin Lewis",
                 " orange "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": " In one game, this team's quarterback fumbled the ball after running straight into offensive lineman Brandon Moore; that play became known as the \"butt fumble\". For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " New York Jets [prompt on New York]",
                 " Mark Sanchez",
                 " Dallas Cowboys [accept either underlined part] and Detroit Lions [accept either underlined part; accept in any order; both teams required] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": " In one game, this person punched Patriots GM Patrick Sullivan and later called it a \"good hit\". For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Matt Millen",
                 " 0-16 [accept word forms, such as \"going 0 and 16\"]",
                 " running out of the end zone [accept any answer that describes running out of the end zone or running into the back of the end zone; accept word forms or obvious equivalents] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": " Following a no-call at the end of the 2019 NFC Championship, coaches could challenge this type of penalty. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " pass interference [or PI; accept offensive pass interference or defensive pass interference or OPI or DPI; do not accept or prompt on partial]",
                 " encroachment",
                 " illegal leverage [do not accept or prompt on partial] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": " This team plays its home games at Mercedes-Benz stadium. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Atlanta Falcons [accept either underlined part]",
                 " Younghoe Koo",
                 " Nick Novak "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": " This team's training facility is located in Ashburn, Virginia. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Washington Football Team [accept either underlined part; accept WFT; accept Washington Redskins]",
                 " Taylor Heinicke [HI-ne-key]",
                 " FedEx Corporation [accept FedExField; accept Federal Express] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": " This team boasts a number of records, including the highest postseason winning percentage and the most Super Bowl appearances by any team. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " New England Patriots [accept either underline part; accept The Pats]",
                 " Wes Welker",
                 " Plaxico Burress "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": " In 2011, this group could not agree to a collective bargaining agreement with team owners, causing the NFL to enter a lockout prior to the start of the season. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " NFLPA [or National Football League Players Association; or NFL Players Association]",
                 " salary [accept salary cap]",
                 " Demarius F. \"De\" Smith "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": " On February 12th, 2021, this player announced his retirement. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Maurkice Pouncey",
                 " Myles Garrett",
                 " Ohio "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": " Answer some questions about the Philadelphia Eagles at the turn of the century. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Andrew Walter Reid [or Andy Reid]",
                 " Donovan McNabb",
                 " it ended in a tie [accept obvious equivalents] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": " Fans of this team often celebrate its 1985 season, which featured a dominant defense and won a Super Bowl. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Chicago Bears [accept either underlined part; accept Da Bears]",
                 " William Anthony Perry [accept \"The Refrigerator\" or \"The Fridge\"]",
                 " Walter Payton [accept Walter Payton Man of the Year Award] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": " The Oakland Raiders scored 2 last minute touchdowns to win this regular season game over the New York Jets, 43-32. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Heidi game",
                 " NBC [or National Broadcasting Company]",
                 " Scorigami "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": " Relations between the NFL and this organization began to deteriorate after the New York Giants signed Buffalo Bills kicker Pete Gogolak to a new contract. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " AFL [accept American Football League]",
                 " Al Davis",
                 " Kansas City Chiefs [accept either underlined part] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": " After this play, announcer Jim Henderson screamed, \"Oh my god, how could he do that?\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " River City Relay [prompt on relay]",
                 " extra point [or PAT; or point after touchdown; prompt on try or convert]",
                 " Jacksonville Jaguars [accept either underlined part; accept Jags] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": " For 10 points each, answer some questions about the third-highest scoring game of all time and one of the greatest regular season games ever:",
-            "answers_sanitized": [
+            "answer": [
                 " St. Louis Rams [accept either underlined part; prompt on Los Angeles or LA]",
                 " Samson Ebukam",
                 " Greg Zuerlein [accept \"Greg The Leg\"] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": " The first one of these events took place in a Ritz Carlton hotel in Philadelphia. For 10 points each,",
-            "answers_sanitized": [
+            "answer": [
                 " NFL draft [or Player Selection Meeting]",
                 " Burt Bell",
                 " Commissioner of the NFL "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": " During this Super Bowl, Whitney Houston had a remarkable rendition of the star-spangled banner, which was arranged by Jazz musician John Clayton. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Super Bowl XXV [or 1991 Super Bowl; or 1990 Super Bowl]",
                 " Jim Kelly",
                 " NFC East "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": " This player signed a 5 year, 125 million dollar contract in 2017. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 " Derek Carr",
                 " dislocating his pinky finger [accept breaking his pinky finger; accept word forms; prompt on partial; prompt on any answer that contains hand]",
                 " Matthew James \"Matt\" McGloin "

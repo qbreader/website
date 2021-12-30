@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "Swarming archers of these people defeated forces representing Louis the Child in a 910 battle. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Magyars [or Hungarians]",
                 "Otto I [or Otto the Great; or Otto I der Grosse; prompt on Otto]",
                 "Gyula or Kende [accept Yula, Gula, or Gila for \u201cGyula\u201d and Kundu or Kunde for \u201cKende\u201d; accept either underlined]"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This essay asks, \u201cWhen you removed the gag that was keeping these black mouths shut, what were you hoping for? That they would sing your praises?\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cBlack Orpheus\u201d [or \u201cOrph\u00e9e Noir\u201d]",
                 "griots [or jeli or guewel or gawlo or iggawen]",
                 "Wole Soyinka"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "In 2006, scientists from Lawrence National Laboratory created the seventh element of this group by bombarding Californium with Calcium. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "noble gases [or Group 18 before it is read]",
                 "two",
                 "Lennard-Jones Potential"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "This school combined use of Greek philosophy, or <em>falsafa</em>, with <em>kalam</em> in an attempt to solve the problem of evil and other conundra. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mu\u2019tazili School [or Mu\u2019tazila]",
                 "sunnah [which Sunni Islam is named after]",
                 "hadiths"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "A 2016 archaeological dig at Phaleron near this city uncovered what is possibly the graves of supporters of Cylon. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Athens [or Athina; or Athenai]",
                 "the Thirty Tyrants [or oi triakonta tyrannoi]",
                 "Thrasybulus"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "This procedure can be used to test for HIV in the blood serum. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Western Blotting",
                 "nitrocellulose or \u00a0PVDF [or Polyvinylidine Difluoride]",
                 "Lowry Protein Assay"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "Edvard Munch\u2019s experiences with these people in Munich inspired his painting of Christmas, 1904, and may also have inspired his earlier <em>Vampire</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "German prostitutes [prompt on women]",
                 "Die Brucke [or The Bridge]",
                 "woodcuts"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "\u201cOde on the Death of the Duke of Wellington\u201d and \u201cCharge of the Light Brigade\u201d were both written by a holder of this office. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Poet Laureate of the United Kingdom",
                 "John Dryden",
                 "Carol Ann Duffy"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "C. D. Anderson imaged this particle for the first time in a cloud chamber. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "positron [or antielectron]",
                 "baryon",
                 "Alpha Magnetic Spectrometer [or AMS-02]"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "This piece opens with a sleepy lullaby in its <em>Larghetto affettuoso</em> first movement and ends with alternating allegro assai and andante sections representing the agitated supernatural dream that inspired it. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cDevil\u2019s Trill\u201d Sonata [or Violin Sonata in G minor by Giuseppe Tartini]",
                 "Niccol\u00f2 Paganini",
                 "tritone [accept equivalents, such as diminished fifths or augmented fourths]"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "This Pacific nation serves as the depository of the Trans-Pacific Partnership. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "New Zealand [or Aotearoa]",
                 "Mixed Member Proportional Representation [or MMP; prompt on Mixed Member, proportional representation, PR, or proportional voting]",
                 "Maori people"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "Name some things related to mythological fish, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "O-Namazu",
                 "Typhon",
                 "his thumb [prompt on finger or hand]"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "An extremely successful campaign under this man\u2019s reign was capped off by the Battle of al-Qadisiyyah. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Caliph Umar",
                 "Byzantine Empire [or Eastern Roman Empire; or ERE; or Empire of the Greeks before \u201cGreece\u201d is read; prompt on Roman Empire]",
                 "Almoravid dynasty [or Almoravids]"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "Miguel Palacios argued that this work was inspired by the writings of Islamic scholars like Ibn Arabi, who described Muhammad\u2019s night journey to Heaven. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Divine Comedy [or Divina Commedia; anti-prompt on specific parts like The Inferno]",
                 "Purgatorio [or Purgatory]",
                 "Osip Mandelstam"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "This thinker has advocated for \"resource egalitarianism\" in his argument against John Rawls' Difference Principle. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ronald Dworkin",
                 "Harvard University",
                 "communitarianism"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "This company premiered such works as <em>Prelude to the Afternoon of a Faun</em> and <em>Jeux.</em> For ten points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ballets Russes",
                 "The Firebird [or L'Oiseau de feu]",
                 "Pablo Picasso"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "The title essay of this collection calls the Doors \u201cthe Norman Mailers of the Top Forty\u201d and \u201cmissionaries of apocalyptic sex.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The White Album",
                 "Joan Didion",
                 "State of California"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "Answer some questions about getting space probes around the solar system, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "gravity assist [or slingshot; or swing-by]",
                 "Pioneer 10",
                 "MESSENGER"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "Performing this technique using least squares generates the best least unbiased estimator by the Gauss-Markov theorem. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "regressions [or regression analysis; accept anything with the word regression; prompt on estimation]",
                 "Okun\u2019s Law",
                 "endogeneity [or endogenous, or other word forms; accept endogenous growth theory]"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "This event\u2019s common name was coined by a Choctaw leader upon reaching Little Rock. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Trail of Tears [prompt on answers mentioning relocating or removing Native Americans; anti-prompt on answers about specific peoples such as relocating the Cherokee, relocating the Choctaw, etc.]",
                 "Osceola",
                 "Alexis de Tocqueville [or Alexis-Charles-Henri Cl\u00e9rel de Tocqueville]"

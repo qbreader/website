@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "Answer the following about Charles Ives\u2019s orchestral piece The Unanswered Question, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "flute",
                 "four",
                 "Central Park in the Dark"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "Answer the following about biodiversity hotspots around the world, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "California [or California Floristic Province; prompt on \u201cCFP\u201d]",
                 "Madagascar [or Republic of Madagascar]",
                 "South Africa"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Physical features on the surface of this object are named after places in Gulliver\u2019s Travels like Laputo Regio and Lagado Planitia. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Phobos",
                 "Mars",
                 "albedo"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about American snipers.",
-            "answers_sanitized": [
+            "answer": [
                 "Vietnam War",
                 "Mogadishu",
                 "Nation of Islam [do not accept or prompt on Islam]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "This duo\u2019s first collection was published in 1812. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jacob and Wilhelm Grimm [accept \u201cThe Brothers Grimm\u201d or any other clear equivalents]",
                 "James Thurber",
                 "Angela Carter"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "According to the Poisson equation the electric field is equal to the negative of this operator applied to the electric potential. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Laplacian",
                 "kinetic energy [prompt on energy]",
                 "Schrodinger equation"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "This artist included a scene from Mark in which the Apostles fail to cure a boy of demons in his final painting, a depiction of the Transfiguration. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Raphael",
                 "The School of Athens",
                 "Stanza della Segnatura or the Room of the Segnatura"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "Different theologies regarding the nature of this rite include the doctrines of real presence, pneumatic presence, and memorialism. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Eucharist [or Lord\u2019s Supper; or Holy Communion]",
                 "transubstantiation [do not prompt on or accept \u201cconsubstantiation\u201d]",
                 "Lutheranism"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "A lot of important naval battles occurred in 480 BC. Answer some questions about them, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Themistocles",
                 "Halicarnassus [accept Artemisia of Halicarnassus; accept Herodotus of Halicarnassus; accept Mausoleum of Halicarnassus]",
                 "Carthage"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "Answer the following about Stephen Crane\u2019s The Red Badge of Courage, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "American Civil War",
                 "a squirrel",
                 "Jim Conklin [or Jim Conklin]"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "On his way to catch the Erymanthian Boar, Heracles stopped by the home of one of these creatures, Pholus. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "centaurs [or k\u00e9ntauros]",
                 "Nessus",
                 "Pirithous"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "Children in this novel are born in hatcheries and educated by the hypnopaedic method. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Brave New World",
                 "savage reservations",
                 "Helmholtz Watson [or Helmholtz Watson]"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "Oxidation of the massive amount of sulfur dioxide released by Mount Pinatubo\u2019s 1991 eruption increased the concentration of this class of particles by an order or two of magnitude in the stratosphere. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "atmospheric aerosols [prompt on colloids]",
                 "gravitational sedimentation",
                 "anthropogenic"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "This country experienced about a century of instability and infighting during its Zemene Mesafint, or Era of the Princes. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ethiopia [or Abyssinia]",
                 "Haile Selassie (his pre-regnal name was Ras Tafari)",
                 "Pierre Laval"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "Answer the following about comics who made their name on Jon Stewart\u2019s The Daily Show, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Stephen Colbert",
                 "FIFA [or F\u00e9d\u00e9ration Internationale de Football Association; or International Federation of Association Football]",
                 "Larry Wilmore"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "In the Cahill cycle this molecule is converted to alanine before being transported to the liver from muscle.  For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "pyruvate",
                 "fermentation",
                 "gluconeogenesis"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "Anna Sv\u00e4rd is the final novel of this author\u2019s Ring Trilogy. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Selma Lagerlof",
                 "Pippi Longstocking [accept either name]",
                 "Kingdom of Sweden"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "Daryl Bem\u2019s self-perception theory attempts to explain how this phenomenon occurs. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "cognitive dissonance",
                 "Margaret Mead",
                 "industrial-organizational psychology [or I-O psychology]"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "A ruler of this empire became the youngest king ever when a crown was placed on his mother\u2019s belly, thus crowning him before he was even born. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sassanid Empire [or the Sassanian Empire; prompt on Persia]",
                 "Rashidun Caliphate",
                 "Saddam Hussein"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "Answer the following about the use of found objects in art, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Marcel Duchamp [or Henri-Robert-Marcel Duchamp]",
                 "Robert Rauschenberg",
                 "Pablo Picasso [or Pablo Ruiz y Picasso; or Pablo Diego Jos\u00e9 Francisco de Paula Juan Nepomuceno Mar\u00eda de los Remedios Cipriano de la Sant\u00edsima Trinidad Ruiz y Picasso]"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "A historian with this surname names a special collections and rare books library at the University of California, Berkeley. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bancroft [accept Hubert Howe Bancroft; accept George Bancroft]",
                 "James K. Polk",
                 "Democratic Party"

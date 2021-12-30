@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "Along with the same composer\u2019s short opera <em>The Child and the Spells</em>, this work was one of the only pieces to feature a luth\u00e9al (\u201cloo-tay-ALL\u201d) piano. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tzigane (\u201ctsee-GAHN\u201d)",
                 "Franz Joseph Haydn",
                 "violin [or fiddle] &lt;JD, Music&gt;"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "Vector fields are useful tools in modeling natural phenomena such as fluid flow. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "scalar field",
                 "curl",
                 "Helmholtz theorem [or Helmholtz decomposition] &lt;AP, Other Science (Math)&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This man spared the city of Tyana after having a vision of the long-dead Apollonius of Tyana telling him to spare the city. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Aurelian",
                 "Zenobia",
                 "Diocletian &lt;NR, European History&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Saint Paul wrote a lot of letters that made their way into the New Testament. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "sola gratia",
                 "Thessalonians",
                 "love &lt;WD, Religion&gt;"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "Bloch\u2019s theorem allows solutions of this equation to be combined. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Schr\u00f6dinger equation",
                 "density functional theory [or DFT]",
                 "LDA [or local density approximation] &lt;AP, Chemistry&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "In this letter, the author criticizes his addressee for being an expensive date who didn\u2019t even give him much artistic inspiration. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "De Profundis",
                 "Oscar Wilde",
                 "\u201cThe Ballad of Reading Gaol (\u201cRED-ing jail\u201d)\u201d &lt;MT, British Literature&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This place is found along a \u201cdark desert highway,\u201d and a room inside it has \u201cmirrors on the ceiling\u201d and \u201cpink champagne on ice.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cHotel California\u201d",
                 "the room from \u201cNo Exit\u201d [or hell; or equivalents]",
                 "The Exterminating Angel [or El Angel Exterminador] &lt;JC, Trash (Music)&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "Inhabitants of this country believe that its original inhabitants were the mysterious Vazimba people, who were possibly pygmies. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Madagascar [accept Merina Kingdom or Kingdom of Imerina]",
                 "Mecca",
                 "hova &lt;NR, World History&gt;"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "One poem in this collection begins \u201cAmong the market greens, a bullet from the ocean\u201d and describes a large tuna \u201cnavigating the waters of death.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Elemental Odes [or Odas elementales]",
                 "Pablo Neruda",
                 "maize [or \u201cOde to Maize\u201d; or Men of Maize; or Hombres de Maiz] &lt;MT, World Literature&gt;"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "This structure was originally reduced to rubble by the Vanir during the Aesir\u2013Vanir War. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "walls of Asgard [prompt on walls; do not accept or prompt on \u201cAsgard\u201d]",
                 "Sva\u00f0ilfari (\u201csvah-THIL-fah-ree\u201d)",
                 "Loki &lt;NR, Mythology&gt;"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "One work sees this strategy emerging \u201cas a series of attempts to deal with the consequences of the World War\u00a0II Faustian bargain.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "containment",
                 "George F.\u00a0Kennan",
                 "John Lewis Gaddis &lt;NR, American History&gt;"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "One member of this school, Aenesidemus, identified ten modes for achieving <em>epoch\u00e9</em> (\u201ceh-po-KAY\u201d), the suspension of judgement. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Pyrrhonism [or Pyrrhonian skepticism; prompt on skepticism]",
                 "Sextus Empiricus",
                 "Buddhism [or word forms] &lt;NR, Philosophy&gt;"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "A key theorem in this field states that a fluid with infinite conductivity has its magnetic flux lines frozen in. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "magnetohydrodynamics [or MHD]",
                 "plasma",
                 "beta parameter &lt;PL, Physics&gt;"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "This king was nicknamed the \u201cBuilder King\u201d for commissioning projects such as the Royal Greenhouses of Laeken. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Leopold II",
                 "Mexico [or Second Mexican Empire]",
                 "Maxime Weygand (\u201cveh-GAWND\u201d) &lt;NR, European History&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "The recipient of this injury complains in a letter that it makes him \u201cmarked like a cow\u201d or \u201clike a Papist on Ash Wednesday\u201d and is paranoid that people are always talking about it. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "a scar on his forehead [prompt on partial answer]",
                 "East of Eden",
                 "Cathy Ames [or Kate Trask; or Kate Albey; or Catherine Ames] &lt;AP, American Literature&gt;"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "At one of these events, an extremely loose adaptation of <em>A Clockwork Orange</em> called <em>Vinyl</em> was shown. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Exploding Plastic Inevitable [prompt on, but DO NOT REVEAL, descriptive answers like happening or party at the Factory or Andy Warhol party]",
                 "The Factory",
                 "Andy Warhol &lt;JC, Painting&gt;"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "The man-made analogue of this biological process is the Haber\u2013Bosch process. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "nitrogen fixation",
                 "rhizobia [or rhizobium]",
                 "heterocysts &lt;AP, Biology&gt;"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "David Foster Wallace once observed this man peeing under a tree, which was apparently treated as a normal occurrence on his sets. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "David Lynch",
                 "Blue Velvet",
                 "Eraserhead &lt;JC, Other Arts (Film)&gt;"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "The \u201coutside\u201d or \u201cindirect\u201d form of this action is when interest groups encourage the citizens to push politicians to make change. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "lobbying",
                 "revolving door",
                 "principal\u2013agent problem [or agency dilemma; or agency problem] &lt;AJ, Social Science (Political Science)&gt;"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "After a long day of quizbowl, you decide to chill out by reading some literature written in the second person. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "If on a winter\u2019s night a traveler",
                 "How to Get Filthy Rich in Rising Asia",
                 "\u201cThe Cheater\u2019s Guide to Love\u201d &lt;JC, European Literature&gt;"

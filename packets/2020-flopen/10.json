@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "A splash panel of the protagonist falling down Suicide Alley appears in the first issue of this comic book series and again on the last page of its final issue after he encounters the god-like being Orh. For 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "The Incal [or L\u2019Incal]",
                 "Dune [accept Jodorowsky\u2019s Dune]",
                 "Hans Ruedi Giger (\u201cGEE-ger\u201d) "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "This country\u2019s villainous bowler-hat wearing leader is killed by Soviet everyman Ivan in a \u201cWorld Class Struggle Championship Final\u201d in Vladimir Mayakovsky\u2019s poem 150,000,000 (\u201cone-hundred and fifty million\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "United States of America [or U.S.A.; or America; accept \u201cMy Discovery of America\u201d] (The leader is Woodrow Wilson.)",
                 "\u201cThe Gentleman from San Francisco\u201d [or \u201cGospodin iz San-Franciska\u201d]",
                 "One-storied America [or One-story America; or Odno\u00e8ta\u017enaja Amerika; accept Little Golden America; accept Ilf and Petrov\u2019s American Road Trip: The 1935 Travelogue of Two Soviet Writers] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This book presents an argument that has come to be known as its author\u2019s \u201cRegress,\u201d which argues that external relations are not possible since an object and its properties cannot be treated independently. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Appearance and Reality",
                 "idealism [accept word forms; accept British Idealism; accept \u201cA Refutation of Idealism\u201d]",
                 "perception [accept word forms; accept esse est percipi; accept \u201cto be is to be perceived\u201d; accept the problem of perception] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "Answer the following about dance critic and historian Sally Banes, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "postmodernism [accept postmodern dance]",
                 "Merce Cunningham [or Mercier Philip Cunningham]",
                 "Judson Memorial Church [accept Judson Dance Theater] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "These two general classes of people are involved in a tradition called parampar\u0101 (\u201cpuh-RUM-puh-rah\u201d) at \u0101shramas, where one of them may receive prapatti (\u201cpruh-PUHT-tee\u201d) from the other. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "guru [or teacher; or master; or guide; or lecturer; or professor] \u015bishya (\u201cSHISH-yuh\u201d) [or student; or disciple; or seeker] [accept any combinations of a Sanskrit word and an English word like guru AND student]",
                 "dakshin\u0101 [or gurudakshin\u0101; accept Dakshin\u0101m\u016brti] (Dakshin\u0101m\u016brti means \u201csouth-facing deity.\u201d)",
                 "moon [accept full moon] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "This technique is a double-edged sword because, while its lack of selectivity nullifies the negative effects of photoresist scumming, it creates lateral erosion if the resist profile is tapered. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ion milling [accept reactive ion milling; reject \u201creactive ion etching\u201d]",
                 "radius of the circular path [accept r]",
                 "silicon [or Si] "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "One of these two authors poked fun at the length and subtitle of a novel by the other in a scene where Mrs. Booby exclaims \u201cYour virtue? I\u2019ll never survive it!\u201d after being rebuffed by her young male employee. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Samuel Richardson AND Henry Fielding",
                 "Joseph [accept Joseph Andrews]",
                 "Middlemarch: A Study in Provincial Life (by George Eliot) "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "Henry Wickham was largely responsible for shifting the world production of this crop from South America to the British colonies of Celyon and Malaya. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "rubber [accept latex; accept Havea trees; accept Para rubber]",
                 "Stevenson Plan [accept Stevenson Restriction Scheme]",
                 "DuPont [accept E. I. du Pont de Nemours and Company] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "Symptoms of this disease, like bronze skin and diabetes, typically onset between 30 and 50. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "primary hemo\u00b7chromatosis [accept hereditary hemochromatosis; accept genetic hemochromatosis; prompt on iron overload disease; reject \u201csecondary hemochromatosis\u201d]",
                 "osteoarthritis",
                 "phlebotomy [accept drawing blood; accept blood withdrawal; accept venesection] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "This composer\u2019s pupils Charles Bordes (\u201cbord\u201d) and Alexander Guilmant founded the Schola Cantorum in 1894 to promote his compositional ideas against the reactionary nature of the Paris Conservatory. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "C\u00e9sar Franck [or C\u00e9sar-Auguste-Jean-Guillaume-Hubert Franck]",
                 "Gregorian chant [prompt on plainchant or plainsong]",
                 "Vincent d\u2019Indy (\u201cdan-DEE\u201d) [or Paul Marie Th\u00e9odore Vincent d\u2019Indy] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Answer the following about Florida Men with utopian ambitions, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Walt Disney [or Walter Elias Disney; accept Walt Disney World Resorts]",
                 "Koresh [accept David Koresh]",
                 "Levy [accept Moses Elias Levy; accept Rabbi Bernard Levy] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "VLIW architectures are designed to exploit parallelism at the level of these things. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "machine instructions [accept instruction set or instruction set architecture; accept instruction-level parallelism]",
                 "out-of-order execution [prompt on dynamic execution]",
                 "loops [accept for loops] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "Answer the following about the historical origins of modern European irredentist movements, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kaliningrad Oblast",
                 "Winter War (The province is Karelia.)",
                 "Treaty of Osimo [accept Treaty on the delimitation of the frontier for the part not indicated as such in the Peace Treaty of 10 February 1947] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "In a sequel to this poem, the speaker describes \u201cblurred playground noises\u201d and \u201cblack stockinged nurses\u201d while taking a walk in the park to avoid work, but admits that shirking \u201cdoesn\u2019t suit me.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cToads\u201d",
                 "Philip Larkin",
                 "magic AND religion [accept Religion and the Decline of Magic]"
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "These two concepts title a Keith Thomas book about the \u201cdecline\u201d of one of them as a result of the other in 16th and 17th-century England. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Golden Bough",
                 "contagious magic [accept the law of contagion] ",
                 "brise soleil (\u201cBREEZE soh-LAY\u201d) [prompt on sun breakers]"
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "International style adopters of these features took inspirations from the similar mashrabiya found in vernacular Arabic architecture. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Paris, France",
                 "Santiago Calatrava [or Santiago Calatrava Valls] ",
                 "William Gibson [accept William Ford Gibson] (The story is \u201cJohnny Mnemonic.\u201d)"
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Molly Millions, a recurring character in this author\u2019s oeuvre with blades attached to her fingers, was introduced in a short story in which she works alongside a dolphin hacker addicted to heroin. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Singapore [or Singapura]",
                 "Raygun Gothic [reject \u201cGothic\u201d] ",
                 "Elizabeth Sparhawk-Jones [prompt on partial answers]"
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "This artist had a relationship with poet Edwin Arlington Robinson while working at the MacDowell Artist Colony, where she painted The Dreamer and The Porch. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ashcan School [or The Eight]",
                 "Marsden Hartley ",
                 "gold [or Au]"
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Answer the following about ways to synthesize nanoparticles, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "coprecipitation [prompt on precipitation]",
                 "sound [or sound waves; accept ultrasound; accept sonication; accept ultrasonication; accept acoustic vibrations; prompt on vibrations] ",
                 "bookstores [accept independent bookstores or bookshops]"
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "A Detroit business of this type founded by John K. King is housed in an abandoned four-story glove factory. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Marcus Books [or Marcus Bookstore] (named for Marcus Garvey)",
                 "Chicago, Illinois ",
                 "quirky subjects [accept quirkiness]"
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "This linguistic phenomenon is most widely encountered in Icelandic, in which hundreds of common verbs cause it to occur. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "binding [accept anaphora binding; accept pronoun binding; accept word forms like being bound; accept government and binding theory; prompt on GB or GBT]",
                 "accusative case [accept ACC] ",
                 "Abdul Qadeer Khan [or A. Q. Khan; prompt on Khan]"
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "Blueprints for centrifuges used to enrich uranium were stolen by this scientist in the 1970s and later used to begin Pakistan\u2019s nuclear weapons program. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Zulfikar Ali Bhutto [prompt on Bhutto]",
                 "Muammar Gaddafi [or Muammar Qaddafi; or Muammar Qadhafi] "
             ],

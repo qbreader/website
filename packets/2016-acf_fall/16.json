@@ -126,7 +126,7 @@
     "bonuses": [
         {
             "leadin": "Ferdinand Lassalle drew on this thinker to describe the \u201ciron law of wages,\u201d which claims that all wages tend to return to a subsistence level. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "David Ricardo",
                 "trade",
                 "factors of production [accept factor income]"
@@ -141,7 +141,7 @@
         },
         {
             "leadin": "In 1969, a program to provide free breakfast to schoolchildren was begun in this city. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Oakland",
                 "Jerry Brown [or Edmund Gerald Brown, Jr.; accept anything that distinguishes him as the younger Brown and not his father, Pat Brown; prompt on Brown]",
                 "Ronald Reagan"
@@ -156,7 +156,7 @@
         },
         {
             "leadin": "One character portrayed by this actor decides to invest in a restaurant along with his friends Jeff Greene and Ted Danson. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Larry David",
                 "Seinfeld",
                 "The Producers"
@@ -171,7 +171,7 @@
         },
         {
             "leadin": "Answer the following about complex numbers, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "i [accept negative i from pedants/pendents]",
                 "algebraic closure [accept word forms]",
                 "complex differentiation [accept word forms]"
@@ -186,7 +186,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about poor British governmental responses to hunger strikes.",
-            "answers_sanitized": [
+            "answer": [
                 "Mahatma Gandhi [or Mohandas Karamchand Gandhi]",
                 "women\u2019s suffrage movement [or suffragette movement; or anything mentioning women getting the vote]",
                 "Bobby Sands [or Robert Gerard Sands]"
@@ -201,7 +201,7 @@
         },
         {
             "leadin": "These devices use pumping to create a system in which there are more molecules in an excited state than a ground state, known as population inversion. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "lasers [accept light amplification by stimulated emission of radiation]",
                 "Albert Einstein",
                 "negative temperature [accept anything about the temperature being less than zero Kelvin or Rankine]"
@@ -216,7 +216,7 @@
         },
         {
             "leadin": "The fourth movement of this symphony introduces a \u201cC, D, F, E\u201d motif that is later infused into a five-voice fugato finale. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jupiter Symphony [accept BUT DO NOT REVEAL Symphony No. 41 by Wolfgang Amadeus Mozart]",
                 "Wolfgang Amadeus Mozart",
                 "Symphony No. 25 in G minor"
@@ -231,7 +231,7 @@
         },
         {
             "leadin": "Name some characters from To Kill a Mockingbird, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Atticus Finch [or Atticus Finch]",
                 "Miss Maudie Atkinson [or Miss Maudie Atkinson; or Miss Maude Atkinson]",
                 "Dill Harris [or Dill Harris; or Charles Baker Harris]"
@@ -246,7 +246,7 @@
         },
         {
             "leadin": "One of these drugs is degraded by the enzyme NDM-1, which portends a major public health crisis. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "beta-lactam [prompt on lactam]",
                 "peptidoglycan",
                 "lysis"
@@ -261,7 +261,7 @@
         },
         {
             "leadin": "The innermost section of these structures is called the Garbagriha [\u201cgurba-gruha\u201d] and is generally situated under a spire that represents Mount Meru. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Hindu temples [or mandirs; accept Buddhist temples]",
                 "Vishnu",
                 "Diwali [or Deepawali]"
@@ -276,7 +276,7 @@
         },
         {
             "leadin": "Prior to its independence, this country was home to many highwaymen known as klephts. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Greece [or Hellas]",
                 "Filiki Eteria [or the Friendly Society]",
                 "London [accept Treaty of London]"
@@ -291,7 +291,7 @@
         },
         {
             "leadin": "A pun-loving author from this country published a history of cigars titled Holy Smoke, as well as a novel published in English as his \u201cInferno.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Cuba [or Republic of Cuba]",
                 "Jose Marti [or Jos\u00e9 Juli\u00e1n Mart\u00ed P\u00e9rez]",
                 "Arcadia [accept The Countess of Pembroke\u2019s Arcadia]"
@@ -306,7 +306,7 @@
         },
         {
             "leadin": "Richard Estes and Chuck Close created paintings that that were meant to be indistinguishable from photographs as part of this country\u2019s photorealism movement. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the United States of America [U.S.A]",
                 "Christina\u2019s World",
                 "Charles Demuth"
@@ -321,7 +321,7 @@
         },
         {
             "leadin": "You\u2019re throwing a party tonight and you need some ethanol, unfortunately you\u2019re both broke and underage, but luckily you have access to a fully-equipped organic chemistry lab. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "oxymercuration-demercuration",
                 "sulfuric acid [accept H2SO4]",
                 "acetic acid"
@@ -336,7 +336,7 @@
         },
         {
             "leadin": "An artist from this country was commissioned to created the lone tree for the set of Waiting for Godot. For ten 10 points each,",
-            "answers_sanitized": [
+            "answer": [
                 "Switzerland",
                 "Bronze",
                 "watercolor"
@@ -351,7 +351,7 @@
         },
         {
             "leadin": "This man believed fire to be the fundamental principle of nature, because fire is both always changing and always the same. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Heraclitus of Ephesus",
                 "Thales of Miletus",
                 "four [air, earth, fire, water]"
@@ -366,7 +366,7 @@
         },
         {
             "leadin": "The speaker of one of these poems by this author personifies time as \u201cthe subtle thief of youth.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "sonnets by John Milton [prompt on partial answer]",
                 "Paradise Lost",
                 "Pand\u00e6monium"
@@ -381,7 +381,7 @@
         },
         {
             "leadin": "In one tradition, this god tried to make mankind immortal by crawling through the body of the death goddess Hine-nui-te-p\u014d. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "M\u0101ui",
                 "Polynesian mythology",
                 "Pele-honua-mea"
@@ -396,7 +396,7 @@
         },
         {
             "leadin": "The British opposed the Portuguese Pink Map because it would interfere with this project. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Cape to Cairo railway",
                 "France [accept French colonial empire; accept French West Africa; accept French Algeria]",
                 "Entente [accept Entente Cordiale; accept Triple Entente]"
@@ -411,7 +411,7 @@
         },
         {
             "leadin": "The main character of this section visits the Moon, where he learns why its surface appears pock-marked. For 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Paradiso [or Paradise; or Heaven; prompt on The Divine Comedy or La Divina Commedia]",
                 "Inferno",
                 "Francesca da Rimini or Paolo Malatesta [accept Francesca da Rimini or Paolo Malatesta]"
@@ -426,7 +426,7 @@
         },
         {
             "leadin": "David Quammen edited a recent issue of the National Geographic Magazine that focused entirely on this national park, which is home to a large supervolcano. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Yellowstone National Park",
                 "Rachel Carson",
                 "Aldo Leopold"

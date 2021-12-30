@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "This leader was the first head of Proletkult, an organization promoting proletariat culture through workshops, theaters, and journals in early Soviet Russia. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Alexander Bogdanov [or Alexander Aleksandrovich Bogdanov; accept Alexander Malinovksy]",
                 "Vladimir Lenin [or Vladimir Ilyich Ulyanov]",
                 "schools [accept more specific answers like primary, secondary, or tertiary schools; accept colleges or universities] (Likbez was the campaign to end illiteracy.) "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "The operators corresponding to this vector and the angular momentum operators generate SO(4) (\u201cS-O-four\u201d), which is the origin of the n-squared degeneracy of the hydrogen atom. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "LRL vector [or Laplace\u2013Runge\u2013Lenz vector; accept Laplace, Runge, or Lenz by themselves or any combination thereof; accept eccentricity vector]",
                 "Johannes Kepler",
                 "post-Newtonian approximation [or post-Newtonian expansion; accept PN or 1PN or 2.5PN] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This national team has the most Copa Am\u00e9rica titles, ahead of Brazil and Argentina. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Uruguay [accept La Celeste]",
                 "Diego God\u00edn (\u201cgo-DEEN\u201d) [or Diego Roberto God\u00edn Leal] AND Jos\u00e9 Mar\u00eda Gim\u00e9nez (\u201chee-MEN-ess\u201d) [or Jos\u00e9 Mar\u00eda Gim\u00e9nez de Vargas; or Josema Gim\u00e9nez]",
                 "Galatasaray [or Galatasaray Spor Kul\u00fcb\u00fc] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "In a play from this dynasty, the maid H\u00f3ngni\u00e1ng helps the two main characters have a secret marriage, only to be found out by Madama Cu\u012b. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Yuan dynasty",
                 "xiangsheng [accept cross talk; prompt on face and voice]",
                 "stand-up comedy [prompt on comedy] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "Jay Newhard attempted to resolve this paradox by noting that the word \u201cloud\u201d can be either heterological or autological depending on how it is uttered. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Grelling\u2013Nelson paradox [accept Weyl\u2019s paradox; prompt on Nelson\u2019s paradox]",
                 "Bertrand Russell [or Bertrand Arthur William Russell, 3rd Earl Russell]",
                 "tokens [accept type-token distinction; accept type-token ambiguity] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "Along with a younger contemporary, this inventor created a physautotype believed to be the first photograph of a still life, his Set Table. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nic\u00e9phore Ni\u00e9pce (\u201cnee-say-FOR nyeps\u201d) [or Joseph Nic\u00e9phore Ni\u00e9pce]",
                 "Louis Daguerre [or Louis-Jacques-Mand\u00e9 Daguerre; accept Daguerreotype]",
                 "getting a shoeshine [accept answers like getting his shoes cleaned or shoes polished] "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "Jeffrey Peires\u2019s The Dead Will Arise describes the mass starvation caused in part by a millenarian movement among these people. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Xhosa [or AmaXhosa]",
                 "Nongqawuse (\u201cnon-kah-WOO-say\u201d)",
                 "Kingdom of Lesotho (\u201cluh-SOO-too\u201d) [accept Basotholand] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "\u201cHow much\u201d questions apply to one of these two groups of nouns, while \u201chow many\u201d questions apply to the other. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "mass nouns [or non-count nouns; or uncountable nouns] AND count nouns [or countable nouns]",
                 "noun classifiers [accept mensural numeral classifiers; prompt on measure words or counter words]",
                 "less "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "Answer the following about histology of muscle tissue, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "actin AND myosin",
                 "I-bands [or isotropic bands]",
                 "red ragged fibers [or ragged red fibers] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "Answer the following about literary doppelg\u00e4ngers, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Jos\u00e9 Saramago [or Jos\u00e9 de Sousa Saramago]",
                 "Ursula K. Le Guin (\u201cluh gwin\u201d) (The novels described are A Wizard of Earthsea and The Left Hand of Darkness.)",
                 "Charles Williams [or Chales Walter Stansby Williams] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "This word names a 1989 high modernist piece for four part mixed choir and orchestra by Charles Wuorinen. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "genesis [accept Genesis of a Music]",
                 "double bass",
                 "Kyrie eleison "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "This poet\u2019s lines \u201cIn the night came the sound of wind and rain / who knows how many flowers fell?\u201d are often students\u2019 first exposure to literary Chinese, due to his poem\u2019s placement at the beginning of Chinese language textbooks. For 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Meng Haoran [accept Meng Hao-jan]",
                 "Li Bai [or Li Po; or Li Bo]",
                 "a tower [accept l\u00f3u; accept \u201cThe Broken Tower\u201d; accept a bell tower; accept Yellow Crane Tower; prompt on multi story building or tall building] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "The radius of this region equals the cube root of the following: three times the photon emission rate all divided by four pi times the recombination coefficient times the number density squared. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Str\u00f6mgren sphere [prompt on HII (\u201cH-two\u201d) regions; prompt on emission nebulae]",
                 "ionization",
                 "Lyman series [accept Lyman-alpha; accept Lyman-alpha forest] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "Supporters of a ruler with this name deserted him and followed his sons at the \u201cField of Lies.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Louis [or Louis the Pious; or Louis I]",
                 "the collapse of a wooden gallery connecting a cathedral and palace [accept destruction, cave-in, disintegration or any other reasonable synonym for collapse; accept roof, walkway, colonnade, passageway, hallway or arcade for gallery]",
                 "Treaty of Verdun "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "This city\u2019s Palazzo Pubblico is home to such frescoes as The Allegory of Good and Bad Government. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Republic of Siena",
                 "Lippo Memmi",
                 "Duccio di Buoninsegna "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "A Montana state park near the town of Ulm contains possibly the largest example of a pishkun, a term translating as \u201cdeep kettle of blood\u201d that describes sites where these animals were hunted. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "buffalo [accept bison]",
                 "David Wojnarowicz (\u201cvoy-nuh-ROH-vich\u201d)",
                 "Texas "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "The symbol of this movement has a big swastika in its middle that is surrounded by four smaller ones with four Taiji symbols in between. For 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Falun Gong [accept Falun Dafa]",
                 "qigong [accept chi gung; prompt on Tai Chi]",
                 "shaking [accept Shakers or being shook] (The two last living Shakers in the US live at Sabbathday Lake in Maine.) "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "This speech given at the Brown\u2019s Indian Queen Hotel assured that all sinecures would be eliminated from the federal government. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Tyler\u2019s inauguration speech [accept the inaugural speech of John Tyler; accept answers like John Tyler\u2019s speech upon becoming president; prompt on partial answers]",
                 "independent treasury [prompt on treasury]",
                 "tariff [accept Tariff of Abominations or Black Tariff] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Laplace\u2019s principle of insufficient reason supports E. T. Jaynes\u2019s argument that the most natural choice for a probability distribution is one that maximizes this quantity under moment constraints. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "information entropy [or Shannon entropy]",
                 "continuous uniform distribution [or rectangular distribution]",
                 "KL divergence [or Kullback\u2013Leibler divergence; or relative entropy; accept directed divergence; accept discrimination information] "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "A book by this critic documenting the history of women\u2019s writing in America highlights largely forgotten authors of the 1850s such as Harriet Elizabeth Spofford and Maria Susanna Cummins. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "a jury [accept \u201cA Jury of Her Peers\u201d]",
                 "renaissances [accept American Literary Renaissance; accept Harlem Renaissance] ",
                 "Cuba [accept Republic of Cuba]"
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "Many black-and-white \u201ccollagraphs\u201d by printmaker Belkis Ay\u00f3n depicting ghostly, mouthless figures were inspired by ritual attire worn by the male-only Abaku\u00e1 secret society in this country. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Jungle [or La Jungla]",
                 "the assassination of Leon Trotsky [or the murder of Leon Trotsky; or the death of Leon Trotsky; prompt on assassination, murder, or death by asking \u201cof whom?\u201d] ",
                 "Hazel Ruth Markus"
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "Mullaly, Kitayama, and this psychologist developed the term \u201cselfway\u201d to describe characteristic patterns of engaging in society that lead to repeated reconstruals of the self. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "habitus",
                 "social class [accept economic class] "
             ],

@@ -61,7 +61,7 @@
     "bonuses": [
         {
             "leadin": "The textual history of the Book of Mormon has frequently been called into question. For 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Joseph Smith",
                 "Reformed Egyptian [prompt on Egyptian]",
                 "Moroni &lt;Religion, AH&gt;&lt;ed. JB&gt;"
@@ -75,7 +75,7 @@
         },
         {
             "leadin": "This state was founded by Oleg of Novgorod and christianized by Vladimir the Great. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kievan Rus",
                 "Yaroslav I [accept Yaroslav the Wise]",
                 "Constantinople [accept Byzantium] &lt;European History, AK and JP&gt;&lt;ed. OC and JB&gt;"
@@ -90,7 +90,7 @@
         },
         {
             "leadin": "This tone poem opens with a harp playing the note D twelve times to represent the twelve strokes of midnight. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Danse Macabre",
                 "Camille Saint-Sa\u00ebns",
                 "E-flat [accept descriptions involving a half-step down] &lt;Auditory Art, DY&gt;&lt;ed. OC&gt;"
@@ -105,7 +105,7 @@
         },
         {
             "leadin": "Answer the following about plant model organism <em>Arabidopsis thaliana</em>, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "ABC model",
                 "stamen [or androecium]",
                 "angiosperms [or Angiospermae] &lt;Biology, VS&gt;&lt;ed. VS&gt;"
@@ -120,7 +120,7 @@
         },
         {
             "leadin": "Following Gerald Ford\u2019s refusal to bail New York City out during its fiscal crisis, some <em>New York Times</em> readers took to submitting poetry. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Emma Lazarus",
                 "island [accept \u201cNo man is an island\u201d or The Island of Dr. Moreau]",
                 "John Dryden &lt;Non-epic Poetry, EL&gt;&lt;ed. OC&gt;"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "At the Olympic level, this sport features artistic, rhythmic, and trampoline disciplines. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "artistic gymnastics",
                 "Nadia Comaneci",
                 "1.00 &lt;Pop Culture/Mixed Academic, CZ&gt;&lt;ed. KLu&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "The Arawak word for the wooden frame used to slow cook meat lends its name to a group of privateers who operated in this body of water and made money selling sailors that meat. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Caribbean Sea",
                 "Henry Morgan",
                 "Treaty of Utrecht &lt;World History, EL and DC&gt;&lt;ed. OC&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "The frame story of this work involves Mr. Yunioshi\u2019s discovery of a wooden carving of a girl\u2019s head in the African village Tococul. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Breakfast at Tiffany\u2019s",
                 "Truman Capote",
                 "Other Voices, Other Rooms &lt;Short Fiction/Other, OC&gt;&lt;ed. OC&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "The rusting of iron is an example of one of these reactions. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "oxidation reaction",
                 "Nernst equation",
                 "Faraday\u2019s constant [prompt on F] &lt;Chemistry, CT&gt;&lt;ed. KLei&gt;"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "Vivaldi and Haydn weren\u2019t the only artists who found inspiration in the changes of the year. Answer the following about the seasons in painting, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nicolas Poussin",
                 "Pieter Bruegel the Elder [prompt on Bruegel, accept Bruegel the Peasant]",
                 "Claude Monet &lt;Visual Arts, OC&gt;&lt;ed. AH&gt;"

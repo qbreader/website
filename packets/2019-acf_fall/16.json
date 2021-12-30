@@ -45,7 +45,7 @@
     "bonuses": [
         {
             "leadin": "In 2018, businesses in this city started the \u201cdirty shirt\u201d challenge, rewarding employees for not washing their work clothes due to high water tariffs. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Cape Town [or Kappstad, iKapa, or Motse Kapa]",
                 "S\u00e3o Paulo",
                 "Indonesia [or Republic of Indonesia] &lt;CE/Geo/Other/Pop Culture&gt;  DO NOT READ TO BOWDOIN A, MCMASTER A, PURDUE C, UGA A"
@@ -59,7 +59,7 @@
         },
         {
             "leadin": "Matrices have many useful functions in mathematics. Name some specific matrices, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "square matrix",
                 "identity matrix [prompt on I]",
                 "Jacobian matrix &lt;Other Science&gt;  DO NOT READ TO DUKE B, RICE B, VANDERBILT B, WRIGHT STATE"
@@ -74,7 +74,7 @@
         },
         {
             "leadin": "When this character first appears on stage, she orders \u201cLulu\u201d \u201ccome\u201d and \u201cheel\u201d as if he were a dog. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Musetta",
                 "La boh\u00e8me",
                 "they left him the bill [accept anything indicating that they dine and dash or that they make off without payment] &lt;Other Arts&gt;  DO NOT READ TO GEORGIA TECH A, UCSD A"
@@ -89,7 +89,7 @@
         },
         {
             "leadin": "Chanakya helped this empire\u2019s founder conquer the Nanda empire. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Maurya empire [accept Mauryan empire; accept \u201cdynasty\u201d in place of empire]",
                 "Arthashastra",
                 "Buddhism [or Buddhist religion; accept Theravada Buddhism] &lt;World History&gt;  DO NOT READ TO GEORGIA TECH A, UCSD A"
@@ -104,7 +104,7 @@
         },
         {
             "leadin": "Answer the following about fire ecology, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "ecological succession",
                 "chaparral",
                 "decomposition [or word forms] &lt;Biology&gt;  DO NOT READ TO LAWRENCE A, NYU B"
@@ -119,7 +119,7 @@
         },
         {
             "leadin": "In 2014, the township of Franconia installed an interactive sculpture in Profiler Plaza which would allow visitors to envision this monument before its collapse. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Old Man of the Mountain [or the Great Stone Face, prompt on the Profile]",
                 "New Hampshire",
                 "Mount Washington [or Agiocochook] &lt;CE/Geo/Other/Pop Culture&gt;"

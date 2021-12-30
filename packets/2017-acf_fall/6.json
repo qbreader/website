@@ -123,7 +123,7 @@
     "bonuses": [
         {
             "leadin": "The father of chemist Josiah Willard Gibbs found a Mende translator for this trial by going to wharves and counting from one to ten in Mende until someone understood him. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "United States v. the Amistad",
                 "Martin Van Buren",
                 "Aroostook War [or Pork and Beans War]"
@@ -138,7 +138,7 @@
         },
         {
             "leadin": "This scientist names an equation that comes in time-independent and time-dependent forms. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Erwin Schr\u00f6dinger",
                 "Hamiltonian operator",
                 "Laplacian operator [or Laplace operator; prompt on \"del squared\" or \"delta\"]"
@@ -153,7 +153,7 @@
         },
         {
             "leadin": "A 1990 book on this concept argues that it is not a state of being, but rather a process of repeatedly doing. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "gender",
                 "Judith Butler",
                 "third-wave feminism"
@@ -167,7 +167,7 @@
         },
         {
             "leadin": "A Giambologna (jahm-bo-LOW-nia) sculpture of this event shows three intertwined marble figures, the uppermost of which reaches plaintively into the air. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Abduction of the Sabine Women [or Rape of the Sabine Women; both underlined parts required in either answer; do not accept answers with \u201cintervention\u201d in place of \u201cabduction\u201d]",
                 "Mercury [or Hermes]",
                 "bronze"
@@ -182,7 +182,7 @@
         },
         {
             "leadin": "This character falls asleep at the reins of her family\u2019s horse, causing its death in an accident with a station wagon. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tess Durbeyfield [or Tess of the d\u2019Urbervilles]",
                 "Thomas Hardy",
                 "The Mayor of Casterbridge"
@@ -197,7 +197,7 @@
         },
         {
             "leadin": "The master theorem analyzes the use of this strategy in divide-and-conquer algorithms. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "recursion [or recursive programming]",
                 "anonymous recursion [or anonymous functions]",
                 "fractals"
@@ -212,7 +212,7 @@
         },
         {
             "leadin": "This kingdom was annexed into the German Empire in 1871. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kingdom of Bavaria [or K\u00f6nigreich Bayern]",
                 "Ludwig II [or Mad King Ludwig; prompt on Ludwig]",
                 "World War I [or WWI; or the Great War]"
@@ -227,7 +227,7 @@
         },
         {
             "leadin": "The title scientist in this story shows his guests a demonstration in which a withered, 55-year-old flower is made to bloom again. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cDr. Heidegger\u2019s Experiment\u201d",
                 "\u201cYoung Goodman Brown\u201d",
                 "Nathaniel Hawthorne"
@@ -242,7 +242,7 @@
         },
         {
             "leadin": "While out fishing, Hymir caught several whales while this god snagged his long-time rival, the Midgard Serpent. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Thor",
                 "goats",
                 "nine"
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "This group\u2019s only female member, Germaine Tailleferre (tie-FAIR), contributed a piano piece named <em>Pastorale, Enjou\u00e9</em> (on-zhoo-AY) to its first collaboration. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Les Six [or The Six]",
                 "Darius Milhaud (mee-YO)",
                 "harp"
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "This protein contains an iron atom held in a heterocyclic porphyrin ring. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "hemoglobin",
                 "cooperative binding [or cooperativity; prompt on allostery or allosteric regulation]",
                 "carbon monoxide [or CO]"
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "A Muslim empire located mostly in this modern-day country was started by a jihad started by Usman dan Fodio and continued by his son Muhammad Bello. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Nigeria",
                 "British Empire [or Britain; or United Kingdom; anti-prompt on England]",
                 "indirect rule"
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "The third section of this book examines <em>conatus</em>, the will of everything to exist and preserve itself. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ethics, Demonstrated in Geometrical Order",
                 "Baruch Spinoza [or Benedict de Spinoza]",
                 "miracles"
@@ -315,7 +315,7 @@
         },
         {
             "leadin": "Answer the following about Hearthstone, an online collectible card game based on the Warcraft universe. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Blizzard Entertainment",
                 "Patches the Pirate",
                 "Paladins"
@@ -329,7 +329,7 @@
         },
         {
             "leadin": "Answer the following about the winner of the 2006 Nobel Prize in Literature, Orhan Pamuk, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "My Name is Red",
                 "English translation",
                 "Republic of Turkey [or Turkiye Cumhuriyeti]"
@@ -344,7 +344,7 @@
         },
         {
             "leadin": "A two-dimensional form of this spectroscopic technique uses the Nuclear Overhauser Effect to establish which atoms are physically close to one another. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "NMR [or nuclear magnetic resonance spectroscopy; or specific forms of NMR such as 1-H NMR or 13-C NMR or proton NMR or carbon NMR; prompt on MRI or magnetic resonance imaging]",
                 "parts-per-million [or ppm]",
                 "deuterated chloroform [or CHCl3 or CDCl3]"
@@ -359,7 +359,7 @@
         },
         {
             "leadin": "A woodcut by this artist depicted a rhinoceros imported into Lisbon, which was the first living example seen in Europe since Roman times. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Albrecht D\u00fcrer",
                 "magic square [prompt on square]",
                 "Death [or the Grim Reaper; or other reasonable equivalents]"
@@ -374,7 +374,7 @@
         },
         {
             "leadin": "Important texts in this religion include the <em>Book of Certitude</em> and <em>The Dawn-Breakers.</em> For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Bah\u00e1\u2019\u00ed Faith",
                 "Israel",
                 "Shoghi Effendi Rabb\u00e1n\u00ed [prompt on \u201cEffendi\u201d]"
@@ -388,7 +388,7 @@
         },
         {
             "leadin": "This country ran internment camps such as New Denver and Tashme. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Canada",
                 "Hong Kong [or Xianggang]",
                 "Dieppe"
@@ -403,7 +403,7 @@
         },
         {
             "leadin": "A poet from this movement assigned a color to each vowel in the first line of his <em>Sonnet des Voyelles.</em> For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Symbolism [or word forms like Symbolists]",
                 "French [or fran\u00e7ais]",
                 "Charles Baudelaire"

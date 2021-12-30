@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "This president\u2019s National Commission on Excellence in Education criticized the country\u2019s schools in the report <em>A Nation at Risk</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ronald Reagan",
                 "supply-side economics",
                 "Supreme Court of the United States [or SCOTUS] &lt;JB History&gt;"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "Previously, this award was only given to citizens of the Commonwealth, Ireland, and Zimbabwe, but policy was amended in 2013 to include any novel written in English and published in the UK. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Booker Prize [or Man Booker Prize]",
                 "Thomas Keneally",
                 "Oskar Schindler &lt;SR Literature&gt;"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "Answer some questions about underworlds in mythology. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Xibalba",
                 "Hades",
                 "Izanagi-no-Mikoto &lt;ES Mythology&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Most of this compound is synthesized by the cumene process. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "acetone [or propanone]",
                 "ketone [or alkanone]",
                 "sulfur [or S] &lt;SR Chemistry&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Name some things about the geography of the Islamic State. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mosul [or Al-Mawsil]",
                 "Al-Raqqah",
                 "Libya &lt;WC Current Events&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "This character is born with an extra finger, and as a child he lets a neighbor\u2019s calf drown. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mr Biswas [or Mohun Biswas]",
                 "Vidiadhar Surajprasad Naipaul",
                 "Islam [or Muslims] &lt;SR Literature&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This scientist names a law relating the redshift and the distance of objects in deep space and also a chart classifying galaxies. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Edwin Hubble",
                 "cosmological constant",
                 "Olbers\u2019 paradox &lt;SY Astronomy&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "This religion venerates texts such as the Kitab al-Hikma and the Rasa\u2019il al-Hind. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Druze [accept Derzii, Durzii, Durooz, Druzi, or Druzim]",
                 "star [or pentagram]",
                 "Mormonism [or The Church of Jesus Christ of Latter-Day Saints; or LDS] &lt;AP Religion&gt;"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "Answer the following about some prominent Italian political families of the Renaissance. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ludovico il Moro [or Ludovico Maria Sforza]",
                 "de Medici family",
                 "Borgias [or Borjas] &lt;WC History&gt;"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "Isaac Alb\u00e9niz composed the piano suite <em>Iberia</em> inspired by his home country in this style. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "musical impressionism",
                 "Claude Debussy",
                 "preludes [accept Prelude to the Afternoon of a Faun] &lt;WA Music&gt;"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "The narrator of this poem describes his activity as \u201cjust another outdoor game.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cMending Wall\u201d",
                 "Robert Frost",
                 "apple tree &lt;ES Literature&gt;"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "Answer the following questions about model organisms. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Arabidopsis thaliana [or arabidopsis]",
                 "fungi",
                 "zebrafish [accept Zebra Danio or Danio rerio] &lt;SY Biology&gt;"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "Answer the following about the history of roller coasters. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Catherine the Great [or Catherine II or Yekaterina Alexeyevna or Yekaterina II]",
                 "Coney Island",
                 "Great Depression &lt;AP History&gt;"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "This school\u2019s founder used the example of a square tower that appears round to argue that all sense perceptions are true. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Epicureanism [or anything indicating the teachings of Epicurus]",
                 "atoms",
                 "Lucretius [or Titus Lucretius Carus; prompt on \u201cTitus\u201d or \u201cCarus\u201d] &lt;JB Philosophy&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "Answer the following about an incident that occurred in the NBA. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Indiana Pacers",
                 "Ron Artest [or Metta World Peace]",
                 "Ben Wallace &lt;SR Trash&gt;"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Answer some questions about the voyages of Sindbad the Sailor. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "snakes [or serpents]",
                 "roc [or rukh]",
                 "One Thousand and One Nights [or The Arabian Nights or Kit\u0101b \u2019alf layla wa-layla] &lt;ES Literature&gt;"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "A book by Henri Pirenne about the decline of antiquity and the Roman trade world is titled for Mohammed and this man. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Charlemagne [accept Charles the Great, Carolus Magnus, or Charles I; prompt on \u201cCharles\u201d or \u201cCarolus\u201d]",
                 "Mediterranean Sea",
                 "Edward Gibbon &lt;JB History&gt;"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "Newton discovered the law describing this force, which can prove Kepler\u2019s laws of planetary motion. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "gravity [or universal gravitation]",
                 "inverse square [or descriptions like \u201cone over the square of the distance\u201d or \u201cnegative 2 power\u201d]",
                 "Cavendish experiment &lt;SY Physics&gt;"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "Name these criminal offenses. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "perjury [or forswearing]",
                 "battery",
                 "embezzlement [or peculation] &lt;AP Misc&gt;"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "Answer the following questions about 19th-century Russian art. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ilya Repin",
                 "The Last Supper",
                 "artistic realism [or realist movement] &lt;WA Painting&gt;"

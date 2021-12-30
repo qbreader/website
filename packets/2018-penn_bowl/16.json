@@ -40,7 +40,7 @@
     "bonuses": [
         {
             "leadin": "At a museum installation, this ballet\u2019s music was used to accompany a film about the composer\u2019s work with Hedy Lamarr on spread spectrum frequency hopping used to guide World War\u00a0II torpedoes. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ballet M\u00e9canique",
                 "The Tales of Hoffmann [or Les contes d\u2019Hoffmann]",
                 "Don Quixote &lt;JC, Other Arts (Dance)&gt;"
@@ -55,7 +55,7 @@
         },
         {
             "leadin": "Saint Maurice\u2019s Theban Legion was supposedly martyred through this practice, the survivors of which received \u201cthe public disgrace of receiving barley rations,\u201d according to Polybius. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "decimation",
                 "Pompey the Great [or Gnaeus Pompeius Magnus]",
                 "populares &lt;NR, European History&gt;"
@@ -70,7 +70,7 @@
         },
         {
             "leadin": "Historian Eric Foner has described this period as \u201cAmerica\u2019s Unfinished Revolution.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Reconstruction",
                 "Wade\u2013Davis Bill",
                 "ten percent plan &lt;AP, American History&gt;"
@@ -85,7 +85,7 @@
         },
         {
             "leadin": "A basin in Western Texas named for this time period has the thickest deposits dating from it. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Permian period",
                 "Carboniferous period",
                 "Mississippian AND Pennsylvanian &lt;AP, Other Science (Earth Science)&gt;"
@@ -100,7 +100,7 @@
         },
         {
             "leadin": "This branch of mathematics deals with objects such as the Klein bottle and the M\u00f6bius strip. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "topology",
                 "Euler characteristic [prompt on partial answer]",
                 "John Willard Milnor &lt;AP, Other Science (Math)&gt;"

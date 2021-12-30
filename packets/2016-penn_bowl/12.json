@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0Answer some questions about the role of microtubules in cell division, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Astral microtubules",
                 "13",
                 "metaphase"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This tongue-in-cheek name referring to the highest caste of Indian society may have referred to the elite, Ivy-league associations of its members. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the New England Brahmins [or \u201cBoston Brahmins\u201d; prompt on Brahmins]",
                 "James Russell Lowell",
                 "\u201cThe Chambered Nautilus\u201d"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This region of the atmosphere ranges in height from around 9 to 17 kilometers, depending on whether the ground at the Equator or the poles is used as the reference level. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "tropopause",
                 "lapse rate",
                 "fohn wind [or foehn wind]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "This work has an epigraph falsely attributed to the Book of Ecclesiastes. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Simulacra and Simulation",
                 "Jean Baudrillard",
                 "Georg Wilhelm Friedrich Hegel"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "These objects are backed by the value of water, and have been more popular than NCR dollars. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "bottle caps [or Nuka cola caps prompt on \u201cHubbucks\u201d or \u201cHubscript\u201d; prompt on answers like \u201cthose coins from Fallout\u201d]",
                 "Animal Crossing [or Dobutsu no Mori]",
                 "FlyFF (rhymes with \u201cstrife\u201d) or Fly For Fun"
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "1. Objects found in this area include a crested helmet, two silver spoons, and a large circular shield. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sutton Hoo",
                 "Anglo-Saxons [anti-prompt on more specific answers such as Angles or Saxons]",
                 "Vortigern [or Vortigen; or Vortiger; or Wyrtgeorn]"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "This work lists such actions as \u201cto communicate with Mars, converse with spirits/To report the behaviour of the sea monster.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cFour Quartets\u201d",
                 "T. S. Eliot",
                 "the fire and the rose"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "Anatomy textbooks love to remind us that this religious object is the namesake of a heart valve. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "mitre [or miter]",
                 "yarmulke",
                 "Sikhism"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "Name some things related to project MKULTRA, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "LSD [or lysergic acid diethylamide]",
                 "Operation Paperclip",
                 "Canada"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "A UT economist with this surname heads up the Texas Inequality project, which uses the Theil index instead of the traditional Gini coefficient to measure inequality. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Galbraith [James G. and John K. respectively]",
                 "John Maynard Keynes",
                 "countervailing power [accept American Capitalism - The Concept of Countervailing Power]"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "Indigenous people in this modern-day country were designated \u201craw barbarians.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Taiwan [or Republic of China; or Zhonghua Minguo; but not \u201cChina\u201d or \u201cPeople\u2019s Republic of China\u201d or \u201cZhonghua Renmin Gongheguo\u201d]",
                 "Ming dynasty",
                 "Treaty of Shimonoseki"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "This author\u2019s most famous play has no main character but narrates a Silesian uprising in the 1840s. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Gerhart Hauptmann",
                 "The Beaver Coat",
                 "naturalism"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "Answer some questions about the movement of atoms from high concentration to low concentration, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Diffusion coefficient [accept diffusivity]",
                 "Einstein-Smoluchowski relation",
                 "Churchill-Bernstein equation"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "Some people believe that this piece may have been dedicated to the wife of Johann Hummel. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Fur Elise [or Bagatelle No. 25 in A minor]",
                 "Francois Couperin [or Couperin le Grand; prompt on Couperin]",
                 "Gerald Finzi"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about isomerization.",
-            "answers_sanitized": [
+            "answer": [
                 "enantiomers",
                 "meso compounds",
                 "maleic acid [do not accept maleate, spell malEate if necessary. It\u2019s pronounced mal-EE-ate, not MALE-ate]"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Name some things about disasters that befell the Russian Empire in the late 19th century, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Borki Train Crash",
                 "Nicholas II [or Nikolay Alexandrovich Romanov; or Nicky; prompt on Nicholas or Nicolai]",
                 "Famine [or other logical equivalent that indicates that there is not enough food to eat]"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "This woman weaves a burial shroud, then unweaves it every night, to delay the attention of her suitors. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Penelope",
                 "geese",
                 "Philoetius"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "After a man threatens to push his wife off a cliff, she asks him to let her worship him by walking around him; once she gets behind him, she pushes him off instead. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tamil",
                 "a thief [or obvious equivalent]",
                 "Malgudi"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "For his project <em>Dadaglobe</em>, this artist solicited photos of art as well as a \u201cclear photo of your head (not body),\u201d which, if altered, \u201cshould retain clarity,\u201d unsurprisingly resulting in a lot of photos doing neither of those things. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Francis Picabia",
                 "collage [or photomontage; prompt on \u201cdecoupage\u201d]",
                 "New York City [or New York; or New Amsterdam; or The Big Apple; or The City So Nice, They Named It Twice; or The Modern Gomorrah]"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "Yuan Chai and Jian Jun Xi jumped onto one of this artist\u2019s works to \u201cimprove\u201d it as a piece of performance art. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Tracy Emin",
                 "Great Britain [or the United Kingdom or England]",
                 "Michael Landy"

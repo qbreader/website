@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "In a masque by this author, the attendant spirit and the water nymph Sabrina free the Lady from a magical chair. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "John Milton",
                 "Paradise Lost",
                 "\u201cLycidas\u201d"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "In this text, a woman is impregnated by eating a lingonberry and gives birth to a son who becomes King of Karelia. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the Kalevala",
                 "Finland",
                 "Ukko [or perkele; or \u00c4ij\u00e4; or \u00c4ij\u00f6; or Pitk\u00e4nen; or Is\u00e4inen or Isoinen]"
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Mechanisms for this type of reaction include S<sub>N</sub>1 [\u201cess-enn-one\u201d] and S<sub>N</sub>2 [\u201cess-enn-two\u201d]. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "substitution [accept nucleophilic substitution]",
                 "ether",
                 "tetrahydrofuran [or THF]"
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "The first two members of this group abandoned their previous job after being told they would become \u201cfishers of men.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Twelve Apostles [prompt on the twelve Disciples]",
                 "John the Apostle",
                 "logos"
@@ -183,7 +183,7 @@
         },
         {
             "leadin": "The painting <em>Golconda</em> depicts men raining from the sky wearing overcoats and this item of headgear. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "bowler hats [prompt on hats or other partial clear knowledge equivalents]",
                 "Ren\u00e9 (Fran\u00e7ois Ghislain) Magritte",
                 "(green) apples"
@@ -198,7 +198,7 @@
         },
         {
             "leadin": "This ruler died after hitting his head while on his way to watch a game of <em>jeu de paume</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Charles VIII [or Charles the Affable; prompt on Charles]",
                 "Borgia family [or Rodrigo Borgia; or Cesare Borgia]",
                 "Venice [or Venezia; or League of Venice]"
@@ -213,7 +213,7 @@
         },
         {
             "leadin": "One character in this play meets the travel agent \u201cMr. Lies\u201d while imagining herself in Antarctica during a valium-induced hallucination. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Angels in America: A Gay Fantasia on National Themes",
                 "AIDS [or HIV; or HIV/AIDS; or acquired immunodeficiency syndrome; or human immunodeficiency virus]",
                 "Fun Home"
@@ -228,7 +228,7 @@
         },
         {
             "leadin": "The most massive exoplanet may actually be one of these objects instead. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "brown dwarfs",
                 "Jupiter",
                 "infrared radiation [or IR radiation]"
@@ -243,7 +243,7 @@
         },
         {
             "leadin": "This ruler\u2019s general Avidius Cassius led a brief rebellion after hearing false news that this ruler had died. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Marcus Aurelius",
                 "five [or Five Good Emperors]",
                 "Marcomanni [or the Marcomannic Wars]"
@@ -258,7 +258,7 @@
         },
         {
             "leadin": "In this opera, the protagonist challenges a princess to discover his name before morning as her only chance to avoid marrying him. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Turandot (TUR-in-dot)",
                 "Giacomo Puccini [or Giacomo Antonio Domenico Michele Secondo Maria Puccini]",
                 "\u201cVincer\u00f2!\u201d [prompt on \u201cI will win!\u201d]"
@@ -273,7 +273,7 @@
         },
         {
             "leadin": "This kingdom was ruled by the Wadiyar family. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Mysore",
                 "British Empire [or Britain; or United Kingdom; accept British East India Company; anti-prompt on England]",
                 "rockets [accept Congreve rockets; prompt on artillery]"
@@ -288,7 +288,7 @@
         },
         {
             "leadin": "Coupeau squanders Gervaise\u2019s money in the title gin shop in this author's novel <em>L\u2019Assommoir</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u00c9mile \u00c9douard Charles Antoine Zola",
                 "J\u2019accuse",
                 "coal mining [or coal miner; prompt on mining or miner]"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "This value can be surpassed by hypothetical particles known as tachyons. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "speed of light [or lightspeed; prompt on c]",
                 "special relativity [prompt on relativity; do not accept or prompt on \u201cgeneral relativity\u201d]",
                 "Vavilov-Cherenkov radiation"
@@ -318,7 +318,7 @@
         },
         {
             "leadin": "The writings of this man often angered the authorities, resulting in him being exiled several times. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Voltaire [or Francois-Marie Arouet]",
                 "Gottfried Wilhelm (von) Leibniz",
                 "monads"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "In a debate, the incumbent in this election blundered when he asserted that \u201cthere is no Soviet domination of Eastern Europe.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Election of 1976",
                 "Richard Nixon",
                 "Ronald Reagan"
@@ -347,7 +347,7 @@
         },
         {
             "leadin": "Answer some questions about looking at situations through different perspectives, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Charles Wright Mills",
                 "the original position",
                 "empathy"
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "Macrophages in this organ that break down red blood cells to produce bilirubin are known as Kupffer cells. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "liver",
                 "bile",
                 "ketone bodies [or ketone body; prompt on ketones]"
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "A September 2017 FBI indictment alleged that representatives of this company conspired with universities to illegally pay high school basketball players. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Adidas",
                 "University of Louisville [or UL]",
                 "Nike"
@@ -390,7 +390,7 @@
         },
         {
             "leadin": "Joseph Campbell suggested that this novel served as inspiration for Thornton Wilder\u2019s <em>The Skin of Our Teeth</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Finnegans Wake",
                 "hero's journey [accept hero journey or journey of the hero]",
                 "Odysseus"
@@ -405,7 +405,7 @@
         },
         {
             "leadin": "This composer allegedly included a cymbal clash in his seventh symphony when he learned of Wagner\u2019s death. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Anton Bruckner",
                 "Symphony No. 9 [or Ninth symphony]",
                 "Te Deum [or A Song of the Church]"

@@ -122,7 +122,7 @@
     "bonuses": [
         {
             "leadin": "At the end of this process, DNA ligase IV is used to create the coding and signal joints. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "V(D)J recombination [or VJ recombination; prompt on recombination]",
                 "antibodies [or immunoglobulins]",
                 "12 AND 23"
@@ -137,7 +137,7 @@
         },
         {
             "leadin": "This speech cites a list of \u201cdreams\u201d that \u201chave been vitalized\u201d by its central subject, including \u201cthe dream of jobs for all who seek them...and need them\u201d and \u201cthe dream of an all-out attack on mental illness.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "LBJ\u2019s \"Let Us Continue\" speech [prompt on LBJ\u2019s first address as president, or his first address to a joint session of congress after the death of JFK]",
                 "A Thousand Days",
                 "Teodoro Moscoso [or Jos\u00e9 Teodoro Moscoso Mora]"
@@ -152,7 +152,7 @@
         },
         {
             "leadin": "The 13th section of this work features heavy rolled chords in the low bass that are on eighth-note offbeats, while its 22nd section is often compared to a music box. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Johannes Brahms\u2019s Variations and Fugue on a Theme by Handel [accept Brahms\u2019s Op. 24 or Handel Variations]",
                 "Clara Schumann [or Clara Josephine Wieck(-Schumann); prompt on Schumann, do not accept or prompt on \u201cRobert Schumann\u201d]",
                 "nocturnes [or notturno; accept Nocturne in F major Op.6 No.2]"
@@ -167,7 +167,7 @@
         },
         {
             "leadin": "Michael Walzer devoted a chapter of <em>The Company of Critics</em> to this short book, noting that its English title is invoked conversationally more often than the book is read. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Treason of the Intellectuals or Le Trahison de Clercs or The Betrayal of the Intellectuals",
                 "Maurice Barres",
                 "Johann Gottlob Fichte"
@@ -182,7 +182,7 @@
         },
         {
             "leadin": "Gina, who pretends to be the \u201cpanther woman of Broadway\u201d and who is actually the orphan Iris Mateluna, \u201cplay[s] yumyum\u201d with the owner of this object, which she calls the <em>chonch\u00f3n</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "the giant\u2019s head [or Don Romualdo\u2019s costume head, or the papier-mache bird head; accept Don Romualdo\u2019s (bird) costume]",
                 "Jos\u00e9 Donoso Y\u00e1\u00f1ez",
                 "Chattanooga Choo-Choo"
@@ -197,7 +197,7 @@
         },
         {
             "leadin": "This device was independently invented by the Finnish scientist Yrjo Vaisala, and is used to correct coma and astigmatism in addition to spherical aberrations. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Schmidt corrector plates [prompt on corrector plates]",
                 "mirrors",
                 "Schmidt-Cassegrain telescope"
@@ -212,7 +212,7 @@
         },
         {
             "leadin": "This painting can be found in the Centraal Museum, next to its artist\u2019s <em>Margareta Maria de Roodere and Her Parents.</em> For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Matchmaker [or De Koppelaarster]",
                 "Gerrit von Honthorst [or Gerard von Honthorst; accept Gherardo delle Notti]",
                 "Caravaggisti"
@@ -227,7 +227,7 @@
         },
         {
             "leadin": "This poet repeats the line \u201cHymenaon, Sing the wedding song!\u201d in a poem beginning with an exhortation to \u201cRaise high the roof-beam, carpenters! For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Sappho",
                 "Ugo Foscolo",
                 "Franz Seraphicus Grillparzer"
@@ -242,7 +242,7 @@
         },
         {
             "leadin": "Name these lion deities who protect people when they\u2019re not eating them, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "Pazuzu [or Pazuza or Fazuzu]",
                 "Sekhmet [or Sakhmet or Sachmis or Sakhet]",
                 "Barong [or Banas Pati Rajah]"
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "The pyrrhic victors at this battle were boxed in by the forces of generals Falckenstein, Goeben, Flies, and Beyer before escaping into a trap in the Harz Mountains, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Battle of Langensalza [or Bad Langensalza]",
                 "Seven Weeks\u2019 War [accept Austro-Prussian, Unification, Prussian-German, Brothers, or Fraternal War]",
                 "Gastein Convention [or Bad Gastein, or Treaty of Gastein]"
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "Answer the following about the architecture and design of luxury brand retail spaces, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Peter Marino",
                 "Comme des Gar\u00e7ons",
                 "Prada [TX Prada store, etc]"
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "The presence of these regions lowers the effective reactor volume. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "dead zones",
                 "steady-state",
                 "Dirac delta function"
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "St. Aretas may have been among the Christians at Najran burned by this ruler, who allegedly committed suicide by riding his horse into the Red Sea. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Dhu Nuwas [or Yusuf ibn Sharhabeel, or Yousef Athar]",
                 "Yemen",
                 "Acacian Schism [or schism of Acacius]"
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "According to a history by Helena Attlee, the mafia first rose to power by practicing extortion, intimidation, and racketeering among the gardens where this crop was grown. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "lemons [or Citrus limon; prompt on citrus]",
                 "gabellotti [or gabellotto]",
                 "scurvy"
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "According to the original submission on this novella, this book was \u201cwritten before the discovery of the ABO [blood] system, [and it] ends with a blood transfusion somehow returning a dead maid to life.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Lifted Veil",
                 "George Eliot [or Mary Ann Evans]",
                 "Girloamo Savonarola"
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "Cole-Cole plots are used to describe this phenomenon, whose mathematical derivation for an oscillating electric field was derived by Debye. For 10 points each",
-            "answers_sanitized": [
+            "answer": [
                 "dielectric relaxation [or dipole relaxation or Debye relaxation]",
                 "hysteresis",
                 "coercivity"
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "Dizzy Gillespie most likely played both the trumpet and piano on the original recording of this 1945 song, which has a chord progression based on Ray Noble's song \"Cherokee.\" For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\"Ko-Ko\"",
                 "Max Roach",
                 "M'Boom"
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "One of these works, which is about \u201cselfdiscovery,\u201d claims that the delusions of \u201cpast\u201d, \u201cpresent\u201d, and \u201cfuture,\u201d of \u201cquote, mankind, unquote\u201d are big enough for \u201csupermechanized submorons,\u201d but too small for one human being. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "i-six nonlectures [prompt on six-nonlectures]",
                 "Edward Estlin Cummings [or ee cummings]",
                 "universe"
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "A 1959 stamp depicts a farmer holding a stack of wheat above his head with two threshers on his left under the text \u201cHail the Conquerors of\u201d the title location of this program. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Virgin Lands Campaign [or Tselina or Tselino]",
                 "Lavrenty Beria",
                 "Lazar Kaganovich"
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "This text opens with a fable about an enormous fish called Kun which transforms into a giant bird called Peng. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Zhuangzi or Chuang-tsu",
                 "butterfly",
                 "consummate person or exemplary person or genuine person or zhi ren"

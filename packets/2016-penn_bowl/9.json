@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0The name of this work was most likely inspired by the past profession of the publisher. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u201cThe Harmonious Blacksmith\u201d [prompt on Air and Variations]",
                 "Gustav Holst",
                 "St. Paul\u2019s Suite"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "Sub-categories of these interactions include Keesom, Debye, and London dispersion forces. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "van der Waals force",
                 "Casimir effect",
                 "Hamaker constant"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "The 1326 treaty at Corbeil renewed an alliance between these countries. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Scotland and France [accept Alba instead of Scotland; both answers required]",
                 "John Balliol [accept either underlined; or Toom Tabard before mention; do not accept \u201cJohn Comyn\u201d]",
                 "Duke of Clarence"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Answer the following about American labour units, for 10 points each.",
-            "answers_sanitized": [
+            "answer": [
                 "United Automobile Workers [accept UAW; accept The International Union United Automobile, Aerospace and Agricultural Implement Workers of America]",
                 "Walter Reuther",
                 "James Riddle \u201cJimmy\u201d Hoffa"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "These compounds are isomerized in the processing of boiling wort. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u00a0alpha acids",
                 "Gram-positive bacteria",
                 "pyruvate"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "This author wrote about the reclusive Mr. Tomasz, who develops an affection for a blind child living across the street from him. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Boleslaw Prus [or Aleksander Glowacki]",
                 "Henry Sienkiewicz",
                 "Egypt [or \u201cOld Egypt\u201d]"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "A painting titled <em>Portrait of an Unknown Woman</em>, whose title enigmatic black-clad figure sits in a carriage, was attacked for showing a woman as \u201coverly haughty\u201d by critics. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Wanderers [or Itinerants; or Peredvizhniki]",
                 "Ilya (Yefimovich) Repin",
                 "the sea [or the ocean; or waves, etc.]"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "\u00a0Name some drownings that occurred in literature. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "\u00a0A House for Mr. Biswas",
                 "I Am a Cat [or Wagahai wa Neko de Aru]",
                 "Kate Chopin [or Katherine O\u2019Flaherty]"
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "For 10 points each, name some things about operating systems.",
-            "answers_sanitized": [
+            "answer": [
                 "kernel",
                 "context switch",
                 "Linux"
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "According to Carrie Jenkins' social constructionist view, this phenomenon involves participating in certain social institutions like marriage or child-rearing. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "love",
                 "Martha Nussbaum",
                 "disgust"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "This result can be solved by taking the divergence of the electric force, which must be zero, showing that the Laplacian of the potential only has saddle points. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Earnshaw\u2019s theorem",
                 "Coulomb\u2019s law",
                 "Darwin Lagrangian"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "One ruler in this place had an eye that required four men to lift the eyelid and set fire to the earth when uncovered. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Ireland [or Eire]",
                 "Dian Cecht [or Canta]",
                 "the Hill of Tara [or Cnoc na Teamhrach, or Teamhair na R\u00ed]"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "The brutal methods promoted by this man resulted in rural militias called <em>rondas</em> allying with the military against his militants. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Manuel Ruben Abimael Guzman Reynoso",
                 "Republic of Peru [or Republica del Peru]",
                 "Ollanta Humala"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "Because this novel was a commercial failure, its author burned every copy of it he could find and his wife later claimed that he had never written such a book. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Fanshawe",
                 "Nathaniel Hawthorne",
                 "the Custom House [or customs house; prompt on more general answers about taxes or tariffs]"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "Answer the following about the worldwide following Saint Anthony of Padua, for 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Portugal [or Portuguese Republic; or Rep\u00fablica Portuguesa; accept Kingdom of Portugal or Reino do Portugal]",
                 "Our Lady of the Holy Rosary of Fatima [or Nossa Senhora de Rosario de Fatima; prompt on less specific answers like Virgin Mary]",
                 "Saint John the Baptist [prompt on incomplete answer; do not accept \u201cJohn the Evangelist\u201d]"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "Von Willebrand factor is crucial to proper binding of these cell fragments. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "platelets",
                 "megakaryocytes",
                 "endoreplication [or endoreduplication or polyternization or endomitosis]"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "This character makes bad singers sing to Madame Tussaud\u2019s waxwork and pool sharks play billiards with bent cues. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "The Mikado",
                 "Nanki-poo",
                 "Arthur Sullivan"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "The electrified Wire of Death was on this country\u2019s northern border in the First World War. For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Kingdom of Belgium [or Koninkrijk Belgie; or Royaume de Belgique; or Konigreich Belgien]",
                 "Helmut Von Moltke the Younger [prompt on Moltke]",
                 "\u00a0Rupprecht, Crown Prince of Bavaria [or Rupprecht von Bayern; or Rupprecht Maria Luitpold Ferdinand von Wittelsbach; or Rupert of Bavaria; or Robert I &amp; IV of the United Kingdom; prompt on Wittelsbach]"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "Companies like McKinsey use the acronym MECE to guide this process, meaning \u201cMutually Exclusive, Collectively Exhaustive.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "market segmentation [prompt on \u201cdiscrimination\u201d or something like \u201ctargeted advertising\u201d]",
                 "Nielsen Holdings PLC [or Nielsen Media Research]",
                 "customer lifetime value [or lifetime customer value; or CLTV or CLV or LCV or LTV]"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "Cardinal Newman called this poem the most \u201cmorally sublime\u201d of English poems, while an anonymous review in the <em>British Critic</em> called it \u201ca \u2026 complete monument of vile and depraved taste.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answer": [
                 "Thalaba the Destroyer",
                 "vampires",
                 "Mina Murray [accept either underlined part]"
