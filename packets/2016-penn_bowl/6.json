@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0Circuit analysis remains an elusive subject for introductory physics students, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Thevenin\u2019s theorem",
                 "voltage divider [or potential divider]",
                 "Kirchhoff's loop rule"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about photograms, which are images made without a camera, by putting objects directly on photosensitive paper and exposing them to sunlight.",
-            "answers_sanitized": [
+            "answers": [
                 "Man Ray",
                 "Imogen Cunningham",
                 "f/64 [pronounced \"f stop 64\"]"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "You just robbed a bank! Too bad you and your partner got arrested. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "prisoner\u2019s dilemma",
                 "tit for tat strategy",
                 "Nim"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Constantine insisted on being one of these until his deathbed in order to avoid polluting his soul. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "catechumenates",
                 "adults",
                 "Paul VI [or Giovanni Battista Enrico Antonio Maria Montini; prompt on Paul]"
@@ -177,7 +177,7 @@
         },
         {
             "leadin": "Name these eccentric African dictators, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Muammar (Mohammed Abu Minyar) Qaddafi",
                 "Jean-B\u00e9del Bokassa [accept Salah Eddine Ahmed Bokassa; or \u00a0Bokassa I of Central Africa]",
                 "Hastings Kamuzu Banda"
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "Kingsley Amis criticized this book for its overuse of the word \u201cfuck,\u201d while Simon Jenkins called awarding it the Man Booker Prize \u201cliterary vandalism.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "How late it was, how late",
                 "Scotland [or Alba; prompt on the United Kingdom or Great Britain; do not accept or prompt on \u201cEngland\u201d]",
                 "a bar [prompt on similar words like pub, though really it\u2019s Quinn\u2019s Bar and the Korova Milk Bar]"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "This man advised readers to \u201cdo nothing at random\u201d and \u201cerase impressions.\u201d For 10 points,",
-            "answers_sanitized": [
+            "answers": [
                 "Marcus Aurelius Antoninus Augustus",
                 "pneuma",
                 "Zeno of Citium [prompt on Zeno; do not accept \u201cZeno of Elea\u201d]"
@@ -221,7 +221,7 @@
         },
         {
             "leadin": "This work asks \u201cwhat living, sentient thing loves not the all-joyous light?\u201d and calls its title subject \u201choly, unspeakable, mysterious.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hymns to the Night [or Hymnen an die Nacht]",
                 "Novalis",
                 "Friedrich Schiller"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "British troops were deployed to this region as part of Operation Banner in 1969. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Northern Ireland [or Tuaisceart Eireann; prompt on Ireland until \u201csovereign state\u201d is read]",
                 "Robert Gerard \u201cBobby\u201d Sands",
                 "Omagh Bombing"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "Name some things about dead languages, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Latin",
                 "Bantu",
                 "Cornish"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "Because of one man\u2019s tiring job as a gatekeeper in this play, his brother prepares footbaths for him and gets him a female pen pal. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Blood Knot",
                 "pass book [accept identity book, passport or other synonyms]",
                 "Antigone"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "In Norse myth, a squirrel runs up and down the trunk of a tree to communicate insults between an eagle and this dragon. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Nidhoggr [or Malice Striker]",
                 "Yggdrasil",
                 "Mimisbrunnr [or Mimir\u2019s well]"
@@ -294,7 +294,7 @@
         },
         {
             "leadin": "Vasari described a famous precession of a Madonna by this artist, a scene depicted in a painting over five centuries after the fact by the Victorian artist Frederic Leighton. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cimabue [chih-MAH-boo-ay]",
                 "Florence [or Firenze]",
                 "Maest\u00e0"
@@ -309,7 +309,7 @@
         },
         {
             "leadin": "This \u00a0alliance was first established through the efforts of the prophet known as the Great Peacemaker. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Iroquois Confederacy/League [or Haudenosaunee; or or Six Nations; or Five Nations]",
                 "Onondaga [accept Ononda\u2019gega\u2019]",
                 "Oneida"
@@ -324,7 +324,7 @@
         },
         {
             "leadin": "For 10 points each, answer some things about enzymes.",
-            "answers_sanitized": [
+            "answers": [
                 "zymogens",
                 "trypsin",
                 "cyanide"
@@ -339,7 +339,7 @@
         },
         {
             "leadin": "This literal fascist who tried to once convince Benito Mussolini of his economic ideas is better known for poems like <em>Hugh Selwyn Mauberley</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ezra Pound",
                 "Elizabeth Bishop",
                 "\u201cThe Armadillo\u201d"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "Name some things about phase transitions, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "evaporation [accept boiling]",
                 "Gibbs Phase Rule",
                 "lever rule"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "Answer the following about Roman archaeological sites that are now Israeli national parks, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Caesarea Maritima [or Caesarea Palaestina]",
                 "Masada",
                 "Herod the Great [or Herod I; do not accept \u201cHerod Antipas\u201d or \u201cHerod Archelaus\u201d]"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "This man won the 2014 Grammy for best choral performance for his piece <em>Adam\u2019s Lament.</em> For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Arvo Part",
                 "Double Violin Concerto [accept equivalents such as a concerto for two violins; don\u2019t accept or prompt on \u201cviolin concerto\u201d alone]",
                 "minimalism"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "A presidential candidate in this country had her nomination revoked and was replaced by the party chairman. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Taiwan [or Republic of China or ROC; or Zh\u014dnghu\u00e1 M\u00edngu\u00f3; do NOT accept nor prompt on \u201cChina\u201d or \u201cPeople\u2019s Republic of China\u201d]",
                 "Tsai Ing-Wen [or Cai Ying-wen]",
                 "Democratic Progressive Party [or DPP; or M\u00ednzh\u01d4 J\u00ecnb\u00f9 D\u01ceng]"

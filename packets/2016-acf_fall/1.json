@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "This poem claims that \u201cWe cannot know [its subject\u2019s] legendary head / with eyes like ripening fruit.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cArchaic Torso of Apollo\u201d",
                 "Rainer Maria Rilke",
                 "angels"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "With his friend Ferdiad, this man was trained in combat by Sc\u00e1thach in Scotland. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "C\u00fa Chulainn [or S\u00e9tanta; do not accept \u201cCulann\u201d]",
                 "dog [or hound]",
                 "spear"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "This quantity can be calculated from a semi-empirical mass formula named for Bethe and Weizs\u00e4cker. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "nuclear binding energy",
                 "speed of light in a vacuum",
                 "strong force"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "Pace v. Alabama upheld the felony conviction of Tony Pace and Mary Cox, who were accused of violating a law prohibiting this practice, on the grounds that the law in question did not violate the 14th Amendment\u2019s Equal Protection Clause because both parties were punished equally. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "interracial marriage [accept miscegenation; accept descriptive answers such as a white person marrying a black person]",
                 "Obergefell v. Hodges [prompt on Obergefell v. Hodges]",
                 "judicial activism"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "The earliest Western example of these types of artworks were found in Minoan frescoes from around 1500 BCE. For 10 points each,",
-            "answers_sanitized": [
+            "answers": [
                 "landscape paintings or artworks",
                 "Nicolas Poussin",
                 "shepherd [accept anything involving herding sheep]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "This composer took something of an intermediate stance between more conservative Western traditions and the radical nationalists of The Five. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pyotr Ilyich Tchaikovsky",
                 "Germany [or Deutschland; accept German Empire or equivalents]",
                 "Nikolai Rubinstein [prompt on Rubinstein]"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "Answer the following about the Bronze Horseman, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Peter I [or Peter the Great; prompt on Peter]",
                 "Decembrist revolt [or Vosstanie dekabristov]",
                 "snakes [or serpents; accept Snake Goddess; accept Snake Priestess]"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "This quantity is sometimes referred to as an apparent dissociation constant because when \u201ck-sub-two\u201d is much greater than \u201ck-sub-negative one\u201d its value reduces to the \u201ck-d\u201d. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Michaelis-Menten constant [accept Km [\u201ck-sub-m\u201d or \u201ck-m\u201d]]",
                 "activation energy [accept Ea [\u201cE-sub-a\u201d]]",
                 "diffusion"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "In this novel, Fuka-Eri\u2019s dyslexia rules out the notion that she wrote the manuscript for Air Chrysalis. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "1Q84",
                 "Norwegian Wood",
                 "Haruki Murakami"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "A philosophical work begins with the rough statement that this concept is inconstant if it can be named. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Dao [or Tao; do not accept \u201cde\u201d or \u201cte\u201d]",
                 "wuwei",
                 "Laozi [or Lao Tzu; accept Li Er or Li Dan or Li Boyang]"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "One poem set during this conflict describes an \u201chour of darkness and peril and need\u201d in which \u201cthe people will waken and listen to hear\u201d for the title event. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "American Revolution",
                 "Philip Morin Freneau",
                 "\u201cThe Indian Burying Ground\u201d [accept burial ground; do not accept answers like \u201ccemetery\u201d or \u201cgraveyard\u201d]"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "The speaker\u2019s answers to this question include: \u201cfreely, as men strive for right\u201d and \u201cto the level of every day\u2019s most quiet need.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cHow do I love thee?\u201d",
                 "Sonnets from the Portuguese",
                 "Elizabeth Barrett Browning"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "The Park51 Community Center was a controversial building located near this building complex. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "World Trade Center [accept One World Trade Center; do NOT accept \u201c the Twin Towers\u201d]",
                 "Antoni Gaud\u00ed i Cornet",
                 "Bas\u00edlica i Temple Expiatori de la Sagrada Fam\u00edlia [or Basilica and Expiatory Church of the Holy Family]"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "The earliest trilobite fossils date back to this period. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cambrian Period",
                 "Burgess Shale formation",
                 "Australia"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "This city\u2019s harbor is enclosed by two volcanic peninsulas, one of which contains a BP oil refinery. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Aden [accept the Gulf of Aden]",
                 "Socotra",
                 "Red Sea"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "Many leaders of this rebellion, including James Connolly and Patrick Pearse, were executed by firing squad at Kilmainham Gaol (\u201cjail\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Easter Rising [or Easter Rebellion; accept \u201cEaster, 1916\u201d]",
                 "Germany [or German Empire; or Deutschland; or Deutsches Kaiserreich; accept the Second Reich; do not accept or prompt on any other Reichs]",
                 "Roger Casement [accept Casement Report]"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "The seven corporal \u201cworks\u201d described by this concept were inspired by the Judgement of the Nations, and include feeding the hungry and giving drink to the thirsty. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "mercy",
                 "Holy Doors [or Porta Sancta]",
                 "John Paul II [or Karol J\u00f3zef Wojty\u0142a; prompt on \u201cJohn Paul\u201d; do not accept or prompt on \u201cJohn\u201d or \u201cPaul\u201d by themselves]"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "This kingdom\u2019s ruler Gwanggaeto the Great erected a massive stele on the banks of the Yalu River detailing its history. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Goguryeo [do not prompt on or accept \u201cGoryeo\u201d]",
                 "Tang Dynasty",
                 "Wu Zetian [or Wu Hou; or Empress Wu; or Wu Zhao]"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "This man\u2019s theory of reciprocal determinism states that both personal and social factors influence a person\u2019s behavior. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Albert Bandura",
                 "Bobo doll experiment",
                 "marshmallows"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "This man names a paradox which predicts that the mixing of two containers of an ideal gas leads to a nonzero change in entropy. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Josiah Willard Gibbs [accept Gibbs\u2013Duhem equation]",
                 "spontaneous [or spontaneity]",
                 "high temperature [accept anything about increasing temperature]"

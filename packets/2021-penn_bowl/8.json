@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Answer the following about side effects in moral philosophy, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "experimental philosophy [accept X-phil]",
                 "Thomas Aquinas [or Thomas Aquinas]",
                 "caves (The story is the \u201cAllegory of the Cave\u201d from Plato\u2019s Republic.) "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This man called himself the largest general store in the US as he used the Trading with the Enemy Act to confiscate property from Germans, including an attempted attack on the Faber pencil industry. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "A. Mitchell Palmer",
                 "beer [prompt on alcohol]",
                 "pharmaceutical [or pharma or prescription drugs; prompt on drugs, healthcare, medicine, or biomedical] (The patent is Bayer\u2019s Aspirin.) "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "The dependency structure between different variables in these models can be analyzed using Granger causality tests. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "(structural) vector autoregressive models [or SVARs or VARs or vector autoregressions; prompt on autoregressive methods or similar]",
                 "Robert Lucas",
                 "prices [accept wages; or equivalents like the price level or sticky prices] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "In a novel from this region that was released in a new translation by Heinz Fenkl in 2019, a young monk is sent before the King of Hell for flirting with a group of eight fairies. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Korea [or Korean Peninsula]",
                 "clouds [accept Nine Cloud Dream, The Cloud Dream of the Nine, or \u201cVanished Into the Clouds\u201d]",
                 "Tibetans [or bod pa] (The latter work is the Epic of King Gesar.) "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "A new policy allowing hosts to select new events for one-time inclusion allowed the Japanese Olympic Committee to add this event to the Tokyo Games. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "karate",
                 "Hawaii",
                 "skateboarding [or women\u2019s street skateboarding] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "This language uses a triple backtick to create a code block. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Markdown",
                 "documentation [or docs]",
                 "Python "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "\u1e24ann\u0101 Diy\u0101b, responsible for many of the stories in Antoine Galland\u2019s Arabian Nights, wrote a memoir of travelling as a young man from this city in the court of Louis XIV. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Aleppo",
                 "Husayn ibn Ali",
                 "Jordan "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "A 1971 album titled for this concept was released after its musician\u2019s album Thembi and consists of a single track lasting 37 minutes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "unity [accept Black Unity or Spiritual Unity]",
                 "saxophone [accept specific varieties]",
                 "Young [accept Larry Young; accept Lester (Willis) Young] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Ian Ball and Hugh Possingham wrote the software packages SPEXAN and Marxan, which use spatially explicit simulated annealing to design these places. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "nature reserves [or protected areas; or conservation areas; or wilderness areas; or wildlife parks]",
                 "theory of island biogeography [or insular biogeography]",
                 "endemic species [or word forms like endemism] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "This poem opens with the speaker saying that \u201cWhate\u2019er its mission, the soft breeze can come / To none more grateful than to me; escaped/From the vast city.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Prelude",
                 "William Wordsworth",
                 "Mount Snowdon "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "A short piece titled for this composer\u2019s distinctive style of slow music, the fourth movement from his piano suite Out of Doors, is an early example of it because of its use of soft, mysterious dissonances. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "B\u00e9la Bart\u00f3k",
                 "Gustav Mahler",
                 "Luigi Dallapiccola "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "When performing small-signal analysis of BJTs, the hybrid-pi model and T-model serve as this type of circuit. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "equivalent circuit",
                 "transistors",
                 "current gain [accept DC current gain or AC current gain; accept voltage gain] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Siggeir\u2019s jealousy of the owner of this weapon leads him to convince his mother to devour nine of that man\u2019s siblings in the form of a she-wolf. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gram",
                 "dragon",
                 "eating his children [or equivalents like cannibalism] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "A pioneering illustration of this text used a technique in which an underdrawing was painted over with thick colors, with the lines of figures then being drawn afterwards. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Tale of Genji [or Genji monogatari] (In order, the techniques listed are tsukuri-e, onna-e, hikime kagibana, and fukinuki yatai.)",
                 "scrolls [accept kakemono]",
                 "ink wash painting [prompt on partial answers; prompt on watercolor] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Arabic geographers such as Al-Biruni named the Baltic Sea after this term, which likely first appeared in Greek, derived from an obscure Norse term meaning \u201csworn companion.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Varangian [or v\u00e1rangoi; accept varyazi, v\u00e6ringjar, or varyahy; accept Varangian Guard; do not accept or prompt on \u201cVikings\u201d]",
                 "Kyiv [or Kiev; accept Kievan Rus\u2019]",
                 "anti-Normanism [or anti-Normanist theory; do not accept or prompt on \u201cNormanism\u201d] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Answer the following about the American poet John Haines, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Alaska",
                 "a snowman [accept \u201cThe Snow Man\u201d]",
                 "Ezra Pound "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "The missionaries Francisco de Pina and Alexandre de Rhodes helped spread Catholicism to this modern day country while working on early developments in its alphabet. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Vietnam",
                 "cardinals [accept Sacred College of Cardinals]",
                 "St. Joan of Arc [or Joan of Orleans; or Jeanne d\u2019Arc] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Egyptologists use a variety of historical sources to calculate ancient chronology. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "floodings of the Nile River [accept Wafa\u2019 El-Nil; prompt on a river flooding by asking \u201cwhich river?\u201d; prompt on monsoons or rainy seasons; prompt on Akhet]",
                 "cattle counts [accept cattle censuses; accept counting livestock for tax purposes; accept counting cows, oxen, sheep, pigs, or goats; prompt on taxing farmers or animal taxes]",
                 "Abydos [or Abdju] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Playwright Aphra Behn said this fable can be summarized as \u201cThus aged lovers with young beautys live, keepe off the joys they want the power to give.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the dog in the manger",
                 "Felix Lope de Vega y Carpio",
                 "Aesop "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "For a single atom, electronic wavefunctions obtained from this method have angular components identical to those of the hydrogen atom. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hartree\u2013Fock method [or self-consistent field method or SCF]",
                 "noble gases",
                 "Koopmans\u2019 theorem "

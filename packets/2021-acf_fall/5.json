@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This empire defeated Portugal at the Battles of Tunmen and Shancaowan (\"SHAN-tsao-WAN\") after Portugal invaded its tributary state of Malacca. For 10 points each,",
-            "answers_sanitized": [
+            "answers": [
                 "Ming dynasty [accept Ming China; prompt on China with \"under what dynasty?\"]",
                 "Dutch Republic [or the Netherlands]",
                 "Japan "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "With William Strunk Jr., this long-time editor of the New Yorker wrote The Elements of Style, a style guide that encourages succinctness and using the active voice. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "E.B. White [or Elwyn Brooks White]",
                 "Truman Capote (the novella is Breakfast at Tif any's)",
                 "love [accept Agap\u0113 Agape; accept \"What We Talk About When We Talk About Love\" (by Raymond Carver)] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "In this opera, Baron Ochs is surprised by a bunch of children claiming he is their father while attempting to seduce Mariandel. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Der Rosenkavalier [accept The Knight of the Rose or The Rose-Bearer]",
                 "waltz",
                 "Salome "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "White silk scarves called khata originated in this region where they are placed on the necks of subordinates or in the hands of an elder for a variety of occasions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tibet",
                 "lama [accept Dalai Lama]",
                 "Tengri [accept Tenger Etseg or Tanri or Tangara or Tura or Tigir or Teyri] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "The boundaries on a Pourbaix (\"PUR-bay\") diagram can be calculated using this equation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Nernst equation",
                 "mole",
                 "overpotential [do not accept or prompt on \"overvoltage\"] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Answer the following about the 24 Caprices for Violin by Niccol\u00f2 Paganini, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "theme and variations",
                 "The Devil [accept Satan or Lucifer]",
                 "trill "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In 2018, archaeologists discovered a board game invented by this civilization in Azerbaijan, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ancient Egypt",
                 "Puntland [or Land of Punt or Pwnt or Pwenet]",
                 "Tutankhamun [or King Tut; or Tutankhaten] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "In a counternarrative to this novel, an unnamed narrator writes his doctoral thesis on \"the life of an obscure English poet.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Heart of Darkness",
                 "Africa [accept \"A Far Cry from Africa\" (by Derek Walcott)]",
                 "a river [accept Nile river; accept Congo river] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about characters in Greek mythology who were turned into birds:",
-            "answers_sanitized": [
+            "answers": [
                 "Daedalus",
                 "Muses",
                 "Philomela "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Chemical potential, volume, and temperature are constants of the \"grand canonical\" type of these things, which are collections of microstates. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "statistical ensemble [or thermodynamic ensemble]",
                 "entropy",
                 "Carnot cycle [or Carnot engine, or Carnot heat engine] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Answer some questions about African-American soldiers in the Civil War. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Frederick Douglass [or Frederick Augustus Washington Bailey]",
                 "Tennessee",
                 "Massachusetts 54th Infantry Regiment [prompt on partial answer] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "By determining the points on an Edgeworth box that are Pareto-optimal, a contract curve can be constructed from which this curve can be derived. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "production possibility frontier [or production possibility curve/boundary; or PPF or PPC or PPB; accept production possibilities frontier/curve/boundary; accept transformation curve]",
                 "international trade [accept word forms like trading]",
                 "allocative efficiency [prompt on efficiency] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Cells in the mesolimbic pathway release this compound. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "dopamine [do not accept or prompt on \"dopa\" or \"L-dopa\" or \"levodopa\"]",
                 "schizophrenia",
                 "Alzheimer's disease "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "In this story, Achille Papin (\"uh-sheel pap-on\") falls in love with Philippa while teaching her the part of Zerlina from Don Giovanni, but she rejects his advances. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\"Babette's Feast\"",
                 "Isak Dinesen [accept Karen Blixen or Karen Christenze von Blixen-Finecke]",
                 "Denmark [or Danmark] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This phrase appears in an ornate frame in a 1964 painting titled The Tune and Also the Words. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "This is not a pipe or Ceci n'est pas une pipe",
                 "Rene Magritte",
                 "apples [accept \"This is not an apple\" or Ceci n'est pas une pomme] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "A bridge spanning one of these features was named for the sound made by prisoners admiring the city for the last time. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "canals [accept Grand Canal; accept Cannaregio Canal; accept Giudecca Canal; accept but DO NOT REVEAL answers indicating that the canals are in Venice]",
                 "Venice [or Venezia]",
                 "Po River "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "One building in this city once featured a 130-foot arch that doubled as a very accurate sextant. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Samarkand",
                 "Timur [or Timur the Lame; or Tamerlane; or Timur Gurkani]",
                 "Genghis Khan [or Temujin or Chinggis Khan] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "A long poem with this concept in its title opens with the speaker stating that \"Man's reason is in such deep insolvency to sense\" that we can easily be led down the \"sad pathways of Hell.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "beauty [accept The Testament of Beauty or \"She Walks in Beauty\"]",
                 "Lord Byron [or George Gordon Byron]",
                 "John Milton (the poem is Paradise Lost) "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Answer the following about sets, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Venn diagram",
                 "cardinality",
                 "surjective [or onto; accept surjection; prompt on bijection with \"bijective functions satisfy the property being described as well as other properties; can you tell us what the specific property being described is called?\"; do not accept or prompt on \"injective\" or \"injection\"] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Thomas Nagel argued that animals have this concept in the paper \"What Is It Like to Be a Bat?\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "consciousness [E David Chalmers theorized philosophical zombies to defend a naturalistic form of dualism, a position often associated with this philosopher. This philosopher wrote \"Cogito ergo sum\" in his Discourse on Method. ANSWER: Rene Descartes",
                 "the Chinese room "
             ],

@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "Edwidge Danticat\u2019s essay \u201cCreate Dangerously\u201d claims that staging this play was incredibly popular in Haiti since it was a relatively easy way to criticize the oppressive regime. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Caligula",
                 "Albert Camus",
                 "the absurd"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "When defending his choice to call ACT UP \u201cfascists\u201d, the movie critic Ed Koch responded, \u201cFascists can be concerned citizens\u201d. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "mayor of New York City [accept equivalents]",
                 "Bella Abzug [or Bella Savitsky Abzug; or Battling Bella]",
                 "Yusuf Hawkins [or Yusef Hawkins]"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "This woman\u2019s partner kept leaving pieces of raw meat as a signal to others that he he\u2019d not been seduced by this woman, until she made fun of him for being less bold than the water which splashed her thigh. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gr\u00e1inne (GRAHN-yuh)",
                 "smashed by/against a rock [accept any equivalent indicating death by \u201crocks\u201d or \u201cstones\u201d, etc.; prompt on squish-squish or smashed]",
                 "choking on a fishbone [accept salmon bone in lieu of fish; prompt on choking or choke]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "This compound mixed with glycine is used to transfer products from gel electrophoresis to a nitrocellulose membrane during Western blotting. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tris [accept THAM or tris(hydroxylmethyl)aminomethane; accept Trizma from people who are especially brand-loyal to Sigma-Aldrich]",
                 "EDTA [or ethylenediaminetetraacetic acid]",
                 "tetrakis"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Daniel Fink advanced an early form of the theory created by these two men by identifying ten points, such as \u201chalation of highlights\u201d and \u201cprecise treatment of reflections.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "David Hockney and Charles M. Falco [accept Hockney-Falco thesis; accept the names in either order]",
                 "Johannes Vermeer [or Jan Vermeer or Johan Vermeer]",
                 "Linda Nochlin [or Linda Weinberg]"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "In the introduction to the novel in which these characters appear, the author writes that they are \u201cpeople who merge succesfully with their habitat. In men this is called philosophy, and it is a fine thing.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "paisanos from Tortilla Flat",
                 "John Steinbeck [or John Ernst Steinbeck Jr.]",
                 "King Arthur [accept The Acts of King Arthur and His Noble Knights]"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "This city was designed by superimposing two squares inside a circle. It has a radial street system and an octagonal town square. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sforzinda",
                 "Filarete (\u201cFILL\u201d-uh-RAY-tay) [or Antonio di Pietro Averlino; or Averulino]",
                 "Vitruvius [accept Vitruvian Man]"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "The contributions of single-parent households, \"private transfers\", and \"public transfers\" to this phenomenon were laid out a 1978 paper by Diane Pearce, who coined <em>this specific phrase</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "feminization of poverty hypothesis/thesis",
                 "welfare programs [or welfare state]",
                 "Riverside, California"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "The dry adiabatic form of this quantity is constant, but the moist adiabatic variety is dependent on temperature. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "lapse rate [prompt on lapse]",
                 "skew-T log-P diagram",
                 "dew point"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "The 1577 Battle of Lubieszow began the \u201cGolden Age\u201d of this type of this fighting unit under the military reforms of Stephen Bathory. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "hussars or husaria",
                 "Battle of Klushino [or Battle of Kluszyn]",
                 "Radziwill Family"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "In this section, a mysterious <em>Book of the Lion</em> is mentioned, which does not survive. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Chaucer\u2019s Retraction",
                 "The Canterbury Tales",
                 "The Parson's Tale [or The Parson]"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "A 30-second film reel discovered in 2011 is the only known footage of this group, whose founder believed that no camera could do them justice. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ballets Russe",
                 "L\u00e9onide Massine [or Leonid Fyodorovich Myasin]",
                 "Le spectre de la rose [or The Specter of the Rose or The Spirit of the Rose]"
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "The TRAP complex is localized to this structure. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "translocon",
                 "endoplasmic reticulum [or ER]",
                 "phenylalanine and glycine [accept F and G]"
@@ -313,7 +313,7 @@
         },
         {
             "leadin": "This theory of semantics assigns functions that maps a word or name\u2019s content to a function that outputs extensions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "two-dimensionalism [or two-dimensional semantics]",
                 "possible worlds [do not accept or prompt on worlds]",
                 "Saul Kripke [Saul Aaron Kripke]"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "This country\u2019s Progressive Party under Gabriel Lisette marched under the slogan \u201cEnough with cotton! Enough with taxes! Enough with chiefs!\u201d which helped drive this country's independence movement. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Chad [or the Republic of Chad]",
                 "Francois Tombalbaye [or N\u2019Garta Tombalbaye]",
                 "Aozou Strip"
@@ -342,7 +342,7 @@
         },
         {
             "leadin": "The word alchemy comes from the Arabic word \u201cal-kimiya\u201d, which was the title of this man\u2019s <em>Book of Stones</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Geber [or Jabir ibn Hayyan]",
                 "aqua regia",
                 "takwin"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "This novel\u2019s narrator's mother, Bugam Dasi, is a dancer who forces her two lovers to undergo a 'trial by cobra' that ends with the death of the narrator\u2019s father. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Blind Owl [or Buf-i Kur]",
                 "Iran [or Republic of Iran]",
                 "Azar Nafisi"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "Answer some things about Justin Trudeau\u2019s scientific area of expertise, quantum computing. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "decoherence [do not accept or prompt on \u201ccoherence\u201d]",
                 "Rabi oscillations [or Rabi cycles]",
                 "the nitrogen-vacancy center [accept N-V center]"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "While sitting in Newgate prison for abducting an heiress, this man wrote his book <em>A Letter from Sydney</em>, which called for selling colonial land at artificially high prices. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Edward Gibbon Wakefield",
                 "Durham Report [or \u201cReport on the Affairs of British North America\u201d]",
                 "Canterbury"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about various techniques used to animate movies:",
-            "answers_sanitized": [
+            "answers": [
                 "Rotoscoping [or rotoscope]",
                 "Isao Takahata",
                 "Hedgehog in the Fog [or Yozhik v tuman]"

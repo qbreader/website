@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "The most skilled of these performers were sent to institutions to be trained by Richinarii and Ursari. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "tame bear [or dancing bear or tantsuyushchiy medved; prompt on bears by asking \u201cwhat activity were those bears known for?\u201d]",
                 "Romani People [or Romany]",
                 "gusli "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Thomas Hardy once quipped that \u201cAmerica has two great attractions: the skyscrapers and the poetry of [this author].\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Edna St. Vincent Millay",
                 "\u201cRenascence\u201d",
                 "\u201cI might as well be glad!\u201d "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This word proceeds \u201ccore\u201d in a portmanteau term used to described hardcore and metal bands whose lyrics explore Islamic themes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "taqwa [accept taqwacore]",
                 "Sufism [accept Sufi rock]",
                 "dhikr "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "While sitting next to its composer at a performance in his honor, Leo Tolstoy burst into tears while listening to this movement. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "andante cantabile [accept the second movement of Pytor Tchaikovsky\u2019s string quartet No. 1; accept the second movement of Tchaikovsky\u2019s Opus. 11]",
                 "serenade [accept serenata; accept string serenade]",
                 "concert harp "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "Answer the following about drawing rays to construct the image produced by spherical lenses, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "three",
                 "focal point [or principle focus]",
                 "n minus n-prime over r [or n divided by r minus n-prime divided by r; accept equivalents to the following two expressions: (n \u2013 n-prime) / r or n/r \u2013 n-prime/r] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "Broadly categorized into step-in, strap-on, or hybrid types, these items can be used either in the toe-centered \u201cGerman technique\u201d or the flat-footed \u201cFrench method.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "crampons",
                 "bottled oxygen [accept O2]",
                 "spring-loaded camming devices [accept cams; accept SLCDs; accept Friends] "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "The study of reactions at equilibrium is an important application of thermodynamics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "RT ln K-sub-eq [accept R times T times the natural log of K-sub-eq]",
                 "extent of reaction [prompt on xi]",
                 "Le Ch\u00e2telier\u2019s principle "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "An essay titled for this concept discusses the notion of the \u201cabsolute fake,\u201d in which imitations are made as improvement rather than imitations of the real world. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "hyperreality [accept the hyperreal; accept Travels in Hyperreality]",
                 "Jean Baudrillard (\u201cboh-dree-YARR\u201d)",
                 "Albert Borgmann "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "In this play, the police accuse a man of murdering his cousin to gain control of her business after finding the cousin\u2019s clothes while investigating sobbing noises. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Good Person of Szechwan [accept The Good Man of Szechwan or The Good Woman of Szechwan; accept Der gute Mensch von Sezuan]",
                 "Bertolt Brecht [or Eugen Berthold Friedrich Brecht]",
                 "Eric Bentley [or Eric Russell Bentley] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "Raphael Pumpelly excavated the two mounds that make up the site that names this civilization. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Anau civilization [accept Anau I, II, II or IV]",
                 "Qin dynasty [accept Ch\u2019in dynasty]",
                 "camels [accept Bactrian camels] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "The British Museum holds a group of three of these artworks from Vere, Jamaica made from guayacan hardwood. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "zemi figurines [or zemi carvings; accept zemi choba stand; accept Vere Zemi Figures]",
                 "seat [accept chair; accept stool; accept the Golden Stool; accept Taino Ritual Seat]",
                 "seashells [accept more specific answers like scallop shells or mollusk shells; accept dentalium shells; accept tooth shells or tusk shells] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "The short story collection Monkfish Moon and the novel Reef both take place during this conflict. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sri Lankan Civil War [or Eelam War; accept Sinhalese-Tamil conflict or war] (Chinaman is by Shehan Karunatilaka. Reef and Monkfish Moon are by Romesh Gunesekera.)",
                 "The English Patient",
                 "cinnamon [accept The Cinnamon Peeler; accept Cinnamon Gardens] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "The ensembles that accompany this performing art are divided into wenchang and wuchang, or the civic instrument ensemble and the military instrument ensemble. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Chinese opera [or Peking opera; or Beijing opera; or Yue opera; or Cantonese opera; or xiqu; or jingju; prompt on opera]",
                 "gongs [accept hanging or suspended gong; accept tam-tams; accept bossed gongs]",
                 "erhu (\u201cAR-hoo\u201d) [prompt on Southern fiddle; prompt on Chinese violin or Chinese fiddle] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "The bureau that organized these meetings published the journals The Call and Lotus. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Afro-Asian Writers\u2019 Conferences",
                 "Jawaharlal Nehru",
                 "W. E. B. Du Bois [or William Edward Burghardt Du Bois] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "Sylow\u2019s first theorem is the strongest partial converse to this theorem. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Lagrange\u2019s theorem",
                 "prime [or prime numbers]",
                 "orbit [accept orb of x; accept O-sub-G of x] AND stabilizer [accept stab of x] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "An affordable loans program established in 1959 holds the Department of Housing and Urban Development responsible for twenty billion dollars in mortgages for these facilities. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "nursing homes [or assisted living facilities; or old-people\u2019s homes; or skilled nursing facilities; or care homes; or convalescent homes; or equivalents; reject \u201chospitals\u201d or \u201chospices\u201d]",
                 "Judaism [accept New Jewish Home; accept Jewish people or Orthodox Jews]",
                 "Clostridium difficile "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Answer the following about pattern-recognition receptors, or PRRs, which facilitate an immune response by recognizing conserved structural motifs, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "inflammation",
                 "TLRs [or Toll-like receptors]",
                 "MBL [or mannose-binding lectin; accept mannan-binding lectin; accept mannan-binding protein or MBP] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "An Eavan Boland poem about a person doing this action opens \u201cFlesh is heretic. / My body is a witch. / I am burning it.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "not eating [accept going hungry; accept starving themself; accept refusing food; accept being anorexic or having anorexia nervosa; accept having an eating disorder; accept fasting]",
                 "Roxane Gay",
                 "A New Biography. ANSWER: Naomi Wolf (The unnamed book is The Beauty Myth.) "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "The animal that sometimes names this phenomenon was borrowed from a passage from Dostoyevsky\u2019s Winter Notes on Summer Impressions that gives a folk psychological explanation of it. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ironic process theory [accept ironic rebound; accept the white bear phenomenon or problem; accept attentional white bear phenomenon; prompt on AWB]",
                 "obsessive-compulsive disorder [accept OCD]",
                 "stereotypes [accept stereotype threat] "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "After his girlfriend May breaks up with him on April Fool\u2019s Day, a character in this film buys a can of pineapples with an expiration date of May 1 every day for the next month. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Chungking Express [or Ch\u00f3ngq\u00ecng s\u0113nl\u00edn or Chungking Forest]",
                 "Wong Kar-wai",
                 "Philippines [or Republic of the Philippines; or Republika ng Pilipinas] (The unnamed film is Norte: The End of History by Lav D\u00edaz.) "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "Yellow Tail Wine and Cirque du Soleil are offered as examples of businesses that embraced this strategy in a 2004 book. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Blue Ocean strategy",
                 "market segmentation [accept dividing the market into segments; prompt on STP marketing]",
                 "advertising [accept advertisements; accept ads or adverts] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "A poster drawing awareness to this disease displayed a pink triangle on a black background above the phrase \u201cSILENCE = DEATH.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "HIV/AIDS [accept either underlined part; accept either underlined part of Human immunodeficiency virus infection and acquired immune deficiency syndrome]",
                 "Larry Kramer [or Laurence David Kramer]",
                 "Archbishop John Joseph O\u2019Connor "

@@ -130,7 +130,7 @@
     "bonuses": [
         {
             "leadin": "While giving a speech at this hill, Paul described God by quoting from the pagan poet Epimenides, \"In him we live and move and have our being.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Areopagus (\"AIR-ee-OP-ug-giss\") [or Areios Pagos or Ares Rock; accept Areopagitica]",
                 "unknown [or agn\u00f3stos; accept unknowable; accept to an unknown god; accept anything suggesting that it is not known]",
                 "Acts of the Apostles [or Pr\u00e1xeis t\u00f4n Apost\u00f3l\u014dn or Actus Apostolorum]"
@@ -145,7 +145,7 @@
         },
         {
             "leadin": "The radiated power of this phenomenon equals hbar times the speed of light to the sixth power all over 15360 times pi times big G squared big M squared. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hawking radiation",
                 "black holes",
                 "temperature [prompt on T]"
@@ -160,7 +160,7 @@
         },
         {
             "leadin": "In the leadup to the 1910 appearance of this thing, there was widespread panic because it was thought its tail would expose the Earth to deadly levels of cyanide. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Halley's Comet [or Comet Halley; or 1P/Halley]",
                 "Sima Qian [or Ssu-ma Ch'ien; prompt on T\u00e0ish\u01d0 G\u014dng, Lord Grand Historian, Qian, or Ch'ien]",
                 "excommunication from the Catholic Church [prompt on descriptive answers like expelling someone from the church]"
@@ -175,7 +175,7 @@
         },
         {
             "leadin": "Identify the following about \"Captain\" Frank Furness (\"furnace\"), the only architect to ever win the Congressional Medal of Honor, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Philadelphia [or Philly]",
                 "Louis Sullivan [or Louis Henry Sullivan]",
                 "train station [or railway station; or railroad station; or railway depot; or train depot; or railroad depot]"
@@ -190,7 +190,7 @@
         },
         {
             "leadin": "An \"Invective against\" this man accuses him of draining Africa Nova of funds he later used to fund his gardens, where the Dying Gaul was found. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sallust [or Gaius Sallustius Crispus]",
                 "Catiline [or Lucius Sergius Catilina; accept Catiline conspiracy]",
                 "Mark Antony [or Marcus Antonius]"
@@ -205,7 +205,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about African countries that have moved their capitals.",
-            "answers_sanitized": [
+            "answers": [
                 "Swahili [or Kiswahili; accept Swahili Coast]",
                 "Malawi [or Republic of Malawi; accept Nyasaland]",
                 "Burundi [or Republic of Burundi]"
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "Interactions described by this letter have a single antinodal plane along the axis between two atoms, impeding rotation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "pi [accept pi bonds, pi orbitals, or pi electrons; prompt on delocalized; prompt on p orbitals]",
                 "halogens [or Group 17 elements]",
                 "pi backbonding [or pi backdonation]"
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "A Gustave Dor\u00e9 engraving depicts this object in front of a circle of ghostly female faces. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "bust of Pallas Athena [or a statue of Pallas Athena; prompt on a bust of Athena]",
                 "\"The Raven\"",
                 "Helen of Troy [or Helen of Sparta; accept \"To Helen\"]"
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "Thanks to Reginald Fessenden, this aria was the first piece of music broadcast on AM radio. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\"Ombra mai fu\" [or \"Never Was a Shade\"]",
                 "Georg Fredrich Handel",
                 "Italian"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "In this novel, Uncle Arhat is skinned alive shortly after he steals two black mules. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Red Sorghum [or Red Sorghum Clan; or Red Sorghum Family; or Hong Gaoliang Jiazu]",
                 "Mo Yan [or Guan Moye]",
                 "wine [accept Republic of Wine; prompt on alcohol]"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "For 10 points each, identify the following about the town of Braddock, Pennsylvania.",
-            "answers_sanitized": [
+            "answers": [
                 "Andrew Carnegie",
                 "lieutenant governor [do not accept or prompt on \"governor\"]",
                 "grit"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "The Nihang sect of Sikhs are noted for ritually consuming this product as part of a sacramental drink called sukha shardai. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "bhang (\u201cbong\u201d)",
                 "Holi",
                 "soma [or somras; or somaras; or som; accept haoma]"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "Mayotte was the only island in the Comoros not to vote to secede from this colonial power in a referendum. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "France [or French Republic; or R\u00e9publique fran\u00e7aise]",
                 "African Union [or AU; or Organization for African Unity; or OAU]",
                 "Thabo Mbeki [or Thabo Mvuyelwa Mbeki]"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "This author moved to Ireland for a few years following an offhand remark about Islam during a tour for his 2001 novel Platform. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Michel Houellebecq (\u201cwell-beck\u201d) [accept Michel Thomas]",
                 "Donald Trump [or Donald John Trump]",
                 "an island [accept The Possibility of an Island] (the other novel is Lord of the Flies)"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "In a performance of Anthony Davis' opera titled for this group, Nathan Granner played Korey Wise, the member of this group who served the longest time in prison. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Central Park Five",
                 "Selma, Alabama",
                 "The Innocence Project"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "Identify the following about the use of computerized proofs in mathematics, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "four [accept four color map theorem]",
                 "Kepler conjecture [accept Johannes Kepler]",
                 "Andrew Wiles [or Sir Andrew John Wiles]"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "One character overdoses on laudanum and freezes to death while walking to this town to expose the misdeeds of her husband, Godfrey Cass. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Raveloe",
                 "George Eliot [or Mary Ann Evans]",
                 "drowning in a flood [accept equivalents]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "This painter's body, along with that of his wife, were moved from beneath the Art Gallery he designed at Yale to the grounds of Yale's Street Hall. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "John Trumbull",
                 "United States Capitol Building [or the Capitol or Capitol Building]",
                 "Benjamin West"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "Support for this theory includes the fact that mitochondrial and chloroplast genetic material are significantly different from nuclear DNA. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "endosymbiosis [or endosymbiotic theory; accept symbiogenesis]",
                 "Daisyworld simulation",
                 "sexual reproduction [accept Origins of Sex: Three Billion Years of Genetic Recombination]"
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "This philosopher's conception of the Absolute was mocked as \"the night in which all cows are black\" by his university roommate George Hegel. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Friedrich Wilhelm Joseph (von) Schelling",
                 "pantheism [prompt on Spinozism]",
                 "Immanuel Kant "
@@ -430,7 +430,7 @@
         },
         {
             "leadin": "Edwin Waller was tasked with planning the grid for this city. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Austin, Texas",
                 "Samuel Houston",
                 "empresarios"

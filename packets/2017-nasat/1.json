@@ -127,7 +127,7 @@
     "bonuses": [
         {
             "leadin": "A video of this event surfaced in 2005 featuring members of a group called The Scorpions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Srebrenica massacre",
                 "Socialist Federal Republic of Yugoslavia",
                 "Dayton &lt;Cheyne&gt;"
@@ -142,7 +142,7 @@
         },
         {
             "leadin": "In the chapter \"Operation Margarine,\" this book examines advertisements for Astra brand margarine. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mythologies",
                 "saluting [accept word forms]",
                 "Ferdinand Mongin de Saussure &lt;Cheyne&gt;"
@@ -156,7 +156,7 @@
         },
         {
             "leadin": "This man is said to neither fear God nor care about men. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the unjust judge",
                 "parables",
                 "Lazarus &lt;Cheyne&gt;"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "After this structure is destroyed, Clipton mutters \"madness\u2026 madness!\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the bridge on the River Kwai [prompt on bridge]",
                 "World War II [or Second World War]",
                 "Lawrence of Arabia &lt;Cheyne&gt;"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "This anthropologist wrote a study of voodoo titled <em>Tell My Horse</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Zora Neale Hurston",
                 "Franz Boas",
                 "potlatch &lt;Cheyne&gt;"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "The actual answer to this question is unknown, which is basically the point. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\"What were Odin's last words to Balder?\" [accept anything involving Odin saying something to Balder; accept Woden, Wotan, or Wuotan in place of \"Odin\"]",
                 "Loki [or Loptr; or Hveorungr]",
                 "a dwarf &lt;Cheyne&gt;"
@@ -213,7 +213,7 @@
         },
         {
             "leadin": "This man hosts a local television show whose title translates as \"From the Masses, For the Masses.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rodrigo \"Rody\" Duterte [or Digong]",
                 "Republic of the Philippines",
                 "Davao City &lt;Cheyne&gt;"
@@ -228,7 +228,7 @@
         },
         {
             "leadin": "One of these things has so-called \"Swiss cheese features\" that form because of greater insolation on the walls of depressions than on their floors. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Martian polar ice caps [accept answers indicating that they are ice caps on Mars; prompt on the poles of Mars; prompt on ice caps]",
                 "carbon dioxide [or dry ice; or CO2]",
                 "Opportunity [or Mars Exploration Rover \u2013 B, or MER-1] &lt;Thompson&gt;"
@@ -243,7 +243,7 @@
         },
         {
             "leadin": "Answer the following about the book <em>Danse Macabre</em> (mah-COB), for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Stephen King",
                 "Howard Phillips Lovecraft",
                 "Harlan Ellison &lt;Droge&gt;"
@@ -258,7 +258,7 @@
         },
         {
             "leadin": "Hyperactivity of this organ stimulates excess resorption of bone that can develop into a lesion called a brown tumor. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "parathyroid [do not accept or prompt on \"thyroid\"]",
                 "hemosiderin",
                 "aging [prompt on senescence] &lt;Smart&gt;"
@@ -273,7 +273,7 @@
         },
         {
             "leadin": "This painting effectively replaced another derisively known as the \"Mewing Cat.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Theodore Roosevelt [or Teddy Roosevelt]",
                 "John Singer Sargent",
                 "George Washington &lt;Cheyne&gt;"
@@ -288,7 +288,7 @@
         },
         {
             "leadin": "This novel's protagonist sleeps with a wrestler named Marchetti and a pimp named Darling Daintyfoot. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Our Lady of the Flowers [or Notre Dame des Fleurs]",
                 "Adolf Hitler",
                 "Le Morte d'Arthur [or The Death of Arthur] &lt;Mehr&gt;"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "In the static case, these equations reduce to Coulomb's law. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jefimenko's (yee-fee-MEN-kuh's) equations",
                 "charge density [do not accept or prompt on \"charge\" or \"density\"]",
                 "Maxwell's equations &lt;Rombro&gt;"
@@ -318,7 +318,7 @@
         },
         {
             "leadin": "This person wrote the inspirational book <em>Gift from the Sea</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Anne Morrow Lindbergh [or Anne Morrow]",
                 "America First Committee [or AFC]",
                 "St. Louis &lt;Cheyne&gt;"
@@ -333,7 +333,7 @@
         },
         {
             "leadin": "After this ruler's death, the Carolingian Empire split up into five successor kingdoms. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charles the Fat [or Charles III; prompt on Charles]",
                 "Vikings",
                 "Louis the German [or Ludwig the German; or Louis II; or Ludwig II; prompt on Louis or Ludwig] &lt;Cheyne&gt;"
@@ -348,7 +348,7 @@
         },
         {
             "leadin": "In the first of these pieces, marked \"Lent et douloureux\" (LONT ay doo-loo-RUH), the left hand alternates G\u00a0major seventh and D major seventh chords. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Three Gymnop\u00e9dies [or Trois Gymnop\u00e9dies]",
                 "Erik Satie",
                 "furniture music [or musique d'ameublement; or furnishing music] &lt;White&gt;"
@@ -363,7 +363,7 @@
         },
         {
             "leadin": "In this novel, Jenny Gabriel dies of a rapid cancer infection shortly after her marriage to Darryl van Horne. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Witches of Eastwick",
                 "John Updike",
                 "basketball [prompt on playing sports or synonyms] &lt;Droge&gt;"
@@ -378,7 +378,7 @@
         },
         {
             "leadin": "Answer some questions about things named for Leonhard Euler (OY-ler), for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "they are integers [prompt on rational numbers]",
                 "Euler totient function",
                 "tetration [accept word forms like tetrated] &lt;Thompson&gt;"
@@ -393,7 +393,7 @@
         },
         {
             "leadin": "Dr. Baker confirms that this character was going to die of cancer very soon. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rebecca [prompt on de Winter; do not accept \"the second Mrs. de Winter\"]",
                 "Peter Pan [or Pan]",
                 "Mr. Darling [or George; or the father of the children; or the dad] &lt;Cheyne&gt;"
@@ -408,7 +408,7 @@
         },
         {
             "leadin": "Brian Mulroney referred to opponents of these amendments as \"enemies of Canada.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charlottetown Accord",
                 "Quebec",
                 "Kim Campbell [or Avril Phaedra Douglas Campbell] &lt;Cheyne&gt;"
@@ -423,7 +423,7 @@
         },
         {
             "leadin": "This conjecture was posed by Oesterl\u00e9 and Masser in the 1980s. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "abc conjecture",
                 "Fermat's last theorem",
                 "Mersenne primes [prompt on partial answer] &lt;Thompson&gt;"

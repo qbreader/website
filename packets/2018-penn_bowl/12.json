@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "The study of proteins\u2019 effect on chemical reactions can provide important information about biological systems. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "enzymes",
                 "cooperativity [accept word forms like cooperative; prompt on allosteric or allosteric regulation]",
                 "sigmoidal [or logistic] &lt;AP, Biology&gt;"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "One work by this author claims that soldiers or a fleet are not the most beautiful sight, but whatever you love best. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sappho",
                 "\u201cHymn to Aphrodite\u201d [or \u201cOde to Aphrodite\u201d; or Sappho fragment 1]",
                 "Anne Carson &lt;JC, European Literature&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "Name some things about the history of women in film, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Marguerite Duras [or Marguerite Donnadieu]",
                 "Gentlemen Prefer Blondes",
                 "Coppola [accept Sofia Coppola or Francis Ford Coppola] &lt;JC, Other Arts (Film)&gt;"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "After the Spanish Coup of July 1936, this man became the leader of the Spanish Army of Africa. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Francisco Franco Bahamonde",
                 "Second Spanish Republic [prompt on the Spanish Republic]",
                 "Asturias &lt;AJ, European History&gt;"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "In this author\u2019s work <em>The Dream</em>, the narrator\u2019s body falls asleep and her soul ascends to contemplate all existence, starting with a fountain and a flower. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sor Juana In\u00e9s de la Cruz [accept either underlined portion; accept Juana In\u00e9s de Asbaje y Ram\u00edrez de Santillana; prompt on partial answer]",
                 "labyrinth [accept Love is More a Labyrinth or The Labyrinth of Solitude]",
                 "Octavio Paz &lt;JC, World Literature&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "Lesser-known allies with the United States in these clashes were Sweden and the Kingdom of Sicily. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Barbary Wars",
                 "USS Enterprise",
                 "Tripoli &lt;WD, American History&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "According to this book, a sense of maleness comes at a great cost for boys because it requires separating themselves from a parent and repressing tenderness at an early age. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Reproduction of Mothering",
                 "gender",
                 "hegemonic masculinity &lt;MT, Social Science (Sociology)&gt;"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "Alice and Bob need to communicate over the web without Eve the eavesdropper finding out! For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "RSA encryption [accept Rivest\u2013Shamir\u2013Adleman encryption]",
                 "elliptic-curve cryptography [accept Edwards-curve]",
                 "Shor\u2019s algorithm &lt;AP, Other Science (Computer Science)&gt;"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "This organization operated the London Steelyard until it was shut down by Queen Elizabeth\u00a0I. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Hanseatic League [or the Hansa]",
                 "the Hanseatic City of L\u00fcbeck",
                 "the Count\u2019s Feud [or the Count\u2019s War] &lt;NR, European History&gt;"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "A book with this name by Siri Hustvedt deals with the artist Harriet Burden who sells her work by hiring men to present it as their own. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Blazing World",
                 "Virginia Woolf",
                 "Aphra Behn &lt;JC, British Literature&gt;"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "Every Passover, Jews leave open a door for the Prophet Elijah to enter while they\u2019re eating. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "circumcision [or bris or brit milah]",
                 "Elisha",
                 "Ezekiel &lt;SC, Religion&gt;"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "This composer\u2019s early musical experience was limited to hearing the dissonant bells of his village\u2019s church and the folk songs his nurse sang. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mikhail Glinka",
                 "Kamarinskaya",
                 "The Mighty Handful [or the Five; or the Russian Five; or the Mighty Five; or the Mighty Coterie; or the Moguchaya kuchka] &lt;MT, Music&gt;"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "Winston Churchill said \u201cHide them in caves and cellars, but not one picture shall leave this island\u201d about the attempts to save famous works of art from Nazi attacks during World War\u00a0II. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Elgin Marbles",
                 "the Louvre",
                 "Jean Metzinger &lt;MT, Painting&gt;"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "Answer some questions about flows through a pipe, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Hagen\u2013Poiseuille (\u201cpwah-ZUH-ee\u201d) equation [accept Poiseuille law or Poiseuille equation]",
                 "negative fourth [or inverse fourth; do NOT accept or prompt on \u201cfour\u201d or \u201cfourth\u201d]",
                 "dynamic viscosity &lt;AP, Physics&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "Max Scheler compared Greek love and Christian love in a book titled for this concept. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ressentiment (\u201cruh-SAWN-tee-MAWN\u201d)",
                 "On the Genealogy of Morals [or On the Genealogy of Morality: A Polemic]",
                 "Jews [or the Israelites] &lt;NR, Philosophy&gt;"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "This object was destroyed in retaliation for the killing of Toxeus and Plexippus, who insulted Atalanta. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "piece of wood [or brand; or log; or equivalents]",
                 "Althaea",
                 "Calydonian boar &lt;JC, Mythology&gt;"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "The International Date Line was moved in 1995 so the entirety of this country would be on the same side. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Republic of Kiribati (\u201cKEE-rih-boss\u201d)",
                 "Thomas Gilbert",
                 "hydrogen bombs [or H-bombs; prompt on nuclear weapon; do not accept \u201catomic bombs\u201d] &lt;WD, World History&gt;"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "In a poem about this structure, the speaker says that \u201cThy cables breathe the North Atlantic still.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Brooklyn Bridge",
                 "Hart Crane [prompt on Crane]",
                 "kitten [do not accept \u201ccat\u201d] &lt;MT, American Literature&gt;"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "Answer the following about a certain ongoing national election, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Federative Republic of Brazil",
                 "Jair Bolsonaro (\u201cja-EER boh-soh-NAH-roo\u201d)",
                 "Workers\u2019 Party [also accept Partido dos Trabalhadores or PT] &lt;WD, Current Events&gt;"
@@ -398,7 +398,7 @@
         },
         {
             "leadin": "Arnold Sommerfeld names an extension of this man\u2019s model which uses elliptical orbits; however, that model is no longer used. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Niels Bohr",
                 "Lyman series",
                 "n times h-bar [accept in either order] &lt;AP, Chemistry&gt;"

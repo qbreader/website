@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "For 10 points each, answer the following about physical phenomena that occur at low temperatures:",
-            "answers_sanitized": [
+            "answers": [
                 "superfluids [do not accept or prompt on supercritical fluid]",
                 "absolute zero [or zero kelvin; accept negative 273.15 degrees Celsius or negative 459.67 degrees Fahrenheit or negative 460 degrees Celsius or zero degrees Rankine]",
                 "bosons [prompt on Bose-Einstein condensate] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "The addressee of this poem is told that \"thy infinite gifts come to me only on these very small hands of mine.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\"Thou hast made me endless, such is thy pleasure\" [accept BUT DO NOT REVEAL Lyric number 1 of Gitanjali or answers stating that it is the first poem of Gitanjali or Song Of erings]",
                 "Gitanjali [or Song Of erings]",
                 "William Butler Yeats "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Many Asian cultures tell a romantic folktale about a cowherd and a weaver girl. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "immortality [accept answers indicating an inability to die; accept divinity or answers indicating the weaver girl is a goddess or fairy]",
                 "the Milky Way",
                 "birds [accept magpies or crows or ravens or corvids or x\u01d0qu\u00e8 (\"shee-chu-eh\") "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "A reply to one argument about this event states that it could be a non-event lacking a singularity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "creation of the universe [accept equivalents; accept Big Bang]",
                 "God",
                 "St. Thomas Aquinas [or Doctor Angelicus; or Doctor Communis; or Doctor Universalis] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Answer the following about the history of smallpox vaccination. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Edward Jenner",
                 "Napoleon I Bonaparte [prompt on Bonaparte]",
                 "Charles [or Carlos; or Charles I; or Charles IV] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about some of the U.S. Poet Laureates from the 21st century.",
-            "answers_sanitized": [
+            "answers": [
                 "horses [accept \"She Had Some Horses\"]",
                 "Louise Gl\u00fcck (\"glick\") [or Louise Elisabeth Gl\u00fcck]",
                 "the blues [accept \"Graveyard Blues\"; accept \"The Weary Blues\" by Langston Hughes] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Performances in the \"pair\" discipline of this sport usually include a death spiral. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "figure skating [accept ice dancing; prompt on \"ice skating\"; do not accept or prompt on \"speed skating\"]",
                 "France [accept the French Republic or R\u00e9publique fran\u00e7aise]",
                 "ballet "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "This composer was inspired by a legendary Arab knight to write Antar, which he initially called his second symphony before deciding to instead label it a symphonic suite. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Nikolai Andreyevich Rimsky-Korsakov",
                 "Alexander Porfiryevich Borodin",
                 "Russia "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Types of these things include \"ball and socket\" and \"hinge.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "joints [accept but do not reveal synovial joints]",
                 "synovial fluid",
                 "cartilage [accept hyaline cartilage or articular cartilage or fibrocartilage] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "The Dunning School of historiography glorifies the Redeemers during this period. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Reconstruction",
                 "Andrew Johnson [prompt on Johnson]",
                 "Woodrow Wilson [accept Thomas Woodrow Wilson] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "In Cyril Tourneur's The Atheist's Tragedy, Fresco hides in this kind of location from Levidulcia's foolish husband Belforest. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "behind an arras [accept synonyms like behind a tapestry or curtain; prompt on woman's bedroom with, \"Where in the room?\"]",
                 "Hamlet",
                 "Sir John Falstaff [or Jack Falstaff; or John Oldcastle as he was originally named; accept any underlined name] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "This leader garnered criticism in one post for cutting a program providing free milk to children over seven. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Margaret Hilda Thatcher",
                 "The Troubles",
                 "coal mining [prompt on mining] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "This speech's Beatitudes include \"Blessed are the meek, for they shall inherit the earth.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sermon on the Mount",
                 "Lord's Prayer",
                 "false prophets [accept equivalents that contain the word prophets and indicate that they aren't actually prophets; prompt on imposters or deceivers or equivalents] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Jazz players of this instrument in the pre-Swing era often engaged in \"cutting contests\" where they would trade off increasingly complex improvisations. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "piano",
                 "Duke Ellington [or Edward Kennedy Ellington]",
                 "Art Tatum "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Every sequence with this property is a Cauchy sequence. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "convergence [accept word forms, accept having a limit]",
                 "integration [or integral; accept integral test]",
                 "uniform convergence "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "A coup d'etat in this country in May of 2021 resulted in the resignation of president Bah N'daw. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Republic of Mali",
                 "France [or the French Republic]",
                 "Russia [or Russian Federation] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "In a P\u00e4r Lagerkvist novel, a character with this condition named Piccolino poisons Lodovico Montanza and Teodora's lover Ricardo. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "dwarfism [or being a dwarf; accept equivalents like being short]",
                 "G\u00fcnter Grass [or G\u00fcnter Wilhelm Grass]",
                 "German [or Deutsch] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "An atom of one of these elements would act as a deactivating group in an electrophilic aromatic substitution reaction. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "halogens",
                 "electronegativity",
                 "ortho and para [or o and p or 2, 4, and 6; accept ortho/para directors] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Sculptures of Eva Hesse like Untitled (Rope Piece) mark a transition from this movement to its \"Post\" version. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "minimalism",
                 "colors",
                 "Judy Chicago "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "A polity centered in this non-Egyptian city was ruled by Razia Sultana, a member of its Mamluk dynasty. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Delhi [do not accept nor prompt on \"New Delhi\"]",
                 "Ibn Battuta [accept Abd Abdallah Muhammad ibn Battuta]",
                 "Mughal Empire "

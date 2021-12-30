@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "This equation can be derived by integrating the Euler equation along a streamline.",
-            "answers_sanitized": [
+            "answers": [
                 "Bernoulli's principle or law",
                 "incompressible [do NOT accept \"compressible\"]",
                 "de Laval nozzle [or convergent-divergent nozzle; prompt on \"nozzle\"]"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "The protagonist in this novel works as an extra playing a musician but is embarrassed when no sound comes out of his fake bagpipes.",
-            "answers_sanitized": [
+            "answers": [
                 "Seize the Day",
                 "The Adventures of Augie March",
                 "Saul Bellow [or Solomon Bellows]"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This man created a plan in which each person in his new colony was given 50-acre lots of land, with those who could support themselves given more.",
-            "answers_sanitized": [
+            "answers": [
                 "James Oglethorpe",
                 "Georgia",
                 "Yamacraw"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "The title object of this story has writing on it which is called Sanskrit, but is actually Arabic.",
-            "answers_sanitized": [
+            "answers": [
                 "The Wild Ass's Skin [or The Magic Skin or La Peau de chagrin]",
                 "Honore de Balzac [or Honor\u00c3\u00a9 Balssa]",
                 "Cousin Bette [or La Cousine Bette]"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Zolt\u00c3\u00a1n Kod\u00c3\u00a1ly (ZOHL-tahn KOH-dye) used this key to write a solo sonata for a cello whose bottom two strings are each tuned down a half step.",
-            "answers_sanitized": [
+            "answers": [
                 "B minor [do not accept \"B\"; do not accept \"B major\"]",
                 "Franz Liszt [or Liszt Ferenc]",
                 "Mephisto Waltzes [or Mephisto-Walzer]"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "This island has hosted multiple US Open Golf championships at Bethpage State Park and Shinnecock Hills and hosts the US Open Tennis championships at Flushing Meadows.",
-            "answers_sanitized": [
+            "answers": [
                 "Long Island",
                 "Pine Barrens [prompt on \"pinelands\" or \"pines\"]",
                 "Sandy Hook"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "Froissart's chronicles were an important source for this modern-day work, which attempted to draw a parallel between 14th century and 20th century suffering.",
-            "answers_sanitized": [
+            "answers": [
                 "A Distant Mirror: The Calamitous 14th Century",
                 "feudal system [or feudalism]",
                 "quit-rent [prompt on \"rent\"]"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "This deity sewed heaven together when a goat-person crashed into a pillar holding up the sky.",
-            "answers_sanitized": [
+            "answers": [
                 "Nuwa",
                 "Fuxi [or Paoxi]",
                 "I Ching [or Book of Changes]"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "Answer some questions about coordination complexes.",
-            "answers_sanitized": [
+            "answers": [
                 "octahedral",
                 "Jahn-Teller distortion",
                 "pi accepting [also accept metal-to-ligand backbonding; do not accept \"ligand-to-metal backbonding\" or \"pi donating\"; accept word forms of \"they can accept pi electrons\"; prompt on \"backbonding\"]"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "Answer the following about Canadian short stories.",
-            "answers_sanitized": [
+            "answers": [
                 "\"The Moons of Jupiter\"",
                 "\"The Hockey Sweater\" [or \"Le chandail de hockey\"; or \"Une abominable feuille d'\u00c3\u00a9rable sur la glace\"; or \"An Abominable Maple Leaf on the Ice\"]",
                 "Margaret Atwood [or Margaret Eleanor Atwood]"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "Edward Taffe said that one victim of this event died of an aneurysm of the heart, though later it was claimed to be a murder-suicide.",
-            "answers_sanitized": [
+            "answers": [
                 "Mayerling Incident",
                 "Austro-Hungarian Empire [or Austria-Hungary; prompt on partial answer]",
                 "Empress Elizabeth"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "This artist's portrait of Adele Bloch-Bauer was recently featured in the film Woman in Gold.",
-            "answers_sanitized": [
+            "answers": [
                 "Gustav Klimt",
                 "The Beethoven Frieze",
                 "Max Klinger"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "Answer the following about Venice in films, none of which involve James Bond turning his gondola into a hovercraft and zooming across St. Mark's Square.",
-            "answers_sanitized": [
+            "answers": [
                 "Luchino Visconti",
                 "Federico Fellini",
                 "Nosferatu"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "Mary Osborne, the granddaughter of the first Duke of Marlborough, is thought to be an illegitimate daughter of this playwright.",
-            "answers_sanitized": [
+            "answers": [
                 "William Congreve",
                 "music",
                 "Valentine [do not accept \"Proteus\"]"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "A algorithm of this type, DES, was rendered useless by a linear cryptanalysis by Matsui et al.",
-            "answers_sanitized": [
+            "answers": [
                 "symmetric-key cryptography",
                 "brute force [or brute or exhaustive key search; do NOT accept \"dictionary attack\" or answers involving the dictionary]",
                 "trapdoor function [do NOT accept \"one-way function\"]"
@@ -342,7 +342,7 @@
         },
         {
             "leadin": "The international community recognized Ali Mahdi Muhammad, and not this man, as president of his country.",
-            "answers_sanitized": [
+            "answers": [
                 "Mohamed Farrah Aidid",
                 "Somalia",
                 "Delta Force [or 1st Special Forces Operational Detachment-Delta]"
@@ -357,7 +357,7 @@
         },
         {
             "leadin": "Writers who study the aftereffects of this process include Frantz Fanon and Edward Said, and Jurgen Osterhammel wrote a \"theoretical overview\" of it.",
-            "answers_sanitized": [
+            "answers": [
                 "colonialism [or colonization]",
                 "feminism",
                 "Gayatri Chakravorty Spivak"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "The founder of this philosophical school is sometimes called \"tattooed\" because he was probably an ex-con.",
-            "answers_sanitized": [
+            "answers": [
                 "Mohism",
                 "ruler or emperor [accept reasonable equivalents]",
                 "School of Names [or Mingjia]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "This process has P-E-P as its penultimate intermediate before finally generating pyruvate.",
-            "answers_sanitized": [
+            "answers": [
                 "glycolysis [or Embden-Meyerhof-Parnas pathway; prompt on \"cell respiration\"]",
                 "fructose-bisphosphate aldolase",
                 "phosphofructokinase [or PFK]"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "This religion's headquarters is called \"Gold Base\" and the documentary Going Clear has several interviews with members of this organization.",
-            "answers_sanitized": [
+            "answers": [
                 "Church of Scientology",
                 "Dianetics: The Modern Science of Mental Health",
                 "Teegeeack"

@@ -118,7 +118,7 @@
     "bonuses": [
         {
             "leadin": "This policy required a 50 word dictation test, which was used in an attempt to exclude Czechoslovakian author Egon Kisch from entering the country by the Joseph Lyons government.",
-            "answers_sanitized": [
+            "answers": [
                 "White Australia Policy",
                 "Chinese-Australians",
                 "Robert Menzies"
@@ -133,7 +133,7 @@
         },
         {
             "leadin": "Richard Jenkyns compared this author's early works to Monty Python sketches.",
-            "answers_sanitized": [
+            "answers": [
                 "Jane Austen",
                 "Elinor Dashwood [or Elinor Dashwood; prompt on \"Dashwood\"]",
                 "Frances Burney [also accept Fanny Burney or Frances d'Arblay]"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "This process can occur between groups of organisms due to sudden changes like polyploidy.",
-            "answers_sanitized": [
+            "answers": [
                 "speciation [accept descriptive equivalents like \"forming new species\" but species must be mentioned]",
                 "molecular clock [or gene clock or evolutionary clock]",
                 "Red Queen hypothesis"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Answer some questions about indifference curves.",
-            "answers_sanitized": [
+            "answers": [
                 "utility",
                 "perfect complements [do NOT prompt on partial answer]",
                 "Cobb-Douglas"
@@ -177,7 +177,7 @@
         },
         {
             "leadin": "A philosopher from this country delivered the \"Oration on the Dignity of Man.\"",
-            "answers_sanitized": [
+            "answers": [
                 "the Republic of Italy",
                 "Antonio Gramsci",
                 "intellectuals [or intelligentsia]"
@@ -191,7 +191,7 @@
         },
         {
             "leadin": "Answer some questions about organic heteroatomic compounds.",
-            "answers_sanitized": [
+            "answers": [
                 "epoxides [accept oxiranes]",
                 "peroxyacid [accept peracid; do not accept carboxylic acid; prompt on acid or peroxide or mCPBA]",
                 "manganese [or Mn]"
@@ -206,7 +206,7 @@
         },
         {
             "leadin": "Answer the following about the early proliferation of printed Christian reading material.",
-            "answers_sanitized": [
+            "answers": [
                 "Johannes Gutenberg",
                 "36-line Bible [or Bamberg Bible]",
                 "Johann Maier von Eck"
@@ -221,7 +221,7 @@
         },
         {
             "leadin": "Spindletop, the site of the largest oil gusher in Texas, sat atop a formation made of this substance that trapped the oil.",
-            "answers_sanitized": [
+            "answers": [
                 "salt",
                 "Strategic Petroleum Reserve or SPR [prompt on partial answer]",
                 "helium"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "An RC circuit acts as this sort of device when the resistor is in series with an electrical load and the capacitor is in parallel with the load.",
-            "answers_sanitized": [
+            "answers": [
                 "low-pass filter [or high-cut filter; or treble-cut filter; prompt on \"filter\"]",
                 "inductor",
                 "2 or squared"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "This character acts in a play as Prince Hal after being inspired to write by Mrs. Leonard, and he grows up in Altamont, a fictionalized version of Asheville, North Carolina.",
-            "answers_sanitized": [
+            "answers": [
                 "Eugene Gant [accept either underlined portion]",
                 "Thomas Wolfe",
                 "Maxwell Perkins [or Max Perkins; or William Maxwell Evarts Perkins]"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "This work of art was originally named \"Twenty-Five Women Who Were Eaten Alive.\"",
-            "answers_sanitized": [
+            "answers": [
                 "The Dinner Party",
                 "Judy Chicago",
                 "Judith"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "Answer some things about object-oriented programming.",
-            "answers_sanitized": [
+            "answers": [
                 "inheritance",
                 "is-a relationship [since \"a violet is a flower\"]",
                 "static"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "This man was attacked and killed by a mob while he and his brother Hyrum were in jail in Carthage, Illinois.",
-            "answers_sanitized": [
+            "answers": [
                 "Joseph Smith, Jr.",
                 "Urim and Thummim",
                 "Telestial Kingdom"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "This composer's Klavierst\u00c3\u00bcck XI (KLAH-vee-air SHTOOCK \"eleven\") calls for any permutation of nineteen distinct musical phrases to be played until one of the phrases has been played for the third time.",
-            "answers_sanitized": [
+            "answers": [
                 "Karlheinz Stockhausen",
                 "Krzysztof Penderecki (kuh-SHISH-toff pen-duh-RET-skee) [or Krzysztof Eugeniusz Penderecki]",
                 "Poland [or Polska; or Republic of Poland; or Rzeczpospolita Polska]"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "One of this author's short stories ends by asking if \"a whole moment of happiness\" \"is...too little for the whole of a man's life\".",
-            "answers_sanitized": [
+            "answers": [
                 "Fyodor Dostoevsky [or Fyodor Mikhailovich Dostoyevsky]",
                 "\"White Nights\" [or \"Belye nochi\"]",
                 "Demons [or Besy; or Devils; or The Possessed]"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Name these animals from Norse mythology.",
-            "answers_sanitized": [
+            "answers": [
                 "Sleipnir",
                 "memory",
                 "Angrboda (anger-bode-uh)"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "Two of this man's sons were brought to trial, though the second was acquitted because of the jury's concern for this man in his old age.",
-            "answers_sanitized": [
+            "answers": [
                 "Lucius Quinctius Cincinnatus",
                 "dictator",
                 "Cloelia"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "Answer the following about certain revelations shortly before US Presidential elections.",
-            "answers_sanitized": [
+            "answers": [
                 "October Surprise",
                 "Iran",
                 "Mother Jones"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "Answer the following about the most odious form of poetry, the ode.",
-            "answers_sanitized": [
+            "answers": [
                 "Pindar [or Pindarus]",
                 "Horace [or Quintus Horatius Flaccus]",
                 "strophe, antistrophe, and/or epode [need at least TWO parts to get all 10 points, no partial credit]"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "One title character in this opera sings \"When I am laid in Earth\" while dying.",
-            "answers_sanitized": [
+            "answers": [
                 "Dido and Aeneas",
                 "Henry Purcell",
                 "John Blow"

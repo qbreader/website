@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "Examples of these molecules used for energy storage are glycogen and starch. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "carbohydrates [accept polysaccharides]",
                 "anomers",
                 "2n [or 2 to the power of n]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "This novel was published unfinished three years after its author\u2019s suicide in 2008. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Pale King",
                 "Infinite Jest",
                 "David Foster Wallace"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "This man claimed to have said \u201cfuddle duddle\u201d when accused of mouthing profanity in the House of Commons. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pierre Trudeau [prompt on Trudeau]",
                 "Qu\u00e9bec",
                 "\u201cWell, just watch me\u201d"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "This composer\u2019s English Suites for harpsichord ironically each open with a prelude inspired by French lute music. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Johann Sebastian Bach",
                 "Goldberg Variations [or Goldberg-Variationen]",
                 "French overture [or Overture in the French style; or Ouvert\u00fcre nach Franz\u00f6sischer Art; prompt on overture]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "A harsh code of laws in this colony promulgated by Thomas Dale included gruesome forms of capital punishment for minor crimes, such as being chained to a tree and starved to death for stealing oatmeal. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jamestown, Virginia",
                 "the Starving Time",
                 "William Berkeley"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "Three Breton women pray around the central figure in this artist\u2019s The Yellow Christ, and he painted Vision after the Sermon while living in Pont Aven. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Paul Gauguin [or Eug\u00e8ne Henri Paul Gauguin]",
                 "Henri Rousseau [or Henri Julien F\u00e9lix Rousseau]",
                 "Vincent Willem van Gogh"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "In May 2016, one of these machines with 7,910 internal states was explicitly constructed and shown to have behavior unprovable in ZFC. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Turing machines",
                 "busy beaver numbers",
                 "artificial intelligence"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "In one account, this ruler was married to Queen Wealhtheow. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hrothgar",
                 "Beowulf",
                 "Seamus Justin Heaney"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "After reaching miqat on their way to this city, pilgrims must put on ihram. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mecca [or Makka]",
                 "Well of Zamzam [or Zamzam Well]",
                 "Eid al-Adha [prompt on Eid]"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This city\u2019s center is circled by the S-Bahn ring, and it is served by the U-Bahn. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Berlin",
                 "Spree",
                 "Brandenburg"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "The preacher Fulk of Neuilly became tremendously popular due to his speeches encouraging people to join this event. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Fourth Crusade [prompt on Crusades]",
                 "blindness [accept equivalents such as without sight]",
                 "Comnenus Dynasty [or House of Comnenus; or Komnenoi; accept Manuel I Comnenus; accept Alexius I Comnenus]"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "This propositional attitude occurs if a person thinks that a statement is true, whether it actually is or not. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "belief [accept word forms, but do not accept or prompt on other answers like \u201copinions\u201d or \u201cideas\u201d]",
                 "Edmund L. Gettier III",
                 "epistemology [accept word forms]"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "An author from this country wrote about an aspiring chief\u2019s refusal to accept the title sum of money after his stepdaughter Aku-nna\u2019s elopement with Chiko. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Federal Republic of Nigeria",
                 "Chinua Achebe [or Albert Chin\u1ee5al\u1ee5m\u1ecdg\u1ee5 Achebe]",
                 "Umuofia"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "roGFP is a mutant constructed specifically to measure the redox potential of this molecule inside a cell. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "glutathione",
                 "glycine [accept Gly]",
                 "methionine [accept M or Met]"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "Answer the following about Denis Diderot, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "encyclopedia",
                 "Rameau\u2019s Nephew, or the Second Satire [or Le Neveu de Rameau ou La Satire Seconde]",
                 "a scroll"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "Depictions of lions line a processional path leading up to a structure dedicated to this goddess, which was partially reconstructed and is now on display in Berlin. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ishtar",
                 "descent into the underworld [or going to the underworld; or obvious equivalents]",
                 "Gilgamesh [or Bilgamesh]"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "A second attempt to introduce a more extreme variant of these objects in the 1970s was widely rejected. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "simplified Chinese characters [or jianti zi; or jianhua zi]",
                 "pinyin",
                 "Lu Xun [or Zhou Zhangshou; or Zhou Shuren]"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "The energy stored in these circuit elements can be calculated as \u201cone half the charge times voltage squared.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "capacitors",
                 "displacement current",
                 "flux"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "The opening for this musical\u2019s number \u201cSomewhere\u201d was lifted from the slow movement of the Emperor Concerto. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "West Side Story",
                 "Jerome Robbins [or Jerome Wilson Rabinowitz]",
                 "On the Town"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "This novel includes the sarcastic, pistol-wielding black cat Behemoth. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Master and Margarita  [or Master i Margarita]",
                 "Mikhail Bulgakov",
                 "Heart of a Dog [or Sobach\u2019e serdtse]"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "One of its provisions required that the Isle of Pines be left out of one nation\u2019s boundaries. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Platt Amendment",
                 "Spanish\u2013American War",
                 "Elihu Root [accept Root\u2013Takahira Agreement]"

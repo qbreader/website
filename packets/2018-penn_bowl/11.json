@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "One of Miguel Covarrubias\u2019s illustrations for this book depicts its author lying naked on a snakeskin for three days in an attempt to get initiated into a local religion. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mules and Men",
                 "Zora Neale Hurston",
                 "Franz Boas &lt;MT, Social Science (Anthropology)&gt;"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "A notable recording of these pieces was created by Dietrich Fischer-Dieskau (\u201cDEE-trish fisher-DEE-scow\u201d) and Sviatoslav Richter during the 1970s Salzburg festival. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Die sch\u00f6ne Magelone [or The Fair Magelone]",
                 "lullaby [or Wiegenlied; or Brahms\u2019s Lullaby]",
                 "four [accept Four Serious Songs or Four Last Songs; accept Vier ernste Ges\u00e4nge or Vier letzte Lieder] &lt;PL, Music&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "Using this theorem involves suppressing current inputs and voltage inputs by replacing them with open and short circuits, respectively. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "superposition theorem",
                 "Th\u00e9venin\u2019s (\u201ctave-NAN\u2019s\u201d) theorem",
                 "Gustav Kirchhoff &lt;AP, Physics&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "The divide-and-conquer strategy employed by this man was initially utilized by the French agent Joseph Fran\u00e7ois Dupleix. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Robert Clive, 1st Baron Clive [or Clive of India]",
                 "British East India Company [or Honourable East India Company; or the John Company]",
                 "Mir Jafar &lt;NR, European History&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "The <em>chand tora</em> is a style of this thing with a crescent and a double-edged sword at the front. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "turban [or dastar; or pagg]",
                 "Sikhism",
                 "kesh [or kes] &lt;AP, Religion&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "Answer the following about DNA methylation, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "transposons [or transposable elements; or TE]",
                 "CG islands [or cytosine and guanine islands; or CpG islands; accept \u201csites\u201d in place of \u201cisland\u201d]",
                 "bisulfite sequencing &lt;PL, Biology&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This group led \u201cThe Longest Walk,\u201d a walk across the US to fight for the protection of tribal sovereignty. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "American Indian Movement [or AIM]",
                 "Alcatraz Island [or Alcatraz]",
                 "Minneapolis, Minnesota &lt;AJ, American History&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "If music be the food of bonuses, play on. Identify the following about Shakespearean tunes, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Twelfth Night",
                 "\u201csigh no more\u201d",
                 "Macbeth &lt;JC, British Literature&gt;"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "Answer some questions about painting during the New Kingdom period of Ancient Egypt, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Akhenaten",
                 "Paul Gauguin",
                 "fresco secco [or fresco finito; do not accept or prompt on just \u201cfresco\u201d or \u201cbuon fresco\u201d] &lt;LT, Painting&gt;"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "A book named for this place analyzes the \u201comnipotent, unknowing mother\u201d in the work of Marcel Proust. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the closet [accept Epistemology of the Closet]",
                 "Jack/Judith Halberstam",
                 "intersectionality [accept word forms] &lt;JK, Philosophy&gt;"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "This sport saw Sachin Tendulkar, one of its greatest batsmen, retire from One Day International play in 2012. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "cricket",
                 "wicket",
                 "Duckworth\u2013Lewis method &lt;AP, Trash (Sports)&gt;"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "The continuous branch of this diagram moves from sodium-rich plagioclase feldspars to calcium-rich plagioclase feldspars. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bowen\u2019s reaction series [prompt on partial answer]",
                 "amphibole",
                 "mica &lt;AP, Other Science (Earth Science)&gt;"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "This figure is asked \u201cWhat would you do with me if I came \u2018in white\u2019?\u00a0Have you the little chest \u2013 to put the alive \u2013 in?\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Master",
                 "Emily Dickinson",
                 "funeral &lt;JC, American Literature&gt;"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "A Franciscan with this surname published a monumental history of Mexico titled <em>Indian Monarchy</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Torquemada [accept Juan de Torquemada or Tom\u00e1s de Torquemada]",
                 "conversos [prompt on marranos, judaizantes, New Christians, or tornadizos]",
                 "Alhambra Decree &lt;NR, European History&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "A novel by this author takes place in the village of Dukana and follows Mene and his infatuation with Agnes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ken Saro-Wiwa",
                 "Biafran War [or Nigerian Civil War]",
                 "Chinua Achebe &lt;MT, World Literature&gt;"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "The study of mass flow through a bioreactor is essential to the field of chemical engineering. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "zero",
                 "batch reactor",
                 "Monod equation &lt;AP, Chemistry&gt;"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "A song in this opera that nonsensically repeats the name \u201cLucy\u201d may be a reference to a stock minstrel character. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Four Saints in Three Acts",
                 "Virgil Thomson",
                 "Porgy and Bess &lt;MT, Other Arts (Opera)&gt;"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "This man wrote about a Polish-German-Lithuanian Cemetery Association in <em>The Call of the Toad</em> and a meeting during the thirty Years War in <em>The Meeting at Telgte</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "G\u00fcnter Grass",
                 "Group 47",
                 "Heinrich B\u00f6ll &lt;MT, European Literature&gt;"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "Unsatisfied with their relationship with Gulbuddin Hekmatyar, the ISI withdrew their support and turned to this group. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Taliban",
                 "Afghanistan",
                 "Ahmad Shah Massoud &lt;NR, World History&gt;"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "When this husband of Draupadi found out that his ally had tried to rape a woman, he disguised himself as a woman and \u201cslaughtered\u201d that man, Kichaka, \u201cinto a meatball.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bhima",
                 "mace",
                 "Bhagavad Gita &lt;JC, Mythology&gt;"

@@ -130,7 +130,7 @@
     "bonuses": [
         {
             "leadin": "While performing tasb\u012b\u1e25 (\u201ctuss-BEEH\u201d), a person utters a phrase consisting of \u201cSub\u1e25\u0101n\u201d (\u201csoob-HAHN\u201d) followed by this figure\u2019s name, thus glorifying this figure. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Allah [or God]",
                 "dhikr (\u201cthicker\u201d)",
                 "Fatimah [accept Fatimah al-Zahra or Fatimah az-Zahra]"
@@ -145,7 +145,7 @@
         },
         {
             "leadin": "This organization was the first independent federal regulatory agency. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Interstate Commerce Commission [or ICC]",
                 "Grover Cleveland [or Stephen Grover Cleveland]",
                 "telecom industry [or telephone industry; or telegraph industry; or wireless communications industry; prompt on communications industry]"
@@ -160,7 +160,7 @@
         },
         {
             "leadin": "Most drugs for this disorder do not treat its negative symptoms, which include impairments in memory, emotional expression, and motivation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "schizophrenia",
                 "dopamine",
                 "glutamate"
@@ -175,7 +175,7 @@
         },
         {
             "leadin": "The Quechan (\u201cqueh-CHAHN\u201d) tribe briefly operated a profitable monopoly on helping 49ers ford the Colorado River at a crossing with this name. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Yuma [accept 3:10 to Yuma]",
                 "Arizona",
                 "Ford Motor Company [accept Henry Ford Museum] (The newspaper is The Dearborn Independent.)"
@@ -190,7 +190,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about Poet Laureates of the United Kingdom:",
-            "answers_sanitized": [
+            "answers": [
                 "William Wordsworth",
                 "\u201cThis Be The Verse\u201d",
                 "Carol Ann Duffy"
@@ -205,7 +205,7 @@
         },
         {
             "leadin": "This director\u2019s film Woman in the Moon contains the first onscreen countdown to a rocket launch. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Fritz Lang [or Friedrich Christian Anton Lang]",
                 "synchronized sound [or sync sound; or sound film; accept talkies or talking pictures; accept more specific technologies such as Vitaphone]",
                 "Dr. Mabuse (\u201cma-BOO-zuh\u201d)"
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "During this event, two officers raced each other to decapitate 100 civilians as fast as possible. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rape of Nanking [or Nanking Massacre; or Rape of Nanjing; or Nanjing Massacre]",
                 "Unit 731 [or Detachment 731; or 731 Regiment; or Manshu Detachment 731; or Kamo Detachment; prompt on Ishii Unit or Ishii Detachment or Ishii Company]",
                 "Yasukuni Shrine [or Yasukuni Jinja]"
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "In a play by S\u0142awomir Mro\u017cek (\u201cSWAH-vo-meer m\u2019RO-zhek\u201d), a member of this profession is pressured to commit crimes in fear of losing his job. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "police officer [or cops; or inspectors: do not accept or prompt on \u201cdetective\u201d]",
                 "Theater of the Absurd [or absurdism]",
                 "Ireland [or Republic of Ireland; or \u00c9ire] (The authors are Flann O\u2019Brien and Samuel Beckett.)"
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "This deity\u2019s round sanctuary in Rome was contrasted with the mostly square buildings in the Forum. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Vesta [accept Vestal Virgins]",
                 "Cybele (\u201cSIB-uh-lee\u201d) [or Cyebebe; or Agdistis; or Kybele]",
                 "Attis"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "This conformation of a ring-shaped molecule has the lowest energy, unlike the local minimum twist-boat conformation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "chair conformer [accept chair flip or word forms like chair flipping]",
                 "axial AND equatorial orientations",
                 "chemical bonds [or covalent bonds; accept single bonds or sigma bonds]"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "Four to five sympathetic strings run under the four main strings of the Hardanger fiddle native to this country. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Norway [or Noreg; or Norge]",
                 "Edvard Grieg [or Edvard Hagerup Grieg]",
                 "timpanis"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about the early exploration of Australia and New Zealand.",
-            "answers_sanitized": [
+            "answers": [
                 "Burke and Wills Expedition [accept Robert O\u2019Hara Burke and William John Wills; accept in either order; prompt on partial answer]",
                 "James Cook",
                 "Abel Tasman [or Abel Janszoon Tasman]"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "In this novel, Wally is paralyzed by an infection he catches hiding from the Japanese after his plane is shot down in Burma. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Cider House Rules",
                 "John Irving [or John Winslow Irving; or John Wallace Blunt Jr.]",
                 "The Scarlet Letter: A Romance"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "The final place setting in Judy Chicago\u2019s The Dinner Party is set for this artist. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Georgia O\u2019Keeffe",
                 "flowers [prompt on plants]",
                 "Guerrilla Girls"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "This thinker proposed an early version of the idea that scientific hypotheses cannot be tested in isolation from their \u201cbundled\u201d counterparts. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pierre Duhem [or Pierre Maurice Marie Duhem; accept Duhem\u2013Quine thesis]",
                 "Pensive [or Thoughts]",
                 "Blaise Pascal [accept Neo-Pascalian]"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "The midpoint of these things defines the pitch circle, a hypothetical surface in which they do not exist. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "teeth [prompt on, but DO NOT REVEAL, gears by asking \u201cwhat smaller component is part of those?\u201d]",
                 "gears [accept cogs]",
                 "transmission [or manual transmission]"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "The song \u201cJolly Jack of Dover\u201d expresses the sentiment against these people in Great Britain at the time of the passage of the Aliens Act of 1793. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u00e9migr\u00e9s",
                 "The Bastille [or Bastille Saint-Antoine prison]",
                 "Devil\u2019s Island [or \u00cele du Diable]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "The adman Matthew Biggs is the protagonist of Kenneth Calhoun\u2019s novel Black Moon, in which almost all characters suffer from this condition. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "insomnia [or sleeplessness]",
                 "Gabriel Garc\u00eda M\u00e1rquez [or Gabriel Jos\u00e9 de la Concordia Garc\u00eda M\u00e1rquez; prompt on Gabo; prompt on Gabito; prompt on M\u00e1rquez]",
                 "he dies [or a death; or murder; accept Chronicle of a Death Foretold]"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "In one of the lectures collected in Lezioni accademiche, this scientist was the first to propose that wind was caused by differences in air temperatures between two regions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Evangelista Torricelli",
                 "partial vacuum [accept Torricellian vacuum]",
                 "v\u00b2 + 2ad [or v-squared plus 2 a d; or equivalents]"
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "One of these texts by Sharon Traweek titled Beamtimes and Lifetimes examines the world of particle physicists. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ethnographies [or ethnography; or ethnological work]",
                 "Bronislaw Malinowski [or Bronis\u0142aw Kasper Malinowski]",
                 "Java"
@@ -430,7 +430,7 @@
         },
         {
             "leadin": "In reference to this policy, Politburo member Yegor Ligachev warned \u201cit is not wise to enter a room if you do not know the way out.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "glasnost [prompt on openness]",
                 "television [or TV; accept answers like cable television or satellite television; prompt on broadcast technology]",
                 "Latvia [or Republic of Latvia; or Latvija]"

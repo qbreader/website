@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "In 2015, an American company for this style of dance promoted Misty Copeland to principal dancer, making her the first ever African-American to serve that role. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ballet",
                 "en pointe (on-pwont)",
                 "relev\u00e9"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "This character disguises himself as the gypsy fortune-teller Mother Bunches as a prank on Blanche Ingram and his governess. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mr Edward Fairfax Rochester [accept either underlined part]",
                 "Charlotte Bront\u00eb [prompt on Bront\u00eb]",
                 "Villette"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Answer some questions about medieval Egypt, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Fatimid Caliphate",
                 "Saladin [or Salah ad-Din]",
                 "Ottoman Empire"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "All of these entities that are square and invertible make up the general linear group. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "matrix [or matrices]",
                 "determinant [prompt on det]",
                 "transpose [or transposition]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "The Laffer curve proposes that reducing these policies will increase government revenue. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "taxes",
                 "externalities [or negative externalities; or positive externalities]",
                 "Coase theorem [or Coase\u2019s theorem]"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "In a mystery novel by this author, the investigative journalist Joseph Rouletabille travels to the estate of Lord Stangerson. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gaston Leroux",
                 "The Phantom of the Opera",
                 "The Moonstone"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "The mushroom <em>Suillus tomentosus</em> forms this relationship with the tree <em>Pinus contorta.</em> For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "mycorrhizae [or mycorrhizal relationship]",
                 "fungi [or funguses]",
                 "force of gravity [or gravitational force; prompt on g]"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Eight leaders of this region were jailed in late October 2017 on charges of rebellion and sedition after its parliament voted to secede from Spain. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Catalonia [or Catalunya; or Catalu\u00f1a]",
                 "Mariano Rajoy [RAH-hoy] Brey",
                 "Kurdistan [or Iraqi Kurdistan; prompt on Kurds or Northern Iraq]"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "This religion\u2019s scripture claims that after Jesus was resurrected, he visited the Nephites, an Israelite people who had emigrated to the Americas. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mormonism [or the Mormon Church; or the Church of Jesus Christ of Latter-Day Saints; or Church of the LDS]",
                 "India",
                 "Saint Joseph of Arimathea"
@@ -258,7 +258,7 @@
         },
         {
             "leadin": "This man headed an organization which demanded the \u201cThree Fs\u201d: fair rent, free sale, and fixity of tenure. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charles Parnell",
                 "William Gladstone",
                 "Ireland"
@@ -273,7 +273,7 @@
         },
         {
             "leadin": "In a play by this author, the regulars at Harry Hope\u2019s saloon entertain themselves with pipe dreams. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Eugene O\u2019Neill",
                 "Long Day's Journey into Night",
                 "Strange Interlude"
@@ -288,7 +288,7 @@
         },
         {
             "leadin": "Han van Meegeren repainted Caravaggio\u2019s <em>Supper at Emmaus</em> and convinced experts that it was painted by this artist. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Johannes \u201cJan\u201d Vermeer",
                 "pearl earring [or Girl with a Pearl Earring; prompt on earring]",
                 "The Hague [or 's-Gravenhage or Den Haag or La Haye]"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "Answer some questions about the Risorgimento, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Giuseppe Garibaldi",
                 "Battle of Solferino",
                 "Napoleon III [prompt on Napoleon]"
@@ -318,7 +318,7 @@
         },
         {
             "leadin": "This man attacked the foundations of calculus in <em>The Analyst</em> and rejected many of Newton\u2019s ideas in his book <em>De Motu</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "George Berkeley",
                 "the mind [or mental; prompt on thoughts]",
                 "Karl Popper"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "This compound can be produced by the complete hydrogenation of benzene. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "cyclohexane [prompt on C6H12]",
                 "isomerism [or stereoisomerism; or conformational isomerism]",
                 "twist-boat [do not accept or prompt on just \u201cboat\u201d]"
@@ -347,7 +347,7 @@
         },
         {
             "leadin": "Answer the following about mythological bovines, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Nandi",
                 "Europa",
                 "bronze"
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about music during the Renaissance:",
-            "answers_sanitized": [
+            "answers": [
                 "Claudio Monteverdi",
                 "Thomas Tallis",
                 "motets"
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Answer some questions about the history of Wyoming, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "women\u2019s suffrage [or women voting; prompt on partial answer]",
                 "Teapot Dome scandal",
                 "Rock Springs Massacre"
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "A boy named Smith takes up this sport after he is sent to a borstal, or prison school, in a short story by Alan Sillitoe. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "long-distance running [prompt on marathon or ultramarathon]",
                 "The Wind-Up Bird Chronicle",
                 "an earthquake [or the Kobe earthquake; or After the Quake]"
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "The frequency of Rayleigh scattering is inversely proportional to the fourth power of this quantity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "wavelength",
                 "elastic scattering [or elastic collisions]",
                 "Raman scattering"

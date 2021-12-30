@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "One of these substances is profiled in a book by Martin A. Lee that describes Nixon\u2019s use of Operation Intercept to try to find them at the US border. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "drugs [or psychoactive drugs; prompt on controlled substances] (The Lee book is Smoke Signals.)",
                 "The New Jim Crow [or \u201cThe Drug War is the New Jim Crow\u201d]",
                 "Angela Davis [accept Angela J. Davis or Angela Yvonne Davis; prompt on partial answers] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "An essay by this translator notes her decision to leave the word \u201ctrace\u201d untranslated, but urges readers to remember the \u201ctrack\u201d or \u201cspoor\u201d contained in the original word. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gayatri Spivak",
                 "Judith Butler [or Judith Pamela Butler]",
                 "The Phenomenology of Spirit [or Ph\u00e4nomenologie des Geistes] (by Georg Wilhelm Friedrich Hegel) "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Benign fibroids are most commonly found in this organ, and are often treated with artery embolization or myomectomies. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "uterus [or womb]",
                 "laparoscope [or word forms like laparoscopy; prompt on endoscope or endoscopy]",
                 "endometriosis [accept endometriomas or endometriomata] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Guaguanc\u00f3s (\u201cgwa-gwan-KOH\u2019s\u201d) usually feature three of these instruments, on which skilled players can produce a resonant tono tapado. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the conga [or tumbadora; prompt on drums; anti-prompt on quinto; anti-prompt on tres dos or tres golpes; anti-prompt on tumba] (That musician is Mongo Santamar\u00eda.)",
                 "Cuba [accept Afro-Cuban jazz]",
                 "Dizzy Gillespie [or John Birks Gillespie] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "A company named for this man agreed with Kenneth Kaunda on an ultimately unsuccessful project to have 1000 Zambian families found utopian communities, which would then be owned by the company. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Maharishi Mahesh Yogi [or Maharishi World Development Fund] (That practice is Transcendental Meditation.)",
                 "Mozambique [or Republic of Mozambique]",
                 "Algeria [or People\u2019s Democratic Republic of Algeria] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Lady Gregory claimed that this play\u2019s audience broke into disorder over its use of the word \u201cshift\u201d for underwear. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Playboy of the Western World (by J. M. Synge)",
                 "William Butler Yeats",
                 "The Countess Cathleen "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "The platform Neo4j is a management system that models these things on the structure of a graph, with records stored as nodes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "databases",
                 "ACID [or atomicity, consistency, isolation, and durability in any order; accept word forms]",
                 "conflict-serializability [or word forms] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "On This is Your Life, NBC surprised Reverend Kiyoshi Tanimoto, a survivor of a campaign that took place in these two cities, by bringing out one of it\u2019s perpetrators, Captain Robert Lewis. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hiroshima and Nagasaki",
                 "Hiroshima Maidens [or Atomic Maidens]",
                 "John Hersey "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "In March 2020, this company made its Open Access content accessible to people without accounts. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "JSTOR",
                 "Aaron Swartz",
                 "Internet Archive [or archive.org] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "This author used passages imitating Marcel Proust, Victoria Holt and Charles Dickens to tell the story of a character alternately called Pip and Rosa in her pastiche novel Great Expectations. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Kathy Acker",
                 "Amy Lowell [prompt on Lowell]",
                 "Gone with the Wind "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "The development of representational art is analyzed from a psychological perspective in an E. H. Gombrich essay titled for Meditations on [one of these objects]. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "a hobby horse",
                 "Dada [or Dadaism]",
                 "Hannah H\u00f6ch "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "In 1992, a poet born in this country relocated from Jamaica to the US state that titles his 2019 poetry collection Nebraska. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ghana",
                 "literary magazines [or literary journals]",
                 "Christopher Okigbo "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "When reading from the Torah scroll, Yemeni Jews also read a verse from one of these texts. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Targum [or the plural Targumim]",
                 "Rosh Hashanah",
                 "blowing the shofar horn [or teki\u2019at shofar] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "This poet wrote that \u201cThe sky turns pink and there is no one to cry with, to reminisce with\u201d in her collection Northern Elegies. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Anna Akhmatova [or Anna Andreyevna Gorenko]",
                 "Marina Ivanovna Tsvetaeva",
                 "letters "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This work initially presents its main melody with the unusual notation of tying two eighth-notes of the same value rather than writing out quarter notes, leading to some confusion over its interpretation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Grosse Fuge [or the Gro\u00dfe Fuge; or the Great Fugue; or the Grand Fugue; accept, but DO NOT REVEAL, Ludwig van Beethoven\u2019s Opus 133]",
                 "Ludwig van Beethoven",
                 "cello sonata [or sonatas for cello and piano] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "This man labeled his creamware \u201cQueen\u2019s Ware\u201d after Queen Charlotte bought a product line. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Josiah Wedgwood",
                 "Unitarianism [do not accept or prompt on \u201cUnitarian Universalist\u201d]",
                 "abolitionism "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Frank Hauser names a reaction similar to this one in which a Diekmann condensation replaces this reaction\u2019s aldol condensation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Robinson annulation [or Robinson reaction]",
                 "enolate (\u201cEEN-ol-ate\u201d)",
                 "conjugate base [prompt on partial answer] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Dissidents and political enemies of Russia have a much higher-than-average rate of being the victim of an unsolved assassination. Curious. Answer some things about those crimes, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Alexander Litvinenko",
                 "umbrellas [or parasols]",
                 "Viktor Yushchenko "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Adi Shankara\u2019s monist philosophy of Advaita Vedanta argued that one can separate themselves from this concept, namely its Nigura form. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Brahman [do not accept or prompt on \u201cBrahmin,\u201d and ask players to spell if unsure]",
                 "\u201com\u201d [or \u201caum\u201d]",
                 "anatta [or anatman] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Georges Charpak won a Nobel Prize for the invention of a radiation detector of this type that consists of parallel wires running through a mix of counting gas and quenching gas. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "proportional counter [accept proportional detector or proportional chamber; accept multiwire proportional chamber]",
                 "J/psi meson [prompt on charmonium]",
                 "weak interaction [or weak nuclear force] "

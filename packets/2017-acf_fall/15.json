@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "Most of this city\u2019s main attractions are not in its city limits proper, but rather in an unincorporated community called Paradise directly to its south. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Las Vegas",
                 "nuclear tests [or atomic bomb tests; prompt on hydrogen bomb tests]",
                 "the Mirage"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Sometimes, mythological figures need replacement body parts. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "mirror",
                 "Osiris",
                 "Demeter"
@@ -153,7 +153,7 @@
         },
         {
             "leadin": "This poet described how \u201cA Service, like a Drum \u2013 / Kept beating\u201d in her poem \u201cI felt a Funeral, in my Brain.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Emily Dickinson",
                 "dashes [or hyphens]",
                 "\u201cThey shut me up in Prose \u2013\u201d"
@@ -168,7 +168,7 @@
         },
         {
             "leadin": "This ruler defeated his elder brother Robert Curthose at the Battle of Tinchebray. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Henry I of England [or Henry Beauclerc; prompt on Henry]",
                 "Normandy",
                 "Louis [or Louis VI; or Louis I; or Louis the Fat; or Louis the Pious]"
@@ -183,7 +183,7 @@
         },
         {
             "leadin": "The Hannes Alfv\u00e9n Prize is awarded annually for groundbreaking work studying these substances. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "plasma",
                 "magnetic field [prompt on B or B field]",
                 "Princeton University"
@@ -198,7 +198,7 @@
         },
         {
             "leadin": "This rabbi put forth 13 principles of faith to summarize Jewish theology. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Moses Maimonides [or Moses ben Maimon]",
                 "Mishnah [do not accept or prompt on \u201cMishneh\u201d or \u201cMishneh Torah\u201d]",
                 "Spain"
@@ -212,7 +212,7 @@
         },
         {
             "leadin": "Answer the following about World War One poetry, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Wilfred Owen",
                 "Siegfried Sassoon",
                 "\u201cforever England\u201d [or \u201cfor ever England\u201d]"
@@ -227,7 +227,7 @@
         },
         {
             "leadin": "This composer won the Prix de Rome in 1882 when he was just 22 years old, referring to the delicate art of pleasing the judges as a \u201cgame.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Achille-Claude Debussy",
                 "Hector Berlioz",
                 "Boulanger [accept Lili Boulanger and Nadia Boulanger]"
@@ -242,7 +242,7 @@
         },
         {
             "leadin": "You\u2019re designing a social science experiment, and you want to use the proper methodology. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "between-subjects design",
                 "longitudinal study",
                 "arithmetic mean"
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "The Ghent nosology is used to diagnose this disease, whose symptoms include arachno-dactyly and aneurysm of the aorta. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Marfan\u2019s syndrome",
                 "lens",
                 "collagen"
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "For speaking out against the regime of this country, dissident Georgi Markov was assassinated in London with a ricin pellet shot out of an umbrella gun.",
-            "answers_sanitized": [
+            "answers": [
                 "Bulgaria",
                 "the Reichstag",
                 "Soviet Union [or Union of Soviet Socialist Republics; or USSR; or Soyuz Sovetskikh Sotsialisticheskikh Respublik; or CCCP; prompt on Russia]"
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Atomicity and consistency are two of the ACID properties that can guarantee the reliability of transactions in these systems. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "databases [accept relational databases]",
                 "SQL [accept Structured Query Language; accept MySQL or PostgreSQL]",
                 "MongoDB"
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "Walter Damrosch commissioned a piece by this composer that includes parts for celesta, saxophones, and four taxi horns. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "George Gershwin",
                 "Republic of Cuba",
                 "Cuban rumba [accept rhumba]"
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "This thinker analyzed the historical development of science in <em>Science and the Modern World.</em> For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Alfred North Whitehead",
                 "mathematics",
                 "God [or Christian God]"
@@ -330,7 +330,7 @@
         },
         {
             "leadin": "This element is the most common to be alloyed with iron and chromium in austenitic stainless steels. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "nickel [or Ni]",
                 "carbon monoxide [do not accept or prompt on \u201ccarbon dioxide\u201d or \u201cCO2\u201d]",
                 "aluminum [or aluminium; or Al]"
@@ -345,7 +345,7 @@
         },
         {
             "leadin": "The victors of this battle were assisted by a large delivery of Russian weapons organized by Nikolai Leontiev. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Battle of Adowa",
                 "Italy",
                 "chemical weapons [accept poison gas; accept mustard gas and other specific chemical agents; accept just gas]"
@@ -360,7 +360,7 @@
         },
         {
             "leadin": "This poem\u2019s line \u201cWe must love one another or die\u201d was changed after publication because its author felt it was too sugary. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cSeptember 1, 1939\u201d",
                 "Wystan Hugh Auden",
                 "obscenity [or word forms like obscene; or pornographic or pornography or similar answers]"
@@ -375,7 +375,7 @@
         },
         {
             "leadin": "This artist\u2019s first known painting is a copy of a Martin Schongauer engraving which is titled <em>The Torment of Saint Anthony</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Michelangelo (di Lodovico) Buonarroti (Simoni)",
                 "The Last Judgment",
                 "tondo [or Doni Tondo; or Taddei Tondo]"
@@ -390,7 +390,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about <em>West Coast Hotel Co. v. Parrish</em>:",
-            "answers_sanitized": [
+            "answers": [
                 "Franklin Delano Roosevelt [or FDR; prompt on Roosevelt]",
                 "Charles Evans Hughes",
                 "Lochner v. New York [or Lochner era]"
@@ -405,7 +405,7 @@
         },
         {
             "leadin": "The opening chapter of this work discusses Nietzsche\u2019s conception of the \u201ceternal return\u201d as it relates to the title concept. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Unbearable Lightness of Being",
                 "Milan Kundera",
                 "angels"

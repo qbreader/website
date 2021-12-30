@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "A sister-wife named Awan gives birth to six children in this place. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Land of Nod [or Eretz-Nod]",
                 "Garden of Eden [or Gan Eden; accept \u201c(on the) east of Eden\u201d or qidmat-\u2019Eden]",
                 "Enoch [or Hanokh; or Idris]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "The foot processes of podocytes wrap around the capillaries of this structure to regulate the passage of materials through its walls. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "glomerulus",
                 "kidney",
                 "renin"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Tchaikovsky\u2019s composition of this type was originally declared unplayable by Leopold Auer, who then changed his mind and made a revised edition that was harder. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "violin concerto [prompt on concerto]",
                 "Johannes Brahms",
                 "Max Bruch [or Max Christian Friedrich Bruch]"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "This phrase was coined by an English sociologist who wrote the books System of Synthetic Philosophy and Social Statics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201csurvival of the fittest\u201d",
                 "Herbert Spencer",
                 "Thomas Henry Huxley"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "A character in this collection gets in trouble for saying that some wine is \u201cgood enough for Christ himself.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Decameron",
                 "the Black Death [or the Black Plague]",
                 "every story has to conform to a specific topic [accept clear-knowledge equivalents]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "Fort Montgomery was built on Island Point after it was ceded to the United States in this agreement. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Webster-Ashburton Treaty",
                 "John Tyler",
                 "Texas"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "The bond order of a molecule can be calculated by taking half of the difference of the number of bonding electrons and the number of antibonding electrons in these diagrams. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "molecular orbital diagrams [accept MO diagrams]",
                 "Hund\u2019s rule",
                 "point groups"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "A painting by Ilya Repin shows a group of these people crafting an obscene reply to the Ottoman sultan. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cossacks [accept Don Cossacks; accept Zaporozhian Cossacks; accept Reply of the Zaporozhian Cossacks]",
                 "Alexis",
                 "House of Romanov"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "This character initially breaks off her engagement to Captain Wentworth at age 19. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Anne Elliot",
                 "Persuasion",
                 "Sense and Sensibility"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This artist\u2019s Funerary Monument to Sir John Hawkwood was commissioned for the Florence Cathedral. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Paolo Uccello",
                 "Giorgio Vasari",
                 "popes"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "This phenomenon can only occur when neta intra-specific competition in a system exceeds net inter-specific competition. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "coexistence of multiple species",
                 "islands [or the \u201ctheory of island biogeography\u201d; accept archipelagos]",
                 "ants"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "With his frequent collaborator, this man developed the framework of historical materialism. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Karl Marx",
                 "Ludwig Feuerbach [or Ludwig Andreas von Feuerbach]",
                 "religion"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "Answer the following about execution methods throughout history, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "hemlock",
                 "guillotine [prompt on beheading]",
                 "rolled up into a carpet and trampled to death"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "Along with the Erinyes and the Meliae, these creatures were born when Ouranos\u2019 blood dripped onto the earth after he was castrated. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Giants [prompt on Gigantes or Gigas]",
                 "Antaeus",
                 "Cyclopes [or Cyclops]"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "This author wrote an approximately 111 stanza poem that is considered to be the prototypical work in the \u201cSandesa Kavya\u201d tradition. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Kalidasa",
                 "Sanskrit",
                 "a ring [accept signet ring; accept Ring of Gyges]"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "Answer the following about sculptures of the Bonaparte family, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Antonio Canova",
                 "Constantin Brancusi",
                 "Trajan's Column [or the Colonna Traiana]"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "Answer the following about the history behind Liberty Leading the People. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Louis-Philippe",
                 "flag of France [prompt on flag]",
                 "Baron Haussmann [or Georges-Eugene Haussmann]"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "In a story set in this place, Father Peregrine and Father Stone investigate mysterious \u201cFire Balloons\u201d floating around in the sky. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mars [accept \u201cThe Martian Chronicles\u201d]",
                 "Ray Bradbury",
                 "Mechanical Hounds"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "The equations central to magnetohydrodynamics are derived by combining these equations with Maxwell\u2019s equations. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Navier-Stokes equations",
                 "smoothness",
                 "turbulence"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "Answer the following about historical Sergei Eisenstein films, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "1905",
                 "Battle on the Ice",
                 "Ivan the Terrible [or Ivan IV; or Ivan Grozny; prompt on Ivan]"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "A strain of this virus native to the Philippines spread through a Macaque population in a research facility in Reston, Virginia in the 1980s. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ebola [accept Ebola virus disease; or Ebola hemorrhagic fever]",
                 "SARS [or severe accute respiratory syndrome; do NOT accept \u201cMERS\u201d or \u201cMiddle East respiratory syndrome\u201d]",
                 "pigs [or swine; accept swine flu]"

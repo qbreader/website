@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "NOTE TO MODERATOR: Please do not reveal alternate prompts or answers to the first part of the bonus, as that will spoil the second part. Thanks! Alfred Kastler developed one form of this technique, which won him the 1966 Nobel Prize in Physics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "pumping [accept optical pumping; accept laser pumping but do NOT otherwise reveal \u201claser\u201d; prompt but do not reveal answers referring to using a laser or lasing]",
                 "lasers",
                 "cavity resonators &lt;DB, Physics&gt;"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "The main characters of this film are attacked by a tank equipped with a flamethrower, which is called the \u201cDragon\u201d of the swamp and incinerates the Jamaican boatman Quarrel. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Dr. No",
                 "James Bond [accept 007 [double-o-seven]]",
                 "Sean Connery [or Sir Thomas Sean Connery] &lt;EA, Trash&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "<em>Description acceptable.</em> This character overdoses on sleeping pills only to be revived by having her stomach pumped and her blood entirely re-circulated. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mildred Montag [or Mildred; or Mrs. Montag; or \u201cGuy Montag\u2019s wife\u201d; prompt on \u201cMontag\u201d]",
                 "Fahrenheit 451",
                 "\u201cDover Beach\u201d &lt;TB, Long Fiction&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "NOTE TO MODERATOR: Please do not reveal alternate answers to the first part of the bonus, as that will spoil the second part. Thanks! One piece of this type begins with a <em>lento</em> two-measure melody, which is played again with chords before a loud crashing descending scale is played <em>allegro con brio</em> over a louder version of the theme. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u00c9tude [or Transcendental Etudes; ACCEPT, BUT DO NOT OTHERWISE REVEAL: \u201cOpus 25 Piano Etudes by Frederic Chopin\u201d]",
                 "Frederic Chopin",
                 "Aeolian harp [or Aeolian mode] &lt;DB, Auditory Fine Arts&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "The Casket Letters implicated this monarch in the death of her husband, Lord Darnley. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mary, Queen of Scots [accept Mary I of Scotland or Mary Stuart; do not accept Mary I]",
                 "Sir Francis Walsingham",
                 "Elizabeth I [or Elizabeth Tudor] &lt;JG, European/British History&gt;"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "NOTE TO MODERATOR: Please do not reveal alternate answers to the first part of the bonus, as that will spoil the second part. Thanks! This allegory speculates that a man who finally sees the light will eventually be able to appreciate the goodness of the sun, similar to the Analogy of the Sun that appears later in the work. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Allegory of the Cave [accept Myth of the Cave, Metaphor of the Cave, or parable of the cave; accept, but DO NOT OTHERWISE REVEAL Plato\u2019s Cave]",
                 "Plato [or Platon]",
                 "the Ring of Gyges &lt;EA, Philosophy&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "After defeating the Sherden Sea Pirates, this ruler allowed some into his personal guard. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ramses II [or Ramses the Great before \u201cthe Great\u201d is read; prompt on Ramses]",
                 "Hittites",
                 "Abu Simbel &lt;GP, Ancient/Other History&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "This area\u2019s Gell\u00e9rt Hill is home to the Fisherman\u2019s Bastion and the Liberty Statue, one of the few Communist-era statues that was not relocated to the Memento Park. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Buda [prompt on Budapest by asking \u201cwhich half?\u201d]",
                 "Danube River",
                 "parliament building [accept clear equivalents like National Assembly] &lt;JG, Geography&gt;"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "The Maxwell-Boltzmann distribution gives the distribution of particle velocities for a substance in this phase. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "gases",
                 "activation energy [or Ea]",
                 "exponential function [or e to the x power; accept answers which use any other variable name in place of \u201cx\u201d; or exp()] &lt;GC, chemistry&gt;"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "The author of this poem values a person who \u201ccan make one heap of all [their] winnings and risk it on one turn of pitch-and-toss\u201d as he discusses someone who \u201ccan keep their virtue.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cIf\u2013\u201d",
                 "Rudyard Kipling",
                 "\u201cThe White Man\u2019s Burden\u201d &lt;EA, Non-Epic Poetry&gt;"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "The Ku Klux Klan offered to assist the Mexican government in its conflict with this institution. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Roman Catholic Church",
                 "oil [accept petroleum]",
                 "Constitution &lt;GP, World History&gt;"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "Unlike the related annelids or nematodes, members of this phylum completely lack a body cavity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "platyhelminthes [or flatworms]",
                 "planarians [or Tricladida]",
                 "stem cells [accept specific types of stem cells like embryonic stem cells; prompt on ESCs] &lt;GC, Biology&gt;"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "This man painted an oncoming typhoon and a dramatic red sunset in the background of <em>The Slave Ship</em>, which he painted for a meeting of the British Anti-Slavery Society. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "J.M.W. Turner [or Joseph Mallord William Turner]",
                 "trains [or equivalents]",
                 "Claude Lorrain &lt;JG, Visual Fine Arts&gt;"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about objects used in wedding traditions around the world.",
-            "answers_sanitized": [
+            "answers": [
                 "wine glass [or synonyms for \u201cglass\u201d like cup]",
                 "Shintoism",
                 "broomstick &lt;TB, Religion&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "This author used the term \u201cmojo wire\u201d to refer to a fax machine he used to send in his reports in <em>Fear and Loathing on the Campaign Trail \u201872</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hunter S. Thompson [or Hunter Stockton Thompson]",
                 "journalism [or Gonzo journalism; or investigative journalism]",
                 "Rolling Stone &lt;TB, Short Fiction/Other&gt;"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "This group\u2019s manifesto declared its intention to become a \u201cForum of Modern Photography\u201d and showcase \u201cwhat it considers the best contemporary photography of the West.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "f/64 [or f-stop 64; or f.64]",
                 "Alfred Stieglitz",
                 "Yosemite National Park &lt;TB, Other Visual Fine Arts&gt;"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "While all plays have actors, name some things about plays that have to do with actors! For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hamlet",
                 "Luigi Pirandello",
                 "The Seagull [or Chayka] &lt;EA, Drama&gt;"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "In Hinduism, one of these objects called Vajra is used to kill the serpent Vritra, and is wielded by a god who rides the white elephant Airavata. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "thunderbolt [or lightning bolts; prompt on lightning or thunder]",
                 "Perun",
                 "Thor &lt;WG, Mythology&gt;"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "Answer some questions about symmetry in algebra. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "permutations [accept bijections or bijective functions or invertible functions]",
                 "matrices [or a matrix]",
                 "transpose &lt;CT, Mathematics&gt;"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "The Gulf of Tonkin Resolution\u2019s circumvention of this power led to a 1973 Act limiting the executive branch\u2019s ability to wield this power. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the power to declare war [accept word forms involving a declaration of war; accept War Powers Clause]",
                 "Pearl Harbor",
                 "Jeannette Rankin [or Jeannette Pickering Rankin] &lt;TB, American History&gt;"

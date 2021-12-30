@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0In the Kerr effect, an electric field induces this property with a squared dependence on the field strength. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "birefringence",
                 "Snell\u2019s law",
                 "electric displacement field [prompt on partial answer, do not accept \u201cdisplacement current\u201d]"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This husband of Mama Quilla told his children to build their capital where a golden wedge sank into the ground. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Inti",
                 "stones [or rocks]",
                 "fox"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "This task can be done with the Bellman-Ford algorithm for graphs with negative edge weights. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "finding the shortest path [accept pathfinding; accept finding the single-source all-destination shortest path]",
                 "priority queue [do not accept or prompt on \u201cqueue\u201d]",
                 "A* search algorithm [pronounced \u201cA-star\u201d, but allow descriptive answers]"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "In an unexpected highbrow precursor to <em>Sisterhood of the Traveling Pants,</em> the title women of this novel share a Schiaparelli dress as a good-luck token. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Girls of Slender Means",
                 "Muriel Spark",
                 "the devil [or Satan]"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "Eudes of Aquitaine swore fealty to the victor of this battle. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Battle of Tours [or the Battle of Poitiers]",
                 "Charles Martel [or Carolus Martellus; or Karl Martel; prompt on Charles, Carolus, or Karl]",
                 "Louis V of France [prompt on Louis]"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "This thinker cast doubt upon the theory of evolution by natural selection in the essay \u201cWhy Pigs Don\u2019t Have Wings.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jerry Fodor",
                 "G\u00f6del\u2019s first incompleteness theorem [prompt on incompleteness theorem]",
                 "free will [or freedom of the will]"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "202 years after his hanging for planning a slave rebellion in Virginia, Tim Kaine granted this man and his followers an informal pardon. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gabriel Prosser [accept either]",
                 "Richmond, VA",
                 "Tredegar Iron Works"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "Oliver Wendell Holmes used the phrase \u201ceven a dog knows the difference between being stumbled over and being kicked\u201d to illustrate this legal concept. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "mens rea [prompt on guilty mind]",
                 "negligence [accept word forms like negligent, do not accept negligible]",
                 "accessory [accept accessory after the fact; accept accessory before the fact]"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "One woman in this play is sad because although newspapers say orange juice is healthy for children, her own child has never even seen a grapefruit. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Waiting for Lefty",
                 "Clifford Odets",
                 "strike!"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "Color woodcuts made in this state include <em>Cliff Dwellings</em> and <em>San Geronimo - Taos</em>, which depicts a group of brightly clad people standing in front of a yellow building with ladders. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "New Mexico",
                 "Georgia O\u2019Keeffe",
                 "the Sun"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "During the premiere of this musical, its writer Franz Liebkind ran onstage to confront the audience but was accidentally knocked out despite his Wehrmacht helmet. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Springtime for Hitler [do not accept The Producers]",
                 "Felix Steiner",
                 "Eugenio Montale"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "Answer some things about a certain group of organic compounds and a reaction they are used in, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "carboxylic acid [or carboxylate]",
                 "Fischer esterification",
                 "tosylic acid [or tosylate]"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "\u00a0Name some things about jazz pianists influenced by Bud Powell, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "John Coltrane",
                 "Bill Evans",
                 "Chick Corea"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "Black fasting is one of the more extreme practices that this denomination shares with Catholics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pentecostalism",
                 "snake handling [accept serpent handling]",
                 "languages or tongues"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "Answer the following about organelles, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "glyoxysomes",
                 "endosymbiotic theory [or symbiogenesis]",
                 "magnetosomes"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "The first two movements of Shostakovich\u2019s Symphony No. 14 are settings this author\u2019s poems. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Federico Garcia Lorca",
                 "violin",
                 "Argentina [or Argentine Republic]"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "These laws brought about the development of estates called <em>shoen</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Taika reform(s)",
                 "Tang dynasty",
                 "Fujiwara clan"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "Two children nearly born on a bus in this novel believe that if they were born earlier they could have gotten a lifetime of free rides. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The God of Small Things",
                 "Velutha",
                 "a priest [or equivalent]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "Name the following about 17th century French drama, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Moliere [or Jean-Baptiste Poquelin]",
                 "Jean-Baptiste Racine",
                 "Polyeucte [or Polyeucte martyr]"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "Karl Marx described this war as a case of \u201cthe French doing nothing and the British helping them as fast as possible.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Crimean War",
                 "Battle of Balaclava",
                 "Lord Raglan"

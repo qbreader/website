@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "For 10 points each, answer these questions about exoticism in Western art.",
-            "answers_sanitized": [
+            "answers": [
                 "Paul Gauguin",
                 "Frederic Edwin Church",
                 "The Heart of the Andes"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "The plot of one of this author's plays involves the affair between Annie and the author Henry, who writes a play-within-a-play performed by Max and Charlotte in the first act.",
-            "answers_sanitized": [
+            "answers": [
                 "Tom Stoppard [or Tomas Straussler]",
                 "flipping a coin that lands heads up [also accept spin a coin or any reasonable synonym]",
                 "The Coast of Utopia"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This piece contrasts the recitativo secco style of the Evangelist with the richer recitativo accompagnato (ah-KOM-pahn-YAH-toh) of the Vox Christi.",
-            "answers_sanitized": [
+            "answers": [
                 "St Matthew Passion [or St Matthew's Passion; or Matth\u00c3\u00a4us-Passion]",
                 "J.S. Bach [or Johann Sebastian Bach]",
                 "Agnus Dei (AHG-nuss \"day\")"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the Georgian style of architecture, which often features bricked up windows due to a window-tax imposed by the monarchs.",
-            "answers_sanitized": [
+            "answers": [
                 "crescent [accept Royal Crescent]",
                 "Harvard",
                 "portico"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Answer some things about money in the United States.",
-            "answers_sanitized": [
+            "answers": [
                 "Contract clause [or Article I, Section 10, Clause 1]",
                 "David Rittenhouse",
                 "gold"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "Answer the following about the Maxwell equations.",
-            "answers_sanitized": [
+            "answers": [
                 "magnetic monopoles",
                 "displacement current [or J]",
                 "Lorentz-Heaviside units"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "Kwasniewski (kvash-NYEF-skee) led this nation for a decade in its post-communist era, during which it passed a constitution in 1997.",
-            "answers_sanitized": [
+            "answers": [
                 "Poland",
                 "shock therapy",
                 "Boris Yeltsin"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "Guy de Maupassant (GEE duh MOH-puh-sant) sure did write a lot of short stories.",
-            "answers_sanitized": [
+            "answers": [
                 "\"Ball of Fat\" [or \"Boule de Suif\"]",
                 "\"The Question of Latin\"",
                 "\"The Diary of a Madman\" [accept \"Un fou\" or \"Zapiski sumasshedshevo\"]"
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "A subsection of this book devoted to astronomy sets out a 364 day calendar with four 91-day seasons, and another section contains one of the first mentions of the phrase \"Son of Man.\"",
-            "answers_sanitized": [
+            "answers": [
                 "Book of Enoch",
                 "Ethiopia",
                 "Metatron"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "Early innovators in this field include Ruby Payne-Scott, who helped develop aperture synthesis.",
-            "answers_sanitized": [
+            "answers": [
                 "radio astronomy",
                 "pulsar [or pulsating radio star]",
                 "Karl Guthe Jansky"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "A hilarious article about living in this polity by Omar Hussain talks about how, much like Penn Quizbowl, no one has manners, shoes get stolen, and the bureaucrats are lazy and do nothing until Chechens yell at them.",
-            "answers_sanitized": [
+            "answers": [
                 "ISIS [or IS or ISIL or Islamic State or Islamic State of Iraq and ash-Sham or Islamic State of Iraq and the Levant or Daesh or ad-Dawlah al-Islamiyah fi 'l-'Iraq wa-sh-Sham]",
                 "Peshmerga (pesh-MUR-guh)",
                 "Haider al-Abadi"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "Answer the following about winners of the Yomiuri Prize for Fiction.",
-            "answers_sanitized": [
+            "answers": [
                 "Masuji Ibuse (ee-BOO-say)[accept names in either order]",
                 "Kobo Abe [or Kimifusa Abe; accept either name in either order]",
                 "Murakami [accept Ryu Murakami; accept Haruki Murakami]"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "The sequence of these things is directly related to the three-dimensional structure according to Anfinsen's dogma.",
-            "answers_sanitized": [
+            "answers": [
                 "amino acid",
                 "disulfide bridge [or disulfide bond or SS bond]",
                 "GroEL"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "Athens and Persia frequently sought to control islands in the Aegean Sea.",
-            "answers_sanitized": [
+            "answers": [
                 "Melos [or Milos]",
                 "Euboea",
                 "Lesbos"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "Like Ishtar, this mother goddess was associated with the planet Venus.",
-            "answers_sanitized": [
+            "answers": [
                 "Sarpanit [or Sarpanitu or Erua, or Zerpanitum or Zirbanit or anything that sounds roughly like that]",
                 "Marduk",
                 "Apsu [or Abzu]"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "While working as a plantation owner in the West Indies, this character fathered an illegitimate son named Charles Bon.",
-            "answers_sanitized": [
+            "answers": [
                 "Thomas Sutpen [accept either underlined portion]",
                 "William Faulkner [or William Cuthbert Faulkner]",
                 "\"Why do you hate the South?\""
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "An analytic form of this philosophy is propounded by Robert Brandom.",
-            "answers_sanitized": [
+            "answers": [
                 "pragmatism [accept word forms]",
                 "William James",
                 "determinism [accept word forms]"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This place is called the \"land of one million elephants\".",
-            "answers_sanitized": [
+            "answers": [
                 "Laos",
                 "Plain of Jars [or \"thong-hai-hin\" in Lao]",
                 "Prince Souphanouvong"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about non-ideal gases.",
-            "answers_sanitized": [
+            "answers": [
                 "reduced variables [accept reduced properties]",
                 "Johannes van der Waals",
                 "theorem of corresponding states [accept principle of corresponding states]"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "One work by this author analyzed Australian Aboriginal cults and the Pueblo rain dance.",
-            "answers_sanitized": [
+            "answers": [
                 "\u00c3\u2030mile Durkheim",
                 "The Division of Labor in Society",
                 "collective effervescence [do NOT accept \"collective unconscious\" or \"collective conscious\"]"

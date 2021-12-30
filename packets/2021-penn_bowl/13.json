@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "In What Is English?, Lorc\u00e1n \u00d3 Treasaigh (\u201cLOR-can oh TRAH-sig\u201d) writes about his experience growing up as a monolingual speaker of this language. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Irish [or Gaelic; or Gaeilge]",
                 "Colm T\u00f3ib\u00edn (\u201cCALL-um toh-BEAN\u201d)",
                 "Anna Burns "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Kevin de Queiroz argued that this task should be done using a \u201cunified species concept\u201d that only requires showing that a given metapopulation lineage is evolving separately from others. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "species delimitation (See also \u201cspecies problem.\u201d)",
                 "hybridization [prompt on introgression by asking \u201cwhat process precedes introgression?\u201d; prompt on admixture; prompt on gene flow]",
                 "sympatric speciation "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "William H. Smith is best remembered for a hit 1844 play advocating for this cause, which was also the motivation of A. D. Ames\u2019s plays Wrecked, Adrift!, and Lost!. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "temperance [accept descriptive answers like the opposition to and the wish to ban alcohol]",
                 "stage yankee",
                 "P. T. Barnum [or Phineas Taylor Barnum] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "Until the Montreal Protocol phased out production of methyl chloroform, its atmospheric concentration was often used to indirectly estimate the concentration of this molecule. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "hydroxyl radical [or OH radical; or HO radical; or \u00b7OH (\u201cdot-O-H\u201d), OH\u00b7, \u00b7HO, or HO\u00b7]",
                 "water vapor [or H2O]",
                 "El Ni\u00f1o\u2013Southern Oscillation [or ENSO; or El Ni\u00f1o\u2013Southern Oscillation] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "While staying in this city, Taqut al-Hamawi noted that it\u2019s rancid water had \u201cnone of the qualities of water except being liquid.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sijilmasa",
                 "Mali",
                 "Almohad Caliphate "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "Upon the arrival of this figure, serpents and poisonous plants will die, and \u201cflocks afield / Shall of the monstrous lion have no fear.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the child from Eclogue 4 [accept boy, puer, or synonyms of savior in place of \u201cchild\u201d; prompt on answers that don\u2019t mention the Eclogues by asking \u201cfrom what set of poems?\u201d]",
                 "Virgil [or Publius Vergilius Maro]",
                 "the Georgics "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "This document recommended that Spain use the proceeds from the proposed sale to \u201cremove her financial embarrassments.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ostend Manifesto",
                 "James Buchanan",
                 "Golden Circle [or Circulo Dorado; accept KGC; do not accept or prompt on \u201cGolden\u201d or \u201cCircle\u201d] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "A January 2020 paper in Nature Chemistry characterized a staggeringly large 22-square-nanometer ring molecule exhibiting this property. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "aromaticity [or word forms]",
                 "H\u00fcckel\u2019s rule",
                 "trannulenes "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "Although the play itself was not well received, Moli\u00e8re based two scenes in Scapin the Schemer on this man\u2019s The Pedant Imitated. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cyrano de Bergerac [or Cyrano de Bergerac]",
                 "panache",
                 "Marquis de Sade "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "These equations are derived by balancing the momentum change of a parcel of fluid due to convective motion with forces on the parcel. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Navier\u2013Stokes equations",
                 "material derivative [or advective derivative; prompt on Lagrangian derivative; do not accept or prompt on \u201cderivative\u201d]",
                 "viscosity [accept kinematic viscosity or dynamic viscosity] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "One work depicting this country ends with an Allegro guerriero (\u201cgair-YAIR-oh\u201d) finale requiring the violin soloist to play many triple- and quadruple-stops. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Scotland [accept Scotch snap; prompt on United Kingdom or UK or Great Britain; do not accept or prompt on \u201cEngland\u201d]",
                 "Felix Mendelssohn [or Jakob Ludwig Felix Mendelssohn-Bartholdy]",
                 "clarinet AND viola "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "Lightning birds known as the impundulu in the myths of this country only venture to earth when someone dies and can only be seen by women. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "South Africa",
                 "Shango",
                 "lighting him on fire [or catching on fire; or burning to death; or equivalents] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "Answer the following about twins in college basketball. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Lopez [or Brook Lopez; or Robin Lopez]",
                 "Kansas University",
                 "Aaron and Andrew Harrison "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "In agrarian economies, rainfall has been used as one of these variables that must obey the validity and exclusion conditions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "instrumental variables [or IV; accept weak instruments; do not accept or prompt on \u201cinstrumented variables\u201d]",
                 "education [prompt on human capital]",
                 "regression discontinuity design [prompt on partial answers] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "Answer the following about the endurance performance art of Tehching Hsieh (\u201ctuh-ching sh\u2019yeh\u201d), for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "jumping out of a building [or synonyms like leaping]",
                 "cages",
                 "clocks "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "Answer the following about discussions of akrasia, or weakness of the will, in philosophy, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "belief",
                 "Protagoras",
                 "Wang Yangming [or Wang Shouren; or Master Yangming] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "A contemporary artist with this surname suspended a whale skeleton in his pieces Mobile Matrix and Dark Wave, and put a square pond with water lilies at the center of his four-player Ping Pond Table. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Orozco [accept Jos\u00e9 Clemente Orozco or Gabriel Orozco]",
                 "skulls",
                 "trees [accept An Oak Tree; accept Samurai Tree] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "Practitioners of this religion are obliged to repeat the Greatest Name, All\u00e1h-u-Abh\u00e1, ninety-five times a day. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bah\u00e1\u2019\u00ed",
                 "Acre [or Akko; or Akka]",
                 "Kitab-i-Aqdas [or The Most Holy Book, or the Book of Laws] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "This ruler united the Iceni against Roman rule in the first century AD. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Boudica [or Boadicea (\u201cbo-dih-SEE-uh\u201d); or Buddug]",
                 "Battle of Watling Street",
                 "Trinovantes [or Trinobantes] "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "In a scene from Casablanca, Laszlo asks the band to play La Marseillaise to drown out the Nazis singing this song. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cDie Wacht am Rhein\u201d [or \u201cThe Watch on the Rhine\u201d]",
                 "Adolpe Thiers (\u201ctee-AIR\u201d)",
                 "Eyalet of Egypt "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "Answer the following about American poets praised in Harold Bloom\u2019s final book Take Arms Against a Sea of Troubles. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "T. S. Eliot [accept Thomas Stearns Eliot]",
                 "Trumbull Stickney [accept Joseph Trumbull Stickney]",
                 "John Ashbery [accept John Lawerence Ashbery] "

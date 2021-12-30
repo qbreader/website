@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "\u201cThe face of a child drawn on a melon\u201d and a baby sparrow eating worms are listed among this book\u2019s list of \u201cAdorable Things.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Pillow Book",
                 "Sei Sh\u014dnagon [accept either name]",
                 "Lady Murasaki Shikibu &lt;JC, World Literature&gt;"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "This man has a dream in which he sees angels ascending and descending from a ladder to heaven. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jacob [or Ya\u2019akov]",
                 "Laban [or Lavan]",
                 "sheaves of wheat &lt;JC, Religion&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "In part due to a protest targeting this city, R.\u00a0B.\u00a0\u201cIron Heel\u201d Bennett\u2019s discredited government lost 95 seats in the House of Commons. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ottawa",
                 "Invergordon Mutiny",
                 "miners [or mining; accept platinum miners or coal miners] &lt;NR, European History&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Examples of these things for which the commutativity equation always holds are referred to as \u201cabelian.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "groups",
                 "\u00c9variste Galois (\u201cgal-WAH\u201d)",
                 "fundamental theorem of Galois theory &lt;JC, Other Science (Math)&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Each language has a different set of these sounds, ranging from just 11 in Pirah\u00e3 (\u201cpee-rah-HAH\u201d) to 141 in !Kung (\u201ckung\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "phonemes",
                 "minimal pairs",
                 "Japanese AND English [accept Nihongo in place of \u201cJapanese\u201d] &lt;MT, Social Science (Linguistics)&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "When one character with this last name cannot sleep, her brother reads her a Taoist story about Po Lo choosing a horse based on its spiritual qualities. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Glass family",
                 "J.\u00a0D.\u00a0Salinger",
                 "mirror &lt;JC, American Literature&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "In this technique, the Arden ratio is the ratio between the dark peak and light trough. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "EOG [or electrooculography; or electrooculogram]",
                 "epilepsy",
                 "generalized seizures [do NOT accept word forms] &lt;EM, Biology&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "This event led to the revocation of UN Resolution 3379, determining that \u201cZionism is a form of racism and racial discrimination.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "First Intifada [prompt on Intifada]",
                 "Gaza Strip",
                 "Ariel Sharon &lt;AJ, World History&gt;"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "A work named for this person looks at the stereotypes of \u201cangel\u201d and \u201cmonster\u201d for women in Victorian literature. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the madwoman in the attic [or Antoinette Cosway; or Bertha Mason; prompt on Mrs.\u00a0Rochester; prompt on woman in the attic]",
                 "Jane Eyre",
                 "Sandra Gilbert OR Susan Gubar &lt;MT, British Literature&gt;"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "In addition to the main reclining figure, this painting originally contained a figure of Cupid, but it was painted over in 1843. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sleeping Venus [or Dresden Venus]",
                 "Giorgione",
                 "Titian &lt;MT, Painting&gt;"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "Name some techniques for classifying organic compounds, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "bromine test",
                 "potassium permanganate [prompt on MnO4\u2212]",
                 "Schiff\u2019s test &lt;PL, Chemistry&gt;"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "This movement spurred the return of semi-retired jazz musicians such as Kid Ory or Red Nichols. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Dixieland",
                 "New Orleans style",
                 "\u201cTiger Rag\u201d &lt;PL, Other Arts (Jazz)&gt;"
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "According to the \u201ccritical\u201d philosophy of this process, the goal should be emancipation from oppression through the creation of a critical consciousness. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "education [accept equivalents like teaching; prompt on school or learning]",
                 "Pedagogy of the Oppressed [or Pedagogia do Oprimido]",
                 "praxis [prompt on practice] &lt;MT, Philosophy&gt;"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "An explosion during a battle named for this place was heard more than one hundred miles away in Pensacola. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Negro Fort [or Fort Gadsden]",
                 "Florida",
                 "Creek Confederacy [or Muscogee] &lt;NR, American History&gt;"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "At the end of this poem, a sailor drowns after being so entranced by the titular figure\u2019s singing that he doesn\u2019t look at the rocks around him. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cThe Lorelei\u201d [or \u201cDie Lorelei\u201d]",
                 "Germany",
                 "Clemens Brentano &lt;MT, European Literature&gt;"
@@ -342,7 +342,7 @@
         },
         {
             "leadin": "Knights often had awkward relationships with their brothers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Palamedes [or Palomides]",
                 "Sir Bors the Younger",
                 "Arthur &lt;JC, Mythology&gt;"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "Because tuning methods that made playing this group of pieces possible were not invented until the late 1600s, this group was the first of its type. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Well-Tempered Clavier [or Das wohltemperierte Klavier]",
                 "Charles Gounod (\u201csharl goo-NOH\u201d)",
                 "Pablo de Sarasate (\u201csah-rah-SAH-tay\u201d) &lt;MT, Music&gt;"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "Mesons are held together by this force, which is described by QCD and acts on particles that have color charge. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "strong force",
                 "Hideki Yukawa",
                 "Gell-Mann\u2013Nishijima formula &lt;AP, Physics&gt;"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "In one scene from this musical, the titular astronomical phenomenon causes Pierre to experience a moment of enlightenment. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Natasha, Pierre &amp; the Great Comet of 1812",
                 "Phillipa Soo",
                 "Am\u00e9lie [or Le Fabuleux Destin d\u2019Am\u00e9lie Poulain or The Fabulous Destiny of Am\u00e9lie Poulain] &lt;JK, Trash (Film)&gt;"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "One of these people stole a woman\u2019s letter about her husband\u2019s obsession with baths. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "frumentarii",
                 "Hadrian",
                 "Bar Kokhba (\u201cCOKE-bah\u201d) rebellion [or Third Jewish Revolt or Third Jewish-Roman War or Second Revolt of Judea; prompt on partial answer] &lt;JC, European History&gt;"

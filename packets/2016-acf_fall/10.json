@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "Paul de Kruif\u2019s assistance with scientific specifics earned him one-fourth of the royalties made by this author\u2019s novel Arrowsmith. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sinclair Lewis",
                 "Main Street",
                 "Berzelius \u201cBuzz\u201d Windrip [accept either underlined name]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "A terrorist group advocating for the independence of this region called ETIM killed five people in a 2013 attack in Tiananmen Square by driving a car into a crowd of people. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Xinjiang Uighur Autonomous Region",
                 "Silk Road",
                 "Han Dynasty"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Ysbaddaden [ISS-bah-DAH-\u201cthen\u201d] is a giant in this myth system who issues a list of forty tasks for Culhwch [\u201ccool hook\u201d] before he can marry Olwen. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Welsh mythology [or Cymry; accept Wales or Cymru; prompt on Celtic mythology]",
                 "boars",
                 "King Arthur"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "Cubewanos are a group of objects that lack this property, named for their prototype QB10. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "orbital resonance",
                 "Neptune",
                 "Edgeworth-Kuiper Belt"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "Husband-and-wife neuroscientist duo Hanna and Antonio Damasio created a famous 1994 reconstruction of this man\u2019s injury. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Phineas Gage",
                 "emotions",
                 "speech [accept any answer describing the ability to speak]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "After exclaiming \u201cThis battle is lost, but there is yet time to win another!\u201d Louis Desaix was killed in this battle while leading a counterattack. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Battle of Marengo",
                 "crossing the Alps [accept Napoleon Crossing the Alps; accept more specific answers, like Napoleon crossing the Great St. Bernard Pass]",
                 "Paul [or Pavel]"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "The first substance of this kind was produced at UC Boulder in 1955 by cooling a gas of rubidium atoms below 170 nanokelvins. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bose-Einstein condensates [or BEC]",
                 "Riemann zeta function",
                 "plasma"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "A monument in this city depicts a hammer, sickle, and brush and is the Monument to Party Founding. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pyongyang Directly Governed City [or P\u2019y\u014fngyang Chikhalsi]",
                 "Korean Demilitarized Zone [or Korean DMZ; or Hanbando Bimujangjidae]",
                 "Kaesong Industrial Region [or Kaesong Industrial Zone; or Gaeseong Gongeop Jigu; or Kaes\u014fng Kong\u014fp Chigu]"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "A king of this name was found dead in his bed on June 9, 1946, murdered with a single shot to the head. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rama [accept Rama VIII; accept Rama IX]",
                 "Thailand [prompt on Siam]",
                 "Ayutthaya"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This practice is encouraged for some Hindus to avoid tamas. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "vegetarianism [or anything mentioning not eating meat; or obvious equivalents]",
                 "Mormonism [or Church of Jesus Christ of Latter-day Saints; or LDS Church]",
                 "milk [or dairy]"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "This composer\u2019s Septet employs a similar tone row to Arnold Schoenberg\u2019s Wind Quintet. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Igor Stravinsky",
                 "twelve [or twelve-tone technique]",
                 "Italy [Italia; or Italian Republic; or Repubblica Italiana; the composers are Luigi Dallapicola and Ottorino Respighi]"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "The narrator of this poem is \u201cindifferent to bearers of Flemish wheat or English cottons\u201d and bemoans, \u201cevery moon is atrocious and every sun bitter\u201d. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cThe Drunken Boat\u201d [or \u201cLe Bateau ivre\u201d]",
                 "Arthur Rimbaud",
                 "vowels"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "This man resigned from Columbia University in 1917 after several faculty members were dismissed on accusations of disloyalty. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charles Beard",
                 "Reconstruction [accept Reconstruction: America\u2019s Unfinished Revolution]",
                 "W.E.B. Du Bois"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "Time at Auschwitz inspired an author from this country to write the story collection This Way for the Gas, Ladies and Gentlemen. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Republic of Poland",
                 "Isaac Bashevis Singer",
                 "Saul Bellow [or Solomon Bellows]"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "This process is applied to cryolite to isolate aluminum metal in the Hall-H\u00e9roult process. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "electrolysis",
                 "reduction",
                 "overpotential"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "The Marr-Albus theory posits that this structure\u2019s Purkinje cells receive a \u201cteaching signal\u201d from its climbing fibers, which strengthens its synapses with multiple parallel fibers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "cerebellum",
                 "dendrites",
                 "ataxia"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "One member of this artistic movement depicted a series of boats and checkered flags on dark blue water in his Regatta at Cowes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Fauvism [accept les Fauves]",
                 "Henri Matisse",
                 "London, England"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "This figure is described as working a little too hard at his job by moving a little too quickly and a little too precisely. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the waiter",
                 "Being and Nothingness: An Essay on Phenomenological Ontology [or L\u2019\u00catre et le n\u00e9ant: Essai d\u2019ontologie ph\u00e9nom\u00e9nologique]",
                 "existence precedes essence [or l\u2019existence pr\u00e9c\u00e8de l\u2019essence]"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "Dr. Livesey figures out the purpose of this object. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the treasure map from Treasure Island",
                 "Robert Louis Stevenson",
                 "black"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "This group was led by Gerrard Winstanley, who published the pamphlet The New Law of Righteousness. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Diggers [or True Levellers; do not accept or prompt on Levellers alone]",
                 "Normans [accept Normandy or Norman yoke]",
                 "New Model Army"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "Before Bob Dylan, this author was the most recent American to win the Nobel Prize in Literature. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Toni Morrison",
                 "Song of Solomon",
                 "a hospital"

@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "This author joined her brother Adrian Stephen and Horace de Vere Cole in dressing up as Abyssinian royals to hoax the Royal Navy into giving them a tour of their flagship HMS <em>Dreadnought</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "(Adeline) Virginia Woolf",
                 "Mrs Dalloway",
                 "a party [or synonyms such as soiree; anything which refers to a gathering that isn\u2019t specifically a birthday party or funeral or wedding or whatnot is fine]"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "Mossad conducted a whole bunch of operations on foreign soil. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Munich [or Munchen]",
                 "Entebbe Raid [or Operation Thunderbolt]",
                 "Argentina"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Persistent forms of this type of compound include Fr\u00e9my's salt and TEMPO. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "free radicals",
                 "paramagnetism [or word forms]",
                 "nitric oxide [or NO; prompt on nitrosyl; do not accept or prompt on \u201cnitrous oxide\u201d or \u201cN2O\u201d]"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "This composer wrote an operetta in which Adele pretends to be the Russian actress Olga, and Frank and Eisenstein both disguise themselves as Frenchmen. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Johann Strauss Jr. [or Johann Strauss II; or Johann Strauss the Younger; or Johann Strauss the Son; prompt on Strauss or Johann Baptist Strauss]",
                 "waltzes",
                 "polkas"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "Apples dipped in honey are usually served on this holiday, during which the shofar is blown around one hundred times. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rosh Hashanah [or Yom Teruah]",
                 "Nowruz",
                 "Mecca"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "This book criticizes Thomas Hobbes\u2019 theories on the state of nature through the Fable of the Troglodytes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Persian Letters",
                 "Baron de la Brede et de Montesquieu [or Charles-Louis de Secondat]",
                 "Age of Enlightenment"
@@ -213,7 +213,7 @@
         },
         {
             "leadin": "One figure in this experiment took on a personality based on a character from <em>Cool Hand Luke</em> and was referred to as \u201cJohn Wayne.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Stanford prison experiment",
                 "Philip George Zimbardo",
                 "Robbers Cave experiment"
@@ -227,7 +227,7 @@
         },
         {
             "leadin": "In group theory, groups must satisfy the axioms of closure and having an identity element, an inverse element, and this property. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "associative property [or associativity]",
                 "algebra [or abstract algebra; or linear algebra]",
                 "cyclic groups [or monogenous groups]"
@@ -242,7 +242,7 @@
         },
         {
             "leadin": "Ernest McFarland and Warren Atherton were known as the \u201cfathers\u201d of this law. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "G.I. Bill [or Servicemen\u2019s Readjustment Act of 1944]",
                 "September 11 attacks [or 9/11; or Post-9/11 G.I. Bill; anti-prompt on destruction of the World Trade Center, the attack on the Pentagon, or Flight 93]",
                 "for-profit colleges [or fly-by-night colleges]"
@@ -257,7 +257,7 @@
         },
         {
             "leadin": "This author was nearly executed for his membership in the radical Petrashevsky Circle. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Fyodor Mikhailovich Dostoyevsky",
                 "Crime and Punishment [or Prestupleniye i nakazaniye]",
                 "Semyon Zakharovich Marmeladov"
@@ -272,7 +272,7 @@
         },
         {
             "leadin": "In one scene, this movie\u2019s title character stands in front of a massive poster of himself at a rally. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Citizen Kane",
                 "cinematographers [or directors of photography; accept cinematography]",
                 "Taxi Driver"
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "This set of four equations includes a version of Ampere\u2019s law modified to include the displacement current. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Maxwell\u2019s equations",
                 "0",
                 "magnetic flux [prompt on flux; prompt on \u201cphi\u201d or \u201cphi B\u201d]"
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "This conflict was preceded by a movement led by Peter the Hermit and Walter the Penniless, who led lower-class people who were slaughtered after wandering into Seljuk territory. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "First Crusade [prompt on Crusades]",
                 "Byzantine Empire [accept Eastern Roman Empire; prompt on Roman Empire]",
                 "Antioch"
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "Father Dosen relates the story of Nansen and the kitten in one of this author\u2019s novels. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Yukio Mishima [or Kimitake Hiraoka, accept names in either order]",
                 "The Sea of Fertility [or H\u014dj\u014d no Umi]",
                 "garden [or orchard]"
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "Snooty French wine connoisseurs rated wines from this area as superior to French wines in a blind taste test called the Judgement of Paris. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Napa Valley",
                 "terroir",
                 "San Francisco Bay [do not accept or prompt on \u201cSan Pablo Bay\u201d]"
@@ -345,7 +345,7 @@
         },
         {
             "leadin": "The first man with this title claimed to have seen twelve vultures, while another man claimed to have seen six, leading to a feud. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "kings of Rome [prompt on partial answer]",
                 "Romulus",
                 "Numa Pompilius"
@@ -359,7 +359,7 @@
         },
         {
             "leadin": "Answer some questions about technology used during the Age of Exploration, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "compass",
                 "caravels",
                 "calculating longitude [prompt on telling time at sea or similar answers]"
@@ -374,7 +374,7 @@
         },
         {
             "leadin": "The collective set of these organs in a plant is known as the androecium [an-DREE-shyum]. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "stamen",
                 "angiosperms [or Angiospermae; or Magnoliophyta]",
                 "endosperm"
@@ -389,7 +389,7 @@
         },
         {
             "leadin": "The original version of this poem was thirty lines, but its author scrapped it because it was not of sufficient intensity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cIn a Station of the Metro\u201d",
                 "Ezra Weston Loomis Pound",
                 "Thomas Stearns Eliot [or T.S. Eliot]"
@@ -404,7 +404,7 @@
         },
         {
             "leadin": "Name the following abstract expressionist painters, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "(Paul) Jackson Pollock",
                 "Mark Rothko [or Markus Yakovlevich Rothkowitz]",
                 "Barnett Newman"

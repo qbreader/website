@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "These objects, which are classified into intrinsic and extrinsic types, include Miras, RR Lyrae, and Cepheids. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "variable stars",
                 "absolute magnitude [prompt on luminosity]",
                 "Edwin Hubble"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "Name some common laboratory techniques, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "distillation",
                 "recrystallisation [prompt on crystallisation]",
                 "work-up"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "The Jewish Banu Qurayza tribe was destroyed after they turned traitor during a siege of this city. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Medina",
                 "Islam [accept Sunni Islam]",
                 "Sassanid Empire [or Sassanian Empire; prompt on Persian Empire]"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "Richard Neville became known as the \u201cKingmaker\u201d for his role in deposing two kings during this war. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Wars of the Roses",
                 "Battle of Bosworth Field",
                 "Henry VI [prompt on Henry]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "The title object of this painting had previously helped rescue the HMS <em>Victory</em> at the Battle of Trafalgar. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Fighting Temeraire tugged to her last berth to be broken up",
                 "J(oseph) M(allord) W(illiam) Turner",
                 "Tate [the Clore Gallery is in Tate Britain; also accept Tate Modern, Tate Liverpool or Tate St Ives]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "This person failed to achieve a third consecutive World Championship \u201cdistance double\u201d in 2017 after coming second to Muktar Edris. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mohamed Farah",
                 "10,000 meters [or 10K or 10 kilometers]",
                 "Usain Bolt"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "This poem declares, \u201cI prize thy love more than whole Mines of Gold, or All the riches that the East doth hold.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cTo My Dear and Loving Husband\u201d",
                 "Anne Bradstreet",
                 "Puritanism [prompt on Christianity or Protestantism]"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Peter Agre shared the 2003 Nobel Prize in Chemistry for his discovery of these structures, which have six transmembrane alpha helices. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "aquaporins",
                 "spinal cord [or spine]",
                 "autoimmune diseases [or autoimmune disorders]"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Tristan Tzara and Vladimir Lenin meet in Zurich in this author\u2019s play <em>Travesties</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tom Stoppard [or Tom\u00e1\u0161 Straussler]",
                 "Arcadia",
                 "a tortoise [or turtle; or terrapin]"
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "This author of the essay <em>What is Enlightenment?</em> was responsible for popularizing the term <em>a priori</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Immanuel Kant",
                 "hypothetical imperative",
                 "Critique of Pure Reason"
@@ -273,7 +273,7 @@
         },
         {
             "leadin": "This quantity is defined as the ratio of the shear stress to the strain rate, and its reciprocal is known as fluidity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "viscosity [accept dynamic viscosity or kinematic viscosity; prompt on mu, nu, or eta]",
                 "mass density [accept rho]",
                 "time [or t]"
@@ -288,7 +288,7 @@
         },
         {
             "leadin": "The president who gave this speech retreated to Camp David for a week before it to consult with a diverse group of prominent leaders from across the country. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cMalaise\u201d speech [accept \u201ccrisis of confidence\u201d speech before it is read]",
                 "Jimmy Carter",
                 "Iran Hostage Crisis"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "This woman was instructed to shake the trunk of a palm tree while giving birth. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mary [or Maryam; accept the Virgin Mary]",
                 "the Qur\u2019an [or Koran]",
                 "Theotokos"
@@ -317,7 +317,7 @@
         },
         {
             "leadin": "An epic poem written in this language recounts the tragedy of Rostam and Sohrab. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Persian [or Farsi]",
                 "Ferdowsi",
                 "a jug of wine [prompt on alcohol]"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "In a deceptive cadence, a dominant seventh chord resolves to a chord of this scale degree, leaving a \u201changing\u201d feeling in the listener. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "six [or sixth]",
                 "Ludwig Van Beethoven",
                 "piano sonata [prompt on sonata]"
@@ -347,7 +347,7 @@
         },
         {
             "leadin": "Ivan Turgenev popularized this archetype by writing a novella that purports to be the \u201cdiary\u201d of one of these people. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "superfluous man",
                 "Alexander Pushkin",
                 "verse [or verse novel]"
@@ -362,7 +362,7 @@
         },
         {
             "leadin": "This man dropped envelopes addressed to \u201cFriends of the Nazi Party\u201d and observed how many people put them in the mailbox in his \u201clost letter\u201d experiment. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Stanley Milgram",
                 "Yale University",
                 "personality"
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "This artist collaborated with Edward Steichen to open the gallery \u201c291\u201d out of Steichen\u2019s apartment. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Alfred Stieglitz",
                 "Georgia Totto O\u2019Keeffe",
                 "World War II [or the Second World War or WW2]"
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "During this war, a sniper known as the \u201cWhite Death\u201d became the deadliest individual soldier in history, killing 505 enemy soldiers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Winter War",
                 "Joseph Stalin [or Ioseb Jugashvili]",
                 "Carl Gustaf Emil Mannerheim [or Mannerheim Line]"
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "The Four Gods, K\u0101ne, K\u016b, Lono, and Kanaloa, command the religious pantheon of this place. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hawai\u2019i [or Hawaiian Islands]",
                 "Pele",
                 "M\u0101ui"

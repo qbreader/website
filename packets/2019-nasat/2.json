@@ -206,7 +206,7 @@
     "bonuses": [
         {
             "leadin": "Many Renaissance paintings employ the Droste effect, meaning that they contain smaller images of themselves. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cardinal Giacomo Gaetani Stefaneschi",
                 "Annunciation to the Blessed Virgin Mary",
                 "Jan van Eyck &lt;Arts Painting - Krol&gt;"
@@ -221,7 +221,7 @@
         },
         {
             "leadin": "Many Renaissance paintings employ the Droste effect, meaning that they contain smaller images of themselves. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cardinal Giacomo Gaetani Stefaneschi",
                 "Annunciation to the Blessed Virgin Mary",
                 "Jan van Eyck &lt;Arts Painting - Krol&gt;"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "Graham Spanier developed a Dyadic Adjustment Scale to assess the quality of this kind of social relation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "marriage",
                 "Claude L\u00e9vi-Strauss",
                 "affinal [or affine]  &lt;Social Science Anthropology - Kothari&gt;"
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "Graham Spanier developed a Dyadic Adjustment Scale to assess the quality of this kind of social relation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "marriage",
                 "Claude L\u00e9vi-Strauss",
                 "affinal [or affine]  &lt;Social Science Anthropology - Kothari&gt;"
@@ -264,7 +264,7 @@
         },
         {
             "leadin": "For a functional <em>L</em> of <em>x</em>, <em>y</em>, and <em>y</em> prime, this equation states that the <em>y</em> derivative of <em>L</em> is equal to the <em>x</em> derivative of the <em>y</em> prime derivative of <em>L</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Euler-Lagrange equation [prompt on Euler's equation or Lagrange's equation]",
                 "line",
                 "Euclidean distance [or Euclidean length]  &lt;Science Math - French&gt;"
@@ -279,7 +279,7 @@
         },
         {
             "leadin": "For a functional <em>L</em> of <em>x</em>, <em>y</em>, and <em>y</em> prime, this equation states that the <em>y</em> derivative of <em>L</em> is equal to the <em>x</em> derivative of the <em>y</em> prime derivative of <em>L</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Euler-Lagrange equation [prompt on Euler's equation or Lagrange's equation]",
                 "line",
                 "Euclidean distance [or Euclidean length]  &lt;Science Math - French&gt;"
@@ -294,7 +294,7 @@
         },
         {
             "leadin": "During the National Boycott of California Table Grapes, this woman met with Gloria Steinem to convince her to help get women to support the farmworkers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Dolores Huerta",
                 "Sacramento",
                 "El Teatro Campesino [prompt on Peasants' Theater or Farmworkers' Theater]  &lt;History American (1945-present) - French&gt;"
@@ -309,7 +309,7 @@
         },
         {
             "leadin": "During the National Boycott of California Table Grapes, this woman met with Gloria Steinem to convince her to help get women to support the farmworkers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Dolores Huerta",
                 "Sacramento",
                 "El Teatro Campesino [prompt on Peasants' Theater or Farmworkers' Theater]  &lt;History American (1945-present) - French&gt;"
@@ -324,7 +324,7 @@
         },
         {
             "leadin": "A characteristic example of these statements advises to \u201cSooner murder an infant in its cradle than nurse unacted desires.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Proverbs of Hell [prompt on proverbs]",
                 "The Marriage of Heaven and Hell",
                 "John Milton &lt;Literature British Non-Shakespeare - Smith&gt;"
@@ -339,7 +339,7 @@
         },
         {
             "leadin": "A characteristic example of these statements advises to \u201cSooner murder an infant in its cradle than nurse unacted desires.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Proverbs of Hell [prompt on proverbs]",
                 "The Marriage of Heaven and Hell",
                 "John Milton &lt;Literature British Non-Shakespeare - Smith&gt;"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "The last of Vivaldi's opus 1 trio sonatas is a set of variations on this theme. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "La Folia [or folies d'Espagne; or Follies of Spain; or Spanish Follies]",
                 "three [accept triple meter]",
                 "Luigi Boccherini &lt;Arts Music - Smith&gt;"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "The last of Vivaldi's opus 1 trio sonatas is a set of variations on this theme. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "La Folia [or folies d'Espagne; or Follies of Spain; or Spanish Follies]",
                 "three [accept triple meter]",
                 "Luigi Boccherini &lt;Arts Music - Smith&gt;"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "In 2018, a group at MIT found unconventional superconductivity in a twisted bilayer form of this material. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "graphene",
                 "magic angle",
                 "bands  &lt;Science Physics - Mitchell&gt;"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "In 2018, a group at MIT found unconventional superconductivity in a twisted bilayer form of this material. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "graphene",
                 "magic angle",
                 "bands  &lt;Science Physics - Mitchell&gt;"
@@ -414,7 +414,7 @@
         },
         {
             "leadin": "In one poster, this figure says \u201cGood material waste in scrap help to saving face for Jap.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tokio Kid",
                 "Hideki Tojo or Tojo Hideki",
                 "Doctor Seuss [or Theodor Seuss Geisel]  &lt;History American (1865-1945) - French&gt;"
@@ -429,7 +429,7 @@
         },
         {
             "leadin": "In one poster, this figure says \u201cGood material waste in scrap help to saving face for Jap.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tokio Kid",
                 "Hideki Tojo or Tojo Hideki",
                 "Doctor Seuss [or Theodor Seuss Geisel]  &lt;History American (1865-1945) - French&gt;"
@@ -444,7 +444,7 @@
         },
         {
             "leadin": "In this story, the title character has a heart attack in his hotel room in Capri at the end of a world tour with his family. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cThe Gentleman from San Francisco\u201d",
                 "Babylon",
                 "Stephen Vincent Benet &lt;Literature American - Santanam&gt;"
@@ -459,7 +459,7 @@
         },
         {
             "leadin": "In this story, the title character has a heart attack in his hotel room in Capri at the end of a world tour with his family. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cThe Gentleman from San Francisco\u201d",
                 "Babylon",
                 "Stephen Vincent Benet &lt;Literature American - Santanam&gt;"
@@ -474,7 +474,7 @@
         },
         {
             "leadin": "Stephen Toulmin and Allan Janik argued that this philosopher was influenced not just by logicians like Gottlob Frege and Bertrand Russell, but also by the cultural climate of his native Vienna. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ludwig Wittgenstein [or Ludwig Josef Johann Wittgenstein]",
                 "logical positivism [or logical empiricism; prompt on partial answer]",
                 "Paul Karl Feyerabend &lt;RMP Philosophy/Thought - Kothari&gt;"
@@ -488,7 +488,7 @@
         },
         {
             "leadin": "Stephen Toulmin and Allan Janik argued that this philosopher was influenced not just by logicians like Gottlob Frege and Bertrand Russell, but also by the cultural climate of his native Vienna. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ludwig Wittgenstein [or Ludwig Josef Johann Wittgenstein]",
                 "logical positivism [or logical empiricism; prompt on partial answer]",
                 "Paul Karl Feyerabend &lt;RMP Philosophy/Thought - Kothari&gt;"
@@ -502,7 +502,7 @@
         },
         {
             "leadin": "This country's namesake \u201cSmall Tool Tradition\u201d refers to the prehistoric finely finished flake tools discovered throughout it. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Australia",
                 "dingo",
                 "Rainbow Serpent [or Rainbow Snake, accept Wagyl]  &lt;History World - French&gt;"
@@ -516,7 +516,7 @@
         },
         {
             "leadin": "This country's namesake \u201cSmall Tool Tradition\u201d refers to the prehistoric finely finished flake tools discovered throughout it. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Australia",
                 "dingo",
                 "Rainbow Serpent [or Rainbow Snake, accept Wagyl]  &lt;History World - French&gt;"
@@ -530,7 +530,7 @@
         },
         {
             "leadin": "Answer the following about the origin of place names in Greek myth. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Delphi",
                 "Thebes",
                 "Tros &lt;RMP Greek/Roman Myth - Jankov&gt;"
@@ -544,7 +544,7 @@
         },
         {
             "leadin": "Answer the following about the origin of place names in Greek myth. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Delphi",
                 "Thebes",
                 "Tros &lt;RMP Greek/Roman Myth - Jankov&gt;"
@@ -558,7 +558,7 @@
         },
         {
             "leadin": "This quantity is related to the radius of a particle via the Stokes-Einstein relation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "diffusion coefficient [or mass diffusivity; prompt on partial answer]",
                 "Brownian motion",
                 "dynamic light scattering [accept DLS]  &lt;Science Chemistry - French&gt;"
@@ -573,7 +573,7 @@
         },
         {
             "leadin": "This quantity is related to the radius of a particle via the Stokes-Einstein relation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "diffusion coefficient [or mass diffusivity; prompt on partial answer]",
                 "Brownian motion",
                 "dynamic light scattering [accept DLS]  &lt;Science Chemistry - French&gt;"
@@ -588,7 +588,7 @@
         },
         {
             "leadin": "Even Maoism can invoke nostalgia. Identify the following about this trend, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "canal [or artificial waterway]",
                 "Chairman Mao pin [or Chairman Mao badge]",
                 "Hunan &lt;Geography World - Bentley&gt;"
@@ -603,7 +603,7 @@
         },
         {
             "leadin": "This collection opens with a poem whose speaker fails to find the right words for a poem to tell a woman he loves her, only to be told by his Muse, \u201cFool, look in thy heart, and write.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Astrophil and Stella [or Astrophel and Stella]",
                 "Sir Philip Sidney",
                 "Percy Bysshe Shelley &lt;Literature British Non-Shakespeare - McCullar&gt;"
@@ -618,7 +618,7 @@
         },
         {
             "leadin": "This collection opens with a poem whose speaker fails to find the right words for a poem to tell a woman he loves her, only to be told by his Muse, \u201cFool, look in thy heart, and write.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Astrophil and Stella [or Astrophel and Stella]",
                 "Sir Philip Sidney",
                 "Percy Bysshe Shelley &lt;Literature British Non-Shakespeare - McCullar&gt;"
@@ -633,7 +633,7 @@
         },
         {
             "leadin": "This event was partially stocked by the environmental concerns of mining as part of the Phosphorite War. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Singing Revolution",
                 "Estonia",
                 "form a human chain [accept equivalents, descriptive answers]  &lt;History European 1914-present - Hawkins&gt;"
@@ -648,7 +648,7 @@
         },
         {
             "leadin": "This event was partially stocked by the environmental concerns of mining as part of the Phosphorite War. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Singing Revolution",
                 "Estonia",
                 "form a human chain [accept equivalents, descriptive answers]  &lt;History European 1914-present - Hawkins&gt;"
@@ -663,7 +663,7 @@
         },
         {
             "leadin": "In this play, Hansy Rilow <strong>(Ree-lov)</strong> compares himself to Othello and Bluebeard upon burning a pornographic book. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Spring Awakening [accept Fruhlings Erwachen or Spring's Awakening]",
                 "Ted Hughes",
                 "Jonathan Franzen &lt;Literature European - Myers&gt;"
@@ -678,7 +678,7 @@
         },
         {
             "leadin": "In this play, Hansy Rilow <strong>(Ree-lov)</strong> compares himself to Othello and Bluebeard upon burning a pornographic book. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Spring Awakening [accept Fruhlings Erwachen or Spring's Awakening]",
                 "Ted Hughes",
                 "Jonathan Franzen &lt;Literature European - Myers&gt;"
@@ -693,7 +693,7 @@
         },
         {
             "leadin": "The <em>thermocellum</em> species in this genus is currently being investigated for its ability to metabolize cellulose into ethanol. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Clostridium",
                 "synaptic vesicles",
                 "LD 50 [prompt on median lethal dose]  &lt;Science Biology - Mitchell&gt;"
@@ -708,7 +708,7 @@
         },
         {
             "leadin": "The <em>thermocellum</em> species in this genus is currently being investigated for its ability to metabolize cellulose into ethanol. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Clostridium",
                 "synaptic vesicles",
                 "LD 50 [prompt on median lethal dose]  &lt;Science Biology - Mitchell&gt;"
@@ -723,7 +723,7 @@
         },
         {
             "leadin": "This opera popularized the use of the whole-tone scale to represent evil in its home country; the scale has since been called \u201cChernomor's Scale.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ruslan and Lyudmila",
                 "Nikolai Andreyevich Rimsky-Korsakov",
                 "Sadko &lt;Arts Opera - Smith&gt;"
@@ -738,7 +738,7 @@
         },
         {
             "leadin": "This opera popularized the use of the whole-tone scale to represent evil in its home country; the scale has since been called \u201cChernomor's Scale.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ruslan and Lyudmila",
                 "Nikolai Andreyevich Rimsky-Korsakov",
                 "Sadko &lt;Arts Opera - Smith&gt;"
@@ -753,7 +753,7 @@
         },
         {
             "leadin": "Genesis 11:7, which is a part of the narrative of the construction of this structure, is sometimes given as scriptural support for the Trinity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tower of Babel [or Migdal Bavel]",
                 "Siloam [accept Pool of Siloam]",
                 "Book of Judges [or Sefer Shoftim]  &lt;RMP Christian/Bible Religion - Suh&gt;"
@@ -767,7 +767,7 @@
         },
         {
             "leadin": "Genesis 11:7, which is a part of the narrative of the construction of this structure, is sometimes given as scriptural support for the Trinity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tower of Babel [or Migdal Bavel]",
                 "Siloam [accept Pool of Siloam]",
                 "Book of Judges [or Sefer Shoftim]  &lt;RMP Christian/Bible Religion - Suh&gt;"
@@ -781,7 +781,7 @@
         },
         {
             "leadin": "The author described this set of poems as \u201cthe thin gleanings of a long weary while\u201d to Robert Bridges. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "terrible sonnets [or the sonnets of desolation]",
                 "Gerard Manley Hopkins",
                 "\u201cThe Wreck of the Deutschland\u201d  &lt;Literature British Non-Shakespeare - Smith&gt;"
@@ -796,7 +796,7 @@
         },
         {
             "leadin": "The author described this set of poems as \u201cthe thin gleanings of a long weary while\u201d to Robert Bridges. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "terrible sonnets [or the sonnets of desolation]",
                 "Gerard Manley Hopkins",
                 "\u201cThe Wreck of the Deutschland\u201d  &lt;Literature British Non-Shakespeare - Smith&gt;"

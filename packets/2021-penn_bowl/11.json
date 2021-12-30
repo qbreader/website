@@ -122,7 +122,7 @@
     "bonuses": [
         {
             "leadin": "According to the weak equivalence principle, a body undergoing this type of motion generates trajectories that are independent of the body\u2019s composition. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "free fall",
                 "Lor\u00e1nd E\u00f6tv\u00f6s (\u201cut-vush\u201d)",
                 "air resistance [or drag; prompt on friction] "
@@ -137,7 +137,7 @@
         },
         {
             "leadin": "This thinker analyzed the emotional labor that immigrant women perform in taking on tasks like child-rearing in an essay from her book Global Woman. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Arlie Russell Hochschild",
                 "Tea Party movement [prompt on populism or conservatism]",
                 "gender wage gap [or the gender pay gap; accept descriptions of \u201cwomen earning less than men\u201d or the \u201cratio of women\u2019s to men\u2019s earnings\u201d] "
@@ -152,7 +152,7 @@
         },
         {
             "leadin": "Performers of one instrument use a simple \u201cbounce\u201d variety of this technique that keeps in time with an accompanying bilma, or clapstick. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "circular breathing [prompt on breathing until read]",
                 "didgeridoo",
                 "duduk [or tsiranapogh] "
@@ -167,7 +167,7 @@
         },
         {
             "leadin": "Victims of these kinds of events were gathered together at Skyland Mountain and the Ruskin Dam to be killed. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "alien abduction [or equivalents]",
                 "The X-Files",
                 "C. G. B. Spender [or Cancer Man; or Cigarette Smoking Man; or CSM] "
@@ -182,7 +182,7 @@
         },
         {
             "leadin": "During this event, a planned evacuation of black workers was vetoed by LeRoy Percy after the planter class worried the workers might not come back if permitted to leave. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Great Mississippi Flood of 1927",
                 "Calvin Coolidge",
                 "NAACP [or National Association for the Advancement of Colored People] "
@@ -197,7 +197,7 @@
         },
         {
             "leadin": "The author of this novel was blasted on Twitter for getting a manicure of a barbed wire pattern, inspired by this book\u2019s cover. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "American Dirt",
                 "Florida (The play is Anna in the Tropics.)",
                 "The Grapes of Wrath "
@@ -212,7 +212,7 @@
         },
         {
             "leadin": "In the \u201cAuthor\u2019s Apology\u201d that precedes this play, the author discusses accusations that it is indecent and advocated for prostitution. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mrs. Warren\u2019s Profession",
                 "George Bernard Shaw",
                 "the \u201cPlays Unpleasant\u201d "
@@ -227,7 +227,7 @@
         },
         {
             "leadin": "The longstanding problem of why this region is so much hotter than the Sun\u2019s surface inspired Hannes Alfv\u00e9n\u2019s (\u201call-VANE\u2019s\u201d) work in developing magnetohydrodynamics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "corona",
                 "magnetic Reynolds number [or Lundquist number]",
                 "fourth power [or 4th power] "
@@ -242,7 +242,7 @@
         },
         {
             "leadin": "Despite being \u201cthe greatest generalization achieved by the human mind,\u201d one of this thinker\u2019s principles is argued to be a \u201cceteris paribus law\u201d in Nancy Cartwright\u2019s How the Laws of Physics Lie. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Isaac Newton",
                 "Emilie du Ch\u00e2telet",
                 "principle of sufficient reason [or PSR] "
@@ -257,7 +257,7 @@
         },
         {
             "leadin": "In 1897, this woman moved to Java, where her brief marriage to the abusive army captain Rudolph MacLeod ended shortly after the death of their young son Norman, possibly poisoned by a housekeeper. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mata Hari [accept Margaretha Geertruida Zelle; prompt on Margaretha Geertruida MacLeod]",
                 "France [or French Republic; accept R\u00e9publique fran\u00e7aise]",
                 "the Alice Network [accept the Alice Ring, or any other answer mentioning Alice] "
@@ -272,7 +272,7 @@
         },
         {
             "leadin": "Leonardo wrote several treatises in preparation for a colossal sculpture depicting this artistic subject; that sculpture was never completed after the seventy tons of bronze needed were used to build cannons instead. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "horses [or equestrian art; prompt on riders or soldiers by asking \u201cwhat animal are they riding?\u201d; prompt on battles or fights by asking \u201cwhat creatures are involved in the fight?\u201d] (The painting is Leonardo da Vinci\u2019s The Battle of Anghiari.)",
                 "Milan, Italy",
                 "Virgin of the Rocks [or Madonna of the Rocks; accept anything with Virgin or Madonna and rocks] "
@@ -287,7 +287,7 @@
         },
         {
             "leadin": "The protagonist of this story is locked in a crystal bottle by the archivist Lindhorst after he accidentally spills ink while copying a manuscript. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Golden Pot [or Der goldne Topf]",
                 "fairy tales [or m\u00e4rchen; prompt on folk tales or folklore]",
                 "apples [or apfel; prompt on fruit] "
@@ -302,7 +302,7 @@
         },
         {
             "leadin": "Huitzilopochtli (\u201cweet-SEE-luh-poach-tlee\u201d) killed his sister Coyolxauhqui (\u201ckoh-yohl-SHAO-kee\u201d) and consumed one of these objects belonging to her, leading to the tradition of them being removed from captives at a temple to her. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "hearts",
                 "serpents [or snakes; accept feathered serpent]",
                 "Xipe Totec "
@@ -317,7 +317,7 @@
         },
         {
             "leadin": "The Simmons\u2013Smith reaction produces a ring with this many atoms. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "three",
                 "carbenes",
                 "Wurtz reaction [accept Wurtz\u2013Fittig reaction] "
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "Nala demonstrates his expertise in this activity by instantly counting the 2,195 nuts on a vibhitaka tree. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "game of dice [prompt on gambling]",
                 "the Rigveda [prompt on the vedas]",
                 "hymns "
@@ -347,7 +347,7 @@
         },
         {
             "leadin": "This leader organized a punctuality contest in his country whose grand prize, a 60-thousand-dollar villa, was won by a man nicknamed \u201cMr. White Man\u2019s Time.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Laurent Gbagbo",
                 "International Monetary Fund [or IMF]",
                 "Sudan "
@@ -362,7 +362,7 @@
         },
         {
             "leadin": "This opera features the aria \u201cSon lo spirito che nega sempre,\u201d at the end of which the title character puts his fingers in his mouth and loudly whistles along to the strings\u2019 concluding melody. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mefistofele",
                 "Giuseppe Verdi",
                 "Otello "
@@ -377,7 +377,7 @@
         },
         {
             "leadin": "The Aramaic term Ramsha denotes an evening service beginning at 6:00 p.m. for Syriac Christians, which is an Eastern analogue of these services. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Vespers [accept Great, Daily, or Small Vespers]",
                 "candles",
                 "All Saints\u2019 Day [or All Hallows\u2019 Day; or Feast of All Saints; or Solemnity of All Saints] "
@@ -392,7 +392,7 @@
         },
         {
             "leadin": "Samuel Johnson defensively declared that \u201cpatriotism is the last refuge of a scoundrel\u201d in the aftermath of this event, which Horace Walpole stated was centered on a \u201cmorsel of rock.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Falklands Crisis of 1770 [accept the Spanish capture of the Falklands; prompt on the capture of the Falkland Islands from Great Britain]",
                 "Lord North [accept Frederick North, 2nd Earl of Guilford; prompt on the Earl of Guilford] (That defeat was Yorktown.)",
                 "Treaty of Paris (1783) [accept The Definitive Treaty of Peace Between the Kingdom of Great Britain and the United States of America] "
@@ -407,7 +407,7 @@
         },
         {
             "leadin": "Barbara McClintock first described how these genetic sequences cause color patterning in maize. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "transposons [or transposable elements; or jumping genes]",
                 "P elements",
                 "mutation rate [prompt on mu] "

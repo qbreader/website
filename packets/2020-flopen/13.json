@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "Modern scholarship on the early historiographical writings of this dynasty has resulted in a shifting away from certain nomenclature for royal titles. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tang dynasty",
                 "temple names [accept miao hao, mieu hieu, or myoho]",
                 "being retired [accept word forms; accept abdicated since historians note that this was commonly done if abdication happened, but not always; reject \u201cdead\u201d or equivalents] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "The simplest way to create states named for this physicist is to run a computational basis state through a Hadamard transform followed by a CNOT (\u201cC-not\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "John Stuart Bell [accept Bell states; accept Bell pairs; accept Bell\u2019s theorem]",
                 "superdense coding",
                 "transpose [accept word forms like transposing or transposition] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "One of these locations on Boylston Street in Boston features a glass spiral staircase, while the one near the Burj Khalifa has windows made out of carbon fiber rods that open when temperature rises. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Apple stores [prompt on electronics stores; reject \u201cApple Park\u201d]",
                 "Norman Foster [or Norman Robert Foster, Baron Foster of Thames Bank]",
                 "Jony Ive [accept Sir Jonathan Paul Ive] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "Two widows have a rivalry that blossoms into a friendship in this city in Yewande Omotoso\u2019s novel The Woman Next Door. For 10 point each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cape Town, South Africa",
                 "United Kingdom [accept England or Scotland; accept Great Britain]",
                 "Disgrace (by J. M. Coetzee) "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "In 2016, the Chief Rabbinate of Israel allowed these people to bathe in a mikveh without an attendant after a failure to follow 2013 directives. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jewish women [accept females; accept girls]",
                 "sheitel (\u201cShay-tul\u201d or \u201cSHY-tull\u201d) [or pei\u2019ah; reject \u201ctichel\u201d, \u201cmitpachat\u201d, \u201cshpitzel\u201d, or \u201cShtisel\u201d; if pronunciation is unclear, ask the player to spell their answer]",
                 "minyan [or minyan\u00edm] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "One painting by this artist depicts a Black man in a black and white bandana and Timberland boots riding a horse. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Kehinde Wiley",
                 "Barack Obama [or Barack Hussein Obama II]",
                 "Amy Sherald "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "The protagonist of this novel gives her so-called boyfriend \u201cfeed\u201d rather than \u201cfood\u201d while he watches movies and listens to music on a tablet in her bathtub all day. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Convenience Store Woman [or Konbini ningen]",
                 "John Updike",
                 "\u201cA Clean, Well-Lighted Place\u201d (by Ernest Hemingway) "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "Standard analysis of chemical vapor deposition divides the overall technique into two main processes and calculates the film growth rate by setting each process\u2019s expression for this quantity equal to each other. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "diffusion flux [or diffusive flux]",
                 "adsorption [reject \u201cabsorption\u201d]",
                 "boundary layer thickness [prompt on delta; prompt on thickness by asking \u201cof what?\u201d] (That is the Blasius solution.) "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "In a work on the intellectual history of these institutions, Albert Hirschman documents the change from the 18th-century view that they were civilizing to the 19th-century view that they were destructive. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "markets [accept market society, accept \u201cRival Interpretations of Market Society: Civilizing, Destructive, or Feeble?\u201d; accept What Money Can\u2019t Buy: The Moral Limits of Markets]",
                 "John Tomasi",
                 "original position [accept veil of ignorance] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "This organization is the subject of a 2020 book by CUNY professor Johanna Fern\u00e1ndez. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Young Lords Organization [or YLO; accept Young Lords Party]",
                 "Puerto Rico [or Commonwealth of Puerto Rico; or PR]",
                 "sanitation services [accept descriptions of solid waste collection, garbage collection, or trash pickup] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Notes played with this technique are notated with diamond shaped heads. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "string harmonics [accept artificial harmonics; accept natural harmonics]",
                 "perfect fourth [accept touch-fourth harmonic]",
                 "Miguel Llobet (\u201cyoo-BET\u201d) [or Miguel Llobet Sol\u00e9s] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "The explorer Zheng He credits \u201cdivine lanterns\u201d sent by this goddess with calming typhoons, allowing for his safe voyages. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mazu [accept Lin Moniang; accept Tin Hau]",
                 "turtle [accept tortoise; accept gu\u012b] AND snake [or serpent; accept sh\u00e9]",
                 "Yellow river [or Huang He] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "A character with this surname writes that \u201cDeath was not better than D minus, but definitely better than Life minus D\u201d in a French exam paper described as a \u201cpassport to a casual Elysium.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Vane [accept Sybil Vane or Cynthia Vane; accept \u201cThe Vane Sisters\u201d]",
                 "Vladimir Nabokov",
                 "barber [or hairdresser; accept The Barber of Seville; prompt on servant] (The Nabokov story is \u201cRazor.\u201d) "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "SK Group and Hyundai Kia Automotive Group are among the beneficiaries of this country\u2019s system of \u201cguided capitalism.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "South Korea [or Republic of Korea or ROK or Taehan-minguk or Hanguk; prompt on Korea; reject \u201cDemocratic People\u2019s Republic of Korea\u201d or \u201cDPRK\u201d]",
                 "Lee Jae-yong [or Jay Y. Lee]",
                 "LG Corporation [accept Lucky-Goldstar; accept Leogki Geumseong] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "W. T. Stead\u2019s Pall Mall Gazette ran the headline \u201cTOO LATE!\u201d to lament the death of this general. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charles George \u201cChinese\u201d Gordon [accept Gordon Pasha]",
                 "Muhammad Ahmad bin Abd Allah [accept the Mahdi]",
                 "Battle of Abu Klea [accept Battle of Abu T\u0345ulei\u0127] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "A 1934 paper by Abba Lerner claims that a formula it proposes for measuring this concept in monopolies is actually an \u201cindex of divergence from an optimum.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "market power [accept monopoly power]",
                 "SSNIP test [accept small but significant and non-transitory increase in price; prompt on partial answer]",
                 "elasticity [accept dmean elasticity; prompt on slope of the demand curve] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Because plant cells lack a well-defined organizing center of these structures, the formation of them occurs in several diffuse sites. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "microtubules [accept MTs]",
                 "bipolarity [or bipolar; accept any answer indicating the spindle is polarized]",
                 "gamma-tubulin ring complex [accept gammaTuRC] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "Answer these questions about British kings possibly killed by crossbows, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Richard I [or Richard the Lionhearted; or Richard C\u0153ur de Lion; prompt on Richard]",
                 "Edmund Ironside [accept Edmund II; prompt on Edmund]",
                 "Kenneth [accept Kenneth I; accept Kenneth II; accept Kenneth MacAlpin] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "In a poem, this being performs the first cesarean section on a woman after her husband summons it by burning a special feather. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Simurgh [or Simorgh; or Simorq; or Simourv; reject \u201cHoma\u201d or \u201cHuma\u201d] (The former text is Ferdowsi\u2019s Shahnameh; the name \u201cSimurgh\u201d can be literally translated as \u201c30 birds.\u201d)",
                 "hoopoe [or hudhud; or hodhod; or popo]",
                 "Persian [or Farsi] "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "Answer the following about black swans in the literal sense, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Australia [or Commonwealth of Australia]",
                 "Devon [or Devonshire; or Dewnens]",
                 "Bruges [or Brugge] "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "Answer the following about films discussed in \u201cDangerous, Divine, and Marvellous,\u201d Andrew Tudor\u2019s essay on radical political films of the 1960s. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Agn\u00e8s Varda",
                 "Black God, White Devil [or Deus e o Diabo na Terra do Sol]",
                 "Z "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "Welcome to the chemistry deli! Answer the following about metallocene sandwich compounds, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "uranocene",
                 "d [or 6d] AND f [or 5f]",
                 "olefins [or alkenes] "

@@ -118,7 +118,7 @@
     "bonuses": [
         {
             "leadin": "This foodstuff is the basis of <em>kadhi</em>, <em>lassi</em>, and <em>raita</em> (\u201cRYE-tuh\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "yogurt [or curd]",
                 "panipuri [or paani ke patashe; or fulki; or phuchka; or pakodi; or gup chup]",
                 "tamarind &lt;AP, Other Arts (Food)&gt;"
@@ -133,7 +133,7 @@
         },
         {
             "leadin": "In one essay, this engineer described the \u201cmemex\u201d (\u201cMEM-ex\u201d), an ultra-compressed encyclopedia that somewhat presages the Internet. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Vannevar Bush",
                 "Claude Shannon",
                 "frequency &lt;JC, Other Science (Engineering)&gt;"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "In a section on this campaign, Orderic Vitalis wrote \u201cI can say nothing good about this brutal slaughter. God will punish him.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Harrying of the North",
                 "William the Conqueror [or William I; or William the Bastard; prompt on William]",
                 "Malcolm &lt;NR, European History&gt;"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "In a novel by a man who was once this type of person, he describes using drugs like \u201cbrown-brown\u201d and \u201cwhite pills.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "child soldier [accept equivalents]",
                 "The Bite of the Mango",
                 "Half of a Yellow Sun &lt;MT, World Literature&gt;"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "A salesman of this product hired a man to call him \u201cYour Royal Highness\u201d in traveling shows and claimed that his family was killed by an angry tribe of Himalayan yak herders who made him their prince. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "patent medicine [or nostrum; accept fake medicine or equivalents; prompt on medicine; anti-prompt (i.e., ask \u201ccan you be less specific?\u201d) on snake oil]",
                 "Chicago World\u2019s Fair [or World\u2019s Columbian Exposition; or 1893 World\u2019s Fair]",
                 "Coca-Cola [or Coke] &lt;JC, American History&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "A work in this movement by Audrey Flack, <em>Wheel of Fortune</em>, is a modern memento mori, including tarot cards, lipstick, and a skull. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "photorealism [or hyperrealism; or superrealism; do not accept or prompt on \u201crealism\u201d]",
                 "Chuck Close [or Charles Thomas Close]",
                 "diner [prompt on restaurant or cafe or equivalents] &lt;JC, Painting&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "In one epic, this character\u2019s wife says that Emperor Hugo is better-looking than him, so he goes to visit Hugo in his fancy rotating palace on a pole. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charlemagne",
                 "Roland",
                 "Ganelon &lt;JC, Mythology&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "The strongest known superacid consists of hydrogen, antimony, and this element. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "fluorine [or F]",
                 "etching [accept more specific answers, like wet etching, dry etching, reactive ion etching, plasma etching]",
                 "Edmond Fr\u00e9my &lt;AP, Chemistry&gt;"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "The title character of this novel is described as \u201ca nobleman, more remarkable for his singularities, than his rank\u201d who has a \u201cdead grey eye.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Vampyre",
                 "Frankenstein; or, a Modern Prometheus",
                 "Elizabeth Lavenza [accept either name] &lt;MT, British Literature&gt;"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "Reasons for this conflict include differences over who should be the leader of the Christian Church and whether leavened or unleavened bread should be used for the Eucharist. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Great Schism [or East-West Schism; or Schism of 1054]",
                 "Leo IX [or Bruno of Egisheim-Dagsburg; prompt on Leo]",
                 "Second Vatican Council [or Vatican II] &lt;AJ, European History&gt;"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "This company\u2019s CEO Fredrik Wester got his start in the gaming industry by selling pirated games with his brother in his teens. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Paradox Interactive [or Paradox Development Studio]",
                 "Europa Universalis IV [or EU4; prompt on partial answer]",
                 "Victoria II [or Victoria: An Empire Under the Sun; or \u201cVicky 2\u201d] &lt;NR, Trash (Video Games)&gt;"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "Joseph LeDoux theorized that this structure has a high and low pathway, which allows some stimuli to travel straight to this structure from the thalamus without stopping in the cortex. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "amygdala",
                 "prefrontal cortex [or PFC; prompt on frontal lobe]",
                 "Kluver\u2013Bucy syndrome &lt;MT, Biology&gt;"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "The title character of this novel is able to see colorful geometric shapes when she focuses on the movement of elevators. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Intuitionist",
                 "Colson Whitehead",
                 "Caesar [or Julius Caesar; prompt on Julius] &lt;JC, American Literature&gt;"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "A gauge (\u201cgayj\u201d) named for this quantity contains a Wheatstone bridge whose resistance varies with force. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "strain",
                 "Augustin-Louis Cauchy (\u201ckoh-SHEE\u201d)",
                 "Mohr\u2019s circle &lt;AP, Physics&gt;"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "This man wrote a study of Kikuyu society titled <em>Facing Mount Kenya</em> that supported female genital mutilation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jomo Kenyatta",
                 "Bronislaw Malinowski",
                 "Edmund Leach &lt;MT, Social Science (Anthropology)&gt;"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "During this man\u2019s rule, families had to pay a tax known as the \u201cwasted bullet\u201d to kebele (\u201ckuh-bay-lay\u201d) militias to receive the bodies of their relatives. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mengistu Haile Mariam",
                 "Ethiopia",
                 "Ogaden War &lt;AJ, World History&gt;"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "Answer the following about comparative philosophy, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Philosophy East and West",
                 "Dao [or Daoism; or Taoism]",
                 "Laozi (\u201cLAO-tsuh\u201d) [or Lao-Tze; do not accept or prompt on \u201cZhuangzi\u201d] &lt;JK, Philosophy&gt;"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "This work urges the reader to develop \u201cdiscernment,\u201d the ability to distinguish between good and evil \u201cspirits,\u201d by performing the namesake practices for 30 days. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Spiritual Exercises [or Exercitia spiritualia]",
                 "Jesuits [or Society of Jesus; or Societas Jesu]",
                 "examen [prompt on examination of conscience] &lt;JC, Religion&gt;"
@@ -383,7 +383,7 @@
         },
         {
             "leadin": "In a short story that takes place in this city, mustaches are described as something \u201cto which the better part of a life has been devoted.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "St.\u00a0Petersburg",
                 "\u201cNevsky Prospekt\u201d",
                 "Nikolai Vasilievich Gogol &lt;LC, European Literature&gt;"
@@ -398,7 +398,7 @@
         },
         {
             "leadin": "Two politicians in this opera exchange insults in alphabetical order and teach prince Go-go to ride a rocking-horse, and scenes in this opera open with car horns, doorbells, and alarm clocks. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Le Grand Macabre",
                 "Gy\u00f6rgy Ligeti",
                 "Richard Strauss &lt;JC, Music&gt;"

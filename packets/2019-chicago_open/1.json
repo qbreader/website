@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "The speaker mocks these people because they \u201cmist a mirror\u201d and then complain \u201cthat it\u2019s not clear.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "men [or hombres; or \u201cFoolish Men\u201d; \u201cYou Foolish Men\u201d; or \u201cHombres necios\u201d]",
                 "Sor Juana In\u00e9s de la Cruz [or Juana In\u00e9s de Asbaje y Ram\u00edrez]",
                 "autos sacramentales &lt;Literature - Other/World&gt;"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "Efix takes pride in serving the impoverished Pintor sisters in a novel set on this island, <em>Reeds in the Wind</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sardinia",
                 "verismo [prompt on realism]",
                 "Eleonora Duse [DOO-zay] [or La Duse] &lt;Literature - European&gt;"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "An exponent equal to \u201cthe square root of 73, minus 7, all over 6\u201d appears in the approximate solution to this equation that tends asymptotically to \u201c144 over <em>x</em>-cubed\u201d. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Thomas\u2013Fermi equation",
                 "metals",
                 "Fermi\u2013Dirac distribution &lt;Science - Physics&gt;"
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "This monarch\u2019s son Henrique ended up as Bishop of Utica during the papacy of Leo X. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Afonso I of Kongo [prompt on Afonso; accept Mvemba a Nzinga or Nzinga Mbemba]",
                 "Kingdom of Portugal [or Reino de Portugal]",
                 "Antonianism [or Antonines] &lt;History - Other/World&gt;"
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "Shortly after defining war as \u201ccapitalism with the gloves off,\u201d a character chants this word while the protagonist quietly chants \u201cWe\u2019re here because we\u2019re here\u2026because we\u2019re here because we\u2019re here.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cDada\u201d",
                 "Travesties",
                 "limericks [prompt on rhymes, verses, meter, or poetry] &lt;Literature - British&gt;"
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "Nathaniel Hawthorne likely based the character of Hilda in <em>The Marble Faun</em> on this sculptor. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Harriet (Goodhue) Hosmer",
                 "The Greek Slave",
                 "Medusa &lt;Arts - Visual&gt;"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "The <em>negation</em> of this problem is a canonical example of a problem in the complexity class IP, which consists of problems solvable by an interactive proof system. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "graph isomorphism problem [or GI; or ISO; accept answers that mention determining whether two graphs are isomorphic to each other]",
                 "NP [or NPTIME; or nondeterministic polynomial time]",
                 "PRIMES [or primality test; accept any answer about determining whether a number is prime; do not accept or prompt on \u201cprime factorization,\u201d which is a harder problem] &lt;Science - Other&gt;"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "This man advocated for protectionism as a means for developing industry in his <em>The National System of Political Economy</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "(Georg) Friedrich List",
                 "Henry Clay Sr.",
                 "Francis Lieber [or Franz Lieber] &lt;History - American&gt;"
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "This thinker used the term \u201cgreedy\u201d to describe institutions that seek \u201cexclusive and undivided loyalty.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Lewis A(lfred) Coser",
                 "Georg Simmel",
                 "collective memory [or memoire collective] &lt;Social Science&gt;"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "This civilization usually used a trapezoidal building shape, with trapezoidal windows and doors. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Incan Empire [or Tawantinsuyu; prompt on Andean Civilization]",
                 "Tiwanaku [or Tiahuanaco]",
                 "bridges [accept suspension bridges; accept Forth Rail Bridge or Millennium Bridge] &lt;Arts - Audiovisual, Other&gt;"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "This theory\u2019s namesake parameter \u201cchi\u201d describes the energy of interactions between molecules and solvents. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Flory\u2013Huggins solution theory",
                 "polymers",
                 "Pierre-Gilles de Gennes &lt;Science - Chemistry&gt;"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "This system is named after the right of certain clergy members to a portion of revenues from their cathedral\u2019s estate. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "prebendalism",
                 "Northwestern University",
                 "Republic of Uganda [or Jamhuri ya Uganda] &lt;Modern World&gt;"
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "Members of this ethnicity formed a 300-year confederation with the Cumans, with whom they are sometimes identified. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Kipchaks [or the Polovtsians; prompt on Turkic]",
                 "Mamluk Sultanate",
                 "an-Nasir Muhammad [or al-Malik an-Nasir Nasir ad-Din Muhammad ibn Qalawun; do not accept or prompt on \u201cQalawun,\u201d who is this person\u2019s father] &lt;History - Mediterranean+&gt;"
@@ -313,7 +313,7 @@
         },
         {
             "leadin": "The monoclonal antibody trastuzumab blocks the HER2 receptor to treat this disease. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "breast cancer [prompt on partial answer]",
                 "tamoxifen [or tamoxifen citrate; or Soltamox; or Nolvadex]",
                 "Million Women Study [or MWS] &lt;Science - Biology&gt;"
@@ -328,7 +328,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the early American classroom:",
-            "answers_sanitized": [
+            "answers": [
                 "Noah Webster Jr.",
                 "The Columbian Orator",
                 "Catharine (Esther) Beecher &lt;Mythology and Other&gt;"
@@ -343,7 +343,7 @@
         },
         {
             "leadin": "This story was originally called \u201cMine,\u201d but was given a new title by Gordon Lish. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cPopular Mechanics\u201d [or \u201cLittle Things\u201d]",
                 "Raymond (Clevie) Carver, Jr.",
                 "smoking marijuana [or smoking dope; or smoking cannabis; accept clear knowledge equivalents; prompt on smoking or similar answers that don\u2019t mention marijuana] &lt;Literature - American&gt;"
@@ -358,7 +358,7 @@
         },
         {
             "leadin": "The Catholic University of America is the only school in the U.S. with faculties of philosophy, theology, and <em>this</em> other field. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "canon law [or jus canonicum]",
                 "Gratian [accept Decretum Gratiani]",
                 "annulment [or declaration of nullity; do not accept or prompt on \u201cdivorce\u201d] &lt;Religion&gt;"
@@ -373,7 +373,7 @@
         },
         {
             "leadin": "In one work, this author describes the Norman woman Sikelgaita as \u201clike another Pallas, if not a second Athena,\u201d in a text that also includes an account of the Battle of Dyrrhachium. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Anna Comnena [prompt on partial answer]",
                 "Alexius I Comnenus [prompt on partial answer; accept The Alexiad]",
                 "Strategikon"
@@ -388,7 +388,7 @@
         },
         {
             "leadin": "Answer the following about dubious links made by philosophers between temperature and temperament, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Montesquieu [or Charles-Louis de Secondat, Baron de La Br\u00e8de et de Montesquieu]",
                 "al-Farabi [or Ab\u016b Nasr Muhammad ibn Muhammad al F\u0101r\u0101b\u012b; accept Alpharabius]",
                 "querelle des femmes [prompt on dispute of women or debate of women] &lt;Philosophy&gt;"
@@ -402,7 +402,7 @@
         },
         {
             "leadin": "For 10 points each\u2014answer the following about rehearsal letters in musical scores:",
-            "answers_sanitized": [
+            "answers": [
                 "Ludwig Spohr [or Louis Spohr]",
                 "Jean Sibelius\u2019s Symphony No. 7 in C, Opus 105 [accept any answer indicating Sibelius\u2019s 7th]",
                 "Anton Webern\u2019s Cantata No. 2, Opus 31 [prompt on partial answer] &lt;Arts - Auditory&gt;"

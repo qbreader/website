@@ -122,7 +122,7 @@
     "bonuses": [
         {
             "leadin": "For 10 points, name some things concerning the research of psychologist Elizabeth Loftus and her work in cognitive psychology.",
-            "answers_sanitized": [
+            "answers": [
                 "memory",
                 "video games",
                 "Stanford University "
@@ -137,7 +137,7 @@
         },
         {
             "leadin": "This sociologist was a key founder of the socialist Fabian Society, and co-authored many works on the co-operative movement. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Martha Beatrice Webb, Baroness Passfield",
                 "collective bargaining",
                 "London "
@@ -152,7 +152,7 @@
         },
         {
             "leadin": "Name some things about the Day of the Colombian Woman. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Policarpa Salavarrieta [accept either underlined portion, accept La Pola]",
                 "Spanish Reconquista [prompt on Spanish American wars of independence or similar]",
                 "Simon Bolivar "
@@ -167,7 +167,7 @@
         },
         {
             "leadin": "This school\u2019s gymnastics team is famous for its viral floor exercises. In 2019, Katelyn Ohashi from this school saw her perfect-10 routine hit almost 150 million views on YouTube. For 10 points:",
-            "answers_sanitized": [
+            "answers": [
                 "University of California, Los Angeles (or UCLA)",
                 "Valerie Kondos-Field [accept Miss Val]",
                 "Simone Biles "
@@ -182,7 +182,7 @@
         },
         {
             "leadin": "These beings are described as having voices that are \u201ckind and full of love\u201d and being \u201crat-faced\u201d and \u201ccat-faced.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "goblins",
                 "Christina Rosetti [do not accept or prompt on \u201cRosetti\u201d]",
                 "Jeanie "
@@ -197,7 +197,7 @@
         },
         {
             "leadin": "On January 20, 2020, this woman became the highest ranking woman in American history, making her husband, Douglas Emhoff, the first second gentleman. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Kamala Devi Harris",
                 "American Rescue Plan Act of 2021 [Accept COVID-19 Stimulus Package]",
                 "The Economic Justice Act "
@@ -212,7 +212,7 @@
         },
         {
             "leadin": "This woman was described by Richard Nixon as being \u201ca dangerous terrorist\u201d upon her 1970 arrest. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Angela Davis",
                 "Black Panthers",
                 "the prison system [prompt on the justice system, accept mass incarceration] "
@@ -225,7 +225,7 @@
         },
         {
             "leadin": "For 10 points, name some things about contemporary composer Katherine Hoover:",
-            "answers_sanitized": [
+            "answers": [
                 "flute",
                 "it is played without accompaniment [accept descriptions such as played alone, played solo, or unaccompanied]",
                 "winter [accept Winter Spirits or Winterreise or Winter Journey] "
@@ -240,7 +240,7 @@
         },
         {
             "leadin": "No, there isn\u2019t a Marie Curie answerline, but for 10 points each, you can answer some questions about her discoveries:",
-            "answers_sanitized": [
+            "answers": [
                 "radioactivity (or radioactive decay)",
                 "polonium [or Po]",
                 "uraninite (accept pitchblende) "
@@ -255,7 +255,7 @@
         },
         {
             "leadin": "A Jewish professor boycotts a lecture that this character gives after she likens Holocaust denial to the denial of animal abuse. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Elizabeth Costello",
                 "South Africa",
                 "Molly Bloom [prompt on descriptive answers such as Leopold Bloom\u2019s wife] "
@@ -270,7 +270,7 @@
         },
         {
             "leadin": "According to legend, any German soldier who defeated one of these women would automatically win an Iron Cross. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Night Witches (accept Nachthexen, Nochnye Vedmy, 588th Night Bomber Regiment, 46th \"Taman\" Guards Night Bomber Aviation Regiment)",
                 "Kazakhstan",
                 "Battle of Stalingrad "
@@ -285,7 +285,7 @@
         },
         {
             "leadin": "Traditional Chinese medicine inspired this chemist\u2019s research into qinghao (ching-hao) or wormwood. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tu Youyou",
                 "malaria",
                 "quinine "
@@ -300,7 +300,7 @@
         },
         {
             "leadin": "In a study by Virginia Hughes, analysis of handprints found that around 75% of the painters of cave art in this country were female. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "France",
                 "Venus of Willendorf [Accept Woman of Willendorf or Woman from Willendorf]",
                 "The White Lady "
@@ -315,7 +315,7 @@
         },
         {
             "leadin": "Some argue that the history of science fiction began in 1818 when Mary Shelley wrote Frankenstein. For ten points each, answer some questions about other women in science fiction.",
-            "answers_sanitized": [
+            "answers": [
                 "The Hugo Awards (accept Hugos)",
                 "Agatha Christie",
                 "Lois McMaster Bujold OR N.K. Jemisin "
@@ -330,7 +330,7 @@
         },
         {
             "leadin": "This fashion designer is a three-time recipient of the British Fashion Designer of the Year award. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Vivienne Westwood",
                 "Victorian",
                 "Sex and the City (don\u2019t accept or prompt on Sex in the City) "
@@ -345,7 +345,7 @@
         },
         {
             "leadin": "The Dowager serves as the matriarch of the Jia family in this novel by Cao Xueqin. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Dream of the Red Chamber",
                 "flowers",
                 "China "
@@ -360,7 +360,7 @@
         },
         {
             "leadin": "This ruler defeated Bidam\u2019s rebellion in under 10 days, which was started due to his belief that a woman couldn\u2019t rule the country. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Queen Seondeok of Silla",
                 "Korean Peninsula",
                 "Tang Dynasty "
@@ -375,7 +375,7 @@
         },
         {
             "leadin": "Name some things about women who stuck a metaphorical middle finger in the faces of the men who questioned their abilities. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "azidothymidine (or AZT or zidovudine or ZDV)",
                 "Virginia Apgar",
                 "pollen "
@@ -390,7 +390,7 @@
         },
         {
             "leadin": "Maggie Bailey of Clovertown was known as the \u201cQueen of the Bootleggers\u201d for evading the law that defined this era. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Prohibition",
                 "Carrie Nation",
                 "Women\u2019s Christian Temperance Union "
@@ -405,7 +405,7 @@
         },
         {
             "leadin": "While on a drunken bender, this character vomits into a trophy that she had previously won as a fifteen-year old at a tournament. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Beth Harmon [Accept either answer]",
                 "The Queen\u2019s Gambit",
                 "Benny Watts [Accept either answer] "

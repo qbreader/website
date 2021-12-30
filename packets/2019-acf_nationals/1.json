@@ -121,7 +121,7 @@
     "bonuses": [
         {
             "leadin": "An essay by this author claims that a novelist who is expected to be the \u201chandmaid of his age\u201d is \u201cgoing to set the public's luggage down in puddle after puddle.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Flannery O\u2019Connor",
                 "Hulga [or Joy]",
                 "\u201cA Good Man is Hard to Find\u201d "
@@ -136,7 +136,7 @@
         },
         {
             "leadin": "This quantity equals the von Neumann entropy of subsystem A minus the entropy of the system plus the conditional entropy of subsystem B. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "quantum discord",
                 "unitarity [accept word forms][do not accept or prompt on orthogonal or equivalents, as the matrix in question is clearly complex]",
                 "entanglement [accept word forms] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Differences in the strength of this phenomenon have been linked by Kathryn Hall et al. to the rs4680 polymorphism in the neurotransmitter-processing enzyme COMT. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "placebo effect [accept placebo response]",
                 "randomized double-blind trials [or randomized double-blinded trials; prompt on \u201ccontrolled trials\u201d]",
                 "naloxone [accept Narcan] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This man converted his family to Catholicism in an attempt to pass his highest position on to his son and overcome the competing claim of Stanislaw Lezczynski [STA-nee-swaff lesh-CHEN-skee] . For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Augustus the Strong [or Augustus II; or Frederick Augustus I; prompt on Augustus; do not accept or prompt on just \u201cFrederick\u201d]",
                 "Poland [prompt on Polish\u2013Lithuanian Commonwealth or Poland\u2013Lithuania; prompt on Lithuania until \u201cGrand Duchy\u201d is read]",
                 "Johann Friedrich B\u00f6ttger "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "The book Essays Before a Sonata says that, if this author were a composer, he would not have Debussy\u2019s \u201cfondness for trying to blow a sensuous atmosphere from his own voluptuous cheeks.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ralph Waldo Emerson",
                 "Charles (Edward) Ives",
                 "Henry (Dixon) Cowell "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "A German scholar who became interested in N\u00e9gritude because of his friendship with L\u00e9opold Senghor concluded that this syllable describes the \u201cuniversal force as such\u201d in African philosophy. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ntu",
                 "Bantu languages [prompt on Niger-Congo or Benue-Congo or Southern Bantoid]",
                 "Kwame (Akroma-Ampim Kusi) Anthony Appiah "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "The dome of the Pantheon is one of the many structures made of this material during the Roman architectural revolution. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "concrete",
                 "Caesarea Maritima",
                 "bakers [accept word forms such as baking; or pistoris; prompt on chef or cook] "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "In the devastating final scene of the film in which he appears, this mortally wounded character comes to die on a hilltop amidst a flock of sheep that barely pay attention to him. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Balthazar [accept Au hasard Balthazar]",
                 "seven deadly sins [or capital vices; or cardinal sins; prompt on vices or sins]",
                 "Roberto (Gastone Zeffiro) Rossellini "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "This phenomenon was first observed when tungsten oxide was seen turning blue when contacting a platinum catalyst. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "hydrogen spillover",
                 "adsorption",
                 "sintering "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "This author described a poster of Cain and Abel hanging in a schoolroom where children chant arithmetic lessons in his short poem \u201cA Memory of Childhood.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Antonio Machado",
                 "1898",
                 "Platero y Yo [or Platero and I] (by Juan Ramon Jimenez) "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "This kind of art is exemplified by the hundreds of drawings of fleshless women, with bodies composed of cross-hatched lines, that Charles Steffen drew while undergoing electroshock therapy for schizophrenia. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "outsider art [or art brut]",
                 "Angelus Novus",
                 "Agnes (Bernice) Martin "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "David Hawkes\u2019s first publications were a study and translation of this collection. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ch\u01d4c\u00ed [choo-TZUH] [or Songs of Chu; or The Songs of the South; or Verses of Chu]",
                 "Classic of Poetry [or Shijing; or Book of Songs; or Book of Odes]",
                 "Li Bai [or Li Bo; accept mispronunciations that sound like \u201cLi Pai\u201d or \u201cLi Po\u201d; prompt on Li] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "The occurrence of \u201cblack hole bombs\u201d may indicate that this theorem is false. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "no-hair theorem [or no-hair theorems]",
                 "superradiance [accept superradiant scattering or superradiant instability; do not accept or prompt on radiance]",
                 "Yakov Zeldovich [accept Zeldovich pancakes] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "Members of this party, whose flag featured a red star and a marijuana leaf, staged stunts such as an attempted levitation of the Pentagon. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Yippies [or Youth International Party]",
                 "1976 [prompt on 76]",
                 "Anita Bryant "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "In Slavic folklore, treasure hunters are said to trick hedgehogs and tortoises into revealing the location of the magical raskovnik herb by making them use it to perform this task. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "unlocking anything [accept obvious equivalents of unlocking or opening any door or barrier]",
                 "sesame",
                 "Koschei the Deathless "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "The antitumor antibiotic geldanamycin acts upon the unusual N-terminal ATP/ADP binding pocket of this protein, which forces incoming nucleotides to bend into a C-shape. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hsp90 [or heat shock protein 90; prompt on Hsp or heat shock protein]",
                 "hydrophobic",
                 "Philadelphia chromosome [or Philadelphia translocation; or t(9;22)(q34;q11); accept the translocation between chromosomes 9 and 22] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "Samuel James Supalla catalogued these identifiers, whose \u201carbitrary\u201d type is more popular than the \u201cdescriptive\u201d type in the United States. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "sign names [or name signs; accept names for people in sign language; prompt on names]",
                 "France [or Fran\u00e7aise; or French Republic; or R\u00e9publique fran\u00e7aise]",
                 "spelling Deaf with a capital D [accept capital D Deaf or big D Deaf] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "This essay laments Charles Reade\u2019s novels about the \u201cabuses of contemporary life,\u201d calling them \u201ca sight for the angels to weep over.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cThe Decay of Lying\u201d",
                 "Mrs Humphry Ward [or Mary Augusta Ward or Mary Augusta Arnold]",
                 "George Meredith "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "Thomas Friedman named a set of \u201crules\u201d that describes the ethos of the Middle East after this city. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hama",
                 "Hafez al-Assad [prompt on al-Assad]",
                 "Tadmor prison massacre "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "In 1905, Rabindranath Tagore called upon Muslims and Hindus to express brotherhood and togetherness towards each other on this holiday. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Raksha Bandhan [or Rakhi; or Saluno; or Silono; or Rakri]",
                 "thread [or string; or twine; or cord; or cotton strands]",
                 "full moon "

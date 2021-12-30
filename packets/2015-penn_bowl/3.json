@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "One of the characters in this film desperately wants to attend a ball game instead of being stuck in a room with the other title characters.",
-            "answers_sanitized": [
+            "answers": [
                 "12 Angry Men",
                 "Sidney Lumet",
                 "Network"
@@ -133,7 +133,7 @@
         },
         {
             "leadin": "Spin-flips occur before these events, whose final stages are not yet well-modeled due to the \"Final Parsec Problem.\"",
-            "answers_sanitized": [
+            "answers": [
                 "black hole mergers [accept equivalents; accept black hole collisions or equivalents; prompt on \"galaxy mergers\"]",
                 "gravitational waves [or gravity waves]",
                 "binary"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "This branch of a larger language family is subdivided into Ingvaeonic, Istvaeonic, and Irminonic.",
-            "answers_sanitized": [
+            "answers": [
                 "West Germanic",
                 "Yiddish",
                 "Faroese"
@@ -162,7 +162,7 @@
         },
         {
             "leadin": "This poem ends with the line, \"a savage servility slides by on grease.\"",
-            "answers_sanitized": [
+            "answers": [
                 "\"For the Union Dead\"",
                 "Robert Lowell [or Robert Traill Spence Lowell IV]",
                 "\"Waking in the Blue\""
@@ -177,7 +177,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about species containing unpaired electrons.",
-            "answers_sanitized": [
+            "answers": [
                 "free radical",
                 "hyperconjugation",
                 "NBS [or N-bromosuccinimide]"
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "One member of this political party is opposed by the Yo Soy 132 social movement.",
-            "answers_sanitized": [
+            "answers": [
                 "PRI [or Institutional Revolutionary Party; or Partido Revolucionario Institucional]",
                 "oil [or petroleum]",
                 "2000"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "This substance was originally harvested from plants in Ethiopia near towns like Yirgachefe (irga-CHEF-ay) and some regions of Yemen where it was shipped from ports like Mocha.",
-            "answers_sanitized": [
+            "answers": [
                 "coffee [or coffea arabica; do not accept other subspecies]",
                 "Brazil",
                 "digested by animals [accept clear equivalents]"
@@ -221,7 +221,7 @@
         },
         {
             "leadin": "Three virtuous ladies offer educational lessons for women in the sequel to this author's most famous work.",
-            "answers_sanitized": [
+            "answers": [
                 "Christine de Pizan [accept either underlined portion]",
                 "The Romance of the Rose [or Le Roman de la Rose]",
                 "Joan of Arc [or Jeanne d'Arc; prompt on \"La Pucelle\"]"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "An apocryphal propaganda document called the Memoirs of Mr. Hempher states that this religious movement was started by a British agent.",
-            "answers_sanitized": [
+            "answers": [
                 "Wahhabism [or Salafism]",
                 "sharia",
                 "takfir"
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "The British Daily Telegraph called this man the \"living and kicking symbol of everything that everybody likes best about the United States.\"",
-            "answers_sanitized": [
+            "answers": [
                 "Harry S Truman",
                 "Alben Barkley",
                 "1936"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "The narrator of this section of a larger work sees the spindle of necessity, a device used to control the order of the universe.",
-            "answers_sanitized": [
+            "answers": [
                 "The myth of Er",
                 "The Republic [or Politeia]",
                 "Glaucon"
@@ -279,7 +279,7 @@
         },
         {
             "leadin": "The author's sister Mary appears in the guise of \"Cousin Bridget\" in this collection, whose contents were initially published in The London Magazine.",
-            "answers_sanitized": [
+            "answers": [
                 "Essays of Elia",
                 "Charles Lamb",
                 "Thomas de Quincey [or Thomas Penson de Quincey]"
@@ -294,7 +294,7 @@
         },
         {
             "leadin": "This composer's Symphony No. 4 begins with a brass \"fate\" theme that is heard again in the fourth movement.",
-            "answers_sanitized": [
+            "answers": [
                 "Pyotr Ilyich Tchaikovsky",
                 "Nikolai Rimsky-Korsakov",
                 "Alexander Glazunov"
@@ -309,7 +309,7 @@
         },
         {
             "leadin": "Answer the following about the relationship between space and time.",
-            "answers_sanitized": [
+            "answers": [
                 "Special relativity [or SR]",
                 "Minkowski space",
                 "Thomas precession [or Thomas rotation]"
@@ -324,7 +324,7 @@
         },
         {
             "leadin": "E.H. Gombrich claimed that this unusually-proportioned painting had a \"method\" in its madness.",
-            "answers_sanitized": [
+            "answers": [
                 "Madonna with the Long Neck [DONT READ THIS OUT LOUD but accept Madonna and Child with Angels and St. Jerome]",
                 "Parmigianino [or Girolamo Francesco Maria Mazzola]",
                 "St. Jerome [or Hieronymus]"
@@ -339,7 +339,7 @@
         },
         {
             "leadin": "While serving as the Secretary of State for Education and Science in the Heath government, this politician acquired the nickname \"Milk Snatcher\" after abolishing a free milk program for some schoolchildren.",
-            "answers_sanitized": [
+            "answers": [
                 "Margaret Thatcher",
                 "North Sea",
                 "The Lady's Not For Turning! [do NOT accept \"This Lady's Not for Turning\"]"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "This period began with the defeat of an Umayyad force by Pelagius in the Battle of Covadonga.",
-            "answers_sanitized": [
+            "answers": [
                 "Reconquista",
                 "Battle of Las Navas de Tolosa [or the Battle of al-Uqab]",
                 "Afonso I or Afonso Henriques"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "The advice \"Always end your book with Nelson Mandela saying something about rainbows or renaissances. Because you care,\" concludes a satirical Granta article by an author from this country.",
-            "answers_sanitized": [
+            "answers": [
                 "Republic of Kenya [or Jamhuri ya Kenya]",
                 "Ngugi wa Thiong'o [or James Ngugi, if you're a colonialist]",
                 "The River Between"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "This protein complex in Drosophila usually contains a protein called R2D2, and it often localizes to P-bodies.",
-            "answers_sanitized": [
+            "answers": [
                 "RISC complex [or RNA-induced silencing complex]",
                 "transcription",
                 "5' cap [accept anything with the word \"cap\" in it]"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "In this epic, a knight is assigned to rescue Mabon ap Modron and find the cauldron of Diwrnach the Irishman.",
-            "answers_sanitized": [
+            "answers": [
                 "Culhwch and Olwen (CULL-witch)",
                 "King Arthur",
                 "Sir Gareth"

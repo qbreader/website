@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This novel was inspired by the 2012 discovery of unmarked graves at the Arthur G. Dozier School. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Nickel Boys",
                 "Colson Whitehead",
                 "Pulitzer Prize for Fiction (The other authors are Booth Tarkington, William Faulkner, and John Updike.)"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "The combination of this symmetry, time-reversal, and charge conjugation is thought to be an exact symmetry of the laws of physics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "parity symmetry [or parity inversion; I suppose prompt on answers indicating a rotation of 180 degrees]",
                 "weak force [or the weak nuclear force or weak interaction]",
                 "short and long [or short-lived and long-lived, or K-short and K-long]"
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "The pre-Columbian site of Arenal-1 in Chile unusually contains the remains of these animals. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "chickens [or Gallus domesticus]",
                 "Phoenicia [or Phoenicians, or Punic people, or Ponnim]",
                 "Indus Valley civilization [or Indus River civilization, or Harappan civilization]"
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This artist invited audience members to cut pieces of her dress in one of her performance art pieces. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Yoko Ono",
                 "Fluxus",
                 "pianos"
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Though the play The Man of Mode is titled for a fop, its protagonist Dorimant is one of these characters. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "rakes [or rakehells; accept libertine; prompt on debauchee]",
                 "Restoration of the Stuarts [accept Restoration drama]",
                 "Thomas Shadwell"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Bootstrap aggregation, or \"bagging,\" is an example of these methods. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ensemble classifiers [or ensemble methods or ensemble forecasting]",
                 "variance",
                 "k-nearest neighbors [or kNN]"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In 2005, Harri Hursti demonstrated a flaw in these devices using his namesake \"hack\". For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "voting machines [or voting devices]",
                 "Election of 2004",
                 "chads [accept hanging, swinging, tri-, pregnant, or dimpled chads; prompt on pieces of paper or hole punches]"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "For 10 points each, name these animals that medieval bestiaries had weird ideas about:",
-            "answers_sanitized": [
+            "answers": [
                 "pelican",
                 "lions [or Leo]",
                 "barnacle geese"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Neutral monism addresses this problem by holding that reality exists in a third, independent state. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "mind-body problem [accept answers which refer to the distinction of physical and mental states]",
                 "Rene Descartes",
                 "New Mysterianism [or New Mysterians; prompt on mysterianism]"
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "When her husband was awarded the 1991 Pritzker Prize, this architect did not attend the award ceremony in protest. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Denise Scott Brown [prompt on Brown]",
                 "Seattle (The second museum is Frank Gehry's Museum of Pop Culture.)",
                 "Las Vegas [accept Paradise]"
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Stephen Jay Gould's book Wonderful Life discusses an event during this period that inspired the theory of punctuated equilibrium. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cambrian period [accept Cambrian explosion]",
                 "Burgess Shale [do not accept or prompt on \"shale\"]",
                 "Marrella [or Marrella splendens]"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "In Tibet, devotional stones are inscribed with one of these texts that's called the \"innermost heart\" of Avalokiteshvara (\"uh-VUH-loh-kih-TAYSH-vuh-ruh\"), giving him the epithet \"lord of the six syllables\". For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "mantras [or man rda ra]",
                 "prayer flags [or lungta/rlung rta; or darchog/dar lcog; prompt on flags, banners, or cloths]",
                 "prayer beads [or phreng ba]"
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about cruel punishments administered in East Asia:",
-            "answers_sanitized": [
+            "answers": [
                 "elephants",
                 "pillory [or pillories]",
                 "Yongle emperor [or Zhu Di; prompt on Zhu]"
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "This composer's Sinfonietta was dedicated to the Czechoslovak Army. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Leo\u0161 Jan\u00e1\u010dek (\"YAH-nah-check\")",
                 "string quartet [prompt on quartet]",
                 "Taras Bulba (It is a novel by Nikolai Gogol.)"
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "For 10 points each, name these poets who were and/or are prominent songwriters:",
-            "answers_sanitized": [
+            "answers": [
                 "Bob Dylan [or Robert Allen Zimmerman]",
                 "Fran\u00e7ois Villon (\"vee-YOHN\")",
                 "Kazi Nazrul Islam [prompt on Rebel Poet]"
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "You are a medieval knight. For 10 points each, answer the following about various things you do that aren't just fighting:",
-            "answers_sanitized": [
+            "answers": [
                 "fiefs [or fiefdoms; prompt on manor]",
                 "(golden) spurs [accept Battle of the Golden Spurs]",
                 "scutage (It comes from the Latin word scutum.)"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "These periods are the \"troughs\" of the economic business cycle. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "recessions [prompt on depressions]",
                 "automatic stabilizers [or stabilizer mechanisms]",
                 "fiscal multiplier [do not accept or prompt on \"money multiplier\"]"
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "The first reported example of these reactions was a rearrangement of the compound santonin. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "photochemical reactions [accept light-catalyzed reactions or answers indicating the reaction is caused by light; accept photodegradation or pretty much any answer with the prefix photo-]",
                 "ozone [accept O3]",
                 "carbon monoxide [accept CO] (Type I Norrish reactions cleave a carbonyl and join together the two attached R groups, releasing free CO.)"
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "SenseTime has controversially partnered with Leon Technology to create software that performs this task. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "facial recognition [accept answers which indicate recognizing faces; prompt on artificial intelligence or A.I.]",
                 "Chinese Social Credit System [or SCS; accept sh\u00e8hu\u00ec x\u00ecny\u00f2ng t\u01d0x\u00ec]",
                 "People\u2019s Bank of China [or Zh\u014dnggu\u00f3 R\u00e9nm\u00edn Y\u00ednh\u00e1ng; prompt on answers which refer to a Chinese central bank or a bank; do not accept or prompt on \"Bank of China\"]"
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "This story's narrator lists several proverbs of his kind, such as \"Water the ground as much as you can\". For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\"Investigations of a Dog\" [or Forschungen eines Hundes]",
                 "mice [accept Mouse King]",
                 "\"A Report to an Academy\" [or Ein Bericht f\u00fcr eine Akademie]"

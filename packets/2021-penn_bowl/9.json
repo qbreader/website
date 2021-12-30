@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This ruler discovered wine when a girl whom he banished from his harem drank spoiled grapes that were marked \u201cpoison.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jamshid [or Jam; or Yima]",
                 "New Year\u2019s Day",
                 "Persepolis [or Takht-e-Jamshid] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Cyclopentadecanolide, a synthetic musk compound found in angelica root, is one of these compounds. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "lactones [prompt on, but DO NOT REVEAL, macrolides]",
                 "macrolides",
                 "iodine [or I] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Bertha Reynolds was an early practitioner of \u201cstrengths-based practice\u201d in this profession. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "social work",
                 "transpersonal therapy [or transpersonal psychology; accept spiritual psychology; prompt on peak experiences]",
                 "grief "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Answer the following about the standard Potts model\u2019s relationships to other lattice models, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "percolation theory",
                 "four",
                 "resistors "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Niccol\u00f2 Paganini wrote six sonatas for violin and this instrument, of which the sixth in E minor is often performed. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "guitar",
                 "Luigi Boccherini (\u201cBOCK-er-ee-nee\u201d)",
                 "five [accept string quintet or guitar quintet; accept Symphony No. 5] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "This writer\u2019s injunction to \u201cbe in permanent readiness for The Marvelous\u201d was a major influence on D. Scott Miller\u2019s Afrosurreal Manifesto. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Suzanne C\u00e9saire [or Suzanne Roussi]",
                 "Tropiques [accept Tristes Tropiques; prompt on tropics] (Tristes Tropiques is by Claude L\u00e9vi-Strauss.)",
                 "jazz "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "People in this dynasty invented a chutes-and-ladders style game in which players vied to complete the ascent of a career politician. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Joseon Dynasty",
                 "Netherlands [or Dutch Republic]",
                 "Confucius [or Kong Fuzi] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Setting your favorite thing to \u201cConcernedApe\u201d when beginning one game triggers \u201c(Well, Thanks!)\u201d in the dialogue when these objects are consumed. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "stars [or Stardew Valley; or stardrops; or Star Fox; accept Cosmic Fruit]",
                 "Harvest Moon [accept Story of Seasons; accept Bokujo Monogatari]",
                 "Steam Greenlight "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Name some members of Wikipedia\u2019s illustrious list of sexually active popes, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Saint Peter [accept Simon Peter or Cephas]",
                 "Della Rovere [accept Francesco della Rovere; accept Giuliano della Rovere]",
                 "Benedict [accept Benedict IX or Benedict XV] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "In a letter between these two poets, one desperately asks the other \u201cWhat does anything at all matter?\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Robert Bridges AND Gerald Manley Hopkins",
                 "University of Oxford",
                 "\u201cTerrible Sonnets\u201d [accept \u201cSonnets of Desolation\u201d] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "This ballet, one of the last ballets blancs (\u201cballet blonk\u201d) in regular performance today, was renamed from its original title Chopiniana to reference a much earlier ballet that was beloved by the Parisian audience at the time. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Les Sylphides [or The Sylphs; prompt on Sylphides; do not accept or prompt on \u201cLa Sylphide\u201d]",
                 "Russia [prompt on Ballets Russes]",
                 "Taglioni family [accept Filippo Taglioni or Marie Taglioni] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Many celestial objects are found near the Lagrange points between two larger bodies. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Lissajous orbits [or Lissajous curve; anti-prompt on halo orbits]",
                 "Jupiter",
                 "\u00c9douard Roche [accept Roche lobe, Roche limit, or Roche radius] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "In 18th-century England, ubiquitous house parties centered on this game led Georgiana Cavendish and the Duchess of Buckinghamshire to be portrayed in James Gillray\u2019s cartoons as promiscuous. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "faro [or Pharaoh; or farobank; accept Faro Ladies; prompt on playing cards]",
                 "horse racing [accept betting or gambling on horses or synonyms]",
                 "Elizabeth I [or the Virgin Queen] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Poets who belonged to this movement were influenced by Robert Fitzgerald\u2019s studies of English metrics and by the aesthetics of Yvor Winters. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "New Formalism [accept New Formalist; prompt on formalism; prompt on New Narrative]",
                 "Vikram Seth",
                 "14 lines "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "An ad depicting an auction atop a dam attacked Barry Goldwater for his support of privatizing this corporation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tennessee Valley Authority",
                 "Michigan",
                 "Adam Clayton Powell Jr. "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "A philosopher distinguished the \u201cbasic\u201d form of this phenomenon from its \u201csurplus\u201d form, which refers to the \u201crestrictions\u2026 necessitated by social domination.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "repression [or repressive desublimation]",
                 "Herbert Marcuse",
                 "tolerance [or toleration] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Because the Catholic Church destroyed the original editions, a member of this family named Agostino created the only surviving copy of I Modi, a set of erotic engravings by Marcantonio Raimondi. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Carracci",
                 "Caravaggio [or Michelangelo Merisi]",
                 "Farnese "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "These figures are described in section 4 of the Bala Kanda as the first to hear it after its composition. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Lava AND Kusha [or Lav AND Kush; accept in either order]",
                 "Valmiki",
                 "Rama [or Ram; or Ramayana] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Answer the following about cancers of the digestive system, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Lynch syndrome [or hereditary nonpolyposis colorectal cancer or HNPCC]",
                 "pancreas",
                 "serotonin [or 5-hydroxytryptamine or 5-HT] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "At the beginning of this story, attendees of a ball speculate about how the hosts became so rich, why they know so many languages, and who an old man is. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cSarrasine\u201d",
                 "Roland Barthes",
                 "Honor\u00e9 de Balzac "

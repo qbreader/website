@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Saprolite forms at this material\u2019s upper surface, which is the lowest region studied by the Critical Zone Observatory network. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "bedrock",
                 "seismic refraction OR seismic reflection [accept refraction seismology OR reflection seismology]",
                 "salt [or sodium chloride; or NaCl] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "In a twilight scene from this movie, Jai and Radha glance at each other from across a courtyard while Jai plays a harmonica and Radha extinguishes lamps one by one. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sholay [or Embers]",
                 "Amitabh Bachchan [or Inquilaab Srivastava]",
                 "Bollywood "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "This author entreated writers to \u201clet [the villainess] hate the heroine wholeheartedly, and refuse, yes, even on the last page, to take her hand in forgiveness.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Philip Larkin",
                 "Kingsley Amis",
                 "\u201cAn Arundel Tomb\u201d "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Answer the following about the materiality of the materialistic work of Andy Warhol, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Campbell\u2019s soup",
                 "plastic [or The Exploding Plastic Inevitable]",
                 "urine [or piss; or pee; accept equivalents] (The paintings are from the Oxidation series.) "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "To celebrate the new century, in 1600, a historian of this empire named Fernando Alvarado Tezozomoc became the first person to appear in the role of tlatoani (\u201ctla-toh-AH-nee\u201d) at a public event in forty years. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Aztec Empire",
                 "Tlatelolco [prompt on Cuauht\u00e9moc (\u201ck\u2019wow-TAY-mock\u201d)]",
                 "Texcoco "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "These objects are typically found in \u201cearth\u201d and \u201cmind\u201d forms, the latter of which includes the Book of the Dead revealed by Karma Lingpa. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "terma [or hidden treasures]",
                 "Tibet [or Bod; or Xizang; accept Tibetan Buddhism]",
                 "Tantra [accept Tantric] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Name some antisocial rappers, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Roddy Ricch [or Rodrick Wayne Moore, Jr.]",
                 "Kendrick Lamar",
                 "Earl Sweatshirt [or Thebe Neruda Kgositsile] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "In the post-USSR era, radical political and demographic developments have led to a massive uptick in corruption within many of the Balkan nations. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Albania [or Shqip\u00ebri]",
                 "Belgrade",
                 "Colectiv nightclub fire [accept answers that convey a fire in a nightclub in Romania; prompt on nightclub fire by asking \u201cin which country?\u201d; prompt on fire in Romania by asking \u201cin what type of place?\u201d] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "These proteins bind to cytosine 6 on their non-permissive faces during prokaryotic DNA replication. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tus proteins [or terminator utilization substance or terminus utilization substance]",
                 "plasmids",
                 "topoisomerases "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "A flashing neon sculpture of the goddess Mumbadevi hangs over the door of one of these places operated entirely by \u201chairy-armed\u201d women such as the narrator\u2019s lover Padma. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "pickle factories [or companies that sell or package pickles, chutneys, jams, or jellies; or equivalents]",
                 "India [or Bharat]",
                 "a nurse [or nursemaid; or midwife; or nanny; or ayah; prompt on hospital workers] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "\u201cBelow cost pricing\u201d is typically defined when the price offered by a firm lies below this value. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "average variable costs [or AVC;prompt on variable cost or VC; prompt on the break-even point]",
                 "supply [or word forms like short-run supply or quantity supplied]",
                 "at the bottom of the average cost curve [accept answers indicating it is the vertex or the global minimum of, say, a quadratic average variable cost curve; prompt on critical point] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "This symphony\u2019s B-flat-minor second movement begins with an English horn melody beginning G-flat, F, high B-flat, which is derived from the soft low cello theme \u201cD [pause], C-sharp, high F\u201d in this symphony\u2019s opening measure. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "C\u00e9sar Franck\u2019s Symphony in D minor [or equivalents; prompt on Symphony in D minor; do not accept or prompt on any answer giving a numbered symphony like \u201cSymphony No. 1\u201d or \u201cfirst symphony\u201d]",
                 "Organ Symphony [or Camille Saint-Sa\u00ebns\u2019s Symphony No. 3 in C minor; or Saint-Sa\u00ebns\u2019s Opus 78]",
                 "Hector Berlioz "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Plutarch associated Romulus with this god after the latter ascended into the sky while giving a speech on a hill. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Quirinus",
                 "Janus",
                 "Minerva "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Alphonse Loisette, a confidence man peddling memory-improvement tricks, marketed his classes with a laterregretted testimonial from this man. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mark Twain [or Samuel Clemens]",
                 "copper mining [accept Cu; prompt on metal or mining]",
                 "Ulysses S. Grant "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This poet wrote \u201cI judge from My Geography / Volcanoes nearer here\u201d in a poem that concludes by mentioning a \u201cVesuvius at Home.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Emily Dickinson",
                 "Howe [accept Susan Howe or Julia Ward Howe; accept Julia Ward]",
                 "South America [or Brazil; accept Latin America; prompt on America or the Western Hemisphere] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "A regular grid of mounting holes is located on the top of these experimental devices, whose core is usually a metal honeycomb structure. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "optical tables",
                 "lasers [or light amplification by stimulated emission of radiation]",
                 "beamsplitters "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Three Mycenaean clay tablets excavated and translated by Michael Ventris use this original-language term to refer to the head of a local bronze-workers guild. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "basileus [accept basile\u00eds; accept gwasileus or qa-si-re-u]",
                 "Greek Dark Ages [accept \u201cThe Dark Ages\u201d; prompt on Homeric Age or Geometric period]",
                 "archon [or \u00e1rch\u014dn; or \u00e1rchontes; accept archon basileus; accept eponymous archon or archon eponymos] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "This author discussed the \u201cschool of the dead,\u201d the \u201cschool of dreams,\u201d and the \u201cschool of roots\u201d in Three Steps on the Ladder of Writing. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "H\u00e9l\u00e8ne Cixous (\u201cay-LEN seek-SOO\u201d)",
                 "Medusa [or la m\u00e9duse]",
                 "Clarice Lispector [or Chaya Pinkhasivna Lispector] (That novel is The Hour of the Star.) "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "This technique has been applied to identify in vivo cancer metabolic markers under ultralow spin conditions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "magic angle spinning [or MAS; prompt on, but DO NOT REVEAL, NMR or solid-state NMR or ssNMR]",
                 "nuclear magnetic resonance spectroscopy [or NMR spectroscopy]",
                 "dipole coupling [or dipolar coupling; prompt on J-coupling] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Graham Harman frequently reuses this example to illustrate the withdrawal involved in object\u2013object relations. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "fire burning cotton [accept synonyms like flame in place of \u201cfire\u201d]",
                 "occasionalism",
                 "Avicenna "

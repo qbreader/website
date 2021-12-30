@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "For 10 points each, name some things about female Italian legal scholars.",
-            "answers_sanitized": [
+            "answers": [
                 "Bettisia Gozzadini",
                 "Veil [accept curtain]",
                 "University of Bologna "
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "The main character of this work describes being sure that she was the last prophet at the age of six before sitting in a tub of water after learning of her grandfather\u2019s torture. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Persepolis",
                 "Iran",
                 "Azar Nafisi "
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This woman\u2019s favorite pastimes included trial by ordeal involving the Tangena nut. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ranavalona I (prompt on Ranavalona)",
                 "Madagascar",
                 "Christianity (accept clear-knowledge equivalents) "
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "For ten points each, answer some questions about movies released on Netflix in 2020:",
-            "answers_sanitized": [
+            "answers": [
                 "To All the Boys (accept To All the Boys I\u2019ve Loved Before or To All the Boys: P.S. I Still Love You)",
                 "comic books",
                 "Vanessa Hudgens "
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Hinduism frequently depicted women as necessary for balance, in complement to their husbands. Name some things about strong women who appear in the Mahabharata. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Parvati [Accept Uma, Aparna, Shakti, or Gauri]",
                 "Draupadi [Accept Krishnaa, Panchali or Yajnaseni]",
                 "Savitri "
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "This musician released albums such as Ptah, The El Daoud under the music label Impulse! Records. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Alice Coltrane [prompt on Coltrane]",
                 "Harp",
                 "chants "
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "This character tells Mrs. Delacroix that she \u201cclean forgot what day it was\u201d after arriving late at the town square. For 10 points each",
-            "answers_sanitized": [
+            "answers": [
                 "Tessie Hutchinson [accept either name]",
                 "Shirley Jackson",
                 "The Haunting of Hill House "
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "Description Acceptable. One of these characters is shot at after she insults another character's hunting ability by muttering about \u201cGuns that never shot.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Okonkwo\u2019s wives [accept clear knowledge equivalents]",
                 "Things Fall Apart",
                 "Ezinma "
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "This country\u2019s parliament dropped a tie requirement in February 2021 after criticism that it infringed upon indigeneous culture. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "New Zealand [accept Aotearoa]",
                 "Jacinda Kate Laurell Ardern",
                 "New Zealand National Party [accept Nats] "
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "This work opens by asking \u201cWhat is woman?\u201d and later compares the upbringing of boys and girls, as well as how they are treated as adults. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Second Sex",
                 "Simone de Beauvoir",
                 "body "
@@ -269,7 +269,7 @@
         },
         {
             "leadin": "Women: given the chance, can be just as corrupt as men. For 10 points:",
-            "answers_sanitized": [
+            "answers": [
                 "Dilma Rousseff",
                 "South Korea (accept Republic of Korea, prompt on Korea, DO NOT accept or prompt on North Korea or The People\u2019s Republic of Korea)",
                 "Her Excellency "
@@ -284,7 +284,7 @@
         },
         {
             "leadin": "A member of this family is forced to continue having sex with his girlfriend by two white men after they catch sight of them. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Breedlove family [accept individual names]",
                 "The Bluest Eye",
                 "marigolds "
@@ -299,7 +299,7 @@
         },
         {
             "leadin": "This theorem is a generalization of the constants of motion in Lagrangian and Hamiltonian mechanics and belongs to the branch of Calculus of Variance. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Noether\u2019s Symmetry Theorem",
                 "Conservation of Angular Momentum [Prompt on Momentum]",
                 "Poisson Bracket "
@@ -314,7 +314,7 @@
         },
         {
             "leadin": "Name some things about American women at the heart of the baked goods industry. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pepperidge Farm",
                 "Betty Crocker [prompt on partial answer]",
                 "Aunt Jemima "
@@ -329,7 +329,7 @@
         },
         {
             "leadin": "Alice Ball developed a namesake method to treat leprosy by modifying the existing, ineffective use of this oil. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Chaulmoogra Oil",
                 "esters (accept ethyl esters)",
                 "Hawai\u2019i "
@@ -344,7 +344,7 @@
         },
         {
             "leadin": "Angelica Kauffman was the most famous portraitist during her time, and one of two female co-founders out of 34 of the Royal Academy in London. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "painting",
                 "Ariadne",
                 "Neoclassicism "
@@ -359,7 +359,7 @@
         },
         {
             "leadin": "Answer some questions about women who have shaped statistics and scientific experimentation. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Florence Nightingale",
                 "Gertrude Mary Cox",
                 "Pearson\u2019s Correlation Coefficient [accept Pearson\u2019s r, do not accept r-squared] "
@@ -374,7 +374,7 @@
         },
         {
             "leadin": "The protagonist of this novel lies to the Lancashire man about her wealth in order to marry him, but he in turn reveals that he himself is poor and conned her into marrying him. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Fortunes & Misfortunes of the Famous Moll Flanders",
                 "Daniel Defoe",
                 "Roxana: The Fortunate Mistress "
@@ -389,7 +389,7 @@
         },
         {
             "leadin": "During the post-inaugural television special Celebrating America, this person introduced Kamala Harris. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sarah Fuller",
                 "University of Tennessee",
                 "running back "
@@ -404,7 +404,7 @@
         },
         {
             "leadin": "When George Gershwin asked this woman for lessons in composition, she responded, \u201cI can teach you nothing.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Nadia Boulanger",
                 "harmony",
                 "Prix de Rome "

@@ -142,7 +142,7 @@
     "bonuses": [
         {
             "leadin": " Answer the following about the wonderful world of wartime weaponry, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Greek fire [prompt on \"sea fire\", \"water fire\", or \"fire\"]",
                 "trebuchet",
                 "Alexius I Comnenus"
@@ -157,7 +157,7 @@
         },
         {
             "leadin": "The Baron tells the other characters about the Actor's suicide-by-hanging at the end of this play. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Lower Depths [or Na Dne]",
                 "Maxim Gorky [or Alexei Maximovich Peshkov]",
                 "Joseph Vissarionovich Stalin [or Iosef Vissarionovich Dzhugashvili]"
@@ -172,7 +172,7 @@
         },
         {
             "leadin": "Identify the following authors whose non-fiction inspired major social trends, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rachel Carson",
                 " Helen Hunt Jackson [or Helen Fiske; accept just \"Hunt,\" which was her sole last name for a while]",
                 "Thomas Merton"
@@ -187,7 +187,7 @@
         },
         {
             "leadin": " In life, pharoahs were regarded as incarnations of this deity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Horus",
                 "Hathor",
                 " Lower Egypt [do not prompt on or accept \"Egypt\"]"
@@ -201,7 +201,7 @@
         },
         {
             "leadin": "On Broadway, this opera was reworked into Miss Saigon. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Madame Butterfly [or Madama Butterfly]",
                 " \"Un Bel Di, Vedremo\" [or \"One Beautiful Day\"]",
                 " La boh\u00c3\u00a8me [or The Bohemians]"
@@ -216,7 +216,7 @@
         },
         {
             "leadin": " The entropy of one of these is proportional to their area, and their namesake information paradox deals with the loss of physical information within them. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " black hole",
                 " Stephen Hawking",
                 " pair production"
@@ -231,7 +231,7 @@
         },
         {
             "leadin": "This man was the godson of Horace Walpole and would go on to replace Philip Schuyler as the general in charge of American troops in New York. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Horatio Lloyd Gates",
                 "Charles Cornwallis, 1st Marquess Cornwallis [or Viscount Brome or The Earl Cornwallis]",
                 "Sir Banastre Tarleton, 1st Baronet"
@@ -246,7 +246,7 @@
         },
         {
             "leadin": "This collection makes a distinction between compelling-yet-fictional \"story-truth\" and entirely factual \"happening-truth\" in its section \"Good Form,\" and in its title story, Kiowa's death in a sewage field makes Lieutenant Jimmy Cross feel very guilty. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Things They Carried",
                 " the Vietnam War",
                 " John Winslow Irving [or John Wallace Blunt, Jr.; the work is A Prayer for Owen Meany]"
@@ -261,7 +261,7 @@
         },
         {
             "leadin": " Stable, autonomously replicating versions of these elements are called episomes, and one particularly useful one encodes for a postsegregational killing system. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "plasmid",
                 " conjugation",
                 " integrates into the genome [or inserts, joins, fuses, jumps into, becomes part of, puts itself in, etc]"
@@ -276,7 +276,7 @@
         },
         {
             "leadin": " H. W. Janson et al described how the title figure's horse was being \"urged on ... by the light from the left\" in this artist's The Polish Rider. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Rembrandt van Rijn",
                 "The Night Watch",
                 " The Return of the Prodigal Son"
@@ -291,7 +291,7 @@
         },
         {
             "leadin": "This city was in a tripartite confederation with Tlacopan and Texcoco. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Tenochtitlan",
                 " Aztecs",
                 " flowery wars [or xochiyaoyotl]"
@@ -306,7 +306,7 @@
         },
         {
             "leadin": "A cat named Charlemagne and an iguana named Schwarzenegger figure in this work, in which Liquid Sheep drummer Janet Hayakawa helps John Brown write a personal ad that leads to a romance with Liz Donati. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Golden Gate",
                 " Vikram Seth",
                 "Alexander Sergeyevich Pushkin"
@@ -321,7 +321,7 @@
         },
         {
             "leadin": "They include the agriculture spirit Inari, who employs foxes, and a female who once darkened the world by hiding in a cave out of frustration. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "kami",
                 " Susano'o [or Susanowo]",
                 " a mirror"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "This composer wrote his twelfth string quartet, the \"American,\" in the town of Spillville, Iowa. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Antonin Dvorak",
                 "Slavonic Dances",
                 " Stabat Mater"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "Answer the following about recent cases judged by the International Criminal Court, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 " Libya",
                 "Charles Taylor",
                 " Kenya"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": " Developed by an American geologist and his team at Geophysical Laboratories in Washington D.C, it was created to explain the association patterns of certain mineral classes in rocks. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bowen's reaction series [Prompt on partial answer]",
                 "calcium [or Ca]",
                 " olivine"
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Answer the following about The Prince, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Niccolo Machiavelli",
                 " flatterers [or those who engage in flattery]",
                 "fortune [or Fortuna; accept synonyms such as luck]"
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "This process is commonly performed using an indicator like phenolphthalein, and adding more of the analyte is a common way of compensating when the equivalence point is overshot. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " titration",
                 "buret",
                 "liquid-liquid extraction"
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "In 1712, this man was impeached for corruption and imprisoned in the Tower of London by his Tory opponents. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Sir Robert Walpole, 1st Earl of Oxford",
                 " The Prime Minister of the United Kingdom of Great Britain and Northern Ireland",
                 "Kingdom of Poland [or Polska; or War of Polish Succession]"
@@ -424,7 +424,7 @@
         },
         {
             "leadin": " Its first poem describes how the speaker will be happy \"when those lily hands\" are like \"captives trembling at the victor's sight\", and it was published with its author's Epithalamion. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Amoretti",
                 " Edmund Spenser",
                 "Gloriana"
@@ -439,7 +439,7 @@
         },
         {
             "leadin": "Answer these questions about using derivatives to find special points on functions, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "zero",
                 " point of inflection [or inflection point; anti-prompt \"saddle point\"]",
                 "Lagrange multipliers"
@@ -454,7 +454,7 @@
         },
         {
             "leadin": " Identify the following about some works set during Roman times, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 " Tiberius Claudius Drusus Nero Germanicus",
                 " Quo Vadis: A Narrative of the Time of Nero [or Quo vadis: Powiesc z czasow Nerona]",
                 "Edward George Earle Lytton Bulwer-Lytton, 1st Baron Lytton"
@@ -469,7 +469,7 @@
         },
         {
             "leadin": "This battle marked the end of concerted attempts to press the Roman border beyond the Rhine. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Battle of Teutoberger Forest [or Teutoberger Wald]",
                 " Gaius Suetonius Tranquillus",
                 "eagles [or aquilae, I guess, even though the works mentioned are in English]"

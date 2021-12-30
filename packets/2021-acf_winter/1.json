@@ -130,7 +130,7 @@
     "bonuses": [
         {
             "leadin": "Regions attacked by this weapon are doomed to have no rainfall for over three trillion years while all of their inhabitants become infertile. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Brahm\u0101stra [accept Brahmashira Astra; accept Brahmadanda Astra; prompt on Brahm\u0101 weapons]",
                 "Arjuna [or P\u0101rtha or Dhana\u00f1jaya]",
                 "Kurukshetra War [or the Battle of Kurukshetra; prompt on Mah\u0101bh\u0101rata War] "
@@ -145,7 +145,7 @@
         },
         {
             "leadin": "This particle\u2019s predicted electric dipole moment is five orders of magnitude smaller than is currently detectable. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "neutrons [prompt on n]",
                 "quark mixing [or flavor mixing]",
                 "strong nuclear force [or strong interaction or similar answers] "
@@ -160,7 +160,7 @@
         },
         {
             "leadin": "This architectural term often refers to so-called \u201cfalse arches\u201d lacking a keystone, which instead are constructed from several offset horizontal pieces of stone that meet in the center. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "corbels [accept word forms like corbelling]",
                 "Mayan civilization",
                 "columns "
@@ -175,7 +175,7 @@
         },
         {
             "leadin": "This character claims to find herself in a \u201cdesert\u201d after going to her maid\u2019s room, which she describes as a \u201cminaret.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "G.H. [accept The Passion According to G.H. or A paix\u00e3o segundo G.H.]",
                 "Brazil [or Brasil; or Federative Republic of Brazil; or Rep\u00fablica Federativa do Brasil]",
                 "Machado de Assis (\u201cmuh-SHAH-doo jee uh-SEES\u201d) [or Joaquim Maria Machado de Assis] "
@@ -190,7 +190,7 @@
         },
         {
             "leadin": "Sorghum molasses inspired the nickname of one of these places, which included a site visited by the surgeon Mary Edwards Walker called Castle Thunder. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "U.S. Civil War prison camps [or U.S. Civil War POW camps or equivalents; accept Confederate prison camps or Union prison camps or equivalents; prompt on camps or prisons or stockades; prompt on POW camps or prison camps by asking \u201cduring what conflict?\u201d]",
                 "Andersonville Prison [or Camp Sumter; accept Andersonville National Historic Site]",
                 "William Tecumseh Sherman [or William T. Sherman; accept Sherman's March to the Sea] "
@@ -205,7 +205,7 @@
         },
         {
             "leadin": "Victor LaValle\u2019s novella The Ballad of Black Tom is a subversion of this author\u2019s story \u201cThe Horror at Red Hook\u201d and follows a black street hustler who has the power to summon the monstrous \u201cSleeping King.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "H. P. Lovecraft [or Howard Phillips Lovecraft]",
                 "police officer [or cop or law enforcement or equivalents; accept police detective; accept The Yiddish Policemen's Union; prompt on officer]",
                 "Ambrose Bierce (The story in the second sentence is \u201cAn Occurrence at Owl Creek Bridge.\u201d) "
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "This piano piece begins with a grave introduction based on music sung to the text \u201cA cenar teco m\u2019invitasti.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "R\u00e9miniscences de Don Juan (\u201cray-mee-nee-SONS de don zhu-ON\u201d)",
                 "Alexander Scriabin [or Alexander Nikolayevich Scriabin]",
                 "fantasy [or fantasia or fantasie] "
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "An empire based in this modern-day country sent the warship Al-Sultanah on a diplomatic mission to America. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Oman [or Sultanate of Oman; accept Sultanate of Muscat and Oman or Omani Empire]",
                 "Balochi people [or Baluchi people, accept Balushi or al-Balushi]",
                 "Zanzibar [accept Zanzibar Sultanate or Sultanate of Zanzibar or Usultani wa Zanzibar or Sul\u1e6danat Zanj\u012bb\u0101r; accept Anglo-Zanzibar War] "
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "MOPS (\u201cmops\u201d), HEPES (\u201chee-pees\u201d), and Tris are commonly used chemicals of this type. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "buffer solutions",
                 "phosphate [or PO4 3-minus; prompt on PO4]",
                 "polyprotic acids [or polybasic acids] "
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "A \u201cguerrilla\u201d form of this activity may involve throwing \u201cbombs\u201d of clay and compost. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "gardening [accept horticulture or floriculture or plant cultivation; accept landscaping or groundskeeping or yardwork or word forms; accept urban farming; accept Gardeners\u2019 World or guerrilla gardening; prompt on general answers about flowers or plants]",
                 "hardiness [or word forms like hardy; accept plant hardiness zones]",
                 "ornamental bulbs [or variants like bulbiferous plants; accept bulbils or bulbels or bulblets or similar; accept corms or bulbotubers] "
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "A novel set during this war opens with a tightrope walker playing a trick on some townspeople that causes them to fight over their shoes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Thirty Years\u2019 War [or Dreissigj\u00e4hriger Krieg]",
                 "Bertolt Brecht [or Eugen Berthold Friedrich Brecht]",
                 "Friedrich Schiller [or Johann Christoph Friedrich von Schiller] "
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "Robert Boyd and Peter Richerson\u2019s Not By Genes Alone discusses how the evolution of this concept is impacted by content-based and frequency-based biases. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "culture [accept cultural evolution]",
                 "memes [or word forms like memetics; accept The Meme Machine]",
                 "Pleistocene [accept Quaternary Ice Age or Quaternary Glaciation or Pleistocene Glaciation or Last Glacial Period or LGP or Last Glacial Maximum or LGM or Younger Dryas] "
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "Andrew Israel Ross\u2019s Public City/Public Sex explores urban homosexuality during this historiographical period, when Liane de Pougy became a demi-monde icon at the Folies Berg\u00e8re (\u201cfaw-lee bair-zhair\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "La Belle \u00c9poque (\u201ceh-POCK\u201d) [prompt on fin de si\u00e8cle or turn-of-the-century or the late 19th century; prompt on Third Republic or Troisi\u00e8me R\u00e9publique; prompt on translations like \u201cbeautiful era\u201d]",
                 "Catalonia [or Catalunya or Catalu\u00f1a or Catalonha; accept Catalan; accept Principality of Catalonia or Principat de Catalunya; prompt on Spain or Espa\u00f1a or First Spanish Republic or Primera Rep\u00fablica Espa\u00f1ola; prompt on Barcelona or Tarragona or Girona or Gerona or Lleida or L\u00e9rida or Lh\u00e8ida or Val d\u2019Aran by asking \u201cwhat larger cultural region is it part of?\u201d] (The king was Alfonso XIII.)",
                 "electric lighting [or electric lamps; or electric street lights; or electricity or electric power; accept light bulbs; prompt on arc lamps or street lamps or bulbs or incandescent lights or power or similar answers] "
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "The A-star algorithm adds a heuristic to an algorithm that finds the shortest of these constructs. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "paths [accept routes]",
                 "priority queues [do not accept or prompt on \u201cqueues\u201d alone]",
                 "breadth-first search [or BFS] "
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Unlike a less physical version by Caravaggio, a circa-1613 painting shows the servant Abra actively assisting this woman. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Judith",
                 "Artemisia Gentileschi (\u201cjen-tee-LESS-kee\u201d) [or Artemisia Lomi]",
                 "Saint Catherine of Alexandria [or Catharina Alexandrina; or The Great Martyr Saint Catherine; accept Catherine wheels; do not accept or prompt on \u201cSaint Catherine of Siena\u201d] "
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "Description acceptable. This event led to a manhunt with over 10,000 people and involved an author whose most famous character was the first fictional person to receive an obituary on the front page of the New York Times. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Agatha Christie\u2019s disappearance [or equivalents like Agatha Christie going missing; accept Agatha Miller or Mary Westmacott in place of \u201cAgatha Christie\u201d; prompt on disappearance or equivalents by asking \u201cWho disappeared?\u201d]",
                 "trains [accept equivalents like locomotive or railroad; accept The Blue Train]",
                 "The Mousetrap "
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "Eudoxus of Cyzicus and Aelius Gallus led expeditions to this peninsula, where the Qedarites and the Kingdom of Lihyan around Mada'in Salih (\u201cmad-ah-IN sal-ih\u201d) controlled the spice and myrrh trades. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Arabian Peninsula [or shibhu l-jaz\u012brati l-\u02bfarabiyyah; accept Arabia Felix or Arabia Petraea]",
                 "Demetrius [accept Demetrius the Besieger or Demetrius I of Macedon or Demetrius Poliorcetes; accept Demetrius I of Bactria or Demetrius the Invincible or Demetrius I Aniketos or Dharmamita or Damaytra]",
                 "Damascus [or Dima\u0161q or Darmswq; accept Damascus steel] "
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "This good, which comes in both gold and silver types, may sometimes bear the appearance of a banknote of a high denomination. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "joss paper [or j\u012bnzh\u01d0 or y\u012bns\u012bzh\u01d0 or m\u00edng b\u00ec; prompt on paper or incense paper or hell money or hell bank notes or zh\u01d0qi\u00e1n; do not accept \u201czh\u01d0z\u0101\u201d]",
                 "tombs [accept gravesites or burial sites; accept f\u00e9nm\u00f9 or fen mo or fan mou or f\u00f9n-mu or fen bao]",
                 "ancestors [accept equivalents like fore-bearers; accept z\u01d4xi\u0101n or zou sin or ch\u00fa-si\u00ean or zou sain; prompt on family; prompt on relatives or specific relatives such as parents or grandparents] "
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "The left recurrent laryngeal nerve hooks around this structure, which is inflamed in a condition named for Takayasu. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "aorta",
                 "Turner syndrome [or Ullrich\u2013Turner syndrome; or Bonnevie\u2013Ullrich\u2013Turner syndrome; prompt on gonadal dysgenesis]",
                 "common iliac arteries [accept external iliac arteries or internal iliac arteries] "
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "Longinus wrote an early treatise on this quality and its use by great works of literature to inspire emotions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the sublime [or sublimity; accept sublimis]",
                 "aesthetics [accept word forms like aestheticism]",
                 "The World as Will and Representation [or The World as Will and Idea; or Die Welt als Wille und Vorstellung] (by Arthur Schopenhauer) "
@@ -430,7 +430,7 @@
         },
         {
             "leadin": "Dawn Turner chronicled her upbringing in this neighborhood with her sister and best friend in a 2021 memoir titled for Three Girls in [this neighborhood]. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bronzeville [accept Three Girls in Bronzeville; accept A Street in Bronzeville; prompt on Chicago or the South Side of Chicago]",
                 "Gwendolyn Brooks [or Gwendolyn Elizabeth Brooks]",
                 "Maud [accept Maud Martha or \u201cMaud Muller\u201d] "

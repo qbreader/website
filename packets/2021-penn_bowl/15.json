@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "A scholarship student nicknamed for this role is the title \u201cKilljoy\u201d of a novel by Ama\u202fAta Aidoo (\u201cah-MAH-tah EYE-doo\u201d). For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "sisters [or sissie; accept Our Sister Killjoy or My Sister, the Serial Killer; prompt on siblings; prompt on serial killers by asking \u201cwhat other role titles the novel?\u201d]",
                 "Braithwaite [or Brathwaite; accept Oyinkan Braithwaite or Kamau Brathwaite or E. R. Braithwaite]",
                 "rings [accept The Lord of the Rings] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Answer the following about the economic history of the successor rump states that emerged from the 1204 Sack of Constantinople, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Epirus [accept Despotate of Epirus; accept Pyrrhus of Epirus]",
                 "Black Sea [accept Euxine Sea]",
                 "Laskaris [or Lascaris] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "One character in this novel rejects a marriage proposal by saying \u201cYou could not make me happy, and I am convinced I am the last person in the world who could make you so.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pride and Prejudice",
                 "novel of manners [or comedy of manners]",
                 "Jane Austen "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Answer the following about monumental modernist architectural plans that were never realized, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Italy (The architect is Antonio Sant\u2019Elia, and the building is the Palazzo della Civilt\u00e0 Italiana.)",
                 "Antoni Gaud\u00ed (The apartment building is the Casa Mil\u00e0.)",
                 "Le Corbusier [or Charles-\u00c9douard Jeanneret; accept Le Corb] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "This man names the city housing Seven Pagodas in India, which he built after Hiranyakashipu was killed by Vishnu after the latter emerged from a pillar. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mahabali",
                 "dwarf",
                 "Ganges River [or the Ganga River] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Euler\u2019s method is one way of numerically solving these equations. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "differential equation [or diff eq; accept specific types such as linear or partial differential equations]",
                 "Runge\u2013Kutta (\u201cROON-guh KOOT-uh\u201d) methods [or RK or RK4 methods]",
                 "St\u00f6rmer\u2013Verlet (\u201cver-LAY\u201d) method [or Verlet integration; or St\u00f6rmer\u2019s method] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "This monkey was taught sign language in a follow-up experiment to trials with Washoe. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Nim Chimpsky [or Neam Chimpsky; prompt on Chimpsky]",
                 "XOR [or (bitwise) exclusive or; do not accept or prompt on \u201cor\u201d]",
                 "William Shakespeare "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "This compound is produced from the reaction of 1,3-butadiene (\u201cone-three-BYOOT-uh-DY-een\u201d) and sulfur dioxide. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "3-sulfolene",
                 "imine",
                 "liquid\u2013liquid extraction "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "P. F. Strawson\u2019s Bounds of Sense dismissively claims that Kant had \u201cno clear and general conception\u201d of this concept \u201cat all.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "synthetic a priori [accept underlined portions in either order; prompt on synthetic; prompt on a priori]",
                 "space AND time",
                 "Transcendental Aesthetic "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "The first of Heinrich Schenker\u2019s major three volumes on music theory is titled for this concept, which also names an 1893 \u201cHandbook\u201d by Hugo Riemann. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "harmony [accept Harmonielehre or Theory of Harmony]",
                 "Arnold Schoenberg (The construct is the tone row.)",
                 "farben [accept the Farben chord or Klangfarbenmelodie; prompt on color] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Agdam, a city in this country, produced the best known Soviet fortified wine, or bormutchka, until its grape fields were razed to form defensive structures in the 1990s. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Azerbaijan",
                 "Shusha",
                 "Enver Pasha [or Ismail Enver Pasha] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Red tides are most often caused by a taxon whose members have both a longitudinal and a transverse structure of this type, the latter of which is flattened like a ribbon and lies in a groove called the cingulum. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "flagella [or cilia; or flagellum; or cilium] (The taxon is the dinoflagellates.)",
                 "Opisthokonta [or opisthokonts]",
                 "monophyly [or being monophyletic] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Liam Gallagher introduces this consonant between \u201csupernova\u201d and \u201cin\u201d in the lyrics \u201cChampagne Supernova in the sky.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "R [or rhotic consonant; or intrusive R]",
                 "sandhi [accept tone sandhi]",
                 "Sanskrit [or Vedic Sanskrit] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Publisher Joseph Marshall Stoddart tried to arrange a publicity stunt in which these two authors would take a winter carriage ride together through Philadelphia, though it never materialized. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Oscar Wilde AND Walt Whitman",
                 "Leaves of Grass",
                 "bathing [accept swimming or washing] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Some of these materials with a low refractive index can be used in place of liquified gases as radiators in Cherenkov detectors. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "aerogels [prompt on gels; prompt on colloids or colloidal suspensions or colloidal dispersions] (That process is supercritical drying.)",
                 "passivation [or word forms like passivate]",
                 "thermal insulators "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "This author warned against the increased influence of fundamentalist Christianity, oil, and debt on American politics in American Theocracy. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Kevin Phillips",
                 "Ronald Reagan",
                 "Pat Buchanan "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "This artist described his time working closely with another artist as being like two \u201cmountain-climbers roped together.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Georges Braque",
                 "Cubism",
                 "Section d\u2019Or [or Golden Section; or Puteaux Group] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "In Life is Like a Caravanserai, one author of this ethnicity describes her experience growing up in her home country prior to emigrating to Europe as a guest worker. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Turkish-German",
                 "Ingeborg Bachmann Prize [prompt on Bachmann Prize]",
                 "Bertolt Brecht "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Makahiki celebrates the New Year in Hawaiian religion, during which Hawaiians make offerings to the fertility god Lono. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "necklaces",
                 "lava sledding [or sled surfing; or He\u2019e holua; do not accept or prompt on \u201csurfing\u201d]",
                 "boxing "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "This sultan ridiculed King Ferdinand for \u201cimpoverishing his country\u201d after welcoming expelled Spanish Jews into his empire. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bayezid II [prompt on Bayezid]",
                 "Rhodes [or R\u00f3dos]",
                 "Sistine Chapel [or Cappella Sistina; or Sacellum Sixtinum; prompt on Cappella Magna or Great Chapel] "

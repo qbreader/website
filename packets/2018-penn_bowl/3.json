@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "Name some things about fluorescence imaging techniques commonly used in biology, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "GFP [or green fluorescent protein]",
                 "two-photon excitation microscopy",
                 "beta-sheet [or beta-barrels] &lt;PL, Biology&gt;"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "Bandeirantes (\u201cbun-day-RON-chiss\u201d) in this country led expeditions to capture and enslave natives. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Brazil",
                 "quilombos [or mocambos]",
                 "favelas &lt;NR, World History&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This man commissioned original books by Arthur Conan Doyle and M.\u00a0R.\u00a0James to be produced in miniature for the incredibly realistic Queen Mary Dolls\u2019 House. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Edwin Lutyens (\u201cLUTT-yinz\u201d)",
                 "landscape gardening [or landscaping; or horticulture; or gardening]",
                 "Christopher Wren &lt;JC, Other Arts (Architecture)&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Despite remarrying her first husband from Apex, who is ostensibly best suited to her, this character wishes she could be an ambassador\u2019s wife at the end of a novel. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Undine Spragg [accept either name]",
                 "Edith Wharton",
                 "The Custom of the Country &lt;MT, American Literature&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "After an incident at the end of Game 1 of the NBA finals, this player stated, \u201cAfter thinking about it a lot\u2026 I can\u2019t say I was sure of anything at that point.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "J.\u00a0R.\u00a0Smith",
                 "50 points [do not accept any other numbers]",
                 "Shaun Livingston &lt;AP, Trash (Sports)&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "One of the victorious generals at this battle was later beatified as the Saint Constable. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Battle of Aljubarrota (\u201cALL-zhoo-buh-RO-tuh\u201d)",
                 "House of Aviz",
                 "Kingdom of Portugal [or Portuguese Republic] &lt;NR, European History&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This equation accounts for interparticle attraction with its <em>a</em>\u00a0term. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "van der Waals equation of state",
                 "virial equation of state",
                 "Mayer [accept Joseph Edward Mayer or Maria Goeppert Mayer] &lt;AP, Chemistry&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "One of this composer\u2019s pieces depicts a cloud\u2019s journey to the top of a mountain to deliver a message to a man\u2019s wife. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gustav Holst",
                 "wind band [or concert band or military band or symphonic band or marching band or wind ensemble]",
                 "The Planets &lt;MT, Music&gt;"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "After this man pissed off the theologian Johann Goeze (\u201cGURT-suh\u201d), he was punished by the passage of a law that took away his freedom from censorship. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gotthold Ephraim Lessing",
                 "rings",
                 "Decameron &lt;MT, European Literature&gt;"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "One version of this scene was described as a \u201cbad boiled lobster\u201d and won a competition to be shown as the only colored image in a black-and-white Albert Lewin film. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Temptation of St. Anthony",
                 "Salvador Dal\u00ed",
                 "Hieronymus Bosch &lt;MT, Painting&gt;"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "Name some things about complexity classes in computational theory, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "NP [or nondeterministic polynomial time]",
                 "Boolean satisfiability problem [or SAT; or propositional satisfiability problem; or SATISFIABILITY; accept more specific answers like 2-satisfiability or 2-SAT or 3-satisfiability or 3-SAT]",
                 "#P [or sharp P; or number P; or hash P] &lt;JC, Other Science (Computer Science)&gt;"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "Egocentric bias can result in quarantine failures when using this ability. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "theory of mind [or mentalizing; prompt on folk psychology]",
                 "false belief task [accept Sally\u2013Anne task]",
                 "autism spectrum disorder &lt;MT, Social Science (Psychology)&gt;"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "In a poem by this author, the ghost of a Trojan war hero asks the title character \u201cam I a ghost?\u201d\u00a0and in response, she wonders if he will \u201cdare remember / the unreality of war / in this enchanted place.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hilda Doolittle [accept H.D.]",
                 "The Song of Achilles",
                 "Ulysses &lt;MT, British Literature&gt;"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "The eighteen-year-old Alexander the Great commanded the left wing at this battle, but fled into exile shortly after. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Battle of Chaeronea",
                 "Corinth",
                 "\u201cIf\u201d [or \u201cAn\u201d] &lt;NR, European History&gt;"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "This class of materials consists of polarizable, rod-like molecules that are locally aligned. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "liquid crystals [or liquid crystal displays; or LCDs]",
                 "order [accept order parameter]",
                 "lyotropic liquid crystal &lt;AP, Physics&gt;"
@@ -342,7 +342,7 @@
         },
         {
             "leadin": "Answer the following about 1968, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Martin Luther King, Jr. [or MLK]",
                 "Catonsville Nine",
                 "Apollo 8 [prompt on partial answer] &lt;NR, American History&gt;"
@@ -357,7 +357,7 @@
         },
         {
             "leadin": "This god created the first dogs by decapitating people and putting their heads on their butts. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tezcatlipoca",
                 "Xipe Totec [or Youalahuan]",
                 "Quetzalcoatl &lt;JC, Mythology&gt;"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "The teachings of this man were compiled by Gautama Swami, his chief disciple. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mahavira [or Vardhamana]",
                 "Paryushana [or Das Lakshana Parva or Das Lakshana Dharma]",
                 "fasting [or upavasa; accept equivalents like not eating] &lt;AP, Religion&gt;"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "In one scene in this novel, an owl looks in on a sleeping woman who is dreaming about a weevil teaching ethics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Ministry of Utmost Happiness",
                 "Arundhati Roy",
                 "Rahel &lt;JC, World Literature&gt;"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "This text posits the concept of \u201cfree play\u201d between imagination and understanding, in which the imagination is not constrained in the same way as cognition. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Critique of Judgement [or Kritik der Urteilskraft; or Critique of the Power of Judgement; prompt on incomplete answers like \u201cThird Critique\u201d]",
                 "Immanuel Kant",
                 "\u201cTranscendental Aesthetic\u201d [or \u201cTranszendentale Asthetik\u201d] &lt;NR, Philosophy&gt;"

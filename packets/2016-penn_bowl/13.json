@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "A quasar in the Pegasus constellation is called this man\u2019s \u201cCross.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Albert Einstein",
                 "Aniara",
                 "Thomas Stoltz Harvey"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "A photograph of this sculpture that served as the cover for the magazine <em>Review</em> was meant to symbolize Russia and its satellite republics and was used against the artist's wishes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Table of Silence [or the Apostles\u2019 table]",
                 "Constantin Brancusi",
                 "The Infinite Column [or the Column of the infinite sacrifice or the Endless column]"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "G.E. Moore\u2019s 1939 essay presents as a formal argument what many people probably think when presented with skepticism about the external world. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "hands",
                 "David Hume",
                 "uniformity [or the principle of uniformity of nature; accept word forms or obvious equivalents; do not accept or prompt on \u201cinfallibility\u201d]"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "This work\u2019s prologue places it in the spring, when \u201cthat Aprill, with his shoures soote / the droghte of March hath perced to the root\u201d before going on to enumerate its characters\u2019 occupations. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Canterbury Tales",
                 "Thomas a Becket",
                 "the Shipman\u2019s tale [or the Sailor\u2019s tale]"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "\u00a0This process is believed to increase the rate of nonsynonymous substitution to synonymous substitution in the McDonald-Kreitman test. For 10 points each;",
-            "answers_sanitized": [
+            "answers": [
                 "natural selection [prompt on evolution or Darwinian evolution]",
                 "phylogenetic tree [prompt on evolutionary tree or tree]",
                 "maximum parsimony [or MP]"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "This policy\u2019s most famous opponent was imprisoned on Robben Island until his release in 1991. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "apartheid [or apart-hood]",
                 "Steve Biko",
                 "Joe Slovo"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "One piece in this collection measures time in seconds rather than measures. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sequenza [or Sequence]",
                 "trombone",
                 "Symphony No. 2 by Gustav Mahler [or Resurrection Symphony or Die Auferstehung]"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "Examples of these theories include the 331 model and trinification. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "GUT [or Grand Unified Theories]",
                 "Georgi-Glashow model",
                 "proton"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "This author described a deadly, beautiful maiden in \u201cThe Lorelei.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Heinrich Heine",
                 "Hebrew Melodies [or Hebraische Melodien]",
                 "Yiddish"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "Signed by President McKinley in 1898, the joint resolution advocated for by this man succeeded where the previous treaty failed due to the Ku\u2019e Petitions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sanford B. Dole",
                 "Bayonet Constitution [accept 1887 Constitution of the Kingdom of Hawaii]",
                 "Kalakaua [accept David La\u2019amea Kamananakapu Mahinulani Naloiaehuokalani Lumialani Kalakaua]"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "This essay argues that living in a city requires people to develop a \u201cprotective organ.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cThe Metropolis and Mental Life\u201d",
                 "Jane Jacobs",
                 "commuters"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "The animals from this artist\u2019s <em>Vision of St. Eustace</em> were so realistic they were thought to be Durer\u2019s for years. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pisanello [or Antonio di Puccio Pisano; or Antonio di Puccio da Cereto; or Vittore Pisano]",
                 "Gothic style/architecture",
                 "Bellini [Gentile Bellini and Giovanni Bellini]"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "Most quantum chemistry softwares such as SMILES uses these orbitals for calculation due to their higher accuracy. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Slater-type orbitals [or STOs]",
                 "Molecular Orbitals [or MO]",
                 "hydrogen [or H; do not accept \u201cH+\u201d]"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "The British added a 17-pounder gun to this tank to create its Firefly variant. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "M4 Sherman [or Medium Tank, M4 until read; prompt on M4 until read]",
                 "Second Battle of El Alamein [do not accept \u201cFirst Battle of El Alamein\u201d]",
                 "Battle of the Mareth Line"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "This woman interprets a dream about her taking away a stag and giving Gudrun a wolf cub. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Brunhild",
                 "Aslaug [or Kraka or Kraba or Randalin]",
                 "Grimhild"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "While trying to live by the title character\u2019s \u201cHumanitist\u201d philosophy, Rubi\u00e3o ends up having his entire inheritance swindled by a con man and his wife. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Joaquim Maria Machado de Assis",
                 "Brazil",
                 "The Hour of the Star [or A hora da estrela]"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "The operator used to find this quantity is represented as a downward-facing triangle. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "divergence",
                 "Pierre-Simon Laplace",
                 "Helmholtz decomposition"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "Much knowledge of ancient Latin texts is owed to these people because they spent substantial portions of their lives copying stuff onto manuscripts. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "monks",
                 "anchorites",
                 "Margery Kempe"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "name some people who didn\u2019t like capital letters, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "e. e. cummings [or edward estlin cummings]",
                 "bell hooks [or gloria jean watkins]",
                 "charles bukowski"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "A peasant rebellion was led in this modern-day country in 1653 by Niklas Leuenberger. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Switzerland",
                 "copper",
                 "Zurich"

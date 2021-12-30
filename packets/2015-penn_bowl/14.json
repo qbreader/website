@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "This recursive algorithm iteratively revises the lengths of paths until an accurate value is found for every pair of points it operates on. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Floyd-Warshall algorithm [Floyd's algorithm, the Roy\u00c2\u2013Warshall algorithm, the Roy\u00c2\u2013Floyd algorithm, or the WFI algorithm.]",
                 "shortest path",
                 "dynamic programming"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This 2012 novel was praised by James Wood, who had criticized its author's earlier work for exemplifying \"hysterical realism.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "NW",
                 "a mouse [accept word forms like mice; accept FutureMouse]",
                 "Howards End"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "Name some things about ancient Greek art, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Francois Vase",
                 "Amphora",
                 "Minoans"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Solving this equation for a multinuclear system often involves approximating the nuclei as stationary, while the electrons move around. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Schrodinger equation",
                 "many-worlds interpretation",
                 "density matrix [or density operator]"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "This work is framed as a manuscript subtitled \"For Madmen Only.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Steppenwolf [or Der Steppenwolf]",
                 "Hermann Hesse",
                 "Narcissus and Goldmund [or Narzi\u00c3\u0178 und Goldmund; or Death and the Lover]"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "Consider an argument of the form \"All men are mortal. Socrates is a man. Therefore, Socrates is mortal.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "deductive reasoning [or deduction; prompt on \"top-down logic]",
                 "soundness [accept word forms]",
                 "modus ponens [or modus ponendo ponens or MP or implication elimination or rule of detachment]"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This man's \"canonical five\" victims include Elizabeth Stride, and Stephen Knight suggested that his acts were part of a conspiracy to cover up an illegitimate child fathered by Prince Albert Victor. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jack the Ripper",
                 "\"From Hell\" letter",
                 "Walter Sickert"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "A composer from this family developed the da capo aria in his role as the leader of the Neapolitan school of opera. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Scarlatti",
                 "Domenico Scarlatti",
                 "fugue [or fugato; or double fugue]"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "For 10 points, answer the following about Hades' love life:",
-            "answers_sanitized": [
+            "answers": [
                 "Persephone",
                 "Pirithous",
                 "Menthe [or Minthe]"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "This theory is sometimes named for Gillespie and Nyholm. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "VSEPR theory [also accept Valence Shell Electron Pair Repulsion]",
                 "symmetry elements",
                 "D3h"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "Wakamiya was the first Japanese aircraft carrier commissioned for this war. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "WWI",
                 "Austria-Hungary",
                 "Qingdao [or Tsingtao]"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "This art form requires \"Four Treasures\" to create, and the \"three perfections\" were an effort to integrate it with poetry and another art form. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "calligraphy",
                 "China",
                 "Willem de Kooning"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "One of these people lent his name to the Bing variety of cherries. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Chinese-Americans [or Chinese Laborers]",
                 "Rock Springs Massacre",
                 "Los Angeles"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "This book was initially banned in South Africa, but was unbanned three months later. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Burger's Daughter",
                 "Nadine Gordimer",
                 "Bram Fischer [or Abram Louis Fischer]"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "Asymmetric information, commitment problems, and issue indivisibilities are the three \"rationalist\" explanations proposed by James Fearon to explain the occurrence this phenomenon.  For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "war",
                 "preventive or preventative war",
                 "pre-emptive war [accept word forms like pre-emption]"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "This war's battle of Gisikon was the first time in history in which ambulances were used on the battlefield. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sonderbund war",
                 "Switzerland",
                 "International Red Cross"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "Kate Hudson recently endorsed this product through an Instagram hashtag, pointing out its benefits for skin. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "coconut oil",
                 "mustard oil",
                 "sichuan peppercorn"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "Name the following Pulitzer-Prize winning American plays, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Glengarry Glen Ross",
                 "Disgraced",
                 "Doubt: A Parable"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "This quantity is theorized to be about ten billions for the human population. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "carrying capacity [or k]",
                 "sigmoid growth curve [or S shaped growth curve or logistic curve]",
                 "density-independent factors"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "In one incident, the sea calms after this man is thrown overboard, and before he dies God briefly orders a plant to give him shade from the sun. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jonah or Yunus",
                 "Nineveh",
                 "Zohar"

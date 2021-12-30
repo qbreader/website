@@ -130,7 +130,7 @@
     "bonuses": [
         {
             "leadin": "This process frequently uses indicators such as phenolphthalein and bromothymol blue. &nbsp;For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "titration",
                 "equivalence point",
                 "calorimetry [accept isothermal titration calorimetry; prompt on \u201cITC\u201d]"
@@ -145,7 +145,7 @@
         },
         {
             "leadin": "This play ends with Ben being instructed to kill his partner Gus. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Dumb Waiter",
                 "Harold Pinter",
                 "Marcel Proust"
@@ -160,7 +160,7 @@
         },
         {
             "leadin": "Richard Taruskin described the choreography for this ballet as \u201cugly earthbound lurching and stomping.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Rite of Spring [or Le Sacre du Printemps]",
                 "Les Noces (lay NOSS) [or The Wedding]",
                 "Ballets Russes (ROOSS)"
@@ -175,7 +175,7 @@
         },
         {
             "leadin": "The Australian government was rocked by a constitutional crisis in the summer of 2017, which forced seven members of this body to resign. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Australian Parliament [prompt on legislative branch or legislature]",
                 "dual citizenship [or foreign citizenship; or allegiance to a foreign country]",
                 "natural-born citizen"
@@ -190,7 +190,7 @@
         },
         {
             "leadin": "This country was called \u201cthe happiest barrack\u201d for its relative freedom and high standard of living during the Cold War. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hungary [or Magyarorszag]",
                 "Janos Kadar",
                 "secret police [prompt on police]"
@@ -205,7 +205,7 @@
         },
         {
             "leadin": "Herbert Simon used the term \u201csatisficing\u201d to describe how this concept is \u201cbounded\u201d for individuals. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "rationality [or rational actor]",
                 "budget constraint",
                 "perfect substitute"
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "These devices can use a beam splitter or a half-silvered mirror to operate. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Michelson interferometer",
                 "destructive interference",
                 "Sir Isaac Newton"
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "This government is sometimes named after the city of Edo, where its shoguns lived. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tokugawa Shogunate [or Tokugawa bakufu]",
                 "isolationism [accept descriptive answers that mention things like no foreign trade or no foreign contact] ",
                 "the Netherlands [or the Dutch]"
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "In one account, this man lies in bed with his lover without making a move for three nights. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sir Perceval [or Percival; or Parsifal; or Parzival]",
                 "the Holy Grail",
                 "Chretien de Troyes"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "This author concluded \u201clogic is logic / That\u2019s all I say\u201d in a comic poem about a \u201cwonderful one-hoss shay.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Oliver Wendell Holmes, Sr. [do not accept or prompt on \u201cOliver Wendell Holmes, Jr.\u201d; the poem is \u201cThe Chambered Nautilus\u201d]",
                 "The American Revolution [or the Revolutionary War]",
                 "Phillis Wheatley"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about the rare key of G-sharp minor:",
-            "answers_sanitized": [
+            "answers": [
                 "Dmitri Dmitriyevich Shostakovich",
                 "piano \u00e9tudes",
                 "Alexander Nikolayevich Scriabin (scree-AH-byin)"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "One side in this war passed the Self-Denying Ordinance, preventing members of Parliament from simultaneously being military officers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "English Civil War",
                 "New Model Army",
                 "Drogheda [dro-eh-duh]"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "The title character of this novel tries to adopt Murasaki many times and is refused, so he decides to kidnap her. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Tale of Genji [or Genji monogatari]",
                 "novels",
                 "it is left completely blank [accept blank chapter]"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "Common mutations of this protein occur on its DNA-binding core domain, and such mutations are associated with bladder and colorectal cancers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "p53 [or tumor protein p53]",
                 "cancer",
                 "ubiquitin"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "The Book of Shapur is an important text in this religion, whose only remaining temple is the Temple of Cao\u2019an. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Manichaeism [or Manichaean]",
                 "gospels [accept synoptic gospels]",
                 "Saint Augustine of Hippo"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "This thinker gave up his job teaching philosophy and became a porter for Guy\u2019s Hospital during World War II. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ludwig Josef Johann Wittgenstein",
                 "Vienna Circle",
                 "beetle-in-a-box experiment"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "Frameworks used to develop these applications include Apache Cordova, Ionic, and React Native. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "hybrid mobile apps",
                 "HTML [or Hypertext Markup Language; accept XHTML or HTML5 or HTML4 or HTML3]",
                 "Apple Inc."
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "Answer the following about duels in American history, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Alexander Hamilton",
                 "Henry Clay",
                 "bloody [or Bloody Island; or \u201cwaving the bloody shirt\u201d]"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about works written by Franz Kafka:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cIn the Penal Colony\u201d [or \u201cIn der Strafkolonie\u201d]",
                 "The Metamorphosis [or Die Verwandlung]",
                 "\u201cBefore the Law\u201d [or the parable before the Law; or parable of the Law]"
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "This painting is the most famous representation of the R\u00fcckenfigur [\u201croo-ken-fig-ur\u201d] visual motif. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Wanderer above the Sea of Fog [or Der Wanderer \u00fcber dem Nebelmeer; or Wanderer above the Mist; or Mountaineer in a Misty Landscape]",
                 "Caspar David Friedrich",
                 "landscape"

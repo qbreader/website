@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "This thought experiment considers the imaginary liquid XYZ.",
-            "answers_sanitized": [
+            "answers": [
                 "the Twin Earth experiment",
                 "meaning",
                 "semantic externalism"
@@ -133,7 +133,7 @@
         },
         {
             "leadin": "This man signed the Treaty of Nerchinsk with the Russians, gaining the Amur River valley for his empire.",
-            "answers_sanitized": [
+            "answers": [
                 "Kangxi Emperor",
                 "Revolt of the Three Feudatories [accept equivalents of \"three dudes rebelling together\"]",
                 "Han"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "This assumption can sometimes be broken if the timescale required to explore the entire phase space is excessively long, like in a ferromagnet.",
-            "answers_sanitized": [
+            "answers": [
                 "ergodic hypothesis [or ergodicity]",
                 "entropy",
                 "Enrico Fermi"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Thomas Jefferson was opposed to this policy, seeing it as the work of the Federalists, which led him to resign as Secretary of State.",
-            "answers_sanitized": [
+            "answers": [
                 "neutrality [prompt on similar answers, but the word \"neutral\" is needed]",
                 "Citizen Genet [or Edmond-Charles Genet]",
                 "Charleston"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "Hazel Morse becomes depressed when her life as a party girl starts to feel hollow and unfulfilling in this author's most famous short story, \"Big Blonde.\"",
-            "answers_sanitized": [
+            "answers": [
                 "Dorothy Parker [or Dorothy Rothschild]",
                 "the Algonquin Round Table [prompt on partial answers]",
                 "\"You might as well live.\""
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "When King Nebuchadnezzar sacked Jerusalem in 589 BC and brought the city's people into captivity, he ordered all the young Jewish men to be trained to serve in his court.",
-            "answers_sanitized": [
+            "answers": [
                 "Daniel [also accept Belteshazzar]",
                 "worship a statue of the king",
                 "lions"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "One of these responsible for forming xylulose-5-phosphate is regulated by araC.",
-            "answers_sanitized": [
+            "answers": [
                 "operon",
                 "beta-galactosidase",
                 "white"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "When this woman tells her mother she does not want to get married, her mother advises her to spend a year eating only butter, a year eating only bacon, and a year eating only desserts.",
-            "answers_sanitized": [
+            "answers": [
                 "Aino",
                 "oak tree",
                 "Finland"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "Name the following French poets.",
-            "answers_sanitized": [
+            "answers": [
                 "Fran\u00c3\u00a7ois Villon (vee-OWN)",
                 "St\u00c3\u00a9phane Mallarm\u00c3\u00a9 [or \u00c3\u2030tienne Mallarm\u00c3\u00a9]",
                 "Charles Baudelaire [or Charles Pierre Baudelaire]"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "Pieces for this instrument include \"The Mysterious Barricades\" and \"The Tic-Toc-Choc.\"",
-            "answers_sanitized": [
+            "answers": [
                 "harpsichord [or clavecin; do not accept \"clavichord\"]",
                 "Francois Couperin (\"FRANCE\"-wah KOO-puh-RENG)",
                 "Jean-Philippe Rameau"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "A memorial poem to this man repeats that he \"disappeared in the dead of winter\" and died on a \"dark cold day.\"",
-            "answers_sanitized": [
+            "answers": [
                 "William Butler Yeats (yates)",
                 "W. H. Auden [or Wystan Hugh Auden]",
                 "\"As I Walked Out One Evening\""
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "This expedition ended with a victory at the Battle of the Volturno River.",
-            "answers_sanitized": [
+            "answers": [
                 "Expedition of the Thousand [do NOT accept the \"Sicilian Expedition\", which is something way different]",
                 "red",
                 "fourth shore"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "One variation of this principle states that increasing the ambient temperature of a vessel pushes the reaction towards the endothermic side.",
-            "answers_sanitized": [
+            "answers": [
                 "Le Chatelier's principle",
                 "reaction quotient",
                 "bond dissociation energy [or BDE]"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "Commonwealth v. John Rex found that this genre did not include National Geographic magazines and sociology textbooks.",
-            "answers_sanitized": [
+            "answers": [
                 "pornography [prompt on \"erotica\" or \"obscenity\"]",
                 "Catharine MacKinnon",
                 "Canada"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "While Pennsylvania had the first major oil boom in the United States, this state's Trenton Gas Field was the site of the first natural gas boom.",
-            "answers_sanitized": [
+            "answers": [
                 "Indiana",
                 "Turkmenistan",
                 "Caspian Sea"
@@ -339,7 +339,7 @@
         },
         {
             "leadin": "This book suggests placing onions on your head to avoid crying when you chop them.",
-            "answers_sanitized": [
+            "answers": [
                 "Like Water for Chocolate [or Como agua para chocolate]",
                 "Octavio Paz [or Octavio Paz Lozano]",
                 "H. Rider Haggard [or Henry Rider Haggard]"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "This choreographer spent time in the village of Accompong to perform anthropological field work, and also conducted a hunger strike in support of Haitian boat people.",
-            "answers_sanitized": [
+            "answers": [
                 "Katherine Dunham",
                 "Alvin Ailey",
                 "Martha Graham"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "This man visualized an eerie mermaid procession in his painting Sadko in the Underwater Kingdom.",
-            "answers_sanitized": [
+            "answers": [
                 "Ilya Repin",
                 "The Zaporozhian Cossacks",
                 "Vasily Vasilyevich Vereshchagin (VERE-uh-SHAH-gin)"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "Weiner's theorem of this type implies that if the Fourier transform of a function vanishes on some set, then the Fourier transform of a linear combination of translations of that function also vanishes.",
-            "answers_sanitized": [
+            "answers": [
                 "Tauberian theorem",
                 "commutative [accept word forms like commute]",
                 "prime numbers"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "He once successfully defended a former student, Marcus Caelius (KAI-lee-us) Rufus, from a murder charge.",
-            "answers_sanitized": [
+            "answers": [
                 "Marcus Tullius Cicero",
                 "Clodia Metelli",
                 "In Verrem [or the trial of Gaius Verres; or Against Verres]"

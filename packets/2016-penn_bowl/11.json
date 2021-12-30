@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0This process includes \u201ccross-linked\u201d and \u201cnative\u201d versions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "chromatin immunoprecipitation [or ChIP]",
                 "transcription [do not accept or prompt on translation; prompt on answers like mRNA synthesis]",
                 "sonication"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This speaker of this poem has a vision of the Cross, in which it recounts its time as a tree and its later time bearing the crucified Jesus. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Dream of the Rood",
                 "Old English [prompt on English or Anglo-Saxon; do not accept or prompt on \u201cmiddle English\u201d]",
                 "the Pearl Poet [or the Gawain-Poet]"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "The American Revolution was full of forward thinkers, but some did not live to see their views enacted. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "John Laurens",
                 "Charles Lee",
                 "South Carolina"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Shiva addresses this goddess with 108 names which are listed in the Chandi section of the Markandeya Purana. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Durga",
                 "Navratri",
                 "Diwali [or Divali]"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "One study found that the \u201cTitchener circles,\u201d an example of these things, affects manual estimation of distance to a target but not instinctive grasping towards it. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "optical illusion",
                 "Ames room",
                 "phi phenomenon"
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "This man was supported by Aquiles Serdan, who was killed in his basement for stockpiling weapons in Puebla. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Francisco Madero",
                 "Wilson",
                 "Plan of San Luis de Potosi"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "James Franco tried to reshoot this series with himself in the main role, but god it was awful. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Untitled Film Stills",
                 "Cindy Sherman",
                 "Dorothea Lange"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "In one of this author\u2019s stories, the narrator smokes marijuana with his wife\u2019s blind friend Robert, and the two share a spiritual experience while drawing the title building. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Raymond Carver",
                 "\u201cGazebo\u201d [description acceptable from Chris Ray]",
                 "murder [or obvious equivalents]"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about photorealism in computer graphics:",
-            "answers_sanitized": [
+            "answers": [
                 "ray tracing [prompt on ray casting]",
                 "rendering",
                 "supersampling [accept word forms]"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "Carp are said to become dragons by leaping through the Dragon Gate, a structure created because of one of these events. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "floods",
                 "Shun",
                 "Da Yu [or Yu the Great]"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "This \u201cWest Philadelphia born and raised\u201d character got his life \u201cflip-turned upside down.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Fresh Prince [prompt on Will Smith]",
                 "Annalise Keating [accept either underlined part]",
                 "Paddy\u2019s Pub"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "A pair of operators that govern this system are distinguished by the sign in front of the term i over m omega times p hat. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "quantum harmonic oscillator [or QHO]",
                 "Hermite polynomials.",
                 "one-half"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "The slow drop-by-drop addition of one solution of known concentration to a solution of unknown concentration is a hallmark of this method. \u00a0For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "titration",
                 "Benedict\u2019s reagent",
                 "thiosulfate [or S2O3 2-]"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "\u201cThe Vicar of Bray\u201d is a satirical 18<sup>th</sup> century song about how the title character switches sides in British religious debates. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Roman Catholicism [or the Church of Rome and Popery before mention]",
                 "Penal Laws [anti-prompt on Clarendon Code or Test Acts before they are mentioned]",
                 "nonjuring schism"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "Name these modern composers whose music has been used in films, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gyorgy Ligeti",
                 "Ennio Morricone",
                 "Toru Takemitsu"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "This artist\u2019s painting of Adam and Eve discovering the body of Abel, <em>First Mourning</em>, was painted shortly after the death of his son. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "William-Adolphe Bouguereau",
                 "Salon des Refus\u00e9s",
                 "The Birth of Venus [or La Naissance de V\u00e9nus]"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "A 2006 paper by Samuel Scheffler asks if this action is \u201cmorally distinctive.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "terrorism",
                 "the state [or state terror]",
                 "Michael Walzer"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "In this novel, the hermit Kerewin bonds with a mute orphan and his adoptive father Joe, bringing her out of her reclusive lifestyle. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Bone People",
                 "New Zealand",
                 "planets [or Saturn; prompt on stars; do not accept or prompt on \u201czodiac signs\u201d]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "Name the following about ancient, non-Roman Italians for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "the Etruscans",
                 "the Samnites",
                 "the Latin League [or the Latins]"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "In one work, this\u00a0poet wrote that \u201cTomorrow, at dawn, in the hour when the countryside becomes white, I will leave.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Victor Hugo",
                 "The Hunchback of Notre Dame [or Notre-Dame de Paris]",
                 "architecture [or l\u2019architecture; prompt on buildings or cathedrals]"

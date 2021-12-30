@@ -118,7 +118,7 @@
     "bonuses": [
         {
             "leadin": "This painting was attacked in 1914 by suffragette Mary Richardson. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Rokeby Venus [or The Toilet of Venus; prompt on \"Venus at her Mirror\"; prompt on \"Venus and Cupid;\" and \"La Venus del espejo\"]",
                 "Las Meninas",
                 "a red cross [prompt on \"cross\" or \"St. James Cross\"]"
@@ -133,7 +133,7 @@
         },
         {
             "leadin": "Answer some questions about nuclear decay, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "iron-56",
                 "alpha decay",
                 "tellurium [or Te]"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "This symphony's fourth movement abruptly shifts from Presto and 2/2 time to a lengthy coda in Adagio and 3/8 time written in the parallel major key. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Farewell Symphony [or Symphony No. 45 by Joseph Haydn]",
                 "Surprise Symphony [or Symphony No. 94]",
                 "Johann Nepomuk Hummel"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Winfield Scott was the inspiration for John A.B.C. Smith, a war hero now composed almost entirely of prostheses, in this author's story \"The Man That Was Used Up.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Edgar Allan Poe",
                 "\"Ligeia\"",
                 "\"The Cask of Amontillado\""
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "The left foot of this statue curls around the edge of the rock on which it stands, and its hands are slightly bent and nearly touching in front of its chest in a position of prayer. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Penitent Magdalene or Penitent Magdalena",
                 "Donatello",
                 "Giorgio Vasari"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "Name some methods of numerical integration, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Monte Carlo integration",
                 "trapezoidal rule",
                 "Clenshaw-Curtis quadrature"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This goddess was married to Tegid Foel, or Tacticus the Bald. For 10 points each,",
-            "answers_sanitized": [
+            "answers": [
                 "Ceridwen (kir-RID-wen)",
                 "Taliesin or  Gwion Bach",
                 "salmon [prompt on less specific answers like \"fish\"]"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "The subject of this work was the product of a union between a Revolutionary War hero and a barmaid he cheated on his wife with. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Kallikak Family: A Study in the Heredity of Feeble-Mindedness",
                 "eugenics",
                 "Sir Francis Galton"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "This man wrote a series of letters attributed to a Chinese traveler named Lien Chi that were published under the title The Citizen of the World. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Oliver Goldsmith",
                 "She Stoops to Conquer",
                 "Arabella [accept Arabella Wilmot or Arabella Donn]"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "In one military campaign, this man had the opposing commander, Arthur Aston, beaten to death with his own wooden leg. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Oliver Cromwell",
                 "Battle of Naseby",
                 "Instrument of Government"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "This man is the namesake of a limited renaissance that included the works of the nun Hroswitha of Gandersheim. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Otto the Great",
                 "Hungarians [or Magyars]",
                 "Margrave"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "This play ends with the line \"Silence, silence I say! Silence!\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The House of Bernarda Alba [or La Casa de Bernarda Alba]",
                 "Federico Garc\u00c3\u00ada Lorca",
                 "\"At five in the afternoon\" [or \"A las cinco de la tarde\"]"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "This book analyzes the Odyssey and the relationship between myth and science and explores historical patterns of dominance to explain failures of traditional Marxist theory. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Dialectic of Enlightenment [or Dialektik der Aufkl\u00c3\u00a4rung]",
                 "the Culture Industry [or Kulturindustrie]",
                 "Frankfurt [or the Frankfurt School]"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "In 2014, Terence Tao showed that the averaged three-dimensional version of these equations have solutions that blow up in finite time. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Navier-Stokes equations",
                 "turbulent flow",
                 "incompressible"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "This character is astounded to hear of the invention of an instrument used to steal cloaks from pegs by reaching over a gymnasium wall and of the discovery of the reason fleas buzz, and begs to meet the man responsible. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Strepsiades",
                 "The Thinkery [or Phrontisterion]",
                 "Aristophanes"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Recent studies have been showing evidence of interbreeding between modern humans and this species as recently as forty thousand years ago. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Homo neanderthalis",
                 "mitochondrial DNA",
                 "Saharan pump theory"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "Aldrich Ames worked in the counterintelligence division of this agency while he conducted espionage for the Soviet Union.  For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "CIA or Central Intelligence Agency",
                 "dead drops [prompt on just \"drops\"]",
                 "United States Navy [prompt on \"military\" or \"armed forces\"] "
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This sect's most visible movement is the Chabad Lubavitch sect, and they can be distinguished partly by their wearing of the kolpiks and their organization into different dynasties. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hasidim [or Hasidic Jews]",
                 "Baal Shem Tov [or Besht or Israel Bin Eliezer]",
                 "shamash or gabbai [prompt on warden]"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "This man's claim was rejected by the Khatmiyya sufi order, leading him to send his forces against him. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Mahdi [or Muhammmad Ahmad bin abd Allah]",
                 "Sudan",
                 "The River War: An Historical Account of the Reconquest of the Soudan"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "R.U.Ready for this robot-themed bonus? For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Cyberiad",
                 "Stanislaw Lem",
                 "Isaac Asimov"

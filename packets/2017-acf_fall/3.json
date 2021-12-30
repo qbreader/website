@@ -126,7 +126,7 @@
     "bonuses": [
         {
             "leadin": "Instead of prepositions like \u201cin\u201d or \u201con,\u201d this language uses words translating to \u201cloose-fitting\u201d and \u201ctight-fitting.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Korean language [prompt on hangul; accept hanguk-eo or hanguk-mal or uri-mal or guk-eo]",
                 "language isolates",
                 "sign languages [or Nicaraguan Sign Language]"
@@ -141,7 +141,7 @@
         },
         {
             "leadin": "An actor\u2019s job is tough enough without the bizarre stage directions playwrights think up. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tennessee Williams",
                 "Peter Shaffer",
                 "The Bald Soprano [or The Bald Prima Donna; or La Cantatrice Chauve]"
@@ -156,7 +156,7 @@
         },
         {
             "leadin": "This group of monstrous, flying old ladies relentlessly chase down their victims in order to punish them for their crimes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Furies [or the Erinyes; or the Eumenides]",
                 "Areopagus [prompt on Acropolis]",
                 "castration of Uranus [or equivalent answers which mention castration and Uranus or Ouranos; prompt on the birth of Kronos or similar answers]"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "The weakening of these systems can cause cold air from a jet stream to escape to lower latitudes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "polar vortices [or polar vortex; prompt on partial answer; prompt on, but do not reveal, cyclones]",
                 "hurricanes [or tropical cyclones]",
                 "Coriolis force [or the Coriolis effect]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "This organization attempted to assassinate John Major by bombarding 10 Downing Street with mortar shells. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Provisional Irish Republican Army [or IRA]",
                 "Bobby Sands",
                 "Margaret Thatcher"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "In 1957, Gunther Schuller coined the name \u201cThird Stream\u201d to describe a new style blending jazz and classical music. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charles Mingus",
                 "Billy Strayhorn [or William Thomas Strayhorn]",
                 "B\u00e9la Viktor J\u00e1nos Bart\u00f3k"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "19<sup>th</sup>-century literary criticism could be rather brutal. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Edgar Allen Poe",
                 "Harriet Beecher Stowe",
                 "James Fenimore Cooper [or Fenimore Cooper's Literary Offenses]"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "Hugues de Payens established this military order to protect Christians traveling to the Holy Land. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Knights Templar [or the Templars]",
                 "Philip IV [or Philip the Fair; prompt on Philip]",
                 "Clement V [prompt on Clement]"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "This structure, which was first elucidated by Linus Pauling, forms coiled-coiled structural motifs in proteins. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "alpha helix [or alpha helices; prompt on helix or helices]",
                 "proline [prompt on Pro or P]",
                 "DNA [or deoxyribonucleic acid]"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This musical group\u2019s successor, the Belyayev Circle, included the composers Anatoly Lyadov and Nikolai Tcherepnin (chuh-RIP-nyeen). For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Five [or the Mighty Handful; or \u041c\u043e\u0433\u0443\u0447\u0430\u044f \u043a\u0443\u0447\u043a\u0430 (Moguchaya Kuchka)]",
                 "Nikolai Andreyevich Rimsky-Korsakov",
                 "Alexander Konstantinovich Glazunov"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "This system of thought is one of the five religions legally recognized by the People\u2019s Republic of China. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Daoism [or Taoism; accept Tao or Dao]",
                 "Dao De Jing [or Tao Te Ching]",
                 "alchemy"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "A \u201cChurch\u201d of this figure, whose members describe themselves as \u201cskeptical atheists,\u201d was founded by Anton LaVey. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Satan [or Shaitan]",
                 "Beelzebub",
                 "Elijah"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "This author tried to convince a girl that sleeping with him would be okay since their \u201ctwo bloods mingled\u201d in the title insect of his poem \u201cThe Flea.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "John Donne",
                 "Holy Sonnets [or Divine Meditations; or Divine Sonnets]",
                 "\u201cThe Anniversary\u201d [or \u201cThe Anniversaries\u201d]"
@@ -318,7 +318,7 @@
         },
         {
             "leadin": "Answer the following about using silver to back currency, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "William Jennings Bryan",
                 "China [or Republic of China; or ROC; or Qing Dynasty; or Zhonghua Minguo; or Zhongguo; or Qing Chao; or Da Qing Diguo]",
                 "Spain [or Espa\u00f1a]"
@@ -333,7 +333,7 @@
         },
         {
             "leadin": "Answer the following about the Ostwald process, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "nitric acid [or HNO3]",
                 "ammonia",
                 "rhodium [or Rh]"
@@ -348,7 +348,7 @@
         },
         {
             "leadin": "This author\u2019s stories inspired Schumann\u2019s composition <em>Kreisleriana</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "E.T.A. Hoffmann [or Ernst Theodor Amadeus Hoffmann; or Ernst Theodor Wilhelm Hoffmann]",
                 "\u201cThe Sandman\u201d [or \u201cDer Sandmann\u201d]",
                 "letters"
@@ -363,7 +363,7 @@
         },
         {
             "leadin": "This artist depicted a certain mountain in red in his print <em>Fine Wind, Clear Morning</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Katsushika Hokusai",
                 "Japan [or Nippon]",
                 "bridge"
@@ -378,7 +378,7 @@
         },
         {
             "leadin": "This man formed a namesake legion of cavalry that became part of his reforms. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Casimir Pulaski",
                 "France",
                 "free men [or former slaves; or emancipated slaves; prompt on black people; do not accept or prompt on just \u201cslaves\u201d alone, though]"
@@ -393,7 +393,7 @@
         },
         {
             "leadin": "Answer some questions about the Caspian Sea, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Russia",
                 "Baku",
                 "caviar [prompt on fish eggs or roe]"
@@ -407,7 +407,7 @@
         },
         {
             "leadin": "In circuit diagrams, these components are represented with a break in the circuit with two parallel lines facing each other. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "capacitors",
                 "farad",
                 "coaxial cable"

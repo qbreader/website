@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "The ladder operator method of solving this system introduces two non-Hermitian (\"HUR-MIH-shun\") operators a and a-dagger. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "quantum harmonic oscillator [or QHO; prompt on harmonic motion; do not accept or prompt on \"simple harmonic oscillator\" or \"simple harmonic motion\" or \"SHO\" or \"SHM\"]",
                 "angular frequency",
                 "wavefunction [prompt on psi] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This monarch may have agreed to one alliance after taking the Countess of Castiglione as a mistress. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Napoleon III [accept Louis-Napoleon Bonaparte; prompt on Napoleon]",
                 "Battle of Solferino",
                 "Rome "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "A pioneering piece in this genre was originally an overture to the choral piece The Four Elements before being rewritten with the inspiration of the poetry of Alphonse de Lamartine. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "tone poem [or symphonic poem]",
                 "Franz Liszt [or Liszt Ferencz]",
                 "Prometheus "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "The author of this novel based the blind piano player Samson d'Arnault off of Blind Tom Wiggins whom she had seen perform over a decade earlier. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "My \u00c1ntonia",
                 "Willa Cather [or Wilella Sibert Cather]",
                 "The Song of the Lark "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "In a 2021 TikTok trend, users created parodies of this programming block's 15-second bumpers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Adult Swim",
                 "Uzumaki",
                 "Eric (Samuel) Andre [accept The Eric Andre Show] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Eastern and Western churches conflict over whether Sundays are meant to be included in the length of this period. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Lent",
                 "Easter Sunday [accept Pascha]",
                 "Milan "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "If this organ becomes enlarged, the pituitary gland must produce low levels of TSH to compensate. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "thyroid gland [do not accept or prompt on \"parathyroid\" or \"parathyroid gland\"]",
                 "tyrosine [or tyr or Y]",
                 "calcium [or Ca 2+] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "The sweat of the brow doctrine in this area of law granted protection for the labor put into the production of a work, even if the work itself was not original. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "copyright",
                 "expression [accept idea-expression dichotomy or idea-expression distinction]",
                 "telephone directories [or telephone books or telephone listings, antiprompt on white pages or yellow pages] (The case is Feist Publications v. Rural Telephone Service.) "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "A 2000 coup in this country resulted in the overthrow of its ethnically Indian prime minister Mahendra Choudhry. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Republic of Fiji",
                 "sugar [or sugarcane]",
                 "Republic of Singapore "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Description required. The organizer of this event required that it be in front of a lake and that it must begin exactly when the moon rises at 8:30. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the premiere of Konstantin Treplev's play in The Seagull [accept descriptive answers relating that it is the production of the play-within-a-play from The Seagull; accept Ch\u00e1yka in place of \"The Seagull\"; prompt on the play-within-a-play or similar answers that don't give \"The Seagull\" by asking, \"From what play?\"]",
                 "Anton Chekhov [or Anton Pavlovich Chehkov]",
                 "Uncle Vanya [or Dy\u00e1dya V\u00e1nya] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "These compounds are often used to add alkyl or aryl groups to organohalides. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Grignard reagents",
                 "ether",
                 "water [or H2O] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Two opposing forms of this action are known as Lasya and Tandava. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "dance [accept word forms]",
                 "Shiva [accept Mahadeva]",
                 "Krishna "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "This author included the poem \"Tears, Idle Tears\" in his longer narrative poem The Princess. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Alfred, Lord Tennyson",
                 "\"In Memoriam A.H.H.\"",
                 "\"Tithonus\" "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Answer the following about nursing during the 19th century. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Florence Nightingale",
                 "U.S. Civil War [or American Civil War]",
                 "Jamaica "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Films intentionally made with this visual choice include David Lynch's The Elephant Man and Martin Scorsese's Raging Bull. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "only in black and white [or grayscale or monochrome; accept word forms like monochromatic]",
                 "Alfonso Cuar\u00f3n Orozco",
                 "Schindler's List "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "The folk singer Dave van Ronk was arrested during this event. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Stonewall riots [accept Stonewall uprising or Stonewall rebellion]",
                 "American Mafia [accept the Sicilian Mafia; accept the Cosa Nostra; accept the Mob; accept the Genovese family]",
                 "San Francisco "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "After upholding a CDC order blocking these events in July 2021, the Supreme Court denied an extension to the order the next month. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "evictions [accept eviction moratorium]",
                 "Merrick Garland",
                 "CARES Act [or Coronavirus Aid, Relief, and Economic Security Act] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about relationships between siblings in the world of art.",
-            "answers_sanitized": [
+            "answers": [
                 "Vincent van Gogh",
                 "Rossetti [accept Dante Gabriel Rossetti or Christina Rossetti]",
                 "Berthe Morisot "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Erosion of this rock, dolomite, and gypsum (\"JIP-sum\") produces karst topography. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "limestone",
                 "acid rain [or water]",
                 "aragonite "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "This character is able to join the Army of the North by shooting a hole through a silver coin that was tossed into the air. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the old gringo [or gringo viejo; accept Ambrose Bierce]",
                 "Carlos Fuentes (Mac\u00edas)",
                 "Christopher [accept Christopher Columbus; accept Christopher Unborn or Crist\u00f3bal Nonato] "

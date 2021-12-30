@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "Two answers required. Though neither is Tajikistan, the Sokh enclave of one of these countries within the other has a population of which ninety-nine percent is ethnically Tajik. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Uzbekistan AND Kyrgyzstan",
                 "Tin-Bigha Corridor [or Teen-Bigha Corridor]",
                 "Wakhan Corridor "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "In Akhil Sharma\u2019s introduction to this novel, the title character\u2019s position in the Indian Administrative Service is likened to being a movie star. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "English, August",
                 "The Ministry of Utmost Happiness (by Arundhati Roy)",
                 "A Confederacy of Dunces "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This party took its name from a peasant guerrilla leader who supported the Liberal general Jos\u00e9 Mar\u00eda Moncada in the non-Brazilian Constitutionalist War. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sandinistas [or Sandinista National Liberation Front; accept FSLN; accept Frente Sandinista de Liberaci\u00f3n Nacional]",
                 "Alfredo Stroessner [or Alfredo Stroessner Matiauda]",
                 "US Army School of the Americas [or SOA; accept WHINSEC or Western Hemisphere Institute for Security Cooperation] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "This thinker extended Ferdinand de Saussure\u2019s (\u201csoh-SOOR\u2019z\u201d) conception of the sign in his elucidation of the content and expression planes in his Prolegomena to a Theory of Language. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Louis Trolle Hjelmslev (\u201cYELM-slev\u201d)",
                 "semiotics [prompt on semantics]",
                 "floating signifiers [accept empty signifiers; prompt on signifiers] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "This thinker\u2019s work as a courtesan may have informed her progressive views on gender equality and her naturalistic metaphysics, in which romantic love is considered the ethical ideal. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ninon de Lenclos (\u201clawn-CLO\u201d) [or Anne de l\u2019Enclos; or Ninon de Lanclos]",
                 "Epicureanism [accept Neo-Epicureanism]",
                 "Pascal [accept Jacqueline Pascal or Blaise Pascal] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "In 2005, Brown et al. first observed these stars, which were theoretically predicted by Hills in 1998. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "hypervelocity stars [prompt on high-velocity stars]",
                 "proper motion",
                 "Doppler effect "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "Name the following jazz musicians whose tracks were covered by contemporary English artists on Blue Note Records\u2019 2020 collection Re:imagined, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Herbie Hancock [acept Herbert Jeffrey Hancock]",
                 "Wayne Shorter",
                 "Joe Henderson "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "Beaumont et al. demonstrated the de novo evolution of this strategy in Pseudomonas fluorescens subjected to fluctuating selection imposed by an exclusion rule and a bottleneck. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "bet-hedging",
                 "germination [accept word forms like germinate or germinating; accept sprouting]",
                 "evolutionarily stable strategy [or ESS; accept evolutionary stable strategy; prompt on stable strategy] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "A poet of this ethnicity wrote of waking \u201cto CFCs humming out of coils\u201d and \u201call day digging \u2026 bones out of the Syrian desert\u201d in the title poem of his 2016 Pulitzer-winning collection Ozone Journal. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Armenian-American [or Hayer; accept Armenia or Hayastan]",
                 "Theodore Roethke (\u201cRET-kee\u201d) (The poem is \u201cMy Papa\u2019s Waltz.\u201d)",
                 "Gertrude Stein "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "Answer the following about the history of the first planned colonial city in America, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "New Haven, Connecticut",
                 "La Amistad",
                 "Turtle [accept American Turtle] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "American-based journalist Jawar Mohammed has rallied the Qeerroo (\u201cKAY-roh\u201d) separatist movement in this country. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ethiopia",
                 "Abiy Ahmed Ali [accept either underlined part]",
                 "Tigray Region [accept Tigray People\u2019s Liberation Front; prompt on TPLF] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "One character in this novel repeatedly smashes his head against a hickory tree after confronting his wife\u2019s lover Andre in his front yard. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "An American Marriage (by Tayari Jones)",
                 "A Lesson Before Dying",
                 "Alice Walker [or Alice Malsenior Tallulah-Kate Walker] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "Though this substance has recently been embraced by the Western alternative medicine and recreational drug communities, it has been central to the religion of the Peruvian Urarina people for centuries. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ayahuasca [accept spirit vine or vine of the soul or answers mentioning both the a vine and the spirit or soul]",
                 "Santo Daime",
                 "Roman Catholicism [accept the Catholic Church] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "Answer these questions about Franz Schubert\u2019s tendency to write harmonies based on the circle of thirds. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "eight [accept string octet]",
                 "symphony [accept Great C-Major Symphony; accept Unfinished Symphony]",
                 "Wanderer Fantasy [accept Fantasie in C Major, Op. 15] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "In his biography of this king, David Carpenter claims that we know more about this monarch\u2019s personal views than his contemporaries because copies of his personal letters survive on rolls kept by the chancery. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Henry III [accept Henry of Winchester; prompt on Henry]",
                 "Sicily [accept Sicilian Vespers]",
                 "Matthew Paris [accept either underlined name; accept Matthew of Paris] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "A garment developed in this country features five buttons representing the branches of the government and four pockets representing the four virtues of propriety, justice, honey and shame. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "China [or People\u2019s Republic of China; accept PRC]",
                 "qipao [or cheongsam]",
                 "\u00e1o d\u00e0i [prompt on \u00e1o] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Answer these questions about neoclassical sculptors who created noted busts, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Antonio Canova",
                 "Jean-Antoine Houdon",
                 "Franz Xaver Messerschmidt "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "This approach begins by taking in a point cloud and then builds Rips or \u010cech complexes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "TDA [or topological data analysis]",
                 "simplexes [or simplices]",
                 "torus [prompt on coffee cup; prompt on doughnut] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "This is the larger of the two countries where a World War I-era temperance act requiring the closure of bars by 6 PM resulted in reckless mad dashes from workplaces to bars and chaotic binge drinking. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Australia [or Commonwealth of Australia]",
                 "Independent Order of Rechabites [or IOR; accept Sons and Daughters of Rechab; prompt on Healthy Investment]",
                 "Darwin [accept Darwin rebellion] "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "In a story titled for this exact number, the narrator recounts a tale about a couple who unnecessarily tested if their love could be described by this number by parting as soon as they met. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "100 percent [accept 1; accept \u201cOn Seeing the 100% Perfect Girl One Beautiful April Morning\u201d; reject \u201c1 percent\u201d]",
                 "translation [accept being translated to or from English]",
                 "Korean [or Hanguk-eo; or Hanguk-mal; reject \u201cHangul\u201d] (\u201c99%\u201d is by Kim Kyung-uk. Human Acts and The White Book are by Han Kang. The author of The Accusation is the purportedly North Korean author Bandi.) "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "Answer the following about bewildering results in high-energy physics, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "neutrinos",
                 "Fermilab (\u201cFUR-mee-lab\u201d) [or Fermi National Accelerator Laboratory] (Leon refers to physicist Leon Lederman.)",
                 "storage ring [prompt on ring; prompt on circular accelerator; prompt on synchrotron by asking \u201cwhat more specific type of accelerator has the same geometry?\u201d] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "This dataset consists of a time series of pre- and post-presidential election surveys conducted continuously since 1948. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "American National Election Studies [accept ANES]",
                 "voter turnout",
                 "Shelby County v. Holder [prompt on Holder] "

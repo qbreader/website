@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Prominent examples of these institutions included ones at Taxila and Nalanda. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "universities [prompt on schools]",
                 "Han dynasty",
                 "Sassanian dynasty [or Sassanid Empire; accept the House of Sasan] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "A woman believes that this character should marry William Bankes after noting how this character's charm was her \"Chinese eyes\" and \"puckered little face.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Lily Briscoe [accept either]",
                 "To the Lighthouse",
                 "Virginia Woolf [or Adeline Virginia Stephen] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "In this religion, people who attain enlightenment are known as jina, or conquerors. For 10 points:",
-            "answers_sanitized": [
+            "answers": [
                 "Jainism",
                 "karma",
                 "nudity [or skyclad; accept equivalents such as naked] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "A quiver and bow sit at the base of a bust covered in flowers in the wooded right edge of this painting. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Embarkation for Cythera [or The Embarkation to Cythera or The Voyage to Cyhera or The Pilgrimage to Cythera or L'embarquement pour Cyth\u00e8re; accept from in place of to in all of the aforementioned answers; accept reasonable equivalents mentioning a journey to/from Cythera]",
                 "Rococo",
                 "Venus [accept Aphrodite] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Sharpey's fibers connect the constituent bones of the cranium in this structure. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "human skull",
                 "mandible",
                 "cranial sutures "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about North American cryptids:",
-            "answers_sanitized": [
+            "answers": [
                 "Bigfoot [or Sasquatch]",
                 "Jersey Devil [prompt on Leeds Devil]",
                 "Mothman "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "The Toxophilus was a book written on the use of this weapon. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "longbow [prompt on bow and arrow]",
                 "Hundred Years' War",
                 "cannons [accept bombards; prompt on artillery or guns] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "The speaker of this poem's section \"The Spilled Blood\" exclaims, \"I will not see it! Tell the moon to come, for I do not want to see the blood\" of the title person \"on the sand.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\"Lament for the Death of a Bullfighter\" [or \"Lament for Ignacio Sanchez Mejias\"; or \"Llanto por Ignacio Sanchez Mejias\"]",
                 "Federico Garc\u00eda Lorca [or Federico del Sagrado Coraz\u00f3n de Jes\u00fas Garc\u00eda Lorca; prompt on Garc\u00eda]",
                 "New York City [accept Poet in New York; or Poeta en Nueva York] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "The gap between the results of these things and elections is exemplified by the Bradley effect, in which people are unwilling to admit to planning to vote against a nonwhite candidate. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "opinion poll [accept scientific poll; prompt on surveys]",
                 "weighting",
                 "exit poll "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Answer the following about oil, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "fluid catalytic cracking [or FCC]",
                 "combustion reactions",
                 "sulfur [accept sulfur dioxide; prompt on S] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Sofia Gubaidulina used Frederick the Great's theme for the Musical Of ering to compose a work in this genre titled Of ertorium. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "violin concerto [accept but do not otherwise reveal Violin Concerto No. 1 by Dmitri Shostakovich; prompt on concerto alone]",
                 "Dmitri Shostakovich",
                 "Aram Khachaturian "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Charles Sanders Peirce argued that this concept was determined from a consensus reached through inquiry. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "truth",
                 "Gettier problems [or Gettier cases]",
                 "Plato [or Platon] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "This quantity's \"modulus\" is defined as the difference between an object's absolute and apparent magnitudes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "astronomical distance [accept distance modulus or comoving distance or proper distance]",
                 "stellar parallax",
                 "light [accept light-year] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "These objects are central to the staging of George Bernard Shaw's play Shakes versus Shav in which a fictionalized version of Shaw gets into a fistfight with Shakespeare. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "puppets [or marionettes]",
                 "love-suicides [accept shinj\u016b ten; accept descriptive answers line double suicide]",
                 "Ben Jonson [or Benjamin Jonson] (the other play is The Alchemist) "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "A member of this family founded The New-England Courant in 1721. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Franklin family [accept James Franklin or Benjamin Franklin]",
                 "Bradford [accept Andrew Bradford or William Bradford]",
                 "New York "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Lake Nasser was formed as a result of the construction of a dam in this country. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Arab Republic of Egypt",
                 "Congo River",
                 "Lake Volta [accept Volta River] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Kings from this dynasty carried out purges of a faction of scholars known as the Sarim. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Joseon dynasty",
                 "Korean peninsula",
                 "writing systems [accept alphabets or scripts] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "This architect's largest project included a building with upward and downward facing hemispheres straddling a central section with two rectangular towers. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Oscar Niemeyer",
                 "Federative Republic of Brazil",
                 "Le Corbusier [or Charles-\u00c9douard Jeanneret] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "In this story, a woman's corpse is found stuffed up a chimney with deep fingernail indentations on her face. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\"The Murders in the Rue Morgue\"",
                 "Edgar Allen Poe",
                 "\"Hop-Frog\" [or \"Hop-Frog; Or, the Eight Chained Ourang-Outangs\"] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "The holonomic variety of these things can be expressed by setting a function of position and time equal to zero. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "holonomic constraints",
                 "normal force",
                 "Newton's second law of motion "

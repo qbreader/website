@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "A stairway, a mirror, and a single star appear in the gaps of the cloud cover in a painting of this subject by Francisco de Zurbar\u00e1n. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Immaculate Conception",
                 "Diego Vel\u00e1zquez [or Diego Rodr\u00edguez de Silva y Vel\u00e1zquez]",
                 "Bartolom\u00e9 (Esteban) Murillo "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "In one poem, a \u201cbeloved shadow who knows not how to guide\u201d decides to \u201csink\u201d this man in a \u201clong sleep.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Romelio Ureta [accept either name or equivalents of Gabriela Mistral\u2019s lover; accept the subject of the Sonnets of Death until mentioned]",
                 "Occitan",
                 "Victoria Ocampo [prompt on Ocampo] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "During this period, scholars in the kokugaku, or \u201cnational learning,\u201d movement emphasized studying Japanese cultural traditions over Confucian classics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tokugawa Shogunate [or Edo Period]",
                 "Dutch Learning [or Dutch studies; or rangaku]",
                 "Fukuzawa Yukichi [prompt on Yukichi] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This name is given to ligands with two Schiff bases and two acidic hydroxyls. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "salen [accept salen-type ligands]",
                 "Heck reaction",
                 "ionic "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "A 1999 work by Claude Panaccio traces theories of this entity starting from Plato. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "a mental language [or mentalese; or mental speech; accept anything that indicates human thought is in the language]",
                 "William of Ockham [accept either underlined answer]",
                 "Philo of Alexandria [or Philo Judaeus; or Ph\u00edl\u014dn; or Yedidia HaCohen] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Cole\u2019s paradox describes how this strategy does not predominate in nature, despite animals adopting it needing only produce a single more offspring per litter to maintain the same population growth as their counterparts. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "semelparity [or word forms, such as semelparous]",
                 "marsupials [or Marsupialia]",
                 "bet-hedging [or answers indicating hedging one\u2019s bets; prompt on hedging] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "The steps formed by the arms and superimposed square of a chakana cross represent these three entities, whose names include the words hanan, ukhu, and kay. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "pachas [accept hanan pacha, ukhu pacha, or kay pacha]",
                 "Inti",
                 "a flood [or a deluge] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "In a section of Don Quixote that parodies this genre, the beautiful Marcela appears at a funeral to defend herself from the friends of the proto-incel Chrysostom, who died after she spurned his advances. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "pastoral poetry/romance",
                 "Galatea",
                 "L'Astr\u00e9e [or Astrea] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "In a tradition that precedes these events, participants gather together in a hotel room to watch the 1969 film White Sun of the Desert. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "rocket launches [or space missions; or shuttle launches]",
                 "Yuri (Alekseyevich) Gagarin",
                 "Gene Kranz [or Eugene Francis Kranz] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "The hundred-plus enslaved people on this ship were purchased after Timothy Meaher made a wager with a New Yorker that he could successfully skirt the US ban on the slave trade. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Clotilda",
                 "Alabama",
                 "Federal Writers' Project [or FWP] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "For 10 points each, let\u2019s get over our cultural taboos and answer some questions about menstruation.",
-            "answers_sanitized": [
+            "answers": [
                 "niddah",
                 "Sikhism [or Sikhi]",
                 "Nepal [or Federal Democratic Republic of Nepal; or Sa\u1e45gh\u012bya Lokat\u0101ntrik Ga\u1e47atantra Nep\u0101l] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "The eighth movement of this work, \u201cFac, ut ardeat cor meum,\u201d sets the two featured voices in fugue-like counterpoint with the strings and each other. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Stabat Mater",
                 "Giovanni Battista Pergolesi",
                 "Antonio Vivaldi "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Answer the following about the use of cannons in French warfare, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Francis I of France [or Francois I; prompt on Francis or Francois]",
                 "Sebastien Le Prestre, Marquis de Vauban [or the Comte de Vauban]",
                 "Gribeauval system [or systeme Gribeauval; or equivalents specifying a system introduced by Jean Baptiste Vaquette de Gribeauval] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "This process absorbs energy when it takes place in an atom whose mass is less than or equal to that of iron, and it releases energy when the atom has a mass greater than iron. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "photodistintegration [or phototransmutation]",
                 "core collapse [prompt on gravitational collapse]",
                 "metals "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This novel\u2019s protagonist spends ten pages trying to understand an instruction about feeding leftover food to a dog. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Watt",
                 "frogs",
                 "piano tuners [prompt on incomplete answers or on answers like \u201cpiano technicians\u201d or \u201cpiano repairmen\u201d; prompt on answers that mention musical instruments but not specifically pianos; do not accept or prompt on \u201cpianist\u201d] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Answer the following about mathematical advances in medieval Europe, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Liber Abaci [or Book of the Abacus]",
                 "Euclid",
                 "Toledo, Spain [accept the Toledo School of Translators] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "The polyamorous, opium-loving poet Harry Crosby took this occupation during World War I, and published works by its most famous holder via his Black Sun Press afterwards. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ambulance drivers [accept anything indicating a member of the Ambulance Service or Ambulance Corps; prompt on drivers]",
                 "ee cummings [or Edward Estlin Cummings]",
                 "Wolff [accept Tobias Wolff or Geoffrey Wolff] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "This director exorcised Jimmy Page\u2019s house in exchange for the soundtrack to his film in which the Magus whirls around in a circle to summon plumes of lava. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Kenneth Anger [or Kenneth Wilbur Anglemyer]",
                 "James (Byron) Dean",
                 "\u201cBlue Velvet\u201d "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Motion under this kind of force can produce Cotes's spirals. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "inverse-cube [prompt on \u201ccentral force\u201d]",
                 "specific angular momentum",
                 "Kepler's 2nd law "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "A 2019 paper by Jae Song et al., which is punningly titled for these entities, suggests that a majority of earnings inequality is driven by variation between them. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "firms [accept companies or similar answers; accept superstar firms; do not accept or prompt on \u201cestablishments\u201d; the paper by Song et al. is titled \u201cFirming Up Inequality\u201d]",
                 "monopsony [or monopsonies; accept labor monopsony or monopsonistic structure]",
                 "Lawrence Katz [or Lawrence Francis Katz] "

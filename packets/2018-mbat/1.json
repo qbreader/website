@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "The Einstein\u2013Smoluchowski relation is an equation regarding the kinetic theory. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "diffusion",
                 "mu",
                 "drift velocity"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "One battle during this offensive led to the near-complete destruction of the city of Hu\u1ebf. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tet Offensive",
                 "U.S. Embassy",
                 "V\u00f5 Nguy\u00ean Gi\u00e1p"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "Followers of this religion believe in a single god called Jah. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rastafari (or Rastafarianism)",
                 "Haile Selassie I (or Tafari Makonnen Woldemikael)",
                 "Mansions"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "In this work the author\u2019s journey lasts from the night before Good Friday to the Wednesday before Easter. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Divine Comedy (or Divina Commedia; prompt on \u201cInferno\u201d)",
                 "Henry Wadsworth Longfellow",
                 "The Village Blacksmith"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "Answer the following questions about people name-dropped in the hit musical <em>Hamilton</em>. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "John Adams",
                 "Martha Washington (prompt on \u201cWashington\u201d)",
                 "Sarah \u201cSally\u201d Hemings"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "Sandwich compounds are composed of a metal and two arene ligands. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "benzene",
                 "chromium (accept Cr)",
                 "hapticity"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "2017 brought success for populist movements across Europe. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "France",
                 "Alternative for Germany (or AfD)",
                 "Czech Republic (or Czechia, do not accept \u201cCzechoslovakia\u201d)"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "This novel is presented as the literary criticism of a poem by John Shade. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pale Fire",
                 "Vladimir Nabokov",
                 "Lolita"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "The Kapp Putsch temporarily overthrew this government in 1920. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Weimar Republic",
                 "hyperinflation",
                 "Paul von Hindenburg"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "CAM photosynthesis is sometimes used by xerophytes in these regions. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "deserts",
                 "star dunes",
                 "sedimentary rocks (accept sandstone, prompt on \u201crock\u201d with \u201cWhat type of rock?\u201d)"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "The only figure in this work lies with a pen in one hand and a list of condemned names in another. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Death of Marat",
                 "Jacques-Louis David",
                 "Oath of the Horatii"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "In this short story, the Man of the Book knows all the knowledge of the title structure. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cThe Library of Babel\u201d (or \u201cLa biblioteca de Babel\u201d)",
                 "Jorge Luis Borges",
                 "the Crimson Hexagon"
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "The back of the eye contains photoreceptor cells. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "retina",
                 "Purkinje effect (accept Purkinje shift)",
                 "rhodopsin"
@@ -313,7 +313,7 @@
         },
         {
             "leadin": "Answer the following questions about American territories in the Pacific. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Guam",
                 "Wake Island",
                 "Palmyra Atoll"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "Mary Wollstonecraft wrote many foundational texts for this branch of philosophy. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "feminism",
                 "Betty Friedan",
                 "Smith College"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "Answer the following questions about the <em>Diadochi</em>. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Alexander the Great (or Alexander III of Macedon)",
                 "Ptolemy I (or Ptolemy Soter)",
                 "Antigonus I (or Antigonus Monophthalmus)"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "Vishnu, the Hindu god of preservation, descends to earth in the form of an avatar when order needs to be restored. For ten points each, name these avatars of Vishnu:",
-            "answers_sanitized": [
+            "answers": [
                 "Krishna",
                 "Rama",
                 "Matsya"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This piece begins with cellos, double basses, and bassoons playing the main theme slowly and quietly, until other sections introduce a modified variant that collides with the main theme. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cIn the Hall of the Mountain King\u201d (or \u201cI Dovregubbens hall\u201d)",
                 "Edvard Grieg",
                 "Duke Ellington"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "This Shakespearean leading lady ends her life with the phrase \u201cHappy dagger, this is thy sheath.\u201d For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Juliet Capulet",
                 "\u201cOut, damned spot!\u201d",
                 "Ganymede (do not accept or prompt on Rosalind)"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "Classical productions of this form include <em>The Nutcracker</em>, and <em>Swan Lake</em>. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ballet",
                 "five",
                 "pirouette"
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "A B-25 bomber accidentally collided with this building in July 1945. For ten points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Empire State Building",
                 "Al Smith",
                 "Mohawk"

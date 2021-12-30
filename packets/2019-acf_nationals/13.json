@@ -121,7 +121,7 @@
     "bonuses": [
         {
             "leadin": "In Empire of Magic, Geraldine Heng attributes the emergence of King Arthur legends in the 12th century to trauma from reports of the capture of this city. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Ma\u2019arrat al-Nu\u2019man [or Ma\u2019ara]",
                 "Antioch [or Antiocheia]",
                 "Peter [or Peter Bartholomew; or Peter the Hermit] "
@@ -136,7 +136,7 @@
         },
         {
             "leadin": "This scholar praised the \"clear incisive prose\" of Old Scandinavian literature in her first book, an examination of the Norse conception of the dead titled The Road to Hel. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "H. R. Ellis Davidson [or Hilda Roderick Ellis Davidson; or Hilda Roderick Ellis]",
                 "Mj\u00f6lnir [accept Thor's hammer]",
                 "Wayland (the Smith) [or Weland or V\u00f6lundr] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Additions using one of these compounds typically produce it from a bridged diazene to prevent it from closing into an MCP. For 10 points each:[10] Name this class of compounds which may be used in cycloadditions to form cyclopentanes. They are derived from a neutral four-carbon diradical.ANSWER: tri\u00b7methylene\u00b7methanes [accept TMMs]",
-            "answers_sanitized": [
+            "answers": [
                 "tri\u00b7methylene\u00b7methanes [accept TMMs]",
                 "benzene",
                 "Wilhelm Schlenk "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "A three-quarters profile portrait of this man features a book inscribed on its edges with a Greek and Latin phrase mentioning his \u201cHerculean labors.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Desiderius Erasmus (Roterodamus) [or Erasmus of Rotterdam]",
                 "Hans Holbein the Younger",
                 "hands [or H\u00e4nde] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "A man passes out in his son\u2019s college dorm while frantically searching for a place to use the bathroom in a story originally written in this language, titled \u201cPiss and Pride.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tibetan [or Standard Tibetan; or Classical Tibetan; or Lhasa Tibetan; or Bod skad; or B\u00f6k\u00e9; or Lha-sa'i skad; or Lhas\u00e9k\u00e9; the epic is The Epic of King Gesar]",
                 "The True Story of Ah Q [or \u0100 Q Zh\u00e8ngzhu\u00e0n] (by Lu Xun)",
                 "Kim "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "A pair of 2012 papers, one from each of these collaborations, reported promising decay events near a mass of 125 GeV [\u201cgiga electron volts\u201d]. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ATLAS [or A Toroidal LHC ApparatuS] or CMS [or Compact Muon Solenoid]",
                 "Higgs boson",
                 "bottom quark [or b] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "The narrator of this poem says, \u201cIt isn\u2019t me, someone else is suffering. I couldn\u2019t. / Not like this.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Requiem [or Rekviyem]",
                 "\"Crucifixion\u201d",
                 "Cossacks "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "Together with Rolf Gutbrod, this architect designed a steel mesh web covered by a transparent polyester fabric to serve as his country\u2019s pavilion at Expo 67. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Frei (Paul) Otto",
                 "Shigeru Ban",
                 "Denver "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "James Creelman was the first to report on a massacre of residents of this city by soldiers under Yamaji Motoharu during the Sino-Japanese War. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Port Arthur [or Lushunkou]",
                 "Count Nogi Maresuke [or Kiten]",
                 "Treaty of Portsmouth "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "Hito Steyerl incorporated hours of footage from a game in this series in her 2015 video installation Factory of the Sun, which invokes artificial sunshine as a metaphor from the light given off by digital screens. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Metal Gear Solid [or Metaru Gia; the leadin refers to Metal Gear Solid 4 and the part itself is about Metal Gear Solid 2]",
                 "auteurs [or auteur theory]",
                 "K\u014db\u014d Abe [or Kimifusa Abe] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "This work\u2019s third and final movement, \u201cFly Forward,\u201d features a bluegrass-inspired cadenza that incorporates shuffle rhythms. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Violin Concerto by Jennifer Higdon [prompt on partial answer]",
                 "Hilary Hahn",
                 "Baltimore Symphony Orchestra [prompt on \u201cBSO\u201d] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "This play was inspired by James Gleick\u2019s 1987 book on chaos theory. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Arcadia",
                 "\u201ccarnal embrace\u201d",
                 "Cleopatra "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "For 10 points each, name some blinged-out paraphernalia that Christian bishops get to use or wear.",
-            "answers_sanitized": [
+            "answers": [
                 "miter [or mitre]",
                 "croziers [or paterissa; or pastoral staff; or bishop's staff; generously prompt on staff]",
                 "ecclesiastical rings "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "This arch-conservative ideology, which formed after the July Revolution, was opposed to republicanism, Bonapartism, and Orleanism. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Legitimism [or the Legitimists]",
                 "Louis Philippe I",
                 "Henri, Count of Chambord [or the Comte de Chambord; accept Henry V of France from Legitimists] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "In 2018, Rui Costa\u2019s group at Columbia provided a biological basis for Thorndike\u2019s law of effect by optogenetically stimulating this area of the brain using musical tones. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ventral tegmental area (of Tsai) [or VTA; or the ventral tegmentum]",
                 "dopamine [or 3,4-dihydroxyphenethylamine]",
                 "AMPA receptor [or AMPAR; or quisqualate receptor; or \u03b1-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid receptor] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "This type of program was credited with lowering crime rates in Milwaukee, but by 2001 the Surgeon General issued a warning saying that they increased gang participation rates. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "midnight basketball [prompt on basketball]",
                 "a thousand points of light",
                 "taxes "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "Answer the following about contemporary American fiction that references 19th century Russian literature, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Jhumpa Lahiri (the novel is The Namesake)",
                 "The Possessed",
                 "Fun Home (by Alison Bechdel) "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Adi Shankara argued that because subjective experience exists, this thing must also exist. For 10 points each,",
-            "answers_sanitized": [
+            "answers": [
                 "atman [prompt on soul or self]",
                 "Buddhism [accept specific types of Buddhism]",
                 "Lok\u0101yata [accept Charvaka or C\u0101rv\u0101ka or B\u0101rhaspatya] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "The namesake of this distribution used it to derive a \"loss formula\" to calculate the likelihood that a call may be dropped. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Erlang Distribution",
                 "Poisson Process [or Poisson distribution]",
                 "convolution "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Despite leading a shift to empirical methodology in American social science, a work on immigrants from this modern-day country fell into neglect, largely because one of its co-authors was charged with violating the Mann Act after the publication of the second of its five volumes. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Poland [or Republic of Poland; or Rzeczpospolita Polska; accept The Polish Peasant in Europe and America]",
                 "Chicago, Illinois",
                 "symbolic interactionism [accept symbolic interactionists; prompt on \u201cinteractionism\u201d or \u201cinteractionists\u201d] "

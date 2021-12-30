@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This composer wrote his <em>S\u00e9r\u00e9nade m\u00e9lancolique</em> for Leopold Auer, who was also the original dedicatee of his violin concerto. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Peter Ilyich Tchaikovsky",
                 "Symphony No. 6 in B minor Path\u00e9tique, Op. 74 [accept any underlined part.]",
                 "Nikolai Rubinstein [prompt on Rubinstein]"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This man developed a methodology later used by his student Penelope Eckert in her study of \u201cjocks\u201d and \u201cburnouts\u201d in Detroit. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "William Labov",
                 "AAVE [or African American Vernacular English or ebonics or Black English Vernacular or Vernacular Black English]",
                 "vowels"
@@ -153,7 +153,7 @@
         },
         {
             "leadin": "For 10 points each, name some Shakespearean villains:",
-            "answers_sanitized": [
+            "answers": [
                 "Iago",
                 "Edmund",
                 "King Claudius"
@@ -168,7 +168,7 @@
         },
         {
             "leadin": "This object, which contains features with such wonderful names as \u201cOz Terra\u201d and \u201cMordor Macula,\u201d shares its name with the ferryman of the dead in Greek mythology. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charon",
                 "New Horizons",
                 "Clyde Tombaugh [or Tombaugh Regio]"
@@ -183,7 +183,7 @@
         },
         {
             "leadin": "You are a slave in Ancient Rome. Answer some questions about your life, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "latifundia",
                 "Spartacus",
                 "Appian Way [or the Via Appia]"
@@ -198,7 +198,7 @@
         },
         {
             "leadin": "Answer the following about the use of the color black in art, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Francisco de Goya",
                 "Kazimir Malevich",
                 "mother [or synonyms; or Whistler\u2019s Mother]"
@@ -213,7 +213,7 @@
         },
         {
             "leadin": "Eriphyle uses this object in order to convince her husband to join a rebellion, leading to her death. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "necklace of Harmonia [prompt on necklace]",
                 "Thebes",
                 "Hephaestus"
@@ -227,7 +227,7 @@
         },
         {
             "leadin": "These animals are especially well known for having the ability to regenerate lost limbs. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "salamanders",
                 "amphibians [or Amphibia]",
                 "aposematic coloration [or aposematism; or other word forms]"
@@ -242,7 +242,7 @@
         },
         {
             "leadin": "The protagonist of a novel by this author is assisted in his schemes by his elderly neighbor Hominy Jenkins, the last surviving member of the Little Rascals. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Paul Beatty",
                 "Los Angeles",
                 "The Day of the Locust"
@@ -257,7 +257,7 @@
         },
         {
             "leadin": "The Fawcett Commission investigated conditions in concentration camps during this war. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Second Anglo-Boer War [do not accept or prompt on the First Boer War]",
                 "Winston Churchill",
                 "Siege of Mafeking"
@@ -272,7 +272,7 @@
         },
         {
             "leadin": "The reciprocal of the square root of the product of this constant and the vacuum permeability is theoretically equal to the speed of light in a vacuum. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "permittivity of free space [or vacuum permittivity; do not accept or prompt on \u201crelative permittivity\u201d]",
                 "electric susceptibility [do not accept or prompt on \u201cmagnetic susceptibility\u201d]",
                 "Pierre Curie [do not accept or prompt on \u201cMarie Curie\u201d]"
@@ -287,7 +287,7 @@
         },
         {
             "leadin": "Answer the following about operas set in the Middle East, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "Aida",
                 "Wolfgang Amadeus Mozart [or Johannes Chrysostomus Wolfgangus Theophilus Mozart]",
                 "Akhnaten [or Akhenaten]"
@@ -302,7 +302,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about people who were executed by being burned at the stake.",
-            "answers_sanitized": [
+            "answers": [
                 "Joan of Arc [or Jeanne d\u2019Arc; prompt on Joan; prompt on Jeanne]",
                 "John Calvin",
                 "Oxford [or Oxford Martyrs; or Oxford evolution debate]"
@@ -317,7 +317,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about Renaissance literature:",
-            "answers_sanitized": [
+            "answers": [
                 "The Mandrake [or La Mandragola]",
                 "Il Canzoniere [or Rime Sparse; or Scattered Rhymes; or Rerum vulgarium fragmenta]",
                 "Italian language [or Italiano; or lingua italiana]"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "This man took over as the campaign manager of Donald Trump's 2016 presidential campaign after Corey Lewandowski was fired. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Paul Manafort",
                 "Ukraine",
                 "Cyprus [or Kibris or Kypriaki]"
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "This book uses the example of a ball of wax to explain how some things cannot be recognised by sensory perception alone. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Meditations on First Philosophy",
                 "Ren\u00e9 Descartes",
                 "ontological argument"
@@ -360,7 +360,7 @@
         },
         {
             "leadin": "Constantine the Great called for this event, which was preceded over by Hosius of Cordoba. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "First Council of Nicaea",
                 "Easter Sunday [or Pascha]",
                 "Arianism"
@@ -374,7 +374,7 @@
         },
         {
             "leadin": "Answer the following about the early history of the Southwest, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Pop\u00e9 [or Po\u2019pay]",
                 "Navajo [or Din\u00e9]",
                 "Arizona"
@@ -389,7 +389,7 @@
         },
         {
             "leadin": "In this novel, a former slave laborer on Shikoku becomes the richest man in his village. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Silent Cry",
                 "Kenzaburo Oe",
                 "American football"
@@ -404,7 +404,7 @@
         },
         {
             "leadin": "The <em>endo</em> transition state in this reaction is more stable due to secondary orbital effects. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Diels-Alder reaction",
                 "acids",
                 "Robert Burns Woodward [or Woodward-Hoffmann rules]"

@@ -143,7 +143,7 @@
     "bonuses": [
         {
             "leadin": "This kingdom was ruled by similarly named kings such as Coenwulf, Ceolwulf and Beornwulf. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mercia",
                 " Alfred the Great",
                 "Mary I [or Bloody Mary; or Mary Tudor; do not accept \"Mary, Queen of Scots\"; prompt on \"Mary\"]"
@@ -158,7 +158,7 @@
         },
         {
             "leadin": "This story concludes with the statement \"Romance at short notice was her specialty.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\"The Open Window\"",
                 "Saki",
                 "Animal Farm"
@@ -173,7 +173,7 @@
         },
         {
             "leadin": "It states that the divergence of the electric field equals the charge density divided by the permittivity of free space. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Gauss's Law",
                 "Coulomb's Law",
                 "displacement current [prompt on \"current\"]"
@@ -188,7 +188,7 @@
         },
         {
             "leadin": " Name these scholars of American society, for 10 points each",
-            "answers_sanitized": [
+            "answers": [
                 "Henry Louis Mencken",
                 " Edward Burghardt Du Bois",
                 "Thomas Jefferson"
@@ -203,7 +203,7 @@
         },
         {
             "leadin": " This author adopted a second-person narrative style in Aura, a novel which centers on the historian Felipe Montero. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Carlos Fuentes Macias",
                 "The Old Gringo [or El Gringo Viejo]",
                 " the Latin American Boom [or the Boom; or el Boom]"
@@ -218,7 +218,7 @@
         },
         {
             "leadin": "This piece was written for an instrument that plays alongside the viola and piano in its composer's Kegelstatt Trio. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 " Clarinet Concerto in A major",
                 "Wolfgang Amadeus Mozart",
                 " G minor"
@@ -233,7 +233,7 @@
         },
         {
             "leadin": " Identify the following about cyclic time in religious cosmology, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mayan",
                 " yugas",
                 "Neolithic Era"
@@ -247,7 +247,7 @@
         },
         {
             "leadin": " Cytomegalovirus is a member of this family of double-stranded DNA viruses, many of whom are susceptible to acyclovir. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "herpes",
                 "epstein-barr",
                 "kaposi's sarcoma"
@@ -262,7 +262,7 @@
         },
         {
             "leadin": " One of this author's characters describes the Pope as a magician so strong he can convince kings that one equals three. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Charles de Secondat, Baron Montesquieu [accept either underlined name]",
                 " Persian Letters [or Lettres persanes",
                 " separation of powers [or balance of powers; prompt three branches; prompt multiple branch es; prompt checks and balances]"
@@ -276,7 +276,7 @@
         },
         {
             "leadin": "Identify the following about Jay Gould, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "gold",
                 "western union",
                 "henry adams"
@@ -291,7 +291,7 @@
         },
         {
             "leadin": "This place, which is re-supplied each year by Operation Deep Freeze, is home to its continent's only newspaper, only ATM, and only church--the Chapel of the Snows. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "mcmurdo station",
                 " ross island",
                 "active volcano"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "This activity may have served as a proxy for warfare and was possibly used in sacrifice rituals. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ballgame",
                 "olmecs",
                 "zapotecs"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "For 10 points each, identify these things found at meteorite impact sites. ",
-            "answers_sanitized": [
+            "answers": [
                 "iridium",
                 "shocked quartz",
                 "tektites"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "The title character of this play is a son of Don Diegue who eventually kills Chimene's father, Don Gomes, and its debut sparked a pamphlet war with Cardinal Richelieu's faction. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "le cid",
                 "medea",
                 "horace"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "This film was divided into five acts, contained no trained actors, and made heavy use of the director's intellectual montage technique. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "battleship potemkin",
                 "soviet union",
                 "de palma"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Wholeness and Immortality are two \"divine sparks\" of this deity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ahura mazda",
                 "zoroastrianism",
                 "yasna"
@@ -378,7 +378,7 @@
         },
         {
             "leadin": "One work by this author features a \"chantoosie\" named Cherie, who attracted the unwanted attention of Bo when she sang \"That Old Black Magic\" in a Kansas City nightclub. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "inge",
                 "bus stop",
                 "capote"
@@ -393,7 +393,7 @@
         },
         {
             "leadin": " The Thorpe-Ingold effect concerns changing the angles around a central molecule of this geometry, and it shows a weak version of the Jahn-Teller effect. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "tetrahedral",
                 "sp3",
                 "bent"
@@ -408,7 +408,7 @@
         },
         {
             "leadin": "The content of the title object in this painting is revealed through symbols like the lute the woman in yellow is holding and the seascape hanging on the wall in the background. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the love letter",
                 "vermeer",
                 "the milkmaid"
@@ -423,7 +423,7 @@
         },
         {
             "leadin": "This country established the colonies of St. Thomas and St. John and sold its control over parts of the Virgin Islands to the United States in 1917. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "denmark",
                 "jutland",
                 "easter"
@@ -437,7 +437,7 @@
         },
         {
             "leadin": "This neurotransmitter is found in high concentrations in the ventral tegmental area, and like epinephrine and norepinephrine is it a catecholamine synthesized from tyrosine. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "dopamine",
                 "parkinson"
             ],
@@ -450,7 +450,7 @@
         },
         {
             "leadin": "This owner of Donwell Abbey suspects Frank Churchill of duplicity when the latter hurries to London just to get a haircut. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "george knightley",
                 "emma",
                 "harriet smith"
@@ -465,7 +465,7 @@
         },
         {
             "leadin": "This dynasty constructed the Forbidden City and repaired the Great Wall. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ming",
                 "grande canal",
                 "hongwu"

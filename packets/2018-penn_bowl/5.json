@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "In this play, a character says that she would rather stand \u201cthree times to face their battles, shield in hand, than bear one child!\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Medea",
                 "Orestes",
                 "Euripides &lt;MT, European Literature&gt;"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "This effect is used as the basis for a thermocouple. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Seebeck effect [prompt on thermoelectric effect]",
                 "Onsager reciprocal relations [prompt on partial answer]",
                 "calorimeters &lt;AP, Chemistry&gt;"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "This kingdom alternated between kings named Frederick and Christian from 1513 to 1972. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Denmark",
                 "Eric of Pomerania [or Erik af Pommern, Eric VII, Eric III, or Eric XIII; prompt on Eric]",
                 "Gustavus Vasa [or Gustav I or Gustav Eriksson; prompt on partial answer; do not accept \u201cGustavus Adolphus\u201d] &lt;NR, European History&gt;"
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "A poem by this author begins \u201cwith drum accompaniment\u201d and describes, in all caps, \u201cthe robbers,\u201d \u201cthe eagles,\u201d and \u201cthe politicians\u201d \u201cdescending upon us.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Christopher Okigbo",
                 "William\u00a0Butler\u00a0Yeats",
                 "rivers [accept river goddesses] &lt;JC, World Literature&gt;"
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "Lev Landau worked in many fields of physics. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "superfluidity",
                 "grand potential [do not accept or prompt on other answers]",
                 "Vitaly Lazarevich Ginzburg &lt;JC, Physics&gt;"
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "The second half of the modern version of this piece is oddly transcribed to C\u00a0minor, which is now believed to be a copyist\u2019s error. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Allegri\u2019s Miserere [or Miserere mei, Deus]",
                 "Thomas Tallis",
                 "Pope Marcellus Mass [or Missa Papae Marcelli] &lt;PL, Music&gt;"
@@ -210,7 +210,7 @@
         },
         {
             "leadin": "This author wrote <em>A Crown of Sonnets</em>, a collection in which the last line of each sonnet is the first line of the next. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mary Wroth",
                 "Philip Sidney",
                 "Ben Jonson &lt;JC, British Literature&gt;"
@@ -225,7 +225,7 @@
         },
         {
             "leadin": "In one story, this deity turned Changing Bear evil. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Coyote",
                 "stay up all night [accept equivalents that involve staying awake through the night or not sleeping; prompt on things like being early]",
                 "his own eyeballs &lt;JC, Mythology&gt;"
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "Given a basket of unknown symbols and a manual for inputs and outputs, a person in a room could theoretically carry on a conversation without understanding any of it. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Chinese room experiment",
                 "computational theory of mind [or computationalism; or CTM; prompt on representational theory of mind or RTM]",
                 "NYU [or New York University] &lt;MT, Philosophy&gt;"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "This president helped put down a strike by the Boston Police while he was governor of Massachusetts and allegedly won a bet with the two-word rejoinder \u201cyou lose.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Calvin Coolidge",
                 "Snyder Act [or Indian Citizenship Act of 1924]",
                 "Andrew Mellon &lt;AP, American History&gt;"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "A character in this opera claims to value love over beer, but later betrays his lover by accepting 300 florins. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Bartered Bride [or Prodan\u00e1 nev\u011bsta]",
                 "Bed\u0159ich Smetana",
                 "\u201cDance of the Comedians\u201d &lt;MT, Other Arts (Opera)&gt;"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "This construct is often divided into the five traits of openness, conscientiousness, neuroticism, agreeableness, and extraversion. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "personality",
                 "Raymond Cattell",
                 "Thematic Apperception Test [or TAT; or picture interpretation technique] &lt;JC, Social Science (Psychology)&gt;"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "Lin Zexu (\u201cdzuh-shoo\u201d) referred to this substance as \u201cforeign mud\u201d and wrote an open letter to Queen Victoria condemning its trade. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "opium",
                 "the Old Summer Palace [or Imperial Gardens; or Yuanming Yuan; prompt on Summer Palace]",
                 "Empress Dowager Cixi (\u201ctsuh-SHEE\u201d) &lt;NR, World History&gt;"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "The Plummer model describes a method for distance determination using these objects. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "globular clusters [prompt on clusters; do not accept \u201copen clusters\u201d]",
                 "Omega Centauri [or \u03c9 Cen; or NGC 5139]",
                 "hydrogen AND helium [accept in either order] &lt;AP, Other Science (Astronomy)&gt;"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "Two contrasting types of this action are <em>bi-al-riwaya</em>, or using classic sources for analysis, and <em>bi-al-diraya</em>, or using independent reasoning for analysis. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "commentating the Qur\u2019an [accept analyzing or interpreting or exegesis or explaining or equivalents in place of \u201ccommentating\u201d; accept tafsir until read; prompt on Islamic commentaries]",
                 "Abu Ja\u2018far Muhammad ibn Jarir al-Tabari",
                 "hadith &lt;JC, Religion&gt;"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "Animal cruelty is bad. Answer some questions that would horrify Peter Singer, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "elephants",
                 "camels [or the United States Camel Corps]",
                 "war pigs &lt;NR, European History&gt;"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "This process is impaired in hemophilia. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "coagulation [or blood clotting; or hemostasis]",
                 "fibrin",
                 "factor IX (\u201cnine\u201d) [or factor 9] &lt;AP, Biology&gt;"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "One artist in this movement used the \u201csoak stain\u201d technique to depict Nova Scotia in pastel pinks, blues, and greens in <em>Mountains and Sea</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "abstract expressionism",
                 "post-painterly abstraction",
                 "Barrett Newman &lt;JC, Painting&gt;"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "Laurel McKelva, the main character of this novel, confronts another character with a destroyed breadboard that belonged to her dead mother. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Optimist\u2019s Daughter",
                 "Medgar Evers",
                 "Southern Gothic [prompt on Gothic] &lt;MT, American Literature&gt;"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "Hurricane season is a turbulent time! For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Hurricane Florence",
                 "pink",
                 "Saffir\u2013Simpson hurricane wind scale &lt;WD, Current Events&gt;"

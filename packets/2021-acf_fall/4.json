@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This artist created In This Case, a painting of a skull with green teeth on a red background. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Jean-Michel Basquiat (\"BAS-kee-ah\")",
                 "graffiti",
                 "Banksy "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about about films scored by Hans Zimmer:",
-            "answers_sanitized": [
+            "answers": [
                 "Christopher Nolan",
                 "Blade Runner [do not accept or prompt on \"Blade Runner 2049\"]",
                 "synthesizers [or synths; accept modular synthesizers or Moog synthesizers] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "This author coined the word Verfremdungsef ekt or \"alienation effect\" which he used in many of his works. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bertolt Brecht [or Eugen Berthold Friedrich Brecht]",
                 "China [or Zh\u014dnggu\u00f3]",
                 "The Good Woman of Setzuan [or Der gute Mensch von Sezuan; or The Good Person of Szechwan; or The Good Man of Setzuan] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This president declared that \"the chief business of the American people is business.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "(John) Calvin Coolidge [prompt on Silent Cal]",
                 "Boston, Massachusetts",
                 "Dawes [accept Charles G. Dawes; accept Henry L. Dawes] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Answer the following about Kepler's laws of motion, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ellipse [do not accept or prompt on \"oval\"]",
                 "aphelion [or apoapsis; prompt on apsis or apsides or Q]",
                 "orbital radius [or r; accept semi-major axis; prompt on distance; do not accept or prompt on \"semi-minor axis\"] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "The ingestion of this substance marks the beginning of a period of spiritual enrichment called a dieta during which individuals may learn songs to summon plant spirits. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ayahuasca",
                 "cactus",
                 "Christianity [accept Roman Catholicism] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Answer some questions about artefacts made out of gold from the classical world and beyond, for 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "eagle [accept aquila]",
                 "Mycenaean",
                 "Scythians "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "The expression MC over R is used to estimate this quantity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "population size [or population size]",
                 "population bottleneck [or bottleneck effect, or bottleneck event, or genetic bottleneck]",
                 "wildfires [or forest fires, accept any answer indicating fire] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "The speaker of a poem professes that he would give one of these objects to both a \"true friend who offers his frank hand to me\" and a \"cruel one\" who \"breaks the heart by which I live.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "a white rose [or rosa blanca; prompt on rose or rosa; prompt on flower; accept \"I Cultivate a White Rose\" or \"Cultivo una rosa blanca\"]",
                 "Jos\u00e9 Mart\u00ed [or Jos\u00e9 Juli\u00e1n Mart\u00ed P\u00e9rez]",
                 "Republic of Cuba [or Rep\u00fablica de Cuba] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "This composer wrote a piece based on Pan's pursuit of Syrinx. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Claude Debussy (the suite is Children's Corner)",
                 "flute",
                 "Gabriel Faur\u00e9 "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Larger components of this type have both higher hit rate and higher latency. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "CPU cache",
                 "memory [accept random-access memory]",
                 "flip-flops [or latches] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "For 10 points each, name these current Florida politicians:",
-            "answers_sanitized": [
+            "answers": [
                 "[E] This current Republican governor of Florida beat Andrew Gillum in a close 2018 race. He is known for his vocal opposition to Critical Race Theory. ANSWER: Ron DeSantis",
                 "Matt Gaetz",
                 "Deborah \"Debbie\" Wasserman Schultz [accept either underlined portion] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "A ruler of this empire took power after Abubakari II left on a voyage across the Atlantic from which he never returned. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mali Empire",
                 "Sankor\u00e9 University [or Sankor\u00e9 Madrasah or Sankore Masjid; prompt on, but DO NOT REVEAL, University of Timbuktu]",
                 "Timbuktu "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "The deceased speaker of a poem in this collection asks his former friend a series of questions, only to learn that his friend \"cheers\" the speaker's \"sweetheart.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "A Shropshire Lad (the second poem is \"When I Was One-and-Twenty\")",
                 "Queen Victoria [or Alexandrina Victoria]",
                 "Rudyard Kipling [or Joseph Rudyard Kipling] (the other poem is \"If\u2014\") "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Description acceptable. Acoustics engineer David Lubman found that clapping at the base of the most famous of these religious buildings produces a sound similar to that of a quetzal. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mayan temples [accept Temple of Kukulc\u00e1n; accept Mayan step pyramids; prompt on Mesoamerican temples or Mesoamerican step pyramids by asking \"to what culture do these buildings belong?\"]",
                 "feathered serpents [or plumed serpents; accept snakes or rattlesnakes]",
                 "Chaac "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Henri Cartier-Bresson took the last photos of this political figure and also photographed his funeral. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mohandas Karamchand Gandhi [or Mahatma Gandhi; prompt on Gandhi]",
                 "Margaret Bourke-White",
                 "skyscrapers [accept buildings or other clear equivalents; accept Chrysler Building; accept Rockefeller Center or 30 Rockefeller Plaza] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "The book Guilty Men castigated members of the British government who advocated this policy. For 10 points each,",
-            "answers_sanitized": [
+            "answers": [
                 "appeasement [or appeasing Nazi Germany or appeasing Adolf Hitler; prompt on answers mentioning avoiding war with Nazi Germany]",
                 "Winston (Leonard Spencer) Churchill",
                 "Clement Richard Attlee "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Because of their tunable band gaps, these colloidally-synthesized particles are used as photovoltaics in some solar cells. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "quantum dots [prompt on, but DO NOT REVEAL, semiconductors]",
                 "semiconductors",
                 "doping [accept word forms like dope] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "A book titled for these things discusses the concept of \"rigid designators\" which refers to the same thing in all possible worlds. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "names [accept Naming and Necessity]",
                 "water",
                 "descriptivist [accept word forms such as descriptivism; a description is not acceptable] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "A man known by this name stalks Middle Sister in a 2018 Man Booker Prize-winning novel by Anna Burns. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Milkman",
                 "Toni Morrison [or Chloe Wofford]",
                 "The Bluest Eye "

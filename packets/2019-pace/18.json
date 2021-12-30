@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "In one year, these nine statements include \"Please don't smoke in bed, or use candles,\" and \"there should be no more than half a dozen people on the roof at any time.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "The Cider House Rules",
                 "abortion [accept word forms; accept having a miscarriage]",
                 "Ernest Hemingway [or Ernest Miller Hemingway]  &lt;Jose, Literature - American&gt;"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "A paper by C.A. Hooker aims to propose a \"general theory\" of this view. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "reductionism [or reductionist]",
                 "Thomas Nagel",
                 "intelligent design [prompt on ID]  &lt;Jose, RMP - Philosophy&gt;"
@@ -153,7 +153,7 @@
         },
         {
             "leadin": "The Nagant M1895 is one of the only revolvers compatible with these devices because it uses a gas seal to reduce the report emitted from the cylinder gap. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "silencer [or sound suppressor; or sound moderator; or can silencer]",
                 "mufflers [generously prompt on silencers as they're called that in the UK]",
                 "Hermann von Helmholtz [accept Hermann Ludwig Ferdinand von Helmholtz]  &lt;Smart, Other - Other Academic and General Knowledge&gt;"
@@ -168,7 +168,7 @@
         },
         {
             "leadin": "In the cluster form of this technique, a population is divided into groups that are heterogeneous within a cluster. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "sampling [accept word forms such as sample; accept sampling without replacement or sampling with replacement]",
                 "statistics [accept stats]",
                 "hypergeometric distribution  &lt;Jose, Science - Math&gt;"
@@ -183,7 +183,7 @@
         },
         {
             "leadin": "In 1999, the stock price of MIS International surged when it changed its name to Cosmoz followed by this suffix. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "dot-com [accept dot-com bubble or dot-com crash or dot-com collapse]",
                 "Alan Greenspan",
                 "Enron [or Enron Corporation]  &lt;Jose, History - American&gt;"
@@ -197,7 +197,7 @@
         },
         {
             "leadin": "In traditional cladistics, members of groups with this property have shared derived characteristics called synapomorphies. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "monophyly [accept word forms like monophyletic]",
                 "convergent evolution [accept evolutionary convergence or homoplasy]",
                 "Protista [accept protists or Protoctista]  &lt;Kothari, Science - Biology&gt;"
@@ -212,7 +212,7 @@
         },
         {
             "leadin": "This thinker worked with Jeno Adam (\"YEH-no AH-dam\") to create a pedagogical method whose approach includes both \"authentic\" folk music and high-quality classical pieces. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Zoltan Kodaly (\"KOH-dye\") [accept Kod\u00e1ly Zolt\u00e1n]",
                 "Bela Bartok [accept Bartok Bela or B\u00e9la Viktor J\u00e1nos Bart\u00f3k]",
                 "pentatonic scale [prompt on answers referring to five notes or tones]  &lt;Smith, Fine Arts - Music&gt;"
@@ -227,7 +227,7 @@
         },
         {
             "leadin": "A brand would be placed on a defendant's thumb after exercising this right so the same person couldn't exercise it again. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "benefit of clergy [accept privilegium clericale]",
                 "highways [accept roads or trunk roads]",
                 "Ned Kelly [accept Edward Kelly]  &lt;Bentley, History - Cross, Historiography, and Miscellaneous&gt;"
@@ -242,7 +242,7 @@
         },
         {
             "leadin": "This novel begins with an editor proclaiming that its contents are likely fiction, and then a second editor's note declaring that the story that follows is most definitely true. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Dangerous Liaisons [accept Les Liaisons dangereuses]",
                 "smallpox",
                 "Marquis de Sade  &lt;Jose, Literature - European&gt;"
@@ -257,7 +257,7 @@
         },
         {
             "leadin": "Kehinde Wiley (\"keh-HIN-day WHILE-ee\") created the most recent example of these paintings, which uses a background of green foliage interspersed with jasmines, blue lilies, and chrysanthemums. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "presidential portraits [accept answers indicating a portrait of a President of the United States; prompt on portraits]",
                 "Elaine de Kooning [accept Elaine Fried; do not accept or prompt on \u201cKooning\u201d] (Her husband was Willem de Kooning.)",
                 "Thomas Jefferson  &lt;Bentley, Fine Arts - Painting&gt;"
@@ -272,7 +272,7 @@
         },
         {
             "leadin": "The protagonist of a novel by this author escapes from underground creatures called INKlings. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Haruki Murakami [accept in either order]",
                 "The Wind-Up Bird Chronicle [accept Nejimakitori Kuronikuru]",
                 "The Beatles  &lt;Raje, Literature - World and Miscellaneous&gt;"
@@ -287,7 +287,7 @@
         },
         {
             "leadin": "The president of this country, a former sitcom actor, campaigned on the slogan that he was \"neither corrupt nor a thief.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Guatemala [or Republic of Guatemala]",
                 "Marco Rubio [or Marco Antonio Rubio]",
                 "coffee rust or [Hemileia vastatrix]  &lt;Bentley, Current Events - World&gt;"
@@ -302,7 +302,7 @@
         },
         {
             "leadin": "This is the only known interaction capable of changing particle flavor. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "weak force [or weak nuclear force; accept \"interaction\" in place of \"force\"]",
                 "parity [prompt on P]",
                 "Chien-Shiung Wu  &lt;Rosenberg, Science - Physics&gt;"
@@ -317,7 +317,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following related to military footwear:",
-            "answers_sanitized": [
+            "answers": [
                 "war horses [accept horseshoes]",
                 "Arthur Wellesley, 1st Duke of Wellington [or Duke of Wellington]",
                 "Marc Isambard Brunel  &lt;Bentley, History - European&gt;"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "For 10 points each, name these game theory situations with relevance to international relations:",
-            "answers_sanitized": [
+            "answers": [
                 "prisoner's dilemma",
                 "stag hunt [prompt on assurance game or trust dilemma]",
                 "Mexican standoff [prompt on standoff]  &lt;Alston, Social Science - Economics&gt;"
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "A character is reminded of his many visits to this place while at Oxford when he billeted near it during World War II. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Brideshead Castle",
                 "Evelyn Waugh",
                 "abbey [accept Hetton Abbey or Nightmare Abbey]  &lt;Bentley, Literature - British&gt;"
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "Like enthalpy and entropy, this quantity is defined to be zero for the formation of pure elements at their standard states. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Gibbs free energy [prompt on G]",
                 "natural logarithm of the reaction quotient [or log Q; or ln Q; prompt on natural logarithm or ln; do not accept or prompt on just \"Q\" or \"reaction quotient\"]",
                 "number of moles of electrons times Faraday's constant [accept nF; accept answers that indicate the number of moles of electrons transferred times Faraday's constant; prompt on answers containing electrons and Faraday\u2019s constant but not \u201cnumber\u201d or \u201cmoles\u201d]  &lt;Silverman, Science - Chemistry&gt;"
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "This ruler sent two types of food to the strange men on \"floating mountains\" to see if they were humans or gods. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Montezuma II [or Moctezuma II; or Montezuma the Young; or Moteuczoma; or Motecuhzoma; or Mot\u0113ucz\u014dmah; or Motecuhzoma Xocoyotzin]",
                 "Tenochtitlan [accept Mexico City; or City of Mexico; or Ciudad de M\u00e9xico; or CDMX]",
                 "bird feathers [or quetzal feathers; prompt on birds]  &lt;Bentley, History - World&gt;"
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "This album received five stars from one reviewer but no stars from another in a \"Double View\" in <em>Down Beat</em> magazine. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Free Jazz: A Collective Improvisation",
                 "alto saxophone [accept alto sax]",
                 "Coltrane [accept Alice Coltrane or John Coltrane]  &lt;Smith, Fine Arts - Jazz&gt;"
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "The Cologne Codex describes how this man possessed a <em>syzygos</em>, or \"twin spirit,\" who enlightened him. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Mani [accept Manes or Manichaeus or Mani hiyya]",
                 "light [accept Apostle of Light or \"let there be light\"]",
                 "nous (\"noose\") [accept Light-Nous or Sermon on the Light-Nous]  &lt;Evans, RMP - Other Religion&gt;"
@@ -420,7 +420,7 @@
         },
         {
             "leadin": "This character learns about traditional herbal medicine from Mama Yaya in a 1986 Maryse Conde novel. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Tituba [accept I, Tituba]",
                 "The Crucible",
                 "Hester Prynne [accept either]  &lt;Smith, Literature - American&gt;"

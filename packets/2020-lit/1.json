@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "In this play, Ernst says he loves Hanschen \u201cas I have never loved a soul\u201d after they share a kiss. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Spring Awakening",
                 "masks [or the Masked Man]",
                 "August Strindberg (the play is Miss Julie) "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This ballet premiered at Paris\u2019 Theatre du Chatelet with costumes and set designed by Pablo Picasso and Giacomo Balla. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Parade",
                 "Erik Satie",
                 "The Three-Cornered Hat "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "These campaigns are sometimes called the \u201cCeramic Wars\u201d because potters were kidnapped and moved to Arita, where they developed one country\u2019s porcelain industry. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Japanese invasions of Korea [accept Hideyoshi\u2019s invasions of Korea; accept Imjin Wars]",
                 "Admiral Yi Sun-shin (\u201cEE sun-SHIN\u201d) [or Yi Sun-sin]",
                 "Tokugawa Ieyasu [prompt on Ieyasu] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "According to one theorem, particles with this quantum mechanical property will have symmetric wavefunctions under exchange interaction. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "integer spin [prompt on spin alone; prompt on bosons with \u201cwhat type of spin do they possess?\u201d; do not accept or prompt on \u201chalf-integer spin\u201d]",
                 "fermions [prompt on Enrico Fermi]",
                 "Kramers degeneracy theorem "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "One character quips \u201cAs Montesquieu wrote a Spirit of Laws, so could I write a Spirit of [these things]\u201d, after earlier observing that \u201clittle or nothing\u201d had been written on their philosophy or history. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Clothes, Their Origin and Influence [accept word forms like clothing or costumes]",
                 "A Tale of a Tub",
                 "Sir Arthur Conan Doyle "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "A dissected view of one of these musical instruments can be seen below vertical rows of sheet music and a palette in one work, and an even more fragmented one rests below a pitcher in another painting. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "violin(s) [accept Violin and Palette, Violin and Pitcher, or Violin and Candlestick]",
                 "Cubism [or word forms, such as Cubist]",
                 "L\u2018Estaque [accept Houses at l\u2019Estaque] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Stanford University\u2019s Wilcox Observatory collects daily measurements about the strength, relative position, and polar orientation of this entity. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the sun\u2019s magnetic field [prompt on partial answers]",
                 "Richard Christopher Carrington [accept Carrington rotation or Carrington Rotation Number]",
                 "sunspots "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "In The American Dream and the Public Schools, Jennifer L. Hochschild and Nathan Scovronick promoted this movement, claiming that the institutions central to it have been demonstrated to \u201chelp disadvantaged children achieve, just as they enable middle-class children to achieve.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Small Schools Movement [prompt on, but do NOT otherwise reveal answers about charter school]",
                 "Bill and Melinda Gates Foundation [or BMGF; accept William H. Gates Foundation]",
                 "charter schools "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "This island was ruled by two consecutive kings named William named the \u201cBad\u201d and the \u201cGood\u201d, respectively, though William the Bad was likely unfairly maligned by Hugo Falcandus. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sicily",
                 "Robert Guiscard [prompt on Guiscard]",
                 "First Crusade [prompt on the Crusades] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "This term refers to areas such as the Texas Triangle and the Arizona Sun Corridor. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "megaregion [prompt on megalopolis; prompt on megapolitarian area; prompt on megacity]",
                 "Great Lakes [accept in any order Lakes Erie; Ontario; Michigan; Huron; Superior; prompt on specific great lakes]",
                 "Cascade Range [or Cascades; or Cascadia] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "This composer\u2019s namesake \u201crhythm\u201d consists of a duplet followed immediately by a triplet or vice versa and features prominently in works such as his massive 8th symphony in C minor, subtitled Apocalyptic. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Anton Bruckner",
                 "Berlin [accept Berlin Philharmonic or Berliner Philharmoniker]",
                 "Te Deum "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "The protagonist of this story \u201cstood trembling and tired but totally triumphant\u201d after climbing up a pine tree. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "\u201cA White Heron\u201d [by Sarah Orne Jewett]",
                 "Ray Bradbury [or Ray Douglas Bradbury]",
                 "Ernest Hemingway [or Ernest Miller Hemingway] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "After the first asymmetric division in a plant\u2019s zygote, expression of the 2nd and 8th members of a certain gene family becomes restricted to each end of this developmental axis. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "apical-basal axis [or basal-apical axis; prompt on partial answers; do not accept any synonyms]",
                 "shoot [accept shoot apical meristem or SAM; do not accept root (apical meristem)]",
                 "auxin [prompt on indole-3-acetic acid or IAA] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Milkman Eric Guiney and his son Desmond were killed by rioters after this man\u2019s death. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bobby Sands [or Robert Gerard Sands]",
                 "Margaret Thatcher [accept Margaret Hilda Thatcher, Baroness Thatcher]",
                 "Ian Paisley [or Iain Richard Kyle Paisley, Baron Bannside] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "According to this theory, the moral value of an action is based on mutual sympathy and a moral \"sixth sense.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "theory of moral sentiments",
                 "Adam Smith",
                 "Francis Hutcheson "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Answer the following about new archaeology, for 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "anthropology",
                 "Lewis Roberts Binford",
                 "Proto-Indo-Europeans [accept Indo-Europeans; accept PIE or IE] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "After this man was caned by Washington Gibbs for calling him a \u201crenegade Confederate soldier\u201d, a newspaper printed the headline \u201cWAR HORSE OF YAZOO BROKE GOOD WALKING STICK OVER THE HEAD OF POPLARVILLE PERVERT.\u201d For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Theodore Bilbo [Theodore Gilmore Bilbo]",
                 "Charles Sumner",
                 "Sam Houston [or Samuel Houston] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "An author from this country had her scheduled lobotomy canceled after she won a literary prize for her short story collection The Lagoon. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "New Zealand [or Aotearoa]",
                 "gardens [accept \u201cThe Garden Party\u201d or \u201cThe Garden of Forking Paths\u201d]",
                 "Eleanor Catton (that novel is The Luminaries) "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "According to Bart Ehrman, this theologian's views were a \"Jewish apocalyptic proclamation with a seriously Christian twist.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Paul the Apostle [accept Saul of Tarsus]",
                 "Jerusalem",
                 "Law of Moses [or Mosaic Law; or Torat Moshe; accept Torah of Moses; prompt on the Law; prompt on Jewish Law or similar answers] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Delocalized pi electrons can have a variety of effects on the stability of organic molecules. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "antiaromaticity [do not accept or prompt on \"aromaticity\u201d]",
                 "H\u00fcckel's Rule",
                 "homoaromaticity [accept word forms] "

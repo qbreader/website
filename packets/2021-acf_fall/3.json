@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "The ancient city of Kattigara was located in the south of this country. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Vietnam",
                 "Sri Lanka",
                 "silk [accept Silk Road] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "The r to the negative sixth power term of the Lennard-Jones potential accounts for these interactions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "intermolecular forces [or IMFs or van der Waals forces; accept London dispersion forces or LDFs]",
                 "hydrogen bonds [accept word forms like hydrogen bonding]",
                 "fermions "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "This character rejoices, \"Oh, it was gorgeousness and gorgeosity made flesh\" while listening to a violin concerto by Geoffrey Plautus. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Alex [accept Alexander the Large as he calls himself]",
                 "A Clockwork Orange",
                 "Russian [or Russki yazyk] (Fathers and Sons is by Turgenev) "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Answer the following about the work of anthropologist Franz Boas, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "culture [accept cultural relativism]",
                 "potlatch",
                 "cultural evolution "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "In order to accompany the routines of his partner Merce Cunningham, this composer inserted items into his piano to \"prepare\" it. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "John Cage",
                 "not playing music [accept descriptive answers or synonyms like silence]",
                 "etudes [accept studies] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "A peninsula with this name is home to a pair of hills called the \"Two Teats\" and L\u00e9opold S\u00e9dar Senghor International Airport. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Cape Verde [accept Cap-Vert peninsula or Cabo Verde]",
                 "Republic of Senegal",
                 "Kingdom of Spain "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Archibald Macleish claimed that works in this form should be \"motionless in time, / As the moon climbs.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "poetry [or poems; accept \"Ars Poetica\"]",
                 "The Cantos",
                 "Ezra Pound [or Ezra Weston Loomis Pound] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "This country's city of Cochabamba was the site of a water war after the privatization of its water supply under the firm SEMAPA. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Bolivia",
                 "Augusto Jos\u00e9 Ram\u00f3n Pinochet Ugarte",
                 "Richard Milhous Nixon "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "This element names brief \"flashes\" in which large amounts of it undergo the triple alpha process to form carbon. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "helium [or He]",
                 "neutrons [accept neutron capture]",
                 "metallicity "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Albrecht Altdorfer is among a group of artists called the \"Little Masters\" who were primarily known for creating small works in this medium. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "engravings [accept copper engravings or copper-plate engravings; prompt on prints; do not accept or prompt on \"etchings\"]",
                 "Albrecht D\u00fcrer",
                 "gold "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "One form of this phenomenon occurs in fiber optic cables. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "reflection [accept total internal reflection]",
                 "coaxial cables [or coax]",
                 "lenses "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "An Isaac Newton biographer contemplates a letter Newton wrote on his deathbed in a John Banville novella whose characters' names mimic those from this novel. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Elective Af inities [or Die Wahlverwandtschaften]",
                 "Mephistopheles [or Mephistophilis; accept Mefisto, prompt on the Devil]",
                 "joy [accept \"Ode to Joy\"; accept \"An die Freude\"] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "The usage of this garment was first popularized through a decree passed by Catherine de' Medici that banned having thick waists in court. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "corsets",
                 "France",
                 "Christian Dior "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "In the aftermath of the battle of Zappolino, a soldier from Modena made the fateful decision to steal a bucket from Bologna. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "the Guelphs",
                 "the pope [or the papacy; or supreme pontiff; or Roman pontiff; or bishop of Rome; or Avignon Pope]",
                 "Frederick Barbarossa [or Frederick I; prompt on just \"Frederick\"] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This sociologist argued that overreliance on marketable skills in the education system causes materialism before advocating for the cultivation of the \"Talented Tenth.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "W.E.B. Du Bois",
                 "Reconstruction",
                 "double consciousness "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "The Foreign Corrupt Practices Act was passed in response to a scandal aptly named [this good]-gate. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "bananas",
                 "Republic of Guatemala",
                 "Boland Amendment "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "For 10 points each. name these gigantic offspring of the goddess Gaia who nevertheless did not belong to the race known as the Giants:",
-            "answers_sanitized": [
+            "answers": [
                 "Titans",
                 "Typhon [or Typhoeus]",
                 "Antaeus [or Anti] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Rema tearfully strokes Isabel's hair after she lies to the Kid about the location of one of these creatures causing him to enter a library where one of these creatures kills him. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "tigers [or tigresses; or Panthera tigris]",
                 "Jorge Luis Borges [or Jorge Francisco Isidoro Luis Borges Acevdeo]",
                 "Argentina [Argentine Republic; or R\u00e9publica Argentina] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Members of this religion hold meetings called reasonings during which Nyabinghi music is played and ganja is smoked. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rastafari [or Rastafarianism; prompt on rasta]",
                 "Numbers",
                 "lion [accept the Lion of Judah] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Translation is the process of producing these molecules from mRNA. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "proteins [accept polypeptides]",
                 "beta sheets [or beta-pleated sheets]",
                 "chaperonins [or chaperone proteins or molecular chaperones] "

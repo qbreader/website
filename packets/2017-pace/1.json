@@ -118,7 +118,7 @@
     "bonuses": [
         {
             "leadin": "A subplot in this novel involves a comically restrained romance between Old Grannis and Miss Baker. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "McTeague [accept, but DO NOT REVEAL, McTeague: A Story of San Francisco]",
                 "California",
                 "mineral paint &lt;Carson&gt;"
@@ -133,7 +133,7 @@
         },
         {
             "leadin": "Flow batteries composed of hydrogen and bromine are attractive alternatives to these devices, which can produce a potential of 1.23 volts at standard conditions. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "fuel cells [prompt on galvanic cells; prompt on voltaic cells]",
                 "protons [or H-plus; or hydrogen ion; or hydrogen cation; prompt on hydrogen or H; do not accept or prompt on \"hydrogen atom\"]",
                 "anode &lt;Silverman&gt;"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "Identify the following about the interesting career of geologist Clarence King, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "diamond\u200bs",
                 "Pullman porter\u200b [or sleeping car porter\u200b]",
                 "John Wesley Powell\u200b"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Identify the following about the interesting career of geologist Clarence King, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "diamond\u200bs",
                 "Pullman porter\u200b [or sleeping car porter\u200b]",
                 "John Wesley Powell\u200b"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "Identify the following about the interesting career of geologist Clarence King, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "diamond\u200bs",
                 "Pullman porter\u200b [or sleeping car porter\u200b]",
                 "John Wesley Powell\u200b"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "The sixteenth of these works, often nicknamed \"facile\" or \"semplice\" <strong>(fah-CHEE-lay</strong> or <strong>sem-PLEE-chay)</strong>, opens with the left hand playing a broken C major chord in the Alberti bass style. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "piano sonatas by Wolfgang Amadeus Mozart [prompt on partial answer]",
                 "rondo [accept rondo form or \"Rondo alla Turca\"]",
                 "violin concerto [or violin concerti; prompt on partial answer] &lt;Carson&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "Hungarian author Gy\u00f6rgy Dalos <strong>(JURJ DAW-lohsh)</strong> wrote a Prague Spring-inspired sequel to this novel that depicts a Eurasian invasion of Oceania. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Nineteen Eighty-Four [or 1984]",
                 "Anthony Burgess [or John Anthony Burgess Wilson] [The novel is A Clockwork Orange.]",
                 "The Napoleon of Notting Hill &lt;Carson&gt;"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "This component of the Earth is divided into four layers, the top level of which is deep-sea sediment, and the bottom of which is gabbro. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "oceanic crust [prompt on benthos or ocean floor; prompt on crust]",
                 "Earth's magnetic field [or geomagnetic field]",
                 "peridotite [do not accept or prompt on \"peridot\"] &lt;Jose&gt;"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "In one of the many \"riots\" named for this disease in the 1890s, citizens of Astrakhan attacked a local hospital before marching to the governor's mansion and setting it on fire. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "cholera",
                 "Hamburg",
                 "1832 &lt;Bentley&gt;"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "The father of an Indian girl who is dying of this disease has sued Johnson &amp; Johnson to release a new drug to treat it. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "tuberculosis [or TB]",
                 "antibiotic [or antibacterial; prompt on antimicrobial]",
                 "generic drugs &lt;Bentley&gt;"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "A goddess who performed this action did it out of rage at the poor treatment she received from her father Daksha after showing up to Daksha's yajna uninvited. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "jumping into a fire [accept anything that indicates voluntarily entering a fire or sacrificial fire or funeral pyre; accept self-immolation; prompt on suicide or equivalents]",
                 "rabbit [or hare; or bunny; accept \"jade\" or \"gold\" appended to any of those answers]",
                 "Quetzalcoatl &lt;Carson&gt;"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "It was said that during this leader's Southern Campaign, he captured and released the rebel leader Meng Huo <strong>(mung hwoh)</strong> seven times until he acknowledged his defeat. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Zhuge Liang [or Kongming]",
                 "Three Kingdoms period [or Sanguo; accept Romance of the Three Kingdoms or Sanguozhi yanyi]",
                 "Cao Cao (tsow tsow) [or Mengde; prompt on Cao] &lt;Cheng&gt;"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "This action was emphasized by members of a Russian sect known as the Skoptsy, who referred to different forms of this action as the \"minor seal\" and the \"major seal.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "castration [accept word forms; accept becoming a eunuch, emasculation, or reasonable equivalents]",
                 "Nicaea [accept Nicene Creed]",
                 "Ethiopia &lt;Cheng&gt;"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "The protagonist of this novel starts believing \"I <em>was</em> the root of the chestnut tree. Or rather I was all consciousness of its existence\". For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Nausea [or La Naus\u00e9e]",
                 "Jean-Paul Charles Aymard Sartre",
                 "she killed her child [accept synonyms in place of both \"kill\" and \"child\"] &lt;Bentley&gt;"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "This work was placed behind a screen at the Armory Show. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Fountain",
                 "a bicycle wheel [prompt on partial answer]",
                 "Maurizio Cattelan &lt;Bentley&gt;"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "It used to be common for physics teachers to create an analyzer from a type of dichoric photographic material developed by Edwin Land to demonstrate the plane of this property. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "polarization [or polarized light]",
                 "transverse waves",
                 "LCDs [or liquid crystal displays; prompt on liquid crystals] &lt;Bentley&gt;"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "An \"informal introduction\" to this process is presented in Michael Agar's book <em>The Professional Stranger</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "ethnography",
                 "anthropology",
                 "Argonauts of the Western Pacific &lt;Jose&gt;"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "A text produced by this man used the Vulgate as its source, and was partially funded by an investment from Johann Fust. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Johannes Gutenberg",
                 "vellum",
                 "Venice [or Venezia] &lt;Bentley&gt;"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "The paper \"A Linguistic Consideration of Thinking in Primitive Communities\" advances this argument by asking \"Does the Hopi language show here a higher plane of thinking\u2026 than our vaunted English?\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Sapir\u2013Whorf hypothesis",
                 "relativism [or word forms; accept linguistic relativism or cultural relativism]",
                 "conceptual metaphors &lt;Jose&gt;"
@@ -398,7 +398,7 @@
         },
         {
             "leadin": "The namesake protein of this signaling pathway is glycosylated by three isoforms of the Fringe protein; namely <em>manic</em> fringe, <em>lunatic</em> fringe, and <em>radical</em> fringe. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Notch pathway",
                 "ubiquitin [or ubiquitination; or Ub]",
                 "Drosophila melanogaster [or fruit fly; prompt on fly] &lt;Silverman&gt;"
@@ -413,7 +413,7 @@
         },
         {
             "leadin": "A lieutenant writes \"Long live the Imperial Forces\" before engaging in this action in the story \"Patriotism.\" For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "seppuku [or harakiri; prompt on suicide or descriptive answers like self-disembowelment]",
                 "Yukio Mishima",
                 "Runaway Horses [or Honba] &lt;Brownstein&gt;"
@@ -428,7 +428,7 @@
         },
         {
             "leadin": "A character with this nickname drives to the Hotel Bellweather with his twin sister Alice to participate in a statewide music festival in Kate Racculia's novel <em>Bellweather Rhapsody</em>. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Rabbit",
                 "witches",
                 "cars [or Toyotas] &lt;Bentley&gt;"

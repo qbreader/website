@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This poet describes a time when \u201cI would be more or less insane\u2026 the news would pour out of various devices\u201d because \u201cI lived in the first century of world wars.\u201d For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Muriel Rukeyser ",
                 "Icarus [accept \u201cWaiting for Icarus\u201d] (The other poem is \u201cMus\u00e9e des Beaux Arts.\u201d) ",
                 "Harlem [accept East Harlem; accept Harlem Renaissance; prompt on New York City by asking \u201cwhich neighborhood?\u201d] "
@@ -144,7 +144,7 @@
         },
         {
             "leadin": "One eloquent woman of this name waged a jihad of words against Yazid I, excoriating him publicly even though he was holding her captive. For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Zaynab [accept Zaynab bint Ali or Zaynab bint Muhammad] ",
                 "Battle of Karbala",
                 "Iran [or Islamic Republic of Iran; or Jomhuri-ye Eslami-ye Iran] "
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Karl Sand, who studied at one of these institutions, assassinated the playwright August von Kotzebue (\u201cCOT-seh-boo\u201d). For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "German universities [prompt on schools] ",
                 "Carlsbad Decrees",
                 "fencing matches [prompt on duels] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Inuit singers \u201cduel\u201d each other in this style in the playful katajjaq ritual. For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "throat singing [accept overtone singing]",
                 "knives [accept daggers, swords, or equivalents]",
                 "cymbals"
@@ -204,7 +204,7 @@
         },
         {
             "leadin": "This concept achieves its aims with the \u201ccunning of reason\u201d according to a book that compares it to a \u201cslaughterbench.\u201d For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "world history [or Weltgeschichte; prompt on spirit or geist]",
                 "Georg Wilhelm Friedrich Hegel",
                 "dusk [or d\u00e4mmerung; or soir; or Plasticity at the Dusk of Writing; accept twilight or evening; prompt on night or nighttime; do not accept or prompt on other synonyms]"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "Answer the following about challenges faced by classical mechanics in handling progressively greater numbers of gravitating bodies, for 10 points each.",
-            "answers_sanitized": [
+            "answers": [
                 "three [accept three-body problem]",
                 "Paul Painlev\u00e9 (\u201cpan-leh-VAY\u201d) [accept Painlev\u00e9 conjecture]",
                 "meshes [accept particle meshes or polygon meshes or triangle meshes; prompt on graphs or networks or lattices or triangulations]"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "In reference to this man, another author defined a patron as \u201cone who looks with unconcern on a man struggling for life in the water, and, when he has reached ground, encumbers him with help.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "Philip Stanhope, 4th Earl of Chesterfield [accept either underlined portion]",
                 "Samuel Johnson",
                 "William Makepeace Thackeray (The second novel is Vanity Fair.)"
@@ -264,7 +264,7 @@
         },
         {
             "leadin": "Answer the following about the sometimes-dubious science of skincare formulas, for 10 points each. ",
-            "answers_sanitized": [
+            "answers": [
                 "hyaluronic acid [or hyaluronan; prompt on HA]",
                 "collagen",
                 "nicotinamide [or niacinamide] (The cofactor referred to is NAD+, and niacinamide is a B3 derivative.)"
@@ -284,7 +284,7 @@
         },
         {
             "leadin": "Analysis of these things in Harvard\u2019s Forbes Collection formed the basis for an encyclopedia by Rutherford John Gettens and George L. Stout. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "pigments [accept dyes, hues, or colors; accept Painting Materials: A Short Introduction; accept The Secret Lives of Color; prompt on paint by asking \u201cwhat component of paint?\u201d] (The alleged Pollock paintings were found out by the orange pigments used, which were not commercially available before Pollock\u2019s death. Dyes are not the same thing as pigments, but the St. Clair book discusses both.)",
                 "art restoration [or word forms like restoring; prompt on repairing art or fixing art or equivalents]",
                 "dragons [accept Dragon\u2019s Blood Red; accept El Drac; accept salamander]"
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "The last speech of Anarchist orator Lucy Parsons was made to denounce this company. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "McCormick Harvesting Machine Company [accept International Harvesting Company; accept Katherine Dexter McCormick]",
                 "Industrial Workers of the World [or IWW; accept \u201cWobblies\u201d until read]",
                 "Scottsboro Boys "
@@ -324,7 +324,7 @@
         },
         {
             "leadin": "In one story of the Miao people, a pair of siblings undertake this action by cutting up their misshapen child and scattering the pieces after surviving a great flood. For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "creation of humanity [or equivalents; accept creation of woman or creation of man; anti-prompt (ask \u201ccan you be less specific?\u201d) on creation of Adam and Eve] ",
                 "coconuts [accept coconut trees; prompt on trees]",
                 "palm wine [prompt on wine or alcohol] "
@@ -344,7 +344,7 @@
         },
         {
             "leadin": "An essay by Carol Hanisch titled for this adjective and another adjective takes issue with the concept of therapy, claiming that \u201cWomen are messed over, not messed up!\u201d For 10 points each:",
-            "answers_sanitized": [
+            "answers": [
                 "personal [accept \u201cThe Personal is Political\u201d]",
                 "Patricia Hill Collins",
                 "intersectionality theory"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Learmonth Dalrymple, a prominent member of this organization, pushed to found Otago\u2019s first secondary school for girls. For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Women\u2019s Christian Temperance Union [or WCTU]",
                 "M\u0101ori ",
                 "prostitution [or word forms; or equivalents like sex work] "
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "In a story by this author, a man reading a novel in a green velvet armchair becomes engrossed in the plot, in which a couple sets out to murder a man who is reading a novel in a green velvet armchair. For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Julio Cort\u00e1zar ",
                 "axolotl [or ajolote; prompt on salamander] ",
                 "human sacrifice [prompt on answers like murder or killing] "
@@ -404,7 +404,7 @@
         },
         {
             "leadin": "This mathematician introduced a chaotic map defined on the unit square plus two semicircular caps that works by compressing a set vertically, stretching it horizontally, and folding it back into a \u201chorseshoe.\u201d For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Stephen Smale ",
                 "Grigori Perelman [or Grigori Yakovlevich Perelman] ",
                 "David Hilbert "
@@ -424,7 +424,7 @@
         },
         {
             "leadin": "In 1756, this composer\u2019s father Leopold wrote a popular book about how to play the violin. For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Wolfgang Amadeus Mozart ",
                 "Symphony No. 40 in G minor [or \u201cGreat G minor\u201d Symphony; prompt on G minor Symphony] ",
                 "string quintet [accept String Quintet in C major; prompt on quintet] "
@@ -444,7 +444,7 @@
         },
         {
             "leadin": "The Sempill Mission helped introduce aircraft carriers to this military force. For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Imperial Japanese Navy [or Nippon Kaigun; or Dai-Nippon Teikoku Kaigun] ",
                 "beriberi [or thiamine deficiency; or B1 deficiency] ",
                 "zaibatsu [do not accept or prompt on \u201ckeiretsu\u201d] "
@@ -464,7 +464,7 @@
         },
         {
             "leadin": "In an unfinished novel by this author, a young girl referred to as \u201cthe Nameless Nobody\u201d is neglected by her violinist stepfather and falls in love with the daughter of \u201cPrince X.\u201d For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "Fyodor Dostoevsky [or Fyodor Mikhailovich Dostoevsky] (The novel is Netochka Nezvanova.) ",
                 "The House of the Dead [or Notes from the House of the Dead; or Memoirs from the House of the Dead; or Notes from a/the Dead House; or Zapiski iz Myortvogo doma] ",
                 "Crime and Punishment [or Prestupleniye i nakazaniye] "
@@ -484,7 +484,7 @@
         },
         {
             "leadin": "Answer the following about advantages and drawbacks to using lithium\u2013air batteries in electric vehicles, for 10 points each. ",
-            "answers_sanitized": [
+            "answers": [
                 "energy AND mass [accept in either order; accept mass defect in place of \u201cmass\u201d; prompt on E AND m; prompt on E equals mc\u00b2] ",
                 "overpotential [prompt on eta; prompt on electric potential difference] ",
                 "peroxide [do not accept or prompt on \u201coxide\u201d or \u201csuperoxide\u201d] "
@@ -504,7 +504,7 @@
         },
         {
             "leadin": "Protests erupted in 2014 in Vietnam in response to the Chinese deployment of the Hai Yang Shi You 981 oil rig near the Paracel Islands in this body of water. For 10 points each: ",
-            "answers_sanitized": [
+            "answers": [
                 "South China Sea [or N\u00e1n H\u01cei; or Bien Dong] ",
                 "Tarim Basin [or Altishahr; or N\u00e1nji\u0101ng; do not accept or prompt on \u201cXinjiang\u201d] ",
                 "Heilongjiang (\u201chey-long-jang\u201d) "
