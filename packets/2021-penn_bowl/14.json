@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "This model was proposed in part to explain Hans Driesch\u2019s observation that dividing sea urchin embryos at the two-cell stage resulted in two smaller sea urchins. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "French flag model [or French flag problem]",
                 "Hedgehog [or Hh]",
                 "brain "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "In a novel, a man is constantly cheated out of his wealth by his valet Zakhar but does not mind because he is doing this activity. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "sleeping [or equivalents; prompt on staying in his room or dreaming]",
                 "superfluous man",
                 "Sovremennik [accept The Contemporary] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "This meteor shower is created by debris from Comet Swift\u2013Tuttle, whose perihelion is near Earth. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Perseid meteor shower [or Perseids; do not accept or prompt on \u201cPerseus\u201d]",
                 "apparent radiant",
                 "the Earth\u2019s Moon "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Richard Taruskin was critical of the style of musical performance denoted by this three-word term, claiming that attempting to recreate past practices is an inherently modern goal susceptible to modern biases. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "historically informed performances [prompt on HIP]",
                 "harpsichord [or clavecin or clavicembalo]",
                 "Claudio Monteverdi [or Claudio Giovanni Antonio Monteverdi; accept the Monteverdi Choir] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Two philosophers of this ethnicity have debated whether terms like \u201conipa hun\u201d for \u201cuseless\u201d people imply belief in different degrees of personhood. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Akan (\u201cuh-KON\u201d) [or Ashanti; or Asante; or Fante; or Nzema; prompt on Ghanaian]",
                 "the soul",
                 "the community [or word forms like communitarianism] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "An oval cloud with several cherubs is depicted in a Jan Gossaert painting, which depicts a saint performing this action with the help of an angel with multicolored wings. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "drawing the Virgin [or drawing Mary; accept painting in place of \u201cdrawing\u201d; or Saint Luke Drawing the Virgin; prompt on drawing or painting by asking \u201cwho is the subject being illustrated?\u201d]",
                 "guilds",
                 "The Descent from the Cross [or The Deposition of Christ] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "The plans of Cornelis Lely were instrumental in accomplishing this monumental task, which was partially motivated by events in 1287 and 1421 named for Saints Lucia and Elizabeth that together killed nearly 100,000 people. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the damming of the Zuiderzee (\u201cZOW-dur-ZAY\u201d) [accept the construction of the Zuiderzee Works, the reclamation of land from the Zuiderzee, or anything that mentions Zuiderzee; accept Zuiderzeewerken; prompt on land reclamation, reclaiming land, or similar answers; prompt on building dikes, dams, sluices, locks, and levees; prompt on creating polders]",
                 "the Iron Gates [accept Por\u021bile de Fier; accept \u0110erdapska klisura; accept \u017delezn\u00e9 vr\u00e1ta; accept Demirkapija; accept Vaskapu; accept other legitimate original language terms]",
                 "Italy [or Italia; accept the Italian Republic; accept Repubblica Italiana] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "This event motivates the action of Tom Piazza\u2019s novel City of Refuge and Dave Egger\u2019s nonfiction book Zeitoun. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hurricane Katrina [prompt on a hurricane or storm]",
                 "Jesmyn Ward",
                 "James Baldwin "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "In 1592, Edward Coke represented Elizabeth I against Dame Joan Young in a landmark case regarding the Queen\u2019s right to take possession of these animals throughout England. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "swans [accept The Case of the Swans; accept The Feast of the Swans; accept swan upping; prompt on birds]",
                 "falconry",
                 "Robert [accept Robert III of Artois; accept Robert Curthose or Robert II of Normandy] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Answer the following about English actress Diana Rigg, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "The Avengers",
                 "SPECTRE [or Special Executive for Counter-intelligence, Terrorism, Revenge and Extortion]",
                 "Olenna Tyrell [or Olenna Redwyne; prompt on Tyrell; prompt on Redwyne] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "A hadith narrated by this man relates how Muhammad instructed a man to believe in Allah and Muhammad, participate in jihad, and go on Hajj after that man repeatedly asked \u201cWhat is the best deed?\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Abu Hurairah [or Abd al-Rahman ibn Sakhr Ad-Dausi]",
                 "six",
                 "Medina "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Carrier scattering in semiconductor devices occurs when carriers collide with impurities, defects, other carriers, and these particles. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "phonons",
                 "John Bardeen AND William Shockley",
                 "wavevector [accept wavenumber] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "A story originally from this language, in which three princes from Serendip explain to King Bahram how they deduced the appearance of a lost camel, inspired Horace Walpole to coin the term \u201cserendipity.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Persian language [or Farsi]",
                 "Nizami Ganjavi",
                 "Omar Khayyam [accept either underlined name; prompt on Edward Fitzgerald by asking \u201cwhose work was he translating?\u201d] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "This bonus is not going to be ideal. Answer the following about deviations from ideal behavior in chemistry, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "fugacity",
                 "van der Waals equation",
                 "Debye\u2013H\u00fcckel equation [accept Debye\u2013H\u00fcckel theory/limiting law] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "David Douglass and Lewis Hallam led an organization that moved to Jamaica due to this policy, but returned to an institution on John Street after it was lifted. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ban on the theatre [accept plays for theatres]",
                 "Valley Forge",
                 "poor [accept The Poor Man\u2019s Advice to His Poor Neighbors; accept Poor Richard\u2019s Almanac] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "The Welsh Triad identifies three women with this name, the second of which was slapped by her sister in the second of the \u201cHarmful Blows of the Island of Britain.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Guinevere",
                 "King Arthur",
                 "carts "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Answer the following about films featuring puppets, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Being John Malkovich",
                 "Germany",
                 "Hou Hsiao-hsien (\u201cho shao-shen\u201d) "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "In the Iliad, Homer describes the shield of Achilles by using this rhetorical device. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ekphrasis",
                 "\u201cOde on a Grecian Urn\u201d",
                 "Algernon Charles Swinburne "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "A Lev Vygotsky paper about this activity argued that it makes its participant a \u201chead taller\u201d and \u201cabove his daily behaviour.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "play [or playing; accept role play or make-believe; prompt on games]",
                 "Jean Piaget",
                 "plasticity [or neuroplasticity] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "These people\u2019s first recorded interaction with outsiders are with the Macassans, who went on trepanging (\u201ctrehPANG-ing\u201d) expeditions to their country\u2019s coast. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Aboriginal Australians [accept aborigines]",
                 "tobacco",
                 "opium "

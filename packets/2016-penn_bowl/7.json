@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0A minor spirit indigenous to the south of this region called Dorje Shugden has caused controversy among members of the Gelug-pa school, who dispute the spirit\u2019s nature. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tibet [or Bod]",
                 "Four Heavenly Kings [accept anything mentioning the number four and kings or emperors; accept numerous foreign-language equivalents, like Shitennou or Sacheonwang or S\u00ec Ti\u0101nw\u00e1ng; accept Elite Four, since that\u2019s literally their Japanese name; prompt on Heavenly Kings or Cheonwang or Tennou]",
                 "Dalai Lama"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This type of process shares its name with a type of flame temperature, which is reached in the absence of heat loss to surroundings. \u00a0For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "adiabatic process",
                 "adiabatic index [accept heat capacity ratio, ratio of specific heat, or Poisson constant]",
                 "magnetic mirror [accept magnetic bottle]"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This device featured multiple rotors, which moved to create varying electric circuits. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Enigma machine",
                 "Bletchley Park",
                 "PURPLE [or 97-shiki \u014dbun injiki; or Angoti B-gata]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "\u00a0This artist\u2019s relationship with Camille Claudel likely inspired Henrik Ibsen\u2019s play <em>When We Dead Awaken</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Francois Auguste Rene Rodin",
                 "The Age of Bronze [or L'\u00c2ge d'airain]",
                 "Philadelphia"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "The narrator of this novel is disappointed that his French guide is named Billfinger and suggests calling him \u201cAlphonse Henri Gustave de Hauteville\u201d instead. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Innocents Abroad",
                 "Mark Twain",
                 "Little Women"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "Poor briefing materials led G\u00fcnter Schabowski to say that new regulations about this wall would\u201c[take] effect immediately, without delay.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Berlin Wall [or Berliner Mauer; or the Anti-Fascist Protection Wall; or Antifaschistischer Schutzwall]",
                 "Antonine Wall",
                 "Ragusa [or Ragusan Republic]"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "The author of this work was partly inspired by a Ludwick Fleck book that divided the thought collective into an esoteric circle and an exoteric circle. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Structure of Scientific Revolutions [prompt on SSR]",
                 "paradigm shift [or paradigm change]",
                 "gestalt switch"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "In a novel by Andr\u00e9 Malraux, Baron Clappique is the only one of the four protagonists to survive a failed insurrection. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The People\u2019s Republic of China [or Zh\u014dnghu\u00e1 R\u00e9nm\u00edn G\u00f2ngh\u00e9gu\u00f3]",
                 "Ha Jin [or J\u012bn Xu\u011bf\u0113i]",
                 "War Trash"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "One philosopher with this surname helped found the Ricardian school of economics and wrote the influential - and racist - <em>History of British India</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mill [accept James Mill or John Stuart Mill]",
                 "\u201cThe Subjection of Women\u201d",
                 "\u201cA Vindication of the Rights of Woman\u201d"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "This process occurs during affinity maturation in a germinal center, and occurs are WRCH motifs. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "somatic hypermutation [or SHM]",
                 "activation-induced cytidine deaminase [accept AID]",
                 "antibodies"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "This character reads a letter saying \u201cM, O, A, I, doth sway my life\u201d and assumes that this refers to him, since these letters are all in his name. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Malvolio",
                 "Twelfth Night",
                 "hanging"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "Launched in 1965 and expanded in 1981, this is one of the largest programs of the War on Poverty. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Head Start",
                 "Office of Economic Opportunity [or OEO]",
                 "Lyndon Baines Johnson [accept LBJ]"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "This composer\u2019s Grand Sonata No. 1 in F-sharp minor contains a second movement labeled \u201cAria.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Robert Schumann",
                 "Carnaval",
                 "Florestan"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "Name some Hugo-winning novels, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "To Say Nothing of the Dog; or, How We Found the Bishop\u2019s Bird Stump at Last",
                 "The Moon Is A Harsh Mistress",
                 "George R. R. Martin [or GRRM, pronounced GURM]"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "The specific orbital energy in this trajectory has a time-averaged kinetic energy equal to the eccentricity. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ellipse",
                 "Hohmann transfer orbit",
                 "vis viva equation"
@@ -342,7 +342,7 @@
         },
         {
             "leadin": "This novel opens with an explosive \u201cNo!\u201d as the narrator explains to Dr. Oblath why he cannot have a child. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Kaddish for an Unborn Child [or Kaddish for a Child Not Born or Kaddis a meg nem sz\u00fcletett gyermek\u00e9rt]",
                 "Hungary [or Magyarorsz\u00e1g] [do not accept or prompt on Austrio-Hungary]",
                 "Joseph Stalin [or Ioseb Besarionis dze Jughashvili; prompt on titles like Great Architect of Communism or Gardener of Human Happiness]"
@@ -357,7 +357,7 @@
         },
         {
             "leadin": "Herodotus claims that the main participant of this event had a dream in which his eventual successor shadowed his empire with his gigantic wings. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "death of Cyrus the Great [or obvious equivalents]",
                 "Queen Tomyris [or Thomyris; or Tomris; or Tomiride; or Tomiri]",
                 "Darius I [or Darius the Great; prompt on Darius]"
@@ -372,7 +372,7 @@
         },
         {
             "leadin": "An artist from this country compiled his lectures at the Bauhaus into his namesake notebooks. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Switzerland [or Schweiz; or Confoederatio Helvetica]",
                 "Arnold B\u00f6cklin",
                 "horse"
@@ -387,7 +387,7 @@
         },
         {
             "leadin": "Zeus told this son of Iapetus and Clymene that he would have given him the ability to do work enough in a day to supply him for a whole year, if he had not angered the gods. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Prometheus",
                 "Mecone",
                 "retrieving the golden apples from the Garden of the Hesperides [prompt on incomplete answer]"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "When NASA introduced electronic computers to do their navigation calculations, John Glenn refused to fly unless this woman checked the computer\u2019s work. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Katherine Johnson",
                 "Project Mercury",
                 "\u00a0Donald Kent Deke Slayton"

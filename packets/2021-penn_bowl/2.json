@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "The artist who put forth this goal tried to fulfill it by creating a series of collages depicting flamenco dancers that incorporated sandpaper and nails. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cI want to assassinate painting\u201d [or word forms]",
                 "Spanish Civil War",
                 "peasants [or serfs; prompt on farmers] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This island is home to the Buddhist Muara Takus temple complex, in addition to other candis which are commonly divided into two different styles emblematic of a \u201ccentral\u201d or \u201ceastern\u201d ethnic group located here. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sumatra [or Sumatera]",
                 "Four Heavenly Kings [or Lokap\u0101la; or Ti\u0101nw\u00e1ng]",
                 "Ganesha [or Ganapati] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Answer the following about the Kritios Boy, which British art historian Kenneth Clark considered the \u201cfirst beautiful nude\u201d in light of the destruction of almost all Greek bronzes, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Classical period [or Early Classical period]",
                 "the Acropolis of Athens",
                 "a calf [or cow; or cattle; or The Calf Bearer] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This author asked, \u201cand you tried to change didn\u2019t you? / closed your mouth more / tried to be softer / prettier\u201d in a poem titled \u201cFor women who are \u2018difficult\u2019 to love.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Warsan Shire (\u201cSHY-er\u201d)",
                 "Beyonc\u00e9 [or Beyonc\u00e9 Knowles; or Beyonc\u00e9 Giselle Knowles-Carter]",
                 "Instapoetry [or anything indicating poetry posted on Instagram; prompt on internet posts, internet poetry, or social media poetry by asking \u201con what website?\u201d] (The second author is Rupi Kaur.) "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Plutarch states that at this battle\u2019s end, women in black hurled their children beneath the wheels of wagons while men, \u201cfor lack of trees,\u201d fastened their necks to cattle horns so that they could be dragged to death. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Battle of Vercellae",
                 "Gaius Marius",
                 "spears [accept javelins; prompt on weapons] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Routine use of Grignard reagents was cited as one of the most pressing environmental and safety-related issues at the 2011 ACS Pharmaceutical roundtable. Answer the following about handling Grignard reagents, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "magnesium [or Mg]",
                 "THF [or tetrahydrofuran]",
                 "dioxane [or 1,4-dioxane] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "This character tells Bill Guarnere \u201cOh, Sergeant? I\u2019m not a Quaker\u201d after drinking alcohol for the first time while peeking under the canvas of a convoy truck. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "1st Lieutenant Richard \u201cDick\u201d Winters [or Captain Winters; or Major Winters] (The episode is \u201cDay of Days.\u201d)",
                 "Steven Spielberg",
                 "Damian Lewis "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "The coming-of-age novel Paper Fish focuses on people of this ethnicity living on Taylor Street in Chicago. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Italian-American [accept Sicilian-American]",
                 "The Godfather",
                 "Jesus Christ [accept either underlined portion; accept Christ in Concrete] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "A mixture of honey and linseed was used in the creation of this structure by Andreas Schl\u00fcter and Gottfried Wolfram, which would later be expanded by Francesco Rastrelli under Empress Elizabeth. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Amber Room [accept Yantarnaya Komnata; accept Bernsteinzimmer]",
                 "the \u201cMonuments Men\u201d [accept Monuments, Fine Arts, and Archives program]",
                 "Poland [or Rzeczpospolita Polska; accept Polen] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "T. M. Scanlon used this thinker as the namesake of the principle that restrictions on free expression can\u2019t be justified by the consequences caused by those expressions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "John Stuart Mill [accept the Millian principle]",
                 "harm principle",
                 "pornography [prompt on erotica] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "The sizes of brain regions like the robust nucleus of the arcopallium are often dimorphic in species that show strong sexual dimorphism in this behavior. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "bird song [prompt on bird vocalization; accept \u201cavian\u201d in place of \u201cbird\u201d]",
                 "GABA [or gamma-aminobutyric acid]",
                 "aphasia "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Like all satellite navigation systems, this system requires the receiver to have a line of sight to four satellites in order to calculate both three-dimensional location and clock deviation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "GPS [or Global Positioning System]",
                 "Earth\u2019s ionosphere [prompt on Earth\u2019s atmosphere]",
                 "total stations "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "A story written in this manner ends with Sophonisba deciding to turn the title place into a hospital for sick children. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "collaborative fiction [or word forms of collaboration; accept equivalents of being written by a group of or multiple authors; accept chain or mosaic writing] (The Inheritors is by Joseph Conrad and Ford Madox Ford.)",
                 "Charles Dickens",
                 "Wilkie Collins "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "A father-son duo named Julian are the attributed authors of a group of neo-Platonic oracles named for these people which posit that the Demiurge governs the matter in the universe. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Chaldeans [prompt on Babylonians since those terms were sort of interchangeable in the Greco-Roman world]",
                 "sibyls [accept Cumaean sibyl]",
                 "Apollo "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "A lecture on this concept describes how a gypsy dancer found Bach to \u201chave\u201d this concept, but Gluck, Brahms, and Milhaud (\u201cmee-YO\u201d) did not. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "duende",
                 "Federico Garcia Lorca",
                 "moon "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "The only indentured servant ever to serve in Congress, Matthew Lyon, was the first person convicted under this act. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sedition Act of 1798",
                 "elections [or congressional elections; or presidential elections]",
                 "Arkansas [or Arkansas Post; or Poste de Arkansea] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "In a short choral work titled for one of these animals, the words \u201cdalle\u201d (\u201cDAH-lay\u201d) and \u201cbeve\u201d (\u201cBEV-ay\u201d) are each first sung by the women and then echoed by the men as they ask for the title animal to be given a drink. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "a cricket [or \u201cEl grillo\u201d]",
                 "Josquin des Prez (\u201cjoe-SCAN deh PRAY\u201d) [accept either underlined name]",
                 "madrigal "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Taga Castle was used as a military base during the subjugation of the Emishi people, undertaken while Yamato Japan was ruled from what is now this Prefecture. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Nara Prefecture [or Nara Period]",
                 "Ritsury\u014d",
                 "shogun [or Sei-i Taish\u014dgun] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "The \u201cmind-blindness\u201d theory proposes this condition includes \u201cdeficits in the normal process of empathy.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "autism [accept word forms; accept autism spectrum disorder or ASD]",
                 "Simon Baron-Cohen",
                 "behavior [accept Applied Behavior Analysis] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Answer the following about the thermodynamics of gases, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "p times V to the gamma [or the product of p and V raised to the gamma power; or pV\u03b3 ; do not accept or prompt on \u201cquantity p times V end quantity raised to the gamma\u201d or \u201c(pV) raised to the gamma\u201d or equivalents]",
                 "Joule\u2013Thompson effect [or Joule\u2013Thompson expansion; or Joule\u2013Thompson throttling; accept names in either order; accept Kelvin in place of Thompson; prompt on throttling]",
                 "heat engines [accept Carnot heat engines] "

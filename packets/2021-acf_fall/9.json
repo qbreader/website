@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "The Camera degli Sposi contains many works by Andrea Mantegna that were created using this technique. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fresco",
                 "Giotto di Bondone",
                 "Judas Iscariot [accept either] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "The determinant of a square one of these things can be found using minors and cofactors. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "matrices [or matrix]",
                 "eigenvalues",
                 "diagonal matrix [do not accept or prompt on \"diagonalizable\"] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about trios of humanoid creatures in Greek mythology:",
-            "answer": [
+            "answers_sanitized": [
                 "Medusa",
                 "harpies [accept harpy]",
                 "Hecatoncheires [accept Hundred-Handed Ones or Hundred-Handers or Centimanes] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "The indigenous settlement of Ohkay Owingeh was the epicenter of one revolt that resulted in the capture of this city. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Santa Fe [accept but DO NOT REVEAL Santa Fe de Nuevo M\u00e9xico]",
                 "New Mexico",
                 "Puebloans "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "The protagonist of this story receives his nickname after a bullet fired from a group of hunters hiding in bushes grazes his cheek. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"A Report to an Academy\" [or \"A Report for an Academy\"; or \"Ein Bericht f\u00fcr eine Akademie\"]",
                 "Franz Kafka",
                 "an apple [prompt on fruit] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Answer the following about relativity, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Albert Einstein",
                 "four [accept displacement four-vector, four-velocity, four-momentum, or four-displacement]",
                 "proper time [do not accept or prompt on \"time\" alone] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In a climactic scene from this opera, a character throws his gambling winnings at the feet of his lover. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "La Traviata [or The Fallen Woman]",
                 "Giuseppe Verdi",
                 "\"Libiamo ne' lieti calici\" [or brindisi] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Richard Trevithick helped develop the first one of these technologies in 1802. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "locomotives [accept railroads; accept railways; accept trains; prompt on steam engine]",
                 "Industrial Revolution",
                 "James Watt "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "The host of an inn describes this character's \"long black hair\" \"streaming against the flames\" before this character jumps from the top of a roof and kills herself when she lands on the pavement. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Bertha Mason [or Bertha Rochester; prompt on Rochester]",
                 "Charlotte Bront\u00eb [prompt on Bront\u00eb]",
                 "Grace Poole [accept either name] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "One philosopher from this movement, Jean Baudrillard (\"zhawn boh-dree-YAR\"), examined how Disneyland reinforces the illusory reality of America as a whole in his book Simulacra and Simulation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "postmodernism",
                 "Friedrich Nietzsche (\"NEE-chuh\")",
                 "J\u00fcrgen Habermas (\"YUR-gun HAH-bur-moss\") "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Answer the following about the foreign origins of many iconic South Asian dishes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Portugal [accept Portuguese Republic]",
                 "Islamic Republic of Iran",
                 "tea "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "The \"stainless\" variety of this alloy contains at least 11% chromium by weight. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "steel [accept stainless steel]",
                 "eutectic point",
                 "ductility [accept word forms like ductile] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "This author satirized the apotheosis of a recently deceased emperor with his satire The Pumpkinification of the Divine Claudius. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Seneca the Younger [or Lucius Annaeus Seneca]",
                 "Medea",
                 "Argonauts "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "A value sometimes considered to be the \"world's most important number\" is calculated by leading banks based in this city. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "London",
                 "interest rate [prompt on interest]",
                 "cartel "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "The publication of the report of the Agranat Commission resulted in this leader's resignation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Golda Meir [accept Golda Meyerson]",
                 "State of Israel",
                 "Olympic Games [accept the 1972 Summer Olympics in Munich or the 1968 Summer Olympics in Mexico City, do not accept \"Winter Olympics\"] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "This word denotes an omnipresent energy allowing for supernatural occurrences that is also known as \"that which is hidden.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "kami [or alternate pronunciations like gami]",
                 "Japan",
                 "washing [accept equivalents like cleansing or purification or ablution] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "The speaker of this poem reassures, \"Dust thou art, to dust returnest, was not spoken of the soul.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"A Psalm of Life\"",
                 "Henry Wadsworth Longfellow",
                 "Oliver Wendell Holmes, Sr. "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "A piece inspired by this country was described as \"blue sky in A major\" by its composer and opens with woodwinds playing repeated staccato eighth notes in 6/8. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Italy",
                 "Felix Mendelssohn-Bartholdy",
                 "Hebrides Overture "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Collectively, these structures comprise the androecium. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "stamens [accept anthers]",
                 "pollen grains",
                 "germination [accept pollen germination] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "This confederacy was defeated at the 1610 Battle of Sorel. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Iroquois Confederacy [accept Haudenosaunee or Five Nations or Six Nations]",
                 "arquebus",
                 "Christian missionaries [accept Catholic missionaries or Jesuit missionaries; prompt on priests] "

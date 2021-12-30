@@ -126,7 +126,7 @@
     "bonuses": [
         {
             "leadin": "Linus Pauling described this disorder as the first \u201cmolecular disease.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "sickle-cell anemia",
                 "fetal hemoglobin [accept hemoglobin F or HbF]",
                 "heterozygote advantage [accept heterosis, hybrid vigor, or outbreeding advantage]"
@@ -141,7 +141,7 @@
         },
         {
             "leadin": "A character in this play grows emotional upon spotting a hundred-year-old bookcase. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Cherry Orchard [or Vishnevyi sad]",
                 "Anton Pavlovich Chekhov",
                 "billiards [accept Billiards at Half-Past Nine; accept pool]"
@@ -156,7 +156,7 @@
         },
         {
             "leadin": "The final judgment according to this religion will be brought about by the Saoshyant, in an event called the Frashokereti. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Zoroastrianism",
                 "asha [or Asha Veshishta]",
                 "fire [accept fire temples]"
@@ -171,7 +171,7 @@
         },
         {
             "leadin": "A solo for this instrument represents a bard telling tales in the Ballade from the Karelia Suite. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cor anglais [or English horn; do not accept \u201chorn\u201d alone]",
                 "Jean Sibelius [or Johan Julian Christian Sibelius]",
                 "New World Symphony [or Symphony No. 9 by Anton\u00edn Dvo\u0159\u00e1k; or \u201cFrom the New World\u201d]"
@@ -186,7 +186,7 @@
         },
         {
             "leadin": "This effect is explained by a set of two equations derived by brothers Fritz and Hans London. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Meissner effect",
                 "superconductors",
                 "diamagnetism"
@@ -201,7 +201,7 @@
         },
         {
             "leadin": "Answer the following about macroeconomic modeling, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "IS\u2013LM model [or Hicks\u2013Hansen Model]",
                 "John Maynard Keynes",
                 "general equilibrium theory [prompt on equilibrium theory or Walrasian Equilibrium; do not accept \u201cpartial equilibrium theory\u201d]"
@@ -216,7 +216,7 @@
         },
         {
             "leadin": "This man\u2019s most famous work discusses the Battle of Sphacteria and the Sicilian Expedition in its eight books. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Thucydides [or Thoukud\u00edd\u0113s]",
                 "funerals [or Pericles\u2019 funeral oration]",
                 "Melos [or Milos; accept the Melian Dialogue]"
@@ -231,7 +231,7 @@
         },
         {
             "leadin": "The towers of Notre Dame can be seen on the far right of this work\u2019s background. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Liberty Leading the People [La Libert\u00e9 guidant le peuple]",
                 "The Death of Sardanapalus [La Mort de Sardanapale]",
                 "Th\u00e9odore G\u00e9ricault [or Jean-Louis Andr\u00e9 Th\u00e9odore G\u00e9ricault]"
@@ -246,7 +246,7 @@
         },
         {
             "leadin": "A poem written in this language is set in a place \u201cwhere the mind is without fear\u201d and \u201cwhere knowledge is free.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Bengali [or Bangla]",
                 "Rabindranath Tagore",
                 "William Butler Yeats"
@@ -261,7 +261,7 @@
         },
         {
             "leadin": "This concept is usually contrasted with the state of nature. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "social contract [prompt on contract]",
                 "Leviathan, or The Matter, Forme and Power of a Common Wealth Ecclesiasticall and Civil",
                 "war of all against all [or bellum omnium contra omnes]"
@@ -276,7 +276,7 @@
         },
         {
             "leadin": "Name the following members of Andrew Jackson\u2019s Cabinet, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Roger Brooke Taney",
                 "Martin Van Buren",
                 "John Henry Eaton"
@@ -291,7 +291,7 @@
         },
         {
             "leadin": "A Carnegie Hall usher who temporarily resides in the Waldorf Astoria Hotel eventually jumps in front of a train in this author\u2019s short story \u201cPaul\u2019s Case.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Willa Sibert Cather",
                 "O Pioneers!",
                 "Thea Kronborg [accept either underlined name]"
@@ -306,7 +306,7 @@
         },
         {
             "leadin": "The waiting time between successive events that follow this distribution is modeled by the exponential distribution. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Poisson distribution",
                 "variance [or var; prompt on sigma-squared; do not prompt on \u201csigma\u201d]",
                 "one"
@@ -321,7 +321,7 @@
         },
         {
             "leadin": "This opera\u2019s aria \u201cCome scoglio\u201d (KOH-may SKOH-lee-oh) features a large number of jumps from the top to the bottom of the soprano range, supposedly included to make Adriana Ferrarese look silly while singing. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Cosi fan tutte, ossia La scuola degli amanti [or Thus Do They All, or The School for Lovers]",
                 "Wolfgang Amadeus Mozart [or Johannes Chrysostomus Wolfgangus Theophilus Mozart]",
                 "Don Giovanni [or Il dissoluto punito, ossia il Don Giovanni; accept The Rake Punished, namely Don Giovanni]"
@@ -336,7 +336,7 @@
         },
         {
             "leadin": "In her article \u201cDangerous Obsession,\u201d Kathryn Harrison drew parallels between this author\u2019s novel The Bad Girl and Madame Bovary. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mario Vargas Llosa [or Jorge Mario Pedro Vargas Llosa]",
                 "scriptwriter [or obvious equivalents; accept Aunt Julia and the Scriptwriter]",
                 "Federative Republic of Brazil [or Rep\u00fablica Federativa do Brasil]"
@@ -351,7 +351,7 @@
         },
         {
             "leadin": "In this play, Sir Politick Would-Be is pranked by Peregrine into disguising himself as a tortoise to hide from a group of merchants. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Volpone",
                 "Ben Jonson",
                 "Celia [accept \u201cTo Celia\u201d]"
@@ -366,7 +366,7 @@
         },
         {
             "leadin": "A catalyst that performs this type of reaction consists of a rhodium atom bonded to three equivalents of triphenylphosphine and is named for Geoffrey Wilkinson. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "hydrogenation [do not accept \u201chydration\u201d]",
                 "benzene",
                 "Lindlar\u2019s catalyst"
@@ -381,7 +381,7 @@
         },
         {
             "leadin": "The heating of the atmosphere above this plateau contributes to the monsoon patterns in South Asia. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tibetan Plateau [or bod sa mtho; or Qingzang Gaoyuan; or Qingzang Plateau]",
                 "Yarlung Tsangpo",
                 "Yangtze River [or Chang Jiang; or Yangzi Jiang]"
@@ -396,7 +396,7 @@
         },
         {
             "leadin": "The Siege Perilous was reserved for the person who succeeded in finding this object. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Holy Grail",
                 "Galahad",
                 "Fisher King [or Wounded King; or Anfortas]"
@@ -411,7 +411,7 @@
         },
         {
             "leadin": "To get his father Murad II to fight the Battle of Varna, this ruler wrote a letter to him demanding \u201cIf you are the sultan, come and lead your armies. If I am the sultan, I order you to lead my armies.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mehmet II [or Mehmet the Conqueror; or Fatih Sultan Mehmet; or Mahomet II; or Mohammed II; prompt on Mehmet]",
                 "Ottoman Empire [or Devlet-i \u02bfAl\u012bye-i \u02bfOsm\u0101n\u012bye; or Osmanl\u0131 Devleti]",
                 "killing all his male relatives [accept more specific answers such as killing all his brothers; accept fratricide; prompt on less specific answers such as killing his family or killing all possible claimants to the throne; do not accept or prompt on killing specific family members or killing family members that aren\u2019t male]"
@@ -426,7 +426,7 @@
         },
         {
             "leadin": "This man once \u201caccidentally\u201d dropped some fresh figs on the Senate floor to show that Carthage was only three days away by sea from Rome. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Cato the Elder [or Cato the Censor; or Marcus Porcius Cato; or Cato the Wise; or Cato the Ancient; prompt on Cato; do not accept or prompt on Marcus Porcius Cato Uticensis because that refers to Cato the Younger]",
                 "Gaius Julius Caesar",
                 "Optimates"

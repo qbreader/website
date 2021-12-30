@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0<em>G\u00f6del, Escher, Bach</em> discusses Hofstadter's Law, which states that \"It always takes longer than you expect, even if you account for Hofstadter's Law.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "recursion [or recursive]",
                 "John von Neumann [accept von Neumann architecture]",
                 "finding the median [accept finding the ith largest element or rank finding]"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "Big on charisma and energy, he was known as \u201cThe Little Flower\u201d for his diminutive stature. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Fiorello Henry La Guardia",
                 "reading the comics [or obvious equivalents such as reading the newspaper]",
                 "Tammany Hall [or Society of St. Tammany; or Sons of St. Tammany; or Columbian Order]"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "The author of this novel considered calling it <em>Death and Variations</em>, because each character dies in a manner consistent with their personality. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "North and South",
                 "Elizabeth Gaskell",
                 "Mary"
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "These things were thought to bond to their substrates by a \u201clock and key\u201d model, although there is more support for an \u201cinduced fit\u201d model. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "enzyme",
                 "Michaelis-Menten model",
                 "Briggs-Haldane [or quasi-steady-state or pseudo-steady-state]"
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "This language uses loanwords from Bantu, Arabic, and French, and made the switch from Ajami script to the Latin alphabet in 1823. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Malagasy",
                 "lemurs",
                 "Seychelles"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "This process involves techniques like substitution, affective memory, and archetype work. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "method acting [accept \u201cthe method\u201d]",
                 "An Actor Prepares [or Rabota aktyera nad soboy]",
                 "David Mamet"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "A recent tor.com article notes that a surprising amount of action movie posters seem to be based on this painting and its trope of a dramatic, black-clad man turned away from the viewer. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Wanderer Above the Sea of Fog [or The Wanderer Above the Mists; or Der Wanderer \u00fcber dem Nebelmeer]",
                 "Caspar David Friedrich",
                 "Paul Nash"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "These molecules can form hairpins and are important in silencing and regulation of gene expression. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "RNA [anti-prompt on specific types of RNA if they cut you off before \u201curacil\u201d; or ribonucleic acid]",
                 "5\u2019 [read as \u201cfive prime\u201d]",
                 "IsomiR"
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "Answer some spooky questions, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "your death [or dying]",
                 "preta",
                 "killing her children [or drowning her children; prompt on incomplete answers like murder; do NOT accept or prompt on \u201cabortion\u201d]"
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "Mozart often improvised these things during his concerts and often did not fully write them in for his solo concerti. \u00a0For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cadenzas",
                 "Piano Concerto No. 21 in C major [or \u00a0K. 467]",
                 "Sir Donald Tovey"
@@ -269,7 +269,7 @@
         },
         {
             "leadin": "He was called \u201cour baby\u201d and \u201cour star\u201d at the start of his rule, and he had over 160,000 animals during his reign. \u00a0For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Caligula [or Gaius Julius Caesar Germanicus]",
                 "Elagabalus [or Heliogabalus; or Marcus Aurelius Antoninus Augustus; or Sextus Varius Avitus Bassianus]",
                 "flower petals [accept either underlined; also accept rose or violet petals]"
@@ -284,7 +284,7 @@
         },
         {
             "leadin": "Identify the following bizarrely specific patron saints, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Saint Valentine of Terni",
                 "the Fourteen Holy Helpers [or the Auxiliary Saints; or Nothelfer; or any phrase that indicates a group of fourteen saints]",
                 "Saint George of Lydda"
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "This book says that anthropologist would only continuously contradict their findings with the phrase \u201cbut also\u201d when studying the subject of this book. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Chrysanthemum and the Sword: Patterns of Japanese Culture",
                 "Ruth Benedict",
                 "Takeo Doi"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "This activity consists of a \u201chighly developed secret language drawing upon several sciences and arts, but especially mathematics and music.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the glass bead game [or das Glasperlenspiel]",
                 "Herman Hesse",
                 "Plinio Designori [accept either underlined part]"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "This former MI6 agent during WWII once defended a young Naomi Campbell from the unwelcome attentions of Mike Tyson. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "A.J. Ayer",
                 "epistemology",
                 "coherentism"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "This explorer discovered several landmasses which he named after friends Joseph Baker, Alleyne Fitzherbert and Peter Puget. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "George Vancouver",
                 "Juan de Fuca [or Ioannis Phok\u00e1s]",
                 "Northwest Passage"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "These representations depict antiparticles as moving backwards along their time axes. \u00a0For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Feynman diagrams",
                 "photon",
                 "Wick\u2019s theorem [accept Wick\u2019s expansion or obvious equivalents]"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "Name some things about works set in the Sunshine State, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Rabbit [or Harry Angstrom, or Harry; prompt on incomplete answers such as Mr. Angstrom]",
                 "Swamplandia!",
                 "Jean Rhys [or Ella Gwendolyn Rees Willliams]"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "This character claims that \u201cI\u2019m the bull in my own herd/ and a braver bull in the next one\u201d and prophesies \u201cSinging I\u2019ll die, singing they\u2019ll bury me.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Martin Fierro",
                 "payada",
                 "Argentina [or the Argentine Republic; or Republica Argentina]"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "This civilization built Uxmal and Palenque, the latter of which was ruled by Pacal the Great. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mayan civilization [or Mayas]",
                 "Mesoamerican Long Count Calendar",
                 "baktun"

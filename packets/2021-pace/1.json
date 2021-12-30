@@ -130,7 +130,7 @@
     "bonuses": [
         {
             "leadin": "For 10 points each, identify the following about the women who helped influence Miles Davis.",
-            "answer": [
+            "answers_sanitized": [
                 "Sketches of Spain",
                 "Quincy Jones [or Quincy Delight Jones, Jr.; prompt on Q]",
                 "electric instruments [or amplified instruments; or electric guitars; or electronic musical instruments; or electrophones]"
@@ -145,7 +145,7 @@
         },
         {
             "leadin": "Pregnant women are still routinely prescribed this practice. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "rest cure [or bed rest; or pelvic rest; prompt on rest]",
                 "the American West [or the Western United States; accept \u201cGo West, young man\u201d]",
                 "dime novels [or ten penny novels; prompt on novels]"
@@ -160,7 +160,7 @@
         },
         {
             "leadin": "Albert Einstein cut off communication with this physicist after he presumptuously proclaimed a revolution in general relativity. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Erwin Schr\u00f6dinger [or Erwin Rudolf Josef Alexander Schr\u00f6dinger]",
                 "optics [or physical optics; or geometric optics; prompt on light]",
                 "Richard Feynman [or Richard Phillips Feynman]"
@@ -175,7 +175,7 @@
         },
         {
             "leadin": "A first-year undergrad named Manny Medrano helped decode a system used in these things. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "khipu (\u201ckee-poo\u201d) [or quipu; prompt on talking knots]",
                 "Incan Empire [or Tawantinsuyu]",
                 "double-entry bookkeeping [or double-entry accounting; prompt on accounting or bookkeeping]"
@@ -190,7 +190,7 @@
         },
         {
             "leadin": "This country\u2019s maritime police are funded almost entirely by an Indiegogo campaign. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Palau [or Republic of Palau; or Belau; or Palaos; or Pelew]",
                 "a jail [or a prison] (the New York prison is Rikers Island)",
                 "sand [accept more specific answers like beach sand]"
@@ -205,7 +205,7 @@
         },
         {
             "leadin": "For 10 points each, identify the following about Jewish culture entering the mainstream in postwar America.",
-            "answer": [
+            "answers_sanitized": [
                 "Herman Wouk (\u201cwoke\u201d)",
                 "Fiddler on the Roof",
                 "Poland [or Republic of Poland; or Polska] (The other book is Elie Wiesel\u2019s Night.)"
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "After witnessing this battle, Johann Wolfgang von Goethe (\u201cGUR-tuh\u201d) wrote, \u201cFrom this day forth begins a new era in the history of the world.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Battle of Valmy",
                 "Louis XVI (\u201cthe&nbsp;16th\u201d) [accept Louis-Auguste or Louis Capet; prompt on Louis]",
                 "great men [accept Great Man Theory]"
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "This chemist discovered that metals like nickel could affect the extension of alkylaluminum (\u201calkyl-aluminum\u201d) compounds. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Karl Waldemar Ziegler [accept Ziegler\u2013Natta catalysts]",
                 "two",
                 "metallocenes [accept titanocenes; prompt on sandwich compounds or coordination complexes]"
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "A word in this language follows each instance of the capitalized syllable \u201cDA\u201d in a poem\u2019s final section, \u201cWhat the Thunder Said.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sanskrit",
                 "T. S. Eliot [or Thomas Stearns Eliot]",
                 "\u201cThe Dry Salvages\u201d (\u201csal-VAY-jizz\u201d)"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "Hersh Shefrin\u2019s planner-doer model is used by scholars in this branch of economics to explain the contrast between short-term and long-term desires. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "behavioral economics [or behavioral finance]",
                 "Robert J. Shiller [or Robert James Shiller; accept Case\u2013Shiller Index]",
                 "games [accept the ultimatum game; accept game theory or non-cooperative games]"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "\u00c9douard Lalo dedicated his Symphonie espagnole to this musician, for whom Saint-Sa\u00ebns (\u201csan-SAWNS\u201d) wrote his Introduction and Rondo Capriccioso. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pablo de Sarasate (\u201csah-rah-SAH-tay\u201d)",
                 "Roma [or Romani; accept Gypsy or Gypsies; accept Gypsy Airs]",
                 "Hungary [or Magyarorszag; accept Hungarian Dances]"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "One of these objects dating to the Western Zhou (\u201cjoe\u201d) dynasty was unearthed in Luoyang in 2011. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "chariots",
                 "handheld crossbow [prompt on bow; prompt on arrow; do not accept or prompt on \u201clongbow\u201d]",
                 "Cao Cao (\u201ctsao tsao\u201d) [or Mengde; or Emperor Wu of Wei]"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "This object is thrown into a lake by its owner\u2019s sister after the defeat of Accolon in single combat. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "scabbard of Excalibur [accept equivalents in place of scabbard, like the sheath of Excalibur; prompt on answers that only mention a scabbard or sheath; do not accept or prompt on \u201cExcalibur\u201d]",
                 "King Arthur",
                 "Mordred [or Medraut]"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "Brouwer\u2019s fixed point theorem gives a special case of this theorem in one dimension. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "intermediate value theorem [or IVT; accept intermediate value property; prompt on Bolzano\u2019s theorem; do not accept or prompt on \u201cmean value theorem\u201d]",
                 "differentiation [or taking the derivative]",
                 "roots [or zeros; or solutions; accept any answer indicating that it outputs zero; prompt on x-intercept]"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Identify the following about the career of Jack Johnson, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "boxing",
                 "Wheeling, West Virginia",
                 "Mann Act [prompt on White-Slave Traffic Act of 1910]"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "This novel inspires the writing of the fictional author Sam DuChamp in a 2019 novel by Salman Rushdie. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Don Quixote [or The Ingenious Gentleman Don Quixote of La Mancha; or El ingenioso hidalgo don Quijote de la Mancha; accept Part 1 of Don Quixote]",
                 "Miguel de Cervantes",
                 "La Galatea"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This female artist had to petition her government for the right to wear men\u2019s clothes while painting outdoor scenes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Rosa Bonheur (\u201cbon-URR\u201d)",
                 "lions [prompt on cat] (That library is the New York City Public Library.)",
                 "horses [or equines]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "In a second-person story, this character writes down \u201cThe half-life of love is forever.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Yunior de Las Casas [prompt on de Las Casas; accept Junior]",
                 "Pulitzer Prizes [accept specific Pulitzers such as the Pulitzer Prize for Fiction]",
                 "Cuba [or Republic of Cuba] (The other author is Jos\u00e9 Mart\u00ed.)"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "This state can be distinguished between forms \u201cwith remainder\u201d and \u201cwithout remainder,\u201d depending on whether it is achieved prior to death. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "nirvana [or nibbana]",
                 "arhats [or arahants]",
                 "self [or personality or soul or essence; accept atman or atta if interrupted before \u201canatman\u201d]"
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "The shape of this molecule was calculated by SWAC in an early use of computing in biochemistry. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "vitamin B12 [or cobalamin]",
                 "James Watson AND Francis Crick",
                 "cholesterol [accept cholesteryl iodide]"
@@ -430,7 +430,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the Darmstadt (\u201cDARM-shtott\u201d) School.",
-            "answer": [
+            "answers_sanitized": [
                 "Italy [or Italian Republic; or Repubblica Italiana] (Those composers are Luigi Nono and Luciano Berio.)",
                 "flute [or transverse flute]",
                 "serialism [or serial composition; accept twelve-tone serialism]"

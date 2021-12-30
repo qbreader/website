@@ -22,7 +22,7 @@
     "bonuses": [
         {
             "leadin": "This composer scored three films by Godfred Reggio whose titles all contain the Hopi word for \"life.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Philip Glass",
                 "Albert Einstein",
                 "Orpheus [or Orfeo or Orph\u00e9e] "
@@ -37,7 +37,7 @@
         },
         {
             "leadin": "A widely criticized painting from this movement that was first exhibited at the Salon des Ind\u00e9pendants depicts nude people relaxing in a colorful landscape. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Fauvism",
                 "Henri Matisse",
                 "Roy (Fox) Lichtenstein "
@@ -52,7 +52,7 @@
         },
         {
             "leadin": "In one passage, this usually-sullen character tells the woman he loves, \"think now and then that there is a man who would give his life, to keep a life you love beside you!\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sydney Carton [accept either underlined portion]",
                 "Charles Dickens [or Charles John Huffam Dickens]",
                 "The Hunchback of Notre Dame [or Notre-Dame de Paris] (by Victor Hugo) "

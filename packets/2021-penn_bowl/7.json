@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "As you awaken one morning, you find yourself transformed into a giant insect. Answer the following about your fate, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "integrated pest management [or integrated pest control; or IPM; or IPC]",
                 "neonicotinoids [or neonics]",
                 "corn [or maize; or Zea mays; prompt on Zea] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "James L. Clark, a practitioner of this craft, feuded with Sydney Parkinson over whether his work had any role in advancing science or conservation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "taxidermy",
                 "Theodore Roosevelt, Jr. [or TR]",
                 "Mellon [accept Richard King Mellon or Andrew Mellon] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Answer the following about a conducting cylinder surrounded concentrically by a conducting cylindrical shell, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "log of b over a [or log(b/a); accept log of b divided by a; accept ln or natural log in place of \u201clog\u201d; do not accept or prompt on \u201cb over a\u201d]",
                 "negative one [or \u20131; accept one over r or 1/r]",
                 "Gauss\u2019s law "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "The narrator of this work breaks off a piece of Pier della Vigna. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Inferno [prompt on Divine Comedy]",
                 "trees [or a forest; or equivalents]",
                 "Seventh Circle of the Inferno "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "In a film by this director, the title character sobs in bed as an Italian law student takes her older sister\u2019s virginity across the room. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Catherine Breillat (\u201cbray-AH\u201d)",
                 "Sleeping Beauty [accept \u201cSleeping Beauty in the Woods\u201d or \u201cLittle Briar Rose\u201d]",
                 "space station [accept a spaceship or spacecraft; prompt on outer space or an alien planet; prompt on black hole] (The Tarkovsky film is Solaris.) "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Name these songwriters and bands influenced by the Spanish poet Federico Garc\u00eda Lorca, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Leonard Cohen",
                 "London Calling (by The Clash)",
                 "Buckley [accept Tim Buckley or Jeff Buckley] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In one of these events, Beethoven allegedly took Daniel Steibelt\u2019s score, turned it upside down, and outimprovised Steibelt so badly that he stormed out of the room and never came back to Vienna again. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "piano duel [accept keyboard or pianoforte in place of \u201cpiano\u201d; accept equivalents like battle or contest in place of \u201cduel\u201d; prompt on answers that don\u2019t include \u201cpiano\u201d by asking \u201con what instrument?\u201d]",
                 "Muzio Clementi",
                 "transcriptions of operas [accept opera fantasy; accept opera paraphrase; accept anything describing arranging or compiling an opera\u2019s themes or melodies; prompt on synonyms of paraphrases, transcriptions, or arrangements by asking \u201cof works in what genre?\u201d] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "T. S. Eliot\u2019s Four Quartets was influenced by this thinker\u2019s account of time, which discusses by analogy the difficulty of quantifying how long a poem is. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "St. Augustine of Hippo (The discussion of time appears in Book XI of The Confessions.)",
                 "Plotinus",
                 "Trinity "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Elizabeth Bishop\u2019s \u201cInvitation to Miss Marianne Moore\u201d is modeled after a poem in which a man with this surname travels \u201cover dentists and parishes / cinemas, tunnels, and ears.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Jim\u00e9nez [accept Juan Ram\u00f3n Jim\u00e9nez or Alberto Rojas Jim\u00e9nez]",
                 "Pablo Neruda",
                 "Vicente Huidobro "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Abdullah ibn Umar reported that Muhammad compared those who rejected this doctrine, including the Qadariyah, to the Zoroastrians who similarly reject it. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "predestination [accept answers describing how Allah\u2019s will cannot be changed]",
                 "al-Azhar (\u201call-UZZ-har\u201d) University",
                 "monotheism [accept similar descriptions like \u201cone-ness\u201d or unity of Allah] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "One of the first earls of this location, Sigurd the Mighty, died from an infection after his leg was scratched by the decapitated head of M\u00e1el Brigte the Bucktoothed, which had been hanging from his horse. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Orkney Islands",
                 "Kingdom of Norway",
                 "hair [accept facial hair; accept beards; accept Harald Fairhair or Sweyn Forkbeard] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "In one novel, this man reflects on an execution that occurred earlier that day, remembering his father\u2019s apprentice telling him that coffins were nailed shut so the dead wouldn\u2019t \u201cspring out and chase\u201d the living. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Thomas Cromwell",
                 "King Henry VIII (\u201cthe eighth\u201d) [prompt on Henry]",
                 "\u201cso now get up\u201d "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Answer the following about the development of the painted altarpiece in Medieval and Renaissance art, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "polyptychs (\u201cPAW-lip-ticks\u201d) [or triptychs; or diptychs]",
                 "predella",
                 "conversations [or sacra conversazione] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "You would like to learn more about vibrational modes of water. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "character table",
                 "1 bending and 2 stretching vibrational modes",
                 "bent [or nonlinear] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "A romanticized person of this type is the subject of the corrido \u201cLa Adelita.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "soldaderas",
                 "Pancho Villa",
                 "International Committee of the Red Cross [or American Red Cross] (Mejia\u2019s organization is the Neutral White Cross.) "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "In an experiment with three treatment variables that have two levels each, the \u201cfull\u201d kind of this design would have eight total treatment combinations. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "factorial experiment [accept full factorial design or fractional factorial design; prompt on crossed experiment]",
                 "ANOVA [or analysis of variance]",
                 "randomized [or word forms] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "In an epic written in this language, the title character is killed for refusing to give up his bow to a god that his father Danel had given him. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ugaritic language",
                 "Ba\u2019al",
                 "Carthage "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "The unnamed narrator of The Sympathizer lives in Los Angeles and acts as a mole for one side following the end of this conflict. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Vietnam War [or Second Indochina War; accept Resistance War Against America or American War]",
                 "Dispatches",
                 "New Journalism [prompt on journalism; prompt on creative nonfiction] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Jeffrey Legro proposed that the robustness of these concepts can be measured according to their specificity, durability, and concordance. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "norms [accept social norms, regulative norms, constitutive norms, prescriptive norms, or evaluative norms]",
                 "constructivism [or social constructivism; or word forms]",
                 "anarchy [accept \u201cAnarchy Is What States Make of It\u201d] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Pedro Fernandes de Queir\u00f3s led a 1605 mission to discover this location, which he believed he had done after landing on part of Vanuatu, before blasting Philip III with over 50 requests to fund his return. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Terra Australis Incognita [accept Brasiliae Australis; accept Terra Australis Nondum Cognita; prompt on Antipodes; do not accept or prompt on \u201cAustralia\u201d]",
                 "James Cook",
                 "Matthew Flinders "

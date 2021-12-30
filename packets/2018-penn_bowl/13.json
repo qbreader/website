@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "This vital supply artery was later supplanted by the Ledo Road. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Burma Road",
                 "World War II",
                 "Joseph Warren Stilwell [or \u201cVinegar Joe\u201d Stilwell\u201d] &lt;NR, World History&gt;"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "Zoologists recognize about 35 different animal phyla. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cnidarians (\u201cnye-DAIR-ee-uns\u201d)",
                 "mouth",
                 "mesoglea &lt;AP, Biology&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This case began on a tip that a suspect accused of bombing Don King\u2019s house was hiding out in the petitioner\u2019s home. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mapp v.\u00a0Ohio",
                 "exclusionary rule",
                 "prophylactic rule &lt;WD, American History&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Leaders of this school included Theophrastus, whose extant works include <em>Plant Explanations</em> and <em>On Fish</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Peripatetic school",
                 "syllogism",
                 "rhetoric [or oratory until \u201cDe oratore\u201d is read; prompt on synonyms like speech] &lt;JK, Philosophy&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "In the final line of this story, a pear tree is claimed to be \u201cas lovely as ever and as full of flower.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cBliss\u201d",
                 "\u201cThe Garden Party\u201d",
                 "Katherine Mansfield &lt;LC, British Literature&gt;"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "By the end of a meal on this holiday, one should not be able to calculate the equivalent numerical value of two different phrases. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Purim",
                 "Haman",
                 "Shabbat Zachor &lt;AP, Religion&gt;"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This period is hypothesized to be important in developing the ego and recognizing an adult as \u201cother.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cmirror stage\u201d [or \u201cstade du miroir\u201d]",
                 "Jacques Lacan",
                 "Sigmund Freud &lt;JC, Social Science (Psychology)&gt;"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "A doubly chlorinated derivative of this compound is called phosgene. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "formaldehyde",
                 "aldol reaction [or aldol condensation]",
                 "hydride shift [or H\u2212 ion; or H-minus ion; do not accept or prompt on \u201cH+ ion\u201d or \u201chydrogen\u201d or \u201cH\u201d] &lt;PL, Chemistry&gt;"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "In one play by this author, a gravedigger called \u201cthe Foundling Father\u201d digs a replica of \u201cthe Great Hole of History\u201d for his family. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Suzan-Lori Parks",
                 "The Scarlet Letter",
                 "Native Son &lt;JC, American Literature&gt;"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "This strange structure was conceived by Jim Reinders in 1987 as a memorial to his father. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Carhenge",
                 "Nebraska",
                 "the Sandhills &lt;AP, Geography&gt;"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "The Argonauts landed on this island seeking absolvement after their murder of Absyrtus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Aeaea (\u201cee-EE-uh\u201d) [or Aiaia; or E\u00eba; prompt on Circe\u2019s island or equivalents; do not accept \u201cOgygia\u201d]",
                 "Circe",
                 "Telegonus &lt;MT, Mythology&gt;"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "The protagonist of this novel sees two suns and two moons as well as identical copies of dead fish. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Invention of Morel",
                 "Adolfo Bioy Casares",
                 "Argentina &lt;JC, World Literature&gt;"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "In its original coining in <em>The Tall Office Building Artistically Considered</em>, examples of \u201cthe sweeping eagle in his flight,\u201d \u201cthe open apple-blossom,\u201d and \u201cthe toiling work-horse\u201d were used to support this slogan. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cform ever follows function\u201d",
                 "Louis Sullivan",
                 "the Transportation Building &lt;JC, Other Arts (Architecture)&gt;"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "This document\u2019s exclusion of the Habsburgs caused Duke Rudolf IV to forge the <em>Privilegium Maius</em>, a document supposedly issued by Frederick Barbarossa to give Austria special privileges. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Golden Bull of 1356 [prompt on Golden Bull]",
                 "Pragmatic Sanction of 1713",
                 "Maria Theresa &lt;NR, European History&gt;"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "This collection of celestial objects was compiled with the help of Pierre Mechain. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Messier catalog",
                 "Virgo supercluster",
                 "Pisces-Cetus supercluster complex &lt;AP, Other Science (Astronomy)&gt;"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "During these wars, the Spanish government was only kept afloat by the infusion of hundreds of thousands of pounds from the Rothschilds. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Carlist Wars",
                 "Isabella II [or Isabella I]",
                 "fueros &lt;NR, European History&gt;"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "Monteverdi\u2019s <em>Il Combattimento di Tancredi e Clorinda</em> is the first secular example of this type of composition, which moved first toward secularization and then toward becoming \u201csacred operas.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "oratorio",
                 "Dream of Gerontius",
                 "Messiah &lt;MT, Music&gt;"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "A poem from this collection begins \u201cMy ship, full of oblivion, sails / on a bitter sea, at winter\u2019s midnight / between Scylla and Charybdis.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Il Canzoniere (\u201cell kont-sone-YAY-ray\u201d)",
                 "scattered rhymes [or rime sparse]",
                 "Petrarch [or Francesco Petrarca] &lt;MT, European Literature&gt;"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "The relative magnitude of three of these quantities appear in the tennis racket theorem. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "moment of inertia",
                 "stretch rule [or Routh\u2019s rule]",
                 "tensor &lt;AP, Physics&gt;"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "One of this artist\u2019s installation pieces shows blobby flesh-colored forms symbolizing the dismembering of her adulterous father. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Louise Bourgeois",
                 "her mother [or Maman]",
                 "houses [or maisons; prompt on buildings] (The series are Femme Maison and Maisons Fragiles.) &lt;JC, Painting&gt;"

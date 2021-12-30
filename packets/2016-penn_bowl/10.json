@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0This author wrote a poem addressed to \u201cyou who live safe in your warm houses,\u201d asking them to consider a man \u201cwho works in the mud\u201d and a woman \u201cwithout hair and without name.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Primo Levi",
                 "If This Is a Man [or Survival in Auschwitz or \u00a0Se questo \u00e8 un uomo or Ist das ein Mensch?]",
                 "Elie Wiesel [or Elyezer Vizel]"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "When hooked to alternating current, these devices show some heat loss due to ripple current. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "capacitor",
                 "tantalum",
                 "fringe fields or fringing fields"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "\u00a0Name the following Middle Eastern rulers who made famous steles, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hammurabi",
                 "Naram-Sin of Akkad [or Naram-Suen of Akkad]",
                 "Merneptah [accept Merneptah Stele]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "This two-word term was coined by the programmer John McCarthy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "artificial intelligence [or AI]",
                 "machine learning",
                 "k-nearest neighbors algorithm"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "This term was coined in a 1926 essay by Jean Cocteau which calls for the revival of classicism in the arts. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "return to order [or Le rappel a ordre]",
                 "Futurism [or Futurists; accept Futurist Manifesto]",
                 "plastic [accept Neoplasticism]"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "The Flynn effect describes an apparent increase in the measure of this quantity over time, which is probably not an actual increase in this quantity.",
-            "answer": [
+            "answers_sanitized": [
                 "intelligence",
                 "David Weschler",
                 "Raven\u2019s Progressive Matrices"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "\u00a0One war against these people saw troops under Zachary Taylor walk into a \u201ckilling zone\u201d ambush in a canebrake near Lake Okeechobee. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Seminoles",
                 "Treaty of Moultrie Creek",
                 "Osceola [or Billy Powell]"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "A man traveling in this country meets Daniel Dravot and Peachey Carnehan, who show him their \u201ccontrack\u201d for becoming kings in Afghanistan. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "India",
                 "Malcolm Lowry",
                 "Ultramarine"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "Walter Sobchak points out, \u201csay what you want about the tenets of National Socialism, Dude, at least it\u2019s an <em>ethos</em>\u201d while criticizing this philosophical view. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "nihilism",
                 "J.L. Mackie",
                 "Pyrrhonian skepticism [or Pyrrhonism]"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "A now-discredited family of languages supposedly takes its name from this mountain range. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Altai Mountains",
                 "Russia",
                 "Irkutsk"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "Answer some questions about a device used to visualize biological products too small to be visible to the human eye, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "microscope",
                 "immersion oil",
                 "confocal microscopy"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "Repeated government reforms have tried to reduce the horrifyingly expensive dowries traditionally mandated for these events in India. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "marriages",
                 "Agni",
                 "gandharvas"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "In 1974, a factory in Flixborough producing caprolactam using this compound exploded, killing 28 people. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cyclohexane",
                 "boat conformation",
                 "decalin"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "Most of the participants of this rebellion were formerly part of the United Irishmen Rebellion. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Castle Hill Rebellion [or Second Battle of Vinegar Hill before read]",
                 "William Bligh",
                 "Rum Rebellion"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "In the Aeneid, Juno is angry that she does not get to kill Aeneas, since Athena got to kill this man with a storm. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ajax the Lesser [also accept Locrian Ajax, Oilean Ajax]",
                 "sheep",
                 "Hesione"
@@ -339,7 +339,7 @@
         },
         {
             "leadin": "Wu Hsing-kuo turned this novel into a Peking Rock Opera named after its title group of outlaws. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Water Margin",
                 "108",
                 "stealing the birthday gifts of Imperial Tutor Chai Jing [or equivalents like depriving Chai Jing\u2019s of his birthday gifts]"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "The Crimes Act of 1961 abolishing capital punishment was passed under this man. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Keith Holyoake",
                 "kiwi",
                 "nuclear weapons [accept equivalents]"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "Most scholars now doubt that Emperor Josef II complained that there were \u201ctoo many notes\u201d upon hearing this opera. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Abduction from the Seraglio [or Die Entf\u00fchrung aus dem Serail or Il Seraglio]",
                 "singspiel [or sing-play]",
                 "Speaking Role [or logical equivalents, such as Not Singing]"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "This overly saccharine and folksy poet wrote \u201cGive me the end of the year an\u2019 its fun / When most of the plannin\u2019 an\u2019 toilin\u2019 is done\u201d in his poem \u201cThanksgiving. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Edgar Guest [prompt on Guest]",
                 "Dorothy Parker",
                 "The New Yorker"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "Gustav Holst was inspired by a bicycle trip across this kind of location to create a movement titled \u201cIn the Street of the Ouled Nails [OOLD na-EELS].\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "deserts [accept The Desert Music] (the first piece is Holst\u2019s Beni Mora)",
                 "In the Steppes of Central Asia [or V srednye\u012d Azii or In Central Asia] (by Alexander Borodin)",
                 "Sergei Prokofiev"

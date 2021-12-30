@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "This language\u2019s \u201csynthetic\u201d form was used in the poems \u201cThe Watergaw\u201d and the long \u201cA Drunk Man Looks at the Thistle.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Scots [or Lowland Scots; or Early Scots; or Middle Scots; or Modern Scots; or Synthetic Scots; accept Lallans; accept Scottish English; prompt on Middle English; prompt on Scottish; reject \u201cScottish Gaelic,\u201d \u201cScots Gaelic,\u201d or \u201cEnglish\u201d] (The two poems in the lead-in are by Hugh MacDiarmid, and \u201cLament for the Makaris\u201d is by William Dunbar.)",
                 "Sorley MacLean [or Somhairle MacGill-Eain]",
                 "Robert Burns [or Rabbie Burns] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Answer the following about German art movements associated with certain cities, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Die Br\u00fccke [accept The Bridge] (The Munich movement was The Blue Rider.)",
                 "Weimar",
                 "Leipzig [accept New Leipzig School or Old Leipzig School] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "The four basic generating functions of these transformations are related to each other by Legendre transformations. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "canonical transformations [accept contact transformations]",
                 "diffeomorphisms [prompt on isomorphism]",
                 "simple harmonic oscillator [or SHO; prompt on oscillator; prompt on spring; prompt on pendulum] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "In the book Slavery and [this status], Orlando Patterson lays out the essence of slavery as the slave possessing this status, and \u201c[living] on the margin between community and chaos, life and death, the sacred and the secular.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "social death",
                 "Peter the Great [or Peter I; accept Pyotr Alekseyevich; prompt on Peter or Pyotr]",
                 "manumission "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "Several books by University of Chicago anthropologist Gilbert Herdt describe this ethnic group\u2019s low degree of contact between the sexes and their practice of \u201critualized homosexuality.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sambia people [or Simbari Anga]",
                 "Michel Foucault (\u201cfoo-COH\u201d)",
                 "Republic of Ireland [accept Northern Ireland] (The island is Inis Beag, and the documentary is Man of Aran.) "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "Answer the following about fashion in 17th and 18th-century France, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "calico",
                 "diamonds [accept the Affair of the Diamond Necklace]",
                 "pouf [or toque] "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "Following a son\u2019s death after being encouraged to drink poisoned mead by his dad, this man creepily disappears with his body after claiming that there isn\u2019t enough room in a boat for all three of them. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Odin [accept Wotan; accept Wodan]",
                 "V\u00f6lsung [accept V\u00f6lsunga saga or Saga of the Volsungs]",
                 "he breaks Sigmund\u2019s sword [accept synonyms for break such as shatter, smash, or fracture; prompt on answers that describe causing Sigmund to lose a battle, abandoning Sigmund, or causing Sigmund to die by asking \u201cwhat physical action does Odin perform that results in Sigmund\u2019s defeat?\u201d; prompt on breaking Sigmund\u2019s weapon by asking \u201cwhat type of weapon?\u201d; prompt on breaking a sword by asking \u201cwhose sword?\u201d; prompt on breaking a weapon by asking \u201cwhose weapon, and what type of weapon was it?\u201d; reject \u201ckilling Sigmund\u201d; reject answers mentioning \u201cSigurd\u201d or \u201cSiegfried\u201d] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "Locals who live near this feature claim that it contains exactly 1969 conical limestone towers, a figure referencing the year of Ho Chi Minh\u2019s death. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ha Long Bay",
                 "caves [or caverns; accept Mammoth Cave National Park; accept underground caves or tunnels]",
                 "Guangxi Zhuang Autonomous Region [accept Kwangshi; accept Gvangjsih; prompt on GZARU] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "Answer the following about euphemisms for sexual intercourse from English drama, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tom Stoppard [or Tom\u00e1\u0161 Straussler]",
                 "(making the) beast with two backs",
                 "going the whole hog "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "The Chinese Civil War was interrupted by this incident, which forced the Kuomintang to form a United Front with the Communist Party. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Xi\u2019an Incident [accept X\u012b\u2019\u0101n Sh\u00ecb\u00ecan]",
                 "Nanjing [or Nanking; accept Rape of Nanking]",
                 "Dai Li [or Tai Li; accept Dai Chunfeng] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Although BAN logic had proven the correctness of the public-key protocol developed by these (emphasize) two computer scientists, Gavin Lowe found that the protocol was vulnerable to a man-in-the-middle attack. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Roger Michael Needham AND Michael Schroeder",
                 "digital certificate [accept public-key certificates; accept identity certificates]",
                 "HTTP [or Hypertext Transfer Protocol; accept HTTPS or Hypertext Transfer Protocol Secure; accept HTTP over TLS; accept HTTP over SSL] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "The white Jack and the Black Billy fall in love while in one of these places in Don Carpenter\u2019s classic gay novel Hard Rain Falling. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "prison [or jail; accept correctional facility]",
                 "ice [accept icebergs; accept Iceberg Slim; accept Soul on Ice]",
                 "Rachel Kushner "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "A Douglass Adair paper on this text \u201crevisited\u201d explored how early historians completely ignored it until it was reinterpreted through a lense of class struggle by Charles A. Beard. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Federalist No. 10 [accept the tenth Federalist Paper; prompt on The Federalist or The Federalist Papers]",
                 "James Madison",
                 "Montesquieu [or Charles-Louis de Secondat, Baron de la Br\u00e8de et de Montesquieu] AND David Hume [accept David Home] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "Answer the following about what happened to the large amounts of gold held by the Confederate Treasury during the final days of the Civil War, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Danville, Virginia",
                 "Georgia",
                 "William Harwar Parker "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "In 1980, the musicologist Alfred Dunning discovered a correspondence in the palace library at Twickel indicating that this composer wrote a series of pieces formerly attributed to Carlo Ricciotti. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Unico Wilhelm van Wassenaer [accept either underlined portion; accept either underlined portion of Unico Wilhelm, Count van Wassenaer Obdam]",
                 "Italy [or Italia]",
                 "Stabat Mater dolorosa "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "This ruler defeated the forces of the Kingdom of Naples at the 1348 Battle of Capua, motivated by Queen Joanna\u2019s alleged murder of his brother Andrew. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Louis I [or Louis the Great; prompt on Louis]",
                 "Privilege of Koszyce (\u201ckoh-SHEET-seh\u201d) [accept pact in place of privilege; accept Ko\u0161ice or Kassa in place of Koszyce]",
                 "Polish-Lithuanian Commonwealth [or Poland-Lithuania Commonwealth; prompt on Poland or Lithuania] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Illumina provides platforms that automate the next-generation type of this technique. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "DNA sequencing [accept next generation sequencing; accept Sanger sequencing; prompt on NGS]",
                 "nucleic acid hybridization [accept fluorescence in situ hybridization]",
                 "long-reads [or long-read sequencing] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "The US is a party to the Minamata Convention, an agreement which seeks to reduce the rates of this substance in the environment. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "mercury [or Hg]",
                 "thrusters [accept mercury thrusters; or ion thrusters; or ion drive; or satellite engines; or satellite propulsion systems; or spacecraft propulsion systems; reject \u201crockets\u201d]",
                 "BeiDou (\u201cbay-doh\u201d) [or BeiDou Navigation Satellite System; or BDS; or B\u011bid\u01d2u W\u00e8ix\u012bng D\u01ceoh\u00e1ng X\u00ect\u01d2ng; prompt on The Big Dipper] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Answer the following about objects that fascinate the young narrator of Marcel Proust\u2019s Swann\u2019s Way, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "madeleines",
                 "church spires [accept church steeples; prompt on churches or cathedrals]",
                 "George Sand [or Amantine Lucile Aurore Dupin] "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "The steps to this dance were first choreographed by Jenny Dolly and its namesake at the 1913 edition of the Ziegfeld Follies. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "foxtrot [accept American Continuity style foxtrot or American Social Style foxtrot] (named for Harry Fox)",
                 "ballroom dancing",
                 "Irene and Vernon Castle [accept the Castles; accept William Vernon Blyth AND Irene Foote] "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "The first direct detection of the kinetic Sunyaev\u2013Zeldovich effect, or SZ effect, occurred in a highly disturbed one of these astronomical objects called MACS J0717 (\u201cM-A-C-S J-zero-seven-one-seven\u201d). For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "galaxy clusters [prompt on clusters; reject any other type of cluster or \u201cgalaxy superclusters\u201d or \u201cgalactic cluster\u201d]",
                 "transition edge sensors [or TES]",
                 "CMBR [or cosmic microwave background radiation] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "The first two verses of this text states that \u201chumans at birth, are naturally good.\u201d For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Three Character Classic [or Sanzi Jing; or Trimetric Classic]",
                 "names [or surnames; accept B\u01cei ji\u0101 x\u00ecng; accept the rectification of names or zh\u00e8ngm\u00edng]",
                 "heaven [or ti\u0101n; prompt on sky by stating \u201ceither name the Chinese character for sky or name the more common translation for the Chinese character for sky in the context of Confucianism.\u201d] "

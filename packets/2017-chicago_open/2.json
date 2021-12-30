@@ -121,7 +121,7 @@
     "bonuses": [
         {
             "leadin": "This disorder is similar to pulmonary hypoplasia. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "IRDS [or infant respiratory distress syndrome, or neonatal respiratory distress syndrome; accept but DO NOT REVEAL TO TEAMS: hyaline membrane disease or HMD]",
                 "hyaline [accept hyaline membrane disease or hyaline cartilage]",
                 "corpora amylacea"
@@ -136,7 +136,7 @@
         },
         {
             "leadin": "Kenelm Hubert Digby proposed this event, which resulted in a pledge adopted by universities in Scotland, Canada, and South Africa. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "King and Country Debate",
                 "Robert Cecil, 1st Viscount Cecil of Chelwood [or Edgar Algernon Robert Gascoyne-Cecil, 1st Viscount Cecil of Chelwood]",
                 "general strike [or mass strike; prompt on strike]"
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "Makina travels to America to bring a message to her brother in a 2015 novel titled for \u201csigns preceding\u201d this event. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the end of the world [or fin del mundo; or Signs Preceding the End of the World; or War of the End of the World]",
                 "Mexico",
                 "Ernesto Cardenal Martinez [prompt on Martinez]"
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "In a controversial book titled for Hamlet\u2019s object of this sort, Giorgio de Santillana and Hertha von Dechend argued that the Neolithic knowledge of axial precession was encoded in myth. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the world mill [or millstone; or heavenly/cosmic mill]",
                 "salt",
                 "Suttungr"
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "24 sleds carrying a roll of this material, animal fat, and a headlamp stream out of a van in the installation <em>The Pack</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "felt",
                 "a dead hare [or dead rabbit]",
                 "grand piano"
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "This man signed the Treaty of Labiau with Charles X Gustav, laying the groundwork for a hereditary claim on his state in the Treaty of Bromberg. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Frederick William of Prussia [or the Great Elector; DO NOT accept or prompt on \u201cFrederick\u201d or \u201cFrederick William I\u201d]",
                 "John II Casimir [prompt on John]",
                 "Treaty of Saint Germain-en-Laye [do not accept or prompt on \u201cSaint-Germain\u201d]"
@@ -210,7 +210,7 @@
         },
         {
             "leadin": "This tour, which is the subject of a memoir compiled by Francis Steegmuller, was undertaken to gather information for the Ministry of Commerce and Agriculture. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Flaubert\u2019s visit to Egypt [or obvious equivalents; accept the Middle East or the Orient in place of Egypt]",
                 "Orientalism",
                 "Louise Colet [or Louise Revoil]"
@@ -225,7 +225,7 @@
         },
         {
             "leadin": "The downward variety of these entities consists of negatively charged ions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "leaders",
                 "lightning",
                 "terrestrial gamma ray bursts [accept \u201cflashes\u201d in lieu of \u201cbursts\u201d; prompt on GRBs; or gamma ray bursts]"
@@ -240,7 +240,7 @@
         },
         {
             "leadin": "This event was effectively reversed with the publication of John T. Molloy\u2019s <em>Dress for Success,</em> which codified a return to gray flannel suits for the purposes of business. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Peacock Revolution",
                 "decriminalization of homosexuality [accept equivalents]",
                 "Paisley"
@@ -255,7 +255,7 @@
         },
         {
             "leadin": "In addition to writing music of his own, Anton Webern also arranged the music of other composers. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Musical Offering [or Musikalisches Opfer or Das Musikalische Opfer]",
                 "Klangfarbenmelodie [prompt on sound color melody]",
                 "harmonium [or melodeon or pump organ]"
@@ -270,7 +270,7 @@
         },
         {
             "leadin": "After this character fails to secure a hotel booking at Hastings, he books a romantic weekend with Annie in the far less glamorous town of East Grinstead. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Norman",
                 "Alan Ayckbourn",
                 "Richard Brinsley Sheridan"
@@ -285,7 +285,7 @@
         },
         {
             "leadin": "This report was submitted to Hubert Work, the Secretary of the Interior, after being commissioned by the Institute for Government Research now known as the Brookings Institution. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Meriam Report",
                 "Dawes Severalty Act",
                 "Burton K. Wheeler [or Burton Kendall Wheeler]"
@@ -300,7 +300,7 @@
         },
         {
             "leadin": "This work claims that philosophers have attempted to account for \"spontaneity\" through either \"bald naturalism\" --which reduces it away--or rampant Platonism--which exiles it from the natural world. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mind and World",
                 "University of Pittsburgh [or Pitt]",
                 "empiricism [accept word forms]"
@@ -314,7 +314,7 @@
         },
         {
             "leadin": "Name the following things related to 8-membered hydrocarbon rings. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "antiaromaticity [do not accept or prompt on \"aromaticity\"]",
                 "Crabtree's catalyst",
                 "boat-chair conformation [or chair-boat conformation; do NOT accept or prompt on partial answers]"
@@ -329,7 +329,7 @@
         },
         {
             "leadin": "Answer the following about artwork produced in Afghanistan, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "rugs [or carpets]",
                 "puppetry [or marionette theater; prompt on \"theater\"]",
                 "Steve McCurry"
@@ -343,7 +343,7 @@
         },
         {
             "leadin": "Mahmoud Mohammed Taha was executed in 1985 for teaching that these texts were part of a \u201csecond message\u201d that was appropriate for the <em>ummah</em> at one time, but should no longer guide daily life. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Medinan Suras [accept anything about the part of the Qur\u2019an revealed in Medina]",
                 "Hijra [or Hegira]",
                 "The Maliki School"
@@ -357,7 +357,7 @@
         },
         {
             "leadin": "A social scientist born in this country combined future studies and economic history to write <em>The Great Depression of the 1990s</em> and also wrote <em>The Downfall of Capitalism and Communism</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "India [or Republic of India or Bh\u0101rat Ga\u1e47ar\u0101jya]",
                 "participant observation",
                 "Prabhat Ranjan Sarkar [or P.R. Sarkar]"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "In these devices, fast-moving particles running into either each other or into residual particles in the vacuum decreases the beam lifetime. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "storage rings",
                 "alternating gradient focusing [or strong focusing; prompt on focusing]",
                 "Earnshaw's theorem"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "This essay was written in response to Carlyle\u2019s \u201cShooting Niagara\u201d and published in three parts by <em>Galaxy</em> magazine. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Democratic Vistas",
                 "singing [accept word forms]",
                 "Calamus poems"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "Some accounts hold that this man was assassinated by his Frankish slave Yarankash. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Imad-ad-Din Zengi",
                 "Ayyubid Dynasty",
                 "Ifriqiya [or Ifriqiyah]"

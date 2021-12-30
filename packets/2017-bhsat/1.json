@@ -127,7 +127,7 @@
     "bonuses": [
         {
             "leadin": "For 10 points each\u2014answer the following about the early string quartets of Joseph Haydn:",
-            "answer": [
+            "answers_sanitized": [
                 "minuets [or menuetto; accept \u201cminuet and trio\u201d or similar]",
                 "fugues",
                 "Russia &lt;JR&gt;"
@@ -142,7 +142,7 @@
         },
         {
             "leadin": "For an interior angle of a triangle, this function of the angle is given by the length of the opposite side over the length of the hypotenuse. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "sine [do not accept or prompt on \u201ccosine\u201d]",
                 "unit circle",
                 "0.75 [zero point seven five] (sin2\u03b8 + cos2\u03b8 = 1, so 1 - 0.52 = cos2\u03b8.) &lt;JR&gt;"
@@ -157,7 +157,7 @@
         },
         {
             "leadin": "The <em>Directorium</em> was created under this ruler\u2019s reform chancellor, Count Haugwitz. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Empress Maria Theresa (Amalia Christina) [or Maria Theresia]",
                 "enlightened despotism [or enlightened absolutism; or benevolent despotism]",
                 "Kingdom of France &lt;JR&gt;"
@@ -172,7 +172,7 @@
         },
         {
             "leadin": "For 10 points each\u2014answer the following about the Roman poet Sextus Propertius:",
-            "answer": [
+            "answers_sanitized": [
                 "Gaius (Cilnius) Maecenas",
                 "couplets",
                 "heroic couplet &lt;JR&gt;"
@@ -187,7 +187,7 @@
         },
         {
             "leadin": "You want to coat one substance with another one. Learn how to do that by answering these questions, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "electroplating [accept electrodeposition; prompt on plating or deposition]",
                 "vapors [accept gases; accept chemical vapor deposition; accept \u201cpartial vapor pressure\u201d; prompt on CVD]",
                 "epitaxy &lt;AF&gt;"
@@ -202,7 +202,7 @@
         },
         {
             "leadin": "For 10 points each\u2014answer the following about the geography of Saudi Arabia:",
-            "answer": [
+            "answers_sanitized": [
                 "Red Sea",
                 "Hijaz (\u201cal-hijaz\u201d is Arabic for \u201cthe barrier.\u201d)",
                 "Persian Gulf [or al-khalij al-farisi; prompt on answers like \u201cthe Gulf\u201d] &lt;JR&gt;"
@@ -216,7 +216,7 @@
         },
         {
             "leadin": "This poet described \u201cdull sublunary lovers\u2019 love\u201d after calling the \u201ctrepidation of the spheres\u201d innocent. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "John Donne",
                 "extended metaphor (Similes only compare two objects.)",
                 "\u201cmakes my circle just\u201d OR \u201cmakes me end where I begun\u201d [accept rephrasings; accept any answer that involved correcting his circle or making his circle perfect; accept any answer involving an ending that\u2019s the same as a beginning, etc.] &lt;JR&gt;"
@@ -231,7 +231,7 @@
         },
         {
             "leadin": "This character enters to the slashing chords of the overture while singing \u201cA cenar teco m'invitasti\u201d [\u201cah CHAY-nar TAY-ko meen-vee-TAH-stee\u201d]. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the statue of the Commendatore [accept either underlined part]",
                 "Don Giovanni",
                 "requiem &lt;JR&gt;"
@@ -246,7 +246,7 @@
         },
         {
             "leadin": "This series\u2019s tenth installment introduced the \u201csphere grid\u201d levelling system. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Final Fantasy [prompt on FF]",
                 "RPG [or role-playing game; accept MMORPG or massively multiplayer online role-playing game]",
                 "Nobuo Uematsu &lt;JR&gt;"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This program was formally announced in a 1964 speech at the University of Michigan. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Great Society",
                 "Lyndon B. Johnson [or LBJ]",
                 "Head Start &lt;LL&gt;"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "In Hittite myth, the gods are often plagued by monsters of this type like Hedammu and Illuyanka. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "giant snakes [accept serpents; prompt on dragon]",
                 "swords [accept katanas]",
                 "Thunderbirds [prompt on answers like birds] &lt;JG&gt;"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "The enzyme G-6-P-D-H is the rate-limiting enzyme of this pathway. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "pentose phosphate pathway",
                 "glucose [or dextrose I guess]",
                 "pyruvate [accept pyruvic acid] &lt;AF&gt;"
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "This poem opens with a claim to tell \u201cthings unattempted yet in prose or rhyme,\u201d a line that Milton ironically plagiarized in <em>Paradise Lost</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Orlando Furioso",
                 "Italian [or Italiano]",
                 "giants (Those are Gargantua and Pantagruel, from the book by Fran\u00e7ois Rabelais.) &lt;JR&gt;"
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "These beings are contacted through divination called <em>ifa</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "orishas [or orixas]",
                 "syncretic [accept word forms like syncretism]",
                 "Saint George &lt;JR&gt;"
@@ -333,7 +333,7 @@
         },
         {
             "leadin": "The eighth and last book of one of this man\u2019s works discusses an educational program that includes training in music and gymnastics. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Aristotle [or Aristoteles]",
                 "Nicomachean Ethics [prompt on just Ethics]",
                 "slaves [accept word forms like slavery] &lt;JR&gt;"
@@ -347,7 +347,7 @@
         },
         {
             "leadin": "In one painting, this man depicted a bunch of pies on the roof of a house, while a minuscule scene in the background shows the \u201cblind leading the blind.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pieter Bruegel the Elder",
                 "The Seven Deadly Sins [accept The Seven Deadly Sins and the Four Last Things]",
                 "landscapes [accept Landscape with the Fall of Icarus] &lt;JW&gt;"
@@ -362,7 +362,7 @@
         },
         {
             "leadin": "Wu Sangui [\u201cSAHN-gway\u201d] led the Revolt of the Three Feudatories during this dynasty. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Qing dynasty",
                 "19th century [or 1800s]",
                 "Qianlong [\u201cchyen-long\u201d] Emperor &lt;LL&gt;"
@@ -377,7 +377,7 @@
         },
         {
             "leadin": "In a short story titled for this character trait, a murderer declares that an old woman might have had this trait \u201cif it had been somebody there to shoot her every minute of her life.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "good [accept \u201cGood Country People\u201d; accept \u201cA Good Man is Hard to Find\u201d]",
                 "(Mary) Flannery O\u2019Connor",
                 "one-armed (Tom) and deaf/mute (Lucynell; accept either) [accept reasonable equivalents or descriptions; accept answers without attributions, but do not accept answers that attribute the disabilities incorrectly, e.g. \u201cTom is deaf and Lucynell has one arm\u201d] &lt;JR&gt;"
@@ -392,7 +392,7 @@
         },
         {
             "leadin": "This man has been accused of ushering in the Roman Empire\u2019s collapse by letting the Vandals cut off trans-Mediterranean trade by taking the Roman provinces in North Africa. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Flavius Aetius",
                 "Huns",
                 "Edward Gibbon &lt;JR&gt;"
@@ -407,7 +407,7 @@
         },
         {
             "leadin": "For 10 points each\u2014identify the following appearances of the number zero in electromagnetism:",
-            "answer": [
+            "answers_sanitized": [
                 "conductors [do not accept or prompt on \u201csemiconductors\u201d]",
                 "Kirchhoff\u2019s rules [or Kirchhoff\u2019s laws]",
                 "floating [or floating ground] &lt;SE&gt; Tiebreaker"
@@ -422,7 +422,7 @@
         },
         {
             "leadin": "This photographer\u2019s work was used as album art for John Eliot Gardiner\u2019s Bach Cantatas pilgrimage series. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Steve McCurry",
                 "depth of field [or DOF]",
                 "Adobe Photoshop &lt;JR&gt;"

@@ -143,7 +143,7 @@
     "bonuses": [
         {
             "leadin": "After mistakenly thinking Frederick Lawrence is this woman's lover, Gilbert Markham knocks him from his horse. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Helen Graham [accept either name, also accept Helen Lawrence Huntingdon, prompt on The Tenant of Wildfell Hall, but obviously do not reveal this answer if it is not given]",
                 "The Tenant of Wildfell Hall",
                 "Anne Bront\u00c3\u00ab [prompt on just the last name]"
@@ -158,7 +158,7 @@
         },
         {
             "leadin": "After mistakenly thinking Frederick Lawrence is this woman's lover, Gilbert Markham knocks him from his horse. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Helen Graham [accept either name, also accept Helen Lawrence Huntingdon, prompt on The Tenant of Wildfell Hall, but obviously do not reveal this answer if it is not given]",
                 "The Tenant of Wildfell Hall",
                 "Anne Bront\u00c3\u00ab [prompt on just the last name]"
@@ -173,7 +173,7 @@
         },
         {
             "leadin": "The world-record longest of these animals was a 48.5-inch long Maine Coon named Stewie. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "domestic cats [or Felis silvestris catus; or housecats, or kittens; or kitties, or other such synonyms]",
                 "Manx cats [or kayt Manninagh]",
                 "Russian Blues"
@@ -188,7 +188,7 @@
         },
         {
             "leadin": "The world-record longest of these animals was a 48.5-inch long Maine Coon named Stewie. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "domestic cats [or Felis silvestris catus; or housecats, or kittens; or kitties, or other such synonyms]",
                 "Manx cats [or kayt Manninagh]",
                 "Russian Blues"
@@ -203,12 +203,12 @@
         },
         {
             "leadin": "[missing]",
-            "answer": [],
+            "answers_sanitized": [],
             "parts": []
         },
         {
             "leadin": "These elements include the abstract factory and the singleton. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "design patterns",
                 "object-oriented programming",
                 "adapter pattern"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "These elements include the abstract factory and the singleton. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "design patterns",
                 "object-oriented programming",
                 "adapter pattern"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "A campaign ad for this politician, featuring famous Kentucky institutions, accidentally included footage of the Duke basketball team. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mitch McConnell",
                 "Alison Lundergan Grimes",
                 "Mary Landrieu"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "A campaign ad for this politician, featuring famous Kentucky institutions, accidentally included footage of the Duke basketball team. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mitch McConnell",
                 "Alison Lundergan Grimes",
                 "Mary Landrieu"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "This member of a prominent musical family honored one of his strongest influences with the trio sonata Parnassus, or the Apotheosis of Corelli. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Fran\u00c3\u00a7ois Couperin [or Couperin le Grand]",
                 "Richard Strauss [prompt on \"Strauss\"]",
                 "concerto grosso [or concerti grossi; do not accept or prompt on \"concerto\" alone]"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "In the human genome, the most common of these elements is called Alu. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "retrotransposons [prompt on transposons; prompt on transposable elements; do not accept or prompt on \"DNA transposons\"]",
                 "SINEs [or short interspersed elements]",
                 "restriction enzymes [or restriction endonucleases]"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "In the human genome, the most common of these elements is called Alu. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "retrotransposons [prompt on transposons; prompt on transposable elements; do not accept or prompt on \"DNA transposons\"]",
                 "SINEs [or short interspersed elements]",
                 "restriction enzymes [or restriction endonucleases]"
@@ -311,17 +311,17 @@
         },
         {
             "leadin": "[missing]",
-            "answer": [],
+            "answers_sanitized": [],
             "parts": []
         },
         {
             "leadin": "[missing]",
-            "answer": [],
+            "answers_sanitized": [],
             "parts": []
         },
         {
             "leadin": "So you're building a house in China. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "feng shui [or fung shway, which is how it's pronounced]",
                 "4",
                 "Falun Gong [or Falun Dafa; or Dharma Wheel Practice; or Law Wheel Practice]"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "So you're building a house in China. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "feng shui [or fung shway, which is how it's pronounced]",
                 "4",
                 "Falun Gong [or Falun Dafa; or Dharma Wheel Practice; or Law Wheel Practice]"
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "As a child, this character gets stomped in the face by a horse, and at the end of one novel in which he appears he leaves home for Harvard. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Eugene Gant [accept either]",
                 "Look Homeward, Angel: A Story of the Buried Life",
                 "Thomas Clayton Wolfe"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "One of these objects is suspended from a prong in front of a fish-shaped body of water in Salvador Dali's Mountain Lake. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "telephones",
                 "Roy Fox Lichtenstein",
                 "Charles Demuth"
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "One of these objects is suspended from a prong in front of a fish-shaped body of water in Salvador Dali's Mountain Lake. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "telephones",
                 "Roy Fox Lichtenstein",
                 "Charles Demuth"
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Answer these questions about resources used by the Olmec society in ancient Mesoamerica, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Olmec stone heads",
                 "Mesoamerican sacred ball game [or juego de pelota; or ollamaliztli; or tlachtly; or pok-ta-pok; or ulama; accept any answer indicating the use of a rubber ball for recreational or religious purposes; prompt on \"human sacrifice\" as the losers were allegedly sacrificed in some cultures]",
                 "teosinte"
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "MBBA, one of these substances, exists in the nematic phase at room temperature. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "liquid crystals [or LCs; prompt on partial answer]",
                 "lamellar phase [or lamellae]",
                 "electric current [or electricity; or an electric field; or any same-knowledge equivalents]"
@@ -424,7 +424,7 @@
         },
         {
             "leadin": "MBBA, one of these substances, exists in the nematic phase at room temperature. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "liquid crystals [or LCs; prompt on partial answer]",
                 "lamellar phase [or lamellae]",
                 "electric current [or electricity; or an electric field; or any same-knowledge equivalents]"
@@ -439,7 +439,7 @@
         },
         {
             "leadin": "Answer these questions about changes within the military of the late Roman republic, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Gaius Marius",
                 "decimation [or decimatio]",
                 "pomerium [or pomoerium]"
@@ -454,7 +454,7 @@
         },
         {
             "leadin": "Answer these questions about changes within the military of the late Roman republic, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Gaius Marius",
                 "decimation [or decimatio]",
                 "pomerium [or pomoerium]"
@@ -469,7 +469,7 @@
         },
         {
             "leadin": "Several dwellers of these places were already Christian when first discovered by Spaniards, claming that a \"Lady in Blue\" flew across from Europe to teach them about Jesus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "pueblos [or Pueblo Indians]",
                 "Francisco de Coronado",
                 "Pop\u00c3\u00a9 [or Po'pay]"
@@ -484,7 +484,7 @@
         },
         {
             "leadin": "Several dwellers of these places were already Christian when first discovered by Spaniards, claming that a \"Lady in Blue\" flew across from Europe to teach them about Jesus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "pueblos [or Pueblo Indians]",
                 "Francisco de Coronado",
                 "Pop\u00c3\u00a9 [or Po'pay]"
@@ -499,7 +499,7 @@
         },
         {
             "leadin": "This man's linguistic works include A Theory of Semiotics and The Role of the Reader. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Umberto Eco",
                 "The Name of the Rose [or Il nome della rosa]",
                 "reading [or reader]"
@@ -514,7 +514,7 @@
         },
         {
             "leadin": "Alexander Gorsky's additions to this work include interpolating the \"Grand pas des tor\u00c3\u00a9adors\" from the ballet Zoraiya and adding two Riccardo Drigo-composed variations for the character Kitri. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Don Quixote",
                 "Marius Petipa [or Victor Marius Alphonse Petipa]",
                 "Giselle, or The Wilis [or Giselle, ou Les Wilis]"
@@ -529,7 +529,7 @@
         },
         {
             "leadin": "Alexander Gorsky's additions to this work include interpolating the \"Grand pas des tor\u00c3\u00a9adors\" from the ballet Zoraiya and adding two Riccardo Drigo-composed variations for the character Kitri. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Don Quixote",
                 "Marius Petipa [or Victor Marius Alphonse Petipa]",
                 "Giselle, or The Wilis [or Giselle, ou Les Wilis]"
@@ -544,7 +544,7 @@
         },
         {
             "leadin": "Merlin creates this object for Uther Pendragon, and King Leodegrance later bestows it on Arthur. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the Round Table",
                 "the Siege Perilous",
                 "Sir Balin le Savage"
@@ -558,7 +558,7 @@
         },
         {
             "leadin": "Merlin creates this object for Uther Pendragon, and King Leodegrance later bestows it on Arthur. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the Round Table",
                 "the Siege Perilous",
                 "Sir Balin le Savage"
@@ -572,7 +572,7 @@
         },
         {
             "leadin": "Identify the following about unusual negative quantities in physics, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "negative index metamaterials [or left-handed metamaterials]",
                 "the Casimir effect",
                 "cosmic strings"
@@ -587,7 +587,7 @@
         },
         {
             "leadin": "Identify the following about unusual negative quantities in physics, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "negative index metamaterials [or left-handed metamaterials]",
                 "the Casimir effect",
                 "cosmic strings"
@@ -602,7 +602,7 @@
         },
         {
             "leadin": "One of these entities titles a Gustav Meyrink novel about Athanasius Pernath, while another is created by the title character of Cynthia Ozick's The Puttermesser Papers. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "golem",
                 "Jorge Luis Borges [or Jorge Francisco Isidoro Luis Borges]",
                 "Pierre Menard [accept either underlined portion; accept \"Pierre Menard, Author of the Quixote\" or \"Pierre Menard, Autor del Quijote\"]"
@@ -617,7 +617,7 @@
         },
         {
             "leadin": "Answer these questions about transportation, the sentence by which criminals would be shipped to penal colonies far away, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Australia",
                 "Devil's Island [or Ile du Diable]",
                 "Newgate prison"
@@ -632,7 +632,7 @@
         },
         {
             "leadin": "Answer these questions about transportation, the sentence by which criminals would be shipped to penal colonies far away, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Australia",
                 "Devil's Island [or Ile du Diable]",
                 "Newgate prison"
@@ -647,7 +647,7 @@
         },
         {
             "leadin": "\"How Long Is the Coast of Britain? Statistical Self-Similarity and Fractional Dimension\" is ne of Benoit Mandelbrot's first considerations of these sets, whose name he would later coin. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fractals",
                 "Georg Cantor",
                 "Julia set [do not accept \"Fatou set\"]"
@@ -662,7 +662,7 @@
         },
         {
             "leadin": "\"How Long Is the Coast of Britain? Statistical Self-Similarity and Fractional Dimension\" is ne of Benoit Mandelbrot's first considerations of these sets, whose name he would later coin. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fractals",
                 "Georg Cantor",
                 "Julia set [do not accept \"Fatou set\"]"
@@ -677,7 +677,7 @@
         },
         {
             "leadin": "This man related the adventures of the rakehell Saul Kane in his poem \"The Everlasting Mercy\" and penned the children's stories The Midnight Folk and The Box of Delights. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "John Edward Masefield",
                 "a star",
                 "Poets' Corner"

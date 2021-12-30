@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "President Enrique Pe\u00f1a Nieto started construction on a train line from Mexico City to this city, some 35 miles away, but budget overruns meant that the line was still under construction at the end of his term. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Toluca [or Toluca de Lerdo]",
                 "Canc\u00fan [or Canc\u00fan Island; or Ciudad Canc\u00fan; or Isla Canc\u00fan]",
                 "Palenque "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "A sleazy businessman from this country got his start by seducing opera singer Claudia Muzio and getting her to smoke his women\u2019s cigarette brand in Buenos Aires. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Greece [or Hellas; or Hellenic Republic; or Ellinik\u00ed Dimokrat\u00eda]",
                 "Suez Canal [accept Suez Crisis]",
                 "Rainier III [or Rainier Louis Henri Maxence Bertrand Grimaldi; accept Prince Rainier of Monaco; prompt on Rainier] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "The superstition surrounding actors wearing green supposedly originates from this event. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the death of Moli\u00e8re [accept the death of Jean-Baptiste Poquelin; prompt on a performance of or a death at The Imaginary Invadlid or The Hypochondriac or Le malade imaginaire by asking \u201cinvolving which person?\u201d]",
                 "17th century [or 1600s]",
                 "Jules Romains (\u201croh-MAN\u201d) [accept Louis Henri Jean Farigoule] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "Answer the following about surpassing the diffraction limit, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "resolution [accept angular resolution; accept image resolution; accept spatial resolution]",
                 "STORM (\u201cstorm\u201d) [or stochastic optical reconstruction microscopy]",
                 "photobleaching [accept fading] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "The Public Resource Center, co-founded by Zack de la Rocha and Rudy Ramirez, is also known as the Centro de [this word]. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "regeneraci\u00f3n [prompt on regeneration by asking \u201cwhat is the Spanish language equivalent?\u201d]",
                 "Los Angeles [or LA] (The Public Resource Center is also in Los Angeles.)",
                 "Emma Goldman "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "Answer the following about painter and art theorist Jay Hambidge, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Maxfield Parrish",
                 "cartoons [accept drawings or illustrations; or comics]",
                 "Canada (The Jack Pine is by Tom Thomson.) "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "Nozi\u00e8res and Schmitt-Rink were the first to calculate the superfluid transition temperature during this phenomenon by introducing Gaussian fluctuations around the mean-field saddle point. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "BCS\u2013BEC crossover [accept BEC\u2013BCS crossover; accept crossover from Bardeen\u2013Cooper\u2013Schrieffer state to a Bose\u2013Einstein condensate or vice versa]",
                 "wave function [or psi]",
                 "chemical potential [or mu] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "British author Alexandra Fuller, who now lives in a yurt in this US state, wrote of her childhood spent on a farm during the Rhodesian Bush War in her memoir Don\u2019t Let\u2019s Go to the Dogs Tonight. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Wyoming",
                 "E. Annie Proulx (\u201cproo\u201d) (The story is \u201cBrokeback Mountain.\u201d)",
                 "Western novels "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "A 2017 Met Breuer exhibition of a Brazilian artist with this given name titled \u201cA Multitude of Forms\u201d staged a piece in which a crowd walk together with their heads protruding from a huge white sheet. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Lygia (\u201cLEE-zhuh\u201d) [accept Lygia Pape or Lygia Clark] (The Lygia Clark work is Bichos.)",
                 "concrete [accept Concretism or Concretismo or Neoconcretismo; accept concrete poetry; prompt on shape poems or visual poems; anti-prompt on altar poetry]",
                 "M\u00f6bius strip [or M\u00f6bius band; or M\u00f6bius loop] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "An episode involving this activity is recounted in the \u201cSabha Parva,\u201d or \u201cBook of the Assembly Hall.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "playing a game of dice [prompt on gambling]",
                 "Draupadi [or P\u0101nch\u0101l\u012b; or Krishn\u0101]",
                 "slapping his thigh [accept exposing his thigh; accept synonyms for slapping or exposing like revealing, showing, hitting, or striking; accept lap in place of thigh; prompt on answers mentioning his leg and any of the other synonyms by asking \u201cwhat part of the leg?\u201d] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "K-lines, nomes, and nemes are some of the simplest agents in this theory, which was co-developed by Seymour Papert at the MIT Artificial Intelligence Lab while working with a robotic arm. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the theory of the Society of Mind",
                 "functionalism [accept functionalist theory of mind; accept psycho-functionalism; accept analytic functionalism; accept Homuncular functionalism]",
                 "Chinese room thought experiment "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "An engineering student cleans out a once-prominent bookstore in this country in Kaouther Adimi\u2019s novel Our Riches. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Algeria [or Alg\u00e9rie]",
                 "Assia Djebar [or Fatima-Zohra Imalayen]",
                 "detective [or inspector; accept private investigator or P.I.; accept police detector; accept No 1. Ladies\u2019 Detective Agency; prompt on police officer] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "A female composer from this country wrote Metacosmos, a microtonal symphonic poem meant to evoke a black hole. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Iceland [or \u00cdsland] (The film composer is J\u00f3hann J\u00f3hannsson.)",
                 "B\u00e9la Bart\u00f3k [or B\u00e9la Viktor J\u00e1nos Bart\u00f3k]",
                 "George Crumb [or George Henry Jr. Crumb] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "William Phelan describes this international organization as sui generis because it does not allow for member states to retaliate against each other in trade disputes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "European Union [or EU]",
                 "Treaty of Lisbon",
                 "spitzenkandidat "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "In this book, the author writes that he believes in the title concept \u201cas I believe that the sun has risen: not only because I see it, but because by it I see everything else.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mere Christianity",
                 "C. S. Lewis [or Clive Staples Lewis]",
                 "The Pilgrim\u2019s Regress "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "The speaker hears \u201cthe hard trail telephone a far-off horse\u2019s feet\u201d in a Rudyard Kipling poem set in one of these places. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "a prairie [accept \u201cThe Prairie\u201d; accept \u201cNight on the Prairies\u201d]",
                 "William Cullen Bryant",
                 "Willa Cather [or Willa Sibert Cather] (The novel is O, Pioneers.) "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Bongani Ndodana-Breen\u2019s 2011 work Winnie is discussed in Naomi Andr\u00e9\u2019s 2018 book on the racial history and contemporary status of this art form, mainly in the U.S. and post-apartheid South Africa. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "opera [accept Black Opera: History, Power, Engagement; accept solo-opera] (The clue refers to the Metropolitan Opera\u2019s 2015 production of Verdi\u2019s Otello.)",
                 "Marian Anderson",
                 "Anthony Davis (no relation to the NBA player) "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "Preemptive algorithms for this task stop lower priority processes to run higher priority processes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "scheduling [or schedule]",
                 "real-time operating system [or RTOS (\u201cAR-toss\u201d)]",
                 "C [reject \u201cC++\u201d] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "While living in Paris, this journalist published Rehlat Abou Naddara Zar\u2019a, the first Arabic language magazine to feature political cartoons. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Yaqub Sanu [accept James Sanua; accept Abu Naddara]",
                 "khedive",
                 "Afghanistan [accept Jamal al-Din al-Afghani] "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "Partially because it swims via pectoral fin oscillation, the moonfish has a near whole-body type of this ability. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "endothermy [accept word forms like endothermic or endotherms; accept warm-blooded; prompt on homeothermy or homeotherms]",
                 "rete mirabile [accept retia mirabilia; prompt on \u201cwonderful net\u201d]",
                 "lateral [accept lateral line system; accept lateral line organ] "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "The title of a 1975 Smokey Robinson album names this subgenre of music and a radio format associated with it. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Quiet Storm [prompt on slow jams]",
                 "Sade (\u201cshah-DAY\u201d) [or Sade Adu; or Helen Folasade Adu]",
                 "FKA Twigs [or Tahliah Debrett Barnett] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "Home Secretary David Maxwell-Fyfe commissioned this document that focused on interviews with Carl Winter, Patrick Trevor-Roper, and Peter Wildeblood. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Wolfenden report [accept Report of the Departmental Committee on Homosexual Offences and Prostitution]",
                 "Roy Jenkins [or Roy Harris Jenkins, Baron Jenkins of Hillhead]",
                 "Margaret Thatcher "

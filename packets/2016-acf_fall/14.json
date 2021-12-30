@@ -125,7 +125,7 @@
     "bonuses": [
         {
             "leadin": "This task is now regularly performed using \u201chigh throughput\u201d platforms developed by Illumina, which are used by companies like 23andMe to perform this task for full human genomes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "DNA sequencing [accept word forms; accept RNA sequencing]",
                 "BLAST [or Basic Local Alignment Search Tool]",
                 "pyrimidines"
@@ -140,7 +140,7 @@
         },
         {
             "leadin": "The first part of this two-part statement declares the concept of tawhid, or the oneness of God. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "shahada [or shahadatan]",
                 "Gabriel [or Jibril]",
                 "salat [or salah; accept prayer or word forms]"
@@ -155,7 +155,7 @@
         },
         {
             "leadin": "Name these composers whose piano trios draw from Eastern European melodies, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Dmitri Shostakovich [or Dmitri Dmitriyevich Shostakovich]",
                 "Anton\u00edn Dvo\u0159\u00e1k [or Anton\u00edn Leopold Dvo\u0159\u00e1k]",
                 "Franz Liszt [or Liszt Ferenc]"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "This novel\u2019s frame narrative presents it as a puppet play. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Vanity Fair",
                 "a piano",
                 "Battle of Waterloo [accept Battle of Quatre Bras; prompt on the Napoleonic Wars]"
@@ -185,7 +185,7 @@
         },
         {
             "leadin": "John Hawkwood, who led the White Company, was one of the most famous of these people. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "condottieri [or condottiero; or condottiere; prompt on mercenaries]",
                 "Niccol\u00f2 Machiavelli",
                 "Livy [or Titus Livius; accept Discourses on Livy]"
@@ -200,7 +200,7 @@
         },
         {
             "leadin": "Instead of describing God as \u201cpowerful,\u201d this thinker described God as \u201cnot lacking power,\u201d because God\u2019s power cannot be compared with anything else. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Moses Maimonides [or Moshe ben Maimon; or M\u016bs\u0101 ibn Maym\u016bn; or Rambam]",
                 "Judaism [or Jewish]",
                 "creation of the universe [or obvious equivalents]"
@@ -215,7 +215,7 @@
         },
         {
             "leadin": "The existence of this particle was predicted by the Dirac equation before its actual discovery. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "positron",
                 "pair production",
                 "Feynman diagrams"
@@ -230,7 +230,7 @@
         },
         {
             "leadin": "In one short story, Kandata attempts to use a thread of a spider to leave this place, but the Buddha watches as that attempt fails. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "hell [accept \u201cHell Screen\u201d]",
                 "Ryunosuke Akutagawa [or Akutagawa Ryunosuke]",
                 "Jun\u2019ichiro Tanizaki"
@@ -245,7 +245,7 @@
         },
         {
             "leadin": "Michael Doyle is a Columbia professor who popularized the idea that war is absent among countries with this form of government, which is called its \u201cpeace theory.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "democracy [accept word forms like democratic]",
                 "Joseph Alois Schumpeter",
                 "anarchy [accept word forms like anarchic]"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "One cause of this event decreased crop yields in Russia due to the Russian Revolution, which led to overcultivation of crops in the United States. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dust Bowl",
                 "Franklin Delano Roosevelt [or FDR; prompt on Roosevelt]",
                 "the plow [accept The Plow That Broke the Plains; accept rain follows the plow]"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "The Treaty of Hudaybiyah was signed between Mecca and this city. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Medina",
                 "Muhammad",
                 "Battle of the Trench [or Battle of the Confederates]"
@@ -290,7 +290,7 @@
         },
         {
             "leadin": "The lever rule can be used to calculate the weight percentages of components of these diagrams. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "phase diagrams",
                 "Clausius-Clapeyron equation",
                 "eutectic point"
@@ -305,7 +305,7 @@
         },
         {
             "leadin": "Answer the following about American sculpture, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "The Greek Slave",
                 "Frederic Remington",
                 "George Washington"
@@ -320,7 +320,7 @@
         },
         {
             "leadin": "These events provide the only relief for the narrator\u2019s insomnia, which is exacerbated by a lantern that blankets his room with images of characters from bedtime stories. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Marcel\u2019s bedtime kisses which he receives from his mother [accept clear equivalents involving a kiss and either bedtime or the narrator\u2019s mother]",
                 "Marcel Proust",
                 "prisons [accept The Prisoner; accept \u201cthe Bastille\u201d]"
@@ -335,7 +335,7 @@
         },
         {
             "leadin": "This leader was defeated by Germanicus at the Battle of the Weser River. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Arminius [or Hermann]",
                 "Augustus [accept Octavian or Octavius, even though his name as emperor should be Augustus]",
                 "Rhine River"
@@ -350,7 +350,7 @@
         },
         {
             "leadin": "The northernmost of these form the Purple Forbidden Enclosure, surrounded by the Supreme Palace and the Heavenly Market, all visible year-round. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Chinese constellations [or xingguan]",
                 "dragon [or long; accept Azure Dragon or Qinglong]",
                 "Milky Way [or Yinhe; prompt on Silver River]"
@@ -365,7 +365,7 @@
         },
         {
             "leadin": "A woman with an astonishingly green face peers at the viewer from this work\u2019s right foreground. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "At the Moulin Rouge [accept Au Moulin Rouge]",
                 "Henri Toulouse-Lautrec",
                 "Art Nouveau"
@@ -380,7 +380,7 @@
         },
         {
             "leadin": "This animal belongs to a character who lost one of his hands in an accident. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Candy\u2019s dog",
                 "John (Ernst) Steinbeck, Jr.",
                 "rabbits [or bunnies]"
@@ -395,7 +395,7 @@
         },
         {
             "leadin": "You\u2019re a triangle. Answer the following about some properties you possess, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "180 degrees",
                 "Adrien-Marie Legendre",
                 "pons asinorum [or bridge of donkeys]"
@@ -410,7 +410,7 @@
         },
         {
             "leadin": "Give the following about the concept of beauty in poetry, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "John Keats",
                 "Edna St. Vincent Millay",
                 "Ralph Waldo Emerson"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "The Goldman-Hodgkin-Katz equation can be used to calculate this quantity for an entire cell membrane or a channel permeable to multiple ions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "equilibrium potential [accept reversal potential, or Nernst potential]",
                 "Na+ [accept sodium]",
                 "myelin"

@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "Examples of these cold-core, low-pressure systems include the Great Blizzard of 1888. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Nor'easter",
                 "Derechos",
                 "Beaufort wind force scale"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "The novel August 1914 and the historical volume Two Hundred Years Together are among the works by this author that have drawn criticism for their possible anti-Semitism. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Aleksandr Solzhenitsyn [or Aleksandr Isayevich Solzhenitsyn]",
                 "One Day in the Life of Ivan Denisovich [or Odin den' Ivana Denisovicha]",
                 "The Red Wheel"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This goddess's powers included ensuring that the pharaoh would \"have joy with no hangover.\" For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Nephthys",
                 "Hapi",
                 "Nile"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Answer the following about the non-interminable works of Nathaniel Hawthorne, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"Young Goodman Brown\"",
                 "Mosses from an Old Manse",
                 "\"The Artist of the Beautiful\""
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "For 10 points each identify the following about the book Writing and Difference:",
-            "answer": [
+            "answers_sanitized": [
                 "Jacques Derrida",
                 "\"Cogito and the History of Madness\"",
                 "Michel Foucault"
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "This cell process contributes to introducing genetic variation via crossovers at chiasmata (kahy-az-MAH-tah) For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "synapsis [or syndesis]",
                 "diakinesis",
                 "Down syndrome"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "In the scherzo of Ludwig van Beethoven's Symphony No. 5, these two instruments introduce the opening theme of both the movement itself and later, the trio section. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cellos and double basses [prompt on \"low strings\"; do not accept \"strings\"]",
                 "Pastoral Symphony [or Symphony No. 6]",
                 "Path\u00c3\u00a9tique Sonata [or Piano Sonata No. 8]"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "The collapse of the Hennepin Island tunnel in 1869 nearly led to the loss of the St. Anthony Falls that powered the mills of this city. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Minneapolis",
                 "Alonzo Ames",
                 "The Shame of the Cities"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "This novel opens with a chapter narrated by the recently-murdered miniaturist Elegant Effendi. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "My Name is Red [or Benim Adim Kirmizi]",
                 "Orhan Pamuk [or Ferit Orhan Pamuk]",
                 "The White Castle [or Beyaz Kale]"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "In this country, the affair of the sausages occurred over the eating of meat on fast days. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Switzerland",
                 "Marburg Colloquy",
                 "Felix Manz"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "A woman tells a new bride \"Take my share of a fickle heart / Mine of a paltry love,\" to which the bride responds \"I'll love him till he loves me best,\" in this author's poem \"Maude Clare\". For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Christina Rossetti",
                 "\"Goblin Market\"",
                 "\"The Blessed Damozel\""
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "Name the following cognitive biases from examples, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fundamental attribution error [or correspondence bias or attribution effect; prompt on \"actor-observer bias\"]",
                 "anchoring [or focalism]",
                 "Barnum effect [or Forer effect]"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "One of these people depicted the Labors of Hercules in a print that was only 6 square inches. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Little Masters [or Kleinmeisters]",
                 "Albrecht Durer",
                 "An hourglass"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "The Portuguese originally colonized this island through Francisco de Almeida in the early sixteenth century. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ceylon",
                 "Sinhalese",
                 "2004 Indian Ocean tsunami [or 2004 Indian Ocean earthquake; accept Indian Ocean Earthquake or Indian Ocean Tsunami or Indonesian tsunami or Boxing Day tsunami or Christmas tsunami or South Asian tsunami]"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "This man was nicknamed \"Swaggy P.B.\" by TMZ after an appearance on Jimmy Kimmel Live in which he, dressed in denim overalls, discussed his favorite pre-game snack. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Russell Westbrook",
                 "Oklahoma City Thunder [accept either underlined part]",
                 "Nick Collison"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "Answer some questions about a ruler with many lovers, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Catherine the Great [or Catherine II or Ekaterina Alexandrovna]",
                 "Poland-Lithuania [do NOT prompt on partial answer]",
                 "John Paul Jones"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "One method of synthesizing these compounds from aldehydes is the Corey-Fuchs reaction. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "alkyne",
                 "Lindlar's catalyst",
                 "cine substitution "
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "Answer some questions about religious reckoning of time, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hijra",
                 "Easter [or Pasch]",
                 "Tishrei"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "One scene in this film depicts Amy, a woman who despite her Quakerism shoots Jim Pierce in the back. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "High Noon",
                 "real-time [Technically, it's almost real-time]",
                 "Lee Van Cleef"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "Hadrons consist of these particles, which come in three colors and 6 flavors. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "quarks",
                 "eightfold way [do NOT accept \"eightfold path\"]",
                 "valence quarks"

@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "One thinker theorized that violence was both the essence of this process and necessary to resist it and argued that universalist Enlightenment philosophy hurts those subjugated by this process. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "colonialism [accept word forms like colonization]",
                 "The Wretched of the Earth [Les Damn\u00e9s de la Terre]",
                 "family [accept nuclear family; prompt on marriage] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This vitamin increases the level of phosphate circulating in the blood. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "vitamin D [accept vitamin D2 or vitamin D3]",
                 "ultraviolet light [or ultraviolet radiation or UV light or UV radiation or UVB light or UVB radiation]",
                 "parathyroid hormone [or PTH] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "David Datuna's performance art piece Hungry Artist involved removing and eating one of these objects that was duct taped to the wall to form Maurizio Cattelan's artwork Comedian. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "banana",
                 "Giorgio de Chirico",
                 "trains [or locomotives] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Arthur Aitken claimed that he lost a battle in this war because the opposing side had used tripwires to agitate a swarm of bees. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "World War I [or WWI; or the Great War]",
                 "Tanzania [United Republic of Tanzania; or Jamhuri ya Muungano wa Tanzania]",
                 "zeppelin [prompt on airship] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "While reading Byron, one character in a work set in this city angrily yells \"Stop!\" to his crying infant son to silence his wailing. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dublin, Ireland",
                 "James Joyce [or James Augustine Aloysius Joyce]",
                 "\"The Dead\" "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "In this general type of lab technique, a solution with known concentration and volume is slowly added to an analyte, often using a burette. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "titration",
                 "iodine [or I; accept triiodide or iodine-starch complex]",
                 "thiosulfate "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In a short film by this director, the mother Joan burns the memoir Cocoon Man after stabbing her son Isaiah to death with a fire poker. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ari Aster",
                 "Sweden [or Kingdom of Sweden; or Konungariket Sverige]",
                 "the Sun [or Sol] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Dh\u016b Nuw\u0101s (\"dhoo nu-WAS\") violently converted much of this modern-day country's Christian population to Judaism before committing suicide by riding his horse into the sea. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Republic of Yemen [or al-Jumh\u016br\u012byah al-Yaman\u012byah]",
                 "Roman Empire [or Rome; or Imperium R\u014dm\u0101num; or Basile\u00eda t\u00f4n Rh\u014dma\u00ed\u014dn]",
                 "immigrating to Israel [accept any answer indicating people returning to Israel; prompt on answers about Zionism; or the founding of Israel; or obtaining Israeli citizenship; prompt on evacuation; prompt on ascent or the act of going up] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "After this man and Kathryn Garcia formed a pact for their supporters to rank them both, Eric Adams accused them of trying to prevent a Black candidate from being elected. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Andrew Yang",
                 "New York City [accept NYC]",
                 "electoral fusion [accept fusion voting] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "When passing through a wall of fire in the second section of this poem, one character sees the creator of the \"sweet new style\" of poetry. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Divine Comedy [or Divina Commedia]",
                 "Dante Alighieri [accept either portion]",
                 "Occitan [or Proven\u00e7al] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "In an 1837 speech, this politician stated that slavery \"is, instead of an evil, a good\u2014a positive good.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "John Caldwell Calhoun",
                 "South Carolina",
                 "Secretary of State "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Answer the following about Stokes' theorem, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "curl",
                 "two",
                 "differential manifolds "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about the World Chess Championship:",
-            "answer": [
+            "answers_sanitized": [
                 "Bobby Fischer",
                 "Sicilian Defense",
                 "pawns "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "When a woman turns on a radio to play \"Wien, Wien, nur du allein,\" a man stops performing this activity to throw the radio out of the window. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "poker [prompt on playing cards or gambling]",
                 "A Streetcar Named Desire",
                 "Tennessee Williams [or Thomas Lanier Williams III] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Thor and Loki traveled to this figure's castle in J\u00f6tunheimr (\"YOH-tun-hyme\") and lost a series of contests to him and his company. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u00datgar\u00f0a-Loki [or Utgarda-Loki or Utgardsloki; accept Skr\u00fdmir]",
                 "ocean [accept sea; prompt on water]",
                 "fire "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Answer the following about Joseph Larmor, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "precession [accept Larmor precession or Lense-Thirring precession]",
                 "acceleration [prompt on a, accept centripetal acceleration, do not accept \"angular acceleration\"]",
                 "sun [accept sol] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "A 1919 sonata for this instrument by Rebecca Clarke won first place in a competition held by Elizabeth Sprague Coolidge. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "viola",
                 "William Walton",
                 "B\u00e9la Bart\u00f3k [or B\u00e9la Viktor J\u00e1nos Bart\u00f3k] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Name the following about the Oriental Orthodox Churches, who rejected the Council of Chalcedon, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Coptic Orthodox Church of Alexandria",
                 "humanity [accept equivalents like being human or answers indicating that he had both human and divine aspects]",
                 "Nicene Creed [or Symbolum Nicaenum or Council of Nicaea] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "A character who lives in this country is haunted by \"dreams of murder\" and believes that the only part of her body she can trust is her breasts because \"nothing can be killed by them.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "South Korea [or Republic of Korea; prompt on Korea, do not accept or prompt on \"North Korea\"]",
                 "flowers [prompt on plants]",
                 "Yasunari Kawabata [accept names in either order] (The second novel is Snow Country.) "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about the lives of women in the Roman world:",
-            "answer": [
+            "answers_sanitized": [
                 "purple",
                 "Vestal Virgins",
                 "Agrippina the Younger "

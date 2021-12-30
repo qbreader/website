@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0By Sjon\u2019s novel <em>The Whispering Muse</em> features a splinter of this ship that still carries some of its mythic power. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the Argo",
                 "Phrixus",
                 "Doliones"
@@ -133,7 +133,7 @@
         },
         {
             "leadin": "An fallacy named for this group says that technological development always leads to higher unemployment. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Luddites [or the Luddite fallacy]",
                 "mechanised loom [or stocking frames; or knitting machines]",
                 "Swing Riots [or Captain Swing]"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "A darker version of this house in Canberra was designed by Ashton Raggatt MacDougall and is known as the \u201cSouthern Hemisphere shadow.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Villa Savoye",
                 "Le Corbusier [or Charles-Edouard Jeanneret]",
                 "Open Hand Monument"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Codenamed Operation Urgent Fury, this action annoyed Margaret Thatcher because it involved a member of the Commonwealth. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "United States Invasion of Grenada [or clear knowledge equivalents]",
                 "New Jewel Movement [or New Joint Endeavor for Welfare, Education, and Liberation]",
                 "Barry Morris Goldwater"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "This book calls Kant the \u201cgreat Chinaman of Konigsberg,\u201d and compares him to the \u201csleepy faculty\u201d of opium. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Beyond Good and Evil",
                 "Friedrich Nietzsche",
                 "the eternal recurrence [or the return or die Ewige Wiederkunft]"
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "In a passage from the Diamond Sutra, the Buddha explains several forms of perfection to Subhuti while at a monastery near Jetavana, which is one of these places. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "forests [or groves; or parks; accept Thai Forest Buddhism]",
                 "Tripitaka [or Pali Canon]",
                 "women [or female-identifying persons, etc.]"
@@ -206,7 +206,7 @@
         },
         {
             "leadin": "Name some things about statics, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "truss",
                 "equilibrium [or static equilibrium]",
                 "Cremona diagram"
@@ -221,7 +221,7 @@
         },
         {
             "leadin": "For reasons known only to herself, this author used the pseudonym Brent of Bin Bin. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Miles Franklin",
                 "Commonwealth of Australia",
                 "Ned Kelly and Mary Hearn\u2019s daughter [prompt on less specific answers like child; do not accept or prompt on \u201cson\u201d]"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "In this play, a mother wishes her son was a woman so they could sit and sew together and he would not have to leave home and get married. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Blood Wedding [or Bodas de sangre]",
                 "Federico Garcia Lorca",
                 "green [or verde]"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "This composer\u2019s Rosamunde Quartet opens with a quotation from his song \u201cGretchen at the Spinning Wheel.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Franz Schubert",
                 "Death and the Maiden [or Der Tod und das M\u00e4dchen]",
                 "Wanderer [or Wanderer Fantasy; or Wanderer-Fantasie]"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "In 1819, John Keats decided to write a bunch of odes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cOde on a Grecian Urn\u201d",
                 "\u201cOde on Melancholy\u201d",
                 "Leigh Hunt"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "This art style is exemplified by Hector Guimard\u2019s entrances to the Paris Metro, which feature curving green cast-iron patterns. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "art nouveau [or new art]",
                 "Henri de Toulouse-Lautrec",
                 "Theophile Steinlen"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "The AKS test ground-breakingly checks whether a number belongs to this group of numbers in polynomial time. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "prime",
                 "Sophie Germain prime",
                 "sieve of Eratosthenes"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "Name some things about crystals, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Miller indices",
                 "body-centered cubic",
                 "eight"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "One character in this short story erroneously uses phototropism as evidence that plants can think, and concludes that machines should thus be able to think as well. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cMoxon\u2019s Master\u201d",
                 "Knight\u2019s Gambit",
                 "The Joy Luck Club"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "The mechanics of this effect are often compared to a fire hose, which converts pulsatile to fluid flow. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Windkessel effect",
                 "arteriosclerosis or atherosclerosis",
                 "angioplasty"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "A PSA from Penn Quiz Bowl: don\u2019t forget to vote! But first answer these questions about election fraud, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cooping",
                 "Mir-Hossein Mousavi",
                 "Mexico [or United Mexican States; or Estados Unidos Mexicanos]"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "This leader first rose to prominence as a producer of agitprop in Moldavia. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Konstantin Ustinovich Chernenko",
                 "Ronald Wilson Reagan",
                 "Korean Airlines Flight 007 [or KAL 007, or KE 007; prompt partial answers such as Korean Air, KAL, KE, or 007]"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "This team was coached to back to back Super Bowl victories in 1972 and 1973 by Don Shula. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Miami Dolphins [accept either underlined part]",
                 "Ndamukong Suh",
                 "Karlos Williams"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "This law was spurred by speculation that serial killer David Berkowitz was looking to sign a media deal about his murders, which led to public outrage. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Son of Sam law",
                 "New York City [or NYC; or nicknames like the Big Apple]",
                 "Cesare Lombroso [or Ezechia Marco Lombroso]"

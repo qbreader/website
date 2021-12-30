@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Huge, brightly colored examples of these artworks from Bhutan depict Guru Rinpoche (\u201crin-po-chay\u201d) and are called thongdrels. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "thangkas [accept paubhas]",
                 "silk",
                 "miniatures [accept cards; prompt on manuscripts] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Answer the following related to Marie Curie\u2019s discoveries in the field of nuclear chemistry, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "bismuth [or bismuth-209; or Bi]",
                 "radon gas [or Rn]",
                 "atomic clock [prompt on clocks] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "The opinions of these two characters were often mediated by Master Raro, who represented the father-in-law of their creator. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Florestan AND Eusebius",
                 "Robert Schumann",
                 "Carnaval "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "In 433 BC, the dictator Mamercus Aemilius Mamercinus limited holders of this political office from a five year lustrum to eighteen months, and they were still revered while receiving no imperium. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "censors (That task was collecting the census.)",
                 "Appius Claudius Caecus [or Appius Claudius Crassus; accept Appius Claudius Caecus; prompt on Claudius; prompt on Appius; prompt on the Via Appia or the Appian Way; prompt on the Aqua Appia]",
                 "two "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "The image of an underwater river in the Black Sea reoccurs in a novel in which women from this religious group meet in a hayloft to discuss a series of sexual assaults. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mennonites",
                 "The Testaments",
                 "Margaret Atwood "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "These objects generally include a core and a cladding with a lower index of refraction, which causes light to undergo total internal reflection. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fiber optics [or optical fibers]",
                 "bandwidth AND distance [accept in either order; accept bit rate in place of \u201cbandwidth\u201d; accept length in place of \u201cdistance\u201d]",
                 "Rayleigh scattering "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In a novel by this author, a disembodied voice echoes the words of a character as he tells the story of Signora Laurentini\u2019s disappearance. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ann Radcliffe",
                 "Gothic fiction",
                 "The Monk "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "This city was founded under the Battiad dynasty after the Oracle at Delphi told the Therean king Grinnus and Battus to build a city. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Cyrene, Libya",
                 "Thesmophoria [accept Thesmophoriazusae]",
                 "bees "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Answer the following about displays of Confederate symbols. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Richmond, Virginia",
                 "Nikki Haley",
                 "General David H. Berger "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "In 2020, University of Calgary archaeologists uncovered young llamas buried alive at Tambo Viejo, likely a ritual attempting to peacefully win over the Acari Valley in this country. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Peru",
                 "Nazca culture",
                 "lake [or Lake Titicaca or Lake Guatavita] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "David Wiggins based his thought experiment about Tibbles the Cat, who becomes the cat \u201cTibs\u201d when he loses his tail, on an argument by a thinker from this school. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Stoicism",
                 "\u201cThe Meaning of \u2018Meaning\u2019\u201d (by Hilary Putnam)",
                 "Derek Parfit "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "These groups include Wo Hop To, led by Raymond \u201cShrimp Boy\u201d Chow, a survivor of the 1977 Golden Dragon massacre in which the Joe Boys attacked members of another of these organizations, Wah Ching. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Triads [accept Hongmen or Tiandihui or Heaven and Earth Society]",
                 "Tongs [or Tong Wars]",
                 "Boston "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "In a poem by this author, the narrator asks \u201cWho knows, maybe the ball that vanished into a childhood thicket?\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Wis\u0142awa Szymborska (\u201cvis-WAH-vah shim-BOR-skah\u201d)",
                 "movies [or films; or cinema]",
                 "the end and the beginning [accept in either order; or \u201cKoniec i poczatek\u201d] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "A letter written to people in this city praises presbyters who have obtained \u201cfruitful and perfect departure [from this world]\u201d and condemns them for having removed them from office. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Corinth",
                 "Saint Paul [accept Saul of Tarsus]",
                 "cover their hair [or cover their head; or equivalents] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "The intercept on a Keeling plot describes the isotopic composition of gas fluxes that result from this process. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ecosystem respiration [accept autotrophic respiration, heterotrophic respiration, or soil respiration]",
                 "productivity [or production; accept net primary productivity or NPP; accept gross primary productivity or GPP]",
                 "phosphorus [or P] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Answer the following about disputed anthropological accounts of promiscuity on Pacific islands, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Marshall [accept Donald S. Marshall or Marshall Sahlins]",
                 "Samoa [or Samoan islands]",
                 "yams [or sweet potatoes; prompt on potatoes] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "This play opens during a rainstorm with a husband mocking his wife for her past romantic entanglement with a horse breeder from Florida. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Buried Child",
                 "driving a car [accept How I Learned to Drive]",
                 "Illinois "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "The growth rate of cracks during this process is a function of the change in the stress intensity factor, the stress intensity ratio, and the loading history. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fatigue [prompt on failure]",
                 "plastic [or plastically; accept plastic wake]",
                 "ductile [or ductility] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "A musician with this first name made a comeback in the 1970s after serving two prison sentences in San Quentin for heroin use and leaving the rehab program Synanon, which turned out to be a cult. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Art [or Arthur; accept Art Pepper or Arthur Edward Pepper Jr.; accept Art Farmer or Arthur Stewart Farmer]",
                 "rags [or ragtime]",
                 "Art Blakey "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "On the orders of Louis XVIII (\u201cthe eighteenth\u201d), the Duke of Angoul\u00eame led the \u201cHundred Thousand Sons of Saint Louis\u201d on a mission intended to end the \u201cyellow fever\u201d of progressivism that characterized this period. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Trienio Liberal [accept Liberal Triennium; prompt on answers indicating the three-year span from 1820\u20131823 in Spain]",
                 "Isabella [accept Isabella II; accept Isabella I]",
                 "glorious [accept the Glorious Revolution of 1868 or 1688; accept La Gloriosa; accept Glorieuze Overtocht] "

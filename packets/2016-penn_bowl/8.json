@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "\u00a0Charles Rosen called the six-part Ricercar [REE-cher-car] from this work the \u201cmost significant piano work of the millennium.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Musical Offering [or Das Musikalische Opfer]",
                 "Frederick II [or Frederick the Great]",
                 "Mirror Canon [anti-prompt on Table Canon]"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "Rheometers can be used to measure this quality for varying flow conditions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "viscosity",
                 "non-Newtonian fluid",
                 "rheopectic"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This essay contrasts the differences in writing with a brush and a fountain pen and waxes eloquent about the sensation of holding a lacquer bowl. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "In Praise of Shadows [or In'ei Raisan]",
                 "Some Prefer Nettles [or Tade k\u016b mushi or Water-pepper-eating bugs eat it willingly]",
                 "dolls [prompt on more general answers like toys]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Southern participants in this rebellion were led by Chen Youliang, who established a state he called Great Han. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Red Turban Rebellion",
                 "Mongols [or the Mongolian empire]",
                 "Manichaeism [or Mandaeism]"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "In this opera, one of the title characters ties the other\u2019s very long hair to a tree. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pelleas et Melisande [or Pelleas and Melisande]",
                 "Claude Debussy",
                 "Emmanuel Chabrier"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "An urban legend claims that Ho Chi Minh invented Boston Cream Pie while working as a pastry chef for his man. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Auguste Escoffier",
                 "butter [or beurre]",
                 "steak frites [or biftek et frites or steak and fries; prompt on incomplete answer]"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "This man successfully led guerilla campaigns in the defense of Drepana. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hamilcar Barca [prompt on Barca]",
                 "mercenaries [accept word forms; accept Mercenary War]",
                 "Peace of Lutatius"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "Identify the following literary references from <em>A Series of Unfortunate Events</em>, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cFor Esm\u00e9, with Love and Squalor\u201d (with J.D. standing, of course, for Jerome David)",
                 "Native Son",
                 "Eliot Rosewater [accept either underlined part]"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "Mycobacterium avium complex can cause serious conditions in poorly-treated patients infected with this virus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "HIV [or Human Immunodeficiency Virus]",
                 "SIV [ or Simian Immunodeficiency Virus]",
                 "gag"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "Saul changes his name to Paul in this book. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Acts of the Apostles",
                 "Luke the Evangelist",
                 "Marcion"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "Socrates justifies this story by saying that it will strengthen unity within the state. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the noble lie [or gennaion pseudos]",
                 "the soul [or psyche]",
                 "moderation"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "Prague was the setting of two defenestrations, the first in 1419 and the second in 1618. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hussite Wars",
                 "Thirty Years\u2019 War",
                 "Matthias"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "The Black Sea Deluge hypothesis posits that this body of water formed when water from the Sea of Marmara breached a sill. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Bosphorus",
                 "Istanbul",
                 "Bursa"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "One of these beings had his wing broken; another had fourteen pits dug for him; and another was turned into a leopard. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "lovers of Ishtar",
                 "Gilgamesh",
                 "have sex [accept equivalents that mean the same thing; prompt on produce children]"
@@ -324,7 +324,7 @@
         },
         {
             "leadin": "This author wanted to write a morally educational novel about good and evil, but which also had a fair amount of smut in if. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dermot Trellis [accept either underlined part; accept descriptive answers like \u2018that fictional author in At Swim-Two-Birds\u2019 which establish he\u2019s a character in that book]",
                 "Flann O\u2019Brien [or Brian O\u2019Nolan]",
                 "John [or John Furriskey, or John Donne]"
@@ -339,7 +339,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about a quantity defined in kilojoules per mole that is often shown as an example of a periodic trend.",
-            "answer": [
+            "answers_sanitized": [
                 "Ionization energy",
                 "Bohr radius",
                 "\u00a0Koopman\u2019s theorem"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "A novel whose title says that these two men \u201cMust Die!\u201d reimagines them as a Laurel-and-Hardy style comedy duo. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Nicola Sacco and Bartolomeo Vanzetti",
                 "Braintree, MA",
                 "Webster Thayer"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "This author claimed that Shakespeare\u2019s worst villains, such as Macbeth and Iago, were \u201clittle lamb[s]\u201d whose \u201cimagination...stopped short at a dozen corpses. Because they had no ideology.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Aleksandr Solzhenitsyn",
                 "Herta M\u00fcller",
                 "The House of the Dead"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "Answer the following about the exciting world of art vandalism, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the Rokeby Venus [or The Toilet of Venus, Venus at her Mirror, Venus and Cupid, or La Venus del espejo]",
                 "the Museum of Modern Art [or MoMA]",
                 "Fauvism [or Les Fauves]"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "The effects of this process are correlated to phytoplankton productivity, since this process displaces, warm, nutrient-poor water with cold, nutrient-rich water. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "upwelling",
                 "Coriolis force",
                 "synoptic scale"

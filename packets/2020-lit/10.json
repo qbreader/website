@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "In a novel by this author, a group of secret policemen hallucinate and take the form of a dragon after ingesting golden fish. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Vladimir Sorokin",
                 "Russia [accept Soviet Union or Union of Soviet Socialist Republics]",
                 "Mikhail Bulgakov "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Answer the following about artists serving as subjects for photographers. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Philippe Halsman",
                 "Edward Steichen",
                 "Henri Matisse "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "A revolt in this country led by a Jesus-like figure known as \u201cthe Counsellor\u201d resulted in thousands of deaths in the Canudos. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Federative Republic of Brazil [or Rep\u00fablica Federativa do Brasil]",
                 "Lampi\u00e3o [or Virgulino Ferreira da Silva; prompt on partial]",
                 "Pedro [accept Pedro I or Pedro II] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Thin films of this compound can be doped with lanthanum to alter the properties of its standard \u201c52/48\u201d or \u201c30/70\u201d forms. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "PZT [or lead zirconate titanate or PLZT or lead lanthanum zirconate titanate]",
                 "hysteresis loop",
                 "ferroelectric random access memory [or FRAM or static/dynamic/non-volatile RAM] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "These two characters both fall in love with a woman they see picking flowers while they are in a nearby prison. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Arcite OR Palamon",
                 "The Canterbury Tales",
                 "falling off a horse [accept descriptions; accept being crushed by a horse; the word \u201chorse\u201d is required] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "White smoke can be seen emerging from a train passing across this structure in a work in which it is depicted with a dark blue and red color palette. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Charing Cross Bridge, London [prompt on partial answers]",
                 "Fauvist movement [or Fauvism]",
                 "Salon d\u2019Automne [Autumn Salon] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "One of these constructs named for Wald describes geometric Brownian motion for any real value of a constant lambda, and their decomposition is described by the Doob-Meyer theorem. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "martingale",
                 "discrete time process",
                 "Norbert Weiner [or Wiener process; do not accept Levy process or Poisson process] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "King Zhou was so enraptured by this goddess\u2019s beauty that he composed a lewd poem in her honor while making offerings. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "N\u00fcwa",
                 "Daji",
                 "fox "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "During this battle, a baker-woman with six fingers on each hand apparently killed eight Castilian soldiers when they tried to hide from enemy forces. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Battle of Aljubarrota",
                 "Kingdom of Portugal",
                 "John I [accept John I of Castile, John I of Portugal, John I of England] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "In labor market diagrams, these policies represent the \"price floor.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "minimum wages",
                 "monopsony [accept word forms; accept monopsonistic competition]",
                 "David Card and Alan Krueger "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Bartok frequently employed one type of this technique that involved snapping the string against the fingerboard. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "pizzicato (\u201cpit-see-KAH-toe\u201d)",
                 "L\u00e9o Delibes [or Cl\u00e9ment Philibert L\u00e9o Delibes]",
                 "left hand pizzicato [accept mano sinistra; DO NOT accept \u201chammering down\u201d]  "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "After a Senator criticized an NEA award being given to an author of this surname, George Plimpton told him, \u201cyou are from the Midwest. You are culturally deprived, so you would not understand it anyway.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Saroyan [accept Aram Saroyan or William Saroyan] (that novel is The Human Comedy)",
                 "the Great Depression",
                 "Waiting for Lefty (by Clifford Odets) "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Bacteria that can ferment this compound will turn a phenol red broth containing it yellow after 24 hours. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "sucrose",
                 "bacillus [accept bacillus subtilis or bacillus thuringiensis]",
                 "biofilm(s) "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "George McJunkin discovered fluted points inside the skeleton of a bison at Folsom, which had thinner points than this nearby culture. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Clovis culture",
                 "Solutrean Hypothesis",
                 "ice bridge [or land bridge] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This text recommends \u201cinner renunciation\u201d in pursuing an active life to fulfill dharma. Commentaries on this work often synthesize bhakti into the Vedanta school. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Bhagavad Gita [accept just The Gita]",
                 "war [accept a battle; prompt on answers like conflict or fighting]",
                 "Adi Shankara [accept Adi Shankaracharya] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "In one short film created by this studio, an old man plays chess against himself, but still cheats to win. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pixar Animation Studios [accept Disney-Pixar]",
                 "Bao",
                 "umbrellas [or The Blue Umbrella; or The Umbrellas of Cherbourg] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Peukert\u2019s law gives the change in capacity for one of these devices as a function of their discharge rate. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "electric battery [accept lithium-ion battery, primary battery, or secondary battery]",
                 "vanadium [or V]",
                 "potassium [or K; accept potassium hydroxide or KOH; accept potassium permanganate or KMnO4; prompt on caustic potash] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "This novel is framed by two third person accounts which discuss the hideous appearance of a photo of this novel's narrator. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "No Longer Human (or Ningen Shikkaku)",
                 "Ryunosuke Akutagawa",
                 "mangas "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "This figure was supposedly born as a lion, a deva, and as a denizen of hell, before his final birth in his most notable form. For 10 points each: ",
-            "answer": [
+            "answers_sanitized": [
                 "Mahavira [or Mahavir; or Vardhamana]",
                 "Jainism",
                 "Indra "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Nelson Miles coined the name of this scandal after being denounced by Charles Eagan. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "embalmed beef [prompt on any answer including the terms army and beef with the question \u201cWhat was the two-word term used for this scandal?\u201d]",
                 "Spanish-American War",
                 "Virginius [accept Virginius affair] "

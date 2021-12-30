@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "In a tense scene in this film, the protagonist starts coughing uncontrollably after driving behind a smoke-emitting truck and has to pull into a parking garage to recover. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Safe",
                 "Paul Thomas Anderson",
                 "Bob Dylan [or Robert Allen Zimmerman] (The film is Dont Look Back.) "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "The autobiographies of Peter Cartwright detail his time working in this specific job in Kentucky and Illinois. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "circuit riders [accept traveling or itinerant Methodist preachers or clergy; prompt on priests, clergy, preacher, revivalists or missionaries]",
                 "Second Great Awakening [prompt on Great Awakening]",
                 "Rio Grande [accept R\u00edo Bravo del Norte] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This error is removed by performing subsystem calculations using ghost atoms, but doing so can overestimate it by introducing artificial repulsions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "basis set superposition error [or BSSE] (The other error is basis set incompletion error.)",
                 "London dispersion force [accept either underlined portion; or LDF; prompt on van der Waals forces]",
                 "Hartree\u2013Fock method [or HF method] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "An extended metaphor in a sonnet compares this concept to a \u201cwayward girl\u201d who \u201cwill not speak to those / Who have not learnt to be content without her.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fame [accept \u201cOn Fame\u201d; accept The House of Fame]",
                 "John Keats",
                 "Charlotte Mew [or Charlotte Mary Mew] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "Husein Rofe spread this spiritual movement to the U.K., where it was further popularized by the British army translator and Gurdjieff follower John Bennett. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Subud [or Susila Budhi Dharma]",
                 "Islam [accept being Muslim]",
                 "dawn [or sunrise; or daybreak; prompt on morning] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "Answer the following about the work of the literary critic Frank Kermode, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "classics [accept The Classic; accept Why Read the Classics?; accept Penguin Classics]",
                 "The Sense of an Ending: Studies in the Theory of Fiction",
                 "reader-response criticism "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "This reflex and the ATNR are common diagnostic tools for child neurologists. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Moro reflex [prompt on startle reflex]",
                 "cerebral palsy [or CP]",
                 "premature birth [accept preterm birth] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "A 1991 study by Alan Blinder found that this quantity was changed less than twice a year by over half of the firms surveyed. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "prices [accept price of a good or service]",
                 "coordination failure",
                 "Diamond coconut model [prompt on partial answer] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "Like the older Wing Chun style, this style of martial arts prominently used a simultaneous push and strike called the pak sao. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Jeet Kune Do [or JKD; accept jiht ky\u00f9hn douh accept the Way of the Intercepting Fist; accept, but DO NOT REVEAL, Jun Fan Jeet Kune Do]",
                 "Bruce Lee [or Lee Jun-fan]",
                 "judo [accept the gentle way] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "An event in this year occurred when a market disturbance halted all automated trading momentarily, allowing firms offering stub quotes to buy shares of Apple at 75 cents. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "2010 [accept 2010 flash crash]",
                 "cryptocurrency [prompt on digital currency; anti-prompt on Bitcoin]",
                 "Satoshi Nakamoto [accept either underlined part] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "This essay defends the view that there exists \u201chigh art\u201d and \u201clow art,\u201d which are represented by the two title concepts. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cAvant-Garde and Kitsch\u201d (by Clement Greenberg)",
                 "abstract expressionism [prompt on partial answer; accept drip painting; accept color field painting]",
                 "Ernst Gombrich [or Sir Ernst Hans Josef Gombrich] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "Developed independently by Tikhonov and Cagniard in the 1950s, this passive geophysical method is used for oil exploration in regions where seismic surveys are difficult. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "magnetotellurics [or MT; accept anything mentioning telluric currents; accept audio-frequency magnetotellurics; accept AMT; accept controlled source audio magnetotellurics; accept CSAMT]",
                 "quartz",
                 "porosity [accept porous or porousness] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "This organization operated out of Alamut Castle after its seizure by Hassan-i Sabbah, who was referred to as \u201cThe Old Man of the Mountain.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Assassins [or \u1e24ash\u012bshiyya; prompt on Nizaris]",
                 "Nizam al-Mulk [or Abu Ali Hasan ibn Ali ibn Ishaq al-Tusi; prompt on Nizamiyyah or Nezamiyeh]",
                 "Alp Arslan [or Muhammad bin Dawud Chagri] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "After answering a call in a Cockney accent concerning several people being in Spain, a character in this play switches to a posh accent to wonder if she was supposed to get a plate of sardines from the kitchen. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Noises Of",
                 "realism [accept kitchen sink realism or social realism; accept realist literature]",
                 "Kwame Kwei-Armah [prompt on partial answer] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "In Acts chapter 14, verse 12, the populace of Lystra believe Paul and Barnabas to be human incarnations of these two deities. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Zeus [accept Jupiter] AND Hermes [accept Mercury]",
                 "Apollonius of Tyana [or Apollonios of Tyana]",
                 "Joseph Campbell [or Joseph John Campbell] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "Pencil and paper ready. You are a sad quantum student reviewing for your midterm by adding the spins of a spin one-half particle and a spin-1 particle. For 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "6 (The dimension can be calculated as (2*3/2 + 1) + (2*1/2 + 1) = 6, or (2*1/2 + 1)(2*1 + 1) = 6.)",
                 "orthogonality [accept orthonormality]",
                 "Clebsch\u2013Gordan coefficients [or vector addition coefficients] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Dance suites of the Baroque era often used the \u201cbalanced\u201d type of this form, while composers of the early Classical were more likely to use its rounded variant. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "binary form [accept rounded binary form; accept balanced binary form; accept simple binary form; accept binary principle]",
                 "sonata form [accept first-movement form]",
                 "D major [prompt on D] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "This film was the first major American blockbuster to open in China, appearing in just six cities in that country in 1994. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Fugitive",
                 "Bohemian Rhapsody",
                 "Wolf Warrior 2 [or Zhan Lang 2; reject \u201cWolf Warrior\u201d or \u201cZhan Lang\u201d] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Armed with books like Florence Adams\u2019 I Took a Hammer in My Hand, over two thousand people attended a \u201cfair\u201d named for these buildings in 1973 at the Hotel Bossert. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "brownstone townhouse [prompt on row houses or townhouses]",
                 "Sears [or Sears, Roebuck and Co.]",
                 "Edith Wharton [prompt on Edith Newbold Jones] "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "A character carrying out this action notes that one of the objects involved was in need of \u201ca little rhubarb to purge [its] excess of bile.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "burning of Don Quixote\u2019s books [accept equivalents for burning and books like incinerating romances; accept destroying instead of burning; prompt on burning by asking \u201cwhat objects are being burned?\u201d; prompt on answers mentioning books by asking \u201cwhat is being done to the books?\u201d]",
                 "Tirant Lo Blanch (\u201ctee-RAHN lo blank\u201d) [or Tirant lo Blanc; or Tirante el Blanco; accept, but DO NOT REVEAL, Tirant the White]",
                 "white "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "Machamer, Darden, and Craver presented an influential definition of these things in a 2000 paper titled for \u201cthinking about\u201d them. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "mechanisms [accept \u201cThinking About Mechanisms\u201d; accept new mechanism]",
                 "Thomas Kuhn [or Thomas Samuel Kuhn]",
                 "G. E. M. Anscombe [or Gertrude Elizabeth Margaret Anscombe] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "Answer the following about the surrender of the Kingdom of Granada, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Alhambra Decree [or Edict of Expulsion]",
                 "Boabdil [or Abu Abdallah Muhammad XII]",
                 "Rebellion of the Alpujarras [accept War of the Alpujarras] "

@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Harry Martinson, a poet from this country, cut his stomach open with scissors due to controversy arising from his 1974 Nobel Prize win. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sweden",
                 "The Dwarf [or Dv\u00e4rgen]",
                 "Tomas Transtr\u00f6mer "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "According to one book, \"the only style proper for modern northern work,\" is the Northern variety of this style. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "gothic",
                 "The Seven Lamps of Architecture",
                 "Louis Henry Sullivan "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Belgian-born Hindu nationalist Koenraad Elst wrote a biography of this man subtitled \u201cA True Aryan\u201d. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "B.R. Ambedkar [accept Bhimrao Ramji Ambedkar or Babasaheb Ambedkar]",
                 "untouchables [or Dalits]",
                 "satyagraha "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "Answer the following questions about some assumptions and approximations made in fluid mechanics. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Navier-Stokes equations",
                 "drag force",
                 "Boussinesq approximation "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "One character in this play worries that choosing to play pop music for the BBC radio program Desert Island Discs will ruin his intellectual credibility. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Real Thing",
                 "Tom Stoppard [or Tom\u00e1s Stra\u00fcssler]",
                 "A.E. Housman [or Alfred Edward Housman] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "In a work created for the Medici Villa in Poggia, a man can be seen carrying a cage of exotic birds in the foreground while two soldiers lean on a marble statue of this military leader and stare at a giraffe. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Gaius Julius Caesar [accept the Triumphs of Caesar] (The first version is by Andrea del Sarto)",
                 "Camera Degli Sposi [accept \u201cWedding Room\u201d; prompt on partial]",
                 "the d\u2019Este family [accept Isabella d\u2019Este] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Programs created under the \u201cpure\u201d form of this paradigm will have no side effects and will return the same result for multiple calls with the same arguments. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "functional programming [prompt on declarative programming]",
                 "argument(s)",
                 "Scheme "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Bhisma uses one of these objects on Duryodhana\u2019s behalf, which is responded to in kind by Krishna, who uses one of these called Panchajanya. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "conch shells [accept conch; prompt on shell(s) alone]",
                 "Mahabharata",
                 "Dhritarashtra "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Answer the following about people from The Guns of August. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Helmuth von Moltke the Elder [accept Helmuth Karl Bernhard Graf von Moltke; accept Helmuth von Moltke the Younger or Helmuth Johannes Ludwig Graf von Moltke]",
                 "Madame Caillaux [accept Henriette Caillaux or Henriette Raynouard]",
                 "Nicholas II [or Nikolai II Alexandrovich Romanov] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Although he ran for the presidency of his country with this party, immediately after being elected Andrzej Duda renounced his membership and became an independent. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Law and Justice Party [or Prawo i Sprawiedliwo\u015b\u0107]",
                 "Republic of Poland",
                 "anti-blasphemy laws "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "J.S. Bach produced a large number of compositions and a large number of children. Answer some questions about one of his sons, Carl Philipp Emanuel Bach, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Solfeggietto ",
                 "harpsichord",
                 "24 "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "This actress would often dismiss curtain calls by saying \u201cThat\u2019s all there is, there isn\u2019t any more,\u201d and once refused a marriage proposal from Winston Churchill. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ethel Barrymore [prompt on Barrymore]",
                 "A Raisin in the Sun",
                 "David Mamet [or David Alan Mamet] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "One form of this process creates a Cairns intermediate and is named for the resemblance of its intracellular machinery to the Greek letter theta. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "prokaryotic DNA replication [accept theta replication; accept \u201csynthesis\u201d in place of \u201creplication\u201d]",
                 "clamp [accept answers mentioning clamping DNA polymerase; do not accept or prompt on scaffolding]",
                 "BRCA1 or BRCA2 [prompt on BRCA] (This is why their deficiencies are associated with cancer.) "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Shakespeare mentions Sackerson, a prominent participant in this sport, in The Merry Wives of Windsor. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "bear baiting ",
                 "Elizabeth I of England",
                 "geese [or goose pulling; prompt on birds] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "In a book titled for Religion and this concept, Keiji Nishitani created his Threefold Topology, which consisted of being, nihility, and this concept. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "nothingness [accept sunyata; accept mu]",
                 "Zen Buddhism [or Chan Buddhism] ",
                 "Henri Bergson "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "This disorder can be treated with a variant of cognitive behavioral therapy called DBT, or dialectical behavioral therapy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "borderline personality disorder [or BPD; do NOT accept or prompt on \"bipolar disorder \"]",
                 "splitting",
                 "narcissistic personality disorder [or NPD; accept word forms such as narcissism] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "George Thomas earned the nickname \u201cthe Rock\u201d of this battle due to his refusal to give up Snodgrass Hill. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Battle of Chickamauga",
                 "Battle of Gettysburg",
                 "Battle of Franklin "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "This poet quoted an early mystic with the line .\"All shall be well, and all shall be well, and all manner of thing shall be well\" in Little Gidding, the last of his Four Quartets. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "T.S. Eliot [or Thomas Stearns Eliot]",
                 "Julian of Norwich [or Juliana of Norwich; accept Dame Juliana; accept Mother Juliana; prompt on just Julian or Juliana]",
                 "\u201cAsh Wednesday\u201d "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "In one especially controversial fatwa, this thinker argued for the permissibility of jihad against fellow Muslims. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Taq\u012b ad-D\u012bn Ahmad Ibn Taymiyyah",
                 "al-Qaeda ",
                 "fiqh "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "One of these ions attacks the reformed carbonyl in the penultimate step of the Cannizarro reaction. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "hydride ion [or H- accept hydride shift; prompt on hydrogen alone; do not accept or prompt on H+]",
                 "SN1 [accept unimolecular nucleophilic substitution; prompt on substitution reaction]",
                 "suprafacial mechanism "

@@ -144,7 +144,7 @@
     "bonuses": [
         {
             "leadin": "Late in his career, this man upheld academic freedom in his decision in Sweezy v. New Hampshire, and controversially turned down Ruth Bader Ginsburg for a clerkship due to her gender. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Felix Frankfurter",
                 "Jane Addams",
                 "Baker v. Carr [or Carr v. Baker"
@@ -159,7 +159,7 @@
         },
         {
             "leadin": "The phrase \"begging the question\" originally referred to arguments with this property. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "circular arguments [or circular logic; or circular reasoning]",
                 "tautology [or tautologies; or tautological reasoning; or tautological argument]",
                 "infinite regress argument [prompt on regress]"
@@ -174,7 +174,7 @@
         },
         {
             "leadin": "Traditional forms of this practice incorporated instruments like the calabash and pahu drums, and women wearing pa'u would sometimes perform it to celebrate a king's fecundity. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "hula dancing",
                 "leis [prompt on garlands]",
                 "Pele"
@@ -188,7 +188,7 @@
         },
         {
             "leadin": "This composer intentionally put the stress on the wrong syllables for much of his Gloria. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Francis Poulenc",
                 "Erik Satie",
                 "trains [or locomotive or railroads]"
@@ -203,7 +203,7 @@
         },
         {
             "leadin": " Answer the following about directions in the atmospheric and earth sciences, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "counter-clockwise [or anti-clockwise; or CCW; do not accept \"clockwise\" or \"CW\"]",
                 "fault strike",
                 "western [or obvious equivalents]"
@@ -218,7 +218,7 @@
         },
         {
             "leadin": "This character is raised at the castle of Thunder-ten-Tronckh, where he is taught that he lives in the \"best of all possible worlds\" by Pangloss. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Candide",
                 "Cunegonde",
                 "Jesuits [or Society of Jesus; prompt on Catholics]"
@@ -233,7 +233,7 @@
         },
         {
             "leadin": "In 1881, Prince Charles of this dynasty ascended to the throne of Romania and became King Carol I. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hohenzollern dynasty [or House of Hohenzollern; or Hohenzollern-Hechingen; or HohenzollernHaigerloch; or Hohenzollern-Sigmaringen",
                 "Otto von Bismarck [or Otto Eduard Leopold, Prince of Bismarck, Duke of Lauenburg]",
                 "Leopold"
@@ -248,7 +248,7 @@
         },
         {
             "leadin": "Answer the following about dogs in Greek mythology, for 10 points each. ",
-            "answer": [
+            "answers_sanitized": [
                 "it is two-headed [or obvious equivalents]",
                 "Laelaps",
                 "they are turned into stone [or petrification; or word forms; or obvious equivalents]"
@@ -262,7 +262,7 @@
         },
         {
             "leadin": "The worst assumption of the McCabe-Thiele method is that this quantity is constant and identical for each component. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "heat of vaporization [or enthalpy of vaporization; or heat of evaporation; or delta H vap; prompt on enthalpy or heat]",
                 " critical point",
                 "entropy of vaporization [or delta S vap]"
@@ -277,7 +277,7 @@
         },
         {
             "leadin": "One of these two characters tells the other that they'd be unable to live together because she'd \"just tromper (trom-\"PAIR\") you with everybody\", owing to the fact that the other's war wound has made him impotent. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 " Jake Barnes [accept either underlined portion] and Lady Brett Ashley [accept either underlined portion]",
                 "Ernest Hemingway [or Ernest Miller Hemingway]",
                 "Robert Cohn OR Pedro Romero [accept any underlined portion]"
@@ -292,7 +292,7 @@
         },
         {
             "leadin": "He began his country's Red Terror by holding up bottles ostensibly filled with the blood of his enemies, and then smashing them on the ground. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mengistu Haile Mariam",
                 " Ethiopia [or People's Democratic Republic of Ethiopia ; or PDRE; or Abyssinia; or Ethiopian Empire; or ye-Ityoppya Hezbawi Dimokrasiyawi Ripeblik; or Mangesta Ityoppya]",
                 "mass famine [or drought; or crop failure]"
@@ -307,7 +307,7 @@
         },
         {
             "leadin": "In some Christian denominations, Maundy Thursday includes this ritual performed during the Mandatum ceremony after the homily. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 " foot washing [accept answers that convey washing the feet; prompt on washing; prompt on cleansing]",
                 "agape (uh-GAH-pay)",
                 "Gospel of Luke"
@@ -321,7 +321,7 @@
         },
         {
             "leadin": "Answer these questions about pre-modern anti-Semitism, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "wells",
                 "Mainz",
                 "shtetls [do not accept \"ghettoes\"]"
@@ -336,7 +336,7 @@
         },
         {
             "leadin": "This quantity is added to the product of permittivity and electric field to produce the electric displacement field. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 " electric polarization density [do not accept \"polarizability\"]",
                 "charge density",
                 "dielectrics"
@@ -351,7 +351,7 @@
         },
         {
             "leadin": "A short story by this author centers on a monk who puts up a sign advertising that the title dragon will appear on the third day of the third month. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ryunosuke Akutagawa [accept names in either order]",
                 "Japan [or Nihon; or Nippon]",
                 "\"In a Grove\" [or \"In a Bamboo Grove\" or \"Yabu no Naka\"]"
@@ -366,7 +366,7 @@
         },
         {
             "leadin": "Many works in this medium feature the character of Kilroy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 " graffiti [prompt on street art]",
                 "Andy Warhol [or Andrew Warhola]",
                 "Banksy"
@@ -381,7 +381,7 @@
         },
         {
             "leadin": "This character reminds his listeners not to use the words \"mother\" and \"father\" and insists that everyone belongs to everyone else. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mustapha Mond [accept either underlined part]",
                 "Brave New World",
                 "Henry Ford"
@@ -396,7 +396,7 @@
         },
         {
             "leadin": "Intravenously-administered arginine stimulates the secretion of this hormone, whose receptor is antagonized by pegvisomant and is unresponsive in Laron syndrome. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "human growth hormone [or HGH; or somatotropin; or somatropin]",
                 "epinephrine [or adrenaline; or beta-3,4-trihydroxy-N-methylphenethylamine]",
                 "portal venous system"
@@ -411,7 +411,7 @@
         },
         {
             "leadin": "Caitlin Flanagan wrote about the \"dark power\" of these organizations in a March 2014 Atlantic article that documented the exemptions they often receive from adherence to building safety codes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fraternities [or frats; or fraternities at the University of Virginia; prompt on Greek organizations; do not accept or prompt on \"sororities\"]",
                 "Jackie",
                 "Oklahoma"
@@ -425,7 +425,7 @@
         },
         {
             "leadin": "In a work titled for this man, a dog sleeps in front of a pair of slippers and next to a resting lion. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Saint Jerome or [or Saint Hieronymus]",
                 "landscapes [or landscape painting]",
                 "Saint Anthony the Great [or Saint Antony the Great or Anthony of Egypt or Anthony the Abbot or Anthony of the Desert or Anthony the Anchorite or Anthony of Thebes or Abba Antonius]"
@@ -440,7 +440,7 @@
         },
         {
             "leadin": "The genes KAPP and WUS regulate the complex CLV signaling pathway maintaining a balance between four cell groups in one type of this tissue. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "meristems",
                 "parenchyma [or parenchymal tissue]",
                 "stem cells"
@@ -455,7 +455,7 @@
         },
         {
             "leadin": "This line ends a speech whose speaker notes that \"They knew I'd stand at the fire-place stroking this thing of bronze\". For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 " \"Hell is other people\" [or \"L'enfer, c'est les autres\"]",
                 "Jean-Paul Sartre [or Jean-Paul Charles Aymard Sartre]",
                 "a mirror [or a looking-glass; or a pocket-mirror; or a lark-mirror]"
@@ -470,7 +470,7 @@
         },
         {
             "leadin": "In 2006, the Department of the Interior awarded a $2 million grant to help preserve this battlefield's Slaughter Pen Farm. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Battle of Fredericksburg",
                 "Robert E. Lee [or Robert Edward Lee]",
                 "Rappahannock River"

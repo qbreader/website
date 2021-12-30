@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "Robert Nozick cast the reader as a rock in the story of the Princess of the Frog in a section titled \u201cEssence as [this concept]\u201d in <em>Philosophical Explanations</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "self [or non-self]",
                 "David Hume",
                 "Reasons and Persons &lt;NR, Philosophy&gt;"
@@ -133,7 +133,7 @@
         },
         {
             "leadin": "A character in this novella berates another for offering \u201cadvice\u2026 on a cosmic scale and of quite cosmic stupidity, on the redistribution of wealth\u2026 and at the same time you eat toothpaste.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Heart of a Dog [or Sobachye syerdtsye]",
                 "Mikhail Bulgakov",
                 "Collaborators &lt;JC, European Literature&gt;"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "This country\u2019s first king chose steel instead of gold for his crown to symbolize the bravery of his soldiers. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Kingdom of Romania",
                 "Ploie\u0219ti (\u201cploy-ESHT\u201d)",
                 "King Michael I [or Mihai I] &lt;NR, European History&gt;"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "Italian geoscientists made miniature replicas of this statue and spun them in centrifuges to model damage that could be done to this statue\u2019s weak ankles. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "David",
                 "Perseus with the Head of Medusa",
                 "Piazza della Signoria &lt;MT, Other Arts (Sculpture)&gt;"
@@ -178,7 +178,7 @@
         },
         {
             "leadin": "In this poem, children \u201ccatch the burning sparks that fly like chaff\u201d as they watch the title character, who \u201clooks the whole world in the face, / For he owes not any man.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cThe Village Blacksmith\u201d",
                 "Henry Wadsworth Longfellow",
                 "Tales of a Wayside Inn &lt;JC, American Literature&gt;"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "These scenes often include the torch-carrying twins Cautes (\u201cCOW-teez\u201d) and Cautopates (\u201cCOW-toh-PA-teez\u201d), as well as a scorpion attacking an animal\u2019s testicles. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "tauroctony (\u201ctor-OK-tuh-nee\u201d) [or tauroctonies; do not accept or prompt on \u201ctaurobolium\u201d; prompt on, but DO NOT REVEAL, descriptive answers like images of Mithras or killing a bull or Mithras killing a bull]",
                 "Mithras",
                 "Helios &lt;JC, Mythology&gt;"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "After this experiment, it was debated whether the particles involved should have had <em>L</em> equal to 0 or 1. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Stern\u2013Gerlach experiment",
                 "angular momentum [prompt on L; do not accept or prompt on \u201cmomentum\u201d]",
                 "inhomogenous [do not accept or prompt on \u201chomogenous\u201d] &lt;JC, Physics&gt;"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "All male citizens were mandated to perform this program except for the firstborn sons of the Eurypontid and Agiad houses. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "agoge (\u201cah-go-gay\u201d)",
                 "helots",
                 "Great Rhetra &lt;NR, European History&gt;"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "The Goff\u2013Gratch and Arden\u2013Buck equations are empirical methods of calculating this quantity. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "vapor pressure",
                 "Antoine equation",
                 "Cox charts &lt;AP, Chemistry&gt;"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "St.\u00a0John of Damascus is referred to as the \u201cDoctor of [this event]\u201d for his writings on it. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "assumption of Mary [or Mary entering Heaven alive; or equivalents]",
                 "Muhammad",
                 "Enoch &lt;NR, Religion&gt;"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "This man\u2019s work inspired the film <em>Tim\u2019s Vermeer</em>, a documentary which chronicles Tim Jenison\u2019s attempt to reproduce <em>The Music Lesson</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Charles Falco",
                 "Solomon R. Guggenheim Museum",
                 "Nam June Paik [or Paik Nam June] &lt;JC, Painting&gt;"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "The amino acid consensus sequence for this process is asparagine-X-serine or threonine. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "N-linked glycosylation [prompt on partial answer; do not accept or prompt on \u201cO-linked glycosylation\u201d]",
                 "endoplasmic reticulum [or ER]",
                 "lysosome &lt;PL, Biology&gt;"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "The creation of this field was preceded by a mixed strategy solution to the Waldegrave problem. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "game theory",
                 "tit-for-tat",
                 "Pavlov strategy [accept \u201cwin\u2013stay, lose\u2013shift\u201d or \u201cwin\u2013stay, lose\u2013switch\u201d or WSLS] &lt;AJ, Social Science (Economics)&gt;"
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "Germany recognized this polity as a British protectorate in exchange for receiving the island of Heligoland. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Zanzibar",
                 "Julius Nyerere",
                 "Uganda &lt;NR, World History&gt;"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "The profiles of this substance are divided into layers called horizons. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "soil",
                 "humus (\u201cHYOO-mus\u201d)",
                 "Munsell charts [or Munsell soil color charts] &lt;AP, Other Science (Earth Science)&gt;"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "A candidate in this election transformed his campaign organization into a group that lobbied against the passing of NAFTA. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "1992 US Presidential Election",
                 "Patrick \u201cPat\u201d Buchanan",
                 "Paul Efthemios Tsongas &lt;AJ, American History&gt;"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "Name some works by Beethoven in his beloved C\u00a0minor, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Coriolan Overture",
                 "\u201cEroica\u201d Symphony [or Symphony No. 3 in E-flat\u00a0major; or Beethoven\u2019s Third Symphony]",
                 "\u201cPathetique\u201d Sonata [or Piano Sonata No. 8 in C\u00a0minor] &lt;PL, Music&gt;"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This movement\u2019s manifesto listed things to be \u201cblasted,\u201d such as England\u2019s climate \u201cfor its sins and infections,\u201d and things to be \u201cblessed,\u201d like hairdressers and mariners, since they both fight nature. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "vorticism",
                 "The Good Soldier",
                 "Ezra Pound (Yes, Ezra Pound\u2019s wife\u2019s maiden name really was \u201cShakespear.\u201d Her mother, Olivia Shakespear, was also a novelist and had an affair with Yeats.) &lt;JC, British Literature&gt;"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "In one show broadcast on this network, Jefferson Pierce is a high school principal who moonlights as the superhero Black Lightning. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The CW",
                 "John Constantine [accept either name]",
                 "the Waverider &lt;EM, Trash (TV)&gt;"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "A section of this poem that describes Toussaint Louverture contains the lines \u201cDeath traces a shining circle above this man / death stars softly above his head.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cNotebook of a Return to the Native Land\u201d [or \u201cCahier d\u2019un retour au pays natal\u201d]",
                 "N\u00e9gritude",
                 "Aim\u00e9 C\u00e9saire (\u201cay-MAY say-ZAIR\u201d) &lt;MT, World Literature&gt;"

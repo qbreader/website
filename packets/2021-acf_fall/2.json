@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "In 2014, the Folio Prize was founded as an alternative to a literature prize based in this country with a perceived focus on popular fiction. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "United Kingdom [or UK; accept England]",
                 "George Saunders",
                 "Jhumpa Lahiri [or Nilanjana Sudeshna Lahiri] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "This quantity is defined as the work needed to bring a test charge in from infinity. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "electric potential [accept scalar potential; prompt on potential or voltage; do not accept or prompt on \"potential energy\" or \"vector potential\"]",
                 "conductors [accept superconductors]",
                 "vacuum permittivity [or permittivity of free space or epsilon zero or epsilon naught; do not accept or prompt on \"epsilon\" alone or on \"permeability (of free space)\"] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "The original version of this standard appeared as the first track of the album Takin' Of . For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"Watermelon Man\"",
                 "Herbie Hancock",
                 "Miles Davis "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "A book on the conquest of this region begins by saying this region is divided into three parts. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Gaul",
                 "Gaius Julius Caesar [prompt on partial answer]",
                 "Battle of Alesia "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "This man's authenticit\u00e9 campaign resulted in cities such as Stanleyville and \u00c9lisabethville being renamed to Kisangani and Lubumbashi. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mobutu Sese Seko [or Joseph-D\u00e9sir\u00e9 Mobutu]",
                 "Democratic Republic of the Congo",
                 "Kabila [accept Laurent-D\u00e9sir\u00e9 Kabila; accept Joseph Kabila Kabange] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "The Family and Medical Leave Act was an early legislative victory for this president. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Bill Clinton [or William Jefferson Clinton]",
                 "James Brady [or James Scott Brady]",
                 "Whitewater scandal "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "This philosopher criticized political movements aimed at furthering narrow values such as liberty for reducing humans to animals. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Edmund Burke",
                 "works of art [accept equivalents or specific subtypes like paintings]",
                 "fallacies [accept intentional fallacy] "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "One being obtains these things by tricking a spirit into getting stuck to a doll, catching a leopard inside a pit, wrapping a python in a vine, and trapping a swarm of bees in a gourd. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "stories [or tales or other equivalents]",
                 "spider",
                 "Br'er Rabbit [accept Brother Rabbit; prompt on rabbit] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "A poem by this author ends with the speaker \"lowering\" his head and dreaming that he's home. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Li Bai [or Li Po; or Li Bo; or Li Taibai]",
                 "the moon",
                 "Wang Wei "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Pink flowers with one copy each of a red allele and a white allele are not an example of this phenomenon. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "codominance [or codominant alleles; do not accept or prompt on \"incomplete dominance\"]",
                 "heterozygous [or heterozygosity; do not accept or prompt on \"homozygous\"]",
                 "zero [or none] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the Fifth Crusade:",
-            "answer": [
+            "answers_sanitized": [
                 "Saladin [or Al-Nasir Salah ad-Din Yusuf ibn Ayyub]",
                 "Hungary [or Kingdom of Hungary]",
                 "Knights Hospitaller [or Order of Hospitallers; or Order of St. John; or Knights of St. John; prompt on Knights of Rhodes] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Giovanni Battista Sammartini is credited with early developments in this music genre, such as introducing the fast-slow-fast movement form seen in early examples of it. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "symphonies",
                 "Mannheim",
                 "sonata form [or sonata-allegro form] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "Answer the following about host\u2013guest chemistry, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "chemical equilibrium",
                 "hydrophobicity",
                 "drugs [or medications or medicines or pharmaceuticals] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "This thinker argued that societies' source of cohesion changes from mechanical solidarity to organic solidarity as they advance in The Division of Labor in Society. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u00c9mile Durkheim",
                 "Adam Smith",
                 "demography [accept demographic transition or social demographic or social demographics; prompt on surveying or census taking] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "In this story, Vera Sappleton suggests that the reason the protagonist quickly bolted out of the front door was because a spaniel came into the house and that he's afraid of dogs. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"The Open Window\"",
                 "Saki [or Hector Hugh Munro]",
                 "cat [accept feline or synonyms] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "The \"deep\" variety of these things is powered by thermohaline circulation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ocean currents",
                 "turbidity [accept turbidity currents]",
                 "continental rise "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "This province's capital city is home to the training academy for the Royal Canadian Mounted Police. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Saskatchewan",
                 "French [or Canadian French]",
                 "uranium [accept uranium ore] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "A headless figure in this painting may possibly represent the artist's child Xavier or mistress Leocadia Weiss (\"lay-oh-cah-DEE-ah wies\"). For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Saturn Devouring his Son [or Saturno devorando a su hijo]",
                 "Francisco Jos\u00e9 de Goya y Lucientes",
                 "Los caprichos [or The Caprices] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "In a novel centered around these people, the protagonist observes norms he follows, such as spitting fish bones onto a table then wiping them onto the floor rather than spitting them directly onto the floor. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "zeks [or Gulag prisoners; accept Gulag inhabitants or equivalent descriptions of people who live in Gulags; prompt on prisoners with, \"prisoners where?\"; prompt on Russian dissidents]",
                 "Aleksandr Solzhenitsyn [or Aleksandr Isayevich Solzhenitsyn]",
                 "Nobel Prize in Literature "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "In Mahayana traditions, these people take a namesake \"vow\" to devote their existence to helping others achieve nirvana. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Buddha [accept Buddhism]",
                 "the Bodhisattva Guanyin [or Kannon or Guanshiyin or Kuan Yin or Gun Yam or Gwan-eum; prompt on mercy goddess or goddess of mercy] "
             ],

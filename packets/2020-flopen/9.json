@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "In archaea, the initiator protein Orc1/Cdc6 is believed to both recognize replication origins and load an enzyme homologous to this complex. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mcm2-7 complex [or minichromosome maintenance complex]",
                 "helicases",
                 "sliding clamps [accept DNA clamp; accept beta-clamp] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "For the final twenty years of his life, Joseph Stalin used one of these places as his main residence. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "dachas",
                 "Saint Petersburg [or Petrograd; or Leningrad]",
                 "banyas [prompt on saunas] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This painter showed the title fruits and vegetables arcing across a window sill against a stark black background in his Still Life with Quince, Cabbage, Melon, and Cucumber. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Juan S\u00e1nchez Cot\u00e1n [accept either underlined part]",
                 "Toledo",
                 "vanitas motif "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "During the early 1920s, Alhassan Dantata became fabulously wealthy by dominating the market surrounding this good, which was stored in sacks arranged in gargantuan outdoor pyramids at Kofar Nassarawa. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "groundnuts [accept peanuts; prompt on nuts]",
                 "Nigeria",
                 "Senegal AND The Gambia [accept Senegambia; accept Senegambia Confederation] "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "A Tokyo student takes a train trip to the Izu Peninsula where he encounters a troupe of performers in this author\u2019s novella The Dancing Girl at Izu. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Yasunari Kawabata",
                 "Botchan",
                 "Kenji Miyazawa "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "These types of protests erupted in the Plaza de Mayo after Argentine president Fernando de la R\u00faa declared a state of siege against Peronist protestors in 2001. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cacerolazos (\u201ckah-ser-oh-LAH-sohs\u201d) [or caceroladas; prompt on casseroles]",
                 "Hugo Ch\u00e1vez",
                 "Salvador Allende [or Salvador Guillermo Allende Gossens] "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "This thinker asserted that mountains are the same height as marshes in a series of statements meant to demonstrate the semantic relationship between words and things. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hui Shi [or Huizi or Master Hui]",
                 "Zeno of Elea [accept Zeno\u2019s paradoxes]",
                 "a white horse [accept b\u00e1im\u01ce; reject \u201chorse\u201d alone] "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "This composer used compositional techniques inspired by medieval composers like Guillaume de Machaut (\u201cgee-YOHM duh mah-SHO\u201d) in her piece Miroirs des temps (\u201cmeer-WAHR day tom\u201d). For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Unsuk Chin",
                 "Finland [or Suomi]",
                 "Laurie Anderson [or Laura Phillips Anderson] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "This theologian argued that \u201cthere is not in the world a kind of life more sweet and delightful, than that of a continual conversation with God.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Brother Lawrence of the Resurrection [accept Nicolas Herman]",
                 "Book of Joshua [or Sefer Yehoshua]",
                 "John 1 (\u201cone\u201d) [accept the first chapter of the Gospel of John or the Gospel according to John] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "Actors attempting to transcribe plays from memory led to so-called \u201cbad\u201d works in one of these two formats, whose pervasiveness partly inspired the creation of a 1623 collection in the other of these formats. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "quartos [accept bad quartos] AND folios [accept the First Folio]",
                 "Hamlet",
                 "ape [accept \u201cthe famous ape\u201d] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Answer the following about potential flow, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "zero",
                 "stream function [or Lagrange stream function; prompt on psi; reject \u201cstreamline\u201d]",
                 "drag force [prompt on D] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "The \u201cprison faction\u201d of the Romanian Communist Party opposed another faction named after this city, where a leading member worked for the Comintern during World War II. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Moscow [or Moskva]",
                 "Ana Pauker [or Hannah Rabinsohn]",
                 "Gheorghe Gheorghiu-Dej [prompt on partial last name] "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "South African scholar Johan Steyn gave a 2002 Oxford lecture titled for the \u201cCase For\u201d this institution. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Supreme Court of the United Kingdom [or UKSC; or SCOTUK; prompt on the Supreme Court by asking \u201cof what country?\u201d]",
                 "House of Lords [or House of Peers; prompt on Parliament]",
                 "truancy [accept equivalents like skipping school] "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "The immigrants Gorgo and Praxinoa gossip about Queen Arsinoe at the Festival of Adonis in the fifteenth of a series of poems by this author. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Theocritus of Syracuse",
                 "Virgil [or Publius Vergilius Maro]",
                 "boxing [prompt on fighting or combat] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "A book titled for this theory claims that \u201clegitimate peripheral participation leads\u201d to integrated \u201ccommunities of practice\u201d exemplified by a group of Yucat\u00e1n midwives. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "situated learning theory [accept Situated Learning: Legitimate Peripheral Participation; prompt on social learning]",
                 "Lev Vygotsky [or Lev Semyonovich Vygotsky]",
                 "Alcoholics Anonymous [accept Narcotics Anonymous] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "This book contrasts Lacan\u2019s formulation of the paternal Symbolic order with that of Luce (\u201cloos\u201d) Irigaray, who claims that the women are completely excluded from a phallogocentric dialectical discourse. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Gender Trouble",
                 "Judith Butler [or Judith Pamela Butler]",
                 "Joan Riviere "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Ella Fitzgerald\u2019s version of this standard includes the oft-omitted first verse, which describes a \u201cslightly dopey gent\u201d with a \u201cvacant brow\u201d and \u201ctousled hair.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cMy Funny Valentine\u201d",
                 "trumpet",
                 "ii-V-I [or two-five-one; accept minor two-five-one; accept minor two-seven, five-seven, one-seven; accept diminished two-seven, five-seven, one-seven] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "An ion cluster that forms this class of cluster compounds, [Ge9]4- (\u201cG-E-nine-four-minus\u201d), takes on the form of a nido deltahedron with the shape of a monocapped square antiprism. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Zintl compounds [accept Zintl anions; accept Zintl phases]",
                 "boron [or B]",
                 "white phosphorus [accept P4; prompt on phosphorus or P] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "Hank Adams, a leader of this protest, drafted the Twenty Points, which include demands for an annual summit and the return of 110 million acres of land. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Trail of Broken Treaties [accept Pan American Native Quest for Justice]",
                 "American Indian Movement [or AIM]",
                 "Alcatraz Island [prompt on San Francisco Bay] (The fire and fall occurred during the 1969 occupation of Alcatraz.) "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "Peter Wuteh Vakunta collected vernacular oral poems in a pidgin spoken in this country in the collection Majunga Tok. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Cameroon [or Republic of Cameroon; or R\u00e9publique de Cameroun]",
                 "French [or fran\u00e7ais]",
                 "a king [accept The Radiance of the King; accept Le Regard du roi; accept The Shadow King] "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "One of these structures, the Chand Baori, descends thirty meters into the ground. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "stepwells [or stepped ponds; prompt on wells; prompt on baoris]",
                 "Vessel [accept Vessel TKA; accept answers like \u201cthe structure temporarily known as Vessel\u201d]",
                 "bats [accept Mexican free-tailed bats] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "Answer the following about how robots get around, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "angular momentum [accept spin angular momentum]",
                 "SLAM [or simultaneous localization and mapping; or simultaneous localization and navigation]",
                 "closed-loop controller [accept closed-loop control system; accept PID controller] "

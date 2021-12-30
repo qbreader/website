@@ -126,7 +126,7 @@
     "bonuses": [
         {
             "leadin": "After its independence, Abubakar Balewa became its first prime minister. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Nigeria",
                 "Republic of Biafra",
                 "\u201cno victor, no vanquished\u201d &lt;The above question is for the category History World and was written by Fred Morlan&gt;"
@@ -141,7 +141,7 @@
         },
         {
             "leadin": "This artist\u2019s <em>Vision of Ezekiel</em> shows an orgiastic flurry of geometric humans tangled in faded pink, with darker-toned figures around the central crowd. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "David Bomberg",
                 "Keith Haring",
                 "AIDS [or Acquired Immune Deficiency Syndrome; or HIV/AIDS; prompt on HIV; prompt on Human Immunodeficiency Virus] &lt;The above question is for the category Arts Painting and was written by John Marvin&gt;"
@@ -156,7 +156,7 @@
         },
         {
             "leadin": "A prophet disputes those that say \u201cthe time has not yet come to rebuild\u201d this place in the first chapter of his namesake book. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Second Temple of Jerusalem [prompt on the Temple of Jerusalem; or Beit Ha-mikdash Ha-sheni]",
                 "Haggai",
                 "Zerubbabel [or Zorobabel; or Zrubavel] &lt;The above question is for the category RMP Christian/Bible Religion and was written by John Marvin&gt;"
@@ -170,7 +170,7 @@
         },
         {
             "leadin": "When one of these objects was dropped from a canoe, the islanders agreed that it could still be used, since it was certainly still down there on the ocean floor. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "rai stones",
                 "Bronis\u0142aw Malinowski (BROH-nee-swoff mah-lin-OFF-skee)",
                 "the Kula ring [or Kula exchange] &lt;The above question is for the category Social Science Anthropology and was written by John Marvin&gt;"
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "This system is commonly solved using the transfer matrix method. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ising (EE-zing) model",
                 "phase transition [or phase change]",
                 "Rudolf Peierls (PIE-earls) &lt;The above question is for the category Science Physics and was written by Paul Lee&gt;"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "This character asks \u201cHave you found any places where God would have felt at home?\u201d\u00a0after someone says \u201cwe are living in a place abandoned by God.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "William of Baskerville [prompt on William]",
                 "The Name of the Rose [or Il nome della rosa]",
                 "Umberto Eco &lt;The above question is for the category Literature European and was written by John Marvin&gt;"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "Two collectins that contribute to this substance\u2019s immune function are SP-A and SP-D. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "pulmonary surfactant",
                 "compliance",
                 "atelectasis (AT-uh-LECT-uh-siss) &lt;The above question is for the category Science Biology and was written by Eric Mukherjee&gt;"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "After leaving the Jaguar house and a house of fire, the Hero Twins enter a house of these animals. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "bats",
                 "Mesoamerican ballgame [or Mayan ballgame; or pok-ta-pok; or \u014dllamaliztli; or tlachtli; or juego de pelota]",
                 "turtle [or tortoise] &lt;The above question is for the category RMP Non-Greek/Roman Myth and was written by Daoud Jackson&gt;"
@@ -243,7 +243,7 @@
         },
         {
             "leadin": "This man advocated the motto \u201creformarse es vivir\u201d (reh-for-MAR-say ess vee-VEER), or \u201cto reform oneself is to live.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Jos\u00e9 Enrique Rod\u00f3",
                 "Uruguay [Oriental Republic of Uruguay; or Rep\u00fablica Oriental del Uruguay]",
                 "death &lt;The above question is for the category Literature World and was written by Penelope Ashe&gt;"
@@ -258,7 +258,7 @@
         },
         {
             "leadin": "This man interviewed the neighbors of the subject of one his biographies, who told him stories about how he had cut down a cherry tree as a child. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Parson Weems",
                 "Woodrow Wilson",
                 "Ron Chernow &lt;The above question is for the category History American (pre-1865) and was written by Daoud Jackson&gt;"
@@ -273,7 +273,7 @@
         },
         {
             "leadin": "In this short story, Mel McGinnis talks about an elderly couple that was injured in a car accident. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cWhat We Talk About When We Talk About Love\u201d",
                 "Anne Frank",
                 "The New Yorker &lt;The above question is for the category Literature American and was written by Fred Morlan&gt;"
@@ -288,7 +288,7 @@
         },
         {
             "leadin": "Geza Anda\u2019s recording of this movement was used in the film <em>Elvira Madigan</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "second movement of Mozart\u2019s Piano Concerto No.\u00a021 in C major [accept Andante or slow\u00a0movement or central\u00a0movement in place of \u201csecond movement\u201d]",
                 "first movement of Brahms\u2019s Violin Concerto in D major",
                 "Pyotr Ilyich Tchaikovsky &lt;The above question is for the category Arts Music and was written by Penelope Ashe&gt;"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "Answer the following about Grignard (green-YARR) reagents, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "magnesium [or Mg]",
                 "THF [or tetrahydrofuran]",
                 "Reuben Rieke &lt;The above question is for the category Science Chemistry and was written by Fred Morlan&gt;"
@@ -318,7 +318,7 @@
         },
         {
             "leadin": "A member of this group, Aristoteles (uh-riss-TOH-tell-eez), is an interlocutor in the <em>Parmenides</em>. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Thirty Tyrants",
                 "Critias [do not accept or prompt on \u201cCrito\u201d]",
                 "Socrates &lt;The above question is for the category History European to 1400 and was written by Nitin Rao&gt;"
@@ -333,7 +333,7 @@
         },
         {
             "leadin": "Solving the matrix equation \u201cpi times the matrix <em>P</em> equals the matrix <em>P</em>\u201d gives rise to the \u201cinvariant\u201d one of these constructs for a Markov chain. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "distributions [or probability distributions; statistical distributions]",
                 "recurrent [or recurrence; accept recurring or recursion]",
                 "Stirling\u2019s formula [or Stirling\u2019s approximation] &lt;The above question is for the category Science Math and was written by Joseph Krol&gt;"
@@ -348,7 +348,7 @@
         },
         {
             "leadin": "Answer the following about the life and work of philosopher Janet Radcliffe Richards, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "trade in human organs [accept answers referring to selling or buying organs; accept answers containing the names of particular organs]",
                 "feminism",
                 "Derek Parfit [Derek Antony Parfit] &lt;The above question is for the category RMP Philosophy and was written by Shan Kothari&gt;"
@@ -362,7 +362,7 @@
         },
         {
             "leadin": "This character pretends to be the father of a dying girl after a shipwreck in order to calm her in her last moments. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Major Henry Scobie",
                 "The Heart of the Matter",
                 "Graham Greene [Henry Graham Greene] &lt;The above question is for the category Literature British Non-Shakespeare and was written by John Marvin&gt;"
@@ -377,7 +377,7 @@
         },
         {
             "leadin": "The Seybert Commission of 1887, a group emanating from the University of Pennsylvania, denounced these people. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "spiritualists [or mediums]",
                 "New York",
                 "Abraham Lincoln &lt;The above question is for the category History American (pre-1865) and was written by Mike Cheyne&gt;"
@@ -392,7 +392,7 @@
         },
         {
             "leadin": "This character\u2019s performance in the opera <em>Salammb\u00f4</em> is panned. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Susan Alexander Kane [or Susan Alexander; prompt on Kane]",
                 "George Orson Welles",
                 "snow globe [or snow dome] &lt;The above question is for the category Arts Film and was written by Fred Morlan&gt;"
@@ -407,7 +407,7 @@
         },
         {
             "leadin": "In 2012, Google Earth confirmed that the largest island in a lake in an island in a lake in an island, or third-order island, was actually deep within Victoria Island in Arctic Canada, and not in this place. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Luzon",
                 "Manitoulin Island",
                 "Greenland [or Kalaallit Nunaat; or Gr\u00f8nland] &lt;The above question is for the category Geography World and was written by John Marvin&gt;"
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "This man pioneered \u201cunderway fuel replenishment\u201d for the US Navy as Chief Engineer of the <em>USS Maumee</em> during World War I. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Chester William Nimitz, Sr. [accept Nimitz-class aircraft carriers]",
                 "William Frederick \u201cBull\u201d Halsey, Jr. [or \u201cBill\u201d Halsey]",
                 "John Sidney McCain, Sr. &lt;The above question is for the category History American (1865-1945) and was written by Nitin Rao&gt;"

@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "A group of women who fought against this dictator used the underground name Las Mariposas and became a symbol of feminist resistance. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Rafael Le\u00f3nidas Trujillo Molina",
                 "Mirabal sisters (accept Las Hermanas Mirabal)",
                 "Dominican Republic "
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This character takes two hundred dollars from his wife\u2019s shirt to buy a chicken and macaroni dinner for his coworkers. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tea Cake Woods [accept either; Tea Cake, Vergible Woods]",
                 "Their Eyes Were Watching God",
                 "a pear tree [prompt on partial] "
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "She was the first American woman to earn a PhD in Chemistry and is known for her work on Beta Vulgaris. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Rachel Holloway Lloyd",
                 "Phenol",
                 "Nitrogen "
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "This woman\u2019s painting Palm Sunday, which depicts a young brunette holding a plant, was recovered in 2004 and is now displayed in the Colombes History Museum. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Victorine Meurent",
                 "prostitutes [accept sex workers]",
                 "Eduoard Manet "
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "This actress stares at the camera and announces, \u201cWelcome to Jurassic World,\u201d breaking the fourth wall in her first scene in the movie Jurassic World. For 10 points:",
-            "answer": [
+            "answers_sanitized": [
                 "Bryce Dallas Howard",
                 "Jurassic Park",
                 "Tyrannosaurus rex "
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "This story ends with the protagonist smoking his final cigarette before throwing the empty pack into the fire. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cThe Birds\u201d",
                 "Daphne du Maurier",
                 "Gothic fiction "
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "Many were astonished when this woman was left off the 1957 Nobel Prize in Physics. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Chien-Shiung Wu [or Wu Chien-Shiung or Wu Jianxiong]",
                 "weak nuclear force [or weak interaction]",
                 "kaons [or K meson, accept K+ (K-plus) meson] "
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "This work states that \u201cwe are the only animal species in which the female depends on the male for food.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Women and Economics",
                 "Charlotte Perkins Gilman",
                 "social "
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "Though none of this woman\u2019s compositions survived, letters from her brother praising them indicate that she was a composer in addition to being a performer. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Nannerl Mozart ]Accept Maria Anna Mozart or Marianne Mozart, prompt on Mozart]",
                 "harpsichord (prompt on keyboard)",
                 "figured bass [accept thoroughbass] "
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "The photographer Itakura takes pictures of dolls made by one of these characters, Taeko. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the Makioka family",
                 "Japan",
                 "flood "
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "In humans, this chemical acts as an endocrine disruptor and likely carcinogen. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "DDT [Accept Dichlorodiphenyltrichloroethane]",
                 "Rachel Carson",
                 "Biological pest control [or biocontrol] "
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "The Italian designer Elsa Schiarapelli worked with Salvador Dali to design a Surrealist-inspired one of these articles of clothing emblazoned with a lobster. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "dress [do not accept or prompt on \u201cskirt\u201d]",
                 "Jacqueline Bouvier Kennedy [accept Jackie Kennedy and Jackie Onnanis]",
                 "Ann Lowe "
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "In 2020, Forbes ran an article titled \u201cWhat Do Countries With The Best Coronavirus Responses Have In Common? Women Leaders.\u201d For 10 points, name the following female heads of state.",
-            "answer": [
+            "answers_sanitized": [
                 "Sanna Marin",
                 "Tsai Ing-wen",
                 "Angela Merkel "
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "Credited with 309 kills and nicknamed Lady Death, Lyudmila Pavlichenko is the most successful female sniper in history. For ten points:",
-            "answer": [
+            "answers_sanitized": [
                 "Union of Soviet Socialist Republics (accept Soviet Union, DO NOT accept or prompt on Russia)",
                 "Siege of Sevastopol",
                 "Tank "
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "For 10 points each, name these ancient Mesopotamian goddesses.",
-            "answer": [
+            "answers_sanitized": [
                 "Ereshkigal [Accept Irkalla]",
                 "Ishtar [Inanna]",
                 "Ninhursag (accept Damgalnuna or equivalents) "
@@ -342,7 +342,7 @@
         },
         {
             "leadin": "Though this woman is most famous for instructing Paul Jennings to save a portrait of George Washington from the White House when it was burned, she actually had a lot of influence on politics. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dolley Madison [prompt on partial answer]",
                 "Bipartisan System [accept equivalent descriptions, Accept two party system, prompt on partial answer]",
                 "Quakers "
@@ -357,7 +357,7 @@
         },
         {
             "leadin": "This story arc ends with the couple Irene and Annakiss offering the child Emporio a ride in their car. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Jojo\u2019s Bizarre Adventures: Stone Ocean [prompt on partial answer]",
                 "prison [accept jail]",
                 "Jimi Hendrix "
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "The central figures of this novel flee their modern house in Johannesburg after a civil war ends apartheid. For ten points each:",
-            "answer": [
+            "answers_sanitized": [
                 "July\u2019s People",
                 "Nadine Gordimer",
                 "interregnum "
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "Mullah Fazlullah became the leader of this group in 2013, which has claimed responsibility for attacks like the 2016 Bacha Khan University attack and 2014 Peshawar school attack. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tehrik-i-Taliban Pakistan [Accept TTP or Pakistani Taliban, prompt on Taliban by asking \u201cin which country\u201d]",
                 "Malala Yousafzai [Accept either name]",
                 "Swat District "
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "In a New York Times editorial, this actress declared, \u201cI am the first Asian woman to appear on the cover of Vanity Fair. My real name is Loan.\u201d For 10 points:",
-            "answer": [
+            "answers_sanitized": [
                 "Kelly Marie Tran",
                 "Raya and the Last Dragon",
                 "Filipino [Accept Tagalog] "

@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "This substance becomes tephra in explosive ejections. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "magma",
                 "basaltic lava [or mafic lava]",
                 "flow banding"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "In the \"Jupiter, the Bringer of Jollity\" movement of The Planets, these instruments play the opening theme over string ostinatos. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "French horn [do not accept \"English horn\"]",
                 "Gustav Holst [or Gustav Theodore Holst; or Gustavus Theodore von Holst]",
                 "Paul Hindemith"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "According to Wikipedia, the event that sets the plot of this novel in motion involves \"a stitching miracle\". For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Cloven Viscount",
                 "Italo Calvino",
                 "Ludmilla Vipiteno [prompt on \"the Other Reader\"]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "This monarch was opposed by an alliance of nobles led by the figurehead Duke of Berry, the League of the Public Weal. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Louis the Universal Spider [or Louis XI or Louis the Cunning]",
                 "Prague",
                 "Treaty of Picquigny"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "A classic example of these things is related in a story about a visitor to Oxford, who is taken to several buildings, but then asks \"where is the university?\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "category error [or category mistake]",
                 "The Concept of Mind",
                 "Rene Descartes"
@@ -193,7 +193,7 @@
         },
         {
             "leadin": "Answer some questions about a model organism, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Arabidopsis thaliana (uh-RAB-uh-dop-sis)",
                 "transposons [or transposable elements or jumping genes]",
                 "long terminal repeats [or LTR]"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "One of these events in 1888 was named for the \"Children\" because it took place just as schoolteachers were letting pupils out of school. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "blizzards [accept: snowstorms]",
                 "cattle [accept: cows]",
                 "The Cowboy Strike"
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "Answer the following about bears in mythology, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Korea [prompt on China]",
                 "Artemis",
                 "Jambavan"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "This character finds a poem pinned to a tree that claims \"from the east to western Ind, no jewel is like\" her.. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Rosalind",
                 "As You Like It",
                 "they were all roles played onstage by Shakespeare himself [accept similar answers that express the same idea]"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "Princesses emerge from this work's title objects; two die of thirst and one is turned into a giant rat. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Love for Three Oranges",
                 "Sergei Prokofiev",
                 "The Fiery Angel"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "This man often collaborated with his wife Hilda, and the duo later worked on the excavation of the Tell-el-Ajull Mound in Gaza. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sir William Matthew Flinders Petrie",
                 "Egypt",
                 "Thebes"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "Name some short stories written by American women, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"A Good Man is Hard to Find\"",
                 "\"Where Are You Going, Where Have You Been?\"",
                 "\"Why I Live at the P.O.\""
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "This quantity is measured using an apparatus whose internal resistance should be as close to zero as possible. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "current",
                 "drift speed or drift velocity",
                 "conductivity"
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "Dutchbat soldiers were unable to prevent this event, and the Zvornik 7 managed to escape this event, but were later tried for illegal possession of firearms. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Srebrenica massacre (SREH-breh-neet-SAH)",
                 "Radko Mladic",
                 "NATO [or North Atlantic Treaty Organization; or OTAN or Organization du trait\u00c3\u00a9 de l'Atlantique Nord]"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "The Bezeklik Thousand Buddha Caves, home to an enormous amount of preserved Buddhist cave paintings,  are found within this desert. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Taklamakan Desert [or Taklimakan or Teklimakan]",
                 "Tian Shan",
                 "China"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "An example of one of these conditions is one in the Hmong (mong) that causes sudden death while sleeping, and \"fan death\" among Koreans. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "culture-bound syndromes [or culture-specific syndrome or folk illness]",
                 "DSM [or Diagnostic and Statistical Manual of Mental Disorders]",
                 "evil eye [accept ayn al-hasud]"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "This event occurs in the Lumbini Pleasure Garden while Queen Maya is holding onto a branch of an ashoka tree which magically bends down for her. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Birth of the Buddha [accept equivalents replacing Siddharta Gautama or Shakyamuni for Buddha]",
                 "sutra",
                 "Deer Park [or Deer Forest; accept Migadaya or Mgrigadava or Isipatana; prompt on partial answer but it has to have \"Deer\" plus either \"park\" or \"forest\"]"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "Answer the following about the works of Kenzaburo Oe, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Silent Cry [or Man'en Gannen no Futtoboru or Football in the First Year of Man'en]",
                 "Bird [or Bado]",
                 "The Day He Himself Shall Wipe My Tears Away [or Mikuzaka Waga Namida o Nugui Tamau Hi]"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "This art movement promoted a \"Tactile Dinner,\" where guests have to wear sandpaper pajamas and bury their faces in plates of salad. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "futurism [accept word forms]",
                 "Umberto Boccioni",
                 "The City Rises or La citt\u00c3\u00a0 che sale"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "Gerhard Ertl won the 2007 Nobel partly for his work on the mechanism of this reaction. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Haber-Bosch process",
                 "ruthenium [accept Ru]",
                 "nitric acid [also accept HNO3; do not accept nitrous acid]"

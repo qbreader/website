@@ -130,7 +130,7 @@
     "bonuses": [
         {
             "leadin": "The world\u2019s largest one of these places is in Atlanta, and houses over 100,000 sea creatures, including the massive Whale Shark. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "aquariums [accept Georgia Aquarium]",
                 "Shedd Aquarium",
                 "Baltimore, Maryland "
@@ -145,7 +145,7 @@
         },
         {
             "leadin": "A character on this show often says, \u201cGotta fix that step\u201d, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Modern Family",
                 "California",
                 "Sofia Vergara "
@@ -160,7 +160,7 @@
         },
         {
             "leadin": "A ballistic type of these devices can be used to measure the momentum of a bullet. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "pendulum",
                 "chaos [accept word forms]",
                 "Christiaan Huygens "
@@ -175,7 +175,7 @@
         },
         {
             "leadin": "Answer the following about famous violin concertos. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Jakob Ludwig Felix Mendelssohn Bartholdy",
                 "Niccolo Paganini",
                 "Erich Wolfgang Korngold"
@@ -190,7 +190,7 @@
         },
         {
             "leadin": "For 10 points each, name some American political parties.",
-            "answer": [
+            "answers_sanitized": [
                 "Democratic Party",
                 "Know-Nothing Party [accept Native American Party or American Party]",
                 "Reform Party "
@@ -205,7 +205,7 @@
         },
         {
             "leadin": "Much like in the Bible, Lazarus is a character who just keeps coming back in literature. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Frank Herbert",
                 "\u201cThe Love Song of J. Alfred Prufrock\u201d",
                 "Crime and Punishment "
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "Wilms Tumor is a cancer of this organ that primarily occurs in children. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "kidney",
                 "nephrons",
                 "macula [Prompt on retina] "
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "For 10 points each, name some Latin American dictators.",
-            "answer": [
+            "answers_sanitized": [
                 "Fidel Alejandro Castro Ruz",
                 "Rafael Leonidas Trujillo Molina [prompt on El Jefe]",
                 "Somoza "
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "This character starts a C.I.D investigation after signing his name as \u201cWashington Irving\u201d while censoring letters. For ten points each,",
-            "answer": [
+            "answers_sanitized": [
                 "John Yossarian",
                 "Catch-22",
                 "Egyptian cotton "
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "Answer the following about ancient Greek art. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Winged Victory of Samothrace [accept Winged Nike of Samothrace or Nike of Samothrace]",
                 "Praxiteles",
                 "Parthenon "
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "This character ultimately dies when fighting a dragon with Wiglaf. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Beowulf",
                 "Heorot",
                 "Unferth "
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about a Greek philosopher.",
-            "answer": [
+            "answers_sanitized": [
                 "Plato",
                 "Symposium",
                 "Euthyphro "
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "The composition of one work by this artist was taken from a panel drawn by Irv Norick in issue 89 of All-American Men of War. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Roy Lichtenstein",
                 "Pop Art",
                 "sinking underwater [accept Drowning Girl, or anything related to drowning or sinking underwater] "
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "In late 2020, an anti-LGBTQ member of parliament from this country resigned after being caught escaping from a gay sex party in violation of COVID-19 restrictions. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Hungary [accept Magyarorz\u00e1g]",
                 "Viktor Mih\u00e1ly Orb\u00e1n",
                 "universities (or colleges; accept University of Theatre and Film Arts) "
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "This period is divided into the Terreneuvian and Furongian Epochs. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "Cambrian Period",
                 "trilobites",
                 "[Great] Permian-Triassic extinction event [accept great dying or P-Tr Extinction] "
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the rise of Rome.",
-            "answer": [
+            "answers_sanitized": [
                 "Romulus",
                 "Etruscan Civilization [accept Rasenna Civilization, or Tyrrhenian Civilization]",
                 "Pyrrhus of Epirus "
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "The pratimoksha is a list of rules that governs the behavior of these people. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Buddhist monks [or nuns]",
                 "vegetarianism [accept veganism]",
                 "begging [or reasonable equivalents like asking for alms] "
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about a certain animal in literature.",
-            "answer": [
+            "answers_sanitized": [
                 "ducks (accept The Wild Duck)",
                 "Hans Christian Andersen",
                 "Thomas Ruggles Pynchon Jr. "
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "There\u2019s a first time for everything. For 10 points each, answer the following about the achievements of various cosmonauts.",
-            "answer": [
+            "answers_sanitized": [
                 "Soviet Union [accept Union of Soviet Socialist Republics; do not accept or prompt on \u201cRussia\u201d]",
                 "Yuri Alekseyevich Gagarin",
                 "Valentina Vladimirovna Tereshkova "
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "The letters h,k, and l denote the Miller indices that describe these entities. For 10 points each,",
-            "answer": [
+            "answers_sanitized": [
                 "crystals",
                 "amorphous solids",
                 "coordination number [accept ligancy] "

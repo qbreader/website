@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "In criticizing the \"laziness and cowardice\" of men before recent years, this essay proposes the Latin motto Sapere aude!, or \"Have the courage to know!\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"What is Enlightenment?\" [or \"Answering the Question: What is Enlightenment?\" or \"Beantwortung der Frage: Was ist Aufkl\u00e4rung?\"]",
                 "Immanuel Kant",
                 "public AND private [or \u00f6ffentliche AND privat]"
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about meditations upon death as \"lying down\":",
-            "answer": [
+            "answers_sanitized": [
                 "\"Thanatopsis\"",
                 "Percy Bysshe Shelley",
                 "Urn-Burial [or Hydriotaphia] (by Thomas Browne.)"
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "This statement can be derived by rewriting an integral of the form \"e to the negative x plus N times ln x\" using Laplace's method of steepest descent, sometimes called the \"saddle-point approximation\". For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Stirling's formula [or Stirling's approximation]",
                 "factorial",
                 "partition function [accept Z or Q]"
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This text's extended metaphor includes \"a blessed olive tree, neither of the east nor of the west\". For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Light Verse [or Verse of Light; or Ayah an-Nur; or Ayat an-Nur; accept Quran 24:35]",
                 "al-Ghazali [or Ab\u016b \u1e24\u0101mid Mu\u1e25ammad ibn Mu\u1e25ammad a\u1e6d-\u1e6c\u016bsiyy al-\u0120az(z)\u0101l\u012by; accept Algazelus]",
                 "Sufism [or Ta\u1e63awwuf]"
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "The first ruler of this empire gained the epithet \"merciless\" for his treatment of the Fulbe (\"FULL-bae\") tribe. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Songhai empire [or Songhay empire]",
                 "(Joannes) Leo Africanus [or Hasan Ibn Muhammad al-Wazzan]",
                 "Askia Muhammad I [or Askia the Great; or Muhammad Ture]"
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Late in life, this composer wrote a setting of the Stabat Mater that includes a \"Cuius animam\" for tenor soloist. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Gioachino Rossini",
                 "William Tell [accept Guillaume Tell; or Guglielmo Tell]",
                 "Ottorino Respighi"
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In a play inspired by this text, the Union soldier Smith discusses a future in which slaves are freed with the slave Hero. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Odyssey [or Odysseia]",
                 "dogs [accept The Curious Incident of the Dog in the Night-Time]",
                 "Suzan-Lori Parks (That play is Topdog/Underdog.)"
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the world sports community's response to apartheid:",
-            "answer": [
+            "answers_sanitized": [
                 "Commonwealth of Nations",
                 "1976 (The Moscow Olympics took place in 1980.)",
                 "Sir Robert David Muldoon"
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the breadth-first search algorithm:",
-            "answer": [
+            "answers_sanitized": [
                 "depth-first search or DFS",
                 "bipartite graph",
                 "sparse matrix [accept word forms such as sparseness]"
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about film adaptations of Henrik Ibsen plays:",
-            "answer": [
+            "answers_sanitized": [
                 "Satyajit Ray",
                 "Andre Gregory [prompt on My Dinner With Andre]",
                 "Anthony Hopkins"
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Journalist Richard L\u00f6wenthal (\"REE-kard LEOV-en-tall\") originated this term to describe Soviet attempts to expand influence in Central Europe. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Finlandization [or suomettuminen; or Finnlandisierung; or Finlandizatsiya; do not prompt or accept \"Finland\"]",
                 "West Germany [or Federal Republic of Germany or Bundesrepublic Deutschland; prompt on Germany or Deutschland]",
                 "Walter Hallstein (\"HOLL-shtyne\") [accept Hallstein doctrine]"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "In the essay \"From [one of these deities] to [the other one]\", Georges Dum\u00e9zil traced them to a common Indo-European notion of initial and final deities also reflected by Vayu and Agni. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Janus AND Vesta [accept in either order; accept Janus primus, Vesta extrema; prompt on partial answers; accept \"De Janus \u00e0 Vesta\" or \"From Janus to Vesta\"]",
                 "crossroads [prompt on intersections, roads, or clear equivalents of either]",
                 "Mercury [or Mercurius; prompt on Hermes]"
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "This author documented the effects of music on psychological phenomena in the book Musicophilia. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Oliver Wolf Sacks",
                 "Parkinson's disease [or idiopathic parkinsonism; or primary parkinsonism; or hypokinetic rigid syndrome; or HRS; or paralysis agitans]",
                 "Williams syndrome"
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Observations of earthquake waveform doublets in the South Sandwich Islands confirmed the observed \"super-rotation\" of this layer relative to the mantle. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "inner core [do not accept or prompt on \"core\" or \"outer core\"]",
                 "geodynamo",
                 "Glatzmaier-Roberts model"
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about social ascent in novels from the Indian subcontinent:",
-            "answer": [
+            "answers_sanitized": [
                 "Rabindranath Tagore [or Bhanu Singha Thakur]",
                 "The White Tiger",
                 "How to Get Filthy Rich in Rising Asia"
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Wally Herbert noted that a report that this man was the first to reach the North Pole was \"lacking in essential data\". For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Matthew Alexander Henson",
                 "Robert Peary",
                 "Roald Engelbregt Gravning Amundsen"
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about northeastern France:",
-            "answer": [
+            "answers_sanitized": [
                 "Lorraine (The three countries are Luxembourg, Belgium, and Germany.)",
                 "departments [accept d\u00e9partements]",
                 "Metz (\"MESS\")"
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Bernard Ashmole attributed a sculpture depicting a victorious youth to this artist. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Lysippos",
                 "Myron of Eleutherae",
                 "Athena [accept Athena Parthenos]"
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "This country is home to an author who is the namesake of an award given for promoting free speech in literature, who also wrote the essay \"Our Need for Consolation is Impossible\" and the novel Burnt Child. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sweden [or Kingdom of Sweden; or Konungariket Sverige] (The former author is Stig Dagerman.)",
                 "August Strindberg",
                 "Selma Lagerl\u00f6f"
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "Acral erythema is a potential complication of this procedure. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "chemotherapy",
                 "tubulin",
                 "topoisomerases [accept type I topoisomerases or type II topoisomerases or DNA gyrases]"

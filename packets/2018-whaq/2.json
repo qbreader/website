@@ -130,7 +130,7 @@
     "bonuses": [
         {
             "leadin": "A rise in the cost of resources can cause this curve to shift to the left. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Supply curve",
                 "labor supply [or Division of Labor]",
                 "Laffer Curve "
@@ -145,7 +145,7 @@
         },
         {
             "leadin": "One character of this profession notes \u201cMany a good hanging prevents a bad marriage.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fool [accept jester]",
                 "King Lear",
                 "As You Like It "
@@ -160,7 +160,7 @@
         },
         {
             "leadin": "One film created by this artist depicts poet John Giorno sleeping for several hours. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Andy Warhol",
                 "soup [or 32 Campbell\u2019s Soup Cans]",
                 "Roy Lichtenstein "
@@ -175,7 +175,7 @@
         },
         {
             "leadin": "The scientist who names this organelle discovered it with an electron microscope, and this organelle receives vesicles coated with COPII [\u201ccop two\u201d]. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Golgi body [or Golgi apparatus]",
                 "cisternae",
                 "centrosomes "
@@ -190,7 +190,7 @@
         },
         {
             "leadin": "This activity was performed on courts at places like Uaxactun [\u201cuw-ah-zac-tan\u201d] and other Mayan cities in the Peten basin. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mesoamerican ball game [or poktapok; or pokatok; or ollamailztli; or tlachtli; or pitz; or the Maya ballgame; or juego de pelota maya; or juego de pelota mesoamericano]",
                 "Chichen Itza",
                 "House of Hapsburg [or House of Habsburg] "
@@ -205,7 +205,7 @@
         },
         {
             "leadin": "According to a version of this man\u2019s story popularized by Nathaniel Hawthorne, this man turned his own daughter into gold. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "King Midas",
                 "Dionysus [or Bacchus]",
                 "donkey [or ass] "
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "The \u201cmayor\u201d of one of these locations called it \u201cthe abode of the forgotten man.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hoovervilles",
                 "Bonus Army [or Bonus Expeditionary Force]",
                 "Washington, D.C. [or Washington, D.C.; or District of Columbia] "
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "In one SNL skit, this actor parodies his role in Glengarry Glen Ross by stating \u201ccocoa is for cobblers.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Alec Baldwin [or Alexander Rae Baldwin III]",
                 "Kate McKinnon Berthold [or Kate McKinnon Berthold]",
                 "Robert De Niro "
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "\u201cIf you know [this town], you know the post-office.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Starkfield, Massachusetts",
                 "Ethan Frome",
                 "Edith Wharton [accept Edith Newbold Jones] "
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "Description acceptable: The cyclotomic AKS test can test numbers for this property in polynomial time. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "prime numbers",
                 "Fermat\u2019s little theorem",
                 "perfect numbers "
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "This technique can be performed by using a Vigreux [\u201cvig-roo\u201d] column or by random tower packing with Raschig [\u201cras-kig\u201d] rings. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fractional distillation",
                 "petroleum [or crude oil; or petrol; or gasoline]",
                 "ethanol [or ethyl alcohol] "
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "For a brief period, this leader\u2019s party banned online usage of the phrases \"immortality\" and \"ascend the throne,\u201d as well as the letter \u201cN.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Xi Jinping",
                 "Recep Tayyip Erdogan",
                 "gay [or gay clown; or in drag; or wearing makeup] "
@@ -310,7 +310,7 @@
         },
         {
             "leadin": "On this day, children in western Finland dress up as witches with overhead scarves and painted freckles, and go around asking for chocolate. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Palm Sunday",
                 "Holy Week",
                 "Lent "
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "This man was kidnapped from his front yard while playing football with his nephew, and a separatist organization called him \u201cMinister of Unemployment and Assimilation.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pierre Laporte [\u201clah-PORT\u201d]",
                 "Quebec",
                 "Pierre Trudeau [\u201ctrue-doh\u201d] [or Pierre Elliott Trudeau; or PET; or Joseph Philippe Pierre Yves Elliott Trudeau; prompt on Trudeau; do NOT accept or prompt on \u201cJustin Trudeau\u201d] "
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "One character from this play goes around the countryside giving tales on morality. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pygmalion [do NOT accept \u201cMy Fair Lady\u201d]",
                 "George Bernard Shaw",
                 "flowers "
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "Answer the following about historical events depicted in the paintings of Elizabeth Thompson, Lady Butler. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Crimean War",
                 "Zulu [or Zululand; or Zulu Empire; or the Anglo-Zulu War; or Zulu Kingdom]",
                 "Afghanistan [or Da Afghanestan Jamhwriyat; or Dowlat-e Eslami-ye Afghanestan; or Islamic Emirate of Afghanistan; or Islamic State of Afghanistan; or Jomhuri-ye Afghanestan; or Republic of Afghanistan] "
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "This book\u2019s 64 hexagrams inspired a chart system used in one composition that is an important example of indeterminate music. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "I Ching [or Yijing; or Book of Changes; or Classic of Changes]",
                 "John Milton Cage",
                 "doesn\u2019t play [or sit in silence, or tacet, etc.] "
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "The Mantis shrimp uses a punch strong enough to cause this process, which it uses in order to stun prey. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cavitation [or word forms]",
                 "water hammer [or steam hammer; or fluid hammer; or surge flow]",
                 "freezing [or word forms] "
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "In one poem in this collection, the author describes a pair of socks as \u201csoft as rabbits\u201d brought to him by Maru Mori. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Elemental Odes [or Odas elementales]",
                 "Pablo Neruda [or Ricardo Eli\u00e9cer Neftal\u00ed Reyes Basoalto]",
                 "\u201cThe Heights of Machu Picchu\u201d [or \u201cAlturas de Macchu Picchu\u201d] "
@@ -415,7 +415,7 @@
         },
         {
             "leadin": "Answer these questions about Brazil\u2019s Parana State. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Iguazu Falls [or Cataratas do Igua\u00e7u; or Cataratas del Iguaz\u00fa]",
                 "Argentina [or Argentine Republic; or Republica Argentina]",
                 "Republic of Paraguay [or Rep\u00fablica del Paraguay; or Tet\u0101 Paragu\u00e1i] "

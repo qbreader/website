@@ -121,7 +121,7 @@
     "bonuses": [
         {
             "leadin": "Frederick Lugard served as the first British Governor-General of this modern-day country. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Republic of Nigeria",
                 "Igbo people",
                 "Roman Catholicism "
@@ -136,7 +136,7 @@
         },
         {
             "leadin": "An annual New Years' Concert in this city culminates in the performance of the Radetzky March and Blue Danube Waltz. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Vienna",
                 "Daniel Barenboim",
                 "clapping [accept reasonable equivalents like applause] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "The speaker of this poem describes a group of men who \"had lost their boots, but limped on, blood-shod.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"Dulce et Decorum Est\"",
                 "World War I [or WWI; or the Great War]",
                 "Rupert Brooke [or Rupert Chawner Brooke] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "This denomination's founder believed in a second work of grace that allows one to become entirely sanctified, one of many aspects of his theology that was influenced by Jacobus Arminius. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Methodism",
                 "Book of Common Prayer",
                 "John Calvin [accept Calvinism] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "The seasonal variation in the location of this area causes monsoons in Southeast Asia. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Intertropical Convergence Zone [or ITCZ; accept doldrums] [E The Intertropical Convergence Zone is generally characterized by low values of this quantity. Areas having equal amounts of this quantity, which is measured by a barometer, are connected by isobars on weather maps. ANSWER: pressure",
                 "rain shadow ",
                 "Carthage"
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "Answer the following about the travels of Hanno the Navigator. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "volcanoes [prompt on mountains]",
                 "Alexander the Great [accept Alexander III of Macedon; prompt on Alexander] ",
                 "CALL ME IF YOU GET LOST"
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "In a comedy sketch promoting this album, a man struggles to order dinner on a train when given the choice between the braised Bohemian beef and the brown sugar salmon. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tyler, the Creator [accept Tyler (Gregory) Okonma]",
                 "the Grinch [accept How the Grinch Stole Christmas or \"You're a Mean One, Mr. Grinch\"] ",
                 "John Proctor [accept either]"
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "When this character is told to sign a document to confess his crimes, this character shouts, \"I have given you my soul, leave me my name!\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Arthur Miller [or Arthur Asher Miller]",
                 "Loman ",
                 "Lagrangian"
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "Noether's (\"NO-ter's\") theorem states that every continuous symmetry of this quantity corresponds to a conserved quantity. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "time",
                 "joule ",
                 "Mexico"
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the career of Remedios Varo.",
-            "answer": [
+            "answers_sanitized": [
                 "Surrealism",
                 "cats ",
                 "Sisyphus"
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about mortals who unsuccessfully tried to escape the Underworld:",
-            "answer": [
+            "answers_sanitized": [
                 "Eurydice",
                 "Pirithous ",
                 "calorimetry [accept differential scanning calorimetry or isothermal titration calorimetry]"
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "The \"differential scanning\" form of this technique may be used to analyze the phase transitions of polymers. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "specific heat [or specific heat capacity; accept but DO NOT REVEAL isochoric specific heat or isochoric heat capacity or isochoric specific heat capacity; do not accept or prompt on and DO NOT REVEAL \"isobaric specific heat\" or \"isobaric heat capacity\" or \"isobaric specific heat capacity\"]",
                 "isochoric [or isovolumetric; accept descriptive answers that indicate that volume stays constant] ",
                 "The Satanic Verses"
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "One character in this novel is adopted by the Akhtar family after she has a seizure while eating butterflies. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Salman Rushdie [or Ahmed Salman Rushdie]",
                 "Japanese [or Nihongo] (the author is Yukio Mishima) ",
                 "Jacob Grimm"
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "This thinker followed up his German Language with his History of the German Language. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "linguistics [accept philology]",
                 "phonemes ",
                 "Sacagawea"
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "This woman met her long-lost brother Cameahwait during the event she is most associated with. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Meriwether Lewis and William Clark Expedition [accept Corps of Discovery]",
                 "Sioux [accept Lakota; accept Dakota; accept Nakota; accept Santee] ",
                 "Maman [or Meursault's mother; or Madame Meursault; accept the mother from The Stranger]"
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "The warden of the Home for Aged Persons in Marengo notes that it was a standing joke to ask Thomas P\u00e9rez when he was going to marry this character. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Albert Camus",
                 "Roland [accept Roland Zagreus; accept Roland G\u00e9rard Barthes] ",
                 "Paris, France"
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "A long-exposure photograph in this city only managed to capture a shoe-shiner and his customer because they were still enough to appear in the image. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Louis Daguerre [accept Daguerrotype]",
                 "streets [accept equivalents like avenues or boulevards; accept Boulevard du Temple; prompt on sidewalks] ",
                 "expulsion of the Jews [accept anything relating to the banishment or forcible removal of Jews]"
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Description acceptable. An attempt to stop one of these events involved one monarch being offered a bribe by Isaac Abravanel. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Edward I [accept Edward Longshanks; prompt on Edward]",
                 "Kingdom of Portugal ",
                 "cholesterol"
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "Levels of this compound, which is produced through the mevalonate pathway, affect the fluidity of cell membranes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "acetyl-CoA",
                 "statins [or HMG-CoA reductase inhibitors] ",
                 "SpaceX"
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "For 10 points each, name some things about space flights in 2021.",
-            "answer": [
+            "answers_sanitized": [
                 "Jeff Bezos",
                 "Wally Funk "
             ],

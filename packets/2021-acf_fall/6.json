@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Bernie Sanders broke from Barack Obama and Hillary Clinton to endorse this politician's party in a September 2021 snap election. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Jagmeet Singh [accept Jagmeet Singh Jimmy Dhaliwal; accept Jagmeet Singh Jimmy Dhaliwal]",
                 "Indian-Canadian [accept Indo-Canadian; accept South Asian Canadian; accept Desi; prompt on Asian Canadian]",
                 "Quebec [accept the Bloc Qu\u00e9b\u00e9cois] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Fitch's algorithm may be used in the construction of these entities. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "phylogenetic trees [or evolutionary trees or phylogenies; prompt on trees; accept but DO NOT REVEAL cladograms]",
                 "clades [accept monophyletic groups; accept holophyletic groups]",
                 "dinosaurs [or Dinosauria] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "The losing side in this battle was led by Robert Heriot Barclay. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Battle of Lake Erie [or Battle of Put-In-Bay]",
                 "War of 1812",
                 "\"Don't Give up the Ship\" "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "An offshoot of this artistic movement led by Rosso Fiorentino was named for its center in the court at Fontainebleau. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mannerism",
                 "Madonna [or Mary]",
                 "Andrea del Sarto [accept either underlined part] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "This author opened one poem by telling readers, \"As you set out for [the title place] / hope your road is a long one, / full of adventure, full of discovery.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Constantine P. Cavafy [or Constantine Peter Cavafy; or C.P. Cavafy; or Konstantinos Petrou Kavafis]",
                 "Mark Antony [or Marcus Antonius] (the play is Julius Caesar)",
                 "Greek "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "These people participated in a ritual called sparagmos, during which they would sacrificially rip apart live animals with their bare hands. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Bacchae [accept maenads or Bacchantes or Bassarids]",
                 "Dionysus",
                 "fox "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "This shogunate's ruling family used three hollyhock leaves for its emblem. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tokugawa Shogunate",
                 "Oda Nobunaga",
                 "Ashikaga Shogunate "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "Despite asking Simon Wheeler for information about Reverend Leonidas Smiley, the narrator is told a story about this character who is \"educated\" by Jim Smiley. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dan'l Webster [accept either name; accept \"The Celebrated Jumping Frog of Calaveras County;\" prompt on frog]",
                 "Mark Twain [or Samuel Langhorne Clemens]",
                 "cow [or cattle] (Sylvia's cow is humorously named Mistress Moolly) "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "Juergen [\"YER-gen\"] Teller photographed celebrities looking uncomfortable on a dirty sidewalk for the February 2021 issue of this magazine. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "W [accept answers like \"W magazine\"]",
                 "Steven Yeun [or Yeun Sang-yeop]",
                 "Kimberly Noel Kardashian West [both underlined parts needed; accept Kim Kardashian West; prompt on Kim or Kardashian alone; do not accept or prompt on \"West\" alone] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "This language's dplyr package competes with its data.table package. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the R language",
                 "vectors [accept vector graphics]",
                 "histograms "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "The Lincolnshire Rising of 1536 was one rebellion against the dissolution of these locations. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "monasteries [accept abbeys; accept priories; accept friaries; accept convents]",
                 "Henry VIII [prompt on Henry]",
                 "Oliver Cromwell "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Characterized by their extensive webs of cracks, Ge and Guan ware were among the five styles of this artistic medium in China. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "pottery [or porcelain or ceramics or stoneware; prompt on chinaware; prompt on clay]",
                 "glazing",
                 "jade [accept green or blue-green or gray-green] "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "For 10 points each, answer some questions about the progression of the novel according to Ian Watt's book The Rise of the Novel.",
-            "answer": [
+            "answers_sanitized": [
                 "Robinson Crusoe [accept either]",
                 "Samuel Richardson (the novel is Pamela)",
                 "Henry Fielding (the novel is Tom Jones) "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Hymns from the Rig Veda call this god \"the hotar, the lavishest of wealth\" and \"radiant One, to whom the holy oil is poured.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Agni",
                 "fire",
                 "yajna [or yasna] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "Answer the following about the Jahn\u2013Teller effect, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "copper [or Cu]",
                 "octahedral",
                 "spin [or intrinsic angular momentum; prompt on angular momentum alone] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "A play set in this country ends with Styles asking a man who introduces himself as Robert to hold his smile while he takes a picture. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "South Africa [Republic of South Africa; or RSA]",
                 "apartheid",
                 "Athol Fugard "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Answer the following about the music of the Shona people of Zimbabwe, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "shaking [or rattling; accept shakers; accept clear equivalents that describe moving the instrument back and forth]",
                 "thumbs",
                 "Cuba "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "Answer the following questions about how magnetic fields store and transfer energy, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "inductors [accept solenoids]",
                 "Poynting vector [prompt on S]",
                 "work "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "The Taa language spoken in Botswana has the largest functional load of these sounds, having between 45 and 115 depending on their classification. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "click consonants [prompt on consonants]",
                 "vowels",
                 "grammatical gender "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "This ruler attempted to seek the aid of Lars Porsena, the king of Clusium, after an action committed by his son Sextus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Lucius Tarquinius Superbus [accept Tarquin the Proud; prompt on Tarquin; do NOT accept or prompt on \"Lucius Tarquinius Priscus\" or \"Tarquin the Elder\"]",
                 "Etruscans",
                 "hills [accept the seven hills of Rome; accept the Capitoline Hill; accept the Aventine Hill; accept the Palatine Hill] "

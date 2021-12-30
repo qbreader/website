@@ -117,7 +117,7 @@
     "bonuses": [
         {
             "leadin": "This woman is often considered to be \u201cthe poet of the Risorgimento\u201d largely because of her poem about a \u201clittle child so singing \u2019neath Casa Guidi windows\u2026 <em>O bella liberta, O bella!</em>\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Elizabeth Barrett Browning [prompt on Browning]",
                 "Rialto [or the soul\u2019s Rialto]",
                 "Aurora Leigh &lt;JC, British Literature&gt;"
@@ -132,7 +132,7 @@
         },
         {
             "leadin": "This man\u2019s ancestors ruled as kings of Benin\u2019s port city of Allada. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Toussaint Louverture",
                 "Jean-Jacques Dessalines",
                 "Alexandre P\u00e9tion &lt;AJ, World History&gt;"
@@ -147,7 +147,7 @@
         },
         {
             "leadin": "One work by this author states that \u201cevery man who has suffered misfortunes prefers to be himself, even with his misfortunes, than to be someone else without them.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Miguel de Unamuno y Jugo",
                 "the author [or Miguel de Unamuno y Jugo; or Kurt Vonnegut; accept descriptions such as himself]",
                 "dog [or perro] &lt;JC, European Literature&gt;"
@@ -162,7 +162,7 @@
         },
         {
             "leadin": "Though this treaty laid out provisions for amnesty, thousands of <em>harkis</em> were murdered in its wake. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u00c9vian Accords",
                 "Charles Andr\u00e9 Joseph Marie de Gaulle",
                 "Mers El K\u00e9bir &lt;NR, European History&gt;"
@@ -177,7 +177,7 @@
         },
         {
             "leadin": "Japanese parents sometimes tell their kids to hide their belly buttons from this deity, who is believed to eat the navels or abdomens of children. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Raijin (\u201cRYE-jeen\u201d) [or Raiden]",
                 "wind",
                 "the Kojiki [or Records of Ancient Matters; accept Furukotofumi] &lt;LC, Mythology&gt;"
@@ -191,7 +191,7 @@
         },
         {
             "leadin": "An inverse will exist only if the determinant of one of these objects is nonzero. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "matrices [or matrix]",
                 "Jacobian matrix",
                 "LU decomposition [accept LU factorization] &lt;AP, Other Science (Math)&gt;"
@@ -206,7 +206,7 @@
         },
         {
             "leadin": "This man is known as the \u201cMaster of the Use of Paradise\u201d and he led his family to Kufa from his hometown of Medina. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Husayn Ibn-Ali ibn Ali Talib [or Hussein; or Hosayn]",
                 "Day of Ashura",
                 "Battle of Karbala &lt;AP, Religion&gt;"
@@ -220,7 +220,7 @@
         },
         {
             "leadin": "This process is defined as a change in the gene pool of a population due to chance. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "genetic drift",
                 "Tay\u2013Sachs disease [or GM2 gangliosidosis]",
                 "French Canadians [or Quebecois; or Franco-Canadians; prompt on Canadians or French] &lt;AP, Biology&gt;"
@@ -235,7 +235,7 @@
         },
         {
             "leadin": "A proverb states that a gentleman does not part with this instrument without good reason. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "guqin (\u201cgoo-cheen\u201d) [or qin; or qixianqin; or go-geum; or ko-kin]",
                 "seven [or 7]",
                 "Tan Dun [prompt on Dun] &lt;PL, Music&gt;"
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "This artist was notorious for his aggression and brawling, and he was eventually exiled from Rome after killing Ranuccio Tomassoni, possibly over a tennis game. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Michael Merisi da Caravaggio",
                 "Contarelli Chapel",
                 "Supper at Emmaus &lt;MT, Painting&gt;"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "Armed only with a <em>sgian dubh</em> (\u201cskee-un DOO\u201d) and his bagpipes, Bill Millin participated in the D-Day landings in this garment. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "kilts",
                 "Eric Hobsbawm",
                 "George IV [prompt on George] &lt;NR, European History&gt;"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "A paper that founded a sub-discipline of this field states that this field has moved from \u201cnoble innocence\u201d to \u201ccritical self-consciousness\u201d and declares that it needs to be \u201canthropology or\u2026 nothing.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "archaeology [accept, but DO NOT REVEAL, New Archaeology or processual archaeology]",
                 "processual archaeology",
                 "Lewis Binford &lt;AP, Social Science (Archaeology)&gt;"
@@ -294,7 +294,7 @@
         },
         {
             "leadin": "This play ends with the housekeeper Johanna repeating \u201cThis is the way the world ends\u201d after Violet reveals that she knew about the incestuous affair of Ivy and Charles. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "August: Osage County",
                 "Eugene O\u2019Neill",
                 "play the piano [accept equivalents] &lt;JC, American Literature&gt;"
@@ -309,7 +309,7 @@
         },
         {
             "leadin": "For the Earth, this effect leads to the Milankovitch cycles. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "precession",
                 "perihelion",
                 "Hipparchus of Nicaea &lt;AP, Physics&gt;"
@@ -324,7 +324,7 @@
         },
         {
             "leadin": "In the first episode of this show, the main character fights with a leprechaun after his wife and best friend die in a car accident and he is released from prison. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "American Gods",
                 "Black Sails",
                 "Outlander &lt;MT, Trash (TV)&gt;"
@@ -338,7 +338,7 @@
         },
         {
             "leadin": "This view\u2019s namesake argued that a town could still be called \u201cDartmouth\u201d even if it did not lie at the mouth of the Dart River. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Millianism [or John Stuart Mill\u2019s theory of names]",
                 "dubbing [accept word forms; prompt on naming or equivalents like giving a name]",
                 "Bertrand Russell &lt;NR, Philosophy&gt;"
@@ -352,7 +352,7 @@
         },
         {
             "leadin": "This piece opens with a recitative section that is followed by a repeated chromatic descending fourth line in the bass that continues throughout the song. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cWhen I am Laid in Earth\u201d [accept, but DO NOT REVEAL, \u201cDido\u2019s Lament\u201d]",
                 "Dido and Aeneas",
                 "Abdelazer suite &lt;MT, Other Arts (Opera)&gt;"
@@ -367,7 +367,7 @@
         },
         {
             "leadin": "One type of this reaction with a carbanion intermediate is referred to as \u201c[this reaction] conjugate base.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "elimination reactions",
                 "selenium [or Se]",
                 "Hofmann elimination [or exhaustive methylation] &lt;PL, Chemistry&gt;"
@@ -382,7 +382,7 @@
         },
         {
             "leadin": "With a law enforcement officer from this state, Frederick Russell Burnham saved William Howard Taft and Porfirio D\u00edaz from assassination during one summit. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Texas",
                 "Walker Colt revolver [do not accept \u201cpistol\u201d; prompt on partial answer]",
                 "Venustiano Carranza &lt;NR, American History&gt;"
@@ -397,7 +397,7 @@
         },
         {
             "leadin": "A version of this play translated by Andr\u00e9 Gide (\u201czheed\u201d) was read on the radio the night before Paris fell to the Nazis. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Post Office [or Dak Ghar]",
                 "Rabindranath Tagore",
                 "Gitanjali &lt;MT, World Literature&gt;"

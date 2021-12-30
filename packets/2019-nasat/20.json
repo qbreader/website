@@ -128,7 +128,7 @@
     "bonuses": [
         {
             "leadin": "Felix Morisseau-Leroy had characters call upon <em>loa</em> in his adaptation of this play written in Haitian Creole. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Antigone",
                 "Jean Anouilh",
                 "Sophocles &lt;Literature European - French&gt;"
@@ -143,7 +143,7 @@
         },
         {
             "leadin": "Answer the following about the wives of Heracles. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hebe",
                 "Centaur",
                 "Omphale &lt;RMP Greek/Roman Myth - Jankov&gt;"
@@ -157,7 +157,7 @@
         },
         {
             "leadin": "This disease is characterized by the presence of thyroid peroxidase antibodies in blood samples. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hashimoto's disease [or Hasimoto syndrome; or Hashimoto's Thyroiditis; prompt on lymphocitic thyroiditis]",
                 "iodine [or I]",
                 "follicular cells [do not accept or prompt on \u201cparafollicular\u201d cells; prompt on thyrocytes]  &lt;Science Biology - Etzkorn&gt;"
@@ -172,7 +172,7 @@
         },
         {
             "leadin": "Augustus Le Plongeon gave these figures their common name. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "chacmools [or chac-mools; or chaacmools]",
                 "Henry Moore",
                 "Chichen Itza [or Pre-Hispanic City of Chichen-Itza]  &lt;Arts Sculpture - Smith&gt;"
@@ -187,7 +187,7 @@
         },
         {
             "leadin": "Answer the following relating to the Anapanasati Sutta, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "mindfulness [prompt on awareness]",
                 "Th\u00edch Nh\u1ea5t H\u1ea1nh",
                 "Theravada &lt;RMP Non-Christian/Bible Religion - Smith&gt;"
@@ -201,7 +201,7 @@
         },
         {
             "leadin": "The Navier-Stokes equations are a result of this law in the Eulerian picture, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "conservation of momentum",
                 "Couette flow",
                 "Poiseuille flow &lt;Science Physics - Carpenter&gt;"
@@ -216,7 +216,7 @@
         },
         {
             "leadin": "This character dedicates a song opening \u201cLet schoolmasters puzzle their brain / With grammar, and nonsense, and learning\u201d to the Three Pigeons alehouse. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tony Lumpkin [accept either]",
                 "She Stoops to Conquer [or Mistakes of a Night]",
                 "Oliver Goldsmith &lt;Literature British Non-Shakespeare - Smith&gt;"
@@ -231,7 +231,7 @@
         },
         {
             "leadin": "The first major post-WWII leader of this country is believed to have, in order to save meat during shortages in World War One, invented the first vegetarian sausage. For ten points each:",
-            "answer": [
+            "answers_sanitized": [
                 "West Germany [prompt on Germany]",
                 "Ludwig Erhard",
                 "coal and steel &lt;History European 1914-present - Krol&gt;"
@@ -246,7 +246,7 @@
         },
         {
             "leadin": "This statistician invented correction for attenuation to mitigate the effects of measurement error on correlation coefficients. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Charles Spearman",
                 "Edward Thorndike",
                 "United States military [or the US army or United States Armed Forces]  &lt;Social Science Psychology - Smith&gt;"
@@ -260,7 +260,7 @@
         },
         {
             "leadin": "This leader defended property qualifications for voting by telling poor people to \u201cjust get rich\u201d. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Francois Guizot (Gee-zo)",
                 "Prince Klemens von Metternich",
                 "The Communist Manifesto [accept Manifest der Kommunistischen Partei]  &lt;History European 1400-1914 - Myers&gt;"
@@ -275,7 +275,7 @@
         },
         {
             "leadin": "Economists from this country have used the price of a cheese-filled flatbread called <em>khachapuri</em> <strong>(HAH-chah-poo-ree)</strong> as an index of inflation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Georgia",
                 "grapes",
                 "Hungary &lt;Geography Europe - Kothari&gt;"
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "A man is delivered room service by the beautiful made Camae, who is revealed to be an angel, in a play titled for this location by Katori Hall. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the Mountaintop [accept \u201cI've Been to the Mountaintop\u201d]",
                 "Martin Luther King, Jr. [or MLK]",
                 "Nikki Giovanni &lt;Literature American - French&gt;"
@@ -303,7 +303,7 @@
         },
         {
             "leadin": "In a collection of essays from this school of thought, Han Fei argued that the state is like a parent who needs to empty a boil on the head of a screaming child. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Legalism [accept Fajia]",
                 "Shang Yang [accept Wei Yang Gongsun, Lord Shang]",
                 "Confucianism [accept Ruism]  &lt;RMP Philosophy/Thought - McLain&gt;"
@@ -317,7 +317,7 @@
         },
         {
             "leadin": "Ligands that produces large values of this quantity are called \u201cstrong field\u201d ligands, since large values of this quantity lead to more paired electrons. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "crystal field splitting parameter [or ligand field splitting parameter; accept \u201cenergy\u201d instead of \u201cparameter\u201d; prompt on delta or delta-sub-naught or delta-sub-zero]",
                 "d orbitals",
                 "spectrochemical series  &lt;Science Chemistry - French&gt;"
@@ -332,7 +332,7 @@
         },
         {
             "leadin": "A rhyming slogan coined by Edward Lansdale declared that this leader \u201cis my guy\u201d. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ramon Magsaysay",
                 "Corazon Aquino",
                 "Luzon &lt;History World - Myers&gt;"
@@ -347,7 +347,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about taking the product of topological spaces:",
-            "answer": [
+            "answers_sanitized": [
                 "compactness [or sequential compactness]",
                 "axiom of choice [or AC]",
                 "basis [or base]  &lt;Science Math - Morrison&gt;"
@@ -362,7 +362,7 @@
         },
         {
             "leadin": "The end of this piece references the last piano sonata by Beethoven, which is in the same key. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cRevolutionary\u201d Etude [or \u201c\u00c9tude on the Bombardment of Warsaw\u201d; accept but do not otherwise reveal \u00c9tude Op.\u00a010, No.\u00a012 in C minor by Frederic Chopin]",
                 "Frederic Chopin",
                 "\u201cTristesse\u201d [or \u201cSadness\u201d; or \u201cFarewell\u201d; or \u201cL'Adieu\u201d; or \u00c9tude Op. 10, No. 3 in E major]  &lt;Arts Music - Smith&gt;"
@@ -377,7 +377,7 @@
         },
         {
             "leadin": "In this novel, Nathan Zuckerman decides that the phrase \u201cEveryone knows\u201d is the \u201cbeginning of the banalization of experience\u201d when he sees a disgraced college professor and his mistress at an orchestra rehearsal. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Human Stain",
                 "Philip Milton Roth",
                 "Pnin &lt;Literature American - Husar&gt;"
@@ -392,7 +392,7 @@
         },
         {
             "leadin": "Piero della Francesca's painting of this scene includes a man awkwardly removing his shirt in the rear-right background as a dove flies directly above a chalk-white Jesus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Baptism of Christ",
                 "Leonardo da Vinci [accept either name]",
                 "Mona Lisa [accept La Gioconda]  &lt;Arts Painting - Krol&gt;"
@@ -407,7 +407,7 @@
         },
         {
             "leadin": "Because of this man's vigorous enforcement of film patents, more French-made films appeared on American movie screens from 1906 to 1909 than American-made ones. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Thomas Edison [or Thomas Alva Edison]",
                 "nickelodeons",
                 "Louis B. Mayer [or Louis Burt Mayer; or Lazar Meir; or Eliezer Mayer]  &lt;History American (1865-1945) - Bentley&gt;"
@@ -422,7 +422,7 @@
         },
         {
             "leadin": "The Nurse-Saul method is a simpler alternative to the method named for this scientist for estimating the maturity of concrete. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Svante Arrhenius",
                 "pre-exponential factor [or frequency factor; accept A]",
                 "Gaussian function [accept normal distribution]  &lt;Science Chemistry - French&gt;"

@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "A superstition holds that a composer\u2019s ninth symphony is destined to be their last. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Das Lied von Der Erde [or The Song of the Earth]",
                 "New World Symphony [or Symphony No. 9 in E Minor by Dvorak (only composer is required); or Symphony From the New World; or Z nov\u00e9ho sv\u011bta]",
                 "Dmitri Shostakovich"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "One of these places is filled with streams and whirlpools and is guarded by Nasshut. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "underworld [or hells; or lands of the dead and equivalents]",
                 "Lemminkainen",
                 "hairbrush [or comb; prompt on brush]"
@@ -148,7 +148,7 @@
         },
         {
             "leadin": "This book challenges the idea that gender is constructed and sex is scientific, since both are societally constructed. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Gender Trouble: Feminism and the Subversion of Identity",
                 "camp [accept word forms]",
                 "Adrienne Rich"
@@ -162,7 +162,7 @@
         },
         {
             "leadin": "This man visited the Great Mosque of Kilwa, which was carved out of coral, and married into the royal family of the Maldives. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ibn Battuta",
                 "Black Death [or bubonic plague]",
                 "Zanj [or Zinj]"
@@ -177,7 +177,7 @@
         },
         {
             "leadin": "This philosopher claimed that he couldn\u2019t know if he was a man who had dreamt of being a butterfly, or vice versa. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Zhuang Zhou [or Zhuangzi; or Master Zhuang; or Chuang Chou]",
                 "Taoism [or Daoism]",
                 "ziran [or tzu-jen]"
@@ -191,7 +191,7 @@
         },
         {
             "leadin": "Addison\u2019s disease may result in excessive loss of this ion through urine. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "sodium [or Na]",
                 "Loop of Henle [prompt on kidney or nephron]",
                 "vasa recta"
@@ -206,7 +206,7 @@
         },
         {
             "leadin": "This poem opens \u201cCelestial choir! enthron\u2019d in realms of light\u201d before invoking Columbia, a representation of the United States. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cTo His Excellency General Washington\u201d [The title shows up both with and without the \u201cTo\u201d]",
                 "Phillis Wheatley",
                 "Reverend George Whitefield"
@@ -221,7 +221,7 @@
         },
         {
             "leadin": "These stars with luminosity class V are sometimes called yellow dwarfs, but are usually white. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "G-type main sequence star [or class G star, or G dwarf star, or G V star]",
                 "helium flash",
                 "neutron star"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "This prayer is said when there is enough light to see \u201ca familiar acquaintance six feet away.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Shacharit",
                 "Kaddish",
                 "Israel [or Yisra\u2019el]"
@@ -250,7 +250,7 @@
         },
         {
             "leadin": "In this novel, the rake Raymon de Ramiere seduces the title character\u2019s maid Noun, then her. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Indiana",
                 "George Sand [or Amantine-Lucile-Aurore Dupin]",
                 "In Search of Lost Time [or Remembrance of Things Past or \u00c0 la recherche du temps perdu]"
@@ -265,7 +265,7 @@
         },
         {
             "leadin": "This group led a namesake 1908 revolt against Sultan Abdul Hamid II that started the Second Constitutional Era. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Young Turks [or J\u00f6n T\u00fcrkler]",
                 "Mustafa Kemal Ataturk [accept either underlined]",
                 "Ismail Enver Pasha"
@@ -280,7 +280,7 @@
         },
         {
             "leadin": "The centripetal form of this quantity in curved motion points towards the center of curvature and normal to the object\u2019s path of motion. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "acceleration",
                 "Kater\u2019s pendulum",
                 "Atwood machine"
@@ -295,7 +295,7 @@
         },
         {
             "leadin": "The ship class designation created by adding an \u201cX\u201d to the end of the name of this waterway names a 2014 board game. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Panama Canal [or Panamax]",
                 "Baltic Dry Index [or BADI]",
                 "Rotterdam, Netherlands"
@@ -309,7 +309,7 @@
         },
         {
             "leadin": "Unusually for the time, this painting has its horizon line at the top of the painting, and its broad swathes of color show Japanese influence. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Boating Party",
                 "Mary Cassatt",
                 "Camille Pissarro"
@@ -324,7 +324,7 @@
         },
         {
             "leadin": "Only one of this author's plays survives almost entirely, but fragmented ones include \"The Shield\" and \"Girl from Samos.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Menander",
                 "Gorgias",
                 "The Wasps [or Sph\u0113kes]"
@@ -339,7 +339,7 @@
         },
         {
             "leadin": "Microvoids initiate crack formation during this process, which is contrasted with brittle fracture. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ductile fracture[accept word forms]",
                 "creep",
                 "elastic deformation"
@@ -354,7 +354,7 @@
         },
         {
             "leadin": "A somber matchbook collector in this novel marries another matchbook collector\u2019s widow. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Brideshead Revisited, The Sacred &amp; Profane Memories of Captain Charles Ryder",
                 "Evelyn Waugh [or Arthur Evelyn St. John Waugh]",
                 "the University of Oxford"
@@ -369,7 +369,7 @@
         },
         {
             "leadin": "One strike in this industry was nicknamed \u201cbread and roses\u201d after a speech given by Rose Schneiderman. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "textile industry [or fabric industry; or cloth before it is read]",
                 "Upton Sinclair [or Upton Beall Sinclair Jr.]",
                 "Lowell, Massachusetts"
@@ -384,7 +384,7 @@
         },
         {
             "leadin": "In one ballet by this man, Swanhilda shakes wheat by her ear and realizes that Franz no longer loves her when she does not hear it rattle. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Leo Delibes",
                 "Sylvia",
                 "India"
@@ -399,7 +399,7 @@
         },
         {
             "leadin": "The losers of this battle ignored the omen of a silver cross falling while the fleet was being blessed. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Battle of Meloria",
                 "Republic of Genoa",
                 "Lombard League"

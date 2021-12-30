@@ -131,7 +131,7 @@
     "bonuses": [
         {
             "leadin": "The first movement of this composer\u2019s Symphony No. 4 introduces a theme made up of this composer\u2019s namesake rhythm: two quarter notes, followed by a triplet of quarter notes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Anton Bruckner",
                 "Franz Liszt [or Liszt Ferenc]",
                 "Johannes Brahms"
@@ -146,7 +146,7 @@
         },
         {
             "leadin": "The speaker of this poem observes that \u201cThe grave's a fine and private place / But none, I think, do there embrace.\u201d For 10 point each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cTo His Coy Mistress\u201d",
                 "Andrew Marvell",
                 "Archibald MacLeish"
@@ -161,7 +161,7 @@
         },
         {
             "leadin": "These entities each have two planar nodes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "d orbitals",
                 "transition metals [do not prompt on \u201cmetals\u201d]",
                 "crystal field theory [or CFT]"
@@ -176,7 +176,7 @@
         },
         {
             "leadin": "Answer the following about everyone\u2019s favorite mid-19th century politician, Lewis Cass, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "popular sovereignty",
                 "Stephen A. Douglas [or Stephen Arnold Douglas]",
                 "William Walker"
@@ -191,7 +191,7 @@
         },
         {
             "leadin": "Shukumar and Shoba try to fix their failing marriage during a series of power outages in this collection\u2019s story \u201cA Temporary Matter.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Interpreter of Maladies",
                 "Jhumpa Lahiri [or Nilanjana Sudeshna Lahiri]",
                 "\u201cSexy\u201d"
@@ -206,7 +206,7 @@
         },
         {
             "leadin": "Two of these devices placed end to end form a chaotic system.  For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "pendulum",
                 "the Earth",
                 "g over L [or g divided by L; accept \u201csquare root of g over L\u201d]"
@@ -221,7 +221,7 @@
         },
         {
             "leadin": "A celestial and a terrestrial globe appear in this artist\u2019s The Astronomer and The Geographer, respectively. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Johannes Vermeer",
                 "Delft [or View of Delft]",
                 "genre paintings [or genre art]"
@@ -236,7 +236,7 @@
         },
         {
             "leadin": "This structure was constructed in 1961 to prevent emigration and stood until 1989. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Berlin Wall [or Berliner Mauer]",
                 "Stasi [or Ministerium f\u00fcr Staatssicherheit or MfS or Ministry for State Security or Staatssicherheitsdienst or SSD]",
                 "Brandenburg Gate [or Branderburger Tor]"
@@ -251,7 +251,7 @@
         },
         {
             "leadin": "The protagonist of this novel writes many letters addressed to God and her long-lost sister Nettie. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Color Purple",
                 "Alice Walker",
                 "Zora Neale Hurston"
@@ -266,7 +266,7 @@
         },
         {
             "leadin": "A popular idiom describes this man\u2019s mother moving three times to find the right environment in which to raise him. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mencius [or Mengzi; or Meng Tzu; or Meng Ke]",
                 "Confucius [or Kongzi; or Kong Fuzi]",
                 "falling into a well [or obvious equivalents that describe falling into a well; prompt on \u201cdrowning\u201d]"
@@ -281,7 +281,7 @@
         },
         {
             "leadin": "This author wrote that \u201ceach man kills the thing he loves,\u201d \u201cthe coward does it with a kiss / the brave man with a sword\u201d in a poem he wrote while imprisoned. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Oscar Wilde",
                 "Dorian Gray [or The Picture of Dorian Gray]",
                 "\u201cDe Profundis\u201d"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "This god pierces himself with his own spear Gungnir and hangs from the world tree Yggdrasil for nine days and nights. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Odin [or Wotan]",
                 "mountain [or bjorg; or Hnitbjorg]",
                 "ravens [do not accept \u201ccrow\u201d]"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "These rocks are deposited in layers of strata after being moved around by erosion. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "sedimentary rock",
                 "Karst topography",
                 "law of superposition"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "Relatives of the Habsburg emperor Franz Joseph had an unfortunate proclivity for dying tragically. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mayerling Incident",
                 "Archduke Franz Ferdinand",
                 "The Black Hand [or Crna Ruka; or Union or Death! or Ujedinjenje ili Smrt!; do not accept \u201cNational Defense\u201d or \u201cNarodna Odbrana\u201d]"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "Answer the following about a religion that combines Biblical elements with pan-African beliefs. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Rastafarianism",
                 "Haile Selassie I",
                 "smoking marijuana [or obvious equivalents]"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "These cells are often obtained from bone marrow tissue and blood. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "stem cells [accept more specific answers like pluripotent stem cells or embryonic stem cells; prompt on \u201cES cells\u201d; prompt on \u201cIPS cells\u201d]",
                 "pluripotent [accept word forms like pluripotency]",
                 "placenta"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "The title character of this novel throws her bridal bouquet into a fire while she is packing for her move to Yonville. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Madame Bovary",
                 "Gustave Flaubert",
                 "\u201cA Simple Heart\u201d [or \u201cUn coeur simple\u201d]"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "An important concept in this branch of linguistics is the cooperative principle, which can determine the implications people make in conversation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "semantics [accept pragmatics]",
                 "Roman Osipovich Jakobson",
                 "Avram Noam Chomsky"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "All of Japan\u2019s contact with the outside world during the Edo period occurred through Dejima, an artificial island built off the coast of this city. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Nagasaki",
                 "the Netherlands [or Holland; or \u201cDutch learning\u201d]",
                 "Black Ships [or kurofune]"
@@ -416,7 +416,7 @@
         },
         {
             "leadin": "A set of friezes shows members of the family that commissioned this sculpture watch this sculpture\u2019s events as if from a balcony. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Ecstasy of St. Theresa",
                 "Gian Lorenzo Bernini",
                 "St. Peter\u2019s baldachin [or St. Peter\u2019s baldacchino]"
@@ -431,7 +431,7 @@
         },
         {
             "leadin": "Soviet leaders often toyed with plans for economic reform. For ten points each:",
-            "answer": [
+            "answers_sanitized": [
                 "New Economic Policy [or NEP; or Novaya Ekonomicheskaya Politika]",
                 "Five-Year Plans",
                 "Joseph Stalin [or Joseph Dzhugashvili]"

@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "This molecule can bind to platelet GPIIb surface proteins to form bridges. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "fibrinogen",
                 "hemophilia",
                 "cysteine knot"
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "Intermediate intensity examples of these sometimes form waterspouts. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cyclone",
                 "Saffir-Simpson scale",
                 "cold-core low [or upper level low or cold-core cyclone]"
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "Name the following short stories by Jorge Luis Borges, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "\"Funes the Memorious\" [or \"Funes el memorioso\"]",
                 "\"The Library of Babel\" [or \"El Biblioteca del Babel\"]",
                 "\"There Are More Things\" [or \"Hay m\u00c3\u00a1s cosas\"]"
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "Answer the following about hospitality in classical mythology, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Chimera",
                 "Baucis and Philemon",
                 "touches his knees [accept reasonable equivalents]"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "This piece was designed for the Decorative Arts Museum, which was never built. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Gates of Hell [or La Porte de l'Enfer]",
                 "Auguste Rodin",
                 "I am Beautiful [or Je suis belle]"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "The central characters of this book ingest LSD in an attempt to enter a state of \"intersubjectivity.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Electric Kool-Aid Acid Test",
                 "Ken Kesey [or Kenneth Elton Kesey]",
                 "Randall \"R.P.\" McMurphy [accept any underlined portion or Mac]"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "Show that you're cuckoo for Rococo Puffs by answering these questions about Rococo, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Cythera",
                 "Jean-Antoine Watteau",
                 "landscape architecture; or park design or garden design; do not accept or prompt on \"architecture;\" prompt on \"landscaping\"]"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "The majority of this composer's twenty-three motets employ the isorhythmic technique developed by his contemporary, Philippe de Vitry. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Guillaume de Machaut",
                 "organum [or organa]",
                 "Gregorian chant"
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "This self-described \"advocate of unpopular causes\" served as a director of the League for Industrial Democracy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Norman Thomas",
                 "Warren G. Harding",
                 "William F. Buckley"
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "Hilda Gadea wrote about the leadup to this event in her memoir My Life with Che. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Cuban Revolution [DON'T READ THIS OUT LOUD but accept answers about overthrowing Batista or Castro coming to power]",
                 "Granma",
                 "Fulgencio Batista"
@@ -269,7 +269,7 @@
         },
         {
             "leadin": "This poet advised Franz Xaver Kappus to \"ask yourself in the most silent hour of your night: must I write?\" in the first of a series of missives published by Kappus three years after his death. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Rainer Maria Rilke",
                 "The Duino Elegies [or Die Duineser Elegien]",
                 "Malte Laurids Brigge [accept either underlined portion; accept The Notebooks of Malte Laurids Brigge]"
@@ -284,7 +284,7 @@
         },
         {
             "leadin": "One song by this artist includes the lyrics \"Let's have a toast for the douche bags.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Kanye West",
                 "Monster",
                 "\"watch the queen conquer\""
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "Laser flash analysis is used to measure a diffusivity parameter relevant to this phenomenon. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "heat or thermal conduction",
                 "Fourier's law of heat conduction",
                 "heat kernel"
@@ -313,7 +313,7 @@
         },
         {
             "leadin": "In his Contributions to Philosophy, this philosopher claimed that \"making itself intelligible is suicide for philosophy.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Martin Heidegger",
                 "The Question Concerning Technology [or Die Frage nach der Technik]",
                 "Dasein"
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "Jules Michelet's history of France was the first work defining this time period, which the \"continuity thesis\" asserts is a myth. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Renaissance",
                 "Jacob Burckhardt",
                 "art [accept more specific answers]"
@@ -342,7 +342,7 @@
         },
         {
             "leadin": "In a famous passage, this character claims that having \"seen the face of God / and tasted the eternal joys of Heaven\", he is forever \"tormented with ten thousand hells / in being deprived of everlasting bliss.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mephistophilis",
                 "Doctor Faustus [or The Tragical History of Doctor Faustus]",
                 "\"make me immortal with a kiss\""
@@ -357,7 +357,7 @@
         },
         {
             "leadin": "These compounds react with alcohols in the Fischer esterification. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "carboxylic acid or carboxylate",
                 "Jones reagent",
                 "Schiff reagent"
@@ -372,7 +372,7 @@
         },
         {
             "leadin": "This model claims that suspension of convertibility is not the best way to prevent a bank run. For 10 points:",
-            "answer": [
+            "answers_sanitized": [
                 "the Diamond-Dybvig model",
                 "fractional-reserve banking",
                 "interest rates"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "This man spent several months in a cave near the town of Manresa. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ignatius of Loyola [prompt on partial answer]",
                 "Jesuits or Society of Jesus",
                 "Matteo Ricci"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "Answer the following about the rulers of pre-Norman England, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Alfred the Great",
                 "Wessex",
                 "Edward the Elder"

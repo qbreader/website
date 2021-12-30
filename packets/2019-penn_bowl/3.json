@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "In 2019, this country\u2019s leader appeared in a state television broadcast driving donuts around a flaming crater known as the \u201cDoor to Hell\u201d to prove he was not dead. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Turkmenistan",
                 "Caspian Sea",
                 "Karakum Desert "
@@ -135,7 +135,7 @@
         },
         {
             "leadin": "Paul Signac (\u201csin-YAHK\u201d) titled a book after the Dutch landscape painter Johan Jongkind, who influenced a painter in this town named Louis Eug\u00e8ne Boudin. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Le Havre (\u201cAHV\u201d)",
                 "Impressionism [or Impression, Sunrise; or Impression, soleil levant]",
                 "en plein air "
@@ -150,7 +150,7 @@
         },
         {
             "leadin": "This value describes a state in which the forward and reverse reaction rates are equal. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "equilibrium constant [or mass action constant]",
                 "delta-G [or the change in the Gibbs free energy; do not accept or prompt on \u201cGibbs free energy\u201d or \u201cG\u201d]",
                 "Scatchard plot "
@@ -165,7 +165,7 @@
         },
         {
             "leadin": "Susan Haack\u2019s book Evidence and Inquiry advocates for an epistemology that combines this position with foundationalism. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "coherentism [accept coherence theory or any word form]",
                 "Bertrand Russell",
                 "Charles Sanders Peirce (\u201cPURSE\u201d) "
@@ -180,7 +180,7 @@
         },
         {
             "leadin": "The Man in the Moon declares \u201cthe old earth is frolicsome tonight!\u201d after seeing a crowd of people laughing at this man. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cMy Kinsman, Major Molineux\u201d",
                 "Rappacini\u2019s daughter [or Beatrice]",
                 "Nathaniel Hawthorne "
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "Royal inscriptions in this ancient city including the epitaph on the sarcophagus of King Ahiram attest the Phoenician script. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Byblos [or Jbeil]",
                 "papyrus [or papyri]",
                 "Old Kingdom "
@@ -210,7 +210,7 @@
         },
         {
             "leadin": "This figure was shot in the mouth by a blow dart, prompting two gods to disguise themselves and replace his teeth with corn. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Seven-Macaw (\u201cMuh-Kah\u201d)",
                 "Mayan mythology",
                 "400 "
@@ -223,7 +223,7 @@
         },
         {
             "leadin": "This man attempted to defend himself from criticism of his most famous work by including the story of a man who lived on a mountain with his son, who had never been off the mountain and was fascinated by women when he finally left. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Giovanni Boccaccio",
                 "patient Griselda",
                 "he can ignore the day\u2019s topic while telling his story [accept equivalents] "
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "One consequence of this result is that it is impossible to make a particle\u2019s total spin point entirely along one axis. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Heisenberg uncertainty principle [prompt on Heisenberg principle]",
                 "canonical commutation relation [or fundamental commutation prompt on partial answer]",
                 "Ehrenfest\u2019s theorem "
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "This country\u2019s civil war factions agreed to a truce after its soccer team qualified for the 2006 World Cup. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Cote d\u2019Ivoire [or Ivory Coast]",
                 "F\u00e9lix Houphou\u00ebt-Boigny (\u201coo-FWAY bwan-YEE\u201d) [do not accept or prompt on partial answer]",
                 "France "
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "The Netherlands\u2019 contributions to music go beyond electronic dance DJs. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "metronome",
                 "Jan Pieterszoon Sweelinck (\u201cyahn SWAY-link\u201d)",
                 "carillon "
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "A student at this institution cut off his arm to prove his dedication to his teacher after having stood in the freezing cold all night. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Shaolin monastery [or Shaolin temple]",
                 "Bodhidharma",
                 "boxing [prompt on martial arts] "
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "This man pioneered instrument flying, helping to develop the attitude and heading indicators. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "James \u201cJimmy\u201d Doolittle",
                 "John Birch",
                 "Soviet Union [or USSR; prompt on Russia] "
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "Description acceptable. Toloki finds a career doing this thing professionally in Zakes Mda\u2019s (\u201cmuh-DAH\u2019s\u201d) Ways of Dying. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "mourning the dead [accept mourning a family member or attending funerals; be lenient]",
                 "Nervous Conditions",
                 "Wole Soyinka "
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "Surface structures on this object include the Cthulhu Macula (\u201ckuh-THOO-loo MAC-yu-lah\u201d) and the \u201cBrass Knuckles.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pluto",
                 "New Horizons",
                 "hydrogen [or H; or H2, or hydrogen gas] "
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "Hubert Pierlot declared a king of this name unfit to govern and appointed his brother Prince Charles as regent after he refused to join Pierlot\u2019s government in exile. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Leopold [or Leopold III; or Leopold II]",
                 "Belgium",
                 "School Wars [or Second School War; or First School War] "
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "An experiment by Donald Dutton and Arthur Aron tested the misattribution of this state by having subjects speak to an attractive woman before stepping on a bridge. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "arousal [or being aroused; prompt on \"alertness\" or equivalents like \"being amped up\"]",
                 "Robert Mearns Yerkes",
                 "cognitive labeling [prompt on labeling] "
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "This author worked in the RAF, which he described in his first short story \u201cA Piece of Cake,\u201d before his time as a British spy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Roald Dahl",
                 "Aphra Behn",
                 "Graham Greene "
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "One problem with the hypothesis that this molecule began life is that cytosine lacks stability on geologic timescales even at low temperatures. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "RNA [or ribonucleic acid]",
                 "PAHs [or polycyclic aromatic hydrocarbons, or polyaromatic hydrocarbons, prompt on answers mentioning aromatics]",
                 "Walter Gilbert "
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "In a crayon and watercolor sketch, Claes Oldenburg (\u201cKLAHSS OLD-en-burkh\u201d) proposed replacing the main landmark of this site with a \u201cColossal Monument\u201d of a \u201cGearshift in Motion.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Trafalgar Square",
                 "a ship [or a boat; or Nelson's Ship in a Bottle]",
                 "Assyrian empire [or Assyria; or Neo-Assyrian empire] "

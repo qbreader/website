@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "Suspicion that this organization\u2019s employees were being used to campaign for Democrats led to the Hatch Act in 1939. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Works Progress Administration [or WPA]",
                 "Harry Hopkins",
                 "Harold L. Ickes (\u201cICK-iss\u201d) [do not accept \u201cHarold M. Ickes\u201d] &lt;AJ, American History&gt;"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "A character in this short story collection, Man-Man, stages his own crucifixion, while another character, B.\u00a0Wordsworth, intends to write the greatest poem ever but never got past the first line. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Miguel Street",
                 "V.\u00a0S.\u00a0Naipaul",
                 "In A Free State &lt;JC, World Literature&gt;"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "The interior minister of this country sparked outrage when he suggested a curfew for \u201clittle ethnic shops,\u201d suggesting that they were \u201cmeeting places for hellraisers.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Italy",
                 "MS Aquarius",
                 "Five Star Movement [or Movimento 5 Stelle; or M5S; prompt on Five Star] &lt;GA, Current Events&gt;"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "Immunoprecipitation, a method for isolating antibodies, is similar to the affinity form of this technique, which often uses a polyhistidine tag. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "chromatography",
                 "elution [do not accept \u201cdilution\u201d]",
                 "glutathione &lt;AP, Chemistry&gt;"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "This regiment was named for their habit of idling their engines near a destination, then gliding to it silently, making an eerie sound. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cNight Witches\u201d [or Nachthexen; or Nochnye vedny; or 588th Night Bomber Regiment; or 46th \u201cTaman\u201d Guards Night Bomber Aviation Regiment]",
                 "USSR [or Soviet Union; or Union of Soviet Socialist Republics; or CCCP; prompt on Russia]",
                 "Battle of Kursk [anti-prompt on Battle of Prokhorovka] &lt;JC, European History&gt;"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "One of this man\u2019s many paintings of his primary subject shows him riding a white horse through an arch to come inside a building. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Anthony van Dyck",
                 "Sofonisba Anguissola",
                 "playing chess &lt;JC, Painting&gt;"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "This vector quantity has units of volts per meter. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "electric field [or E-field; prompt on E]",
                 "T-symmetry [or time-reversal symmetry]",
                 "particle number [accept equivalents like \u201cnumber of particles\u201d; prompt on number or n] &lt;AP, Physics&gt;"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "The term for this system derives from the Spanish verb meaning \u201cto entrust.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "encomienda system",
                 "New Laws [or Leyes Nuevas]",
                 "Valladolid (\u201cvah-yah-doh-LEED\u201d) &lt;NR, World History&gt;"
@@ -239,7 +239,7 @@
         },
         {
             "leadin": "Adding pipelining to computer architecture increases throughput but complicates execution. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "hazards [accept data hazards or structural hazards or control hazards or branch hazards]",
                 "no-op [or no operation; or NOP]",
                 "registers &lt;JC, Other Science (Computer Science)&gt;"
@@ -254,7 +254,7 @@
         },
         {
             "leadin": "This philosopher posited a kind of mental scoreboard that tracks things like presuppositions and permissibility. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "David Kellogg Lewis",
                 "Ludwig Wittgenstein",
                 "pornography [accept \u201cScorekeeping in a Pornographic Language Game\u201d] &lt;NR, Philosophy&gt;"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "Severed fingers are apparently a prominent motif in literature. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Isabel Allende",
                 "A Prayer for Owen Meany",
                 "Sister Dorothea &lt;JC, European Literature&gt;"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "This holiday begins on Dhanteras and ends on Bhai Dooj. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Diwali [or Divali; or Deepavali]",
                 "Lakshmi [or Laxmi]",
                 "rangoli &lt;AP, Religion&gt;"
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "Some causes of this condition include having access to natural resources that are restricted to competitors or having highly skilled labor. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "competitive advantage",
                 "David Porter [accept Porter\u2019s five forces analysis]",
                 "substitutes [or substitute goods; accept substitution effect] &lt;AJ, Social Science (Economics)&gt;"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "R.\u00a0E.\u00a0Witt claims that this goddess\u2019s epithet \u201cqueen of heaven\u201d and images of her nursing her child influenced early Christian iconography of the Virgin Mary. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Isis",
                 "Osiris",
                 "placing the child in the fire [accept equivalents like \u201cburning the child\u201d or \u201croasting the child\u201d] &lt;LC, Mythology&gt;"
@@ -325,7 +325,7 @@
         },
         {
             "leadin": "One character in this play defines \u201ccarnal embrace\u201d and Fermat\u2019s Last Theorem in quick succession, to the disgust of a thirteen-year-old. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Arcadia",
                 "Proof",
                 "Hardy [accept G.\u00a0H.\u00a0Hardy or Thomas Hardy] &lt;JC, British Literature&gt;"
@@ -340,7 +340,7 @@
         },
         {
             "leadin": "In 2011, Valery Gergiev (\u201cvuh-LAIR-ee GAIRG-yiff\u201d) pushed for a complete overhaul of a music competition named for this composer, including replacing academic judges and allowing performances to be streamed. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pyotr Ilyich Tchaikovsky [or International Tchaikovsky Competition; prompt on Tchaik]",
                 "Sergei Rachmaninov [prompt on Rach]",
                 "Daniil Trifonov [prompt on Trifo] &lt;PL, Music&gt;"
@@ -355,7 +355,7 @@
         },
         {
             "leadin": "This author wrote a work that exalts Northumbria over Mercia and describes the conflict over the correct date of Easter. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Venerable Bede",
                 "Asser",
                 "Alcuin of York [or Ealhwine; or Alhwin; or Alchoin] &lt;JC, European History&gt;"
@@ -370,7 +370,7 @@
         },
         {
             "leadin": "Dancers dressed in white carry a cloth and a tree branch in \u201cTake Me to the Water,\u201d a section of a ballet by this man, which includes the song \u201cSinner Man.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Alvin Ailey",
                 "Katherine Dunham",
                 "Scott Joplin &lt;JC, Other Arts (Dance)&gt;"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "Henry Louis Gates wrote about \u201cThe Trials of\u201d this author and the appraisal of her poetry, which freed her from slavery. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Phillis Wheatley",
                 "mercy",
                 "Jupiter Hammon &lt;JC, American Literature&gt;"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "This set of proteins transfers energy to plastoquinone, and is evolutionarily related to the reaction center of purple bacteria. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "photosystem II [or PSII; do not accept or prompt on \u201cphotosystem I\u201d]",
                 "oxygen gas [accept O2]",
                 "S-states [or S0 through S4] &lt;AP, Biology&gt;"

@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Gottlob Frege's (\"FRAY-guh\") development of the formal type of this discipline led him to distinguish between forms of the word \"is\" that denote existence, identity, predication, and subsumption. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "logic",
                 "Ludwig Wittgenstein",
                 "logical semantics [accept model theory] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "The protagonist of this story watches a woman lay her \"moonbeam fingers\" on the cheeks of the protagonist's husband and make secret arrangements to meet each other the next day. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"Bliss\"",
                 "Katherine Mansfield [or Kathleen Mansfield Beauchamp; or Kathleen Mansfield Murry]",
                 "D.H. Lawrence [or David Herbert Lawrence] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Answer the following questions about SN1 (\"S-N-one\") reactions, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "nucleophiles [accept nucleophilic substitution reaction]",
                 "carbon [prompt on C]",
                 "protic [accept descriptive answers that indicate that they donate H+ ions in solution; do not accept or prompt on \"aprotic\"] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "This state's indigenous nene goose has been under threat from invasive species. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hawai'i",
                 "Guam",
                 "coconuts "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "This politician campaigned for governor with the slogan \"Every man a king, but no one wears a crown.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Huey Pierce Long, Jr.",
                 "Franklin Delano Roosevelt [or FDR; prompt on Roosevelt]",
                 "National Industrial Recovery Act [accept NIRA; do not accept \"National Recovery Administration\" or \"NRA\"] "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "The \"F\" form of this protein forms thin filaments with troponin and tropomyosin. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "F-actin",
                 "ATP [or adenosine triphosphate]",
                 "sarcoplasmic reticulum [or SR; prompt on endoplasmic reticulum or ER] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "In Man, the State, and War, Kenneth Waltz theorized that fear of these weapons could cause states to use them pre-emptively in moments of uncertainty. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "nuclear weapons [or nuclear bombs; accept atomic bombs; prompt on weapons of mass destruction]",
                 "realism [or neorealism; accept classical realism; accept classical neorealism]",
                 "Max Weber (\"VAY-ber\") "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "In order to prepare to write a novel, one author spent a few days as a street sweeper in this city. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Prague [or Praha] (Love and Garbage is by Ivan Kl\u00edma)",
                 "Milan Kundera",
                 "Josef \u0160vejk [or The Good Soldier \u0160vejk; accept any underlined portion] "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about miniature painting.",
-            "answer": [
+            "answers_sanitized": [
                 "portraits",
                 "manuscripts [or illuminated manuscripts or illustrated manuscripts; accept book of hours; prompt on books]",
                 "Persia [or Iran] "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "Workers in this industry dissatisfied with licence fees revolted in the Eureka Stockade. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "gold mining [prompt on mining]",
                 "Ned Kelly [accept Edward Kelly]",
                 "Republic of Ireland "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Congratulations! You are a resident of ancient Egypt who has just died. For 10 points each, answer the following about your journey through the underworld, or Duat:",
-            "answer": [
+            "answers_sanitized": [
                 "Ammit [or Ammut or Ahemait]",
                 "Osiris",
                 "Apep [or Apophis] "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "During one of these events, the speaker of a poem describes a \"Plank in Reason\" breaking before they \"dropped down, and down - And hit a World, at every plunge, And Finished knowing.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "a funeral [accept \"I felt a Funeral, in my Brain\"]",
                 "Emily Dickinson [or Emily Elizabeth Dickinson]",
                 "Immortality "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "These events were endorsed by Heinrich Kramer in a treatise called the Malleus Maleficarum. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "witch trials [accept witch hunts]",
                 "Thirty Years' War",
                 "Jesuit Order [accept Society of Jesus] "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Several of this composer's operas were premiered by the castrato Senesino, though their stormy relationship eventually led Senesino to leave this composer's opera company for a rival. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Georg Friedrich Handel",
                 "Rome",
                 "Serse [or Xerxes] "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "This system's Hamiltonian is the radial kinetic energy operator plus the electric potential energy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "hydrogen atom [or protium atom]",
                 "ground state [accept zero-point energy]",
                 "electrons [accept electron cloud] "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Ships known as dhows were used for trade in this body of water. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Indian Ocean",
                 "Great Zimbabwe",
                 "Zheng He "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "Wendy Carlos replaced the slow movement of one piece in this set with an original composition in a 1980 album titled for a Switched On version of this composition. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Brandenburg Concertos",
                 "Johann Sebastian Bach [or J.S. Bach; prompt on Bach alone]",
                 "Phrygian [accept Phrygian half cadence; accept accept Phrygian mode] "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "How do you solve a first-order ordinary differential equation? For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "separation of variables [or Fourier method, accept word forms like separating variables]",
                 "exponential function [or e to the x]",
                 "Leonhard Euler [accept Euler's method or Euler's constant] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "Participants in this action must wear ihram (\"ih-hrahm\"), or plain white garments whose male version cannot have seams. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "hajj",
                 "Kaaba",
                 "throwing stones at walls [accept equivalents like stoning the devil; accept anything including jamarat or jamrah] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "The narrator of this work says that if some \"plump young girls\" who didn't have \"one single groat to their fortunes\" were killed, \"the kingdom would not be the worse.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\"A Modest Proposal\" [or \"A Modest Proposal For preventing the Children of Poor People From being a Burthen to Their Parents or Country, and For making them Beneficial to the Publick\"]",
                 "Jonathan Swift",
                 "A Tale of a Tub [or A Tale of a Tub. Written for the Universal Improvement of Mankind.] "

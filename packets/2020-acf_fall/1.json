@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "A 14th-century novel from this country describes the Peach Garden Oath being sworn by Liu Bei (\u201cl\u2019yoh bay\u201d).For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "China [or Zh\u014dnggu\u00f3 or Zh\u014dnghu\u00e1 or Hu\u00e1xi\u00e0 or Sh\u00e9nzh\u014du or Ji\u01d4zh\u014du ]",
                 "Water Margin &nbsp;[or Shu\u01d0h\u01d4 Zhu\u00e0n ; accept Outlaws of the Marsh , Tale of the Marshes &nbsp;or All Men Are"
             ],
@@ -137,7 +137,7 @@
         },
         {
             "leadin": "Anthropologist W. E. H. Stanner coined the term \u201ceverywhen\u201d to describe this concept. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dreamtime [or the Dreaming s]",
                 "Australia [or Commonwealth of Australia ]",
                 "Rainbow Serpent [or Rainbow Snake ; prompt on serpent or snake ]"
@@ -152,7 +152,7 @@
         },
         {
             "leadin": "Answer the following about Confederate officer Jubal Early, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Washington , D.C. [or Washington, D.C. ; or the District of Columbia ]",
                 "Philip Henry Sheridan",
                 "George Armstrong Custer"
@@ -167,7 +167,7 @@
         },
         {
             "leadin": "This composer\u2019s Fifth Symphony begins with a melancholy melody in E minor from a solo A clarinet that is laterrestated in a major key to begin the Andante maestoso&nbsp; finale. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pyotr Ilyich Tchaikovsky (\u201cchye-KAWFF-skee\u201d)",
                 "Pathetique Symphony [or Symphony No. 6 ]",
                 "waltz [or valse ]"
@@ -182,7 +182,7 @@
         },
         {
             "leadin": "G. Stanley Hall led a university founded by and named after a man with this surname that, with Johns Hopkins,was one of the main centers of early American psychology. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Clark [accept Clark University, Jonas Gilman Clark , or Kenneth and Mamie Clark ]",
                 "psychoanalysis [accept psychotherapy ; prompt on, but DO NOT REVEAL, descriptive answers such"
             ],
@@ -195,7 +195,7 @@
         },
         {
             "leadin": "A layer of clay usually covers the confined types of these formations. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "aquifer s",
                 "well s [accept artesian well s]",
                 "continuity equation"
@@ -210,7 +210,7 @@
         },
         {
             "leadin": "In this story, the lawyer Coppelius and barometer-seller Coppola are revealed to be the same person. For 10 pointseach:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cThe Sandman \u201d [or \u201cDer Sandman \u201d]",
                 "E. T. A. Hoffmann [or Ernst Hoffmann ; accept The Tales of&nbsp; Hoffmann ]",
                 "eye s"
@@ -225,7 +225,7 @@
         },
         {
             "leadin": "The wavelengths in this series are given by the Rydberg formula when m &nbsp;equals 2. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Balmer series",
                 "ultraviolet spectrum [or UV ]",
                 "atomic number [or proton number ; or the number of proton s; or synonyms]"
@@ -240,7 +240,7 @@
         },
         {
             "leadin": "This pioneer of surrealist photography depicted a baby armadillo in P\u00e8re Ubu &nbsp;(\u201cpair oo-boo\u201d). For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dora Maar [or Henriette Theodora Markovitch ]",
                 "Guernica (\u201cgair-NEE-kuh\u201d)",
                 "Marcel Duchamp (\u201cdoo-SHAHMP\u201d)"
@@ -255,7 +255,7 @@
         },
         {
             "leadin": "This man published his ideas in the journal Thought and Action&nbsp; and wrote the essay Duties of Man . For 10 pointseach:",
-            "answer": [
+            "answers_sanitized": [
                 "Giuseppe Mazzini (\u201cjoo-SEP-ee maht-SEE-nee\u201d)",
                 "Italy [accept Kingdom of Italy ; accept the Italian Republic]",
                 "Count of Cavour [or Camillo Paolo Filippo Giulio Benso ]"
@@ -270,7 +270,7 @@
         },
         {
             "leadin": "In Ireland, objects used to perform this ritual were often designed to be easily hidden in a palm or sleeve. For 10points each:",
-            "answer": [
+            "answers_sanitized": [
                 "saying the Rosary [or the Holy Rosary ; or Dominican Rosary ; accept descriptive equivalents]",
                 "the Virgin Mary [do not accept or prompt on \u201cMary Magdalene\u201d]",
                 "F\u00e1tima [or Our Lady of the Holy Rosary of Fatima or Nossa Senhora do Ros\u00e1rio de F\u00e1tima ]"
@@ -285,7 +285,7 @@
         },
         {
             "leadin": "This philosopher explored the distinction between the public and the private in essays like \u201cConcealment andExposure.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Thomas Nagel",
                 "science [accept scientific method]",
                 "knowledge [or know ing]"
@@ -300,7 +300,7 @@
         },
         {
             "leadin": "This kingdom collapsed after a defeat by the French at the Battle of Poguessa. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Kingdom of Dahomey (\u201cduh-HO-mee\u201d)",
                 "Dahomey Amazon s [accept Mino ; accept Minon ]",
                 "Yoruba (\u201cYOR-uh-buh\u201d)"
@@ -315,7 +315,7 @@
         },
         {
             "leadin": "This character is referred to as \u201cthe jackal\u201d due to his subservience to his legal partner Mr. Stryver, who isdescribed as a \u201clion.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sydney Carton [accept either underlined part]",
                 "A&nbsp; Tale of Two Cities",
                 "Charles Dickens"
@@ -330,7 +330,7 @@
         },
         {
             "leadin": "This technique produces a sigmoidal (\u201csig-MOY-dul\u201d) curve whose inflection point signifies the equivalencepoint of the reaction. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "titration",
                 "phenolphthalein (\u201cfee-nawl-THAL-een\u201d) [or Hln or phph ]",
                 "Henderson\u2013Hasselbalch equation"
@@ -345,7 +345,7 @@
         },
         {
             "leadin": "A painting by this artist focuses on some men and their dogs in a wintry landscape overlooking ice skaters. For10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Pieter Bruegel (\u201cBROY-gul\u201d) the Elder",
                 "months of the year [accept Labors of the&nbsp; Months ]",
                 "wedding s [or marriage s]"
@@ -360,7 +360,7 @@
         },
         {
             "leadin": "Ancient Egypt was home to the oldest-known example of one of these items, called Senet. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "board game s [prompt on tabletop game s]",
                 "Ur [do not accept or prompt on \u201cUruk\u201d]",
                 "Tutankhamun [or Tutankhaten ; or King Tut ]"
@@ -375,7 +375,7 @@
         },
         {
             "leadin": "This author wrote a letter to a literary critic, asking \u201cMr Higginson, are you too deeply occupied to say if myVerse is alive?\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Emily Dickinson",
                 "the soul",
                 "Death"
@@ -390,7 +390,7 @@
         },
         {
             "leadin": "Charles Darwin wrote that \u201cThe sight of a feather in [the tail of this animal], whenever I gaze at it, makes mesick!\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "peacock [or peafowl ; accept P avo&nbsp; cristatus &nbsp;or P avo&nbsp; muticus &nbsp;or A fropavo&nbsp; congensis &nbsp;or any specific type"
             ],
             "parts": [
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "After challenging this leader\u2019s bid for a sixth term as president, Sviatlana Tsikhanouskaya (\u201csvet-LAH-nahtsih-ka-NO-skuh-yuh\u201d) fled to Lithuania. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Alexander Lukashenko (\u201cloo-kuh-SHEN-ko\u201d) [or Alexander Lukashenka ]",
                 "Belarus",
                 "cockroach [accept The Monster&nbsp; Cockroach &nbsp;or the Anti- Cockroach Revolution]"

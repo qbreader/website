@@ -52,7 +52,7 @@
     "bonuses": [
         {
             "leadin": "This phrase was first coined by Dwight D. Eisenhower in his 1961 Farewell Address, in which he derided its \u201cunwarranted influence.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "military-industrial complex [accept military-industry complex, or MIC]",
                 "Lockheed Corporation [or Lockheed-Martin]",
                 "oil "
@@ -67,7 +67,7 @@
         },
         {
             "leadin": "Opponents of this movement such as Charles Chauncy caused a schism between the \u201cold lights\u201d and \u201cnew lights.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "First Great Awakening [prompt on Great Awakening; do not accept \"Second Great Awakening\"]",
                 "slaves [prompt on African-Americans or Black people]",
                 "George Whitefield"

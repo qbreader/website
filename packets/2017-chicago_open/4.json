@@ -120,7 +120,7 @@
     "bonuses": [
         {
             "leadin": "According to the book <em>The Tudor Kitchen,</em> Roman emperors would have these birds blinded so that these birds would think it was night and gorge themselves, thereby fattening them for slaughter. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ortolans [or Emberiza hortulana]",
                 "they are drowned in Armagnac brandy [prompt on drowned; or drowned in brandy;]",
                 "foie gras"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This programming language uses a special data structure called \u201cdiscriminated unions\u201d that mimics the union type in other languages, but discriminated unions allow for the better handling of heterogeneous data. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "F# [or F-sharp]",
                 "Hindley-Milner [or Damas-Milner or Damas-Hindley-Milner type inference algorithm]",
                 "polymorphism [prompt on object-oriented programming or OOP]"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "This collection includes a nine-part poem written on the occasion of the fiftieth anniversary of the Lamont-Doherty Earth Observatory called \u201cState of the Planet.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Time and Materials",
                 "Robert Hass [or Robert L. Hass]",
                 "Poet Laureate of the U.S. [or Poet Laureate Consultant in Poetry; prompt on partial answers]"
@@ -164,7 +164,7 @@
         },
         {
             "leadin": "This organization consists of 28 members and is currently led by Jean-Claude Juncker. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "European Commission [or EC]",
                 "Jacques Lucien Jean Delors",
                 "Andrew Moravcsik [or Andrew Maitland Moravcsik]"
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "According to Frank Rutter, one of these paintings was originally called <em>Father Comes Home</em>, and given its more popular name for the \u201csake of a private joke\u201d to \u201cbamboozle\u201d art historians. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Camden Town Murder series",
                 "Jack the Ripper",
                 "Percy Wyndham Lewis"
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "In a novel from this series, Charles March alienates his family when he stands by his wife despite her having caused a political scandal that harmed his uncle\u2019s reputation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Strangers and Brothers",
                 "Charles Percy Snow [or C. P. Snow or Baron Snow]",
                 "Frank Raymond Leavis [or F. R. Leavis]"
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "The Greeks called this city the \u201cCity of Zeus,\u201d or Diospolis, noting that it had one hundred gates. FTPE:",
-            "answer": [
+            "answers_sanitized": [
                 "Thebes [or Waset or Luxor]",
                 "Seqenenre Tao [or Seqenera Djehuty-aa or Sekenenra]",
                 "Avaris"
@@ -224,7 +224,7 @@
         },
         {
             "leadin": "Answer the following about lost mythological cities, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Ys",
                 "core of the Earth [accept inside the Earth or equivalents]",
                 "\u2019Iram of the Pillars [accept either underlined portion; also accept \u2019Iram Dhaat al-\u2018Imaad; accept any answer that gets across a city possessing, of, or otherwise characterized by pillars or tentpoles; also \u2018Aad or al-\u2019Ahqaaf]"
@@ -238,7 +238,7 @@
         },
         {
             "leadin": "These quantities are those for which the derivative of the Lagrangian with respect to them is zero, meaning that the corresponding generalized momentum is conserved. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cyclic coordinates [or ignorable coordinates]",
                 "Routhian",
                 "Legendre transform"
@@ -253,7 +253,7 @@
         },
         {
             "leadin": "In 2004, David Christopher Lewis claimed to have been visited by this person, thus inspiring his book of alchemy named for this figure. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Count of Saint Germain [or Comte de Saint Germain]",
                 "Theosophy",
                 "Alessandro di Cagliostro [or Giuseppe Balsamo or Joseph Balsamo]"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "This man supported \u201clow-tax liberalism\u201d and published a book of his proposed programs, entitled <em>A New Beginning</em>, with an introduction by Eugene McCarthy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ed Clark [Edward E. Clark]",
                 "John Briggs [or Briggs Initiative]",
                 "Soapy Smith [or Jefferson Randolph Smith]"
@@ -283,7 +283,7 @@
         },
         {
             "leadin": "This book argues that rising inequality has led to few benefits for the majority of the country and that it has been sustained and exacerbated by specific government policies. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Winner Take All Politics: How Washington Made the Rich Richer\u2014and Turned Its Back on the Middle Class",
                 "Jacob Stewart Hacker",
                 "Clinton health care reform plan [accept anything that mentions Clinton and health care; also accept Health Security Act]"
@@ -298,7 +298,7 @@
         },
         {
             "leadin": "In one novel by this author, a man named Sonomura cracks a code based on Poe\u2019s <em>The Gold-Bug</em> to figure out where a murder is going to happen, which he then subsequently observes by using peepholes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Junichiro Tanizaki",
                 "The Makioka Sisters [or Sasameyuki or Light Snow]",
                 "The Key [or Kagi]"
@@ -313,7 +313,7 @@
         },
         {
             "leadin": "Temporal arteritis is sometimes named for these entities, since it is diagnosed by observing this entities on a biopsy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "giant cells [prompt on large cells or big cells; prompt on multinucleated cells; prompt on syncytia or syncytium; prompt on just cells]",
                 "Hodgkin\u2019s lymphoma",
                 "corticosteroids [or glucocorticoids; prompt on steroids]"
@@ -328,7 +328,7 @@
         },
         {
             "leadin": "David Popper\u2019s opus 73 is a collection of 40 \u00e9tudes for this instrument, many of which are still used in modern pedagogy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cello [or violoncello]",
                 "harmonics [accept natural harmonics or artificial harmonics]",
                 "double stop [or multiple stop or multistop]"
@@ -343,7 +343,7 @@
         },
         {
             "leadin": "This statement considers a \u201cgolf course\u201d like landscape as opposed to the \u201cfolding-funnel\u201d. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Levinthal\u2019s paradox",
                 "globular proteins",
                 "vibrational circular dichroism [or VCD spectroscopy; prompt on circular dichroism spectroscopy or CD]"
@@ -358,7 +358,7 @@
         },
         {
             "leadin": "Milton Warchoff voiced this character in the premiere of a 1941 operetta, in which he claims \u201cI am the eternal guest, I am way, I am act\u201d after Inkslinger asks him who he really is. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Paul Bunyan [accept either]",
                 "Minnesota",
                 "Les Clark [or Leslie James Clark]"
@@ -372,7 +372,7 @@
         },
         {
             "leadin": "According to Aristotle, this early playwright formalized the procedures for tragedies in Greek drama, including adding prologues and the chorus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Thespis",
                 "deuteragonist",
                 "Hephaestus"
@@ -386,7 +386,7 @@
         },
         {
             "leadin": "After leading a Protestant uprising in Chur that resulted in the murder of Pompeius von Planta while he hid in his chimney, this rebel later converted to Catholicism and allied with the Habsburgs. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "J\u00f6rg Jenatsch [or Georg Jenatsch]",
                 "Thirty Years\u2019 War",
                 "Henri de Rohan [accept the Duc de Rohan or Duke of Rohan]"
@@ -401,7 +401,7 @@
         },
         {
             "leadin": "This philosopher argued for a \u201cnew existentialism,\u201d in his preface to a collection of essays titled <em>Having Thought</em>, which he divided into four sections titled \u201cMind,\u201d \u201cMatter,\u201d \u201cMeaning,\u201d and \u201cTruth.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "John Haugeland",
                 "intentionality [do not accept or prompt on \u201cintention\u201d or \u201cintentional\u201d]",
                 "phenomenology"

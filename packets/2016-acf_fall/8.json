@@ -126,7 +126,7 @@
     "bonuses": [
         {
             "leadin": "Lectures given by Ferdinand de Saussure were compiled into a book titled for this field, and Noam Chomsky created its theory of a universal grammar. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "linguistics",
                 "syntax [accept syntactics; accept Syntactic Structures]",
                 "pragmatics"
@@ -141,7 +141,7 @@
         },
         {
             "leadin": "The landscape surrounding this residence is supposedly based on Poussin\u2019s The Funeral of Phocion. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Glass House [accept 798\u2013856 Ponus Ridge Road]",
                 "Philip Cortelyou Johnson",
                 "Ludwig Mies van der Rohe [or Maria Ludwig Michael Mies]"
@@ -156,7 +156,7 @@
         },
         {
             "leadin": "Answer the following about life in the Wild West\u2026 through Westerns starring John Wayne. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the Alamo [or The Alamo; accept Battle of the Alamo]",
                 "Oklahoma",
                 "Cochise [or Cheis; or A-da-tli-chi; or K\u2019uu-ch\u2019ish]"
@@ -171,7 +171,7 @@
         },
         {
             "leadin": "A referee is trying to get away from two athletes butting heads in this artist\u2019s Stag at Sharkey\u2019s. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "George Wesley Bellows",
                 "New York City",
                 "Thomas Cowperthwait Eakins"
@@ -186,7 +186,7 @@
         },
         {
             "leadin": "A 1973 book about one of these places relied on the eyewitness accounts of 227 residents. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "gulag camps",
                 "Aleksandr Isayevich Solzhenitsyn",
                 "Herta M\u00fcller"
@@ -201,7 +201,7 @@
         },
         {
             "leadin": "These functions are symmetric for bosons and antisymmetric for fermions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "wavefunctions",
                 "vectors",
                 "orthonormality"
@@ -216,7 +216,7 @@
         },
         {
             "leadin": "In the Qur\u2019an, the terms jurum, junah, haraj, khati\u2019ah, dhanb, and ithm refer to these actions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "sins [accept word forms such as sinning or sinners; prompt on \u201cevil deeds\u201d or \u201ctransgressions against Allah\u201d or similar answers]",
                 "monotheism [or tawhid; accept Allah is the one God or there is no god but Allah or similar answers mentioning one God or oneness]",
                 "basmala [or bismillah; or bismillahi r-rahmani r-rahim]"
@@ -231,7 +231,7 @@
         },
         {
             "leadin": "Animals native to this landmass include the Weddell seal, which stays under the fast ice and uses its teeth to make breathing holes. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Antarctica",
                 "Mount Erebus",
                 "subglacial lake"
@@ -246,7 +246,7 @@
         },
         {
             "leadin": "Answer the following about times when people were chucked out of windows in Prague, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Thirty Years\u2019 War",
                 "Hussites [accept Jan Hus]",
                 "Masaryk [accept Jan Masaryk; accept Tom\u00e1\u0161 Garrigue Masaryk]"
@@ -261,7 +261,7 @@
         },
         {
             "leadin": "The silversword plant lineage diversified across this archipelago, and a monk seal named for this island chain is one of the only mammals endemic to it. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Hawaiian islands",
                 "invasive species [prompt on non-native or exotic species]",
                 "Drosophila"
@@ -276,7 +276,7 @@
         },
         {
             "leadin": "Daji was a spirit of this type sent by N\u00fcwa to punish King Zhou of Shang. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "foxes",
                 "Reynard",
                 "tails"
@@ -291,7 +291,7 @@
         },
         {
             "leadin": "In a novel titled for this sort of place, the retired art historian Max Morden stays at Miss Vavasour\u2019s boardinghouse after the death of his wife, Anna. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the sea [accept \u201cThe Sea\u201d or \u201cThe Sea, The Sea\u201d]",
                 "Man Booker Prize for Fiction",
                 "Los Angeles [accept L.A.]"
@@ -306,7 +306,7 @@
         },
         {
             "leadin": "In a novel, Max Spielman raises George Giles as though he is one of these animals. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "goats [accept Giles Goat-boy or The Goat, or Who is Sylvia?]",
                 "Edward Franklin Albee III",
                 "George or Martha [accept either]"
@@ -321,7 +321,7 @@
         },
         {
             "leadin": "A later philosopher criticized Ren\u00e9 Descartes\u2019s use of this philosophical position as being solipsistic. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "skepticism",
                 "George Santayana [or Jorge Agust\u00edn Nicol\u00e1s Ruiz de Santayana y Borr\u00e1s]",
                 "The Realms of Being"
@@ -336,7 +336,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the life of Lepidus, that guy in the Second Triumvirate no one seems to talk about.",
-            "answer": [
+            "answers_sanitized": [
                 "pontifex maximus",
                 "consul",
                 "Battle of Philippi"
@@ -351,7 +351,7 @@
         },
         {
             "leadin": "Indices that can be used to quantify this condition include the Palmer Severity Index, the Crop Moisture Index, and the Normalized Difference Vegetation Index, or NDVI. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "meteorological drought",
                 "remote sensing",
                 "geographic information system software [or GIS software]"
@@ -366,7 +366,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the bread-and-butter of Western art music since the 1700s: sonata form composition.",
-            "answer": [
+            "answers_sanitized": [
                 "Classical period",
                 "recapitulation",
                 "coda [or codetta]"
@@ -381,7 +381,7 @@
         },
         {
             "leadin": "These people were rooted out by having them trample flat icons called fumi-e. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Japanese Christians [accept Catholics; accept Kakure Kirishitan; do not accept or prompt on Protestants or Lutherans or any other branch of Christianity; prompt on just Japanese people]",
                 "Tokugawa shogunate [or Edo Period; or Tokugawa bakufu; or Edo bakufu]",
                 "isolationism [or sakoku; prompt on descriptions of foreigners unable to enter Japan]"
@@ -396,7 +396,7 @@
         },
         {
             "leadin": "This character\u2019s future wife is the sister of Ismene. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Haemon",
                 "Sophocles",
                 "the Greek chorus"
@@ -411,7 +411,7 @@
         },
         {
             "leadin": "The speaker notes that \u201cThough lovers be lost, death shall not\u201d in this poet\u2019s \u201cAnd death shall have no dominion.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dylan Marlais Thomas",
                 "villanelles",
                 "\u201cThe Waking\u201d"
@@ -426,7 +426,7 @@
         },
         {
             "leadin": "These molecules are trigonal planar and have a positive charge due to an unoccupied p orbital. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "carbocations",
                 "elimination",
                 "sulfuric acid [accept H2SO4]"

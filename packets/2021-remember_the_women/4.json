@@ -121,7 +121,7 @@
     "bonuses": [
         {
             "leadin": "Although the French National Constituent Assembly proclaimed the Declaration of the Rights of Man and of the Citizen, women played an important role in the French Revolution as well. For ten points:",
-            "answer": [
+            "answers_sanitized": [
                 "Olympe De Gouges",
                 "Jacobins (accept Society of the Jacobins or Jacobin Club)",
                 "Marie Antoinette "
@@ -136,7 +136,7 @@
         },
         {
             "leadin": "This time period saw the invention of the birth control pill and the legalization of abortion, as well as the normalization of pornography and nudity. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sexual Revolution [Accept sexual liberation]",
                 "Margaret Mead",
                 "premarital sex [Accept equivilant descriptions, such as \u201chaving sex before marriage,\u201d prompt on sex] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "This tribe was accused of having a \u201cpetticoat government\u201d because women in this tribe were seen as equal to men. For 10 points each, name some things about Native American women who changed history.",
-            "answer": [
+            "answers_sanitized": [
                 "Cherokee",
                 "Crow people [Accept Aps\u00e1alooke or Absaroka]",
                 "Sacagawea [Accept Sakakawea or Sacajawea] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "After the capitol riot, Breitbart claimed that this actress \u201cadvocate[d] for calling Republicans terrorists\u201d after she tweeted her support for convicting Donald Trump for inciting it. For 10 points:",
-            "answer": [
+            "answers_sanitized": [
                 "Sophia Bush",
                 "Chicago",
                 "Times Up "
@@ -179,7 +179,7 @@
         },
         {
             "leadin": "Desserts might not be good for you, but they can change history. Name some things about successful and politically charged desserts championed by women. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Doce de Brigadeiro",
                 "Mongol empire [Accept Golden Horde]",
                 "Mochi "
@@ -194,7 +194,7 @@
         },
         {
             "leadin": "For 10 points each, name some women who won Academy Awards in 2021. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Chlo\u00e9 Zhao",
                 "Soul",
                 "H.E.R [Accept Gabriella Sarmiento Wilson] "
@@ -209,7 +209,7 @@
         },
         {
             "leadin": "This character\u2019s signature melody opens with a celesta playing G-E-G-F#-D#-E over a harmony of pizzicato strings. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sugarplum Fairy",
                 "Leitmotif",
                 "Hedwig\u2019s Theme "
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "The protagonist of one of this author\u2019s novels is fired from a department store after he puts wind-up monkeys and Barbie Dolls in lewd positions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Maxine Hong Kingston (or Maxine Ting Ting Hong)",
                 "Hua Mulan or Fa Mu Lan",
                 "San Francisco "
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "One of this artist\u2019s installments includes a room with egg-shaped forms covering the ceilings and walls which slowly turn into breasts near the floor. For ten points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Judy Chicago [ accept Judy Cohen, Judy Gerowitz]",
                 "The Dinner Party",
                 "Quilt "
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "A collection by this author contains a poem beginning with the line \u201cThis is the way Aunt Susie tells the story.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Leslie Marmon Silko",
                 "PTSD or Post Traumatic Stress Disorder [accept Shell-Shock Syndrome]",
                 "Virginia Woolf "
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "Louise Farrenc was the only woman to hold a full chair at the Paris Conservatory. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Violin",
                 "Cecile Chaminade",
                 "France "
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "A novel by this author ends with the protagonist waving to her family as she sails away to England to attend nursing school. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Jamaica Kincaid [accept Elaine Potter Richardson]",
                 "\u201cGirl\u201d",
                 "red [accept scarlet] "
@@ -297,7 +297,7 @@
         },
         {
             "leadin": "This scientist helped develop the technique of radioactive recoil while working in a woodworking shop. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Lise Meitner",
                 "Auger (oh-zhay) effect",
                 "electrons "
@@ -312,7 +312,7 @@
         },
         {
             "leadin": "This character declares \u201cWell I can kill too, because now I have hate!\u201d at the conclusion of the musical that she appears in. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Maria",
                 "West Side Story",
                 "Anita "
@@ -327,7 +327,7 @@
         },
         {
             "leadin": "Most recently, this woman voiced Nala in the Lion King remake and released the documentary Homecoming about her 2018 Coachella performances. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Beyonce Knowles",
                 "Dangerously in Love",
                 "Destiny\u2019s Child "
@@ -342,7 +342,7 @@
         },
         {
             "leadin": "The appearance of large cells on a Tzanck smear can confirm infection by this family of viruses. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Herpes virus (or Herpesviridae, accept Herpes Simplex Virus or HSV)",
                 "Epstein-Barr virus (or Human herpesvirus 4)",
                 "lymphoma (accept Hodgkin\u2019s lymphoma or Burkitt lymphoma) "
@@ -357,7 +357,7 @@
         },
         {
             "leadin": "A hundred years after his death, Emperor Guangxu was revealed to have ingested a fatal dose of arsenic, confirming rumors that this ruler of China had poisoned him. For 10 points:",
-            "answer": [
+            "answers_sanitized": [
                 "Empress Dowager Cixi",
                 "Qing dynasty",
                 "Hundred Days Reform "
@@ -372,7 +372,7 @@
         },
         {
             "leadin": "[An-na-EES] has been a popular first name in France since the 1980s. For ten points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Orpheus and Eurydice",
                 "diary (accept journal)",
                 "Sidonie-Gabrielle Colette "
@@ -387,7 +387,7 @@
         },
         {
             "leadin": "Female nuns who have been fully ordained into this religion are called Bhikkhun\u012b. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Buddhism",
                 "Mahapajapati Gotami [Accept either name]",
                 "Lotus Sutra "
@@ -402,7 +402,7 @@
         },
         {
             "leadin": "This woman\u2019s mathematics education flourished through books on Leonard Euler and correspondence with her mentor Joseph Louis-Lagrange, among others. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sophie Germain",
                 "elasticity (accept elasticity theory)",
                 "prime numbers "

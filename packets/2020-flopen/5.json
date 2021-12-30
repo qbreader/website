@@ -136,7 +136,7 @@
     "bonuses": [
         {
             "leadin": "This system recognizes a broad range of bulky DNA lesions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "UvrABC system",
                 "pyrimidine bases",
                 "methyl-directed mismatch repair [or DNA mismatch repair; accept MMR] "
@@ -151,7 +151,7 @@
         },
         {
             "leadin": "This document stated that the signees would only trade with each other and that commissions were to be set at 0.25 percent. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Buttonwood Agreement",
                 "financial panics [accept Panic of 1792, Panic of 1819, or Panic of 1837; prompt on depression or recession]",
                 "coffeehouse [or coffee shop; accept caf\u00e9; accept Tontine Coffee House] "
@@ -166,7 +166,7 @@
         },
         {
             "leadin": "An article by Edward Winter on this phrase\u2019s origin describes several opportunities when it should be optimally deployed, such as \u201cif you see that you have made a bad move.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cj\u2019adoube\u201d (\u201czhuh-DOOB\u201d) [prompt on \u201cI adjust\u201d] (The verb adouber has disappeared from nearly all French dictionaries, and is rarely seen in contexts other than this one.)",
                 "castling [or castle; accept kingside castling or queenside castling]",
                 "sacrificing his queen [accept synonyms for sacrificing, such as giving up or offering; prompt on just sacrificing by asking \u201cwhat piece?\u201d] "
@@ -181,7 +181,7 @@
         },
         {
             "leadin": "Answer the following about frightening primates in literature, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cThe Murders in the Rue Morgue\u201d",
                 "W. W. Jacobs [or William Wymark Jacobs] (The story is \u201cThe Monkey\u2019s Paw.\u201d)",
                 "Been Down So Long It Looks Like Up to Me "
@@ -196,7 +196,7 @@
         },
         {
             "leadin": "This document argued for the right of the peasantry to appoint and depose community pastors and for the abolition of the Todfall death tax. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cThe Twelve Articles of the Swabian Peasants\u201d",
                 "Martin Luther",
                 "Zwickau prophets [accept Zwickauer Propheten; accept Zwickauer Storchianer] "
@@ -211,7 +211,7 @@
         },
         {
             "leadin": "John Hicks\u2019s theoretical treatment of these events argues that they are not Pareto optimal, since either one side is trying to maintain a \u201creputation for toughness\u201d or there is information asymmetry between the parties. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "labor strikes [accept strike action]",
                 "fair cake-cutting [accept fair pie-cutting; accept envy-free cake-cutting or pie-cutting]",
                 "Vickrey auctions [prompt on auctions] "
@@ -226,7 +226,7 @@
         },
         {
             "leadin": "This composer\u2019s impressive improvisation skills are attested by an incident in which he traded a theme back and forth with the viol player Andr\u00e9 Maugars during a Mass presided over by his patron Pope Urban VIII. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Girolamo Frescobaldi",
                 "ciaconna [or chaconne; accept Partita No. 2 Chaconne]",
                 "Baroque era "
@@ -241,7 +241,7 @@
         },
         {
             "leadin": "C. S. Peirce\u2019s (\u201cpurse\u2019s\u201d) philosophy inspired Clara Fern\u00e1ndez-Vara\u2019s paper on indexical storytelling in video games. Answer the following about games discussed in that paper, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Myst",
                 "Metal Gear Solid [accept MGS]",
                 "dropping items [accept answers that describe leaving behind items in a room] "
@@ -256,7 +256,7 @@
         },
         {
             "leadin": "Following a theft in this play, the wheelchair-bound Horace plans to re-write his will, but then dies of a heart attack as his wife watches. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Little Foxes",
                 "Lillian Hellman [or Lillian Florence Hellman]",
                 "eating the Earth [accept eating the world; prompt on eating by asking \u201ceating what?\u201d] "
@@ -271,7 +271,7 @@
         },
         {
             "leadin": "The speaker of this Psalm says he is \u201ca worm, not a man, scorned by men, despised by the people\u201d and complains that God does not answer his prayers. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Psalm 22 [accept 21 due to different numbering systems in the Septuagint]",
                 "\u201cMy God, my God, why have you forsaken me?\u201d [accept equivalents in archaic language like \u201cthou\u201d instead of \u201cyou\u201d and \u201chast\u201d instead of \u201chave\u201d; accept \u201cabandoned\u201d or other synonyms for \u201cforsaken\u201d; prompt on partial answers]",
                 "Benedict XVI (\u201cthe sixteenth\u201d) [or Joseph Aloisius Ratzinger] "
@@ -286,7 +286,7 @@
         },
         {
             "leadin": "Data from NOAA Atlas 14 is imported to make these diagrams used by civil engineers to design stormwater drainage systems. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "intensity-duration-frequency curves [accept IDF curves]",
                 "watershed [accept drainage basin or stormwater basin; accept catchment area, catchment basin, or impluvium]",
                 "runoff [accept maximum runoff; accept runoff rate; accept runoff volume; prompt on volumetric flow rate] "
@@ -301,7 +301,7 @@
         },
         {
             "leadin": "In 2002, this organization criticized the Academy Awards by creating a poster depicting \u201cThe Anatomically Correct Oscar,\u201d noting that \u201che\u2019s white & male, just like the guys who win!\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Guerrilla Girls",
                 "naked [accept nude; accept undressed; accept clear knowledge equivalents indicating that the person is not wearing clothes]",
                 "Harriet Powers "
@@ -316,7 +316,7 @@
         },
         {
             "leadin": "After hearing of a sack of this city, Honorious was more concerned with the well-being of his pet chicken, which was named after this city. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Rome",
                 "Flavius Stilicho [or Stilicho the Vandal]",
                 "Gildo "
@@ -331,7 +331,7 @@
         },
         {
             "leadin": "This figure is described as \u201csitting on an Ivory throne she found, / Drawne of two steeds, th\u2019one black, the / other white,\u201d before a long digression tells the story of Diana punishing Faunus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Mutability [or Mutabilitie; accept the goddess or titaness from the Mutabilitie Cantos]",
                 "The Faerie Queene",
                 "the months of the year [prompt on the zodiac signs or constellations; prompt on calendars] "
@@ -346,7 +346,7 @@
         },
         {
             "leadin": "In the path integral formalism, these Green\u2019s functions receive contributions of the exponential of i times the action over h-bar. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "propagators [accept, but DO NOT REVEAL, Feynman propagators]",
                 "Feynman diagrams",
                 "i times epsilon [or i\ud835\udf16] "
@@ -361,7 +361,7 @@
         },
         {
             "leadin": "The name for this moral stance is derived from a Hume passage on the mind\u2019s \u201cpropensity to spread itself over external objects\u201d and has been promoted by Simon Blackburn. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "moral projectivism [accept expressivism; accept, but DO NOT REVEAL, Lockean projectivism; prompt on non-cognitivism]",
                 "J. L. Mackie [or John Leslie Mackie]",
                 "John Locke [accept Lockean projectivism] "
@@ -376,7 +376,7 @@
         },
         {
             "leadin": "Two drum sets, a qanun, and rapidfire konnakol syllables are all featured on this musician\u2019s single \u201cDrip,\u201d recorded with Christiane Karam\u2019s Middle Eastern Fusion Ensemble at Berklee. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tigran Hamasyan",
                 "metric modulation [accept tempo modulation; prompt on proportional tempi; prompt on modulation]",
                 "beatboxing [accept b-boxing; prompt on mouth drumming; reject \u201cscat\u201d or \u201cscatting\u201d; reject \u201cacapella\u201d] "
@@ -391,7 +391,7 @@
         },
         {
             "leadin": "A mandate for a six kilometer radius from a central volcano led to the growth of a forest with a perfectly circular treeline in this country\u2019s Egmont National Park. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "New Zealand",
                 "they are legally people [accept they are legal persons; accept they possess human right; accept having a distinct legal identity; accept having personhood]",
                 "ducks [accept blue duck; accept Muscovy duck; prompt on Anatidae] "
@@ -406,7 +406,7 @@
         },
         {
             "leadin": "This molecule was first synthesized in sizable yields by Schleyer through the aluminum chloride-catalyzed rearrangement of endo-tetra\u00b7hydro\u00b7di\u00b7cyclo\u00b7penta\u00b7diene. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "adamantane (\u201caa-dah-MAN-tayn\u201d)",
                 "cyclohexane [or C6H12]",
                 "one (The first clue refers to a methylene bridge.) "
@@ -421,7 +421,7 @@
         },
         {
             "leadin": "The title character of a novel learns that his friend Paul Riesling shot his wife Zilla in the arm on the same day he is elected vice-president of this organization. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "the Zenith Boosters\u2019 Club [accept any answer involving a club or organization for boosting businesses; accept, but do not otherwise reveal the Booster Club from Babbitt]",
                 "Babbitt",
                 "U.S.A. trilogy [prompt on The 42nd Parallel, 1919, or The Big Money by asking \u201cwhat larger series is that work a part of?\u201d] (by John Dos Passos) "
@@ -436,7 +436,7 @@
         },
         {
             "leadin": "The penates (\u201cpi-NAY-teez\u201d), household gods of the cupboards and kitchen supplies, were often invoked along with this Goddess. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Vesta [accept Vestal Virgins]",
                 "lares [accept lares familiares or domestic lares]",
                 "a wife losing her virginity [accept consummation of a marriage; accept equivalents indicating a woman having sex for the first time in a house; prompt on marriage] "
@@ -451,7 +451,7 @@
         },
         {
             "leadin": "Much of this kingdom\u2019s early history is considered legendary as its pantun oral historians were required to be blind and were mostly illiterate. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Sunda Kingdom [or Karajaan Sunda]",
                 "Majapahit Empire",
                 "ships [accept boats; accept junk ships] "

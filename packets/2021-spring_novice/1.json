@@ -148,7 +148,7 @@
     "bonuses": [
         {
             "leadin": "This condition is diagnosed more than twice as often in boys than in girls. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ADHD [or Attention Deficit Hyperactivity Disorder; do not accept \u201cADD\u201d or \u201cAttention Deficit Disorder\u201d]",
                 "psychostimulants",
                 "ODD [accept Oppositional Defiant Disorder]"
@@ -168,7 +168,7 @@
         },
         {
             "leadin": "For 10 points each, answer the following about the letter pi in mathematics.",
-            "answer": [
+            "answers_sanitized": [
                 "prime",
                 "multiplication",
                 "factorial "
@@ -188,7 +188,7 @@
         },
         {
             "leadin": "A story about one of these places inspired Jonathan Basile to create a digital version of one that contains all possible variations of 23 characters. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "library [or Internet libraries]",
                 "Jorge Luis Borges",
                 "Latin American Boom [or El Boom]"
@@ -208,7 +208,7 @@
         },
         {
             "leadin": "The presto agitato third movement of this piece opens with rapidly rising C-sharp minor arpeggios in the right hand. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Piano Sonata No. 14 in C-sharp minor, Op. 27, No. 2 [or Moonlight Sonata; accept BUT DO NOT REVEAL Beethoven\u2019s Op. 27, No. 2]",
                 "Ludwig van Beethoven",
                 "pastoral or pastorale [accept Pastoral Sonata or Pastoral Symphony]"
@@ -228,7 +228,7 @@
         },
         {
             "leadin": "Answer the following about naturally occurring continuously burning fires, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "natural gas [prompt on gas; do not accept or prompt on \u201cpetroleum\u201d] ",
                 "Turkmenistan",
                 "Java [or Jawa] "
@@ -248,7 +248,7 @@
         },
         {
             "leadin": "The city of Arkhangelsk in Russia is named for this figure, who is said to have defeated the devil near the city. For 10 points each: ",
-            "answer": [
+            "answers_sanitized": [
                 "St. Michael the Archangel [accept St. Michael the Taxiarch]",
                 "The Church of Jesus Christ of Latter-day Saints [accept the Mormon Church]",
                 "St. Raphael the Archangel"
@@ -268,7 +268,7 @@
         },
         {
             "leadin": "This sport appeared in the 1908 Summer Olympic games, making it the oldest sport now in the Winter Olympics. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "figure skating [prompt on skating or ice skating]",
                 "axel",
                 "Yuzuru Hanyu [or Hanyu Yuzuru]"
@@ -288,7 +288,7 @@
         },
         {
             "leadin": "In a poem titled for this character, the speaker describes passing by a \u201chouse that seemed / A Swelling of the Ground.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Death [accept \u201cBecause I could not stop for Death \u2013\u201d]",
                 "Emily Dickinson ",
                 "the soul [accept \u201cThe Soul selects her own Society\u201d]"
@@ -308,7 +308,7 @@
         },
         {
             "leadin": "Answer the following about innovations created by the Mongols, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "law codes [accept reasonable equivalents, such as legal systems; prompt on laws or codes]",
                 "astronomy",
                 "\u00d6gedei Khan [or Ogodei]"
@@ -328,7 +328,7 @@
         },
         {
             "leadin": "In order for these particles to be consistent with general relativity, they would have to be massless and have a spin of two. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "gravitons [prompt on G]",
                 "photons",
                 "bosons "
@@ -348,7 +348,7 @@
         },
         {
             "leadin": "This man founded the cursed House of Atreus. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Tantalus",
                 "Ixion",
                 "Hades"
@@ -368,7 +368,7 @@
         },
         {
             "leadin": "This organization was founded by Henry Dunant after he witnessed the bloodshed at the Battle of Solferino. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Red Cross [accept International Red Cross or American Red Cross]",
                 "Kingdom of Denmark",
                 "Kingdom of Sweden [accept Sverige]"
@@ -388,7 +388,7 @@
         },
         {
             "leadin": "This vehicle is the latest to survive the \u201cSeven Minutes of Terror\u201d, which occur due to delayed radio signals before landing. For 10 points each: ",
-            "answer": [
+            "answers_sanitized": [
                 "Perseverance [accept Percy]",
                 "Mars ",
                 "Artemis program"
@@ -408,7 +408,7 @@
         },
         {
             "leadin": "This story was based on its author\u2019s experience surviving the shipwreck of the SS Commodore. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cThe Open Boat\u201d",
                 "Stephen Crane",
                 "deserting [accept abandoning his regiment or leaving his regiment]"
@@ -428,7 +428,7 @@
         },
         {
             "leadin": "A lit-up young girl stands to the left of this painting\u2019s central figure, carrying a dead chicken. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Night Watch ",
                 "Rembrandt Harmenszoon van Rijn",
                 "Rijksmuseum (\u201cRIKES-museum\u201d)"
@@ -448,7 +448,7 @@
         },
         {
             "leadin": "Plutarch wrote a critical essay titled \u201cOn the Malice of\u201d this historian, which accuses him of lying so much it would take several books to record. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Herodotus",
                 "Hanging Gardens of Babylon",
                 "Marcus Tullius Cicero"
@@ -468,7 +468,7 @@
         },
         {
             "leadin": "The biosynthesis of this compound is rate-limited by the production of mevalonate by HMG-CoA reductase. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cholesterol",
                 "cell membrane [accept plasma membrane]",
                 "statins "
@@ -488,7 +488,7 @@
         },
         {
             "leadin": "Daniel Libeskind designed the controversial \u201ccrystal\u201d expansion for a museum located in this country. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Canada",
                 "Frank Gehry",
                 "Disney [accept Walt Disney Concert Hall; accept Disney World]"
@@ -508,7 +508,7 @@
         },
         {
             "leadin": "One type of this concept is defined as being able to be ascertained without any prior experience. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "knowledge",
                 "empiricism",
                 "tabula rasa [or blank slate]"
@@ -528,7 +528,7 @@
         },
         {
             "leadin": "The singer of this song asks \u201cWhere did you come from? Where did you go?\u201d. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cCotton-Eye Joe\u201d",
                 "Sweden",
                 "Avicii [or Tim Bergling]"
@@ -548,7 +548,7 @@
         },
         {
             "leadin": "Moliere\u2019s version of this character is an atheist who clashes with the valet Sganarelle over religion. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Don Juan (\u201cdon JOO-in\u201d in Byron\u2019s pronunciation)",
                 "George Bernard Shaw",
                 "Hell [accept \u201cDon Juan in Hell\u201d or \u201chell is other people\u201d]"
@@ -568,7 +568,7 @@
         },
         {
             "leadin": "Kimberl\u00e9 Williams Crenshaw popularized this term in a 1989 paper, where she used it to explain how black women were experiencing compound discrimination in the workplace. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "intersectionality",
                 "third-wave feminism",
                 "bell hooks [or Gloria Jean Watkins]"
@@ -588,7 +588,7 @@
         },
         {
             "leadin": "Carbonation in this material is undesirable because it converts calcium hydroxide to calcium carbonate, thus lowering the pH and promoting corrosion. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "concrete [prompt on cement with \u201cwhat is the cement used for?\u201d]",
                 "silica [or silicon dioxide or SiO2]",
                 "salt "
@@ -608,7 +608,7 @@
         },
         {
             "leadin": "Upon hearing the speech that produced this phrase, Edward Carrington was so moved by it that he requested he be buried at the location of the speech. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cGive me liberty or give me death!\u201d",
                 "William Wirt",
                 "American Revolutionary War [or Revolutionary War or American War of Independence]"

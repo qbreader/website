@@ -124,7 +124,7 @@
     "bonuses": [
         {
             "leadin": "Answer the following about the metaphysical positions of the philosopher David Armstrong, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "nominalism [or word forms]",
                 "Ludwig Wittgenstein",
                 "supervenience [accept word forms, like it supervenes upon] "
@@ -139,7 +139,7 @@
         },
         {
             "leadin": "Van Gogh\u2019s suicide is described in a letter to Albert Aurier written by this artist, who handled Van Gogh\u2019s affairs after his death. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u00c9mile Bernard [or \u00c9mile Henri Bernard; do not accept or prompt on \u201cPierre Bonnard\u201d]",
                 "Paul C\u00e9zanne",
                 "Brittany [or Bretagne] "
@@ -154,7 +154,7 @@
         },
         {
             "leadin": "Margaret Thatcher\u2019s son went missing in the Sahara Desert for six days during this race in 1982. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Dakar Rally",
                 "Andes Mountains",
                 "Jeddah [or Jiddah; or Jeddah Tower] "
@@ -169,7 +169,7 @@
         },
         {
             "leadin": "While in a courtyard of this building, the author chats with a Moor who laments the modern age\u2019s lax poetic standards and the treachery of Boabdil. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Alhambra [accept Tales from the Alhambra]",
                 "Washington Irving",
                 "Christopher Columbus [or Cristoforo Colombo; accept The Columbiad] "
@@ -184,7 +184,7 @@
         },
         {
             "leadin": "Odd pieces that have been played at these events include a polka nicknamed \u201cFireproof\u201d featuring several anvils and one nicknamed \u201cJockey\u201d featuring a prominent part for whip. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Vienna New Year\u2019s Concerts [accept any description of concerts held on New Year\u2019s Eve or Day by the Vienna Philharmonic Orchestra; prompt on partial answer]",
                 "Strauss [accept Eduard Strauss; accept Johann Strauss, Sr.; accept Johann Strauss Jr. or Johann Strauss II]",
                 "Carlos Kleiber "
@@ -199,7 +199,7 @@
         },
         {
             "leadin": "Howard Ulrich and his son recalled seeing the treetops far below them during an event that occurred in this body of water, which produced a new, wider trimline by scraping away masses of soil and vegetation. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Lituya Bay [prompt on, but DO NOT REVEAL, the Gulf of Alaska]",
                 "Alaska [or AK; or An\u00e1aski]",
                 "Good Friday [prompt on Friday] "
@@ -214,7 +214,7 @@
         },
         {
             "leadin": "The topology freezing transition temperature in this class of polymers may be modified by adjusting catalyst conditions. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "vitrimers",
                 "esters",
                 "glass "
@@ -229,7 +229,7 @@
         },
         {
             "leadin": "The onetime-sailor Henri Martin and the stenographer Raymonde Dien became causes c\u00e9l\u00e8bres (\u201ccause suh-LEBruh\u201d) after being arrested for protesting against this conflict. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "First Indochina War [accept Anti-French Resistance War; accept answers that mention France fighting in modern Vietnam or the Vi\u1ec7t Minh]",
                 "Pierre Mend\u00e8s France [or PMF; prompt on Mend\u00e8s or France]",
                 "Charles de Gaulle "
@@ -244,7 +244,7 @@
         },
         {
             "leadin": "After they decide not to consummate their marriage, an angel brings two characters from this story a crown of lilies and a crown of roses. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u201cThe Second Nun\u2019s Tale\u201d",
                 "The General Prologue [prompt on prologue]",
                 "The Canterbury Tales "
@@ -259,7 +259,7 @@
         },
         {
             "leadin": "With collaborators like Dorothea Tieck and Caroline Schelling, August Schlegel completed this literary project in German. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "translating the plays of William Shakespeare [accept word forms of translation in place of \u201ctranslating\u201d; prompt on translation or word forms by asking \u201cof what author?\u201d]",
                 "Novalis [or Friedrich von Hardenburg]",
                 "Athenaeum [accept The Athenaeum Fragments] "
@@ -274,7 +274,7 @@
         },
         {
             "leadin": "Answer the following about Walter Benjamin\u2019s essay \u201cA Short History of Photography,\u201d which was published five years before his \u201cThe Work of Art in the Age of Mechanical Reproduction.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Soviet Union [or USSR; accept Russia]",
                 "Nadar [or Gaspard-F\u00e9lix Tournachon]",
                 "Eug\u00e8ne Atget (\u201coo-ZHEN aht-ZHAY\u201d) "
@@ -289,7 +289,7 @@
         },
         {
             "leadin": "Ben Rawlence\u2019s City of Thorns chronicles a refugee camp primarily occupied by these people, where they coined the word buufis to describe a longing for resettlement. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Somali people",
                 "khat [or qat]",
                 "Kenyatta "
@@ -304,7 +304,7 @@
         },
         {
             "leadin": "One of the mathematical structures named for this man only contains the elements 0 and 1, with addition and multiplication defined modulo 2. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "\u00c9variste Galois [accept Galois field or Galois group]",
                 "prime numbers",
                 "primitive element "
@@ -319,7 +319,7 @@
         },
         {
             "leadin": "Answer the following about very short \u201cflash fiction\u201d from around the world, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Dutch [or Nederlands]",
                 "the Latin American Boom [or el Boom]",
                 "Syria (The Songs of Mihyar of Damascus are by the Syrian poet Adunis.) "
@@ -334,7 +334,7 @@
         },
         {
             "leadin": "In Book IX of the Aeneid, one of these characters dies and slumps like \u201ca blood-red flower, cut by a plow,\u201d after he is unable to save the other during a night raid on the Latin army. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Nisus AND Euryalus (\u201cyur-EYE-uh-lus\u201d)",
                 "Diomedes",
                 "Aphrodite "
@@ -349,7 +349,7 @@
         },
         {
             "leadin": "Answer the following about the theory of quantum dots, or QDs, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "k dot p perturbation theory",
                 "mass [or m]",
                 "Bohr radius [or exciton Bohr radius] "
@@ -364,7 +364,7 @@
         },
         {
             "leadin": "In one opinion, John Roberts quipped that these objects are \u201csuch a pervasive part of life\u201d that a Martian visiting Earth \u201cmight conclude they [are] an important feature of the human anatomy.\u201d For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "cell phones [or mobile phones; accept more specific answers like iPhones]",
                 "Neil Gorsuch",
                 "Antonin Scalia "
@@ -379,7 +379,7 @@
         },
         {
             "leadin": "St. Ephrem the Syrian founded the School of Nisibis, which was closed for promoting this heresy. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Nestorianism [accept word forms]",
                 "Virgin Mary",
                 "Justin Martyr [prompt on Justin or St. Justin] "
@@ -394,7 +394,7 @@
         },
         {
             "leadin": "The anionic lipid cardiolipin helps to lubricate the c-ring of these proteins by repeatedly binding and releasing from lysine residues. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "ATP synthases [or ATPases]",
                 "mitochondrial permeability transition [or MPT; accept mitochondrial permeability transition pore or MPTP]",
                 "calcium ions [or Ca2+] "
@@ -409,7 +409,7 @@
         },
         {
             "leadin": "An experiment that supposedly helped identify this phenomenon had individuals write down the last four digits of their phone number before guessing a house price. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "anchoring [or word forms like anchoring heuristic or anchoring bias; accept focalism; prompt on priming]",
                 "personality",
                 "endowment effect [or divestiture aversion] "

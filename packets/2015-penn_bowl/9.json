@@ -119,7 +119,7 @@
     "bonuses": [
         {
             "leadin": "A poem about this man is modelled on the nursery rhyme \"This is the house that Jack built\" and, as such, ends almost all of its stanzas with the refrain \"that lies in the house of Bedlam.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ezra Pound [or Ezra Loomis Pound]",
                 "Questions of Travel",
                 "villanelle [or villanesque]"
@@ -134,7 +134,7 @@
         },
         {
             "leadin": "This character cross-dresses to kill his ex-girlfriend under orders from the empress. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Ottone [or Otho]",
                 "The Coronation of Poppaea [or L'incoronazione di Poppea]",
                 "Claudio Monteverdi"
@@ -149,7 +149,7 @@
         },
         {
             "leadin": "You can \"Pimp your Passover\" with fashion designer's Michelle Ng's one of these items that costs $1,500 since it is studded with Swarovski Crystals. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "yarmulkes [or kippah or kipoh]",
                 "tzitzit",
                 "chuppah [or huppah, or chipe]"
@@ -163,7 +163,7 @@
         },
         {
             "leadin": "For 10 points, name these German philosophers:",
-            "answer": [
+            "answers_sanitized": [
                 "Georg Wilhelm Friedrich Hegel",
                 "Ludwig Andreas von Feuerbach",
                 "Max Stirner"
@@ -177,7 +177,7 @@
         },
         {
             "leadin": "According to Plutarch, this man's lisp made his speech \"persuasive and full of charm.\" For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Alcibiades (AAL-sib-ee-AH-deez)",
                 "Sicilian Expedition [or equivalents about invading Sicily]",
                 "Nicias"
@@ -192,7 +192,7 @@
         },
         {
             "leadin": "During the \"Hunting Season,\" this group helped British forces capture members of a splinter group  after their assassination of Lord Moyne. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Haganah (hah-gah-NAH)",
                 "Israel",
                 "Moshe Dayan"
@@ -207,7 +207,7 @@
         },
         {
             "leadin": "A woman in this play named Laurencia says that her ideal life would consist of eating a lot of food instead of being annoyed by men. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "The Sheep Well [or Fuenteovejuna]",
                 "Felix Lope de Vega y Carpio",
                 "Francisco de Quevedo [or Francisco G\u00c3\u00b3mez de Quevedo y Santib\u00c3\u00a1\u00c3\u00b1ez Villegas]"
@@ -222,7 +222,7 @@
         },
         {
             "leadin": "This element is most commonly found in an orthorhombic allotrope in which eight atoms of it are arranged in a ring. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "sulfur [or S]",
                 "leaving group",
                 "triflate [or trifluoromethanesulfonate or Tf]"
@@ -237,7 +237,7 @@
         },
         {
             "leadin": "This composer's violin concerto replaces the development section of the first movement with a lengthy cadenza. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Jean Sibelius",
                 "Finland [or Suomi]",
                 "Johannes Brahms"
@@ -252,7 +252,7 @@
         },
         {
             "leadin": "Answer the following concerning the most important ongoing experiment in particle physics, for 10 points each.",
-            "answer": [
+            "answers_sanitized": [
                 "Large Hadron Collider [or LHC]",
                 "quark-gluon plasma [prompt on \"plasma\"]",
                 "baryons"
@@ -267,7 +267,7 @@
         },
         {
             "leadin": "The curl of this function of f is always equal to zero assuming f has continuous second derivatives. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "gradient",
                 "Hessian (HESH-un)",
                 "quasi-Newtonian methods [do NOT accept \"Newtonian\" or \"Newton\"]"
@@ -282,7 +282,7 @@
         },
         {
             "leadin": "A popular scam by taxi drivers in this city involves taking a tunnel from its airport to Interstate 215 that usually adds an unnecessary ten dollars to fares. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Las Vegas",
                 "taxi medallions",
                 "Lyft"
@@ -296,7 +296,7 @@
         },
         {
             "leadin": "A group of \"rebels\" within the Conservative Party refused to ratify this treaty, almost leading to the end of the government of John Major. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Treaty of Maastricht",
                 "European Union",
                 "passarelle clause"
@@ -311,7 +311,7 @@
         },
         {
             "leadin": "Major Plunkett and his wife Maud are at the center of one of the major plotlines in this book. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Omeros",
                 "Helen",
                 "Saint Lucia [or Sainte-Lucie]"
@@ -326,7 +326,7 @@
         },
         {
             "leadin": "Answer some questions about infections in plants, for 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "tobacco [or nicotiana tabacum]",
                 "R genes or plasmids",
                 "systemic acquired resistance [or SAR]"
@@ -341,7 +341,7 @@
         },
         {
             "leadin": "The upcoming sequel to this book is set to be titled The Mirror and the Light. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Bring Up the Bodies",
                 "Hilary Mantel [or Hilary Mary Mantel; or Hilary (Mary) Thompson]",
                 "Ian McEwan [or Ian Russell McEwan]"
@@ -356,7 +356,7 @@
         },
         {
             "leadin": "The artist of this painting later married one of its models, who is playing with a small dog in the foreground. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Luncheon of the Boating Party",
                 "Pierre-Auguste Renoir",
                 "Gustave Caillebotte"
@@ -371,7 +371,7 @@
         },
         {
             "leadin": "He wrote Adolescent Aggression and investigated fear arousal in snake-phobics for another work. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Albert Bandura",
                 "social learning theory",
                 "movie theater [or cinema]"
@@ -385,7 +385,7 @@
         },
         {
             "leadin": "This man resigned from the US Senate when told he had to vote to expunge Henry Clay's censure of Andrew Jackson. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "John Tyler",
                 "William Henry Harrison [Prompt on just \"Harrison\"]",
                 "Abel Upshur"
@@ -400,7 +400,7 @@
         },
         {
             "leadin": "With a name meaning \"Lord,\" this god is name-dropped in both Paradise Lost and the Bible. For 10 points each:",
-            "answer": [
+            "answers_sanitized": [
                 "Baal [prompt on \"Hadad\"]",
                 "sea or ocean",
                 "Astarte [or Ashtoreth or Asherat]"
