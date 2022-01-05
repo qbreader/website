@@ -29,6 +29,7 @@ var numSubcategories = 19;
 function updateCategories() {
     let cat = document.getElementById('category-select').value;
     if (validCategories.includes(cat)) {
+        // remove cat:
         validCategories = validCategories.filter(a => a !== cat);
     } else {
         validCategories.push(cat);
@@ -36,7 +37,7 @@ function updateCategories() {
 
     for (let i = 0; i < 12; i++) {
         let option = document.getElementById('category-select').getElementsByTagName('option')[i];
-        option.innerHTML = option.value + (validCategories.includes(option.value) ? ' [x]' : '');
+        option.innerHTML = (validCategories.includes(option.value) ? '[x] ' : '') + option.value;
     }
 
     // Add the subcat options to the subcat dropdown menu
@@ -73,7 +74,7 @@ function updateSubcategories() {
 
     for (let i = 0; i < numSubcategories; i++) {
         let option = document.getElementById('subcategory-select').getElementsByTagName('option')[i];
-        option.innerHTML = option.value + (validSubcategories.includes(option.value) ? ' [x]' : '');
+        option.innerHTML = (validSubcategories.includes(option.value) ? '[x] ' : '') + option.value;
     }
 }
 
