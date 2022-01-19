@@ -84,3 +84,7 @@ window.onclick = (event) => {
         modal.style.display = "none";
     }
 }
+
+if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com' || document.URL.substring(0, 29) === 'http://qbreader.herokuapp.com') {
+    window.location.href = 'www.qbreader.org';
+}
