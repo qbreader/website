@@ -85,6 +85,6 @@ window.onclick = (event) => {
     }
 }
 
-if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com' || document.URL.substring(0, 29) === 'http://qbreader.herokuapp.com') {
-    window.location.href = 'www.qbreader.org';
+if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com') {
+    window.location.href = 'http://www.qbreader.org' + document.URL.substring(30);
 }
