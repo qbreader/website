@@ -26,12 +26,12 @@ updateStatDisplay(); //update stats upon loading site
         return;
     } else {
         paragraph = document.createElement('p');
-        paragraph.appendChild(document.createTextNode('ANSWER: ' + questions[currentQuestionNumber]['answers_sanitized'][currentBonusPart]));
+        paragraph.appendChild(document.createTextNode('ANSWER: ' + questions[currentQuestionNumber]['answers'][currentBonusPart]));
         document.getElementById('question').appendChild(paragraph);
         currentBonusPart++;
         if (currentBonusPart <= 2) {
             paragraph1 = document.createElement('p');
-            paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts_sanitized'][currentBonusPart]));
+            paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts'][currentBonusPart]));
             document.getElementById('question').appendChild(paragraph1);
         }
     }
@@ -115,11 +115,11 @@ async function readQuestion() {
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     let paragraph = document.createElement('p');
-    paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin_sanitized']));
+    paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
     document.getElementById('question').appendChild(paragraph);
 
     let paragraph1 = document.createElement('p');
-    paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts_sanitized'][0]));
+    paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts'][0]));
     document.getElementById('question').appendChild(paragraph1);
 }
 
