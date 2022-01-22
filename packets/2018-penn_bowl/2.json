@@ -1,130 +1,130 @@
 {
     "tossups": [
         {
-            "question_sanitized": "The Kolmogorov\u2013Petrovsky\u2013Piskunov equation is the simplest of a family of equations that contain a reaction term and a term named for this process; those equations often have solutions called Turing patterns. A value describing this phenomenon appears in the denominator of the Soret coefficient, which governs deviations from its usual behavior with changes in temperature. That value describing this phenomenon is equal to drift velocity over force times kT according to the (*) Einstein\u2013Smoluchowski relation. A law governing this process reduces to the heat equation in two or more dimensions, and another law governing it states that flux equals this process\u2019s namesake constant times the concentration gradient. For 10 points, name this phenomenon described by Fick\u2019s laws, the bulk movement of particles from high to low concentration.",
-            "answer_sanitized": "diffusion [or normal diffusion; do not accept \u201cdiffusivity\u201d; prompt on Brownian motion; prompt on random walk] &lt;EM, Physics&gt;",
+            "question": "The Kolmogorov\u2013Petrovsky\u2013Piskunov equation is the simplest of a family of equations that contain a reaction term and a term named for this process; those equations often have solutions called Turing patterns. A value describing this phenomenon appears in the denominator of the Soret coefficient, which governs deviations from its usual behavior with changes in temperature. That value describing this phenomenon is equal to drift velocity over force times kT according to the (*) Einstein\u2013Smoluchowski relation. A law governing this process reduces to the heat equation in two or more dimensions, and another law governing it states that flux equals this process\u2019s namesake constant times the concentration gradient. For 10 points, name this phenomenon described by Fick\u2019s laws, the bulk movement of particles from high to low concentration.",
+            "answer": "diffusion [or normal diffusion; do not accept \u201cdiffusivity\u201d; prompt on Brownian motion; prompt on random walk] &lt;EM, Physics&gt;",
             "subcategory": "Science Physics",
             "category": "Science"
         },
         {
-            "question_sanitized": "Early sites where this river was crossed include Glenns Ferry and Three Island Crossing. A proposal to remove dams from the lower part of this river sought to increase the spawn of fish in two of its tributaries, the Tucannon and the Grande Ronde. The diversion of water from this river through the Minidoka Irrigation Project allowed for the reclamation of over one million acres of land for farming. This river passes through the (*) Milner Dam before going over both the Shoshone Falls and the Twin Falls. This river partially comprises the border between Oregon and Idaho, where it flows through the deepest gorge in North America, Hells Canyon. This river was given its name because American explorers misinterpreted a Shoshone tribe gesture for salmon. For 10 points, name this river that flows from Yellowstone National Park, the largest tributary of the Columbia River.",
-            "answer_sanitized": "Snake River &lt;AJ, Geography&gt;",
+            "question": "Early sites where this river was crossed include Glenns Ferry and Three Island Crossing. A proposal to remove dams from the lower part of this river sought to increase the spawn of fish in two of its tributaries, the Tucannon and the Grande Ronde. The diversion of water from this river through the Minidoka Irrigation Project allowed for the reclamation of over one million acres of land for farming. This river passes through the (*) Milner Dam before going over both the Shoshone Falls and the Twin Falls. This river partially comprises the border between Oregon and Idaho, where it flows through the deepest gorge in North America, Hells Canyon. This river was given its name because American explorers misinterpreted a Shoshone tribe gesture for salmon. For 10 points, name this river that flows from Yellowstone National Park, the largest tributary of the Columbia River.",
+            "answer": "Snake River &lt;AJ, Geography&gt;",
             "category": "Geography"
         },
         {
-            "question_sanitized": "In this opera\u2019s most famous recording, Otto Klemperer included more dialogue as well as a third act. After a woman helps a man carry a basket of food in this opera, that man rejects her father-in-law\u2019s suggestion of marriage, who claims that \u201ctrue happiness\u2026 is best secured by glorious gold.\u201d In the duet \u201cJetzt, Alter, jetzt hat es Eile\u201d (\u201cYETST, ALL-tur, YETST hat us EYE-luh\u201d), one character in this opera refuses to murder another for money. For this opera\u2019s finale, the chorus sings \u201cWer ein holdes Weib errungen\u201d (\u201cvair YNE hold-us VYBE air-RUNG-in\u201d) after the central location\u2019s governor is (*) imprisoned. The third of this opera\u2019s four overtures contains the canon \u201cMir ist so wunderbar\u201d (\u201cMEER ist zo VOON-duh-bar\u201d), while the fourth is used as the actual overture. This opera\u2019s title character sings the \u201cGravedigging Duet.\u201d For 10 points, name this opera about Florestan\u2019s rescue from jail by a cross-dressing Leonore, the only opera by Ludwig van Beethoven.",
-            "answer_sanitized": "Fidelio &lt;MT, Other Arts (Opera)&gt;",
+            "question": "In this opera\u2019s most famous recording, Otto Klemperer included more dialogue as well as a third act. After a woman helps a man carry a basket of food in this opera, that man rejects her father-in-law\u2019s suggestion of marriage, who claims that \u201ctrue happiness\u2026 is best secured by glorious gold.\u201d In the duet \u201cJetzt, Alter, jetzt hat es Eile\u201d (\u201cYETST, ALL-tur, YETST hat us EYE-luh\u201d), one character in this opera refuses to murder another for money. For this opera\u2019s finale, the chorus sings \u201cWer ein holdes Weib errungen\u201d (\u201cvair YNE hold-us VYBE air-RUNG-in\u201d) after the central location\u2019s governor is (*) imprisoned. The third of this opera\u2019s four overtures contains the canon \u201cMir ist so wunderbar\u201d (\u201cMEER ist zo VOON-duh-bar\u201d), while the fourth is used as the actual overture. This opera\u2019s title character sings the \u201cGravedigging Duet.\u201d For 10 points, name this opera about Florestan\u2019s rescue from jail by a cross-dressing Leonore, the only opera by Ludwig van Beethoven.",
+            "answer": "Fidelio &lt;MT, Other Arts (Opera)&gt;",
             "subcategory": "Fine Arts Audiovisual",
             "category": "Fine Arts"
         },
         {
-            "question_sanitized": "Ben Smith warmed this man\u2019s first political office until he became constitutionally old enough to take the seat. Two years into his first term, this politician was rescued from a plane wreckage by fellow senator Birch Bayh. This man fumbled a response to the query \u201cWhy do you want to be president?\u201d during a campaign that he conceded with his \u201cThe Dream Shall Never Die\u201d speech. This man warned of (*) \u201cback-alley abortions\u201d and \u201csegregated lunch-counters\u201d in a speech on \u201cRobert Bork\u2019s America.\u201d This \u201cLion of the Senate\u201d unsuccessfully tried to primary Jimmy Carter in 1980, and his political career was dogged by his role in the drowning of Mary Jo Kopechne on Chappaquiddick island. For 10 points, name this younger brother of Robert and John F.\u00a0Kennedy.",
-            "answer_sanitized": "Ted Kennedy [or Edward Moore Kennedy; prompt on Kennedy] &lt;NR, American History&gt;",
+            "question": "Ben Smith warmed this man\u2019s first political office until he became constitutionally old enough to take the seat. Two years into his first term, this politician was rescued from a plane wreckage by fellow senator Birch Bayh. This man fumbled a response to the query \u201cWhy do you want to be president?\u201d during a campaign that he conceded with his \u201cThe Dream Shall Never Die\u201d speech. This man warned of (*) \u201cback-alley abortions\u201d and \u201csegregated lunch-counters\u201d in a speech on \u201cRobert Bork\u2019s America.\u201d This \u201cLion of the Senate\u201d unsuccessfully tried to primary Jimmy Carter in 1980, and his political career was dogged by his role in the drowning of Mary Jo Kopechne on Chappaquiddick island. For 10 points, name this younger brother of Robert and John F.\u00a0Kennedy.",
+            "answer": "Ted Kennedy [or Edward Moore Kennedy; prompt on Kennedy] &lt;NR, American History&gt;",
             "subcategory": "History American",
             "category": "History"
         },
         {
-            "question_sanitized": "This entity was created by the white bird-maiden Lindu, who was jilted by her fickle fianc\u00e9e and turned to guiding birds with her father instead. A big-game hunter from the north kidnapped the wife of a small-game hunter of the south, but was exposed by his dog following him to make this entity. In a similar Cherokee story, a cornmeal-stealing dog creates this thing. On the (*) seventh day of the seventh month of each year, a bridge of magpies grows over this place to let two lovers, a cowherd and a princess, meet. Possibly the most famous myth about this structure states that it was created by Hera pushing a suckling Hercules away from her breast, causing its title liquid to spill across the sky. For 10 points, name this heavenly feature, the galaxy containing Earth.",
-            "answer_sanitized": "Milky Way &lt;JC, Mythology&gt;",
+            "question": "This entity was created by the white bird-maiden Lindu, who was jilted by her fickle fianc\u00e9e and turned to guiding birds with her father instead. A big-game hunter from the north kidnapped the wife of a small-game hunter of the south, but was exposed by his dog following him to make this entity. In a similar Cherokee story, a cornmeal-stealing dog creates this thing. On the (*) seventh day of the seventh month of each year, a bridge of magpies grows over this place to let two lovers, a cowherd and a princess, meet. Possibly the most famous myth about this structure states that it was created by Hera pushing a suckling Hercules away from her breast, causing its title liquid to spill across the sky. For 10 points, name this heavenly feature, the galaxy containing Earth.",
+            "answer": "Milky Way &lt;JC, Mythology&gt;",
             "category": "Mythology"
         },
         {
-            "question_sanitized": "At the beginning of this book, two of the main characters take all of their money out of the bank in a styrofoam cooler and a wicker basket. One main character in this novel doesn\u2019t want to start reading Manzoni\u2019s The Betrothed because it is the only book she has to read. A pair of scissors with a crane head is one of the items that this novel\u2019s title character is accused of stealing. Earlier in this novel, a character stands naked in the pouring rain outside of her hut, where she sees a (*) yellow truck bringing food and batteries for her radio. That character doesn\u2019t understand a Life photograph of her servant carrying her schoolbooks as a child. This novel ends with that character running toward a mysterious helicopter. For 10 points, name this novel that depicts Bam and Maureen Smales\u2019 time in the village of their black servant, written by Nadine Gordimer.",
-            "answer_sanitized": "July\u2019s People &lt;MT, World Literature&gt;",
+            "question": "At the beginning of this book, two of the main characters take all of their money out of the bank in a styrofoam cooler and a wicker basket. One main character in this novel doesn\u2019t want to start reading Manzoni\u2019s The Betrothed because it is the only book she has to read. A pair of scissors with a crane head is one of the items that this novel\u2019s title character is accused of stealing. Earlier in this novel, a character stands naked in the pouring rain outside of her hut, where she sees a (*) yellow truck bringing food and batteries for her radio. That character doesn\u2019t understand a Life photograph of her servant carrying her schoolbooks as a child. This novel ends with that character running toward a mysterious helicopter. For 10 points, name this novel that depicts Bam and Maureen Smales\u2019 time in the village of their black servant, written by Nadine Gordimer.",
+            "answer": "July\u2019s People &lt;MT, World Literature&gt;",
             "subcategory": "Literature World",
             "category": "Literature"
         },
         {
-            "question_sanitized": "George Eaton claimed that the high female-to-male ratio in the skeletons found here meant that it was the last refuge of the virginal \u201cChosen Women,\u201d a hypothesis disproved by Richard Burger and Lucy Salazar. An object in this place is thought to be either a sundial or a map of the empire containing it, and a mach\u2019ay cave in this place has a window that allows light for only a few days a year. A man found this place while searching for a white rock over a spring at (*) Vilcabamba; he brought artifacts here to Yale, which was forced to return them in 2010. This place featured the Room of the Three Windows, as well as the Temple of the Sun and a stone known as \u201cThe Hitching Post of the Sun,\u201d the Intihuatana. This multi-terraced place was thought to have been constructed as an estate for the emperor Pachacuti, and it was explored by Hiram Bingham. For 10 points, name this mountainous Incan citadel.",
-            "answer_sanitized": "Machu Picchu &lt;JC, World History&gt;",
+            "question": "George Eaton claimed that the high female-to-male ratio in the skeletons found here meant that it was the last refuge of the virginal \u201cChosen Women,\u201d a hypothesis disproved by Richard Burger and Lucy Salazar. An object in this place is thought to be either a sundial or a map of the empire containing it, and a mach\u2019ay cave in this place has a window that allows light for only a few days a year. A man found this place while searching for a white rock over a spring at (*) Vilcabamba; he brought artifacts here to Yale, which was forced to return them in 2010. This place featured the Room of the Three Windows, as well as the Temple of the Sun and a stone known as \u201cThe Hitching Post of the Sun,\u201d the Intihuatana. This multi-terraced place was thought to have been constructed as an estate for the emperor Pachacuti, and it was explored by Hiram Bingham. For 10 points, name this mountainous Incan citadel.",
+            "answer": "Machu Picchu &lt;JC, World History&gt;",
             "subcategory": "History World",
             "category": "History"
         },
         {
-            "question_sanitized": "In the Revelation of John 5:8 and 8:3, this material symbolizes the prayers of the saints in heaven directly after the breaking of the seventh seal. The \u201cTen Virtues of Koh\u201d lists benefits of this substance, appreciation for which, along with the tea ceremony and flower arranging, is one of the three classical Japanese arts. The Bible describes a type of this substance called ketoret (\u201ck\u2019TOR-ett\u201d) for use in the Temple. A dakini who uses this substance appears on the third day of the bardo; that goddess, (*) Dhupa, gives her name to the use of this substance as part of a puja. This substance is held in a thurible (\u201cTHOO-rib-ull\u201d) in Mass, where it is swung around by the priest. For 10 points, name this aromatic biotic material that releases fragrant smoke when burned that is often used in religious rituals.",
-            "answer_sanitized": "incense &lt;AP, Religion&gt;",
+            "question": "In the Revelation of John 5:8 and 8:3, this material symbolizes the prayers of the saints in heaven directly after the breaking of the seventh seal. The \u201cTen Virtues of Koh\u201d lists benefits of this substance, appreciation for which, along with the tea ceremony and flower arranging, is one of the three classical Japanese arts. The Bible describes a type of this substance called ketoret (\u201ck\u2019TOR-ett\u201d) for use in the Temple. A dakini who uses this substance appears on the third day of the bardo; that goddess, (*) Dhupa, gives her name to the use of this substance as part of a puja. This substance is held in a thurible (\u201cTHOO-rib-ull\u201d) in Mass, where it is swung around by the priest. For 10 points, name this aromatic biotic material that releases fragrant smoke when burned that is often used in religious rituals.",
+            "answer": "incense &lt;AP, Religion&gt;",
             "category": "Religion"
         },
         {
-            "question_sanitized": "This region\u2019s inhabitants were reluctantly granted religious tolerance by the Letter of Majesty. Don \u00cd\u00f1igo V\u00e9lez de O\u00f1ate offered Elector John George I control over Lusatia in return for intervening against this region. The husband of Elizabeth Stuart was invited to become ruler of this royal electorate, but because of the Treaty of Ulm, he did not receive support from the Protestant League. A military contractor from this kingdom, Albrecht (*) von Wallenstein, amassed confiscated territories here into his Duchy of Friedland. Count Thurn led an event in the capital of this kingdom that caused grievous injuries to Vil\u00e9m Slavata of Chlum. After losing the Battle of White Mountain, Frederick the Winter King gave up this kingdom\u2019s throne and left the Holy Roman Empire. For 10 points, name this kingdom where the Thirty Years\u2019 War was started after the Second Defenestration of Prague.",
-            "answer_sanitized": "Kingdom of Bohemia &lt;NR, European History&gt;",
+            "question": "This region\u2019s inhabitants were reluctantly granted religious tolerance by the Letter of Majesty. Don \u00cd\u00f1igo V\u00e9lez de O\u00f1ate offered Elector John George I control over Lusatia in return for intervening against this region. The husband of Elizabeth Stuart was invited to become ruler of this royal electorate, but because of the Treaty of Ulm, he did not receive support from the Protestant League. A military contractor from this kingdom, Albrecht (*) von Wallenstein, amassed confiscated territories here into his Duchy of Friedland. Count Thurn led an event in the capital of this kingdom that caused grievous injuries to Vil\u00e9m Slavata of Chlum. After losing the Battle of White Mountain, Frederick the Winter King gave up this kingdom\u2019s throne and left the Holy Roman Empire. For 10 points, name this kingdom where the Thirty Years\u2019 War was started after the Second Defenestration of Prague.",
+            "answer": "Kingdom of Bohemia &lt;NR, European History&gt;",
             "subcategory": "History European",
             "category": "History"
         },
         {
-            "question_sanitized": "A character in this work says that she and her mother are \u201cexclusive\u201d because \u201cWe don\u2019t speak to everyone \u2013\u00a0or they don\u2019t speak to us.\u201d A man stays in this novella\u2019s opening location ostensibly to study, but really to conduct an affair with a \u201cvery clever foreign lady\u201d; he later helps Mrs. Walker try to coax a girl into a carriage. In this novella, \u201cAmerican candy\u2019s the best candy\u201d and \u201cAmerican men are the best\u201d are declarations made by the boy (*) Randolph before he introduces a man to his sister. That man\u2019s aunt, Mrs.\u00a0Costello, disapproves of the title character because she visits a castle with a man she hasn\u2019t known long, typifying her \u201cinscrutable combination of audacity and innocence.\u201d This work\u2019s title character accompanies Giovanelli to the Colosseum and dies from Roman fever. Frederick Winterbourne falls in love with the title innocent American girl in, for 10 points, what Henry James novella?",
-            "answer_sanitized": "Daisy Miller: A Study &lt;JC, British Literature&gt;",
+            "question": "A character in this work says that she and her mother are \u201cexclusive\u201d because \u201cWe don\u2019t speak to everyone \u2013\u00a0or they don\u2019t speak to us.\u201d A man stays in this novella\u2019s opening location ostensibly to study, but really to conduct an affair with a \u201cvery clever foreign lady\u201d; he later helps Mrs. Walker try to coax a girl into a carriage. In this novella, \u201cAmerican candy\u2019s the best candy\u201d and \u201cAmerican men are the best\u201d are declarations made by the boy (*) Randolph before he introduces a man to his sister. That man\u2019s aunt, Mrs.\u00a0Costello, disapproves of the title character because she visits a castle with a man she hasn\u2019t known long, typifying her \u201cinscrutable combination of audacity and innocence.\u201d This work\u2019s title character accompanies Giovanelli to the Colosseum and dies from Roman fever. Frederick Winterbourne falls in love with the title innocent American girl in, for 10 points, what Henry James novella?",
+            "answer": "Daisy Miller: A Study &lt;JC, British Literature&gt;",
             "subcategory": "Literature American",
             "category": "Literature"
         },
         {
-            "question_sanitized": "This man grew up in the Bit Reduti, which was built by his grandfather who had also built the \u201cPalace Without Rival.\u201d The Lydian King Gyges accepted this man\u2019s suzerainty after he had a dream that submitting to him would enable him to conquer his foes; shortly after, Gyges defeated the rival Cimmerians. After this man\u2019s grandfather destroyed the city of Babylon, this leader\u2019s father rebuilt it and installed as king this man\u2019s brother Shamash-shum-ukin. Palace reliefs at the (*) British Museum show this man hosting a garden party celebrating his triumph over Teumman, king of Elam and hunting lions. This warrior-scholar was one of a few in his line who could read Akkadian and Sumerian cuneiform and collected scrolls as war booty. For 10 points, name this grandson of Sennacherib and Neo-Assyrian king who built a namesake library at his capital of Nineveh.",
-            "answer_sanitized": "Ashurbanipal &lt;NR, European History&gt;",
+            "question": "This man grew up in the Bit Reduti, which was built by his grandfather who had also built the \u201cPalace Without Rival.\u201d The Lydian King Gyges accepted this man\u2019s suzerainty after he had a dream that submitting to him would enable him to conquer his foes; shortly after, Gyges defeated the rival Cimmerians. After this man\u2019s grandfather destroyed the city of Babylon, this leader\u2019s father rebuilt it and installed as king this man\u2019s brother Shamash-shum-ukin. Palace reliefs at the (*) British Museum show this man hosting a garden party celebrating his triumph over Teumman, king of Elam and hunting lions. This warrior-scholar was one of a few in his line who could read Akkadian and Sumerian cuneiform and collected scrolls as war booty. For 10 points, name this grandson of Sennacherib and Neo-Assyrian king who built a namesake library at his capital of Nineveh.",
+            "answer": "Ashurbanipal &lt;NR, European History&gt;",
             "subcategory": "History Classical",
             "category": "History"
         },
         {
-            "question_sanitized": "Description acceptable. An algorithm for this task involves using existing digits to index into a ten-by-ten antisymmetric quasigroup; that is the Damm algorithm. \u201cJump transpositions\u201d can be found by the related Verhoeff algorithm for this task. In an algorithm for this task, the complement of the one\u2019s complement is added to the received value. One of these algorithms has a minimum distance of three. This task can be most simply done by XORing (\u201cEX-or-ing\u201d) together all the bits to make a parity bit. This task often uses linear block codes, such as (*) Hamming codes. Over the Internet, this process is most often done by CRCs or checksums. For 10 points, name this process of finding or fixing mistakes after a possibly-flawed transmission of data.",
-            "answer_sanitized": "error detection [or error correction; accept equivalents such as finding errors or finding transcription errors; anti-prompt (i.e., ask \u201ccan you be less specific?\u201d) on CRC or cyclic redundancy check or checksum or Hamming code until read] &lt;JC, Other Science (Computer Science)&gt;",
+            "question": "Description acceptable. An algorithm for this task involves using existing digits to index into a ten-by-ten antisymmetric quasigroup; that is the Damm algorithm. \u201cJump transpositions\u201d can be found by the related Verhoeff algorithm for this task. In an algorithm for this task, the complement of the one\u2019s complement is added to the received value. One of these algorithms has a minimum distance of three. This task can be most simply done by XORing (\u201cEX-or-ing\u201d) together all the bits to make a parity bit. This task often uses linear block codes, such as (*) Hamming codes. Over the Internet, this process is most often done by CRCs or checksums. For 10 points, name this process of finding or fixing mistakes after a possibly-flawed transmission of data.",
+            "answer": "error detection [or error correction; accept equivalents such as finding errors or finding transcription errors; anti-prompt (i.e., ask \u201ccan you be less specific?\u201d) on CRC or cyclic redundancy check or checksum or Hamming code until read] &lt;JC, Other Science (Computer Science)&gt;",
             "subcategory": "Science Computer Science",
             "category": "Science"
         },
         {
-            "question_sanitized": "A character in this story is described as \u201cpassing from generation to generation \u2013 dear, inescapable, impervious, tranquil, and perverse.\u201d That character in this story looks like a church angel when her hair is cut short after sickness and is described as part of a \u201ctableau\u201d of a white figure behind a \u201cspraddled silhouette\u201d with a horsewhip. This story\u2019s title character offers china-painting classes and insists that a mayor who has been dead for ten years allowed her to evade (*) taxes in Jefferson before lime is sprinkled around her house to mask a smell. This story\u2019s title character mourns her father\u2019s death, then dates Homer Barron and buys arsenic, ostensibly for killing rats. This story ends with a single strand of gray hair found on a pillow. For 10 points, name this William Faulkner short story in which the title Southern woman kills and sleeps with her lover\u2019s body.",
-            "answer_sanitized": "\u201cA Rose for Emily\u201d &lt;JC, American Literature&gt;",
+            "question": "A character in this story is described as \u201cpassing from generation to generation \u2013 dear, inescapable, impervious, tranquil, and perverse.\u201d That character in this story looks like a church angel when her hair is cut short after sickness and is described as part of a \u201ctableau\u201d of a white figure behind a \u201cspraddled silhouette\u201d with a horsewhip. This story\u2019s title character offers china-painting classes and insists that a mayor who has been dead for ten years allowed her to evade (*) taxes in Jefferson before lime is sprinkled around her house to mask a smell. This story\u2019s title character mourns her father\u2019s death, then dates Homer Barron and buys arsenic, ostensibly for killing rats. This story ends with a single strand of gray hair found on a pillow. For 10 points, name this William Faulkner short story in which the title Southern woman kills and sleeps with her lover\u2019s body.",
+            "answer": "\u201cA Rose for Emily\u201d &lt;JC, American Literature&gt;",
             "subcategory": "Literature American",
             "category": "Literature"
         },
         {
-            "question_sanitized": "The VTN-N variant of fibronectin helps coat surfaces that are used to culture these cells, which can also be grown in mTesR1 media. Flow cytometric markers of these cells include Tra-1-60, Tra-1-81, SSEA-3, and SSEA-4. One marker for these cells is a protein containing both a POU sequence and a homeodomain, which is capable of inducing expression of Rex1. These cells are commonly cultured in the presence of leukemic inhibitory factor, which induces the overexpression of the transcription factor (*) NANOG. A cocktail of Oct4, Sox2, Klf4, and c-myc is used to maintain these cells. These cells can form teratomas, benign tumors that contain hair or bone tissue, and they are grown on a lawn of mitomycin-c-secreting fibroblasts. They are extracted from the inner cell mass of a blastocyst. For 10 points, name these pluripotent cells that are extracted from human embryos.",
-            "answer_sanitized": "embryonic stem cells [or ESCs or induced pluripotent stem cells or iPS cells; prompt on stem cells; prompt on pluripotent stem cells] &lt;AP, Biology&gt;",
+            "question": "The VTN-N variant of fibronectin helps coat surfaces that are used to culture these cells, which can also be grown in mTesR1 media. Flow cytometric markers of these cells include Tra-1-60, Tra-1-81, SSEA-3, and SSEA-4. One marker for these cells is a protein containing both a POU sequence and a homeodomain, which is capable of inducing expression of Rex1. These cells are commonly cultured in the presence of leukemic inhibitory factor, which induces the overexpression of the transcription factor (*) NANOG. A cocktail of Oct4, Sox2, Klf4, and c-myc is used to maintain these cells. These cells can form teratomas, benign tumors that contain hair or bone tissue, and they are grown on a lawn of mitomycin-c-secreting fibroblasts. They are extracted from the inner cell mass of a blastocyst. For 10 points, name these pluripotent cells that are extracted from human embryos.",
+            "answer": "embryonic stem cells [or ESCs or induced pluripotent stem cells or iPS cells; prompt on stem cells; prompt on pluripotent stem cells] &lt;AP, Biology&gt;",
             "subcategory": "Science Biology",
             "category": "Science"
         },
         {
-            "question_sanitized": "A character in this work repeats \u201cthe woods avenge themselves\u201d after finding the body of another character, who barely bleeds despite being shot. That character, who is fascinated by a picture of Death holding an hourglass, is kept out of school, but her father does not teach her, so she spends most of her time reading. A character in this work is too lazy to move all of his things out of the house after an affair is revealed. That character in this work calls his daughter, who has hereditary (*) blindness, an \u201cinterloper\u201d because she may not be his child. A character whose destiny is to \u201cbe the thirteenth at the table\u201d reveals Gina\u2019s affair with H\u00e5kon Werle in this work, which causes Relling to explain a \u201clife-lie\u201d that he told Hjalmar. For 10 points, name this play in which Hedvig shoots herself instead of the title bird, a work by Henrik Ibsen.",
-            "answer_sanitized": "The Wild Duck [or Vildanden] &lt;MT, European Literature&gt;",
+            "question": "A character in this work repeats \u201cthe woods avenge themselves\u201d after finding the body of another character, who barely bleeds despite being shot. That character, who is fascinated by a picture of Death holding an hourglass, is kept out of school, but her father does not teach her, so she spends most of her time reading. A character in this work is too lazy to move all of his things out of the house after an affair is revealed. That character in this work calls his daughter, who has hereditary (*) blindness, an \u201cinterloper\u201d because she may not be his child. A character whose destiny is to \u201cbe the thirteenth at the table\u201d reveals Gina\u2019s affair with H\u00e5kon Werle in this work, which causes Relling to explain a \u201clife-lie\u201d that he told Hjalmar. For 10 points, name this play in which Hedvig shoots herself instead of the title bird, a work by Henrik Ibsen.",
+            "answer": "The Wild Duck [or Vildanden] &lt;MT, European Literature&gt;",
             "subcategory": "Literature European",
             "category": "Literature"
         },
         {
-            "question_sanitized": "One section of this work, which was inexplicably adapted into a musical by Mary Margaret Bittings, contrasts groups that cast out death by burning or drowning effigies with those that explicitly announce the return of spring. Wittgenstein criticized this work\u2019s author for being \u201cmuch more savage than most of his \u2018savages,\u2019\u201d which this book\u2019s author labeled as people who eat human embodiments of the \u201ccorn-spirit.\u201d Four chapters of this work are dedicated to (*) tabooed acts, persons, things, and words. This work, which describes the evolutionary sequence of belief from magic to religion to science, begins with a reference to J.\u00a0M.\u00a0W. Turner\u2019s painting of the same name. For 10 points, name this anthropological study named for an object that Aeneas uses to enter the Underworld, a comparative study of religion by James Frazer.",
-            "answer_sanitized": "The Golden Bough: A Study in Comparative Religion &lt;MT, Social Science (Anthropology)&gt;",
+            "question": "One section of this work, which was inexplicably adapted into a musical by Mary Margaret Bittings, contrasts groups that cast out death by burning or drowning effigies with those that explicitly announce the return of spring. Wittgenstein criticized this work\u2019s author for being \u201cmuch more savage than most of his \u2018savages,\u2019\u201d which this book\u2019s author labeled as people who eat human embodiments of the \u201ccorn-spirit.\u201d Four chapters of this work are dedicated to (*) tabooed acts, persons, things, and words. This work, which describes the evolutionary sequence of belief from magic to religion to science, begins with a reference to J.\u00a0M.\u00a0W. Turner\u2019s painting of the same name. For 10 points, name this anthropological study named for an object that Aeneas uses to enter the Underworld, a comparative study of religion by James Frazer.",
+            "answer": "The Golden Bough: A Study in Comparative Religion &lt;MT, Social Science (Anthropology)&gt;",
             "category": "Social Science"
         },
         {
-            "question_sanitized": "Richard Prince displayed this work next to a picture of his girlfriend playing dead in a location similar to this painting\u2019s setting, which apparently aroused the anger of a woman dressed like a pilgrim. The artist of this work met its model while picking blueberries, and he chose to be buried in this painting\u2019s real-life setting. This work was followed by a painting of brown and blue doors representing the subject and her brother Alvaro after their death. This painting\u2019s artist created repeated images of the subject\u2019s house, including \u201cKitchen at (*) Olson\u2019s.\u201d Two faint tracks are visible in this painting, which was set in Cushing, Maine. Some barns and a house are in the background of this painting, whose subjects wears a pink dress and twists awkwardly around. For 10 points, name this Andrew Wyeth painting of a paralyzed woman in a field.",
-            "answer_sanitized": "Christina\u2019s World &lt;JC, Painting&gt;",
+            "question": "Richard Prince displayed this work next to a picture of his girlfriend playing dead in a location similar to this painting\u2019s setting, which apparently aroused the anger of a woman dressed like a pilgrim. The artist of this work met its model while picking blueberries, and he chose to be buried in this painting\u2019s real-life setting. This work was followed by a painting of brown and blue doors representing the subject and her brother Alvaro after their death. This painting\u2019s artist created repeated images of the subject\u2019s house, including \u201cKitchen at (*) Olson\u2019s.\u201d Two faint tracks are visible in this painting, which was set in Cushing, Maine. Some barns and a house are in the background of this painting, whose subjects wears a pink dress and twists awkwardly around. For 10 points, name this Andrew Wyeth painting of a paralyzed woman in a field.",
+            "answer": "Christina\u2019s World &lt;JC, Painting&gt;",
             "subcategory": "Fine Arts Visual",
             "category": "Fine Arts"
         },
         {
-            "question_sanitized": "The St\u00f6ber (\u201cSHTUR-bur\u201d) process used to produce silica particles is one example of the sol-gel types of these reactions. Telechelic (\u201cTELL-uh-KEE-lick\u201d) molecules can continue to undergo one of these reactions. A localized increase in viscosity in vessels undergoing these reactions can cause the disastrous Trommsdorff\u2013Norrish effect. The extent of these reactions equals one over one minus p, where p is N-sub-zero minus N all over N-sub-zero, which is the (*) Carothers\u2019 (\u201cker-OTHERS\u201d) equation. A narrow Poisson (\u201cpwah-SAWN\u201d) distribution of products can be produced in their \u201cliving\u201d type. These reactions can proceed through anionic (\u201cAN-ionic\u201d), cationic (\u201cCAT-ionic\u201d), and radical centers via chain-growth or step-growth mechanisms. For 10 points, name these reactions that form molecules from repeating subunits called monomers.",
-            "answer_sanitized": "polymerization reactions [or addition polymerizations; or condensation polymerizations; or chain-growth polymerizations; or step-growth polymerizations; or radical polymerizations; or living polymerizations] &lt;AP, Chemistry&gt;",
+            "question": "The St\u00f6ber (\u201cSHTUR-bur\u201d) process used to produce silica particles is one example of the sol-gel types of these reactions. Telechelic (\u201cTELL-uh-KEE-lick\u201d) molecules can continue to undergo one of these reactions. A localized increase in viscosity in vessels undergoing these reactions can cause the disastrous Trommsdorff\u2013Norrish effect. The extent of these reactions equals one over one minus p, where p is N-sub-zero minus N all over N-sub-zero, which is the (*) Carothers\u2019 (\u201cker-OTHERS\u201d) equation. A narrow Poisson (\u201cpwah-SAWN\u201d) distribution of products can be produced in their \u201cliving\u201d type. These reactions can proceed through anionic (\u201cAN-ionic\u201d), cationic (\u201cCAT-ionic\u201d), and radical centers via chain-growth or step-growth mechanisms. For 10 points, name these reactions that form molecules from repeating subunits called monomers.",
+            "answer": "polymerization reactions [or addition polymerizations; or condensation polymerizations; or chain-growth polymerizations; or step-growth polymerizations; or radical polymerizations; or living polymerizations] &lt;AP, Chemistry&gt;",
             "subcategory": "Science Chemistry",
             "category": "Science"
         },
         {
-            "question_sanitized": "Virginia Held argues that this [emphasize] philosophical concept relies on treating \u201ceconomic man\u201d as representative of humanity. This concept did not end \u201cclassical patriarchalism\u201d but just shifted the means by which men hold control over women, according to Carole Pateman. Samuel Freeman argues that the purpose of this concept is to determine the role of \u201cnorms\u201d on public life, while (*) T.\u00a0M.\u00a0Scanlon looked at it in terms of What We Owe to Each Other. Conjugal society is distinguished from civil society by this concept according to a philosopher who described it in his Second Treatise of Government. It is proposed that men construct this concept by submitting to the authority of a sovereign in Thomas Hobbes\u2019s Leviathan. For 10 points, name this concept that titles a work by Jean-Jacques Rousseau that claims \u201cman is born free, and everywhere he is in chains.\u201d",
-            "answer_sanitized": "social contract [accept contractualism] &lt;NR, Philosophy&gt;",
+            "question": "Virginia Held argues that this [emphasize] philosophical concept relies on treating \u201ceconomic man\u201d as representative of humanity. This concept did not end \u201cclassical patriarchalism\u201d but just shifted the means by which men hold control over women, according to Carole Pateman. Samuel Freeman argues that the purpose of this concept is to determine the role of \u201cnorms\u201d on public life, while (*) T.\u00a0M.\u00a0Scanlon looked at it in terms of What We Owe to Each Other. Conjugal society is distinguished from civil society by this concept according to a philosopher who described it in his Second Treatise of Government. It is proposed that men construct this concept by submitting to the authority of a sovereign in Thomas Hobbes\u2019s Leviathan. For 10 points, name this concept that titles a work by Jean-Jacques Rousseau that claims \u201cman is born free, and everywhere he is in chains.\u201d",
+            "answer": "social contract [accept contractualism] &lt;NR, Philosophy&gt;",
             "category": "Philosophy"
         },
         {
-            "question_sanitized": "An early collection of songs by this composer quotes a poem that describes how \u201cthe alien colors / fall off like threadbare scales\u201d to reveal a beautiful painting. This composer quoted that collection in a symphony that also quotes extensively from Bizet\u2019s Carmen. A symphony by this composer reached the site of its Western premiere in a tin can by way of Tehran, Cairo, and South America. A symphony by this composer begins with cellos and basses playing rising and falling (*) minor sixths before violins and violas enter. The first movement of one of his symphonies repeats a 22-bar ostinato twelve times, getting louder each time. This composer wrote a symphony subtitled \u201ca Soviet artist\u2019s creative response to justified criticism\u201d and a symphony that contains the \u201cInvasion\u201d theme. For 10 points, name this Soviet composer of the Leningrad Symphony.",
-            "answer_sanitized": "Dmitri Dmitriyevich Shostakovich &lt;MT, Music&gt; Bonuses",
+            "question": "An early collection of songs by this composer quotes a poem that describes how \u201cthe alien colors / fall off like threadbare scales\u201d to reveal a beautiful painting. This composer quoted that collection in a symphony that also quotes extensively from Bizet\u2019s Carmen. A symphony by this composer reached the site of its Western premiere in a tin can by way of Tehran, Cairo, and South America. A symphony by this composer begins with cellos and basses playing rising and falling (*) minor sixths before violins and violas enter. The first movement of one of his symphonies repeats a 22-bar ostinato twelve times, getting louder each time. This composer wrote a symphony subtitled \u201ca Soviet artist\u2019s creative response to justified criticism\u201d and a symphony that contains the \u201cInvasion\u201d theme. For 10 points, name this Soviet composer of the Leningrad Symphony.",
+            "answer": "Dmitri Dmitriyevich Shostakovich &lt;MT, Music&gt; Bonuses",
             "subcategory": "Fine Arts Auditory",
             "category": "Fine Arts"
         }
     ],
     "bonuses": [
         {
-            "leadin_sanitized": "This story details the travels of Tom\u00e1s Rodaja through the cities of Italy before he settles and goes to school. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "This story details the travels of Tom\u00e1s Rodaja through the cities of Italy before he settles and goes to school. For 10 points each:",
+            "answers": [
                 "\u201cThe Lawyer of Glass\u201d [or \u201cEl licenciado Vidriera\u201d; or \u201cThe Glass Graduate\u201d; or \u201cDoctor Glass-Case\u201d; accept translations]",
                 "Exemplary Novels [or Novelas Exemplares]",
                 "Don Quixote &lt;MT, European Literature&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this story whose main character is confined to bed for six months and then believes he is made of a certain substance after eating a quince filled with a love potion.",
                 "\u201cThe Lawyer of Glass\u201d is a part of this series of short stories by Miguel de Cervantes that includes \u201cThe Jealous Extremaduran.\u201d",
                 "The Exemplary Novels were published just before the publication of the second part of this novel, Cervantes\u2019 magnum opus about a wannabe knight-errant who travels on Rocinante."
@@ -133,13 +133,13 @@
             "category": "Literature"
         },
         {
-            "leadin_sanitized": "This theory accounts for two of Einstein\u2019s postulates, one of which states that the speed of light is the same for all observers. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "This theory accounts for two of Einstein\u2019s postulates, one of which states that the speed of light is the same for all observers. For 10 points each:",
+            "answers": [
                 "special relativity [or SR; prompt on relativity; do not accept or prompt on \u201cgeneral relativity\u201d or \u201cGR\u201d]",
                 "Minkowski space [or Minkowski spacetime]",
                 "Poincar\u00e9 (\u201cpwann-kah-RAY\u201d) group &lt;AP, Physics&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this theory that explains effects such as time dilation and length contraction. It unifies energy and momentum into a four-vector.",
                 "Operations in special relativity are commonly conducted in this four-dimensional spacetime, in which the spacetime interval in any inertial reference frame is constant.",
                 "This is the name of the ten-dimensional group of isometries in Minkowski space. It contains translations, rotations, and boosts."
@@ -148,13 +148,13 @@
             "category": "Science"
         },
         {
-            "leadin_sanitized": "This man asserted that \u201csovereign violence\u201d was the unifying theme of the trauerspiel (\u201cTROW-ur-shpeel\u201d) genre in his <em>The Origin of German Tragic Drama</em>. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "This man asserted that \u201csovereign violence\u201d was the unifying theme of the trauerspiel (\u201cTROW-ur-shpeel\u201d) genre in his <em>The Origin of German Tragic Drama</em>. For 10 points each:",
+            "answers": [
                 "Walter Benjamin (\u201cVALL-tuh BEN-yah-meen\u201d)",
                 "The Origin of the Work of Art",
                 "a pair of shoes [or more specific types of shoes like boots or clogs; do not accept or prompt on things that look obviously different like \u201csandals\u201d or \u201cstilettos\u201d] &lt;NR, Philosophy&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this German Jewish philosopher who discussed the aura of art in The Work of Art in the Age of Mechanical Reproduction.",
                 "This Martin Heidegger essay identifies the role of art within the struggle of Earth and World. This essay begins with a discussion of the title concept in relation to the hermeneutic circle.",
                 "In The Origin of the Work of Art, Heidegger examines the understanding of the \u201cequipmentality of equipment\u201d acquired from viewing a Vincent Van Gogh painting of these objects to explain his notion of aletheia."
@@ -162,13 +162,13 @@
             "category": "Philosophy"
         },
         {
-            "leadin_sanitized": "This man wrote that mercury was used to model China\u2019s waterways in the Mausoleum of Qin Shi Huangdi, a finding corroborated by the site\u2019s unusually high mercury levels. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "This man wrote that mercury was used to model China\u2019s waterways in the Mausoleum of Qin Shi Huangdi, a finding corroborated by the site\u2019s unusually high mercury levels. For 10 points each:",
+            "answers": [
                 "Sima Qian (\u201csuh-mah ch\u2019YEN\u201d) [prompt on partial answer; do not accept \u201cSima Guang\u201d]",
                 "Han Dynasty",
                 "Spring and Autumn Annals [or Chunqiu; prompt on Annals; do not accept or prompt on \u201cAnalects\u201d] &lt;NR, World History&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this scholar who opted for castration over suicide as punishment for defending Li Ling in order to finish his magnum opus.",
                 "Sima Qian wrote the Records of the Grand Historian during the reign of Wudi, an emperor of this dynasty. This dynasty\u2019s first ruler Liu Bang was a peasant who rose to the throne after the fall of the Qin Dynasty.",
                 "Sima Qian modeled his work on this text from the Five Classics that tersely chronicles the State of Lu and is traditionally ascribed to Confucius."
@@ -177,13 +177,13 @@
             "category": "History"
         },
         {
-            "leadin_sanitized": "This massive work begins with \u201cThe Reed Flute\u2019s Song,\u201d in which the flute laments that it has been separated from its reed bed. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "This massive work begins with \u201cThe Reed Flute\u2019s Song,\u201d in which the flute laments that it has been separated from its reed bed. For 10 points each:",
+            "answers": [
                 "Spiritual Couplets [or Masnawi; or Masnavi]",
                 "Jalal ad-Din Muhammad Rumi [or Mawlana; or Mawlawi]",
                 "Shams-i-Tabrizi [or Shams al-Din Mohammad] &lt;MT, World Literature&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this collection of Sufi poetry in the form of 25,000 couplets divided into six books, the last of which is unfinished.",
                 "This 13th-century Sufi mystic wrote the Spiritual Couplets at the urging of his disciple Husam al-Din Chalabi.",
                 "Rumi\u2019s 45,000-line collection of poetry Divan-e Kabir is partially named after this man, who taught him alone for forty days."
@@ -192,13 +192,13 @@
             "category": "Literature"
         },
         {
-            "leadin_sanitized": "The initial codename for this beach was Jelly, but Winston Churchill insisted on a more dignified name \u201cfor a beach on which so many men might die.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "The initial codename for this beach was Jelly, but Winston Churchill insisted on a more dignified name \u201cfor a beach on which so many men might die.\u201d For 10 points each:",
+            "answers": [
                 "Juno Beach",
                 "Canada",
                 "Louis Francis Albert Victor Nicholas Mountbatten, 1st Earl Mountbatten of Burma &lt;NR, European History&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this D-Day beach where the Royal Winnipeg Rifles landed in the first wave under the command of Major General Rod Keller.",
                 "Juno Beach was assigned to this British Dominion, whose troops also comprised the core force of the Dieppe Raid. Its Prime Minister William Lyon Mackenzie King led this North American country through World War\u00a0II.",
                 "This British aristocrat planned the Dieppe Raid and was later appointed First Sea Lord, a position his father briefly held during World War\u00a0I. Harold Wilson allegedly believed there was an MI5 plot to install this man in his place."
@@ -207,13 +207,13 @@
             "category": "History"
         },
         {
-            "leadin_sanitized": "Subjects in a 1983 study were told about Linda, a woman who participated in anti-nuclear demonstrations and majored in philosophy, and thought that it was more likely that she was a <em>feminist</em> bank teller than just a bank teller. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "Subjects in a 1983 study were told about Linda, a woman who participated in anti-nuclear demonstrations and majored in philosophy, and thought that it was more likely that she was a <em>feminist</em> bank teller than just a bank teller. For 10 points each:",
+            "answers": [
                 "conjunction fallacy",
                 "heuristics",
                 "confirmation bias [prompt on bias] &lt;MT, Social Science (Psychology)&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "That study demonstrated this type of fallacy in which people think that specific conditions are more likely than a more general condition.",
                 "Conjunction fallacies are a problem associated with this general method of problem solving. Specific examples of these methods include representativeness and availability.",
                 "Heuristics can result in this phenomenon when they deviate from logic. This phenomenon occurs when people seek out and are more likely to believe information that fits with what they already believe."
@@ -221,13 +221,13 @@
             "category": "Social Science"
         },
         {
-            "leadin_sanitized": "This artist took inspiration for his paintings from Mayan steles in works such as <em>In the Arsenal</em>. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "This artist took inspiration for his paintings from Mayan steles in works such as <em>In the Arsenal</em>. For 10 points each:",
+            "answers": [
                 "Diego Rivera",
                 "bullfrog",
                 "Man at the Crossroads [do not accept or prompt on \u201cMan, Controller of the Universe\u201d] &lt;MT, Painting&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this husband of Frida Kahlo, the artist of murals like Detroit Industry.",
                 "This animal became Rivera\u2019s symbol after his wife described him as \u201ca boy [this animal] standing on his hind legs.\u201d Rivera painted himself as a boy with this animal in his pocket in Dream of a Sunday Afternoon in Alameda Park.",
                 "Due to a controversial depiction of Vladimir Lenin, this mural was removed from Rockefeller Center and repainted in Mexico under a different name. It shows a man operating machinery in the center of four ellipses."
@@ -236,13 +236,13 @@
             "category": "Fine Arts"
         },
         {
-            "leadin_sanitized": "Being rolled up in a carpet can be sexy, deadly, or politically inconvenient. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "Being rolled up in a carpet can be sexy, deadly, or politically inconvenient. For 10 points each:",
+            "answers": [
                 "Cleopatra VII Philopator",
                 "Hulagu Khan",
                 "Mikl\u00f3s Horthy (\u201cMEEK-lohsh HOR-tee\u201d) &lt;NR, European History&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "According to Plutarch, this Egyptian queen seduced Julius Caesar by smuggling herself into his quarters in a carpet carried by Apollodorus the Sicilian.",
                 "Unwilling to shed royal blood, this Mongol Khan killed Caliph Al-Musta\u2019sim by wrapping him in a rug and trampling him with horses during the 1258 Sack of Baghdad.",
                 "Worried that this leader\u2019s country would surrender to the Allies, Hitler ordered Otto Skorzeny to kidnap this leader\u2019s son, who was rolled up in a carpet and taken to Mauthausen."
@@ -251,13 +251,13 @@
             "category": "History"
         },
         {
-            "leadin_sanitized": "A 15-amino-acid sequence called the AviTag can be used for enzymatic conjugation of this molecule onto proteins. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "A 15-amino-acid sequence called the AviTag can be used for enzymatic conjugation of this molecule onto proteins. For 10 points each:",
+            "answers": [
                 "biotin [or vitamin B7; or vitamin H; or coenzyme R]",
                 "affinity chromatography [or IMAC; prompt on liquid chromatography or column chromatography or chromatography; prompt on high-performance liquid chromatography or HPLC or fast protein liquid chromatography or FPLC; do not accept or prompt on non-liquid forms of chromatography like \u201cthin-layer chromatography\u201d or \u201cgas chromatography\u201d]",
                 "glucose [or dextrose; or C6H12O6; prompt on hexose] &lt;PL, Biology&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this molecule that is commonly used for various biotechnological applications thanks to its incredibly low binding constant with streptavidin (\u201cstrep-TAV-ih-din\u201d).",
                 "The aforementioned high binding between biotin and avidin makes it useful for this technique, in which tagged fusion proteins can be purified by binding to a column matrix.",
                 "Biotin serves as an important cofactor in the first step of a biosynthetic pathway for this six-carbon sugar, which is broken down during glycolysis."
@@ -266,13 +266,13 @@
             "category": "Science"
         },
         {
-            "leadin_sanitized": "An essay about this man notes that literary rules require that the reader be able to tell living characters from corpses, a detail overlooked by this author. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "An essay about this man notes that literary rules require that the reader be able to tell living characters from corpses, a detail overlooked by this author. For 10 points each:",
+            "answers": [
                 "James Fenimore Cooper",
                 "Mark Twain [or Samuel Langhorne Clemens]",
                 "Mary Baker Eddy &lt;JC, American Literature&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this man who was excoriated for scoring 114 out of a possible 115 \u201cLiterary Offenses\u201d in The Deerslayer, part of his Leatherstocking Tales featuring Natty Bumppo.",
                 "This author mocked episodes like five Indians jumping out of a tree and all missing a 140-foot boat and Chingachgook (\u201cchin-GOTCH-gook\u201d) following the trail of a rolling cannonball in his \u201cFenimore Cooper\u2019s Literary Offenses.\u201d",
                 "Mark Twain skewered this other author by creating a dystopia about the \u201cSecret History\u201d of her \u201cWorld Empire\u201d and an essay in which he says that her writing is \u201cplainer than it was before\u201d when read backwards."
@@ -281,13 +281,13 @@
             "category": "Literature"
         },
         {
-            "leadin_sanitized": "Nonstandard versions of these entities include the \u201cthirteen\u201d and \u201cfive\u201d versions. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "Nonstandard versions of these entities include the \u201cthirteen\u201d and \u201cfive\u201d versions. For 10 points each:",
+            "answers": [
                 "tone row [or twelve-tone row; prompt on row]",
                 "Second Viennese School [prompt on Viennese School]",
                 "just tone row [or just intonation] &lt;JJ, Music&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name these non-repetitive orderings of pitches. Schoenberg developed the twelve-note variety of these structures.",
                 "The twelve-tone row was mainly used by this musical school. Known for their chromatic expressionism, this group of composers included Alban Berg and Anton Webern.",
                 "American composer Ben Johnston pioneered this type of tone row. Its namesake intonation, also known as pure intonation, is any tuning in which the frequencies of notes are related by small whole number ratios."
@@ -296,13 +296,13 @@
             "category": "Fine Arts"
         },
         {
-            "leadin_sanitized": "An extinct one of these entities in the North Sea is marked by the Rattray volcanic formation. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "An extinct one of these entities in the North Sea is marked by the Rattray volcanic formation. For 10 points each:",
+            "answers": [
                 "triple junctions",
                 "tectonic plates",
                 "Alfred Wegener (\u201cVEG-ner\u201d) &lt;AP, Other Science (Earth Science)&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name these entities, the constituents of which are labelled either\u00a0R,\u00a0T, or\u00a0F. The most common type of these is the RRR type.",
                 "A triple junction is the point where the boundaries of three of these structures meet. These structures grow at mid-ocean ridges in the process of seafloor spreading, which causes continental drift.",
                 "This German scientist developed the theory of continental drift in 1912. He helped coin the term \u201cPangea\u201d by proposing the term Urkontinent to describe the single, giant landmass that once existed on Earth."
@@ -311,13 +311,13 @@
             "category": "Science"
         },
         {
-            "leadin_sanitized": "Before this event, Queen Maya had a vision of a white elephant with six tusks entering her body. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "Before this event, Queen Maya had a vision of a white elephant with six tusks entering her body. For 10 points each:",
+            "answers": [
                 "birth of Buddha [accept equivalents in place of \u201cBuddha\u201d like Siddhartha Gautama or Shakyamuni; accept descriptions indicating that Buddha is being born]",
                 "Vesak [or Vesak Day; or Ves\u0101kha; or Vai\u015b\u0101kha]",
                 "soma [or haoma] &lt;AP, Religion&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this event that occurred beneath a sal tree in a garden in Lumbini in modern-day Nepal.",
                 "This holiday commemorates the birth of the Buddha. On this day, devotees must not engage in killing of any kind and must eat only vegetarian food.",
                 "In Japan, Ves\u0101kha is based on a legend that a dragon poured this drink over the Buddha on his birthday. The Rig Veda mentions how humans who consumed this intoxicating ritual drink became immortal."
@@ -325,13 +325,13 @@
             "category": "Religion"
         },
         {
-            "leadin_sanitized": "Rather confusingly, in one myth, Utgard-Loki judges a contest between Loki and Logi, a god of this phenomenon. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "Rather confusingly, in one myth, Utgard-Loki judges a contest between Loki and Logi, a god of this phenomenon. For 10 points each:",
+            "answers": [
                 "fire",
                 "Muspelheim [or Muspelheimr]",
                 "Thiazi [or Thiasi] &lt;LC, Mythology&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Logi wins because this phenomenon allows him to destroy not only the meat, but the trough it is in. A region of this element in Norse mythology is contrasted with the icy Niflheim (\u201cNIF-ul-hame\u201d).",
                 "Give the name for that realm of fire, which borders the mild Ginnungagap (\u201cGIN-ung-uh-GAP\u201d). It is ruled by Sinmara and Surtr, who rides across Bifrost with a flaming sword to kick off Ragnarok.",
                 "This giant, the father of Skadi, is killed while chasing Loki when the gods light a fire so fast that he cannot slow down and flies right into it. He had earlier stolen the golden apples of Idun."
@@ -339,13 +339,13 @@
             "category": "Mythology"
         },
         {
-            "leadin_sanitized": "This man was introduced to anarchism through the Sila Club. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "This man was introduced to anarchism through the Sila Club. For 10 points each:",
+            "answers": [
                 "Leon Czolgosz (\u201cLEE-on CHOLE-goss\u201d)",
                 "Thomas C. Platt",
                 "Milwaukee &lt;NR, American History&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this Polish-American anarchist who carried out an assassination at the Pan-American Exposition in 1901.",
                 "After Czolgosz shot McKinley, this senator lamented \u201cnow that damned cowboy is president,\u201d referring to Teddy Roosevelt. This powerful political boss of turn-of-the-century New York State had earlier tried to get Roosevelt out of his way by nominating him for Vice President.",
                 "Roosevelt himself narrowly avoided assassination in this city when a copy of his speech in his jacket stopped John Shrank\u2019s bullet. The German immigrants to this Wisconsin city began its prominent brewing industry."
@@ -354,13 +354,13 @@
             "category": "History"
         },
         {
-            "leadin_sanitized": "An essay in this collection imagines a meeting between Justin Bieber and Martin Buber. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "An essay in this collection imagines a meeting between Justin Bieber and Martin Buber. For 10 points each:",
+            "answers": [
                 "Feel Free",
                 "Zadie Smith",
                 "hysterical [or hysterical realism] &lt;JC, British Literature&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this essay collection by the author of The Autograph Man. It includes an essay about Facebook and Brexit, titled \u201cGeneration Why?\u201d, and an essay about Renaissance paintings of bodies, \u201cMan Versus Corpse.\u201d",
                 "Feel Free is the newest work by this author, who wrote about Samad Iqbal and Archie Jones, as well as KEVIN, an Islamic militant group that is aware it has an acronym problem, in White Teeth.",
                 "James Wood referred to Zadie Smith\u2019s prose as this type of realism, referring to its combination of realistic individuals with absurd, heightened scenarios like the battle over the FutureMouse in White Teeth."
@@ -369,13 +369,13 @@
             "category": "Literature"
         },
         {
-            "leadin_sanitized": "This company\u2019s board included secretaries of state George Shultz and Henry Kissinger, and its president used the nonsense word \u201cendofactor\u201d in a Powerpoint after mishearing the term \u201cend effector.\u201d For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "This company\u2019s board included secretaries of state George Shultz and Henry Kissinger, and its president used the nonsense word \u201cendofactor\u201d in a Powerpoint after mishearing the term \u201cend effector.\u201d For 10 points each:",
+            "answers": [
                 "Theranos",
                 "Elizabeth Holmes",
                 "\u201cchemistry\u201d &lt;EM, Current Events&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this pharmaceutical startup that purported to run tests on a very small quantity of blood. This company\u2019s claims turned out to be a lie, as determined by the Wall Street Journal\u2019s John Carreyrou.",
                 "This Stanford dropout and founder of Theranos rented out a basement to begin developing her blood-testing devices. She has now lost control of the company, thanks to the SEC.",
                 "Holmes explained how her device operated with the sentence \u201ca [this word] is performed, so that a chemical reaction occurs.\u201d Exact answer required."
@@ -383,13 +383,13 @@
             "category": "Trash"
         },
         {
-            "leadin_sanitized": "The author of this song\u2019s lyrics, Abel Meeropol, adopted the Rosenberg children after they were orphaned. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "The author of this song\u2019s lyrics, Abel Meeropol, adopted the Rosenberg children after they were orphaned. For 10 points each:",
+            "answers": [
                 "\u201cStrange Fruit\u201d",
                 "Nina Simone",
                 "\u201cFour Women\u201d &lt;SC, Other Arts (Jazz)&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this protest song popularized by Billie Holliday that describes a \u201cgallant\u201d and \u201cpastoral scene\u201d before the \u201csudden smell of burning flesh\u201d indicates \u201cblack bodies swinging in the southern breeze.\u201d",
                 "This singer created another popular rendition of \u201cStrange Fruit.\u201d She sang the protest song \u201cBacklash Blues,\u201d written by Langston Hughes, and adapted Lorraine Hansberry\u2019s \u201cTo Be Young, Gifted, and Black\u201d to music.",
                 "This Nina Simone protest anthem is divided among the voices of the title African-American archetypes, like the suffering Aunt Sarah and the mixed-race Saffronia. The song ends with Simone screaming \u201cPeaches!\u201d"
@@ -398,13 +398,13 @@
             "category": "Fine Arts"
         },
         {
-            "leadin_sanitized": "Crystals are composed of three-dimensional patterns of atoms. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "Crystals are composed of three-dimensional patterns of atoms. For 10 points each:",
+            "answers": [
                 "ionic bond",
                 "Kepler conjecture",
                 "polonium [or Po] &lt;AP, Chemistry&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Crystals like zinc sulfide are held together by this type of bond in which two atoms with opposite charges attract one another.",
                 "This conjecture states that face-centered cubic packing maximizes packing efficiency in crystals at 74\u00a0percent. Thomas Hales published a proof of this conjecture in 1998 that was accepted in 2017.",
                 "This element is unique because it crystallizes in a simple cubic arrangement. This chalcogen (\u201cCAL-co-jen\u201d) was discovered when it was extracted from uranium ore."

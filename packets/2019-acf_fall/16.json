@@ -1,56 +1,56 @@
 {
     "tossups": [
         {
-            "question_sanitized": "A resident of this city eats a husked wheat lunch daily as an aphrodisiac and becomes caught in a love triangle with a man who joins the British Army. A man who joins a resistance movement against British occupation of their country helps his mother return home after a car accident fractures her collarbone in this city. Kirsha owns a cafe in this city, where Aisha has her wedding. This city, the setting of Midaq Alley, is home to three generations of the al-Jawad family, which includes the patriarch Sayyid Ahmad. For 10 points, name this city which names a trilogy of novels by Naguib Mahfouz beginning with Palace Walk, the capital of Egypt.",
-            "answer_sanitized": "Cairo &lt;World/Other Literature&gt;  CAN BE READ TO ANYONE",
+            "question": "A resident of this city eats a husked wheat lunch daily as an aphrodisiac and becomes caught in a love triangle with a man who joins the British Army. A man who joins a resistance movement against British occupation of their country helps his mother return home after a car accident fractures her collarbone in this city. Kirsha owns a cafe in this city, where Aisha has her wedding. This city, the setting of Midaq Alley, is home to three generations of the al-Jawad family, which includes the patriarch Sayyid Ahmad. For 10 points, name this city which names a trilogy of novels by Naguib Mahfouz beginning with Palace Walk, the capital of Egypt.",
+            "answer": "Cairo &lt;World/Other Literature&gt;  CAN BE READ TO ANYONE",
             "subcategory": "Literature World",
             "category": "Literature"
         },
         {
-            "question_sanitized": "These materials are separated from impurities via dissolution in the VinyLoop (\u201cVIN-uh-LOOP\u201d) process. Extrusion and injection molding are the most common methods of fabrication using these materials, classes of which include thermosets. Bakelite was the first synthetic example of these materials. These materials are designated numbers from 1 to 7 in the resin identification code for recycling. Polyvinyl chloride and nylon are common examples of, for 10 points, what moldable polymers used to mass produce slow-degrading objects like milk jugs and water bottles?",
-            "answer_sanitized": "plastics [prompt on polymers until read] &lt;Other Science&gt;  DO NOT READ TO DUKE B, RICE B, VANDERBILT B, WRIGHT STATE",
+            "question": "These materials are separated from impurities via dissolution in the VinyLoop (\u201cVIN-uh-LOOP\u201d) process. Extrusion and injection molding are the most common methods of fabrication using these materials, classes of which include thermosets. Bakelite was the first synthetic example of these materials. These materials are designated numbers from 1 to 7 in the resin identification code for recycling. Polyvinyl chloride and nylon are common examples of, for 10 points, what moldable polymers used to mass produce slow-degrading objects like milk jugs and water bottles?",
+            "answer": "plastics [prompt on polymers until read] &lt;Other Science&gt;  DO NOT READ TO DUKE B, RICE B, VANDERBILT B, WRIGHT STATE",
             "subcategory": "Science Chemistry",
             "category": "Science"
         },
         {
-            "question_sanitized": "The theory of \u201chydrophobic collapse\u201d models this process in polar solvents. Some HSPs use a \u201clid\u201d structure to isolate molecules for this process. The short time scale required to perform this process is the subject of Levinthal\u2019s paradox. Anfinsen\u2019s dogma attributes the results of this process to a molecule\u2019s primary structure. Disulfide bonds form during this process, which also uses chaperonins to create beta-pleated sheets and alpha helices. Prions are the result of errors in, for 10 points, what process in which a linear polypeptide assumes its three-dimensional conformation?",
-            "answer_sanitized": "protein folding &lt;Biology&gt;  DO NOT READ TO FLORIDA A, GEORGIA TECH B, LAWRENCE A, NYU B",
+            "question": "The theory of \u201chydrophobic collapse\u201d models this process in polar solvents. Some HSPs use a \u201clid\u201d structure to isolate molecules for this process. The short time scale required to perform this process is the subject of Levinthal\u2019s paradox. Anfinsen\u2019s dogma attributes the results of this process to a molecule\u2019s primary structure. Disulfide bonds form during this process, which also uses chaperonins to create beta-pleated sheets and alpha helices. Prions are the result of errors in, for 10 points, what process in which a linear polypeptide assumes its three-dimensional conformation?",
+            "answer": "protein folding &lt;Biology&gt;  DO NOT READ TO FLORIDA A, GEORGIA TECH B, LAWRENCE A, NYU B",
             "subcategory": "Science Biology",
             "category": "Science"
         },
         {
-            "question_sanitized": "Web applications written in this programming language may use Bottle as a microframework and can be run using Gunicorn (\u201cG-unicorn\u201d). This language\u2019s de\u00a0facto standard GUI (\u201cGOO-ee\u201d) package is known as \u201cTkinter\u201d (\u201cT-K-inter\u201d). The \u201cndarray\u201d (\u201cN-D-array\u201d) data structure is used in this language\u2019s \u201cNum\u201d library. The implementation of \u201cduck typing\u201d in this language renders variable type declaration unnecessary. The guiding principles for this language assert that \u201cexplicit is better than implicit\u201d and that \u201creadability counts.\u201d For 10 points, name this language that often names its variables \u201cspam\u201d and \u201ceggs\u201d in example code and is named for a British comedy troupe.",
-            "answer_sanitized": "Python [accept NumPy; accept specific versions, such as Python 3.7] &lt;Other Science&gt;   DO NOT READ TO CAMBRIDGE A, MICHIGAN A",
+            "question": "Web applications written in this programming language may use Bottle as a microframework and can be run using Gunicorn (\u201cG-unicorn\u201d). This language\u2019s de\u00a0facto standard GUI (\u201cGOO-ee\u201d) package is known as \u201cTkinter\u201d (\u201cT-K-inter\u201d). The \u201cndarray\u201d (\u201cN-D-array\u201d) data structure is used in this language\u2019s \u201cNum\u201d library. The implementation of \u201cduck typing\u201d in this language renders variable type declaration unnecessary. The guiding principles for this language assert that \u201cexplicit is better than implicit\u201d and that \u201creadability counts.\u201d For 10 points, name this language that often names its variables \u201cspam\u201d and \u201ceggs\u201d in example code and is named for a British comedy troupe.",
+            "answer": "Python [accept NumPy; accept specific versions, such as Python 3.7] &lt;Other Science&gt;   DO NOT READ TO CAMBRIDGE A, MICHIGAN A",
             "subcategory": "Science Computer Science",
             "category": "Science"
         },
         {
-            "question_sanitized": "It\u2019s not Michigan, but after Henry Ford tried to monopolize nitrate fields in this state, citizens of Muscle Shoals renamed its streets for Detroit landmarks. The former home of the U.S.\u00a0military\u2019s rocket program is located in this state\u2019s Redstone Arsenal. Bill Elliott set a now unbeatable lap speed record at this state\u2019s Talladega Raceway. The Chargers play out of the Von Braun Center, which is located near the U.S.\u00a0Space and Rocket Center in this state\u2019s city of Huntsville. The only known meteorite to have hit a human rests in this state\u2019s flagstone university at Tuscaloosa. For 10 points, name this Southern state whose city of Mobile rests on the Gulf of Mexico, and has a capital at Montgomery.",
-            "answer_sanitized": "Alabama &lt;CE/Geo/Other/Pop Culture&gt;  DO NOT READ TO MIT A, OXFORD A, RUTGERS B",
+            "question": "It\u2019s not Michigan, but after Henry Ford tried to monopolize nitrate fields in this state, citizens of Muscle Shoals renamed its streets for Detroit landmarks. The former home of the U.S.\u00a0military\u2019s rocket program is located in this state\u2019s Redstone Arsenal. Bill Elliott set a now unbeatable lap speed record at this state\u2019s Talladega Raceway. The Chargers play out of the Von Braun Center, which is located near the U.S.\u00a0Space and Rocket Center in this state\u2019s city of Huntsville. The only known meteorite to have hit a human rests in this state\u2019s flagstone university at Tuscaloosa. For 10 points, name this Southern state whose city of Mobile rests on the Gulf of Mexico, and has a capital at Montgomery.",
+            "answer": "Alabama &lt;CE/Geo/Other/Pop Culture&gt;  DO NOT READ TO MIT A, OXFORD A, RUTGERS B",
             "category": "Geography"
         },
         {
-            "question_sanitized": "In a short story by this author, a Hostess reads about a poem about blue urine that was written by a man disguised as a Foxy Grandpa. Hazel watches her son die alongside a ballerina on television in a story by this author. Edgar Derby is executed for stealing a teacup in a novel by this author of \u201cHarrison Bergeron,\u201d who created a bird who chirps \u201cPoo-tee-weet?\u201d The protagonist has sex with Montana Wildhack in a zoo in a novel by this author, who wrote about the alien Tralfamadorians kidnapping Billy Pilgrim, who becomes \u201cunstuck in time.\u201d For 10 points, name this author who described the firebombing of Dresden in Slaughterhouse-Five.",
-            "answer_sanitized": "Kurt Vonnegut Jr. &lt;American Literature&gt;  DO NOT READ TO MSU A, UCSD B",
+            "question": "In a short story by this author, a Hostess reads about a poem about blue urine that was written by a man disguised as a Foxy Grandpa. Hazel watches her son die alongside a ballerina on television in a story by this author. Edgar Derby is executed for stealing a teacup in a novel by this author of \u201cHarrison Bergeron,\u201d who created a bird who chirps \u201cPoo-tee-weet?\u201d The protagonist has sex with Montana Wildhack in a zoo in a novel by this author, who wrote about the alien Tralfamadorians kidnapping Billy Pilgrim, who becomes \u201cunstuck in time.\u201d For 10 points, name this author who described the firebombing of Dresden in Slaughterhouse-Five.",
+            "answer": "Kurt Vonnegut Jr. &lt;American Literature&gt;  DO NOT READ TO MSU A, UCSD B",
             "subcategory": "Literature American",
             "category": "Literature"
         },
         {
-            "question_sanitized": "A Dutch advisor to this ruler named Guido Verbeck convinced him to send a grand embassy to western powers. A democratic alternative to this man\u2019s rule was established through the short-lived Republic of Ezo. Slogans like \u201cenrich the state, strengthen the military\u201d were employed by this ruler\u2019s government, which outlined its modernizing principles in the Charter Oath. After the Boshin War, this man gained meaningful political power, unlike his recent predecessors on the Chrysanthemum throne. The Tokugawa shogunate ended after the namesake \u201crestoration\u201d of, for 10 points, what Japanese emperor?",
-            "answer_sanitized": "Meiji [accept Meiji Restoration or Mutsuhito] &lt;World History&gt;  Bonuses",
+            "question": "A Dutch advisor to this ruler named Guido Verbeck convinced him to send a grand embassy to western powers. A democratic alternative to this man\u2019s rule was established through the short-lived Republic of Ezo. Slogans like \u201cenrich the state, strengthen the military\u201d were employed by this ruler\u2019s government, which outlined its modernizing principles in the Charter Oath. After the Boshin War, this man gained meaningful political power, unlike his recent predecessors on the Chrysanthemum throne. The Tokugawa shogunate ended after the namesake \u201crestoration\u201d of, for 10 points, what Japanese emperor?",
+            "answer": "Meiji [accept Meiji Restoration or Mutsuhito] &lt;World History&gt;  Bonuses",
             "subcategory": "History World",
             "category": "History"
         }
     ],
     "bonuses": [
         {
-            "leadin_sanitized": "In 2018, businesses in this city started the \u201cdirty shirt\u201d challenge, rewarding employees for not washing their work clothes due to high water tariffs. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "In 2018, businesses in this city started the \u201cdirty shirt\u201d challenge, rewarding employees for not washing their work clothes due to high water tariffs. For 10 points each:",
+            "answers": [
                 "Cape Town [or Kappstad, iKapa, or Motse Kapa]",
                 "S\u00e3o Paulo",
                 "Indonesia [or Republic of Indonesia] &lt;CE/Geo/Other/Pop Culture&gt;  DO NOT READ TO BOWDOIN A, MCMASTER A, PURDUE C, UGA A"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this city which avoided a \u201cDay Zero\u201d 2018 disaster after three years of anemic rainfall failed to fill the Theewaterskloof Reservoir.",
                 "In 2014, this Brazilian city dropped to beneath 3% water capacity due to deforestation in the Amazon. This largest city by population in the Western Hemisphere is nicknamed the \u201cLand of Drizzle\u201d due to unpredictable rainfall.",
                 "40% of this country\u2019s capital of Jakarta has sunken below sea level, raising risks of salt water contamination and the spread of disease."
@@ -58,13 +58,13 @@
             "category": "Geography"
         },
         {
-            "leadin_sanitized": "Matrices have many useful functions in mathematics. Name some specific matrices, for 10 points each.",
-            "answers_sanitized": [
+            "leadin": "Matrices have many useful functions in mathematics. Name some specific matrices, for 10 points each.",
+            "answers": [
                 "square matrix",
                 "identity matrix [prompt on I]",
                 "Jacobian matrix &lt;Other Science&gt;  DO NOT READ TO DUKE B, RICE B, VANDERBILT B, WRIGHT STATE"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "This type of matrix is invertible when its determinant is a non-zero value. It contains the same number of rows and columns.",
                 "Multiplying a square matrix by this specific square matrix yields the original matrix, as stated in the multiplicative identity property of matrices. It is composed of ones down the diagonal and zeroes everywhere else.",
                 "This specific matrix is composed of the first-order partial derivatives of a vector-valued function. This matrix is often used in transforming polar and spherical coordinates into their Cartesian counterparts."
@@ -73,13 +73,13 @@
             "category": "Science"
         },
         {
-            "leadin_sanitized": "When this character first appears on stage, she orders \u201cLulu\u201d \u201ccome\u201d and \u201cheel\u201d as if he were a dog. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "When this character first appears on stage, she orders \u201cLulu\u201d \u201ccome\u201d and \u201cheel\u201d as if he were a dog. For 10 points each:",
+            "answers": [
                 "Musetta",
                 "La boh\u00e8me",
                 "they left him the bill [accept anything indicating that they dine and dash or that they make off without payment] &lt;Other Arts&gt;  DO NOT READ TO GEORGIA TECH A, UCSD A"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this woman, whose last name is \u201cTemptation\u201d according to her ex-lover Marcello. She sings about the \u201csubtle longing in their eyes\u201d when people inspect her head to toe in \u201cQuando m\u2019en vo,\u201d her namesake waltz.",
                 "Musetta attempts to win Marcello back over by singing that waltz in this opera set in the Latin Quarter and written by Giacomo Puccini. It is the basis for Jonathan Larson\u2019s musical Rent.",
                 "When Musetta\u2019s lover Alcindoro returns to Cafe Momus from buying new shoes for her, he falls into a chair with bewilderment when he discovers that Marcello, Musetta, and friends have performed this action."
@@ -88,13 +88,13 @@
             "category": "Fine Arts"
         },
         {
-            "leadin_sanitized": "Chanakya helped this empire\u2019s founder conquer the Nanda empire. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "Chanakya helped this empire\u2019s founder conquer the Nanda empire. For 10 points each:",
+            "answers": [
                 "Maurya empire [accept Mauryan empire; accept \u201cdynasty\u201d in place of empire]",
                 "Arthashastra",
                 "Buddhism [or Buddhist religion; accept Theravada Buddhism] &lt;World History&gt;  DO NOT READ TO GEORGIA TECH A, UCSD A"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this empire founded by Chandragupta in the 4th century\u00a0BC. It built the Grand Trunk Road.",
                 "While serving Chandragupta, Chanakya compiled this Machiavelli-esque political treatise that was rediscovered in the 20th century.",
                 "Chandragupta\u2019s grandson Ashoka the Great adhered to many of the ruthless tenets of the Arthashastra before converting to this religion. The three primary Dharmic religions of classical India were Hinduism, Jainism, and this faith."
@@ -103,13 +103,13 @@
             "category": "History"
         },
         {
-            "leadin_sanitized": "Answer the following about fire ecology, for 10 points each.",
-            "answers_sanitized": [
+            "leadin": "Answer the following about fire ecology, for 10 points each.",
+            "answers": [
                 "ecological succession",
                 "chaparral",
                 "decomposition [or word forms] &lt;Biology&gt;  DO NOT READ TO LAWRENCE A, NYU B"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Fires allow for the secondary type of this process. This process is the change of species structure of an ecological community over time.",
                 "The plants in this biome have seeds coated with flammable oils to encourage fires. This biome is a shrubland that is shaped by a Mediterrean climate and drought tolerant plants.",
                 "In grasslands, fires are the primary source for this process. In this process, organic substances are broken down into simpler organic matter, and is typically performed by bacteria and fungi."
@@ -118,13 +118,13 @@
             "category": "Science"
         },
         {
-            "leadin_sanitized": "In 2014, the township of Franconia installed an interactive sculpture in Profiler Plaza which would allow visitors to envision this monument before its collapse. For 10 points each:",
-            "answers_sanitized": [
+            "leadin": "In 2014, the township of Franconia installed an interactive sculpture in Profiler Plaza which would allow visitors to envision this monument before its collapse. For 10 points each:",
+            "answers": [
                 "The Old Man of the Mountain [or the Great Stone Face, prompt on the Profile]",
                 "New Hampshire",
                 "Mount Washington [or Agiocochook] &lt;CE/Geo/Other/Pop Culture&gt;"
             ],
-            "parts_sanitized": [
+            "parts": [
                 "Name this series of humanlike granite cliffs of Cannon Mountain which collapsed under high winds in 2003.",
                 "The Old Man of the Mountain appears on license plates of this state along with its motto \u201cLive Free, or Die.\u201d This state\u2019s capital of Concord accesses the Atlantic via the Merrimack River.",
                 "In 1934, this tallest peak of the White Mountains and in all of New Hampshire recorded the highest non-cyclone windspeed ever recorded at 231 miles per hour."
