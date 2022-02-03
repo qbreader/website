@@ -14,6 +14,7 @@ app.get('/getpacket', async (req, res) => {
 });
 
 app.use(express.json());
+app.use(express.static('static'));
 
 app.use((req, res) => {
     // secure the backend code so it can't be accessed by the frontend
