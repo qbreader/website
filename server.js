@@ -4,6 +4,7 @@ const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
 
 app.use(express.static('static'));
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/tossups.html');
@@ -14,8 +15,6 @@ app.get('/getpacket', async (req, res) => {
     var jsonfile = require(directory);
     res.send(JSON.stringify(jsonfile));
 });
-
-app.use(express.json());
 
 app.use((req, res) => {
     // secure the backend code so it can't be accessed by the frontend
