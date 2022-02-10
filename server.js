@@ -3,6 +3,9 @@ const app = express();
 const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
 
+app.use(express.static('static'));
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/tossups.html');
 });
@@ -13,10 +16,13 @@ app.get('/getpacket', async (req, res) => {
     res.send(JSON.stringify(jsonfile));
 });
 
-app.use(express.json());
-
 app.use((req, res) => {
-    res.sendFile(__dirname + req.url);
+    // secure the backend code so it can't be accessed by the frontend
+    if (req.url === '/server.js') {
+        res.redirect('/');
+    } else {
+        res.sendFile(__dirname + req.url);
+    }
 });
 
 server.listen(port, () => {
