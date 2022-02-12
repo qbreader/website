@@ -1,4 +1,4 @@
-* {
+/* * {
     font-family: Helvetica, sans-serif;
 }
 
@@ -60,7 +60,6 @@ button {
 }
 
 label {
-    /* font-size: 18px; */
     vertical-align: top;
 }
 
@@ -85,7 +84,7 @@ input[type="text"] {
 }
 
 #modal {
-    background-color: rgb(0, 0, 0); /* Backup color */
+    background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
     height: 100%;
     position: fixed;
@@ -135,4 +134,4 @@ select option {
     #numbering-info {
         display: none
     }
-}
+} */
