@@ -69,8 +69,8 @@
         <div class="header">QB Packet Reader - Tossups</div>
         <div class="buttons" id="buttons">
             <button class="big-button" id="pause">Pause</button>
-            <button class="big-button" id="buzz" onclick="buzz()">Buzz</button>
-            <button class="big-button" id="next" onclick="readQuestion()">Next</button>
+            <button class="big-button" id="buzz" onclick="buzz()" disabled>Buzz</button>
+            <button class="big-button" id="next" onclick="readQuestion()" disabled>Next</button>
             <button class="big-button" id="clear-stats" onclick="clearStats()">Clear stats</button>
         </div>
 
@@ -226,7 +226,7 @@
             <p id="question"></p>
             <p id="answer"></p>
             <p id="info-text">Press space to buzz</p>
-            <div class="toggle-correct"><button id="toggle-correct">I was wrong</button></div>
+            <div id="div-toggle-correct"><button id="toggle-correct">I was wrong</button></div>
         </div>
     </div>
 
