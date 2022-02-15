@@ -15,7 +15,6 @@ app.get('/getpacket', async (req, res, next) => {
     var jsonfile;
     try {
         jsonfile = require(directory);
-        console.log(jsonfile);
         res.send(JSON.stringify(jsonfile));
     } catch (e) {
         console.log('ERROR: Could not find packet located at ' + directory);
