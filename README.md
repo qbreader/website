@@ -11,9 +11,9 @@ if you want to run the server locally:
 - pull requests are welcome
 
 ## todo
+- add more packets
 - add a back button
 - randomize questions
 - bookmarks
-- add pdf packets
 - add a better method of selecting subcategories:
     - add optgroups and when all options in an optgroup are empty, they should all be valid

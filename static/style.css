@@ -130,6 +130,9 @@ select option {
     font-size: 18px;
 }
 
+#start {
+    margin-top: 10px;
+}
 
 @media (max-width: 991px) {
     #numbering-info {
