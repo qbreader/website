@@ -68,7 +68,7 @@
     <div class="container">
         <div class="header">QB Packet Reader - Tossups</div>
         <div class="buttons" id="buttons">
-            <button class="big-button" id="start">Search for Questions and Start</button>
+            <button class="big-button" id="pause">Pause</button>
             <button class="big-button" id="buzz" onclick="buzz()">Buzz</button>
             <button class="big-button" id="next" onclick="readQuestion()">Next</button>
             <button class="big-button" id="clear-stats" onclick="clearStats()">Clear stats</button>
@@ -213,6 +213,8 @@
             <p></p>
             <button id="category-select-button" onclick="document.getElementById('modal').style = ''">Adjust
                 Categories</button>
+            <br>
+            <button class="big-button" id="start">Search for Questions and Start</button>
             <p></p>
             <label for="reading-speed" id="reading-speed-display">Reading speed: 50</label><br>
             <input id="reading-speed" type="range" min="0" max="100">
