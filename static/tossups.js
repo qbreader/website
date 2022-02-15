@@ -105,6 +105,10 @@ function updateStatDisplay() {
     let includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
         = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
+    if (numTossups===0) //disable clear stats button if no stats
+        document.getElementById('clear-stats').setAttribute("disabled", "disabled");
+    else
+    document.getElementById('clear-stats').removeAttribute("disabled");
 }
 
 
