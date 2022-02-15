@@ -10,7 +10,6 @@ var questionTextSplit = [];
 var currentQuestionNumber = 0;
 
 var currentlyBuzzing = false;
-var shownAnswer = false;
 
 var validCategories = [];
 
@@ -54,7 +53,6 @@ function shift(item, x) {
  * and updates the score.
  */
 function buzz() {
-    if (shownAnswer) return;
     if (currentlyBuzzing) {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
@@ -79,8 +77,9 @@ function buzz() {
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
+        document.getElementById('buzz').setAttribute('disabled', 'disabled');
+        document.getElementById('div-toggle-correct').style.display = 'block';
         updateStatDisplay();
-        shownAnswer = true;
     } else {
         // Stop the question reading
         clearTimeout(timeoutID);
@@ -108,7 +107,7 @@ function updateStatDisplay() {
     if (numTossups===0) //disable clear stats button if no stats
         document.getElementById('clear-stats').setAttribute("disabled", "disabled");
     else
-    document.getElementById('clear-stats').removeAttribute("disabled");
+        document.getElementById('clear-stats').removeAttribute("disabled");
 }
 
 
@@ -173,11 +172,11 @@ async function readQuestion() {
     // Stop reading the current question:
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
-    shownAnswer = false;
 
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
     document.getElementById('toggle-correct').innerHTML = 'I was wrong'
+    document.getElementById('div-toggle-correct').style.display = 'none';
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
@@ -190,6 +189,7 @@ async function readQuestion() {
     questionText = questions[currentQuestionNumber]['question'];
     questionTextSplit = questionText.split(' ');
 
+    document.getElementById('buzz').removeAttribute('disabled');
     // Read the question:
     printWord();
 }
@@ -256,6 +256,7 @@ document.getElementById('start').addEventListener('click', async () => {
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
     questions = await getQuestions(packetName, packetNumber);
+    document.getElementById('next').removeAttribute('disabled'); //remove disabled from next button
     readQuestion();
 });
 

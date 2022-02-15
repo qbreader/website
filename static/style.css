@@ -71,10 +71,11 @@ label {
     width: 110px;
 }
 
-.toggle-correct {
+#div-toggle-correct {
     width: 110px;
     margin-left: auto;
     padding-right: 5%;
+    display: none;
 }
 
 input[type="text"] {
