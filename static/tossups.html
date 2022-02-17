@@ -68,8 +68,8 @@
     <div class="container">
         <div class="header">QB Packet Reader - Tossups</div>
         <div class="buttons" id="buttons">
-            <button class="big-button" id="pause" onclick="pause()" disabled>Pause</button>
             <button class="big-button" id="buzz" onclick="buzz()" disabled>Buzz</button>
+            <button class="big-button" id="pause" onclick="pause()" disabled>Pause</button>
             <button class="big-button" id="next" onclick="readQuestion()" disabled>Next</button>
             <button class="big-button" id="clear-stats" onclick="clearStats()">Clear stats</button>
         </div>
@@ -81,7 +81,7 @@
                 <a href="https://github.com/thedoge42/qb-packet-reader">Github</a>
             </div>
 
-            <p>[Space] = buzz, [n] = next question</p>
+            <p>[Space] = buzz, [p] = pause, [n] = next question</p>
             <p id="numbering-info">
                 Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
                 Any other non-numbered packets are placed after all of those in the order in which they appear on <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">https://quizbowlpackets.com/</a>.

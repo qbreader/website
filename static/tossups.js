@@ -238,7 +238,7 @@ function pause() {
     }
     else {
         document.getElementById('buzz').setAttribute('disabled','disabled');
-        document.getElementById('pause').innerHTML = 'Play';
+        document.getElementById('pause').innerHTML = 'Resume';
         clearTimeout(timeoutID);
     }
     paused = !paused;
