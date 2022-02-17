@@ -10,6 +10,7 @@ var questionTextSplit = [];
 var currentQuestionNumber = 0;
 
 var currentlyBuzzing = false;
+var paused = false;
 
 var validCategories = [];
 
@@ -90,6 +91,7 @@ function buzz() {
 
         document.getElementById('buzz').innerHTML = 'Reveal';
         document.getElementById('info-text').innerHTML = 'Press space to reveal';
+        document.getElementById('pause').setAttribute('disabled','disabled');
     }
 }
 
@@ -190,6 +192,9 @@ async function readQuestion() {
     questionTextSplit = questionText.split(' ');
 
     document.getElementById('buzz').removeAttribute('disabled');
+    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').removeAttribute('disabled');
+    paused = false;
     // Read the question:
     printWord();
 }
@@ -217,8 +222,27 @@ function printWord() {
             printWord();
         }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
     }
+    else {
+        document.getElementById('pause').setAttribute('disabled', 'disabled');
+    }
 }
 
+/**
+ * Toggles pausing or resuming the tossup.
+ */
+function pause() {
+    if (paused) {
+        document.getElementById('buzz').removeAttribute('disabled');
+        document.getElementById('pause').innerHTML = 'Pause';
+        printWord();
+    }
+    else {
+        document.getElementById('buzz').setAttribute('disabled','disabled');
+        document.getElementById('pause').innerHTML = 'Play';
+        clearTimeout(timeoutID);
+    }
+    paused = !paused;
+}
 
 document.getElementById('start').addEventListener('click', async () => {
     packetName = document.getElementById('name-select').value.trim();
@@ -315,11 +339,13 @@ document.addEventListener('keyup', () => {
     if (document.activeElement.tagName === 'INPUT') return;
     if (packetNumbers != -1) {
         if (event.which == 32) {  // spacebar
-            buzz();
+            document.getElementById('buzz').click();
         } else if (event.which == 78) {  // pressing 'N'
-            readQuestion();
+            document.getElementById('next').click();
         } else if (event.which == 27) {  // escape key
             modal.style.display = "none";
+        } else if (event.which == 80) {  // pressing 'P'
+            document.getElementById('pause').click();
         }
     }
 });
