@@ -71,10 +71,11 @@ label {
     width: 110px;
 }
 
-.toggle-correct {
+#div-toggle-correct {
     width: 110px;
     margin-left: auto;
     padding-right: 5%;
+    display: none;
 }
 
 input[type="text"] {
@@ -130,6 +131,9 @@ select option {
     font-size: 18px;
 }
 
+#start {
+    margin-top: 10px;
+}
 
 @media (max-width: 991px) {
     #numbering-info {
