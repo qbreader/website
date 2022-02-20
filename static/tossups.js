@@ -10,7 +10,7 @@ var questionTextSplit = [];
 var currentQuestionNumber = 0;
 
 var currentlyBuzzing = false;
-var shownAnswer = false;
+var paused = false;
 
 var validCategories = [];
 
@@ -54,7 +54,6 @@ function shift(item, x) {
  * and updates the score.
  */
 function buzz() {
-    if (shownAnswer) return;
     if (currentlyBuzzing) {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
@@ -79,8 +78,9 @@ function buzz() {
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
+        document.getElementById('buzz').setAttribute('disabled', 'disabled');
+        document.getElementById('div-toggle-correct').style.display = 'block';
         updateStatDisplay();
-        shownAnswer = true;
     } else {
         // Stop the question reading
         clearTimeout(timeoutID);
@@ -91,6 +91,7 @@ function buzz() {
 
         document.getElementById('buzz').innerHTML = 'Reveal';
         document.getElementById('info-text').innerHTML = 'Press space to reveal';
+        document.getElementById('pause').setAttribute('disabled','disabled');
     }
 }
 
@@ -105,6 +106,10 @@ function updateStatDisplay() {
     let includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
         = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
+    if (numTossups===0) //disable clear stats button if no stats
+        document.getElementById('clear-stats').setAttribute("disabled", "disabled");
+    else
+        document.getElementById('clear-stats').removeAttribute("disabled");
 }
 
 
@@ -169,11 +174,11 @@ async function readQuestion() {
     // Stop reading the current question:
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
-    shownAnswer = false;
 
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
     document.getElementById('toggle-correct').innerHTML = 'I was wrong'
+    document.getElementById('div-toggle-correct').style.display = 'none';
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
@@ -186,6 +191,10 @@ async function readQuestion() {
     questionText = questions[currentQuestionNumber]['question'];
     questionTextSplit = questionText.split(' ');
 
+    document.getElementById('buzz').removeAttribute('disabled');
+    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').removeAttribute('disabled');
+    paused = false;
     // Read the question:
     printWord();
 }
@@ -213,8 +222,27 @@ function printWord() {
             printWord();
         }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
     }
+    else {
+        document.getElementById('pause').setAttribute('disabled', 'disabled');
+    }
 }
 
+/**
+ * Toggles pausing or resuming the tossup.
+ */
+function pause() {
+    if (paused) {
+        document.getElementById('buzz').removeAttribute('disabled');
+        document.getElementById('pause').innerHTML = 'Pause';
+        printWord();
+    }
+    else {
+        document.getElementById('buzz').setAttribute('disabled','disabled');
+        document.getElementById('pause').innerHTML = 'Resume';
+        clearTimeout(timeoutID);
+    }
+    paused = !paused;
+}
 
 document.getElementById('start').addEventListener('click', async () => {
     packetName = document.getElementById('name-select').value.trim();
@@ -252,6 +280,7 @@ document.getElementById('start').addEventListener('click', async () => {
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
     questions = await getQuestions(packetName, packetNumber);
+    document.getElementById('next').removeAttribute('disabled'); //remove disabled from next button
     readQuestion();
 });
 
@@ -310,11 +339,13 @@ document.addEventListener('keyup', () => {
     if (document.activeElement.tagName === 'INPUT') return;
     if (packetNumbers != -1) {
         if (event.which == 32) {  // spacebar
-            buzz();
+            document.getElementById('buzz').click();
         } else if (event.which == 78) {  // pressing 'N'
-            readQuestion();
+            document.getElementById('next').click();
         } else if (event.which == 27) {  // escape key
             modal.style.display = "none";
+        } else if (event.which == 80) {  // pressing 'P'
+            document.getElementById('pause').click();
         }
     }
 });
