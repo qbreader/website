@@ -1,0 +1,466 @@
+{
+    "tossups": [
+        {
+            "question": "Deterministic scattering in quantum dots or other mesoscopic cavities with long dwell times suppresses this phenomenon. Using Landauer\u2019s formula, the dependency of the zero-temperature spectral density of this phenomenon on the transmission probabilities T-sub-n is shown to be: the sum over n of the product of T-sub-n and the quantity one minus T-sub-n. Walter Schottky proposed measuring the elementary charge with this phenomenon after he observed it in a (*) vacuum tube. This type of noise dominates in nonequilibrium conditions with high frequency current fluctuations. When assumed to be Poissonian, this type of noise\u2019s spectral density varies linearly with current. Unlike thermal noise and flicker noise, this type of noise is white and temperature independent. For 10 points, name this type of noise caused by the discreteness of electrical charge.",
+            "answer": "shot noise [accept shot noise after \u201cnoise\u201d is read; prompt on noise until \u201cnoise\u201d is read; prompt on white noise until \u201cwhite\u201d is read; prompt on Poisson noise until \u201cPoissonian\u201d is read]",
+            "subcategory": "Physics",
+            "category": "Science"
+        },
+        {
+            "question": "This author\u2019s love of Pilgrim\u2019s Progress led him to title many of his essays with Bunyan-esque phrases like \u201cMr. High-Mind\u2019s Party\u201d and \u201cRecalling Mr. Fearful-for-Truth.\u201d This author coined the contemporary usage of the term \u201cthe Establishment\u201d in a review of a biography of William Cobbett. This historian asserted that Marinus van der Lubbe acted alone in his introduction to Fritz Tobias\u2019s account of the Reichstag fire. This rival of Hugh Trevor-Roper rejected the (*) Nuremberg Thesis in a book arguing that the failures of British and French forign policy enabled Hitler. This historian presented his \u201crailway thesis\u201d on the origins of World War I in his book War by Timetable. For 10 points, name this British historian of diplomatic history who wrote The Origins of the Second World War and The Struggle for Mastery in Europe, whose surname is usually preceded by three initials.",
+            "answer": "A. J. P. Taylor [or Alan John Percivale Taylor]",
+            "subcategory": "Other History",
+            "category": "History"
+        },
+        {
+            "question": "In a play, a character who works as a sandwich artist at Subway but formerly had this profession asks Professor Aman to translate a phonetic phrase for him. In a play titled for a man with this profession, the Black investigator Davenport conducts a series of interviews to uncover the racially motivated murder of Waters; that play won the 1982 Drama Pulitzer for Charles Fuller. The aspiring actor Elliot Ortiz suffers from a limp acquired during his time as a member of this profession in Quiara Alegria Hudes\u2019s play (*) Water by the Spoonful. A man of this profession rapes Ian and eats his eyes in Sarah Kane\u2019s play Blasted. In a German expressionist play, a character with this profession is prescribed an all-pea diet by a doctor and stabs his lover Marie to death for sleeping with the Drum Major. For 10 points, name this profession of Georg B\u00fcchner\u2019s character Woyzeck.",
+            "answer": "soldier [accept military personnel; accept specific military ranks like general, officer, sergeant, or colonel; accept marine; accept The Soldier\u2019s Play]",
+            "subcategory": "Drama",
+            "category": "Literature"
+        },
+        {
+            "question": "In the opening bars of this symphony\u2019s second movement a solo horn plays the 6/8 melody (read slowly) E, E, dotted F, short G, E before being joined by the clarinet. Dr. Richard Fellinger saved the score of this non-Russian symphony from an apartment fire while its composer was manning a bucket line. The first theme of this symphony\u2019s Allegro giocoso third movement consists of a truncated, syncopated, descending scale which the kettledrums, (*) triangle, and piccolo articulate on the weak beats. This symphony, which was composed over two vacations in M\u00fcrzzuschlag, borrows from Bach\u2019s Chaconne in D minor for the ostinato bass line for the passacaglia and 34 variations that make up its fourth movement. For 10 points, name this E minor final symphony of a composer who also wrote A German Requiem.",
+            "answer": "Johannes Brahms\u2019 Symphony No. 4 in E Minor [accept Brahms\u2019 4th Symphony]",
+            "subcategory": "Auditory Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "question": "The government of this country partnered with the Israeli firm Neema to issue the SOV, the world\u2019s first sovereign cryptocurrency. In 2014, activist Kathy Jetnil-Kijiner received a standing ovation at the U.N. after she read a poem stating that her seven-month-old baby would outlive this country. The U.S. Department of Energy stores large amounts of radioactive debris under a concrete dome on this country\u2019s Runit Island. Tyson Foods employs a large diaspora of people from this country living in (*) Springdale, Arkansas, who immigrated there thanks in part to the Compact of Free Association, signed alongside Palau and the Federated States of Micronesia. Either Kiribati (\u201cKEE-ree-bass\u201d) or this country will likely be the first to be fully submerged due to rising sea levels. Majuro is the capital of, for 10 points, what Pacific island country where the U.S. tested the hydrogen bomb on Bikini Atoll?",
+            "answer": "Marshall Islands [or Republic of the Marshall Islands; or Aolep\u0101n Aor\u014dkin \u1e42aje\u1e37]",
+            "subcategory": "Other History",
+            "category": "History"
+        },
+        {
+            "question": "Two answers required. After constructing dominance frontiers and placing phi-functions, renaming is done by performing this process on one of these data structures that dominates the CFG to convert to minimal SSA form. For L-attributed grammars, this process on this data structure only needs to be run one time to compute attribute values. During semantic analysis, symbol tables are built while running this process on this data structure. Type-safety is statically checked by performing this process on this data structure. The difference between top-down and bottom-up (*) parsing is the direction this process is done to one of these data structures called the AST. The order that root, left, and right are inspected differentiate preorder and postorder forms of this process on this data structure. For 10 points, name this process of touching every node of undirected, connected, acyclic graphs.",
+            "answer": "tree traversal [accept AST traversal or abstract syntax tree traversal; accept walking, visiting, or searching instead of traversal; accept word forms, like traverse for traversal or walk for walking; prompt on graph in place of tree]",
+            "subcategory": "Other Science",
+            "category": "Science"
+        },
+        {
+            "question": "Stefano Gualeni has presented digital environments like Necessary Evil as versions of these things that challenge the prevailing text-only presentation of them. A logical taxonomy of these things puts them into categories such as prefactual, semi-factual, and hindcasting. Roy Sorenson\u2019s 1992 book presenting an \u201cevolutionary\u201d model of these things rejects Ernst Mach\u2019s enthusiasm for them. Yale philosopher Joshua Knobe elucidated his namesake effect while conducting a series of these events concerning a (*) CEO who either helps or harms the environment. Daniel Dennett\u2019s writings refer to a subclass of these events as intuition pumps. Judith Jarvis Thompson presented one of these involving a violinist in her paper \u201cA Defence of Abortion.\u201d For 10 points, name these real or imaginary events used to test philosophical intuitions, exemplified by the trolley problem.",
+            "answer": "thought experiments [accept experimental philosophy; prompt on quiz, survey, polls or questionnaires; prompt on ethical dilemmas; prompt on video games by asking \u201cwhat sort of philosophical situation is presented in those video games?\u201d]",
+            "subcategory": "Philosophy",
+            "category": "Philosophy"
+        },
+        {
+            "question": "The classical depiction of urinating boys called pueri mingentes was first revived in the Renaissance by a sculpture of this scene. A nude figure clutching a sword with two hands appears in Franz Stuck version of this scene, which is missing one of its common participants. Mantegna\u2019s version of this scene frames the action with pink curtains. Vitaliy Komar and Alexander Melamed painted a version of this scene set \u201con the (*) Red Square,\u201d which features a depiction of Joseph Stalin. One model used for this scene also modeled for the artist\u2019s earlier Pallas Athene and depicts the subject wearing a large golden neckbrace. The most famous version of this scene may have been inspired by the anullment of Agostino Tassi\u2019s rape conviction. For 10 points, Caravaggio and Artemisia Gentileschi famously painted what scene that shows a woman killing an Assyrian general?",
+            "answer": "Judith beheading Holofernes [accept any answer containing both Judith and Holofernes, like Judith with the head of Holofernes] (The sculpture in the first clue is by Donatello.)",
+            "subcategory": "Visual Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "question": "In a novel set in this country, a coded radio telegram conveys that the \u201cKing of America\u201d with a \u201cgrandfather face\u201d desires the death of \u201ca tall, thin man.\u201d In the final section of a novel, the foul-mouthed parrot Methuselah is killed on this country\u2019s independence day, and Ruth May states that she doesn\u2019t fault her sisters for failing to prevent her death due to a mamba bite. A poem named for this country contains (*) directions like \u201call the \u2018o\u2019 sounds very golden\u201d and \u201cto the tune of \u2018Hark, ten thousand harps and voices.\u2019\u201d A river \u201c[cuts] through the jungle with a golden track\u201d in a poem named for this country, whose citizens resist being baptized in a crocodile-infested river by American missionary Nathan Price in Barbara Kingsolver\u2019s The Poisonwood Bible. For 10 points, Vachel Lindsay\u2019s poem about what African country mentions the \u201cyell of Leopold\u2019s ghost?\u201d",
+            "answer": "Congo [accept \u201cThe Congo\u201d; accept Democratic Republic of the Congo or Republic of the Congo; accept DRC or RDC; accept Congo-Kinshasa or Congo-Brazzaville; accept Belgian Congo; accept Zaire]",
+            "subcategory": "Other Literature",
+            "category": "Literature"
+        },
+        {
+            "question": "A ruler of this dynasty relied on commander John Axouch after offending Hungary by giving refuge to Prince \u00c1lmos. That ruler of this dynasty\u2019s first campaign against the Danishmendids was prematurely ended by the plotting of his brother Isaac. Michael Psellos convinced a ruler from this dynasty to resign to the Monastery of Stoudios after an illness left him severely depressed. A ruler of this dynasty adapted the ancient (*) Greek titles of sebastos and autokrator into a rank given to his older brother. A ruler from this dynasty enlisted Venetian support in the Golden Bull of 1082 after losing the Battle of Dyrrhachium. That ruler from this dynasty earlier sent representatives to councils at Piacenza and Clermont to request aid against the Seljuks, manifesting in the First Crusade. For 10 points, name this Byzantine dynasty whose rulers included Alexios I.",
+            "answer": "Komnenos [accept Alexios I Komnenos, Isaac I Komnenos, or John II Komnenos; accept Comnenus in place of Komnenos]",
+            "subcategory": "European History",
+            "category": "History"
+        },
+        {
+            "question": "Generous ransoms of \u201cgold and well-wrought iron\u201d are promised as part of pleas for mercy that end by invoking these objects, although none of them succeed. Milman Parry advanced the idea that certain ornamental descriptions of these objects, such as \u201cbalanced\u201d or \u201chollow,\u201d weren\u2019t used for their literary merit but rather for their metrical acceptability. Within a larger work, a passage nicknamed for these objects is preceded by the supposition that not even (*) \u201cten tongues and ten mouths\u201d would be sufficient to describe the individuals who used them. The eventual arrival of one man\u2019s forces near these objects inspires another soldier\u2019s greatest moment of at\u00eb (\u201cAY-tee\u201d), or self-delusion, in which he sends his treasured companion to fight in his armor in his stead. For 10 points, Book 2 of The Iliad enumerates a \u201ccatalogue\u201d of what vehicles used to transport the Greek to Troy?",
+            "answer": "Argive ships [accept boats; accept ships that are hollow, swift, black, round, or well-benched]",
+            "subcategory": "Mythology",
+            "category": "Mythology"
+        },
+        {
+            "question": "A theory of reactions with this property was extended to account for the effect of individual vibrational modes, as well as their zero-point energies, by Markus. A theory of reactions with this property assumes that energy redistribution across a set of loosely coupled oscillators occurs faster than reaction. Energy must be stored in the right normal mode for reactions with this property to occur according to RRK theory. Hard-soft acid-base theory predicts that reactions with this (emphasize) kinetic property will occur at the (emphasize) more electronegative part of an ambident (*) nucleophile. A mixture of products with inversion and retention of stereochemistry characterizes a class of reactions with this property that almost always uses a weak nucleophile. Reactions with this property are either isomerizations or decompositions. For 10 points, name this property of having one reactant.",
+            "answer": "unimolecular reaction [prompt on first-order until it is read; prompt on descriptions like one molecule or one reactant until \u201cone reactant\u201d is read] (The hard-soft acid-base theory clue is Kornblum\u2019s rule)",
+            "subcategory": "Chemistry",
+            "category": "Science"
+        },
+        {
+            "question": "Joshua Cushman was a member of a group of six congressmen strongly opposed to this legislation, and claimed it would result in a \u201cpestiferous mischief\u201d that would \u201ctake deep root in that luxuriant soul.\u201d A speech by Felix Walker during debates about this legislation is the origin of the word \u201cbunk\u201d to describe inflated rhetoric. The debates concerning this legislation also led John Randolph to coin the term (*) doughface to refer to pliant politicians. In a letter to John Holmes, an elderly Thomas Jefferson described this legislation as the \u201cknell of the Union.\u201d The Tallmadge Amendment was not added to this legislation, though thanks to the Thomas proviso, it did prevent slavery north of the 36-30 parallel with the exception of one territory. Maine became a free state because of, for 10 points, what 1820 legislation that also admitted a namesake midwestern slave state?",
+            "answer": "Missouri Compromise [prompt on Tallmadge amendment until it is read] (The term \u201cbunk\u201d is derived from Felix Walker\u2019s constituency of Buncombe County, North Carolina.)",
+            "subcategory": "American History",
+            "category": "History"
+        },
+        {
+            "question": "While talking over a counter, a character in this novel says that being in a certain city makes him feel \u201call the time to come,\u201d in contrast to a city where he feels \u201call the time gone by.\u201d In this novel, an older Belgian man concludes that another character chose to leave his idyllic village because \u201cone can\u2019t stay in the Garden of Eden forever.\u201d This novel\u2019s protagonist leaves Brooklyn after getting in a drunk driving accident and settles in a city where he is disgusted by an elderly (*) transvestite named The Flaming Princess. After returning from Spain, Hella breaks up with this novel\u2019s protagonist after he has a bender and sleeps with several navy sailors. At the end of this novel, the protagonist tears up an envelope informing him of the execution of his lover for murdering Guillaume (\u201cgee-YOHM\u201d). David\u2019s relationship with an Italian bartender is chronicled in, for 10 points, what novel by James Baldwin?",
+            "answer": "Giovanni\u2019s Room",
+            "subcategory": "Long Fiction",
+            "category": "Literature"
+        },
+        {
+            "question": "The massive Barthelasse Island in this river provides views of a nearby building home to an annual arts festival founded by Jean Vilar. Gardians use a distinctive breed of white horses to herd bulls that feature alongside razeteurs (\u201craz-TUR\u201d) in a type of bullfight popular in this river\u2019s delta. Roman ruins near this river include the Triumphal Arch of Orange and the (*) Pont du Gard aqueduct. According to AOC rules, Hermitage (\u201cair-mee-TAZH\u201d) and Condrieu wine grapes must be grown in the delta of this river. The futuristic La Confluence neighborhood in Lyon separates the Sa\u00f4ne (\u201csohn\u201d) from this river. The Gacholle lighthouse is located in this river\u2019s delta on the Digue (\u201cdeeg\u201d) \u00e0 la Mer, a dyke that protects the Camargue from the Mediterranean Sea. For 10 points, name this river that passes through Avignon in southern France.",
+            "answer": "Rh\u00f4ne River",
+            "subcategory": "Geography",
+            "category": "Geography"
+        },
+        {
+            "question": "A complex of Translin and Trax that regulates this pathway is called \u201ccomponent 3 promoter of [a complex in this pathway],\u201d or C3PO. In this pathway, a molecule is loaded such that one end is in a PAZ domain, and the seed region near the other end is in a binding pocket partially formed by a Mid domain. The CLRC complex is recruited to form heterochromatin by the RITS complex, which is structurally similar to a key complex in this pathway. RdRP amplifies this pathway, during which exportin-5 transports the products of a complex made of DGCR8 and (*) Drosha. A guide strand is loaded into a RISC by a protein complex containing TRBP, Dicer, and an Argonaute protein in this pathway discovered in C. elegans by Fire and Mello. For 10 points, name this gene silencing pathway that degrades its namesake nucleic acid before it is used in translation.",
+            "answer": "RNAi [or RNA interference; prompt on RNA silencing or post-transcriptional gene silencing; prompt on gene knockdown; prompt on gene repression; reject gene \u201cknockout\u201d] (C3PO is the component 3 promoter of RISC.)",
+            "subcategory": "Biology",
+            "category": "Science"
+        },
+        {
+            "question": "A Philip Wicksteed paper uses Euler\u2019s theorem to show that payments in accordance with a principle described by this word lead to a certain type of \u201cexhaustion.\u201d Knut Wicksell\u2019s work influenced a theory of wages described by this term, which states wages will equal the value of the marginal amount of labor in competitive markets. It\u2019s not \u201crevolution,\u201d but this word follows \u201cmarginal\u201d in an orthodox 19th century theory of distribution championed by economists like Friedrich von Wiser and J. B. Clark that focuses on (*) diminishing returns. A quantity described by this word and symbolized capital A multiples capital and labor in the Cobb\u2013Douglass function. This word describes a measure of total outputs over total inputs in its \u201ctotal factor\u201d form. For 10 points, name this economic measure whose labor form is used to measure the effectiveness of a worker.",
+            "answer": "productivity [accept marginal productivity; accept theory of marginal productivity or marginal productivity theory of wages/distribution; accept total factor productivity; accept productivity coefficient; prompt on marginal or word forms until \u201cmarginal\u201d is read]",
+            "subcategory": "Social Science",
+            "category": "Social Science"
+        },
+        {
+            "question": "An author from this country rued that unlike Odysseus, he would never be able to \u201ctouch [the] sacred shore\u201d or be laid to rest on the island of his birth in the poem \u201cTo Zakynthos.\u201d A different author from this country composed a 108-verse ode in just three days titled \u201cThe Fifth of May\u201d following the death of Napoleon Bonaparte. The speaker of a poem from this country describes how fear \u201coverwhelms\u201d his heart as he gazes beyond a hedge on a (*) \u201clonely hill.\u201d In 2013, Michael Caesar authored an English translation of a tome of miscellaneous notes from this country whose title translates as \u201cheap of thoughts.\u201d This is the home country of an author who included the poems \u201cTo Sylvia\u201d and \u201cThe Infinite\u201d in his collection Canti. Another poet from this country included 366 poems in his collection of \u201cscattered rhymes.\u201d For 10 points, name this home country of Giacomo Leopardi and Petrarch.",
+            "answer": "Italy [or Italia] (\u201cA Zacinto\u201d is by Ugo Foscolo, and \u201cThe Fifth of May\u201d is by Alessandro Manzoni.)",
+            "subcategory": "Poetry",
+            "category": "Literature"
+        },
+        {
+            "question": "Rachele Gilmore wore a hot pink dress and a tall crown in her Met debut singing a soprano role in this opera, during which she interpolated a high A-flat 6. In this opera, the servant Frantz sings the aria \u201cJour et nuit je me mets en quatre\u201d (\u201czhoor ay NWEE zhuh muh MAY sawn KAT\u201d) as he laments his lack of talent in singing. This opera was originally written for just four performers: a mezzo, tenor, soprano, and baritone, with the latter two each playing four roles. In act 3 of this opera, (*) Dapertutto offers the courtesan Giulietta a diamond to seduce the title character and steal his reflection. This opera\u2019s duet \u201cBelle nuit, \u00f4 nuit d'amour\u201d takes the form of a barcarolle. A stiff character who sings this opera\u2019s aria \u201cLes oiseaux dans la charmille\u201d (\u201clayz-WAH-zo dahn lah shar-MEE\u201d) must be rewound several times to keep her singing. For 10 points, name this opera about the author of the story \u201cThe Sandman,\u201d composed by Jacques Offenbach.",
+            "answer": "The Tales of Hof mann [or Les Contes d\u2019Hof mann]",
+            "subcategory": "Other Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "question": "Opposition forces against this leader kidnapped Formula One legend Juan Manuel Fangio before a Grand Prix in a capital city to debunk this leader\u2019s claims of a \u201ccalm\u201d political atmosphere. This leader sent threatening letters to newspapers saying they could publish what they wanted through \u201ca friendly sort of subtle censorship.\u201d This leader escaped his office through a hidden staircase during a failed assassination attempt that was announced as a success over national radio by (*) Jos\u00e9 Antonio Echeverr\u00eda. This leader hosted a conference which included an appearance by Frank Sinatra and the Tampa delegation of Santo Trafficante. As a gift for lowering the American-owned ITT Corporation\u2019s tax rates, this leader received a solid gold telephone. For 10 points, what U.S.-backed dictator was opposed by the 26th of July Movement during the Cuban Revolution?",
+            "answer": "Fulgencio Batista [or Fulgencio Batista y Zald\u00edvar]",
+            "subcategory": "World History",
+            "category": "History"
+        },
+        {
+            "question": "A polemical work by this writer compares the teaching of Valentinus to the poisonous \u201cbite\u201d of a scorpion. In De penitentia, this theologian analogized baptism and penance to \u201ctwo planks\u201d that can save sinners from shipwreck. This writer\u2019s follower Cyprian would frequently exclaim \u201cshow me the master,\u201d referring to this writer\u2019s books. This thinker\u2019s On the Resurrection of the Flesh attempts to reconcile (*) Montanist doctrine with that of the scripture. This author of the Apologeticus was the first major thinker to endorse traducianism, the idea that the soul is produced in the bodies of one\u2019s parents, a position that led to his condemnation at the Council of Nicea. This writer\u2019s opposition to Greek philosophy led him to rhetorically ask \u201cwhat has Athens to do with Jerusalem?\u201d For 10 points, name this Carthagian church father, the first to write in Latin and use the term the Trinity.",
+            "answer": "Tertullian [or Quintus Septimius Florens Tertullianus]",
+            "subcategory": "Religion",
+            "category": "Religion"
+        },
+        {
+            "question": "A planned extension of this project to the Virgin Islands was designed to \u201croot like a cactus to a rocky peninsula.\u201d A 2018 exhibition at the Chicago Architecture Biennial documented an abandoned clone of this project intended for San Juan\u2019s Hato Rey neighborhood that conformed to Title 236 requirements. This building was constructed after Sandy Van Ginkel convinced his student to submit his master\u2019s thesis to a design contest, although it was reduced from a planned 1,000 (*) units. The book For Everyone a Garden documents the architect\u2019s extension of this project to his native Israel. This building is made up of 354 stacked concrete boxes that form 158 apartments and was built for a \u201cMan and His World\u201d-themed event along the Saint Lawrence River. For 10 points, name this building created for the Montreal Expo of 1967 by Moshe Safdie.",
+            "answer": "Habitat 67",
+            "subcategory": "Other Fine Arts",
+            "category": "Fine Arts"
+        }
+    ],
+    "bonuses": [
+        {
+            "leadin": "This leader was the first head of Proletkult, an organization promoting proletariat culture through workshops, theaters, and journals in early Soviet Russia. For 10 points each:",
+            "answers": [
+                "Alexander Bogdanov [or Alexander Aleksandrovich Bogdanov; accept Alexander Malinovksy]",
+                "Vladimir Lenin [or Vladimir Ilyich Ulyanov]",
+                "schools [accept more specific answers like primary, secondary, or tertiary schools; accept colleges or universities] (Likbez was the campaign to end illiteracy.) "
+            ],
+            "parts": [
+                "Name this Bolshevik leader who also founded the field of tektology, a forerunner of systems theory.",
+                "Bogdanov was an early rival of this Bolshevik leader who led Soviet Russia and the Soviet Union from 1917 to 1924. He wrote the April Theses.",
+                "Another patron of the Proletkult, Anatoly Lunacharsky, oversaw the nationalization of these places as head of Narkompros. The highly successful likbez campaign primarily used these places."
+            ],
+            "subcategory": "Other History",
+            "category": "History"
+        },
+        {
+            "leadin": "The operators corresponding to this vector and the angular momentum operators generate SO(4) (\u201cS-O-four\u201d), which is the origin of the n-squared degeneracy of the hydrogen atom. For 10 points each:",
+            "answers": [
+                "LRL vector [or Laplace\u2013Runge\u2013Lenz vector; accept Laplace, Runge, or Lenz by themselves or any combination thereof; accept eccentricity vector]",
+                "Johannes Kepler",
+                "post-Newtonian approximation [or post-Newtonian expansion; accept PN or 1PN or 2.5PN] "
+            ],
+            "parts": [
+                "Name this vector that is a constant of motion for any two-body problem governed by a one-over-r potential.",
+                "Two-body problems governed by a one-over-r potential are named for this scientist. The second of this scientist\u2019s namesake laws says that the vector from the Sun to a planet covers equal areas during equal time intervals.",
+                "In general relativity, the N-body problem, and thus the two-body problem, is studied using this approximation scheme. A weak-field expansion, a slow-motion expansion, and a near-field expansion are combined in this approximation scheme that had to be carried out to the 2.5 level to accurately explain the Hulse\u2013Taylor binary."
+            ],
+            "subcategory": "Physics",
+            "category": "Science"
+        },
+        {
+            "leadin": "This national team has the most Copa Am\u00e9rica titles, ahead of Brazil and Argentina. For 10 points each:",
+            "answers": [
+                "Uruguay [accept La Celeste]",
+                "Diego God\u00edn (\u201cgo-DEEN\u201d) [or Diego Roberto God\u00edn Leal] AND Jos\u00e9 Mar\u00eda Gim\u00e9nez (\u201chee-MEN-ess\u201d) [or Jos\u00e9 Mar\u00eda Gim\u00e9nez de Vargas; or Josema Gim\u00e9nez]",
+                "Galatasaray [or Galatasaray Spor Kul\u00fcb\u00fc] "
+            ],
+            "parts": [
+                "Name this national team whose best performance at the World Cup in the modern era is their fourth place finish in South Africa behind the devastating front three of Diego Forl\u00e1n, Edinson Cavani, and Luis Su\u00e1rez.",
+                "At the other end of the pitch, the Uruguay national team has been anchored by this center-back pairing ever since Diego Lugano declined. These two center-backs also played their club football together at Atl\u00e9tico Madrid for five seasons between 2013 and 2019. Name both.",
+                "Uruguay\u2019s defeat at the hands of France in the Russia 2018 World Cup was partly due to a huge gaffe by keeper Fernando Muslera, who plays for this Turkish club. Wesley Sneijder spent four years at this rival of Fenerbah\u00e7e (\u201cfey-NER-bah-che\u201d) after leaving Inter in 2013."
+            ],
+            "subcategory": "Trash",
+            "category": "Trash"
+        },
+        {
+            "leadin": "In a play from this dynasty, the maid H\u00f3ngni\u00e1ng helps the two main characters have a secret marriage, only to be found out by Madama Cu\u012b. For 10 points each:",
+            "answers": [
+                "Yuan dynasty",
+                "xiangsheng [accept cross talk; prompt on face and voice]",
+                "stand-up comedy [prompt on comedy] "
+            ],
+            "parts": [
+                "Name this Chinese dynasty during which the \u201cmost popular comedy in Chinese literature,\u201d Romance of the Western Chamber, was written. The comedic variety performance art of zaju flourished during this dynasty, exemplified by the plays The Chalk Circle and The Injustice of Dou E.",
+                "This modern Chinese performing art typically involves two fast-talking men giving a pun and allusion-heavy comedy routine in which they regularly interrupt each other. The duos that perform in this form are made up of a leading dougen and the supporting penggen.",
+                "Xiangsheng has been compared to this type of performance art practiced by Asian comedians Zhou Libo, Ronny Chieng, and Ali Wong. Richard Pryor and George Carlin are best known for performances of this type."
+            ],
+            "subcategory": "Drama",
+            "category": "Literature"
+        },
+        {
+            "leadin": "Jay Newhard attempted to resolve this paradox by noting that the word \u201cloud\u201d can be either heterological or autological depending on how it is uttered. For 10 points each:",
+            "answers": [
+                "Grelling\u2013Nelson paradox [accept Weyl\u2019s paradox; prompt on Nelson\u2019s paradox]",
+                "Bertrand Russell [or Bertrand Arthur William Russell, 3rd Earl Russell]",
+                "tokens [accept type-token distinction; accept type-token ambiguity] "
+            ],
+            "parts": [
+                "Name this paradox from the philosophy of language that hinges on whether the word heterological, meaning inapplicable to itself, is itself heterological. Answering in the positive or the negative both lead to contradictions.",
+                "By treating each adjective as a set of objects containing all objects described by that adjective, Grelling\u2019s paradox can be equated to the paradox named for this British thinker who presented his theory of definite description in \u201cOn Denoting.\u201d",
+                "Newhard\u2019s treatment of the Grelling paradox makes the distinction between words as types and words as these things, which describe an individual instance rather than a set of similar things. C. S. Pierce (\u201cpurse\u201d) noted that the word \u201cletter\u201d demonstrated ambiguity between types and these things."
+            ],
+            "subcategory": "Philosophy",
+            "category": "Philosophy"
+        },
+        {
+            "leadin": "Along with a younger contemporary, this inventor created a physautotype believed to be the first photograph of a still life, his Set Table. For 10 points each:",
+            "answers": [
+                "Nic\u00e9phore Ni\u00e9pce (\u201cnee-say-FOR nyeps\u201d) [or Joseph Nic\u00e9phore Ni\u00e9pce]",
+                "Louis Daguerre [or Louis-Jacques-Mand\u00e9 Daguerre; accept Daguerreotype]",
+                "getting a shoeshine [accept answers like getting his shoes cleaned or shoes polished] "
+            ],
+            "parts": [
+                "Name this French inventor who used an eight-hour exposure to create the earliest surviving photograph, his 1826 View from the Window at Le Gras.",
+                "Ni\u00e9pce collaborated with this other early French photographer, who lends his name to the first publicly-available form of photography, which utilized photosensitive silver-copper plates.",
+                "Daguerre is credited with the first photographic image of a human, who appears in the bottom left corner of his 1839 image Paris Boulevard. The person in the image unexpectedly appeared despite the long exposure time because he was performing what activity?"
+            ],
+            "subcategory": "Other Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin": "Jeffrey Peires\u2019s The Dead Will Arise describes the mass starvation caused in part by a millenarian movement among these people. For 10 points each:",
+            "answers": [
+                "Xhosa [or AmaXhosa]",
+                "Nongqawuse (\u201cnon-kah-WOO-say\u201d)",
+                "Kingdom of Lesotho (\u201cluh-SOO-too\u201d) [accept Basotholand] "
+            ],
+            "parts": [
+                "Name this Bantu ethnic group that lived in the land east of the Cape Colony in modern day South Africa. Nelson Mandela was descended from people of this ethnic group, who speak a language featuring three click sounds.",
+                "This teenage prophet was largely responsible for the Xhosa famine of 1856 when she encouraged the populace to slaughter all of their cattle as a kind of ultimate sacrifice that would usher in the apocalypse.",
+                "The devastation of the Xhosa population by the 1850s famine strengthened the position of this kingdom established by Moshoeshoe (\u201cmuh-SHWAY-shway\u201d) in 1822. This kingdom sandwiched between Natal and the Orange Free State fought four wars against the British before agreeing to the Convention of Aliwal North, making it a British protectorate."
+            ],
+            "subcategory": "World History",
+            "category": "History"
+        },
+        {
+            "leadin": "\u201cHow much\u201d questions apply to one of these two groups of nouns, while \u201chow many\u201d questions apply to the other. For 10 points each:",
+            "answers": [
+                "mass nouns [or non-count nouns; or uncountable nouns] AND count nouns [or countable nouns]",
+                "noun classifiers [accept mensural numeral classifiers; prompt on measure words or counter words]",
+                "less "
+            ],
+            "parts": [
+                "Name these two types of nouns. Native speakers innately understand the distinction between these two types of nouns, exemplified by beans on one hand and corn on the other. Confusion over the arbitrariness of the distinction between these two noun groups may lead non-native speakers to ask \u201chow many corn?\u201d or \u201chow much beans?\u201d",
+                "East Asian languages like Chinese treat all nouns as mass nouns and thus make use of these features to quantify the amount of a noun. These words or affixes may be called \u201cmensural numeral\u201d if they count out small numbers of things, such as glasses of water or pounds of beans.",
+                "Confusion between mass and count nouns in English leads to a common grammar mistake in which this word, which quantifies mass nouns, is substituted for \u201cfewer,\u201d particularly in supermarket signs reading \u201cten items or [this word].\u201d"
+            ],
+            "subcategory": "Social Science",
+            "category": "Social Science"
+        },
+        {
+            "leadin": "Answer the following about histology of muscle tissue, for 10 points each.",
+            "answers": [
+                "actin AND myosin",
+                "I-bands [or isotropic bands]",
+                "red ragged fibers [or ragged red fibers] "
+            ],
+            "parts": [
+                "Myofibrils appear striated because of alternating, overlapping filaments made up of these two proteins. These two proteins play a role in sarcomere shortening during muscle contraction. Name both.",
+                "Using the 100x oil immersion objective, the alternating pattern of A-bands with these light bands can be visualized in the striations. Z-lines bisect these bands.",
+                "A myoclonic epilepsy linked to mutations in MT-TK is diagnosed by visualizing these features with Gomori trichrome stain. Accumulation of mitochondria below the plasma membrane of muscle cells causes these features."
+            ],
+            "subcategory": "Biology",
+            "category": "Science"
+        },
+        {
+            "leadin": "Answer the following about literary doppelg\u00e4ngers, for 10 points each:",
+            "answers": [
+                "Jos\u00e9 Saramago [or Jos\u00e9 de Sousa Saramago]",
+                "Ursula K. Le Guin (\u201cluh gwin\u201d) (The novels described are A Wizard of Earthsea and The Left Hand of Darkness.)",
+                "Charles Williams [or Chales Walter Stansby Williams] "
+            ],
+            "parts": [
+                "A Mesopotamia-obsessed history professor discovers his doppelg\u00e4nger while watching a film in this author\u2019s novel The Double. This Portuguese author also wrote the novel Blindness.",
+                "Ged has an evil doppelg\u00e4nger known as \u201cthe nameless one\u201d in a novel by this author. An ambassador travels across an ice sheet on the genderfluid planet of Gethen in another novel by this author.",
+                "The thespian Pauline Anstruther is haunted by her doppelg\u00e4nger in this author\u2019s \u201ctheological detective\u201d novel Descent into Hell. This member of the Inklings also wrote about a bunch of Platonic archetypes disrupting life in an English village in his novel The Place of the Lion."
+            ],
+            "subcategory": "Long Fiction",
+            "category": "Literature"
+        },
+        {
+            "leadin": "This word names a 1989 high modernist piece for four part mixed choir and orchestra by Charles Wuorinen. For 10 points each:",
+            "answers": [
+                "genesis [accept Genesis of a Music]",
+                "double bass",
+                "Kyrie eleison "
+            ],
+            "parts": [
+                "Give this word that is the first in a 45-page polemic by Harry Partsch that argues that J. S. Bach\u2019s employment of equal temperament tuning led to the impoverished sense of tonality in Western Classical music.",
+                "Wuorinen\u2019s choral piece Genesis uses two of these instruments to represent the voice of God, an idea borrowed from Stravinsky\u2019s The Flood. This instrument has the lowest pitch of the string instruments in the standard orchestra.",
+                "Wuorinen\u2019s Genesis opens with a fortissimo atonal melody on this word. Sections named for this word follow the Introit in Mozart and Faur\u00e9\u2019s Requiems."
+            ],
+            "subcategory": "Auditory Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin": "This poet\u2019s lines \u201cIn the night came the sound of wind and rain / who knows how many flowers fell?\u201d are often students\u2019 first exposure to literary Chinese, due to his poem\u2019s placement at the beginning of Chinese language textbooks. For 10 points each.",
+            "answers": [
+                "Meng Haoran [accept Meng Hao-jan]",
+                "Li Bai [or Li Po; or Li Bo]",
+                "a tower [accept l\u00f3u; accept \u201cThe Broken Tower\u201d; accept a bell tower; accept Yellow Crane Tower; prompt on multi story building or tall building] "
+            ],
+            "parts": [
+                "Name this Tang dynasty poet who wrote the poem \u201cSpring Dawn.\u201d This older contemporary of Wang Wei primarily wrote five-character poems describing landscapes.",
+                "This other poet wrote \u201cA Present for Meng Haoran\u201d in which he expresses his admiration for Meng. He is better known for writing \u201cQuiet Night Thoughts.\u201d",
+                "Li Bai also wrote a poem titled \u201cSeeing off Meng Haoran for Guangling at Yellow Crane,\u201d which is one of these structures. A Hart Crane poem titled for one of these structures opens \u201cThe bell-rope that gathers God at dawn / Dispatches me as though I dropped down the knell.\u201d"
+            ],
+            "subcategory": "Poetry",
+            "category": "Literature"
+        },
+        {
+            "leadin": "The radius of this region equals the cube root of the following: three times the photon emission rate all divided by four pi times the recombination coefficient times the number density squared. For 10 points each:",
+            "answers": [
+                "Str\u00f6mgren sphere [prompt on HII (\u201cH-two\u201d) regions; prompt on emission nebulae]",
+                "ionization",
+                "Lyman series [accept Lyman-alpha; accept Lyman-alpha forest] "
+            ],
+            "parts": [
+                "Identify this region surrounding a young O or B type star. This region is derived by assuming all photons are absorbed, but a sizable number of them do manage to escape in reality.",
+                "Inside the Str\u00f6mgren sphere, photons emitted by the star with an energy greater than or equal to 13.6 eV (\u201cE-V\u201d) cause hydrogen atoms to undergo this process. The energy of this process is the energy required to remove an electron.",
+                "Photons that ionize have wavelengths below that of the short-wavelength end of this emission line series. On quasar spectra, clouds between us and the quasar create large clusters of an emission line in this series that are used to study density fluctuations."
+            ],
+            "subcategory": "Other Science",
+            "category": "Science"
+        },
+        {
+            "leadin": "Supporters of a ruler with this name deserted him and followed his sons at the \u201cField of Lies.\u201d For 10 points each:",
+            "answers": [
+                "Louis [or Louis the Pious; or Louis I]",
+                "the collapse of a wooden gallery connecting a cathedral and palace [accept destruction, cave-in, disintegration or any other reasonable synonym for collapse; accept roof, walkway, colonnade, passageway, hallway or arcade for gallery]",
+                "Treaty of Verdun "
+            ],
+            "parts": [
+                "The Carolingian Empire fractured following the death of a ruler with what name and the epithet \u201cthe Pious?\u201d That ruler was the first of eighteen kings of France with this name.",
+                "Seeing it as a premonition of his demise, Louis the Pious issued the decree Ordinatio Imperii shortly after surviving this sort of event, in which several members of his court died while leaving mass. A description is acceptable.",
+                "Familial infighting following the death of Louis the Pious culminated in this treaty signed by Lothair I, Louis the German, and Charles the Bald. This 843 treaty split the Carolingian Empire into three independent kingdoms."
+            ],
+            "subcategory": "European History",
+            "category": "History"
+        },
+        {
+            "leadin": "This city\u2019s Palazzo Pubblico is home to such frescoes as The Allegory of Good and Bad Government. For 10 points each:",
+            "answers": [
+                "Republic of Siena",
+                "Lippo Memmi",
+                "Duccio di Buoninsegna "
+            ],
+            "parts": [
+                "Name this city, the birthplace of Ambrogio Lorenzetti and Simone Martini. This city\u2019s cathedral contains Donatello\u2019s The Feast of Herod.",
+                "Simone Martini was the brother-in-law of this artist with whom he collaborated on an Annunciation scene depicting the Saints Margaret and Ansanus. A Madonna by this artist was the first to receive a canonical coronation from the Pope.",
+                "Perhaps the most well-known version of a Maest\u00e0 is by this Sienese artist whose Rucellai Madonna was once incorrectly attributed to his teacher Cimabue by Giorgio Vasari."
+            ],
+            "subcategory": "Visual Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin": "A Montana state park near the town of Ulm contains possibly the largest example of a pishkun, a term translating as \u201cdeep kettle of blood\u201d that describes sites where these animals were hunted. For 10 points each:",
+            "answers": [
+                "buffalo [accept bison]",
+                "David Wojnarowicz (\u201cvoy-nuh-ROH-vich\u201d)",
+                "Texas "
+            ],
+            "parts": [
+                "Name these animals hunted at namesake \u201cjumps\u201d like Head-Smashed-In and Camp Disappointment where Native American tribes herded them to fall to their deaths off the edges of cliffs.",
+                "U2 used this artist\u2019s photograph Untitled (Buf alo), which depicts a buffalo jump, as the cover for their single \u201cOne.\u201d In 2010, the Smithsonian was criticized for removing this artist\u2019s film A Fire in My Belly from an exhibition due to complaints by conservative politicians.",
+                "This US state contains Bonfire Shelter, the southernmost site of buffalo mass hunting. Mary Ann \u201cMolly\u201d Goodnight, the wife of businessman Charles, helped prevent the extinction of bison by personally preserving a herd and breeding them to produce \u201ccattalo\u201d in this state in the late 1800s."
+            ],
+            "subcategory": "Other Academic",
+            "category": "Other Academic"
+        },
+        {
+            "leadin": "The symbol of this movement has a big swastika in its middle that is surrounded by four smaller ones with four Taiji symbols in between. For 10 points each.",
+            "answers": [
+                "Falun Gong [accept Falun Dafa]",
+                "qigong [accept chi gung; prompt on Tai Chi]",
+                "shaking [accept Shakers or being shook] (The two last living Shakers in the US live at Sabbathday Lake in Maine.) "
+            ],
+            "parts": [
+                "Name this religious movement founded by Li Hongzhi. The central philosophy of this primarily Chinese religious movement is based on truthfulness, compassion, and forbearance.",
+                "The central practice of Falun Gong combines meditation with this traditional Chinese exercise which cultivates and balances the life-force within the body. Falun Gong practitioners have been criticized for falsely claiming that this practice can cure diseases like cancer.",
+                "The simplest qigong exercise involves doing this action while in the relaxed normal stance. Two notable practitioners of a different religious tradition associated with this action live at Sabbathday Lake."
+            ],
+            "subcategory": "Religion",
+            "category": "Religion"
+        },
+        {
+            "leadin": "This speech given at the Brown\u2019s Indian Queen Hotel assured that all sinecures would be eliminated from the federal government. For 10 points each:",
+            "answers": [
+                "John Tyler\u2019s inauguration speech [accept the inaugural speech of John Tyler; accept answers like John Tyler\u2019s speech upon becoming president; prompt on partial answers]",
+                "independent treasury [prompt on treasury]",
+                "tariff [accept Tariff of Abominations or Black Tariff] "
+            ],
+            "parts": [
+                "Name this speech that stated \u201cthe conditions of our military will become a matter of anxious solitude.\u201d This speech reaffirmed neutrality in foreign affairs and was a sharp two hours long, in contrast to the length of the speech given by the previous office holder.",
+                "Tyler\u2019s cabinet attempted and failed to repeal this financial system that controlled the money supply of the United States starting during the presidency of Martin Van Buren. An early version of this system was proposed by the French diplomat Condy Raguet.",
+                "In 1842, Tyler signed into law the controversial \u201cBlack\u201d one of these protectionist taxes that replaced ad valorem rates. One of these taxes known as one of \u201cabominations\u201d added a 30 percent increase on import fees in the South in the late 1820s."
+            ],
+            "subcategory": "American History",
+            "category": "History"
+        },
+        {
+            "leadin": "Laplace\u2019s principle of insufficient reason supports E. T. Jaynes\u2019s argument that the most natural choice for a probability distribution is one that maximizes this quantity under moment constraints. For 10 points each:",
+            "answers": [
+                "information entropy [or Shannon entropy]",
+                "continuous uniform distribution [or rectangular distribution]",
+                "KL divergence [or Kullback\u2013Leibler divergence; or relative entropy; accept directed divergence; accept discrimination information] "
+            ],
+            "parts": [
+                "Identify this quantity first introduced to information theory by Shannon. It represents uncertainty or disorder.",
+                "The maximum entropy distribution with no constraint besides support within a finite, closed interval is this distribution. This distribution\u2019s variance equals one twelfth times the length of its support interval squared.",
+                "Jaynes\u2019s principle can be reformulated to say that the maximum entropy distribution is the one that minimizes this entropy measure between it and the uniform distribution. This entropy measure cannot truly be used as a distance between distributions because it does not satisfy the triangle inequality."
+            ],
+            "subcategory": "Math",
+            "category": "Science"
+        },
+        {
+            "leadin": "A book by this critic documenting the history of women\u2019s writing in America highlights largely forgotten authors of the 1850s such as Harriet Elizabeth Spofford and Maria Susanna Cummins. For 10 points each:",
+            "answers": [
+                "a jury [accept \u201cA Jury of Her Peers\u201d]",
+                "renaissances [accept American Literary Renaissance; accept Harlem Renaissance] ",
+                "Cuba [accept Republic of Cuba]"
+            ],
+            "parts": [
+                "Name this critic whose project of analyzing literature in a \u201cwoman\u2019s frame\u201d led her to coin the term \u201cgynocriticism.\u201d She discussed the depiction of hysteria in The Female Malady. ANSWER Elaine Showalter [or Elaine Cottler] [m] Showalter\u2019s history of women\u2019s writing in American is named for one of these groups of people, and shares its name with a Susan Glaspell story adapted from her play Trifles.",
+                "Showalter argues that women\u2019s writing in the 1850s should be considered to be among the contributions to the first one of these periods in American literature. Langston Hughes and Countee Cullen were part of one of these periods named for Harlem.",
+                "Name this country. Much of Ana Mendieta\u2019s \u201cearth-body\u201d art was inspired by Santer\u00eda, a religious tradition from this Caribbean country."
+            ],
+            "subcategory": "Short Fiction",
+            "category": "Literature"
+        },
+        {
+            "leadin": "Many black-and-white \u201ccollagraphs\u201d by printmaker Belkis Ay\u00f3n depicting ghostly, mouthless figures were inspired by ritual attire worn by the male-only Abaku\u00e1 secret society in this country. For 10 points each:",
+            "answers": [
+                "The Jungle [or La Jungla]",
+                "the assassination of Leon Trotsky [or the murder of Leon Trotsky; or the death of Leon Trotsky; prompt on assassination, murder, or death by asking \u201cof whom?\u201d] ",
+                "Hazel Ruth Markus"
+            ],
+            "parts": [
+                "Several figures with crescent-shaped faces resembling Santer\u00eda masks appear amidst rows of sugarcane in this Wifredo Lam painting that mingles Afro-Cuban motifs and Cubism.",
+                "In Guillermo Cabrera Infante\u2019s novel Three Trapped Tigers, Bustrofed\u00f3n describes this real-life event in seven styles, including as an Afro-Cuban ritual reminiscent of El Monte, a study of Afro-Cuban religion by Lydia Cabrera.",
+                "Name this psychologist who, in another collaboration with Kitayama, used contrasting independent and interdependent self-schemas to understand psychological functioning in different contexts. This Stanford psychologist founded the \u201cdo tank\u201d SPARQ (\u201cspark\u201d)."
+            ],
+            "subcategory": "Other Academic",
+            "category": "Other Academic"
+        },
+        {
+            "leadin": "Mullaly, Kitayama, and this psychologist developed the term \u201cselfway\u201d to describe characteristic patterns of engaging in society that lead to repeated reconstruals of the self. For 10 points each:",
+            "answers": [
+                "habitus",
+                "social class [accept economic class] "
+            ],
+            "parts": [
+                "Markus\u2019s concept of the selfway is similar to this concept put forth by Pierre Bourdieu. Embodied cultural capital becomes this unconscious \u201cfeel for the game\u201d that shapes subjects\u2019 attitudes and actions.",
+                "Pierre Bourdieu\u2019s book Distinction argues that differences in cultural aesthetic tastes among these groups of people leads to further social stratification between them. Dennis Gilbert\u2019s work on these groups in the United States divides them into six distinct groups including upper middle and working poor."
+            ],
+            "subcategory": "Other Science",
+            "category": "Science"
+        }
+    ]
+}

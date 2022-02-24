@@ -1,0 +1,426 @@
+{
+    "tossups": [
+        {
+            "question": "William Duckworth used this compositional technique to shift the pedal point in the sixth of a set of twenty-four piano preludes. The first application of this compositional technique for a piece for two  instrumental performers uses a single twelve-note motif played over a series of twelve variations, which start on each successive note of the theme. It\u2019s not aleatoricism [ay-lee-uh-TOHR-uh-sism], but this compositional technique was influenced by Terry Riley\u2019s In C when its inventor heard a major third, E\u2013D\u2013F-sharp, in the vocal inflections of street preacher Brother Walter; a piece using a recording of Brother Walter was the first mature piece to use this technique and is titled It\u2019s Gonna Rain. Steve Reich popularized, for 10 points, what technique in minimalist music in which two \u201cvoices\u201d repeat a short phrase over and over, slightly out of sync.",
+            "answer": "phasing [accept phase-shifting, prompt on \u201clooping\u201d or anything that mentions repetition, prompt on \u201cprocess piece\u201d] [The piano preludes are the Time Curve Preludes.]",
+            "subcategory": "Auditory Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "question": "In an essay, this author recalled passing a friend a napkin inscribed with words articulating \u201cthe only dream worth having,\u201d which is \u201cto love. To be loved. To never forget your own insignificance.\u201d This author declared that \u201canother world is not only possible, she is on her way,\u201d in an essay adapted from a speech delivered at the 2003 World Social Forum on the subject of \u201cConfronting Empire.\u201d This author\u2019s first major essay, a broadside against nuclear testing titled \u201cThe End of Imagination,\u201d reflects on the success of a novel in which policemen arrive at the \u201cHistory House\u201d and fatally beat up a Communist worker at a pickle factory. This author correctly forecast that the invasion of Afghanistan would spread \u201cmore terror across the world\u201d in a September 2001 Guardian piece that she made the title essay of her collection The Algebra of Infinite Justice. For 10 points, name this political activist and leftist Indian author who wrote about the twins Estha and Rahel in her novel The God of Small Things.",
+            "answer": "(Suzanna) Arundhati Roy",
+            "subcategory": "World Literature",
+            "category": "Literature"
+        },
+        {
+            "question": "Workers in this industry lynched their overseer Captain Marinovich during one of the 1848 revolutions. Mock battles fought with sticks between fishermen and workers in this industry are the subject of Robert C. Davis\u2019s The War of the Fists. The entrance gate to a former center of this industry is the site of the runic graffiti-inscribed animal sculpture taken from Piraeus. An anecdote about a product of this industry being finished in the time it took Henry III of France to eat dinner illustrates the legendary efficiency of its workers at a 110-acre complex in the Castello district, where Galileo consulted on applying Aristotle\u2019s \u201cMechanical Questions\u201d to this industry. Workers in this industry, such as oakum pullers who assisted in caulking, used an early assembly line system to produce objects like the Bucentaur at the Venetian Arsenal. For 10 points, what industry produced caravels as well as the galleys used at the Battle of Lepanto?",
+            "answer": "shipbuilding [accept anything indicating the construction of ships, boats, galleys, and so on]",
+            "subcategory": "European History",
+            "category": "History"
+        },
+        {
+            "question": "A largely correct theory about the mechanism of these phenomena was devised by Julius Bernstein [YU-lee-oos BAIRN-shtyne], who invented the differential rheotome to observe them. The fact that \u201cramping\u201d typically does not lead to the generation of these phenomena is known as \u201caccommodation.\u201d Using devices that measure these phenomena, researchers led by J\u00f6rg-Peter Ewert conducted pioneering studies in feature detection. A jump transition known as a \u201ccanard\u201d is observed in the amplitude of these phenomena, corresponding to the empirically derived \u201call or none\u201d principle. FitzHugh and Nagumo name a simplified version of a model devised by Alan Hodgkin and Andrew Huxley based on experiments observing these phenomena in a \u201cgiant\u201d cellular feature found in squid. A \u201cspike train\u201d is a temporal sequence of, for 10 points, what electrical phenomena that register on cell membranes as an impulse propagates after a nerve \u201cfires\u201d?",
+            "answer": "action potentials [accept nerve impulses before \u201cimpulse\u201d; prompt on \u201cpotentials\u201d]",
+            "subcategory": "Social Science",
+            "category": "Social Science"
+        },
+        {
+            "question": "A version of this algorithm that makes use of queues has \u201csmall label first\u201d and \u201clarge label last\u201d variants; that improvement to this algorithm, which works particularly well over sparse structures, was developed by Fanding Duan and is known as SPFA. This algorithm gives its name to a general class of routing algorithms that often make use of path vector protocols to resolve their \u201ccounting to infinity\u201d problems. This algorithm is used to revalue the inputs in an algorithm that takes \u201cbig O of V squared times log V, plus V times E\u201d to run, finds all pairs of shortest paths, and is named Johnson's algorithm. This algorithm, which is co-named for the inventor of dynamic programming, begins by assigning all candidate solutions a value of infinity and works by relaxing edge values. For 10 points, name this pathfinding algorithm that even works on graphs with negative edge weights.",
+            "answer": "Bellman-Ford algorithm [accept SPFA or Shortest Path First Algorithm before \u201cSPFA\u201d]",
+            "subcategory": "Other Science",
+            "category": "Science"
+        },
+        {
+            "question": "This state, which is not in the Northeast, is home to a tomato-based beef stew called the \u201cchowder,\u201d which is served at gatherings also called \u201cchowders.\u201d Motorists in this state get their vehicles blessed at the 198-foot-tall Cross at the Crossroads, the tallest cross in the United States. The Underground Railroad made use of many rock formations now located in the Shawnee National Forest, which covers much of the southern part of this state. Settlers traveling to the southern part of this state to buy grain in the 1830s likened themselves to Israelites and popularized its nickname of \u201cLittle Egypt,\u201d which may explain why towns in this state have names such as Karnak, Thebes, and Cairo [KAY-roh]. The college town of Carbondale is a major metropolitan area in the culturally distinct bottom third of, for 10 points, what Midwestern state home to the cities of Peoria, Champaign, and Chicago?",
+            "answer": "Illinois",
+            "subcategory": "Geography",
+            "category": "Geography"
+        },
+        {
+            "question": "These compounds bind to mercury to form tetrameric halide-coordinating \u201canti-crown ethers\u201d. The diamond-square-diamond mechanism was proposed by Lipscomb to explain the isomerization of these compounds through a cuboctahedral [\"cube-octahedral\"] intermediate. 3-CTAs are thymidine analogues conjugated to these compounds which have been investigated as candidates for neutron capture therapy. A chlorinated derivative of one of these compounds can form a stable, isolable salt with protonated benzene and is a superacid which can stored in glass. These compounds have organomimetic properties due to being composed of the only two neighboring elements to both display catenation [cat-en-ay-shun]. The most prominent of these compounds exists in an ortho configuration and contains a neutral 12-atom closo skeleton. For 10 points, name this class of cluster compounds containing boron and the element immediately heavier than it.",
+            "answer": "carboranes [prompt on boranes]",
+            "subcategory": "Chemistry",
+            "category": "Science"
+        },
+        {
+            "question": "This woman argued that admitting \u201cI don\u2019t know,\u201d which drove the discoveries of Isaac Newton and Marie Curie, also propels writers along as the \u201cconsecutive results of their self-dissatisfaction are clipped together with a giant paperclip by literary historians and called their \u2018oeuvre\u2019.\u201d This woman, who was most frequently translated into English by Clare Cavanagh, wrote that the \u201cview doesn\u2019t view itself\u201d in the title poem of a collection. This woman, who published pseudonymously in the magazine Kultura, was popularized abroad by her German translator, Karl Dedecius. This woman\u2019s characteristic \u201cironic precision\u201d is present in a poem claiming that even the \u201cplanet\u2019s biggest dunce\u201d can\u2019t repeat a course that is only \u201coffered once.\u201d View with a Grain of Sand and Nothing Twice are collections by, for 10 points, what friend of Czes\u0142aw Mi\u0142osz [CHESS-wahf MEE-wohsh] and winner of the 1996 Nobel Prize in Literature?",
+            "answer": "Wis\u0142awa Szymborska [viss-WAH-vah shim-BOR-skuh] [or Maria Wis\u0142awa Anna Szymborska]",
+            "subcategory": "European Literature",
+            "category": "Literature"
+        },
+        {
+            "question": "Michael Gillespie argues this field inspired the structure of a work that calls alcohol and Christianity the \u201cgreat European narcotics.\u201d This thing is called a \u201cmere residue\u201d of a fuller world of emotion by a thinker who claimed life without it would be \u201ca hardship, an exile,\u201d in a letter to Heinrich Koselitz. In The Laws, the Athenian tells Cleinias about Egyptian laws banning innovation in this field, and in the Republic, Socrates argues education should start by teaching this subject, followed by gymnastics. Schopenhauer claimed this discipline was a copy of the Will itself and that man understood it as a \u201cuniversal language.\u201d After praising a man for developing a non-decadent German version of this discipline, a philosopher attacked that man for his \u201ccounterfeiting\u201d and anti-Semitism in a text that urges amor fati. For 10 points, name this field discussed in Nietzsche contra Wagner.",
+            "answer": "music [accept opera; prompt on art; prompt on dance or poetry or tragedy]",
+            "subcategory": "Philosophy",
+            "category": "Philosophy"
+        },
+        {
+            "question": "Jean de Carrouges appealed to this king and the Parlement of Paris to overturn Jacques Le Gris\u2019s acquittal for rape, leading to a trial by combat related in Eric Jager\u2019s The Last Duel. As a minor, this king suppressed the Maillotin [MY-oh-tyne] uprising against taxes imposed by his uncles, whom he later replaced as advisors with a personal clique called the \u201cMarmousets.\u201d Riding through the forest of Le Mans, this man suddenly murdered the \u201cBastard of Polignac.\u201d This king and five friends showed up to a masquerade in flax-and-resin-covered \u201cWild Men\u201d costumes, which disastrously caught fire during the \u201cBall of Burning Men.\u201d This king\u2019s wife, Isabella of Bavaria, manipulated him into signing the Treaty of Troyes [TWAH] long after he had lost authority due to his frequent bouts of madness. For 10 points, name this insane Valois king who ruled France during the Hundred Years\u2019 War.",
+            "answer": "Charles VI of France [or Charles the Well-Beloved; or Charles the Mad; or Charles le Bien-Aime; or Charles le Fou; prompt on Charles]",
+            "subcategory": "European History",
+            "category": "History"
+        },
+        {
+            "question": "Julio begins to practice this art form to celebrate his relationship with Emilia, with whom he used to read books before having sex, in a 2006 novella regarded as a milestone in Chilean literature. Photographs of the work of foreign practitioners of this art form are enlarged to poster size for annual competitions held at Expo \u201970 Commemorative Park. Works in the literati style of this art form exemplify the principle that there is symmetry in asymmetry. This art form, which is better known than the similar practices of h\u00f2n non b\u1ed9 [ahn nahn boh] in Vietnam and penjing in China, often makes use of jin or shari that simulate the effects of wind, snow, or lightning. The geometry of ceramic containers determines the positioning of the central object of this art form, which is shaped by using steel wire to tie off branches. For 10 points, \u201ctray planting\u201d is the literal term for what Japanese art form of growing small trees?",
+            "answer": "bonsai [prompt on topiary; accept h\u00f2n non b\u1ed9 before mentioned; accept penjing or penzai before penjing is mentioned; the novella is Alejandro Zambra\u2019s Bons\u00e1i]",
+            "subcategory": "Other Academic",
+            "category": "Other Academic"
+        },
+        {
+            "question": "The Rauch and Miller Resolutions regarding these places were opposed by a mass rally at Pike\u2019s Opera House during a \u201cwar\u201d fought over them in Cincinnati beginning in 1869. In an 1875 speech to veterans of the Army of Tennessee that focused on these places, President Grant predicted that in any approaching \u201ccontest . . . of . . . national existence,\u201d the \u201cdividing line [would] not be Mason and Dixon\u2019s.\u201d An upside-down American flag is flying from one of these establishments in Thomas Nast\u2019s cartoon \u201cThe American River Ganges,\u201d which depicts symbolic crocodiles crawling onto a riverbank. Although James Blaine\u2019s proposal for a constitutional amendment regarding these places failed, thirty-eight states passed \u201cBlaine Amendments\u201d banning government support to these places if they had religious affiliations. For 10 points, name these establishments whose public administration was forcefully championed by Horace Mann.",
+            "answer": " public schools [or Catholic schools; or anything involving schools, such as primary schools or secondary schools]",
+            "subcategory": "American History",
+            "category": "History"
+        },
+        {
+            "question": "Replication of the hepatitis C virus uniquely requires one of these molecules to bind to the 5\u2032 [\u201cfive prime\u201d] UTR of its genome to protect it from nucleases. \u201cSponges\u201d can inhibit entire families of these molecules by binding to their seed regions, in contrast to narrower inhibition provided by antagomirs. The transition from the L1 to L2 larval stages in C. elegans requires one of these molecules named lin-4. Exportin-5 transports these naturally occurring molecules upon binding to their characteristic 3\u2032 [\u201cthree prime\u201d] two-nucleotide overhangs, which are produced by the enzyme Drosha. These single-stranded molecules consist of roughly twenty-two nucleotides folded into a hairpin and are functionally nearly identical to small interfering RNAs, as both act to post-transcriptionally silence mRNAs. For 10 points, identify these RNA molecules that are named for their small size.",
+            "answer": "microRNAs [or miRNAs; prompt on RNA until \u201cRNAs\u201d is read]",
+            "subcategory": "Biology",
+            "category": "Science"
+        },
+        {
+            "question": "To create four entries of this series, the artist cut up his Landscape with Waterfall and Landscape with Buildings and Trees to use as raw material. The French scholar Paul Lefort, independently of the artist\u2019s son, donated the final two entries of this series, which ends with an image in which light radiates from a woman representing Truth as she appears before a farmer hoeing a field. In an entry from this series, a priest clasps a crucifix with both hands and wears a placard around his neck reading: \u201cpossession of a knife.\u201d This series, whose title and subject matter borrow from a set of etchings created two centuries earlier by Jacques Callot, frequently links unrelated images with captions such as: \u201cI saw it\u201d and \u201cAnd this too.\u201d An image of Sad Presentiments of Things to Come is the frontispiece to this series, which transitions after its 47th entry into images of famine, followed by prints recalling the artist\u2019s earlier Los Caprichos. For 10 points, name these eighty-two prints of military atrocities by Francisco Goya.",
+            "answer": "The Disasters of War [or Los desastres de la guerra]",
+            "subcategory": "Visual Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "question": "This character is told, \u201cDost grant me, hedgehog?\u201d in a scene where he responds to \u201cThou art the cause, and most accursed effect\u201d with \u201cYour beauty was the cause of that effect.\u201d When a woman refuses to let this man marry her daughter, he argues, \u201cYour reasons are too shallow and too quick,\u201d and is told \u201cO no, my reasons are too deep and dead.\u201d In a soliloquy, he says, \u201cUpon my life, she finds, although I cannot, / Myself to be a marvellous proper man.\u201d This character invites a woman to kill him, saying, \u201cTake up the sword again, or take up me,\u201d in a seduction scene that takes place over the coffin of the woman\u2019s dead husband; after succeeding in that scene, he crows, \u201cWas ever woman in this humour won?\u201d This character declares, \u201csince I cannot prove a lover . . . I am determined to prove a villain.\u201d For 10 points, name this man who marries Lady Anne Neville after killing her husband, Henry VI, in a Shakespeare play.",
+            "answer": "Richard III [or Richard Plantagenet; or Richard, Duke of Gloucester; prompt on incomplete answer]",
+            "subcategory": "British Literature",
+            "category": "Literature"
+        },
+        {
+            "question": "This physicist introduced the idea of concentrations of electromagnetic radiation held together by their own gravity, which was later extended to gravitational waves by Brill and Hartle. This physicist is the first namesake of an equation which sets the Hamiltonian acting on the wavefunction equal to zero, leading to the notion that nothing happens in the universe, also called the \u201cproblem of time.\u201d Together with two former doctoral students, he wrote a textbook divided into two parallel \u201ctracks,\u201d with the first covering the fundamentals of general relativity and the second on advanced topics, for a total length of over 1,200 pages. This originator of the \u201cgeon\u201d co-names an equation for the wavefunction of the universe with Bryce de Witt, and also co-authored Gravitation with Charles Misner and Kip Thorne. This physicist created the popular term for a bridge between disconnected regions of spacetime. The terms \u201cquantum foam\u201d and \u201cwormhole\u201d were coined by, for 10 points, what American physicist who is credited with popularizing the term \u201cblack hole\u201d?",
+            "answer": "John (Archibald) Wheeler",
+            "subcategory": "Physics",
+            "category": "Science"
+        },
+        {
+            "question": "An operatic suite from this country requires an extra B-flat chime since the broken chords that begin the E-flat major second movement are written outside normal chimes\u2019 range. In one opera from this country, a character sings a waltz-like \u201cCome here, my love, I yearn to kiss thee\u201d while his addressee shields her eyes and responds in quarter notes over five-four. In 2018, this country\u2019s state opera house controversially staged Porgy and Bess with white singers. The composer of B\u00e1nk B\u00e1n, the national opera of this country, also introduced H\u00e9ctor Berlioz to a theme Berlioz included in the first part of The Damnation of Faust. In an opera from this country, two minor seconds sound whenever Judith encounters blood on walls or behind doors. For 10 points, name this homeland of the composers of H\u00e1ry J\u00e1nos and Bluebeard\u2019s Castle, Zolt\u00e1n Kod\u00e1ly [KOH-dai] and B\u00e9la Bart\u00f3k.",
+            "answer": "Hungary [accept Magyarorszag]",
+            "subcategory": "Other Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "question": "In 1996, a Korean delegation restored a lineage of these people that had died out over a millennium earlier in Sri Lanka due to wars and famine. J. Peter Sartain was appointed to oversee a review of the \u201cLeadership Council\u201d of these people in the United States as part of a controversial three-year investigation that concluded in 2015. Prajnatara, the teacher of Bodhidharma, was one of these people, who are required to follow eight garudhammas, or \u201cheavy rules.\u201d Pope Boniface VIII issued the 1298 decretal Periculoso to prevent these people from traveling freely. These people, who are known as bhikkhunis in Buddhism, historically wore headgear consisting of a bandeau, a guimpe [GAMP], and a coif until the Second Vatican Council. Saint Scholastica is the patron of these people, who join groups like the Ursulines and the Poor Clares. In 2019, Pope Francis acknowledged the sexual abuse of, for 10 points, what female monastics?",
+            "answer": "nuns [or abbesses; or prioresses; or Daughters of the Church; accept bhikkunis before it is read; prompt on sisters but do not accept or prompt on \u201creligious sisters\u201d]",
+            "subcategory": "Religion",
+            "category": "Religion"
+        },
+        {
+            "question": "These people used small circular felt carpets to perform their namesake \u201cwhirl,\u201d which became a dance craze in the sixth century. Tragic letters written by a woman of this ethnicity named Miwnay are among the documents in their Syriac-derived script that Aurel Stein found in a watchtower. Artists from this group depicted a train of ambassadors in a mural discovered on the Afrasiab mound in their capital, where these people were believed to stick glue on the palms and honey in the mouth of newborn boys to aid them in their most notable occupation. Panjakent was a key city of these people\u2019s namesake region, which was also home to a mountain fort that an army supposedly overtook by using flaxen ropes and tent pegs to scale its cliff faces. Alexander the Great met Roxana at that \u201crock\u201d named for these people\u2019s homeland. Through his father, the half-Gokturk general An Lushan was a member of this ethnicity. For 10 points, Samarkand was the capital of what Iranian civilization whose merchants dominated the Silk Road trade?",
+            "answer": "Sogdians",
+            "subcategory": "World History",
+            "category": "History"
+        },
+        {
+            "question": "While searching for a \u201ctwelve-year-old virgin\u201d in this city, a protagonist is offered one who \u201cis really only thirty-four, but she was brought up on a low-protein diet\u201d; that protagonist sees a man beating a dog like \u201cin Raskolnikov\u2019s dream\u201d and a drunk woman being raped by several soldiers during a nighttime walk in this city. A character here says, \u201cShe has no right to be there. . . . It\u2019s after curfew,\u201dafter he is confronted with murdering a girl and dumping her on the street. This city is home to \u201cthe maid in the lime-colored panties\u201d as well as a maid named Michaela who is thrown out of a window after being raped by Aarfy. An old woman in this city says a certain rule means that \u201cthey have a right to do anything we can\u2019t stop them from doing\u201d and explains how the police drove out Nately\u2019s whore. For 10 points, name this city where Yossarian is arrested for going AWOL in an unusually dark chapter of Catch-22 titled \u201cThe Eternal City.\u201d",
+            "answer": "Rome [or Roma]",
+            "subcategory": "American Literature",
+            "category": "Literature"
+        }
+    ],
+    "bonuses": [
+        {
+            "leadin": "The thirteenth century treatise by Anonymous IV discusses a two-voiced setting of Viderunt Omnes by Leonin and a four-voiced setting by Perotin. For 10 points each:",
+            "answers": [
+                "Christmas",
+                "melisma",
+                "hocket [or hoquetus]  "
+            ],
+            "parts": [
+                "Both versions were written for this Christian holiday, although Leonin\u2019s setting was also used for the later Feast of the Circumcision.",
+                "The two-voiced setting of Viderunt Omnes opens with forty notes using this technique, in which several notes are sung on one syllable.",
+                "Peronin\u2019s setting of Viderunt Omnes uses alternating long and short beats and this rhythmic technique in which one voice rests while the others move. Its name is derived from Latin for \u201chiccup.\u201d"
+            ],
+            "subcategory": "Auditory Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin": "Here\u2019s some culinary content\u2014religious culinary content. For 10 points each:",
+            "answers": [
+                "Nation of Islam [or NOI]",
+                "Saint Hildegard von Bingen [or Hildegard of Bingen]",
+                "The Rosicrucian Fellowship [or TRF; prompt on Rosicrucianism, which is the broader esoteric tradition that they belong to] "
+            ],
+            "parts": [
+                "How to Eat to Live, a very pro\u2013whole grain yet anti\u2013birth control nutritional tract, was written by Elijah Muhammad, who led this African American religion after the disappearance of its founder.",
+                "This author of theological writings such as Liber Vitae Meritorum and Scivias wrote many recipes that were informed by her conception of viriditas, or the divine \u201cgreening\u201d power of nature.",
+                "A pretty bland New Age Vegetarian Cookbook was written by Max Heindel, the founder of this esoteric religious organization, which conducts spiritual healing services based on precepts in the Cosmo-Conception at its headquarters in Mount Ecclesia in Oceanside, California."
+            ],
+            "subcategory": "Religion",
+            "category": "Religion"
+        },
+        {
+            "leadin": "An essay on this topic wonders why it has not taken its place with \u201clove, battle, and jealousy among the prime themes of literature.\u201d For 10 points each:",
+            "answers": [
+                "illness [prompt on disease]",
+                "Susan Sontag",
+                "leukemia [prompt on cancer] "
+            ],
+            "parts": [
+                "Name this subject of that Virginia Woolf essay titled \u201cOn Being\u201d in this state. A 1978 work discusses how literature often treats this concept metaphorically to represent punishment or personality and condemns the militarization of language used to discuss it.",
+                "This author critiqued literary depictions of tuberculosis in Illness as Metaphor, which she followed with AIDS and Its Metaphors. She discussed war photography in Regarding the Pain of Others.",
+                "Sontag claims this disease has replaced consumption as a vehicle for aestheticized death in fiction. In Kenzaburo Oe\u2019s Adventures in Everyday Life, Saikichi commits suicide because he cannot save his friend from this disease."
+            ],
+            "subcategory": "World Literature",
+            "category": "Literature"
+        },
+        {
+            "leadin": "One way to create mirrors with this shape is to spin a container filled with liquid mercury at a constant speed. For 10 points each:",
+            "answers": [
+                "parabolic [or parabola or paraboloid]",
+                "coma [or comatic aberration]",
+                "Alhazen [or Hasan Ibn al-Haytham or Abu Ali al-Hasan ibn al-Haytham] "
+            ],
+            "parts": [
+                "Give this shape often used for reflectors because it focuses all incoming rays parallel to the optical axis to a single point, thus eliminating spherical aberration.",
+                "Parabolic mirrors can never reflect oblique rays to a single point, even at a single wavelength, due to this other aberration. This aberration gets worse with increasing distance from the optical axis.",
+                "This scientist wrote treatises on both spherical and parabolic burning mirrors as well as a seven-volume Book of Optics, which contains his namesake problem of finding the point on a circular mirror at which an object will be reflected to an observer\u2019s eye."
+            ],
+            "subcategory": "Physics",
+            "category": "Science"
+        },
+        {
+            "leadin": "During a strike in this city, the American Workers Party organized thousands of unemployed workers to surround an Electric Auto-Lite plant for days, precipitating a clash with the state National Guard. For 10 points each:",
+            "answers": [
+                "Toledo, Ohio",
+                "A.J. Muste [or Abraham Johannes Muste]",
+                "General Motors Company [or GM] "
+            ],
+            "parts": [
+                "Name this Midwestern city. A strip of land around this city was contested in an 1835-36 \u201cwar\u201d between state militias that resulted in one casualty and was resolved in the \u201cFrostbitten Convention.\u201d",
+                "This leader of the Toledo Auto-Lite Strike directed \u201clabor\u2019s Harvard,\u201d Brookwood Labor College, for twelve years. This pacifist served as founding chair of the \u201cMOBE,\u201d a coalition against the Vietnam War.",
+                "Two years after the Toledo Auto-Lite Strike, the UAW took over a factory owned by this company in the Flint Sit-Down Strike. Its one-time CEO Charles Wilson quipped that what was good for the country was good for this company during confirmation hearings to become Secretary of Defense."
+            ],
+            "subcategory": "American History",
+            "category": "History"
+        },
+        {
+            "leadin": "Luciana Duranti and Heather MacNeil proposed that digital examples of these institutions depend on groupings they called \u201cbonds.\u201d For 10 points each:",
+            "answers": [
+                "archives [accept answers mentioning forms of the word archive, such as archival institutions or archivists; do not accept or prompt on \u201clibraries\u201d or \u201cmuseums\u201d or similar answers]",
+                "coding [or labeling; accept answers indicating the assigning of codes or labels]",
+                "Jacques Derrida [or Jackie \u00c9lie Derrida] "
+            ],
+            "parts": [
+                "Name these institutions that arose from the discipline of diplomatics. The \u201cDutch Manual\u201d of 1898 outlines the concept of respect des fonds [res-PEH dee fohn], under which these institutions respect provenance and original order.",
+                "Using \u201ccontent analysis,\u201d archival researchers can perform statistical analysis on documentary material after subjecting the documents to this process, in which they are assigned to categories based on their features.",
+                "This man examined the concept of the archive alongside Sigmund Freud\u2019s relationship to Judaism in his book Archive Fever, which employs the method of \u201cdeconstruction\u201d he advanced in Of Grammatology."
+            ],
+            "subcategory": "Social Science",
+            "category": "Social Science"
+        },
+        {
+            "leadin": "The 1935 film with this title features an abrupt cut from a man vomiting blood to his love interest dropping floral arrangements in her matrimonial home. For 10 points each:",
+            "answers": [
+                "Devdas",
+                "method acting",
+                "Tamil and Telugu [accept in either order]  "
+            ],
+            "parts": [
+                "Identify this title of several films adapting a 1900 novel by Sarat Chandra Chattopadhyay, which depicts a love triangle between the title alcoholic, his childhood friend Paro, and the courtesan Chandramukhi. The 2002 version of this film catapulted Aishwarya Rai to international fame.",
+                "The 1955 version of Devdas starred Dilip Kumar, who is sometimes credited with, several years ahead of Marlon Brando, pioneering this approach of complete emotional identification with a role.",
+                "A 1953 adaptation titled Devadasu was a landmark event in the cinemas of these two languages used by films composing the second largest sector of the Indian film industry. The internationally successful Baahubali franchise was shot in these two languages."
+            ],
+            "subcategory": "Other Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin": "The Clarion\u2013Clipperton Zone is one of four regions of Earth home to these rocks, which take a botryoidal shape and are found exclusively at the bottom of the seafloor. For 10 points each:",
+            "answers": [
+                "manganese nodules [prompt on manganese rocks]",
+                "barium [or Ba]",
+                "ice cores "
+            ],
+            "parts": [
+                "Name these potato-sized rocks that are rich in the dioxide of their namesake element. They contain large amounts of iron, cobalt, and copper and may grow from unusual sources, such as shark teeth, on the ocean floor.",
+                "Manganese nodules contain traces of this metal element since they grow from trace elements in sea waters. The sulfate of this Group 2 element is often added to drilling fluid as a weighting agent.",
+                "Manganese nodules provide a record of Earth's climate, much like how these samples taken by drilling in Antarctica may capture pollen from previous eras."
+            ],
+            "subcategory": "Other Science",
+            "category": "Science"
+        },
+        {
+            "leadin": "Answer the following about the Popular Front for the Liberation of Palestine, a Marxist-Leninist group affiliated with the PLO, for 10 points each.",
+            "answers": [
+                "Black September [or Aylul al-Aswad]",
+                "Japan [or Nihon-koku; or Nippon-koku]",
+                "Leila Khaled "
+            ],
+            "parts": [
+                "In 1970, after the PFLP blew up three hijacked planes at Dawson\u2019s Field in Jordan, King Hussein ordered the army to shell refugee camps and drive the PLO out of Jordan in this campaign.",
+                "The PFLP recruited communist militants from this country to go on a shooting spree in Lod Airport. Another terrorist group from this country, Aum Shinrikyo, carried out a 1995 sarin gas attack on the subway of its capital city.",
+                "This woman, who hijacked a TWA flight to Tel Aviv for the PFLP in 1969, became an international icon after Eddie Adams photographed her wearing a keffiyeh and carrying an AK-47."
+            ],
+            "subcategory": "World History",
+            "category": "History"
+        },
+        {
+            "leadin": "The narrator of a letter describes opening one of this writer\u2019s books to a passage about people who wonder at the \u201cmighty waves of the sea . . . but themselves they consider not.\u201d For 10 points each:",
+            "answers": [
+                "Saint Augustine of Hippo [or Aurelius Augustinus]",
+                "Petrarch\u2019s ascent of Mont Ventoux [accept obvious equivalents of Petrarch climbing Mont Ventoux; prompt on answers mentioning mountain-climbing that don\u2019t name Ventoux]",
+                "Giovanni Boccaccio "
+            ],
+            "parts": [
+                "Name this person depicted in a set of dialogues called the Secretum, in which he frequently becomes exasperated while discussing Christian faith with the author.",
+                "The author of the Secretum, Petrarch, wrote about reading Augustine\u2019s Confessions while performing this action. It is often claimed, almost certainly falsely, that this action was the first of its kind since antiquity to be undertaken to see a view.",
+                "Dionigi, the Augustinian monk to whom Petrarch addressed the Mont Ventoux letter, also mentored this author of a set of 100 tales that includes the story of Patient Griselda."
+            ],
+            "subcategory": "European Literature",
+            "category": "Literature"
+        },
+        {
+            "leadin": "This technique can only be performed on solid samples due to a certain quantity cancelling out in liquid samples. For 10 points each:[10] Name this technique which analyzes nuclei with spin greater than 1. The frequencies of transition in this technique are related to a certain quantity\u2019s interaction with the surrounding electric field gradient.ANSWER: nuclear quadrupole resonance [accept NQR; prompt on nuclear magnetic resonance or NMR]",
+            "answers": [
+                "nuclear quadrupole resonance [accept NQR; prompt on nuclear magnetic resonance or NMR]",
+                "zero magnetic field [accept no magnetic field; accept \u201cB field\u201d in place of magnetic field]",
+                "radio frequency [accept RF; accept radio waves] "
+            ],
+            "parts": [
+                "Name this technique which analyzes nuclei with spin greater than 1. The frequencies of transition in this technique are related to a certain quantity\u2019s interaction with the surrounding electric field gradient.",
+                "Nuclear quadrupole resonance can be performed in this condition, which is why it is sometimes misleadingly referred to \u201cthis condition\u201d NMR. When this condition holds, there is no nuclear spin precession.",
+                "Both NMR and NQR probe samples with a pulse in this frequency range, which is defined as being under 300 gigahertz."
+            ],
+            "subcategory": "Chemistry",
+            "category": "Science"
+        },
+        {
+            "leadin": "This liberal thinker used the term weltansicht to refer to an idiosyncratic way of perceiving the world encoded in an individual language. For 10 points each:",
+            "answers": [
+                "(Friedrich) Wilhelm (Christian Karl Ferdinand) von Humboldt [prompt on Humboldt]",
+                "G\u00f6ttingen",
+                "Frankfurt am Main "
+            ],
+            "parts": [
+                "Name this Prussian philosopher and diplomat who used his position in the Ministry of the Interior to raise standards for teacher certification at all levels and create Friedrich Wilhelm University in Berlin.",
+                "In 1837, the Brothers Grimm and five other professors at a university in this city protested the repeal of the liberal Constitution of 1833; dismissed from their posts, they became known as this city\u2019s \u201cSeven.\u201d",
+                "This German city\u2019s National Assembly, convened in 1848, was ridiculed as the \u201cParliament of Professors.\u201d The assembly in this city on the Main [\u201cmine\u201d] River proposed a constitution for a united Germany, which was rejected by Friedrich Wilhelm IV."
+            ],
+            "subcategory": "European History",
+            "category": "History"
+        },
+        {
+            "leadin": "In one scene of this play, Maire recites the phrase \u201cIn Norfolk we besport ourselves around the maypoll\u201d in an effort to communicate with an English-speaking soldier. For 10 points each:",
+            "answers": [
+                "Translations",
+                "Brian Friel",
+                "Juno and the Paycock "
+            ],
+            "parts": [
+                "Name this play in which Owen, son of the hedge schoolmaster Hugh, returns to his village home as part of a cartography expedition with Captain Yolland.",
+                "Translations is by this Irish playwright, who featured a Marconi radio acquired by the Mundy sisters as a prop in his play Dancing at Lughnasa.",
+                "The ending of Translations, in which Hugh drunkenly recites from the Aeneid before trailing off, is often compared with the drunken speech delivered by Captain Jack Boyle at the end of this Sean O\u2019Casey play."
+            ],
+            "subcategory": "British Literature",
+            "category": "Literature"
+        },
+        {
+            "leadin": "The influence of this region\u2019s music on the Clash can be heard in songs like \u201cRudie Can\u2019t Fail\u201d and \u201cThe Guns of Brixton.\u201d For 10 points each:",
+            "answers": [
+                "the Caribbean [or the West Indies]",
+                "HMT Empire Windrush [or the Windrush generation; or the Windrush scandal; or Windrush immigrants]",
+                "Notting Hill "
+            ],
+            "parts": [
+                "Brixton is home to a large community of immigrants from what geographical region, whose British colonies shipped sugar and molasses to New England as part of the triangular trade?",
+                "This cruise ship, which in 1948 brought 802 Caribbean passengers to the United Kingdom, names a \u201cgeneration\u201d of Afro-Caribbean immigrants to England, many of whom were threatened with deportation or were denied health care in a 2018 scandal.",
+                "In 1958, race riots targeted Afro-Caribbean residents of this London neighborhood, whose West Indian community hosts an annual widely attended two-day \u201cCarnival\u201d in August."
+            ],
+            "subcategory": "Other Academic",
+            "category": "Other Academic"
+        },
+        {
+            "leadin": "In \"Beyond Entitlement: The Social Obligations of Citizenship,\" Lawrence M. Mead argues these types of programs fail when they are permissive, not authoritative. For 10 points each:",
+            "answers": [
+                "welfare programs [accept welfare state]",
+                "Michael Walzer",
+                "distributive justice [accept word forms] "
+            ],
+            "parts": [
+                "Name this general type of program that Mead argues denies its recipients equality by removing the \"social obligations of citizenship.\"",
+                "In his most famous work, this philosopher uses medieval Jewish communities to argue welfare can bolster societal cohesion. He argues robust welfare programs are necessary for \"complex equality.\"",
+                "Walzer analyses welfare through the framework of this kind of justice, which focuses on outcomes. This type of justice is often contrasted with procedural justice."
+            ],
+            "subcategory": "Philosophy",
+            "category": "Philosophy"
+        },
+        {
+            "leadin": "Answer the following about theories of counterinsurgency and guerilla warfare, for 10 points each.",
+            "answers": [
+                "David Galula",
+                "David (Howell) Petraeus",
+                "fish "
+            ],
+            "parts": [
+                "This Frenchman\u2019s books Pacification in Algeria and Counterinsurgency Warfare proposed four laws of counterinsurgency, one of which states that the goal is to gain the support of the people. His writings heavily influenced the 2003 U.S. Army Counterinsurgency Field Manual.",
+                "This general was chiefly responsible for the U.S. Army Counterinsurgency Field Manual, which he brought into practice as commander of the \u201cSurge\u201d during the Iraq War.",
+                "At the end of Chapter 6 of Mao Zedong\u2019s On Guerilla Warfare, he articulated the dependence of guerillas on the people by analogizing guerillas to these animals."
+            ],
+            "subcategory": "World History",
+            "category": "History"
+        },
+        {
+            "leadin": "The high expression of the low-activity, dimeric form of this protein\u2019s M2 isozyme in tumor cells is thought to explain the Warburg effect. For 10 points each:",
+            "answers": [
+                "pyruvate kinase [or PK]",
+                "glycolysis [or Embden\u2013Meyerhof\u2013Parnas pathway; or Entner\u2013Doudoroff pathway; prompt on cellular respiration]",
+                "serine [or Ser; or S] "
+            ],
+            "parts": [
+                "Identify this enzyme that catalyzes the transfer of a phosphate group from PEP to ADP. Gluconeogenesis begins with two kinetically favorable enzymes reversing the results of the endergonic reaction catalyzed by this enzyme.",
+                "Pyruvate kinase catalyzes the tenth and final step of this pathway, which generates two net molecules of ATP.",
+                "This amino acid can induce the reassociation of dimeric M2-PK into the tetramer. It is formed by oxidation, reductive amination, and hydrolysis of the glycolysis intermediate 3-phosphoglycerate."
+            ],
+            "subcategory": "Biology",
+            "category": "Science"
+        },
+        {
+            "leadin": "Camille Corot painted a reclining Mary Magdalene reading a book in one of his \u201chistorical landscapes\u201d set in this place. For 10 points each:",
+            "answers": [
+                "Forest of Fontainebleau",
+                "Jean-Fran\u00e7ois Millet",
+                "Rosa Bonheur [or Marie-Rosalie Bonheur]  "
+            ],
+            "parts": [
+                "Identify this forest, the site of the world\u2019s first natural preserve, which was repeatedly painted by several artists living in the adjoining village of Barbizon.",
+                "This member of the Barbizon school repeatedly sketched old women gathering bundles of twigs from the Forest of Fontainebleau, and painted them stooping down in a field in The Gleaners.",
+                "The Ch\u00e2teau de By at the edge of Fontainebleau Forest housed the studio of this artist, who painted a team of oxen Ploughing in the Nivernais."
+            ],
+            "subcategory": "Visual Fine Arts",
+            "category": "Fine Arts"
+        },
+        {
+            "leadin": "A 2014 article by Eric Bennett in the Chronicle of Higher Education claims that this institution \u201cflattened literature.\u201d For 10 points each:",
+            "answers": [
+                "the Iowa Writers\u2019 Workshop [or IWW; or Program in Creative Writing; prompt on partial answer]",
+                "Doctor Zhivago",
+                "the Congress for Cultural Freedom [or CCF] "
+            ],
+            "parts": [
+                "Name this creative writing program once run by Paul Engle. The article alleges this program received money from the CIA and fueled the dominance of modernism in American literature.",
+                "Also in 2014, declassified documents showed the CIA secretly distributed copies of this novel, possibly helping its author win the Nobel Prize, which Soviet authorities forced the author to refuse.",
+                "Arthur Koestler helped draft the manifesto of this CIA-backed anti-communist organization. This organization sponsored publications like Encounter, whose editors included British literary critic Frank Kermode."
+            ],
+            "subcategory": "American Literature",
+            "category": "Literature"
+        },
+        {
+            "leadin": "This god's brothers were his vizier Tashmishu and Aranzah, the personification of the Tigris; the three of them were conceived when their father Kumarbi bit off their grandfather Anu's genitals. For 10 points each:",
+            "answers": [
+                "Teshub or Tarhunna [or Tarhunt or Taru or Tessup]",
+                "Jupiter (Optimus Maximus) Dolichenus t",
+                "Mithras [accept Mithra; accept Mithraism] "
+            ],
+            "parts": [
+                "Name this Hurrian storm god who carried thunderbolts and a double-headed axe. His Hittite equivalent, who you can also name, killed the dragon Illuyanka.",
+                "As part of the interpretatio romana, Teshub was adopted by Severan dynasty-era Roman soldiers into a mystery cult centered on a version of Jupiter given this epithet.",
+                "The cult of Jupiter Dolichenus never reached the popularity of the military cult of this other \"oriental\" god, originating in Persia, who was often depicted killing a bull."
+            ],
+            "subcategory": "Mythology",
+            "category": "Mythology"
+        }
+    ]
+}
