@@ -9,6 +9,28 @@ var currentBonusPart = -1;
 
 var validCategories = [];
 
+//keep text fields in localStorage
+var packetNameField = document.getElementById('name-select');
+if (localStorage.getItem('packetNameBonusSave'))
+    packetNameField.value = localStorage.getItem('packetNameBonusSave');
+packetNameField.addEventListener('change', function(){
+    localStorage.setItem('packetNameBonusSave', packetNameField.value);
+});
+
+var packetNumberField = document.getElementById('packet-select');
+if (localStorage.getItem('packetNumberBonusSave'))
+    packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
+packetNumberField.addEventListener('change', function(){
+    localStorage.setItem('packetNumberBonusSave', packetNumberField.value);
+});
+
+var questionNumberField = document.getElementById('question-select');
+if (localStorage.getItem('questionNumberBonusSave'))
+    questionNumberField.value = localStorage.getItem('questionNumberBonusSave');
+questionNumberField.addEventListener('change', function(){
+    localStorage.setItem('questionNumberBonusSave', questionNumberField.value);
+});
+
 /**
  * An array that represents
  * [# of 30's, # of 20's, # of 10's, # of 0's].
