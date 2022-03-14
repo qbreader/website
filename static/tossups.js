@@ -15,6 +15,29 @@ var paused = false;
 var validCategories = [];
 
 var inPower = false;
+
+//keep text fields in localStorage
+var packetNameField = document.getElementById('name-select');
+if (localStorage.getItem('packetNameSave'))
+    packetNameField.value = localStorage.getItem('packetNameSave');
+packetNameField.addEventListener('change', function(){
+    localStorage.setItem('packetNameSave', packetNameField.value);
+});
+
+var packetNumberField = document.getElementById('packet-select');
+if (localStorage.getItem('packetNumberSave'))
+    packetNumberField.value = localStorage.getItem('packetNumberSave');
+packetNumberField.addEventListener('change', function(){
+    localStorage.setItem('packetNumberSave', packetNumberField.value);
+});
+
+var questionNumberField = document.getElementById('question-select');
+if (localStorage.getItem('questionNumberSave'))
+    questionNumberField.value = localStorage.getItem('questionNumberSave');
+questionNumberField.addEventListener('change', function(){
+    localStorage.setItem('questionNumberSave', questionNumberField.value);
+});
+
 if (sessionStorage.getItem('powers')===null)
     sessionStorage.setItem('powers',0);
 if (sessionStorage.getItem('tens')===null)
