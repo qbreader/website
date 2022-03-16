@@ -158,6 +158,9 @@ function clearStats() {
  * @return {Array<JSON>} An array containing the tossups.
  */
 async function getQuestions(name, number) {
+    clearTimeout(timeoutID);
+    document.getElementById('info-text').innerHTML = '';
+    document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
         .then(response => response.json())
         .then(data => {
