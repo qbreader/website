@@ -56,6 +56,8 @@ updateStatDisplay(); //update stats upon loading site
             paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts'][currentBonusPart]));
             document.getElementById('question').appendChild(paragraph1);
         }
+        else
+            document.getElementById('info-text').innerHTML = '';
     }
 }
 
@@ -93,6 +95,8 @@ function clearStats() {
  * @return {Array<JSON>} An array containing the bonuses.
  */
 async function getQuestions(name, number) {
+    document.getElementById('info-text').innerHTML = '';
+    document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
         .then(response => response.json())
         .then(data => {
@@ -133,7 +137,7 @@ async function readQuestion() {
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
-
+    document.getElementById('info-text').innerHTML = 'Press space to reveal'
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     let paragraph = document.createElement('p');
