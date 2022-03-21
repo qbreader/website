@@ -116,7 +116,7 @@
         },
         {
             "question": "Shu-Li You\u2019s group pioneered a class of reactions in which compounds lose this property known as CADA reactions. When a nucleophile displaces a substituent of a molecule with this property, the intermediate is a negatively-charged compound called a Meisenheimer complex. The cationic intermediate in a class of reactions on compounds with this property is stabilized by substituents known as (*) activators, which are also ortho-para directors. A compound with this property is nitrated by sulfuric acid and nitric acid in a classic example of their electrophilic substitution. Molecules with this property must have 4n + 2 pi electrons by Huckel\u2019s rule. For 10 points, name this property characterized by the combination of being planar, cyclic and resonant, as exemplified by benzene.",
-            "answer": "aromaticity [or aromatic compounds; prompt on rings; prompt on cyclic compounds; prompt on resonant compounds or word forms]  2020 WORKSHOP Packet 6",
+            "answer": "aromaticity [or aromatic compounds; prompt on rings; prompt on cyclic compounds; prompt on resonant compounds or word forms]",
             "category": "Science",
             "subcategory": "Chemistry"
         }
@@ -185,14 +185,14 @@
         {
             "leadin": "In an ad, a woman in a one-piece bathing suit is holding this beverage with the taglines \u201cOurs is best!\u201d and \u201cThe National Flavor!\u201d For 10 points each:",
             "answers": [
-                "Inca Kola [accept Golden Kola] [10[ Inca Kola is named for a former empire in this South American nation whose national drink is created by combining pisco with lime juice, syrup, and eggs. ANSWER: Republic of Peru [or Republica del Peru]",
-                "chicha",
-                "The Burial of Phocion [or Landscape with the Funeral of Phocion; accept Landscape with the Body of Phocion Carried out of Athens]"
+                "Inca Kola [accept Golden Kola]",
+                "Republic of Peru [or Republica del Peru]",
+                "chicha"
             ],
             "parts": [
                 "Identify this yellow bubblegum-flavored carbonated beverage produced by the Lindley Corporation. This beverage is sold by Coca-Cola everywhere around the world, except in the country where it is produced.",
-                "Another popular soft drink in Peru and neighboring countries is this drink made from corn and mixed with pineapple. A variation of this horchata-like drink in Venezuela is made with boiled rice, condensed milk, and sugar.",
-                "Name this 1648 landscape whose terraced background depicts shepherds and classical buildings. In its foreground, two men in reddish clothes carry a bier that\u2019s obscured by the folds of a large white cloth."
+                "Inca Kola is named for a former empire in this South American nation whose national drink is created by combining pisco with lime juice, syrup, and eggs.", 
+                "Another popular soft drink in Peru and neighboring countries is this drink made from corn and mixed with pineapple. A variation of this horchata-like drink in Venezuela is made with boiled rice, condensed milk, and sugar."
             ],
             "category": "Fine Arts",
             "subcategory": "Visual Fine Arts"
@@ -200,14 +200,14 @@
         {
             "leadin": "In his biography of its artist, Anthony Blunt named this painting and its counterpart as possible examples of its artist\u2019s theory of the Dorian \u201cmode\u201d in painting. For 10 points each:",
             "answers": [
+                "The Burial of Phocion [or Landscape with the Funeral of Phocion; accept Landscape with the Body of Phocion Carried out of Athens]",
                 "Nicolas Poussin [poo-SAA]",
-                "Connecticut (That\u2019s the Yale University Art Gallery.)",
-                "antigens [or antigenic peptides; prompt on peptides or protein fragments]"
+                "Connecticut (That\u2019s the Yale University Art Gallery.)"
             ],
             "parts": [
+                "Name this 1648 landscape whose terraced background depicts shepherds and classical buildings. In its foreground, two men in reddish clothes carry a bier that\u2019s obscured by the folds of a large white cloth.",
                 "This classicizing French artist of The Burial of Phocion depicted a woman placing her hand on one of the three shepherds who inspects the inscription on a tomb in 1638\u2019s Et in Arcadia Ego.",
-                "One version of The Burial of Phocion is housed in Philip Johnson\u2019s Glass House in this New England state. Louis Kahn designed an art gallery for a university in this state, where alum Eero Sarinen designed Ingalls Rink.",
-                "Name this general type of molecule that is transported into the endoplasmic reticulum by TAP."
+                "One version of The Burial of Phocion is housed in Philip Johnson\u2019s Glass House in this New England state. Louis Kahn designed an art gallery for a university in this state, where alum Eero Sarinen designed Ingalls Rink."
             ],
             "category": "Fine Arts",
             "subcategory": "Painting"
@@ -215,14 +215,14 @@
         {
             "leadin": "HLA-DM is necessary for these molecules to displace the CLIP portion of Ii [\u201cone I\u201d] that remains after the action of various cathepsins. For 10 points each:",
             "answers": [
+                "antigens [or antigenic peptides; prompt on peptides or protein fragments]",
                 "antibodies [or immunoglobulins]",
-                "eight (class I needs CD8, while class II needs CD4)",
-                "Rhythm"
+                "eight (class I needs CD8, while class II needs CD4)"
             ],
             "parts": [
+                "Name this general type of molecule that is transported into the endoplasmic reticulum by TAP.",
                 "The presentation of antigens by MHC proteins is necessary for the production of these Y-shaped molecules, which can then recognize them and trigger an immune response.",
-                "A useful mnemonic for remembering which of two co-receptors a T-cell needs in order to bind to an antigen-presenting cell is that the class of the MHC, multiplied by the CD number it requires, equals this number.",
-                "Name this series of numbered performances. For its entry number \u201c0,\u201d the performer placed objects like a scalpel and a loaded gun on a table, stood still, and let the audience do whatever they wanted to her for six hours."
+                "A useful mnemonic for remembering which of two co-receptors a T-cell needs in order to bind to an antigen-presenting cell is that the class of the MHC, multiplied by the CD number it requires, equals this number."
             ],
             "category": "Science",
             "subcategory": "Biology"
@@ -230,14 +230,15 @@
         {
             "leadin": "In this series\u2019s first piece, a woman plays five-finger fillet and grabs a larger knife each time she stabs herself. For 10 points each:",
             "answers": [
+                "Rhythm",
                 "Marina Abramovi\u0107",
-                "MoMA [or Museum of Modern Art]",
-                "Ern Malley [accept James (Phillip) McAuley; accept Harold (Frederick) Stewart]"
+                "MoMA [or Museum of Modern Art]"
+                
             ],
             "parts": [
+                "Name this series of numbered performances. For its entry number \u201c0,\u201d the performer placed objects like a scalpel and a loaded gun on a table, stood still, and let the audience do whatever they wanted to her for six hours.",
                 "The Rhythm series was devised by this Serbian performance artist. In 2005, this woman performed works by Vito Acconci and Bruce Nauman live at the Guggenheim for her performance Seven Easy Pieces.",
-                "In 2010, Abramovi\u0107 sat stationary for a combined 736 hours in this New York City museum. Matisse\u2019s The Dance and Picasso\u2019s Les Demoiselles d'Avignon are housed in this museum which, unlike the Met, is in Midtown.",
-                "Name this poet. Perhaps his most famous poem closes by saying \u201cI am still / The black swan of trespass on alien waters\u201d after noting that \u201cDurer perceived\u201d the same \u201cquiet reflecting waters\u201d that the narrator does."
+                "In 2010, Abramovi\u0107 sat stationary for a combined 736 hours in this New York City museum. Matisse\u2019s The Dance and Picasso\u2019s Les Demoiselles d'Avignon are housed in this museum which, unlike the Met, is in Midtown."
             ],
             "category": "Trash",
             "subcategory": "Trash"
@@ -245,14 +246,15 @@
         {
             "leadin": "This man\u2019s poems are collected in The Darkening Ecliptic, though they originally appeared in full in Max Harris\u2019s modernist magazine Angry Penguins. For 10 points each:",
             "answers": [
+                "Ern Malley [accept James (Phillip) McAuley; accept Harold (Frederick) Stewart]",
                 "Ossian [or Ois\u00edn]",
-                "atomic bombing of Hiroshima [prompt on atomic bombing]",
-                "Io"
+                "atomic bombing of Hiroshima [prompt on atomic bombing]"
+                
             ],
             "parts": [
+                "Name this poet. Perhaps his most famous poem closes by saying \u201cI am still / The black swan of trespass on alien waters\u201d after noting that \u201cDurer perceived\u201d the same \u201cquiet reflecting waters\u201d that the narrator does.",
                 "James MacPherson perpetrated another poetic hoax by claiming to have discovered the epic Fingal, which he said was written by this Irish mythical figure, but which MacPherson in fact wrote.",
-                "Araki Yasusada, a survivor of this event, is believed to be a creation of the writer Kent Johnson. One of the Yasusada poems describes a \u201cgirl with blistered face\u201d suffering in the aftermath of this event, which preceded a similar event in Nagasaki.",
-                "Name this woman who was pursued across the world by a gadfly sent by Hera after escaping with the help of Hermes. The Bosporus legendarily gained its name, meaning \u201cox passage,\u201d when this woman crossed it."
+                "Araki Yasusada, a survivor of this event, is believed to be a creation of the writer Kent Johnson. One of the Yasusada poems describes a \u201cgirl with blistered face\u201d suffering in the aftermath of this event, which preceded a similar event in Nagasaki."
             ],
             "category": "Literature",
             "subcategory": "World Literature"
@@ -260,14 +262,14 @@
         {
             "leadin": "Zeus\u2019s plan to disguise this woman as a cow backfired when Hera asked for the cow as a gift. For 10 points each:",
             "answers": [
+                "Io",
                 "eyes [or eyeballs]",
-                "Egypt",
-                "Ravenna"
+                "Egypt"
             ],
             "parts": [
+                "Name this woman who was pursued across the world by a gadfly sent by Hera after escaping with the help of Hermes. The Bosporus legendarily gained its name, meaning \u201cox passage,\u201d when this woman crossed it.",
                 "The watchman Argus Panoptes was assigned by Hera to guard Io and had a body covered in these things, according to Ovid. After he died, Hera put onto these things onto the tail of the peacock.",
-                "Io eventually settled in this place, where she became the ancestor of the Danaids [dah-NAY-ids]. The Danaids fled from this place to Argos in an attempt to avoid marrying their cousins, whom they later killed.",
-                "Name this capital of the Kingdom of the Ostrogoths until it was conquered by the Byzantines in 540 CE. The wife of Theodosius I, Galla Placidia, was buried at a mosaic monument in this last capital of the Roman Empire."
+                "Io eventually settled in this place, where she became the ancestor of the Danaids [dah-NAY-ids]. The Danaids fled from this place to Argos in an attempt to avoid marrying their cousins, whom they later killed."
             ],
             "category": "History",
             "subcategory": "World History"
@@ -275,14 +277,14 @@
         {
             "leadin": "Theoderic the Great built this city\u2019s St Andrew of the Goths Cathedral. For 10 points each:",
             "answers": [
+                "Ravenna",
                 "sacks of Rome [accept equivalents indicating Rome being caused to fall]",
-                "Flavius Julius Nepos Augustus",
-                "Magnus Hirschfeld"
+                "Flavius Julius Nepos Augustus"
             ],
             "parts": [
+                "Name this capital of the Kingdom of the Ostrogoths until it was conquered by the Byzantines in 540 CE. The wife of Theodosius I, Galla Placidia, was buried at a mosaic monument in this last capital of the Roman Empire.",
                 "The Kingdom of the Ostrogoths gained prominence after its ruler, Odoacer, performed one of these actions in 476. Another of these events had happened at the hands of Alaric\u2019s Visigoths in 410.",
-                "Odoacer not only dealt with the last Western Roman Emperor Romulus Augustulus, but also this de jure Emperor who lived in Salona until 480 CE. Jordanes claims this emperor had no legitimacy to rule and was merely a false flag Byzantine sent by Leo I of the Eastern Empire.",
-                "The 1933 destruction of an archive named for this founder of the Institute for Sexual Research and teacher of Harry Benjamin represented a massive setback for the nascent field of LGBT studies."
+                "Odoacer not only dealt with the last Western Roman Emperor Romulus Augustulus, but also this de jure Emperor who lived in Salona until 480 CE. Jordanes claims this emperor had no legitimacy to rule and was merely a false flag Byzantine sent by Leo I of the Eastern Empire."
             ],
             "category": "History",
             "subcategory": "History Classical"
@@ -290,14 +292,14 @@
         {
             "leadin": "After he fled to the United States, this researcher\u2019s work underwent a \u201cstraight turn\u201d as he calculated that American audiences would be less receptive to positive messages about homosexuality. For 10 points each:",
             "answers": [
+                "Magnus Hirschfeld",
                 "Berlin",
-                "pink triangle [accept rosa Dreieck, prompt on partial answer]",
-                "normal modes [prompt on modes]"
+                "pink triangle [accept rosa Dreieck, prompt on partial answer]"
             ],
             "parts": [
+                "The 1933 destruction of an archive named for this founder of the Institute for Sexual Research and teacher of Harry Benjamin represented a massive setback for the nascent field of LGBT studies.",
                 "Hirschfeld and Benjamin both initially worked in this European capital, where Hirschfeld\u2019s institute operated during the Weimar Period.",
-                "In addition to destroying Hirschfeld\u2019s institute, Nazi Germany imprisoned gay men in concentration camps, where this symbol was used to identify them. Lesbians and trans men were assigned a black variant of this symbol as \u201casocials\u201d.",
-                "Identify these patterns of motion, in which all coupled oscillators in a system oscillate at the same frequency."
+                "In addition to destroying Hirschfeld\u2019s institute, Nazi Germany imprisoned gay men in concentration camps, where this symbol was used to identify them. Lesbians and trans men were assigned a black variant of this symbol as \u201casocials\u201d."
             ],
             "category": "History",
             "subcategory": "American History"
@@ -305,14 +307,14 @@
         {
             "leadin": "For two masses and three identical springs, the frequency corresponding to the slower of these solutions is the square root of 3k over m. For 10 points each:",
             "answers": [
+                "normal modes [prompt on modes]",
                 "simple harmonic motion [or simple harmonic oscillation; prompt on oscillation]",
-                "the determinant of K minus (omega-squared times M) [or determinant of (K-\u03c9 2M)]",
-                "Tahar Ben Jelloun [accept al-T\u0101hir bin Jil\u016bn]"
+                "the determinant of K minus (omega-squared times M) [or determinant of (K-\u03c9 2M)]"
             ],
             "parts": [
+                "Identify these patterns of motion, in which all coupled oscillators in a system oscillate at the same frequency.",
                 "Normal modes appear in the analysis of coupled systems that exhibit this sort of motion, in which the restoring force is linear in the displacement. Springs exhibit this sort of motion.",
-                "In terms of a mass matrix M, a spring constant matrix K, and angular frequency omega, this expression is set to zero to solve for omega when solving normal mode problems, since if this expression doesn\u2019t equal zero, the only solution is no motion at all. This expression is obtained by plugging in the exponential ansatz into Hooke\u2019s Law. You have 10 seconds.",
-                "Identify this Moroccan novelist who described the upbringing of Zahra as a boy named Ahmed in his novel The Sand Child."
+                "In terms of a mass matrix M, a spring constant matrix K, and angular frequency omega, this expression is set to zero to solve for omega when solving normal mode problems, since if this expression doesn\u2019t equal zero, the only solution is no motion at all. This expression is obtained by plugging in the exponential ansatz into Hooke\u2019s Law. You have 10 seconds."
             ],
             "category": "Science",
             "subcategory": "Physics"
@@ -320,14 +322,14 @@
         {
             "leadin": "The protagonist of a novel by this author is forced to marry Fatima, his epileptic cousin. For 10 points each:",
             "answers": [
+                "Tahar Ben Jelloun [accept al-T\u0101hir bin Jil\u016bn]",
                 "French [accept Fran\u00e7ais]",
-                "Jorge Luis Borges",
-                "Triple Concerto [accept descriptions of a concerto for piano, violin and cello]"
+                "Jorge Luis Borges"
             ],
             "parts": [
+                "Identify this Moroccan novelist who described the upbringing of Zahra as a boy named Ahmed in his novel The Sand Child.",
                 "Ben Jelloun writes in this language that he shares with other Prix Goncourt winners like Amin Maalouf and Patrick Modiano.",
-                "A fictionalized version of this author named \u201cThe Blind Troubadour\u201d serves as a storyteller within The Sand Child. In another story, a character named after this author becomes obsessed with the title coin,\u201cThe Zahir.\u201d",
-                "Name this orchestral work by Ludwig van Beethoven, his only concerto for more than one soloist."
+                "A fictionalized version of this author named \u201cThe Blind Troubadour\u201d serves as a storyteller within The Sand Child. In another story, a character named after this author becomes obsessed with the title coin,\u201cThe Zahir.\u201d"
             ],
             "category": "Literature",
             "subcategory": "World Literature"
@@ -335,14 +337,14 @@
         {
             "leadin": "This work was once thought to have been written for Archduke Rudolf due to its relatively easy piano part. For 10 points each:",
             "answers": [
+                "Triple Concerto [accept descriptions of a concerto for piano, violin and cello]",
                 "Eroica Symphony [accept any answers indicating his third symphony or Symphony No. 3]",
-                "An die ferne Geliebte [ahn dee \u201cfair\u201d-nuh guh-LEEP-tuh] [accept To the Distant Beloved]",
-                "Masoretes [accept Masoretic text; or Ba\u2019alei ha-Masora]"
+                "An die ferne Geliebte [ahn dee \u201cfair\u201d-nuh guh-LEEP-tuh] [accept To the Distant Beloved]"
             ],
             "parts": [
+                "Name this orchestral work by Ludwig van Beethoven, his only concerto for more than one soloist.",
                 "Like the Triple Concerto, this E-flat-major Beethoven symphony was dedicated to Prince Lobkowitz after its composer rescinded its planned dedication to Napoleon.",
-                "A later work dedicated to Lobkowitz is this song cycle, often thought to be the very first work in the genre. Its first song, \u201cAuf dem H\u00fcgel sitz ich sp\u00e4hend,\u201d [owf daym HEW-gull zits eekh SHPAY-unt] returns at the end of the final song, \u201cNimm sie hin denn, diese Lieder\u201d [nimm zee HIN denn, DEE-zuh LEE-duh].",
-                "Give this conventional term for the group who devised the system of Tiberian pointing to produce the now-standard Hebrew text of the Old Testament. Their work is preserved in sources like the Leningrad Codex."
+                "A later work dedicated to Lobkowitz is this song cycle, often thought to be the very first work in the genre. Its first song, \u201cAuf dem H\u00fcgel sitz ich sp\u00e4hend,\u201d [owf daym HEW-gull zits eekh SHPAY-unt] returns at the end of the final song, \u201cNimm sie hin denn, diese Lieder\u201d [nimm zee HIN denn, DEE-zuh LEE-duh]."
             ],
             "category": "Fine Arts",
             "subcategory": "Auditory Fine Arts"
@@ -350,14 +352,14 @@
         {
             "leadin": "These people invented symbols like the segol and the dagesh. For 10 points each:",
             "answers": [
+                "Masoretes [accept Masoretic text; or Ba\u2019alei ha-Masora]",
                 "vowels",
-                "Aramaic [do not accept or prompt on \u201cArabic\u201d]",
-                "Silla"
+                "Aramaic [do not accept or prompt on \u201cArabic\u201d]"
             ],
             "parts": [
+                "Give this conventional term for the group who devised the system of Tiberian pointing to produce the now-standard Hebrew text of the Old Testament. Their work is preserved in sources like the Leningrad Codex.",
                 "Tiberian pointing adds niqqudot, which signify these linguistic features that are often absent in Hebrew and Arabic writing. Most prayerbooks print the name of God as four letters without these features.",
-                "The Masoretic text includes notes in this language, which is also used for most of the Kaddish prayer. Jesus primarily spoke this language.",
-                "Name this kingdom that ended a non-Chinese Era of the Three Kingdoms by annexing its neighbors, which included Baekje and Goguryo."
+                "The Masoretic text includes notes in this language, which is also used for most of the Kaddish prayer. Jesus primarily spoke this language."
             ],
             "category": "History",
             "subcategory": "World History"
@@ -365,14 +367,14 @@
         {
             "leadin": "The 6th century Kushnameh is thought to be the story of an Iranian prince marrying a princess from this kingdom. For 10 points each:",
             "answers": [
+                "Silla",
                 "Battle of Baekgang River",
-                "Pyongyang",
-                "twins [accept fraternal twins, identical twins, monozygotic twins or dizygotic twins; accept twins raised separately or equivalents; prompt on siblings]"
+                "Pyongyang"
             ],
             "parts": [
+                "Name this kingdom that ended a non-Chinese Era of the Three Kingdoms by annexing its neighbors, which included Baekje and Goguryo.",
                 "At this battle, Silla and its Chinese allies repulsed a Japanese naval invasion to support its ally, Baekje. This battle marked the end of Japan\u2019s military engagement on the Korean peninsula for centuries.",
-                "Silla ended the Three Kingdoms Period and unified Korea when it captured this capital of Koguryo, which would later become the capital of a modern state founded by Kim Il-Sung.",
-                "Name this type of people. Thomas Bouchard\u2019s MISTRA study led to an oft-cited example about two of them named Jim."
+                "Silla ended the Three Kingdoms Period and unified Korea when it captured this capital of Koguryo, which would later become the capital of a modern state founded by Kim Il-Sung."
             ],
             "category": "History",
             "subcategory": "World History"
@@ -380,14 +382,14 @@
         {
             "leadin": "Edward Thorndike conducted some of the first physiological research into the characteristics of these people. For 10 points each:",
             "answers": [
+                "twins [accept fraternal twins, identical twins, monozygotic twins or dizygotic twins; accept twins raised separately or equivalents; prompt on siblings]",
                 "University of Minnesota (The test is the Minnesota Multiphasic Personality Inventory.)",
-                "bipolar disorder [or bipolar affective disorder; prompt on manic-depressive disorder]",
-                "catalysts"
+                "bipolar disorder [or bipolar affective disorder; prompt on manic-depressive disorder]"
             ],
             "parts": [
+                "Name this type of people. Thomas Bouchard\u2019s MISTRA study led to an oft-cited example about two of them named Jim.",
                 "Matt McGue co-directs this university\u2019s namesake Twin Family Study. While at this university, Starke Hathaway designed a test with ten scales that measure levels of psych\u00b7asthenia and hypo\u00b7chon\u00b7driasis.",
-                "The Maudsley Study, an ongoing twin study at King\u2019s College London, investigates differences in cognition and other faculties in twins with and without this disorder. This disorder is characterized by sudden periods of mania followed by periods of depression.",
-                "The ninth principle of green chemistry encourages the use of these substances, since they can be recycled. These substances accelerate a reaction by creating an alternate pathway with a lower activation energy."
+                "The Maudsley Study, an ongoing twin study at King\u2019s College London, investigates differences in cognition and other faculties in twins with and without this disorder. This disorder is characterized by sudden periods of mania followed by periods of depression."
             ],
             "category": "Fine Arts",
             "subcategory": "Other Fine Arts"
@@ -395,14 +397,14 @@
         {
             "leadin": "Answer the following about the principles of green chemistry, for 10 points each.",
             "answers": [
+                "catalysts",
                 "drugs [or medications; accept pharmaceuticals; prompt on medicines]",
-                "atom economy",
-                "Middlesex"
+                "atom economy"
             ],
             "parts": [
+                "The ninth principle of green chemistry encourages the use of these substances, since they can be recycled. These substances accelerate a reaction by creating an alternate pathway with a lower activation energy.",
                 "In accordance with green chemistry\u2019s move towards less hazardous reactions, many reactions in the synthesis of these compounds are being performed with enzymes instead of metal catalysts. Small molecule libraries are screened to identify potential examples of these compounds, which is known as their discovery process.",
-                "Drugs typically have a low value for this quantity, defined as the quotient of the mass of the desired products and the mass of all the reactants. This quantity shares its name with the second principle of green chemistry.",
-                "Name this Jeffrey Eugenides novel about the intersex Greek-American Cal Stephanides. This novel contains a chapter titled \u201cTiresias in Love\u201d and its protagonist performs in a burlesque show as Hermaphroditus."
+                "Drugs typically have a low value for this quantity, defined as the quotient of the mass of the desired products and the mass of all the reactants. This quantity shares its name with the second principle of green chemistry."
             ],
             "category": "Science",
             "subcategory": "Chemistry"
