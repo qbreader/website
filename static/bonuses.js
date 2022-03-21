@@ -9,6 +9,28 @@ var currentBonusPart = -1;
 
 var validCategories = [];
 
+//keep text fields in localStorage
+var packetNameField = document.getElementById('name-select');
+if (localStorage.getItem('packetNameBonusSave'))
+    packetNameField.value = localStorage.getItem('packetNameBonusSave');
+packetNameField.addEventListener('change', function(){
+    localStorage.setItem('packetNameBonusSave', packetNameField.value);
+});
+
+var packetNumberField = document.getElementById('packet-select');
+if (localStorage.getItem('packetNumberBonusSave'))
+    packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
+packetNumberField.addEventListener('change', function(){
+    localStorage.setItem('packetNumberBonusSave', packetNumberField.value);
+});
+
+var questionNumberField = document.getElementById('question-select');
+if (localStorage.getItem('questionNumberBonusSave'))
+    questionNumberField.value = localStorage.getItem('questionNumberBonusSave');
+questionNumberField.addEventListener('change', function(){
+    localStorage.setItem('questionNumberBonusSave', questionNumberField.value);
+});
+
 /**
  * An array that represents
  * [# of 30's, # of 20's, # of 10's, # of 0's].
@@ -34,6 +56,8 @@ updateStatDisplay(); //update stats upon loading site
             paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts'][currentBonusPart]));
             document.getElementById('question').appendChild(paragraph1);
         }
+        else
+            document.getElementById('info-text').innerHTML = '';
     }
 }
 
@@ -71,6 +95,8 @@ function clearStats() {
  * @return {Array<JSON>} An array containing the bonuses.
  */
 async function getQuestions(name, number) {
+    document.getElementById('info-text').innerHTML = '';
+    document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
         .then(response => response.json())
         .then(data => {
@@ -111,7 +137,7 @@ async function readQuestion() {
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
-
+    document.getElementById('info-text').innerHTML = 'Press space to reveal'
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     let paragraph = document.createElement('p');

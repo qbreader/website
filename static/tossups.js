@@ -15,6 +15,29 @@ var paused = false;
 var validCategories = [];
 
 var inPower = false;
+
+//keep text fields in localStorage
+var packetNameField = document.getElementById('name-select');
+if (localStorage.getItem('packetNameTossupSave'))
+    packetNameField.value = localStorage.getItem('packetNameTossupSave');
+packetNameField.addEventListener('change', function(){
+    localStorage.setItem('packetNameTossupSave', packetNameField.value);
+});
+
+var packetNumberField = document.getElementById('packet-select');
+if (localStorage.getItem('packetNumberTossupSave'))
+    packetNumberField.value = localStorage.getItem('packetNumberTossupSave');
+packetNumberField.addEventListener('change', function(){
+    localStorage.setItem('packetNumberTossupSave', packetNumberField.value);
+});
+
+var questionNumberField = document.getElementById('question-select');
+if (localStorage.getItem('questionNumberTossupSave'))
+    questionNumberField.value = localStorage.getItem('questionNumberTossupSave');
+questionNumberField.addEventListener('change', function(){
+    localStorage.setItem('questionNumberTossupSave', questionNumberField.value);
+});
+
 if (sessionStorage.getItem('powers')===null)
     sessionStorage.setItem('powers',0);
 if (sessionStorage.getItem('tens')===null)
@@ -135,6 +158,9 @@ function clearStats() {
  * @return {Array<JSON>} An array containing the tossups.
  */
 async function getQuestions(name, number) {
+    clearTimeout(timeoutID);
+    document.getElementById('info-text').innerHTML = '';
+    document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
         .then(response => response.json())
         .then(data => {
@@ -337,7 +363,6 @@ document.getElementById('toggle-correct').addEventListener('click', () => {
 
 document.addEventListener('keyup', () => {
     if (document.activeElement.tagName === 'INPUT') return;
-    if (packetNumbers != -1) {
         if (event.which == 32) {  // spacebar
             document.getElementById('buzz').click();
         } else if (event.which == 78) {  // pressing 'N'
@@ -346,7 +371,6 @@ document.addEventListener('keyup', () => {
             modal.style.display = "none";
         } else if (event.which == 80) {  // pressing 'P'
             document.getElementById('pause').click();
-        }
     }
 });
 
