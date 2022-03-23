@@ -12,8 +12,6 @@ var currentQuestionNumber = 0;
 var currentlyBuzzing = false;
 var paused = false;
 
-var validCategories = [];
-
 var inPower = false;
 
 //keep text fields in localStorage
@@ -173,6 +171,8 @@ async function getQuestions(name, number) {
  * Loads and reads the next question.
  */
 async function readQuestion() {
+    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     do {  // Get the next question
         currentQuestionNumber++;
 

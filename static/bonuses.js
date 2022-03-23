@@ -7,8 +7,6 @@ var currentQuestionNumber = 0;
 
 var currentBonusPart = -1;
 
-var validCategories = [];
-
 //keep text fields in localStorage
 var packetNameField = document.getElementById('name-select');
 if (localStorage.getItem('packetNameBonusSave'))
@@ -109,6 +107,8 @@ async function getQuestions(name, number) {
  * Loads and reads the next question.
  */
 async function readQuestion() {
+    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     do {  // Get the next question
         currentQuestionNumber++;
 
