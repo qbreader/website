@@ -18,22 +18,26 @@ const all_subcategories = [
     ["Trash"]
 ]
 
-var validSubcategories = [];
-var categories = new Array(12);
-for (let i = 0; i < 12; i++) {
-    categories[i] = false;
-}
+if (localStorage.getItem('validSubcategories')===null)
+    localStorage.setItem('validSubcategories','[]');
+if (localStorage.getItem('validCategories')===null)
+    localStorage.setItem('validCategories','[]');
 var numSubcategories = 19;
 
+//load the selected categories and subcategories
+loadCategories();
 
 function updateCategories() {
     let cat = document.getElementById('category-select').value;
+    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
     if (validCategories.includes(cat)) {
         // remove cat:
         validCategories = validCategories.filter(a => a !== cat);
     } else {
         validCategories.push(cat);
     }
+
+    localStorage.setItem('validCategories',JSON.stringify(validCategories));
 
     for (let i = 0; i < 12; i++) {
         let option = document.getElementById('category-select').getElementsByTagName('option')[i];
@@ -65,12 +69,14 @@ function updateCategories() {
 
 function updateSubcategories() {
     let subcat = document.getElementById('subcategory-select').value;
+    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     if (validSubcategories.includes(subcat)) {
         // remove subcat:
         validSubcategories = validSubcategories.filter(a => a !== subcat);
     } else {
         validSubcategories.push(subcat);
     }
+    localStorage.setItem('validSubcategories',JSON.stringify(validSubcategories));
 
     for (let i = 0; i < numSubcategories; i++) {
         let option = document.getElementById('subcategory-select').getElementsByTagName('option')[i];
@@ -78,6 +84,40 @@ function updateSubcategories() {
     }
 }
 
+function loadCategories() {
+    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+    for (let i = 0; i < 12; i++) {
+        let option = document.getElementById('category-select').getElementsByTagName('option')[i];
+        option.innerHTML = (validCategories.includes(option.value) ? '[x] ' : '') + option.value;
+    }
+
+    // Add the subcat options to the subcat dropdown menu
+    numSubcategories = 0;
+    document.getElementById('subcategory-select').innerHTML = '';
+    for (let i = 0; i < 12; i++) {
+        if (validCategories.length === 0 || validCategories.includes(all_categories[i])) {
+            // For each valid category, add all of the subcategories
+            for (let j = 0; j < all_subcategories[i].length; j++) {
+                let option = document.createElement('option');
+                option.value = option.innerHTML = all_subcategories[i][j];
+                document.getElementById('subcategory-select').appendChild(option);
+                numSubcategories++;
+            }
+        }
+    }
+
+    // Create an empty option in subcategories to preserve spacing / size
+    if (numSubcategories === 0) {
+        let option = document.createElement('option');
+        document.getElementById('subcategory-select').appendChild(option);
+    }
+
+    for (let i = 0; i < numSubcategories; i++) {
+        let option = document.getElementById('subcategory-select').getElementsByTagName('option')[i];
+        option.innerHTML = (validSubcategories.includes(option.value) ? '[x] ' : '') + option.value;
+    }
+}
 
 window.onclick = (event) => {
     if (event.target === modal) {
