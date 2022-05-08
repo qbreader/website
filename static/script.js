@@ -119,6 +119,33 @@ function loadCategories() {
     }
 }
 
+/**
+ * 
+ * @param {JSON} question 
+ * @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
+ */
+function isValidCategory(question) {
+    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+
+    if (validCategories.length === 0) return true;
+    if (!validCategories.includes(question['category'])) return false;
+
+    if ('subcategory' in question === false) return true;
+    if (validSubcategories.includes (question['subcategory'])) return true;
+
+    let index = all_categories.indexOf(question['category']);
+    let total = 0;
+    for (let i = 0; i < all_subcategories[index].length; i++) {
+        if (validSubcategories.includes(all_subcategories[index][i])) {
+            total++;
+        }
+    }
+
+    // if there are no subcategories selected in the field, then it is valid
+    return (total === 0);
+}
+
 window.onclick = (event) => {
     if (event.target === modal) {
         modal.style.display = "none";
