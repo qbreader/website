@@ -188,14 +188,7 @@ async function readQuestion() {
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (false === (
-        (validCategories.length == 0 || validCategories.includes(questions[currentQuestionNumber]['category']))
-        && (
-            !('subcategory' in questions[currentQuestionNumber]) 
-            || validSubcategories.length === 0
-            || validSubcategories.includes(questions[currentQuestionNumber]['subcategory'])
-        )
-    ));
+    } while (!isValidCategory(questions[currentQuestionNumber]));
 
     // Stop reading the current question:
     clearTimeout(timeoutID);
