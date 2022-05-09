@@ -13,8 +13,6 @@ if you want to run the server locally:
 
 ## todo
 - add more packets
+- advanced stats (stats per category/subcategory, stats per packet)
 - add a back button
-- randomize questions
-- bookmarks
-- add a better method of selecting subcategories:
-    - add optgroups and when all options in an optgroup are empty, they should all be valid
+- fix issue with subcategory \[x\] updating when some subcategories are selected

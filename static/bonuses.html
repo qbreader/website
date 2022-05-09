@@ -17,7 +17,7 @@
                 <span class="close" onclick="document.getElementById('modal').style.display = 'none'">&times;</span>
             </div>
             <div id="selections">
-                <select multiple name="category-select" id="category-select" size="20" onclick="updateCategories()">
+                <select multiple name="category-select" id="category-select" size="0" onclick="updateCategories()">
                     <option value="Literature">Literature</option>
                     <option value="History">History</option>
                     <option value="Science">Science</option>
@@ -32,7 +32,7 @@
                     <option value="Trash">Trash</option>
                 </select>
 
-                <select multiple name="subcategory-select" size="20" id="subcategory-select" onclick="updateSubcategories()">
+                <select multiple name="subcategory-select" size="0" id="subcategory-select" onclick="updateSubcategories()">
                     <option value="American Literature">American Literature</option>
                     <option value="British Literature">British Literature</option>
                     <option value="Classical Literature">Classical Literature</option>
@@ -65,26 +65,42 @@
         </div>
     </div>
 
+    <div class="navbar" id="navbar">
+        <span class="title">QB Packet Reader - Bonuses</span>
+        <span class="links">
+            <a href="/tossups.html">Tossups</a>&nbsp;
+            <a href="/packet-list.html">Packet List</a>&nbsp;
+            <a href="https://github.com/thedoge42/qb-packet-reader">Source Code</a>
+        </span>
+    </div>
+    <div class="buttons" id="buttons">
+        <button id="start">Start</button>
+        <button id="reveal" onclick="reveal()">Reveal</button>
+        <button id="next" onclick="readQuestion()">Next</button>
+        <button id="clear-stats" onclick="clearStats()">Clear Stats</button>
+        <button id="category-select-button" onclick="document.getElementById('modal').style = ''">Adjust Categories</button>
+    </div>
     <div class="container">
-        <div class="header">QB Packet Reader - Bonuses</div>
-        <div class="buttons" id="buttons">
-            <button class="big-button" id="reveal" onclick="reveal()">Reveal</button>
-            <button class="big-button" id="next" onclick="readQuestion()">Next</button>
-            <button class="big-button" id="clear-stats" onclick="clearStats()">Clear stats</button>
+        <div class="question-text" id="question-text">
+            <p id="statline">0.00 points per bonus with 0 bonuses seen (0/0/0/0, 0 pts)</p>
+            <p id="question-info"></p>
+            <p id="question"></p>
+            <button id="0" > 0</button>
+            <button id="10">10</button>
+            <button id="20">20</button>
+            <button id="30">30</button>
         </div>
-
         <div class="options" id="options">
-            <div>
-                <a href="/tossups.html">Go to tossups</a>&nbsp
-                <a href="/packet-list.html">List of packets</a>&nbsp
-                <a href="https://github.com/thedoge42/qb-packet-reader">Github</a>
-            </div>
-
-            <p>[Space] = reveal, [n] = next question</p>
+            <p class="small-devices">
+                [s] = start, [space] = buzz, [n] = next question, [c] = clear stats, 
+                [0] = 0 on bonus, [1] = 10 on bonus, [2] = 20 on bonus, [3] = 30 on bonus
+            </p>
             <p id="numbering-info">
                 A quizbowl packet reader.
-                Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
-                Any other non-numbered packets are placed after all of those in the order in which they appear on <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">https://quizbowlpackets.com/</a>.
+                <span class="small-devices">
+                    Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
+                    Any other non-numbered packets are placed after all of those in the order in which they appear on <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">quizbowlpackets.com</a>.
+                </span>
             </p>
 
             <div>
@@ -214,24 +230,8 @@
                     <option>2012 PACE</option>
                 </datalist>
             </div>
-            <div><input type="text" id="packet-select"   placeholder="Packet numbers (e.g. 1-5)"> (Default: all)</div>
-            <div><input type="text" id="question-select" placeholder="Starting question number"> (Default: 1)</div>
-            <p></p>
-            <button id="category-select-button" onclick="document.getElementById('modal').style = ''">Adjust Categories</button>
-            <br>
-            <button class="big-button" id="start">Search for Questions and Start</button>
-            <p></p>
-        </div>
-
-        <div class="question-text" id="question-text">
-            <p id="statline">0.00 points per bonus with 0 bonuses seen (0/0/0/0, 0 pts)</p>
-            <p id="question-info"></p>
-            <p id="question"></p>
-            <p id="info-text">Press space to reveal</p>
-            <button id="30">30</button>
-            <button id="20">20</button>
-            <button id="10">10</button>
-            <button id="0" > 0</button>
+            <div><input type="text" id="packet-select"   placeholder="Packet numbers (e.g. 1-5)"><span class="small-devices"> (Default: all)</span></div>
+            <div><input type="text" id="question-select" placeholder="Starting question number"><span class="small-devices"> (Default: 1)</span></div>
         </div>
     </div>
 
