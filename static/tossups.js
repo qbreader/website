@@ -100,7 +100,7 @@ function buzz() {
         document.getElementById('buzz').innerHTML = 'Buzz';
 
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
-        document.getElementById('div-toggle-correct').style.display = 'block';
+        document.getElementById('toggle-correct').innerHTML = 'I was wrong';
         updateStatDisplay();
     } else {
         // Stop the question reading
@@ -111,7 +111,6 @@ function buzz() {
         document.getElementById('question').innerHTML += '(#) ';
 
         document.getElementById('buzz').innerHTML = 'Reveal';
-        document.getElementById('info-text').innerHTML = 'Press space to reveal';
         document.getElementById('pause').setAttribute('disabled','disabled');
     }
 }
@@ -157,7 +156,6 @@ function clearStats() {
  */
 async function getQuestions(name, number) {
     clearTimeout(timeoutID);
-    document.getElementById('info-text').innerHTML = '';
     document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
         .then(response => response.json())
@@ -196,14 +194,13 @@ async function readQuestion() {
 
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
-    document.getElementById('toggle-correct').innerHTML = 'I was wrong'
-    document.getElementById('div-toggle-correct').style.display = 'none';
+    document.getElementById('toggle-correct').innerHTML = '';
+    // document.getElementById('div-toggle-correct').style.display = 'none';
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
-    document.getElementById('info-text').innerHTML = 'Press space to buzz';
 
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
@@ -356,14 +353,19 @@ document.getElementById('toggle-correct').addEventListener('click', () => {
 
 document.addEventListener('keyup', () => {
     if (document.activeElement.tagName === 'INPUT') return;
-        if (event.which == 32) {  // spacebar
-            document.getElementById('buzz').click();
-        } else if (event.which == 78) {  // pressing 'N'
-            document.getElementById('next').click();
-        } else if (event.which == 27) {  // escape key
-            modal.style.display = "none";
-        } else if (event.which == 80) {  // pressing 'P'
-            document.getElementById('pause').click();
+
+    if (event.which == 32) {  // spacebar
+        document.getElementById('buzz').click();
+    } else if (event.which == 27) {  // escape key
+        modal.style.display = "none";
+    } else if (event.which == 67) { // pressing 'C'
+        document.getElementById('clear-stats').click();
+    } else if (event.which == 78) {  // pressing 'N'
+        document.getElementById('next').click();
+    } else if (event.which == 80) {  // pressing 'P'
+        document.getElementById('pause').click();
+    } else if (event.which == 83) { // pressing 'S'
+        document.getElementById('start').click();
     }
 });
 
