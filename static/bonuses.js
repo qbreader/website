@@ -54,8 +54,6 @@ updateStatDisplay(); //update stats upon loading site
             paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts'][currentBonusPart]));
             document.getElementById('question').appendChild(paragraph1);
         }
-        else
-            document.getElementById('info-text').innerHTML = '';
     }
 }
 
@@ -93,7 +91,6 @@ function clearStats() {
  * @return {Array<JSON>} An array containing the bonuses.
  */
 async function getQuestions(name, number) {
-    document.getElementById('info-text').innerHTML = '';
     document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
         .then(response => response.json())
@@ -130,7 +127,6 @@ async function readQuestion() {
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
-    document.getElementById('info-text').innerHTML = 'Press space to reveal'
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     let paragraph = document.createElement('p');
@@ -183,15 +179,26 @@ document.getElementById('start').addEventListener('click', async () => {
 });
 
 document.addEventListener('keyup', () => {
-    if (document.activeElement.tagName != 'BODY') return;
-    if (packetNumbers != -1) {
-        if (event.which == 32) {  // spacebar
-            reveal();
-        } else if (event.which == 78) {  // pressing 'N'
-            readQuestion();
-        } else if (event.which == 27) {  // escape key
-            modal.style.display = "none";
-        }
+    if (document.activeElement.tagName === 'INPUT') return;
+
+    if (event.which == 32) {  // spacebar
+        document.getElementById('reveal').click();
+    } else if (event.which == 27) {  // escape key
+        modal.style.display = "none";
+    } else if (event.which == 67) { // pressing 'C'
+        document.getElementById('clear-stats').click();
+    } else if (event.which == 78) {  // pressing 'N'
+        document.getElementById('next').click();
+    } else if (event.which == 83) { // pressing 'S'
+        document.getElementById('start').click();
+    } else if (event.which == 48) { // pressing '0'
+        document.getElementById('0').click();
+    } else if (event.which == 49) { // pressing '1'
+        document.getElementById('10').click();
+    } else if (event.which == 50) { // pressing '2'
+        document.getElementById('20').click();
+    } else if (event.which == 51) { // pressing '3'
+        document.getElementById('30').click();
     }
 });
 

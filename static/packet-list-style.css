@@ -2,6 +2,11 @@
     font-family: Helvetica, sans-serif;
 }
 
+a {
+    color: #003399;
+    text-decoration: none;
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -10,15 +15,35 @@ html, body {
 .container {
     min-height: 100%;
     display: grid;
-    grid-template-columns: 0.25fr 0.46fr 0.46fr 0.46fr 0.46fr 0.46fr 0.45fr;
-    grid-template-rows: 0.6fr 0.2fr 3.2fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     justify-items: stretch;
-    grid-template-areas:
-        ". header header header header header header"
-        ". links links . . . ."
-        ". packets-1 packets-2 packets-3 packets-4 packets-5 .";
+    grid-template-areas: "packets-1 packets-2 packets-3 packets-4 packets-5 packets-6";
+    margin-left: 2em;
+    margin-right: 3.5em;
+    margin-top: 1em;
+}
+
+.navbar {
+    align-items: center;
+    background-color: #faebd7;
+    display: flex;
+    font-size: 16px;
+    height: 3em;
+    padding-left: 2em;
+}
+
+.title {
+    color: #000;
+    font-size: 20px;
+    /* font-style: italic; */
+}
+
+.links {
+    margin-left: auto;
+    margin-right: 3.5em;
 }
 
 .header {
@@ -49,4 +74,8 @@ html, body {
 
 .packets-5 {
     grid-area: packets-5;
+}
+
+.packets-6 {
+    grid-area: packets-6;
 }
