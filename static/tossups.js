@@ -358,8 +358,6 @@ document.addEventListener('keyup', () => {
         document.getElementById('buzz').click();
     } else if (event.which == 27) {  // escape key
         modal.style.display = "none";
-    } else if (event.which == 67) { // pressing 'C'
-        document.getElementById('clear-stats').click();
     } else if (event.which == 78) {  // pressing 'N'
         document.getElementById('next').click();
     } else if (event.which == 80) {  // pressing 'P'
