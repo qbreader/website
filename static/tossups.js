@@ -10,11 +10,32 @@ var questionTextSplit = [];
 var currentQuestionNumber = 0;
 
 var currentlyBuzzing = false;
-var shownAnswer = false;
-
-var validCategories = [];
+var paused = false;
 
 var inPower = false;
+
+//keep text fields in localStorage
+var packetNameField = document.getElementById('name-select');
+if (localStorage.getItem('packetNameTossupSave'))
+    packetNameField.value = localStorage.getItem('packetNameTossupSave');
+packetNameField.addEventListener('change', function(){
+    localStorage.setItem('packetNameTossupSave', packetNameField.value);
+});
+
+var packetNumberField = document.getElementById('packet-select');
+if (localStorage.getItem('packetNumberTossupSave'))
+    packetNumberField.value = localStorage.getItem('packetNumberTossupSave');
+packetNumberField.addEventListener('change', function(){
+    localStorage.setItem('packetNumberTossupSave', packetNumberField.value);
+});
+
+var questionNumberField = document.getElementById('question-select');
+if (localStorage.getItem('questionNumberTossupSave'))
+    questionNumberField.value = localStorage.getItem('questionNumberTossupSave');
+questionNumberField.addEventListener('change', function(){
+    localStorage.setItem('questionNumberTossupSave', questionNumberField.value);
+});
+
 if (sessionStorage.getItem('powers')===null)
     sessionStorage.setItem('powers',0);
 if (sessionStorage.getItem('tens')===null)
@@ -54,7 +75,6 @@ function shift(item, x) {
  * and updates the score.
  */
 function buzz() {
-    if (shownAnswer) return;
     if (currentlyBuzzing) {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
@@ -79,8 +99,9 @@ function buzz() {
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
+        document.getElementById('buzz').setAttribute('disabled', 'disabled');
+        document.getElementById('toggle-correct').innerHTML = 'I was wrong';
         updateStatDisplay();
-        shownAnswer = true;
     } else {
         // Stop the question reading
         clearTimeout(timeoutID);
@@ -90,7 +111,7 @@ function buzz() {
         document.getElementById('question').innerHTML += '(#) ';
 
         document.getElementById('buzz').innerHTML = 'Reveal';
-        document.getElementById('info-text').innerHTML = 'Press space to reveal';
+        document.getElementById('pause').setAttribute('disabled','disabled');
     }
 }
 
@@ -105,6 +126,10 @@ function updateStatDisplay() {
     let includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
         = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
+    if (numTossups===0) //disable clear stats button if no stats
+        document.getElementById('clear-stats').setAttribute("disabled", "disabled");
+    else
+        document.getElementById('clear-stats').removeAttribute("disabled");
 }
 
 
@@ -130,6 +155,8 @@ function clearStats() {
  * @return {Array<JSON>} An array containing the tossups.
  */
 async function getQuestions(name, number) {
+    clearTimeout(timeoutID);
+    document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
         .then(response => response.json())
         .then(data => {
@@ -142,6 +169,8 @@ async function getQuestions(name, number) {
  * Loads and reads the next question.
  */
 async function readQuestion() {
+    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     do {  // Get the next question
         currentQuestionNumber++;
 
@@ -157,35 +186,31 @@ async function readQuestion() {
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (false === (
-        (validCategories.length == 0 || validCategories.includes(questions[currentQuestionNumber]['category']))
-        && (
-            !('subcategory' in questions[currentQuestionNumber]) 
-            || validSubcategories.length === 0
-            || validSubcategories.includes(questions[currentQuestionNumber]['subcategory'])
-        )
-    ));
+    } while (!isValidCategory(questions[currentQuestionNumber]));
 
     // Stop reading the current question:
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
-    shownAnswer = false;
 
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
-    document.getElementById('toggle-correct').innerHTML = 'I was wrong'
+    document.getElementById('toggle-correct').innerHTML = '';
+    // document.getElementById('div-toggle-correct').style.display = 'none';
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
-    document.getElementById('info-text').innerHTML = 'Press space to buzz';
 
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     questionText = questions[currentQuestionNumber]['question'];
     questionTextSplit = questionText.split(' ');
 
+    document.getElementById('buzz').removeAttribute('disabled');
+    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').removeAttribute('disabled');
+    paused = false;
     // Read the question:
     printWord();
 }
@@ -213,8 +238,27 @@ function printWord() {
             printWord();
         }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
     }
+    else {
+        document.getElementById('pause').setAttribute('disabled', 'disabled');
+    }
 }
 
+/**
+ * Toggles pausing or resuming the tossup.
+ */
+function pause() {
+    if (paused) {
+        document.getElementById('buzz').removeAttribute('disabled');
+        document.getElementById('pause').innerHTML = 'Pause';
+        printWord();
+    }
+    else {
+        document.getElementById('buzz').setAttribute('disabled','disabled');
+        document.getElementById('pause').innerHTML = 'Resume';
+        clearTimeout(timeoutID);
+    }
+    paused = !paused;
+}
 
 document.getElementById('start').addEventListener('click', async () => {
     packetName = document.getElementById('name-select').value.trim();
@@ -252,6 +296,7 @@ document.getElementById('start').addEventListener('click', async () => {
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
     questions = await getQuestions(packetName, packetNumber);
+    document.getElementById('next').removeAttribute('disabled'); //remove disabled from next button
     readQuestion();
 });
 
@@ -308,14 +353,17 @@ document.getElementById('toggle-correct').addEventListener('click', () => {
 
 document.addEventListener('keyup', () => {
     if (document.activeElement.tagName === 'INPUT') return;
-    if (packetNumbers != -1) {
-        if (event.which == 32) {  // spacebar
-            buzz();
-        } else if (event.which == 78) {  // pressing 'N'
-            readQuestion();
-        } else if (event.which == 27) {  // escape key
-            modal.style.display = "none";
-        }
+
+    if (event.which == 32) {  // spacebar
+        document.getElementById('buzz').click();
+    } else if (event.which == 27) {  // escape key
+        modal.style.display = "none";
+    } else if (event.which == 78) {  // pressing 'N'
+        document.getElementById('next').click();
+    } else if (event.which == 80) {  // pressing 'P'
+        document.getElementById('pause').click();
+    } else if (event.which == 83) { // pressing 'S'
+        document.getElementById('start').click();
     }
 });
 

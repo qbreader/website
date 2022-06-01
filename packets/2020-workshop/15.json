@@ -1,0 +1,132 @@
+{
+    "tossups": [
+        {
+            "question": "This style was adopted by a \u201cschool\u201d of artisans in Nancy, including furniture designer Louis Majorelle and the Daum crystal studio. This movement, which took its name from the gallery of Siegfried Bing, was revived in the 1960s for the design of \u201cpsychedelic\u201d posters. This style was used to decorate the interior of Brussel\u2019s H\u00f4tel (*) Tassel, and it was promoted by the magazine Jugend [YOO-gunt], which gave rise to the Munich and Vienna \u201cSecessions.\u201d \u201cDragonfly\u201d and \u201clily-of-the-valley\u201d designs were used in a set of works in this style by Hector Guimard [gee-MAR]. The Arts and Crafts Movement inspired many lamps in this style designed by the \u201cTiffany Girls.\u201d Curving, plant-based forms characterize\u2014for 10 points\u2014what style whose French name means \u201cnew art?\u201d",
+            "answer": "Art Nouveau [prompt on Jugendstil]",
+            "category": "Fine Arts",
+            "subcategory": "Visual Fine Arts"
+        },
+        {
+            "question": "A clown in this play brings a man a letter and two pigeons only to be hanged for the delivery. After burying a bag of gold in the forest, one character in this play tricks two men into falling into a pit that contains a dead body. During a feast in this play, one man considers the effect that a fly\u2019s death has on its parents after tragedy befalls his daughter. That daughter points to the story of (*) Philomela and Tereus and writes the word \u201cstuprum\u201d to explain what Chiron and Demetrius did to her. After appearing as the figure of Revenge, Tamora is tricked into eating a meat pie made of her rapist sons by the title character of this play. For 10 points, name this early Shakespeare tragedy about a Roman general.",
+            "answer": "Titus Andronicus",
+            "category": "Literature",
+            "subcategory": "British Literature"
+        },
+        {
+            "question": "One historian gained access to a trove of documents about this event by bribing an official named Naim [na-EEM]. This event was presaged by attacks on the elite amira class after a loss at the Battle of Sarikamish deepened suspicion of its targets. Operation Nemesis was a plot by the revolutionary Dashnak organization to kill perpetrators of this event, and culminated in the deaths of two members of the (*) \u201ctriumvirate\u201d of Committee for Union and Progress members who planned it. The journalist Hrant Dink was killed for criticizing a state policy of denying this event, which was planned by Talaat Pasha. Death marches to Syria killed thousands in\u2014for 10 points\u2014what event in which members of a Christian ethnicity in the Ottoman Empire were killed en masse during World War I?",
+            "answer": "Armenian Genocide",
+            "category": "History",
+            "subcategory": "American History"
+        },
+        {
+            "question": "It's not social interaction, but Kiley Hamlin and Karen Wynn tested children\u2019s understanding of these things with \u201cHelper\u201d and \u201cHinderer\u201d puppet shows. These things occupy a \u201cdomain\u201d of reasoning separate from the \u201csocial\u201d and \u201cpsychological,\u201d according to the work of Elliot Turiel. A study conducted by Jesse Graham and Jonathan Haidt found that conservatives are equally sensitive to the five (*) \u201cfoundations\u201d of these things, which include \u201ccare\u201d and \u201csanctity.\u201d A story in which a man steals radium from a druggist in order to save his wife was used to support one thinker\u2019s theory that people\u2019s reasoning about these things moves from \u201cpreconventional\u201d to \u201cpostconventional\u201d forms. For 10 points, Lawrence Kohlberg formulated a six-stage developmental theory of what beliefs about what is acceptable or right?",
+            "answer": "morals [accept Moral Foundations Theory, Moral Domain Theory, moral sense, moral reasoning, moral behavior, moral development, moral minds, moral foundations, or any answer that really indicates morals or morality, prompt on ethics or ethical terms]",
+            "category": "Social Science",
+            "subcategory": "Social Science"
+        },
+        {
+            "question": "In 1995, John Klauder found coherent states for this system by changing coordinates to an unphysical \u201ccovering space\u201d. Pauli solved this system by classifying the irreducible representations of the Lie algebra so(4) [\u201cS-O-4\u201d], thereby defining quantum analogues of the Casimir element and the LRL vector. Solving this system analytically gives an exponentially decaying term times a generalized Laguerre polynomial in one coordinate and a (*) spherical harmonic in the other two, which are respectively the radial and angular parts. This system\u2019s energy levels are proportional to one over n squared, with a constant of proportionality of about -13.6 eV named for Rydberg. For 10 points, name this simplest nontrivial atomic system, consisting of an electron and a proton.",
+            "answer": "hydrogen atom [accept hydrogen-like atom or hydrogenic atom; accept one-electron atom or obvious equivalents before \u201celectron\u201d; prompt on atom before \u201catomic\u201d]",
+            "category": "Science",
+            "subcategory": "Physics"
+        },
+        {
+            "question": "In plants, a slowly-decaying increase in this ion\u2019s cytoplasm concentration is used in the response to changing orientation. \u201cEgg boxes\u201d form when this cation crosslinks pectate chains in plant cell walls. Some plants store excesses of this cation in insoluble, needle-like crystals called raphides. Due to increased precipitation of this cation, eating plants like spinach or wood sorrel causes the formation of (*) kidney stones, since they are high in oxalic acid. SNAP25 inhibits voltage-gated channels for this cation in the SNARE complex. Hydrofluoric acid causes heart attacks by precipitating this cation that, under normal conditions, binds to troponin during muscle contraction. For 10 points, name this electrolyte whose hydroxy\u00b7phosphate makes up bone.",
+            "answer": "calcium 2+ [or Ca 2+; accept +2 instead of 2+ in either allowed answer]",
+            "category": "Science",
+            "subcategory": "Biology"
+        }
+    ],
+    "bonuses": [
+        {
+            "leadin": "Duverger\u2019s Law explains why use of the \u201cfirst-past-the-post\u201d type of these events will eventually lead to two-party systems. For 10 points each:",
+            "answers": [
+                "elections [accept reasonable synonyms like voting systems]",
+                "Condorcet methods",
+                "Michigan model"
+            ],
+            "parts": [
+                "Name these events in which voters cast their preferences for politicians and political parties.",
+                "This set of election methods named after a French thinker can be used to better represent the preferences of voters by finding a candidate with the majority of the vote in head-to-head matchups against the other candidates.",
+                "This model of voting named after an American university was first articulated in the book The American Voter. This model describes a \u201cfunnel of causality\u201d in which voters form strong attachments to political parties."
+            ],
+            "category": "Social Science",
+            "subcategory": "Social Science"
+        },
+        {
+            "leadin": "This symphony has two movements, each of which has two main sections, thus mimicking the traditional four-movement format. For 10 points each,",
+            "answers": [
+                "Organ Symphony [accept but do not otherwise reveal Camille Saint-Sa\u00ebns\u2019s Symphony No. 3]",
+                "(Charles) Camille Saint-Sa\u00ebns",
+                "\u201cDies irae\u201d"
+            ],
+            "parts": [
+                "Name this C-minor symphony, which features a piano duet and an instrument that only plays in the \u201cslow movement\u201d and \u201cfinale\u201d sections. Recordings of it have featured Virgil Fox, E. Power Biggs, and Marcel Dupr\u00e9.",
+                "The \u201cOrgan\u201d Symphony was written by this French composer, who included \u201cThe Swan\u201d in his Carnival of the Animals.",
+                "Many commentators have noted an uncanny similarity between the \u201cOrgan\u201d Symphony\u2019s main theme and this tune. This tune is played by the piano in Variations 7 and 10 of Rachmaninoff\u2019s Rhapsody on a Theme of Paganini."
+            ],
+            "category": "Fine Arts",
+            "subcategory": "Auditory Fine Arts"
+        },
+        {
+            "leadin": "Answer the following about the work of the UChicago ethnographer and social theorist Joseph Masco. For 10 points each:",
+            "answers": [
+                "New Mexico",
+                "Brian Massumi",
+                "the Bush Doctrine"
+            ],
+            "parts": [
+                "In his first book, The Nuclear Borderlands, Masco theorized the existence of a \u201cnuclear uncanny\u201d by studying the aftermath of the Manhattan Project\u2019s experiments at Los Alamos in this U.S. state.",
+                "Masco\u2019s work often draws on the ideas of this Canadian thinker who authored the essay \u201cThe Autonomy of Affect,\u201d as well as A User\u2019s Guide to Capitalism and Schizophrenia.",
+                "Masco\u2019s book The Theater of Operations uses Massumi\u2019s ideas about \u201cpreemption\u201d to analyze this 2002 statement on national security strategy that defended \u201ctaking anticipatory action to defend ourselves.\u201d"
+            ],
+            "category": "Science",
+            "subcategory": "Other Science"
+        },
+        {
+            "leadin": "The washed-out colors and monumental scale of this 1884 painting were likely inspired by the painter\u2019s contemporary Puvis de Chavannes [pew-VEESS du shah-VAHN]. For 10 points each:",
+            "answers": [
+                "Bathers at Asni\u00e8res [or Une Baignade, Asni\u00e8res]",
+                "Georges(-Pierre) Seurat",
+                "circus [or cirque; accept Circus Sideshow or Parade de cirque]"
+            ],
+            "parts": [
+                "Name this painting. On the left side of this painting, a man in a bowler hat lies on his side next to a red dog, while on its right side, a boy in a red hat cups his hands over his mouth while standing waist-deep in water.",
+                "Bathers at Asni\u00e8res was the first major work by this French pointillist, who also painted A Sunday Afternoon on the Island of La Grande Jatte.",
+                "A Seurat painting of this kind of place depicts a trombone player in a pointed hat standing on a platform. Seurat\u2019s last painting features a woman in yellow elevating off of a white horse in one of these places."
+            ],
+            "category": "Fine Arts",
+            "subcategory": "Visual Fine Arts"
+        },
+        {
+            "leadin": "An 1819 poem in this form asks Psyche to \u201chear these tuneless numbers.\u201d For 10 points each:",
+            "answers": [
+                "odes [accept \u201cOde to Psyche\u201d or \u201cOde on Indolence]",
+                "John Keats",
+                "\u201cWhat wild ecstasy?\u201d [exact wording required]"
+            ],
+            "parts": [
+                "Name this poetic form. The speaker of a poem in this form titled for \u201cIndolence\u201d seeks out Love, Ambition, and Poesy.",
+                "Both \u201cOde to Psyche\u201d and \u201cOde on Indolence\u201d were written by this prolific ode writer and poet of \u201cOde on a Grecian Urn.\u201d",
+                "After asking \u201cWhat struggle to escape? What pipes and timbrels?\u201d the speaker of \u201cOde on a Grecian Urn\u201d asks this three-word question. A John Heidenry book about the sexual revolution titled for this phrase was the subject of a plagiarism scandal."
+            ],
+            "category": "Literature",
+            "subcategory": "British Literature"
+        },
+        {
+            "leadin": "W\u00fa S\u0101ngu\u00ec took part in a revolt named for this number of \u201cfeudatories\u201d after opening the gates of the Great Wall at Sh\u0101nh\u01ceigu\u0101an for the army he was revolting against. For 10 points each:",
+            "answers": [
+                "three [accept Three Kingdoms; accept S\u0101ngu\u00f3 or S\u0101nf\u0101n zh\u012b lu\u00e0n]",
+                "Koxinga [or Zh\u00e8ng Ch\u00e9ngg\u014dng]",
+                "M\u00edng Dynasty"
+            ],
+            "parts": [
+                "Give this number, which also names an era of Chinese history that was ended by S\u012bm\u01ce Y\u00ec\u2019s founding of the J\u00ecn Dynasty.",
+                "During the Revolt of the Three Feudatories, Wu Sangui was allegedly aided by forces from the Kingdom of Tungning, which was founded by this man. This man broke Dutch control of Taiwan at the Siege of Fort Zeelandia.",
+                "Both Wu Sangui and Koxinga served this dynasty, which faced a rebellion by L\u01d0 Z\u00ecch\u00e9ng during its collapse in the mid-seventeenth century."
+            ],
+            "category": "History",
+            "subcategory": "World History"
+        }
+    ]
+}
