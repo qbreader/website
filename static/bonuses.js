@@ -7,7 +7,27 @@ var currentQuestionNumber = 0;
 
 var currentBonusPart = -1;
 
-var validCategories = [];
+//keep text fields in localStorage
+var packetNameField = document.getElementById('name-select');
+if (localStorage.getItem('packetNameBonusSave'))
+    packetNameField.value = localStorage.getItem('packetNameBonusSave');
+packetNameField.addEventListener('change', function(){
+    localStorage.setItem('packetNameBonusSave', packetNameField.value);
+});
+
+var packetNumberField = document.getElementById('packet-select');
+if (localStorage.getItem('packetNumberBonusSave'))
+    packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
+packetNumberField.addEventListener('change', function(){
+    localStorage.setItem('packetNumberBonusSave', packetNumberField.value);
+});
+
+var questionNumberField = document.getElementById('question-select');
+if (localStorage.getItem('questionNumberBonusSave'))
+    questionNumberField.value = localStorage.getItem('questionNumberBonusSave');
+questionNumberField.addEventListener('change', function(){
+    localStorage.setItem('questionNumberBonusSave', questionNumberField.value);
+});
 
 /**
  * An array that represents
@@ -71,6 +91,7 @@ function clearStats() {
  * @return {Array<JSON>} An array containing the bonuses.
  */
 async function getQuestions(name, number) {
+    document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
         .then(response => response.json())
         .then(data => {
@@ -83,6 +104,8 @@ async function getQuestions(name, number) {
  * Loads and reads the next question.
  */
 async function readQuestion() {
+    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     do {  // Get the next question
         currentQuestionNumber++;
 
@@ -98,20 +121,12 @@ async function readQuestion() {
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (false === (
-        (validCategories.length == 0 || validCategories.includes(questions[currentQuestionNumber]['category']))
-        && (
-            !('subcategory' in questions[currentQuestionNumber]) 
-            || validSubcategories.length === 0
-            || validSubcategories.includes(questions[currentQuestionNumber]['subcategory'])
-        )
-    ));
+    } while (!isValidCategory(questions[currentQuestionNumber]));
 
     currentBonusPart = 0;
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
-
     document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     let paragraph = document.createElement('p');
@@ -164,15 +179,24 @@ document.getElementById('start').addEventListener('click', async () => {
 });
 
 document.addEventListener('keyup', () => {
-    if (document.activeElement.tagName != 'BODY') return;
-    if (packetNumbers != -1) {
-        if (event.which == 32) {  // spacebar
-            reveal();
-        } else if (event.which == 78) {  // pressing 'N'
-            readQuestion();
-        } else if (event.which == 27) {  // escape key
-            modal.style.display = "none";
-        }
+    if (document.activeElement.tagName === 'INPUT') return;
+
+    if (event.which == 32) {  // spacebar
+        document.getElementById('reveal').click();
+    } else if (event.which == 27) {  // escape key
+        modal.style.display = "none";
+    } else if (event.which == 78) {  // pressing 'N'
+        document.getElementById('next').click();
+    } else if (event.which == 83) { // pressing 'S'
+        document.getElementById('start').click();
+    } else if (event.which == 48) { // pressing '0'
+        document.getElementById('0').click();
+    } else if (event.which == 49) { // pressing '1'
+        document.getElementById('10').click();
+    } else if (event.which == 50) { // pressing '2'
+        document.getElementById('20').click();
+    } else if (event.which == 51) { // pressing '3'
+        document.getElementById('30').click();
     }
 });
 
