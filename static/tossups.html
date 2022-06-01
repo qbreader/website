@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+    <title>QB Reader</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <link rel="stylesheet" href="/style.css">
-
-    <title>QB Reader</title>
 </head>
 
 <body>
@@ -20,7 +17,7 @@
                 <span class="close" onclick="document.getElementById('modal').style.display = 'none'">&times;</span>
             </div>
             <div id="selections">
-                <select multiple name="category-select" id="category-select" size="20" onclick="updateCategories()">
+                <select multiple name="category-select" id="category-select" size="0" onclick="updateCategories()">
                     <option value="Literature">Literature</option>
                     <option value="History">History</option>
                     <option value="Science">Science</option>
@@ -35,7 +32,7 @@
                     <option value="Trash">Trash</option>
                 </select>
 
-                <select multiple name="subcategory-select" size="20" id="subcategory-select" onclick="updateSubcategories()">
+                <select multiple name="subcategory-select" size="0" id="subcategory-select" onclick="updateSubcategories()">
                     <option value="American Literature">American Literature</option>
                     <option value="British Literature">British Literature</option>
                     <option value="Classical Literature">Classical Literature</option>
@@ -68,180 +65,177 @@
         </div>
     </div>
 
+    <div class="navbar" id="navbar">
+        <span class="title">QB Packet Reader - Tossups</span>
+        <span class="links">
+            <a href="/bonuses.html">Bonuses</a>&nbsp;
+            <a href="/packet-list.html">Packet List</a>&nbsp;
+            <a href="https://github.com/thedoge42/qb-packet-reader">Source Code</a>
+        </span>
+    </div>
+    <div class="buttons" id="buttons">
+        <button id="start">Start</button>
+        <button id="buzz" onclick="buzz()" disabled>Buzz</button>
+        <button id="pause" onclick="pause()" disabled>Pause</button>
+        <button id="next" onclick="readQuestion()" disabled>Next</button>
+        <button id="clear-stats" onclick="clearStats()">Clear Stats</button>
+        <button id="category-select-button" onclick="document.getElementById('modal').style = ''">Adjust Categories</button>
+    </div>
     <div class="container">
-        <div class="row mt-5">
-            <div class="header h1">QB Packet Reader - Tossups</div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-12 col-lg-8">
-                <div class="buttons" id="buttons">
-                    <button class="big-button" id="start">Search for Questions and Start</button>
-                    <button class="big-button" id="buzz" onclick="buzz()">Buzz</button>
-                    <button class="big-button" id="next" onclick="readQuestion()">Next</button>
-                    <button class="big-button" id="clear-stats" onclick="clearStats()">Clear stats</button>
-                    <button class="toggle-correct" id="toggle-correct">I was wrong</button>
-                </div>
-
-                <div class="question-text mt-3" id="question-text">
-                    <p id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</p>
-                    <p id="question-info"></p>
-                    <p id="question"></p>
-                    <p id="answer"></p>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4">
-                <div class="options" id="options">
-                    <div>
-                        <a href="/bonuses.html">Go to bonuses</a>&nbsp
-                        <a href="/packet-list.html">List of packets</a>&nbsp
-                        <a href="https://github.com/thedoge42/qb-packet-reader">Github</a>
-                    </div>
-        
-                    <p>[Space] = buzz, [n] = next question</p>
-                    <p id="numbering-info">
-                        Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
-                        Any other non-numbered packets are placed after all of those in the order in which they appear on <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">https://quizbowlpackets.com/</a>.
-                    </p>
-        
-                    <div>
-                        <input type="text" id="name-select" placeholder="Set name (e.g. 2021 pace)" list="suggestions">
-                        <datalist id="suggestions">
-                            <!-- Recently added: -->
-                            <option>2022 ACF Regionals</option>
-                            <option>2021 Chicago Open</option>
-                            <option>2019 Fall Open</option>
-                            <option>2020 ERIS</option>
-                            <option>2021 MSQB Madness</option>
-                            <option>2021 NASAT</option>
-                            <option>2021 GORKY III</option>
-                            <option>2021 Geoffrey Wu's NFL Packet</option>
-                            <!-- All other packets -->
-                            <option>2021 WORKSHOP</option>
-                            <option>2021 TWAIT</option>
-                            <option>2021 Tiny Science Tossups</option>
-                            <option>2021 Spring Novice</option>
-                            <option>2021 SKUFFED</option>
-                            <option>2021 Remember the Women</option>
-                            <option>2021 Penn Bowl</option>
-                            <option>2021 PACE</option>
-                            <option>2021 GORKY II</option>
-                            <option>2021 DART</option>
-                            <option>2021 Dan Coby Tiffany Math Packet</option>
-                            <option>2021 ACF Winter</option>
-                            <option>2021 ACF Regionals</option>
-                            <option>2021 ACF Fall</option>
-                            <option>2020 Terrapin</option>
-                            <option>2020 STASH</option>
-                            <option>2020 SCALE</option>
-                            <option>2020 Raft II</option>
-                            <option>2020 Oxford</option>
-                            <option>2020 LIT</option>
-                            <option>2020 IKEA</option>
-                            <option>2020 GORKY</option>
-                            <option>2020 FLopen</option>
-                            <option>2020 CALISTO</option>
-                            <option>2020 Aqbl October</option>
-                            <option>2020 ACF Winter</option>
-                            <option>2020 ACF Regionals</option>
-                            <option>2020 ACF Fall</option>
-                            <option>2019 Terrapin</option>
-                            <option>2019 Spartan Housewrite</option>
-                            <option>2019 RMBAT</option>
-                            <option>2019 Prison Bowl</option>
-                            <option>2019 PIANO</option>
-                            <option>2019 Penn Bowl</option>
-                            <option>2019 PACE</option>
-                            <option>2019 NASAT</option>
-                            <option>2019 LOGIC</option>
-                            <option>2019 Lederberg 3</option>
-                            <option>2019 ILLIAC</option>
-                            <option>2019 HFT</option>
-                            <option>2019 EFT</option>
-                            <option>2019 Chicago Open</option>
-                            <option>2019 BHSAT</option>
-                            <option>2019 ACF Regionals</option>
-                            <option>2019 ACF Nationals</option>
-                            <option>2019 ACF Fall</option>
-                            <option>2018 WHAQ</option>
-                            <option>2018 Sun God</option>
-                            <option>2018 SMT</option>
-                            <option>2018 RMBAT</option>
-                            <option>2018 Prison Bowl</option>
-                            <option>2018 Penn Bowl</option>
-                            <option>2018 PACE</option>
-                            <option>2018 NASAT</option>
-                            <option>2018 MBAT</option>
-                            <option>2018 Imsanity</option>
-                            <option>2018 Historature</option>
-                            <option>2018 HFT</option>
-                            <option>2018 GLRAC</option>
-                            <option>2018 EFT</option>
-                            <option>2018 CMST</option>
-                            <option>2018 Chicago Open</option>
-                            <option>2018 Cambridge Open</option>
-                            <option>2018 BHSAT</option>
-                            <option>2018 ACF Regionals</option>
-                            <option>2018 ACF Nationals</option>
-                            <option>2018 ACF Fall</option>
-                            <option>2017 WHAQ</option>
-                            <option>2017 WAO</option>
-                            <option>2017 RMBCT</option>
-                            <option>2017 Prison Bowl</option>
-                            <option>2017 Penn Bowl</option>
-                            <option>2017 PACE</option>
-                            <option>2017 NASAT</option>
-                            <option>2017 MASSOLIT</option>
-                            <option>2017 LIST</option>
-                            <option>2017 Jakob</option>
-                            <option>2017 HFT</option>
-                            <option>2017 GSAC</option>
-                            <option>2017 EMT</option>
-                            <option>2017 EFT</option>
-                            <option>2017 Chicago Open</option>
-                            <option>2017 BHSAT</option>
-                            <option>2017 ACF Regionals</option>
-                            <option>2017 ACF Nationals</option>
-                            <option>2017 ACF Fall</option>
-                            <option>2016 SCOP</option>
-                            <option>2016 Penn Bowl</option>
-                            <option>2016 PACE</option>
-                            <option>2016 NASAT</option>
-                            <option>2016 HFT</option>
-                            <option>2016 ACF Fall</option>
-                            <option>2015 Prison Bowl</option>
-                            <option>2015 Penn Bowl</option>
-                            <option>2015 PACE</option>
-                            <option>2015 Maryland Fall</option>
-                            <option>2015 HFT</option>
-                            <option>2015 Delta Burke</option>
-                            <option>2015 ACF Fall</option>
-                            <option>2014 Penn Bowl</option>
-                            <option>2014 PACE</option>
-                            <option>2013 Penn Bowl</option>
-                            <option>2013 PACE</option>
-                            <option>2012 Penn Bowl</option>
-                            <option>2012 PACE</option>
-                        </datalist>
-                    </div>
-                    <div><input type="text" id="packet-select" placeholder="Packet numbers (e.g. 1-5)"> (Default: all)</div>
-                    <div><input type="text" id="question-select" placeholder="Starting question number"> (Default: 1)</div>
-                    <p></p>
-                    <button id="category-select-button" onclick="document.getElementById('modal').style = ''">Adjust
-                        Categories</button>
-                    <p></p>
-                    <label for="reading-speed" id="reading-speed-display">Reading speed: 50</label><br>
-                    <input id="reading-speed" type="range" min="0" max="100">
-                </div>
-            </div>
+        <div class="question-text" id="question-text">
+            <p id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</p>
+            <div id="question-metadata"><span id="question-info"></span><a id="toggle-correct"></a></div>
+            <p id="question"></p>
+            <p id="answer"></p>
         </div>
 
-        
+        <div class="options" id="options">
+            <p class="small-devices">[s] = start, [space] = buzz, [p] = pause, [n] = next question</p>
+            <p id="numbering-info">
+                A quizbowl packet reader.
+                <span class="small-devices">
+                    Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
+                    Any other non-numbered packets are placed after all of those in the order in which they appear on <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">quizbowlpackets.com</a>.
+                </span>
+            </p>
+
+            <div>
+                <input type="text" id="name-select" placeholder="Set name (e.g. 2021 pace)" list="suggestions">
+                <datalist id="suggestions">
+                    <!-- Recently added: -->
+                    <option>2022 ACF Nationals</option>
+                    <option>2020 WORKSHOP</option>
+                    <option>2021 ACF Nationals</option>
+                    <option>2021 ACF Nationals Qualifier</option>
+                    <option>2020 FRENCH II</option>
+                    <option>2017 FRENCH</option>
+                    <option>2021 ARCADIA</option>
+                    <option>2022 ACF Regionals</option>
+                    <option>2021 Chicago Open</option>
+                    <option>2019 Fall Open</option>
+                    <option>2020 ERIS</option>
+                    <option>2021 MSQB Madness</option>
+                    <option>2021 NASAT</option>
+                    <!-- All other packets -->
+                    <option>2021 WORKSHOP</option>
+                    <option>2021 TWAIT</option>
+                    <option>2021 Tiny Science Tossups</option>
+                    <option>2021 Spring Novice</option>
+                    <option>2021 SKUFFED</option>
+                    <option>2021 Remember the Women</option>
+                    <option>2021 Penn Bowl</option>
+                    <option>2021 PACE</option>
+                    <option>2021 GORKY III</option>
+                    <option>2021 GORKY II</option>
+                    <option>2021 Geoffrey Wu's NFL Packet</option>
+                    <option>2021 DART</option>
+                    <option>2021 Dan Coby Tiffany Math Packet</option>
+                    <option>2021 ACF Winter</option>
+                    <option>2021 ACF Regionals</option>
+                    <option>2021 ACF Fall</option>
+                    <option>2020 Terrapin</option>
+                    <option>2020 STASH</option>
+                    <option>2020 SCALE</option>
+                    <option>2020 Raft II</option>
+                    <option>2020 Oxford</option>
+                    <option>2020 LIT</option>
+                    <option>2020 IKEA</option>
+                    <option>2020 GORKY</option>
+                    <option>2020 FLopen</option>
+                    <option>2020 CALISTO</option>
+                    <option>2020 Aqbl October</option>
+                    <option>2020 ACF Winter</option>
+                    <option>2020 ACF Regionals</option>
+                    <option>2020 ACF Fall</option>
+                    <option>2019 Terrapin</option>
+                    <option>2019 Spartan Housewrite</option>
+                    <option>2019 RMBAT</option>
+                    <option>2019 Prison Bowl</option>
+                    <option>2019 PIANO</option>
+                    <option>2019 Penn Bowl</option>
+                    <option>2019 PACE</option>
+                    <option>2019 NASAT</option>
+                    <option>2019 LOGIC</option>
+                    <option>2019 Lederberg 3</option>
+                    <option>2019 ILLIAC</option>
+                    <option>2019 HFT</option>
+                    <option>2019 EFT</option>
+                    <option>2019 Chicago Open</option>
+                    <option>2019 BHSAT</option>
+                    <option>2019 ACF Regionals</option>
+                    <option>2019 ACF Nationals</option>
+                    <option>2019 ACF Fall</option>
+                    <option>2018 WHAQ</option>
+                    <option>2018 Sun God</option>
+                    <option>2018 SMT</option>
+                    <option>2018 RMBAT</option>
+                    <option>2018 Prison Bowl</option>
+                    <option>2018 Penn Bowl</option>
+                    <option>2018 PACE</option>
+                    <option>2018 NASAT</option>
+                    <option>2018 MBAT</option>
+                    <option>2018 Imsanity</option>
+                    <option>2018 Historature</option>
+                    <option>2018 HFT</option>
+                    <option>2018 GLRAC</option>
+                    <option>2018 EFT</option>
+                    <option>2018 CMST</option>
+                    <option>2018 Chicago Open</option>
+                    <option>2018 Cambridge Open</option>
+                    <option>2018 BHSAT</option>
+                    <option>2018 ACF Regionals</option>
+                    <option>2018 ACF Nationals</option>
+                    <option>2018 ACF Fall</option>
+                    <option>2017 WHAQ</option>
+                    <option>2017 WAO</option>
+                    <option>2017 RMBCT</option>
+                    <option>2017 Prison Bowl</option>
+                    <option>2017 Penn Bowl</option>
+                    <option>2017 PACE</option>
+                    <option>2017 NASAT</option>
+                    <option>2017 MASSOLIT</option>
+                    <option>2017 LIST</option>
+                    <option>2017 Jakob</option>
+                    <option>2017 HFT</option>
+                    <option>2017 GSAC</option>
+                    <option>2017 EMT</option>
+                    <option>2017 EFT</option>
+                    <option>2017 Chicago Open</option>
+                    <option>2017 BHSAT</option>
+                    <option>2017 ACF Regionals</option>
+                    <option>2017 ACF Nationals</option>
+                    <option>2017 ACF Fall</option>
+                    <option>2016 SCOP</option>
+                    <option>2016 Penn Bowl</option>
+                    <option>2016 PACE</option>
+                    <option>2016 NASAT</option>
+                    <option>2016 HFT</option>
+                    <option>2016 ACF Fall</option>
+                    <option>2015 Prison Bowl</option>
+                    <option>2015 Penn Bowl</option>
+                    <option>2015 PACE</option>
+                    <option>2015 Maryland Fall</option>
+                    <option>2015 HFT</option>
+                    <option>2015 Delta Burke</option>
+                    <option>2015 ACF Fall</option>
+                    <option>2014 Penn Bowl</option>
+                    <option>2014 PACE</option>
+                    <option>2013 Penn Bowl</option>
+                    <option>2013 PACE</option>
+                    <option>2012 Penn Bowl</option>
+                    <option>2012 PACE</option>
+                </datalist>
+            </div>
+            <div><input type="text" id="packet-select" placeholder="Packet numbers (e.g. 1-5)"><span class="small-devices"> (Default: all)</span></div>
+            <div><input type="text" id="question-select" placeholder="Starting question number"><span class="small-devices"> (Default: 1)</span></div>
+            <p></p>
+            <label for="reading-speed" id="reading-speed-display">Reading speed: 50</label><br>
+            <input id="reading-speed" type="range" min="0" max="100">
+        </div>
     </div>
 
     <script src="/script.js"></script>
     <script src="/tossups.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 
 </html>

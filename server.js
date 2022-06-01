@@ -10,10 +10,16 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/tossups.html');
 });
 
-app.get('/getpacket', async (req, res) => {
+app.get('/getpacket', async (req, res, next) => {
     var directory = './packets/' + req.query.directory + '/' + req.query.packetNumber + '.json';
-    var jsonfile = require(directory);
-    res.send(JSON.stringify(jsonfile));
+    var jsonfile;
+    try {
+        jsonfile = require(directory);
+        res.send(JSON.stringify(jsonfile));
+    } catch (e) {
+        console.log('ERROR: Could not find packet located at ' + directory);
+        res.send(JSON.stringify({}));
+    }
 });
 
 app.use((req, res) => {
