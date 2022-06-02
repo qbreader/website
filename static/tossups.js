@@ -316,9 +316,9 @@ function toggleCorrect() {
 }
 
 // Event listeners
-document.getElementById('reading-speed').oninput = () => {
+document.getElementById('reading-speed').oninput = function () {
     localStorage.setItem('speed', this.value);
-    document.getElementById('reading-speed-display').innerHTML = 'Reading speed: ' + this.value;
+    document.getElementById('reading-speed-display').innerHTML = this.value;
 }
 
 document.getElementById('start').addEventListener('click', start);
