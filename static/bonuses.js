@@ -53,6 +53,8 @@ updateStatDisplay(); //update stats upon loading site
             paragraph1 = document.createElement('p');
             paragraph1.appendChild(document.createTextNode('[10] ' + questions[currentQuestionNumber]['parts'][currentBonusPart]));
             document.getElementById('question').appendChild(paragraph1);
+        } else {
+            document.getElementById('reveal').disabled = true;
         }
     }
 }
@@ -104,8 +106,8 @@ async function getQuestions(name, number) {
  * Loads and reads the next question.
  */
 async function readQuestion() {
-    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+    document.getElementById('reveal').disabled = false;
+
     do {  // Get the next question
         currentQuestionNumber++;
 
@@ -140,6 +142,9 @@ async function readQuestion() {
 
 
 document.getElementById('start').addEventListener('click', async () => {
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('toggle-options').disabled = false;
+
     packetName = document.getElementById('name-select').value.trim();
     if (packetName.length == 0) {
         window.alert('Enter a packet name.');
@@ -183,8 +188,6 @@ document.addEventListener('keyup', () => {
 
     if (event.which == 32) {  // spacebar
         document.getElementById('reveal').click();
-    } else if (event.which == 27) {  // escape key
-        modal.style.display = "none";
     } else if (event.which == 78) {  // pressing 'N'
         document.getElementById('next').click();
     } else if (event.which == 83) { // pressing 'S'
@@ -226,4 +229,11 @@ document.getElementById('0').addEventListener('click', () => {
     newStats[3]=(parseInt(newStats[3])+1).toString();
     sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
+});
+
+document.getElementById('reveal').addEventListener('click', reveal);
+document.getElementById('next').addEventListener('click', readQuestion);
+document.getElementById('clear-stats').addEventListener('click', clearStats);
+document.getElementById('toggle-options').addEventListener('click', () => {
+    document.getElementById('options').classList.toggle('d-none');
 });

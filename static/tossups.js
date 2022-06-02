@@ -11,54 +11,12 @@ var currentQuestionNumber = 0;
 
 var currentlyBuzzing = false;
 var paused = false;
-
-var inPower = false;
-
-//keep text fields in localStorage
-var packetNameField = document.getElementById('name-select');
-if (localStorage.getItem('packetNameTossupSave'))
-    packetNameField.value = localStorage.getItem('packetNameTossupSave');
-packetNameField.addEventListener('change', function(){
-    localStorage.setItem('packetNameTossupSave', packetNameField.value);
-});
-
-var packetNumberField = document.getElementById('packet-select');
-if (localStorage.getItem('packetNumberTossupSave'))
-    packetNumberField.value = localStorage.getItem('packetNumberTossupSave');
-packetNumberField.addEventListener('change', function(){
-    localStorage.setItem('packetNumberTossupSave', packetNumberField.value);
-});
-
-var questionNumberField = document.getElementById('question-select');
-if (localStorage.getItem('questionNumberTossupSave'))
-    questionNumberField.value = localStorage.getItem('questionNumberTossupSave');
-questionNumberField.addEventListener('change', function(){
-    localStorage.setItem('questionNumberTossupSave', questionNumberField.value);
-});
-
-if (sessionStorage.getItem('powers')===null)
-    sessionStorage.setItem('powers',0);
-if (sessionStorage.getItem('tens')===null)
-    sessionStorage.setItem('tens',0);
-if (sessionStorage.getItem('negs')===null)
-    sessionStorage.setItem('negs',0);
-if (sessionStorage.getItem('dead')===null)
-    sessionStorage.setItem('dead',0);
-if (sessionStorage.getItem('points')===null)
-    sessionStorage.setItem('points',0);
-if (sessionStorage.getItem('totalCelerity')===null)
-    sessionStorage.setItem('totalCelerity',0);
-
-if (localStorage.getItem('speed')===null)
-    localStorage.setItem('speed',50);
-
-document.getElementById('reading-speed-display').innerHTML = 'Reading speed: ' + localStorage.speed;
-document.getElementById('reading-speed').value = localStorage.speed;
-
+/**
+ * Whether or not the user clicked that they got the question wrong.
+ * `true` means the button currently says "I was right".
+ */
 var toggleCorrectClicked = false;
-
-
-updateStatDisplay(); //update stats upon loading site
+var inPower = false;
 
 /**
  * Increases or decreases a session storage item by a certain amount.
@@ -66,7 +24,7 @@ updateStatDisplay(); //update stats upon loading site
  * @param {Number} x - The amount to increase/decrease the sessionStorage item.
  */
 function shift(item, x) {
-    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item))+x);
+    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
 }
 
 /**
@@ -79,27 +37,28 @@ function buzz() {
         // Update scoring:
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) {
-            shift('powers',1);
+            shift('powers', 1);
             if (packetName.includes('pace')) {
-                shift('points',20);
+                shift('points', 20);
             }
             else {
-                shift('points',15);
+                shift('points', 15);
             }
         }
         else {
-            shift('tens',1);
-            shift('points',10);
+            shift('tens', 1);
+            shift('points', 10);
         }
 
         // Update question text and show answer:
         let characterCount = document.getElementById('question').innerHTML.length;
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
-        shift('totalCelerity',1 - characterCount / document.getElementById('question').innerHTML.length);
+        shift('totalCelerity', 1 - characterCount / document.getElementById('question').innerHTML.length);
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
         document.getElementById('buzz').innerHTML = 'Buzz';
 
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
+        document.getElementById('toggle-correct').removeAttribute('disabled');
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
         updateStatDisplay();
     } else {
@@ -111,7 +70,7 @@ function buzz() {
         document.getElementById('question').innerHTML += '(#) ';
 
         document.getElementById('buzz').innerHTML = 'Reveal';
-        document.getElementById('pause').setAttribute('disabled','disabled');
+        document.getElementById('pause').setAttribute('disabled', 'disabled');
     }
 }
 
@@ -126,7 +85,7 @@ function updateStatDisplay() {
     let includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
         = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
-    if (numTossups===0) //disable clear stats button if no stats
+    if (numTossups === 0) //disable clear stats button if no stats
         document.getElementById('clear-stats').setAttribute("disabled", "disabled");
     else
         document.getElementById('clear-stats').removeAttribute("disabled");
@@ -137,12 +96,12 @@ function updateStatDisplay() {
  * Clears user stats.
  */
 function clearStats() {
-    sessionStorage.setItem('powers',0);
-    sessionStorage.setItem('tens',0);
-    sessionStorage.setItem('negs',0);
-    sessionStorage.setItem('dead',0);
-    sessionStorage.setItem('points',0);
-    sessionStorage.setItem('totalCelerity',0);
+    sessionStorage.setItem('powers', 0);
+    sessionStorage.setItem('tens', 0);
+    sessionStorage.setItem('negs', 0);
+    sessionStorage.setItem('dead', 0);
+    sessionStorage.setItem('points', 0);
+    sessionStorage.setItem('totalCelerity', 0);
     updateStatDisplay();
 }
 
@@ -169,8 +128,6 @@ async function getQuestions(name, number) {
  * Loads and reads the next question.
  */
 async function readQuestion() {
-    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     do {  // Get the next question
         currentQuestionNumber++;
 
@@ -194,7 +151,8 @@ async function readQuestion() {
 
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
-    document.getElementById('toggle-correct').innerHTML = '';
+    document.getElementById('toggle-correct').innerHTML = 'I was wrong';
+    document.getElementById('toggle-correct').disabled = true;
     // document.getElementById('div-toggle-correct').style.display = 'none';
 
     // Update the question text:
@@ -220,20 +178,20 @@ async function readQuestion() {
  * Recursively reads the question based on the reading speed.
  */
 function printWord() {
-    if (!currentlyBuzzing && questionTextSplit.length>0) {
+    if (!currentlyBuzzing && questionTextSplit.length > 0) {
         let word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
 
         //calculate time needed before reading next word
-        let time = Math.log(word.length)+1;
-        if ((word.endsWith('.') && word.charCodeAt(word.length-2) > 96 && word.charCodeAt(word.length-2) < 123)
+        let time = Math.log(word.length) + 1;
+        if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123)
             || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
             time += 2;
         else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
             time += 0.75;
         else if (word === "(*)")
             time = 0;
-        
+
         timeoutID = window.setTimeout(() => {
             printWord();
         }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
@@ -253,14 +211,20 @@ function pause() {
         printWord();
     }
     else {
-        document.getElementById('buzz').setAttribute('disabled','disabled');
+        document.getElementById('buzz').setAttribute('disabled', 'disabled');
         document.getElementById('pause').innerHTML = 'Resume';
         clearTimeout(timeoutID);
     }
     paused = !paused;
 }
 
-document.getElementById('start').addEventListener('click', async () => {
+/**
+ * Starts reading questions.
+ */
+async function start() {
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('toggle-options').disabled = false;
+
     packetName = document.getElementById('name-select').value.trim();
     if (packetName.length == 0) {
         window.alert('Enter a packet name.');
@@ -298,57 +262,73 @@ document.getElementById('start').addEventListener('click', async () => {
     questions = await getQuestions(packetName, packetNumber);
     document.getElementById('next').removeAttribute('disabled'); //remove disabled from next button
     readQuestion();
-});
+}
 
-document.getElementById('toggle-correct').addEventListener('click', () => {
+function toggleCorrect() {
     if (toggleCorrectClicked) {
         if (inPower) {
-            shift('powers',1);
+            shift('powers', 1);
             if (packetName.includes('pace')) {
-                shift('points',20);
+                shift('points', 20);
             }
             else {
-                shift('points',15);
+                shift('points', 15);
             }
         }
         else {
-            shift('tens',1);
-            shift('points',10);
+            shift('tens', 1);
+            shift('points', 10);
         }
         if (questionTextSplit.length != 0) { // Check if there is more question to be read 
-            shift('negs',-1);
-            shift('points',5);
+            shift('negs', -1);
+            shift('points', 5);
         }
         else {
-            shift('dead',-1);
+            shift('dead', -1);
         }
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
     }
     else {
         if (inPower) {
-            shift('powers',-1);
+            shift('powers', -1);
             if (packetName.includes('pace')) {
-                shift('points',-20);
+                shift('points', -20);
             }
             else {
-                shift('points',-15);
+                shift('points', -15);
             }
         }
         else {
-            shift('tens',-1);
-            shift('points',-10);
+            shift('tens', -1);
+            shift('points', -10);
         }
         if (questionTextSplit.length != 0) {
-            shift('negs',1);
-            shift('points',-5);
+            shift('negs', 1);
+            shift('points', -5);
         }
         else {
-            shift('dead',1);
+            shift('dead', 1);
         }
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
     updateStatDisplay();
     toggleCorrectClicked = !toggleCorrectClicked;
+}
+
+// Event listeners
+document.getElementById('reading-speed').oninput = () => {
+    localStorage.setItem('speed', this.value);
+    document.getElementById('reading-speed-display').innerHTML = 'Reading speed: ' + this.value;
+}
+
+document.getElementById('start').addEventListener('click', start);
+document.getElementById('buzz').addEventListener('click', buzz);
+document.getElementById('pause').addEventListener('click', pause);
+document.getElementById('next').addEventListener('click', readQuestion);
+document.getElementById('toggle-correct').addEventListener('click', toggleCorrect);
+document.getElementById('clear-stats').addEventListener('click', clearStats);
+document.getElementById('toggle-options').addEventListener('click', () => {
+    document.getElementById('options').classList.toggle('d-none');
 });
 
 document.addEventListener('keyup', () => {
@@ -356,8 +336,6 @@ document.addEventListener('keyup', () => {
 
     if (event.which == 32) {  // spacebar
         document.getElementById('buzz').click();
-    } else if (event.which == 27) {  // escape key
-        modal.style.display = "none";
     } else if (event.which == 78) {  // pressing 'N'
         document.getElementById('next').click();
     } else if (event.which == 80) {  // pressing 'P'
@@ -367,7 +345,50 @@ document.addEventListener('keyup', () => {
     }
 });
 
-document.getElementById('reading-speed').oninput = function () {
-    localStorage.setItem('speed',this.value);
-    document.getElementById('reading-speed-display').innerHTML = 'Reading speed: ' + this.value;
-}
+
+/**
+ * On window load, run these functions.
+ */
+
+// Keep text fields in localStorage
+var packetNameField = document.getElementById('name-select');
+if (localStorage.getItem('packetNameTossupSave'))
+    packetNameField.value = localStorage.getItem('packetNameTossupSave');
+packetNameField.addEventListener('change', function () {
+    localStorage.setItem('packetNameTossupSave', packetNameField.value);
+});
+
+var packetNumberField = document.getElementById('packet-select');
+if (localStorage.getItem('packetNumberTossupSave'))
+    packetNumberField.value = localStorage.getItem('packetNumberTossupSave');
+packetNumberField.addEventListener('change', function () {
+    localStorage.setItem('packetNumberTossupSave', packetNumberField.value);
+});
+
+var questionNumberField = document.getElementById('question-select');
+if (localStorage.getItem('questionNumberTossupSave'))
+    questionNumberField.value = localStorage.getItem('questionNumberTossupSave');
+questionNumberField.addEventListener('change', function () {
+    localStorage.setItem('questionNumberTossupSave', questionNumberField.value);
+});
+
+if (sessionStorage.getItem('powers') === null)
+    sessionStorage.setItem('powers', 0);
+if (sessionStorage.getItem('tens') === null)
+    sessionStorage.setItem('tens', 0);
+if (sessionStorage.getItem('negs') === null)
+    sessionStorage.setItem('negs', 0);
+if (sessionStorage.getItem('dead') === null)
+    sessionStorage.setItem('dead', 0);
+if (sessionStorage.getItem('points') === null)
+    sessionStorage.setItem('points', 0);
+if (sessionStorage.getItem('totalCelerity') === null)
+    sessionStorage.setItem('totalCelerity', 0);
+
+if (localStorage.getItem('speed') === null)
+    localStorage.setItem('speed', 50);
+
+document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
+document.getElementById('reading-speed').value = localStorage.speed;
+
+updateStatDisplay(); //update stats upon loading site
