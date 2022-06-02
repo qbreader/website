@@ -128,7 +128,7 @@
 
     <nav id="navbar" class="navbar navbar-light navbar-expand-lg bg-custom">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">QB Reader</a>
+            <a class="navbar-brand ms-1" href="#">QB Reader</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -146,11 +146,7 @@
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/packet-list.html">Packet List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page"
-                                href="https://github.com/thedoge42/qb-packet-reader">Source Code</a>
+                            <a class="nav-link" href="/about.html">About</a>
                         </li>
                     </ul>
                 </div>
@@ -158,21 +154,7 @@
         </div>
     </nav>
 
-    <div class="container-xxl mt-1 mt-lg-3 mb-4">
-        <div class="d-none d-lg-block">
-            <p class="d-none d-lg-block">[s] = start, [space] = buzz, [p] = pause, [n] = next question</p>
-            <p id="numbering-info" class="my-1">
-                A quizbowl packet reader.
-                <span class="d-none d-lg-inline">
-                    Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered
-                    packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
-                    Any other non-numbered packets are placed after all of those in the order in which they appear on
-                    <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">
-                        quizbowlpackets.com</a>.
-                </span>
-            </p>
-            <hr class="my-2">
-        </div>
+    <div class="container-fluid mt-1 mt-lg-3 px-xxl-5">
         <div class="row" id="info">
             <div class="col-12 col-lg-9 col-xxl-10">
                 <span class="" id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span>
@@ -181,12 +163,21 @@
                 </span>
             </div>
         </div>
-        <div class="row" style="min-height: 16rem">
+        <div class="row" style="min-height: 24rem">
             <div class="col-12 col-lg-9 col-xxl-10 order-5 order-lg-1">
                 <p class="mt-2" id="question"></p>
                 <p class="my-1 my-lg-3" id="answer"></p>
             </div>
-            <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 my-2" id="options">
+            <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 mt-lg-n4" id="options">
+                <div class="d-none d-lg-block">
+                    <p>
+                        <span class="text-nowrap"><kbd>s</kbd> = start,</span>
+                        <span class="text-nowrap"><kbd>space</kbd> = buzz,</span>
+                        <span class="text-nowrap"><kbd>p</kbd> = pause,</span>
+                        <span class="text-nowrap"><kbd>n</kbd> = next question</span>
+                    </p>
+                    <hr class="my-2">
+                </div>
                 <h4 class="text-center">Options:</h4>
                 <input type="text" class="form-control" id="name-select" placeholder="Set name" list="suggestions">
                 <datalist id="suggestions">
@@ -313,12 +304,8 @@
                     <option>2012 Penn Bowl</option>
                     <option>2012 PACE</option>
                 </datalist>
-                <div>
-                    <input type="text" class="form-control my-1" id="packet-select" placeholder="Packet #s (e.g. 1-5)">
-                </div>
-                <div>
-                    <input type="text" class="form-control" id="question-select" placeholder="Starting question #">
-                </div>
+                <input type="text" class="form-control my-1" id="packet-select" placeholder="Packet #s (e.g. 1-5)">
+                <input type="text" class="form-control" id="question-select" placeholder="Starting question #">
                 <div class="my-2"></div>
                 <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
                 <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="1">
@@ -326,7 +313,7 @@
         </div>
     </div>
 
-    <div class="container-xxl position-sticky bg-white" style="z-index: 0; bottom: 0">
+    <div class="container-fluid position-sticky bg-white px-xxl-5" style="z-index: 0; bottom: 0">
         <div class="row">
             <div class="buttons col-12 col-lg-9 col-xxl-10 text-center mt-2" id="buttons">
                 <button type="button" class="mb-2 btn btn-success" id="start">Start</button>
