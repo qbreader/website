@@ -3,104 +3,193 @@
 
 <head>
     <title>QB Reader</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/bootstrap.css">
+    <script src="/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-    <div id="modal" style="display: none">
-        <div id="modal-content">
-            <div id="modal-header">
-                Select Categories/Subcategories:
-                <span class="close" onclick="document.getElementById('modal').style.display = 'none'">&times;</span>
-            </div>
-            <div id="selections">
-                <select multiple name="category-select" id="category-select" size="0" onclick="updateCategories()">
-                    <option value="Literature">Literature</option>
-                    <option value="History">History</option>
-                    <option value="Science">Science</option>
-                    <option value="Fine Arts">Fine Arts</option>
-                    <option value="Religion">Religion</option>
-                    <option value="Mythology">Mythology</option>
-                    <option value="Philosophy">Philosophy</option>
-                    <option value="Social Science">Social Science</option>
-                    <option value="Current Events">Current Events</option>
-                    <option value="Geography">Geography</option>
-                    <option value="Other Academic">Other Academic</option>
-                    <option value="Trash">Trash</option>
-                </select>
+    <div class="modal" id="category-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Categories and Subcategories</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6" id="categories">
+                            <h5 class="text-center">Categories</h5>
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Literature">Literature<br></label>
 
-                <select multiple name="subcategory-select" size="0" id="subcategory-select" onclick="updateSubcategories()">
-                    <option value="American Literature">American Literature</option>
-                    <option value="British Literature">British Literature</option>
-                    <option value="Classical Literature">Classical Literature</option>
-                    <option value="European Literature">European Literature</option>
-                    <option value="World Literature">World Literature</option>
-                    <option value="Other Literature">Other Literature</option>
-                    <option value="American History">American History </option>
-                    <option value="Ancient History">Ancient History</option>
-                    <option value="European History">European History</option>
-                    <option value="World History">World History</option>
-                    <option value="Other History">Other History</option>
-                    <option value="Biology">Biology</option>
-                    <option value="Chemistry">Chemistry</option>
-                    <option value="Physics">Physics</option>
-                    <option value="Math">Math</option>
-                    <option value="Other Science">Other Science</option>
-                    <option value="Visual Fine Arts">Visual Fine Arts</option>
-                    <option value="Auditory Fine Arts">Auditory Fine Arts</option>
-                    <option value="Other Fine Arts">Other Fine Arts</option>
-                    <option value="Religion">Religion</option>
-                    <option value="Mythology">Mythology</option>
-                    <option value="Philosophy">Philosophy</option>
-                    <option value="Social Science">Social Science</option>
-                    <option value="Current Events">Current Events</option>
-                    <option value="Geography">Geography</option>
-                    <option value="Other Academic">Other Academic</option>
-                    <option value="Trash">Trash</option>
-                </select>
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="History">History<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Science"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Science">Science<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Fine Arts"></input>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Fine Arts">Fine Arts<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Religion"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Religion">Religion<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Mythology"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Mythology">Mythology<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Philosophy"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Philosophy">Philosophy<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Social Science"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Social Science">Social Science<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Current Events"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Current Events">Current Events<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Geography"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Geography">Geography<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Other Academic"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Other Academic">Other Academic<br></label>
+
+                            <input type="checkbox" class="btn-check" checked autocomplete="off" id="Trash"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Trash">Trash<br></label>
+                        </div>
+                        <div class="col-6" id="subcategories">
+                            <h5 class="text-center">Subcategories</h5>
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="American Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="American Literature">American Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="British Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="British Literature">British Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Classical Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Classical Literature">Classical Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="European Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="European Literature">European Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="World Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="World Literature">World Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Other Literature">Other Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="American History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="American History">American History <br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Ancient History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Ancient History">Ancient History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="European History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="European History">European History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="World History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="World History">World History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Other History">Other History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Biology"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Biology">Biology<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Chemistry"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Chemistry">Chemistry<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Physics"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Physics">Physics<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Math"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Math">Math<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other Science"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Other Science">Other Science<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Visual Fine Arts"></input>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Visual Fine Arts">Visual Fine Arts<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Auditory Fine Arts"></input>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Auditory Fine Arts">Auditory Fine Arts<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other Fine Arts"></input>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Other Fine Arts">Other Fine Arts<br></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="navbar" id="navbar">
-        <span class="title">QB Packet Reader - Tossups</span>
-        <span class="links">
-            <a href="/bonuses.html">Bonuses</a>&nbsp;
-            <a href="/packet-list.html">Packet List</a>&nbsp;
-            <a href="https://github.com/thedoge42/qb-packet-reader">Source Code</a>
-        </span>
-    </div>
-    <div class="buttons" id="buttons">
-        <button id="start">Start</button>
-        <button id="buzz" onclick="buzz()" disabled>Buzz</button>
-        <button id="pause" onclick="pause()" disabled>Pause</button>
-        <button id="next" onclick="readQuestion()" disabled>Next</button>
-        <button id="clear-stats" onclick="clearStats()">Clear Stats</button>
-        <button id="category-select-button" onclick="document.getElementById('modal').style = ''">Adjust Categories</button>
-    </div>
-    <div class="container">
-        <div class="question-text" id="question-text">
-            <p id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</p>
-            <div id="question-metadata"><span id="question-info"></span><a id="toggle-correct"></a></div>
-            <p id="question"></p>
-            <p id="answer"></p>
+    <nav id="navbar" class="navbar navbar-light navbar-expand-lg bg-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">QB Reader</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Tossups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bonuses.html">Bonuses</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/packet-list.html">Packet List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page"
+                                href="https://github.com/thedoge42/qb-packet-reader">Source Code</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <div class="options" id="options">
-            <p class="small-devices">[s] = start, [space] = buzz, [p] = pause, [n] = next question</p>
-            <p id="numbering-info">
+    <div class="container-xxl mt-1 mt-lg-3 mb-4">
+        <div class="d-none d-lg-block">
+            <p class="d-none d-lg-block">[s] = start, [space] = buzz, [p] = pause, [n] = next question</p>
+            <p id="numbering-info" class="my-1">
                 A quizbowl packet reader.
-                <span class="small-devices">
-                    Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
-                    Any other non-numbered packets are placed after all of those in the order in which they appear on <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">quizbowlpackets.com</a>.
+                <span class="d-none d-lg-inline">
+                    Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: numbered
+                    packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
+                    Any other non-numbered packets are placed after all of those in the order in which they appear on
+                    <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">
+                        quizbowlpackets.com</a>.
                 </span>
             </p>
-
-            <div>
-                <input type="text" id="name-select" placeholder="Set name (e.g. 2021 pace)" list="suggestions">
+            <hr class="my-2">
+        </div>
+        <div class="row" id="info">
+            <div class="col-12">
+                <span class="" id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span>
+                <div class="d-none d-lg-block my-2"></div>
+                <span class="float-end float-lg-none" id="question-metadata">
+                    <b><span id="question-info" class="">&nbsp;</span></b>
+                </span>
+            </div>
+        </div>
+        <div class="row" style="min-height: 16rem">
+            <div class="col-12 col-lg-9 col-xxl-10 order-5 order-lg-1">
+                <p class="mt-2" id="question"></p>
+                <p class="my-1 my-lg-3" id="answer"></p>
+            </div>
+            <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 my-2" id="options">
+                <h4 class="text-center">Options:</h4>
+                <input type="text" class="form-control" id="name-select" placeholder="Set name" list="suggestions">
                 <datalist id="suggestions">
                     <!-- Recently added: -->
                     <option>2022 ACF Nationals</option>
@@ -225,12 +314,31 @@
                     <option>2012 Penn Bowl</option>
                     <option>2012 PACE</option>
                 </datalist>
+                <div>
+                    <input type="text" class="form-control my-1" id="packet-select" placeholder="Packet #s (e.g. 1-5)">
+                </div>
+                <div>
+                    <input type="text" class="form-control" id="question-select" placeholder="Starting question #">
+                </div>
+                <div class="my-2"></div>
+                <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="1">
             </div>
-            <div><input type="text" id="packet-select" placeholder="Packet numbers (e.g. 1-5)"><span class="small-devices"> (Default: all)</span></div>
-            <div><input type="text" id="question-select" placeholder="Starting question number"><span class="small-devices"> (Default: 1)</span></div>
-            <p></p>
-            <label for="reading-speed" id="reading-speed-display">Reading speed: 50</label><br>
-            <input id="reading-speed" type="range" min="0" max="100">
+        </div>
+    </div>
+
+    <div class="container-xxl position-sticky bg-white" style="z-index: 0; bottom: 0">
+        <div class="row">
+            <div class="buttons col-12 col-lg-9 col-xxl-10 text-center mt-2" id="buttons">
+                <button type="button" class="mb-2 btn btn-success" id="start">Start</button>
+                <button type="button" class="mb-2 btn btn-primary" id="buzz" disabled>Buzz</button>
+                <button type="button" class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
+                <button type="button" class="mb-2 btn btn-primary" id="next" disabled>Next</button>
+                <button type="button" class="mb-2 btn btn-primary" id="toggle-correct" disabled>I was wrong</button>
+                <button type="button" class="mb-2 btn btn-warning" id="clear-stats">Clear Stats</button>
+                <button type="button" class="mb-2 btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
+                <button type="button" class="mb-2 btn btn-danger"  id="toggle-options" disabled>Toggle Options</button>
+            </div>
         </div>
     </div>
 
