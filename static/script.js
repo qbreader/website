@@ -22,35 +22,41 @@ const all_subcategories = [
 function updateCategory(cat) {
     let validCategories = JSON.parse(localStorage.getItem('validCategories'));
     let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-    if (validCategories.length === 0) {
-        document.querySelectorAll('#subcategories label').forEach(label => {
-            label.classList.add('d-none');
-        });
-    }
-    if (validCategories.includes(cat)) {
-        // remove cat:
-        validCategories = validCategories.filter(a => a !== cat);
+    if (validCategories.length === 0) { // selecting a category when no categories are currently selected
+        validCategories.push(cat);
+
         let index = all_categories.indexOf(cat);
-        if (index in all_subcategories) {
-            for (let i = 0; i < all_subcategories[index].length; i++) {
-                document.querySelector(`[for="${all_subcategories[index][i]}"]`).classList.add('d-none');
-                validSubcategories = validSubcategories.filter(a => a !== all_subcategories[index][i]);
+        document.querySelectorAll('#subcategories label').forEach(label => {
+            if (!(index in all_subcategories) || !all_subcategories[index].includes(label.getAttribute('for'))) {
+                label.classList.add('d-none');
+                document.getElementById(label.getAttribute('for')).checked = false;
+                validSubcategories = validSubcategories.filter(a => a !== label.getAttribute('for'));
             }
+        });
+    } else if (validCategories.includes(cat)) { // remove category
+        validCategories = validCategories.filter(a => a !== cat);
+
+        let index = all_categories.indexOf(cat);
+        if (index in all_subcategories) { // remove all subcats associated with the category
+            all_subcategories[index].forEach(subcat => {
+                document.querySelector(`[for="${subcat}"]`).classList.add('d-none');
+                document.getElementById(subcat).checked = false;
+                validSubcategories = validSubcategories.filter(a => a !== subcat);
+            });
+        }
+
+        if (validCategories.length === 0) {
+            document.querySelectorAll('#subcategories label').forEach(label => {
+                label.classList.remove('d-none');
+            });
         }
     } else {
         validCategories.push(cat);
+
         let index = all_categories.indexOf(cat);
         if (index in all_subcategories) {
-            for (let i = 0; i < all_subcategories[index].length; i++) {
-                document.querySelector(`[for="${all_subcategories[index][i]}"]`).classList.remove('d-none');
-            }
+            all_subcategories[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.remove('d-none'));
         }
-    }
-
-    if (validCategories.length === 0) {
-        document.querySelectorAll('#subcategories label').forEach(label => {
-            label.classList.remove('d-none');
-        });
     }
 
     localStorage.setItem('validCategories', JSON.stringify(validCategories));
@@ -74,41 +80,35 @@ function loadCategories() {
     let validCategories = JSON.parse(localStorage.getItem('validCategories'));
     let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
 
-    for (let i = 0; i < all_categories.length; i++) {
-        let option = document.getElementById(all_categories[i]);
-        option.checked = validCategories.includes(option.id);
+    if (validCategories.length === 0) {
+        validSubcategories.forEach(subcat => document.querySelector(`[for="${subcat}"]`).checked = true);
+        return;
     }
 
-    if (validCategories.length !== 0) {
-        if (validSubcategories.length !== 0) {
-            document.querySelectorAll('#subcategories label').forEach(label => {
-                label.classList.add('d-none');
-            });
-        }
-
-        for (let i in validCategories) {
-            let cat = validCategories[i];
-            let index = all_categories.indexOf(cat);
+    all_categories.forEach((cat, index) => {
+        if (validCategories.includes(cat)) {
+            document.getElementById(cat).checked = true;
             if (index in all_subcategories) {
                 let total = 0;
-                for (let j = 0; j < all_subcategories[index].length; j++) {
-                    document.querySelector(`[for="${all_subcategories[index][j]}"]`).classList.remove('d-none');
-                    if (validSubcategories && validSubcategories.includes(all_subcategories[index][j])) {
+                all_subcategories[index].forEach(subcat => {
+                    if (validSubcategories && validSubcategories.includes(subcat)) {
                         total++;
-                        document.getElementById(all_subcategories[index][j]).checked = true;
+                        document.querySelector(`[for="${subcat}"]`).checked = true;
                     } else {
-                        // document.querySelector(`[for="${all_subcategories[index][j]}"]`).classList.add('d-none');
+                        document.querySelector(`[for="${subcat}"]`).classList.add('d-none');
                     }
-                }
-
+                });
+    
                 if (total === 0) {
                     for (let j = 0; j < all_subcategories[index].length; j++) {
                         document.querySelector(`[for="${all_subcategories[index][j]}"]`).classList.remove('d-none');
                     }
                 }
             }
+        } else if (index in all_subcategories) {
+            all_subcategories[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.add('d-none'));
         }
-    }
+    });
 }
 
 /**
