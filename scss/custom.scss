@@ -17,6 +17,8 @@ $font-family-sans-serif: Helvetica, sans-serif;
 $link-color: #039;
 $link-decoration: none;
 
+$enable-negative-margins: true;
+
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
