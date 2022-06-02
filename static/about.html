@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/bootstrap.css">
+    <script src="/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <nav id="navbar" class="navbar navbar-light navbar-expand-lg bg-custom position-sticky top-0" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1" href="/">QB Reader</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/tossups.html">Tossups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bonuses.html">Bonuses</a>
+                    </li>
+                    <div></div>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container-xxl mt-1 mt-lg-3 mb-4">
+        <p id="numbering-info" class="lead">
+            A quizbowl packet reader created by <a href="#">Geoffrey Wu</a>.
+        </p>
+        <p>
+            Packet numbers are <i>generally</i> numbered starting from 1 based on the following order: 
+            numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets.
+            Any other non-numbered packets are placed after all of those in the order in which they appear on
+            <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">
+                quizbowlpackets.com</a>.
+        </p>
+        <p>
+            Feel free to check out the <a href="https://github.com/thedoge42/qb-packet-reader">source code</a> and contribute!
+        </p>
+        <h4>Packet List:</h4>
+
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 col-xxl-2">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">2022 ACF Nationals</li>
+                    <li class="list-group-item">2022 ACF Regionals</li>
+                    <li class="list-group-item">2021 ACF Fall</li>
+                    <li class="list-group-item">2021 ACF Nationals Qualifier</li>
+                    <li class="list-group-item">2021 ACF Nationals</li>
+                    <li class="list-group-item">2021 ACF Regionals</li>
+                    <li class="list-group-item">2021 ACF Winter</li>
+                    <li class="list-group-item">2021 Chicago Open</li>
+                    <li class="list-group-item">2021 Dan Coby Tiffany Math Packet</li>
+                    <li class="list-group-item">2021 DART</li>
+                    <li class="list-group-item">2021 Geoffrey Wu's NFL Packet</li>
+                    <li class="list-group-item">2021 GORKY II</li>
+                    <li class="list-group-item">2021 GORKY III</li>
+                    <li class="list-group-item">2021 MSQB Madness</li>
+                    <li class="list-group-item">2021 NASAT</li>
+                    <li class="list-group-item">2021 PACE</li>
+                    <li class="list-group-item">2021 Penn Bowl</li>
+                    <li class="list-group-item">2021 Remember the Women</li>
+                    <div></div>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 col-xxl-2">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">2021 SKUFFED</li>
+                    <li class="list-group-item">2021 Spring Novice</li>
+                    <li class="list-group-item">2021 Tiny Science Tossups</li>
+                    <li class="list-group-item">2021 TWAIT</li>
+                    <li class="list-group-item">2021 WORKSHOP</li>
+                    <li class="list-group-item">2020 ACF Fall</li>
+                    <li class="list-group-item">2020 ACF Regionals</li>
+                    <li class="list-group-item">2020 ACF Winter</li>
+                    <li class="list-group-item">2020 AQBL October</li>
+                    <li class="list-group-item">2020 CALISTO</li>
+                    <li class="list-group-item">2020 ERIS</li>
+                    <li class="list-group-item">2020 FLopen</li>
+                    <li class="list-group-item">2020 FRENCH II</li>
+                    <li class="list-group-item">2020 GORKY</li>
+                    <li class="list-group-item">2020 IKEA</li>
+                    <li class="list-group-item">2020 LIT</li>
+                    <li class="list-group-item">2020 Oxford</li>
+                    <li class="list-group-item">2020 Raft II</li>
+                    <li class="list-group-item">2020 SCALE</li>
+                    <li class="list-group-item">2020 STASH</li>
+                    <div></div>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 col-xxl-2">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">2020 Terrapin</li>
+                    <li class="list-group-item">2020 WORKSHOP</li>
+                    <li class="list-group-item">2019 ACF Fall</li>
+                    <li class="list-group-item">2019 ACF Nationals</li>
+                    <li class="list-group-item">2019 ACF Regionals</li>
+                    <li class="list-group-item">2019 BHSAT</li>
+                    <li class="list-group-item">2019 Chicago Open</li>
+                    <li class="list-group-item">2019 EFT</li>
+                    <li class="list-group-item">2019 Fall Open</li>
+                    <li class="list-group-item">2019 HFT</li>
+                    <li class="list-group-item">2019 ILLIAC</li>
+                    <li class="list-group-item">2019 Lederberg 3</li>
+                    <li class="list-group-item">2019 LOGIC</li>
+                    <li class="list-group-item">2019 NASAT</li>
+                    <li class="list-group-item">2019 PACE</li>
+                    <li class="list-group-item">2019 Penn Bowl</li>
+                    <li class="list-group-item">2019 PIANO</li>
+                    <li class="list-group-item">2019 Prison Bowl</li>
+                    <li class="list-group-item">2019 RMBAT</li>
+                    <li class="list-group-item">2019 Spartan Housewrite</li>
+                    <div></div>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 col-xxl-2">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">2019 Terrapin</li>
+                    <li class="list-group-item">2018 ACF Fall</li>
+                    <li class="list-group-item">2018 ACF Nationals</li>
+                    <li class="list-group-item">2018 ACF Regionals</li>
+                    <li class="list-group-item">2018 BHSAT</li>
+                    <li class="list-group-item">2018 Cambridge Open</li>
+                    <li class="list-group-item">2018 Chicago Open</li>
+                    <li class="list-group-item">2018 CMST</li>
+                    <li class="list-group-item">2018 EFT</li>
+                    <li class="list-group-item">2018 GLRAC</li>
+                    <li class="list-group-item">2018 HFT</li>
+                    <li class="list-group-item">2018 Historature</li>
+                    <li class="list-group-item">2018 Imsanity</li>
+                    <li class="list-group-item">2018 MBAT</li>
+                    <li class="list-group-item">2018 NASAT</li>
+                    <li class="list-group-item">2018 PACE</li>
+                    <li class="list-group-item">2018 Penn Bowl</li>
+                    <li class="list-group-item">2018 Prison Bowl</li>
+                    <li class="list-group-item">2018 RMBAT</li>
+                    <li class="list-group-item">2018 SMT</li>
+                    <li class="list-group-item">2018 Sun God</li>
+                    <div></div>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 col-xxl-2">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">2018 WHAQ</li>
+                    <li class="list-group-item">2017 ACF Fall</li>
+                    <li class="list-group-item">2017 ACF Nationals</li>
+                    <li class="list-group-item">2017 ACF Regionals</li>
+                    <li class="list-group-item">2017 BHSAT</li>
+                    <li class="list-group-item">2017 Chicago Open</li>
+                    <li class="list-group-item">2017 EFT</li>
+                    <li class="list-group-item">2017 EMT</li>
+                    <li class="list-group-item">2017 FRENCH</li>
+                    <li class="list-group-item">2017 GSAC</li>
+                    <li class="list-group-item">2017 HFT</li>
+                    <li class="list-group-item">2017 Jakob</li>
+                    <li class="list-group-item">2017 LIST</li>
+                    <li class="list-group-item">2017 MASSOLIT</li>
+                    <li class="list-group-item">2017 NASAT</li>
+                    <li class="list-group-item">2017 PACE</li>
+                    <li class="list-group-item">2017 Penn Bowl</li>
+                    <li class="list-group-item">2017 Prison Bowl</li>
+                    <li class="list-group-item">2017 RMBCT</li>
+                    <li class="list-group-item">2017 WAO</li>
+                    <div></div>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 col-xxl-2">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">2017 WHAQ</li>
+                    <li class="list-group-item">2016 ACF Fall</li>
+                    <li class="list-group-item">2016 HFT</li>
+                    <li class="list-group-item">2016 NASAT</li>
+                    <li class="list-group-item">2016 PACE</li>
+                    <li class="list-group-item">2016 Penn Bowl</li>
+                    <li class="list-group-item">2016 SCOP</li>
+                    <li class="list-group-item">2015 ACF Fall</li>
+                    <li class="list-group-item">2015 Delta Burke</li>
+                    <li class="list-group-item">2015 HFT</li>
+                    <li class="list-group-item">2015 Maryland Fall</li>
+                    <li class="list-group-item">2015 PACE</li>
+                    <li class="list-group-item">2015 Penn Bowl</li>
+                    <li class="list-group-item">2015 Prison Bowl</li>
+                    <li class="list-group-item">2014 PACE</li>
+                    <li class="list-group-item">2014 Penn Bowl</li>
+                    <li class="list-group-item">2013 PACE</li>
+                    <li class="list-group-item">2013 Penn Bowl</li>
+                    <li class="list-group-item">2012 PACE</li>
+                    <li class="list-group-item">2012 Penn Bowl</li>
+                    <div></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
