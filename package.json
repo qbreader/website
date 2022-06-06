@@ -1,6 +1,11 @@
 {
-  "dependencies": {
-    "bootstrap": "5.1.3",
-    "express": "^4.17.1"
-  }
+    "name": "qbreader",
+    "scripts": {
+        "start": "node server.js",
+        "sass": "sass scss/custom.scss static/bootstrap.css"
+    },
+    "dependencies": {
+        "bootstrap": "5.1.3",
+        "express": "^4.17.1"
+    }
 }
