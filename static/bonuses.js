@@ -141,7 +141,8 @@ async function readQuestion() {
 }
 
 
-document.getElementById('start').addEventListener('click', async () => {
+document.getElementById('start').addEventListener('click', async function () {
+    this.blur();
     document.getElementById('options').classList.add('d-none');
     document.getElementById('toggle-options').disabled = false;
 
@@ -203,37 +204,54 @@ document.addEventListener('keyup', () => {
     }
 });
 
-document.getElementById('30').addEventListener('click', () => {
+document.getElementById('30').addEventListener('click', function () {
+    this.blur();
     let newStats = sessionStorage.stats.split(',');
     newStats[0]=(parseInt(newStats[0])+1).toString();
     sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
 });
 
-document.getElementById('20').addEventListener('click', () => {
+document.getElementById('20').addEventListener('click', function () {
+    this.blur();
     let newStats = sessionStorage.stats.split(',');
     newStats[1]=(parseInt(newStats[1])+1).toString();
     sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
 });
 
-document.getElementById('10').addEventListener('click', () => {
+document.getElementById('10').addEventListener('click', function () {
+    this.blur();
     let newStats = sessionStorage.stats.split(',');
     newStats[2]=(parseInt(newStats[2])+1).toString();
     sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
 });
 
-document.getElementById('0').addEventListener('click', () => {
+document.getElementById('0').addEventListener('click', function () {
+    this.blur();
     let newStats = sessionStorage.stats.split(',');
     newStats[3]=(parseInt(newStats[3])+1).toString();
     sessionStorage.setItem('stats',newStats);
     updateStatDisplay();
 });
 
-document.getElementById('reveal').addEventListener('click', reveal);
-document.getElementById('next').addEventListener('click', readQuestion);
-document.getElementById('clear-stats').addEventListener('click', clearStats);
-document.getElementById('toggle-options').addEventListener('click', () => {
+document.getElementById('reveal').addEventListener('click', function () {
+    this.blur();
+    reveal();
+});
+
+document.getElementById('next').addEventListener('click', function () {
+    this.blur();
+    readQuestion();
+});
+
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    clearStats();
+});
+
+document.getElementById('toggle-options').addEventListener('click', function () {
+    this.blur();
     document.getElementById('options').classList.toggle('d-none');
 });

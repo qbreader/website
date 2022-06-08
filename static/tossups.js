@@ -321,13 +321,38 @@ document.getElementById('reading-speed').oninput = function () {
     document.getElementById('reading-speed-display').innerHTML = this.value;
 }
 
-document.getElementById('start').addEventListener('click', start);
-document.getElementById('buzz').addEventListener('click', buzz);
-document.getElementById('pause').addEventListener('click', pause);
-document.getElementById('next').addEventListener('click', readQuestion);
-document.getElementById('toggle-correct').addEventListener('click', toggleCorrect);
-document.getElementById('clear-stats').addEventListener('click', clearStats);
-document.getElementById('toggle-options').addEventListener('click', () => {
+document.getElementById('start').addEventListener('click', function () {
+    this.blur();
+    start();
+});
+
+document.getElementById('buzz').addEventListener('click', function () {
+    this.blur();
+    buzz();
+});
+
+document.getElementById('pause').addEventListener('click', function () {
+    this.blur();
+    pause();
+});
+
+document.getElementById('next').addEventListener('click', function () {
+    this.blur();
+    readQuestion();
+});
+
+document.getElementById('toggle-correct').addEventListener('click', function () {
+    this.blur();
+    toggleCorrect();
+});
+
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    clearStats();
+});
+
+document.getElementById('toggle-options').addEventListener('click', function () {
+    this.blur();
     document.getElementById('options').classList.toggle('d-none');
 });
 
