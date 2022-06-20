@@ -148,6 +148,13 @@ function isValidCategory(question) {
     return true;
 }
 
+function parseSetName(set_string) {
+    let year = parseInt(set_string.substring(0, 4));
+    let name = set_string.substring(5);
+
+    return [year, name];
+}
+
 function parsePacketNumbers(packetNumberString, maxPacketNumber=max_packet_number) {
     if (packetNumberString.length == 0 || packetNumberString.toLowerCase() == 'all') {
         packetNumberString = `1-${maxPacketNumber}`;
@@ -278,8 +285,7 @@ document.getElementById('toggle-options').addEventListener('click', function () 
 
 const name_select = document.getElementById('name-select');
 name_select.addEventListener('change', async (event) => {
-    let year = name_select.value.split(' ')[0];
-    let name = name_select.value.split(' ')[1];
+    let [year, name] = parseSetName(name_select.value);
     max_packet_number = await getNumPackets(year, name);
     document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
 });

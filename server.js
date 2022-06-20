@@ -25,8 +25,10 @@ app.get('/get-packet', async (req, res) => {
 });
 
 app.get('/get-num-packets', async (req, res) => {
-    req.query.set_name = req.query.set_name.toLowerCase();
-    var directory = './packets/' + req.query.year + '-' + req.query.set_name;
+    req.query.year = decodeURI(req.query.year);
+    req.query.set_name = decodeURI(req.query.set_name.toLowerCase());
+    req.query.set_name = req.query.set_name.replace(/\s/g, '_');
+    var directory = `./packets/${req.query.year}-${req.query.set_name}`;
     var numPackets = 0;
     try {
         fs.readdirSync(directory).forEach(file => {
