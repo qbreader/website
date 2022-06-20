@@ -161,8 +161,7 @@ document.addEventListener('keyup', () => {
 var packetNameField = document.getElementById('name-select');
 if (localStorage.getItem('packetNameBonusSave')) {
     packetNameField.value = localStorage.getItem('packetNameBonusSave');
-    let year = name_select.value.split(' ')[0];
-    let name = name_select.value.split(' ')[1];
+    let [year, name] = parseSetName(name_select.value);
     (async () => {
         max_packet_number = await getNumPackets(year, name);
         document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
