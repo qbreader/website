@@ -7,44 +7,6 @@ var currentQuestionNumber = 0;
 
 var currentBonusPart = -1;
 
-//keep text fields in localStorage
-var packetNameField = document.getElementById('name-select');
-if (localStorage.getItem('packetNameBonusSave')) {
-    packetNameField.value = localStorage.getItem('packetNameBonusSave');
-    let year = name_select.value.split(' ')[0];
-    let name = name_select.value.split(' ')[1];
-    (async () => {
-        max_packet_number = await getNumPackets(year, name);
-        document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
-    })();
-}
-packetNameField.addEventListener('change', function(){
-    localStorage.setItem('packetNameBonusSave', packetNameField.value);
-});
-
-var packetNumberField = document.getElementById('packet-select');
-if (localStorage.getItem('packetNumberBonusSave'))
-    packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
-packetNumberField.addEventListener('change', function(){
-    localStorage.setItem('packetNumberBonusSave', packetNumberField.value);
-});
-
-var questionNumberField = document.getElementById('question-select');
-if (localStorage.getItem('questionNumberBonusSave'))
-    questionNumberField.value = localStorage.getItem('questionNumberBonusSave');
-questionNumberField.addEventListener('change', function(){
-    localStorage.setItem('questionNumberBonusSave', questionNumberField.value);
-});
-
-/**
- * An array that represents
- * [# of 30's, # of 20's, # of 10's, # of 0's].
- */
-if (sessionStorage.getItem('stats')===null)
-    sessionStorage.setItem('stats',[0,0,0,0]);
-
-updateStatDisplay(); //update stats upon loading site
-
 /**
  * Called when the users wants to reveal the next bonus part.
  */
@@ -65,7 +27,6 @@ updateStatDisplay(); //update stats upon loading site
         }
     }
 }
-
 
 /**
  * Calculates that points per bonus and updates the display.
@@ -93,23 +54,6 @@ function clearStats() {
 }
 
 /**
- * 
- * @param {String} name - The name of the set, in the format "[year]-[name]".
- * @param {Number} number - The packet number of the set.
- * 
- * @return {Array<JSON>} An array containing the bonuses.
- */
-async function getQuestions(name, number) {
-    document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
-        .then(response => response.json())
-        .then(data => {
-            return data['bonuses'];
-        });
-}
-
-
-/**
  * Loads and reads the next question.
  */
 async function readQuestion() {
@@ -125,7 +69,7 @@ async function readQuestion() {
                 return;  // alert the user if there are no more packets
             }
             packetNumber = packetNumbers.shift();
-            questions = await getQuestions(packetName, packetNumber);
+            questions = await getQuestions(packetName, packetNumber, mode='bonuses');
             currentQuestionNumber = 0;
         }
 
@@ -147,51 +91,9 @@ async function readQuestion() {
     document.getElementById('question').appendChild(paragraph1);
 }
 
-
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    document.getElementById('options').classList.add('d-none');
-    document.getElementById('toggle-options').disabled = false;
-
-    packetName = document.getElementById('name-select').value.trim();
-    if (packetName.length == 0) {
-        window.alert('Enter a packet name.');
-        return;
-    }
-
-    packetName = packetName.replace(' ', '-');
-    packetName = packetName.replaceAll(' ', '_');
-    packetName = packetName.toLowerCase();
-
-    packetNumbers = parsePacketNumbers(packetNumbers, max_packet_number);
-    packetNumber = packetNumbers.shift();
-
-    currentQuestionNumber = document.getElementById('question-select').value;
-    if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
-    currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
-
-    questions = await getQuestions(packetName, packetNumber);
-    readQuestion();
-});
-
-document.addEventListener('keyup', () => {
-    if (document.activeElement.tagName === 'INPUT') return;
-
-    if (event.which == 32) {  // spacebar
-        document.getElementById('reveal').click();
-    } else if (event.which == 78) {  // pressing 'N'
-        document.getElementById('next').click();
-    } else if (event.which == 83) { // pressing 'S'
-        document.getElementById('start').click();
-    } else if (event.which == 48) { // pressing '0'
-        document.getElementById('0').click();
-    } else if (event.which == 49) { // pressing '1'
-        document.getElementById('10').click();
-    } else if (event.which == 50) { // pressing '2'
-        document.getElementById('20').click();
-    } else if (event.which == 51) { // pressing '3'
-        document.getElementById('30').click();
-    }
+    start(mode='bonuses')
 });
 
 document.getElementById('30').addEventListener('click', function () {
@@ -231,17 +133,64 @@ document.getElementById('reveal').addEventListener('click', function () {
     reveal();
 });
 
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-    readQuestion();
+document.addEventListener('keyup', () => {
+    if (document.activeElement.tagName === 'INPUT') return;
+
+    if (event.which == 32) {  // spacebar
+        document.getElementById('reveal').click();
+    } else if (event.which == 78) {  // pressing 'N'
+        document.getElementById('next').click();
+    } else if (event.which == 83) { // pressing 'S'
+        document.getElementById('start').click();
+    } else if (event.which == 48) { // pressing '0'
+        document.getElementById('0').click();
+    } else if (event.which == 49) { // pressing '1'
+        document.getElementById('10').click();
+    } else if (event.which == 50) { // pressing '2'
+        document.getElementById('20').click();
+    } else if (event.which == 51) { // pressing '3'
+        document.getElementById('30').click();
+    }
 });
 
-document.getElementById('clear-stats').addEventListener('click', function () {
-    this.blur();
-    clearStats();
+/**
+ * On window load, run these functions.
+ */
+
+//keep text fields in localStorage
+var packetNameField = document.getElementById('name-select');
+if (localStorage.getItem('packetNameBonusSave')) {
+    packetNameField.value = localStorage.getItem('packetNameBonusSave');
+    let year = name_select.value.split(' ')[0];
+    let name = name_select.value.split(' ')[1];
+    (async () => {
+        max_packet_number = await getNumPackets(year, name);
+        document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
+    })();
+}
+packetNameField.addEventListener('change', function() {
+    localStorage.setItem('packetNameBonusSave', packetNameField.value);
 });
 
-document.getElementById('toggle-options').addEventListener('click', function () {
-    this.blur();
-    document.getElementById('options').classList.toggle('d-none');
+var packetNumberField = document.getElementById('packet-select');
+if (localStorage.getItem('packetNumberBonusSave'))
+    packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
+packetNumberField.addEventListener('change', function() {
+    localStorage.setItem('packetNumberBonusSave', packetNumberField.value);
 });
+
+var questionNumberField = document.getElementById('question-select');
+if (localStorage.getItem('questionNumberBonusSave'))
+    questionNumberField.value = localStorage.getItem('questionNumberBonusSave');
+questionNumberField.addEventListener('change', function() {
+    localStorage.setItem('questionNumberBonusSave', questionNumberField.value);
+});
+
+/**
+ * An array that represents
+ * [# of 30's, # of 20's, # of 10's, # of 0's].
+ */
+if (sessionStorage.getItem('stats')===null)
+    sessionStorage.setItem('stats',[0,0,0,0]);
+
+updateStatDisplay(); //update stats upon loading site
