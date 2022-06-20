@@ -3,6 +3,8 @@ const app = express();
 const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
 
+const fs = require('fs');
+
 app.use(express.static('static'));
 app.use(express.json());
 
@@ -19,6 +21,22 @@ app.get('/getpacket', async (req, res, next) => {
     } catch (e) {
         console.log('ERROR: Could not find packet located at ' + directory);
         res.send(JSON.stringify({}));
+    }
+});
+
+app.get('/get-num-packets', (req, res) => {
+    req.query.name = req.query.name.toLowerCase();
+    var directory = './packets/' + req.query.year + '-' + req.query.name;
+    var numPackets = 0;
+    try {
+        fs.readdirSync(directory).forEach(file => {
+            if (file.endsWith('.json')) {
+                numPackets++;
+            }
+        });
+        res.send(JSON.stringify({num_packets: numPackets.toString()}));
+    } catch (error) {
+        console.log('ERROR: Could not find directory ' + directory);
     }
 });
 

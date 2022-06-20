@@ -236,23 +236,7 @@ async function start() {
     packetName = packetName.toLowerCase();
 
     packetNumbers = document.getElementById('packet-select').value.trim();
-    if (packetNumbers.length == 0 || packetNumbers.toLowerCase() == 'all') {
-        packetNumbers = '1-24';
-    }
-    packetNumbers = packetNumbers.split(',');
-    for (let i = 0; i < packetNumbers.length; i++) {
-        packetNumbers[i] = packetNumbers[i].trim();
-    }
-    for (let i = 0; i < packetNumbers.length; i++) {
-        if (packetNumbers[i].toString().includes('-')) {
-            let bounds = packetNumbers[i].split('-');
-            for (let j = parseInt(bounds[0]); j <= parseInt(bounds[1]); j++) {
-                packetNumbers.push(j);
-            }
-            packetNumbers.splice(i, 1);
-            i--;
-        }
-    }
+    packetNumbers = parsePacketNumbers(packetNumbers, max_packet_number);
     packetNumber = packetNumbers.shift();
 
     currentQuestionNumber = document.getElementById('question-select').value;
@@ -377,8 +361,15 @@ document.addEventListener('keyup', () => {
 
 // Keep text fields in localStorage
 var packetNameField = document.getElementById('name-select');
-if (localStorage.getItem('packetNameTossupSave'))
+if (localStorage.getItem('packetNameTossupSave')) {
     packetNameField.value = localStorage.getItem('packetNameTossupSave');
+    let year = name_select.value.split(' ')[0];
+    let name = name_select.value.split(' ')[1];
+    (async () => {
+        max_packet_number = await getNumPackets(year, name);
+        document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
+    })();
+}
 packetNameField.addEventListener('change', function () {
     localStorage.setItem('packetNameTossupSave', packetNameField.value);
 });

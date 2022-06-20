@@ -2,6 +2,8 @@
  * Variables and functions common to both tossups and bonuses
  */
 
+var max_packet_number = 24;
+
 /**
  * Array of categories.
  */
@@ -138,6 +140,37 @@ function isValidCategory(question) {
     return true;
 }
 
+function parsePacketNumbers(packetNumberString, maxPacketNumber=max_packet_number) {
+    if (packetNumberString.length == 0 || packetNumberString.toLowerCase() == 'all') {
+        packetNumberString = `1-${maxPacketNumber}`;
+    }
+    var packetNumbers = packetNumberString.split(',');
+    for (let i = 0; i < packetNumbers.length; i++) {
+        packetNumbers[i] = packetNumbers[i].trim();
+    }
+    for (let i = 0; i < packetNumbers.length; i++) {
+        if (packetNumbers[i].toString().includes('-')) {
+            let bounds = packetNumbers[i].split('-');
+            for (let j = parseInt(bounds[0]); j <= parseInt(bounds[1]); j++) {
+                packetNumbers.push(j);
+            }
+            packetNumbers.splice(i, 1);
+            i--;
+        }
+    }
+
+    return packetNumbers;
+}
+
+
+async function getNumPackets(year, name) {
+    return await fetch(`/get-num-packets?year=${encodeURI(year)}&name=${encodeURI(name)}`)
+        .then(response => response.json())
+        .then(data => {
+            return parseInt(data['num_packets']);
+        });
+}
+
 if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com') {
     window.location.href = 'http://www.qbreader.org' + document.URL.substring(30);
 }
@@ -162,4 +195,12 @@ document.querySelectorAll('#subcategories input').forEach(input => {
         this.blur();
         updateSubcategory(input.id);
     });
+});
+
+const name_select = document.getElementById('name-select');
+name_select.addEventListener('change', async (event) => {
+    let year = name_select.value.split(' ')[0];
+    let name = name_select.value.split(' ')[1];
+    max_packet_number = await getNumPackets(year, name);
+    document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
 });
