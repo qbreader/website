@@ -198,17 +198,18 @@ function toggleCorrect() {
             else {
                 shift('points', 15);
             }
-        }
-        else {
+        } else {
             shift('tens', 1);
             shift('points', 10);
         }
-        if (questionTextSplit.length != 0) { // Check if there is more question to be read 
+        // Check if there is more question to be read 
+        if (questionTextSplit.length = 0) {
+            shift('dead', -1);
+        } else if (packetName.includes('pace')) {
+            shift('negs', -1);
+        } else {
             shift('negs', -1);
             shift('points', 5);
-        }
-        else {
-            shift('dead', -1);
         }
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
     }
@@ -226,12 +227,14 @@ function toggleCorrect() {
             shift('tens', -1);
             shift('points', -10);
         }
-        if (questionTextSplit.length != 0) {
+
+        if (questionTextSplit.length = 0) {
+            shift('dead', 1);
+        } else if (packetName.includes('pace')) {
+            shift('negs', 1);
+        } else {
             shift('negs', 1);
             shift('points', -5);
-        }
-        else {
-            shift('dead', 1);
         }
         document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
