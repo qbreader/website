@@ -21,6 +21,15 @@ const all_subcategories = [
     ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"]
 ]
 
+/**
+ * Increases or decreases a session storage item by a certain amount.
+ * @param {String} item - The name of the sessionStorage item.
+ * @param {Number} x - The amount to increase/decrease the sessionStorage item.
+ */
+function shift(item, x) {
+    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
+}
+
 function updateCategory(cat) {
     let validCategories = JSON.parse(localStorage.getItem('validCategories'));
     let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
@@ -64,7 +73,6 @@ function updateCategory(cat) {
     localStorage.setItem('validCategories', JSON.stringify(validCategories));
     localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
 }
-
 
 function updateSubcategory(subcat) {
     let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
@@ -162,14 +170,70 @@ function parsePacketNumbers(packetNumberString, maxPacketNumber=max_packet_numbe
     return packetNumbers;
 }
 
-
-async function getNumPackets(year, name) {
-    return await fetch(`/get-num-packets?year=${encodeURI(year)}&name=${encodeURI(name)}`)
+async function getNumPackets(year, set_name) {
+    return await fetch(`/get-num-packets?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}`)
         .then(response => response.json())
         .then(data => {
             return parseInt(data['num_packets']);
         });
 }
+
+/**
+ * 
+ * @param {String} name - The name of the set, in the format "[year]-[name]".
+ * @param {Number} number - The packet number of the set.
+ * 
+ * @return {Array<JSON>} An array containing the tossups.
+ */
+async function getQuestions(packetName, packet_number, mode='all') {
+    let year = packetName.split('-')[0];
+    let set_name = packetName.split('-')[1];
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    return await fetch(`/get-packet?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}&packet_number=${encodeURI(packet_number)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (mode === 'all') {
+                return data;
+            } else if (mode === 'tossups') {
+                return data['tossups'];
+            } else if (mode === 'bonuses') {
+                return data['bonuses'];
+            }
+        });
+}
+
+/**
+ * Starts reading questions.
+ */
+async function start(mode) {
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('toggle-options').disabled = false;
+
+    packetName = document.getElementById('name-select').value.trim();
+    if (packetName.length == 0) {
+        window.alert('Enter a packet name.');
+        return;
+    }
+
+    packetName = packetName.replace(' ', '-');
+    packetName = packetName.replaceAll(' ', '_');
+    packetName = packetName.toLowerCase();
+
+    packetNumbers = document.getElementById('packet-select').value.trim();
+    packetNumbers = parsePacketNumbers(packetNumbers, max_packet_number);
+    packetNumber = packetNumbers.shift();
+
+    currentQuestionNumber = document.getElementById('question-select').value;
+    if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
+    currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
+
+    questions = await getQuestions(packetName, packetNumber, mode=mode);
+    if (mode === 'tossups') {
+        document.getElementById('next').removeAttribute('disabled');
+    }
+    readQuestion();
+}
+
 
 if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com') {
     window.location.href = 'http://www.qbreader.org' + document.URL.substring(30);
@@ -195,6 +259,21 @@ document.querySelectorAll('#subcategories input').forEach(input => {
         this.blur();
         updateSubcategory(input.id);
     });
+});
+
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    clearStats();
+});
+
+document.getElementById('next').addEventListener('click', function () {
+    this.blur();
+    readQuestion();
+});
+
+document.getElementById('toggle-options').addEventListener('click', function () {
+    this.blur();
+    document.getElementById('options').classList.toggle('d-none');
 });
 
 const name_select = document.getElementById('name-select');
