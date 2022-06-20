@@ -151,13 +151,15 @@ if (localStorage.getItem('validCategories') === null)
 loadCategories();
 
 document.querySelectorAll('#categories input').forEach(input => {
-    input.addEventListener('click', event => {
+    input.addEventListener('click', function (event) {
+        this.blur();
         updateCategory(input.id);
     });
 });
 
 document.querySelectorAll('#subcategories input').forEach(input => {
-    input.addEventListener('click', event => {
+    input.addEventListener('click', function (event) {
+        this.blur();
         updateSubcategory(input.id);
     });
 });
