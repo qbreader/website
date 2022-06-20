@@ -19,15 +19,6 @@ var toggleCorrectClicked = false;
 var inPower = false;
 
 /**
- * Increases or decreases a session storage item by a certain amount.
- * @param {String} item - The name of the sessionStorage item.
- * @param {Number} x - The amount to increase/decrease the sessionStorage item.
- */
-function shift(item, x) {
-    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
-}
-
-/**
  * Called when the users buzzes.
  * The first "buzz" pauses the question, and the second "buzz" reveals the rest of the question
  * and updates the score.
@@ -74,7 +65,6 @@ function buzz() {
     }
 }
 
-
 /**
  * Updates the displayed stat line.
  */
@@ -91,7 +81,6 @@ function updateStatDisplay() {
         document.getElementById('clear-stats').removeAttribute("disabled");
 }
 
-
 /**
  * Clears user stats.
  */
@@ -104,25 +93,6 @@ function clearStats() {
     sessionStorage.setItem('totalCelerity', 0);
     updateStatDisplay();
 }
-
-
-/**
- * 
- * @param {String} name - The name of the set, in the format "[year]-[name]".
- * @param {Number} number - The packet number of the set.
- * 
- * @return {Array<JSON>} An array containing the tossups.
- */
-async function getQuestions(name, number) {
-    clearTimeout(timeoutID);
-    document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/getpacket?directory=${encodeURI(name)}&packetNumber=${encodeURI(number)}`)
-        .then(response => response.json())
-        .then(data => {
-            return data['tossups'];
-        });
-}
-
 
 /**
  * Loads and reads the next question.
@@ -138,7 +108,8 @@ async function readQuestion() {
                 return;  // alert the user if there are no more packets
             }
             packetNumber = packetNumbers.shift();
-            questions = await getQuestions(packetName, packetNumber);
+            clearTimeout(timeoutID); // stop reading the current question 
+            questions = await getQuestions(packetName, packetNumber, mode='tossups');
             currentQuestionNumber = 0;
         }
 
@@ -172,7 +143,6 @@ async function readQuestion() {
     // Read the question:
     printWord();
 }
-
 
 /**
  * Recursively reads the question based on the reading speed.
@@ -216,36 +186,6 @@ function pause() {
         clearTimeout(timeoutID);
     }
     paused = !paused;
-}
-
-/**
- * Starts reading questions.
- */
-async function start() {
-    document.getElementById('options').classList.add('d-none');
-    document.getElementById('toggle-options').disabled = false;
-
-    packetName = document.getElementById('name-select').value.trim();
-    if (packetName.length == 0) {
-        window.alert('Enter a packet name.');
-        return;
-    }
-
-    packetName = packetName.replace(' ', '-');
-    packetName = packetName.replaceAll(' ', '_');
-    packetName = packetName.toLowerCase();
-
-    packetNumbers = document.getElementById('packet-select').value.trim();
-    packetNumbers = parsePacketNumbers(packetNumbers, max_packet_number);
-    packetNumber = packetNumbers.shift();
-
-    currentQuestionNumber = document.getElementById('question-select').value;
-    if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
-    currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
-
-    questions = await getQuestions(packetName, packetNumber);
-    document.getElementById('next').removeAttribute('disabled'); //remove disabled from next button
-    readQuestion();
 }
 
 function toggleCorrect() {
@@ -307,7 +247,7 @@ document.getElementById('reading-speed').oninput = function () {
 
 document.getElementById('start').addEventListener('click', function () {
     this.blur();
-    start();
+    start(mode='tossups');
 });
 
 document.getElementById('buzz').addEventListener('click', function () {
@@ -320,24 +260,9 @@ document.getElementById('pause').addEventListener('click', function () {
     pause();
 });
 
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-    readQuestion();
-});
-
 document.getElementById('toggle-correct').addEventListener('click', function () {
     this.blur();
     toggleCorrect();
-});
-
-document.getElementById('clear-stats').addEventListener('click', function () {
-    this.blur();
-    clearStats();
-});
-
-document.getElementById('toggle-options').addEventListener('click', function () {
-    this.blur();
-    document.getElementById('options').classList.toggle('d-none');
 });
 
 document.addEventListener('keyup', () => {
@@ -364,7 +289,7 @@ var packetNameField = document.getElementById('name-select');
 if (localStorage.getItem('packetNameTossupSave')) {
     packetNameField.value = localStorage.getItem('packetNameTossupSave');
     let year = name_select.value.split(' ')[0];
-    let name = name_select.value.split(' ')[1];
+    let name = name_select.value.split(' ')[1]; 
     (async () => {
         max_packet_number = await getNumPackets(year, name);
         document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;

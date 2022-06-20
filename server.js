@@ -12,21 +12,21 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/tossups.html');
 });
 
-app.get('/getpacket', async (req, res, next) => {
-    var directory = './packets/' + req.query.directory + '/' + req.query.packetNumber + '.json';
+app.get('/get-packet', async (req, res) => {
+    var directory = './packets/' + req.query.year + '-' + req.query.set_name + '/' + req.query.packet_number + '.json';
     var jsonfile;
     try {
         jsonfile = require(directory);
         res.send(JSON.stringify(jsonfile));
-    } catch (e) {
+    } catch (error) {
         console.log('ERROR: Could not find packet located at ' + directory);
         res.send(JSON.stringify({}));
     }
 });
 
-app.get('/get-num-packets', (req, res) => {
-    req.query.name = req.query.name.toLowerCase();
-    var directory = './packets/' + req.query.year + '-' + req.query.name;
+app.get('/get-num-packets', async (req, res) => {
+    req.query.set_name = req.query.set_name.toLowerCase();
+    var directory = './packets/' + req.query.year + '-' + req.query.set_name;
     var numPackets = 0;
     try {
         fs.readdirSync(directory).forEach(file => {
