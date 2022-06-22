@@ -10,7 +10,7 @@ var currentBonusPart = -1;
 /**
  * Called when the users wants to reveal the next bonus part.
  */
- function reveal() {
+function reveal() {
     if (currentBonusPart > 2) {
         return;
     } else {
@@ -71,7 +71,7 @@ async function readQuestion() {
                 return;  // alert the user if there are no more packets
             }
             packetNumber = packetNumbers.shift();
-            questions = await getQuestions(packetName, packetNumber, mode='bonuses');
+            questions = await getQuestions(packetName, packetNumber, mode = 'bonuses');
             currentQuestionNumber = 0;
         }
 
@@ -95,38 +95,38 @@ async function readQuestion() {
 
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    start(mode='bonuses')
+    start(mode = 'bonuses')
 });
 
 document.getElementById('30').addEventListener('click', function () {
     this.blur();
     let newStats = sessionStorage.stats.split(',');
-    newStats[0]=(parseInt(newStats[0])+1).toString();
-    sessionStorage.setItem('stats',newStats);
+    newStats[0] = (parseInt(newStats[0]) + 1).toString();
+    sessionStorage.setItem('stats', newStats);
     updateStatDisplay();
 });
 
 document.getElementById('20').addEventListener('click', function () {
     this.blur();
     let newStats = sessionStorage.stats.split(',');
-    newStats[1]=(parseInt(newStats[1])+1).toString();
-    sessionStorage.setItem('stats',newStats);
+    newStats[1] = (parseInt(newStats[1]) + 1).toString();
+    sessionStorage.setItem('stats', newStats);
     updateStatDisplay();
 });
 
 document.getElementById('10').addEventListener('click', function () {
     this.blur();
     let newStats = sessionStorage.stats.split(',');
-    newStats[2]=(parseInt(newStats[2])+1).toString();
-    sessionStorage.setItem('stats',newStats);
+    newStats[2] = (parseInt(newStats[2]) + 1).toString();
+    sessionStorage.setItem('stats', newStats);
     updateStatDisplay();
 });
 
 document.getElementById('0').addEventListener('click', function () {
     this.blur();
     let newStats = sessionStorage.stats.split(',');
-    newStats[3]=(parseInt(newStats[3])+1).toString();
-    sessionStorage.setItem('stats',newStats);
+    newStats[3] = (parseInt(newStats[3]) + 1).toString();
+    sessionStorage.setItem('stats', newStats);
     updateStatDisplay();
 });
 
@@ -169,21 +169,21 @@ if (localStorage.getItem('packetNameBonusSave')) {
         document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
     })();
 }
-packetNameField.addEventListener('change', function() {
+packetNameField.addEventListener('change', function () {
     localStorage.setItem('packetNameBonusSave', packetNameField.value);
 });
 
 var packetNumberField = document.getElementById('packet-select');
 if (localStorage.getItem('packetNumberBonusSave'))
     packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
-packetNumberField.addEventListener('change', function() {
+packetNumberField.addEventListener('change', function () {
     localStorage.setItem('packetNumberBonusSave', packetNumberField.value);
 });
 
 var questionNumberField = document.getElementById('question-select');
 if (localStorage.getItem('questionNumberBonusSave'))
     questionNumberField.value = localStorage.getItem('questionNumberBonusSave');
-questionNumberField.addEventListener('change', function() {
+questionNumberField.addEventListener('change', function () {
     localStorage.setItem('questionNumberBonusSave', questionNumberField.value);
 });
 
@@ -191,7 +191,7 @@ questionNumberField.addEventListener('change', function() {
  * An array that represents
  * [# of 30's, # of 20's, # of 10's, # of 0's].
  */
-if (sessionStorage.getItem('stats')===null)
-    sessionStorage.setItem('stats',[0,0,0,0]);
+if (sessionStorage.getItem('stats') === null)
+    sessionStorage.setItem('stats', [0, 0, 0, 0]);
 
 updateStatDisplay(); //update stats upon loading site

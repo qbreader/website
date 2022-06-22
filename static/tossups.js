@@ -111,7 +111,7 @@ async function readQuestion() {
             }
             packetNumber = packetNumbers.shift();
             clearTimeout(timeoutID); // stop reading the current question 
-            questions = await getQuestions(packetName, packetNumber, mode='tossups');
+            questions = await getQuestions(packetName, packetNumber, mode = 'tossups');
             currentQuestionNumber = 0;
         }
 
@@ -252,7 +252,7 @@ document.getElementById('reading-speed').oninput = function () {
 
 document.getElementById('start').addEventListener('click', function () {
     this.blur();
-    start(mode='tossups');
+    start(mode = 'tossups');
 });
 
 document.getElementById('buzz').addEventListener('click', function () {
