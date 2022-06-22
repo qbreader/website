@@ -193,8 +193,7 @@ async function getNumPackets(year, set_name) {
  * @return {Array<JSON>} An array containing the tossups.
  */
 async function getQuestions(packetName, packet_number, mode='all') {
-    let year = packetName.split('-')[0];
-    let set_name = packetName.split('-')[1];
+    let [year, set_name] = parseSetName(packetName);
     document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/get-packet?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}&packet_number=${encodeURI(packet_number)}`)
         .then(response => response.json())
@@ -221,10 +220,6 @@ async function start(mode) {
         window.alert('Enter a packet name.');
         return;
     }
-
-    packetName = packetName.replace(' ', '-');
-    packetName = packetName.replaceAll(' ', '_');
-    packetName = packetName.toLowerCase();
 
     packetNumbers = document.getElementById('packet-select').value.trim();
     packetNumbers = parsePacketNumbers(packetNumbers, max_packet_number);

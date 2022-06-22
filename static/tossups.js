@@ -29,7 +29,7 @@ function buzz() {
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) {
             shift('powers', 1);
-            if (packetName.includes('pace')) {
+            if (packetName.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -194,7 +194,7 @@ function toggleCorrect() {
     if (toggleCorrectClicked) {
         if (inPower) {
             shift('powers', 1);
-            if (packetName.includes('pace')) {
+            if (packetName.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -207,7 +207,7 @@ function toggleCorrect() {
         // Check if there is more question to be read 
         if (questionTextSplit.length = 0) {
             shift('dead', -1);
-        } else if (packetName.includes('pace')) {
+        } else if (packetName.toLowerCase().includes('pace')) {
             shift('negs', -1);
         } else {
             shift('negs', -1);
@@ -218,7 +218,7 @@ function toggleCorrect() {
     else {
         if (inPower) {
             shift('powers', -1);
-            if (packetName.includes('pace')) {
+            if (packetName.toLowerCase().includes('pace')) {
                 shift('points', -20);
             }
             else {
@@ -232,7 +232,7 @@ function toggleCorrect() {
 
         if (questionTextSplit.length = 0) {
             shift('dead', 1);
-        } else if (packetName.includes('pace')) {
+        } else if (packetName.toLowerCase().includes('pace')) {
             shift('negs', 1);
         } else {
             shift('negs', 1);
