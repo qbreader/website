@@ -24,6 +24,7 @@ var currentBonusPart = -1;
             document.getElementById('question').appendChild(paragraph1);
         } else {
             document.getElementById('reveal').disabled = true;
+            document.getElementById('next').innerHTML = 'Next';
         }
     }
 }
@@ -58,6 +59,7 @@ function clearStats() {
  */
 async function readQuestion() {
     document.getElementById('reveal').disabled = false;
+    document.getElementById('next').innerHTML = 'Skip';
 
     do {  // Get the next question
         currentQuestionNumber++;

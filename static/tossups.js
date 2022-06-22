@@ -47,6 +47,7 @@ function buzz() {
         shift('totalCelerity', 1 - characterCount / document.getElementById('question').innerHTML.length);
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
         document.getElementById('buzz').innerHTML = 'Buzz';
+        document.getElementById('next').innerHTML = 'Next';
 
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
         document.getElementById('toggle-correct').removeAttribute('disabled');
@@ -98,6 +99,7 @@ function clearStats() {
  * Loads and reads the next question.
  */
 async function readQuestion() {
+    document.getElementById('next').innerHTML = 'Skip';
     do {  // Get the next question
         currentQuestionNumber++;
 
