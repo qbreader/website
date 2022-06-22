@@ -235,8 +235,14 @@ async function start(mode) {
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
     questions = await getQuestions(packetName, packetNumber, mode=mode);
-    if (mode === 'tossups') {
-        document.getElementById('next').removeAttribute('disabled');
+    document.getElementById('next').removeAttribute('disabled');
+    document.getElementById('next').innerHTML = 'Skip';
+
+    if (mode === 'bonuses') {
+        document.getElementById('30').removeAttribute('disabled');
+        document.getElementById('20').removeAttribute('disabled');
+        document.getElementById('10').removeAttribute('disabled');
+        document.getElementById('0').removeAttribute('disabled');
     }
     readQuestion();
 }
