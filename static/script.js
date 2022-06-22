@@ -108,7 +108,7 @@ function loadCategories() {
                         document.querySelector(`[for="${subcat}"]`).classList.add('d-none');
                     }
                 });
-    
+
                 if (total === 0) {
                     for (let j = 0; j < all_subcategories[index].length; j++) {
                         document.querySelector(`[for="${all_subcategories[index][j]}"]`).classList.remove('d-none');
@@ -155,7 +155,7 @@ function parseSetName(set_string) {
     return [year, name];
 }
 
-function parsePacketNumbers(packetNumberString, maxPacketNumber=max_packet_number) {
+function parsePacketNumbers(packetNumberString, maxPacketNumber = max_packet_number) {
     if (packetNumberString.length == 0 || packetNumberString.toLowerCase() == 'all') {
         packetNumberString = `1-${maxPacketNumber}`;
     }
@@ -192,7 +192,7 @@ async function getNumPackets(year, set_name) {
  * 
  * @return {Array<JSON>} An array containing the tossups.
  */
-async function getQuestions(packetName, packet_number, mode='all') {
+async function getQuestions(packetName, packet_number, mode = 'all') {
     let [year, set_name] = parseSetName(packetName);
     document.getElementById('question').innerHTML = 'Fetching questions...';
     return await fetch(`/get-packet?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}&packet_number=${encodeURI(packet_number)}`)
@@ -229,7 +229,7 @@ async function start(mode) {
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
-    questions = await getQuestions(packetName, packetNumber, mode=mode);
+    questions = await getQuestions(packetName, packetNumber, mode = mode);
     document.getElementById('next').removeAttribute('disabled');
     document.getElementById('next').innerHTML = 'Skip';
 
