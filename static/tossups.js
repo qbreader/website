@@ -205,7 +205,7 @@ function toggleCorrect() {
             shift('points', 10);
         }
         // Check if there is more question to be read 
-        if (questionTextSplit.length = 0) {
+        if (questionTextSplit.length == 0) {
             shift('dead', -1);
         } else if (packetName.toLowerCase().includes('pace')) {
             shift('negs', -1);
@@ -230,7 +230,7 @@ function toggleCorrect() {
             shift('points', -10);
         }
 
-        if (questionTextSplit.length = 0) {
+        if (questionTextSplit.length == 0) {
             shift('dead', 1);
         } else if (packetName.toLowerCase().includes('pace')) {
             shift('negs', 1);
