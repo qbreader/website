@@ -2,7 +2,7 @@
 - a [quizbug](https://quizbug2.karangurazada.com/)/[protobowl](https://protobowl.com/)/tkbot where you pick a packet and it reads tossups or bonuses to you
 - check out the website at http://www.qbreader.org
 - regex-based packet parser in python I wrote & used: https://github.com/thedoge42/qb-packet-parser
-- credit goes to https://github.com/kgurazad/quizbug2 as i probably could not have done this without consulting this
+- credit to https://github.com/kgurazad/quizbug2 for inspiration for this project
 - pull requests are welcome
 
 ## Technologies
