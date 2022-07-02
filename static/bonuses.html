@@ -165,7 +165,7 @@
         </div>
         <div class="row" style="min-height: 24rem">
             <div class="col-12 col-lg-9 col-xxl-10 order-5 order-lg-1">
-                <p class="mt-2" id="question"></p>
+                <div class="mt-2" id="question"></div>
                 <p class="my-1 my-lg-3" id="answer"></p>
             </div>
             <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 mt-lg-n4" id="options">
@@ -174,10 +174,10 @@
                         <span><kbd>s</kbd> = start,</span>
                         <span class="text-nowrap"><kbd>space</kbd> = buzz,</span>
                         <span class="text-nowrap"><kbd>n</kbd> = next / skip question,</span><br>
-                        <span class="text-nowrap"><kbd>0</kbd> = 0 on bonus,</span><br>
-                        <span class="text-nowrap"><kbd>1</kbd> = 10 on bonus,</span><br>
-                        <span class="text-nowrap"><kbd>2</kbd> = 20 on bonus,</span><br>
-                        <span class="text-nowrap"><kbd>3</kbd> = 30 on bonus</span>
+                        <span class="text-nowrap"><kbd>k</kbd> = toggle last bonus part,</span><br>
+                        <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part,</span><br>
+                        <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part,</span><br>
+                        <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
                     </p>
                     <hr class="my-2">
                 </div>
@@ -331,10 +331,6 @@
                 <button type="button" class="mb-2 btn btn-success" id="start">Start</button>
                 <button type="button" class="mb-2 btn btn-primary" id="reveal" disabled>Reveal</button>
                 <button type="button" class="mb-2 btn btn-primary" id="next" disabled>Next</button>
-                <button type="button" class="mb-2 btn btn-primary" id="0"  disabled> 0</button>
-                <button type="button" class="mb-2 btn btn-primary" id="10" disabled>10</button>
-                <button type="button" class="mb-2 btn btn-primary" id="20" disabled>20</button>
-                <button type="button" class="mb-2 btn btn-primary" id="30" disabled>30</button>
                 <button type="button" class="mb-2 btn btn-warning" id="clear-stats">Clear Stats</button>
                 <button type="button" class="mb-2 btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                 <button type="button" class="mb-2 btn btn-danger"  id="toggle-options" disabled>Toggle Options</button>

@@ -299,6 +299,12 @@ if (localStorage.getItem('packetNameTossupSave')) {
         document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
     })();
 }
+
+document.getElementById('next').addEventListener('click', function () {
+    this.blur();
+    readQuestion();
+});
+
 packetNameField.addEventListener('change', function () {
     localStorage.setItem('packetNameTossupSave', packetNameField.value);
 });
