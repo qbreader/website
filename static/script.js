@@ -277,5 +277,7 @@ const name_select = document.getElementById('name-select');
 name_select.addEventListener('change', async (event) => {
     let [year, name] = parseSetName(name_select.value);
     max_packet_number = await getNumPackets(year, name);
-    document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
+    if (max_packet_number > 0) {
+        document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
+    }
 });

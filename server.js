@@ -38,9 +38,10 @@ app.get('/get-num-packets', async (req, res) => {
                 numPackets++;
             }
         });
-        res.send(JSON.stringify({num_packets: numPackets.toString()}));
+        res.send(JSON.stringify({ num_packets: numPackets.toString() }));
     } catch (error) {
         console.log('ERROR: Could not find directory ' + directory);
+        res.send(JSON.stringify({ num_packets: 0 }));
     }
 });
 
