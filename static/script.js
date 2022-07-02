@@ -233,12 +233,6 @@ async function start(mode) {
     document.getElementById('next').removeAttribute('disabled');
     document.getElementById('next').innerHTML = 'Skip';
 
-    if (mode === 'bonuses') {
-        document.getElementById('30').removeAttribute('disabled');
-        document.getElementById('20').removeAttribute('disabled');
-        document.getElementById('10').removeAttribute('disabled');
-        document.getElementById('0').removeAttribute('disabled');
-    }
     readQuestion();
 }
 
@@ -272,11 +266,6 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
     clearStats();
-});
-
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-    readQuestion();
 });
 
 document.getElementById('toggle-options').addEventListener('click', function () {
