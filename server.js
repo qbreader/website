@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
 
-const rooms = require('./rooms').default;
+const rooms = require('./rooms');
 
 const apiRouter = require('./routes/api');
 const tossupsRouter = require('./routes/tossups');
