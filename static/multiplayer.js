@@ -11,3 +11,8 @@ fetch(`/api/get-room-list`)
         document.getElementById('room-list').appendChild(li);
     }
 });
+
+document.getElementById('form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    window.location.href = '/multiplayer/' + document.getElementById('new-room-name').value;
+});
