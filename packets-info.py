@@ -52,6 +52,12 @@ SUBCATEGORIES = {
     'World Literature'
 }
 
+
+num_sets = 0
+num_packets = 0
+num_tossups = 0
+num_bonuses = 0
+
 def format_spacing(string, width):
     string = str(string)
     string = string.strip()
@@ -60,12 +66,14 @@ def format_spacing(string, width):
 for dirpath in sorted(os.listdir(DIRECTORY)):
     if dirpath == '.DS_Store': continue
     print(dirpath + ":")
+    num_sets += 1
 
     for filename in sorted(os.listdir(DIRECTORY + dirpath), key=lambda x: int(x[:-5])):
         if filename == '.DS_Store': continue
 
         f = open(DIRECTORY + dirpath + '/' + filename)
         data = json.load(f)
+        num_packets += 1
 
         num_questions = {'tossups': 0, 'bonuses': 0}
         category_counter = {'tossups': 0, 'bonuses': 0}
@@ -78,6 +86,9 @@ for dirpath in sorted(os.listdir(DIRECTORY)):
                 continue
 
             num_questions[mode] = len(data[mode])
+            if mode == 'tossups': num_tossups += len(data[mode])
+            if mode == 'bonuses': num_bonuses += len(data[mode])
+
             for question in data[mode]:
                 if 'category' in question:
                     category_counter[mode] += 1
@@ -105,3 +116,8 @@ for dirpath in sorted(os.listdir(DIRECTORY)):
 
             # print(f'missing categories: {missing_cats},', end=' ')
             # print(f'missing subcategories: {missing_subcats}')
+
+print('Number of sets:', num_sets)
+print('Number of packets:', num_packets)
+print('Number of tossups:', num_tossups)
+print('Number of bonuses:', num_bonuses)
