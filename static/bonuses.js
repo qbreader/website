@@ -1,4 +1,4 @@
-var packetName = '';
+var setName = '';
 var packetNumbers = [];
 var packetNumber = -1;
 
@@ -113,18 +113,18 @@ async function readQuestion() {
                 return;  // alert the user if there are no more packets
             }
             packetNumber = packetNumbers.shift();
-            questions = await getQuestions(packetName, packetNumber, mode = 'bonuses');
+            questions = await getQuestions(setName, packetNumber, mode = 'bonuses');
             currentQuestionNumber = 0;
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber]));
+    } while (!isValidCategory(questions[currentQuestionNumber], JSON.parse(localStorage.getItem('validCategories')), JSON.parse(localStorage.getItem('validSubcategories'))));
 
     currentBonusPart = 0;
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
-    document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
+    document.getElementById('question-info').innerHTML = `${setName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     let paragraph = document.createElement('p');
     paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
@@ -136,7 +136,7 @@ async function readQuestion() {
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     onQuestion = true;
-    start(mode = 'bonuses')
+    start('bonuses')
 });
 
 document.getElementById('next').addEventListener('click', function () {
@@ -181,20 +181,20 @@ document.addEventListener('keyup', (event) => {
  */
 
 //keep text fields in localStorage
-var packetNameField = document.getElementById('name-select');
+var packetNameField = document.getElementById('set-name');
 if (localStorage.getItem('packetNameBonusSave')) {
     packetNameField.value = localStorage.getItem('packetNameBonusSave');
     let [year, name] = parseSetName(name_select.value);
     (async () => {
-        max_packet_number = await getNumPackets(year, name);
-        document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
+        maxPacketNumber = await getNumPackets(year, name);
+        document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
     })();
 }
 packetNameField.addEventListener('change', function () {
     localStorage.setItem('packetNameBonusSave', packetNameField.value);
 });
 
-var packetNumberField = document.getElementById('packet-select');
+var packetNumberField = document.getElementById('packet-number');
 if (localStorage.getItem('packetNumberBonusSave'))
     packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
 packetNumberField.addEventListener('change', function () {

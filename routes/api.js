@@ -4,9 +4,9 @@ const fs = require('fs');
 
 router.get('/get-packet', async (req, res) => {
     req.query.year = decodeURI(req.query.year);
-    req.query.set_name = decodeURI(req.query.set_name.toLowerCase());
-    req.query.set_name = req.query.set_name.replace(/\s/g, '_');
-    var directory = `../packets/${req.query.year}-${req.query.set_name}/${req.query.packet_number}.json`;
+    req.query.setName = decodeURI(req.query.setName.toLowerCase());
+    req.query.setName = req.query.setName.replace(/\s/g, '_');
+    var directory = `../packets/${req.query.year}-${req.query.setName}/${req.query.packet_number}.json`;
     try {
         var jsonfile = require(directory);
         res.send(JSON.stringify(jsonfile));
@@ -18,9 +18,9 @@ router.get('/get-packet', async (req, res) => {
 
 router.get('/get-num-packets', async (req, res) => {
     req.query.year = decodeURI(req.query.year);
-    req.query.set_name = decodeURI(req.query.set_name.toLowerCase());
-    req.query.set_name = req.query.set_name.replace(/\s/g, '_');
-    var directory = `packets/${req.query.year}-${req.query.set_name}`;
+    req.query.setName = decodeURI(req.query.setName.toLowerCase());
+    req.query.setName = req.query.setName.replace(/\s/g, '_');
+    var directory = `packets/${req.query.year}-${req.query.setName}`;
     var numPackets = 0;
     try {
         fs.readdirSync(directory).forEach(file => {
