@@ -5,6 +5,8 @@ const port = process.env.PORT || 3000;
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
 
+const rooms = require('./rooms').default;
+
 const apiRouter = require('./routes/api');
 const tossupsRouter = require('./routes/tossups');
 const bonusesRouter = require('./routes/bonuses');
@@ -17,7 +19,7 @@ app.use('/api', apiRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/bonuses', bonusesRouter);
 app.use('/multiplayer', multiplayerRouter);
-app.use('/aboutplayer', aboutRouter);
+app.use('/about', aboutRouter);
 
 app.get('/*.html', (req, res) => {
     res.redirect(req.url.substring(0, req.url.length - 5));
@@ -38,10 +40,11 @@ wss.on('connection', (ws) => {
     }
 
     ws.on('message', (message) => {
+        console.log(JSON.parse(message));
+        rooms.parseMessage(ws.protocol, JSON.parse(message));
         for (let i = 0; i < sockets[ws.protocol].length; i++) {
             if (sockets[ws.protocol][i] === ws) continue;
 
-            console.log(JSON.parse(message));
             sockets[ws.protocol][i].send(JSON.stringify(JSON.parse(message)));
         }
     });

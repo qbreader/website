@@ -2,19 +2,19 @@
  * Variables and functions common to both tossups and bonuses
  */
 
-var max_packet_number = 24;
+var maxPacketNumber = 24;
 
 /**
  * Array of categories.
  */
-const all_categories = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
+const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
 
 /**
  * Array of all subcategories.
  * Indexed by their index in the all_categories array.
  * Categories that do not have any subcategories are not listed.
  */
-const all_subcategories = [
+const SUBCATEGORIES = [
     ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
     ["American History", "Ancient History", "European History", "World History", "Other History"],
     ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
@@ -30,15 +30,13 @@ function shift(item, x) {
     sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
 }
 
-function updateCategory(cat) {
-    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+function updateCategory(cat, validCategories, validSubcategories) {
     if (validCategories.length === 0) { // selecting a category when no categories are currently selected
         validCategories.push(cat);
 
-        let index = all_categories.indexOf(cat);
+        let index = CATEGORIES.indexOf(cat);
         document.querySelectorAll('#subcategories label').forEach(label => {
-            if (!(index in all_subcategories) || !all_subcategories[index].includes(label.getAttribute('for'))) {
+            if (!(index in SUBCATEGORIES) || !SUBCATEGORIES[index].includes(label.getAttribute('for'))) {
                 label.classList.add('d-none');
                 document.getElementById(label.getAttribute('for')).checked = false;
                 validSubcategories = validSubcategories.filter(a => a !== label.getAttribute('for'));
@@ -47,9 +45,9 @@ function updateCategory(cat) {
     } else if (validCategories.includes(cat)) { // remove category
         validCategories = validCategories.filter(a => a !== cat);
 
-        let index = all_categories.indexOf(cat);
-        if (index in all_subcategories) { // remove all subcats associated with the category
-            all_subcategories[index].forEach(subcat => {
+        let index = CATEGORIES.indexOf(cat);
+        if (index in SUBCATEGORIES) { // remove all subcats associated with the category
+            SUBCATEGORIES[index].forEach(subcat => {
                 document.querySelector(`[for="${subcat}"]`).classList.add('d-none');
                 document.getElementById(subcat).checked = false;
                 validSubcategories = validSubcategories.filter(a => a !== subcat);
@@ -64,14 +62,13 @@ function updateCategory(cat) {
     } else {
         validCategories.push(cat);
 
-        let index = all_categories.indexOf(cat);
-        if (index in all_subcategories) {
-            all_subcategories[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.remove('d-none'));
+        let index = CATEGORIES.indexOf(cat);
+        if (index in SUBCATEGORIES) {
+            SUBCATEGORIES[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.remove('d-none'));
         }
     }
 
-    localStorage.setItem('validCategories', JSON.stringify(validCategories));
-    localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
+    return [validCategories, validSubcategories];
 }
 
 function updateSubcategory(subcat) {
@@ -86,21 +83,18 @@ function updateSubcategory(subcat) {
     localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
 }
 
-function loadCategories() {
-    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-
+function loadCategories(validCategories, validSubcategories) {
     if (validCategories.length === 0) {
         validSubcategories.forEach(subcat => document.querySelector(`[for="${subcat}"]`).checked = true);
         return;
     }
 
-    all_categories.forEach((cat, index) => {
+    CATEGORIES.forEach((cat, index) => {
         if (validCategories.includes(cat)) {
             document.getElementById(cat).checked = true;
-            if (index in all_subcategories) {
+            if (index in SUBCATEGORIES) {
                 let total = 0;
-                all_subcategories[index].forEach(subcat => {
+                SUBCATEGORIES[index].forEach(subcat => {
                     if (validSubcategories && validSubcategories.includes(subcat)) {
                         total++;
                         document.querySelector(`[for="${subcat}"]`).checked = true;
@@ -110,13 +104,13 @@ function loadCategories() {
                 });
 
                 if (total === 0) {
-                    for (let j = 0; j < all_subcategories[index].length; j++) {
-                        document.querySelector(`[for="${all_subcategories[index][j]}"]`).classList.remove('d-none');
+                    for (let j = 0; j < SUBCATEGORIES[index].length; j++) {
+                        document.querySelector(`[for="${SUBCATEGORIES[index][j]}"]`).classList.remove('d-none');
                     }
                 }
             }
-        } else if (index in all_subcategories) {
-            all_subcategories[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.add('d-none'));
+        } else if (index in SUBCATEGORIES) {
+            SUBCATEGORIES[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.add('d-none'));
         }
     });
 }
@@ -126,10 +120,7 @@ function loadCategories() {
  * @param {JSON} question 
  * @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
  */
-function isValidCategory(question) {
-    let validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-
+function isValidCategory(question, validCategories, validSubcategories) {
     if (validCategories.length === 0) return true;
     if (!validCategories.includes(question['category'])) return false;
 
@@ -137,25 +128,25 @@ function isValidCategory(question) {
     if (validSubcategories.includes(question['subcategory'])) return true;
 
     // check to see if none of the subcategories of the question are selected
-    let index = all_categories.indexOf(question['category']);
-    if (!(index in all_subcategories)) return true;
+    let index = CATEGORIES.indexOf(question['category']);
+    if (!(index in SUBCATEGORIES)) return true;
 
-    for (let i = 0; i < all_subcategories[index].length; i++) {
-        if (validSubcategories.includes(all_subcategories[index][i])) return false;
+    for (let i = 0; i < SUBCATEGORIES[index].length; i++) {
+        if (validSubcategories.includes(SUBCATEGORIES[index][i])) return false;
     }
 
     // if there are no subcategories selected in the field, then it is valid
     return true;
 }
 
-function parseSetName(set_string) {
-    let year = parseInt(set_string.substring(0, 4));
-    let name = set_string.substring(5);
+function parseSetName(setName) {
+    let year = parseInt(setName.substring(0, 4));
+    let name = setName.substring(5);
 
     return [year, name];
 }
 
-function parsePacketNumbers(packetNumberString, maxPacketNumber = max_packet_number) {
+function parsePacketNumbers(packetNumberString, maxPacketNumber = maxPacketNumber) {
     if (packetNumberString.length == 0 || packetNumberString.toLowerCase() == 'all') {
         packetNumberString = `1-${maxPacketNumber}`;
     }
@@ -177,8 +168,8 @@ function parsePacketNumbers(packetNumberString, maxPacketNumber = max_packet_num
     return packetNumbers;
 }
 
-async function getNumPackets(year, set_name) {
-    return await fetch(`/api/get-num-packets?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}`)
+async function getNumPackets(year, setName) {
+    return await fetch(`/api/get-num-packets?year=${encodeURI(year)}&setName=${encodeURI(setName)}`)
         .then(response => response.json())
         .then(data => {
             return parseInt(data['num_packets']);
@@ -187,15 +178,15 @@ async function getNumPackets(year, set_name) {
 
 /**
  * 
- * @param {String} name - The name of the set, in the format "[year]-[name]".
+ * @param {String} setName - The name of the set, in the format "[year]-[name]".
  * @param {Number} number - The packet number of the set.
  * 
  * @return {Array<JSON>} An array containing the tossups.
  */
-async function getQuestions(packetName, packet_number, mode = 'all') {
-    let [year, set_name] = parseSetName(packetName);
+async function getQuestions(setName, packet_number, mode = 'all') {
+    let [year, name] = parseSetName(setName);
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/api/get-packet?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}&packet_number=${encodeURI(packet_number)}`)
+    return await fetch(`/api/get-packet?year=${encodeURI(year)}&setName=${encodeURI(name)}&packet_number=${encodeURI(packet_number)}`)
         .then(response => response.json())
         .then(data => {
             if (mode === 'all') {
@@ -215,21 +206,21 @@ async function start(mode) {
     document.getElementById('options').classList.add('d-none');
     document.getElementById('toggle-options').disabled = false;
 
-    packetName = document.getElementById('name-select').value.trim();
-    if (packetName.length == 0) {
+    setName = document.getElementById('set-name').value.trim();
+    if (setName.length == 0) {
         window.alert('Enter a packet name.');
         return;
     }
 
-    packetNumbers = document.getElementById('packet-select').value.trim();
-    packetNumbers = parsePacketNumbers(packetNumbers, max_packet_number);
+    packetNumbers = document.getElementById('packet-number').value.trim();
+    packetNumbers = parsePacketNumbers(packetNumbers, maxPacketNumber);
     packetNumber = packetNumbers.shift();
 
     currentQuestionNumber = document.getElementById('question-select').value;
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
-    questions = await getQuestions(packetName, packetNumber, mode = mode);
+    questions = await getQuestions(setName, packetNumber, mode = mode);
     document.getElementById('next').removeAttribute('disabled');
     document.getElementById('next').innerHTML = 'Skip';
 
@@ -247,12 +238,16 @@ if (localStorage.getItem('validCategories') === null)
     localStorage.setItem('validCategories', '[]');
 
 //load the selected categories and subcategories
-loadCategories();
+loadCategories(JSON.parse(localStorage.getItem('validCategories')), JSON.parse(localStorage.getItem('validSubcategories')));
 
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
-        updateCategory(input.id);
+        let validCategories = JSON.parse(localStorage.getItem('validCategories'));
+        let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+        [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
+        localStorage.setItem('validCategories', JSON.stringify(validCategories));
+        localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
     });
 });
 
@@ -273,11 +268,11 @@ document.getElementById('toggle-options').addEventListener('click', function () 
     document.getElementById('options').classList.toggle('d-none');
 });
 
-const name_select = document.getElementById('name-select');
-name_select.addEventListener('change', async (event) => {
-    let [year, name] = parseSetName(name_select.value);
-    max_packet_number = await getNumPackets(year, name);
-    if (max_packet_number > 0) {
-        document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
+const setNameField = document.getElementById('set-name');
+setNameField.addEventListener('change', async (event) => {
+    let [year, name] = parseSetName(setNameField.value);
+    maxPacketNumber = await getNumPackets(year, name);
+    if (maxPacketNumber > 0) {
+        document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
     }
 });
