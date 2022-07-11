@@ -57,6 +57,14 @@ function getRoom(roomName) {
     }
 }
 
+function getRoomList() {
+    return Object.keys(rooms);
+}
+
+function deleteRoom(roomName) {
+    delete rooms[roomName];
+}
+
 /**
  * 
  * @param {JSON} message 
@@ -90,4 +98,4 @@ function parseMessage(roomName, message) {
     console.log(rooms);
 }
 
-module.exports = { getRoom, parseMessage };
+module.exports = { getRoom, getRoomList, deleteRoom, parseMessage };

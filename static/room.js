@@ -42,6 +42,7 @@ function connectToWebSocket() {
         }
     }
     socket.onclose = function () {
+        socket.send(JSON.stringify({ type: 'leave', username: username }));
         console.log('Disconnected from websocket');
     }
 }
