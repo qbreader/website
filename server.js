@@ -55,7 +55,6 @@ wss.on('connection', (ws) => {
             rooms.deleteRoom(ws.protocol);
             delete sockets[ws.protocol];
         }
-        console.log(sockets);
     });
 });
 

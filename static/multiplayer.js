@@ -1,8 +1,6 @@
 fetch(`/api/get-room-list`)
 .then(response => response.json())
 .then(data => {
-    console.log(data["rooms"]);
-
     for (let room of data['rooms']) {
         let a = document.createElement('a');
         a.href = `/multiplayer/${room}`;
