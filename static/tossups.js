@@ -116,7 +116,7 @@ async function readQuestion() {
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber], JSON.parse(localStorage.getItem('validCategories')), JSON.parse(localStorage.getItem('validSubcategories'))));
+    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
     // Stop reading the current question:
     clearTimeout(timeoutID);
@@ -244,32 +244,6 @@ function toggleCorrect() {
     toggleCorrectClicked = !toggleCorrectClicked;
 }
 
-// Event listeners
-document.getElementById('reading-speed').addEventListener('change', function () {
-    localStorage.setItem('speed', this.value);
-    document.getElementById('reading-speed-display').innerHTML = this.value;
-});
-
-document.getElementById('start').addEventListener('click', function () {
-    this.blur();
-    start('tossups');
-});
-
-document.getElementById('buzz').addEventListener('click', function () {
-    this.blur();
-    buzz();
-});
-
-document.getElementById('pause').addEventListener('click', function () {
-    this.blur();
-    pause();
-});
-
-document.getElementById('toggle-correct').addEventListener('click', function () {
-    this.blur();
-    toggleCorrect();
-});
-
 document.addEventListener('keyup', () => {
     if (document.activeElement.tagName === 'INPUT') return;
 
@@ -285,44 +259,6 @@ document.addEventListener('keyup', () => {
 });
 
 
-/**
- * On window load, run these functions.
- */
-
-// Keep text fields in localStorage
-var packetNameField = document.getElementById('set-name');
-if (localStorage.getItem('packetNameTossupSave')) {
-    packetNameField.value = localStorage.getItem('packetNameTossupSave');
-    let [year, name] = parseSetName(setNameField.value);
-    (async () => {
-        maxPacketNumber = await getNumPackets(year, name);
-        document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
-    })();
-}
-
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-    readQuestion();
-});
-
-packetNameField.addEventListener('change', function () {
-    localStorage.setItem('packetNameTossupSave', packetNameField.value);
-});
-
-var packetNumberField = document.getElementById('packet-number');
-if (localStorage.getItem('packetNumberTossupSave'))
-    packetNumberField.value = localStorage.getItem('packetNumberTossupSave');
-packetNumberField.addEventListener('change', function () {
-    localStorage.setItem('packetNumberTossupSave', packetNumberField.value);
-});
-
-var questionNumberField = document.getElementById('question-select');
-if (localStorage.getItem('questionNumberTossupSave'))
-    questionNumberField.value = localStorage.getItem('questionNumberTossupSave');
-questionNumberField.addEventListener('change', function () {
-    localStorage.setItem('questionNumberTossupSave', questionNumberField.value);
-});
-
 if (sessionStorage.getItem('powers') === null)
     sessionStorage.setItem('powers', 0);
 if (sessionStorage.getItem('tens') === null)
@@ -336,10 +272,3 @@ if (sessionStorage.getItem('points') === null)
 if (sessionStorage.getItem('totalCelerity') === null)
     sessionStorage.setItem('totalCelerity', 0);
 
-if (localStorage.getItem('speed') === null)
-    localStorage.setItem('speed', 50);
-
-document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
-document.getElementById('reading-speed').value = localStorage.speed;
-
-updateStatDisplay(); //update stats upon loading site
