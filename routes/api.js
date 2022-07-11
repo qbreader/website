@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const rooms = require('../rooms');
+
+router.get('/get-room', (req, res) => {
+    console.log(rooms.getRoom(req.query.room));
+    req.query.room = decodeURI(req.query.room);
+    res.send(JSON.stringify(rooms.getRoom(req.query.room)));
+});
 
 router.get('/get-packet', async (req, res) => {
     req.query.year = decodeURI(req.query.year);
