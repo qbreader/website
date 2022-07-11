@@ -71,8 +71,7 @@ function updateCategory(cat, validCategories, validSubcategories) {
     return [validCategories, validSubcategories];
 }
 
-function updateSubcategory(subcat) {
-    let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+function updateSubcategory(subcat, validSubcategories) {
     if (validSubcategories.includes(subcat)) {
         // remove subcat:
         validSubcategories = validSubcategories.filter(a => a !== subcat);
@@ -80,12 +79,14 @@ function updateSubcategory(subcat) {
         validSubcategories.push(subcat);
     }
 
-    localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
+    return validSubcategories;
 }
 
 function loadCategories(validCategories, validSubcategories) {
     if (validCategories.length === 0) {
-        validSubcategories.forEach(subcat => document.querySelector(`[for="${subcat}"]`).checked = true);
+        validSubcategories.forEach(subcat => {
+            document.getElementById(subcat).checked = true;
+        });
         return;
     }
 
@@ -93,23 +94,14 @@ function loadCategories(validCategories, validSubcategories) {
         if (validCategories.includes(cat)) {
             document.getElementById(cat).checked = true;
             if (index in SUBCATEGORIES) {
-                let total = 0;
                 SUBCATEGORIES[index].forEach(subcat => {
                     if (validSubcategories && validSubcategories.includes(subcat)) {
-                        total++;
-                        document.querySelector(`[for="${subcat}"]`).checked = true;
-                    } else {
-                        document.querySelector(`[for="${subcat}"]`).classList.add('d-none');
+                        document.getElementById(subcat).checked = true;
                     }
                 });
-
-                if (total === 0) {
-                    for (let j = 0; j < SUBCATEGORIES[index].length; j++) {
-                        document.querySelector(`[for="${SUBCATEGORIES[index][j]}"]`).classList.remove('d-none');
-                    }
-                }
             }
         } else if (index in SUBCATEGORIES) {
+            console.log(index);
             SUBCATEGORIES[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.add('d-none'));
         }
     });
@@ -220,7 +212,7 @@ async function start(mode) {
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
-    questions = await getQuestions(setName, packetNumber, mode = mode);
+    questions = await getQuestions(setName, packetNumber, mode);
     document.getElementById('next').removeAttribute('disabled');
     document.getElementById('next').innerHTML = 'Skip';
 
@@ -239,24 +231,6 @@ if (localStorage.getItem('validCategories') === null)
 
 //load the selected categories and subcategories
 loadCategories(JSON.parse(localStorage.getItem('validCategories')), JSON.parse(localStorage.getItem('validSubcategories')));
-
-document.querySelectorAll('#categories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        let validCategories = JSON.parse(localStorage.getItem('validCategories'));
-        let validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-        [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
-        localStorage.setItem('validCategories', JSON.stringify(validCategories));
-        localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
-    });
-});
-
-document.querySelectorAll('#subcategories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        updateSubcategory(input.id);
-    });
-});
 
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
