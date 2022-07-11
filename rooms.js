@@ -14,11 +14,22 @@ function createRoom(roomName) {
 }
 
 function createPlayer(roomName, username) {
+    let valid = true;
+    rooms[roomName].players.forEach((player) => {
+        if (player.username === username) {
+            valid = false;
+        }
+    });
+
+    if (!valid) return false;
+
     rooms[roomName].players.push({
         username: username,
         tossupStatline: [],
         points: 0
     });
+
+    return true;
 }
 
 function changeUsername(roomName, username, newUsername) {
@@ -33,7 +44,16 @@ function getRoom(roomName) {
     if (roomName in rooms) {
         return rooms[roomName];
     } else {
-        return null;
+        return {
+            players: [],
+            setName: '',
+            packetNumbers: [],
+            packetNumber: -1,
+            currentQuestionNumber: 0,
+            readingSpeed: 50,
+            validCategories: [],
+            validSubcategories: [],
+        };
     }
 }
 
@@ -59,9 +79,15 @@ function parseMessage(roomName, message) {
         case 'reading-speed':
             rooms[roomName].readingSpeed = message.value;
             break;
+        case 'update-categories':
+            rooms[roomName].validCategories = message.value;
+            break;
+        case 'update-subcategories':
+            rooms[roomName].validSubcategories = message.value;
+            break;
     }
 
     console.log(rooms);
 }
 
-module.exports = {parseMessage};
+module.exports = { getRoom, parseMessage };
