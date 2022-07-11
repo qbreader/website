@@ -58,7 +58,9 @@ function getRoom(roomName) {
 }
 
 function getRoomList() {
-    return Object.keys(rooms);
+    return Object.keys(rooms).map((roomName) => {
+        return [roomName, rooms[roomName].players.length]
+    });
 }
 
 function deleteRoom(roomName) {

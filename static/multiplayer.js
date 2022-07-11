@@ -3,10 +3,11 @@ fetch(`/api/get-room-list`)
 .then(data => {
     for (let room of data['rooms']) {
         let a = document.createElement('a');
-        a.href = `/multiplayer/${room}`;
-        a.innerHTML = room;
+        a.href = `/multiplayer/${room[0]}`;
+        a.innerHTML = room[0];
         let li = document.createElement('li');
         li.appendChild(a);
+        li.appendChild(document.createTextNode(` - Number of players: ${room[1]}`));
         li.classList.add('list-group-item');
         document.getElementById('room-list').appendChild(li);
     }
