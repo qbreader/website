@@ -178,7 +178,7 @@ function parsePacketNumbers(packetNumberString, maxPacketNumber = max_packet_num
 }
 
 async function getNumPackets(year, set_name) {
-    return await fetch(`/get-num-packets?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}`)
+    return await fetch(`/api/get-num-packets?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}`)
         .then(response => response.json())
         .then(data => {
             return parseInt(data['num_packets']);
@@ -195,7 +195,7 @@ async function getNumPackets(year, set_name) {
 async function getQuestions(packetName, packet_number, mode = 'all') {
     let [year, set_name] = parseSetName(packetName);
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/get-packet?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}&packet_number=${encodeURI(packet_number)}`)
+    return await fetch(`/api/get-packet?year=${encodeURI(year)}&set_name=${encodeURI(set_name)}&packet_number=${encodeURI(packet_number)}`)
         .then(response => response.json())
         .then(data => {
             if (mode === 'all') {

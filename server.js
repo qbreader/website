@@ -2,55 +2,58 @@ const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ server });
 
-const fs = require('fs');
+const apiRouter = require('./routes/api');
+const tossupsRouter = require('./routes/tossups');
+const bonusesRouter = require('./routes/bonuses');
+const multiplayerRouter = require('./routes/multiplayer');
+const aboutRouter = require('./routes/about');
 
-app.use(express.static('static'));
 app.use(express.json());
+
+app.use('/api', apiRouter);
+app.use('/tossups', tossupsRouter);
+app.use('/bonuses', bonusesRouter);
+app.use('/multiplayer', multiplayerRouter);
+app.use('/aboutplayer', aboutRouter);
+
+app.get('/*.html', (req, res) => {
+    res.redirect(req.url.substring(0, req.url.length - 5));
+});
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/tossups.html');
 });
 
-app.get('/get-packet', async (req, res) => {
-    req.query.year = decodeURI(req.query.year);
-    req.query.set_name = decodeURI(req.query.set_name.toLowerCase());
-    req.query.set_name = req.query.set_name.replace(/\s/g, '_');
-    var directory = `./packets/${req.query.year}-${req.query.set_name}/${req.query.packet_number}.json`;
-    try {
-        var jsonfile = require(directory);
-        res.send(JSON.stringify(jsonfile));
-    } catch (error) {
-        console.log('ERROR: Could not find packet located at ' + directory);
-        res.send(JSON.stringify({}));
+sockets = {};
+
+wss.on('connection', (ws) => {
+    console.log(`Connection in room ${ws.protocol}`);
+    if (ws.protocol in sockets) {
+        sockets[ws.protocol].push(ws);
+    } else {
+        sockets[ws.protocol] = [ws];
     }
+
+    ws.on('message', (message) => {
+        for (let i = 0; i < sockets[ws.protocol].length; i++) {
+            if (sockets[ws.protocol][i] === ws) continue;
+
+            console.log(JSON.parse(message));
+            sockets[ws.protocol][i].send(JSON.stringify(JSON.parse(message)));
+        }
+    });
 });
 
-app.get('/get-num-packets', async (req, res) => {
-    req.query.year = decodeURI(req.query.year);
-    req.query.set_name = decodeURI(req.query.set_name.toLowerCase());
-    req.query.set_name = req.query.set_name.replace(/\s/g, '_');
-    var directory = `./packets/${req.query.year}-${req.query.set_name}`;
-    var numPackets = 0;
-    try {
-        fs.readdirSync(directory).forEach(file => {
-            if (file.endsWith('.json')) {
-                numPackets++;
-            }
-        });
-        res.send(JSON.stringify({ num_packets: numPackets.toString() }));
-    } catch (error) {
-        console.log('ERROR: Could not find directory ' + directory);
-        res.send(JSON.stringify({ num_packets: 0 }));
-    }
-});
 
 app.use((req, res) => {
     // secure the backend code so it can't be accessed by the frontend
     if (req.url === '/server.js') {
         res.redirect('/');
     } else {
-        res.sendFile(__dirname + req.url);
+        res.sendFile(__dirname + '/static/' + req.url);
     }
 });
 
