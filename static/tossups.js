@@ -1,6 +1,6 @@
 var timeoutID = -1;
 
-var packetName = '';
+var setName = '';
 var packetNumbers = [];
 var packetNumber = -1;
 
@@ -29,7 +29,7 @@ function buzz() {
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) {
             shift('powers', 1);
-            if (packetName.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -111,12 +111,12 @@ async function readQuestion() {
             }
             packetNumber = packetNumbers.shift();
             clearTimeout(timeoutID); // stop reading the current question 
-            questions = await getQuestions(packetName, packetNumber, mode = 'tossups');
+            questions = await getQuestions(setName, packetNumber, mode = 'tossups');
             currentQuestionNumber = 0;
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber]));
+    } while (!isValidCategory(questions[currentQuestionNumber], JSON.parse(localStorage.getItem('validCategories')), JSON.parse(localStorage.getItem('validSubcategories'))));
 
     // Stop reading the current question:
     clearTimeout(timeoutID);
@@ -133,7 +133,7 @@ async function readQuestion() {
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
 
-    document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
+    document.getElementById('question-info').innerHTML = `${setName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     questionText = questions[currentQuestionNumber]['question'];
     questionTextSplit = questionText.split(' ');
@@ -194,7 +194,7 @@ function toggleCorrect() {
     if (toggleCorrectClicked) {
         if (inPower) {
             shift('powers', 1);
-            if (packetName.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -207,7 +207,7 @@ function toggleCorrect() {
         // Check if there is more question to be read 
         if (questionTextSplit.length == 0) {
             shift('dead', -1);
-        } else if (packetName.toLowerCase().includes('pace')) {
+        } else if (setName.toLowerCase().includes('pace')) {
             shift('negs', -1);
         } else {
             shift('negs', -1);
@@ -218,7 +218,7 @@ function toggleCorrect() {
     else {
         if (inPower) {
             shift('powers', -1);
-            if (packetName.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', -20);
             }
             else {
@@ -232,7 +232,7 @@ function toggleCorrect() {
 
         if (questionTextSplit.length == 0) {
             shift('dead', 1);
-        } else if (packetName.toLowerCase().includes('pace')) {
+        } else if (setName.toLowerCase().includes('pace')) {
             shift('negs', 1);
         } else {
             shift('negs', 1);
@@ -245,14 +245,14 @@ function toggleCorrect() {
 }
 
 // Event listeners
-document.getElementById('reading-speed').oninput = function () {
+document.getElementById('reading-speed').addEventListener('change', function () {
     localStorage.setItem('speed', this.value);
     document.getElementById('reading-speed-display').innerHTML = this.value;
-}
+});
 
 document.getElementById('start').addEventListener('click', function () {
     this.blur();
-    start(mode = 'tossups');
+    start('tossups');
 });
 
 document.getElementById('buzz').addEventListener('click', function () {
@@ -290,13 +290,13 @@ document.addEventListener('keyup', () => {
  */
 
 // Keep text fields in localStorage
-var packetNameField = document.getElementById('name-select');
+var packetNameField = document.getElementById('set-name');
 if (localStorage.getItem('packetNameTossupSave')) {
     packetNameField.value = localStorage.getItem('packetNameTossupSave');
-    let [year, name] = parseSetName(name_select.value);
+    let [year, name] = parseSetName(setNameField.value);
     (async () => {
-        max_packet_number = await getNumPackets(year, name);
-        document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
+        maxPacketNumber = await getNumPackets(year, name);
+        document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
     })();
 }
 
@@ -309,7 +309,7 @@ packetNameField.addEventListener('change', function () {
     localStorage.setItem('packetNameTossupSave', packetNameField.value);
 });
 
-var packetNumberField = document.getElementById('packet-select');
+var packetNumberField = document.getElementById('packet-number');
 if (localStorage.getItem('packetNumberTossupSave'))
     packetNumberField.value = localStorage.getItem('packetNumberTossupSave');
 packetNumberField.addEventListener('change', function () {
