@@ -94,8 +94,6 @@ function parseMessage(roomName, message) {
             rooms[roomName].validSubcategories = message.value;
             break;
     }
-
-    console.log(rooms);
 }
 
 module.exports = { getRoom, getRoomList, deleteRoom, parseMessage };
