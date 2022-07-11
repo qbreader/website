@@ -48,6 +48,15 @@ wss.on('connection', (ws) => {
             sockets[ws.protocol][i].send(JSON.stringify(JSON.parse(message)));
         }
     });
+
+    ws.on('close', () => {
+        sockets[ws.protocol] = sockets[ws.protocol].filter(element => element !== ws);
+        if (sockets[ws.protocol].length === 0) {
+            rooms.deleteRoom(ws.protocol);
+            delete sockets[ws.protocol];
+        }
+        console.log(sockets);
+    });
 });
 
 
