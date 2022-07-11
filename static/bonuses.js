@@ -118,7 +118,7 @@ async function readQuestion() {
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber], JSON.parse(localStorage.getItem('validCategories')), JSON.parse(localStorage.getItem('validSubcategories'))));
+    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
     currentBonusPart = 0;
 
@@ -132,29 +132,6 @@ async function readQuestion() {
 
     reveal();
 }
-
-document.getElementById('start').addEventListener('click', async function () {
-    this.blur();
-    onQuestion = true;
-    start('bonuses')
-});
-
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-
-    if (this.innerHTML === 'Next') {
-        updateStats();
-        updateStatDisplay();
-    }
-
-    onQuestion = true;
-    readQuestion();
-});
-
-document.getElementById('reveal').addEventListener('click', function () {
-    this.blur();
-    reveal();
-});
 
 document.addEventListener('keyup', (event) => {
     if (document.activeElement.tagName === 'INPUT') return;
@@ -175,44 +152,3 @@ document.addEventListener('keyup', (event) => {
         document.getElementById('checkbox-3').click();
     }
 });
-
-/**
- * On window load, run these functions.
- */
-
-//keep text fields in localStorage
-var packetNameField = document.getElementById('set-name');
-if (localStorage.getItem('packetNameBonusSave')) {
-    packetNameField.value = localStorage.getItem('packetNameBonusSave');
-    let [year, name] = parseSetName(name_select.value);
-    (async () => {
-        maxPacketNumber = await getNumPackets(year, name);
-        document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
-    })();
-}
-packetNameField.addEventListener('change', function () {
-    localStorage.setItem('packetNameBonusSave', packetNameField.value);
-});
-
-var packetNumberField = document.getElementById('packet-number');
-if (localStorage.getItem('packetNumberBonusSave'))
-    packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
-packetNumberField.addEventListener('change', function () {
-    localStorage.setItem('packetNumberBonusSave', packetNumberField.value);
-});
-
-var questionNumberField = document.getElementById('question-select');
-if (localStorage.getItem('questionNumberBonusSave'))
-    questionNumberField.value = localStorage.getItem('questionNumberBonusSave');
-questionNumberField.addEventListener('change', function () {
-    localStorage.setItem('questionNumberBonusSave', questionNumberField.value);
-});
-
-/**
- * An array that represents
- * [# of 30's, # of 20's, # of 10's, # of 0's].
- */
-if (sessionStorage.getItem('stats') === null)
-    sessionStorage.setItem('stats', [0, 0, 0, 0]);
-
-updateStatDisplay(); //update stats upon loading site
