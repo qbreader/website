@@ -9,6 +9,10 @@ router.get('/get-room', (req, res) => {
     res.send(JSON.stringify(rooms.getRoom(req.query.room)));
 });
 
+router.get('/get-room-list', (req, res) => {
+    res.send(JSON.stringify({ 'rooms': rooms.getRoomList() }))
+});
+
 router.get('/get-packet', async (req, res) => {
     req.query.year = decodeURI(req.query.year);
     req.query.setName = decodeURI(req.query.setName.toLowerCase());
