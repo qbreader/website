@@ -83,6 +83,10 @@ function updateSubcategory(subcat, validSubcategories) {
 }
 
 function loadCategories(validCategories, validSubcategories) {
+    document.querySelectorAll('#categories input').forEach(element => element.checked = false);
+    document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
+    document.querySelectorAll('#subcategories label').forEach(element => element.classList.remove('d-none'));
+
     if (validCategories.length === 0) {
         validSubcategories.forEach(subcat => {
             document.getElementById(subcat).checked = true;
@@ -91,17 +95,14 @@ function loadCategories(validCategories, validSubcategories) {
     }
 
     CATEGORIES.forEach((cat, index) => {
+        document.getElementById(cat).checked = validCategories.includes(cat);
         if (validCategories.includes(cat)) {
-            document.getElementById(cat).checked = true;
             if (index in SUBCATEGORIES) {
                 SUBCATEGORIES[index].forEach(subcat => {
-                    if (validSubcategories && validSubcategories.includes(subcat)) {
-                        document.getElementById(subcat).checked = true;
-                    }
+                    document.getElementById(subcat).checked = validSubcategories && validSubcategories.includes(subcat);
                 });
             }
         } else if (index in SUBCATEGORIES) {
-            console.log(index);
             SUBCATEGORIES[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.add('d-none'));
         }
     });
@@ -223,14 +224,6 @@ async function start(mode) {
 if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com') {
     window.location.href = 'http://www.qbreader.org' + document.URL.substring(30);
 }
-
-if (localStorage.getItem('validSubcategories') === null)
-    localStorage.setItem('validSubcategories', '[]');
-if (localStorage.getItem('validCategories') === null)
-    localStorage.setItem('validCategories', '[]');
-
-//load the selected categories and subcategories
-loadCategories(JSON.parse(localStorage.getItem('validCategories')), JSON.parse(localStorage.getItem('validSubcategories')));
 
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
