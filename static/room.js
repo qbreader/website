@@ -331,14 +331,14 @@ window.onload = () => {
                 document.getElementById('start').disabled = true;
                 document.getElementById('next').disabled = false;
             }
-            document.getElementById('set-title').value = data.setTitle;
-            document.getElementById('packet-number').value = data.packetNumbers;
+            document.getElementById('set-title').value = data.setTitle || '';
+            document.getElementById('packet-number').value = data.packetNumbers || [];
 
-            document.getElementById('set-title-info').innerHTML = data.setTitle;
-            document.getElementById('packet-number-info').innerHTML = data.packetNumber;
-            document.getElementById('question-number-info').innerHTML = data.currentQuestionNumber + 1;
-            validCategories = data.validCategories;
-            validSubcategories = data.validSubcategories;
+            document.getElementById('set-title-info').innerHTML = data.setTitle || '';
+            document.getElementById('packet-number-info').innerHTML = data.packetNumber || 0;
+            document.getElementById('question-number-info').innerHTML = (data.currentQuestionNumber || 0) + 1;
+            validCategories = data.validCategories || {};
+            validSubcategories = data.validSubcategories || {};
             loadCategoryModal(validCategories, validSubcategories);
             Object.keys(data.players).forEach(player => {
                 if (data.players[player].userId === userId) return;
