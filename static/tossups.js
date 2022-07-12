@@ -50,7 +50,7 @@ async function readQuestion() {
  * Recursively reads the question based on the reading speed.
  */
 function printWord() {
-if (!currentlyBuzzing && questionTextSplit.length > 0) {
+    if (!currentlyBuzzing && questionTextSplit.length > 0) {
         let word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
 
@@ -89,6 +89,12 @@ function pause() {
     }
     paused = !paused;
 }
+
+window.addEventListener('keydown', function (event) {
+    if (event.key === ' ' && event.target == document.body) {
+        event.preventDefault();
+    }
+});
 
 document.addEventListener('keyup', () => {
     if (document.activeElement.tagName === 'INPUT') return;
