@@ -1,6 +1,6 @@
-var setName = '';
+var setTitle = '';
 var packetNumbers = [];
-var packetNumber = -1;
+var currentPacketNumber = -1;
 
 var questions = [{}];
 var currentQuestionNumber = 0;
@@ -41,7 +41,7 @@ function createBonusPart(bonusPartNumber, bonusText) {
 /**
  * Called when the users wants to reveal the next bonus part.
  */
-function reveal() {
+function revealBonusPart() {
     if (currentBonusPart > 2) return;
 
     if (onQuestion) {
@@ -99,7 +99,7 @@ function clearStats() {
 /**
  * Loads and reads the next question.
  */
-async function readQuestion() {
+async function loadAndReadQuestion() {
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
@@ -112,8 +112,10 @@ async function readQuestion() {
                 window.alert("No more questions left");
                 return;  // alert the user if there are no more packets
             }
-            packetNumber = packetNumbers.shift();
-            questions = await getQuestions(setName, packetNumber, mode = 'bonuses');
+            currentPacketNumber = packetNumbers.shift();
+            questions = await getPacket(setTitle, currentPacketNumber, mode = 'bonuses');
+            console.log(questions);
+            console.log(setTitle);
             currentQuestionNumber = 0;
         }
 
@@ -124,13 +126,16 @@ async function readQuestion() {
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
-    document.getElementById('question-info').innerHTML = `${setName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
+
+    document.getElementById('set-title-info').innerHTML = setTitle;
+    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
     let paragraph = document.createElement('p');
     paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
     document.getElementById('question').appendChild(paragraph);
 
-    reveal();
+    revealBonusPart();
 }
 
 document.addEventListener('keyup', (event) => {

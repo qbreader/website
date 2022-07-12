@@ -82,7 +82,7 @@ function updateSubcategory(subcat, validSubcategories) {
     return validSubcategories;
 }
 
-function loadCategories(validCategories, validSubcategories) {
+function loadCategoryModal(validCategories, validSubcategories) {
     document.querySelectorAll('#categories input').forEach(element => element.checked = false);
     document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
     document.querySelectorAll('#subcategories label').forEach(element => element.classList.remove('d-none'));
@@ -132,9 +132,9 @@ function isValidCategory(question, validCategories, validSubcategories) {
     return true;
 }
 
-function parseSetName(setName) {
-    let year = parseInt(setName.substring(0, 4));
-    let name = setName.substring(5);
+function parseSetTitle(setTitle) {
+    let year = parseInt(setTitle.substring(0, 4));
+    let name = setTitle.substring(5);
 
     return [year, name];
 }
@@ -171,15 +171,15 @@ async function getNumPackets(year, setName) {
 
 /**
  * 
- * @param {String} setName - The name of the set, in the format "[year]-[name]".
+ * @param {String} setTitle - The name of the set, in the format "[year]-[name]".
  * @param {Number} number - The packet number of the set.
  * 
  * @return {Array<JSON>} An array containing the tossups.
  */
-async function getQuestions(setName, packet_number, mode = 'all') {
-    let [year, name] = parseSetName(setName);
+async function getPacket(setTitle, packetNumber, mode = 'all') {
+    let [year, name] = parseSetTitle(setTitle);
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/api/get-packet?year=${encodeURI(year)}&setName=${encodeURI(name)}&packet_number=${encodeURI(packet_number)}`)
+    return await fetch(`/api/get-packet?year=${encodeURI(year)}&setName=${encodeURI(name)}&packet_number=${encodeURI(packetNumber)}`)
         .then(response => response.json())
         .then(data => {
             if (mode === 'all') {
@@ -197,28 +197,30 @@ async function getQuestions(setName, packet_number, mode = 'all') {
  * @returns {Promsie<Boolean>} Whether or not the function was successful.
  */
 async function start(mode, alertOnFailure = true) {
-    document.getElementById('options').classList.add('d-none');
-    document.getElementById('toggle-options').disabled = false;
-
-    setName = document.getElementById('set-name').value.trim();
-    if (setName.length == 0) {
+    setTitle = document.getElementById('set-title').value.trim();
+    if (setTitle.length == 0) {
         if (alertOnFailure) alert('Please enter a set name.');
         return false;
     }
 
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('toggle-options').disabled = false;
+    
     packetNumbers = document.getElementById('packet-number').value.trim();
     packetNumbers = parsePacketNumbers(packetNumbers, maxPacketNumber);
-    packetNumber = packetNumbers.shift();
+    currentPacketNumber = packetNumbers.shift();
 
     currentQuestionNumber = document.getElementById('question-select').value;
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
+    console.log(currentQuestionNumber);
 
-    questions = await getQuestions(setName, packetNumber, mode);
-    document.getElementById('next').removeAttribute('disabled');
+    questions = await getPacket(setTitle, currentPacketNumber, mode);
+
+    document.getElementById('next').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
-    readQuestion();
+    await loadAndReadQuestion();
 
     return true;
 }
@@ -238,9 +240,9 @@ document.getElementById('toggle-options').addEventListener('click', function () 
     document.getElementById('options').classList.toggle('d-none');
 });
 
-const setNameField = document.getElementById('set-name');
+const setNameField = document.getElementById('set-title');
 setNameField.addEventListener('change', async (event) => {
-    let [year, name] = parseSetName(setNameField.value);
+    let [year, name] = parseSetTitle(setNameField.value);
     maxPacketNumber = await getNumPackets(year, name);
     if (maxPacketNumber > 0) {
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;

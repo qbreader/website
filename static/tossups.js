@@ -1,8 +1,8 @@
 var timeoutID = -1;
 
-var setName = '';
+var setTitle = '';
 var packetNumbers = [];
-var packetNumber = -1;
+var currentPacketNumber = -1;
 
 var questions = [{}];
 var questionText = '';
@@ -19,27 +19,10 @@ var toggleCorrectClicked = false;
 var inPower = false;
 
 /**
- * Loads and reads the next question.
+ * Reads the next question.
  */
 async function readQuestion() {
     document.getElementById('next').innerHTML = 'Skip';
-    do {  // Get the next question
-        currentQuestionNumber++;
-
-        // Go to the next packet if you reach the end of this packet
-        if (currentQuestionNumber >= questions.length) {
-            if (packetNumbers.length == 0) {
-                window.alert("No more questions left");
-                return;  // alert the user if there are no more packets
-            }
-            packetNumber = packetNumbers.shift();
-            clearTimeout(timeoutID); // stop reading the current question 
-            questions = await getQuestions(setName, packetNumber, mode = 'tossups');
-            currentQuestionNumber = 0;
-        }
-
-        // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
     // Stop reading the current question:
     clearTimeout(timeoutID);
@@ -49,17 +32,15 @@ async function readQuestion() {
     toggleCorrectClicked = false;
     document.getElementById('toggle-correct').innerHTML = 'I was wrong';
     document.getElementById('toggle-correct').disabled = true;
-    // document.getElementById('div-toggle-correct').style.display = 'none';
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
 
-    document.getElementById('question-info').innerHTML = `${setName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
-
-    questionText = questions[currentQuestionNumber]['question'];
-    questionTextSplit = questionText.split(' ');
+    document.getElementById('set-title-info').innerHTML = setTitle;
+    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
     document.getElementById('buzz').removeAttribute('disabled');
     document.getElementById('pause').innerHTML = 'Pause';
@@ -73,7 +54,7 @@ async function readQuestion() {
  * Recursively reads the question based on the reading speed.
  */
 function printWord() {
-    if (!currentlyBuzzing && questionTextSplit.length > 0) {
+if (!currentlyBuzzing && questionTextSplit.length > 0) {
         let word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
 
@@ -111,60 +92,6 @@ function pause() {
         clearTimeout(timeoutID);
     }
     paused = !paused;
-}
-
-function toggleCorrect() {
-    if (toggleCorrectClicked) {
-        if (inPower) {
-            shift('powers', 1);
-            if (setName.toLowerCase().includes('pace')) {
-                shift('points', 20);
-            }
-            else {
-                shift('points', 15);
-            }
-        } else {
-            shift('tens', 1);
-            shift('points', 10);
-        }
-        // Check if there is more question to be read 
-        if (questionTextSplit.length == 0) {
-            shift('dead', -1);
-        } else if (setName.toLowerCase().includes('pace')) {
-            shift('negs', -1);
-        } else {
-            shift('negs', -1);
-            shift('points', 5);
-        }
-        document.getElementById('toggle-correct').innerHTML = 'I was wrong';
-    }
-    else {
-        if (inPower) {
-            shift('powers', -1);
-            if (setName.toLowerCase().includes('pace')) {
-                shift('points', -20);
-            }
-            else {
-                shift('points', -15);
-            }
-        }
-        else {
-            shift('tens', -1);
-            shift('points', -10);
-        }
-
-        if (questionTextSplit.length == 0) {
-            shift('dead', 1);
-        } else if (setName.toLowerCase().includes('pace')) {
-            shift('negs', 1);
-        } else {
-            shift('negs', 1);
-            shift('points', -5);
-        }
-        document.getElementById('toggle-correct').innerHTML = 'I was right';
-    }
-    updateStatDisplay();
-    toggleCorrectClicked = !toggleCorrectClicked;
 }
 
 document.addEventListener('keyup', () => {
