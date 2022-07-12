@@ -29,12 +29,16 @@ function connectToWebSocket() {
                 createPlayerAccordion(data.userId, data.username);
                 break;
             case 'change-username':
-                logEvent(data.oldUsername, 'changed their name to ' + data.username);
+                logEvent(data.oldUsername, 'changed their username to ' + data.username);
                 document.getElementById('accordion-username-' + data.userId).innerHTML = data.username;
                 break;
             case 'set-title':
             case 'packet-number':
-                logEvent(data.username, `set the ${data.type} to ${data.value}`);
+                if (data.value.length > 0) {
+                    logEvent(data.username, `changed the ${data.type} to ${data.value}`);
+                } else {
+                    logEvent(data.username, `cleared the ${data.type}`);
+                }
                 document.getElementById(data.type).value = data.value;
                 break;
             case 'reading-speed':
@@ -166,9 +170,6 @@ async function loadAndReadQuestion() {
             currentQuestion = data.question;
             questionText = currentQuestion.question;
             questionTextSplit = questionText.split(' ');
-            console.log(data.setTitle);
-            console.log(data.packetNumber);
-            console.log(data.questionNumber);
             document.getElementById('set-title-info').innerHTML = data.setTitle;
             document.getElementById('packet-number-info').innerHTML = data.packetNumber;
             document.getElementById('question-number-info').innerHTML = data.questionNumber + 1;
@@ -192,7 +193,7 @@ function processAnswer(userId, username, givenAnswer, score) {
     logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
 
     // Update question text and show answer:
-    if (score >= 0) {
+    if (score > 0) {
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         document.getElementById('answer').innerHTML = 'ANSWER: ' + currentQuestion.answer;
         document.getElementById('next').innerHTML = 'Next';
@@ -260,6 +261,10 @@ document.getElementById('form').addEventListener('submit', function (event) {
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
+    if (document.getElementById('set-title').value === '') {
+        alert('Please choose a set.');
+        return;
+    }
     socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
 });
 
@@ -286,7 +291,10 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     });
 });
 
-document.getElementById('set-title').addEventListener('change', function () {
+document.getElementById('set-title').addEventListener('change', async function () {
+    let [year, name] = parseSetTitle(this.value);
+    maxPacketNumber = await getNumPackets(year, name);
+    document.getElementById('packet-number').value = parsePacketNumbers('', maxPacketNumber);
     socket.send(JSON.stringify({ type: 'set-title', username: username, value: this.value }));
 });
 
@@ -315,8 +323,16 @@ window.onload = () => {
     fetch(`/api/get-room?roomName=${encodeURI(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
+            if (data.setTitle) {
+                document.getElementById('start').disabled = true;
+                document.getElementById('next').disabled = false;
+            }
             document.getElementById('set-title').value = data.setTitle;
             document.getElementById('packet-number').value = data.packetNumbers;
+
+            document.getElementById('set-title-info').innerHTML = data.setTitle;
+            document.getElementById('packet-number-info').innerHTML = data.packetNumber;
+            document.getElementById('question-number-info').innerHTML = data.currentQuestionNumber + 1;
             validCategories = data.validCategories;
             validSubcategories = data.validSubcategories;
             loadCategoryModal(validCategories, validSubcategories);
