@@ -96,16 +96,16 @@ window.addEventListener('keydown', function (event) {
     }
 });
 
-document.addEventListener('keyup', () => {
+document.addEventListener('keyup', (event) => {
     if (document.activeElement.tagName === 'INPUT') return;
 
-    if (event.which == 32) {  // spacebar
+    if (event.key == ' ') {  // spacebar
         document.getElementById('buzz').click();
-    } else if (event.which == 78) {  // pressing 'N'
+    } else if (event.key == 'n' || event.key == 'N') {
         document.getElementById('next').click();
-    } else if (event.which == 80) {  // pressing 'P'
+    } else if (event.key == 'p' || event.key == 'P') {
         document.getElementById('pause').click();
-    } else if (event.which == 83) { // pressing 'S'
+    } else if (event.key == 's' || event.key == 'S') { // pressing 'S'
         document.getElementById('start').click();
     }
 });
