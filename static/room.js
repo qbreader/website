@@ -5,7 +5,7 @@ if (location.pathname.endsWith('/')) {
 var socket;
 const ROOM_NAME = location.pathname.substring(13);
 var userId;
-var username = localStorage.getItem('username');
+var username;
 var validCategories = [];
 var validSubcategories = [];
 var currentQuestion = {}
@@ -163,9 +163,15 @@ async function loadAndReadQuestion() {
     fetch(`/api/get-current-question?roomName=${ROOM_NAME}`)
         .then(response => response.json())
         .then(data => {
-            currentQuestion = data;
-            questionText = data.question;
+            currentQuestion = data.question;
+            questionText = currentQuestion.question;
             questionTextSplit = questionText.split(' ');
+            console.log(data.setTitle);
+            console.log(data.packetNumber);
+            console.log(data.questionNumber);
+            document.getElementById('set-title-info').innerHTML = data.setTitle;
+            document.getElementById('packet-number-info').innerHTML = data.packetNumber;
+            document.getElementById('question-number-info').innerHTML = data.questionNumber + 1;
             readQuestion();
         });
 }
@@ -298,11 +304,12 @@ document.getElementById('username').addEventListener('change', function () {
     localStorage.setItem('username', username);
 });
 
-document.getElementById('reading-speed').addEventListener('input', function () {
+document.getElementById('reading-speed').addEventListener('change', function () {
     socket.send(JSON.stringify({ 'type': 'reading-speed', userId: userId, username: username, value: this.value }));
 });
 
 window.onload = () => {
+    username = localStorage.getItem('username') || '';
     document.getElementById('username').value = username;
     connectToWebSocket();
     fetch(`/api/get-room?roomName=${encodeURI(ROOM_NAME)}`)

@@ -63,6 +63,10 @@ function clearStats() {
 }
 
 async function loadAndReadQuestion(mode = 'tossups') {
+    document.getElementById('set-title-info').innerHTML = setTitle;
+    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+
     do {  // Get the next question
         currentQuestionNumber++;
 
@@ -162,27 +166,25 @@ function updateStatDisplay() {
  */
 
 // Keep text fields in localStorage
-var packetNameField = document.getElementById('set-title');
 if (localStorage.getItem('packetNameTossupSave')) {
-    packetNameField.value = localStorage.getItem('packetNameTossupSave');
-    let [year, name] = parseSetTitle(setNameField.value);
+    document.getElementById('set-title').value = localStorage.getItem('packetNameTossupSave');
+    let [year, name] = parseSetTitle(setTitle);
     (async () => {
         maxPacketNumber = await getNumPackets(year, name);
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
     })();
 }
 
-packetNameField.addEventListener('change', function () {
-    localStorage.setItem('packetNameTossupSave', packetNameField.value);
+document.getElementById('set-title').addEventListener('change', function () {
+    localStorage.setItem('packetNameTossupSave', this.value);
 });
 
-var packetNumberField = document.getElementById('packet-number');
 if (localStorage.getItem('packetNumberTossupSave')) {
-    packetNumberField.value = localStorage.getItem('packetNumberTossupSave');
+    document.getElementById('packet-number').value = localStorage.getItem('packetNumberTossupSave');
 }
 
-packetNumberField.addEventListener('change', function () {
-    localStorage.setItem('packetNumberTossupSave', packetNumberField.value);
+document.getElementById('packet-number').addEventListener('change', function () {
+    localStorage.setItem('packetNumberTossupSave', this.value);
 });
 
 var questionNumberField = document.getElementById('question-select');

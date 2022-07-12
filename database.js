@@ -32,7 +32,7 @@ function isValidCategory(question, validCategories, validSubcategories) {
 }
 
 function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, mode = 'tossups') {
-    let packetNumber = packetNumbers.shift();
+    let packetNumber = packetNumbers[0];
     let questions = getPacket(year, name, packetNumber)[mode];
     do {  // Get the next question
         currentQuestionNumber++;

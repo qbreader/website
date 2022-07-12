@@ -100,6 +100,10 @@ function clearStats() {
  * Loads and reads the next question.
  */
 async function loadAndReadQuestion() {
+    document.getElementById('set-title-info').innerHTML = setTitle;
+    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
@@ -126,10 +130,6 @@ async function loadAndReadQuestion() {
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
-
-    document.getElementById('set-title-info').innerHTML = setTitle;
-    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
     let paragraph = document.createElement('p');
     paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
