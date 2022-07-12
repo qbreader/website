@@ -42,7 +42,7 @@ wss.on('connection', (ws) => {
     }
 
     ws.send(JSON.stringify({
-        type: 'userId',
+        type: 'user-id',
         userId: ws.userId
     }));
 

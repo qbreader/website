@@ -14,9 +14,10 @@ function connectToWebSocket() {
     }
     socket.onmessage = function (event) {
         let data = JSON.parse(event.data);
+        console.log(data);
         switch (data.type) {
-            case 'id':
-                userId = data.id;
+            case 'user-id':
+                userId = data.userId;
                 createPlayerAccordion(userId, username);
                 break;
             case 'change-username':
