@@ -5,6 +5,8 @@ const SUBCATEGORIES = [
     ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
     ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"]
 ]
+const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
+
 
 /**
  * Source: https://www.30secondsofcode.org/js/s/levenshtein-distance
@@ -46,6 +48,8 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     for (let i = 0; i < givenAnswerTokens.length; i++) {
         if (givenAnswerTokens[i].length <= 1) return false;
         for (let j = 0; j < answerTokens.length; j++) {
+            if (METAWORDS.includes(answerTokens[j])) continue;
+            if (answerTokens[j].length === 1) continue;
             if (levenshteinDistance(givenAnswerTokens[i], answerTokens[j]) <= 2) {
                 return true;
             }
