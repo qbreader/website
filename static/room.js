@@ -1,6 +1,7 @@
 var socket;
 
 const roomName = location.pathname.substring(13);
+var userId;
 var username = localStorage.getItem('username');
 var validCategories = [];
 var validSubcategories = [];
@@ -14,6 +15,13 @@ function connectToWebSocket() {
     socket.onmessage = function (event) {
         let data = JSON.parse(event.data);
         switch (data.type) {
+            case 'id':
+                userId = data.id;
+                createPlayerAccordion(userId, username);
+                break;
+            case 'change-username':
+                document.getElementById('accordion-username-' + data.userId).innerHTML = data.username;
+                break;
             case 'set-name':
                 document.getElementById('set-name').value = data.value;
                 break;
@@ -39,18 +47,58 @@ function connectToWebSocket() {
                 validCategories = data.value;
                 loadCategories(validCategories, validSubcategories);
                 break;
+            case 'join':
+                createPlayerAccordion(data.userId, data.username);
+                break;
+            case 'leave':
+                document.getElementById('accordion-' + data.userId).remove();
+                break;
         }
     }
     socket.onclose = function () {
-        socket.send(JSON.stringify({ type: 'leave', username: username }));
         console.log('Disconnected from websocket');
     }
 }
 
-document.getElementById('username').value = localStorage.getItem('username');
+function createPlayerAccordion(userId, username) {
+    let button = document.createElement('button');
+    button.className = 'accordion-button collapsed';
+    button.type = 'button';
+    button.setAttribute('data-bs-target', '#accordion-body-' + userId);
+    button.setAttribute('data-bs-toggle', 'collapse');
+    button.id = 'accordion-username-' + userId;
+    button.innerHTML = username;
+
+    let h2 = document.createElement('h2');
+    h2.className = 'accordion-header';
+    h2.id = 'heading-' + userId;
+    h2.appendChild(button);
+
+    let statline = document.createElement('span');
+    statline.className = 'statline';
+    statline.innerHTML = '0/0/0 with 0 tossups seen (0 pts, celerity: 0)';
+    statline.id = 'statline-' + userId;
+    let accordionBody = document.createElement('div');
+    accordionBody.className = 'accordion-body';
+    accordionBody.appendChild(statline);
+
+    let div = document.createElement('div');
+    div.className = 'accordion-collapse collapse';
+    div.id = 'accordion-body-' + userId;
+    div.appendChild(accordionBody);
+
+    let accordionItem = document.createElement('div');
+    accordionItem.className = 'accordion-item';
+    accordionItem.id = 'accordion-' + userId;
+    accordionItem.appendChild(h2);
+    accordionItem.appendChild(div);
+    document.getElementById('player-accordion').appendChild(accordionItem);
+}
+
 document.getElementById('username').addEventListener('change', function () {
-    socket.send(JSON.stringify({ 'type': 'change-username', old: username, new: this.value }));
     username = this.value;
+    document.getElementById('accordion-username-' + userId).innerHTML = username;
+    socket.send(JSON.stringify({ 'type': 'change-username', userId: userId, username: username }));
     localStorage.setItem('username', username);
 });
 
@@ -70,19 +118,19 @@ document.getElementById('start').addEventListener('click', function () {
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     buzz();
-    socket.send(JSON.stringify({ type: 'buzz', username: username }));
+    socket.send(JSON.stringify({ type: 'buzz', userId: userId, username: username }));
 });
 
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
     pause();
-    socket.send(JSON.stringify({ type: 'pause', username: username }));
+    socket.send(JSON.stringify({ type: 'pause', userId: userId, username: username }));
 });
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
     readQuestion();
-    socket.send(JSON.stringify({ type: 'next', username: username }));
+    socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
 });
 
 document.getElementById('toggle-correct').addEventListener('click', function () {
@@ -126,6 +174,7 @@ questionNumberField.addEventListener('change', function () {
 });
 
 window.onload = () => {
+    document.getElementById('username').value = username;
     connectToWebSocket();
     fetch(`/api/get-room?room=${encodeURI(roomName)}`)
         .then(response => response.json())
@@ -136,5 +185,10 @@ window.onload = () => {
             validCategories = data.validCategories;
             validSubcategories = data.validSubcategories;
             loadCategories(validCategories, validSubcategories);
+            data.players.forEach(player => {
+                if (player.userId !== userId) {
+                    createPlayerAccordion(player.userId, player.username);
+                }
+            });
         });
 }
