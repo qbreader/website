@@ -1,17 +1,17 @@
-var socket;
-
 if (location.pathname.endsWith('/')) {
     location.pathname = location.pathname.substring(0, location.pathname.length - 1);
 }
 
-const roomName = location.pathname.substring(13);
+var socket;
+const ROOM_NAME = location.pathname.substring(13);
 var userId;
 var username = localStorage.getItem('username');
 var validCategories = [];
 var validSubcategories = [];
+var currentQuestion = {}
 
 function connectToWebSocket() {
-    socket = new WebSocket(location.href.replace('http', 'ws'), roomName);
+    socket = new WebSocket(location.href.replace('http', 'ws'), ROOM_NAME);
     socket.onopen = function () {
         socket.send(JSON.stringify({ type: 'join', username: username }));
         console.log('Connected to websocket');
@@ -23,7 +23,6 @@ function connectToWebSocket() {
         switch (data.type) {
             case 'user-id':
                 userId = data.userId;
-                data.username = username;
                 break;
             case 'join':
                 logEvent(data.username, `joined the game`);
@@ -33,23 +32,10 @@ function connectToWebSocket() {
                 logEvent(data.oldUsername, 'changed their name to ' + data.username);
                 document.getElementById('accordion-username-' + data.userId).innerHTML = data.username;
                 break;
-            case 'set-name':
+            case 'set-title':
             case 'packet-number':
                 logEvent(data.username, `set the ${data.type} to ${data.value}`);
                 document.getElementById(data.type).value = data.value;
-                break;
-            case 'start':
-                if (await start('tossups', data.userId === userId)) {
-                    logEvent(data.username, `started the game`);
-                }
-                break;
-            case 'buzz':
-                processBuzz(data.userId, data.username);
-                document.getElementById('buzz').disabled = true;
-                break;
-            case 'next':
-                logEvent(data.username, `clicked the next button`);
-                readQuestion();
                 break;
             case 'reading-speed':
                 logEvent(data.username, `changed the reading speed to ${data.value}`);
@@ -58,22 +44,30 @@ function connectToWebSocket() {
                 break;
             case 'update-subcategories':
                 validSubcategories = data.value;
-                loadCategories(validCategories, validSubcategories);
+                loadCategoryModal(validCategories, validSubcategories);
                 break;
             case 'update-categories':
                 validCategories = data.value;
-                loadCategories(validCategories, validSubcategories);
+                loadCategoryModal(validCategories, validSubcategories);
                 break;
-            case 'leave':
-                logEvent(data.username, `left the game`);
-                document.getElementById('accordion-' + data.userId).remove();
+            case 'start':
+            case 'next':
+                await loadAndReadQuestion();
+                break;
+            case 'buzz':
+                processBuzz(data.userId, data.username);
+                break;
+            case 'answer':
+                processAnswer(data.userId, data.username, data.givenAnswer, data.score);
                 break;
             case 'pause':
                 logEvent(data.username, `${paused ? 'un' : ''}paused the game`);
                 pause();
                 break;
-            case 'answer':
-                processAnswer(data.userId, data.username, data.givenAnswer, data.score);
+            case 'leave':
+                logEvent(data.username, `left the game`);
+                document.getElementById('accordion-' + data.userId).remove();
+                break;
         }
     }
 
@@ -165,15 +159,27 @@ function logEvent(username, message) {
     document.getElementById('event-log').prepend(li);
 }
 
+async function loadAndReadQuestion() {
+    fetch(`/api/get-current-question?roomName=${ROOM_NAME}`)
+        .then(response => response.json())
+        .then(data => {
+            currentQuestion = data;
+            questionText = data.question;
+            questionTextSplit = questionText.split(' ');
+            readQuestion();
+        });
+}
+
 function processBuzz(userId, username) {
     logEvent(username, `buzzed`);
 
     clearTimeout(timeoutID);
 
-    // Include buzzpoint
-    document.getElementById('question').innerHTML += '(#) ';
+    document.getElementById('question').innerHTML += '(#) '; // Include buzzpoint
+
     document.getElementById('buzz').disabled = true;
     document.getElementById('pause').disabled = true;
+    document.getElementById('next').disabled = true;
 }
 
 function processAnswer(userId, username, givenAnswer, score) {
@@ -182,10 +188,11 @@ function processAnswer(userId, username, givenAnswer, score) {
     // Update question text and show answer:
     if (score >= 0) {
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + currentQuestion.answer;
         document.getElementById('buzz').innerHTML = 'Buzz';
-        document.getElementById('next').innerHTML = 'Next';
         document.getElementById('buzz').disabled = true;
+        document.getElementById('next').innerHTML = 'Next';
+        document.getElementById('next').disabled = false;
     } else {
         console.log('bad');
         printWord();
@@ -204,6 +211,19 @@ function processAnswer(userId, username, givenAnswer, score) {
     document.getElementById('accordion-username-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-username-points-' + userId).innerHTML) + score;
 }
 
+// Game logic
+document.getElementById('start').addEventListener('click', async function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'start', userId: userId, username: username }));
+});
+
+document.getElementById('buzz').addEventListener('click', function () {
+    this.blur();
+    document.getElementById('answer-input-group').classList.remove('d-none');
+    document.getElementById('answer-input').focus();
+    socket.send(JSON.stringify({ type: 'buzz', userId: userId, username: username }));
+});
+
 document.getElementById('form').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -220,10 +240,12 @@ document.getElementById('form').addEventListener('submit', function (event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            roomName: roomName,
+            roomName: ROOM_NAME,
             userId: userId,
             answer: answer,
-            celerity: celerity
+            celerity: celerity,
+            inPower: !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)'),
+            endOfQuestion: (questionTextSplit.length === 0)
         })
     }).then((response) => {
         return response.json();
@@ -232,28 +254,9 @@ document.getElementById('form').addEventListener('submit', function (event) {
     });
 });
 
-
-document.getElementById('username').addEventListener('change', function () {
-    socket.send(JSON.stringify({ 'type': 'change-username', userId: userId, oldUsername: username, username: this.value }));
-    username = this.value;
-    localStorage.setItem('username', username);
-});
-
-// Event listeners
-document.getElementById('reading-speed').addEventListener('input', function () {
-    socket.send(JSON.stringify({ 'type': 'reading-speed', userId: userId, username: username, value: this.value }));
-});
-
-document.getElementById('start').addEventListener('click', async function () {
+document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'start', userId: userId, username: username }));
-});
-
-document.getElementById('buzz').addEventListener('click', function () {
-    this.blur();
-    document.getElementById('answer-input-group').classList.remove('d-none');
-    document.getElementById('answer-input').focus();
-    socket.send(JSON.stringify({ type: 'buzz', userId: userId, username: username }));
+    socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
 });
 
 document.getElementById('pause').addEventListener('click', function () {
@@ -261,16 +264,7 @@ document.getElementById('pause').addEventListener('click', function () {
     socket.send(JSON.stringify({ type: 'pause', userId: userId, username: username }));
 });
 
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-    socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
-});
-
-document.getElementById('toggle-correct').addEventListener('click', function () {
-    this.blur();
-    toggleCorrect();
-});
-
+// Other event listeners
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
@@ -288,29 +282,39 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     });
 });
 
-document.getElementById('set-name').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'set-name', username: username, value: this.value }));
+document.getElementById('set-title').addEventListener('change', function () {
+    socket.send(JSON.stringify({ type: 'set-title', username: username, value: this.value }));
 });
 
 document.getElementById('packet-number').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'packet-number', username: username, value: this.value }));
+    socket.send(JSON.stringify({ type: 'packet-number', username: username, value: parsePacketNumbers(this.value, maxPacketNumber) }));
 });
 
 document.getElementById('question-select').addEventListener('change', function () {
     socket.send(JSON.stringify({ type: 'question-number', username: username, value: this.value }));
 });
 
+document.getElementById('username').addEventListener('change', function () {
+    socket.send(JSON.stringify({ 'type': 'change-username', userId: userId, oldUsername: username, username: this.value }));
+    username = this.value;
+    localStorage.setItem('username', username);
+});
+
+document.getElementById('reading-speed').addEventListener('input', function () {
+    socket.send(JSON.stringify({ 'type': 'reading-speed', userId: userId, username: username, value: this.value }));
+});
+
 window.onload = () => {
     document.getElementById('username').value = username;
     connectToWebSocket();
-    fetch(`/api/get-room?room=${encodeURI(roomName)}`)
+    fetch(`/api/get-room?roomName=${encodeURI(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('set-name').value = data.setName;
+            document.getElementById('set-title').value = data.setTitle;
             document.getElementById('packet-number').value = data.packetNumbers;
             validCategories = data.validCategories;
             validSubcategories = data.validSubcategories;
-            loadCategories(validCategories, validSubcategories);
+            loadCategoryModal(validCategories, validSubcategories);
             Object.keys(data.players).forEach(player => {
                 if (data.players[player].userId === userId) return;
                 createPlayerAccordion(data.players[player].userId, data.players[player].username, data.players[player].powers, data.players[player].tens, data.players[player].negs, data.players[player].tuh, data.players[player].points);

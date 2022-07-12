@@ -1,15 +1,20 @@
+const database = require('./database');
+
 var rooms = {};
 
 function createRoom(roomName) {
     rooms[roomName] = {
         players: {},
+        setTitle: '',
+        setYear: 0,
         setName: '',
-        packetNumbers: [],
+        packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 178, 19, 20, 21, 22, 23, 24],
         packetNumber: -1,
         currentQuestionNumber: 0,
         readingSpeed: 50,
         validCategories: [],
         validSubcategories: [],
+        currentQuestion: {}
     }
 }
 
@@ -29,10 +34,6 @@ function createPlayer(roomName, userId, username) {
     return true;
 }
 
-function changeUsername(roomName, userId, username) {
-    rooms[roomName].players[userId].username = username;
-}
-
 function getRoom(roomName) {
     if (roomName in rooms) {
         return rooms[roomName];
@@ -46,6 +47,7 @@ function getRoom(roomName) {
             readingSpeed: 50,
             validCategories: [],
             validSubcategories: [],
+            currentQuestion: {}
         };
     }
 }
@@ -56,8 +58,27 @@ function getRoomList() {
     });
 }
 
+function getCurrentQuestion(roomName) {
+    return rooms[roomName].currentQuestion;
+}
+
+function goToNextQuestion(roomName) {
+    let data = database.getNextQuestion(rooms[roomName].setYear, rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].currentQuestionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
+
+    rooms[roomName].currentQuestion = data.question;
+    rooms[roomName].packetNumbers = data.packetNumbers;
+    rooms[roomName].packetNumber = data.packetNumber;
+    rooms[roomName].currentQuestionNumber = data.currentQuestionNumber;
+
+    return data.question;
+}
+
 function deleteRoom(roomName) {
     delete rooms[roomName];
+}
+
+function updateUsername(roomName, userId, username) {
+    rooms[roomName].players[userId].username = username;
 }
 
 function updateScore(roomName, userId, score) {
@@ -76,6 +97,14 @@ function updateScore(roomName, userId, score) {
     return score;
 }
 
+function checkAnswerCorrectness(roomName, givenAnswer, inPower, endOfQuestion) {
+    if (database.checkAnswerCorrectness(rooms[roomName].currentQuestion.answer, givenAnswer)) {
+        return inPower ? 15 : 10;
+    } else {
+        return endOfQuestion ? 0 : -5;
+    }
+}
+
 /**
  * 
  * @param {JSON} message 
@@ -87,10 +116,13 @@ function parseMessage(roomName, message) {
             createPlayer(roomName, message.userId, message.username);
             break;
         case 'change-username':
-            changeUsername(roomName, message.userId, message.username);
+            updateUsername(roomName, message.userId, message.username);
             break;
-        case 'set-name':
-            rooms[roomName].setName = message.value;
+        case 'set-title':
+            rooms[roomName].setTitle = message.value;
+            let [year, name] = database.parseSetTitle(message.value);
+            rooms[roomName].setYear = year;
+            rooms[roomName].setName = name;
             break;
         case 'packet-number':
             rooms[roomName].packetNumbers = message.value;
@@ -107,7 +139,11 @@ function parseMessage(roomName, message) {
         case 'leave':
             delete rooms[roomName].players[message.userId];
             break;
+        case 'start':
+        case 'next':
+            goToNextQuestion(roomName);
+            break;
     }
 }
 
-module.exports = { getRoom, getRoomList, deleteRoom, updateScore, parseMessage };
+module.exports = { getRoom, getRoomList, getCurrentQuestion, goToNextQuestion, deleteRoom, updateScore, checkAnswerCorrectness, parseMessage };

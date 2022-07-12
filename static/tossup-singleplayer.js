@@ -12,7 +12,7 @@ function buzz() {
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) {
             shift('powers', 1);
-            if (setName.toLowerCase().includes('pace')) {
+            if (setTitle.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -62,6 +62,84 @@ function clearStats() {
     updateStatDisplay();
 }
 
+async function loadAndReadQuestion(mode = 'tossups') {
+    do {  // Get the next question
+        currentQuestionNumber++;
+
+        // Go to the next packet if you reach the end of this packet
+        if (currentQuestionNumber >= questions.length) {
+            if (packetNumbers.length == 0) {
+                window.alert("No more questions left");
+                return;  // alert the user if there are no more packets
+            }
+            currentPacketNumber = packetNumbers.shift();
+            clearTimeout(timeoutID); // stop reading the current question 
+            questions = await getPacket(setTitle, currentPacketNumber, mode);
+            currentQuestionNumber = 0;
+        }
+
+        // Get the next question if the current one is in the wrong category and subcategory
+    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
+
+    questionTextSplit = questions[currentQuestionNumber]['question'].split(' ');
+
+    readQuestion();
+}
+
+function toggleCorrect() {
+    if (toggleCorrectClicked) {
+        if (inPower) {
+            shift('powers', 1);
+            if (setTitle.toLowerCase().includes('pace')) {
+                shift('points', 20);
+            }
+            else {
+                shift('points', 15);
+            }
+        } else {
+            shift('tens', 1);
+            shift('points', 10);
+        }
+        // Check if there is more question to be read 
+        if (questionTextSplit.length == 0) {
+            shift('dead', -1);
+        } else if (setTitle.toLowerCase().includes('pace')) {
+            shift('negs', -1);
+        } else {
+            shift('negs', -1);
+            shift('points', 5);
+        }
+        document.getElementById('toggle-correct').innerHTML = 'I was wrong';
+    }
+    else {
+        if (inPower) {
+            shift('powers', -1);
+            if (setTitle.toLowerCase().includes('pace')) {
+                shift('points', -20);
+            }
+            else {
+                shift('points', -15);
+            }
+        }
+        else {
+            shift('tens', -1);
+            shift('points', -10);
+        }
+
+        if (questionTextSplit.length == 0) {
+            shift('dead', 1);
+        } else if (setTitle.toLowerCase().includes('pace')) {
+            shift('negs', 1);
+        } else {
+            shift('negs', 1);
+            shift('points', -5);
+        }
+        document.getElementById('toggle-correct').innerHTML = 'I was right';
+    }
+    updateStatDisplay();
+    toggleCorrectClicked = !toggleCorrectClicked;
+}
+
 /**
  * Updates the displayed stat line.
  */
@@ -84,10 +162,10 @@ function updateStatDisplay() {
  */
 
 // Keep text fields in localStorage
-var packetNameField = document.getElementById('set-name');
+var packetNameField = document.getElementById('set-title');
 if (localStorage.getItem('packetNameTossupSave')) {
     packetNameField.value = localStorage.getItem('packetNameTossupSave');
-    let [year, name] = parseSetName(setNameField.value);
+    let [year, name] = parseSetTitle(setNameField.value);
     (async () => {
         maxPacketNumber = await getNumPackets(year, name);
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
@@ -116,9 +194,9 @@ questionNumberField.addEventListener('change', function () {
 
 // Event listeners
 
-document.getElementById('next').addEventListener('click', function () {
+document.getElementById('next').addEventListener('click', async function () {
     this.blur();
-    readQuestion();
+    await loadAndReadQuestion();
 });
 
 document.getElementById('reading-speed').addEventListener('change', function () {
@@ -189,6 +267,6 @@ if (sessionStorage.getItem('totalCelerity') === null)
     sessionStorage.setItem('totalCelerity', 0);
 
 //load the selected categories and subcategories
-loadCategories(validCategories, validSubcategories);
+loadCategoryModal(validCategories, validSubcategories);
 
 updateStatDisplay(); //update stats upon loading site

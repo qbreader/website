@@ -6,10 +6,10 @@ var validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
  */
 
 // Keep text fields in localStorage
-var packetNameField = document.getElementById('set-name');
-if (localStorage.getItem('packetNameTossupSave')) {
-    packetNameField.value = localStorage.getItem('packetNameTossupSave');
-    let [year, name] = parseSetName(setNameField.value);
+var packetNameField = document.getElementById('set-title');
+if (localStorage.getItem('setTitleBonusSave')) {
+    packetNameField.value = localStorage.getItem('setTitleBonusSave');
+    let [year, name] = parseSetTitle(setNameField.value);
     (async () => {
         maxPacketNumber = await getNumPackets(year, name);
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
@@ -17,7 +17,7 @@ if (localStorage.getItem('packetNameTossupSave')) {
 }
 
 packetNameField.addEventListener('change', function () {
-    localStorage.setItem('packetNameTossupSave', packetNameField.value);
+    localStorage.setItem('setTitleBonusSave', packetNameField.value);
 });
 
 var packetNumberField = document.getElementById('packet-number');
@@ -43,7 +43,7 @@ document.getElementById('start').addEventListener('click', async function () {
     start('bonuses')
 });
 
-document.getElementById('next').addEventListener('click', function () {
+document.getElementById('next').addEventListener('click', async function () {
     this.blur();
 
     if (this.innerHTML === 'Next') {
@@ -52,12 +52,12 @@ document.getElementById('next').addEventListener('click', function () {
     }
 
     onQuestion = true;
-    readQuestion();
+    await loadAndReadQuestion();
 });
 
 document.getElementById('reveal').addEventListener('click', function () {
     this.blur();
-    reveal();
+    revealBonusPart();
 });
 
 document.querySelectorAll('#categories input').forEach(input => {
@@ -85,7 +85,7 @@ if (localStorage.getItem('validCategories') === null)
     localStorage.setItem('validCategories', '[]');
 
 //load the selected categories and subcategories
-loadCategories(validCategories, validSubcategories);
+loadCategoryModal(validCategories, validSubcategories);
 
 /**
  * An array that represents
