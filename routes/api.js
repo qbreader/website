@@ -3,6 +3,17 @@ const router = express.Router();
 const fs = require('fs');
 const rooms = require('../rooms');
 
+router.post('/give-answer', (req, res) => {
+    let roomName = req.body.roomName;
+    let userId = req.body.userId;
+    let answer = decodeURIComponent(req.body.answer);
+
+    rooms.updateScore(roomName, userId, 10);
+    res.send(JSON.stringify({
+        score: 10
+    }));
+});
+
 router.get('/get-room', (req, res) => {
     req.query.room = decodeURI(req.query.room);
     res.send(JSON.stringify(rooms.getRoom(req.query.room)));

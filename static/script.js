@@ -194,6 +194,7 @@ async function getQuestions(setName, packet_number, mode = 'all') {
 
 /**
  * Starts reading questions.
+ * @returns {Promsie<Boolean>} Whether or not the function was successful.
  */
 async function start(mode) {
     document.getElementById('options').classList.add('d-none');
@@ -202,7 +203,7 @@ async function start(mode) {
     setName = document.getElementById('set-name').value.trim();
     if (setName.length == 0) {
         window.alert('Enter a packet name.');
-        return;
+        return false;
     }
 
     packetNumbers = document.getElementById('packet-number').value.trim();
@@ -218,6 +219,8 @@ async function start(mode) {
     document.getElementById('next').innerHTML = 'Skip';
 
     readQuestion();
+
+    return true;
 }
 
 
