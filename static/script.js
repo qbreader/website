@@ -139,8 +139,8 @@ function parseSetTitle(setTitle) {
     return [year, name];
 }
 
-function parsePacketNumbers(packetNumberString, maxPacketNumber = maxPacketNumber) {
-    if (packetNumberString.length == 0 || packetNumberString.toLowerCase() == 'all') {
+function parsePacketNumbers(packetNumberString, maxPacketNumber = 24) {
+    if (packetNumberString.length === 0 || packetNumberString.toLowerCase() === 'all') {
         packetNumberString = `1-${maxPacketNumber}`;
     }
     var packetNumbers = packetNumberString.split(',');
@@ -179,7 +179,7 @@ async function getNumPackets(year, setName) {
 async function getPacket(setTitle, packetNumber, mode = 'all') {
     let [year, name] = parseSetTitle(setTitle);
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/api/get-packet?year=${encodeURI(year)}&setName=${encodeURI(name)}&packet_number=${encodeURI(packetNumber)}`)
+    return await fetch(`/api/get-packet?year=${encodeURI(year)}&setName=${encodeURI(name)}&packetNumber=${encodeURI(packetNumber)}`)
         .then(response => response.json())
         .then(data => {
             if (mode === 'all') {
@@ -206,14 +206,12 @@ async function start(mode, alertOnFailure = true) {
     document.getElementById('options').classList.add('d-none');
     document.getElementById('toggle-options').disabled = false;
     
-    packetNumbers = document.getElementById('packet-number').value.trim();
-    packetNumbers = parsePacketNumbers(packetNumbers, maxPacketNumber);
+    packetNumbers = parsePacketNumbers(document.getElementById('packet-number').value.trim(), maxPacketNumber);
     currentPacketNumber = packetNumbers.shift();
 
     currentQuestionNumber = document.getElementById('question-select').value;
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
-    console.log(currentQuestionNumber);
 
     questions = await getPacket(setTitle, currentPacketNumber, mode);
 

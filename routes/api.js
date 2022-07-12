@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const rooms = require('../rooms');
+const database = require('../database');
 
 router.post('/give-answer', (req, res) => {
     let roomName = req.body.roomName;
@@ -28,14 +29,10 @@ router.get('/get-room-list', (req, res) => {
 
 router.get('/get-packet', async (req, res) => {
     req.query.year = decodeURI(req.query.year);
-    req.query.setName = decodeURI(req.query.setName.toLowerCase());
-    req.query.setName = req.query.setName.replace(/\s/g, '_');
-    var directory = `../packets/${req.query.year}-${req.query.setName}/${req.query.packet_number}.json`;
+    req.query.setName = decodeURI(req.query.setName);
     try {
-        var jsonfile = require(directory);
-        res.send(JSON.stringify(jsonfile));
+        res.send(JSON.stringify(database.getPacket(req.query.year, req.query.setName, req.query.packetNumber)));
     } catch (error) {
-        console.log('ERROR: Could not find packet located at ' + directory);
         res.send(JSON.stringify({}));
     }
 });

@@ -59,6 +59,8 @@ function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, valid
 }
 
 function getPacket(year, name, packetNumber) {
+    name = name.toLowerCase();
+    name = name.replace(/\s/g, '_');
     let directory = `./packets/${year}-${name}/${packetNumber}.json`;
     try {
         let jsonfile = require(directory);
