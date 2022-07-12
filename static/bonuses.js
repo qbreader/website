@@ -118,8 +118,6 @@ async function loadAndReadQuestion() {
             }
             currentPacketNumber = packetNumbers.shift();
             questions = await getPacket(setTitle, currentPacketNumber, mode = 'bonuses');
-            console.log(questions);
-            console.log(setTitle);
             currentQuestionNumber = 0;
         }
 
