@@ -189,12 +189,10 @@ function processAnswer(userId, username, givenAnswer, score) {
     if (score >= 0) {
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         document.getElementById('answer').innerHTML = 'ANSWER: ' + currentQuestion.answer;
-        document.getElementById('buzz').innerHTML = 'Buzz';
-        document.getElementById('buzz').disabled = true;
         document.getElementById('next').innerHTML = 'Next';
         document.getElementById('next').disabled = false;
     } else {
-        console.log('bad');
+        document.getElementById('buzz').disabled = false;
         printWord();
     }
 
