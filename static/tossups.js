@@ -38,10 +38,6 @@ async function readQuestion() {
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
 
-    document.getElementById('set-title-info').innerHTML = setTitle;
-    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
-
     document.getElementById('buzz').removeAttribute('disabled');
     document.getElementById('pause').innerHTML = 'Pause';
     document.getElementById('pause').removeAttribute('disabled');

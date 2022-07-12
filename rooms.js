@@ -10,7 +10,7 @@ function createRoom(roomName) {
         setName: '',
         packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 178, 19, 20, 21, 22, 23, 24],
         packetNumber: -1,
-        currentQuestionNumber: 0,
+        currentQuestionNumber: -1,
         readingSpeed: 50,
         validCategories: [],
         validSubcategories: [],
@@ -40,10 +40,12 @@ function getRoom(roomName) {
     } else {
         return {
             players: {},
+            setTitle: '',
+            setYear: 0,
             setName: '',
             packetNumbers: [],
             packetNumber: -1,
-            currentQuestionNumber: 0,
+            currentQuestionNumber: -1,
             readingSpeed: 50,
             validCategories: [],
             validSubcategories: [],
@@ -59,7 +61,12 @@ function getRoomList() {
 }
 
 function getCurrentQuestion(roomName) {
-    return rooms[roomName].currentQuestion;
+    return {
+        question: rooms[roomName].currentQuestion,
+        packetNumber: rooms[roomName].packetNumber,
+        questionNumber: rooms[roomName].currentQuestionNumber,
+        setTitle: rooms[roomName].setTitle,
+    };
 }
 
 function goToNextQuestion(roomName) {

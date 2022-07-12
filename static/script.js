@@ -240,9 +240,8 @@ document.getElementById('toggle-options').addEventListener('click', function () 
     document.getElementById('options').classList.toggle('d-none');
 });
 
-const setNameField = document.getElementById('set-title');
-setNameField.addEventListener('change', async (event) => {
-    let [year, name] = parseSetTitle(setNameField.value);
+document.getElementById('set-title').addEventListener('change', async function (event) {
+    let [year, name] = parseSetTitle(this.value);
     maxPacketNumber = await getNumPackets(year, name);
     if (maxPacketNumber > 0) {
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
