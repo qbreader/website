@@ -38,19 +38,7 @@ function getRoom(roomName) {
     if (roomName in rooms) {
         return rooms[roomName];
     } else {
-        return {
-            players: {},
-            setTitle: '',
-            setYear: 0,
-            setName: '',
-            packetNumbers: [],
-            packetNumber: 0,
-            currentQuestionNumber: -1,
-            readingSpeed: 50,
-            validCategories: [],
-            validSubcategories: [],
-            currentQuestion: {}
-        };
+        return {};
     }
 }
 
@@ -119,7 +107,6 @@ function checkAnswerCorrectness(roomName, givenAnswer, inPower, endOfQuestion) {
 function parseMessage(roomName, message) {
     switch (message.type) {
         case 'join':
-            if (!(roomName in rooms)) createRoom(roomName);
             createPlayer(roomName, message.userId, message.username);
             break;
         case 'change-username':
@@ -153,4 +140,4 @@ function parseMessage(roomName, message) {
     }
 }
 
-module.exports = { getRoom, getRoomList, getCurrentQuestion, goToNextQuestion, deleteRoom, updateScore, checkAnswerCorrectness, parseMessage };
+module.exports = { getRoom, getRoomList, getCurrentQuestion, goToNextQuestion, deleteRoom, createRoom, updateScore, checkAnswerCorrectness, parseMessage };
