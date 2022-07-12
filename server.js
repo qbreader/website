@@ -57,8 +57,6 @@ wss.on('connection', (ws) => {
         }
 
         for (let i = 0; i < sockets[ws.protocol].length; i++) {
-            if (sockets[ws.protocol][i] === ws) continue;
-
             sockets[ws.protocol][i].send(JSON.stringify(message));
         }
     });
@@ -81,7 +79,7 @@ wss.on('connection', (ws) => {
             rooms.deleteRoom(ws.protocol);
             delete sockets[ws.protocol];
         }
-    })
+    });
 });
 
 

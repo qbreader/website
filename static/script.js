@@ -196,13 +196,13 @@ async function getQuestions(setName, packet_number, mode = 'all') {
  * Starts reading questions.
  * @returns {Promsie<Boolean>} Whether or not the function was successful.
  */
-async function start(mode) {
+async function start(mode, alertOnFailure = true) {
     document.getElementById('options').classList.add('d-none');
     document.getElementById('toggle-options').disabled = false;
 
     setName = document.getElementById('set-name').value.trim();
     if (setName.length == 0) {
-        window.alert('Enter a packet name.');
+        if (alertOnFailure) alert('Please enter a set name.');
         return false;
     }
 
