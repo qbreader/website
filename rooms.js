@@ -2,7 +2,7 @@ var rooms = {};
 
 function createRoom(roomName) {
     rooms[roomName] = {
-        players: [],
+        players: {},
         setName: '',
         packetNumbers: [],
         packetNumber: -1,
@@ -14,27 +14,23 @@ function createRoom(roomName) {
 }
 
 function createPlayer(roomName, userId, username) {
-    let valid = true;
-    rooms[roomName].players.forEach((player) => {
-        if (player.userId === userId) valid = false;
-    });
+    if (userId in rooms[roomName].players) return false;
 
-    if (!valid) return false;
-
-    rooms[roomName].players.push({
+    rooms[roomName].players[userId] = {
         username: username,
         userId: userId,
-        tossupStatline: [],
+        powers: 0,
+        tens: 0,
+        zeroes: 0,
+        negs: 0,
         points: 0
-    });
+    };
 
     return true;
 }
 
 function changeUsername(roomName, userId, username) {
-    rooms[roomName].players.forEach(player => {
-        if (player.userId === userId) player.username = username;
-    });
+    rooms[roomName].players[userId].username = username;
 }
 
 function getRoom(roomName) {
@@ -42,7 +38,7 @@ function getRoom(roomName) {
         return rooms[roomName];
     } else {
         return {
-            players: [],
+            players: {},
             setName: '',
             packetNumbers: [],
             packetNumber: -1,
@@ -56,12 +52,28 @@ function getRoom(roomName) {
 
 function getRoomList() {
     return Object.keys(rooms).map((roomName) => {
-        return [roomName, rooms[roomName].players.length]
+        return [roomName, Object.keys(rooms[roomName].players).length]
     });
 }
 
 function deleteRoom(roomName) {
     delete rooms[roomName];
+}
+
+function updateScore(roomName, userId, score) {
+    if (score > 10) {
+        rooms[roomName].players[userId].powers++;
+    } else if (score === 10) {
+        rooms[roomName].players[userId].tens++;
+    } else if (score === 0) {
+        rooms[roomName].players[userId].zeroes++;
+    } else {
+        rooms[roomName].players[userId].negs++;
+    }
+
+    rooms[roomName].players[userId].points += score;
+
+    return score;
 }
 
 /**
@@ -93,9 +105,9 @@ function parseMessage(roomName, message) {
             rooms[roomName].validSubcategories = message.value;
             break;
         case 'leave':
-            rooms[roomName].players = rooms[roomName].players.filter(player => player.username !== message.username);
+            delete rooms[roomName].players[message.userId];
             break;
     }
 }
 
-module.exports = { getRoom, getRoomList, deleteRoom, parseMessage };
+module.exports = { getRoom, getRoomList, deleteRoom, updateScore, parseMessage };
