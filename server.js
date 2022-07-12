@@ -38,6 +38,7 @@ wss.on('connection', (ws) => {
     if (ws.protocol in sockets) {
         sockets[ws.protocol].push(ws);
     } else {
+        rooms.createRoom(ws.protocol);
         sockets[ws.protocol] = [ws];
     }
 

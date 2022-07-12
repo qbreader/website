@@ -219,6 +219,10 @@ function processAnswer(userId, username, givenAnswer, score) {
 // Game logic
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
+    if (document.getElementById('set-title').value === '') {
+        alert('Please choose a set.');
+        return;
+    }
     socket.send(JSON.stringify({ type: 'start', userId: userId, username: username }));
 });
 
