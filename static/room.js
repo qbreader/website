@@ -82,7 +82,7 @@ function connectToWebSocket() {
     }
 }
 
-function createPlayerAccordion(userId, username) {
+function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0) {
     let button = document.createElement('button');
     button.className = 'accordion-button collapsed';
     button.type = 'button';
@@ -98,7 +98,7 @@ function createPlayerAccordion(userId, username) {
 
     let buttonPoints = document.createElement('span');
     buttonPoints.id = 'accordion-username-points-' + userId;
-    buttonPoints.innerHTML = 0;
+    buttonPoints.innerHTML = points;
     button.appendChild(buttonPoints);
     button.innerHTML += '&nbsp;pts)';
 
@@ -111,36 +111,36 @@ function createPlayerAccordion(userId, username) {
     accordionBody.className = 'accordion-body';
     // 0/0/0 with 0 tossups seen (0 pts, celerity: 0)
 
-    let powers = document.createElement('span');
-    powers.innerHTML = '0';
-    powers.id = 'powers-' + userId;
-    accordionBody.appendChild(powers);
+    let powersSpan = document.createElement('span');
+    powersSpan.innerHTML = powers;
+    powersSpan.id = 'powers-' + userId;
+    accordionBody.appendChild(powersSpan);
     accordionBody.innerHTML += '/';
 
-    let tens = document.createElement('span');
-    tens.innerHTML = '0';
-    tens.id = 'tens-' + userId;
-    accordionBody.appendChild(tens);
+    let tensSpan = document.createElement('span');
+    tensSpan.innerHTML = tens;
+    tensSpan.id = 'tens-' + userId;
+    accordionBody.appendChild(tensSpan);
     accordionBody.innerHTML += '/';
 
-    let negs = document.createElement('span');
-    negs.innerHTML = '0';
-    negs.id = 'negs-' + userId;
-    accordionBody.appendChild(negs);
+    let negsSpan = document.createElement('span');
+    negsSpan.innerHTML = negs;
+    negsSpan.id = 'negs-' + userId;
+    accordionBody.appendChild(negsSpan);
 
     accordionBody.innerHTML += ' with '
 
-    let tuh = document.createElement('span');
-    tuh.innerHTML = '0';
-    tuh.id = 'tuh-' + userId;
-    accordionBody.appendChild(tuh);
+    let tuhSpan = document.createElement('span');
+    tuhSpan.innerHTML = tuh;
+    tuhSpan.id = 'tuh-' + userId;
+    accordionBody.appendChild(tuhSpan);
 
     accordionBody.innerHTML += ' tossups seen (';
 
-    let points = document.createElement('span');
-    points.innerHTML = '0';
-    points.id = 'points-' + userId;
-    accordionBody.appendChild(points);
+    let pointsSpan = document.createElement('span');
+    pointsSpan.innerHTML = points;
+    pointsSpan.id = 'points-' + userId;
+    accordionBody.appendChild(pointsSpan);
 
     accordionBody.innerHTML += ' pts, celerity: 0)';
 
@@ -312,9 +312,8 @@ window.onload = () => {
             validSubcategories = data.validSubcategories;
             loadCategories(validCategories, validSubcategories);
             Object.keys(data.players).forEach(player => {
-                if (data.players[player].userId !== userId) {
-                    createPlayerAccordion(data.players[player].userId, data.players[player].username);
-                }
+                if (data.players[player].userId === userId) return;
+                createPlayerAccordion(data.players[player].userId, data.players[player].username, data.players[player].powers, data.players[player].tens, data.players[player].negs, data.players[player].tuh, data.players[player].points);
             });
         });
 }
