@@ -33,7 +33,7 @@ function connectToWebSocket() {
                 start('tossups');
                 break;
             case 'buzz':
-                alert('buzz');
+                processBuzz(data.userId, data.username);
                 document.getElementById('buzz').disabled = true;
                 break;
             case 'reading-speed':
@@ -53,6 +53,9 @@ function connectToWebSocket() {
                 break;
             case 'leave':
                 document.getElementById('accordion-' + data.userId).remove();
+                break;
+            case 'pause':
+                pause();
                 break;
         }
     }
@@ -96,6 +99,26 @@ function createPlayerAccordion(userId, username) {
     document.getElementById('player-accordion').appendChild(accordionItem);
 }
 
+function processBuzz(userId, username) {
+    clearTimeout(timeoutID);
+
+    let li = document.createElement('li');
+    li.innerHTML = username + ' buzzed';
+    document.getElementById('event-log').appendChild(li);
+
+    // Include buzzpoint
+    document.getElementById('question').innerHTML += '(#) ';
+
+    document.getElementById('buzz').disabled = true;
+    document.getElementById('pause').disabled = true;
+}
+
+function processAnswer(userId, username, givenAnswer, score) {
+    let li = docuemnt.createElement('li');
+    li.innerHTML = `${username} ${score > 0 ? '' : 'in'}correctly answered with ${givenAnswer} for ${score} points`;
+    document.getElementById('event-log').appendChild(li);
+}
+
 document.getElementById('username').addEventListener('change', function () {
     username = this.value;
     document.getElementById('accordion-username-' + userId).innerHTML = username;
@@ -118,7 +141,8 @@ document.getElementById('start').addEventListener('click', function () {
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
-    buzz();
+    processBuzz(userId, username);
+    document.getElementById('answer-input-group').classList.remove('d-none');
     socket.send(JSON.stringify({ type: 'buzz', userId: userId, username: username }));
 });
 
