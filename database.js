@@ -1,3 +1,11 @@
+const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
+const SUBCATEGORIES = [
+    ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
+    ["American History", "Ancient History", "European History", "World History", "Other History"],
+    ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
+    ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"]
+]
+
 /**
  * Source: https://www.30secondsofcode.org/js/s/levenshtein-distance
  * @param {String} s 
@@ -109,6 +117,7 @@ function getPacket(year, name, packetNumber) {
         return jsonfile;
     } catch (error) {
         console.log('ERROR: Could not find packet located at ' + directory);
+        return {};
     }
 }
 
