@@ -15,26 +15,31 @@ function connectToWebSocket() {
     socket.onmessage = function (event) {
         let data = JSON.parse(event.data);
         console.log(data);
+        let li = document.createElement('li');
         switch (data.type) {
             case 'user-id':
                 userId = data.userId;
                 createPlayerAccordion(userId, username);
                 break;
             case 'change-username':
+                li.innerHTML = document.getElementById('accordion-username-' + data.userId).innerHTML + ' changed their name to ' + data.username;
                 document.getElementById('accordion-username-' + data.userId).innerHTML = data.username;
                 break;
             case 'set-name':
-                document.getElementById('set-name').value = data.value;
-                break;
             case 'packet-number':
-                document.getElementById('packet-number').value = data.value;
+                li.innerHTML = `${data.username} set the ${data.type} to ${data.value}`;
+                document.getElementById(data.type).value = data.value;
                 break;
             case 'start':
                 start('tossups');
                 break;
             case 'buzz':
+                li.innerHTML = `${data.username} buzzed`;
                 processBuzz(data.userId, data.username);
                 document.getElementById('buzz').disabled = true;
+                break;
+            case 'next':
+                next();
                 break;
             case 'reading-speed':
                 document.getElementById('reading-speed').value = data.value;
@@ -58,6 +63,7 @@ function connectToWebSocket() {
                 pause();
                 break;
         }
+        document.getElementById('event-log').appendChild(li);
     }
     socket.onclose = function () {
         console.log('Disconnected from websocket');
@@ -101,10 +107,6 @@ function createPlayerAccordion(userId, username) {
 
 function processBuzz(userId, username) {
     clearTimeout(timeoutID);
-
-    let li = document.createElement('li');
-    li.innerHTML = username + ' buzzed';
-    document.getElementById('event-log').appendChild(li);
 
     // Include buzzpoint
     document.getElementById('question').innerHTML += '(#) ';
@@ -167,8 +169,8 @@ document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
-        socket.send(JSON.stringify({ type: 'update-categories', value: validCategories }));
-        socket.send(JSON.stringify({ type: 'update-subcategories', value: validSubcategories }));
+        socket.send(JSON.stringify({ type: 'update-categories', username: username, value: validCategories }));
+        socket.send(JSON.stringify({ type: 'update-subcategories', username: username, value: validSubcategories }));
     });
 });
 
@@ -176,26 +178,26 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         validSubcategories = updateSubcategory(input.id, validSubcategories);
-        socket.send(JSON.stringify({ type: 'update-subcategories', value: validSubcategories }))
+        socket.send(JSON.stringify({ type: 'update-subcategories', username: username, value: validSubcategories }))
     });
 });
 
 var packetNameField = document.getElementById('set-name');
 packetNameField.addEventListener('change', function () {
     localStorage.setItem('packetNameTossupSave', packetNameField.value);
-    socket.send(JSON.stringify({ type: 'set-name', value: packetNameField.value }));
+    socket.send(JSON.stringify({ type: 'set-name', username: username, value: packetNameField.value }));
 });
 
 var packetNumberField = document.getElementById('packet-number');
 packetNumberField.addEventListener('change', function () {
     localStorage.setItem('packetNumberTossupSave', packetNumberField.value);
-    socket.send(JSON.stringify({ type: 'packet-number', value: packetNumberField.value }));
+    socket.send(JSON.stringify({ type: 'packet-number', username: username, value: packetNumberField.value }));
 });
 
 var questionNumberField = document.getElementById('question-select');
 questionNumberField.addEventListener('change', function () {
     localStorage.setItem('questionNumberTossupSave', questionNumberField.value);
-    socket.send(JSON.stringify({ type: 'question-number', value: questionNumberField.value }));
+    socket.send(JSON.stringify({ type: 'question-number', username: username, value: questionNumberField.value }));
 });
 
 window.onload = () => {
@@ -206,7 +208,6 @@ window.onload = () => {
         .then(data => {
             document.getElementById('set-name').value = data.setName;
             document.getElementById('packet-number').value = data.packetNumbers;
-            document.getElementById('question').value = data.setName;
             validCategories = data.validCategories;
             validSubcategories = data.validSubcategories;
             loadCategories(validCategories, validSubcategories);
