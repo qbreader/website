@@ -6,9 +6,8 @@ var validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
  */
 
 // Keep text fields in localStorage
-var packetNameField = document.getElementById('set-title');
 if (localStorage.getItem('setTitleBonusSave')) {
-    packetNameField.value = localStorage.getItem('setTitleBonusSave');
+    document.getElementById('set-title').value = localStorage.getItem('setTitleBonusSave');
     let [year, name] = parseSetTitle(setNameField.value);
     (async () => {
         maxPacketNumber = await getNumPackets(year, name);
@@ -16,17 +15,16 @@ if (localStorage.getItem('setTitleBonusSave')) {
     })();
 }
 
-packetNameField.addEventListener('change', function () {
-    localStorage.setItem('setTitleBonusSave', packetNameField.value);
+document.getElementById('set-title').addEventListener('change', function () {
+    localStorage.setItem('setTitleBonusSave', this.value);
 });
 
-var packetNumberField = document.getElementById('packet-number');
 if (localStorage.getItem('packetNumberTossupSave')) {
-    packetNumberField.value = localStorage.getItem('packetNumberTossupSave');
+    document.getElementById('packet-number').value = localStorage.getItem('packetNumberTossupSave');
 }
 
-packetNumberField.addEventListener('change', function () {
-    localStorage.setItem('packetNumberTossupSave', packetNumberField.value);
+document.getElementById('packet-number').addEventListener('change', function () {
+    localStorage.setItem('packetNumberTossupSave', this.value);
 });
 
 var questionNumberField = document.getElementById('question-select');
