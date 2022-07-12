@@ -199,6 +199,14 @@
             <div class="col-12 col-lg-9 col-xxl-10 order-5 order-lg-1">
                 <div class="mt-2" id="question"></div>
                 <p class="my-1 my-lg-3" id="answer"></p>
+                <form>
+                    <!-- User enters answer here -->
+                    <div class="input-group d-none mb-2" id="answer-input-group">
+                        <input type="text" class="form-control" id="answer-input" placeholder="Enter answer">
+                        <button type="button" class="btn btn-success" id="answer-submit">Submit</button>
+                    </div>
+                </form>
+                <ul class="list-unstyled" id="event-log"></ul>
             </div>
             <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 mt-lg-n4" id="options">
                 <input type="text" class="form-control mb-2" id="username" placeholder="Username">
@@ -365,7 +373,7 @@
                 <button type="button" class="mb-2 btn btn-primary" id="buzz" disabled>Buzz</button>
                 <button type="button" class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
                 <button type="button" class="mb-2 btn btn-primary" id="next" disabled>Next</button>
-                <button type="button" class="mb-2 btn btn-primary" id="toggle-correct" disabled>I was wrong</button>
+                <button type="button" class="mb-2 btn btn-primary d-none" id="toggle-correct" disabled>I was wrong</button>
                 <button type="button" class="mb-2 btn btn-warning" id="clear-stats">Clear Stats</button>
                 <button type="button" class="mb-2 btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                 <button type="button" class="mb-2 btn btn-danger"  id="toggle-options" disabled>Options</button>
