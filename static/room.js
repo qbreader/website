@@ -17,13 +17,14 @@ function connectToWebSocket() {
         console.log('Connected to websocket');
     }
 
-    socket.onmessage = function (event) {
+    socket.onmessage = async function (event) {
         let data = JSON.parse(event.data);
         console.log(data);
         switch (data.type) {
             case 'user-id':
                 userId = data.userId;
                 data.username = username;
+                break;
             case 'join':
                 logEvent(data.username, `joined the game`);
                 createPlayerAccordion(data.userId, data.username);
@@ -38,8 +39,9 @@ function connectToWebSocket() {
                 document.getElementById(data.type).value = data.value;
                 break;
             case 'start':
-                logEvent(data.username, `started the game`);
-                start('tossups');
+                if (await start('tossups', data.userId === userId)) {
+                    logEvent(data.username, `started the game`);
+                }
                 break;
             case 'buzz':
                 processBuzz(data.userId, data.username);
@@ -175,6 +177,8 @@ function processBuzz(userId, username) {
 }
 
 function processAnswer(userId, username, givenAnswer, score) {
+    logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
+
     // Update question text and show answer:
     if (score >= 0) {
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
@@ -186,8 +190,6 @@ function processAnswer(userId, username, givenAnswer, score) {
         console.log('bad');
         printWord();
     }
-
-    logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
 
     if (score > 10) {
         document.getElementById('powers-' + userId).innerHTML = parseInt(document.getElementById('powers-' + userId).innerHTML) + 1;
@@ -226,7 +228,6 @@ document.getElementById('form').addEventListener('submit', function (event) {
     }).then((response) => {
         return response.json();
     }).then((data) => {
-        processAnswer(userId, username, answer, data.score);
         socket.send(JSON.stringify({ 'type': 'answer', userId: userId, username: username, givenAnswer: answer, score: data.score }));
     });
 });
@@ -235,28 +236,21 @@ document.getElementById('form').addEventListener('submit', function (event) {
 document.getElementById('username').addEventListener('change', function () {
     socket.send(JSON.stringify({ 'type': 'change-username', userId: userId, oldUsername: username, username: this.value }));
     username = this.value;
-    document.getElementById('accordion-username-' + userId).innerHTML = username;
     localStorage.setItem('username', username);
 });
 
 // Event listeners
-document.getElementById('reading-speed').oninput = function () {
-    localStorage.setItem('speed', this.value);
-    document.getElementById('reading-speed-display').innerHTML = this.value;
-    socket.send(JSON.stringify({ 'type': 'reading-speed', value: this.value }));
-}
+document.getElementById('reading-speed').addEventListener('input', function () {
+    socket.send(JSON.stringify({ 'type': 'reading-speed', userId: userId, username: username, value: this.value }));
+});
 
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    if (await start('tossups')) {
-        logEvent(username, `started the game`);
-        socket.send(JSON.stringify({ 'type': 'start', username: username }));
-    }
+    socket.send(JSON.stringify({ type: 'start', userId: userId, username: username }));
 });
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
-    processBuzz(userId, username);
     document.getElementById('answer-input-group').classList.remove('d-none');
     document.getElementById('answer-input').focus();
     socket.send(JSON.stringify({ type: 'buzz', userId: userId, username: username }));
@@ -264,13 +258,11 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
-    pause();
     socket.send(JSON.stringify({ type: 'pause', userId: userId, username: username }));
 });
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    readQuestion();
     socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
 });
 
