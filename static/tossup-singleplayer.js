@@ -66,6 +66,7 @@ async function loadAndReadQuestion(mode = 'tossups') {
     document.getElementById('set-title-info').innerHTML = setTitle;
     document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
     document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+    currentPacketNumber = packetNumbers[0];
 
     do {  // Get the next question
         currentQuestionNumber++;
@@ -167,7 +168,8 @@ function updateStatDisplay() {
 
 // Keep text fields in localStorage
 if (localStorage.getItem('packetNameTossupSave')) {
-    document.getElementById('set-title').value = localStorage.getItem('packetNameTossupSave');
+    setTitle = localStorage.getItem('packetNameTossupSave');
+    document.getElementById('set-title').value = setTitle;
     let [year, name] = parseSetTitle(setTitle);
     (async () => {
         maxPacketNumber = await getNumPackets(year, name);

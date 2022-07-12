@@ -7,8 +7,9 @@ var validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
 
 // Keep text fields in localStorage
 if (localStorage.getItem('setTitleBonusSave')) {
-    document.getElementById('set-title').value = localStorage.getItem('setTitleBonusSave');
-    let [year, name] = parseSetTitle(setNameField.value);
+    setTitle = localStorage.getItem('setTitleBonusSave');
+    document.getElementById('set-title').value = setTitle;
+    let [year, name] = parseSetTitle(setTitle);
     (async () => {
         maxPacketNumber = await getNumPackets(year, name);
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
