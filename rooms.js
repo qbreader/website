@@ -13,18 +13,17 @@ function createRoom(roomName) {
     }
 }
 
-function createPlayer(roomName, username) {
+function createPlayer(roomName, userId, username) {
     let valid = true;
     rooms[roomName].players.forEach((player) => {
-        if (player.username === username) {
-            valid = false;
-        }
+        if (player.userId === userId) valid = false;
     });
 
     if (!valid) return false;
 
     rooms[roomName].players.push({
         username: username,
+        userId: userId,
         tossupStatline: [],
         points: 0
     });
@@ -32,11 +31,9 @@ function createPlayer(roomName, username) {
     return true;
 }
 
-function changeUsername(roomName, username, newUsername) {
+function changeUsername(roomName, userId, username) {
     rooms[roomName].players.forEach(player => {
-        if (player.username === username) {
-            player.username = newUsername;
-        }
+        if (player.userId === userId) player.username = username;
     });
 }
 
@@ -75,10 +72,10 @@ function parseMessage(roomName, message) {
     switch (message.type) {
         case 'join':
             if (!(roomName in rooms)) createRoom(roomName);
-            createPlayer(roomName, message.username);
+            createPlayer(roomName, message.userId, message.username);
             break;
         case 'change-username':
-            changeUsername(roomName, message.old, message.new);
+            changeUsername(roomName, message.userId, message.username);
             break;
         case 'set-name':
             rooms[roomName].setName = message.value;
@@ -94,6 +91,9 @@ function parseMessage(roomName, message) {
             break;
         case 'update-subcategories':
             rooms[roomName].validSubcategories = message.value;
+            break;
+        case 'leave':
+            rooms[roomName].players = rooms[roomName].players.filter(player => player.username !== message.username);
             break;
     }
 }
