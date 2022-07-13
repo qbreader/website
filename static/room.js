@@ -139,6 +139,7 @@ function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0,
     let tuhSpan = document.createElement('span');
     tuhSpan.innerHTML = tuh;
     tuhSpan.id = 'tuh-' + userId;
+    tuhSpan.className = 'tuh';
     accordionBody.appendChild(tuhSpan);
 
     accordionBody.innerHTML += ' tossups seen (';
@@ -205,15 +206,22 @@ function processBuzz(userId, username) {
 function processAnswer(userId, username, givenAnswer, score) {
     logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
 
+    document.getElementById('next').disabled = false;
+
     // Update question text and show answer:
     if (score > 0) {
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         document.getElementById('answer').innerHTML = 'ANSWER: ' + currentQuestion.answer;
         document.getElementById('next').innerHTML = 'Next';
-        document.getElementById('next').disabled = false;
     } else {
         document.getElementById('buzz').disabled = false;
         recursivelyPrintTossup();
+    }
+
+    if (score > 0) {
+        Array.from(document.getElementsByClassName('tuh')).forEach(element => {
+            element.innerHTML = parseInt(element.innerHTML) + 1;
+        });
     }
 
     if (score > 10) {
@@ -224,7 +232,6 @@ function processAnswer(userId, username, givenAnswer, score) {
         document.getElementById('negs-' + userId).innerHTML = parseInt(document.getElementById('negs-' + userId).innerHTML) + 1;
     }
 
-    document.getElementById('tuh-' + userId).innerHTML = parseInt(document.getElementById('tuh-' + userId).innerHTML) + 1;
     document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
     document.getElementById('accordion-username-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-username-points-' + userId).innerHTML) + score;
 }
