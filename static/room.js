@@ -176,7 +176,7 @@ async function loadAndReadTossup() {
     return await fetch(`/api/get-current-question?roomName=${ROOM_NAME}`)
         .then(response => response.json())
         .then(data => {
-            if (data.endOfSet) {
+            if (data.isEndOfSet) {
                 alert('You have reached the end of the set.');
                 return false;
             }
@@ -210,7 +210,11 @@ function processAnswer(userId, username, givenAnswer, score) {
 
     // Update question text and show answer:
     if (score > 0) {
-        document.getElementById('question').innerHTML += questionTextSplit.join(' ');
+        if (document.getElementById('question').innerHTML.indexOf('Question in progress...') === -1) {
+            document.getElementById('question').innerHTML += questionTextSplit.join(' ');
+        } else {
+            document.getElementById('question').innerHTML = currentQuestion.question;
+        }
         document.getElementById('answer').innerHTML = 'ANSWER: ' + currentQuestion.answer;
         document.getElementById('next').innerHTML = 'Next';
     } else {
@@ -360,6 +364,16 @@ window.onload = () => {
             validCategories = data.validCategories || [];
             validSubcategories = data.validSubcategories || [];
             loadCategoryModal(validCategories, validSubcategories);
+
+            currentQuestion = data.currentQuestion;
+            if (data.isQuestionInProgress) {
+                document.getElementById('question').innerHTML = 'Question in progress...';
+                document.getElementById('next').disabled = true;
+            } else {
+                document.getElementById('question').innerHTML = data.currentQuestion.question || '';
+                document.getElementById('answer') = 'ANSWER: ' + data.currentQuestion.answer || '';
+            }
+
             Object.keys(data.players).forEach(player => {
                 if (data.players[player].userId === userId) return;
                 createPlayerAccordion(data.players[player].userId, data.players[player].username, data.players[player].powers, data.players[player].tens, data.players[player].negs, data.players[player].tuh, data.players[player].points);
