@@ -103,7 +103,7 @@ function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, valid
     let packetNumber = packetNumbers[0];
     let questions = getPacket(year, name, packetNumber)[mode];
     if (questions.length === 0) {
-        return {endOfSet: true};
+        return {isEndOfSet: true};
     }
 
     do {  // Get the next question
@@ -112,13 +112,13 @@ function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, valid
         // Go to the next packet if you reach the end of this packet
         if (currentQuestionNumber >= questions.length) {
             if (packetNumbers.length == 0) {
-                return {endOfSet: true};  // alert the user if there are no more packets
+                return {isEndOfSet: true};  // alert the user if there are no more packets
             }
             packetNumbers.shift();
             packetNumber = packetNumbers[0];
             questions = getPacket(year, name, packetNumber)[mode];
             if (questions.length === 0) {
-                return {endOfSet: true};
+                return {isEndOfSet: true};
             }
             currentQuestionNumber = 0;
         }
@@ -127,7 +127,7 @@ function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, valid
     } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
     return {
-        endOfSet: false,
+        isEndOfSet: false,
         question: questions[currentQuestionNumber],
         packetNumber: packetNumber,
         packetNumbers: packetNumbers,
