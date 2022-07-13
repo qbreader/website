@@ -62,7 +62,7 @@ function clearStats() {
     updateStatDisplay();
 }
 
-async function loadAndReadQuestion(mode = 'tossups') {
+async function loadAndReadTossup(mode = 'tossups') {
     currentPacketNumber = packetNumbers[0];
 
     do {  // Get the next question
@@ -76,7 +76,8 @@ async function loadAndReadQuestion(mode = 'tossups') {
             }
             currentPacketNumber = packetNumbers.shift();
             clearTimeout(timeoutID); // stop reading the current question 
-            questions = await getPacket(setTitle, currentPacketNumber, mode);
+            let [setYear, setName] = parseSetTitle(setTitle);
+            questions = await getPacket(setYear, setName, currentPacketNumber, 'tossups');
             currentQuestionNumber = 0;
         }
 
@@ -90,7 +91,7 @@ async function loadAndReadQuestion(mode = 'tossups') {
     questionText = questions[currentQuestionNumber]['question'];
     questionTextSplit = questionText.split(' ');
 
-    readQuestion();
+    readTossup();
 }
 
 function toggleCorrect() {
@@ -202,7 +203,7 @@ questionNumberField.addEventListener('change', function () {
 
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
-    await loadAndReadQuestion();
+    await loadAndReadTossup();
 });
 
 document.getElementById('reading-speed').addEventListener('change', function () {
@@ -210,9 +211,14 @@ document.getElementById('reading-speed').addEventListener('change', function () 
     document.getElementById('reading-speed-display').innerHTML = this.value;
 });
 
-document.getElementById('start').addEventListener('click', function () {
+document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    start('tossups');
+    initialize();
+    let [setYear, setName] = parseSetTitle(setTitle);
+    await getPacket(setYear, setName, currentPacketNumber, 'tossups').then(async (data) => {
+        questions = data;
+        await loadAndReadTossup();
+    });
 });
 
 document.getElementById('buzz').addEventListener('click', function () {

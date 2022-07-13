@@ -99,7 +99,7 @@ function clearStats() {
 /**
  * Loads and reads the next question.
  */
-async function loadAndReadQuestion() {
+async function loadAndReadBonus() {
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
@@ -113,7 +113,8 @@ async function loadAndReadQuestion() {
                 return;  // alert the user if there are no more packets
             }
             currentPacketNumber = packetNumbers.shift();
-            questions = await getPacket(setTitle, currentPacketNumber, mode = 'bonuses');
+            let [setYear, setName] = parseSetTitle(setTitle);
+            questions = await getPacket(setYear, setName, currentPacketNumber, 'bonuses');
             currentQuestionNumber = 0;
         }
 

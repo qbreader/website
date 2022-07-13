@@ -39,7 +39,12 @@ questionNumberField.addEventListener('change', function () {
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     onQuestion = true;
-    start('bonuses')
+    initialize();
+    let [setYear, setName] = parseSetTitle(setTitle);
+    await getPacket(setYear, setName, currentPacketNumber, 'bonuses').then(async (data) => {
+        questions = data;
+        await loadAndReadBonus();
+    });
 });
 
 document.getElementById('next').addEventListener('click', async function () {
@@ -51,7 +56,7 @@ document.getElementById('next').addEventListener('click', async function () {
     }
 
     onQuestion = true;
-    await loadAndReadQuestion();
+    await loadAndReadBonus();
 });
 
 document.getElementById('reveal').addEventListener('click', function () {
