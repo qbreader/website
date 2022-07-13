@@ -117,12 +117,15 @@ function parseMessage(roomName, message) {
             break;
         case 'set-title':
             rooms[roomName].setTitle = message.value;
-            let [year, name] = database.parseSetTitle(message.value);
-            rooms[roomName].setYear = year;
-            rooms[roomName].setName = name;
+            let [setYear, setName] = database.parseSetTitle(message.value);
+            rooms[roomName].setYear = setYear;
+            rooms[roomName].setName = setName;
+            rooms[roomName].currentQuestionNumber = -1;
             break;
         case 'packet-number':
             rooms[roomName].packetNumbers = message.value;
+            rooms[roomName].packetNumber = message.value[0];
+            rooms[roomName].currentQuestionNumber = -1;
             break;
         case 'reading-speed':
             rooms[roomName].readingSpeed = message.value;
