@@ -102,17 +102,24 @@ function isValidCategory(question, validCategories, validSubcategories) {
 function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, mode = 'tossups') {
     let packetNumber = packetNumbers[0];
     let questions = getPacket(year, name, packetNumber)[mode];
+    if (questions.length === 0) {
+        return {endOfSet: true};
+    }
+
     do {  // Get the next question
         currentQuestionNumber++;
 
         // Go to the next packet if you reach the end of this packet
         if (currentQuestionNumber >= questions.length) {
             if (packetNumbers.length == 0) {
-                return {};  // alert the user if there are no more packets
+                return {endOfSet: true};  // alert the user if there are no more packets
             }
             packetNumbers.shift();
             packetNumber = packetNumbers[0];
             questions = getPacket(year, name, packetNumber)[mode];
+            if (questions.length === 0) {
+                return {endOfSet: true};
+            }
             currentQuestionNumber = 0;
         }
 
@@ -120,10 +127,11 @@ function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, valid
     } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
     return {
-        'question': questions[currentQuestionNumber],
-        'packetNumber': packetNumber,
-        'packetNumbers': packetNumbers,
-        'currentQuestionNumber': currentQuestionNumber
+        endOfSet: false,
+        question: questions[currentQuestionNumber],
+        packetNumber: packetNumber,
+        packetNumbers: packetNumbers,
+        currentQuestionNumber: currentQuestionNumber
     }
 }
 
@@ -136,7 +144,7 @@ function getPacket(year, name, packetNumber) {
         return jsonfile;
     } catch (error) {
         console.log('ERROR: Could not find packet located at ' + directory);
-        return {};
+        return {tossups: [], bonuses: []};
     }
 }
 

@@ -21,7 +21,7 @@ var inPower = false;
 /**
  * Reads the next question.
  */
-async function readTossup() {
+function readTossup() {
     document.getElementById('next').innerHTML = 'Skip';
 
     // Stop reading the current question:
@@ -65,7 +65,7 @@ function recursivelyPrintTossup() {
             time = 0;
 
         timeoutID = window.setTimeout(() => {
-            recursivelyPrintTossup();
+            recursivelyPrintTossup();``
         }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
     }
     else {

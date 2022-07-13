@@ -14,7 +14,8 @@ function createRoom(roomName) {
         readingSpeed: 50,
         validCategories: [],
         validSubcategories: [],
-        currentQuestion: {}
+        currentQuestion: {},
+        endOfPacket: false
     }
 }
 
@@ -35,11 +36,9 @@ function createPlayer(roomName, userId, username) {
 }
 
 function getRoom(roomName) {
-    if (roomName in rooms) {
-        return rooms[roomName];
-    } else {
-        return {};
-    }
+    if (!(roomName in rooms)) createRoom(roomName);
+
+    return rooms[roomName];
 }
 
 function getRoomList() {
@@ -50,6 +49,7 @@ function getRoomList() {
 
 function getCurrentQuestion(roomName) {
     return {
+        endOfSet: rooms[roomName].endOfSet,
         question: rooms[roomName].currentQuestion,
         packetNumber: rooms[roomName].packetNumber,
         questionNumber: rooms[roomName].currentQuestionNumber,
@@ -60,12 +60,15 @@ function getCurrentQuestion(roomName) {
 function goToNextQuestion(roomName) {
     let data = database.getNextQuestion(rooms[roomName].setYear, rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].currentQuestionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
 
+    rooms[roomName].endOfSet = data.endOfSet;
+    if (data.endOfSet) {
+        return;
+    }
+
     rooms[roomName].currentQuestion = data.question;
     rooms[roomName].packetNumbers = data.packetNumbers;
     rooms[roomName].packetNumber = data.packetNumber;
     rooms[roomName].currentQuestionNumber = data.currentQuestionNumber;
-
-    return data.question;
 }
 
 function deleteRoom(roomName) {
