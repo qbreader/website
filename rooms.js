@@ -15,7 +15,8 @@ function createRoom(roomName) {
         validCategories: [],
         validSubcategories: [],
         currentQuestion: {},
-        endOfPacket: false
+        isEndOfSet: false,
+        isQuestionInProgress: false
     }
 }
 
@@ -50,7 +51,7 @@ function getRoomList() {
 
 function getCurrentQuestion(roomName) {
     return {
-        endOfSet: rooms[roomName].endOfSet,
+        isEndOfSet: rooms[roomName].isEndOfSet,
         question: rooms[roomName].currentQuestion,
         packetNumber: rooms[roomName].packetNumber,
         questionNumber: rooms[roomName].currentQuestionNumber,
@@ -61,11 +62,12 @@ function getCurrentQuestion(roomName) {
 function goToNextQuestion(roomName) {
     let data = database.getNextQuestion(rooms[roomName].setYear, rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].currentQuestionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
 
-    rooms[roomName].endOfSet = data.endOfSet;
-    if (data.endOfSet) {
+    rooms[roomName].isEndOfSet = data.isEndOfSet;
+    if (data.isEndOfSet) {
         return;
     }
 
+    rooms[roomName].isQuestionInProgress = true;
     rooms[roomName].currentQuestion = data.question;
     rooms[roomName].packetNumbers = data.packetNumbers;
     rooms[roomName].packetNumber = data.packetNumber;
@@ -86,6 +88,7 @@ function updateScore(roomName, userId, score) {
         for (let player in rooms[roomName].players) {
             rooms[roomName].players[player].tuh++;
         }
+        rooms[roomName].isQuestionInProgress = false;
     }
 
     if (score > 10) {
