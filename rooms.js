@@ -29,7 +29,8 @@ function createPlayer(roomName, userId, username) {
         tens: 0,
         zeroes: 0,
         negs: 0,
-        points: 0
+        points: 0,
+        tuh: 0
     };
 
     return true;
@@ -80,6 +81,13 @@ function updateUsername(roomName, userId, username) {
 }
 
 function updateScore(roomName, userId, score) {
+    if (score > 0) {
+        // increase TUH for every player by 1
+        for (let player in rooms[roomName].players) {
+            rooms[roomName].players[player].tuh++;
+        }
+    }
+
     if (score > 10) {
         rooms[roomName].players[userId].powers++;
     } else if (score === 10) {
