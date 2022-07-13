@@ -87,7 +87,8 @@ async function loadAndReadQuestion(mode = 'tossups') {
     document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
     document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
-    questionTextSplit = questions[currentQuestionNumber]['question'].split(' ');
+    questionText = questions[currentQuestionNumber]['question'];
+    questionTextSplit = questionText.split(' ');
 
     readQuestion();
 }
