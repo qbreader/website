@@ -55,13 +55,16 @@ function connectToWebSocket() {
                 loadCategoryModal(validCategories, validSubcategories);
                 break;
             case 'next':
-                if (document.getElementById('next').innerHTML === 'Skip') {
-                    logEvent(data.username, `skipped the question`);
-                } else {
-                    logEvent(data.username, `went to the next question`);
+                if (await loadAndReadTossup()) {
+                    if (document.getElementById('next').innerHTML === 'Skip') {
+                        logEvent(data.username, `skipped the question`);
+                    } else {
+                        logEvent(data.username, `went to the next question`);
+                    }
                 }
+                break;
             case 'start':
-                await loadAndReadTossup();
+                loadAndReadTossup();
                 break;
             case 'buzz':
                 processBuzz(data.userId, data.username);
@@ -169,9 +172,13 @@ function logEvent(username, message) {
 }
 
 async function loadAndReadTossup() {
-    fetch(`/api/get-current-question?roomName=${ROOM_NAME}`)
+    return await fetch(`/api/get-current-question?roomName=${ROOM_NAME}`)
         .then(response => response.json())
         .then(data => {
+            if (data.endOfSet) {
+                alert('You have reached the end of the set.');
+                return false;
+            }
             currentQuestion = data.question;
             questionText = currentQuestion.question;
             questionTextSplit = questionText.split(' ');
@@ -179,6 +186,7 @@ async function loadAndReadTossup() {
             document.getElementById('packet-number-info').innerHTML = data.packetNumber;
             document.getElementById('question-number-info').innerHTML = data.questionNumber + 1;
             readTossup();
+            return true;
         });
 }
 
