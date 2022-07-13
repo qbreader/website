@@ -56,7 +56,7 @@ function connectToWebSocket() {
                 break;
             case 'start':
             case 'next':
-                await loadAndReadQuestion();
+                await loadAndReadTossup();
                 break;
             case 'buzz':
                 processBuzz(data.userId, data.username);
@@ -163,7 +163,7 @@ function logEvent(username, message) {
     document.getElementById('event-log').prepend(li);
 }
 
-async function loadAndReadQuestion() {
+async function loadAndReadTossup() {
     fetch(`/api/get-current-question?roomName=${ROOM_NAME}`)
         .then(response => response.json())
         .then(data => {
@@ -173,7 +173,7 @@ async function loadAndReadQuestion() {
             document.getElementById('set-title-info').innerHTML = data.setTitle;
             document.getElementById('packet-number-info').innerHTML = data.packetNumber;
             document.getElementById('question-number-info').innerHTML = data.questionNumber + 1;
-            readQuestion();
+            readTossup();
         });
 }
 
@@ -200,7 +200,7 @@ function processAnswer(userId, username, givenAnswer, score) {
         document.getElementById('next').disabled = false;
     } else {
         document.getElementById('buzz').disabled = false;
-        printWord();
+        recursivelyPrintTossup();
     }
 
     if (score > 10) {
@@ -298,12 +298,12 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 document.getElementById('set-title').addEventListener('change', async function () {
     let [year, name] = parseSetTitle(this.value);
     maxPacketNumber = await getNumPackets(year, name);
-    document.getElementById('packet-number').value = parsePacketNumbers('', maxPacketNumber);
+    document.getElementById('packet-number').value = packetNumberStringToArray('', maxPacketNumber);
     socket.send(JSON.stringify({ type: 'set-title', username: username, value: this.value }));
 });
 
 document.getElementById('packet-number').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'packet-number', username: username, value: parsePacketNumbers(this.value, maxPacketNumber) }));
+    socket.send(JSON.stringify({ type: 'packet-number', username: username, value: packetNumberStringToArray(this.value, maxPacketNumber) }));
 });
 
 document.getElementById('question-select').addEventListener('change', function () {

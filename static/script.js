@@ -1,17 +1,17 @@
-/**
+if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com') {
+    window.location.href = 'http://www.qbreader.org' + document.URL.substring(30);
+}
+
+/*
  * Variables and functions common to both tossups and bonuses
  */
 
 var maxPacketNumber = 24;
 
-/**
- * Array of categories.
- */
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
 
 /**
- * Array of all subcategories.
- * Indexed by their index in the all_categories array.
+ * Indexed by their index in the `CATEGORIES` array.
  * Categories that do not have any subcategories are not listed.
  */
 const SUBCATEGORIES = [
@@ -30,11 +30,19 @@ function shift(item, x) {
     sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
 }
 
-function updateCategory(cat, validCategories, validSubcategories) {
+/**
+ * Adds the given category if it is not in the list of valid categories.
+ * Otherwise, the category is removed.
+ * @param {String} category 
+ * @param {Array<String>} validCategories 
+ * @param {Array<String>} validSubcategories 
+ * @returns `[validCategories, validSubcategories]`
+ */
+function updateCategory(category, validCategories, validSubcategories) {
     if (validCategories.length === 0) { // selecting a category when no categories are currently selected
-        validCategories.push(cat);
+        validCategories.push(category);
 
-        let index = CATEGORIES.indexOf(cat);
+        let index = CATEGORIES.indexOf(category);
         document.querySelectorAll('#subcategories label').forEach(label => {
             if (!(index in SUBCATEGORIES) || !SUBCATEGORIES[index].includes(label.getAttribute('for'))) {
                 label.classList.add('d-none');
@@ -42,10 +50,10 @@ function updateCategory(cat, validCategories, validSubcategories) {
                 validSubcategories = validSubcategories.filter(a => a !== label.getAttribute('for'));
             }
         });
-    } else if (validCategories.includes(cat)) { // remove category
-        validCategories = validCategories.filter(a => a !== cat);
+    } else if (validCategories.includes(category)) { // remove category
+        validCategories = validCategories.filter(a => a !== category);
 
-        let index = CATEGORIES.indexOf(cat);
+        let index = CATEGORIES.indexOf(category);
         if (index in SUBCATEGORIES) { // remove all subcats associated with the category
             SUBCATEGORIES[index].forEach(subcat => {
                 document.querySelector(`[for="${subcat}"]`).classList.add('d-none');
@@ -60,9 +68,9 @@ function updateCategory(cat, validCategories, validSubcategories) {
             });
         }
     } else {
-        validCategories.push(cat);
+        validCategories.push(category);
 
-        let index = CATEGORIES.indexOf(cat);
+        let index = CATEGORIES.indexOf(category);
         if (index in SUBCATEGORIES) {
             SUBCATEGORIES[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.remove('d-none'));
         }
@@ -71,17 +79,30 @@ function updateCategory(cat, validCategories, validSubcategories) {
     return [validCategories, validSubcategories];
 }
 
-function updateSubcategory(subcat, validSubcategories) {
-    if (validSubcategories.includes(subcat)) {
+/**
+ * Adds the given subcategory if it is not in the list of valid subcategories.
+ * Otherwise, the subcategory is removed.
+ * @param {String} subcategory 
+ * @param {Array<String>} validSubcategories 
+ * @returns `validSubcategories`
+ */
+function updateSubcategory(subcategory, validSubcategories) {
+    if (validSubcategories.includes(subcategory)) {
         // remove subcat:
-        validSubcategories = validSubcategories.filter(a => a !== subcat);
+        validSubcategories = validSubcategories.filter(a => a !== subcategory);
     } else {
-        validSubcategories.push(subcat);
+        validSubcategories.push(subcategory);
     }
 
     return validSubcategories;
 }
 
+/**
+ * Updates the category modal to show the given categories and subcategories.
+ * @param {Array<String>} validCategories 
+ * @param {Array<String>} validSubcategories 
+ * @returns {void}
+ */
 function loadCategoryModal(validCategories, validSubcategories) {
     document.querySelectorAll('#categories input').forEach(element => element.checked = false);
     document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
@@ -111,6 +132,8 @@ function loadCategoryModal(validCategories, validSubcategories) {
 /**
  * 
  * @param {JSON} question 
+ * @param {Array<String>} validCategories
+ * @param {Array<String>} validSubcategories
  * @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
  */
 function isValidCategory(question, validCategories, validSubcategories) {
@@ -132,6 +155,11 @@ function isValidCategory(question, validCategories, validSubcategories) {
     return true;
 }
 
+/**
+ * Converts a setTitle string into a setYear and a setName.
+ * @param {String} setTitle - The title of the set in the format "year-name".
+ * @returns {[Number, String]} `[setYear, setName]`
+ */
 function parseSetTitle(setTitle) {
     let year = parseInt(setTitle.substring(0, 4));
     let name = setTitle.substring(5);
@@ -139,7 +167,13 @@ function parseSetTitle(setTitle) {
     return [year, name];
 }
 
-function parsePacketNumbers(packetNumberString, maxPacketNumber = 24) {
+/**
+ * 
+ * @param {String} packetNumberString 
+ * @param {Number} maxPacketNumber 
+ * @returns {Array<Number>} An array of selected packet numbers.
+ */
+function packetNumberStringToArray(packetNumberString, maxPacketNumber = 24) {
     if (packetNumberString.length === 0 || packetNumberString.toLowerCase() === 'all') {
         packetNumberString = `1-${maxPacketNumber}`;
     }
@@ -161,42 +195,42 @@ function parsePacketNumbers(packetNumberString, maxPacketNumber = 24) {
     return packetNumbers;
 }
 
-async function getNumPackets(year, setName) {
-    return await fetch(`/api/get-num-packets?year=${encodeURI(year)}&setName=${encodeURI(setName)}`)
+/**
+ * 
+ * @param {Number} setYear 
+ * @param {String} setName 
+ * @returns
+ */
+async function getNumPackets(setYear, setName) {
+    return await fetch(`/api/get-num-packets?year=${encodeURI(setYear)}&setName=${encodeURI(setName)}`)
         .then(response => response.json())
         .then(data => {
-            return parseInt(data['num_packets']);
+            return parseInt(data.numPackets);
         });
 }
 
 /**
  * 
- * @param {String} setTitle - The name of the set, in the format "[year]-[name]".
- * @param {Number} number - The packet number of the set.
- * 
+ * @param {Number} setYear - The year of the set.
+ * @param {String} setName - The name of the set.
+ * @param {Number} packetNumber - The packet number of the set.
+ * @param {'tossups' | 'bonuses'} mode - Whether to get the tossups or bonuses.
  * @return {Array<JSON>} An array containing the tossups.
  */
-async function getPacket(setTitle, packetNumber, mode = 'all') {
-    let [year, name] = parseSetTitle(setTitle);
+async function getPacket(setYear, setName, packetNumber, mode) {
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/api/get-packet?year=${encodeURI(year)}&setName=${encodeURI(name)}&packetNumber=${encodeURI(packetNumber)}`)
+    return await fetch(`/api/get-packet?year=${encodeURI(setYear)}&setName=${encodeURI(setName)}&packetNumber=${encodeURI(packetNumber)}`)
         .then(response => response.json())
         .then(data => {
-            if (mode === 'all') {
-                return data;
-            } else if (mode === 'tossups') {
-                return data['tossups'];
-            } else if (mode === 'bonuses') {
-                return data['bonuses'];
-            }
+            return data[mode];
         });
 }
 
 /**
- * Starts reading questions.
+ * Initizalizes all variables (called when the user presses the start button).
  * @returns {Promsie<Boolean>} Whether or not the function was successful.
  */
-async function start(mode, alertOnFailure = true) {
+function initialize(alertOnFailure = true) {
     setTitle = document.getElementById('set-title').value.trim();
     if (setTitle.length == 0) {
         if (alertOnFailure) alert('Please enter a set name.');
@@ -205,27 +239,18 @@ async function start(mode, alertOnFailure = true) {
 
     document.getElementById('options').classList.add('d-none');
     document.getElementById('toggle-options').disabled = false;
-    
-    packetNumbers = parsePacketNumbers(document.getElementById('packet-number').value.trim(), maxPacketNumber);
+
+    packetNumbers = packetNumberStringToArray(document.getElementById('packet-number').value.trim(), maxPacketNumber);
     currentPacketNumber = packetNumbers[0];
 
     currentQuestionNumber = document.getElementById('question-select').value;
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 
-    questions = await getPacket(setTitle, currentPacketNumber, mode);
-
     document.getElementById('next').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
-    await loadAndReadQuestion();
-
     return true;
-}
-
-
-if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com') {
-    window.location.href = 'http://www.qbreader.org' + document.URL.substring(30);
 }
 
 document.getElementById('clear-stats').addEventListener('click', function () {
