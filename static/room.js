@@ -54,8 +54,13 @@ function connectToWebSocket() {
                 validCategories = data.value;
                 loadCategoryModal(validCategories, validSubcategories);
                 break;
-            case 'start':
             case 'next':
+                if (document.getElementById('next').innerHTML === 'Skip') {
+                    logEvent(data.username, `skipped the question`);
+                } else {
+                    logEvent(data.username, `went to the next question`);
+                }
+            case 'start':
                 await loadAndReadTossup();
                 break;
             case 'buzz':
