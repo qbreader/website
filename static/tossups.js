@@ -21,7 +21,7 @@ var inPower = false;
 /**
  * Reads the next question.
  */
-async function readQuestion() {
+async function readTossup() {
     document.getElementById('next').innerHTML = 'Skip';
 
     // Stop reading the current question:
@@ -43,13 +43,13 @@ async function readQuestion() {
     document.getElementById('pause').removeAttribute('disabled');
     paused = false;
     // Read the question:
-    printWord();
+    recursivelyPrintTossup();
 }
 
 /**
  * Recursively reads the question based on the reading speed.
  */
-function printWord() {
+function recursivelyPrintTossup() {
     if (!currentlyBuzzing && questionTextSplit.length > 0) {
         let word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
@@ -65,11 +65,11 @@ function printWord() {
             time = 0;
 
         timeoutID = window.setTimeout(() => {
-            printWord();
+            recursivelyPrintTossup();
         }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
     }
     else {
-        document.getElementById('pause').setAttribute('disabled', 'disabled');
+        document.getElementById('pause').disabled = true;
     }
 }
 
@@ -80,7 +80,7 @@ function pause() {
     if (paused) {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').innerHTML = 'Pause';
-        printWord();
+        recursivelyPrintTossup();
     }
     else {
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
@@ -90,6 +90,7 @@ function pause() {
     paused = !paused;
 }
 
+// Prevent spacebar from scrolling the page:
 window.addEventListener('keydown', function (event) {
     if (event.key === ' ' && event.target == document.body) {
         event.preventDefault();
