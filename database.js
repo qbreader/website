@@ -66,17 +66,31 @@ function parseSetTitle(setTitle) {
     return [year, name];
 }
 
+/**
+* @param {JSON} question 
+* @param {Array<String>} validCategories
+* @param {Array<String>} validSubcategories
+* @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
+*/
 function isValidCategory(question, validCategories, validSubcategories) {
-    if (validCategories.length === 0) return true;
+    if (validCategories.length === 0 && validSubcategories.length === 0) return true;
+
+    // check if the subcategory is explicitly included (overrides missing category)
+    if (question.subcategory && validSubcategories.includes(question.subcategory)) return true;
+
+    // check if category is excluded (and subcategory is excluded)
     if (!validCategories.includes(question['category'])) return false;
 
-    if ('subcategory' in question === false) return true;
-    if (validSubcategories.includes(question['subcategory'])) return true;
+    // at this point, the question category is included in the list of valid categories 
+    // check for the case where none of the subcategories are selected but the category is;
+    // in which case, the question is valid
+    if (!question.subcategory) return true;
 
-    // check to see if none of the subcategories of the question are selected
+    // check to see if the category has no corresponding subcategories
     let index = CATEGORIES.indexOf(question['category']);
     if (!(index in SUBCATEGORIES)) return true;
 
+    // check to see if none of the subcategories of the question are selected
     for (let i = 0; i < SUBCATEGORIES[index].length; i++) {
         if (validSubcategories.includes(SUBCATEGORIES[index][i])) return false;
     }

@@ -342,8 +342,8 @@ window.onload = () => {
             document.getElementById('set-title-info').innerHTML = data.setTitle || '';
             document.getElementById('packet-number-info').innerHTML = data.packetNumber || 0;
             document.getElementById('question-number-info').innerHTML = (data.currentQuestionNumber || 0) + 1;
-            validCategories = data.validCategories || {};
-            validSubcategories = data.validSubcategories || {};
+            validCategories = data.validCategories || [];
+            validSubcategories = data.validSubcategories || [];
             loadCategoryModal(validCategories, validSubcategories);
             Object.keys(data.players).forEach(player => {
                 if (data.players[player].userId === userId) return;
