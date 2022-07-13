@@ -110,7 +110,8 @@ function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, valid
             if (packetNumbers.length == 0) {
                 return {};  // alert the user if there are no more packets
             }
-            packetNumber = packetNumbers.shift();
+            packetNumbers.shift();
+            packetNumber = packetNumbers[0];
             questions = getPacket(year, name, packetNumber)[mode];
             currentQuestionNumber = 0;
         }
