@@ -207,7 +207,7 @@ async function start(mode, alertOnFailure = true) {
     document.getElementById('toggle-options').disabled = false;
     
     packetNumbers = parsePacketNumbers(document.getElementById('packet-number').value.trim(), maxPacketNumber);
-    currentPacketNumber = packetNumbers.shift();
+    currentPacketNumber = packetNumbers[0];
 
     currentQuestionNumber = document.getElementById('question-select').value;
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1

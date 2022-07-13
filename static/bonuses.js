@@ -100,10 +100,6 @@ function clearStats() {
  * Loads and reads the next question.
  */
 async function loadAndReadQuestion() {
-    document.getElementById('set-title-info').innerHTML = setTitle;
-    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
-
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
@@ -123,6 +119,10 @@ async function loadAndReadQuestion() {
 
         // Get the next question if the current one is in the wrong category and subcategory
     } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
+
+    document.getElementById('set-title-info').innerHTML = setTitle;
+    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
     currentBonusPart = 0;
 
