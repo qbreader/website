@@ -63,9 +63,6 @@ function clearStats() {
 }
 
 async function loadAndReadQuestion(mode = 'tossups') {
-    document.getElementById('set-title-info').innerHTML = setTitle;
-    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
     currentPacketNumber = packetNumbers[0];
 
     do {  // Get the next question
@@ -85,6 +82,10 @@ async function loadAndReadQuestion(mode = 'tossups') {
 
         // Get the next question if the current one is in the wrong category and subcategory
     } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
+
+    document.getElementById('set-title-info').innerHTML = setTitle;
+    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
     questionTextSplit = questions[currentQuestionNumber]['question'].split(' ');
 
