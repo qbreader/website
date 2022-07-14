@@ -30,7 +30,10 @@ function connectToWebSocket() {
                 break;
             case 'change-username':
                 logEvent(data.oldUsername, 'changed their username to ' + data.username);
-                document.getElementById('accordion-username-' + data.userId).innerHTML = data.username;
+                document.getElementById('accordion-button-username-' + data.userId).innerHTML = data.username;
+                break;
+            case 'clear-stats':
+                clearStats(data.userId);
                 break;
             case 'set-title':
             case 'packet-number':
@@ -88,6 +91,12 @@ function connectToWebSocket() {
     }
 }
 
+function clearStats(userId) {
+    Array.from(document.getElementsByClassName('stats-' + userId)).forEach(element => {
+        element.innerHTML = '0';
+    });
+}
+
 function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0) {
     let button = document.createElement('button');
     button.className = 'accordion-button collapsed';
@@ -96,15 +105,16 @@ function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0,
     button.setAttribute('data-bs-toggle', 'collapse');
 
     let buttonUsername = document.createElement('span');
-    buttonUsername.id = 'accordion-username-' + userId;
+    buttonUsername.id = 'accordion-button-username-' + userId;
     buttonUsername.innerHTML = username;
 
     button.appendChild(buttonUsername);
     button.innerHTML += '&nbsp;(';
 
     let buttonPoints = document.createElement('span');
-    buttonPoints.id = 'accordion-username-points-' + userId;
+    buttonPoints.id = 'accordion-button-points-' + userId;
     buttonPoints.innerHTML = points;
+    buttonPoints.classList.add('stats-' + userId);
     button.appendChild(buttonPoints);
     button.innerHTML += '&nbsp;pts)';
 
@@ -120,18 +130,24 @@ function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0,
     let powersSpan = document.createElement('span');
     powersSpan.innerHTML = powers;
     powersSpan.id = 'powers-' + userId;
+    powersSpan.classList.add('stats');
+    powersSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(powersSpan);
     accordionBody.innerHTML += '/';
 
     let tensSpan = document.createElement('span');
     tensSpan.innerHTML = tens;
     tensSpan.id = 'tens-' + userId;
+    tensSpan.classList.add('stats');
+    tensSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(tensSpan);
     accordionBody.innerHTML += '/';
 
     let negsSpan = document.createElement('span');
     negsSpan.innerHTML = negs;
     negsSpan.id = 'negs-' + userId;
+    negsSpan.classList.add('stats');
+    negsSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(negsSpan);
 
     accordionBody.innerHTML += ' with '
@@ -139,7 +155,9 @@ function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0,
     let tuhSpan = document.createElement('span');
     tuhSpan.innerHTML = tuh;
     tuhSpan.id = 'tuh-' + userId;
-    tuhSpan.className = 'tuh';
+    tuhSpan.classList.add('tuh');
+    tuhSpan.classList.add('stats');
+    tuhSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(tuhSpan);
 
     accordionBody.innerHTML += ' tossups seen (';
@@ -147,9 +165,20 @@ function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0,
     let pointsSpan = document.createElement('span');
     pointsSpan.innerHTML = points;
     pointsSpan.id = 'points-' + userId;
+    pointsSpan.classList.add('points');
+    pointsSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(pointsSpan);
 
-    accordionBody.innerHTML += ' pts, celerity: 0)';
+    accordionBody.innerHTML += ' pts, celerity: ';
+
+    let celeritySpan = document.createElement('span');
+    celeritySpan.innerHTML = 0;
+    celeritySpan.id = 'celerity-' + userId;
+    celeritySpan.classList.add('stats');
+    celeritySpan.classList.add('stats-' + userId);
+    accordionBody.appendChild(celeritySpan);
+
+    accordionBody.innerHTML += ')';
 
     let div = document.createElement('div');
     div.className = 'accordion-collapse collapse';
@@ -237,7 +266,7 @@ function processAnswer(userId, username, givenAnswer, score) {
     }
 
     document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
-    document.getElementById('accordion-username-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-username-points-' + userId).innerHTML) + score;
+    document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
 }
 
 // Game logic
@@ -255,6 +284,25 @@ document.getElementById('buzz').addEventListener('click', function () {
     document.getElementById('answer-input-group').classList.remove('d-none');
     document.getElementById('answer-input').focus();
     socket.send(JSON.stringify({ type: 'buzz', userId: userId, username: username }));
+});
+
+document.getElementById('pause').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'pause', userId: userId, username: username }));
+});
+
+document.getElementById('next').addEventListener('click', function () {
+    this.blur();
+    if (document.getElementById('set-title').value === '') {
+        alert('Please choose a set.');
+        return;
+    }
+    socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
+});
+
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'clear-stats', userId: userId, username: username }));
 });
 
 document.getElementById('form').addEventListener('submit', function (event) {
@@ -287,20 +335,6 @@ document.getElementById('form').addEventListener('submit', function (event) {
     });
 });
 
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-    if (document.getElementById('set-title').value === '') {
-        alert('Please choose a set.');
-        return;
-    }
-    socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
-});
-
-document.getElementById('pause').addEventListener('click', function () {
-    this.blur();
-    socket.send(JSON.stringify({ type: 'pause', userId: userId, username: username }));
-});
-
 // Other event listeners
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
@@ -319,6 +353,12 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     });
 });
 
+document.getElementById('username').addEventListener('change', function () {
+    socket.send(JSON.stringify({ 'type': 'change-username', userId: userId, oldUsername: username, username: this.value }));
+    username = this.value;
+    localStorage.setItem('username', username);
+});
+
 document.getElementById('set-title').addEventListener('change', async function () {
     let [year, name] = parseSetTitle(this.value);
     maxPacketNumber = await getNumPackets(year, name);
@@ -332,12 +372,6 @@ document.getElementById('packet-number').addEventListener('change', function () 
 
 document.getElementById('question-select').addEventListener('change', function () {
     socket.send(JSON.stringify({ type: 'question-number', username: username, value: this.value }));
-});
-
-document.getElementById('username').addEventListener('change', function () {
-    socket.send(JSON.stringify({ 'type': 'change-username', userId: userId, oldUsername: username, username: this.value }));
-    username = this.value;
-    localStorage.setItem('username', username);
 });
 
 document.getElementById('reading-speed').addEventListener('change', function () {
