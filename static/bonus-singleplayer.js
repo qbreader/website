@@ -47,6 +47,11 @@ document.getElementById('start').addEventListener('click', async function () {
     });
 });
 
+document.getElementById('reveal').addEventListener('click', function () {
+    this.blur();
+    revealBonusPart();
+});
+
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
 
@@ -59,9 +64,9 @@ document.getElementById('next').addEventListener('click', async function () {
     await loadAndReadBonus();
 });
 
-document.getElementById('reveal').addEventListener('click', function () {
+document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
-    revealBonusPart();
+    clearStats();
 });
 
 document.querySelectorAll('#categories input').forEach(input => {

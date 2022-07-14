@@ -20,8 +20,10 @@ function createRoom(roomName) {
     }
 }
 
-function createPlayer(roomName, userId, username) {
-    if (userId in rooms[roomName].players) return false;
+function createPlayer(roomName, userId, username, overrideExistingPlayer = false) {
+    if (!overrideExistingPlayer && (userId in rooms[roomName].players)) {
+        return false;
+    }
 
     rooms[roomName].players[userId] = {
         username: username,
@@ -125,6 +127,9 @@ function parseMessage(roomName, message) {
             break;
         case 'change-username':
             updateUsername(roomName, message.userId, message.username);
+            break;
+        case 'clear-stats':
+            createPlayer(roomName, message.userId, message.username, true);
             break;
         case 'set-title':
             rooms[roomName].setTitle = message.value;
