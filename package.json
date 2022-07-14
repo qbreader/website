@@ -2,7 +2,7 @@
     "name": "qbreader",
     "scripts": {
         "start": "node server.js",
-        "sass": "sass scss/custom.scss static/bootstrap.css"
+        "sass": "sass scss/custom.scss client/bootstrap/bootstrap.css"
     },
     "dependencies": {
         "bootstrap": "5.1.3",

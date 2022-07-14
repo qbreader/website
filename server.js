@@ -27,7 +27,7 @@ app.get('/*.html', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/static/tossups.html');
+    res.sendFile(__dirname + '/client/singleplayer/tossups/tossups.html');
 });
 
 var sockets = {};
@@ -85,12 +85,7 @@ wss.on('connection', (ws) => {
 
 
 app.use((req, res) => {
-    // secure the backend code so it can't be accessed by the frontend
-    if (req.url === '/server.js') {
-        res.redirect('/');
-    } else {
-        res.sendFile(__dirname + '/static/' + req.url);
-    }
+    res.sendFile(__dirname + '/client/' + req.url);
 });
 
 server.listen(port, () => {
