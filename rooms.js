@@ -17,7 +17,8 @@ function createRoom(roomName) {
         currentQuestion: {},
         isEndOfSet: false,
         isQuestionInProgress: false,
-        isPublic: true
+        isPublic: true,
+        allowMultipleBuzzes: false
     }
 }
 
@@ -129,6 +130,9 @@ function parseMessage(roomName, message) {
     switch (message.type) {
         case 'toggle-visibility':
             rooms[roomName].isPublic = message.isPublic;
+            break;
+        case 'toggle-multiple-buzzes':
+            rooms[roomName].allowMultipleBuzzes = message.allowMultipleBuzzes;
             break;
         case 'join':
             createPlayer(roomName, message.userId, message.username);

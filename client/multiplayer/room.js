@@ -82,6 +82,11 @@ async function processSocketMessage(data) {
         case 'chat':
             logEvent(data.username, `says "${data.message}"`);
             break;
+        case 'toggle-multiple-buzzes':
+            logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes`);
+            document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
+            document.getElementById('buzz').disabled = false;
+            break;
     }
 }
 
@@ -259,7 +264,7 @@ function processAnswer(userId, username, givenAnswer, score) {
         document.getElementById('answer').innerHTML = 'ANSWER: ' + currentQuestion.answer;
         document.getElementById('next').innerHTML = 'Next';
     } else {
-        document.getElementById('buzz').disabled = false;
+        document.getElementById('buzz').disabled = !document.getElementById('buzz').disabled;
         recursivelyPrintTossup();
     }
 
@@ -330,6 +335,10 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     let answer = document.getElementById('answer-input').value;
     document.getElementById('answer-input').value = '';
     document.getElementById('answer-input-group').classList.add('d-none');
+
+    if (!document.getElementById('toggle-multiple-buzzes').checked) {
+        document.getElementById('buzz').disabled = !document.getElementById('buzz').disabled;
+    }
 
     let characterCount = document.getElementById('question').innerHTML.length;
     let celerity = 1 - characterCount / document.getElementById('question').innerHTML.length;
@@ -415,6 +424,11 @@ document.getElementById('toggle-visibility').addEventListener('click', function 
     socket.send(JSON.stringify({ 'type': 'toggle-visibility', userId: userId, username: username, isPublic: this.checked }));
 });
 
+document.getElementById('toggle-multiple-buzzes').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ 'type': 'toggle-multiple-buzzes', userId: userId, username: username, allowMultipleBuzzes: this.checked }));
+});
+
 window.addEventListener('keypress', function (event) {
     // needs to be keypress
     // keydown immediately hides the input group
@@ -446,6 +460,7 @@ window.onload = () => {
 
             document.getElementById('toggle-visibility').checked = data.isPublic;
             document.getElementById('chat').disabled = data.isPublic;
+            document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
 
             validCategories = data.validCategories || [];
             validSubcategories = data.validSubcategories || [];
