@@ -4,6 +4,8 @@ const fs = require('fs');
 const rooms = require('../rooms');
 const database = require('../database');
 
+// DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
+
 router.post('/give-answer', (req, res) => {
     let roomName = req.body.roomName;
     let userId = req.body.userId;
@@ -19,7 +21,6 @@ router.post('/give-answer', (req, res) => {
 });
 
 router.get('/get-room', (req, res) => {
-    req.query.roomName = decodeURI(req.query.roomName);
     res.send(JSON.stringify(rooms.getRoom(req.query.roomName)));
 });
 
@@ -28,8 +29,8 @@ router.get('/get-room-list', (req, res) => {
 });
 
 router.get('/get-packet', async (req, res) => {
-    req.query.year = decodeURI(req.query.year);
-    req.query.setName = decodeURI(req.query.setName);
+    req.query.year = decodeURIComponent(req.query.year);
+    req.query.setName = decodeURIComponent(req.query.setName);
     try {
         res.send(JSON.stringify(database.getPacket(req.query.year, req.query.setName, req.query.packetNumber)));
     } catch (error) {
@@ -38,13 +39,12 @@ router.get('/get-packet', async (req, res) => {
 });
 
 router.get('/get-current-question', async (req, res) => {
-    req.query.roomName = decodeURIComponent(req.query.roomName);
     res.send(JSON.stringify(rooms.getCurrentQuestion(req.query.roomName)));
 });
 
 router.get('/get-num-packets', async (req, res) => {
-    req.query.year = decodeURI(req.query.year);
-    req.query.setName = decodeURI(req.query.setName.toLowerCase());
+    req.query.year = decodeURIComponent(req.query.year);
+    req.query.setName = decodeURIComponent(req.query.setName.toLowerCase());
     req.query.setName = req.query.setName.replace(/\s/g, '_');
     var directory = `packets/${req.query.year}-${req.query.setName}`;
     var numPackets = 0;
