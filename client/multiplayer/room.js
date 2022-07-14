@@ -74,6 +74,9 @@ async function processSocketMessage(data) {
             logEvent(data.username, `left the game`);
             document.getElementById('accordion-' + data.userId).remove();
             break;
+        case 'toggle-visibility':
+            logEvent(data.username, `made the room ${data.isPublic ? 'public' : 'private'}`);
+            document.getElementById('toggle-visibility').checked = data.isPublic;
     }
 }
 
@@ -382,6 +385,11 @@ document.getElementById('reading-speed').addEventListener('change', function () 
     socket.send(JSON.stringify({ 'type': 'reading-speed', userId: userId, username: username, value: this.value }));
 });
 
+document.getElementById('toggle-visibility').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ 'type': 'toggle-visibility', userId: userId, username: username, isPublic: this.checked }));
+});
+
 window.onload = () => {
     username = localStorage.getItem('username') || '';
     document.getElementById('username').value = username;
@@ -399,6 +407,9 @@ window.onload = () => {
             document.getElementById('set-title-info').innerHTML = data.setTitle || '';
             document.getElementById('packet-number-info').innerHTML = data.packetNumber || 0;
             document.getElementById('question-number-info').innerHTML = (data.currentQuestionNumber || 0) + 1;
+
+            document.getElementById('toggle-visibility').checked = data.isPublic;
+
             validCategories = data.validCategories || [];
             validSubcategories = data.validSubcategories || [];
             loadCategoryModal(validCategories, validSubcategories);
