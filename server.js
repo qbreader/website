@@ -16,15 +16,31 @@ const aboutRouter = require('./routes/about');
 
 app.use(express.json());
 
+app.get('/*.html', (req, res) => {
+    res.redirect(req.url.substring(0, req.url.length - 5));
+});
+
+app.get('/*.js', (req, res) => {
+    res.sendFile(__dirname + '/client/' + req.url);
+});
+
+app.get('/*.css', (req, res) => {
+    res.sendFile(__dirname + '/client/' + req.url);
+});
+
+app.get('/*.map', (req, res) => {
+    res.sendFile(__dirname + '/client/' + req.url);
+});
+
+app.get('/*.ico', (req, res) => {
+    res.sendFile(__dirname + '/client/' + req.url);
+});
+
 app.use('/api', apiRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/bonuses', bonusesRouter);
 app.use('/multiplayer', multiplayerRouter);
 app.use('/about', aboutRouter);
-
-app.get('/*.html', (req, res) => {
-    res.redirect(req.url.substring(0, req.url.length - 5));
-});
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/client/singleplayer/tossups/tossups.html');
