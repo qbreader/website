@@ -198,7 +198,7 @@ function logEvent(username, message) {
     i.innerHTML = `<b>${username}</b> ${message}`;
     let li = document.createElement('li');
     li.appendChild(i);
-    document.getElementById('event-log').prepend(li);
+    document.getElementById('history').prepend(li);
 }
 
 async function loadAndReadTossup() {
