@@ -4,7 +4,7 @@ if (location.pathname.endsWith('/')) {
 
 var socket;
 const ROOM_NAME = location.pathname.substring(13);
-var userId;
+var USER_ID;
 var username;
 var validCategories = [];
 var validSubcategories = [];
@@ -13,7 +13,7 @@ var currentQuestion = {}
 async function processSocketMessage(data) {
     switch (data.type) {
         case 'user-id':
-            userId = data.userId;
+            USER_ID = data.userId;
             break;
         case 'join':
             logEvent(data.username, `joined the game`);
@@ -83,9 +83,8 @@ async function processSocketMessage(data) {
             logEvent(data.username, `says "${data.message}"`);
             break;
         case 'toggle-multiple-buzzes':
-            logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes`);
+            logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
             document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
-            document.getElementById('buzz').disabled = false;
             break;
     }
 }
@@ -263,8 +262,13 @@ function processAnswer(userId, username, givenAnswer, score) {
         }
         document.getElementById('answer').innerHTML = 'ANSWER: ' + currentQuestion.answer;
         document.getElementById('next').innerHTML = 'Next';
+        document.getElementById('buzz').disabled = true;
     } else {
-        document.getElementById('buzz').disabled = !document.getElementById('buzz').disabled;
+        if (document.getElementById('toggle-multiple-buzzes').checked || userId !== USER_ID) {
+            document.getElementById('buzz').disabled = false;
+        } else {
+            document.getElementById('buzz').disabled = true;
+        }
         recursivelyPrintTossup();
     }
 
@@ -293,19 +297,19 @@ document.getElementById('start').addEventListener('click', async function () {
         alert('Please choose a set.');
         return;
     }
-    socket.send(JSON.stringify({ type: 'start', userId: userId, username: username }));
+    socket.send(JSON.stringify({ type: 'start', userId: USER_ID, username: username }));
 });
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     document.getElementById('answer-input-group').classList.remove('d-none');
     document.getElementById('answer-input').focus();
-    socket.send(JSON.stringify({ type: 'buzz', userId: userId, username: username }));
+    socket.send(JSON.stringify({ type: 'buzz', userId: USER_ID, username: username }));
 });
 
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'pause', userId: userId, username: username }));
+    socket.send(JSON.stringify({ type: 'pause', userId: USER_ID, username: username }));
 });
 
 document.getElementById('next').addEventListener('click', function () {
@@ -314,7 +318,7 @@ document.getElementById('next').addEventListener('click', function () {
         alert('Please choose a set.');
         return;
     }
-    socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
+    socket.send(JSON.stringify({ type: 'next', userId: USER_ID, username: username }));
 });
 
 document.getElementById('chat').addEventListener('click', function (event) {
@@ -325,7 +329,7 @@ document.getElementById('chat').addEventListener('click', function (event) {
 
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'clear-stats', userId: userId, username: username }));
+    socket.send(JSON.stringify({ type: 'clear-stats', userId: USER_ID, username: username }));
 });
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
@@ -335,10 +339,6 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     let answer = document.getElementById('answer-input').value;
     document.getElementById('answer-input').value = '';
     document.getElementById('answer-input-group').classList.add('d-none');
-
-    if (!document.getElementById('toggle-multiple-buzzes').checked) {
-        document.getElementById('buzz').disabled = !document.getElementById('buzz').disabled;
-    }
 
     let characterCount = document.getElementById('question').innerHTML.length;
     let celerity = 1 - characterCount / document.getElementById('question').innerHTML.length;
@@ -350,7 +350,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
         },
         body: JSON.stringify({
             roomName: ROOM_NAME,
-            userId: userId,
+            userId: USER_ID,
             answer: answer,
             celerity: celerity,
             inPower: !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)'),
@@ -359,7 +359,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     }).then((response) => {
         return response.json();
     }).then((data) => {
-        socket.send(JSON.stringify({ 'type': 'answer', userId: userId, username: username, givenAnswer: answer, score: data.score }));
+        socket.send(JSON.stringify({ 'type': 'answer', userId: USER_ID, username: username, givenAnswer: answer, score: data.score }));
     });
 });
 
@@ -373,7 +373,7 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
 
     if (message.length === 0) return;
 
-    socket.send(JSON.stringify({ 'type': 'chat', userId: userId, username: username, message: message }));
+    socket.send(JSON.stringify({ 'type': 'chat', userId: USER_ID, username: username, message: message }));
 });
 
 // Other event listeners
@@ -395,7 +395,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 });
 
 document.getElementById('username').addEventListener('change', function () {
-    socket.send(JSON.stringify({ 'type': 'change-username', userId: userId, oldUsername: username, username: this.value }));
+    socket.send(JSON.stringify({ 'type': 'change-username', userId: USER_ID, oldUsername: username, username: this.value }));
     username = this.value;
     localStorage.setItem('username', username);
 });
@@ -416,17 +416,17 @@ document.getElementById('question-select').addEventListener('change', function (
 });
 
 document.getElementById('reading-speed').addEventListener('change', function () {
-    socket.send(JSON.stringify({ 'type': 'reading-speed', userId: userId, username: username, value: this.value }));
+    socket.send(JSON.stringify({ 'type': 'reading-speed', userId: USER_ID, username: username, value: this.value }));
 });
 
 document.getElementById('toggle-visibility').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ 'type': 'toggle-visibility', userId: userId, username: username, isPublic: this.checked }));
+    socket.send(JSON.stringify({ 'type': 'toggle-visibility', userId: USER_ID, username: username, isPublic: this.checked }));
 });
 
 document.getElementById('toggle-multiple-buzzes').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ 'type': 'toggle-multiple-buzzes', userId: userId, username: username, allowMultipleBuzzes: this.checked }));
+    socket.send(JSON.stringify({ 'type': 'toggle-multiple-buzzes', userId: USER_ID, username: username, allowMultipleBuzzes: this.checked }));
 });
 
 window.addEventListener('keypress', function (event) {
@@ -481,7 +481,7 @@ window.onload = () => {
             }
 
             Object.keys(data.players).forEach(player => {
-                if (data.players[player].userId === userId) return;
+                if (data.players[player].userId === USER_ID) return;
                 createPlayerAccordion(data.players[player].userId, data.players[player].username, data.players[player].powers, data.players[player].tens, data.players[player].negs, data.players[player].tuh, data.players[player].points);
             });
         });
