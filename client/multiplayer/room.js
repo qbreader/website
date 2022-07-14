@@ -219,7 +219,7 @@ function logEvent(username, message) {
 }
 
 async function loadAndReadTossup() {
-    return await fetch(`/api/get-current-question?roomName=${ROOM_NAME}`)
+    return await fetch(`/api/get-current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
             if (data.isEndOfSet) {
@@ -444,7 +444,7 @@ window.onload = () => {
     username = localStorage.getItem('username') || '';
     document.getElementById('username').value = username;
     connectToWebSocket();
-    fetch(`/api/get-room?roomName=${encodeURI(ROOM_NAME)}`)
+    fetch(`/api/get-room?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
             if (data.setTitle) {
