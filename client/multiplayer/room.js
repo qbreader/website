@@ -77,6 +77,11 @@ async function processSocketMessage(data) {
         case 'toggle-visibility':
             logEvent(data.username, `made the room ${data.isPublic ? 'public' : 'private'}`);
             document.getElementById('toggle-visibility').checked = data.isPublic;
+            document.getElementById('chat').disabled = data.isPublic;
+            break;
+        case 'chat':
+            logEvent(data.username, `says "${data.message}"`);
+            break;
     }
 }
 
@@ -307,13 +312,20 @@ document.getElementById('next').addEventListener('click', function () {
     socket.send(JSON.stringify({ type: 'next', userId: userId, username: username }));
 });
 
+document.getElementById('chat').addEventListener('click', function (event) {
+    this.blur();
+    document.getElementById('chat-input-group').classList.remove('d-none');
+    document.getElementById('chat-input').focus();
+});
+
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
     socket.send(JSON.stringify({ type: 'clear-stats', userId: userId, username: username }));
 });
 
-document.getElementById('form').addEventListener('submit', function (event) {
+document.getElementById('answer-form').addEventListener('submit', function (event) {
     event.preventDefault();
+    event.stopPropagation();
 
     let answer = document.getElementById('answer-input').value;
     document.getElementById('answer-input').value = '';
@@ -340,6 +352,19 @@ document.getElementById('form').addEventListener('submit', function (event) {
     }).then((data) => {
         socket.send(JSON.stringify({ 'type': 'answer', userId: userId, username: username, givenAnswer: answer, score: data.score }));
     });
+});
+
+document.getElementById('chat-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    let message = document.getElementById('chat-input').value;
+    document.getElementById('chat-input').value = '';
+    document.getElementById('chat-input-group').classList.add('d-none');
+
+    if (message.length === 0) return;
+
+    socket.send(JSON.stringify({ 'type': 'chat', userId: userId, username: username, message: message }));
 });
 
 // Other event listeners
@@ -390,6 +415,17 @@ document.getElementById('toggle-visibility').addEventListener('click', function 
     socket.send(JSON.stringify({ 'type': 'toggle-visibility', userId: userId, username: username, isPublic: this.checked }));
 });
 
+window.addEventListener('keypress', function (event) {
+    // needs to be keypress
+    // keydown immediately hides the input group
+    // keyup shows the input group again after submission
+    if (event.key === 'Enter') {
+        if (event.target == document.body) {
+            document.getElementById('chat').click();
+        }
+    }
+});
+
 window.onload = () => {
     username = localStorage.getItem('username') || '';
     document.getElementById('username').value = username;
@@ -409,6 +445,7 @@ window.onload = () => {
             document.getElementById('question-number-info').innerHTML = (data.currentQuestionNumber || 0) + 1;
 
             document.getElementById('toggle-visibility').checked = data.isPublic;
+            document.getElementById('chat').disabled = data.isPublic;
 
             validCategories = data.validCategories || [];
             validSubcategories = data.validSubcategories || [];
