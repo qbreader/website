@@ -10,6 +10,73 @@ var validCategories = [];
 var validSubcategories = [];
 var currentQuestion = {}
 
+async function processSocketMessage(data) {
+    switch (data.type) {
+        case 'user-id':
+            userId = data.userId;
+            break;
+        case 'join':
+            logEvent(data.username, `joined the game`);
+            createPlayerAccordion(data.userId, data.username);
+            break;
+        case 'change-username':
+            logEvent(data.oldUsername, 'changed their username to ' + data.username);
+            document.getElementById('accordion-button-username-' + data.userId).innerHTML = data.username;
+            break;
+        case 'clear-stats':
+            clearStats(data.userId);
+            break;
+        case 'set-title':
+        case 'packet-number':
+            if (data.value.length > 0) {
+                logEvent(data.username, `changed the ${data.type} to ${data.value}`);
+            } else {
+                logEvent(data.username, `cleared the ${data.type}`);
+            }
+            document.getElementById(data.type).value = data.value;
+            break;
+        case 'reading-speed':
+            logEvent(data.username, `changed the reading speed to ${data.value}`);
+            document.getElementById('reading-speed').value = data.value;
+            document.getElementById('reading-speed-display').innerHTML = data.value;
+            break;
+        case 'update-subcategories':
+            validSubcategories = data.value;
+            loadCategoryModal(validCategories, validSubcategories);
+            break;
+        case 'update-categories':
+            validCategories = data.value;
+            loadCategoryModal(validCategories, validSubcategories);
+            break;
+        case 'next':
+            if (await loadAndReadTossup()) {
+                if (document.getElementById('next').innerHTML === 'Skip') {
+                    logEvent(data.username, `skipped the question`);
+                } else {
+                    logEvent(data.username, `went to the next question`);
+                }
+            }
+            break;
+        case 'start':
+            loadAndReadTossup();
+            break;
+        case 'buzz':
+            processBuzz(data.userId, data.username);
+            break;
+        case 'answer':
+            processAnswer(data.userId, data.username, data.givenAnswer, data.score);
+            break;
+        case 'pause':
+            logEvent(data.username, `${paused ? 'un' : ''}paused the game`);
+            pause();
+            break;
+        case 'leave':
+            logEvent(data.username, `left the game`);
+            document.getElementById('accordion-' + data.userId).remove();
+            break;
+    }
+}
+
 function connectToWebSocket() {
     socket = new WebSocket(location.href.replace('http', 'ws'), ROOM_NAME);
     socket.onopen = function () {
@@ -17,73 +84,10 @@ function connectToWebSocket() {
         console.log('Connected to websocket');
     }
 
-    socket.onmessage = async function (event) {
+    socket.onmessage = function (event) {
         let data = JSON.parse(event.data);
         console.log(data);
-        switch (data.type) {
-            case 'user-id':
-                userId = data.userId;
-                break;
-            case 'join':
-                logEvent(data.username, `joined the game`);
-                createPlayerAccordion(data.userId, data.username);
-                break;
-            case 'change-username':
-                logEvent(data.oldUsername, 'changed their username to ' + data.username);
-                document.getElementById('accordion-button-username-' + data.userId).innerHTML = data.username;
-                break;
-            case 'clear-stats':
-                clearStats(data.userId);
-                break;
-            case 'set-title':
-            case 'packet-number':
-                if (data.value.length > 0) {
-                    logEvent(data.username, `changed the ${data.type} to ${data.value}`);
-                } else {
-                    logEvent(data.username, `cleared the ${data.type}`);
-                }
-                document.getElementById(data.type).value = data.value;
-                break;
-            case 'reading-speed':
-                logEvent(data.username, `changed the reading speed to ${data.value}`);
-                document.getElementById('reading-speed').value = data.value;
-                document.getElementById('reading-speed-display').innerHTML = data.value;
-                break;
-            case 'update-subcategories':
-                validSubcategories = data.value;
-                loadCategoryModal(validCategories, validSubcategories);
-                break;
-            case 'update-categories':
-                validCategories = data.value;
-                loadCategoryModal(validCategories, validSubcategories);
-                break;
-            case 'next':
-                if (await loadAndReadTossup()) {
-                    if (document.getElementById('next').innerHTML === 'Skip') {
-                        logEvent(data.username, `skipped the question`);
-                    } else {
-                        logEvent(data.username, `went to the next question`);
-                    }
-                }
-                break;
-            case 'start':
-                loadAndReadTossup();
-                break;
-            case 'buzz':
-                processBuzz(data.userId, data.username);
-                break;
-            case 'answer':
-                processAnswer(data.userId, data.username, data.givenAnswer, data.score);
-                break;
-            case 'pause':
-                logEvent(data.username, `${paused ? 'un' : ''}paused the game`);
-                pause();
-                break;
-            case 'leave':
-                logEvent(data.username, `left the game`);
-                document.getElementById('accordion-' + data.userId).remove();
-                break;
-        }
+        processSocketMessage(data);
     }
 
     socket.onclose = function () {
