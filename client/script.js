@@ -210,7 +210,7 @@ function packetNumberStringToArray(packetNumberString, maxPacketNumber = 24) {
  * @returns
  */
 async function getNumPackets(setYear, setName) {
-    return await fetch(`/api/get-num-packets?year=${encodeURI(setYear)}&setName=${encodeURI(setName)}`)
+    return await fetch(`/api/get-num-packets?year=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}`)
         .then(response => response.json())
         .then(data => {
             return parseInt(data.numPackets);
@@ -227,7 +227,7 @@ async function getNumPackets(setYear, setName) {
  */
 async function getPacket(setYear, setName, packetNumber, mode) {
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/api/get-packet?year=${encodeURI(setYear)}&setName=${encodeURI(setName)}&packetNumber=${encodeURI(packetNumber)}`)
+    return await fetch(`/api/get-packet?year=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
         .then(response => response.json())
         .then(data => {
             return data[mode];
