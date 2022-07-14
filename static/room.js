@@ -371,7 +371,7 @@ window.onload = () => {
                 document.getElementById('next').disabled = true;
             } else {
                 document.getElementById('question').innerHTML = data.currentQuestion.question || '';
-                document.getElementById('answer') = 'ANSWER: ' + data.currentQuestion.answer || '';
+                document.getElementById('answer').innerHTML = 'ANSWER: ' + data.currentQuestion.answer || '';
             }
 
             Object.keys(data.players).forEach(player => {
