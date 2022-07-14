@@ -4,7 +4,7 @@ fetch(`/api/get-room-list`)
     for (let room of data['rooms']) {
         let a = document.createElement('a');
         a.href = `/multiplayer/${room[0]}`;
-        a.innerHTML = room[0];
+        a.innerHTML = decodeURIComponent(room[0]);
         let li = document.createElement('li');
         li.appendChild(a);
         li.appendChild(document.createTextNode(` - Number of players: ${room[1]}`));
@@ -15,5 +15,5 @@ fetch(`/api/get-room-list`)
 
 document.getElementById('form').addEventListener('submit', (event) => {
     event.preventDefault();
-    window.location.href = '/multiplayer/' + document.getElementById('new-room-name').value;
+    window.location.href = '/multiplayer/' + encodeURIComponent(document.getElementById('new-room-name').value.replace(' ', '-'));
 });
