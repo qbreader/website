@@ -92,6 +92,8 @@ function pause() {
 
 // Prevent spacebar from scrolling the page:
 window.addEventListener('keydown', function (event) {
+    if (document.activeElement.tagName === 'INPUT') return;
+
     if (event.key === ' ') {
         document.getElementById('buzz').click();
         if (event.target == document.body) event.preventDefault();
