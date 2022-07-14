@@ -440,6 +440,11 @@ window.addEventListener('keypress', function (event) {
     }
 });
 
+// Ping server every 45 seconds to prevent socket disconnection
+setInterval(() => {
+    socket.send(JSON.stringify({ type: 'ping' }));
+}, 45000);
+
 window.onload = () => {
     username = localStorage.getItem('username') || '';
     document.getElementById('username').value = username;
