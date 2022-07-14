@@ -261,11 +261,6 @@ function initialize(alertOnFailure = true) {
     return true;
 }
 
-document.getElementById('clear-stats').addEventListener('click', function () {
-    this.blur();
-    clearStats();
-});
-
 document.getElementById('toggle-options').addEventListener('click', function () {
     this.blur();
     document.getElementById('options').classList.toggle('d-none');

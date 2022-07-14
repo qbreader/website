@@ -201,11 +201,6 @@ questionNumberField.addEventListener('change', function () {
 
 // Event listeners
 
-document.getElementById('next').addEventListener('click', async function () {
-    this.blur();
-    await loadAndReadTossup();
-});
-
 document.getElementById('reading-speed').addEventListener('change', function () {
     localStorage.setItem('speed', this.value);
     document.getElementById('reading-speed-display').innerHTML = this.value;
@@ -229,6 +224,16 @@ document.getElementById('buzz').addEventListener('click', function () {
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
     pause();
+});
+
+document.getElementById('next').addEventListener('click', async function () {
+    this.blur();
+    await loadAndReadTossup();
+});
+
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    clearStats();
 });
 
 document.getElementById('toggle-correct').addEventListener('click', function () {
