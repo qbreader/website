@@ -16,7 +16,8 @@ function createRoom(roomName) {
         validSubcategories: [],
         currentQuestion: {},
         isEndOfSet: false,
-        isQuestionInProgress: false
+        isQuestionInProgress: false,
+        isPublic: true
     }
 }
 
@@ -45,10 +46,14 @@ function getRoom(roomName) {
     return rooms[roomName];
 }
 
-function getRoomList() {
-    return Object.keys(rooms).map((roomName) => {
-        return [roomName, Object.keys(rooms[roomName].players).length]
-    });
+function getRoomList(showPrivateRooms = false) {
+    let roomList = [];
+    for (let room in rooms) {
+        if (rooms[room].isPublic || showPrivateRooms) {
+            roomList.push([room, Object.keys(rooms[room].players).length]);
+        }
+    }
+    return roomList;
 }
 
 function getCurrentQuestion(roomName) {
@@ -122,6 +127,9 @@ function checkAnswerCorrectness(roomName, givenAnswer, inPower, endOfQuestion) {
  */
 function parseMessage(roomName, message) {
     switch (message.type) {
+        case 'toggle-visibility':
+            rooms[roomName].isPublic = message.isPublic;
+            break;
         case 'join':
             createPlayer(roomName, message.userId, message.username);
             break;
