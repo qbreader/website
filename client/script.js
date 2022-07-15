@@ -6,6 +6,7 @@ if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com') {
  * Variables and functions common to both tossups and bonuses
  */
 
+var questionCounter = 1;
 var maxPacketNumber = 24;
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
@@ -259,6 +260,49 @@ function initialize(alertOnFailure = true) {
     document.getElementById('next').innerHTML = 'Skip';
 
     return true;
+}
+
+function createQuestionCard(question) {
+    if (Object.keys(question).length === 0) return;
+
+    // append a card containing the question to the history element
+    let card = document.createElement('div');
+    card.className = 'card my-2';
+
+    let cardHeader = document.createElement('div');
+    cardHeader.className = 'card-header';
+    cardHeader.setAttribute('data-bs-toggle', 'collapse');
+    cardHeader.setAttribute('data-bs-target', '#question-' + questionCounter);
+    cardHeader.innerHTML = question.answer;
+    card.appendChild(cardHeader);
+
+    let cardContainer = document.createElement('div');
+    cardContainer.id = 'question-' + questionCounter;
+    cardContainer.className = 'card-container collapse';
+
+    let cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    let cardText = document.createElement('p');
+    cardText.className = 'card-text';
+    cardText.innerHTML = question.question;
+    cardBody.appendChild(cardText);
+
+    let cardFooter = document.createElement('div');
+    cardFooter.className = 'card-footer';
+
+    let cardFooterText = document.createElement('small');
+    cardFooterText.className = 'text-muted';
+    cardFooterText.innerHTML = `${document.getElementById('set-title').value} / ${question.category} / ${question.subcategory}`;
+    cardFooter.appendChild(cardFooterText);
+
+    cardContainer.appendChild(cardBody);
+    cardContainer.appendChild(cardFooter);
+    card.appendChild(cardContainer);
+
+    document.getElementById('room-history').prepend(card);
+
+    questionCounter++;
 }
 
 document.getElementById('toggle-options').addEventListener('click', function () {
