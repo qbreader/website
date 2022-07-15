@@ -27,13 +27,13 @@ function createBonusPart(bonusPartNumber, bonusText) {
     p.appendChild(document.createTextNode('[10] ' + bonusText));
 
     let bonusPart = document.createElement('div');
-    bonusPart.id = `bonus-part-${bonusPartNumber + 1}`;    
+    bonusPart.id = `bonus-part-${bonusPartNumber + 1}`;
     bonusPart.appendChild(p);
 
     let row = document.createElement('div');
     row.className = 'd-flex';
     row.appendChild(inputWrapper);
-    row.appendChild(bonusPart);    
+    row.appendChild(bonusPart);
 
     document.getElementById('question').appendChild(row);
 }
@@ -137,23 +137,3 @@ async function loadAndReadBonus() {
 
     revealBonusPart();
 }
-
-document.addEventListener('keyup', (event) => {
-    if (document.activeElement.tagName === 'INPUT') return;
-
-    if (event.which == 32) {  // spacebar
-        document.getElementById('reveal').click();
-    } else if (event.which == 78) {  // pressing 'N'
-        document.getElementById('next').click();
-    } else if (event.which == 83) { // pressing 'S'
-        document.getElementById('start').click();
-    } else if (event.key == 'k') { // pressing '0'
-        document.getElementById(`checkbox-${currentBonusPart}`).click();
-    } else if (event.which == 49) { // pressing '1'
-        document.getElementById('checkbox-1').click();
-    } else if (event.which == 50) { // pressing '2'
-        document.getElementById('checkbox-2').click();
-    } else if (event.which == 51) { // pressing '3'
-        document.getElementById('checkbox-3').click();
-    }
-});
