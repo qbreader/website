@@ -430,6 +430,13 @@ document.getElementById('toggle-multiple-buzzes').addEventListener('click', func
     socket.send(JSON.stringify({ 'type': 'toggle-multiple-buzzes', userId: USER_ID, username: username, allowMultipleBuzzes: this.checked }));
 });
 
+// press escape to close chat
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && document.activeElement.tagName === 'INPUT') {
+        document.getElementById('chat-input-group').classList.add('d-none');
+    }
+});
+
 window.addEventListener('keypress', function (event) {
     // needs to be keypress
     // keydown immediately hides the input group
