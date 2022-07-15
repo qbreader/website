@@ -1,14 +1,12 @@
-if (location.pathname.endsWith('/')) {
-    location.pathname = location.pathname.substring(0, location.pathname.length - 1);
-}
+const ROOM_NAME = location.pathname.substring(13);
 
 var socket;
-const ROOM_NAME = location.pathname.substring(13);
 var USER_ID;
 var username;
 var validCategories = [];
 var validSubcategories = [];
 var currentQuestion = {}
+var timeoutID = -1;
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(() => {
@@ -219,24 +217,6 @@ function createPlayerAccordionItem(userId, username, powers = 0, tens = 0, negs 
     document.getElementById('player-accordion').appendChild(accordionItem);
 }
 
-function sortPlayerAccordion(descending = true) {
-    let accordion = document.getElementById('player-accordion');
-    let items = Array.from(accordion.children);
-    items.sort((a, b) => {
-        let aPoints = parseInt(document.getElementById('points-' + a.id.substring(10)).innerHTML);
-        let bPoints = parseInt(document.getElementById('points-' + b.id.substring(10)).innerHTML);
-        // if points are equal, sort alphabetically by username
-        if (aPoints === bPoints) {
-            let aUsername = document.getElementById('accordion-button-username-' + a.id.substring(10)).innerHTML;
-            let bUsername = document.getElementById('accordion-button-username-' + b.id.substring(10)).innerHTML;
-            return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
-        }
-        return descending ? bPoints - aPoints : aPoints - bPoints;
-    }).forEach(item => {
-        accordion.appendChild(item);
-    });
-}
-
 function logEvent(username, message) {
     let i = document.createElement('i');
     i.innerHTML = `<b>${username}</b> ${message}`;
@@ -264,16 +244,21 @@ async function loadAndReadTossup() {
         });
 }
 
-function processBuzz(userId, username) {
-    logEvent(username, `buzzed`);
-
-    clearTimeout(timeoutID);
-
-    document.getElementById('question').innerHTML += '(#) '; // Include buzzpoint
-
-    document.getElementById('buzz').disabled = true;
-    document.getElementById('pause').disabled = true;
-    document.getElementById('next').disabled = true;
+/**
+ * Toggles pausing or resuming the tossup.
+ */
+function pause() {
+    if (paused) {
+        document.getElementById('buzz').removeAttribute('disabled');
+        document.getElementById('pause').innerHTML = 'Pause';
+        recursivelyPrintTossup();
+    }
+    else {
+        document.getElementById('buzz').setAttribute('disabled', 'disabled');
+        document.getElementById('pause').innerHTML = 'Resume';
+        clearTimeout(timeoutID);
+    }
+    paused = !paused;
 }
 
 function processAnswer(userId, username, givenAnswer, score) {
@@ -318,6 +303,91 @@ function processAnswer(userId, username, givenAnswer, score) {
     document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
 
     sortPlayerAccordion();
+}
+
+function processBuzz(userId, username) {
+    logEvent(username, `buzzed`);
+
+    clearTimeout(timeoutID);
+
+    document.getElementById('question').innerHTML += '(#) '; // Include buzzpoint
+
+    document.getElementById('buzz').disabled = true;
+    document.getElementById('pause').disabled = true;
+    document.getElementById('next').disabled = true;
+}
+
+/**
+* Reads the next question.
+*/
+function readTossup() {
+    document.getElementById('next').innerHTML = 'Skip';
+ 
+    // Stop reading the current question:
+    clearTimeout(timeoutID);
+    currentlyBuzzing = false;
+ 
+    // Update the toggle-correct button:
+    toggleCorrectClicked = false;
+    document.getElementById('toggle-correct').innerHTML = 'I was wrong';
+    document.getElementById('toggle-correct').disabled = true;
+ 
+    // Update the question text:
+    document.getElementById('question').innerHTML = '';
+    document.getElementById('answer').innerHTML = '';
+    document.getElementById('buzz').innerHTML = 'Buzz';
+ 
+    document.getElementById('buzz').removeAttribute('disabled');
+    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').removeAttribute('disabled');
+    paused = false;
+    // Read the question:
+    recursivelyPrintTossup();
+ }
+ 
+/**
+ * Recursively reads the question based on the reading speed.
+ */
+function recursivelyPrintTossup() {
+    if (!currentlyBuzzing && questionTextSplit.length > 0) {
+        let word = questionTextSplit.shift();
+        document.getElementById('question').innerHTML += word + ' ';
+
+        //calculate time needed before reading next word
+        let time = Math.log(word.length) + 1;
+        if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123)
+            || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
+            time += 2;
+        else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
+            time += 0.75;
+        else if (word === "(*)")
+            time = 0;
+
+        timeoutID = window.setTimeout(() => {
+            recursivelyPrintTossup();``
+        }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
+    }
+    else {
+        document.getElementById('pause').disabled = true;
+    }
+}
+
+function sortPlayerAccordion(descending = true) {
+    let accordion = document.getElementById('player-accordion');
+    let items = Array.from(accordion.children);
+    items.sort((a, b) => {
+        let aPoints = parseInt(document.getElementById('points-' + a.id.substring(10)).innerHTML);
+        let bPoints = parseInt(document.getElementById('points-' + b.id.substring(10)).innerHTML);
+        // if points are equal, sort alphabetically by username
+        if (aPoints === bPoints) {
+            let aUsername = document.getElementById('accordion-button-username-' + a.id.substring(10)).innerHTML;
+            let bUsername = document.getElementById('accordion-button-username-' + b.id.substring(10)).innerHTML;
+            return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
+        }
+        return descending ? bPoints - aPoints : aPoints - bPoints;
+    }).forEach(item => {
+        accordion.appendChild(item);
+    });
 }
 
 // Game logic
@@ -457,24 +527,6 @@ document.getElementById('toggle-visibility').addEventListener('click', function 
 document.getElementById('toggle-multiple-buzzes').addEventListener('click', function () {
     this.blur();
     socket.send(JSON.stringify({ 'type': 'toggle-multiple-buzzes', userId: USER_ID, username: username, allowMultipleBuzzes: this.checked }));
-});
-
-// press escape to close chat
-document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' && document.activeElement.tagName === 'INPUT') {
-        document.getElementById('chat-input-group').classList.add('d-none');
-    }
-});
-
-window.addEventListener('keypress', function (event) {
-    // needs to be keypress
-    // keydown immediately hides the input group
-    // keyup shows the input group again after submission
-    if (event.key === 'Enter') {
-        if (event.target == document.body) {
-            document.getElementById('chat').click();
-        }
-    }
 });
 
 window.onload = () => {
