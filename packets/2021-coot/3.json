@@ -130,9 +130,9 @@
                 "The type III secretion system is an important virulence factor for many Gram-negative bacteria, including the O157:H7 strain of this species, which causes severe food poisoning. The K12 strain of this species is widely studied as a model organism."
             ],
             "answers": [
-                ": type III secretion system [or T3SS; or TTSS; accept injectisome; prompt on secretion system]",
-                ": Gram-negative",
-                ": E. coli [or Escherichia coli; prompt on Escherichia]"
+                "type III secretion system [or T3SS; or TTSS; accept injectisome; prompt on secretion system]",
+                "Gram-negative",
+                "E. coli [or Escherichia coli; prompt on Escherichia]"
             ],
             "category": "Science",
             "subcategory": "Biology"
@@ -145,9 +145,9 @@
                 "Cain is the final novel by this author. This Portuguese author also wrote the novel Blindness."
             ],
             "answers": [
-                ": Cain",
-                ": Miguel de Unamuno y Jugo",
-                ": Jos\u00e9 Saramago"
+                "Cain",
+                "Miguel de Unamuno y Jugo",
+                "Jos\u00e9 Saramago"
             ],
             "category": "Literature",
             "subcategory": "European Literature"
@@ -160,9 +160,9 @@
                 "Though memorably covered by the countertenor Klaus Nomi, \u201cWhat power art thou\u201d was written for this lowest voice type, whose subtypes include profondo."
             ],
             "answers": [
-                ": Michael Nyman",
-                ": King Arthur, or the British Worthy",
-                ": bass [or basso]"
+                "Michael Nyman",
+                "King Arthur, or the British Worthy",
+                "bass [or basso]"
             ],
             "category": "Fine Arts",
             "subcategory": "Auditory Fine Arts"
@@ -175,9 +175,9 @@
                 "Victoria is a region of this country. The milestone of the 25th consecutive day with no new coronavirus cases was recently reached in its region of New South Wales."
             ],
             "answers": [
-                ": Victoria [prompt on, but do NOT reveal, Australia]",
-                ": Daniel Andrews",
-                ": Australia"
+                "Victoria [prompt on, but do NOT reveal, Australia]",
+                "Daniel Andrews",
+                "Australia"
             ],
             "category": "History",
             "subcategory": "World History"
@@ -190,9 +190,9 @@
                 "Plato's Symposium discusses this concept, which Diotima arranged into six types of increasing depth in a so-called 'ladder'. Greek philosophers divided this concept into subtypes like philia and the more passionate eros."
             ],
             "answers": [
-                ": Diotima of Mantinea",
-                ": Symposium",
-                ": love"
+                "Diotima of Mantinea",
+                "Symposium",
+                "love"
             ],
             "category": "Philosophy",
             "subcategory": "Philosophy"
@@ -205,9 +205,9 @@
                 "Many early accounts of the Romani describe them as experts in this profession. One legend claims that a member of this profession was cursed to wander the world for providing certain items for the Crucifixion."
             ],
             "answers": [
-                ": Romani [accept Roma, Gypsies]",
-                ": Seljuk empire",
-                ": blacksmithing [accept tinkering, tinsmithing or any kind of metalworking]"
+                "Romani [accept Roma, Gypsies]",
+                "Seljuk empire",
+                "blacksmithing [accept tinkering, tinsmithing or any kind of metalworking]"
             ],
             "category": "History",
             "subcategory": "Other History"
@@ -220,9 +220,9 @@
                 "In the UK, Preston bus station is a notable example of Brutalist architecture, on account of it being made mostly of curved forms of this material. Rebar can be used to make a \u2018reinforced\u2019 version of this architectural material."
             ],
             "answers": [
-                ": bus stops [accept bus shelters, prompt on bus stations, prompt on partial or things like transport hubs or similar]",
-                ": Austria",
-                ": concrete [prompt on cement]"
+                "bus stops [accept bus shelters, prompt on bus stations, prompt on partial or things like transport hubs or similar]",
+                "Austria",
+                "concrete [prompt on cement]"
             ],
             "category": "Fine Arts",
             "subcategory": "Other Fine Arts"
@@ -235,9 +235,9 @@
                 "In this Argentine novel, the narrator looks for Maria, the wife of the blind man Allende at an estancia owned by Hunter, who pontificates about his idea for a strikingly Borgesian detective novel."
             ],
             "answers": [
-                ": Jorge Luis Borges",
-                ": detective fiction [accept crime fiction]",
-                ": The Tunnel [or El tunel, by Ernesto Sabato]"
+                "Jorge Luis Borges",
+                "detective fiction [accept crime fiction]",
+                "The Tunnel [or El tunel, by Ernesto Sabato]"
             ],
             "category": "Literature",
             "subcategory": "World Literature"
@@ -250,9 +250,9 @@
                 "The equations of cosmological perturbation theory involve a parameter denoted by w, the ratio of pressure to this quantity. Uppercase omega represents this quantity divided by the \u2018critical\u2019 form of this quantity."
             ],
             "answers": [
-                ": perturbation theory",
-                ": CMBR [or cosmic microwave background radiation]",
-                ": energy density"
+                "perturbation theory",
+                "CMBR [or cosmic microwave background radiation]",
+                "energy density"
             ],
             "category": "Science",
             "subcategory": "Physics"
@@ -265,9 +265,9 @@
                 "Diego Rivera lampshaded his communist leanings by depicting Lenin in this mural for the Rockefeller Center, which was painted over as a result and later recreated. Either the original or altered titles are fine."
             ],
             "answers": [
-                ": Polyforum Cultural Siqueiros [accept Forum Universal]",
-                ": murals",
-                ": Man at the Crossroads or Man, Controller of the Universe"
+                "Polyforum Cultural Siqueiros [accept Forum Universal]",
+                "murals",
+                "Man at the Crossroads or Man, Controller of the Universe"
             ],
             "category": "Fine Arts",
             "subcategory": "Visual Fine Arts"
@@ -280,8 +280,8 @@
                 "For a graph, the number of these things is equal to the number of zero eigenvalues of the Laplacian. For a digraph, Kosaraju\u2019s algorithm finds structures called \u2018strongly [these things]\u2019."
             ],
             "answers": [
-                ": Laplacian",
-                ": graph [or network]",
+                "Laplacian",
+                "graph [or network]",
                 ": (strongly) connected components"
             ],
             "category": "Science",
@@ -295,9 +295,9 @@
                 "The maceheads were found in Nekhen, Greek Hierakonpolis, the cult centre of this god. This god, depicted as a falcon on the Narmer palette, was closely connected with the pharaoh in life, as this god\u2019s father Osiris is in death."
             ],
             "answers": [
-                ": Narmer",
-                ": King Scorpion",
-                ": Horus"
+                "Narmer",
+                "King Scorpion",
+                "Horus"
             ],
             "category": "History",
             "subcategory": "History Classical"
@@ -310,9 +310,9 @@
                 "Phatic expressions often convey this trait. Penelope Brown and Stephen Levinson formed an influential theory of this trait, which might be demonstrated by saying \u201cplease\u201d and \u201cthank you\u201d and following social etiquette."
             ],
             "answers": [
-                ": speech acts [exact phrase required; prompt on statements, utterances or expressions]",
-                ": phatic expressions [accept any term for words/utterances/statements with the adjective phatic]",
-                ": politeness [or being polite; prompt on courtesy/courteous or (having good) manners or other equivalents]"
+                "speech acts [exact phrase required; prompt on statements, utterances or expressions]",
+                "phatic expressions [accept any term for words/utterances/statements with the adjective phatic]",
+                "politeness [or being polite; prompt on courtesy/courteous or (having good) manners or other equivalents]"
             ],
             "category": "Philosophy",
             "subcategory": "Philosophy"
@@ -325,9 +325,9 @@
                 "Siam\u2019s fears over the treaty were exacerbated by threats of gunboat diplomacy made by this first \u2018White Rajah\u2019 of Sarawak, following failed negotiations five years earlier between him and King Nangklo."
             ],
             "answers": [
-                ": Bowring Treaty",
-                ": Siam [accept Thailand or Rattanakosin Kingdom]",
-                ": Sir James Brooke"
+                "Bowring Treaty",
+                "Siam [accept Thailand or Rattanakosin Kingdom]",
+                "Sir James Brooke"
             ],
             "category": "History",
             "subcategory": "American History"
@@ -340,9 +340,9 @@
                 "In this Pulitzer-winning play, John Donne scholar Dr Vivian Bearing recites \u2018Death be not Proud\u2019 as she dies of ovarian cancer, though her advisor Dr Ashford opts to read her the children\u2019s book The Runaway Bunny."
             ],
             "answers": [
-                ": Angels in America",
+                "Angels in America",
                 ": \u2018Big Daddy\u2019 Pollitt [prompt on partial]",
-                ": Wit [or W;t] [by Margaret Edson]"
+                "Wit [or W;t] [by Margaret Edson]"
             ],
             "category": "Literature",
             "subcategory": "American Literature"
@@ -355,9 +355,9 @@
                 "In the Book of Job, this character criticises Job for not submitting to the judgement of the Lord, which is never wrong and which no-one can understand. Unlike Eliphaz, Bildad, and Zophar, this character, a young man, does not appear in the prologue or epilogue, and may be an interpolation."
             ],
             "answers": [
-                ": Book of Proverbs [or Mishlei]",
-                ": fear (of the Lord) [or ya\u0f0bre or timor Dei]",
-                ": Elihu [or Eliu]"
+                "Book of Proverbs [or Mishlei]",
+                "fear (of the Lord) [or ya\u0f0bre or timor Dei]",
+                "Elihu [or Eliu]"
             ],
             "category": "Religion",
             "subcategory": "Religion"
@@ -370,9 +370,9 @@
                 "The Woodward\u2014Hoffmann rules apply to pericyclic reactions, such as this \u2018four-plus-two\u2019 cyclo-addition between a diene and a dienophile."
             ],
             "answers": [
-                ": Woodward\u2014Hoffmann rules",
-                ": ground state",
-                ": Diels\u2014Alder reaction"
+                "Woodward\u2014Hoffmann rules",
+                "ground state",
+                "Diels\u2014Alder reaction"
             ],
             "category": "Science",
             "subcategory": "Chemistry"
@@ -385,9 +385,9 @@
                 "This founder of Opus Dei published The Way, which has sold over four million copies. This priest\u2019s association with Franco led to much controversy upon his canonisation, which was streamlined by Pope John Paul II."
             ],
             "answers": [
-                ": Barcelona",
-                ": Opus Dei",
-                ": Josemar\u00eda Escriv\u00e1"
+                "Barcelona",
+                "Opus Dei",
+                "Josemar\u00eda Escriv\u00e1"
             ],
             "category": "History",
             "subcategory": "European History"
@@ -401,8 +401,8 @@
             ],
             "answers": [
                 ": \u2018Cow Tools\u2019",
-                ": The Far Side",
-                ": Calvin and Hobbes"
+                "The Far Side",
+                "Calvin and Hobbes"
             ],
             "category": "Literature",
             "subcategory": "American Literature"
@@ -415,8 +415,8 @@
                 "Shelley\u2019s pastoral elegy Adonais [adoh-NAY-is] on the death of Keats was modelled on this Milton poem about the death of Edward King."
             ],
             "answers": [
-                ": Ode on a Grecian Urn",
-                ": William Empson",
+                "Ode on a Grecian Urn",
+                "William Empson",
                 ": \u2018Lycidas\u2019 [LI-si-das]"
             ],
             "category": "Literature",
