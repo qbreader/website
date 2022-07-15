@@ -108,11 +108,12 @@ async function loadAndReadBonus() {
 
         // Go to the next packet if you reach the end of this packet
         if (currentQuestionNumber >= questions.length) {
+            packetNumbers.shift();
             if (packetNumbers.length == 0) {
                 window.alert("No more questions left");
                 return;  // alert the user if there are no more packets
             }
-            currentPacketNumber = packetNumbers.shift();
+            currentPacketNumber = packetNumbers[0];
             let [setYear, setName] = parseSetTitle(setTitle);
             questions = await getPacket(setYear, setName, currentPacketNumber, 'bonuses');
             currentQuestionNumber = 0;
