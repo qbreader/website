@@ -10,6 +10,11 @@ var validCategories = [];
 var validSubcategories = [];
 var currentQuestion = {}
 
+// Ping server every 45 seconds to prevent socket disconnection
+const PING_INTERVAL_ID = setInterval(() => {
+    socket.send(JSON.stringify({ type: 'ping' }));
+}, 45000);
+
 async function processSocketMessage(data) {
     switch (data.type) {
         case 'user-id':
@@ -105,6 +110,7 @@ function connectToWebSocket() {
 
     socket.onclose = function () {
         console.log('Disconnected from websocket');
+        clearInterval(PING_INTERVAL_ID);
     }
 }
 
@@ -447,11 +453,6 @@ window.addEventListener('keypress', function (event) {
         }
     }
 });
-
-// Ping server every 45 seconds to prevent socket disconnection
-setInterval(() => {
-    socket.send(JSON.stringify({ type: 'ping' }));
-}, 45000);
 
 window.onload = () => {
     username = localStorage.getItem('username') || '';
