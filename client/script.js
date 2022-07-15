@@ -317,3 +317,8 @@ document.getElementById('set-title').addEventListener('change', async function (
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
     }
 });
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});

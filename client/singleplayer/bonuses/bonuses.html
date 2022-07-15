@@ -174,12 +174,9 @@
             <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 mt-lg-n4" id="options">
                 <div class="d-none d-lg-block">
                     <p>
-                        <span><kbd>s</kbd> = start,</span>
-                        <span class="text-nowrap"><kbd>space</kbd> = buzz,</span>
-                        <span class="text-nowrap"><kbd>n</kbd> = next / skip question,</span><br>
-                        <span class="text-nowrap"><kbd>k</kbd> = toggle last bonus part,</span><br>
-                        <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part,</span><br>
-                        <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part,</span><br>
+                        <span class="text-nowrap"><kbd>k</kbd> = toggle last bonus part</span><br>
+                        <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
+                        <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
                         <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
                     </p>
                     <hr class="my-2">
@@ -337,9 +334,9 @@
     <div class="container-fluid position-sticky bg-white px-xxl-5" style="z-index: 0; bottom: 0">
         <div class="row">
             <div class="buttons col-12 col-lg-9 col-xxl-10 text-center mt-2" id="buttons">
-                <button type="button" class="mb-2 btn btn-success" id="start">Start</button>
-                <button type="button" class="mb-2 btn btn-primary" id="reveal" disabled>Reveal</button>
-                <button type="button" class="mb-2 btn btn-primary" id="next" disabled>Next</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary" id="reveal" disabled>Reveal</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
                 <button type="button" class="mb-2 btn btn-warning" id="clear-stats">Clear Stats</button>
                 <button type="button" class="mb-2 btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                 <button type="button" class="mb-2 btn btn-danger"  id="toggle-options" disabled>Options</button>
