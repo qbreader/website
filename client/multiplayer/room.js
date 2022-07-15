@@ -22,14 +22,17 @@ async function processSocketMessage(data) {
             break;
         case 'join':
             logEvent(data.username, `joined the game`);
-            createPlayerAccordion(data.userId, data.username);
+            createPlayerAccordionItem(data.userId, data.username);
+            sortPlayerAccordion();
             break;
         case 'change-username':
             logEvent(data.oldUsername, 'changed their username to ' + data.username);
             document.getElementById('accordion-button-username-' + data.userId).innerHTML = data.username;
+            sortPlayerAccordion();
             break;
         case 'clear-stats':
             clearStats(data.userId);
+            sortPlayerAccordion();
             break;
         case 'set-title':
         case 'packet-number':
@@ -120,7 +123,7 @@ function clearStats(userId) {
     });
 }
 
-function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0) {
+function createPlayerAccordionItem(userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0) {
     let button = document.createElement('button');
     button.className = 'accordion-button collapsed';
     button.type = 'button';
@@ -216,6 +219,24 @@ function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0,
     document.getElementById('player-accordion').appendChild(accordionItem);
 }
 
+function sortPlayerAccordion(descending = true) {
+    let accordion = document.getElementById('player-accordion');
+    let items = Array.from(accordion.children);
+    items.sort((a, b) => {
+        let aPoints = parseInt(document.getElementById('points-' + a.id.substring(10)).innerHTML);
+        let bPoints = parseInt(document.getElementById('points-' + b.id.substring(10)).innerHTML);
+        // if points are equal, sort alphabetically by username
+        if (aPoints === bPoints) {
+            let aUsername = document.getElementById('accordion-button-username-' + a.id.substring(10)).innerHTML;
+            let bUsername = document.getElementById('accordion-button-username-' + b.id.substring(10)).innerHTML;
+            return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
+        }
+        return descending ? bPoints - aPoints : aPoints - bPoints;
+    }).forEach(item => {
+        accordion.appendChild(item);
+    });
+}
+
 function logEvent(username, message) {
     let i = document.createElement('i');
     i.innerHTML = `<b>${username}</b> ${message}`;
@@ -295,6 +316,8 @@ function processAnswer(userId, username, givenAnswer, score) {
 
     document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
     document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
+
+    sortPlayerAccordion();
 }
 
 // Game logic
@@ -491,7 +514,7 @@ window.onload = () => {
 
             Object.keys(data.players).forEach(player => {
                 if (data.players[player].userId === USER_ID) return;
-                createPlayerAccordion(data.players[player].userId, data.players[player].username, data.players[player].powers, data.players[player].tens, data.players[player].negs, data.players[player].tuh, data.players[player].points);
+                createPlayerAccordionItem(data.players[player].userId, data.players[player].username, data.players[player].powers, data.players[player].tens, data.players[player].negs, data.players[player].tuh, data.players[player].points);
             });
         });
 }
