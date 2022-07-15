@@ -49,6 +49,7 @@ async function processSocketMessage(data) {
             loadCategoryModal(validCategories, validSubcategories);
             break;
         case 'next':
+            createQuestionCard(currentQuestion);
             if (await loadAndReadTossup()) {
                 if (document.getElementById('next').innerHTML === 'Skip') {
                     logEvent(data.username, `skipped the question`);
@@ -212,9 +213,9 @@ function createPlayerAccordion(userId, username, powers = 0, tens = 0, negs = 0,
 function logEvent(username, message) {
     let i = document.createElement('i');
     i.innerHTML = `<b>${username}</b> ${message}`;
-    let li = document.createElement('li');
-    li.appendChild(i);
-    document.getElementById('history').prepend(li);
+    let div = document.createElement('li');
+    div.appendChild(i);
+    document.getElementById('room-history').prepend(div);
 }
 
 async function loadAndReadTossup() {
