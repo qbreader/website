@@ -4,7 +4,7 @@ import os
 import json
 
 VERBOSE = False
-DIRECTORY = 'packets/'
+DIRECTORY = '../packets/'
 CATEGORIES = {
     'Current Events',
     'Fine Arts',

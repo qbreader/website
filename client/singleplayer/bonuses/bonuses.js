@@ -1,6 +1,6 @@
-var packetName = '';
+var setTitle = '';
 var packetNumbers = [];
-var packetNumber = -1;
+var currentPacketNumber = -1;
 
 var questions = [{}];
 var currentQuestionNumber = 0;
@@ -27,13 +27,13 @@ function createBonusPart(bonusPartNumber, bonusText) {
     p.appendChild(document.createTextNode('[10] ' + bonusText));
 
     let bonusPart = document.createElement('div');
-    bonusPart.id = `bonus-part-${bonusPartNumber + 1}`;    
+    bonusPart.id = `bonus-part-${bonusPartNumber + 1}`;
     bonusPart.appendChild(p);
 
     let row = document.createElement('div');
     row.className = 'd-flex';
     row.appendChild(inputWrapper);
-    row.appendChild(bonusPart);    
+    row.appendChild(bonusPart);
 
     document.getElementById('question').appendChild(row);
 }
@@ -41,7 +41,7 @@ function createBonusPart(bonusPartNumber, bonusText) {
 /**
  * Called when the users wants to reveal the next bonus part.
  */
-function reveal() {
+function revealBonusPart() {
     if (currentBonusPart > 2) return;
 
     if (onQuestion) {
@@ -99,7 +99,7 @@ function clearStats() {
 /**
  * Loads and reads the next question.
  */
-async function readQuestion() {
+async function loadAndReadBonus() {
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
@@ -108,111 +108,32 @@ async function readQuestion() {
 
         // Go to the next packet if you reach the end of this packet
         if (currentQuestionNumber >= questions.length) {
+            packetNumbers.shift();
             if (packetNumbers.length == 0) {
                 window.alert("No more questions left");
                 return;  // alert the user if there are no more packets
             }
-            packetNumber = packetNumbers.shift();
-            questions = await getQuestions(packetName, packetNumber, mode = 'bonuses');
+            currentPacketNumber = packetNumbers[0];
+            let [setYear, setName] = parseSetTitle(setTitle);
+            questions = await getPacket(setYear, setName, currentPacketNumber, 'bonuses');
             currentQuestionNumber = 0;
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber]));
+    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
+
+    document.getElementById('set-title-info').innerHTML = setTitle;
+    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
     currentBonusPart = 0;
 
     // Update the question text:
     document.getElementById('question').innerHTML = '';
-    document.getElementById('question-info').innerHTML = `${packetName} Packet ${packetNumber} Question ${currentQuestionNumber + 1}`
 
     let paragraph = document.createElement('p');
     paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
     document.getElementById('question').appendChild(paragraph);
 
-    reveal();
+    revealBonusPart();
 }
-
-document.getElementById('start').addEventListener('click', async function () {
-    this.blur();
-    onQuestion = true;
-    start(mode = 'bonuses')
-});
-
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-
-    if (this.innerHTML === 'Next') {
-        updateStats();
-        updateStatDisplay();
-    }
-
-    onQuestion = true;
-    readQuestion();
-});
-
-document.getElementById('reveal').addEventListener('click', function () {
-    this.blur();
-    reveal();
-});
-
-document.addEventListener('keyup', (event) => {
-    if (document.activeElement.tagName === 'INPUT') return;
-
-    if (event.which == 32) {  // spacebar
-        document.getElementById('reveal').click();
-    } else if (event.which == 78) {  // pressing 'N'
-        document.getElementById('next').click();
-    } else if (event.which == 83) { // pressing 'S'
-        document.getElementById('start').click();
-    } else if (event.key == 'k') { // pressing '0'
-        document.getElementById(`checkbox-${currentBonusPart}`).click();
-    } else if (event.which == 49) { // pressing '1'
-        document.getElementById('checkbox-1').click();
-    } else if (event.which == 50) { // pressing '2'
-        document.getElementById('checkbox-2').click();
-    } else if (event.which == 51) { // pressing '3'
-        document.getElementById('checkbox-3').click();
-    }
-});
-
-/**
- * On window load, run these functions.
- */
-
-//keep text fields in localStorage
-var packetNameField = document.getElementById('name-select');
-if (localStorage.getItem('packetNameBonusSave')) {
-    packetNameField.value = localStorage.getItem('packetNameBonusSave');
-    let [year, name] = parseSetName(name_select.value);
-    (async () => {
-        max_packet_number = await getNumPackets(year, name);
-        document.getElementById('packet-select').placeholder = `Packet #s (1-${max_packet_number})`;
-    })();
-}
-packetNameField.addEventListener('change', function () {
-    localStorage.setItem('packetNameBonusSave', packetNameField.value);
-});
-
-var packetNumberField = document.getElementById('packet-select');
-if (localStorage.getItem('packetNumberBonusSave'))
-    packetNumberField.value = localStorage.getItem('packetNumberBonusSave');
-packetNumberField.addEventListener('change', function () {
-    localStorage.setItem('packetNumberBonusSave', packetNumberField.value);
-});
-
-var questionNumberField = document.getElementById('question-select');
-if (localStorage.getItem('questionNumberBonusSave'))
-    questionNumberField.value = localStorage.getItem('questionNumberBonusSave');
-questionNumberField.addEventListener('change', function () {
-    localStorage.setItem('questionNumberBonusSave', questionNumberField.value);
-});
-
-/**
- * An array that represents
- * [# of 30's, # of 20's, # of 10's, # of 0's].
- */
-if (sessionStorage.getItem('stats') === null)
-    sessionStorage.setItem('stats', [0, 0, 0, 0]);
-
-updateStatDisplay(); //update stats upon loading site

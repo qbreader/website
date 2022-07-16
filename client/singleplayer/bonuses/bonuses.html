@@ -6,9 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/bootstrap.css">
-    <script src="/bootstrap.bundle.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.css">
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -137,16 +137,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="">Tossups</a>
+                        <a class="nav-link" href="/tossups">Tossups</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/bonuses.html">Bonuses</a>
+                        <a class="nav-link active" aria-current="page" href="/bonuses">Bonuses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/multiplayer">Multiplayer</a>
                     </li>
                 </ul>
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/about.html">About</a>
+                            <a class="nav-link" href="/about">About</a>
                         </li>
                     </ul>
                 </div>
@@ -157,9 +160,9 @@
     <div class="container-fluid mt-1 mt-lg-3 px-xxl-5">
         <div class="row" id="info">
             <div class="col-12 col-lg-9 col-xxl-10">
-                <span class="" id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span>
-                <span class="float-end me-lg-2" id="question-metadata">
-                    <b><span id="question-info" class="">&nbsp;</span></b>
+                <span class="" id="statline">0.00 points per bonus with 0 bonuses seen (0/0/0/0, 0 pts)</span>
+                <span class="float-md-end me-lg-2" id="question-metadata">
+                    <b id="question-info"><span id="set-title-info"></span> Packet <span id="packet-number-info"></span> Question <span id="question-number-info"></span></b>
                 </span>
             </div>
         </div>
@@ -171,15 +174,15 @@
             <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 mt-lg-n4" id="options">
                 <div class="d-none d-lg-block">
                     <p>
-                        <span class="text-nowrap"><kbd>s</kbd> = start,</span>
-                        <span class="text-nowrap"><kbd>space</kbd> = buzz,</span>
-                        <span class="text-nowrap"><kbd>p</kbd> = pause,</span>
-                        <span class="text-nowrap"><kbd>n</kbd> = next / skip question</span>
+                        <span class="text-nowrap"><kbd>k</kbd> = toggle last bonus part</span><br>
+                        <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
+                        <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
+                        <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
                     </p>
                     <hr class="my-2">
                 </div>
                 <h4 class="text-center">Options:</h4>
-                <input type="text" class="form-control" id="name-select" placeholder="Set name" list="suggestions">
+                <input type="text" class="form-control" id="set-title" placeholder="Set name" list="suggestions">
                 <datalist id="suggestions">
                     <!-- Recently added: -->
                     <option>2021 COOT</option>
@@ -322,11 +325,8 @@
                     <option>2012 Penn Bowl</option>
                     <option>2012 PACE</option>
                 </datalist>
-                <input type="text" class="form-control my-1" id="packet-select" placeholder="Packet #s">
+                <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet #s">
                 <input type="text" class="form-control" id="question-select" placeholder="Starting question #">
-                <div class="my-2"></div>
-                <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
-                <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="1">
             </div>
         </div>
     </div>
@@ -334,20 +334,20 @@
     <div class="container-fluid position-sticky bg-white px-xxl-5" style="z-index: 0; bottom: 0">
         <div class="row">
             <div class="buttons col-12 col-lg-9 col-xxl-10 text-center mt-2" id="buttons">
-                <button type="button" class="mb-2 btn btn-success" id="start">Start</button>
-                <button type="button" class="mb-2 btn btn-primary" id="buzz" disabled>Buzz</button>
-                <button type="button" class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
-                <button type="button" class="mb-2 btn btn-primary" id="next" disabled>Next</button>
-                <button type="button" class="mb-2 btn btn-primary" id="toggle-correct" disabled>I was wrong</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary" id="reveal" disabled>Reveal</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
                 <button type="button" class="mb-2 btn btn-warning" id="clear-stats">Clear Stats</button>
                 <button type="button" class="mb-2 btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
-                <button type="button" class="mb-2 btn btn-danger"  id="toggle-options" disabled>Toggle Options</button>
+                <button type="button" class="mb-2 btn btn-danger"  id="toggle-options" disabled>Options</button>
             </div>
         </div>
     </div>
 
     <script src="/script.js"></script>
-    <script src="/tossups.js"></script>
+    <script src="/singleplayer/bonuses/bonuses.js"></script>
+    <script src="/singleplayer/bonuses/keybinds.js"></script>
+    <script src="/singleplayer/bonuses/bonus-singleplayer.js"></script>
 </body>
 
 </html>
