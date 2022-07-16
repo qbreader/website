@@ -2,10 +2,12 @@
     "name": "qbreader",
     "scripts": {
         "start": "node server.js",
-        "sass": "sass scss/custom.scss static/bootstrap.css"
+        "sass": "sass scss/custom.scss client/bootstrap/bootstrap.css"
     },
     "dependencies": {
         "bootstrap": "5.1.3",
-        "express": "^4.17.1"
+        "express": "^4.17.1",
+        "uuid": "^8.3.2",
+        "ws": "^8.8.0"
     }
 }

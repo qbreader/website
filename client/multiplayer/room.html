@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.css">
+    <script src="/multiplayer/redirect.js"></script>
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="modal" id="category-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Categories and Subcategories</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6" id="categories">
+                            <h5 class="text-center">Categories</h5>
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1"
+                                for="Literature">Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1"
+                                for="History">History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Science"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Science">Science<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Fine Arts"></input>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Fine Arts">Fine
+                                Arts<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Religion"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1"
+                                for="Religion">Religion<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Mythology"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1"
+                                for="Mythology">Mythology<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Philosophy"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1"
+                                for="Philosophy">Philosophy<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Social Science"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Social Science">Social
+                                Science<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Current Events"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Current Events">Current
+                                Events<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Geography"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1"
+                                for="Geography">Geography<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other Academic"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Other Academic">Other
+                                Academic<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Trash"></input>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Trash">Trash<br></label>
+                        </div>
+                        <div class="col-6" id="subcategories">
+                            <h5 class="text-center">Subcategories</h5>
+                            <input type="checkbox" class="btn-check" autocomplete="off"
+                                id="American Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1"
+                                for="American Literature">American Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="British Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="British Literature">British
+                                Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off"
+                                id="Classical Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1"
+                                for="Classical Literature">Classical Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off"
+                                id="European Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1"
+                                for="European Literature">European Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="World Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="World Literature">World
+                                Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other Literature"></input>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Other Literature">Other
+                                Literature<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="American History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="American History">American
+                                History <br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Ancient History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Ancient History">Ancient
+                                History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="European History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="European History">European
+                                History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="World History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="World History">World
+                                History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other History"></input>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Other History">Other
+                                History<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Biology"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Biology">Biology<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Chemistry"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1"
+                                for="Chemistry">Chemistry<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Physics"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Physics">Physics<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Math"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Math">Math<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other Science"></input>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Other Science">Other
+                                Science<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Visual Fine Arts"></input>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Visual Fine Arts">Visual
+                                Fine Arts<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Auditory Fine Arts"></input>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1"
+                                for="Auditory Fine Arts">Auditory Fine Arts<br></label>
+
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Other Fine Arts"></input>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Other Fine Arts">Other Fine
+                                Arts<br></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1" href="/">QB Reader</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/tossups">Tossups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bonuses">Bonuses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/multiplayer">Multiplayer</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about.html">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-1 mt-lg-3 px-xxl-5">
+        <div class="row" id="info">
+            <div class="col-12 col-lg-9 col-xxl-10">
+                <span class="float-end me-lg-2" id="question-metadata">
+                    <b id="question-info"><span id="set-title-info"></span> Packet <span id="packet-number-info"></span> Question <span id="question-number-info"></span></b>
+                </span>
+            </div>
+        </div>
+        <div class="row" style="min-height: 24rem">
+            <div class="col-12 col-lg-9 col-xxl-10 order-5 order-lg-1">
+                <form id="answer-form">
+                    <!-- User enters answer here -->
+                    <div class="input-group d-none mb-2" id="answer-input-group">
+                        <input type="text" class="form-control" id="answer-input" placeholder="Enter answer">
+                        <button type="submit" class="btn btn-success" id="answer-submit">Submit</button>
+                    </div>
+                </form>
+                <form id="chat-form">
+                    <div class="input-group d-none mb-2" id="chat-input-group">
+                        <input type="text" class="form-control" id="chat-input" placeholder="Chat">
+                        <button type="submit" class="btn btn-success" id="chat-submit">Submit</button>
+                    </div>
+                </form>
+                <div class="mt-2" id="question"></div>
+                <p class="my-1 my-lg-3" id="answer"></p>
+                <ul class="list-unstyled" id="room-history"></ul>
+            </div>
+            <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 mt-lg-n4" id="options">
+                <input type="text" class="form-control mb-2" id="username" placeholder="Username">
+                <h4 class="text-center">Player List:</h4>
+                <div class="accordion" id="player-accordion"></div>
+                <hr class="my-2">
+                <h4 class="text-center">Room Settings:</h4>
+                <input type="text" class="form-control" id="set-title" placeholder="Set name" list="suggestions">
+                <datalist id="suggestions">
+                    <!-- Recently added: -->
+                    <option>2021 COOT</option>
+                    <option>2021 LHASA</option>
+                    <option>2022 Boilermaker Spring Novice</option>
+                    <option>2020 Michigan Winter Tournament</option>
+                    <option>2018 FST</option>
+                    <option>2019 FST</option>
+                    <option>2022 MRNA</option>
+                    <option>2021 DART II</option>
+                    <option>2021 HARI</option>
+                    <option>2022 WORKSHOP</option>
+                    <option>2021 CALISTO 2</option>
+                    <option>2022 PACE</option>
+                    <!-- All other packets -->
+                    <option>2022 ACF Regionals</option>
+                    <option>2022 ACF Nationals</option>
+                    <option>2021 WORKSHOP</option>
+                    <option>2021 TWAIT</option>
+                    <option>2021 Tiny Science Tossups</option>
+                    <option>2021 Spring Novice</option>
+                    <option>2021 SMH</option>
+                    <option>2021 SKUFFED</option>
+                    <option>2021 Remember the Women</option>
+                    <option>2021 Penn Bowl</option>
+                    <option>2021 PACE</option>
+                    <option>2021 NASAT</option>
+                    <option>2021 MSQB Madness</option>
+                    <option>2021 GORKY III</option>
+                    <option>2021 GORKY II</option>
+                    <option>2021 Geoffrey Wu's NFL Packet</option>
+                    <option>2021 DART I</option>
+                    <option>2021 Dan Coby Tiffany Math Packet</option>
+                    <option>2021 Chicago Open</option>
+                    <option>2021 BHSAT</option>
+                    <option>2021 ARCADIA</option>
+                    <option>2021 ACF Winter</option>
+                    <option>2021 ACF Regionals</option>
+                    <option>2021 ACF Nationals</option>
+                    <option>2021 ACF Nationals Qualifier</option>
+                    <option>2021 ACF Fall</option>
+                    <option>2020 WORKSHOP</option>
+                    <option>2020 Terrapin</option>
+                    <option>2020 TAILS</option>
+                    <option>2020 STASH</option>
+                    <option>2020 SCALE</option>
+                    <option>2020 Saturnalia</option>
+                    <option>2020 Raft II</option>
+                    <option>2020 Oxford</option>
+                    <option>2020 LONE STAR</option>
+                    <option>2020 LIT</option>
+                    <option>2020 IKEA</option>
+                    <option>2020 GORKY</option>
+                    <option>2020 FRENCH II</option>
+                    <option>2020 FLopen</option>
+                    <option>2020 ERIS</option>
+                    <option>2020 CALISTO</option>
+                    <option>2020 BHSAT</option>
+                    <option>2020 AQBL October</option>
+                    <option>2020 ACF Winter</option>
+                    <option>2020 ACF Regionals</option>
+                    <option>2020 ACF Fall</option>
+                    <option>2019 Terrapin</option>
+                    <option>2019 Spartan Housewrite</option>
+                    <option>2019 RMBAT</option>
+                    <option>2019 Prison Bowl</option>
+                    <option>2019 PIANO</option>
+                    <option>2019 Penn Bowl</option>
+                    <option>2019 PACE</option>
+                    <option>2019 NASAT</option>
+                    <option>2019 LOGIC</option>
+                    <option>2019 Lederberg 3</option>
+                    <option>2019 ILLIAC</option>
+                    <option>2019 HFT</option>
+                    <option>2019 Fall Open</option>
+                    <option>2019 EFT</option>
+                    <option>2019 Chicago Open</option>
+                    <option>2019 BHSAT</option>
+                    <option>2019 ACF Regionals</option>
+                    <option>2019 ACF Nationals</option>
+                    <option>2019 ACF Fall</option>
+                    <option>2018 WHAQ</option>
+                    <option>2018 Sun God</option>
+                    <option>2018 SMT</option>
+                    <option>2018 RMBAT</option>
+                    <option>2018 Prison Bowl</option>
+                    <option>2018 Penn Bowl</option>
+                    <option>2018 PACE</option>
+                    <option>2018 NASAT</option>
+                    <option>2018 MBAT</option>
+                    <option>2018 Imsanity</option>
+                    <option>2018 Historature</option>
+                    <option>2018 HFT</option>
+                    <option>2018 GLRAC</option>
+                    <option>2018 EFT</option>
+                    <option>2018 CMST</option>
+                    <option>2018 Chicago Open</option>
+                    <option>2018 Cambridge Open</option>
+                    <option>2018 BHSAT</option>
+                    <option>2018 ACF Regionals</option>
+                    <option>2018 ACF Nationals</option>
+                    <option>2018 ACF Fall</option>
+                    <option>2017 WHAQ</option>
+                    <option>2017 WAO</option>
+                    <option>2017 RMBCT</option>
+                    <option>2017 Prison Bowl</option>
+                    <option>2017 Penn Bowl</option>
+                    <option>2017 PACE</option>
+                    <option>2017 NASAT</option>
+                    <option>2017 MASSOLIT</option>
+                    <option>2017 LIST</option>
+                    <option>2017 Jakob</option>
+                    <option>2017 HFT</option>
+                    <option>2017 GSAC</option>
+                    <option>2017 FRENCH</option>
+                    <option>2017 EMT</option>
+                    <option>2017 EFT</option>
+                    <option>2017 Chicago Open</option>
+                    <option>2017 BHSAT</option>
+                    <option>2017 ACF Regionals</option>
+                    <option>2017 ACF Nationals</option>
+                    <option>2017 ACF Fall</option>
+                    <option>2016 SCOP</option>
+                    <option>2016 Penn Bowl</option>
+                    <option>2016 PACE</option>
+                    <option>2016 NASAT</option>
+                    <option>2016 HFT</option>
+                    <option>2016 ACF Fall</option>
+                    <option>2015 Prison Bowl</option>
+                    <option>2015 Penn Bowl</option>
+                    <option>2015 PACE</option>
+                    <option>2015 Maryland Fall</option>
+                    <option>2015 HFT</option>
+                    <option>2015 Delta Burke</option>
+                    <option>2015 ACF Fall</option>
+                    <option>2014 Penn Bowl</option>
+                    <option>2014 PACE</option>
+                    <option>2013 Penn Bowl</option>
+                    <option>2013 PACE</option>
+                    <option>2012 Penn Bowl</option>
+                    <option>2012 PACE</option>
+                </datalist>
+                <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet #s">
+                <input type="text" class="form-control" id="question-select" placeholder="Starting question #">
+                <div class="my-2"></div>
+                <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="1">
+                <!-- toggle visibility -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="toggle-visibility" checked>
+                    <label class="form-check-label" for="toggle-visibility">Public room</label>
+                </div>
+                <p class="text-muted">Note: chat is only available for private rooms.</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="toggle-multiple-buzzes" checked>
+                    <label class="form-check-label" for="toggle-multiple-buzzes">Allow multiple buzzes</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid position-fixed bg-white" style="z-index: 0; bottom: 0">
+        <div class="row">
+            <div class="buttons col-12 col-lg-9 col-xxl-10 text-center mt-2" id="buttons">
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary" id="buzz" disabled>Buzz</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: enter key"  class="mb-2 btn btn-info"    id="chat">Chat</button>
+                <button type="button" class="mb-2 btn btn-primary d-none" id="toggle-correct" disabled>I was wrong</button>
+                <button type="button" class="mb-2 btn btn-warning" id="clear-stats">Clear Stats</button>
+                <button type="button" class="mb-2 btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
+                <button type="button" class="mb-2 btn btn-danger"  id="toggle-options" disabled>Options</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+    <script src="/multiplayer/keybinds.js"></script>
+    <script src="/multiplayer/room.js"></script>
+</body>
+
+</html>
