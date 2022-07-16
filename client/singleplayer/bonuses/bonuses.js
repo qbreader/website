@@ -100,6 +100,7 @@ function clearStats() {
  * Loads and reads the next question.
  */
 async function loadAndReadBonus() {
+    document.getElementById('question').innerHTML = '';
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
@@ -111,6 +112,8 @@ async function loadAndReadBonus() {
             packetNumbers.shift();
             if (packetNumbers.length == 0) {
                 window.alert("No more questions left");
+                document.getElementById('reveal').disabled = true;
+                document.getElementById('next').disabled = true;
                 return;  // alert the user if there are no more packets
             }
             currentPacketNumber = packetNumbers[0];
@@ -122,18 +125,19 @@ async function loadAndReadBonus() {
         // Get the next question if the current one is in the wrong category and subcategory
     } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
-    document.getElementById('set-title-info').innerHTML = setTitle;
-    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+    if (questions.length > 0) {
+        document.getElementById('set-title-info').innerHTML = setTitle;
+        document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+        document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+    
+        currentBonusPart = 0;
+    
+        // Update the question text:
+    
+        let paragraph = document.createElement('p');
+        paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
+        document.getElementById('question').appendChild(paragraph);
 
-    currentBonusPart = 0;
-
-    // Update the question text:
-    document.getElementById('question').innerHTML = '';
-
-    let paragraph = document.createElement('p');
-    paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
-    document.getElementById('question').appendChild(paragraph);
-
-    revealBonusPart();
+        revealBonusPart();
+    }
 }

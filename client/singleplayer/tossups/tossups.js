@@ -19,34 +19,6 @@ var toggleCorrectClicked = false;
 var inPower = false;
 
 /**
- * Reads the next question.
- */
-function readTossup() {
-    document.getElementById('next').innerHTML = 'Skip';
-
-    // Stop reading the current question:
-    clearTimeout(timeoutID);
-    currentlyBuzzing = false;
-
-    // Update the toggle-correct button:
-    toggleCorrectClicked = false;
-    document.getElementById('toggle-correct').innerHTML = 'I was wrong';
-    document.getElementById('toggle-correct').disabled = true;
-
-    // Update the question text:
-    document.getElementById('question').innerHTML = '';
-    document.getElementById('answer').innerHTML = '';
-    document.getElementById('buzz').innerHTML = 'Buzz';
-
-    document.getElementById('buzz').removeAttribute('disabled');
-    document.getElementById('pause').innerHTML = 'Pause';
-    document.getElementById('pause').removeAttribute('disabled');
-    paused = false;
-    // Read the question:
-    recursivelyPrintTossup();
-}
-
-/**
  * Recursively reads the question based on the reading speed.
  */
 function recursivelyPrintTossup() {
