@@ -1,3 +1,5 @@
+const dljs = require('damerau-levenshtein-js');
+
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
 const SUBCATEGORIES = [
     ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
@@ -8,37 +10,11 @@ const SUBCATEGORIES = [
 const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
 
 
-/**
- * Source: https://www.30secondsofcode.org/js/s/levenshtein-distance
- * @param {String} s 
- * @param {String} t 
- * @returns 
- */
-function levenshteinDistance(s, t) {
-    if (!s.length) return t.length;
-    if (!t.length) return s.length;
-    const arr = [];
-    for (let i = 0; i <= t.length; i++) {
-        arr[i] = [i];
-        for (let j = 1; j <= s.length; j++) {
-            arr[i][j] =
-                i === 0
-                    ? j
-                    : Math.min(
-                        arr[i - 1][j] + 1,
-                        arr[i][j - 1] + 1,
-                        arr[i - 1][j - 1] + (s[j - 1] === t[i - 1] ? 0 : 1)
-                    );
-        }
-    }
-    return arr[t.length][s.length];
-};
-
 function checkAnswerCorrectness(answer, givenAnswer) {
     answer = answer.toLowerCase().trim();
     givenAnswer = givenAnswer.toLowerCase().trim();
 
-    if (givenAnswer.length === 0) {
+    if (answer.length === 0 || givenAnswer.length === 0) {
         return false;
     }
 
@@ -46,11 +22,16 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     let givenAnswerTokens = givenAnswer.split(' ');
 
     for (let i = 0; i < givenAnswerTokens.length; i++) {
-        if (givenAnswerTokens[i].length <= 1) return false;
+        if (givenAnswerTokens[i].length <= 2) return false;
+
+        // if given answer token matches any word in the answerline
         for (let j = 0; j < answerTokens.length; j++) {
-            if (METAWORDS.includes(answerTokens[j])) continue;
+            if (METAWORDS.includes(answerTokens[j])) {
+                console.log(answerTokens[j]);
+                continue;
+            }
             if (answerTokens[j].length === 1) continue;
-            if (levenshteinDistance(givenAnswerTokens[i], answerTokens[j]) <= 2) {
+            if (dljs.distance(givenAnswerTokens[i], answerTokens[j]) <= 1) {
                 return true;
             }
         }
