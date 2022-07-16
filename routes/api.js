@@ -34,7 +34,7 @@ router.get('/get-packet', async (req, res) => {
     try {
         res.send(JSON.stringify(database.getPacket(req.query.year, req.query.setName, req.query.packetNumber)));
     } catch (error) {
-        res.send(JSON.stringify({}));
+        res.send(JSON.stringify({ 'tossups': [], 'bonuses': [] }));
     }
 });
 

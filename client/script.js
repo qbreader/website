@@ -263,7 +263,7 @@ function initialize(alertOnFailure = true) {
 }
 
 function createQuestionCard(question) {
-    if (Object.keys(question).length === 0) return;
+    if (!question || Object.keys(question).length === 0) return;
 
     // append a card containing the question to the history element
     let card = document.createElement('div');
