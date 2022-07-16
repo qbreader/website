@@ -252,7 +252,7 @@ function initialize(alertOnFailure = true) {
     packetNumbers = packetNumberStringToArray(document.getElementById('packet-number').value.trim(), maxPacketNumber);
     currentPacketNumber = packetNumbers[0];
 
-    currentQuestionNumber = document.getElementById('question-select').value;
+    currentQuestionNumber = document.getElementById('question-number').value;
     if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
     currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
 

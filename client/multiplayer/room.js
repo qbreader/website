@@ -1,3 +1,4 @@
+// Do not escape room name as that is how it is stored on the server.
 const ROOM_NAME = location.pathname.substring(13);
 
 var socket;
@@ -233,13 +234,31 @@ async function loadAndReadTossup() {
                 alert('You have reached the end of the set.');
                 return false;
             }
+            // Stop reading the current question:
+            clearTimeout(timeoutID);
+
+            currentlyBuzzing = false;
+            paused = false;
             currentQuestion = data.question;
             questionText = currentQuestion.question;
             questionTextSplit = questionText.split(' ');
+
+            // Update question text:
             document.getElementById('set-title-info').innerHTML = data.setTitle;
             document.getElementById('packet-number-info').innerHTML = data.packetNumber;
             document.getElementById('question-number-info').innerHTML = data.questionNumber + 1;
-            readTossup();
+            document.getElementById('question').innerHTML = '';
+            document.getElementById('answer').innerHTML = '';
+
+            // update buttons:
+            document.getElementById('buzz').innerHTML = 'Buzz';
+            document.getElementById('buzz').disabled = false;
+            document.getElementById('pause').innerHTML = 'Pause';
+            document.getElementById('pause').disabled = false;
+            document.getElementById('next').innerHTML = 'Skip';
+
+            // Read the question:
+            recursivelyPrintTossup();
             return true;
         });
 }
@@ -318,34 +337,6 @@ function processBuzz(userId, username) {
 }
 
 /**
-* Reads the next question.
-*/
-function readTossup() {
-    document.getElementById('next').innerHTML = 'Skip';
- 
-    // Stop reading the current question:
-    clearTimeout(timeoutID);
-    currentlyBuzzing = false;
- 
-    // Update the toggle-correct button:
-    toggleCorrectClicked = false;
-    document.getElementById('toggle-correct').innerHTML = 'I was wrong';
-    document.getElementById('toggle-correct').disabled = true;
- 
-    // Update the question text:
-    document.getElementById('question').innerHTML = '';
-    document.getElementById('answer').innerHTML = '';
-    document.getElementById('buzz').innerHTML = 'Buzz';
- 
-    document.getElementById('buzz').removeAttribute('disabled');
-    document.getElementById('pause').innerHTML = 'Pause';
-    document.getElementById('pause').removeAttribute('disabled');
-    paused = false;
-    // Read the question:
-    recursivelyPrintTossup();
- }
- 
-/**
  * Recursively reads the question based on the reading speed.
  */
 function recursivelyPrintTossup() {
@@ -364,7 +355,7 @@ function recursivelyPrintTossup() {
             time = 0;
 
         timeoutID = window.setTimeout(() => {
-            recursivelyPrintTossup();``
+            recursivelyPrintTossup(); ``
         }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
     }
     else {
@@ -511,7 +502,7 @@ document.getElementById('packet-number').addEventListener('change', function () 
     socket.send(JSON.stringify({ type: 'packet-number', username: username, value: packetNumberStringToArray(this.value, maxPacketNumber) }));
 });
 
-document.getElementById('question-select').addEventListener('change', function () {
+document.getElementById('question-number').addEventListener('change', function () {
     socket.send(JSON.stringify({ type: 'question-number', username: username, value: this.value }));
 });
 
