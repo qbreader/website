@@ -62,7 +62,18 @@ function clearStats() {
     updateStatDisplay();
 }
 
-async function loadAndReadTossup(mode = 'tossups') {
+async function loadAndReadTossup() {
+    // Update the toggle-correct button:
+    toggleCorrectClicked = false;
+    document.getElementById('toggle-correct').innerHTML = 'I was wrong';
+    document.getElementById('toggle-correct').disabled = true;
+
+    document.getElementById('question').innerHTML = '';
+    document.getElementById('answer').innerHTML = '';
+    // Stop reading the current question:
+    clearTimeout(timeoutID);
+    currentlyBuzzing = false;
+
     currentPacketNumber = packetNumbers[0];
 
     do {  // Get the next question
@@ -73,6 +84,9 @@ async function loadAndReadTossup(mode = 'tossups') {
             packetNumbers.shift();
             if (packetNumbers.length == 0) {
                 window.alert("No more questions left");
+                document.getElementById('buzz').disabled = true;
+                document.getElementById('pause').disabled = true;
+                document.getElementById('next').disabled = true;
                 return;  // alert the user if there are no more packets
             }
             currentPacketNumber = packetNumbers[0];
@@ -85,14 +99,24 @@ async function loadAndReadTossup(mode = 'tossups') {
         // Get the next question if the current one is in the wrong category and subcategory
     } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
-    document.getElementById('set-title-info').innerHTML = setTitle;
-    document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-    document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+    if (questions.length > 0) {
+        document.getElementById('set-title-info').innerHTML = setTitle;
+        document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+        document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
-    questionText = questions[currentQuestionNumber]['question'];
-    questionTextSplit = questionText.split(' ');
+        questionText = questions[currentQuestionNumber]['question'];
+        questionTextSplit = questionText.split(' ');
 
-    readTossup();
+        document.getElementById('next').innerHTML = 'Skip';
+
+        document.getElementById('buzz').innerHTML = 'Buzz';
+        document.getElementById('buzz').disabled = false;
+        document.getElementById('pause').innerHTML = 'Pause';
+        document.getElementById('pause').disabled = false;
+        paused = false;
+        // Read the question:
+        recursivelyPrintTossup();
+    }
 }
 
 function toggleCorrect() {
