@@ -1,21 +1,8 @@
-# qb-packet-reader
 - a [quizbug](https://quizbug2.karangurazada.com/)/[protobowl](https://protobowl.com/)/tkbot where you pick a packet and it reads tossups or bonuses to you
-- check out the website at http://www.qbreader.org
+- support for both singleplayer/multiplayer
 - regex-based packet parser in python I wrote & used: https://github.com/thedoge42/qb-packet-parser
 - credit to https://github.com/kgurazad/quizbug2 for inspiration for this project
 - pull requests are welcome
 
-## Technologies
-- Express w/ node.js backend
-- bootstrap + vanilla JS frontend
-
-## How to Use
-if you want to run the server locally:
-- clone the repository
-- run `npm install` to install express
-- inside the server file, run `node server.js` (requires `node.js`, I have version v14.16.0), website is at localhost:3000
-
-## Todo
-- add more packets
-- advanced stats (stats per category/subcategory, stats per packet)
-- add a back button
+## Running the Server
+In the root directory of the server, run `npm install` followed by `node server.js` (I have version v16.14.0). The website is at localhost:3000
