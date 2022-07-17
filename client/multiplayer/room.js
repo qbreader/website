@@ -62,11 +62,13 @@ async function processSocketMessage(data) {
                     logEvent(data.username, `skipped the question`);
                 } else {
                     logEvent(data.username, `went to the next question`);
+                    document.getElementById('next').innerHTML = 'Skip';
                 }
             }
             break;
         case 'start':
             loadAndReadTossup();
+            logEvent(data.username, `started the game`);
             break;
         case 'buzz':
             processBuzz(data.userId, data.username);
@@ -255,7 +257,6 @@ async function loadAndReadTossup() {
             document.getElementById('buzz').disabled = false;
             document.getElementById('pause').innerHTML = 'Pause';
             document.getElementById('pause').disabled = false;
-            document.getElementById('next').innerHTML = 'Skip';
 
             // Read the question:
             recursivelyPrintTossup();
@@ -382,15 +383,6 @@ function sortPlayerAccordion(descending = true) {
 }
 
 // Game logic
-document.getElementById('start').addEventListener('click', async function () {
-    this.blur();
-    if (document.getElementById('set-title').value === '') {
-        alert('Please choose a set.');
-        return;
-    }
-    socket.send(JSON.stringify({ type: 'start', userId: USER_ID, username: username }));
-});
-
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     document.getElementById('answer-input-group').classList.remove('d-none');
@@ -409,7 +401,17 @@ document.getElementById('next').addEventListener('click', function () {
         alert('Please choose a set.');
         return;
     }
-    socket.send(JSON.stringify({ type: 'next', userId: USER_ID, username: username }));
+
+    if (document.getElementById('next').innerHTML === 'Start') {
+        socket.send(JSON.stringify({ type: 'start', userId: USER_ID, username: username }));
+    } else {
+        socket.send(JSON.stringify({ type: 'next', userId: USER_ID, username: username }));
+    }
+
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('next').classList.add('btn-primary');
+    document.getElementById('next').classList.remove('btn-success');
+    document.getElementById('next').innerHTML = 'Next';
 });
 
 document.getElementById('chat').addEventListener('click', function (event) {
@@ -527,10 +529,6 @@ window.onload = () => {
     fetch(`/api/get-room?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
-            if (data.setTitle) {
-                document.getElementById('start').disabled = true;
-                document.getElementById('next').disabled = false;
-            }
             document.getElementById('set-title').value = data.setTitle || '';
             document.getElementById('packet-number').value = data.packetNumbers || [];
 
@@ -550,9 +548,13 @@ window.onload = () => {
             if (data.isQuestionInProgress) {
                 document.getElementById('question').innerHTML = 'Question in progress...';
                 document.getElementById('next').disabled = true;
+            } else if (Object.keys(currentQuestion).length > 0) {
+                document.getElementById('question').innerHTML = data.currentQuestion.question;
+                document.getElementById('answer').innerHTML = 'ANSWER: ' + data.currentQuestion.answer;
             } else {
-                document.getElementById('question').innerHTML = data.currentQuestion.question || '';
-                document.getElementById('answer').innerHTML = 'ANSWER: ' + data.currentQuestion.answer || '';
+                document.getElementById('next').innerHTML = 'Start';
+                document.getElementById('next').classList.remove('btn-primary');
+                document.getElementById('next').classList.add('btn-success');
             }
 
             Object.keys(data.players).forEach(player => {
