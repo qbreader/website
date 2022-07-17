@@ -1,4 +1,4 @@
-if (location.pathname.endsWith('/')) {
+if (location.pathname.endsWith('/') && location.pathname.length > 1) {
     location.pathname = location.pathname.substring(0, location.pathname.length - 1);
 }
 
