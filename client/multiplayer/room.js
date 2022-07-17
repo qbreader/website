@@ -302,6 +302,7 @@ function processAnswer(userId, username, givenAnswer, score) {
         } else {
             document.getElementById('buzz').disabled = true;
         }
+        document.getElementById('pause').disabled = false;
         recursivelyPrintTossup();
     }
 
