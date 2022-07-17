@@ -56,8 +56,8 @@ async function processSocketMessage(data) {
             loadCategoryModal(validCategories, validSubcategories);
             break;
         case 'next':
-            createQuestionCard(currentQuestion);
             if (await loadAndReadTossup()) {
+                createQuestionCard(currentQuestion);
                 if (document.getElementById('next').innerHTML === 'Skip') {
                     logEvent(data.username, `skipped the question`);
                 } else {
