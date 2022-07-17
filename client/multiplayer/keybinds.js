@@ -29,11 +29,9 @@ window.addEventListener('keypress', function (event) {
 document.addEventListener('keyup', (event) => {
     if (document.activeElement.tagName === 'INPUT') return;
 
-    if (event.key == 'n' || event.key == 'N') {
+    if (event.key == 'n' || event.key == 'N' || event.key == 's' || event.key == 'S') {
         document.getElementById('next').click();
     } else if (event.key == 'p' || event.key == 'P') {
         document.getElementById('pause').click();
-    } else if (event.key == 's' || event.key == 'S') { // pressing 'S'
-        document.getElementById('start').click();
     }
 });
