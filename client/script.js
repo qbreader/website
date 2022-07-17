@@ -1,7 +1,3 @@
-if (document.URL.substring(0, 30) === 'https://qbreader.herokuapp.com') {
-    window.location.href = 'http://www.qbreader.org' + document.URL.substring(30);
-}
-
 /*
  * Variables and functions common to both tossups and bonuses
  */
