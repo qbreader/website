@@ -1,4 +1,5 @@
 const dljs = require('damerau-levenshtein-js');
+const fs = require('fs');
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
 const SUBCATEGORIES = [
@@ -116,17 +117,23 @@ function getNextQuestion(setYear, setName, packetNumbers, currentQuestionNumber,
     }
 }
 
+/**
+ * 
+ * @param {String} setYear 
+ * @param {String} setName 
+ * @param {String} packetNumber 
+ * @returns {{tosssups: Array<JSON>, bonuses: Array<JSON>}}
+ */
 function getPacket(setYear, setName, packetNumber) {
     setName = setName.toLowerCase();
     setName = setName.replace(/\s/g, '_');
     let directory = `./packets/${setYear}-${setName}/${packetNumber}.json`;
     try {
-        let jsonfile = require(directory);
-        return jsonfile;
+        return JSON.parse(fs.readFileSync(directory));
     } catch (error) {
-        console.log('ERROR: Could not find packet located at ' + directory);
+        console.log('ERROR: Error getting packet located at ' + directory);
         return { tossups: [], bonuses: [] };
-    }
+    };
 }
 
 module.exports = { checkAnswerCorrectness, parseSetTitle, getNextQuestion, getPacket };
