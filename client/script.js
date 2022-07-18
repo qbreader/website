@@ -274,7 +274,7 @@ function initialize(alertOnFailure = true) {
     return true;
 }
 
-function createQuestionCard(question) {
+function createQuestionCard(question, packetNumber, questionNumber) {
     if (!question || Object.keys(question).length === 0) return;
 
     // append a card containing the question to the history element
@@ -307,6 +307,11 @@ function createQuestionCard(question) {
     cardFooterText.className = 'text-muted';
     cardFooterText.innerHTML = `${document.getElementById('set-title').value} / ${question.category} / ${question.subcategory}`;
     cardFooter.appendChild(cardFooterText);
+
+    let cardFooterText2 = document.createElement('small');
+    cardFooterText2.className = 'text-muted float-end';
+    cardFooterText2.innerHTML = `Packet ${packetNumber} / Question ${questionNumber}`;
+    cardFooter.appendChild(cardFooterText2);
 
     cardContainer.appendChild(cardBody);
     cardContainer.appendChild(cardFooter);
