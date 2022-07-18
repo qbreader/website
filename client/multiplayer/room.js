@@ -362,10 +362,9 @@ function recursivelyPrintTossup() {
             time = 0;
 
         timeoutID = window.setTimeout(() => {
-            recursivelyPrintTossup(); ``
-        }, time * 0.75 * (150 - document.getElementById('reading-speed').value));
-    }
-    else {
+            recursivelyPrintTossup();
+        }, time * 0.9 * (125 - document.getElementById('reading-speed').value));
+    } else {
         document.getElementById('pause').disabled = true;
     }
 }
