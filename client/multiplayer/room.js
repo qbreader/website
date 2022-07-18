@@ -495,8 +495,8 @@ document.getElementById('username').addEventListener('change', function () {
 });
 
 document.getElementById('set-title').addEventListener('change', async function () {
-    let [year, name] = parseSetTitle(this.value);
-    maxPacketNumber = await getNumPackets(year, name);
+    let [setYear, setName] = parseSetTitle(this.value);
+    maxPacketNumber = await getNumPackets(setYear, setName);
     document.getElementById('packet-number').value = packetNumberStringToArray('', maxPacketNumber);
     socket.send(JSON.stringify({ type: 'set-title', username: username, value: this.value }));
 });

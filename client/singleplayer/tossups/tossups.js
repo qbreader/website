@@ -329,9 +329,9 @@ window.onload = () => {
     if (localStorage.getItem('setTitleTossupSave')) {
         setTitle = localStorage.getItem('setTitleTossupSave');
         document.getElementById('set-title').value = setTitle;
-        let [year, name] = parseSetTitle(setTitle);
+        let [setYear, setName] = parseSetTitle(setTitle);
         (async () => {
-            maxPacketNumber = await getNumPackets(year, name);
+            maxPacketNumber = await getNumPackets(setYear, setName);
             document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
         })();
     }

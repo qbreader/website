@@ -162,14 +162,14 @@ function loadCategoryModal(validCategories, validSubcategories) {
 
 /**
  * Converts a setTitle string into a setYear and a setName.
- * @param {String} setTitle - The title of the set in the format "year-name".
+ * @param {String} setTitle - The title of the set in the format "setYear-setName".
  * @returns {[Number, String]} `[setYear, setName]`
  */
 function parseSetTitle(setTitle) {
-    let year = parseInt(setTitle.substring(0, 4));
-    let name = setTitle.substring(5);
+    let setYear = parseInt(setTitle.substring(0, 4));
+    let setName = setTitle.substring(5);
 
-    return [year, name];
+    return [setYear, setName];
 }
 
 /**
@@ -208,7 +208,7 @@ function packetNumberStringToArray(packetNumberString, maxPacketNumber = 24) {
  */
 async function getNumPackets(setYear, setName) {
     if (setYear === undefined || setName === undefined) return 0;
-    return await fetch(`/api/get-num-packets?year=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}`)
+    return await fetch(`/api/get-num-packets?setYear=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}`)
         .then(response => response.json())
         .then(data => {
             return parseInt(data.numPackets);
@@ -225,7 +225,7 @@ async function getNumPackets(setYear, setName) {
  */
 async function getPacket(setYear, setName, packetNumber, mode) {
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/api/get-packet?year=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
+    return await fetch(`/api/get-packet?setYear=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
         .then(response => response.json())
         .then(data => {
             return data[mode];
@@ -308,8 +308,8 @@ document.getElementById('toggle-options').addEventListener('click', function () 
 });
 
 document.getElementById('set-title').addEventListener('change', async function (event) {
-    let [year, name] = parseSetTitle(this.value);
-    maxPacketNumber = await getNumPackets(year, name);
+    let [setYear, setName] = parseSetTitle(this.value);
+    maxPacketNumber = await getNumPackets(setYear, setName);
     if (maxPacketNumber > 0) {
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
     }
