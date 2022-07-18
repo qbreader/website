@@ -15,5 +15,5 @@ fetch(`/api/get-room-list`)
 
 document.getElementById('form').addEventListener('submit', (event) => {
     event.preventDefault();
-    window.location.href = '/multiplayer/' + encodeURIComponent(document.getElementById('new-room-setName').value.replaceAll(' ', '-'));
+    window.location.href = '/multiplayer/' + encodeURIComponent(document.getElementById('new-room-name').value.replaceAll(' ', '-'));
 });
