@@ -4,10 +4,13 @@ const ROOM_NAME = location.pathname.substring(13);
 var socket;
 var USER_ID;
 var username;
+var oldValidCategories = [];
+var oldValidSubcategories = [];
 var validCategories = [];
 var validSubcategories = [];
 var currentQuestion = {}
 var timeoutID = -1;
+var changedCategories = false;
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(() => {
@@ -47,12 +50,14 @@ async function processSocketMessage(data) {
             document.getElementById('reading-speed').value = data.value;
             document.getElementById('reading-speed-display').innerHTML = data.value;
             break;
-        case 'update-subcategories':
-            validSubcategories = data.value;
-            loadCategoryModal(validCategories, validSubcategories);
-            break;
         case 'update-categories':
-            validCategories = data.value;
+            if (!arraysEqual(oldValidCategories, data.categories) || !arraysEqual(oldValidSubcategories, data.subcategories)) {
+                logEvent(data.username, `updated the categories`);
+                oldValidCategories = [...data.categories];
+                oldValidSubcategories = [...data.subcategories];
+            }
+            validCategories = data.categories;
+            validSubategories = data.subcategories;
             loadCategoryModal(validCategories, validSubcategories);
             break;
         case 'next':
@@ -475,8 +480,6 @@ document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
-        socket.send(JSON.stringify({ type: 'update-categories', username: username, value: validCategories }));
-        socket.send(JSON.stringify({ type: 'update-subcategories', username: username, value: validSubcategories }));
     });
 });
 
@@ -484,8 +487,11 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         validSubcategories = updateSubcategory(input.id, validSubcategories);
-        socket.send(JSON.stringify({ type: 'update-subcategories', username: username, value: validSubcategories }))
     });
+});
+
+document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
+    socket.send(JSON.stringify({ type: 'update-categories', username: username, categories: validCategories, subcategories: validSubcategories }));
 });
 
 document.getElementById('username').addEventListener('change', function () {
