@@ -9,6 +9,8 @@ var oldValidSubcategories = [];
 var validCategories = [];
 var validSubcategories = [];
 var currentQuestion = {}
+var currentQuestionNumber = -1;
+var currentPacketNumber = -1;
 var timeoutID = -1;
 var changedCategories = false;
 
@@ -61,8 +63,8 @@ async function processSocketMessage(data) {
             loadCategoryModal(validCategories, validSubcategories);
             break;
         case 'next':
+            createQuestionCard(currentQuestion, currentPacketNumber, currentQuestionNumber + 1);
             if (await loadAndReadTossup()) {
-                createQuestionCard(currentQuestion);
                 if (document.getElementById('next').innerHTML === 'Skip') {
                     logEvent(data.username, `skipped the question`);
                 } else {
@@ -247,6 +249,8 @@ async function loadAndReadTossup() {
             currentlyBuzzing = false;
             paused = false;
             currentQuestion = data.question;
+            currentPacketNumber = data.packetNumber;
+            currentQuestionNumber = data.questionNumber;
             questionText = currentQuestion.question;
             questionTextSplit = questionText.split(' ');
 
@@ -539,12 +543,14 @@ window.onload = () => {
     fetch(`/api/get-room?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
+            var currentPacketNumber = data.packetNumber || 0;
+            var currentQuestionNumber = data.currentQuestionNumber || 0;
             document.getElementById('set-title').value = data.setTitle || '';
             document.getElementById('packet-number').value = data.packetNumbers || [];
 
             document.getElementById('set-title-info').innerHTML = data.setTitle || '';
-            document.getElementById('packet-number-info').innerHTML = data.packetNumber || 0;
-            document.getElementById('question-number-info').innerHTML = (data.currentQuestionNumber || 0) + 1;
+            document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
+            document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
             document.getElementById('toggle-visibility').checked = data.isPublic;
             document.getElementById('chat').disabled = data.isPublic;
