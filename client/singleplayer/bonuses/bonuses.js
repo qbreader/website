@@ -101,6 +101,7 @@ async function loadAndReadBonus() {
 
         let paragraph = document.createElement('p');
         paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
+        document.getElementById('question').innerHTML = '';
         document.getElementById('question').appendChild(paragraph);
 
         revealBonusPart();
