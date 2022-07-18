@@ -319,7 +319,7 @@ document.getElementById('question-number').addEventListener('change', function (
     localStorage.setItem('questionNumberTossupSave', document.getElementById('question-number').value);
 });
 
-document.getElementById('reading-speed').addEventListener('change', function () {
+document.getElementById('reading-speed').addEventListener('input', function () {
     localStorage.setItem('speed', this.value);
     document.getElementById('reading-speed-display').innerHTML = this.value;
 });

@@ -514,6 +514,10 @@ document.getElementById('question-number').addEventListener('change', function (
     socket.send(JSON.stringify({ type: 'question-number', username: username, value: this.value }));
 });
 
+document.getElementById('reading-speed').addEventListener('input', function () {
+    document.getElementById('reading-speed-display').innerHTML = this.value;
+});
+
 document.getElementById('reading-speed').addEventListener('change', function () {
     socket.send(JSON.stringify({ 'type': 'reading-speed', userId: USER_ID, username: username, value: this.value }));
 });
