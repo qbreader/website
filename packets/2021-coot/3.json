@@ -130,7 +130,7 @@
                 "Justice Teare clarified UK law on good faith in a 2019 case involving this club. This club argued successfully that New Balance Athletics\u2019 offer to distribute this club\u2019s replica shirts was not made in good faith."
             ],
             "answers": [
-                ": contracts",
+                "contracts",
                 "good faith [prompt on fair dealing; prompt on faith]",
                 "Liverpool F.C. [accept NewBalance v Liverpool Football Club]"
             ],
@@ -145,7 +145,7 @@
                 "This Shakespeare play had its deposition scene struck out, in which its title character describes \u2018the hollow crown / That rounds the mortal temples of a king.\u2019 This history play depicts Britain as \u2018this sceptred isle\u2019."
             ],
             "answers": [
-                ": Areopagitica",
+                "Areopagitica",
                 "censorship [or the licensing of print / of plays / of the press; accept banning books]",
                 "Richard II"
             ],
@@ -160,7 +160,7 @@
                 "This species has a small effective population size and is so inbred that skin grafts between individuals aren\u2019t rejected. This spotted feline is the fastest land animal."
             ],
             "answers": [
-                ": genetic bottleneck or population bottleneck",
+                "genetic bottleneck or population bottleneck",
                 "effective population size [DO NOT accept \u2018population size\u2019 or \u2018census population size\u2019]",
                 "cheetahs [or Acinonyx jubatus]"
             ],
@@ -175,7 +175,7 @@
                 "Bedloe claimed to have been shown Godfrey\u2019s body by this man\u2019s secretary Samuel Atkins, who was known to have been drunk on a boat at the time. This man celebrated the removal of his kidney stone annually."
             ],
             "answers": [
-                ": Edmund Berry Godfrey",
+                "Edmund Berry Godfrey",
                 "Great Fire of London [accept the Great Fire]",
                 "Samuel Pepys"
             ],
@@ -190,7 +190,7 @@
                 "After Greuze\u2019s work went out of fashion, this still-life artist of Boy with a Spinning Top became Diderot\u2019s favourite. A cat creeps near a fish carcass in his painting The Ray."
             ],
             "answers": [
-                ": rococo [prompt on (late) Baroque or similar]",
+                "rococo [prompt on (late) Baroque or similar]",
                 "Jean-Baptiste Greuze",
                 "Jean-Baptiste-Simeon Chardin"
             ],
@@ -205,7 +205,7 @@
                 "Many of the Carmina Burana are texts described by this word, indicating that they switch between languages, usually Latin and a vernacular. Perhaps the best-known text described by this word is the fourteenth-century Latin-German hymn In dulci jubilo."
             ],
             "answers": [
-                ": Alexander the Great",
+                "Alexander the Great",
                 "Latin",
                 "macaronic"
             ],
@@ -220,7 +220,7 @@
                 "Inspired by the derive, in 1994 a group of people all using this name encouraged radio listeners to direct their \u2018patrols\u2019 and social stunts around Bologna. Several artists committed artistic \u2018seppuku\u2019 after publishing the novel Q under this multi-use name."
             ],
             "answers": [
-                ": Situationist International [accept word forms like situationism]",
+                "Situationist International [accept word forms like situationism]",
                 "Paris",
                 "Luther Blissett [prompt on partial]"
             ],
@@ -235,7 +235,7 @@
                 "On Tanabe-Sugano diagrams, the x-axis expresses the crystal splitting parameter divided by this other parameter, which decreases on the formation of a complex in the nephelauxetic effect."
             ],
             "answers": [
-                ": crystal field theory [or CFT, prompt on partial]",
+                "crystal field theory [or CFT, prompt on partial]",
                 "d block",
                 "Racah B parameter [or Racah interelectron repulsion parameter; prompt on Racah parameter, asking \u2018which one?\u2019; prompt on \u2018B\u2019]"
             ],
@@ -250,7 +250,7 @@
                 "This leader declared \u2018imperialism is the arsonist setting fire to our forests and our savannahs\u2019 and had over 10 million trees planted in their country to combat desertification. This leader made the Renault 5 the official service car of government ministers."
             ],
             "answers": [
-                ": Green Belt Movement [or GBM]",
+                "Green Belt Movement [or GBM]",
                 "Kenya",
                 "Thomas Sankara"
             ],
@@ -265,7 +265,7 @@
                 "For a 1973 photographic work by Baldessari, he threw three of these objects into the air \u2018to get a straight line\u2019. Three of these things remain in place in a water tank in an iconic entry in the Jeff Koons series Total Equilibrium."
             ],
             "answers": [
-                ": California",
+                "California",
                 "boring [do NOT accept synonyms]",
                 "basketballs"
             ],
@@ -280,7 +280,7 @@
                 "A critic of van Fraassen with this surname argued that he confused unobservable with merely unobserved evidence. That philosopher proposed eliminative materialism alongside the author of Neurophilosophy, who shares this surname."
             ],
             "answers": [
-                ": science [accept word forms; accept scientific method; antiprompt on any specific subfields, including mathematics, asking 'considered as a subfield of what broader field?; prompt on method]",
+                "science [accept word forms; accept scientific method; antiprompt on any specific subfields, including mathematics, asking 'considered as a subfield of what broader field?; prompt on method]",
                 "constructive empiricism [accept word forms]",
                 "Paul and Patricia Churchland [accept the Churchlands]"
             ],
@@ -295,7 +295,7 @@
                 "One of the causes of the Red Turban Rebellion was the destruction sowed by this pandemic, which killed ninety percent of the population of Hebei. It was introduced to Europe by Genoese traders from Kaffa in Crimea."
             ],
             "answers": [
-                ": Red Turban Rebellion",
+                "Red Turban Rebellion",
                 "Toghon Temur [or Emperor Huizong of Yuan; prompt on Temur; do not accept or prompt on \u2018Temur Khan\u2019]",
                 "Black Death [accept Black Plague, Great Plague, prompt on bubonic plague]"
             ],
@@ -310,7 +310,7 @@
                 "Jacobs recounts experiencing an increase in anti-black violence after an event led by this historical figure, who was controversially fictionalised in a 1967 novel titled The Confessions of this person by the white author William Styron."
             ],
             "answers": [
-                ": slaves [accept slave girl or slave narrative]",
+                "slaves [accept slave girl or slave narrative]",
                 "Lydia Maria Child",
                 "Nat Turner [accept either part; accept The Confessions of Nat Turner]"
             ],
@@ -325,7 +325,7 @@
                 "Vestager hails from this country, where she served under PM Poul Nyrup Rasmussen of the Social Democrats, who are also the current largest party in its Parliament. This country\u2019s main centre- right party is called Venstre."
             ],
             "answers": [
-                ": Google LLC",
+                "Google LLC",
                 "Margrethe Vestager",
                 "Kingdom of Denmark"
             ],
@@ -340,7 +340,7 @@
                 "Off resonance, the Rabi frequency is changed to an effective value given by the square root of this value squared plus the Rabi frequency squared. This value is the difference between the incident frequency and the resonant frequency."
             ],
             "answers": [
-                ": frequency [accept angular frequency]",
+                "frequency [accept angular frequency]",
                 "two",
                 "detuning"
             ],
@@ -355,9 +355,9 @@
                 "Excavations at this Turkish archaeological site uncovered some of the earliest hexaploid wheats similar to modern common wheat. This site\u2019s houses are noted for not being connected by streets, but were instead accessed through the roof."
             ],
             "answers": [
-                ": Israel [accept Palestine]",
+                "Israel [accept Palestine]",
                 "Einkorn [accept Triticum monococcum]",
-                ": \u00c7atalh\u00f6y\u00fck"
+                "\u00c7atalh\u00f6y\u00fck"
             ],
             "category": "History",
             "subcategory": "Other History"
@@ -370,7 +370,7 @@
                 "The very first section of the japji sahib is this Sikh mantra, which begins by affirming the oneness of the Sikh God with the phrase ik onkar."
             ],
             "answers": [
-                ": japji sahib",
+                "japji sahib",
                 "Sikhism",
                 "Mul Mantar [or Mool Mantra]"
             ],
@@ -385,7 +385,7 @@
                 "Sivagurunathan argued that the major theme of The Wounded Sea was its references to these general structures in Fiji. This is the first word in the title of a poem that describes how \u201cthe leprosy of empire\u201d surrounds a certain place\u2019s \u201cdisjecta membra\u201d."
             ],
             "answers": [
-                ": India",
+                "India",
                 "V. S. Naipaul",
                 "ruins [accept Ruins of a Great House]"
             ],
@@ -400,7 +400,7 @@
                 "The conservation of potential vorticity was used by Sverdrup and Stommel to explain these specific ocean currents. These fast, warm currents, exemplified by the Kuroshio current, are created by latitudinal variation in the Coriolis parameter."
             ],
             "answers": [
-                ": Coriolis effect",
+                "Coriolis effect",
                 "potential vorticity",
                 "Western boundary currents [accept Western intensification, prompt on partial]"
             ],
@@ -415,7 +415,7 @@
                 "It\u2019s possible that Carl wrote the \u2018King\u2019s Theme\u2019 that his father used as the basis for this work when Frederick challenged him to write a three, and then six, voice fugue on an unseen subject."
             ],
             "answers": [
-                ": Carl Philipp Emanuel (\u2018C.P.E.\u2019) Bach [accept either forename or the initials; prompt on Bach alone]",
+                "Carl Philipp Emanuel (\u2018C.P.E.\u2019) Bach [accept either forename or the initials; prompt on Bach alone]",
                 "flute",
                 "The Musical Offering / Musikalisches Opfer, BWV 1079 [antiprompt on ricercar]"
             ],

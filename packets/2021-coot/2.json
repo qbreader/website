@@ -130,7 +130,7 @@
                 "A 2020 study of this organism showed mutations in a single signalling pathway can allow cell growth in heavy water. Paul Nurse identified the gene cdc2 in this unicellular eukaryote often used to study cell cycles because unlike a similar organism, it divides to produce two daughter cells of equal size."
             ],
             "answers": [
-                ": mitosis [do NOT accept or prompt on \u2018meiosis\u2019; if unsure, ask players to spell their answer or type into the chat]",
+                "mitosis [do NOT accept or prompt on \u2018meiosis\u2019; if unsure, ask players to spell their answer or type into the chat]",
                 "Arabidopsis thaliana [or thale cress; accept Arabidopsis; prompt on thaliana]",
                 "Schizosaccharomyces pombe [or fission yeast; accept Schizosaccharomyces; prompt on yeast; prompt on pombe; do NOT accept or prompt on \u2018Saccharomyces\u2019 or \u2018S. cerevisiae\u2019or \u2018brewer\u2019s yeast\u2019]"
             ],
@@ -145,7 +145,7 @@
                 "This German author, who wrote their PhD thesis on D\u00f6blin, included anecdotes about a Chinese quail caged near Somerleyton and a Chinese train operating near Southwold in their novel The Rings of Saturn. This author also wrote Austerlitz."
             ],
             "answers": [
-                ": Bertolt Brecht",
+                "Bertolt Brecht",
                 "Alfred D\u00f6blin",
                 "Winfried Georg \u2018Max\u2019 Sebald"
             ],
@@ -160,7 +160,7 @@
                 "Fun Home the musical was based on the graphic memoir of the same name by this lesbian cartoonist of Dykes To Watch Out For. She names a test based on whether a film contains two women talking about things other than men."
             ],
             "answers": [
-                ": Fun Home",
+                "Fun Home",
                 "maps",
                 "Alison Bechdel"
             ],
@@ -175,7 +175,7 @@
                 "Su\u00e1rez followed Molina in arguing for God\u2019s \u2018middle knowledge\u2019 of counterfactuals by which God retained omnipotence while humans retained this attribute."
             ],
             "answers": [
-                ": Francisco Su\u00e1rez",
+                "Francisco Su\u00e1rez",
                 "transubstantiation [prompt on Real Presence]",
                 "free will [accept free choice, liberum arbitrium; prompt on will and freedom]"
             ],
@@ -190,7 +190,7 @@
                 "In 2016, this journal named Elbakyan one of the ten most important people in science, despite SciHub pirating many of their papers. Along with Science, they are one of the two most prestigious general science journals."
             ],
             "answers": [
-                ": SciHub",
+                "SciHub",
                 "Elsevier",
                 "Nature"
             ],
@@ -205,7 +205,7 @@
                 "Morley stepped in to write the score of this adaptation of a Richard Adams novel in about three weeks. As part of it, she orchestrated its song \u2018Bright Eyes\u2019, but admitted finding difficulty in writing dramatic music about rabbits."
             ],
             "answers": [
-                ": Angela Morley [accept, but note as a deadname, Wally Stott]",
+                "Angela Morley [accept, but note as a deadname, Wally Stott]",
                 "tuba",
                 "Watership Down"
             ],
@@ -220,7 +220,7 @@
                 "The output of Simon\u2019s algorithm is a set of equations setting a form of this operation between y and various binary strings to zero. This operation between two vectors is the sum of the products of their components."
             ],
             "answers": [
-                ": exponential [accept equivalents, such as e or 2 or alphabet size to the x or N or length; accept exptime or exponential time]",
+                "exponential [accept equivalents, such as e or 2 or alphabet size to the x or N or length; accept exptime or exponential time]",
                 "Hadamard transform",
                 "dot product [accept scalar product or inner product]"
             ],
@@ -235,7 +235,7 @@
                 "This Labour leader was Prime Minister at the time Barbara Castle attempted to introduce her White Paper. This leader was Prime Minister twice, before being succeeded by Jim Callaghan in 1976."
             ],
             "answers": [
-                ": trade unions",
+                "trade unions",
                 "Barbara Castle",
                 "Harold Wilson"
             ],
@@ -250,7 +250,7 @@
                 "This critic controversially failed to read any native poetry while writing a history of Canadian literature titled Survival. Their 2000 Empson Lectures were adapted into the book Negotiating with the Dead."
             ],
             "answers": [
-                ": Republic of Canada",
+                "Republic of Canada",
                 "Johnson [accept Emily Pauline Johnson or James Weldon Johnson]",
                 "Margaret Atwood"
             ],
@@ -265,7 +265,7 @@
                 "Raman spectroscopy is mostly used to investigate these sorts of modes of molecules, at higher energies than rotational modes. These oscillatory modes include bending and stretching and are also observed by infrared spectroscopy."
             ],
             "answers": [
-                ": selection rules",
+                "selection rules",
                 "Raman spectroscopy.",
                 "vibrational [accept word forms such as vibration or vibrating]"
             ],
@@ -280,7 +280,7 @@
                 "A 1499 peace treaty was signed in Basel between the Confederacy and this Holy Roman Emperor, after the Swiss victory at Dornach. This ruler fought alongside Henry VIII at the Battle of the Spurs, and was succeeded as emperor by their grandson, Charles V."
             ],
             "answers": [
-                ": Switzerland / the Swiss Confederation [accept the Old Swiss Confederacy]",
+                "Switzerland / the Swiss Confederation [accept the Old Swiss Confederacy]",
                 "Basel / Basle / B\u00e2le",
                 "Maximilian I [prompt on Maximilian]"
             ],
@@ -295,7 +295,7 @@
                 "Though partly set by the sea in Lyme Regis, Austen mainly set Persuasion in this city, where Anne moves after her family home of Kellynch Hall is let. This city, the setting of Northanger Abbey, is now home to the annual Jane Austen festival."
             ],
             "answers": [
-                ": Captain Frederick Wentworth [accept either underlined part]",
+                "Captain Frederick Wentworth [accept either underlined part]",
                 "Jane Austen",
                 "Bath"
             ],
@@ -310,7 +310,7 @@
                 "The central themes of The Question Concerning Technology were developed in a lecture named for this concept. This concept, which is often translated as \u201cThe Framework\u201d, describes the underlying context in which modern technology is embedded."
             ],
             "answers": [
-                ": The Question Concerning Technology [or Die Frage nach der Technik]",
+                "The Question Concerning Technology [or Die Frage nach der Technik]",
                 "Martin Heidegger",
                 "Gestell"
             ],
@@ -325,7 +325,7 @@
                 "Drusus gained his epithet in part for defeating this tribe, part of the Suebi, forcing them to move into modern Bohemia. Scenes of a later war against this tribe are depicted on a column in Rome modelled on that of Trajan."
             ],
             "answers": [
-                ": Livia Drusilla Julia Augusta [DO NOT SAY HER FULL NAME] [prompt on any of the other names]",
+                "Livia Drusilla Julia Augusta [DO NOT SAY HER FULL NAME] [prompt on any of the other names]",
                 "Drusus the Elder [accept Nero Claudius Drusus Germanicus; prompt on Drusus or Germanicus]",
                 "Marcomanni"
             ],
@@ -340,7 +340,7 @@
                 "Sculptures of lamassu in the British Museum heavily influenced the design of this Jacob Epstein sculpture, which since 2011 has had a glass barrier around it to protect it from a certain tradition. Description acceptable."
             ],
             "answers": [
-                ": lamassu [prompt on winged bull or similar]",
+                "lamassu [prompt on winged bull or similar]",
                 "Trafalgar Square",
                 "The tomb of Oscar Wilde [accept clear equivalents mentioning the tomb or funerary monument or grave, and so on, of Oscar Wilde; prompt on partial]"
             ],
@@ -355,7 +355,7 @@
                 "In New Horizons, this canine singer-songwriter only appears once your island achieves a three star rating. This character is the first to welcome you as the game loads in the first European Animal Crossing game."
             ],
             "answers": [
-                ": Tom Nook [accept either underlined part]",
+                "Tom Nook [accept either underlined part]",
                 "Animal Crossing [prompt on Wild World, City Folk, Let\u2019s Got to the City, or New Leaf by asking for the series]",
                 "D.J K.K Slider [accept either underlined part; accept Totakeke ]"
             ],
@@ -370,7 +370,7 @@
                 "This national poet of Bangladesh was frequently imprisoned for pro-independence activism by colonial authorities. This so-called \u2018Rebel Poet\u2019 used Bengali to call for revolution in works such as \u201cThe Rebel\u201d and \u201cThe Song of Destruction\u201d."
             ],
             "answers": [
-                ": Bengali [or Bangla]",
+                "Bengali [or Bangla]",
                 "Rabindranath Tagore [or Robindronath Thakur]",
                 "Kazi Nazrul Islam [prompt on Islam]"
             ],
@@ -385,7 +385,7 @@
                 "This economist hypothesised that inequality would first increase, then decrease as an economy develops. This economist\u2019s namesake \u201ccurve\u201d is a graph showing that hypothesis."
             ],
             "answers": [
-                ": economic inequality [accept any description which uses the word unequal, or forms of it]",
+                "economic inequality [accept any description which uses the word unequal, or forms of it]",
                 "Gini coefficient [or Gini index or Gini ratio]",
                 "Simon Kuznets [accept Kuznets curve]"
             ],
@@ -400,7 +400,7 @@
                 "This leader of the Colorado Party allied with Brazil and Argentina to overthrow President Bernardo Berra in the Uruguayan War. This man led Uruguay for most of the War of the Triple Alliance and was assassinated after resigning."
             ],
             "answers": [
-                ": Uruguay",
+                "Uruguay",
                 "Colorado Party [or Colorados]",
                 "Venancio Flores"
             ],
@@ -415,7 +415,7 @@
                 "Tight binding models are often used to determine this type of relation. This type of relation expresses how energy depends on wavenumber and its namesake phenomenon occurs when this relation is non-linear."
             ],
             "answers": [
-                ": tight-binding",
+                "tight-binding",
                 "periodicity",
                 "dispersion relation"
             ],
