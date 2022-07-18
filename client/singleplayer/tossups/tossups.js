@@ -123,12 +123,12 @@ async function loadAndReadTossup() {
         document.getElementById('set-title-info').innerHTML = setTitle;
         document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
         document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+        document.getElementById('question').innerHTML = '';
 
         questionText = questions[currentQuestionNumber]['question'];
         questionTextSplit = questionText.split(' ');
 
         document.getElementById('next').innerHTML = 'Skip';
-
         document.getElementById('buzz').innerHTML = 'Buzz';
         document.getElementById('buzz').disabled = false;
         document.getElementById('pause').innerHTML = 'Pause';
