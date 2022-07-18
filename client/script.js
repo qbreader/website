@@ -207,6 +207,7 @@ function packetNumberStringToArray(packetNumberString, maxPacketNumber = 24) {
  * @returns
  */
 async function getNumPackets(setYear, setName) {
+    if (setYear === undefined || setName === undefined) return 0;
     return await fetch(`/api/get-num-packets?year=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}`)
         .then(response => response.json())
         .then(data => {
