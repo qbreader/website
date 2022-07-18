@@ -18,6 +18,21 @@ const SUBCATEGORIES = [
     ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"]
 ]
 
+/** Check if two arrays have the same elements, in any order.
+ * @param {Array<String>} arr1
+ * @param {Array<String>} arr2
+ */
+function arraysEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+    arr1 = arr1.sort();
+    arr2 = arr2.sort();
+    for (let i = 0; i < arr1.length; i++) {
+        if (!arr2.includes(arr1[i])) return false;
+        if (!arr1.includes(arr2[i])) return false;
+    }
+    return true;
+}
+
 /**
  * Increases or decreases a session storage item by a certain amount.
  * @param {String} item - The name of the sessionStorage item.

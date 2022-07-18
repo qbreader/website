@@ -159,10 +159,8 @@ function parseMessage(roomName, message) {
             rooms[roomName].readingSpeed = message.value;
             break;
         case 'update-categories':
-            rooms[roomName].validCategories = message.value;
-            break;
-        case 'update-subcategories':
-            rooms[roomName].validSubcategories = message.value;
+            rooms[roomName].validCategories = message.categories;
+            rooms[roomName].validSubcategories = message.subcategories;
             break;
         case 'leave':
             delete rooms[roomName].players[message.userId];
