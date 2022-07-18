@@ -31,11 +31,7 @@ router.get('/get-room-list', (req, res) => {
 router.get('/get-packet', async (req, res) => {
     req.query.setYear = decodeURIComponent(req.query.setYear);
     req.query.setName = decodeURIComponent(req.query.setName);
-    try {
-        res.send(JSON.stringify(database.getPacket(req.query.setYear, req.query.setName, req.query.packetNumber)));
-    } catch (error) {
-        res.send(JSON.stringify({ 'tossups': [], 'bonuses': [] }));
-    }
+    res.send(JSON.stringify(database.getPacket(req.query.setYear, req.query.setName, req.query.packetNumber)));
 });
 
 router.get('/get-current-question', async (req, res) => {
