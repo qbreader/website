@@ -41,46 +41,6 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     return false;
 }
 
-function parseSetTitle(setTitle) {
-    let setYear = parseInt(setTitle.substring(0, 4));
-    let setName = setTitle.substring(5);
-
-    return [setYear, setName];
-}
-
-/**
-* @param {JSON} question 
-* @param {Array<String>} validCategories
-* @param {Array<String>} validSubcategories
-* @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
-*/
-function isValidCategory(question, validCategories, validSubcategories) {
-    if (validCategories.length === 0 && validSubcategories.length === 0) return true;
-
-    // check if the subcategory is explicitly included (overrides missing category)
-    if (question.subcategory && validSubcategories.includes(question.subcategory)) return true;
-
-    // check if category is excluded (and subcategory is excluded)
-    if (!validCategories.includes(question['category'])) return false;
-
-    // at this point, the question category is included in the list of valid categories 
-    // check for the case where none of the subcategories are selected but the category is;
-    // in which case, the question is valid
-    if (!question.subcategory) return true;
-
-    // check to see if the category has no corresponding subcategories
-    let index = CATEGORIES.indexOf(question['category']);
-    if (!(index in SUBCATEGORIES)) return true;
-
-    // check to see if none of the subcategories of the question are selected
-    for (let i = 0; i < SUBCATEGORIES[index].length; i++) {
-        if (validSubcategories.includes(SUBCATEGORIES[index][i])) return false;
-    }
-
-    // if there are no subcategories selected in the field, then it is valid
-    return true;
-}
-
 function getNextQuestion(setYear, setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, mode = 'tossups') {
     let packetNumber = packetNumbers[0];
     let questions = getPacket(setYear, setName, packetNumber)[mode];
@@ -134,6 +94,51 @@ function getPacket(setYear, setName, packetNumber) {
         console.log('ERROR: Error getting packet located at ' + directory);
         return { tossups: [], bonuses: [] };
     };
+}
+
+/**
+* @param {JSON} question 
+* @param {Array<String>} validCategories
+* @param {Array<String>} validSubcategories
+* @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
+*/
+function isValidCategory(question, validCategories, validSubcategories) {
+    if (validCategories.length === 0 && validSubcategories.length === 0) return true;
+
+    // check if the subcategory is explicitly included (overrides missing category)
+    if (question.subcategory && validSubcategories.includes(question.subcategory)) return true;
+
+    // check if category is excluded (and subcategory is excluded)
+    if (!validCategories.includes(question['category'])) return false;
+
+    // at this point, the question category is included in the list of valid categories 
+    // check for the case where none of the subcategories are selected but the category is;
+    // in which case, the question is valid
+    if (!question.subcategory) return true;
+
+    // check to see if the category has no corresponding subcategories
+    let index = CATEGORIES.indexOf(question['category']);
+    if (!(index in SUBCATEGORIES)) return true;
+
+    // check to see if none of the subcategories of the question are selected
+    for (let i = 0; i < SUBCATEGORIES[index].length; i++) {
+        if (validSubcategories.includes(SUBCATEGORIES[index][i])) return false;
+    }
+
+    // if there are no subcategories selected in the field, then it is valid
+    return true;
+}
+
+/**
+ * Converts a setTitle string into a setYear and a setName.
+ * @param {String} setTitle - The title of the set in the format "setYear-setName".
+ * @returns {[Number, String]} `[setYear, setName]`
+ */
+function parseSetTitle(setTitle) {
+    let setYear = parseInt(setTitle.substring(0, 4));
+    let setName = setTitle.substring(5);
+
+    return [setYear, setName];
 }
 
 module.exports = { checkAnswerCorrectness, parseSetTitle, getNextQuestion, getPacket };
