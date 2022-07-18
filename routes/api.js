@@ -43,6 +43,10 @@ router.get('/get-current-question', async (req, res) => {
 });
 
 router.get('/get-num-packets', async (req, res) => {
+    if (req.query.year === undefined || req.query.setName === undefined) {
+        res.send(JSON.stringify({ numPackets: 0 }));
+    }
+
     req.query.year = decodeURIComponent(req.query.year);
     req.query.setName = decodeURIComponent(req.query.setName.toLowerCase());
     req.query.setName = req.query.setName.replace(/\s/g, '_');
