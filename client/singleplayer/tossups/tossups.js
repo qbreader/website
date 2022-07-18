@@ -274,7 +274,7 @@ document.getElementById('pause').addEventListener('click', function () {
 
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
-    createQuestionCard(questions[currentQuestionNumber]);
+    createQuestionCard(questions[currentQuestionNumber], currentPacketNumber, currentQuestionNumber + 1);
     await loadAndReadTossup();
 });
 
