@@ -41,10 +41,10 @@ function checkAnswerCorrectness(answer, givenAnswer) {
 }
 
 function parseSetTitle(setTitle) {
-    let year = parseInt(setTitle.substring(0, 4));
-    let name = setTitle.substring(5);
+    let setYear = parseInt(setTitle.substring(0, 4));
+    let setName = setTitle.substring(5);
 
-    return [year, name];
+    return [setYear, setName];
 }
 
 /**
@@ -80,9 +80,9 @@ function isValidCategory(question, validCategories, validSubcategories) {
     return true;
 }
 
-function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, mode = 'tossups') {
+function getNextQuestion(setYear, setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, mode = 'tossups') {
     let packetNumber = packetNumbers[0];
-    let questions = getPacket(year, name, packetNumber)[mode];
+    let questions = getPacket(setYear, setName, packetNumber)[mode];
     if (questions.length === 0) {
         return { isEndOfSet: true };
     }
@@ -97,7 +97,7 @@ function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, valid
             }
             packetNumbers.shift();
             packetNumber = packetNumbers[0];
-            questions = getPacket(year, name, packetNumber)[mode];
+            questions = getPacket(setYear, setName, packetNumber)[mode];
             if (questions.length === 0) {
                 return { isEndOfSet: true };
             }
@@ -116,10 +116,10 @@ function getNextQuestion(year, name, packetNumbers, currentQuestionNumber, valid
     }
 }
 
-function getPacket(year, name, packetNumber) {
-    name = name.toLowerCase();
-    name = name.replace(/\s/g, '_');
-    let directory = `./packets/${year}-${name}/${packetNumber}.json`;
+function getPacket(setYear, setName, packetNumber) {
+    setName = setName.toLowerCase();
+    setName = setName.replace(/\s/g, '_');
+    let directory = `./packets/${setYear}-${setName}/${packetNumber}.json`;
     try {
         let jsonfile = require(directory);
         return jsonfile;

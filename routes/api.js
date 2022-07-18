@@ -29,10 +29,10 @@ router.get('/get-room-list', (req, res) => {
 });
 
 router.get('/get-packet', async (req, res) => {
-    req.query.year = decodeURIComponent(req.query.year);
+    req.query.setYear = decodeURIComponent(req.query.setYear);
     req.query.setName = decodeURIComponent(req.query.setName);
     try {
-        res.send(JSON.stringify(database.getPacket(req.query.year, req.query.setName, req.query.packetNumber)));
+        res.send(JSON.stringify(database.getPacket(req.query.setYear, req.query.setName, req.query.packetNumber)));
     } catch (error) {
         res.send(JSON.stringify({ 'tossups': [], 'bonuses': [] }));
     }
@@ -43,14 +43,14 @@ router.get('/get-current-question', async (req, res) => {
 });
 
 router.get('/get-num-packets', async (req, res) => {
-    if (req.query.year === undefined || req.query.setName === undefined) {
+    if (req.query.setYear === undefined || req.query.setName === undefined) {
         res.send(JSON.stringify({ numPackets: 0 }));
     }
 
-    req.query.year = decodeURIComponent(req.query.year);
+    req.query.setYear = decodeURIComponent(req.query.setYear);
     req.query.setName = decodeURIComponent(req.query.setName.toLowerCase());
     req.query.setName = req.query.setName.replace(/\s/g, '_');
-    var directory = `packets/${req.query.year}-${req.query.setName}`;
+    var directory = `packets/${req.query.setYear}-${req.query.setName}`;
     var numPackets = 0;
     try {
         fs.readdirSync(directory).forEach(file => {
