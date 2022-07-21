@@ -1,4 +1,4 @@
-# Get info about all the pakcets in the database.
+# Get info about all the packets in the database.
 
 import os
 import json
