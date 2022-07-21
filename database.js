@@ -1,6 +1,28 @@
 const dljs = require('damerau-levenshtein-js');
 const fs = require('fs');
 
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
+const { MongoClient, ObjectId } = require('mongodb');
+const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
+
+var DATABASE;
+var SETS;
+var PACKETS;
+var QUESTIONS;
+
+const client = new MongoClient(uri);
+client.connect().then(() => {
+    console.log('connected to mongodb');
+
+    DATABASE = client.db('qbreader');
+    SETS = DATABASE.collection('sets');
+    PACKETS = DATABASE.collection('packets');
+    QUESTIONS = DATABASE.collection('questions');
+});
+
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
 const SUBCATEGORIES = [
     ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
