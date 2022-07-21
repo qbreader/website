@@ -63,58 +63,48 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     return false;
 }
 
-function getNextQuestion(setYear, setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, mode = 'tossups') {
-    let packetNumber = packetNumbers[0];
-    let questions = getPacket(setYear, setName, packetNumber)[mode];
-    if (questions.length === 0) {
-        return { isEndOfSet: true };
-    }
-
-    do {  // Get the next question
-        currentQuestionNumber++;
-
-        // Go to the next packet if you reach the end of this packet
-        if (currentQuestionNumber >= questions.length) {
-            if (packetNumbers.length == 0) {
-                return { isEndOfSet: true };  // alert the user if there are no more packets
-            }
-            packetNumbers.shift();
-            packetNumber = packetNumbers[0];
-            questions = getPacket(setYear, setName, packetNumber)[mode];
-            if (questions.length === 0) {
-                return { isEndOfSet: true };
-            }
-            currentQuestionNumber = 0;
-        }
-
-        // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
+// TODO: currently will not work if it has to check other packets
+function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossups']) {
+    let set = await SETS.findOne({ name: setName });
+    let question = await QUESTIONS.find({
+        set: set._id,
+        number: { $gt: currentQuestionNumber },
+        category: { $in: validCategories },
+        subcategory: { $in: validSubcategories },
+        type: { $in: type }
+    }).sort({ number: 1 }).limit(1);
 
     return {
-        isEndOfSet: false,
-        question: questions[currentQuestionNumber],
-        packetNumber: packetNumber,
-        packetNumbers: packetNumbers,
-        currentQuestionNumber: currentQuestionNumber
+        question: question,
+        packetNumber: set.indexOf(question.packet) + 1,
     }
 }
 
 /**
- * 
- * @param {String} setYear 
  * @param {String} setName 
- * @param {String} packetNumber 
+ * @param {Number} packetNumber - 1-indexed packket number
  * @returns {{tosssups: Array<JSON>, bonuses: Array<JSON>}}
  */
-function getPacket(setYear, setName, packetNumber) {
+async function getPacket(setName, packetNumber) {
     setName = setName.replace(/\s/g, '-');
-    let directory = `./packets/${setYear}-${setName}/${packetNumber}.json`;
-    try {
-        return JSON.parse(fs.readFileSync(directory));
-    } catch (error) {
-        console.log('ERROR: Error getting packet located at ' + directory);
-        return { tossups: [], bonuses: [] };
-    };
+    return await SETS.findOne({ name: setName }).then(async set => {
+        let packetId = set.packets[packetNumber - 1];
+        let packet = await PACKETS.findOne({ _id: packetId });
+        return {
+            tossups: await QUESTIONS.find({ _id: { $in: packet.tossups } }, { sort: { number: 1 } }).toArray(),
+            bonuses: await QUESTIONS.find({ _id: { $in: packet.bonuses } }, { sort: { number: 1 } }).toArray()
+        }
+    }).catch(err => {
+        console.log(err);
+        return { 'tossups': [], 'bonuses': [] };
+    });
+}
+
+// WRITE USING MONGODB
+async function getNumPackets(setName) {
+    return await SETS.findOne({ name: setName }).then(set => {
+        return set.packets.length;
+    });
 }
 
 /**
@@ -162,4 +152,4 @@ function parseSetTitle(setTitle) {
     return [setYear, setName];
 }
 
-module.exports = { checkAnswerCorrectness, parseSetTitle, getNextQuestion, getPacket };
+module.exports = { checkAnswerCorrectness, parseSetTitle, getNextQuestion, getNumPackets, getPacket };
