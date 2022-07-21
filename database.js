@@ -85,8 +85,7 @@ function getNextQuestion(setYear, setName, packetNumbers, currentQuestionNumber,
  * @returns {{tosssups: Array<JSON>, bonuses: Array<JSON>}}
  */
 function getPacket(setYear, setName, packetNumber) {
-    setName = setName.toLowerCase();
-    setName = setName.replace(/\s/g, '_');
+    setName = setName.replace(/\s/g, '-');
     let directory = `./packets/${setYear}-${setName}/${packetNumber}.json`;
     try {
         return JSON.parse(fs.readFileSync(directory));
