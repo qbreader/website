@@ -44,8 +44,8 @@ router.get('/get-num-packets', async (req, res) => {
     }
 
     req.query.setYear = decodeURIComponent(req.query.setYear);
-    req.query.setName = decodeURIComponent(req.query.setName.toLowerCase());
-    req.query.setName = req.query.setName.replace(/\s/g, '_');
+    req.query.setName = decodeURIComponent(req.query.setName);
+    req.query.setName = req.query.setName.replace(/\s/g, '-');
     var directory = `packets/${req.query.setYear}-${req.query.setName}`;
     var numPackets = 0;
     try {
