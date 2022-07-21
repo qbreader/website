@@ -36,7 +36,7 @@ client.connect().then(() => {
                     tossup.packet = packet._id;
                     tossup.set = set._id;
                     tossup.type = 'tossup';
-                    tossup.number = tossup.number || (index + 1);
+                    tossup.questionNumber = tossup.questionNumber || (index + 1);
                     tossup.createdAt = tossup.createdAt || new Date();
                     tossup.updatedAt = tossup.updatedAt || new Date();
                     questions.insertOne(tossup);
@@ -52,7 +52,7 @@ client.connect().then(() => {
                     bonus.packet = packet._id;
                     bonus.set = set._id;
                     bonus.type = 'bonus';
-                    bonus.number = bonus.number || (index + 1);
+                    bonus.questionNumber = bonus.questionNumber || (index + 1);
                     bonus.createdAt = bonus.createdAt || new Date();
                     bonus.updatedAt = bonus.updatedAt || new Date();
                     questions.insertOne(bonus);

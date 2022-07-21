@@ -311,7 +311,6 @@ document.getElementById('toggle-options').addEventListener('click', function () 
 });
 
 document.getElementById('set-title').addEventListener('change', async function (event) {
-    console.log(this);
     maxPacketNumber = await getNumPackets(this.value);
     if (maxPacketNumber > 0) {
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
