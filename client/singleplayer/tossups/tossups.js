@@ -1,6 +1,6 @@
 var timeoutID = -1;
 
-var setTitle = '';
+var setName = '';
 var packetNumbers = [];
 var currentPacketNumber = -1;
 var validCategories;
@@ -32,7 +32,7 @@ function buzz() {
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) {
             shift('powers', 1);
-            if (setTitle.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -111,8 +111,7 @@ async function loadAndReadTossup() {
             }
             currentPacketNumber = packetNumbers[0];
             clearTimeout(timeoutID); // stop reading the current question 
-            let [setYear, setName] = parseSetTitle(setTitle);
-            questions = await getPacket(setYear, setName, currentPacketNumber, 'tossups');
+            questions = (await getPacket(setName, currentPacketNumber)).tossups;
             currentQuestionNumber = 0;
         }
 
@@ -120,7 +119,7 @@ async function loadAndReadTossup() {
     } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
     if (questions.length > 0) {
-        document.getElementById('set-title-info').innerHTML = setTitle;
+        document.getElementById('set-title-info').innerHTML = setName;
         document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
         document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
         document.getElementById('question').innerHTML = '';
@@ -186,7 +185,7 @@ function toggleCorrect() {
     if (toggleCorrectClicked) {
         if (inPower) {
             shift('powers', 1);
-            if (setTitle.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -199,7 +198,7 @@ function toggleCorrect() {
         // Check if there is more question to be read 
         if (questionTextSplit.length == 0) {
             shift('dead', -1);
-        } else if (setTitle.toLowerCase().includes('pace')) {
+        } else if (setName.toLowerCase().includes('pace')) {
             shift('negs', -1);
         } else {
             shift('negs', -1);
@@ -210,7 +209,7 @@ function toggleCorrect() {
     else {
         if (inPower) {
             shift('powers', -1);
-            if (setTitle.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', -20);
             }
             else {
@@ -224,7 +223,7 @@ function toggleCorrect() {
 
         if (questionTextSplit.length == 0) {
             shift('dead', 1);
-        } else if (setTitle.toLowerCase().includes('pace')) {
+        } else if (setName.toLowerCase().includes('pace')) {
             shift('negs', 1);
         } else {
             shift('negs', 1);
@@ -255,9 +254,8 @@ function updateStatDisplay() {
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     initialize();
-    let [setYear, setName] = parseSetTitle(setTitle);
-    await getPacket(setYear, setName, currentPacketNumber, 'tossups').then(async (data) => {
-        questions = data;
+    await getPacket(setName, currentPacketNumber).then(async (data) => {
+        questions = data.tossups;
         await loadAndReadTossup();
     });
 });
@@ -308,7 +306,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 });
 
 document.getElementById('set-title').addEventListener('change', function () {
-    localStorage.setItem('setTitleTossupSave', this.value);
+    localStorage.setItem('setNameTossupSave', this.value);
 });
 
 document.getElementById('packet-number').addEventListener('change', function () {
@@ -325,12 +323,11 @@ document.getElementById('reading-speed').addEventListener('input', function () {
 });
 
 window.onload = () => {
-    if (localStorage.getItem('setTitleTossupSave')) {
-        setTitle = localStorage.getItem('setTitleTossupSave');
-        document.getElementById('set-title').value = setTitle;
-        let [setYear, setName] = parseSetTitle(setTitle);
+    if (localStorage.getItem('setNameTossupSave')) {
+        setName = localStorage.getItem('setNameTossupSave');
+        document.getElementById('set-title').value = setName;
         (async () => {
-            maxPacketNumber = await getNumPackets(setYear, setName);
+            maxPacketNumber = await getNumPackets(setName);
             document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
         })();
     }

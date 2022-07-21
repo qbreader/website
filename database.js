@@ -14,13 +14,13 @@ var PACKETS;
 var QUESTIONS;
 
 const client = new MongoClient(uri);
-client.connect().then(() => {
+client.connect().then(async () => {
     console.log('connected to mongodb');
 
     DATABASE = client.db('qbreader');
     SETS = DATABASE.collection('sets');
     PACKETS = DATABASE.collection('packets');
-    QUESTIONS = DATABASE.collection('questions');
+    QUESTIONS = DATABASE.collection('questions'); 
 });
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
@@ -63,22 +63,51 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     return false;
 }
 
-// TODO: currently will not work if it has to check other packets
-// create a compound index to do this
-function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossups']) {
+async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossup']) {
+    setName = setName.replace(/\s/g, '-');
     let set = await SETS.findOne({ name: setName });
-    let question = await QUESTIONS.find({
-        set: set._id,
-        number: { $gt: currentQuestionNumber },
-        category: { $in: validCategories },
-        subcategory: { $in: validSubcategories },
-        type: { $in: type }
-    }).sort({ number: 1 }).limit(1);
-
-    return {
-        question: question,
-        packetNumber: set.indexOf(question.packet) + 1,
+    if (validCategories.length === 0) {
+        validCategories = CATEGORIES;
     }
+
+    let question = await QUESTIONS.find({
+        $or: [
+            {
+                set: set._id,
+                category: { $in: validCategories },
+                // subcategory: { $in: validSubcategories },
+                packetNumber: packetNumbers[0],
+                questionNumber: { $gt: currentQuestionNumber },
+                type: { $in: type }
+            },
+            {
+                set: set._id,
+                category: { $in: validCategories },
+                // subcategory: { $in: validSubcategories },
+                packetNumber: { $in: packetNumbers.slice(1) },
+                type: { $in: type }
+            },
+        ]
+    }, {
+        sort: { packetNumber: 1, questionNumber: 1 }
+    });
+
+    return question || {};
+}
+
+async function getNumPackets(setName) {
+    setName = setName.replace(/\s/g, '-');
+    let num = await SETS.findOne({ name: setName }).then(set => {
+        if (set) {
+            return set.packets.length;
+        } else {
+            return 0;
+        }
+    });
+
+    console.log(setName, num)
+
+    return num;
 }
 
 /**
@@ -86,25 +115,19 @@ function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCat
  * @param {Number} packetNumber - 1-indexed packket number
  * @returns {{tosssups: Array<JSON>, bonuses: Array<JSON>}}
  */
-async function getPacket(setName, packetNumber) {
+ async function getPacket(setName, packetNumber) {
     setName = setName.replace(/\s/g, '-');
+    console.log(setName);
     return await SETS.findOne({ name: setName }).then(async set => {
         let packetId = set.packets[packetNumber - 1];
         let packet = await PACKETS.findOne({ _id: packetId });
         return {
-            tossups: await QUESTIONS.find({ _id: { $in: packet.tossups } }, { sort: { number: 1 } }).toArray(),
-            bonuses: await QUESTIONS.find({ _id: { $in: packet.bonuses } }, { sort: { number: 1 } }).toArray()
+            tossups: await QUESTIONS.find({ _id: { $in: packet.tossups } }, { sort: { questionNumber: 1 } }).toArray(),
+            bonuses: await QUESTIONS.find({ _id: { $in: packet.bonuses } }, { sort: { questionNumber: 1 } }).toArray()
         }
     }).catch(err => {
         console.log(err);
         return { 'tossups': [], 'bonuses': [] };
-    });
-}
-
-// WRITE USING MONGODB
-async function getNumPackets(setName) {
-    return await SETS.findOne({ name: setName }).then(set => {
-        return set.packets.length;
     });
 }
 
@@ -141,16 +164,4 @@ function isValidCategory(question, validCategories, validSubcategories) {
     return true;
 }
 
-/**
- * Converts a setTitle string into a setYear and a setName.
- * @param {String} setTitle - The title of the set in the format "setYear-setName".
- * @returns {[Number, String]} `[setYear, setName]`
- */
-function parseSetTitle(setTitle) {
-    let setYear = parseInt(setTitle.substring(0, 4));
-    let setName = setTitle.substring(5);
-
-    return [setYear, setName];
-}
-
-module.exports = { checkAnswerCorrectness, parseSetTitle, getNextQuestion, getNumPackets, getPacket };
+module.exports = { checkAnswerCorrectness, getNextQuestion, getNumPackets, getPacket };

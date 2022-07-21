@@ -1,4 +1,4 @@
-var setTitle = '';
+var setName = '';
 var packetNumbers = [];
 var currentPacketNumber = -1;
 var validCategories;
@@ -82,8 +82,7 @@ async function loadAndReadBonus() {
                 return;  // alert the user if there are no more packets
             }
             currentPacketNumber = packetNumbers[0];
-            let [setYear, setName] = parseSetTitle(setTitle);
-            questions = await getPacket(setYear, setName, currentPacketNumber, 'bonuses');
+            questions = (await getPacket(setName, currentPacketNumber)).bonuses;
             currentQuestionNumber = 0;
         }
 
@@ -91,7 +90,7 @@ async function loadAndReadBonus() {
     } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
 
     if (questions.length > 0) {
-        document.getElementById('set-title-info').innerHTML = setTitle;
+        document.getElementById('set-title-info').innerHTML = setName;
         document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
         document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
@@ -151,9 +150,8 @@ document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     onQuestion = true;
     initialize();
-    let [setYear, setName] = parseSetTitle(setTitle);
-    await getPacket(setYear, setName, currentPacketNumber, 'bonuses').then(async (data) => {
-        questions = data;
+    await getPacket(setName, currentPacketNumber).then(async (data) => {
+        questions = data.bonuses;
         await loadAndReadBonus();
     });
 });
@@ -200,7 +198,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 });
 
 document.getElementById('set-title').addEventListener('change', function () {
-    localStorage.setItem('setTitleBonusSave', this.value);
+    localStorage.setItem('setNameBonusSave', this.value);
 });
 
 document.getElementById('packet-number').addEventListener('change', function () {
@@ -230,12 +228,11 @@ window.onload = () => {
         validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     }
     
-    if (localStorage.getItem('setTitleBonusSave')) {
-        setTitle = localStorage.getItem('setTitleBonusSave');
-        document.getElementById('set-title').value = setTitle;
-        let [setYear, setName] = parseSetTitle(setTitle);
+    if (localStorage.getItem('setNameBonusSave')) {
+        setName = localStorage.getItem('setNameBonusSave');
+        document.getElementById('set-title').value = setName;
         (async () => {
-            maxPacketNumber = await getNumPackets(setYear, setName);
+            maxPacketNumber = await getNumPackets(setName);
             document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
         })();
     }

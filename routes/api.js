@@ -29,9 +29,8 @@ router.get('/get-room-list', (req, res) => {
 });
 
 router.get('/get-packet', async (req, res) => {
-    req.query.setYear = decodeURIComponent(req.query.setYear);
     req.query.setName = decodeURIComponent(req.query.setName);
-    res.send(JSON.stringify(database.getPacket(req.query.setYear, req.query.setName, req.query.packetNumber)));
+    res.send(JSON.stringify(await database.getPacket(req.query.setName, req.query.packetNumber)));
 });
 
 router.get('/get-current-question', async (req, res) => {
@@ -39,26 +38,9 @@ router.get('/get-current-question', async (req, res) => {
 });
 
 router.get('/get-num-packets', async (req, res) => {
-    if (req.query.setYear === undefined || req.query.setName === undefined) {
-        res.send(JSON.stringify({ numPackets: 0 }));
-    }
-
-    req.query.setYear = decodeURIComponent(req.query.setYear);
-    req.query.setName = decodeURIComponent(req.query.setName);
-    req.query.setName = req.query.setName.replace(/\s/g, '-');
-    var directory = `packets/${req.query.setYear}-${req.query.setName}`;
-    var numPackets = 0;
-    try {
-        fs.readdirSync(directory).forEach(file => {
-            if (file.endsWith('.json')) {
-                numPackets++;
-            }
-        });
-        res.send(JSON.stringify({ numPackets: numPackets.toString() }));
-    } catch (error) {
-        console.log('ERROR: Could not find directory ' + directory);
-        res.send(JSON.stringify({ numPackets: 0 }));
-    }
+    res.send(JSON.stringify({
+        value: await database.getNumPackets(req.query.setName)
+    }));
 });
 
 module.exports = router;
