@@ -64,6 +64,7 @@ function checkAnswerCorrectness(answer, givenAnswer) {
 }
 
 // TODO: currently will not work if it has to check other packets
+// create a compound index to do this
 function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossups']) {
     let set = await SETS.findOne({ name: setName });
     let question = await QUESTIONS.find({
