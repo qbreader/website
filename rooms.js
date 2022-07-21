@@ -5,9 +5,7 @@ var rooms = {};
 function createRoom(roomName) {
     rooms[roomName] = {
         players: {},
-        setTitle: '2022 PACE',
-        setYear: 2022,
-        setName: 'PACE',
+        setName: '2022 PACE',
         packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
         packetNumber: 0,
         currentQuestionNumber: -1,
@@ -63,23 +61,23 @@ function getCurrentQuestion(roomName) {
         question: rooms[roomName].currentQuestion,
         packetNumber: rooms[roomName].packetNumber,
         questionNumber: rooms[roomName].currentQuestionNumber,
-        setTitle: rooms[roomName].setTitle,
+        setName: rooms[roomName].setName,
     };
 }
 
 function goToNextQuestion(roomName) {
-    let data = database.getNextQuestion(rooms[roomName].setYear, rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].currentQuestionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
+    let data = database.getNextQuestion(rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].currentQuestionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
 
-    rooms[roomName].isEndOfSet = data.isEndOfSet;
+    rooms[roomName].isEndOfSet = Object.keys(data).length === 0;
     if (data.isEndOfSet) {
         return;
     }
 
     rooms[roomName].isQuestionInProgress = true;
-    rooms[roomName].currentQuestion = data.question;
-    rooms[roomName].packetNumbers = data.packetNumbers;
+    rooms[roomName].currentQuestion = data;
+    rooms[roomName].packetNumbers = rooms[roomName].packetNumbers.filter(packetNumber => packetNumber >= data.packetNumber);
     rooms[roomName].packetNumber = data.packetNumber;
-    rooms[roomName].currentQuestionNumber = data.currentQuestionNumber;
+    rooms[roomName].currentQuestionNumber = data.questionNumber;
 }
 
 function deleteRoom(roomName) {
@@ -144,10 +142,7 @@ function parseMessage(roomName, message) {
             createPlayer(roomName, message.userId, message.username, true);
             break;
         case 'set-title':
-            rooms[roomName].setTitle = message.value;
-            let [setYear, setName] = database.parseSetTitle(message.value);
-            rooms[roomName].setYear = setYear;
-            rooms[roomName].setName = setName;
+            rooms[roomName].setName = message.value;
             rooms[roomName].currentQuestionNumber = -1;
             break;
         case 'packet-number':
