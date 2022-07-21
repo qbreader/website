@@ -97,17 +97,13 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
 
 async function getNumPackets(setName) {
     setName = setName.replace(/\s/g, '-');
-    let num = await SETS.findOne({ name: setName }).then(set => {
+    return await SETS.findOne({ name: setName }).then(set => {
         if (set) {
             return set.packets.length;
         } else {
             return 0;
         }
     });
-
-    console.log(setName, num)
-
-    return num;
 }
 
 /**
@@ -117,7 +113,6 @@ async function getNumPackets(setName) {
  */
  async function getPacket(setName, packetNumber) {
     setName = setName.replace(/\s/g, '-');
-    console.log(setName);
     return await SETS.findOne({ name: setName }).then(async set => {
         let packetId = set.packets[packetNumber - 1];
         let packet = await PACKETS.findOne({ _id: packetId });
