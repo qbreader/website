@@ -176,18 +176,6 @@ function loadCategoryModal(validCategories, validSubcategories) {
 }
 
 /**
- * Converts a setTitle string into a setYear and a setName.
- * @param {String} setTitle - The title of the set in the format "setYear-setName".
- * @returns {[Number, String]} `[setYear, setName]`
- */
-function parseSetTitle(setTitle) {
-    let setYear = parseInt(setTitle.substring(0, 4));
-    let setName = setTitle.substring(5);
-
-    return [setYear, setName];
-}
-
-/**
  * 
  * @param {String} packetNumberString 
  * @param {Number} maxPacketNumber 
@@ -217,34 +205,29 @@ function packetNumberStringToArray(packetNumberString, maxPacketNumber = 24) {
 
 /**
  * 
- * @param {Number} setYear 
  * @param {String} setName 
  * @returns
  */
-async function getNumPackets(setYear, setName) {
-    if (setYear === undefined || setName === undefined) return 0;
-    return await fetch(`/api/get-num-packets?setYear=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}`)
+async function getNumPackets(setName) {
+    if (setName === undefined) return 0;
+    return await fetch(`/api/get-num-packets?setName=${encodeURIComponent(setName)}`)
         .then(response => response.json())
         .then(data => {
-            return parseInt(data.numPackets);
+            return parseInt(data.value);
         });
 }
 
 /**
  * 
- * @param {Number} setYear - The year of the set.
- * @param {String} setName - The name of the set.
+ * @param {String} setName - The name of the set (e.g. "2021 PACE").
  * @param {Number} packetNumber - The packet number of the set.
  * @param {'tossups' | 'bonuses'} mode - Whether to get the tossups or bonuses.
  * @return {Array<JSON>} An array containing the tossups.
  */
-async function getPacket(setYear, setName, packetNumber, mode) {
+async function getPacket(setName, packetNumber, mode) {
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/api/get-packet?setYear=${encodeURIComponent(setYear)}&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
-        .then(response => response.json())
-        .then(data => {
-            return data[mode];
-        });
+    return await fetch(`/api/get-packet?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
+        .then(response => response.json());
 }
 
 /**
@@ -252,8 +235,8 @@ async function getPacket(setYear, setName, packetNumber, mode) {
  * @returns {Promsie<Boolean>} Whether or not the function was successful.
  */
 function initialize(alertOnFailure = true) {
-    setTitle = document.getElementById('set-title').value.trim();
-    if (setTitle.length == 0) {
+    setName = document.getElementById('set-title').value.trim();
+    if (setName.length == 0) {
         if (alertOnFailure) alert('Please enter a set name.');
         return false;
     }
@@ -328,8 +311,8 @@ document.getElementById('toggle-options').addEventListener('click', function () 
 });
 
 document.getElementById('set-title').addEventListener('change', async function (event) {
-    let [setYear, setName] = parseSetTitle(this.value);
-    maxPacketNumber = await getNumPackets(setYear, setName);
+    console.log(this);
+    maxPacketNumber = await getNumPackets(this.value);
     if (maxPacketNumber > 0) {
         document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
     }

@@ -255,7 +255,7 @@ async function loadAndReadTossup() {
             questionTextSplit = questionText.split(' ');
 
             // Update question text:
-            document.getElementById('set-title-info').innerHTML = data.setTitle;
+            document.getElementById('set-title-info').innerHTML = data.setName;
             document.getElementById('packet-number-info').innerHTML = data.packetNumber;
             document.getElementById('question-number-info').innerHTML = data.questionNumber + 1;
             document.getElementById('question').innerHTML = '';
@@ -504,8 +504,7 @@ document.getElementById('username').addEventListener('change', function () {
 });
 
 document.getElementById('set-title').addEventListener('change', async function () {
-    let [setYear, setName] = parseSetTitle(this.value);
-    maxPacketNumber = await getNumPackets(setYear, setName);
+    maxPacketNumber = await getNumPackets(this.value);
     document.getElementById('packet-number').value = packetNumberStringToArray('', maxPacketNumber);
     socket.send(JSON.stringify({ type: 'set-title', username: username, value: this.value }));
 });
@@ -545,10 +544,10 @@ window.onload = () => {
         .then(data => {
             var currentPacketNumber = data.packetNumber || 0;
             var currentQuestionNumber = data.currentQuestionNumber || 0;
-            document.getElementById('set-title').value = data.setTitle || '';
+            document.getElementById('set-title').value = data.setName || '';
             document.getElementById('packet-number').value = data.packetNumbers || [];
 
-            document.getElementById('set-title-info').innerHTML = data.setTitle || '';
+            document.getElementById('set-title-info').innerHTML = data.setName || '';
             document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
             document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
 
