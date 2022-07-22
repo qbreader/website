@@ -19,6 +19,12 @@ client.connect().then(async () => {
     DATABASE = client.db('qbreader');
     SETS = DATABASE.collection('sets');
     QUESTIONS = DATABASE.collection('questions');
+
+    await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(doc => {
+        let name = doc.name;
+        name = name.replace(/-/g, ' ');
+        SET_LIST.push(name);
+    });
 });
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
@@ -36,7 +42,7 @@ const SUBCATEGORIES = [
     ["Other Academic"],
     ["Trash"]
 ];
-
+const SET_LIST = []; // initialized on server load
 const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
 
 
@@ -145,6 +151,10 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
     });
 }
 
+function getSetList() {
+    return SET_LIST;
+}
+
 /**
 * @param {JSON} question 
 * @param {Array<String>} validCategories
@@ -178,4 +188,4 @@ function isValidCategory(question, validCategories, validSubcategories) {
     return true;
 }
 
-module.exports = { checkAnswerCorrectness, getNextQuestion, getNumPackets, getPacket };
+module.exports = { checkAnswerCorrectness, getNextQuestion, getNumPackets, getPacket, getSetList };
