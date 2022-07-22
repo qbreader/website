@@ -1,4 +1,4 @@
-fetch(`/api/get-room-list`)
+fetch(`/api/multiplayer/room-list`)
 .then(response => response.json())
 .then(data => {
     for (let room of data['rooms']) {

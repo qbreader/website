@@ -63,11 +63,10 @@ wss.on('connection', (ws) => {
         userId: ws.userId
     }));
 
-    ws.on('message', (message) => {
+    ws.on('message', async (message) => {
         message = JSON.parse(message);
         message.userId = ws.userId;
-        console.log(message);
-        rooms.parseMessage(ws.protocol, message);
+        message = await rooms.parseMessage(ws.protocol, message);
 
         if (message.type === 'join' || message.type === 'change-username') {
             ws.username = message.username;
@@ -91,6 +90,7 @@ wss.on('connection', (ws) => {
 
         sockets[ws.protocol] = sockets[ws.protocol].filter(socket => socket !== ws);
 
+        // Delete stale rooms
         if (sockets[ws.protocol].length === 0) {
             console.log(`Deleted room ${ws.protocol}`);
             rooms.deleteRoom(ws.protocol);
