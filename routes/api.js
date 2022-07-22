@@ -33,6 +33,11 @@ router.get('/packet-tossups', async (req, res) => {
     res.send(JSON.stringify(packet));
 });
 
+router.get('/set-list', (req, res) => {
+    const setList = database.getSetList(req.query.setName);
+    res.send(setList);
+})
+
 router.get('/multiplayer/current-question', async (req, res) => {
     res.send(JSON.stringify(rooms.getCurrentQuestion(req.query.roomName)));
 });
