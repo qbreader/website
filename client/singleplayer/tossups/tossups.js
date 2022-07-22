@@ -111,7 +111,7 @@ async function loadAndReadTossup() {
             }
             currentPacketNumber = packetNumbers[0];
             clearTimeout(timeoutID); // stop reading the current question 
-            questions = (await getPacket(setName, currentPacketNumber)).tossups;
+            questions = await getTossups(setName, currentPacketNumber);
             currentQuestionNumber = 0;
         }
 
@@ -254,8 +254,9 @@ function updateStatDisplay() {
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     initialize();
-    await getPacket(setName, currentPacketNumber).then(async (data) => {
-        questions = data.tossups;
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    await getTossups(setName, currentPacketNumber, 'tossups').then(async (data) => {
+        questions = data;
         await loadAndReadTossup();
     });
 });

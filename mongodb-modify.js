@@ -16,5 +16,17 @@ client.connect().then(() => {
     const packets = database.collection('packets');
     const questions = database.collection('questions');
 
+    let counter = 0;
+    sets.find({}).forEach(async set => {
+        counter++;
+        if (counter % 10 === 0) {
+            console.log(set.name);
+        }
+        for (let i = 0; i < set.packets.length; i++) {
+            set.packets[i] = await packets.findOne({_id: set.packets[i]});
+        }
+
+        sets.updateOne({_id: set._id}, {$set: {packets: set.packets}});
+    })
     console.log('success');
 });

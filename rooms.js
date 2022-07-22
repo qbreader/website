@@ -65,13 +65,13 @@ function getCurrentQuestion(roomName) {
     };
 }
 
-function goToNextQuestion(roomName) {
-    let data = database.getNextQuestion(rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].currentQuestionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
+async function goToNextQuestion(roomName) {
+    let data = await database.getNextQuestion(rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].currentQuestionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
 
     rooms[roomName].isEndOfSet = Object.keys(data).length === 0;
-    if (data.isEndOfSet) {
-        return;
-    }
+    // if (data.isEndOfSet) {
+    //     return;
+    // }
 
     rooms[roomName].isQuestionInProgress = true;
     rooms[roomName].currentQuestion = data;
@@ -124,46 +124,53 @@ function checkAnswerCorrectness(roomName, givenAnswer, inPower, endOfQuestion) {
  * 
  * @param {JSON} message 
  */
-function parseMessage(roomName, message) {
+async function parseMessage(roomName, message) {
     switch (message.type) {
         case 'toggle-visibility':
             rooms[roomName].isPublic = message.isPublic;
-            break;
+            return message;
         case 'toggle-multiple-buzzes':
             rooms[roomName].allowMultipleBuzzes = message.allowMultipleBuzzes;
-            break;
+            return message;
         case 'join':
             createPlayer(roomName, message.userId, message.username);
-            break;
+            return message;
         case 'change-username':
             updateUsername(roomName, message.userId, message.username);
-            break;
+            return message;
         case 'clear-stats':
             createPlayer(roomName, message.userId, message.username, true);
-            break;
+            return message;
+        case 'give-answer':
+            let score = checkAnswerCorrectness(roomName, message.givenAnswer, message.inPower, message.endOfQuestion);
+            updateScore(roomName, message.userId, score);
+            message.score = score;
+            return message;
         case 'set-title':
             rooms[roomName].setName = message.value;
             rooms[roomName].currentQuestionNumber = -1;
-            break;
+            return message;
         case 'packet-number':
             rooms[roomName].packetNumbers = message.value;
             rooms[roomName].packetNumber = message.value[0];
             rooms[roomName].currentQuestionNumber = -1;
-            break;
+            return message;
         case 'reading-speed':
             rooms[roomName].readingSpeed = message.value;
-            break;
+            return message;
         case 'update-categories':
             rooms[roomName].validCategories = message.categories;
             rooms[roomName].validSubcategories = message.subcategories;
-            break;
+            return message;
         case 'leave':
             delete rooms[roomName].players[message.userId];
-            break;
+            return message;
         case 'start':
         case 'next':
-            goToNextQuestion(roomName);
-            break;
+            await goToNextQuestion(roomName);
+            return message;
+        default:
+            return message;
     }
 }
 

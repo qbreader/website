@@ -20,16 +20,25 @@ client.connect().then(async () => {
     DATABASE = client.db('qbreader');
     SETS = DATABASE.collection('sets');
     PACKETS = DATABASE.collection('packets');
-    QUESTIONS = DATABASE.collection('questions'); 
+    QUESTIONS = DATABASE.collection('questions');
 });
 
-const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
+const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const SUBCATEGORIES = [
     ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
     ["American History", "Ancient History", "European History", "World History", "Other History"],
     ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
-    ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"]
-]
+    ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"],
+    ["Religion"],
+    ["Mythology"],
+    ["Philosophy"],
+    ["Social Science"],
+    ["Current Events"],
+    ["Geography"],
+    ["Other Academic"],
+    ["Trash"]
+];
+
 const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
 
 
@@ -70,7 +79,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
         validCategories = CATEGORIES;
     }
 
-    let question = await QUESTIONS.find({
+    let question = await QUESTIONS.findOne({
         $or: [
             {
                 set: set._id,
@@ -109,17 +118,23 @@ async function getNumPackets(setName) {
 /**
  * @param {String} setName 
  * @param {Number} packetNumber - 1-indexed packket number
- * @returns {{tosssups: Array<JSON>, bonuses: Array<JSON>}}
+ * @param {Array<String>} allowedTypes - default: ["tossups", "bonuses"]
+ * @returns {{tossups: Array<JSON>, bonuses: Array<JSON>}}
  */
- async function getPacket(setName, packetNumber) {
+async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses']) {
     setName = setName.replace(/\s/g, '-');
     return await SETS.findOne({ name: setName }).then(async set => {
-        let packetId = set.packets[packetNumber - 1];
-        let packet = await PACKETS.findOne({ _id: packetId });
-        return {
-            tossups: await QUESTIONS.find({ _id: { $in: packet.tossups } }, { sort: { questionNumber: 1 } }).toArray(),
-            bonuses: await QUESTIONS.find({ _id: { $in: packet.bonuses } }, { sort: { questionNumber: 1 } }).toArray()
+        let packet = set.packets[packetNumber - 1];
+        let result = {};
+
+        if (allowedTypes.includes('tossups')) {
+            result['tossups'] = await QUESTIONS.find({ _id: { $in: packet.tossups } }).toArray();
         }
+        if (allowedTypes.includes('bonuses')) {
+            result['bonuses'] = await QUESTIONS.find({ _id: { $in: packet.bonuses } }).toArray();
+        }
+
+        return result;
     }).catch(err => {
         console.log(err);
         return { 'tossups': [], 'bonuses': [] };
