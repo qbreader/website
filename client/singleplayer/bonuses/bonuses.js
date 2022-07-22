@@ -82,7 +82,8 @@ async function loadAndReadBonus() {
                 return;  // alert the user if there are no more packets
             }
             currentPacketNumber = packetNumbers[0];
-            questions = (await getPacket(setName, currentPacketNumber)).bonuses;
+            document.getElementById('question').innerHTML = 'Fetching questions...';
+            questions = await getBonuses(setName, currentPacketNumber);
             currentQuestionNumber = 0;
         }
 
@@ -150,8 +151,9 @@ document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     onQuestion = true;
     initialize();
-    await getPacket(setName, currentPacketNumber).then(async (data) => {
-        questions = data.bonuses;
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    await getBonuses(setName, currentPacketNumber).then(async (data) => {
+        questions = data;
         await loadAndReadBonus();
     });
 });

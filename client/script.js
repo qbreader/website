@@ -148,7 +148,7 @@ function loadCategoryModal(validCategories, validSubcategories) {
  * @param {Array<String>} validSubcategories
  * @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
  */
- function isValidCategory(question, validCategories, validSubcategories) {
+function isValidCategory(question, validCategories, validSubcategories) {
     if (validCategories.length === 0 && validSubcategories.length === 0) return true;
 
     // check if the subcategory is explicitly included (overrides missing category)
@@ -210,7 +210,7 @@ function packetNumberStringToArray(packetNumberString, maxPacketNumber = 24) {
  */
 async function getNumPackets(setName) {
     if (setName === undefined) return 0;
-    return await fetch(`/api/get-num-packets?setName=${encodeURIComponent(setName)}`)
+    return await fetch(`/api/num-packets?setName=${encodeURIComponent(setName)}`)
         .then(response => response.json())
         .then(data => {
             return parseInt(data.value);
@@ -218,16 +218,34 @@ async function getNumPackets(setName) {
 }
 
 /**
- * 
  * @param {String} setName - The name of the set (e.g. "2021 PACE").
- * @param {Number} packetNumber - The packet number of the set.
- * @param {'tossups' | 'bonuses'} mode - Whether to get the tossups or bonuses.
+ * @param {String} packetNumber - The packet number of the set.
+ * @return {{tossups: Array<JSON>, bonuses: Array<JSON>}} An array containing the questions.
+ */
+async function getPacket(setName, packetNumber) {
+    return await fetch(`/api/packet?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`).then(response => response.json());
+}
+
+/**
+ * @param {String} setName - The name of the set (e.g. "2021 PACE").
+ * @param {String} packetNumber - The packet number of the set.
  * @return {Array<JSON>} An array containing the tossups.
  */
-async function getPacket(setName, packetNumber, mode) {
-    document.getElementById('question').innerHTML = 'Fetching questions...';
-    return await fetch(`/api/get-packet?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
-        .then(response => response.json());
+async function getTossups(setName, packetNumber) {
+    return await fetch(`/api/packet-tossups?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
+        .then(response => response.json())
+        .then(data => data.tossups);
+}
+
+/**
+ * @param {String} setName - The name of the set (e.g. "2021 PACE").
+ * @param {String} packetNumber - The packet number of the set.
+ * @return {Array<JSON>} An array containing the bonuses.
+ */
+async function getBonuses(setName, packetNumber) {
+    return await fetch(`/api/packet-bonuses?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
+        .then(response => response.json())
+        .then(data => data.bonuses);
 }
 
 /**

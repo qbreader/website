@@ -80,7 +80,7 @@ async function processSocketMessage(data) {
         case 'buzz':
             processBuzz(data.userId, data.username);
             break;
-        case 'answer':
+        case 'give-answer':
             processAnswer(data.userId, data.username, data.givenAnswer, data.score);
             break;
         case 'pause':
@@ -236,7 +236,7 @@ function logEvent(username, message) {
 }
 
 async function loadAndReadTossup() {
-    return await fetch(`/api/get-current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
+    return await fetch(`/api/multiplayer/current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
             if (data.isEndOfSet) {
@@ -445,24 +445,15 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     let characterCount = document.getElementById('question').innerHTML.length;
     let celerity = 1 - characterCount / document.getElementById('question').innerHTML.length;
 
-    fetch('/api/give-answer', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            roomName: ROOM_NAME,
-            userId: USER_ID,
-            answer: answer,
-            celerity: celerity,
-            inPower: !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)'),
-            endOfQuestion: (questionTextSplit.length === 0)
-        })
-    }).then((response) => {
-        return response.json();
-    }).then((data) => {
-        socket.send(JSON.stringify({ 'type': 'answer', userId: USER_ID, username: username, givenAnswer: answer, score: data.score }));
-    });
+    socket.send(JSON.stringify({
+        type: 'give-answer',
+        userId: USER_ID,
+        username: username,
+        givenAnswer: answer,
+        celerity: celerity,
+        inPower: !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)'),
+        endOfQuestion: (questionTextSplit.length === 0),
+    }));
 });
 
 document.getElementById('chat-form').addEventListener('submit', function (event) {
@@ -539,7 +530,7 @@ window.onload = () => {
     username = localStorage.getItem('username') || '';
     document.getElementById('username').value = username;
     connectToWebSocket();
-    fetch(`/api/get-room?roomName=${encodeURIComponent(ROOM_NAME)}`)
+    fetch(`/api/multiplayer/room?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
             var currentPacketNumber = data.packetNumber || 0;
