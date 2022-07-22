@@ -22,7 +22,6 @@ client.connect().then(async () => {
 
     await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(doc => {
         let name = doc.name;
-        name = name.replace(/-/g, ' ');
         SET_LIST.push(name);
     });
 });
@@ -77,7 +76,6 @@ function checkAnswerCorrectness(answer, givenAnswer) {
 }
 
 async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossup']) {
-    setName = setName.replace(/\s/g, '-');
     let set = await SETS.findOne({ name: setName });
     if (validCategories.length === 0) {
         validCategories = CATEGORIES;
@@ -113,7 +111,6 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
  * @returns {Number} the number of packets in the set.
  */
 async function getNumPackets(setName) {
-    setName = setName.replace(/\s/g, '-');
     return await SETS.findOne({ name: setName }).then(set => {
         if (set) {
             return set.packets.length;
@@ -132,7 +129,6 @@ async function getNumPackets(setName) {
  * @returns {{tossups: Array<JSON>, bonuses: Array<JSON>}}
  */
 async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses']) {
-    setName = setName.replace(/\s/g, '-');
     return await SETS.findOne({ name: setName }).then(async set => {
         let packet = set.packets[packetNumber - 1];
         let result = {};
