@@ -10,7 +10,6 @@ const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${p
 
 var DATABASE;
 var SETS;
-var PACKETS;
 var QUESTIONS;
 
 const client = new MongoClient(uri);
@@ -19,7 +18,6 @@ client.connect().then(async () => {
 
     DATABASE = client.db('qbreader');
     SETS = DATABASE.collection('sets');
-    PACKETS = DATABASE.collection('packets');
     QUESTIONS = DATABASE.collection('questions');
 });
 
@@ -104,6 +102,10 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     return question || {};
 }
 
+/**
+ * @param {String} setName - the name of the set (e.g. "2021 PACE").
+ * @returns {Number} the number of packets in the set.
+ */
 async function getNumPackets(setName) {
     setName = setName.replace(/\s/g, '-');
     return await SETS.findOne({ name: setName }).then(set => {
@@ -116,9 +118,11 @@ async function getNumPackets(setName) {
 }
 
 /**
- * @param {String} setName 
- * @param {Number} packetNumber - 1-indexed packket number
- * @param {Array<String>} allowedTypes - default: ["tossups", "bonuses"]
+ * @param {String} setName - the name of the set (e.g. "2021 PACE").
+ * @param {Number} packetNumber - **one-indexed** packet number
+ * @param {Array<String>} allowedTypes Array of allowed types. Default: `['tossups', 'bonuses]`
+ * If only one allowed type is specified, only that type will be searched for (increasing query speed).
+ * The other type will be returned as an empty array.
  * @returns {{tossups: Array<JSON>, bonuses: Array<JSON>}}
  */
 async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses']) {
