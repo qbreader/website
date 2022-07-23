@@ -125,7 +125,7 @@ async function processSocketMessage(data) {
             processBuzz(data.userId, data.username);
             break;
         case 'give-answer':
-            processAnswer(data.userId, data.username, data.givenAnswer, data.score);
+            processAnswer(data.userId, data.username, data.givenAnswer, data.score, data.celerity);
             break;
         case 'pause':
             logEvent(data.username, `${paused ? 'un' : ''}paused the game`);
@@ -194,8 +194,7 @@ function clearStats(userId) {
 
 
 function createPlayerAccordionItem(player) {
-    console.log(player);
-    let { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0 } = player;
+    let { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
     let button = document.createElement('button');
     button.className = 'accordion-button collapsed';
     button.type = 'button';
@@ -270,7 +269,7 @@ function createPlayerAccordionItem(player) {
     accordionBody.innerHTML += ' pts, celerity: ';
 
     let celeritySpan = document.createElement('span');
-    celeritySpan.innerHTML = 0;
+    celeritySpan.innerHTML = Math.round(1000 * celerity) / 1000;
     celeritySpan.id = 'celerity-' + userId;
     celeritySpan.classList.add('stats');
     celeritySpan.classList.add('stats-' + userId);
@@ -319,7 +318,7 @@ function pause() {
 }
 
 
-function processAnswer(userId, username, givenAnswer, score) {
+function processAnswer(userId, username, givenAnswer, score, celerity) {
     logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
 
     document.getElementById('next').disabled = false;
@@ -359,6 +358,7 @@ function processAnswer(userId, username, givenAnswer, score) {
     }
 
     document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
+    document.getElementById('celerity-' + userId).innerHTML = Math.round(1000 * celerity) / 1000;
     document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
 
     sortPlayerAccordion();
@@ -536,7 +536,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     document.getElementById('answer-input-group').classList.add('d-none');
 
     let characterCount = document.getElementById('question').innerHTML.length;
-    let celerity = 1 - characterCount / document.getElementById('question').innerHTML.length;
+    let celerity = 1 - characterCount / question.question.length;
 
     socket.send(JSON.stringify({
         type: 'give-answer',
@@ -602,6 +602,7 @@ window.onload = () => {
 
             Object.keys(data.players).forEach(player => {
                 if (data.players[player].userId === USER_ID) return;
+                data.players[player].celerity = data.players[player].celerity.correct.average;
                 createPlayerAccordionItem(data.players[player]);
             });
         });
