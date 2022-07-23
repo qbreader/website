@@ -42,7 +42,7 @@ async function parseMessage(roomName, message) {
             createPlayer(roomName, message.userId, message.username, true);
             return message;
         case 'give-answer':
-            let score = quizbowl.scoreTossup(roomName, message.givenAnswer, message.inPower, message.endOfQuestion);
+            let score = quizbowl.scoreTossup(rooms[roomName].question.answer, message.givenAnswer, message.inPower, message.endOfQuestion);
             updateScore(roomName, message.userId, score);
             message.score = score;
             return message;
