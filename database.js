@@ -20,9 +20,8 @@ client.connect().then(async () => {
     SETS = DATABASE.collection('sets');
     QUESTIONS = DATABASE.collection('questions');
 
-    await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(doc => {
-        let name = doc.name;
-        SET_LIST.push(name);
+    await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(set => {
+        SET_LIST.push(set.name);
     });
 });
 
@@ -33,17 +32,20 @@ client.connect().then(async () => {
  */
 async function getNumPackets(setName) {
     return await SETS.findOne({ name: setName }).then(set => {
-        if (set) {
-            return set.packets.length;
-        } else {
-            return 0;
-        }
+        return set ? (set.packets.length) : 0;
+    }).catch(error => {
+        console.log('DATABASE ERROR:', error);
+        return 0;
     });
 }
 
 
 async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossup']) {
-    let set = await SETS.findOne({ name: setName });
+    let set = await SETS.findOne({ name: setName }).catch(error => {
+        console.log('DATABASE ERROR:', error);
+        return {};
+    });
+
     if (validCategories.length === 0) {
         validCategories = CATEGORIES;
     }
@@ -68,6 +70,9 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
         ]
     }, {
         sort: { packetNumber: 1, questionNumber: 1 }
+    }).catch(error => {
+        console.log('DATABASE ERROR:', error);
+        return {};
     });
 
     return question || {};
@@ -95,8 +100,8 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
         }
 
         return result;
-    }).catch(err => {
-        console.log(err);
+    }).catch(error => {
+        console.log('DATABASE ERROR:', error);
         return { 'tossups': [], 'bonuses': [] };
     });
 }
