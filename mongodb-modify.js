@@ -18,15 +18,26 @@ client.connect().then(() => {
 
     let counter = 0;
     sets.find({}).forEach(async set => {
-        counter++;
         if (counter % 10 === 0) {
-            console.log(set.name);
-        }
-        for (let i = 0; i < set.packets.length; i++) {
-            set.packets[i] = await packets.findOne({_id: set.packets[i]});
+            console.log(counter, set.name);
         }
 
-        sets.updateOne({_id: set._id}, {$set: {packets: set.packets}});
-    })
+        counter++;
+
+        sets.updateOne({ _id: set._id }, {
+            $push: {
+                packets: {
+                    $each: [],
+                    $sort: {
+                        name: 1
+                    }
+                }
+            }
+        });
+
+        set.packets.forEach(packet => {
+            questions.updateMany({ packet: packet._id }, { $set: { packetNumber: packet.name } });
+        })
+    });
     console.log('success');
 });
