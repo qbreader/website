@@ -1,15 +1,19 @@
 var timeoutID = -1;
 
-var setTitle = '';
+var setName = '';
 var packetNumbers = [];
-var currentPacketNumber = -1;
+var packetNumber = -1;
 var validCategories;
 var validSubcategories;
 
 var questions = [{}];
 var questionText = '';
 var questionTextSplit = [];
-var currentQuestionNumber = 0;
+
+/**
+ * WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
+ */
+var questionNumber = 0;
 
 var currentlyBuzzing = false;
 var paused = false;
@@ -32,7 +36,7 @@ function buzz() {
         inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
         if (inPower) {
             shift('powers', 1);
-            if (setTitle.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -48,7 +52,7 @@ function buzz() {
         let characterCount = document.getElementById('question').innerHTML.length;
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         shift('totalCelerity', 1 - characterCount / document.getElementById('question').innerHTML.length);
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber]['answer'];
         document.getElementById('buzz').innerHTML = 'Buzz';
         document.getElementById('next').innerHTML = 'Next';
 
@@ -69,6 +73,7 @@ function buzz() {
     }
 }
 
+
 /**
  * Clears user stats.
  */
@@ -82,6 +87,7 @@ function clearStats() {
     updateStatDisplay();
 }
 
+
 async function loadAndReadTossup() {
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
@@ -94,13 +100,13 @@ async function loadAndReadTossup() {
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
 
-    currentPacketNumber = packetNumbers[0];
+    packetNumber = packetNumbers[0];
 
     do {  // Get the next question
-        currentQuestionNumber++;
+        questionNumber++;
 
         // Go to the next packet if you reach the end of this packet
-        if (currentQuestionNumber >= questions.length) {
+        if (questionNumber >= questions.length) {
             packetNumbers.shift();
             if (packetNumbers.length == 0) {
                 window.alert("No more questions left");
@@ -109,23 +115,22 @@ async function loadAndReadTossup() {
                 document.getElementById('next').disabled = true;
                 return;  // alert the user if there are no more packets
             }
-            currentPacketNumber = packetNumbers[0];
+            packetNumber = packetNumbers[0];
             clearTimeout(timeoutID); // stop reading the current question 
-            let [setYear, setName] = parseSetTitle(setTitle);
-            questions = await getPacket(setYear, setName, currentPacketNumber, 'tossups');
-            currentQuestionNumber = 0;
+            questions = await getTossups(setName, packetNumber);
+            questionNumber = 0;
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
+    } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
 
     if (questions.length > 0) {
-        document.getElementById('set-title-info').innerHTML = setTitle;
-        document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-        document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+        document.getElementById('set-title-info').innerHTML = setName;
+        document.getElementById('packet-number-info').innerHTML = packetNumber;
+        document.getElementById('question-number-info').innerHTML = questionNumber + 1;
         document.getElementById('question').innerHTML = '';
 
-        questionText = questions[currentQuestionNumber]['question'];
+        questionText = questions[questionNumber]['question'];
         questionTextSplit = questionText.split(' ');
 
         document.getElementById('next').innerHTML = 'Skip';
@@ -139,10 +144,11 @@ async function loadAndReadTossup() {
     }
 }
 
+
 /**
  * Toggles pausing or resuming the tossup.
  */
- function pause() {
+function pause() {
     if (paused) {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').innerHTML = 'Pause';
@@ -155,6 +161,7 @@ async function loadAndReadTossup() {
     }
     paused = !paused;
 }
+
 
 /**
  * Recursively reads the question based on the reading speed.
@@ -182,11 +189,12 @@ function recursivelyPrintTossup() {
     }
 }
 
+
 function toggleCorrect() {
     if (toggleCorrectClicked) {
         if (inPower) {
             shift('powers', 1);
-            if (setTitle.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', 20);
             }
             else {
@@ -199,7 +207,7 @@ function toggleCorrect() {
         // Check if there is more question to be read 
         if (questionTextSplit.length == 0) {
             shift('dead', -1);
-        } else if (setTitle.toLowerCase().includes('pace')) {
+        } else if (setName.toLowerCase().includes('pace')) {
             shift('negs', -1);
         } else {
             shift('negs', -1);
@@ -210,7 +218,7 @@ function toggleCorrect() {
     else {
         if (inPower) {
             shift('powers', -1);
-            if (setTitle.toLowerCase().includes('pace')) {
+            if (setName.toLowerCase().includes('pace')) {
                 shift('points', -20);
             }
             else {
@@ -224,7 +232,7 @@ function toggleCorrect() {
 
         if (questionTextSplit.length == 0) {
             shift('dead', 1);
-        } else if (setTitle.toLowerCase().includes('pace')) {
+        } else if (setName.toLowerCase().includes('pace')) {
             shift('negs', 1);
         } else {
             shift('negs', 1);
@@ -235,6 +243,7 @@ function toggleCorrect() {
     updateStatDisplay();
     toggleCorrectClicked = !toggleCorrectClicked;
 }
+
 
 /**
  * Updates the displayed stat line.
@@ -252,85 +261,76 @@ function updateStatDisplay() {
         document.getElementById('clear-stats').removeAttribute("disabled");
 }
 
+
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     initialize();
-    let [setYear, setName] = parseSetTitle(setTitle);
-    await getPacket(setYear, setName, currentPacketNumber, 'tossups').then(async (data) => {
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    await getTossups(setName, packetNumber, 'tossups').then(async (data) => {
         questions = data;
         await loadAndReadTossup();
     });
 });
+
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     buzz();
 });
 
+
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
     pause();
 });
 
+
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
-    createQuestionCard(questions[currentQuestionNumber], currentPacketNumber, currentQuestionNumber + 1);
+    createTossupCard(questions[questionNumber], packetNumber, questionNumber + 1);
     await loadAndReadTossup();
 });
+
 
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
     clearStats();
 });
 
+
 document.getElementById('toggle-correct').addEventListener('click', function () {
     this.blur();
     toggleCorrect();
 });
 
-document.querySelectorAll('#categories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-        [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
-        localStorage.setItem('validCategories', JSON.stringify(validCategories));
-        localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
-    });
+
+document.getElementById('set-name').addEventListener('change', function () {
+    localStorage.setItem('setNameTossupSave', this.value);
 });
 
-document.querySelectorAll('#subcategories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        validSubcategories = updateSubcategory(input.id, validSubcategories);
-        localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
-    });
-});
-
-document.getElementById('set-title').addEventListener('change', function () {
-    localStorage.setItem('setTitleTossupSave', this.value);
-});
 
 document.getElementById('packet-number').addEventListener('change', function () {
     localStorage.setItem('packetNumberTossupSave', this.value);
 });
 
+
 document.getElementById('question-number').addEventListener('change', function () {
     localStorage.setItem('questionNumberTossupSave', document.getElementById('question-number').value);
 });
+
 
 document.getElementById('reading-speed').addEventListener('input', function () {
     localStorage.setItem('speed', this.value);
     document.getElementById('reading-speed-display').innerHTML = this.value;
 });
 
+
 window.onload = () => {
-    if (localStorage.getItem('setTitleTossupSave')) {
-        setTitle = localStorage.getItem('setTitleTossupSave');
-        document.getElementById('set-title').value = setTitle;
-        let [setYear, setName] = parseSetTitle(setTitle);
+    if (localStorage.getItem('setNameTossupSave')) {
+        setName = localStorage.getItem('setNameTossupSave');
+        document.getElementById('set-name').value = setName;
         (async () => {
-            maxPacketNumber = await getNumPackets(setYear, setName);
+            maxPacketNumber = await getNumPackets(setName);
             document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
         })();
     }
