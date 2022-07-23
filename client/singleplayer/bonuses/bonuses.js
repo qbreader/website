@@ -18,6 +18,7 @@ function clearStats() {
     updateStatDisplay();
 }
 
+
 function createBonusPart(bonusPartNumber, bonusText) {
     let input = document.createElement('input');
     input.id = `checkbox-${bonusPartNumber + 1}`;
@@ -48,6 +49,7 @@ function createBonusPart(bonusPartNumber, bonusText) {
     document.getElementById('question').appendChild(row);
 }
 
+
 function getPointsForCurrentBonus() {
     let statsArray = sessionStorage.stats.split(',');
 
@@ -60,6 +62,7 @@ function getPointsForCurrentBonus() {
     sessionStorage.setItem('stats', statsArray);
     return pointsOnBonus;
 }
+
 
 /**
  * Loads and reads the next question.
@@ -108,6 +111,7 @@ async function loadAndReadBonus() {
     }
 }
 
+
 /**
  * Called when the users wants to reveal the next bonus part.
  */
@@ -131,6 +135,7 @@ function revealBonusPart() {
     }
 }
 
+
 /**
  * Calculates that points per bonus and updates the display.
  */
@@ -146,6 +151,7 @@ function updateStatDisplay() {
         = `${ppb} points per bonus with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
 }
 
+
 // Event listeners
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
@@ -158,10 +164,12 @@ document.getElementById('start').addEventListener('click', async function () {
     });
 });
 
+
 document.getElementById('reveal').addEventListener('click', function () {
     this.blur();
     revealBonusPart();
 });
+
 
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
@@ -175,31 +183,14 @@ document.getElementById('next').addEventListener('click', async function () {
     await loadAndReadBonus();
 });
 
+
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
     clearStats();
 });
 
-document.querySelectorAll('#categories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-        [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
-        localStorage.setItem('validCategories', JSON.stringify(validCategories));
-        localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
-    });
-});
 
-document.querySelectorAll('#subcategories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        validSubcategories = updateSubcategory(input.id, validSubcategories);
-        localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
-    });
-});
-
-document.getElementById('set-title').addEventListener('change', function () {
+document.getElementById('set-name').addEventListener('change', function () {
     localStorage.setItem('setNameBonusSave', this.value);
 });
 
@@ -232,7 +223,7 @@ window.onload = () => {
     
     if (localStorage.getItem('setNameBonusSave')) {
         setName = localStorage.getItem('setNameBonusSave');
-        document.getElementById('set-title').value = setName;
+        document.getElementById('set-name').value = setName;
         (async () => {
             maxPacketNumber = await getNumPackets(setName);
             document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;

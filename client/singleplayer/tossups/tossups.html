@@ -8,8 +8,6 @@
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/bootstrap/bootstrap.css">
-    <script src="/redirect.js"></script>
-    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -175,7 +173,7 @@
             </div>
             <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 mt-lg-n4" id="options">
                 <h4 class="text-center">Options:</h4>
-                <input type="text" class="form-control" id="set-title" placeholder="Set name" list="set-list">
+                <input type="text" class="form-control" id="set-name" placeholder="Set name" list="set-list">
                 <datalist id="set-list"></datalist>
                 <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet #s">
                 <input type="text" class="form-control" id="question-number" placeholder="Starting question #">
@@ -201,7 +199,9 @@
         </div>
     </div>
 
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
+    <script src="/singleplayer/singleplayer.js"></script>
     <script src="/singleplayer/tossups/keybinds.js"></script>
     <script src="/singleplayer/tossups/tossups.js"></script>
 </body>
