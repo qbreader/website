@@ -47,11 +47,11 @@ function initialize(alertOnFailure = true) {
     document.getElementById('toggle-options').disabled = false;
 
     packetNumbers = rangeToArray(document.getElementById('packet-number').value.trim(), maxPacketNumber);
-    currentPacketNumber = packetNumbers[0];
+    packetNumber = packetNumbers[0];
 
-    currentQuestionNumber = document.getElementById('question-number').value;
-    if (currentQuestionNumber == '') currentQuestionNumber = '1';  // default = 1
-    currentQuestionNumber = parseInt(currentQuestionNumber) - 2;
+    questionNumber = document.getElementById('question-number').value;
+    if (questionNumber == '') questionNumber = '1';  // default = 1
+    questionNumber = parseInt(questionNumber) - 2;
 
     document.getElementById('next').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
