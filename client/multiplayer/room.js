@@ -8,9 +8,12 @@ var oldValidCategories = [];
 var oldValidSubcategories = [];
 var validCategories = [];
 var validSubcategories = [];
-var currentQuestion = {}
-var currentQuestionNumber = -1;
-var currentPacketNumber = -1;
+var question = {}
+/**
+ * WARNING: 1-indexed (instead of 0-indexed, like in singleplayer)
+ */
+var questionNumber = -1;
+var packetNumber = -1;
 var timeoutID = -1;
 var changedCategories = false;
 
@@ -33,16 +36,16 @@ async function loadAndReadTossup() {
 
             currentlyBuzzing = false;
             paused = false;
-            currentQuestion = data.question;
-            currentPacketNumber = data.packetNumber;
-            currentQuestionNumber = data.questionNumber;
-            questionText = currentQuestion.question;
+            question = data.question;
+            packetNumber = data.packetNumber;
+            questionNumber = data.questionNumber;
+            questionText = question.question;
             questionTextSplit = questionText.split(' ');
 
             // Update question text:
             document.getElementById('set-title-info').innerHTML = data.setName;
             document.getElementById('packet-number-info').innerHTML = data.packetNumber;
-            document.getElementById('question-number-info').innerHTML = data.questionNumber + 1;
+            document.getElementById('question-number-info').innerHTML = data.questionNumber;
             document.getElementById('question').innerHTML = '';
             document.getElementById('answer').innerHTML = '';
 
@@ -66,7 +69,7 @@ async function processSocketMessage(data) {
             break;
         case 'join':
             logEvent(data.username, `joined the game`);
-            createPlayerAccordionItem(data.userId, data.username);
+            createPlayerAccordionItem(data);
             sortPlayerAccordion();
             break;
         case 'change-username':
@@ -104,7 +107,7 @@ async function processSocketMessage(data) {
             loadCategoryModal(validCategories, validSubcategories);
             break;
         case 'next':
-            createTossupCard(currentQuestion, currentPacketNumber, currentQuestionNumber + 1);
+            createTossupCard(question, packetNumber, questionNumber);
             if (await loadAndReadTossup()) {
                 if (document.getElementById('next').innerHTML === 'Skip') {
                     logEvent(data.username, `skipped the question`);
@@ -191,6 +194,7 @@ function clearStats(userId) {
 
 
 function createPlayerAccordionItem(player) {
+    console.log(player);
     let { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0 } = player;
     let button = document.createElement('button');
     button.className = 'accordion-button collapsed';
@@ -325,9 +329,9 @@ function processAnswer(userId, username, givenAnswer, score) {
         if (document.getElementById('question').innerHTML.indexOf('Question in progress...') === -1) {
             document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         } else {
-            document.getElementById('question').innerHTML = currentQuestion.question;
+            document.getElementById('question').innerHTML = question.question;
         }
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + currentQuestion.answer;
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + question.answer;
         document.getElementById('next').innerHTML = 'Next';
         document.getElementById('buzz').disabled = true;
     } else {
@@ -566,14 +570,14 @@ window.onload = () => {
     fetch(`/api/multiplayer/room?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
-            var currentPacketNumber = data.packetNumber || 0;
-            var currentQuestionNumber = data.currentQuestionNumber || 0;
+            packetNumber = data.packetNumber || 0;
+            questionNumber = data.questionNumber || 0;
             document.getElementById('set-name').value = data.setName || '';
             document.getElementById('packet-number').value = arrayToRange(data.packetNumbers) || '';
 
             document.getElementById('set-title-info').innerHTML = data.setName || '';
-            document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-            document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+            document.getElementById('packet-number-info').innerHTML = packetNumber || '-';
+            document.getElementById('question-number-info').innerHTML = questionNumber || '-';
 
             document.getElementById('toggle-visibility').checked = data.isPublic;
             document.getElementById('chat').disabled = data.isPublic;
@@ -583,13 +587,13 @@ window.onload = () => {
             validSubcategories = data.validSubcategories || [];
             loadCategoryModal(validCategories, validSubcategories);
 
-            currentQuestion = data.currentQuestion;
+            question = data.question;
             if (data.isQuestionInProgress) {
                 document.getElementById('question').innerHTML = 'Question in progress...';
                 document.getElementById('next').disabled = true;
-            } else if (Object.keys(currentQuestion).length > 0) {
-                document.getElementById('question').innerHTML = data.currentQuestion.question;
-                document.getElementById('answer').innerHTML = 'ANSWER: ' + data.currentQuestion.answer;
+            } else if (Object.keys(question).length > 0) {
+                document.getElementById('question').innerHTML = data.question.question;
+                document.getElementById('answer').innerHTML = 'ANSWER: ' + data.question.answer;
             } else {
                 document.getElementById('next').innerHTML = 'Start';
                 document.getElementById('next').classList.remove('btn-primary');
