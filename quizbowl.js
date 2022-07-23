@@ -83,8 +83,14 @@ function isValidCategory(question, validCategories, validSubcategories) {
 }
 
 
-function scoreTossup(roomName, givenAnswer, inPower, endOfQuestion) {
-    let isCorrect = checkAnswerCorrectness(rooms[roomName].question.answer, givenAnswer);
+/**
+ * @param {String} answer 
+ * @param {String} givenAnswer 
+ * @param {Boolean} inPower 
+ * @param {Boolean} endOfQuestion 
+ */
+function scoreTossup(answer, givenAnswer, inPower, endOfQuestion) {
+    let isCorrect = checkAnswerCorrectness(answer, givenAnswer);
 
     return isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5);
 }
