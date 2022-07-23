@@ -1,11 +1,11 @@
-var setTitle = '';
+var setName = '';
 var packetNumbers = [];
-var currentPacketNumber = -1;
+var packetNumber = -1;
 var validCategories;
 var validSubcategories;
 
 var questions = [{}];
-var currentQuestionNumber = 0;
+var questionNumber = 0;
 
 var onQuestion = true;
 var currentBonusPart = -1;
@@ -17,6 +17,7 @@ function clearStats() {
     sessionStorage.setItem('stats', [0, 0, 0, 0]);
     updateStatDisplay();
 }
+
 
 function createBonusPart(bonusPartNumber, bonusText) {
     let input = document.createElement('input');
@@ -48,6 +49,7 @@ function createBonusPart(bonusPartNumber, bonusText) {
     document.getElementById('question').appendChild(row);
 }
 
+
 function getPointsForCurrentBonus() {
     let statsArray = sessionStorage.stats.split(',');
 
@@ -61,6 +63,7 @@ function getPointsForCurrentBonus() {
     return pointsOnBonus;
 }
 
+
 /**
  * Loads and reads the next question.
  */
@@ -70,10 +73,10 @@ async function loadAndReadBonus() {
     document.getElementById('next').innerHTML = 'Skip';
 
     do {  // Get the next question
-        currentQuestionNumber++;
+        questionNumber++;
 
         // Go to the next packet if you reach the end of this packet
-        if (currentQuestionNumber >= questions.length) {
+        if (questionNumber >= questions.length) {
             packetNumbers.shift();
             if (packetNumbers.length == 0) {
                 window.alert("No more questions left");
@@ -81,32 +84,33 @@ async function loadAndReadBonus() {
                 document.getElementById('next').disabled = true;
                 return;  // alert the user if there are no more packets
             }
-            currentPacketNumber = packetNumbers[0];
-            let [setYear, setName] = parseSetTitle(setTitle);
-            questions = await getPacket(setYear, setName, currentPacketNumber, 'bonuses');
-            currentQuestionNumber = 0;
+            packetNumber = packetNumbers[0];
+            document.getElementById('question').innerHTML = 'Fetching questions...';
+            questions = await getBonuses(setName, packetNumber);
+            questionNumber = 0;
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
+    } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
 
     if (questions.length > 0) {
-        document.getElementById('set-title-info').innerHTML = setTitle;
-        document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-        document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+        document.getElementById('set-title-info').innerHTML = setName;
+        document.getElementById('packet-number-info').innerHTML = packetNumber;
+        document.getElementById('question-number-info').innerHTML = questionNumber + 1;
 
         currentBonusPart = 0;
 
         // Update the question text:
 
         let paragraph = document.createElement('p');
-        paragraph.appendChild(document.createTextNode(questions[currentQuestionNumber]['leadin']));
+        paragraph.appendChild(document.createTextNode(questions[questionNumber]['leadin']));
         document.getElementById('question').innerHTML = '';
         document.getElementById('question').appendChild(paragraph);
 
         revealBonusPart();
     }
 }
+
 
 /**
  * Called when the users wants to reveal the next bonus part.
@@ -115,10 +119,10 @@ function revealBonusPart() {
     if (currentBonusPart > 2) return;
 
     if (onQuestion) {
-        createBonusPart(currentBonusPart, questions[currentQuestionNumber]['parts'][currentBonusPart]);
+        createBonusPart(currentBonusPart, questions[questionNumber]['parts'][currentBonusPart]);
     } else {
         let paragraph = document.createElement('p');
-        paragraph.appendChild(document.createTextNode('ANSWER: ' + questions[currentQuestionNumber]['answers'][currentBonusPart]));
+        paragraph.appendChild(document.createTextNode('ANSWER: ' + questions[questionNumber]['answers'][currentBonusPart]));
         document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
         currentBonusPart++;
     }
@@ -130,6 +134,7 @@ function revealBonusPart() {
         document.getElementById('next').innerHTML = 'Next';
     }
 }
+
 
 /**
  * Calculates that points per bonus and updates the display.
@@ -146,22 +151,25 @@ function updateStatDisplay() {
         = `${ppb} points per bonus with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
 }
 
+
 // Event listeners
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     onQuestion = true;
     initialize();
-    let [setYear, setName] = parseSetTitle(setTitle);
-    await getPacket(setYear, setName, currentPacketNumber, 'bonuses').then(async (data) => {
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    await getBonuses(setName, packetNumber).then(async (data) => {
         questions = data;
         await loadAndReadBonus();
     });
 });
 
+
 document.getElementById('reveal').addEventListener('click', function () {
     this.blur();
     revealBonusPart();
 });
+
 
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
@@ -175,41 +183,27 @@ document.getElementById('next').addEventListener('click', async function () {
     await loadAndReadBonus();
 });
 
+
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
     clearStats();
 });
 
-document.querySelectorAll('#categories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-        [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
-        localStorage.setItem('validCategories', JSON.stringify(validCategories));
-        localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
-    });
+
+document.getElementById('set-name').addEventListener('change', function () {
+    localStorage.setItem('setNameBonusSave', this.value);
 });
 
-document.querySelectorAll('#subcategories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        validSubcategories = updateSubcategory(input.id, validSubcategories);
-        localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
-    });
-});
-
-document.getElementById('set-title').addEventListener('change', function () {
-    localStorage.setItem('setTitleBonusSave', this.value);
-});
 
 document.getElementById('packet-number').addEventListener('change', function () {
     localStorage.setItem('packetNumberBonusSave', this.value);
 });
 
+
 document.getElementById('question-number').addEventListener('change', function () {
     localStorage.setItem('questionNumberBonusSave', document.getElementById('question-number').value);
 });
+
 
 window.onload = () => {
     if (sessionStorage.getItem('stats') === null) {
@@ -230,12 +224,11 @@ window.onload = () => {
         validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     }
     
-    if (localStorage.getItem('setTitleBonusSave')) {
-        setTitle = localStorage.getItem('setTitleBonusSave');
-        document.getElementById('set-title').value = setTitle;
-        let [setYear, setName] = parseSetTitle(setTitle);
+    if (localStorage.getItem('setNameBonusSave')) {
+        setName = localStorage.getItem('setNameBonusSave');
+        document.getElementById('set-name').value = setName;
         (async () => {
-            maxPacketNumber = await getNumPackets(setYear, setName);
+            maxPacketNumber = await getNumPackets(setName);
             document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
         })();
     }
