@@ -121,6 +121,11 @@ function createTossupCard(question, packetNumber, questionNumber) {
 }
 
 
+function isTouchDevice(){
+    return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
+}
+
+
 /**
  * @param {JSON} question 
  * @param {Array<String>} validCategories
@@ -306,6 +311,8 @@ document.getElementById('set-name').addEventListener('change', async function (e
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    if (isTouchDevice()) return;
+
     return new bootstrap.Tooltip(tooltipTriggerEl);
 });
 
