@@ -2,14 +2,18 @@ var timeoutID = -1;
 
 var setName = '';
 var packetNumbers = [];
-var currentPacketNumber = -1;
+var packetNumber = -1;
 var validCategories;
 var validSubcategories;
 
 var questions = [{}];
 var questionText = '';
 var questionTextSplit = [];
-var currentQuestionNumber = 0;
+
+/**
+ * WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
+ */
+var questionNumber = 0;
 
 var currentlyBuzzing = false;
 var paused = false;
@@ -48,7 +52,7 @@ function buzz() {
         let characterCount = document.getElementById('question').innerHTML.length;
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         shift('totalCelerity', 1 - characterCount / document.getElementById('question').innerHTML.length);
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[currentQuestionNumber]['answer'];
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber]['answer'];
         document.getElementById('buzz').innerHTML = 'Buzz';
         document.getElementById('next').innerHTML = 'Next';
 
@@ -96,13 +100,13 @@ async function loadAndReadTossup() {
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
 
-    currentPacketNumber = packetNumbers[0];
+    packetNumber = packetNumbers[0];
 
     do {  // Get the next question
-        currentQuestionNumber++;
+        questionNumber++;
 
         // Go to the next packet if you reach the end of this packet
-        if (currentQuestionNumber >= questions.length) {
+        if (questionNumber >= questions.length) {
             packetNumbers.shift();
             if (packetNumbers.length == 0) {
                 window.alert("No more questions left");
@@ -111,22 +115,22 @@ async function loadAndReadTossup() {
                 document.getElementById('next').disabled = true;
                 return;  // alert the user if there are no more packets
             }
-            currentPacketNumber = packetNumbers[0];
+            packetNumber = packetNumbers[0];
             clearTimeout(timeoutID); // stop reading the current question 
-            questions = await getTossups(setName, currentPacketNumber);
-            currentQuestionNumber = 0;
+            questions = await getTossups(setName, packetNumber);
+            questionNumber = 0;
         }
 
         // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[currentQuestionNumber], validCategories, validSubcategories));
+    } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
 
     if (questions.length > 0) {
         document.getElementById('set-title-info').innerHTML = setName;
-        document.getElementById('packet-number-info').innerHTML = currentPacketNumber;
-        document.getElementById('question-number-info').innerHTML = currentQuestionNumber + 1;
+        document.getElementById('packet-number-info').innerHTML = packetNumber;
+        document.getElementById('question-number-info').innerHTML = questionNumber + 1;
         document.getElementById('question').innerHTML = '';
 
-        questionText = questions[currentQuestionNumber]['question'];
+        questionText = questions[questionNumber]['question'];
         questionTextSplit = questionText.split(' ');
 
         document.getElementById('next').innerHTML = 'Skip';
@@ -262,7 +266,7 @@ document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     initialize();
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    await getTossups(setName, currentPacketNumber, 'tossups').then(async (data) => {
+    await getTossups(setName, packetNumber, 'tossups').then(async (data) => {
         questions = data;
         await loadAndReadTossup();
     });
@@ -283,7 +287,7 @@ document.getElementById('pause').addEventListener('click', function () {
 
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
-    createTossupCard(questions[currentQuestionNumber], currentPacketNumber, currentQuestionNumber + 1);
+    createTossupCard(questions[questionNumber], packetNumber, questionNumber + 1);
     await loadAndReadTossup();
 });
 

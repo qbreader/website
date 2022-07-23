@@ -47,7 +47,7 @@ router.get('/multiplayer/room', (req, res) => {
 });
 
 router.get('/multiplayer/room-list', (req, res) => {
-    res.send(JSON.stringify({ 'rooms': rooms.getRoomList() }))
+    res.send(rooms.getRoomList());
 });
 
 module.exports = router;

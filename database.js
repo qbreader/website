@@ -1,28 +1,11 @@
-const dljs = require('damerau-levenshtein-js');
-const fs = require('fs');
 const { MongoClient, ObjectId } = require('mongodb');
+const { CATEGORIES } = require('./quizbowl');
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
-const SUBCATEGORIES = [
-    ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
-    ["American History", "Ancient History", "European History", "World History", "Other History"],
-    ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
-    ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"],
-    ["Religion"],
-    ["Mythology"],
-    ["Philosophy"],
-    ["Social Science"],
-    ["Current Events"],
-    ["Geography"],
-    ["Other Academic"],
-    ["Trash"]
-];
 const SET_LIST = []; // initialized on server load
-const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
 
 var DATABASE;
 var SETS;
@@ -43,35 +26,21 @@ client.connect().then(async () => {
     });
 });
 
-function checkAnswerCorrectness(answer, givenAnswer) {
-    answer = answer.toLowerCase().trim();
-    givenAnswer = givenAnswer.toLowerCase().trim();
 
-    if (answer.length === 0 || givenAnswer.length === 0) {
-        return false;
-    }
-
-    let answerTokens = answer.split(' ');
-    let givenAnswerTokens = givenAnswer.split(' ');
-
-    for (let i = 0; i < givenAnswerTokens.length; i++) {
-        if (givenAnswerTokens[i].length <= 2) return false;
-
-        // if given answer token matches any word in the answerline
-        for (let j = 0; j < answerTokens.length; j++) {
-            if (METAWORDS.includes(answerTokens[j])) {
-                console.log(answerTokens[j]);
-                continue;
-            }
-            if (answerTokens[j].length === 1) continue;
-            if (dljs.distance(givenAnswerTokens[i], answerTokens[j]) <= 1) {
-                return true;
-            }
+/**
+ * @param {String} setName - the name of the set (e.g. "2021 PACE").
+ * @returns {Number} the number of packets in the set.
+ */
+async function getNumPackets(setName) {
+    return await SETS.findOne({ name: setName }).then(set => {
+        if (set) {
+            return set.packets.length;
+        } else {
+            return 0;
         }
-    }
-
-    return false;
+    });
 }
+
 
 async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossup']) {
     let set = await SETS.findOne({ name: setName });
@@ -104,19 +73,6 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     return question || {};
 }
 
-/**
- * @param {String} setName - the name of the set (e.g. "2021 PACE").
- * @returns {Number} the number of packets in the set.
- */
-async function getNumPackets(setName) {
-    return await SETS.findOne({ name: setName }).then(set => {
-        if (set) {
-            return set.packets.length;
-        } else {
-            return 0;
-        }
-    });
-}
 
 /**
  * @param {String} setName - the name of the set (e.g. "2021 PACE").
@@ -145,41 +101,10 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
     });
 }
 
+
 function getSetList() {
     return SET_LIST;
 }
 
-/**
-* @param {JSON} question 
-* @param {Array<String>} validCategories
-* @param {Array<String>} validSubcategories
-* @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
-*/
-function isValidCategory(question, validCategories, validSubcategories) {
-    if (validCategories.length === 0 && validSubcategories.length === 0) return true;
 
-    // check if the subcategory is explicitly included (overrides missing category)
-    if (question.subcategory && validSubcategories.includes(question.subcategory)) return true;
-
-    // check if category is excluded (and subcategory is excluded)
-    if (!validCategories.includes(question['category'])) return false;
-
-    // at this point, the question category is included in the list of valid categories 
-    // check for the case where none of the subcategories are selected but the category is;
-    // in which case, the question is valid
-    if (!question.subcategory) return true;
-
-    // check to see if the category has no corresponding subcategories
-    let index = CATEGORIES.indexOf(question['category']);
-    if (!(index in SUBCATEGORIES)) return true;
-
-    // check to see if none of the subcategories of the question are selected
-    for (let i = 0; i < SUBCATEGORIES[index].length; i++) {
-        if (validSubcategories.includes(SUBCATEGORIES[index][i])) return false;
-    }
-
-    // if there are no subcategories selected in the field, then it is valid
-    return true;
-}
-
-module.exports = { checkAnswerCorrectness, getNextQuestion, getNumPackets, getPacket, getSetList };
+module.exports = { getNextQuestion, getNumPackets, getPacket, getSetList };
