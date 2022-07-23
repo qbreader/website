@@ -43,7 +43,8 @@ async function parseMessage(roomName, message) {
             return message;
         case 'give-answer':
             let score = quizbowl.scoreTossup(rooms[roomName].question.answer, message.givenAnswer, message.inPower, message.endOfQuestion);
-            updateScore(roomName, message.userId, score);
+            updateScore(roomName, message.userId, score, message.celerity);
+            message.celerity = rooms[roomName].players[message.userId].celerity.correct.average;
             message.score = score;
             return message;
         case 'set-name':
@@ -88,7 +89,17 @@ function createPlayer(roomName, userId, username, overrideExistingPlayer = false
         zeroes: 0,
         negs: 0,
         points: 0,
-        tuh: 0
+        tuh: 0,
+        celerity: {
+            all: {
+                total: 0,
+                average: 0
+            },
+            correct: {
+                total: 0,
+                average: 0
+            }
+        }
     };
 
     return true;
@@ -153,15 +164,7 @@ function updateUsername(roomName, userId, username) {
 }
 
 
-function updateScore(roomName, userId, score) {
-    if (score > 0) {
-        // increase TUH for every player by 1
-        for (let player in rooms[roomName].players) {
-            rooms[roomName].players[player].tuh++;
-        }
-        rooms[roomName].isQuestionInProgress = false;
-    }
-
+function updateScore(roomName, userId, score, celerity) {
     if (score > 10) {
         rooms[roomName].players[userId].powers++;
     } else if (score === 10) {
@@ -172,8 +175,21 @@ function updateScore(roomName, userId, score) {
         rooms[roomName].players[userId].negs++;
     }
 
-    rooms[roomName].players[userId].points += score;
+    if (score > 0) {
+        // increase TUH for every player by 1
+        for (let player in rooms[roomName].players) {
+            rooms[roomName].players[player].tuh++;
+        }
+        rooms[roomName].isQuestionInProgress = false;
 
+        let numCorrect = rooms[roomName].players[userId].powers + rooms[roomName].players[userId].tens;
+        rooms[roomName].players[userId].celerity.correct.total += celerity;
+        rooms[roomName].players[userId].celerity.correct.average = rooms[roomName].players[userId].celerity.correct.total / numCorrect;
+    }
+
+    rooms[roomName].players[userId].points += score;
+    rooms[roomName].players[userId].celerity.all.total += celerity;
+    rooms[roomName].players[userId].celerity.all.average = rooms[roomName].players[userId].celerity.all.total / rooms[roomName].players[userId].tuh;
     return score;
 }
 

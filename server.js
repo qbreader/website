@@ -67,6 +67,7 @@ wss.on('connection', (ws) => {
         message = JSON.parse(message);
         message.userId = ws.userId;
         message = await rooms.parseMessage(ws.protocol, message);
+        console.log(message);
 
         if (message.type === 'join' || message.type === 'change-username') {
             ws.username = message.username;
