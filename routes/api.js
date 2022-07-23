@@ -9,7 +9,7 @@ const database = require('../database');
 router.get('/num-packets', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     const numPackets = await database.getNumPackets(req.query.setName);
-    res.send(JSON.stringify({ value: numPackets }));
+    res.send(numPackets.toString());
 });
 
 router.get('/packet', async (req, res) => {

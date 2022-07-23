@@ -146,7 +146,7 @@ async function parseMessage(roomName, message) {
             updateScore(roomName, message.userId, score);
             message.score = score;
             return message;
-        case 'set-title':
+        case 'set-name':
             rooms[roomName].setName = message.value;
             rooms[roomName].currentQuestionNumber = -1;
             return message;

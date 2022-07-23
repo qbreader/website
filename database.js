@@ -1,30 +1,10 @@
 const dljs = require('damerau-levenshtein-js');
 const fs = require('fs');
+const { MongoClient, ObjectId } = require('mongodb');
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
-
-const { MongoClient, ObjectId } = require('mongodb');
-const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
-
-var DATABASE;
-var SETS;
-var QUESTIONS;
-
-const client = new MongoClient(uri);
-client.connect().then(async () => {
-    console.log('connected to mongodb');
-
-    DATABASE = client.db('qbreader');
-    SETS = DATABASE.collection('sets');
-    QUESTIONS = DATABASE.collection('questions');
-
-    await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(doc => {
-        let name = doc.name;
-        SET_LIST.push(name);
-    });
-});
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const SUBCATEGORIES = [
@@ -44,6 +24,24 @@ const SUBCATEGORIES = [
 const SET_LIST = []; // initialized on server load
 const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
 
+var DATABASE;
+var SETS;
+var QUESTIONS;
+
+const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri);
+client.connect().then(async () => {
+    console.log('connected to mongodb');
+
+    DATABASE = client.db('qbreader');
+    SETS = DATABASE.collection('sets');
+    QUESTIONS = DATABASE.collection('questions');
+
+    await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(doc => {
+        let name = doc.name;
+        SET_LIST.push(name);
+    });
+});
 
 function checkAnswerCorrectness(answer, givenAnswer) {
     answer = answer.toLowerCase().trim();
