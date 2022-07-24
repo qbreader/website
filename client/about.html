@@ -31,6 +31,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/multiplayer">Multiplayer</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api-info">API</a>
+                    </li>
                 </ul>
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
@@ -47,7 +50,7 @@
             A quizbowl packet reader created by <a href="https://github.com/geoffrey-wu">Geoffrey Wu</a>, with contributions from <a href="https://github.com/BLCRAFT210">Brian Lai</a>.
         </p>
         <p>
-            Packets are collected from <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">quizbowlpackets.com</a> and parsed into JSON files using a Python-based <a href="https://github.com/geoffrey-wu/qb-packet-parser">quizbowl packet parser</a>, which I built after being dissatisfied with <a href="https://github.com/alopezlago/YetAnotherPacketParser">YAPP</a> (due to its strict formatting requirements and lack of category support).
+            Packets are collected from <a href="https://quizbowlpackets.com/" target="_blank" rel="noopener noreferrer">quizbowlpackets.com</a> and parsed into JSON files using a Python-based <a href="https://github.com/geoffrey-wu/qb-packet-parser">quizbowl packet parser</a>.
             If you notice any issues with packets or categorization, please <a href="mailto:geoffreywu1000@gmail.com">contact me</a>.
             Packet numbers are numbered starting from 1 based on the following order: numbered packets (1, 2, 3, etc. or A, B, C, etc.), then editor questions, then non-numbered finals packets, and then the remaining packets are numbered in alphabetical order.
         </p>
@@ -59,11 +62,12 @@
             <li>Only quizbowl reader to use the latest set of questions.</li>
             <ul>
                 <li>
-                    As far as I am aware, <i>all other</i> quizbowl reading software (including Discord bots) pull their questions off of the quizdb database, which is not up to date.
+                    As far as I am aware, <i>all other</i> quizbowl reading software (including Discord bots) pull their questions off of the <a href="https://www.quizdb.org/">quizdb</a> database, which is not up to date.
                 </li>
             </ul>
             <li>
-                Only reader that allows you to choose questions by packet (<a href="https://quizbug2.karangurazada.com/">quizbug</a> technically allows you to select by set, but that's not an intended feature and the SSL certificate is expired).
+                Only reader that allows you to choose questions by packet.
+                <a href="https://quizbug2.karangurazada.com/">quizbug</a> technically allows you to select by set, but that's not an intended feature.
             </li>
             <li>Excellent support for mobile.</li>
             <li>Strong support for categories and subcategories.</li>
