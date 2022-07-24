@@ -9,6 +9,7 @@ const uuid = require('uuid');
 const rooms = require('./rooms');
 
 const apiRouter = require('./routes/api');
+const apiInfoRouter = require('./routes/api-info');
 const tossupsRouter = require('./routes/tossups');
 const bonusesRouter = require('./routes/bonuses');
 const multiplayerRouter = require('./routes/multiplayer');
@@ -40,6 +41,7 @@ app.use('/api', apiRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/bonuses', bonusesRouter);
 app.use('/multiplayer', multiplayerRouter);
+app.use('/api-info', apiInfoRouter);
 app.use('/about', aboutRouter);
 
 app.get('/', (req, res) => {
