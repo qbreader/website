@@ -15,6 +15,7 @@ const SUBCATEGORIES = [
     ["Other Academic"],
     ["Trash"]
 ];
+const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
 
 
@@ -83,6 +84,37 @@ function isValidCategory(question, validCategories, validSubcategories) {
 }
 
 
+function rangeToArray(string, max = 0) {
+    if (string.length === 0) {
+        string = `1-${max}`;
+    }
+
+    if (string.endsWith('-')) {
+        string = string + max;
+    }
+
+    let tokens = string.split(",");
+    let ranges = [];
+    for (let i = 0; i < tokens.length; i++) {
+        let range = tokens[i].trim().split("-");
+        if (range.length === 1) {
+            ranges.push([parseInt(range[0]), parseInt(range[0])]);
+        } else {
+            ranges.push([parseInt(range[0]), parseInt(range[1])]);
+        }
+    }
+
+    let array = [];
+    for (let i = 0; i < ranges.length; i++) {
+        for (let j = ranges[i][0]; j <= ranges[i][1]; j++) {
+            array.push(j);
+        }
+    }
+
+    return array;
+}
+
+
 /**
  * @param {String} answer 
  * @param {String} givenAnswer 
@@ -96,4 +128,4 @@ function scoreTossup(answer, givenAnswer, inPower, endOfQuestion) {
 }
 
 
-module.exports = { CATEGORIES, SUBCATEGORIES, checkAnswerCorrectness, isValidCategory, scoreTossup };
+module.exports = { CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, checkAnswerCorrectness, isValidCategory, rangeToArray, scoreTossup };

@@ -94,7 +94,7 @@ async function loadAndReadBonus() {
     } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
 
     if (questions.length > 0) {
-        document.getElementById('set-title-info').innerHTML = setName;
+        document.getElementById('set-name-info').innerHTML = setName;
         document.getElementById('packet-number-info').innerHTML = packetNumber;
         document.getElementById('question-number-info').innerHTML = questionNumber + 1;
 
