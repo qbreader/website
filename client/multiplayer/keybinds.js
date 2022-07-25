@@ -1,28 +1,20 @@
 document.addEventListener('keydown', function (event) {
-    // press escape to close chat
-    if (event.key === 'Escape' && document.activeElement.tagName === 'INPUT') {
+    if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
+        // press escape to close chat
         document.getElementById('chat-input-group').classList.add('d-none');
-    }
-});
-
-// Prevent spacebar from scrolling the page:
-window.addEventListener('keydown', function (event) {
-    if (document.activeElement.tagName === 'INPUT') return;
-
-    if (event.key === ' ') {
+    } else if (event.key === ' ' && document.activeElement.tagName !== 'INPUT') {
+        // Prevent spacebar from scrolling the page
         document.getElementById('buzz').click();
         if (event.target == document.body) event.preventDefault();
     }
 });
 
-window.addEventListener('keypress', function (event) {
+document.addEventListener('keypress', function (event) {
     // needs to be keypress
     // keydown immediately hides the input group
     // keyup shows the input group again after submission
-    if (event.key === 'Enter') {
-        if (event.target == document.body) {
-            document.getElementById('chat').click();
-        }
+    if (event.key === 'Enter' && event.target == document.body) {
+        document.getElementById('chat').click();
     }
 });
 
