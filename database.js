@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const { CATEGORIES } = require('./quizbowl');
+const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
@@ -107,9 +107,36 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
 }
 
 
+/**
+ * @param {Array<Number>} difficulty - an array of difficulty levels (1-10)
+ * @param {Array<String>} allowedCategories 
+ * @param {Array<String>} allowedSubcategories 
+ * @returns {JSON}
+ */
+async function getRandomQuestion(type, difficulty, allowedCategories, allowedSubcategories) {
+    if (allowedCategories.length === 0) allowedCategories = CATEGORIES;
+
+    if (allowedSubcategories.length === 0) allowedSubcategories = SUBCATEGORIES_FLATTENED;
+
+    let question = await QUESTIONS.aggregate([
+        { $match: { type: type, difficulty: { $in: difficulty }, category: { $in: allowedCategories }, subcategory: { $in: allowedSubcategories } } },
+        { $sample: { size: 1 } }
+    ]).toArray();
+
+    if (question.length === 0) {
+        return {};
+    }
+
+    question = question[0];
+    let set = await SETS.findOne({ _id: question.set });
+    question.setName = set.name;
+    return question;
+}
+
+
 function getSetList() {
     return SET_LIST;
 }
 
 
-module.exports = { getNextQuestion, getNumPackets, getPacket, getSetList };
+module.exports = { getNextQuestion, getNumPackets, getPacket, getRandomQuestion, getSetList };
