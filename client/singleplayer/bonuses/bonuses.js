@@ -216,7 +216,15 @@ window.onload = () => {
     } else {
         validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     }
-    
+
+    if (validCategories.length > 0 && validSubcategories.length === 0) {
+        validCategories.forEach(category => {
+            SUBCATEGORIES[category].forEach(subcategory => {
+                validSubcategories.push(subcategory);
+            });
+        });
+    }
+
     if (localStorage.getItem('setNameBonusSave')) {
         setName = localStorage.getItem('setNameBonusSave');
         document.getElementById('set-name').value = setName;
