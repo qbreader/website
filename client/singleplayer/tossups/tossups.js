@@ -244,26 +244,9 @@ function updateStatDisplay() {
 }
 
 
-document.getElementById('start').addEventListener('click', async function () {
-    this.blur();
-    initialize();
-    document.getElementById('question').innerHTML = 'Fetching questions...';
-    await getTossups(setName, packetNumber, 'tossups').then(async (data) => {
-        questions = data;
-        await loadAndReadTossup();
-    });
-});
-
-
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     buzz();
-});
-
-
-document.getElementById('pause').addEventListener('click', function () {
-    this.blur();
-    pause();
 });
 
 
@@ -274,25 +257,14 @@ document.getElementById('next').addEventListener('click', async function () {
 });
 
 
-document.getElementById('clear-stats').addEventListener('click', function () {
-    this.blur();
-    clearStats();
-});
-
-
-document.getElementById('toggle-correct').addEventListener('click', function () {
-    this.blur();
-    toggleCorrect();
-});
-
-
-document.getElementById('set-name').addEventListener('change', function () {
-    localStorage.setItem('setNameTossupSave', this.value);
-});
-
-
 document.getElementById('packet-number').addEventListener('change', function () {
     localStorage.setItem('packetNumberTossupSave', this.value);
+});
+
+
+document.getElementById('pause').addEventListener('click', function () {
+    this.blur();
+    pause();
 });
 
 
@@ -304,6 +276,28 @@ document.getElementById('question-number').addEventListener('change', function (
 document.getElementById('reading-speed').addEventListener('input', function () {
     localStorage.setItem('speed', this.value);
     document.getElementById('reading-speed-display').innerHTML = this.value;
+});
+
+
+document.getElementById('set-name').addEventListener('change', function () {
+    localStorage.setItem('setNameTossupSave', this.value);
+});
+
+
+document.getElementById('start').addEventListener('click', function () {
+    this.blur();
+    initialize();
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    getTossups(setName, packetNumber).then(async (data) => {
+        questions = data;
+        await loadAndReadTossup();
+    });
+});
+
+
+document.getElementById('toggle-correct').addEventListener('click', function () {
+    this.blur();
+    toggleCorrect();
 });
 
 

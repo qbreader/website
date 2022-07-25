@@ -152,25 +152,6 @@ function updateStatDisplay() {
 }
 
 
-// Event listeners
-document.getElementById('start').addEventListener('click', async function () {
-    this.blur();
-    onQuestion = true;
-    initialize();
-    document.getElementById('question').innerHTML = 'Fetching questions...';
-    await getBonuses(setName, packetNumber).then(async (data) => {
-        questions = data;
-        await loadAndReadBonus();
-    });
-});
-
-
-document.getElementById('reveal').addEventListener('click', function () {
-    this.blur();
-    revealBonusPart();
-});
-
-
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
 
@@ -184,9 +165,19 @@ document.getElementById('next').addEventListener('click', async function () {
 });
 
 
-document.getElementById('clear-stats').addEventListener('click', function () {
+document.getElementById('packet-number').addEventListener('change', function () {
+    localStorage.setItem('packetNumberBonusSave', this.value);
+});
+
+
+document.getElementById('question-number').addEventListener('change', function () {
+    localStorage.setItem('questionNumberBonusSave', document.getElementById('question-number').value);
+});
+
+
+document.getElementById('reveal').addEventListener('click', function () {
     this.blur();
-    clearStats();
+    revealBonusPart();
 });
 
 
@@ -195,13 +186,15 @@ document.getElementById('set-name').addEventListener('change', function () {
 });
 
 
-document.getElementById('packet-number').addEventListener('change', function () {
-    localStorage.setItem('packetNumberBonusSave', this.value);
-});
-
-
-document.getElementById('question-number').addEventListener('change', function () {
-    localStorage.setItem('questionNumberBonusSave', document.getElementById('question-number').value);
+document.getElementById('start').addEventListener('click', async function () {
+    this.blur();
+    onQuestion = true;
+    initialize();
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    await getBonuses(setName, packetNumber).then(async (data) => {
+        questions = data;
+        await loadAndReadBonus();
+    });
 });
 
 
