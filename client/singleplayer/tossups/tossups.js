@@ -339,6 +339,14 @@ window.onload = () => {
         validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
     }
 
+    if (validCategories.length > 0 && validSubcategories.length === 0) {
+        validCategories.forEach(category => {
+            SUBCATEGORIES[category].forEach(subcategory => {
+                validSubcategories.push(subcategory);
+            });
+        });
+    }
+
     if (sessionStorage.getItem('powers') === null)
         sessionStorage.setItem('powers', 0);
     if (sessionStorage.getItem('tens') === null)

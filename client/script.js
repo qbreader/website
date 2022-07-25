@@ -152,20 +152,27 @@ function isValidCategory(question, validCategories, validSubcategories) {
 function loadCategoryModal(validCategories, validSubcategories) {
     document.querySelectorAll('#categories input').forEach(element => element.checked = false);
     document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
+    document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
 
-    if (validSubcategories.length > 0) {
-        document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
-    } else {
-        document.querySelectorAll('#subcategories label').forEach(element => element.classList.remove('d-none'));
+    if (validSubcategories.length === 0 ) {
+        let subcategoryInfoText = document.createElement('div');
+        subcategoryInfoText.className = 'text-muted text-center';
+        subcategoryInfoText.innerHTML = 'You must select categories before you can select subcategories.';
+        subcategoryInfoText.id = 'subcategory-info-text';
+        document.getElementById('subcategories').appendChild(subcategoryInfoText);
+    } else if (document.getElementById('subcategory-info-text')) {
+        document.getElementById('subcategory-info-text').remove();
     }
 
     validCategories.forEach(category => {
         document.getElementById(category).checked = true;
+        SUBCATEGORIES[category].forEach(subcategory => {
+            document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
+        });
     });
 
     validSubcategories.forEach(subcategory => {
         document.getElementById(subcategory).checked = true;
-        document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
     });
 }
 
