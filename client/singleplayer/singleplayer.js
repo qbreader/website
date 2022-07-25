@@ -3,7 +3,7 @@
  * @param {String} packetNumber - The packet number of the set.
  * @return {Array<JSON>} An array containing the bonuses.
  */
- async function getBonuses(setName, packetNumber) {
+async function getBonuses(setName, packetNumber) {
     return await fetch(`/api/packet-bonuses?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
         .then(response => response.json())
         .then(data => data.bonuses);
@@ -90,4 +90,10 @@ document.querySelectorAll('#subcategories input').forEach(input => {
         loadCategoryModal(validCategories, validSubcategories);
         localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
     });
+});
+
+
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    clearStats();
 });
