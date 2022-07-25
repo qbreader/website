@@ -10,17 +10,21 @@ var questionCounter = 1;
 var maxPacketNumber = 24;
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
-/**
- * Indexed by their index in the `CATEGORIES` array.
- * Categories that do not have any subcategories are not listed.
- */
-const SUBCATEGORIES = [
-    ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
-    ["American History", "Ancient History", "European History", "World History", "Other History"],
-    ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
-    ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"]
-]
-
+const SUBCATEGORIES = {
+    "Literature": ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
+    "History": ["American History", "Ancient History", "European History", "World History", "Other History"],
+    "Science": ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
+    "Fine Arts": ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"],
+    "Religion": ["Religion"],
+    "Mythology": ["Mythology"],
+    "Philosophy": ["Philosophy"],
+    "Social Science": ["Social Science"],
+    "Current Events": ["Current Events"],
+    "Geography": ["Geography"],
+    "Other Academic": ["Other Academic"],
+    "Trash": ["Trash"],
+}
+const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 
 /**
  * 
@@ -72,7 +76,7 @@ function arrayToRange(array) {
 }
 
 
-function createTossupCard(question, packetNumber, questionNumber) {
+function createTossupCard(question, setName, packetNumber, questionNumber) {
     if (!question || Object.keys(question).length === 0) return;
 
     // append a card containing the question to the history element
@@ -103,7 +107,7 @@ function createTossupCard(question, packetNumber, questionNumber) {
 
     let cardFooterText = document.createElement('small');
     cardFooterText.className = 'text-muted';
-    cardFooterText.innerHTML = `${document.getElementById('set-name').value} / ${question.category} / ${question.subcategory}`;
+    cardFooterText.innerHTML = `${setName} / ${question.category} / ${question.subcategory}`;
     cardFooter.appendChild(cardFooterText);
 
     let cardFooterText2 = document.createElement('small');
@@ -121,7 +125,7 @@ function createTossupCard(question, packetNumber, questionNumber) {
 }
 
 
-function isTouchDevice(){
+function isTouchDevice() {
     return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
 }
 
@@ -135,28 +139,7 @@ function isTouchDevice(){
 function isValidCategory(question, validCategories, validSubcategories) {
     if (validCategories.length === 0 && validSubcategories.length === 0) return true;
 
-    // check if the subcategory is explicitly included (overrides missing category)
-    if (question.subcategory && validSubcategories.includes(question.subcategory)) return true;
-
-    // check if category is excluded (and subcategory is excluded)
-    if (!validCategories.includes(question['category'])) return false;
-
-    // at this point, the question category is included in the list of valid categories 
-    // check for the case where none of the subcategories are selected but the category is;
-    // in which case, the question is valid
-    if (!question.subcategory) return true;
-
-    // check to see if the category has no corresponding subcategories
-    let index = CATEGORIES.indexOf(question['category']);
-    if (!(index in SUBCATEGORIES)) return true;
-
-    // check to see if none of the subcategories of the question are selected
-    for (let i = 0; i < SUBCATEGORIES[index].length; i++) {
-        if (validSubcategories.includes(SUBCATEGORIES[index][i])) return false;
-    }
-
-    // if there are no subcategories selected in the field, then it is valid
-    return true;
+    return validCategories.includes(question.category) && validSubcategories.includes(question.subcategory);
 }
 
 
@@ -169,27 +152,39 @@ function isValidCategory(question, validCategories, validSubcategories) {
 function loadCategoryModal(validCategories, validSubcategories) {
     document.querySelectorAll('#categories input').forEach(element => element.checked = false);
     document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#subcategories label').forEach(element => element.classList.remove('d-none'));
 
-    if (validCategories.length === 0) {
-        validSubcategories.forEach(subcat => {
-            document.getElementById(subcat).checked = true;
-        });
-        return;
+    if (validSubcategories.length > 0) {
+        document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
+    } else {
+        document.querySelectorAll('#subcategories label').forEach(element => element.classList.remove('d-none'));
     }
 
-    CATEGORIES.forEach((cat, index) => {
-        document.getElementById(cat).checked = validCategories.includes(cat);
-        if (validCategories.includes(cat)) {
-            if (index in SUBCATEGORIES) {
-                SUBCATEGORIES[index].forEach(subcat => {
-                    document.getElementById(subcat).checked = validSubcategories && validSubcategories.includes(subcat);
-                });
-            }
-        } else if (index in SUBCATEGORIES) {
-            SUBCATEGORIES[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.add('d-none'));
-        }
+    validCategories.forEach(category => {
+        document.getElementById(category).checked = true;
     });
+
+    validSubcategories.forEach(subcategory => {
+        document.getElementById(subcategory).checked = true;
+        document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
+    });
+}
+
+
+/**
+ * Toggles pausing or resuming the tossup.
+ */
+function pause() {
+    if (paused) {
+        document.getElementById('buzz').removeAttribute('disabled');
+        document.getElementById('pause').innerHTML = 'Pause';
+        recursivelyPrintTossup();
+    }
+    else {
+        document.getElementById('buzz').setAttribute('disabled', 'disabled');
+        document.getElementById('pause').innerHTML = 'Resume';
+        clearTimeout(timeoutID);
+    }
+    paused = !paused;
 }
 
 
@@ -233,41 +228,12 @@ function rangeToArray(string, max = 0) {
  * @returns `[validCategories, validSubcategories]`
  */
 function updateCategory(category, validCategories, validSubcategories) {
-    if (validCategories.length === 0) { // selecting a category when no categories are currently selected
-        validCategories.push(category);
-
-        let index = CATEGORIES.indexOf(category);
-        document.querySelectorAll('#subcategories label').forEach(label => {
-            if (!(index in SUBCATEGORIES) || !SUBCATEGORIES[index].includes(label.getAttribute('for'))) {
-                label.classList.add('d-none');
-                document.getElementById(label.getAttribute('for')).checked = false;
-                validSubcategories = validSubcategories.filter(a => a !== label.getAttribute('for'));
-            }
-        });
-    } else if (validCategories.includes(category)) { // remove category
+    if (validCategories.includes(category)) {
         validCategories = validCategories.filter(a => a !== category);
-
-        let index = CATEGORIES.indexOf(category);
-        if (index in SUBCATEGORIES) { // remove all subcats associated with the category
-            SUBCATEGORIES[index].forEach(subcat => {
-                document.querySelector(`[for="${subcat}"]`).classList.add('d-none');
-                document.getElementById(subcat).checked = false;
-                validSubcategories = validSubcategories.filter(a => a !== subcat);
-            });
-        }
-
-        if (validCategories.length === 0) {
-            document.querySelectorAll('#subcategories label').forEach(label => {
-                label.classList.remove('d-none');
-            });
-        }
+        validSubcategories = validSubcategories.filter(a => !SUBCATEGORIES[category].includes(a));
     } else {
         validCategories.push(category);
-
-        let index = CATEGORIES.indexOf(category);
-        if (index in SUBCATEGORIES) {
-            SUBCATEGORIES[index].forEach(subcat => document.querySelector(`[for="${subcat}"]`).classList.remove('d-none'));
-        }
+        validSubcategories = validSubcategories.concat(SUBCATEGORIES[category]);
     }
 
     return [validCategories, validSubcategories];
@@ -283,7 +249,6 @@ function updateCategory(category, validCategories, validSubcategories) {
  */
 function updateSubcategory(subcategory, validSubcategories) {
     if (validSubcategories.includes(subcategory)) {
-        // remove subcat:
         validSubcategories = validSubcategories.filter(a => a !== subcategory);
     } else {
         validSubcategories.push(subcategory);

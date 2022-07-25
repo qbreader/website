@@ -6,18 +6,21 @@ var rooms = {};
 
 
 async function goToNextQuestion(roomName) {
-    let data = await database.getNextQuestion(rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].questionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
+    var nextQuestion;
+    if (rooms[roomName].selectByDifficulty) {
+        nextQuestion = await database.getNextQuestion(rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].questionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
+    } else {
+        nextQuestion = await database.getRandomQuestion('tossup', rooms[roomName].difficulties, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
+        rooms[roomName].setName = nextQuestion.setName;
+    }
 
-    rooms[roomName].isEndOfSet = Object.keys(data).length === 0;
-    // if (data.isEndOfSet) {
-    //     return;
-    // }
+    rooms[roomName].endOfSet = Object.keys(nextQuestion).length === 0;
 
-    rooms[roomName].isQuestionInProgress = true;
-    rooms[roomName].question = data;
-    rooms[roomName].packetNumbers = rooms[roomName].packetNumbers.filter(packetNumber => packetNumber >= data.packetNumber);
-    rooms[roomName].packetNumber = data.packetNumber;
-    rooms[roomName].questionNumber = data.questionNumber;
+    rooms[roomName].questionInProgress = true;
+    rooms[roomName].question = nextQuestion;
+    rooms[roomName].packetNumbers = rooms[roomName].packetNumbers.filter(packetNumber => packetNumber >= nextQuestion.packetNumber);
+    rooms[roomName].packetNumber = nextQuestion.packetNumber;
+    rooms[roomName].questionNumber = nextQuestion.questionNumber;
 }
 
 
@@ -26,20 +29,14 @@ async function goToNextQuestion(roomName) {
  */
 async function parseMessage(roomName, message) {
     switch (message.type) {
-        case 'toggle-visibility':
-            rooms[roomName].isPublic = message.isPublic;
-            return message;
-        case 'toggle-multiple-buzzes':
-            rooms[roomName].allowMultipleBuzzes = message.allowMultipleBuzzes;
-            return message;
-        case 'join':
-            createPlayer(roomName, message.userId, message.username);
-            return message;
         case 'change-username':
             updateUsername(roomName, message.userId, message.username);
             return message;
         case 'clear-stats':
             createPlayer(roomName, message.userId, message.username, true);
+            return message;
+        case 'difficulties':
+            rooms[roomName].difficulties = message.value;
             return message;
         case 'give-answer':
             let score = quizbowl.scoreTossup(rooms[roomName].question.answer, message.givenAnswer, message.inPower, message.endOfQuestion);
@@ -47,9 +44,15 @@ async function parseMessage(roomName, message) {
             message.celerity = rooms[roomName].players[message.userId].celerity.correct.average;
             message.score = score;
             return message;
-        case 'set-name':
-            rooms[roomName].setName = message.value;
-            rooms[roomName].questionNumber = -1;
+        case 'join':
+            createPlayer(roomName, message.userId, message.username);
+            return message;
+        case 'leave':
+            delete rooms[roomName].players[message.userId];
+            return message;
+        case 'next':
+        case 'start':
+            await goToNextQuestion(roomName);
             return message;
         case 'packet-number':
             rooms[roomName].packetNumbers = message.value;
@@ -59,16 +62,24 @@ async function parseMessage(roomName, message) {
         case 'reading-speed':
             rooms[roomName].readingSpeed = message.value;
             return message;
+        case 'set-name':
+            rooms[roomName].setName = message.value;
+            rooms[roomName].questionNumber = -1;
+            return message;
+        case 'toggle-multiple-buzzes':
+            rooms[roomName].allowMultipleBuzzes = message.allowMultipleBuzzes;
+            return message;
+        case 'toggle-select-by-difficulty':
+            rooms[roomName].selectByDifficulty = message.selectByDifficulty;
+            rooms[roomName].setName = message.setName;
+            rooms[roomName].questionNumber = -1;
+            return message;
+        case 'toggle-visibility':
+            rooms[roomName].isPublic = message.isPublic;
+            return message;
         case 'update-categories':
             rooms[roomName].validCategories = message.categories;
             rooms[roomName].validSubcategories = message.subcategories;
-            return message;
-        case 'leave':
-            delete rooms[roomName].players[message.userId];
-            return message;
-        case 'start':
-        case 'next':
-            await goToNextQuestion(roomName);
             return message;
         default:
             return message;
@@ -109,6 +120,7 @@ function createPlayer(roomName, userId, username, overrideExistingPlayer = false
 function createRoom(roomName) {
     rooms[roomName] = {
         players: {},
+        difficulties: [4, 5],
         setName: '2022 PACE NSC',
         packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
         packetNumber: 1,
@@ -117,10 +129,11 @@ function createRoom(roomName) {
         validCategories: [],
         validSubcategories: [],
         question: {},
-        isEndOfSet: false,
-        isQuestionInProgress: false,
-        isPublic: true,
-        allowMultipleBuzzes: false
+        endOfSet: false,
+        questionInProgress: false,
+        public: true,
+        allowMultipleBuzzes: true,
+        selectByDifficulty: false
     }
 }
 
@@ -132,7 +145,7 @@ function deleteRoom(roomName) {
 
 function getCurrentQuestion(roomName) {
     return {
-        isEndOfSet: rooms[roomName].isEndOfSet,
+        endOfSet: rooms[roomName].endOfSet,
         question: rooms[roomName].question,
         packetNumber: rooms[roomName].packetNumber,
         questionNumber: rooms[roomName].questionNumber,
@@ -180,7 +193,7 @@ function updateScore(roomName, userId, score, celerity) {
         for (let player in rooms[roomName].players) {
             rooms[roomName].players[player].tuh++;
         }
-        rooms[roomName].isQuestionInProgress = false;
+        rooms[roomName].questionInProgress = false;
 
         let numCorrect = rooms[roomName].players[userId].powers + rooms[roomName].players[userId].tens;
         rooms[roomName].players[userId].celerity.correct.total += celerity;

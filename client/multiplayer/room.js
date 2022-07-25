@@ -8,14 +8,13 @@ var oldValidCategories = [];
 var oldValidSubcategories = [];
 var validCategories = [];
 var validSubcategories = [];
-var question = {}
-/**
- * WARNING: 1-indexed (instead of 0-indexed, like in singleplayer)
- */
-var questionNumber = -1;
-var packetNumber = -1;
-var timeoutID = -1;
 var changedCategories = false;
+var question = {}
+var difficulties;
+var setName;
+var questionNumber = -1; // WARNING: 1-indexed (instead of 0-indexed, like in singleplayer)
+var packetNumber = -1;
+var timeoutID = -1
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(() => {
@@ -27,8 +26,8 @@ async function loadAndReadTossup() {
     return await fetch(`/api/multiplayer/current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
-            if (data.isEndOfSet) {
-                alert('You have reached the end of the set.');
+            if (data.endOfSet) {
+                alert('No questions found.');
                 return false;
             }
             // Stop reading the current question:
@@ -37,13 +36,14 @@ async function loadAndReadTossup() {
             currentlyBuzzing = false;
             paused = false;
             question = data.question;
+            setName = data.setName;
             packetNumber = data.packetNumber;
             questionNumber = data.questionNumber;
             questionText = question.question;
             questionTextSplit = questionText.split(' ');
 
             // Update question text:
-            document.getElementById('set-title-info').innerHTML = data.setName;
+            document.getElementById('set-name-info').innerHTML = data.setName;
             document.getElementById('packet-number-info').innerHTML = data.packetNumber;
             document.getElementById('question-number-info').innerHTML = data.questionNumber;
             document.getElementById('question').innerHTML = '';
@@ -67,20 +67,22 @@ async function processSocketMessage(data) {
         case 'user-id':
             USER_ID = data.userId;
             break;
-        case 'join':
-            logEvent(data.username, `joined the game`);
-            createPlayerAccordionItem(data);
-            sortPlayerAccordion();
+        case 'buzz':
+            processBuzz(data.userId, data.username);
             break;
         case 'change-username':
             logEvent(data.oldUsername, 'changed their username to ' + data.username);
             document.getElementById('accordion-button-username-' + data.userId).innerHTML = data.username;
             sortPlayerAccordion();
             break;
+        case 'chat':
+            logEvent(data.username, `says "${data.message}"`);
+            break;
         case 'clear-stats':
             clearStats(data.userId);
             sortPlayerAccordion();
             break;
+        case 'difficulties':
         case 'packet-number':
             data.value = arrayToRange(data.value);
         case 'set-name':
@@ -91,23 +93,20 @@ async function processSocketMessage(data) {
             }
             document.getElementById(data.type).value = data.value;
             break;
-        case 'reading-speed':
-            logEvent(data.username, `changed the reading speed to ${data.value}`);
-            document.getElementById('reading-speed').value = data.value;
-            document.getElementById('reading-speed-display').innerHTML = data.value;
+        case 'give-answer':
+            processAnswer(data.userId, data.username, data.givenAnswer, data.score, data.celerity);
             break;
-        case 'update-categories':
-            if (!arraysEqual(oldValidCategories, data.categories) || !arraysEqual(oldValidSubcategories, data.subcategories)) {
-                logEvent(data.username, `updated the categories`);
-                oldValidCategories = [...data.categories];
-                oldValidSubcategories = [...data.subcategories];
-            }
-            validCategories = data.categories;
-            validSubcategories = data.subcategories;
-            loadCategoryModal(validCategories, validSubcategories);
+        case 'join':
+            logEvent(data.username, `joined the game`);
+            createPlayerAccordionItem(data);
+            sortPlayerAccordion();
+            break;
+        case 'leave':
+            logEvent(data.username, `left the game`);
+            document.getElementById('accordion-' + data.userId).remove();
             break;
         case 'next':
-            createTossupCard(question, packetNumber, questionNumber);
+            createTossupCard(question, setName, packetNumber, questionNumber);
             if (await loadAndReadTossup()) {
                 if (document.getElementById('next').innerHTML === 'Skip') {
                     logEvent(data.username, `skipped the question`);
@@ -117,38 +116,47 @@ async function processSocketMessage(data) {
                 }
             }
             break;
-        case 'start':
-            loadAndReadTossup();
-            logEvent(data.username, `started the game`);
-            break;
-        case 'buzz':
-            processBuzz(data.userId, data.username);
-            break;
-        case 'give-answer':
-            processAnswer(data.userId, data.username, data.givenAnswer, data.score, data.celerity);
-            break;
         case 'pause':
             logEvent(data.username, `${paused ? 'un' : ''}paused the game`);
             pause();
             break;
-        case 'leave':
-            logEvent(data.username, `left the game`);
-            document.getElementById('accordion-' + data.userId).remove();
+        case 'reading-speed':
+            logEvent(data.username, `changed the reading speed to ${data.value}`);
+            document.getElementById('reading-speed').value = data.value;
+            document.getElementById('reading-speed-display').innerHTML = data.value;
+            break;
+        case 'start':
+            loadAndReadTossup();
+            logEvent(data.username, `started the game`);
+            break;
+        case 'toggle-multiple-buzzes':
+            logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
+            document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
+            break;
+        case 'toggle-select-by-difficulty':
+            logEvent(data.username, `${data.selectByDifficulty ? 'enabled' : 'disabled'} select by set name`);
+            if (data.selectByDifficulty) {
+                document.getElementById('difficulty-settings').classList.add('d-none');
+                document.getElementById('set-settings').classList.remove('d-none');
+            } else {
+                document.getElementById('difficulty-settings').classList.remove('d-none');
+                document.getElementById('set-settings').classList.add('d-none');
+            }
             break;
         case 'toggle-visibility':
             logEvent(data.username, `made the room ${data.isPublic ? 'public' : 'private'}`);
             document.getElementById('toggle-visibility').checked = data.isPublic;
             document.getElementById('chat').disabled = data.isPublic;
             break;
-        case 'chat':
-            logEvent(data.username, `says "${data.message}"`);
-            break;
-        case 'toggle-multiple-buzzes':
-            logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
-            document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
+        case 'update-categories':
+            logEvent(data.username, `updated the categories`);
+            validCategories = data.categories;
+            validSubcategories = data.subcategories;
+            loadCategoryModal(validCategories, validSubcategories);
             break;
     }
 }
+
 
 /** Check if two arrays have the same elements, in any order.
  * @param {Array<String>} arr1
@@ -163,6 +171,13 @@ function arraysEqual(arr1, arr2) {
         if (!arr1.includes(arr2[i])) return false;
     }
     return true;
+}
+
+
+function clearStats(userId) {
+    Array.from(document.getElementsByClassName('stats-' + userId)).forEach(element => {
+        element.innerHTML = '0';
+    });
 }
 
 
@@ -183,13 +198,6 @@ function connectToWebSocket() {
         console.log('Disconnected from websocket');
         clearInterval(PING_INTERVAL_ID);
     }
-}
-
-
-function clearStats(userId) {
-    Array.from(document.getElementsByClassName('stats-' + userId)).forEach(element => {
-        element.innerHTML = '0';
-    });
 }
 
 
@@ -297,24 +305,6 @@ function logEvent(username, message) {
     let div = document.createElement('li');
     div.appendChild(i);
     document.getElementById('room-history').prepend(div);
-}
-
-
-/**
- * Toggles pausing or resuming the tossup.
- */
-function pause() {
-    if (paused) {
-        document.getElementById('buzz').removeAttribute('disabled');
-        document.getElementById('pause').innerHTML = 'Pause';
-        recursivelyPrintTossup();
-    }
-    else {
-        document.getElementById('buzz').setAttribute('disabled', 'disabled');
-        document.getElementById('pause').innerHTML = 'Resume';
-        clearTimeout(timeoutID);
-    }
-    paused = !paused;
 }
 
 
@@ -467,13 +457,18 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 });
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-    socket.send(JSON.stringify({ type: 'update-categories', username: username, categories: validCategories, subcategories: validSubcategories }));
+    if (!arraysEqual(oldValidCategories, validCategories) || !arraysEqual(oldValidSubcategories, validSubcategories)) {
+        oldValidCategories = [...validCategories];
+        oldValidSubcategories = [...validSubcategories];
+        socket.send(JSON.stringify({ type: 'update-categories', username: username, categories: validCategories, subcategories: validSubcategories }));
+    }
 });
 
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
+        loadCategoryModal(validCategories, validSubcategories);
     });
 });
 
@@ -481,6 +476,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         validSubcategories = updateSubcategory(input.id, validSubcategories);
+        loadCategoryModal(validCategories, validSubcategories);
     });
 });
 
@@ -488,6 +484,11 @@ document.getElementById('username').addEventListener('change', function () {
     socket.send(JSON.stringify({ type: 'change-username', userId: USER_ID, oldUsername: username, username: this.value }));
     username = this.value;
     localStorage.setItem('username', username);
+});
+
+document.getElementById('difficulties').addEventListener('change', function () {
+    let difficulties = rangeToArray(this.value);
+    socket.send(JSON.stringify({ type: 'difficulties', value: difficulties }));
 });
 
 document.getElementById('set-name').addEventListener('change', async function () {
@@ -503,10 +504,6 @@ document.getElementById('set-name').addEventListener('change', async function ()
 
 document.getElementById('packet-number').addEventListener('change', function () {
     socket.send(JSON.stringify({ type: 'packet-number', username: username, value: rangeToArray(this.value, maxPacketNumber) }));
-});
-
-document.getElementById('question-number').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'question-number', username: username, value: this.value }));
 });
 
 document.getElementById('reading-speed').addEventListener('input', function () {
@@ -525,6 +522,11 @@ document.getElementById('toggle-visibility').addEventListener('click', function 
 document.getElementById('toggle-multiple-buzzes').addEventListener('click', function () {
     this.blur();
     socket.send(JSON.stringify({ type: 'toggle-multiple-buzzes', userId: USER_ID, username: username, allowMultipleBuzzes: this.checked }));
+});
+
+document.getElementById('toggle-select-by-difficulty').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-select-by-difficulty', userId: USER_ID, username: username, setName: document.getElementById('set-name').value, selectByDifficulty: this.checked })); 
 });
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
@@ -569,41 +571,46 @@ window.onload = () => {
     connectToWebSocket();
     fetch(`/api/multiplayer/room?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
-        .then(data => {
-            packetNumber = data.packetNumber || 0;
-            questionNumber = data.questionNumber || 0;
-            document.getElementById('set-name').value = data.setName || '';
-            document.getElementById('packet-number').value = arrayToRange(data.packetNumbers) || '';
+        .then(room => {
+            question = room.question;
+            setName = room.setName || '';
+            packetNumber = room.packetNumber || 0;
+            questionNumber = room.questionNumber || 0;
+            difficulties = room.difficulties || [];
+            validCategories = room.validCategories || [];
+            validSubcategories = room.validSubcategories || [];
 
-            document.getElementById('set-title-info').innerHTML = data.setName || '';
+            document.getElementById('difficulties').value = arrayToRange(difficulties);
+            document.getElementById('set-name').value = setName;
+            document.getElementById('packet-number').value = arrayToRange(room.packetNumbers) || '';
+
+            document.getElementById('set-name-info').innerHTML = setName;
             document.getElementById('packet-number-info').innerHTML = packetNumber || '-';
             document.getElementById('question-number-info').innerHTML = questionNumber || '-';
 
-            document.getElementById('toggle-visibility').checked = data.isPublic;
-            document.getElementById('chat').disabled = data.isPublic;
-            document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
-
-            validCategories = data.validCategories || [];
-            validSubcategories = data.validSubcategories || [];
+            document.getElementById('reading-speed').value = room.readingSpeed;
+            document.getElementById('reading-speed-display').innerHTML = room.readingSpeed;
+            document.getElementById('toggle-visibility').checked = room.public;
+            document.getElementById('chat').disabled = room.public;
+            document.getElementById('toggle-multiple-buzzes').checked = room.allowMultipleBuzzes;
             loadCategoryModal(validCategories, validSubcategories);
 
-            question = data.question;
-            if (data.isQuestionInProgress) {
+            if (room.questionInProgress) {
                 document.getElementById('question').innerHTML = 'Question in progress...';
                 document.getElementById('next').disabled = true;
             } else if (Object.keys(question).length > 0) {
-                document.getElementById('question').innerHTML = data.question.question;
-                document.getElementById('answer').innerHTML = 'ANSWER: ' + data.question.answer;
+                document.getElementById('question').innerHTML = room.question.question;
+                document.getElementById('answer').innerHTML = 'ANSWER: ' + room.question.answer;
             } else {
                 document.getElementById('next').innerHTML = 'Start';
                 document.getElementById('next').classList.remove('btn-primary');
                 document.getElementById('next').classList.add('btn-success');
             }
 
-            Object.keys(data.players).forEach(player => {
-                if (data.players[player].userId === USER_ID) return;
-                data.players[player].celerity = data.players[player].celerity.correct.average;
-                createPlayerAccordionItem(data.players[player]);
+            Object.keys(room.players).forEach(player => {
+                if (room.players[player].userId === USER_ID) return;
+                room.players[player].celerity = room.players[player].celerity.correct.average;
+                createPlayerAccordionItem(room.players[player]);
             });
         });
 }

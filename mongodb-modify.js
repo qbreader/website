@@ -24,20 +24,7 @@ client.connect().then(() => {
 
         counter++;
 
-        sets.updateOne({ _id: set._id }, {
-            $push: {
-                packets: {
-                    $each: [],
-                    $sort: {
-                        name: 1
-                    }
-                }
-            }
-        });
-
-        set.packets.forEach(packet => {
-            questions.updateMany({ packet: packet._id }, { $set: { packetNumber: packet.name } });
-        })
+        questions.updateMany({ set: set._id }, { $set: { difficulty: set.difficulty } });
     });
     console.log('success');
 });

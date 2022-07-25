@@ -125,7 +125,7 @@ async function loadAndReadTossup() {
     } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
 
     if (questions.length > 0) {
-        document.getElementById('set-title-info').innerHTML = setName;
+        document.getElementById('set-name-info').innerHTML = setName;
         document.getElementById('packet-number-info').innerHTML = packetNumber;
         document.getElementById('question-number-info').innerHTML = questionNumber + 1;
         document.getElementById('question').innerHTML = '';
@@ -142,24 +142,6 @@ async function loadAndReadTossup() {
         // Read the question:
         recursivelyPrintTossup();
     }
-}
-
-
-/**
- * Toggles pausing or resuming the tossup.
- */
-function pause() {
-    if (paused) {
-        document.getElementById('buzz').removeAttribute('disabled');
-        document.getElementById('pause').innerHTML = 'Pause';
-        recursivelyPrintTossup();
-    }
-    else {
-        document.getElementById('buzz').setAttribute('disabled', 'disabled');
-        document.getElementById('pause').innerHTML = 'Resume';
-        clearTimeout(timeoutID);
-    }
-    paused = !paused;
 }
 
 
@@ -287,7 +269,7 @@ document.getElementById('pause').addEventListener('click', function () {
 
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
-    createTossupCard(questions[questionNumber], packetNumber, questionNumber + 1);
+    createTossupCard(questions[questionNumber], setName, packetNumber, questionNumber + 1);
     await loadAndReadTossup();
 });
 

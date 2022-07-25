@@ -76,6 +76,7 @@ document.querySelectorAll('#categories input').forEach(input => {
         validCategories = JSON.parse(localStorage.getItem('validCategories'));
         validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
         [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
+        loadCategoryModal(validCategories, validSubcategories);
         localStorage.setItem('validCategories', JSON.stringify(validCategories));
         localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
     });
@@ -86,6 +87,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         validSubcategories = updateSubcategory(input.id, validSubcategories);
+        loadCategoryModal(validCategories, validSubcategories);
         localStorage.setItem('validSubcategories', JSON.stringify(validSubcategories));
     });
 });
