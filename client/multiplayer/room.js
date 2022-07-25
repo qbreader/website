@@ -414,121 +414,6 @@ function sortPlayerAccordion(descending = true) {
 }
 
 
-document.getElementById('buzz').addEventListener('click', function () {
-    this.blur();
-    document.getElementById('answer-input-group').classList.remove('d-none');
-    document.getElementById('answer-input').focus();
-    socket.send(JSON.stringify({ type: 'buzz', userId: USER_ID, username: username }));
-});
-
-document.getElementById('pause').addEventListener('click', function () {
-    this.blur();
-    socket.send(JSON.stringify({ type: 'pause', userId: USER_ID, username: username }));
-});
-
-document.getElementById('next').addEventListener('click', function () {
-    this.blur();
-    if (document.getElementById('set-name').value === '') {
-        alert('Please choose a set.');
-        return;
-    }
-
-    if (document.getElementById('next').innerHTML === 'Start') {
-        socket.send(JSON.stringify({ type: 'start', userId: USER_ID, username: username }));
-    } else {
-        socket.send(JSON.stringify({ type: 'next', userId: USER_ID, username: username }));
-    }
-
-    document.getElementById('options').classList.add('d-none');
-    document.getElementById('next').classList.add('btn-primary');
-    document.getElementById('next').classList.remove('btn-success');
-    document.getElementById('next').innerHTML = 'Next';
-});
-
-document.getElementById('chat').addEventListener('click', function (event) {
-    this.blur();
-    document.getElementById('chat-input-group').classList.remove('d-none');
-    document.getElementById('chat-input').focus();
-});
-
-document.getElementById('clear-stats').addEventListener('click', function () {
-    this.blur();
-    socket.send(JSON.stringify({ type: 'clear-stats', userId: USER_ID, username: username }));
-});
-
-document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-    if (!arraysEqual(oldValidCategories, validCategories) || !arraysEqual(oldValidSubcategories, validSubcategories)) {
-        oldValidCategories = [...validCategories];
-        oldValidSubcategories = [...validSubcategories];
-        socket.send(JSON.stringify({ type: 'update-categories', username: username, categories: validCategories, subcategories: validSubcategories }));
-    }
-});
-
-document.querySelectorAll('#categories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
-        loadCategoryModal(validCategories, validSubcategories);
-    });
-});
-
-document.querySelectorAll('#subcategories input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        this.blur();
-        validSubcategories = updateSubcategory(input.id, validSubcategories);
-        loadCategoryModal(validCategories, validSubcategories);
-    });
-});
-
-document.getElementById('username').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'change-username', userId: USER_ID, oldUsername: username, username: this.value }));
-    username = this.value;
-    localStorage.setItem('username', username);
-});
-
-document.getElementById('difficulties').addEventListener('change', function () {
-    let difficulties = rangeToArray(this.value);
-    socket.send(JSON.stringify({ type: 'difficulties', value: difficulties }));
-});
-
-document.getElementById('set-name').addEventListener('change', async function () {
-    maxPacketNumber = await getNumPackets(this.value);
-    if (this.value === '') {
-        document.getElementById('packet-number').value = '';
-    } else {
-        document.getElementById('packet-number').value = `1-${maxPacketNumber}`;
-    }
-
-    socket.send(JSON.stringify({ type: 'set-name', username: username, value: this.value }));
-});
-
-document.getElementById('packet-number').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'packet-number', username: username, value: rangeToArray(this.value, maxPacketNumber) }));
-});
-
-document.getElementById('reading-speed').addEventListener('input', function () {
-    document.getElementById('reading-speed-display').innerHTML = this.value;
-});
-
-document.getElementById('reading-speed').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'reading-speed', userId: USER_ID, username: username, value: this.value }));
-});
-
-document.getElementById('toggle-visibility').addEventListener('click', function () {
-    this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-visibility', userId: USER_ID, username: username, isPublic: this.checked }));
-});
-
-document.getElementById('toggle-multiple-buzzes').addEventListener('click', function () {
-    this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-multiple-buzzes', userId: USER_ID, username: username, allowMultipleBuzzes: this.checked }));
-});
-
-document.getElementById('toggle-select-by-difficulty').addEventListener('click', function () {
-    this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-select-by-difficulty', userId: USER_ID, username: username, setName: document.getElementById('set-name').value, selectByDifficulty: this.checked })); 
-});
-
 document.getElementById('answer-form').addEventListener('submit', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -551,6 +436,32 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     }));
 });
 
+
+document.getElementById('buzz').addEventListener('click', function () {
+    this.blur();
+    document.getElementById('answer-input-group').classList.remove('d-none');
+    document.getElementById('answer-input').focus();
+    socket.send(JSON.stringify({ type: 'buzz', userId: USER_ID, username: username }));
+});
+
+
+
+document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
+    if (!arraysEqual(oldValidCategories, validCategories) || !arraysEqual(oldValidSubcategories, validSubcategories)) {
+        oldValidCategories = [...validCategories];
+        oldValidSubcategories = [...validSubcategories];
+        socket.send(JSON.stringify({ type: 'update-categories', username: username, categories: validCategories, subcategories: validSubcategories }));
+    }
+});
+
+
+document.getElementById('chat').addEventListener('click', function (event) {
+    this.blur();
+    document.getElementById('chat-input-group').classList.remove('d-none');
+    document.getElementById('chat-input').focus();
+});
+
+
 document.getElementById('chat-form').addEventListener('submit', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -562,6 +473,114 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
     if (message.length === 0) return;
 
     socket.send(JSON.stringify({ type: 'chat', userId: USER_ID, username: username, message: message }));
+});
+
+
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'clear-stats', userId: USER_ID, username: username }));
+});
+
+
+document.getElementById('difficulties').addEventListener('change', function () {
+    let difficulties = rangeToArray(this.value);
+    socket.send(JSON.stringify({ type: 'difficulties', value: difficulties }));
+});
+
+
+document.getElementById('next').addEventListener('click', function () {
+    this.blur();
+    if (document.getElementById('set-name').value === '') {
+        alert('Please choose a set.');
+        return;
+    }
+
+    if (document.getElementById('next').innerHTML === 'Start') {
+        socket.send(JSON.stringify({ type: 'start', userId: USER_ID, username: username }));
+    } else {
+        socket.send(JSON.stringify({ type: 'next', userId: USER_ID, username: username }));
+    }
+
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('next').classList.add('btn-primary');
+    document.getElementById('next').classList.remove('btn-success');
+    document.getElementById('next').innerHTML = 'Next';
+});
+
+
+document.getElementById('packet-number').addEventListener('change', function () {
+    socket.send(JSON.stringify({ type: 'packet-number', username: username, value: rangeToArray(this.value, maxPacketNumber) }));
+});
+
+
+document.getElementById('pause').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'pause', userId: USER_ID, username: username }));
+});
+
+
+document.getElementById('reading-speed').addEventListener('change', function () {
+    socket.send(JSON.stringify({ type: 'reading-speed', userId: USER_ID, username: username, value: this.value }));
+});
+
+
+document.getElementById('reading-speed').addEventListener('input', function () {
+    document.getElementById('reading-speed-display').innerHTML = this.value;
+});
+
+
+document.getElementById('set-name').addEventListener('change', async function () {
+    maxPacketNumber = await getNumPackets(this.value);
+    if (this.value === '') {
+        document.getElementById('packet-number').value = '';
+    } else {
+        document.getElementById('packet-number').value = `1-${maxPacketNumber}`;
+    }
+
+    socket.send(JSON.stringify({ type: 'set-name', username: username, value: this.value }));
+});
+
+
+document.getElementById('toggle-multiple-buzzes').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-multiple-buzzes', userId: USER_ID, username: username, allowMultipleBuzzes: this.checked }));
+});
+
+
+document.getElementById('toggle-select-by-difficulty').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-select-by-difficulty', userId: USER_ID, username: username, setName: document.getElementById('set-name').value, selectByDifficulty: this.checked })); 
+});
+
+
+document.getElementById('toggle-visibility').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-visibility', userId: USER_ID, username: username, isPublic: this.checked }));
+});
+
+
+document.getElementById('username').addEventListener('change', function () {
+    socket.send(JSON.stringify({ type: 'change-username', userId: USER_ID, oldUsername: username, username: this.value }));
+    username = this.value;
+    localStorage.setItem('username', username);
+});
+
+
+document.querySelectorAll('#categories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
+        loadCategoryModal(validCategories, validSubcategories);
+    });
+});
+
+
+document.querySelectorAll('#subcategories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        validSubcategories = updateSubcategory(input.id, validSubcategories);
+        loadCategoryModal(validCategories, validSubcategories);
+    });
 });
 
 
