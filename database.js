@@ -93,10 +93,10 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
         let result = {};
 
         if (allowedTypes.includes('tossups')) {
-            result['tossups'] = await QUESTIONS.find({ _id: { $in: packet.tossups } }).toArray();
+            result['tossups'] = await QUESTIONS.find({ packet: packet._id, type: 'tossup' }).toArray();
         }
         if (allowedTypes.includes('bonuses')) {
-            result['bonuses'] = await QUESTIONS.find({ _id: { $in: packet.bonuses } }).toArray();
+            result['bonuses'] = await QUESTIONS.find({ packet: packet._id, type: 'bonus' }).toArray();
         }
 
         return result;
