@@ -66,7 +66,10 @@ client.connect().then(() => {
             }
             set.packets.push(packet);
         });
-        sets.insertOne(set);
+        sets.insertOne(set, (err, result) => {
+            if (err) console.log(err);
+            console.log(setName + ' inserted');
+        });
     });
     console.log('success');
 });
