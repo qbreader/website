@@ -27,7 +27,7 @@ client.connect().then(async () => {
 
 
 /**
- * @param {String} setName - the name of the set (e.g. "2021 PACE").
+ * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @returns {Number} the number of packets in the set.
  */
 async function getNumPackets(setName) {
@@ -80,7 +80,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
 
 
 /**
- * @param {String} setName - the name of the set (e.g. "2021 PACE").
+ * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @param {Number} packetNumber - **one-indexed** packet number
  * @param {Array<String>} allowedTypes Array of allowed types. Default: `['tossups', 'bonuses]`
  * If only one allowed type is specified, only that type will be searched for (increasing query speed).
