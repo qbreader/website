@@ -1,5 +1,5 @@
 /**
- * @param {String} setName - The name of the set (e.g. "2021 PACE").
+ * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
  * @return {Array<JSON>} An array containing the bonuses.
  */
@@ -11,7 +11,7 @@ async function getBonuses(setName, packetNumber) {
 
 
 /**
- * @param {String} setName - The name of the set (e.g. "2021 PACE").
+ * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
  * @return {{tossups: Array<JSON>, bonuses: Array<JSON>}} An array containing the questions.
  */
@@ -21,7 +21,7 @@ async function getPacket(setName, packetNumber) {
 
 
 /**
- * @param {String} setName - The name of the set (e.g. "2021 PACE").
+ * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
  * @return {Array<JSON>} An array containing the tossups.
  */
