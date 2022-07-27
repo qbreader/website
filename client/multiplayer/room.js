@@ -144,9 +144,9 @@ async function processSocketMessage(data) {
             }
             break;
         case 'toggle-visibility':
-            logEvent(data.username, `made the room ${data.isPublic ? 'public' : 'private'}`);
-            document.getElementById('toggle-visibility').checked = data.isPublic;
-            document.getElementById('chat').disabled = data.isPublic;
+            logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
+            document.getElementById('toggle-visibility').checked = data.public;
+            document.getElementById('chat').disabled = data.public;
             break;
         case 'update-categories':
             logEvent(data.username, `updated the categories`);
@@ -555,7 +555,7 @@ document.getElementById('toggle-select-by-difficulty').addEventListener('click',
 
 document.getElementById('toggle-visibility').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-visibility', userId: USER_ID, username: username, isPublic: this.checked }));
+    socket.send(JSON.stringify({ type: 'toggle-visibility', userId: USER_ID, username: username, public: this.checked }));
 });
 
 
