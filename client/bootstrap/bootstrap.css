@@ -1,10 +1,20 @@
 @charset "UTF-8";
 .bg-custom {
-  background-color: #faebd7;
+  background-color: #fbefdf;
 }
 
 .card-header {
   cursor: pointer;
+}
+
+#logo {
+  font-family: Inter, "Source Sans Pro", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo-prefix {
+  color: #0080ff;
 }
 
 :root {
