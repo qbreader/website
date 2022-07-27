@@ -154,7 +154,7 @@ function loadCategoryModal(validCategories, validSubcategories) {
     document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
     document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
 
-    if (validSubcategories.length === 0 ) {
+    if (validSubcategories.length === 0) {
         let subcategoryInfoText = document.createElement('div');
         subcategoryInfoText.className = 'text-muted text-center';
         subcategoryInfoText.innerHTML = 'You must select categories before you can select subcategories.';
