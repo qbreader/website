@@ -75,7 +75,7 @@ async function parseMessage(roomName, message) {
             rooms[roomName].questionNumber = -1;
             return message;
         case 'toggle-visibility':
-            rooms[roomName].isPublic = message.isPublic;
+            rooms[roomName].public = message.public;
             return message;
         case 'update-categories':
             rooms[roomName].validCategories = message.categories;
@@ -164,7 +164,7 @@ function getRoom(roomName) {
 function getRoomList(showPrivateRooms = false) {
     let roomList = [];
     for (let room in rooms) {
-        if (rooms[room].isPublic || showPrivateRooms) {
+        if (rooms[room].public || showPrivateRooms) {
             roomList.push([room, Object.keys(rooms[room].players).length]);
         }
     }
