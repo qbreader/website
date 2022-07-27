@@ -17,14 +17,31 @@ client.connect().then(async () => {
     const questions = database.collection('questions');
 
     let counter = 0;
-    await sets.find({name: "2013 NASAT"}).forEach(async set => {
-        if (counter % 10 === 0) {
-            console.log(counter, set.name);
-        }
+    // await sets.find({}).forEach(async set => {
+    //     await questions.updateMany(
+    //         { set: set._id },
+    //         { $set: { difficulty: set.difficulty } },
+    //         (err, result) => {
+    //             if (err) console.log(err);
 
-        counter++;
+    //             console.log(counter, set.name);
+    //             counter++;
+    //         });
+    // });
 
-        questions.updateMany({ set: set._id }, { $set: { difficulty: set.difficulty } });
-    });
+    // let q = await questions.aggregate([
+    //     {
+    //         $match: { $or: [{ answer_formatted: { $exists: true } }, { answers_formatted: { $exists: true } }] }
+    //     },
+    //     {
+    //         $group: { _id: "$set" }
+    //     }
+    // ]).forEach(async set => {
+    //     console.log((await sets.findOne({ _id: set._id }, {projection: {name: 1}})));
+    // });
+
+    // console.log(q);
+
+    // console.log(await questions.updateMany({ set: new ObjectId('62df794b07cf5c5fbc9c7e91') }, {$unset: {answer_formatted: 1, answers_formatted: 1}}));
     console.log('success');
 });
