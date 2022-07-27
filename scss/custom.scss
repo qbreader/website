@@ -12,6 +12,10 @@ $custom: #faebd7;
     background-color: $custom;
 }
 
+.card-header {
+    cursor: pointer;
+}
+
 $font-family-sans-serif: Helvetica, sans-serif;
 
 $link-color: #039;
