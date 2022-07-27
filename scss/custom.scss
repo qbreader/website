@@ -6,7 +6,14 @@
 
 // 2. Include any default variable overrides here
 
-$custom: #faebd7;
+$custom: #fbefdf;
+$logo-color: #0080ff;
+$font-family-sans-serif: Helvetica, sans-serif;
+
+$link-color: #039;
+$link-decoration: none;
+
+$enable-negative-margins: true;
 
 .bg-custom {
     background-color: $custom;
@@ -16,12 +23,15 @@ $custom: #faebd7;
     cursor: pointer;
 }
 
-$font-family-sans-serif: Helvetica, sans-serif;
+#logo {
+    font-family: Inter, 'Source Sans Pro', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
 
-$link-color: #039;
-$link-decoration: none;
-
-$enable-negative-margins: true;
+.logo-prefix {
+    color: $logo-color;
+}
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../node_modules/bootstrap/scss/variables";
