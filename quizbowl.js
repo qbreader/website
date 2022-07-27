@@ -21,6 +21,7 @@ const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "no
 
 function checkAnswerCorrectness(answer, givenAnswer) {
     answer = answer.toLowerCase().trim();
+    answer = answer.replace(/<\/?[bu]>/g, '');
     givenAnswer = givenAnswer.toLowerCase().trim();
 
     if (answer.length === 0 || givenAnswer.length === 0) {

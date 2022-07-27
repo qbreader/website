@@ -40,7 +40,7 @@ async function getNumPackets(setName) {
 }
 
 
-async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossup']) {
+async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossup'], alwaysUseUnformattedAnswer = false) {
     let set = await SETS.findOne({ name: setName }).catch(error => {
         console.log('DATABASE ERROR:', error);
         return {};
@@ -75,6 +75,11 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
         return {};
     });
 
+    console.log(question);
+    if (!alwaysUseUnformattedAnswer && question.hasOwnProperty('answer_formatted')) {
+        question.answer = question.answer_formatted;
+    }
+
     return question || {};
 }
 
@@ -87,7 +92,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
  * The other type will be returned as an empty array.
  * @returns {{tossups: Array<JSON>, bonuses: Array<JSON>}}
  */
-async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses']) {
+async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses'], alwaysUseUnformattedAnswer = false) {
     return await SETS.findOne({ name: setName }).then(async set => {
         let packet = set.packets[packetNumber - 1];
         let result = {};
@@ -97,6 +102,16 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
         }
         if (allowedTypes.includes('bonuses')) {
             result['bonuses'] = await QUESTIONS.find({ packet: packet._id, type: 'bonus' }).toArray();
+        }
+
+        if (!alwaysUseUnformattedAnswer) {
+            for (let type in result) {
+                for (let question of result[type]) {
+                    if (question.hasOwnProperty('answer_formatted')) {
+                        question.answer = question.answer_formatted;
+                    }
+                }
+            }
         }
 
         return result;
