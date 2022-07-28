@@ -13,7 +13,6 @@ client.connect().then(async () => {
 
     const database = client.db('qbreader');
     const sets = database.collection('sets');
-    const packets = database.collection('packets');
     const questions = database.collection('questions');
 
     let counter = 0;
