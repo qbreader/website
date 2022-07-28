@@ -45,7 +45,7 @@ app.use('/api-info', apiInfoRouter);
 app.use('/about', aboutRouter);
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/client/singleplayer/tossups/tossups.html');
+    res.sendFile(__dirname + '/client/singleplayer/tossups.html');
 });
 
 var sockets = {};
