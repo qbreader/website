@@ -596,6 +596,39 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 });
 
 
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
+        // press escape to close chat
+        document.getElementById('chat-input-group').classList.add('d-none');
+    }
+    
+    if (document.activeElement.tagName === 'INPUT') return;
+
+    switch (event.key) {
+        case ' ':
+            // Prevent spacebar from scrolling the page
+            document.getElementById('buzz').click();
+            if (event.target == document.body) event.preventDefault();
+            break;
+        case 'n':
+        case 's':
+            document.getElementById('next').click();
+            break;
+        case 'p':
+            document.getElementById('pause').click();
+            break;
+    }
+});
+
+document.addEventListener('keypress', function (event) {
+    // needs to be keypress
+    // keydown immediately hides the input group
+    // keyup shows the input group again after submission
+    if (event.key === 'Enter' && event.target == document.body) {
+        document.getElementById('chat').click();
+    }
+});
+
 window.onload = () => {
     username = localStorage.getItem('username') || randomUsername();
     document.getElementById('username').value = username;
