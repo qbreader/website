@@ -13,7 +13,6 @@ client.connect().then(() => {
 
     const database = client.db('qbreader');
     const sets = database.collection('sets');
-    const packets = database.collection('packets');
     const questions = database.collection('questions');
 
     const PACKET_DIRECTORY = 'packets/';
