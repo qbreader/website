@@ -14,7 +14,7 @@ const SETS = DATABASE.collection('sets');
 const QUESTIONS = DATABASE.collection('questions');
 
 const SET_LIST = []; // initialized on server load
-await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(set => {
+SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(set => {
     SET_LIST.push(set.name);
 });
 
