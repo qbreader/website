@@ -49,13 +49,16 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     if (validCategories.length === 0) {
         validCategories = CATEGORIES;
     }
+    if (validSubcategories.length === 0) {
+        validSubcategories = SUBCATEGORIES_FLATTENED;
+    }
 
     let question = await QUESTIONS.findOne({
         $or: [
             {
                 set: set._id,
                 category: { $in: validCategories },
-                // subcategory: { $in: validSubcategories },
+                subcategory: { $in: validSubcategories },
                 packetNumber: packetNumbers[0],
                 questionNumber: { $gt: currentQuestionNumber },
                 type: { $in: type }
@@ -63,7 +66,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
             {
                 set: set._id,
                 category: { $in: validCategories },
-                // subcategory: { $in: validSubcategories },
+                subcategory: { $in: validSubcategories },
                 packetNumber: { $in: packetNumbers.slice(1) },
                 type: { $in: type }
             },
