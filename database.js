@@ -5,25 +5,71 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-const SET_LIST = []; // initialized on server load
-
-var DATABASE;
-var SETS;
-var QUESTIONS;
-
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
-client.connect().then(async () => {
-    console.log('connected to mongodb');
+await client.connect();
+console.log('connected to mongodb');
+const DATABASE = client.db('qbreader');
+const SETS = DATABASE.collection('sets');
+const QUESTIONS = DATABASE.collection('questions');
 
-    DATABASE = client.db('qbreader');
-    SETS = DATABASE.collection('sets');
-    QUESTIONS = DATABASE.collection('questions');
-
-    await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(set => {
-        SET_LIST.push(set.name);
-    });
+const SET_LIST = []; // initialized on server load
+await SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(set => {
+    SET_LIST.push(set.name);
 });
+
+
+/**
+ * Gets the next question with a question number greater than `currentQuestionNumber` that satisfies the given conditions.
+ * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
+ * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
+ * @param {Number} currentQuestionNumber - current question number. **Starts at 1.**
+ * @param {Array<String>} validCategories 
+ * @param {Array<String>} validSubcategories 
+ * @param {Array<String>} allowedTypes - Array of allowed types. Default: `['tossups', 'bonuses]` 
+ * @param {Boolean} alwaysUseUnformattedAnswer - whether to always use the unformatted answer. Default: `false`
+ * @returns {JSON}
+ */
+async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, allowedTypes = ['tossup'], alwaysUseUnformattedAnswer = false) {
+    let set = await SETS.findOne({ name: setName }).catch(error => {
+        console.log('DATABASE ERROR:', error);
+        return {};
+    });
+
+    if (validCategories.length === 0) validCategories = CATEGORIES;
+    if (validSubcategories.length === 0) validSubcategories = SUBCATEGORIES_FLATTENED;
+
+    let question = await QUESTIONS.findOne({
+        $or: [
+            {
+                set: set._id,
+                category: { $in: validCategories },
+                subcategory: { $in: validSubcategories },
+                packetNumber: packetNumbers[0],
+                questionNumber: { $gt: currentQuestionNumber },
+                type: { $in: allowedTypes }
+            },
+            {
+                set: set._id,
+                category: { $in: validCategories },
+                subcategory: { $in: validSubcategories },
+                packetNumber: { $in: packetNumbers.slice(1) },
+                type: { $in: allowedTypes }
+            },
+        ]
+    }, {
+        sort: { packetNumber: 1, questionNumber: 1 }
+    }).catch(error => {
+        console.log('DATABASE ERROR:', error);
+        return {};
+    });
+
+    if (!alwaysUseUnformattedAnswer && question.hasOwnProperty('answer_formatted')) {
+        question.answer = question.answer_formatted;
+    }
+
+    return question || {};
+}
 
 
 /**
@@ -40,57 +86,10 @@ async function getNumPackets(setName) {
 }
 
 
-async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = ['tossup'], alwaysUseUnformattedAnswer = false) {
-    let set = await SETS.findOne({ name: setName }).catch(error => {
-        console.log('DATABASE ERROR:', error);
-        return {};
-    });
-
-    if (validCategories.length === 0) {
-        validCategories = CATEGORIES;
-    }
-    if (validSubcategories.length === 0) {
-        validSubcategories = SUBCATEGORIES_FLATTENED;
-    }
-
-    let question = await QUESTIONS.findOne({
-        $or: [
-            {
-                set: set._id,
-                category: { $in: validCategories },
-                subcategory: { $in: validSubcategories },
-                packetNumber: packetNumbers[0],
-                questionNumber: { $gt: currentQuestionNumber },
-                type: { $in: type }
-            },
-            {
-                set: set._id,
-                category: { $in: validCategories },
-                subcategory: { $in: validSubcategories },
-                packetNumber: { $in: packetNumbers.slice(1) },
-                type: { $in: type }
-            },
-        ]
-    }, {
-        sort: { packetNumber: 1, questionNumber: 1 }
-    }).catch(error => {
-        console.log('DATABASE ERROR:', error);
-        return {};
-    });
-
-    console.log(question);
-    if (!alwaysUseUnformattedAnswer && question.hasOwnProperty('answer_formatted')) {
-        question.answer = question.answer_formatted;
-    }
-
-    return question || {};
-}
-
-
 /**
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @param {Number} packetNumber - **one-indexed** packet number
- * @param {Array<String>} allowedTypes Array of allowed types. Default: `['tossups', 'bonuses]`
+ * @param {Array<String>} allowedTypes - Array of allowed types. Default: `['tossups', 'bonuses]`
  * If only one allowed type is specified, only that type will be searched for (increasing query speed).
  * The other type will be returned as an empty array.
  * @returns {{tossups: Array<JSON>, bonuses: Array<JSON>}}
@@ -126,18 +125,19 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
 
 
 /**
- * @param {Array<Number>} difficulty - an array of difficulty levels (1-10)
- * @param {Array<String>} allowedCategories 
- * @param {Array<String>} allowedSubcategories 
+ * @param {'tossup' | 'bonus'} type - the type of question to get
+ * @param {Array<Number>} difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array to select any difficulty.
+ * @param {Array<String>} allowedCategories - an array of allowed categories. Pass a 0-length array to select any category.
+ * @param {Array<String>} allowedSubcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
  * @returns {JSON}
  */
-async function getRandomQuestion(type, difficulty, allowedCategories, allowedSubcategories) {
+async function getRandomQuestion(type, difficulties, allowedCategories, allowedSubcategories) {
+    if (difficulties.length === 0) difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     if (allowedCategories.length === 0) allowedCategories = CATEGORIES;
-
     if (allowedSubcategories.length === 0) allowedSubcategories = SUBCATEGORIES_FLATTENED;
 
     let question = await QUESTIONS.aggregate([
-        { $match: { type: type, difficulty: { $in: difficulty }, category: { $in: allowedCategories }, subcategory: { $in: allowedSubcategories } } },
+        { $match: { type: type, difficulty: { $in: difficulties }, category: { $in: allowedCategories }, subcategory: { $in: allowedSubcategories } } },
         { $sample: { size: 1 } }
     ]).toArray();
 
@@ -152,6 +152,9 @@ async function getRandomQuestion(type, difficulty, allowedCategories, allowedSub
 }
 
 
+/**
+ * @returns {Array<String>} an array of all the set names.
+ */
 function getSetList() {
     return SET_LIST;
 }
