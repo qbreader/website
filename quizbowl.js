@@ -23,7 +23,12 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     answer = answer.toLowerCase().trim();
     answer = answer.replace(/<\/?[biu]>/g, '');
     answer = answer.replace(/<\/?em>/g, '');
+    answer = answer.replace('.', '');
+    answer = answer.replace('-', ' ');
+
     givenAnswer = givenAnswer.toLowerCase().trim();
+    givenAnswer = givenAnswer.replace('.', '');
+    givenAnswer = givenAnswer.replace('-', ' ');
 
     if (answer.length === 0 || givenAnswer.length === 0) {
         return false;
@@ -33,12 +38,12 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     let givenAnswerTokens = givenAnswer.split(' ');
 
     for (let i = 0; i < givenAnswerTokens.length; i++) {
-        if (givenAnswerTokens[i].length <= 2) return false;
+        if (givenAnswerTokens[i].length <= 1) continue;
 
         // if given answer token matches any word in the answerline
         for (let j = 0; j < answerTokens.length; j++) {
             if (METAWORDS.includes(answerTokens[j])) {
-                console.log(answerTokens[j]);
+                // console.log(answerTokens[j]);
                 continue;
             }
             if (answerTokens[j].length === 1) continue;
