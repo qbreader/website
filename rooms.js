@@ -68,9 +68,10 @@ function parseMessage(roomName, message) {
             clearTimeout(rooms[roomName].buzzTimeout);
             revealQuestion(roomName);
         case 'start':
-            await goToNextQuestion(roomName);
-            sendSocketMessage(roomName, message);
-            updateQuestion(roomName);
+            goToNextQuestion(roomName).then(() => {
+                sendSocketMessage(roomName, message);
+                updateQuestion(roomName);
+            });
             return;
         case 'packet-number':
             rooms[roomName].packetNumbers = message.value;
