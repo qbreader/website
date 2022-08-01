@@ -90,6 +90,9 @@ async function processSocketMessage(data) {
             break;
         case 'lost-buzzer-race':
             logEvent(data.username, `lost the buzzer race`);
+            if (data.userId === USER_ID) {
+                document.getElementById('answer-input-group').classList.add('d-none');
+            }
             break;
         case 'next':
             logEvent(data.username, `went to the next question`);
@@ -418,7 +421,8 @@ document.getElementById('category-modal').addEventListener('hidden.bs.modal', fu
 document.getElementById('chat').addEventListener('click', function (event) {
     this.blur();
     document.getElementById('chat-input-group').classList.remove('d-none');
-    document.getElementById('chat-input').focus();
+    document.getElementById('chat-input')
+    ;
 });
 
 
