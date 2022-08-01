@@ -138,6 +138,17 @@ function createPlayer(roomName, socket) {
     };
 
     socket.userId = userId;
+    socket.on('message', (message) => {
+        message = JSON.parse(message);
+        rooms.parseMessage(roomName, message);
+    });
+
+    socket.on('close', async () => {
+        console.log(`User ${userId} closed connection in room ${roomName}`);
+        deletePlayer(roomName, userId);
+        pruneRoom(roomName);
+    });
+
     sockets[roomName].push(socket);
 
     socket.send(JSON.stringify({
@@ -204,20 +215,20 @@ function getCurrentQuestion(roomName) {
 }
 
 
-function deletePlayer(roomName, socket) {
+function deletePlayer(roomName, userId) {
     for (let i = 0; i < sockets[roomName]; i++) {
-        if (sockets[roomName][i] === socket) {
-            console.log(`User ${socket.userId} closed connection in room ${roomName}`);
-            sendSocketMessage(roomName, {
-                type: 'leave',
-                userId: socket.userId,
-                username: rooms[roomName].players[userId].username
-            });
+        if (sockets[roomName][i].userId === userId) {
             sockets[roomName].splice(i, 1);
-            delete rooms[roomName].players[socket.userId];
             return true;
         }
     }
+
+    sendSocketMessage(roomName, {
+        type: 'leave',
+        userId: userId,
+        username: rooms[roomName].players[userId].username
+    });
+    delete rooms[roomName].players[userId];
 
     return false;
 }
