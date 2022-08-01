@@ -619,10 +619,10 @@ window.onload = () => {
                 document.getElementById('options').classList.add('d-none');
             }
 
-            Object.keys(room.players).forEach(player => {
-                if (room.players[player].userId === USER_ID) return;
-                room.players[player].celerity = room.players[player].celerity.correct.average;
-                createPlayerAccordionItem(room.players[player]);
+            Object.keys(room.players).forEach(userId => {
+                if (userId === USER_ID) return;
+                room.players[userId].celerity = room.players[userId].celerity.correct.average;
+                createPlayerAccordionItem(room.players[userId]);
             });
         });
 }
