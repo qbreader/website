@@ -4,14 +4,11 @@ const ROOM_NAME = location.pathname.substring(13);
 var socket;
 var USER_ID;
 var username;
-var oldValidCategories = [];
-var oldValidSubcategories = [];
 var validCategories = [];
 var validSubcategories = [];
 var changedCategories = false;
 var tossup = {};
 var difficulties;
-var setName;
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(() => {
@@ -28,7 +25,6 @@ async function next() {
     document.getElementById('pause').disabled = false;
 
     currentlyBuzzing = false;
-    paused = false;
     return await fetch(`/api/multiplayer/current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
@@ -104,7 +100,7 @@ async function processSocketMessage(data) {
             next();
             break;
         case 'pause':
-            logEvent(data.username, `${paused ? 'un' : ''}paused the game`);
+            logEvent(data.username, `${data.paused ? 'un' : ''}paused the game`);
             break
         case 'reading-speed':
             logEvent(data.username, `changed the reading speed to ${data.value}`);
@@ -408,11 +404,10 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-    if (!arraysEqual(oldValidCategories, validCategories) || !arraysEqual(oldValidSubcategories, validSubcategories)) {
-        oldValidCategories = [...validCategories];
-        oldValidSubcategories = [...validSubcategories];
+    if (changedCategories) {
         socket.send(JSON.stringify({ type: 'update-categories', username: username, categories: validCategories, subcategories: validSubcategories }));
     }
+    changedCategories = false;
 });
 
 
@@ -532,6 +527,7 @@ document.querySelectorAll('#categories input').forEach(input => {
         this.blur();
         [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
         loadCategoryModal(validCategories, validSubcategories);
+        changedCategories = true;
     });
 });
 
@@ -541,6 +537,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
         this.blur();
         validSubcategories = updateSubcategory(input.id, validSubcategories);
         loadCategoryModal(validCategories, validSubcategories);
+        changedCategories = true;
     });
 });
 
