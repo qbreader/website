@@ -31,7 +31,7 @@ async function goToNextQuestion(roomName) {
 /**
  * @param {JSON} message 
  */
-async function parseMessage(roomName, message) {
+function parseMessage(roomName, message) {
     switch (message.type) {
         case 'buzz':
             buzz(roomName, message.userId);
@@ -404,4 +404,4 @@ function updateScore(roomName, userId, score, celerity) {
 }
 
 
-module.exports = { getRoom, getRoomList, getCurrentQuestion, goToNextQuestion, createPlayer, createRoom, deletePlayer, pruneRoom, parseMessage };
+module.exports = { getRoom, getRoomList, getCurrentQuestion, createPlayer, createRoom };
