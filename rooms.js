@@ -293,6 +293,7 @@ function giveAnswer(roomName, userId, givenAnswer, celerity) {
 function pruneRoom(roomName) {
     if (Object.keys(rooms[roomName].players).length === 0) {
         console.log(`Deleted room ${roomName}`);
+        clearTimeout(rooms[roomName].buzzTimeout);
         delete rooms[roomName];
         delete sockets[roomName];
         return true;
