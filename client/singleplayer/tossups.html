@@ -158,47 +158,40 @@
             </div>
         </div>
     </nav>
-
     <div class="container-fluid mt-1 mt-lg-3 mb-5 pb-5 px-xxl-5">
-        <div class="row" id="info">
+        <div class="row">
             <div class="col-12 col-lg-9 col-xxl-10">
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
+                <button type="button" class="mb-2 btn btn-danger d-lg-none"  id="toggle-options" disabled>Options</button>
+                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
+                <br>
                 <span class="" id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span>
                 <span class="float-end me-lg-2" id="question-metadata">
                     <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info"></span> Question <span id="question-number-info"></span></b>
                 </span>
-            </div>
-        </div>
-        <div class="row" style="min-height: 24rem">
-            <div class="col-12 col-lg-9 col-xxl-10 order-5 order-lg-1">
+                <br>
                 <div class="mt-2" id="question"></div>
-                <p class="my-1 my-lg-3" id="answer"></p>
+                <a class="mt-1 mt-lg-3 p-0 btn btn-link float-end d-none" id="toggle-correct">I was wrong</a>
+                <div class="mt-1 mt-lg-3" id="answer"></div>
+                <br>
                 <ul class="list-unstyled" id="room-history"></ul>
             </div>
-            <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3 mt-lg-n4" id="options">
-                <p>If you enjoy qbreader, consider supporting me at <a href="https://ko-fi.com/geoffreywu">ko-fi.com/geoffreywu</a>.</p>
+            <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-3" id="options">
+                <p>If you enjoy qbreader, consider <a href="https://ko-fi.com/geoffreywu">supporting me here</a>.</p>
                 <hr>
                 <input type="text" class="form-control" id="set-name" placeholder="Set name" list="set-list">
                 <datalist id="set-list"></datalist>
-                <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet #s">
+                <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet Numbers">
                 <input type="text" class="form-control" id="question-number" placeholder="Starting question #">
                 <div class="my-2"></div>
                 <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
                 <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid position-sticky bg-white px-xxl-5" style="z-index: 0; bottom: 0">
-        <div class="row">
-            <div class="buttons col-12 col-lg-9 col-xxl-10 text-center mt-2" id="buttons">
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary" id="buzz" disabled>Buzz</button>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
-                <button type="button" class="mb-2 btn btn-primary" id="toggle-correct" disabled>I was wrong</button>
-                <button type="button" class="mb-2 btn btn-warning" id="clear-stats">Clear Stats</button>
-                <button type="button" class="mb-2 btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
-                <button type="button" class="mb-2 btn btn-danger"  id="toggle-options" disabled>Options</button>
+                <div class="text-center">
+                    <button type="button" class="btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
+                    <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
+                </div>
             </div>
         </div>
     </div>
