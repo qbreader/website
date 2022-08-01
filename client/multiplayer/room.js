@@ -614,6 +614,8 @@ window.onload = () => {
             } else if (room.questionProgress === 1) {
                 document.getElementById('next').innerHTML = 'Skip';
                 document.getElementById('options').classList.add('d-none');
+                document.getElementById('buzz').disabled = false;
+                document.getElementById('pause').disabled = false;
             } else {
                 document.getElementById('next').innerHTML = 'Next';
                 document.getElementById('options').classList.add('d-none');
