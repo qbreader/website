@@ -75,7 +75,7 @@ async function parseMessage(roomName, message) {
             rooms[roomName].questionNumber = -1;
             break;
         case 'pause':
-            togglePause(roomName);
+            data.paused = togglePause(roomName);
             break;
         case 'reading-speed':
             rooms[roomName].readingSpeed = message.value;
@@ -271,8 +271,10 @@ function togglePause(roomName) {
     rooms[roomName].paused = !rooms[roomName].paused;
     if (rooms[roomName].paused) {
         clearTimeout(rooms[roomName].buzzTimeout);
+        return true;
     } else {
         updateQuestion(roomName);
+        return false;
     }
 }
 
