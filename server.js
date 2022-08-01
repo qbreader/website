@@ -51,16 +51,6 @@ app.get('/', (req, res) => {
 wss.on('connection', (ws) => {
     console.log(`Connection in room ${ws.protocol}`);
 
-    ws.on('message', (message) => {
-        message = JSON.parse(message);
-        rooms.parseMessage(ws.protocol, message);
-    });
-
-    ws.on('close', async () => {
-        rooms.deletePlayer(ws.protocol, ws);
-        rooms.pruneRoom(ws.protocol);
-    });
-
     rooms.createRoom(ws.protocol);
     rooms.createPlayer(ws.protocol, ws);
 });
