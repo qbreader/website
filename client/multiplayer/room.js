@@ -100,7 +100,7 @@ async function processSocketMessage(data) {
             break;
         case 'pause':
             logEvent(data.username, `${data.paused ? 'un' : ''}paused the game`);
-            break
+            break;
         case 'reading-speed':
             logEvent(data.username, `changed the reading speed to ${data.value}`);
             document.getElementById('reading-speed').value = data.value;
@@ -459,7 +459,6 @@ document.getElementById('next').addEventListener('click', function () {
     document.getElementById('options').classList.add('d-none');
     document.getElementById('next').classList.add('btn-primary');
     document.getElementById('next').classList.remove('btn-success');
-    document.getElementById('next').innerHTML = 'Next';
     document.getElementById('next').innerHTML = 'Skip';
 });
 
