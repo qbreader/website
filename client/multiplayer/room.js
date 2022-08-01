@@ -14,7 +14,7 @@ var difficulties;
 var setName;
 var questionNumber = -1; // WARNING: 1-indexed (instead of 0-indexed, like in singleplayer)
 var packetNumber = -1;
-var timeoutID = -1
+var timeoutId = -1
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(() => {
@@ -31,7 +31,7 @@ async function loadAndReadTossup() {
                 return false;
             }
             // Stop reading the current question:
-            clearTimeout(timeoutID);
+            clearTimeout(timeoutId);
 
             currentlyBuzzing = false;
             paused = false;
@@ -365,7 +365,7 @@ function processAnswer(userId, username, givenAnswer, score, celerity) {
 function processBuzz(userId, username) {
     logEvent(username, `buzzed`);
 
-    clearTimeout(timeoutID);
+    clearTimeout(timeoutId);
 
     document.getElementById('question').innerHTML += '(#) '; // Include buzzpoint
 
@@ -395,7 +395,7 @@ function recursivelyPrintTossup() {
         let word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
 
-        //calculate time needed before reading next word
+        // calculate time needed before reading next word
         let time = Math.log(word.length) + 1;
         if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123)
             || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
@@ -405,7 +405,7 @@ function recursivelyPrintTossup() {
         else if (word === "(*)")
             time = 0;
 
-        timeoutID = window.setTimeout(() => {
+        timeoutId = window.setTimeout(() => {
             recursivelyPrintTossup();
         }, time * 0.9 * (125 - document.getElementById('reading-speed').value));
     } else {
