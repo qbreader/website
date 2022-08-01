@@ -255,7 +255,7 @@ function createPlayerAccordionItem(player) {
     negsSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(negsSpan);
 
-    accordionBody.innerHTML += ' with '
+    accordionBody.innerHTML += ', '
 
     let tuhSpan = document.createElement('span');
     tuhSpan.innerHTML = tuh;
@@ -265,7 +265,7 @@ function createPlayerAccordionItem(player) {
     tuhSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(tuhSpan);
 
-    accordionBody.innerHTML += ' tossups seen (';
+accordionBody.innerHTML += ' tossups seen (';
 
     let pointsSpan = document.createElement('span');
     pointsSpan.innerHTML = points;
