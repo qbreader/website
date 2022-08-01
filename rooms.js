@@ -280,7 +280,7 @@ function giveAnswer(roomName, userId, givenAnswer, celerity) {
     rooms[roomName].buzzedIn = false;
     updateScore(roomName, userId, score, celerity);
 
-    if (score < 0) {
+    if (score <= 0) {
         updateQuestion(roomName);
     } else {
         revealQuestion(roomName);
