@@ -19,7 +19,7 @@ async function goToNextQuestion(roomName) {
     rooms[roomName].endOfSet = Object.keys(nextQuestion).length === 0;
 
     rooms[roomName].questionProgress = 1;
-    rooms[roomName].question = nextQuestion;
+    rooms[roomName].tossup = nextQuestion;
     rooms[roomName].packetNumbers = rooms[roomName].packetNumbers.filter(packetNumber => packetNumber >= nextQuestion.packetNumber);
     rooms[roomName].packetNumber = nextQuestion.packetNumber;
     rooms[roomName].questionNumber = nextQuestion.questionNumber;
@@ -146,14 +146,14 @@ function createPlayer(roomName, socket) {
     if (rooms[roomName].questionProgress > 0) {
         socket.send(JSON.stringify({
             type: 'update-question',
-            word: rooms[roomName].question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ')
+            word: rooms[roomName].tossup.question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ')
         }));
     }
 
     if (rooms[roomName].questionProgress === 2) {
         socket.send(JSON.stringify({
             type: 'update-answer',
-            word: rooms[roomName].question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ')
+            word: rooms[roomName].tossup.answer.split(' ').slice(0, rooms[roomName].wordIndex).join(' ')
         }));
     }
 
@@ -176,7 +176,7 @@ function createRoom(roomName) {
         readingSpeed: 50,
         validCategories: [],
         validSubcategories: [],
-        question: {},
+        tossup: {},
         wordIndex: 0,
         endOfSet: false,
         questionProgress: 0, // 0 = not started, 1 = reading, 2 = answer revealed
@@ -193,7 +193,7 @@ function createRoom(roomName) {
 function getCurrentQuestion(roomName) {
     return {
         endOfSet: rooms[roomName].endOfSet,
-        question: rooms[roomName].question,
+        question: rooms[roomName].tossup,
         packetNumber: rooms[roomName].packetNumber,
         questionNumber: rooms[roomName].questionNumber,
         setName: rooms[roomName].setName,
@@ -233,9 +233,9 @@ function getRoomList(showPrivateRooms = false) {
 
 
 function giveAnswer(roomName, userId, givenAnswer, celerity) {
-    let endOfQuestion = (rooms[roomName].wordIndex === rooms[roomName].question.question.split(' ').length);
-    let inPower = rooms[roomName].question.question.includes('(*)') && !rooms[roomName].question.question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ').includes('(*)');
-    let score = quizbowl.scoreTossup(rooms[roomName].question.answer, givenAnswer, inPower, endOfQuestion);
+    let endOfQuestion = (rooms[roomName].wordIndex === rooms[roomName].tossup.question.split(' ').length);
+    let inPower = rooms[roomName].tossup.question.includes('(*)') && !rooms[roomName].tossup.question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ').includes('(*)');
+    let score = quizbowl.scoreTossup(rooms[roomName].tossup.answer, givenAnswer, inPower, endOfQuestion);
     updateScore(roomName, userId, score, celerity);
 
     if (score < 0) {
@@ -260,7 +260,7 @@ function pruneRoom(roomName) {
 
 
 function revealQuestion(roomName) {
-    let remainingQuestion = rooms[roomName].question.question.split(' ').slice(rooms[roomName].wordIndex).join(' ');
+    let remainingQuestion = rooms[roomName].tossup.question.split(' ').slice(rooms[roomName].wordIndex).join(' ');
     sendSocketMessage(roomName, {
         type: 'update-question',
         word: remainingQuestion
@@ -268,10 +268,10 @@ function revealQuestion(roomName) {
 
     sendSocketMessage(roomName, {
         type: 'update-answer',
-        answer: rooms[roomName].question.answer
+        answer: rooms[roomName].tossup.answer
     });
 
-    rooms[roomName].wordIndex = rooms[roomName].question.question.split(' ').length;
+    rooms[roomName].wordIndex = rooms[roomName].tossup.question.split(' ').length;
 }
 
 
@@ -296,7 +296,7 @@ function togglePause(roomName) {
 
 function updateQuestion(roomName) {
     let wordIndex = rooms[roomName].wordIndex;
-    let questionSplit = rooms[roomName].question.question.split(' ');
+    let questionSplit = rooms[roomName].tossup.question.split(' ');
     if (wordIndex >= questionSplit.length) {
         return;
     }
