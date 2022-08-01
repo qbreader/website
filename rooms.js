@@ -36,6 +36,7 @@ async function parseMessage(roomName, message) {
             buzz(roomName, message.userId);
             break;
         case 'change-username':
+        case 'join':
             updateUsername(roomName, message.userId, message.username);
             break;
         case 'clear-stats':
@@ -229,6 +230,7 @@ function deletePlayer(roomName, userId) {
         userId: userId,
         username: rooms[roomName].players[userId].username
     });
+
     delete rooms[roomName].players[userId];
 
     return false;
