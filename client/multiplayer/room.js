@@ -24,7 +24,6 @@ async function next() {
     document.getElementById('pause').innerHTML = 'Pause';
     document.getElementById('pause').disabled = false;
 
-    currentlyBuzzing = false;
     return await fetch(`/api/multiplayer/current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
@@ -137,7 +136,7 @@ async function processSocketMessage(data) {
             loadCategoryModal(validCategories, validSubcategories);
             break;
         case 'update-answer':
-            document.getElementById('answer').innerHTML = data.answer;
+            document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
             break;
         case 'update-question':
             document.getElementById('question').innerHTML += data.word + ' ';
