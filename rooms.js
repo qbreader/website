@@ -18,7 +18,7 @@ async function goToNextQuestion(roomName) {
 
     rooms[roomName].endOfSet = Object.keys(nextQuestion).length === 0;
 
-    rooms[roomName].questionInProgress = true;
+    rooms[roomName].questionProgress = 1;
     rooms[roomName].question = nextQuestion;
     rooms[roomName].packetNumbers = rooms[roomName].packetNumbers.filter(packetNumber => packetNumber >= nextQuestion.packetNumber);
     rooms[roomName].packetNumber = nextQuestion.packetNumber;
@@ -143,6 +143,20 @@ function createPlayer(roomName, socket) {
         userId: userId
     }));
 
+    if (rooms[roomName].questionProgress > 0) {
+        socket.send(JSON.stringify({
+            type: 'update-question',
+            word: rooms[roomName].question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ')
+        }));
+    }
+
+    if (rooms[roomName].questionProgress === 2) {
+        socket.send(JSON.stringify({
+            type: 'update-answer',
+            word: rooms[roomName].question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ')
+        }));
+    }
+
     return true;
 }
 
@@ -165,7 +179,7 @@ function createRoom(roomName) {
         question: {},
         wordIndex: 0,
         endOfSet: false,
-        questionInProgress: false,
+        questionProgress: 0, // 0 = not started, 1 = reading, 2 = answer revealed
         public: true,
         allowMultipleBuzzes: true,
         selectByDifficulty: false,
@@ -337,7 +351,7 @@ function updateScore(roomName, userId, score, celerity) {
         for (let player in rooms[roomName].players) {
             rooms[roomName].players[player].tuh++;
         }
-        rooms[roomName].questionInProgress = false;
+        rooms[roomName].questionProgress = 2;
 
         let numCorrect = rooms[roomName].players[userId].powers + rooms[roomName].players[userId].tens;
         rooms[roomName].players[userId].celerity.correct.total += celerity;
