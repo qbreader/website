@@ -274,9 +274,9 @@ document.getElementById('toggle-options').addEventListener('click', function () 
 document.getElementById('set-name').addEventListener('change', async function (event) {
     maxPacketNumber = await getNumPackets(this.value);
     if (maxPacketNumber > 0) {
-        document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
+        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
     } else {
-        document.getElementById('packet-number').placeholder = 'Packet #s';
+        document.getElementById('packet-number').placeholder = 'Packet Numbers';
     }
 });
 

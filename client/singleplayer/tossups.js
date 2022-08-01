@@ -57,7 +57,7 @@ function buzz() {
         document.getElementById('next').innerHTML = 'Next';
 
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
-        document.getElementById('toggle-correct').removeAttribute('disabled');
+        document.getElementById('toggle-correct').classList.remove('d-none');
         document.getElementById('toggle-correct').innerHTML = 'I was wrong';
         updateStatDisplay();
     } else {
@@ -92,7 +92,7 @@ async function loadAndReadTossup() {
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
     document.getElementById('toggle-correct').innerHTML = 'I was wrong';
-    document.getElementById('toggle-correct').disabled = true;
+    document.getElementById('toggle-correct').classList.add('d-none');
 
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
@@ -329,7 +329,7 @@ window.onload = () => {
         document.getElementById('set-name').value = setName;
         (async () => {
             maxPacketNumber = await getNumPackets(setName);
-            document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
+            document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
         })();
     }
 

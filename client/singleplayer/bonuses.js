@@ -259,7 +259,7 @@ window.onload = () => {
         document.getElementById('set-name').value = setName;
         (async () => {
             maxPacketNumber = await getNumPackets(setName);
-            document.getElementById('packet-number').placeholder = `Packet #s (1-${maxPacketNumber})`;
+            document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
         })();
     }
 
