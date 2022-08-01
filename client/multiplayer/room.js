@@ -88,6 +88,9 @@ async function processSocketMessage(data) {
             logEvent(data.username, `left the game`);
             document.getElementById('accordion-' + data.userId).remove();
             break;
+        case 'lost-buzzer-race':
+            logEvent(data.username, `lost the buzzer race`);
+            break;
         case 'next':
             logEvent(data.username, `went to the next question`);
             tossup.question = document.getElementById('question').innerHTML;
