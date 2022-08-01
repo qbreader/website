@@ -95,7 +95,7 @@ async function processSocketMessage(data) {
             next();
             break;
         case 'pause':
-            logEvent(data.username, `${data.paused ? 'un' : ''}paused the game`);
+            logEvent(data.username, `${data.paused ? '' : 'un'}paused the game`);
             break;
         case 'reading-speed':
             logEvent(data.username, `changed the reading speed to ${data.value}`);
