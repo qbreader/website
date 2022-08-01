@@ -278,7 +278,7 @@ function revealQuestion(roomName) {
 
 
 function sendSocketMessage(roomName, message) {
-    for (let socket of socket[roomName].players) {
+    for (let socket of sockets[roomName].players) {
         socket.send(JSON.stringify(message));
     }
 }
