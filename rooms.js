@@ -5,7 +5,7 @@ const quizbowl = require('./quizbowl');
 
 
 var rooms = {};
-
+var sockets = {};
 
 async function goToNextQuestion(roomName) {
     var nextQuestion;
@@ -76,7 +76,7 @@ async function parseMessage(roomName, message) {
             rooms[roomName].questionNumber = -1;
             break;
         case 'pause':
-            data.paused = togglePause(roomName);
+            message.paused = togglePause(roomName);
             break;
         case 'reading-speed':
             rooms[roomName].readingSpeed = message.value;
@@ -118,7 +118,6 @@ function buzz(roomName, userId) {
 function createPlayer(roomName, socket) {
     let userId = uuid.v4();
     rooms[roomName].players[userId] = {
-        socket: socket,
         username: '',
         powers: 0,
         tens: 0,
@@ -137,6 +136,8 @@ function createPlayer(roomName, socket) {
             }
         }
     };
+
+    sockets[roomName].push(socket);
 
     socket.send(JSON.stringify({
         type: 'user-id',
@@ -186,6 +187,7 @@ function createRoom(roomName) {
         paused: false,
     }
 
+    sockets[roomName] = [];
     return true;
 }
 
@@ -202,13 +204,13 @@ function getCurrentQuestion(roomName) {
 
 
 function deletePlayer(roomName, socket) {
-    for (let userId in rooms[roomName].players) {
-        if (rooms[roomName].players[userId].socket === socket) {
-            console.log(`User ${userId} closed connection in room ${roomName}`);
-            delete rooms[roomName].players[userId];
-            return true;
-        }
-    }
+    // for (let userId in rooms[roomName].players) {
+    //     if (rooms[roomName].players[userId].socket === socket) {
+    //         console.log(`User ${userId} closed connection in room ${roomName}`);
+    //         delete rooms[roomName].players[userId];
+    //         return true;
+    //     }
+    // }
 
     return false;
 }
@@ -276,8 +278,8 @@ function revealQuestion(roomName) {
 
 
 function sendSocketMessage(roomName, message) {
-    for (let userId in rooms[roomName].players) {
-        rooms[roomName].players[userId].socket.send(JSON.stringify(message));
+    for (let socket of socket[roomName].players) {
+        socket.send(JSON.stringify(message));
     }
 }
 
