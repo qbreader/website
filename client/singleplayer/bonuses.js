@@ -148,7 +148,7 @@ function updateStatDisplay() {
 
     let includePlural = (numBonuses == 1) ? '' : 'es';
     document.getElementById('statline').innerHTML
-        = `${ppb} points per bonus with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
+        = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
 }
 
 
