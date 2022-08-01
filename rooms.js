@@ -153,7 +153,7 @@ function createPlayer(roomName, socket) {
     if (rooms[roomName].questionProgress === 2) {
         socket.send(JSON.stringify({
             type: 'update-answer',
-            word: rooms[roomName].tossup.answer.split(' ').slice(0, rooms[roomName].wordIndex).join(' ')
+            answer: rooms[roomName].tossup.answer
         }));
     }
 
