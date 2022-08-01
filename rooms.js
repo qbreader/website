@@ -197,6 +197,7 @@ function createRoom(roomName) {
         allowMultipleBuzzes: true,
         selectByDifficulty: false,
         paused: false,
+        buzzTimeout: null
     }
 
     sockets[roomName] = [];
@@ -237,7 +238,9 @@ function deletePlayer(roomName, userId) {
 function getRoom(roomName) {
     if (!(roomName in rooms)) createRoom(roomName);
 
-    return rooms[roomName];
+    let copy = rooms[roomName];
+    delete copy.buzzTimeout;
+    return copy;
 }
 
 
