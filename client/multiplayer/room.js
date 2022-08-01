@@ -90,6 +90,7 @@ async function processSocketMessage(data) {
             break;
         case 'next':
             logEvent(data.username, `went to the next question`);
+            tossup.question = document.getElementById('question').innerHTML;
             createTossupCard(tossup, document.getElementById('set-name-info').innerHTML);
             next();
             break;
@@ -103,6 +104,7 @@ async function processSocketMessage(data) {
             break;
         case 'skip':
             logEvent(data.username, `skipped the question`);
+            tossup.question = document.getElementById('question').innerHTML;
             createTossupCard(tossup, document.getElementById('set-name-info').innerHTML);
             next();
             break;
