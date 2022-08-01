@@ -131,7 +131,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
  * @param {Array<String>} allowedSubcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
  * @returns {JSON}
  */
-async function getRandomQuestion(type, difficulties, allowedCategories, allowedSubcategories) {
+async function getRandomQuestion(type, difficulties, allowedCategories, allowedSubcategories, alwaysUseUnformattedAnswer = false) {
     if (difficulties.length === 0) difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     if (allowedCategories.length === 0) allowedCategories = CATEGORIES;
     if (allowedSubcategories.length === 0) allowedSubcategories = SUBCATEGORIES_FLATTENED;
@@ -148,6 +148,11 @@ async function getRandomQuestion(type, difficulties, allowedCategories, allowedS
     question = question[0];
     let set = await SETS.findOne({ _id: question.set });
     question.setName = set.name;
+
+    if (!alwaysUseUnformattedAnswer && type === 'tossup' && question.hasOwnProperty('answer_formatted')) {
+        question.answer = question.answer_formatted;
+    }
+
     return question;
 }
 
