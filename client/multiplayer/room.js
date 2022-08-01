@@ -460,6 +460,7 @@ document.getElementById('next').addEventListener('click', function () {
     document.getElementById('next').classList.add('btn-primary');
     document.getElementById('next').classList.remove('btn-success');
     document.getElementById('next').innerHTML = 'Next';
+    document.getElementById('next').innerHTML = 'Skip';
 });
 
 
