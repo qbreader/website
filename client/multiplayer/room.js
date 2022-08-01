@@ -9,7 +9,7 @@ var oldValidSubcategories = [];
 var validCategories = [];
 var validSubcategories = [];
 var changedCategories = false;
-var question = {}
+var tossup = {};
 var difficulties;
 var setName;
 var questionNumber = -1; // WARNING: 1-indexed (instead of 0-indexed, like in singleplayer)
@@ -35,11 +35,11 @@ async function loadAndReadTossup() {
 
             currentlyBuzzing = false;
             paused = false;
-            question = data.question;
+            tossup = data.question;
             setName = data.setName;
             packetNumber = data.packetNumber;
             questionNumber = data.questionNumber;
-            questionText = question.question;
+            questionText = tossup.question;
             questionTextSplit = questionText.split(' ');
 
             // Update question text:
@@ -66,6 +66,10 @@ async function processSocketMessage(data) {
     switch (data.type) {
         case 'user-id':
             USER_ID = data.userId;
+            break;
+        case 'answer-update':
+            tossup = data.tossup;
+            document.getElementById('answer').innerHTML = tossup.answer;
             break;
         case 'buzz':
             processBuzz(data.userId, data.username);
@@ -106,7 +110,7 @@ async function processSocketMessage(data) {
             document.getElementById('accordion-' + data.userId).remove();
             break;
         case 'next':
-            createTossupCard(question, setName, packetNumber, questionNumber);
+            createTossupCard(tossup, setName);
             if (await loadAndReadTossup()) {
                 if (document.getElementById('next').innerHTML === 'Skip') {
                     logEvent(data.username, `skipped the question`);
@@ -119,6 +123,9 @@ async function processSocketMessage(data) {
         case 'pause':
             logEvent(data.username, `${paused ? 'un' : ''}paused the game`);
             pause();
+            break
+        case 'question-update':
+            document.getElementById('question').innerHTML += data.question;
             break;
         case 'reading-speed':
             logEvent(data.username, `changed the reading speed to ${data.value}`);
@@ -318,9 +325,9 @@ function processAnswer(userId, username, givenAnswer, score, celerity) {
         if (document.getElementById('question').innerHTML.indexOf('Question in progress...') === -1) {
             document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         } else {
-            document.getElementById('question').innerHTML = question.question;
+            document.getElementById('question').innerHTML = tossup.question;
         }
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + question.answer;
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + tossup.answer;
         document.getElementById('next').innerHTML = 'Next';
         document.getElementById('buzz').disabled = true;
     } else {
@@ -435,7 +442,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     document.getElementById('answer-input-group').classList.add('d-none');
 
     let characterCount = document.getElementById('question').innerHTML.length;
-    let celerity = 1 - characterCount / question.question.length;
+    let celerity = 1 - characterCount / tossup.question.length;
 
     socket.send(JSON.stringify({
         type: 'give-answer',
@@ -636,7 +643,7 @@ window.onload = () => {
     fetch(`/api/multiplayer/room?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(room => {
-            question = room.question;
+            tossup = room.question;
             setName = room.setName || '';
             packetNumber = room.packetNumber || 0;
             questionNumber = room.questionNumber || 0;
@@ -662,7 +669,7 @@ window.onload = () => {
             if (room.questionInProgress) {
                 document.getElementById('question').innerHTML = 'Question in progress...';
                 document.getElementById('next').disabled = true;
-            } else if (Object.keys(question).length > 0) {
+            } else if (Object.keys(tossup).length > 0) {
                 document.getElementById('question').innerHTML = room.question.question;
                 document.getElementById('answer').innerHTML = 'ANSWER: ' + room.question.answer;
             } else {

@@ -252,7 +252,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('next').addEventListener('click', async function () {
     this.blur();
-    createTossupCard(questions[questionNumber], setName, packetNumber, questionNumber + 1);
+    createTossupCard(questions[questionNumber], setName);
     await loadAndReadTossup();
 });
 
