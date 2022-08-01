@@ -76,8 +76,10 @@ function arrayToRange(array) {
 }
 
 
-function createTossupCard(question, setName, packetNumber, questionNumber) {
-    if (!question || Object.keys(question).length === 0) return;
+function createTossupCard(tossup, setName) {
+    if (!tossup || Object.keys(tossup).length === 0) return;
+
+    const { question, answer, category, subcategory, packetNumber, questionNumber } = tossup;
 
     // append a card containing the question to the history element
     let card = document.createElement('div');
@@ -87,7 +89,7 @@ function createTossupCard(question, setName, packetNumber, questionNumber) {
     cardHeader.className = 'card-header';
     cardHeader.setAttribute('data-bs-toggle', 'collapse');
     cardHeader.setAttribute('data-bs-target', '#question-' + questionCounter);
-    cardHeader.innerHTML = question.answer;
+    cardHeader.innerHTML = answer;
     card.appendChild(cardHeader);
 
     let cardContainer = document.createElement('div');
@@ -99,7 +101,7 @@ function createTossupCard(question, setName, packetNumber, questionNumber) {
 
     let cardText = document.createElement('p');
     cardText.className = 'card-text';
-    cardText.innerHTML = question.question;
+    cardText.innerHTML = question;
     cardBody.appendChild(cardText);
 
     let cardFooter = document.createElement('div');
@@ -107,7 +109,7 @@ function createTossupCard(question, setName, packetNumber, questionNumber) {
 
     let cardFooterText = document.createElement('small');
     cardFooterText.className = 'text-muted';
-    cardFooterText.innerHTML = `${setName} / ${question.category} / ${question.subcategory}`;
+    cardFooterText.innerHTML = `${setName} / ${category} / ${subcategory}`;
     cardFooter.appendChild(cardFooterText);
 
     let cardFooterText2 = document.createElement('small');
