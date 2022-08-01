@@ -587,7 +587,7 @@ window.onload = () => {
     fetch(`/api/multiplayer/room?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(room => {
-            tossup = room.question;
+            tossup = room.tossup;
             difficulties = room.difficulties || [];
             validCategories = room.validCategories || [];
             validSubcategories = room.validSubcategories || [];
@@ -613,8 +613,10 @@ window.onload = () => {
                 document.getElementById('next').classList.add('btn-success');
             } else if (room.questionProgress === 1) {
                 document.getElementById('next').innerHTML = 'Skip';
+                document.getElementById('options').classList.add('d-none');
             } else {
                 document.getElementById('next').innerHTML = 'Next';
+                document.getElementById('options').classList.add('d-none');
             }
 
             Object.keys(room.players).forEach(player => {
