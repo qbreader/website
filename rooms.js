@@ -62,6 +62,7 @@ async function parseMessage(roomName, message) {
             deletePlayer(roomName, message.userId);
             break;
         case 'next':
+        case 'skip':
             clearTimeout(rooms[roomName].buzzTimeout);
             revealQuestion(roomName);
         case 'start':
