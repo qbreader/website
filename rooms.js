@@ -140,7 +140,7 @@ function createPlayer(roomName, socket) {
     socket.userId = userId;
     socket.on('message', (message) => {
         message = JSON.parse(message);
-        rooms.parseMessage(roomName, message);
+        parseMessage(roomName, message);
     });
 
     socket.on('close', async () => {
