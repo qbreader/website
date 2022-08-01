@@ -1,4 +1,4 @@
-var timeoutID = -1;
+var timeoutId = -1;
 
 var setName = '';
 var packetNumbers = [];
@@ -62,7 +62,7 @@ function buzz() {
         updateStatDisplay();
     } else {
         // Stop the question reading
-        clearTimeout(timeoutID);
+        clearTimeout(timeoutId);
         currentlyBuzzing = true;
 
         // Include buzzpoint
@@ -97,7 +97,7 @@ async function loadAndReadTossup() {
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
     // Stop reading the current question:
-    clearTimeout(timeoutID);
+    clearTimeout(timeoutId);
     currentlyBuzzing = false;
 
     packetNumber = packetNumbers[0];
@@ -116,7 +116,7 @@ async function loadAndReadTossup() {
                 return;  // alert the user if there are no more packets
             }
             packetNumber = packetNumbers[0];
-            clearTimeout(timeoutID); // stop reading the current question 
+            clearTimeout(timeoutId); // stop reading the current question 
             questions = await getTossups(setName, packetNumber);
             questionNumber = 0;
         }
@@ -163,7 +163,7 @@ function recursivelyPrintTossup() {
         else if (word === "(*)")
             time = 0;
 
-        timeoutID = window.setTimeout(() => {
+        timeoutId = window.setTimeout(() => {
             recursivelyPrintTossup();
         }, time * 0.9 * (125 - document.getElementById('reading-speed').value));
     } else {
