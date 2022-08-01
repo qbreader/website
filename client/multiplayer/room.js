@@ -12,9 +12,7 @@ var changedCategories = false;
 var tossup = {};
 var difficulties;
 var setName;
-var questionNumber = -1; // WARNING: 1-indexed (instead of 0-indexed, like in singleplayer)
 var packetNumber = -1;
-var timeoutId = -1
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(() => {
@@ -22,7 +20,16 @@ const PING_INTERVAL_ID = setInterval(() => {
 }, 45000);
 
 
-async function loadAndReadTossup() {
+async function next() {
+    document.getElementById('question').innerHTML = '';
+    document.getElementById('answer').innerHTML = '';
+    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('buzz').disabled = false;
+    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').disabled = false;
+
+    currentlyBuzzing = false;
+    paused = false;
     return await fetch(`/api/multiplayer/current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
@@ -30,33 +37,15 @@ async function loadAndReadTossup() {
                 alert('No questions found.');
                 return false;
             }
-            // Stop reading the current question:
-            clearTimeout(timeoutId);
-
-            currentlyBuzzing = false;
-            paused = false;
-            tossup = data.question;
-            setName = data.setName;
-            packetNumber = data.packetNumber;
-            questionNumber = data.questionNumber;
-            questionText = tossup.question;
-            questionTextSplit = questionText.split(' ');
 
             // Update question text:
             document.getElementById('set-name-info').innerHTML = data.setName;
             document.getElementById('packet-number-info').innerHTML = data.packetNumber;
             document.getElementById('question-number-info').innerHTML = data.questionNumber;
-            document.getElementById('question').innerHTML = '';
-            document.getElementById('answer').innerHTML = '';
 
-            // update buttons:
-            document.getElementById('buzz').innerHTML = 'Buzz';
-            document.getElementById('buzz').disabled = false;
-            document.getElementById('pause').innerHTML = 'Pause';
-            document.getElementById('pause').disabled = false;
+            tossup = data.question;
+            setName = data.setName;
 
-            // Read the question:
-            recursivelyPrintTossup();
             return true;
         });
 }
@@ -66,10 +55,7 @@ async function processSocketMessage(data) {
     switch (data.type) {
         case 'user-id':
             USER_ID = data.userId;
-            break;
-        case 'answer-update':
-            tossup = data.tossup;
-            document.getElementById('answer').innerHTML = tossup.answer;
+            socket.send(JSON.stringify({ type: 'join', userId: USER_ID, username: username }));
             break;
         case 'buzz':
             processBuzz(data.userId, data.username);
@@ -110,30 +96,30 @@ async function processSocketMessage(data) {
             document.getElementById('accordion-' + data.userId).remove();
             break;
         case 'next':
-            createTossupCard(tossup, setName);
-            if (await loadAndReadTossup()) {
-                if (document.getElementById('next').innerHTML === 'Skip') {
-                    logEvent(data.username, `skipped the question`);
-                } else {
-                    logEvent(data.username, `went to the next question`);
-                    document.getElementById('next').innerHTML = 'Skip';
-                }
+            createTossupCard({
+                question: document.getElementById('question').innerHTML,
+                answer: document.getElementById('answer').innerHTML,
+                packetNumber: document.getElementById('packet-number-info').innerHTML,
+                questionNumber: document.getElementById('question-number-info').innerHTML
+            }, document.getElementById('set-name-info').innerHTML);
+            if (document.getElementById('next').innerHTML === 'Skip') {
+                logEvent(data.username, `skipped the question`);
+            } else {
+                logEvent(data.username, `went to the next question`);
+                document.getElementById('next').innerHTML = 'Skip';
             }
+            next();
             break;
         case 'pause':
             logEvent(data.username, `${paused ? 'un' : ''}paused the game`);
-            pause();
             break
-        case 'question-update':
-            document.getElementById('question').innerHTML += data.question;
-            break;
         case 'reading-speed':
             logEvent(data.username, `changed the reading speed to ${data.value}`);
             document.getElementById('reading-speed').value = data.value;
             document.getElementById('reading-speed-display').innerHTML = data.value;
             break;
         case 'start':
-            loadAndReadTossup();
+            next();
             logEvent(data.username, `started the game`);
             break;
         case 'toggle-multiple-buzzes':
@@ -160,6 +146,12 @@ async function processSocketMessage(data) {
             validCategories = data.categories;
             validSubcategories = data.subcategories;
             loadCategoryModal(validCategories, validSubcategories);
+            break;
+        case 'update-answer':
+            document.getElementById('answer').innerHTML = data.answer;
+            break;
+        case 'update-question':
+            document.getElementById('question').innerHTML += data.word + ' ';
             break;
     }
 }
@@ -191,7 +183,6 @@ function clearStats(userId) {
 function connectToWebSocket() {
     socket = new WebSocket(location.href.replace('http', 'ws'), ROOM_NAME);
     socket.onopen = function () {
-        socket.send(JSON.stringify({ type: 'join', username: username }));
         console.log('Connected to websocket');
     }
 
@@ -322,12 +313,6 @@ function processAnswer(userId, username, givenAnswer, score, celerity) {
 
     // Update question text and show answer:
     if (score > 0) {
-        if (document.getElementById('question').innerHTML.indexOf('Question in progress...') === -1) {
-            document.getElementById('question').innerHTML += questionTextSplit.join(' ');
-        } else {
-            document.getElementById('question').innerHTML = tossup.question;
-        }
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + tossup.answer;
         document.getElementById('next').innerHTML = 'Next';
         document.getElementById('buzz').disabled = true;
     } else {
@@ -337,7 +322,6 @@ function processAnswer(userId, username, givenAnswer, score, celerity) {
             document.getElementById('buzz').disabled = true;
         }
         document.getElementById('pause').disabled = false;
-        recursivelyPrintTossup();
     }
 
     if (score > 0) {
@@ -365,10 +349,6 @@ function processAnswer(userId, username, givenAnswer, score, celerity) {
 function processBuzz(userId, username) {
     logEvent(username, `buzzed`);
 
-    clearTimeout(timeoutId);
-
-    document.getElementById('question').innerHTML += '(#) '; // Include buzzpoint
-
     document.getElementById('buzz').disabled = true;
     document.getElementById('pause').disabled = true;
     document.getElementById('next').disabled = true;
@@ -384,33 +364,6 @@ function randomUsername() {
     const ADJECTIVE_INDEX = Math.floor(Math.random() * ADJECTIVES.length);
     const ANIMAL_INDEX = Math.floor(Math.random() * ANIMALS.length);
     return `${ADJECTIVES[ADJECTIVE_INDEX]}-${ANIMALS[ANIMAL_INDEX]}`;
-}
-
-
-/**
- * Recursively reads the question based on the reading speed.
- */
-function recursivelyPrintTossup() {
-    if (!currentlyBuzzing && questionTextSplit.length > 0) {
-        let word = questionTextSplit.shift();
-        document.getElementById('question').innerHTML += word + ' ';
-
-        // calculate time needed before reading next word
-        let time = Math.log(word.length) + 1;
-        if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123)
-            || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
-            time += 2;
-        else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
-            time += 0.75;
-        else if (word === "(*)")
-            time = 0;
-
-        timeoutId = window.setTimeout(() => {
-            recursivelyPrintTossup();
-        }, time * 0.9 * (125 - document.getElementById('reading-speed').value));
-    } else {
-        document.getElementById('pause').disabled = true;
-    }
 }
 
 
@@ -450,8 +403,6 @@ document.getElementById('answer-form').addEventListener('submit', function (even
         username: username,
         givenAnswer: answer,
         celerity: celerity,
-        inPower: !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)'),
-        endOfQuestion: (questionTextSplit.length === 0),
     }));
 });
 
@@ -462,7 +413,6 @@ document.getElementById('buzz').addEventListener('click', function () {
     document.getElementById('answer-input').focus();
     socket.send(JSON.stringify({ type: 'buzz', userId: USER_ID, username: username }));
 });
-
 
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
@@ -627,6 +577,7 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
+
 document.addEventListener('keypress', function (event) {
     // needs to be keypress
     // keydown immediately hides the input group
@@ -635,6 +586,7 @@ document.addEventListener('keypress', function (event) {
         document.getElementById('chat').click();
     }
 });
+
 
 window.onload = () => {
     username = localStorage.getItem('username') || randomUsername();
@@ -645,8 +597,6 @@ window.onload = () => {
         .then(room => {
             tossup = room.question;
             setName = room.setName || '';
-            packetNumber = room.packetNumber || 0;
-            questionNumber = room.questionNumber || 0;
             difficulties = room.difficulties || [];
             validCategories = room.validCategories || [];
             validSubcategories = room.validSubcategories || [];
@@ -656,8 +606,8 @@ window.onload = () => {
             document.getElementById('packet-number').value = arrayToRange(room.packetNumbers) || '';
 
             document.getElementById('set-name-info').innerHTML = setName;
-            document.getElementById('packet-number-info').innerHTML = packetNumber || '-';
-            document.getElementById('question-number-info').innerHTML = questionNumber || '-';
+            document.getElementById('packet-number-info').innerHTML = room.packetNumber || '-';
+            document.getElementById('question-number-info').innerHTML = room.questionNumber || '-';
 
             document.getElementById('reading-speed').value = room.readingSpeed;
             document.getElementById('reading-speed-display').innerHTML = room.readingSpeed;
