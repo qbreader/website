@@ -16,7 +16,7 @@ const PING_INTERVAL_ID = setInterval(() => {
 }, 45000);
 
 
-async function next() {
+function next() {
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
@@ -24,7 +24,7 @@ async function next() {
     document.getElementById('pause').innerHTML = 'Pause';
     document.getElementById('pause').disabled = false;
 
-    return await fetch(`/api/multiplayer/current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
+    fetch(`/api/multiplayer/current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
         .then(response => response.json())
         .then(data => {
             if (data.endOfSet) {
@@ -508,7 +508,7 @@ document.getElementById('toggle-multiple-buzzes').addEventListener('click', func
 
 document.getElementById('toggle-select-by-difficulty').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-select-by-difficulty', userId: USER_ID, username: username, setName: document.getElementById('set-name').value, selectByDifficulty: this.checked })); 
+    socket.send(JSON.stringify({ type: 'toggle-select-by-difficulty', userId: USER_ID, username: username, setName: document.getElementById('set-name').value, selectByDifficulty: this.checked }));
 });
 
 
@@ -550,7 +550,7 @@ document.addEventListener('keydown', function (event) {
         // press escape to close chat
         document.getElementById('chat-input-group').classList.add('d-none');
     }
-    
+
     if (document.activeElement.tagName === 'INPUT') return;
 
     switch (event.key) {
@@ -607,16 +607,14 @@ window.onload = () => {
             document.getElementById('toggle-multiple-buzzes').checked = room.allowMultipleBuzzes;
             loadCategoryModal(validCategories, validSubcategories);
 
-            if (room.questionInProgress) {
-                document.getElementById('question').innerHTML = 'Question in progress...';
-                document.getElementById('next').disabled = true;
-            } else if (Object.keys(tossup).length > 0) {
-                document.getElementById('question').innerHTML = room.question.question;
-                document.getElementById('answer').innerHTML = 'ANSWER: ' + room.question.answer;
-            } else {
+            if (room.questionProgress === 0) {
                 document.getElementById('next').innerHTML = 'Start';
                 document.getElementById('next').classList.remove('btn-primary');
                 document.getElementById('next').classList.add('btn-success');
+            } else if (room.questionProgress === 1) {
+                document.getElementById('next').innerHTML = 'Skip';
+            } else {
+                document.getElementById('next').innerHTML = 'Next';
             }
 
             Object.keys(room.players).forEach(player => {
