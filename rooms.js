@@ -24,6 +24,7 @@ async function goToNextQuestion(roomName) {
     rooms[roomName].packetNumber = nextQuestion.packetNumber;
     rooms[roomName].questionNumber = nextQuestion.questionNumber;
     rooms[roomName].wordIndex = 0;
+    rooms[roomName].buzzedIn = false;
 }
 
 
@@ -34,7 +35,7 @@ async function parseMessage(roomName, message) {
     switch (message.type) {
         case 'buzz':
             buzz(roomName, message.userId);
-            break;
+            return;
         case 'change-username':
         case 'join':
             updateUsername(roomName, message.userId, message.username);
@@ -117,6 +118,11 @@ function buzz(roomName, userId) {
     } else {
         clearTimeout(rooms[roomName].buzzTimeout);
         rooms[roomName].buzzedIn = true;
+        sendSocketMessage(roomName, {
+            type: 'buzz',
+            userId: userId,
+            username: rooms[roomName].players[userId].username
+        });
         sendSocketMessage(roomName, {
             type: 'update-question',
             word: '(#)'
