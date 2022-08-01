@@ -108,11 +108,20 @@ async function parseMessage(roomName, message) {
 
 
 function buzz(roomName, userId) {
-    clearTimeout(rooms[roomName].buzzTimeout);
-    sendSocketMessage(roomName, {
-        type: 'update-question',
-        word: '(#)'
-    });
+    if (rooms[roomName].buzzedIn) {
+        sendSocketMessage(roomName, {
+            type: 'lost-buzzer-race',
+            userId: userId,
+            username: rooms[roomName].players[userId].username
+        });
+    } else {
+        clearTimeout(rooms[roomName].buzzTimeout);
+        rooms[roomName].buzzedIn = true;
+        sendSocketMessage(roomName, {
+            type: 'update-question',
+            word: '(#)'
+        });
+    }
 }
 
 
@@ -198,7 +207,8 @@ function createRoom(roomName) {
         allowMultipleBuzzes: true,
         selectByDifficulty: false,
         paused: false,
-        buzzTimeout: null
+        buzzTimeout: null,
+        buzzedIn: false
     }
 
     sockets[roomName] = [];
@@ -261,6 +271,7 @@ function giveAnswer(roomName, userId, givenAnswer, celerity) {
     let endOfQuestion = (rooms[roomName].wordIndex === rooms[roomName].tossup.question.split(' ').length);
     let inPower = rooms[roomName].tossup.question.includes('(*)') && !rooms[roomName].tossup.question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ').includes('(*)');
     let score = quizbowl.scoreTossup(rooms[roomName].tossup.answer, givenAnswer, inPower, endOfQuestion);
+    rooms[roomName].buzzedIn = false;
     updateScore(roomName, userId, score, celerity);
 
     if (score < 0) {
