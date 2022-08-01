@@ -1,3 +1,5 @@
+const uuid = require('uuid');
+
 const database = require('./database');
 const quizbowl = require('./quizbowl');
 
@@ -21,6 +23,7 @@ async function goToNextQuestion(roomName) {
     rooms[roomName].packetNumbers = rooms[roomName].packetNumbers.filter(packetNumber => packetNumber >= nextQuestion.packetNumber);
     rooms[roomName].packetNumber = nextQuestion.packetNumber;
     rooms[roomName].questionNumber = nextQuestion.questionNumber;
+    rooms[roomName].wordIndex = 0;
 }
 
 
@@ -29,72 +32,93 @@ async function goToNextQuestion(roomName) {
  */
 async function parseMessage(roomName, message) {
     switch (message.type) {
+        case 'buzz':
+            buzz(roomName, message.userId);
+            break;
         case 'change-username':
             updateUsername(roomName, message.userId, message.username);
-            return message;
+            break;
         case 'clear-stats':
-            createPlayer(roomName, message.userId, message.username, true);
-            return message;
+            rooms[roomName].players[message.userId].powers = 0;
+            rooms[roomName].players[message.userId].tens = 0;
+            rooms[roomName].players[message.userId].zeroes = 0;
+            rooms[roomName].players[message.userId].negs = 0;
+            rooms[roomName].players[message.userId].points = 0;
+            rooms[roomName].players[message.userId].tuh = 0;
+            rooms[roomName].players[message.userId].celerity.all.total = 0;
+            rooms[roomName].players[message.userId].celerity.all.average = 0;
+            rooms[roomName].players[message.userId].celerity.correct.total = 0;
+            rooms[roomName].players[message.userId].celerity.correct.average = 0;
+            break;
         case 'difficulties':
             rooms[roomName].difficulties = message.value;
-            return message;
+            break;
         case 'give-answer':
-            let score = quizbowl.scoreTossup(rooms[roomName].question.answer, message.givenAnswer, message.inPower, message.endOfQuestion);
-            updateScore(roomName, message.userId, score, message.celerity);
+            let score = giveAnswer(roomName, message.userId, message.givenAnswer, message.celerity);
             message.celerity = rooms[roomName].players[message.userId].celerity.correct.average;
             message.score = score;
-            return message;
-        case 'join':
-            createPlayer(roomName, message.userId, message.username);
-            return message;
+            break;
         case 'leave':
-            delete rooms[roomName].players[message.userId];
-            return message;
+            deletePlayer(roomName, message.userId);
+            break;
         case 'next':
+            clearTimeout(rooms[roomName].buzzTimeout);
+            revealQuestion(roomName);
         case 'start':
             await goToNextQuestion(roomName);
-            return message;
+            sendSocketMessage(roomName, message);
+            updateQuestion(roomName);
+            return;
         case 'packet-number':
             rooms[roomName].packetNumbers = message.value;
             rooms[roomName].packetNumber = message.value[0];
             rooms[roomName].questionNumber = -1;
-            return message;
+            break;
+        case 'pause':
+            togglePause(roomName);
+            break;
         case 'reading-speed':
             rooms[roomName].readingSpeed = message.value;
-            return message;
+            break;
         case 'set-name':
             rooms[roomName].setName = message.value;
             rooms[roomName].questionNumber = -1;
-            return message;
+            break;
         case 'toggle-multiple-buzzes':
             rooms[roomName].allowMultipleBuzzes = message.allowMultipleBuzzes;
-            return message;
+            break;
         case 'toggle-select-by-difficulty':
             rooms[roomName].selectByDifficulty = message.selectByDifficulty;
             rooms[roomName].setName = message.setName;
             rooms[roomName].questionNumber = -1;
-            return message;
+            break;
         case 'toggle-visibility':
             rooms[roomName].public = message.public;
-            return message;
+            break;
         case 'update-categories':
             rooms[roomName].validCategories = message.categories;
             rooms[roomName].validSubcategories = message.subcategories;
-            return message;
-        default:
-            return message;
+            break;
     }
+
+    sendSocketMessage(roomName, message);
 }
 
 
-function createPlayer(roomName, userId, username, overrideExistingPlayer = false) {
-    if (!overrideExistingPlayer && (userId in rooms[roomName].players)) {
-        return false;
-    }
+function buzz(roomName, userId) {
+    clearTimeout(rooms[roomName].buzzTimeout);
+    sendSocketMessage(roomName, {
+        type: 'update-question',
+        word: '(#)'
+    });
+}
 
+
+function createPlayer(roomName, socket) {
+    let userId = uuid.v4();
     rooms[roomName].players[userId] = {
-        username: username,
-        userId: userId,
+        socket: socket,
+        username: '',
         powers: 0,
         tens: 0,
         zeroes: 0,
@@ -113,11 +137,20 @@ function createPlayer(roomName, userId, username, overrideExistingPlayer = false
         }
     };
 
+    socket.send(JSON.stringify({
+        type: 'user-id',
+        userId: userId
+    }));
+
     return true;
 }
 
 
 function createRoom(roomName) {
+    if (roomName in rooms) {
+        return false;
+    }
+
     rooms[roomName] = {
         players: {},
         difficulties: [4, 5],
@@ -129,17 +162,16 @@ function createRoom(roomName) {
         validCategories: [],
         validSubcategories: [],
         question: {},
+        wordIndex: 0,
         endOfSet: false,
         questionInProgress: false,
         public: true,
         allowMultipleBuzzes: true,
-        selectByDifficulty: false
+        selectByDifficulty: false,
+        paused: false,
     }
-}
 
-
-function deleteRoom(roomName) {
-    delete rooms[roomName];
+    return true;
 }
 
 
@@ -151,6 +183,19 @@ function getCurrentQuestion(roomName) {
         questionNumber: rooms[roomName].questionNumber,
         setName: rooms[roomName].setName,
     };
+}
+
+
+function deletePlayer(roomName, socket) {
+    for (let userId in rooms[roomName].players) {
+        if (rooms[roomName].players[userId].socket === socket) {
+            console.log(`User ${userId} closed connection in room ${roomName}`);
+            delete rooms[roomName].players[userId];
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
@@ -172,12 +217,108 @@ function getRoomList(showPrivateRooms = false) {
 }
 
 
+function giveAnswer(roomName, userId, givenAnswer, celerity) {
+    let endOfQuestion = (rooms[roomName].wordIndex === rooms[roomName].question.question.split(' ').length);
+    let inPower = rooms[roomName].question.question.includes('(*)') && !rooms[roomName].question.question.split(' ').slice(0, rooms[roomName].wordIndex).join(' ').includes('(*)');
+    let score = quizbowl.scoreTossup(rooms[roomName].question.answer, givenAnswer, inPower, endOfQuestion);
+    updateScore(roomName, userId, score, celerity);
+
+    if (score < 0) {
+        updateQuestion(roomName);
+    } else {
+        revealQuestion(roomName);
+    }
+
+    return score;
+}
+
+
+function pruneRoom(roomName) {
+    if (Object.keys(rooms[roomName].players).length === 0) {
+        console.log(`Deleted room ${roomName}`);
+        delete rooms[roomName];
+        return true;
+    }
+
+    return false;
+}
+
+
+function revealQuestion(roomName) {
+    let remainingQuestion = rooms[roomName].question.question.split(' ').slice(rooms[roomName].wordIndex).join(' ');
+    sendSocketMessage(roomName, {
+        type: 'update-question',
+        word: remainingQuestion
+    });
+
+    sendSocketMessage(roomName, {
+        type: 'update-answer',
+        answer: rooms[roomName].question.answer
+    });
+
+    rooms[roomName].wordIndex = rooms[roomName].question.question.split(' ').length;
+}
+
+
+function sendSocketMessage(roomName, message) {
+    for (let userId in rooms[roomName].players) {
+        rooms[roomName].players[userId].socket.send(JSON.stringify(message));
+    }
+}
+
+
+function togglePause(roomName) {
+    rooms[roomName].paused = !rooms[roomName].paused;
+    if (rooms[roomName].paused) {
+        clearTimeout(rooms[roomName].buzzTimeout);
+    } else {
+        updateQuestion(roomName);
+    }
+}
+
+
+function updateQuestion(roomName) {
+    let wordIndex = rooms[roomName].wordIndex;
+    let questionSplit = rooms[roomName].question.question.split(' ');
+    if (wordIndex >= questionSplit.length) {
+        return;
+    }
+
+    let word = questionSplit[wordIndex];
+
+    // calculate time needed before reading next word
+    let time = Math.log(word.length) + 1;
+    if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123)
+        || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
+        time += 2;
+    else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
+        time += 0.75;
+    else if (word === "(*)")
+        time = 0;
+
+    sendSocketMessage(roomName, {
+        type: 'update-question',
+        word: word
+    });
+
+    rooms[roomName].buzzTimeout = setTimeout(() => {
+        updateQuestion(roomName);
+    }, time * 0.9 * (125 - rooms[roomName].readingSpeed));
+
+    rooms[roomName].wordIndex++;
+}
+
+
 function updateUsername(roomName, userId, username) {
     rooms[roomName].players[userId].username = username;
 }
 
 
 function updateScore(roomName, userId, score, celerity) {
+    rooms[roomName].players[userId].points += score;
+    rooms[roomName].players[userId].celerity.all.total += celerity;
+    rooms[roomName].players[userId].celerity.all.average = rooms[roomName].players[userId].celerity.all.total / rooms[roomName].players[userId].tuh;
+
     if (score > 10) {
         rooms[roomName].players[userId].powers++;
     } else if (score === 10) {
@@ -199,12 +340,7 @@ function updateScore(roomName, userId, score, celerity) {
         rooms[roomName].players[userId].celerity.correct.total += celerity;
         rooms[roomName].players[userId].celerity.correct.average = rooms[roomName].players[userId].celerity.correct.total / numCorrect;
     }
-
-    rooms[roomName].players[userId].points += score;
-    rooms[roomName].players[userId].celerity.all.total += celerity;
-    rooms[roomName].players[userId].celerity.all.average = rooms[roomName].players[userId].celerity.all.total / rooms[roomName].players[userId].tuh;
-    return score;
 }
 
 
-module.exports = { getRoom, getRoomList, getCurrentQuestion, goToNextQuestion, deleteRoom, createRoom, updateScore, parseMessage };
+module.exports = { getRoom, getRoomList, getCurrentQuestion, goToNextQuestion, createPlayer, createRoom, deletePlayer, pruneRoom, parseMessage };
