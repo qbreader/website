@@ -254,6 +254,7 @@ function pruneRoom(roomName) {
     if (Object.keys(rooms[roomName].players).length === 0) {
         console.log(`Deleted room ${roomName}`);
         delete rooms[roomName];
+        delete sockets[roomName];
         return true;
     }
 
@@ -278,7 +279,7 @@ function revealQuestion(roomName) {
 
 
 function sendSocketMessage(roomName, message) {
-    for (let socket of sockets[roomName].players) {
+    for (let socket of sockets[roomName]) {
         socket.send(JSON.stringify(message));
     }
 }
