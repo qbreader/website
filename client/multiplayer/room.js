@@ -89,13 +89,8 @@ async function processSocketMessage(data) {
             document.getElementById('accordion-' + data.userId).remove();
             break;
         case 'next':
+            logEvent(data.username, `went to the next question`);
             createTossupCard(tossup, document.getElementById('set-name-info').innerHTML);
-            if (document.getElementById('next').innerHTML === 'Skip') {
-                logEvent(data.username, `skipped the question`);
-            } else {
-                logEvent(data.username, `went to the next question`);
-                document.getElementById('next').innerHTML = 'Skip';
-            }
             next();
             break;
         case 'pause':
@@ -106,9 +101,14 @@ async function processSocketMessage(data) {
             document.getElementById('reading-speed').value = data.value;
             document.getElementById('reading-speed-display').innerHTML = data.value;
             break;
-        case 'start':
+        case 'skip':
+            logEvent(data.username, `skipped the question`);
+            createTossupCard(tossup, document.getElementById('set-name-info').innerHTML);
             next();
+            break;
+        case 'start':
             logEvent(data.username, `started the game`);
+            next();
             break;
         case 'toggle-multiple-buzzes':
             logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
@@ -452,8 +452,10 @@ document.getElementById('next').addEventListener('click', function () {
 
     if (document.getElementById('next').innerHTML === 'Start') {
         socket.send(JSON.stringify({ type: 'start', userId: USER_ID, username: username }));
-    } else {
+    } else if (document.getElementById('next').innerHTML === 'Next') {
         socket.send(JSON.stringify({ type: 'next', userId: USER_ID, username: username }));
+    } else if (document.getElementById('next').innerHTML === 'Skip') {
+        socket.send(JSON.stringify({ type: 'skip', userId: USER_ID, username: username }));
     }
 
     document.getElementById('options').classList.add('d-none');
