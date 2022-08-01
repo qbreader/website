@@ -12,7 +12,6 @@ var changedCategories = false;
 var tossup = {};
 var difficulties;
 var setName;
-var packetNumber = -1;
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(() => {
@@ -44,7 +43,6 @@ async function next() {
             document.getElementById('question-number-info').innerHTML = data.questionNumber;
 
             tossup = data.question;
-            setName = data.setName;
 
             return true;
         });
@@ -96,12 +94,7 @@ async function processSocketMessage(data) {
             document.getElementById('accordion-' + data.userId).remove();
             break;
         case 'next':
-            createTossupCard({
-                question: document.getElementById('question').innerHTML,
-                answer: document.getElementById('answer').innerHTML,
-                packetNumber: document.getElementById('packet-number-info').innerHTML,
-                questionNumber: document.getElementById('question-number-info').innerHTML
-            }, document.getElementById('set-name-info').innerHTML);
+            createTossupCard(tossup, document.getElementById('set-name-info').innerHTML);
             if (document.getElementById('next').innerHTML === 'Skip') {
                 logEvent(data.username, `skipped the question`);
             } else {
@@ -188,7 +181,6 @@ function connectToWebSocket() {
 
     socket.onmessage = function (event) {
         let data = JSON.parse(event.data);
-        console.log(data);
         processSocketMessage(data);
     }
 
@@ -263,7 +255,7 @@ function createPlayerAccordionItem(player) {
     tuhSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(tuhSpan);
 
-accordionBody.innerHTML += ' tossups seen (';
+    accordionBody.innerHTML += ' tossups seen (';
 
     let pointsSpan = document.createElement('span');
     pointsSpan.innerHTML = points;
@@ -596,16 +588,15 @@ window.onload = () => {
         .then(response => response.json())
         .then(room => {
             tossup = room.question;
-            setName = room.setName || '';
             difficulties = room.difficulties || [];
             validCategories = room.validCategories || [];
             validSubcategories = room.validSubcategories || [];
 
             document.getElementById('difficulties').value = arrayToRange(difficulties);
-            document.getElementById('set-name').value = setName;
+            document.getElementById('set-name').value = room.setName || '';
             document.getElementById('packet-number').value = arrayToRange(room.packetNumbers) || '';
 
-            document.getElementById('set-name-info').innerHTML = setName;
+            document.getElementById('set-name-info').innerHTML = room.setName || '';
             document.getElementById('packet-number-info').innerHTML = room.packetNumber || '-';
             document.getElementById('question-number-info').innerHTML = room.questionNumber || '-';
 

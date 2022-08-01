@@ -56,7 +56,6 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (message) => {
         message = JSON.parse(message);
-        console.log(message);
         rooms.parseMessage(ws.protocol, message);
     });
 
