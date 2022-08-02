@@ -122,7 +122,7 @@ function revealBonusPart() {
         createBonusPart(currentBonusPart, questions[questionNumber]['parts'][currentBonusPart]);
     } else {
         let paragraph = document.createElement('p');
-        paragraph.appendChild(document.createTextNode('ANSWER: ' + questions[questionNumber]['answers'][currentBonusPart]));
+        paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber]['answers'][currentBonusPart];
         document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
         currentBonusPart++;
     }
