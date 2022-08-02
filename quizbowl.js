@@ -23,37 +23,41 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     answer = answer.toLowerCase().trim();
     answer = answer.replace(/<\/?[biu]>/g, '');
     answer = answer.replace(/<\/?em>/g, '');
-    answer = answer.replace('.', '');
+    answer = answer.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
     answer = answer.replace('-', ' ');
 
     givenAnswer = givenAnswer.toLowerCase().trim();
-    givenAnswer = givenAnswer.replace('.', '');
+    givenAnswer = givenAnswer.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
     givenAnswer = givenAnswer.replace('-', ' ');
 
-    if (answer.length === 0 || givenAnswer.length === 0) {
+    let answerTokens = answer.split(' ').filter(token => !METAWORDS.includes(token));
+    let givenAnswerTokens = givenAnswer.split(' ').filter(token => token.length > 1);
+
+    if (answerTokens.length === 0) {
         return false;
     }
 
-    let answerTokens = answer.split(' ');
-    let givenAnswerTokens = givenAnswer.split(' ');
+    if (givenAnswerTokens.length === 0) {
+        return false;
+    }
 
     for (let i = 0; i < givenAnswerTokens.length; i++) {
-        if (givenAnswerTokens[i].length <= 1) continue;
+        let answerTokenMatches = false;
 
         // if given answer token matches any word in the answerline
         for (let j = 0; j < answerTokens.length; j++) {
-            if (METAWORDS.includes(answerTokens[j])) {
-                // console.log(answerTokens[j]);
-                continue;
-            }
-            if (answerTokens[j].length === 1) continue;
             if (dljs.distance(givenAnswerTokens[i], answerTokens[j]) <= 1) {
-                return true;
+                answerTokenMatches = true;
+                break;
             }
+        }
+
+        if (!answerTokenMatches) {
+            return false;
         }
     }
 
-    return false;
+    return true;
 }
 
 
