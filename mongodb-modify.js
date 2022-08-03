@@ -23,8 +23,8 @@ client.connect().then(async () => {
     //         (err, result) => {
     //             if (err) console.log(err);
 
-    //             console.log(counter, set.name);
     //             counter++;
+    //             console.log(counter, set.name);
     //         });
     // });
 
@@ -42,5 +42,6 @@ client.connect().then(async () => {
     // console.log(q);
 
     // console.log(await questions.updateMany({ set: new ObjectId('62df794b07cf5c5fbc9c7e91') }, {$unset: {answer_formatted: 1, answers_formatted: 1}}));
+    // console.log(await questions.deleteMany({ set: new ObjectId('62ead0be8c91030f69d5b45d') }));
     console.log('success');
 });
