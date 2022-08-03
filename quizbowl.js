@@ -1,4 +1,5 @@
 const dljs = require('damerau-levenshtein-js');
+const { toWords } = require('number-to-words');
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const SUBCATEGORIES = [
@@ -31,7 +32,8 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     givenAnswer = givenAnswer.replace('-', ' ');
 
     let answerTokens = answer.split(' ').filter(token => !METAWORDS.includes(token));
-    let givenAnswerTokens = givenAnswer.split(' ').filter(token => token.length > 1);
+    answerTokens = answerTokens.map(token => isNaN(token) ? token : toWords(parseInt(token)));
+    let givenAnswerTokens = givenAnswer.split(' ').map(token => isNaN(token) ? token : toWords(parseInt(token)));
 
     if (answerTokens.length === 0) {
         return false;
