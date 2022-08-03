@@ -31,9 +31,12 @@ function checkAnswerCorrectness(answer, givenAnswer) {
     givenAnswer = givenAnswer.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
     givenAnswer = givenAnswer.replace('-', ' ');
 
-    let answerTokens = answer.split(' ').filter(token => !METAWORDS.includes(token));
+    if (givenAnswer.length === 0) return false;
+
+    let answerTokens = answer.split(' ').filter(token => !METAWORDS.includes(token) && token.length > 0);
     answerTokens = answerTokens.map(token => isNaN(token) ? token : toWords(parseInt(token)));
-    let givenAnswerTokens = givenAnswer.split(' ').map(token => isNaN(token) ? token : toWords(parseInt(token)));
+    let givenAnswerTokens = givenAnswer.split(' ').filter(token => token.length > 0);
+    givenAnswerTokens = givenAnswerTokens.map(token => isNaN(token) ? token : toWords(parseInt(token)));
 
     if (answerTokens.length === 0) {
         return false;
