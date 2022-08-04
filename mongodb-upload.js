@@ -16,7 +16,7 @@ client.connect().then(() => {
     const questions = database.collection('questions');
 
     const PACKET_DIRECTORY = 'packets/';
-    fs.readdirSync(PACKET_DIRECTORY).forEach(setName => {
+    fs.readdirSync(PACKET_DIRECTORY).forEach(async setName => {
         let packetNumber = 0;
         if (setName.endsWith('.sh') || setName == '.DS_Store') return;
 
