@@ -20,6 +20,11 @@ client.connect().then(() => {
         let packetNumber = 0;
         if (setName.endsWith('.sh') || setName == '.DS_Store') return;
 
+        if (await sets.findOne({ name: setName })) {
+            console.log(`${setName} already exists`);
+            return;
+        }
+
         let set = {_id: new ObjectId(), name: setName, packets: []};
         fs.readdirSync(PACKET_DIRECTORY + setName).forEach((packetName) => {
             if (!packetName.endsWith('.json')) return;
