@@ -16,6 +16,14 @@ const database = client.db('qbreader');
 const sets = database.collection('sets');
 const questions = database.collection('questions');
 
+
+async function deleteSet(setName) {
+    let set = await sets.findOne({ name: setName });
+    sets.deleteOne({ name: setName });
+    console.log(await questions.deleteMany({ set: set._id }));
+}
+
+
 function listSetsWithAnswerFormatting() {
     questions.aggregate([
         {
@@ -47,3 +55,4 @@ function updateSetDifficulty(setName, difficulty) {
 
 
 listSetsWithAnswerFormatting();
+// updateSetDifficulty('2018 PACE NSC', 5);
