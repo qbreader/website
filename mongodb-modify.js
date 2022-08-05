@@ -44,7 +44,7 @@ function updateSetDifficulty(setName, difficulty) {
     sets.find({ name: setName }).forEach(set => {
         questions.updateMany(
             { set: set._id },
-            { $set: { difficulty: difficulty } },
+            { $set: { difficulty: difficulty, updatedAt: new Date() } },
             (err, result) => {
                 if (err) console.log(err);
 
@@ -54,5 +54,5 @@ function updateSetDifficulty(setName, difficulty) {
 }
 
 
-listSetsWithAnswerFormatting();
-// updateSetDifficulty('2018 PACE NSC', 5);
+// listSetsWithAnswerFormatting();
+// updateSetDifficulty('2011 PACE NSC', 5);
