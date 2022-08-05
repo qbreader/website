@@ -38,6 +38,24 @@ function listSetsWithAnswerFormatting() {
 }
 
 
+function standardizeSubcategories() {
+    const cats = require('./subcat-to-cat.json');
+    const subcats = require('./standardize-subcats.json');
+
+    questions.find({}, { projection: { _id: 1, category: 1, subcategory: 1 } }).forEach(question => {
+        if (question.subcategory === undefined || question.subcategory in cats) {
+            return;
+        } else if (question.subcategory in subcats) {
+            console.log(`${question.subcategory} -> ${subcats[question.subcategory]}`);
+            question.subcategory = subcats[question.subcategory];
+            questions.updateOne({ _id: question._id }, { $set: { category: cats[question.subcategory], subcategory: question.subcategory } });
+        } else {
+            console.log(`${question.subcategory} not found`);
+        }
+    });
+}
+
+
 function updateSetDifficulty(setName, difficulty) {
     sets.updateOne({ name: setName }, { $set: { difficulty: difficulty } });
 
