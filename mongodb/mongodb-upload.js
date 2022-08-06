@@ -75,5 +75,4 @@ client.connect().then(() => {
             console.log(setName + ' inserted');
         });
     });
-    console.log('success');
 });
