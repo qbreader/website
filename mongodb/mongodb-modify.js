@@ -76,8 +76,3 @@ function updateSetDifficulty(setName, difficulty) {
             });
     });
 }
-
-
-// listSetsWithAnswerFormatting();
-// updateSetDifficulty('2011 PACE NSC', 5);
-standardizeSubcategories();
