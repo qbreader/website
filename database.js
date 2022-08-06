@@ -7,7 +7,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
-client.connect();
+client.connect().then(async () => {
+    console.time('getNextQuestion');
+    console.log(await getNextQuestion('2022 PACE NSC', [1], 1, ['Science'], ['Biology', 'Chemistry', 'Physics']));
+    console.timeEnd('getNextQuestion');
+});
 console.log('connected to mongodb');
 const DATABASE = client.db('qbreader');
 const SETS = DATABASE.collection('sets');
@@ -26,11 +30,11 @@ SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(s
  * @param {Number} currentQuestionNumber - current question number. **Starts at 1.**
  * @param {Array<String>} validCategories 
  * @param {Array<String>} validSubcategories 
- * @param {Array<String>} allowedTypes - Array of allowed types. Default: `['tossups', 'bonuses]` 
+ * @param {String} type - Type of question you want to get. Default: `'tossup'`. 
  * @param {Boolean} alwaysUseUnformattedAnswer - whether to always use the unformatted answer. Default: `false`
  * @returns {JSON}
  */
-async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, allowedTypes = ['tossup'], alwaysUseUnformattedAnswer = false) {
+async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type='tossup', alwaysUseUnformattedAnswer = false) {
     let set = await SETS.findOne({ name: setName }).catch(error => {
         console.log('DATABASE ERROR:', error);
         return {};
@@ -47,14 +51,14 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
                 subcategory: { $in: validSubcategories },
                 packetNumber: packetNumbers[0],
                 questionNumber: { $gt: currentQuestionNumber },
-                type: { $in: allowedTypes }
+                type: type
             },
             {
                 set: set._id,
                 category: { $in: validCategories },
                 subcategory: { $in: validSubcategories },
                 packetNumber: { $in: packetNumbers.slice(1) },
-                type: { $in: allowedTypes }
+                type: type
             },
         ]
     }, {
@@ -71,6 +75,11 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     return question || {};
 }
 
+
+
+        // Get the next question if the current one is in the wrong category and subcategory
+    } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
+}
 
 /**
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
