@@ -100,7 +100,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
         let result = {};
 
         if (allowedTypes.includes('tossups')) {
-            result['tossups'] = await QUESTIONS.find({ packet: packet._id, type: 'tossup' }, { sort: { packetNumber: 1, questionNumber: 1 } }).toArray();
+            result['tossups'] = await QUESTIONS.find({ packet: packet._id, type: 'tossup' }, { sort: { questionNumber: 1 } }).toArray();
             if (!alwaysUseUnformattedAnswer) {
                 for (let question of result['tossups']) {
                     if (question.hasOwnProperty('answer_formatted')) {
@@ -111,7 +111,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
         }
 
         if (allowedTypes.includes('bonuses')) {
-            result['bonuses'] = await QUESTIONS.find({ packet: packet._id, type: 'bonus' }, { sort: { packetNumber: 1, questionNumber: 1 } }).toArray();
+            result['bonuses'] = await QUESTIONS.find({ packet: packet._id, type: 'bonus' }, { sort: { questionNumber: 1 } }).toArray();
             if (!alwaysUseUnformattedAnswer) {
                 for (let question of result['bonuses']) {
                     if (question.hasOwnProperty('answers_formatted')) {
