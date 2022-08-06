@@ -7,11 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
-client.connect().then(async () => {
-    console.time('getNextQuestion');
-    console.log(await getNextQuestion('2022 PACE NSC', [1], 1, ['Science'], ['Biology', 'Chemistry', 'Physics']));
-    console.timeEnd('getNextQuestion');
-});
+client.connect();
 console.log('connected to mongodb');
 const DATABASE = client.db('qbreader');
 const SETS = DATABASE.collection('sets');
@@ -75,11 +71,6 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     return question || {};
 }
 
-
-
-        // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
-}
 
 /**
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
