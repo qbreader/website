@@ -125,7 +125,7 @@
         </div>
     </div>
 
-    <nav class="navbar navbar-light navbar-expand-lg bg-custom position-sticky top-0" id="navbar" style="z-index: 10">
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
         <div class="container-fluid">
             <a class="navbar-brand ms-1 py-0" id="logo" href="/"><span class="logo-prefix">QB</span>Reader</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -183,11 +183,12 @@
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="reveal" disabled>Reveal</button>
-                <button type="button" class="mb-2 btn btn-danger d-lg-none"  id="toggle-options" disabled>Options</button>
-                <br>
+                <div class="buttons position-sticky top-0 pt-2 bg-body">
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="reveal" disabled>Reveal</button>
+                    <button type="button" class="mb-2 btn btn-danger d-lg-none"  id="toggle-options" disabled>Options</button>
+                </div>
                 <span class="" id="statline">0.00 PPB with 0 bonuses seen (0/0/0/0, 0 pts)</span>
                 <span class="float-end ps-5 me-lg-2" id="question-metadata">
                     <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info"></span> Question <span id="question-number-info"></span></b>
