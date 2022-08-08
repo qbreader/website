@@ -154,7 +154,7 @@
         </div>
     </div>
 
-    <nav class="navbar navbar-light navbar-expand-lg bg-custom position-sticky top-0" id="navbar" style="z-index: 10">
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
         <div class="container-fluid">
             <a class="navbar-brand ms-1 py-0" id="logo" href="/"><span class="logo-prefix">QB</span>Reader</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -240,24 +240,26 @@
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s or n key" class="mb-2 btn btn-primary" id="next">Next</button>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: enter key"  class="mb-2 btn btn-info"    id="chat">Chat</button>
-                <button type="button" class="mb-2 btn btn-danger d-lg-none" id="toggle-options">Options</button>
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
-                <form id="answer-form">
-                    <!-- User enters answer here -->
-                    <div class="input-group d-none my-2" id="answer-input-group">
-                        <input type="text" class="form-control" id="answer-input" placeholder="Enter answer">
-                        <button type="submit" class="btn btn-success" id="answer-submit">Submit</button>
-                    </div>
-                </form>
-                <form id="chat-form">
-                    <div class="input-group d-none my-2" id="chat-input-group">
-                        <input type="text" class="form-control" id="chat-input" placeholder="Chat">
-                        <button type="submit" class="btn btn-success" id="chat-submit">Submit</button>
-                    </div>
-                </form>
+                <div class="position-sticky top-0 pt-2 bg-body">
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s or n key" class="mb-2 btn btn-primary" id="next">Next</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: enter key"  class="mb-2 btn btn-info"    id="chat">Chat</button>
+                    <button type="button" class="mb-2 btn btn-danger d-lg-none" id="toggle-options">Options</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
+                    <form id="answer-form">
+                        <!-- User enters answer here -->
+                        <div class="input-group d-none my-2" id="answer-input-group">
+                            <input type="text" class="form-control" id="answer-input" placeholder="Enter answer">
+                            <button type="submit" class="btn btn-success" id="answer-submit">Submit</button>
+                        </div>
+                    </form>
+                    <form id="chat-form">
+                        <div class="input-group d-none my-2" id="chat-input-group">
+                            <input type="text" class="form-control" id="chat-input" placeholder="Chat">
+                            <button type="submit" class="btn btn-success" id="chat-submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
                 <span class="float-end ps-5 me-lg-2" id="question-metadata">
                     <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info"></span> Question <span id="question-number-info"></span></b>
                 </span>
