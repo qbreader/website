@@ -109,7 +109,7 @@ function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
             let indexStart = string.indexOf('[');
             let indexEnd = string.indexOf(']');
             if (indexStart === -1) {
-                return [string, ''];
+                return { mainAnswer: string, subAnswer: '' };
             }
     
             let mainAnswer = string.substring(0, indexStart).trim();
@@ -167,6 +167,7 @@ function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
         }
 
         subPhrases.forEach(phrase => {
+            if (phrase.length === 0) return;
             let { directive, answers } = splitIntoAnswers(phrase);
             answers.forEach(answer => { 
                 if (directive === 'accept' || directive === 'prompt') {
