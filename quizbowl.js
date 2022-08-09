@@ -20,44 +20,54 @@ const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "C
 const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
 
 
-function checkAnswerCorrectness(answer, givenAnswer) {
-    answer = answer.toLowerCase().trim();
-    answer = answer.replace(/<\/?[biu]>/g, '');
-    answer = answer.replace(/<\/?em>/g, '');
-    answer = answer.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
-    answer = answer.replace('-', ' ');
+function stringMatchesReference(string, reference) {
+    const removePunctuation = (string) => {
+        return string.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
+    }
 
-    givenAnswer = givenAnswer.toLowerCase().trim();
-    givenAnswer = givenAnswer.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
-    givenAnswer = givenAnswer.replace('-', ' ');
+    string = string.toLowerCase().trim();
+    string = removePunctuation(string);
+    string = string.replace('-', ' ');
 
-    if (givenAnswer.length === 0) return false;
+    reference = reference.toLowerCase().trim();
+    reference = reference.replace(/<\/?[biu]>/g, '');
+    reference = reference.replace(/<\/?em>/g, '');
+    reference = removePunctuation(reference);
+    reference = reference.replace('-', ' ');
 
-    let answerTokens = answer.split(' ').filter(token => !METAWORDS.includes(token) && token.length > 0);
-    answerTokens = answerTokens.map(token => isNaN(token) ? token : toWords(parseInt(token)));
-    let givenAnswerTokens = givenAnswer.split(' ').filter(token => token.length > 0);
-    givenAnswerTokens = givenAnswerTokens.map(token => isNaN(token) ? token : toWords(parseInt(token)));
+    if (string.length === 0) return false;
 
-    if (answerTokens.length === 0) {
+    let stringTokens = string
+        .split(' ')
+        .filter(token => !METAWORDS.includes(token) && token.length > 0)
+        .map(token => isNaN(token) ? token : toWords(parseInt(token)));
+    let referenceTokens = reference
+        .split(' ')
+        .filter(token => !METAWORDS.includes(token) && token.length > 0)
+        .map(token => isNaN(token) ? token : toWords(parseInt(token)));
+
+    if (stringTokens.length === 0) {
         return false;
     }
 
-    if (givenAnswerTokens.length === 0) {
+    if (referenceTokens.length === 0) {
         return false;
     }
 
-    for (let i = 0; i < givenAnswerTokens.length; i++) {
-        let answerTokenMatches = false;
+    // check if every token in the string is in the reference
+    for (let i = 0; i < stringTokens.length; i++) {
+        let tokenMatches = false;
 
-        // if given answer token matches any word in the answerline
-        for (let j = 0; j < answerTokens.length; j++) {
-            if (dljs.distance(givenAnswerTokens[i], answerTokens[j]) <= 1) {
-                answerTokenMatches = true;
+        for (let j = 0; j < referenceTokens.length; j++) {
+            let errors = dljs.distance(stringTokens[i], referenceTokens[j]);
+
+            if (4 * errors < referenceTokens[j].length) {
+                tokenMatches = true;
                 break;
             }
         }
 
-        if (!answerTokenMatches) {
+        if (!tokenMatches) {
             return false;
         }
     }
@@ -67,81 +77,125 @@ function checkAnswerCorrectness(answer, givenAnswer) {
 
 
 /**
-* @param {JSON} question 
-* @param {Array<String>} validCategories
-* @param {Array<String>} validSubcategories
-* @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
-*/
-function isValidCategory(question, validCategories, validSubcategories) {
-    if (validCategories.length === 0 && validSubcategories.length === 0) return true;
-
-    // check if the subcategory is explicitly included (overrides missing category)
-    if (question.subcategory && validSubcategories.includes(question.subcategory)) return true;
-
-    // check if category is excluded (and subcategory is excluded)
-    if (!validCategories.includes(question['category'])) return false;
-
-    // at this point, the question category is included in the list of valid categories 
-    // check for the case where none of the subcategories are selected but the category is;
-    // in which case, the question is valid
-    if (!question.subcategory) return true;
-
-    // check to see if the category has no corresponding subcategories
-    let index = CATEGORIES.indexOf(question['category']);
-    if (!(index in SUBCATEGORIES)) return true;
-
-    // check to see if none of the subcategories of the question are selected
-    for (let i = 0; i < SUBCATEGORIES[index].length; i++) {
-        if (validSubcategories.includes(SUBCATEGORIES[index][i])) return false;
-    }
-
-    // if there are no subcategories selected in the field, then it is valid
-    return true;
-}
-
-
-function rangeToArray(string, max = 0) {
-    if (string.length === 0) {
-        string = `1-${max}`;
-    }
-
-    if (string.endsWith('-')) {
-        string = string + max;
-    }
-
-    let tokens = string.split(",");
-    let ranges = [];
-    for (let i = 0; i < tokens.length; i++) {
-        let range = tokens[i].trim().split("-");
-        if (range.length === 1) {
-            ranges.push([parseInt(range[0]), parseInt(range[0])]);
-        } else {
-            ranges.push([parseInt(range[0]), parseInt(range[1])]);
-        }
-    }
-
-    let array = [];
-    for (let i = 0; i < ranges.length; i++) {
-        for (let j = ranges[i][0]; j <= ranges[i][1]; j++) {
-            array.push(j);
-        }
-    }
-
-    return array;
-}
-
-
-/**
- * @param {String} answer 
+ * @param {String} answerline 
  * @param {String} givenAnswer 
  * @param {Boolean} inPower 
  * @param {Boolean} endOfQuestion 
  */
-function scoreTossup(answer, givenAnswer, inPower, endOfQuestion) {
-    let isCorrect = checkAnswerCorrectness(answer, givenAnswer);
+function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
+    const isFormattedAnswerline = answerline.includes('<u>');
+    let isCorrect = (checkAnswer(answerline, givenAnswer, isFormattedAnswerline) !== 'reject');
 
     return isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5);
 }
 
 
-module.exports = { CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, checkAnswerCorrectness, isValidCategory, rangeToArray, scoreTossup };
+/**
+ * 
+ * @param {String} answerline 
+ * @param {String} givenAnswer 
+ * @param {Boolean} isFormattedAnswerline 
+ * @returns {'accept' | 'prompt' | 'reject'}
+ */
+function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
+    const parseAnswerline = (answerline) => {
+        const removeParentheses = (string) => {
+            string = string.replace(/\([^\)]*\)/g, '');
+    
+            return string;
+        }
+    
+        const splitMainAnswer = (string) => {
+            let indexStart = string.indexOf('[');
+            let indexEnd = string.indexOf(']');
+            if (indexStart === -1) {
+                return [string, ''];
+            }
+    
+            let mainAnswer = string.substring(0, indexStart).trim();
+            let subAnswer = string.substring(indexStart + 1, indexEnd).trim();
+    
+            return { mainAnswer, subAnswer };
+        }
+    
+        const splitIntoPhrases = (string) => {
+            return string.split(';').map(token => token.trim());
+        };
+    
+        const splitIntoAnswers = (phrase) => {
+            phrase = phrase.toLowerCase();
+            let directive = 'accept'; // by default, this phrase accepts answers that match to it
+            if (phrase.startsWith('prompt')) {
+                directive = 'prompt';
+            } else if (phrase.startsWith('reject') || phrase.startsWith('do not accept')) {
+                directive = 'reject';
+            }
+    
+            phrase = phrase.replace(/^(or|prompt|prompt on|accept|reject|do not accept or prompt on|do not accept)/, '').trim();
+    
+            const answers = phrase.split(' or ').map(token => token.trim()).filter(token => token.length > 0);
+    
+            return { directive, answers };
+        }
+    
+        const extractUnderlining = (string) => {
+            let matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
+            if (matches) {
+                return matches.reduce((prev, curr) => prev + curr + ' ', '').trim();
+            } else {
+                return string;
+            }
+        }
+    
+        const extractQuotes = (string) => {
+            let matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
+            if (matches) {
+                return matches.reduce((prev, curr) => prev + curr + ' ', '').trim();
+            } else {
+                return string;
+            }
+        }
+    
+        answerline = removeParentheses(answerline);
+        let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
+        const subPhrases = splitIntoPhrases(subAnswer);
+        mainAnswer = extractUnderlining(mainAnswer);
+        const parsedAnswerline = {
+            accept: [mainAnswer],
+            prompt: [],
+            reject: []
+        }
+
+        subPhrases.forEach(phrase => {
+            let { directive, answers } = splitIntoAnswers(phrase);
+            answers.forEach(answer => { 
+                if (directive === 'accept' || directive === 'prompt') {
+                    answer = extractUnderlining(answer);
+                } else if (directive === 'reject') {
+                    answer = extractQuotes(answer);
+                }
+                parsedAnswerline[directive].push(answer);
+            });
+        })
+    
+        return parsedAnswerline;
+    }
+
+    const parsedAnswerline = parseAnswerline(answerline);
+
+    for (let type of ['reject', 'accept', 'prompt']) {
+        for (let answer of parsedAnswerline[type]) {
+            if (stringMatchesReference(
+                isFormattedAnswerline ? answer : givenAnswer,
+                isFormattedAnswerline ? givenAnswer : answer
+            )) {
+                return type;
+            }
+        }
+    }
+
+    return 'reject';
+}
+
+
+module.exports = { CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, scoreTossup };
