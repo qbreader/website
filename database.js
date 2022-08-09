@@ -1,4 +1,4 @@
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient } = require('mongodb');
 const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -7,8 +7,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
-client.connect();
-console.log('connected to mongodb');
+client.connect().then(() => {
+    console.log('connected to mongodb');
+});
+
 const DATABASE = client.db('qbreader');
 const SETS = DATABASE.collection('sets');
 const QUESTIONS = DATABASE.collection('questions');
