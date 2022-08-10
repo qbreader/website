@@ -79,6 +79,11 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
  * @returns {Number} the number of packets in the set.
  */
 async function getNumPackets(setName) {
+    if (!SET_LIST.includes(setName)) {
+        console.log(`WARNING: "${setName}" not found in SET_LIST`);
+        return 0;
+    }
+
     return await SETS.findOne({ name: setName }).then(set => {
         return set ? (set.packets.length) : 0;
     }).catch(error => {
@@ -97,6 +102,11 @@ async function getNumPackets(setName) {
  * @returns {{tossups: Array<JSON>, bonuses: Array<JSON>}}
  */
 async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses'], alwaysUseUnformattedAnswer = false) {
+    if (!SET_LIST.includes(setName)) {
+        console.log(`WARNING: "${setName}" not found in SET_LIST`);
+        return {'tossups': [], 'bonuses': []};
+    }
+
     return await SETS.findOne({ name: setName }).then(async set => {
         let packet = set.packets[packetNumber - 1];
         let result = {};
