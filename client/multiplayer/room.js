@@ -22,17 +22,16 @@ socket.onmessage = function (event) {
             socketOnConnectionAcknowledged(data);
             break;
         case 'buzz':
-            processBuzz(data.userId, data.username);
+            socketOnBuzz(data);
             break;
         case 'change-username':
             socketOnChangeUsername(data);
             break;
         case 'chat':
-            logEvent(data.username, `says "${data.message}"`);
+            socketOnChat(data);
             break;
         case 'clear-stats':
-            clearStats(data.userId);
-            sortPlayerAccordion();
+            socketOnClearStats(data);
             break;
         case 'difficulties':
         case 'packet-number':
@@ -46,14 +45,13 @@ socket.onmessage = function (event) {
             document.getElementById(data.type).value = data.value;
             break;
         case 'give-answer':
-            processAnswer(data.userId, data.username, data.givenAnswer, data.score, data.celerity);
+            socketOnGiveAnswer(data);
             break;
         case 'join':
             socketOnJoin(data);
             break;
         case 'leave':
-            logEvent(data.username, `left the game`);
-            document.getElementById('accordion-' + data.userId).remove();
+            socketOnLeave(data);
             break;
         case 'lost-buzzer-race':
             logEvent(data.username, `lost the buzzer race`);
@@ -116,9 +114,29 @@ socket.onclose = function () {
     clearInterval(PING_INTERVAL_ID);
 }
 
+const socketOnBuzz = (message) => {
+    logEvent(message.username, `buzzed`);
+
+    document.getElementById('buzz').disabled = true;
+    document.getElementById('pause').disabled = true;
+    document.getElementById('next').disabled = true;
+}
+
 const socketOnChangeUsername = (message) => {
     logEvent(message.oldUsername, 'changed their username to ' + message.newUsername);
     document.getElementById('accordion-button-username-' + message.userId).innerHTML = message.newUsername;
+    sortPlayerAccordion();
+}
+
+const socketOnChat = (message) => {
+    logEvent(message.username, `says "${message.message}"`);
+}
+
+const socketOnClearStats = (message) => {
+    Array.from(document.getElementsByClassName('stats-' + message.userId)).forEach(element => {
+        element.innerHTML = '0';
+    });
+
     sortPlayerAccordion();
 }
 
@@ -164,12 +182,57 @@ const socketOnConnectionAcknowledged = (message) => {
     });
 }
 
+const socketOnGiveAnswer = (message) => {
+    let { userId, username, givenAnswer, score, celerity } = message;
+    logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
+
+    document.getElementById('next').disabled = false;
+
+    // Update question text and show answer:
+    if (score > 0) {
+        document.getElementById('next').innerHTML = 'Next';
+        document.getElementById('buzz').disabled = true;
+    } else {
+        if (document.getElementById('toggle-multiple-buzzes').checked || userId !== USER_ID) {
+            document.getElementById('buzz').disabled = false;
+        } else {
+            document.getElementById('buzz').disabled = true;
+        }
+        document.getElementById('pause').disabled = false;
+    }
+
+    if (score > 0) {
+        Array.from(document.getElementsByClassName('tuh')).forEach(element => {
+            element.innerHTML = parseInt(element.innerHTML) + 1;
+        });
+    }
+
+    if (score > 10) {
+        document.getElementById('powers-' + userId).innerHTML = parseInt(document.getElementById('powers-' + userId).innerHTML) + 1;
+    } else if (score === 10) {
+        document.getElementById('tens-' + userId).innerHTML = parseInt(document.getElementById('tens-' + userId).innerHTML) + 1;
+    } else if (score < 0) {
+        document.getElementById('negs-' + userId).innerHTML = parseInt(document.getElementById('negs-' + userId).innerHTML) + 1;
+    }
+
+    document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
+    document.getElementById('celerity-' + userId).innerHTML = Math.round(1000 * celerity) / 1000;
+    document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
+
+    sortPlayerAccordion();
+}
+
 const socketOnJoin = (message) => {
     logEvent(message.username, `joined the game`);
     if (message.isNew) {
         createPlayerAccordionItem(message);
         sortPlayerAccordion();
     }
+}
+
+const socketOnLeave = (message) => {
+    logEvent(message.username, `left the game`);
+    // document.getElementById('accordion-' + message.userId).remove();
 }
 
 const socketOnNext = (message) => {
@@ -236,13 +299,6 @@ function arraysEqual(arr1, arr2) {
         if (!arr1.includes(arr2[i])) return false;
     }
     return true;
-}
-
-
-function clearStats(userId) {
-    Array.from(document.getElementsByClassName('stats-' + userId)).forEach(element => {
-        element.innerHTML = '0';
-    });
 }
 
 
@@ -353,55 +409,6 @@ function logEvent(username, message) {
 }
 
 
-function processAnswer(userId, username, givenAnswer, score, celerity) {
-    logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
-
-    document.getElementById('next').disabled = false;
-
-    // Update question text and show answer:
-    if (score > 0) {
-        document.getElementById('next').innerHTML = 'Next';
-        document.getElementById('buzz').disabled = true;
-    } else {
-        if (document.getElementById('toggle-multiple-buzzes').checked || userId !== USER_ID) {
-            document.getElementById('buzz').disabled = false;
-        } else {
-            document.getElementById('buzz').disabled = true;
-        }
-        document.getElementById('pause').disabled = false;
-    }
-
-    if (score > 0) {
-        Array.from(document.getElementsByClassName('tuh')).forEach(element => {
-            element.innerHTML = parseInt(element.innerHTML) + 1;
-        });
-    }
-
-    if (score > 10) {
-        document.getElementById('powers-' + userId).innerHTML = parseInt(document.getElementById('powers-' + userId).innerHTML) + 1;
-    } else if (score === 10) {
-        document.getElementById('tens-' + userId).innerHTML = parseInt(document.getElementById('tens-' + userId).innerHTML) + 1;
-    } else if (score < 0) {
-        document.getElementById('negs-' + userId).innerHTML = parseInt(document.getElementById('negs-' + userId).innerHTML) + 1;
-    }
-
-    document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
-    document.getElementById('celerity-' + userId).innerHTML = Math.round(1000 * celerity) / 1000;
-    document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
-
-    sortPlayerAccordion();
-}
-
-
-function processBuzz(userId, username) {
-    logEvent(username, `buzzed`);
-
-    document.getElementById('buzz').disabled = true;
-    document.getElementById('pause').disabled = true;
-    document.getElementById('next').disabled = true;
-}
-
-
 /**
  * Generate a random adjective-noun pair.
  */
@@ -473,8 +480,7 @@ document.getElementById('category-modal').addEventListener('hidden.bs.modal', fu
 document.getElementById('chat').addEventListener('click', function (event) {
     this.blur();
     document.getElementById('chat-input-group').classList.remove('d-none');
-    document.getElementById('chat-input')
-        ;
+    document.getElementById('chat-input').focus();
 });
 
 
