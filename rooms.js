@@ -288,7 +288,7 @@ class Room {
             username: this.players[userId].username,
             givenAnswer: givenAnswer,
             score: points,
-            celerity: celerity
+            celerity: this.players[userId].celerity.correct.average
         });
     }
 
