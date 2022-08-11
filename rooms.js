@@ -289,6 +289,7 @@ class Room {
                 username: this.players[userId].username,
                 tossup: this.tossup
             });
+            this.paused = false;
             this.updateQuestion();
         });
     }
