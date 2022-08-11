@@ -30,7 +30,7 @@ SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(s
  * @param {Array<String>} validSubcategories 
  * @param {String} type - Type of question you want to get. Default: `'tossup'`. 
  * @param {Boolean} alwaysUseUnformattedAnswer - whether to always use the unformatted answer. Default: `false`
- * @returns {JSON}
+ * @returns {Promise<JSON>}
  */
 async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type='tossup', alwaysUseUnformattedAnswer = false) {
     let set = await SETS.findOne({ name: setName }).catch(error => {
@@ -146,7 +146,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
  * @param {Array<Number>} difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array to select any difficulty.
  * @param {Array<String>} allowedCategories - an array of allowed categories. Pass a 0-length array to select any category.
  * @param {Array<String>} allowedSubcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
- * @returns {JSON}
+ * @returns {Promise<JSON>}
  */
 async function getRandomQuestion(type, difficulties, allowedCategories, allowedSubcategories, alwaysUseUnformattedAnswer = false) {
     if (difficulties.length === 0) difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
