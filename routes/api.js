@@ -62,8 +62,4 @@ router.get('/set-list', (req, res) => {
     res.send(setList);
 })
 
-router.get('/multiplayer/current-question', async (req, res) => {
-    res.send(JSON.stringify(rooms.getCurrentQuestion(req.query.roomName)));
-});
-
 module.exports = router;
