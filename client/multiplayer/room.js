@@ -54,10 +54,7 @@ socket.onmessage = function (event) {
             socketOnLeave(data);
             break;
         case 'lost-buzzer-race':
-            logEvent(data.username, `lost the buzzer race`);
-            if (data.userId === USER_ID) {
-                document.getElementById('answer-input-group').classList.add('d-none');
-            }
+            socketOnLostBuzzerRace(data);
             break;
         case 'next':
         case 'skip':
@@ -233,6 +230,13 @@ const socketOnJoin = (message) => {
 const socketOnLeave = (message) => {
     logEvent(message.username, `left the game`);
     // document.getElementById('accordion-' + message.userId).remove();
+}
+
+const socketOnLostBuzzerRace = (message) => {
+    logEvent(message.username, `lost the buzzer race`);
+    if (message.userId === USER_ID) {
+        document.getElementById('answer-input-group').classList.add('d-none');
+    }
 }
 
 const socketOnNext = (message) => {
