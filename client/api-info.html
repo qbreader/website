@@ -135,37 +135,9 @@
         </ul>
 
         <p class="mt-3">
-            Multiplayer base URL: <code>qbreader.org/api/multiplayer</code>.
-            <i>
-                Note that room names are NOT decoded on the server.
-                By default, when a player creates a room, client-side JS replaces any spaces with dashes and encodes the resulting room name before sending it to the server.
-            </i>
+            All multiplayer is done through WebSockets.
+            Rooms are created dynamically when new WebSocket connections are made.
         </p>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <div>GET <code>qbreader.org/api/multiplayer/current-question</code></div>
-                <div>Parameters:</div>
-                <ul>
-                    <li><code>roomName</code> - the name of the room. </li>
-                    <li><b>returns</b> - a <b>JSON object</b> representing the current question that the room is on. </li>
-                </ul>
-            </li>
-            
-            <li class="list-group-item">
-                <div>GET <code>qbreader.org/api/multiplayer/room</code></div>
-                <div>Parameters:</div>
-                <ul>
-                    <li><code>roomName</code> - the name of the room to get. <b>Creates a room if it doesn't exist.</b></li>
-                    <li><b>returns</b> - a <b>JSON object</b> representing the room.</li>
-                </ul>
-            </li>
-            
-            <li class="list-group-item">
-                <div>GET <code>qbreader.org/api/multiplayer/room-list</code></div>
-                <i>Takes no parameters.</i>
-                <ul><li><b>returns</b> - An <b>array of strings</b> representing the names of the rooms.</li></ul>
-            </li>
-        </ul>
     </div>
 </body>
 
