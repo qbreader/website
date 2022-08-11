@@ -13,13 +13,13 @@
 fetch(`/api/multiplayer/room-list`)
 .then(response => response.json())
 .then(rooms => {
-    rooms.forEach(room => {
+    Object.keys(rooms).forEach(room => {
         let a = document.createElement('a');
-        a.href = `/multiplayer/${room[0]}`;
-        a.innerHTML = decodeURIComponent(room[0]);
+        a.href = `/multiplayer/${room}`;
+        a.innerHTML = decodeURIComponent(room);
         let li = document.createElement('li');
         li.appendChild(a);
-        li.appendChild(document.createTextNode(` - Number of players: ${room[1]}`));
+        li.appendChild(document.createTextNode(` - Number of players: ${rooms[room]}`));
         li.classList.add('list-group-item');
         document.getElementById('room-list').appendChild(li);
     });

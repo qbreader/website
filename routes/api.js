@@ -66,12 +66,4 @@ router.get('/multiplayer/current-question', async (req, res) => {
     res.send(JSON.stringify(rooms.getCurrentQuestion(req.query.roomName)));
 });
 
-router.get('/multiplayer/room', (req, res) => {
-    res.send(JSON.stringify(rooms.getRoom(req.query.roomName)));
-});
-
-router.get('/multiplayer/room-list', (req, res) => {
-    res.send(rooms.getRoomList());
-});
-
 module.exports = router;
