@@ -32,7 +32,7 @@ SETS.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(s
  * @param {Boolean} alwaysUseUnformattedAnswer - whether to always use the unformatted answer. Default: `false`
  * @returns {Promise<JSON>}
  */
-async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type='tossup', alwaysUseUnformattedAnswer = false) {
+async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = 'tossup', alwaysUseUnformattedAnswer = false) {
     let set = await SETS.findOne({ name: setName }).catch(error => {
         console.log('DATABASE ERROR:', error);
         return {};
@@ -76,7 +76,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
 
 /**
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
- * @returns {Number} the number of packets in the set.
+ * @returns {Promise<Number>} the number of packets in the set.
  */
 async function getNumPackets(setName) {
     if (!SET_LIST.includes(setName)) {
@@ -99,12 +99,12 @@ async function getNumPackets(setName) {
  * @param {Array<String>} allowedTypes - Array of allowed types. Default: `['tossups', 'bonuses]`
  * If only one allowed type is specified, only that type will be searched for (increasing query speed).
  * The other type will be returned as an empty array.
- * @returns {{tossups: Array<JSON>, bonuses: Array<JSON>}}
+ * @returns {Promise<{tossups: Array<JSON>, bonuses: Array<JSON>}>}
  */
 async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses'], alwaysUseUnformattedAnswer = false) {
     if (!SET_LIST.includes(setName)) {
         console.log(`WARNING: "${setName}" not found in SET_LIST`);
-        return {'tossups': [], 'bonuses': []};
+        return { 'tossups': [], 'bonuses': [] };
     }
 
     return await SETS.findOne({ name: setName }).then(async set => {
