@@ -1,10 +1,10 @@
 var USER_ID = localStorage.getItem('USER_ID') || 'unknown';
 var username = localStorage.getItem('username') || randomUsername();
+document.getElementById('username').value = username;
 var validCategories = [];
 var validSubcategories = [];
 var changedCategories = false;
 var tossup = {};
-var difficulties;
 
 // Do not escape room name as that is how it is stored on the server.
 const ROOM_NAME = location.pathname.substring(13);
@@ -126,11 +126,10 @@ const socketOnConnectionAcknowledged = (message) => {
     USER_ID = message.userId;
     localStorage.setItem('USER_ID', USER_ID);
 
-    difficulties = message.difficulties || [];
     validCategories = message.validCategories || [];
     validSubcategories = message.validSubcategories || [];
 
-    document.getElementById('difficulties').value = arrayToRange(difficulties);
+    document.getElementById('difficulties').value = arrayToRange(message.difficulties || []);
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
@@ -500,8 +499,10 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 
 
 document.getElementById('difficulties').addEventListener('change', function () {
-    let difficulties = rangeToArray(this.value);
-    socket.send(JSON.stringify({ type: 'difficulties', value: difficulties }));
+    socket.send(JSON.stringify({ 
+        type: 'difficulties',
+        value: rangeToArray(this.value)
+    }));
 });
 
 
@@ -633,5 +634,3 @@ document.addEventListener('keypress', function (event) {
         document.getElementById('chat').click();
     }
 });
-
-document.getElementById('username').value = username;
