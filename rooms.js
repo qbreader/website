@@ -104,6 +104,10 @@ class Room {
             this.players[userId].username = message.username;
         }
 
+        if (type === 'chat') {
+            this.chat(userId, message.message);
+        }
+
         if (type === 'clear-stats') {
             this.players[userId].clearStats();
             this.sendSocketMessage(message);
@@ -227,6 +231,15 @@ class Room {
                 word: '(#)'
             });
         }
+    }
+
+    chat(userId, message) {
+        this.sendSocketMessage({
+            type: 'chat',
+            userId: userId,
+            username: this.players[userId].username,
+            message: message
+        });
     }
 
     createPlayer(userId) {
