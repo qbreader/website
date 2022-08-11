@@ -10,10 +10,21 @@ var sockets = {};
 async function goToNextQuestion(roomName) {
     var nextQuestion;
     if (rooms[roomName].selectByDifficulty) {
-        nextQuestion = await database.getNextQuestion(rooms[roomName].setName, rooms[roomName].packetNumbers, rooms[roomName].questionNumber, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
-    } else {
-        nextQuestion = await database.getRandomQuestion('tossup', rooms[roomName].difficulties, rooms[roomName].validCategories, rooms[roomName].validSubcategories);
+        nextQuestion = await database.getRandomQuestion(
+            'tossup', 
+            rooms[roomName].difficulties, 
+            rooms[roomName].validCategories, 
+            rooms[roomName].validSubcategories
+        );
         rooms[roomName].setName = nextQuestion.setName;
+    } else {
+        nextQuestion = await database.getNextQuestion(
+            rooms[roomName].setName, 
+            rooms[roomName].packetNumbers, 
+            rooms[roomName].questionNumber, 
+            rooms[roomName].validCategories, 
+            rooms[roomName].validSubcategories
+        );
     }
 
     rooms[roomName].endOfSet = Object.keys(nextQuestion).length === 0;
@@ -212,7 +223,7 @@ function createRoom(roomName) {
         questionProgress: 0, // 0 = not started, 1 = reading, 2 = answer revealed
         public: true,
         allowMultipleBuzzes: true,
-        selectByDifficulty: false,
+        selectByDifficulty: true,
         paused: false,
         buzzTimeout: null,
         buzzedIn: false
