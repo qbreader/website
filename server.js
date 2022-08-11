@@ -6,7 +6,7 @@ const uuid = require('uuid');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
 
-const Room = require('./rooms');
+const Room = require('./Room');
 
 const apiRouter = require('./routes/api');
 const apiInfoRouter = require('./routes/api-info');
