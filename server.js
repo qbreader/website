@@ -2,10 +2,11 @@ const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
+const uuid = require('uuid');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
 
-const rooms = require('./rooms');
+const Room = require('./rooms');
 
 const apiRouter = require('./routes/api');
 const apiInfoRouter = require('./routes/api-info');
@@ -13,6 +14,8 @@ const tossupsRouter = require('./routes/tossups');
 const bonusesRouter = require('./routes/bonuses');
 const multiplayerRouter = require('./routes/multiplayer');
 const aboutRouter = require('./routes/about');
+
+const rooms = {};
 
 app.use(express.json());
 
@@ -36,6 +39,15 @@ app.get('/*.ico', (req, res) => {
     res.sendFile(__dirname + '/client/' + req.url);
 });
 
+app.get('/api/multiplayer/room-list', (req, res) => {
+    let roomList = {};
+    for (const roomName in rooms) {
+        roomList[roomName] = Object.keys(rooms[roomName].players).length;
+    }
+    
+    res.send(JSON.stringify(roomList));
+});
+
 app.use('/api', apiRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/bonuses', bonusesRouter);
@@ -49,10 +61,14 @@ app.get('/', (req, res) => {
 
 
 wss.on('connection', (ws) => {
-    console.log(`Connection in room ${ws.protocol}`);
+    let [roomName, userId, username] = ws.protocol.split('%%%');
+    userId = (userId === 'unknown') ? uuid.v4() : userId;
 
-    rooms.createRoom(ws.protocol);
-    rooms.createPlayer(ws.protocol, ws);
+    if (!rooms.hasOwnProperty(roomName)) {
+        rooms[roomName] = new Room(roomName);
+    }
+
+    rooms[roomName].connection(ws, userId, username);
 });
 
 

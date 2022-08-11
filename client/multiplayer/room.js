@@ -1,62 +1,31 @@
-// Do not escape room name as that is how it is stored on the server.
-const ROOM_NAME = location.pathname.substring(13);
-
-var socket;
-var USER_ID;
-var username;
+var USER_ID = localStorage.getItem('USER_ID') || 'unknown';
+var username = localStorage.getItem('username') || randomUsername();
 var validCategories = [];
 var validSubcategories = [];
 var changedCategories = false;
 var tossup = {};
 var difficulties;
 
-// Ping server every 45 seconds to prevent socket disconnection
-const PING_INTERVAL_ID = setInterval(() => {
-    socket.send(JSON.stringify({ type: 'ping' }));
-}, 45000);
+// Do not escape room name as that is how it is stored on the server.
+const ROOM_NAME = location.pathname.substring(13);
 
-
-function next() {
-    document.getElementById('question').innerHTML = '';
-    document.getElementById('answer').innerHTML = '';
-    document.getElementById('buzz').innerHTML = 'Buzz';
-    document.getElementById('buzz').disabled = false;
-    document.getElementById('pause').innerHTML = 'Pause';
-    document.getElementById('pause').disabled = false;
-
-    fetch(`/api/multiplayer/current-question?roomName=${encodeURIComponent(ROOM_NAME)}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.endOfSet) {
-                alert('No questions found.');
-                return false;
-            }
-
-            // Update question text:
-            document.getElementById('set-name-info').innerHTML = data.setName;
-            document.getElementById('packet-number-info').innerHTML = data.packetNumber;
-            document.getElementById('question-number-info').innerHTML = data.questionNumber;
-
-            tossup = data.question;
-
-            return true;
-        });
+const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${USER_ID}%%%${username}`);
+socket.onopen = function () {
+    console.log('Connected to websocket');
 }
 
-
-async function processSocketMessage(data) {
+socket.onmessage = function (event) {
+    let data = JSON.parse(event.data);
+    console.log(data);
     switch (data.type) {
-        case 'user-id':
-            USER_ID = data.userId;
-            socket.send(JSON.stringify({ type: 'join', userId: USER_ID, username: username }));
+        case 'connection-acknowledged':
+            socketOnConnectionAcknowledged(data);
             break;
         case 'buzz':
             processBuzz(data.userId, data.username);
             break;
         case 'change-username':
-            logEvent(data.oldUsername, 'changed their username to ' + data.username);
-            document.getElementById('accordion-button-username-' + data.userId).innerHTML = data.username;
-            sortPlayerAccordion();
+            socketOnChangeUsername(data);
             break;
         case 'chat':
             logEvent(data.username, `says "${data.message}"`);
@@ -80,9 +49,7 @@ async function processSocketMessage(data) {
             processAnswer(data.userId, data.username, data.givenAnswer, data.score, data.celerity);
             break;
         case 'join':
-            logEvent(data.username, `joined the game`);
-            createPlayerAccordionItem(data);
-            sortPlayerAccordion();
+            socketOnJoin(data);
             break;
         case 'leave':
             logEvent(data.username, `left the game`);
@@ -95,10 +62,8 @@ async function processSocketMessage(data) {
             }
             break;
         case 'next':
-            logEvent(data.username, `went to the next question`);
-            tossup.question = document.getElementById('question').innerHTML;
-            createTossupCard(tossup, document.getElementById('set-name-info').innerHTML);
-            next();
+        case 'skip':
+            socketOnNext(data);
             break;
         case 'pause':
             logEvent(data.username, `${data.paused ? '' : 'un'}paused the game`);
@@ -108,15 +73,9 @@ async function processSocketMessage(data) {
             document.getElementById('reading-speed').value = data.value;
             document.getElementById('reading-speed-display').innerHTML = data.value;
             break;
-        case 'skip':
-            logEvent(data.username, `skipped the question`);
-            tossup.question = document.getElementById('question').innerHTML;
-            createTossupCard(tossup, document.getElementById('set-name-info').innerHTML);
-            next();
-            break;
         case 'start':
             logEvent(data.username, `started the game`);
-            next();
+            socketOnStart(data);
             break;
         case 'toggle-multiple-buzzes':
             logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
@@ -152,6 +111,118 @@ async function processSocketMessage(data) {
     }
 }
 
+socket.onclose = function () {
+    console.log('Disconnected from websocket');
+    clearInterval(PING_INTERVAL_ID);
+}
+
+const socketOnChangeUsername = (message) => {
+    logEvent(message.oldUsername, 'changed their username to ' + message.newUsername);
+    document.getElementById('accordion-button-username-' + message.userId).innerHTML = message.newUsername;
+    sortPlayerAccordion();
+}
+
+const socketOnConnectionAcknowledged = (message) => {
+    USER_ID = message.userId;
+    localStorage.setItem('USER_ID', USER_ID);
+
+    difficulties = message.difficulties || [];
+    validCategories = message.validCategories || [];
+    validSubcategories = message.validSubcategories || [];
+
+    document.getElementById('difficulties').value = arrayToRange(difficulties);
+    document.getElementById('set-name').value = message.setName || '';
+    document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
+
+    document.getElementById('set-name-info').innerHTML = message.setName || '';
+    document.getElementById('packet-number-info').innerHTML = message.packetNumber || '-';
+    document.getElementById('question-number-info').innerHTML = message.questionNumber || '-';
+
+    document.getElementById('reading-speed').value = message.readingSpeed;
+    document.getElementById('reading-speed-display').innerHTML = message.readingSpeed;
+    document.getElementById('toggle-visibility').checked = message.public;
+    document.getElementById('chat').disabled = message.public;
+    document.getElementById('toggle-multiple-buzzes').checked = message.allowMultipleBuzzes;
+    loadCategoryModal(validCategories, validSubcategories);
+
+    if (message.questionProgress === 0) {
+        document.getElementById('next').innerHTML = 'Start';
+        document.getElementById('next').classList.remove('btn-primary');
+        document.getElementById('next').classList.add('btn-success');
+    } else if (message.questionProgress === 1) {
+        document.getElementById('next').innerHTML = 'Skip';
+        document.getElementById('options').classList.add('d-none');
+        document.getElementById('buzz').disabled = false;
+        document.getElementById('pause').disabled = false;
+    } else {
+        document.getElementById('next').innerHTML = 'Next';
+        document.getElementById('options').classList.add('d-none');
+    }
+
+    Object.keys(message.players).forEach(userId => {
+        message.players[userId].celerity = message.players[userId].celerity.correct.average;
+        createPlayerAccordionItem(message.players[userId]);
+    });
+}
+
+const socketOnJoin = (message) => {
+    logEvent(message.username, `joined the game`);
+    if (message.isNew) {
+        createPlayerAccordionItem(message);
+        sortPlayerAccordion();
+    }
+}
+
+const socketOnNext = (message) => {
+    if (document.getElementById('next').innerHTML === 'Skip') {
+        logEvent(message.username, `skipped the question`);
+    } else {
+        logEvent(message.username, `went to the next question`);
+    }
+
+    tossup.question = document.getElementById('question').innerHTML;
+    tossup.answer = document.getElementById('answer').innerHTML;
+
+    createTossupCard(tossup, document.getElementById('set-name-info').innerHTML);
+
+    tossup = message.tossup;
+
+    document.getElementById('set-name-info').innerHTML = tossup.setName;
+    document.getElementById('question-number-info').innerHTML = tossup.questionNumber;
+    document.getElementById('packet-number-info').innerHTML = tossup.packetNumber;
+
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('next').classList.add('btn-primary');
+    document.getElementById('next').classList.remove('btn-success');
+    document.getElementById('next').innerHTML = 'Skip';
+    document.getElementById('question').innerHTML = '';
+    document.getElementById('answer').innerHTML = '';
+    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('buzz').disabled = false;
+    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').disabled = false;
+}
+
+const socketOnStart = (message) => {
+    document.getElementById('question').innerHTML = '';
+    document.getElementById('answer').innerHTML = '';
+    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('buzz').disabled = false;
+    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').disabled = false;
+
+    tossup = message.tossup;
+
+    document.getElementById('set-name-info').innerHTML = tossup.setName;
+    document.getElementById('question-number-info').innerHTML = tossup.questionNumber;
+    document.getElementById('packet-number-info').innerHTML = tossup.packetNumber;
+}
+
+// Ping server every 45 seconds to prevent socket disconnection
+const PING_INTERVAL_ID = setInterval(() => {
+    socket.send(JSON.stringify({ type: 'ping' }));
+}, 45000);
+
 
 /** Check if two arrays have the same elements, in any order.
  * @param {Array<String>} arr1
@@ -173,24 +244,6 @@ function clearStats(userId) {
     Array.from(document.getElementsByClassName('stats-' + userId)).forEach(element => {
         element.innerHTML = '0';
     });
-}
-
-
-function connectToWebSocket() {
-    socket = new WebSocket(location.href.replace('http', 'ws'), ROOM_NAME);
-    socket.onopen = function () {
-        console.log('Connected to websocket');
-    }
-
-    socket.onmessage = function (event) {
-        let data = JSON.parse(event.data);
-        processSocketMessage(data);
-    }
-
-    socket.onclose = function () {
-        console.log('Disconnected from websocket');
-        clearInterval(PING_INTERVAL_ID);
-    }
 }
 
 
@@ -422,7 +475,7 @@ document.getElementById('chat').addEventListener('click', function (event) {
     this.blur();
     document.getElementById('chat-input-group').classList.remove('d-none');
     document.getElementById('chat-input')
-    ;
+        ;
 });
 
 
@@ -466,11 +519,6 @@ document.getElementById('next').addEventListener('click', function () {
     } else if (document.getElementById('next').innerHTML === 'Skip') {
         socket.send(JSON.stringify({ type: 'skip', userId: USER_ID, username: username }));
     }
-
-    document.getElementById('options').classList.add('d-none');
-    document.getElementById('next').classList.add('btn-primary');
-    document.getElementById('next').classList.remove('btn-success');
-    document.getElementById('next').innerHTML = 'Skip';
 });
 
 
@@ -586,52 +634,4 @@ document.addEventListener('keypress', function (event) {
     }
 });
 
-
-window.onload = () => {
-    username = localStorage.getItem('username') || randomUsername();
-    document.getElementById('username').value = username;
-    connectToWebSocket();
-    fetch(`/api/multiplayer/room?roomName=${encodeURIComponent(ROOM_NAME)}`)
-        .then(response => response.json())
-        .then(room => {
-            tossup = room.tossup;
-            difficulties = room.difficulties || [];
-            validCategories = room.validCategories || [];
-            validSubcategories = room.validSubcategories || [];
-
-            document.getElementById('difficulties').value = arrayToRange(difficulties);
-            document.getElementById('set-name').value = room.setName || '';
-            document.getElementById('packet-number').value = arrayToRange(room.packetNumbers) || '';
-
-            document.getElementById('set-name-info').innerHTML = room.setName || '';
-            document.getElementById('packet-number-info').innerHTML = room.packetNumber || '-';
-            document.getElementById('question-number-info').innerHTML = room.questionNumber || '-';
-
-            document.getElementById('reading-speed').value = room.readingSpeed;
-            document.getElementById('reading-speed-display').innerHTML = room.readingSpeed;
-            document.getElementById('toggle-visibility').checked = room.public;
-            document.getElementById('chat').disabled = room.public;
-            document.getElementById('toggle-multiple-buzzes').checked = room.allowMultipleBuzzes;
-            loadCategoryModal(validCategories, validSubcategories);
-
-            if (room.questionProgress === 0) {
-                document.getElementById('next').innerHTML = 'Start';
-                document.getElementById('next').classList.remove('btn-primary');
-                document.getElementById('next').classList.add('btn-success');
-            } else if (room.questionProgress === 1) {
-                document.getElementById('next').innerHTML = 'Skip';
-                document.getElementById('options').classList.add('d-none');
-                document.getElementById('buzz').disabled = false;
-                document.getElementById('pause').disabled = false;
-            } else {
-                document.getElementById('next').innerHTML = 'Next';
-                document.getElementById('options').classList.add('d-none');
-            }
-
-            Object.keys(room.players).forEach(userId => {
-                if (userId === USER_ID) return;
-                room.players[userId].celerity = room.players[userId].celerity.correct.average;
-                createPlayerAccordionItem(room.players[userId]);
-            });
-        });
-}
+document.getElementById('username').value = username;
