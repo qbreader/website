@@ -42,9 +42,11 @@ app.get('/*.ico', (req, res) => {
 app.get('/api/multiplayer/room-list', (req, res) => {
     let roomList = {};
     for (const roomName in rooms) {
-        roomList[roomName] = Object.keys(rooms[roomName].players).length;
+        if (rooms[roomName].public) {
+            roomList[roomName] = Object.keys(rooms[roomName].players).length;
+        }
     }
-    
+
     res.send(JSON.stringify(roomList));
 });
 
