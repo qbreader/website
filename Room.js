@@ -26,7 +26,7 @@ class Room {
         this.endOfSet = false;
         this.public = true;
         this.allowMultipleBuzzes = true;
-        this.selectByDifficulty = true;
+        this.selectBySetName = false;
         this.paused = false;
         this.buzzTimeout = null;
         this.buzzedIn = false;
@@ -171,8 +171,8 @@ class Room {
             this.sendSocketMessage(message);
         }
 
-        if (type === 'toggle-select-by-difficulty') {
-            this.selectByDifficulty = message.selectByDifficulty;
+        if (type === 'toggle-select-by-set-name') {
+            this.selectBySetName = message.selectBySetName;
             this.setName = message.setName;
             this.questionNumber = -1;
             this.sendSocketMessage(message);
@@ -191,15 +191,10 @@ class Room {
     }
 
     async advanceQuestion() {
-        if (this.selectByDifficulty) {
-            this.tossup = await database.getRandomQuestion(
-                'tossup',
-                this.difficulties,
-                this.validCategories,
-                this.validSubcategories
-            );
-            this.setName = this.tossup.setName;
-        } else {
+        this.wordIndex = 0;
+        this.buzzedIn = false;
+
+        if (this.selectBySetName) {
             this.tossup = await database.getNextQuestion(
                 this.setName,
                 this.packetNumbers,
@@ -207,6 +202,25 @@ class Room {
                 this.validCategories,
                 this.validSubcategories
             );
+            if (Object.keys(this.tossup).length === 0) {
+                this.sendSocketMessage({
+                    type: 'end-of-set'
+                });
+                return false;
+            }
+        } else {
+            this.tossup = await database.getRandomQuestion(
+                'tossup',
+                this.difficulties,
+                this.validCategories,
+                this.validSubcategories
+            );
+            if (Object.keys(this.tossup).length === 0) {
+                this.sendSocketMessage({
+                    type: 'no-questions-found'
+                });
+                return false;
+            }
         }
 
         this.endOfSet = Object.keys(this.tossup).length === 0;
@@ -215,8 +229,8 @@ class Room {
         this.packetNumbers = this.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
         this.packetNumber = this.tossup.packetNumber;
         this.questionNumber = this.tossup.questionNumber;
-        this.wordIndex = 0;
-        this.buzzedIn = false;
+
+        return true;
     }
 
     buzz(userId) {
@@ -305,15 +319,17 @@ class Room {
     next(userId) {
         clearTimeout(this.buzzTimeout);
         this.revealQuestion();
-        this.advanceQuestion().then(() => {
-            this.sendSocketMessage({
-                type: 'next',
-                userId: userId,
-                username: this.players[userId].username,
-                tossup: this.tossup
-            });
-            this.paused = false;
-            this.updateQuestion();
+        this.advanceQuestion().then((successful) => {
+            if (successful) {
+                this.sendSocketMessage({
+                    type: 'next',
+                    userId: userId,
+                    username: this.players[userId].username,
+                    tossup: this.tossup
+                });
+                this.paused = false;
+                this.updateQuestion();
+            }
         });
     }
 
@@ -356,14 +372,17 @@ class Room {
     }
 
     start(userId) {
-        this.advanceQuestion().then(() => {
-            this.sendSocketMessage({
-                type: 'start',
-                userId: userId,
-                username: this.players[userId].username,
-                tossup: this.tossup
-            });
-            this.updateQuestion();
+        clearTimeout(this.buzzTimeout);
+        this.advanceQuestion().then((successful) => {
+            if (successful) {
+                this.sendSocketMessage({
+                    type: 'start',
+                    userId: userId,
+                    username: this.players[userId].username,
+                    tossup: this.tossup
+                });
+                this.updateQuestion();
+            }
         });
     }
 
