@@ -67,7 +67,7 @@ socket.onmessage = function (event) {
             socketOnNoQuestionsFound(data);
             break;
         case 'pause':
-            logEvent(data.username, `${data.paused ? '' : 'un'}paused the game`);
+            socketOnPause(data);
             break;
         case 'reading-speed':
             logEvent(data.username, `changed the reading speed to ${data.value}`);
@@ -75,7 +75,6 @@ socket.onmessage = function (event) {
             document.getElementById('reading-speed-display').innerHTML = data.value;
             break;
         case 'start':
-            logEvent(data.username, `started the game`);
             socketOnStart(data);
             break;
         case 'toggle-multiple-buzzes':
@@ -295,7 +294,13 @@ const socketOnNoQuestionsFound = (message) => {
     window.alert('No questions found');
 }
 
+const socketOnPause = (message) => {
+    logEvent(message.username, `${message.paused ? '' : 'un'}paused the game`);
+}
+
 const socketOnStart = (message) => {
+    logEvent(message.username, `started the game`);
+
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
