@@ -324,22 +324,6 @@ const PING_INTERVAL_ID = setInterval(() => {
 }, 45000);
 
 
-/** Check if two arrays have the same elements, in any order.
- * @param {Array<String>} arr1
- * @param {Array<String>} arr2
- */
-function arraysEqual(arr1, arr2) {
-    if (arr1.length !== arr2.length) return false;
-    arr1 = arr1.sort();
-    arr2 = arr2.sort();
-    for (let i = 0; i < arr1.length; i++) {
-        if (!arr2.includes(arr1[i])) return false;
-        if (!arr1.includes(arr2[i])) return false;
-    }
-    return true;
-}
-
-
 function createPlayerAccordionItem(player) {
     let { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
     let button = document.createElement('button');
