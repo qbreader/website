@@ -392,6 +392,7 @@ class Room {
     }
 
     updateQuestion() {
+        clearTimeout(this.buzzTimeout);
         if (Object.keys(this.tossup).length === 0) return;
         let questionSplit = this.tossup.question.split(' ');
         if (this.wordIndex >= questionSplit.length) {
