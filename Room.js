@@ -13,7 +13,7 @@ class Room {
 
         this.tossup = {};
         this.questionNumber = 0;
-        this.questionProgress = 0, // 0 = not started, 1 = reading, 2 = answer reveale;
+        this.questionProgress = 0; // 0 = not started, 1 = reading, 2 = answer revealed
         this.wordIndex = 0;
 
         this.difficulties = [4, 5];
@@ -120,7 +120,7 @@ class Room {
             this.players[userId].clearStats();
             this.sendSocketMessage(message);
         }
-        
+
         if (type === 'difficulties') {
             this.difficulties = message.value;
             this.sendSocketMessage(message);
@@ -154,23 +154,23 @@ class Room {
         if (type === 'pause') {
             this.pause(userId);
         }
-        
+
         if (type === 'reading-speed') {
             this.readingSpeed = message.value;
             this.sendSocketMessage(message);
         }
-        
+
         if (type === 'set-name') {
             this.setName = message.value;
             this.questionNumber = -1;
             this.sendSocketMessage(message);
         }
-        
+
         if (type === 'toggle-multiple-buzzes') {
             this.allowMultipleBuzzes = message.allowMultipleBuzzes;
             this.sendSocketMessage(message);
         }
-        
+
         if (type === 'toggle-select-by-difficulty') {
             this.selectByDifficulty = message.selectByDifficulty;
             this.setName = message.setName;
@@ -182,7 +182,7 @@ class Room {
             this.public = message.public;
             this.sendSocketMessage(message);
         }
-        
+
         if (type === 'update-categories') {
             this.validCategories = message.categories;
             this.validSubcategories = message.subcategories;
@@ -265,7 +265,7 @@ class Room {
         };
     }
 
-    deletePlayer(userId) {            
+    deletePlayer(userId) {
         this.sendSocketMessage({
             type: 'leave',
             userId: userId,
