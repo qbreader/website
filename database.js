@@ -66,6 +66,12 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
         return {};
     });
 
+    if (!question) {
+        return {};
+    }
+
+    question.setName = setName;
+
     if (!alwaysUseUnformattedAnswer && question.hasOwnProperty('answer_formatted')) {
         question.answer = question.answer_formatted;
     }
