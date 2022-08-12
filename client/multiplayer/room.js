@@ -109,6 +109,7 @@ socket.onmessage = function (event) {
 socket.onclose = function () {
     console.log('Disconnected from websocket');
     clearInterval(PING_INTERVAL_ID);
+    window.alert('Disconnected from server');
 }
 
 const socketOnBuzz = (message) => {
