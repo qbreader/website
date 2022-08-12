@@ -43,7 +43,7 @@ app.get('/api/multiplayer/room-list', (req, res) => {
     let roomList = {};
     for (const roomName in rooms) {
         if (rooms[roomName].public) {
-            roomList[roomName] = Object.keys(rooms[roomName].players).length;
+            roomList[roomName] = [Object.keys(rooms[roomName].players).length, Object.keys(rooms[roomName].sockets).length];
         }
     }
 
