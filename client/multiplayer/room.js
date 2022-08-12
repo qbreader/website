@@ -33,6 +33,9 @@ socket.onmessage = function (event) {
         case 'clear-stats':
             socketOnClearStats(data);
             break;
+        case 'end-of-set':
+            socketOnEndOfSet(data);
+            break;
         case 'difficulties':
         case 'packet-number':
             data.value = arrayToRange(data.value);
@@ -60,6 +63,9 @@ socket.onmessage = function (event) {
         case 'skip':
             socketOnNext(data);
             break;
+        case 'no-questions-found':
+            socketOnNoQuestionsFound(data);
+            break;
         case 'pause':
             logEvent(data.username, `${data.paused ? '' : 'un'}paused the game`);
             break;
@@ -76,9 +82,9 @@ socket.onmessage = function (event) {
             logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
             document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
             break;
-        case 'toggle-select-by-difficulty':
-            logEvent(data.username, `${data.selectByDifficulty ? 'enabled' : 'disabled'} select by set name`);
-            if (data.selectByDifficulty) {
+        case 'toggle-select-by-set-name':
+            logEvent(data.username, `${data.selectBySetName ? 'enabled' : 'disabled'} select by set name`);
+            if (data.selectBySetName) {
                 document.getElementById('difficulty-settings').classList.add('d-none');
                 document.getElementById('set-settings').classList.remove('d-none');
             } else {
@@ -178,6 +184,10 @@ const socketOnConnectionAcknowledged = (message) => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
         createPlayerAccordionItem(message.players[userId]);
     });
+}
+
+const socketOnEndOfSet = (message) => {
+    window.alert('You have reached the end of the set');
 }
 
 const socketOnGiveAnswer = (message) => {
@@ -280,6 +290,10 @@ const socketOnNext = (message) => {
     document.getElementById('pause').disabled = false;
 }
 
+const socketOnNoQuestionsFound = (message) => {
+    window.alert('No questions found');
+}
+
 const socketOnStart = (message) => {
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
@@ -287,6 +301,9 @@ const socketOnStart = (message) => {
     document.getElementById('buzz').disabled = false;
     document.getElementById('pause').innerHTML = 'Pause';
     document.getElementById('pause').disabled = false;
+    document.getElementById('next').classList.add('btn-primary');
+    document.getElementById('next').classList.remove('btn-success');
+    document.getElementById('next').innerHTML = 'Skip';
 
     tossup = message.tossup;
 
@@ -529,10 +546,6 @@ document.getElementById('difficulties').addEventListener('change', function () {
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    if (document.getElementById('set-name').value === '') {
-        alert('Please choose a set.');
-        return;
-    }
 
     if (document.getElementById('next').innerHTML === 'Start') {
         socket.send(JSON.stringify({ type: 'start', userId: USER_ID, username: username }));
@@ -583,9 +596,14 @@ document.getElementById('toggle-multiple-buzzes').addEventListener('click', func
 });
 
 
-document.getElementById('toggle-select-by-difficulty').addEventListener('click', function () {
+document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-select-by-difficulty', userId: USER_ID, username: username, setName: document.getElementById('set-name').value, selectByDifficulty: this.checked }));
+    socket.send(JSON.stringify({ 
+        type: 'toggle-select-by-set-name', 
+        userId: USER_ID, username: username, 
+        setName: document.getElementById('set-name').value, 
+        selectBySetName: this.checked 
+    }));
 });
 
 
