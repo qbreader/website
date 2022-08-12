@@ -19,7 +19,7 @@ fetch(`/api/multiplayer/room-list`)
         a.innerHTML = decodeURIComponent(room);
         let li = document.createElement('li');
         li.appendChild(a);
-        li.appendChild(document.createTextNode(` - Number of players: ${rooms[room]}`));
+        li.appendChild(document.createTextNode(` - ${rooms[room][0]} player${rooms[room][0] === 1 ? '' : 's'} - ${rooms[room][1]} online`));
         li.classList.add('list-group-item');
         document.getElementById('room-list').appendChild(li);
     });
