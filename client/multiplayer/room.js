@@ -83,11 +83,12 @@ socket.onmessage = function (event) {
             document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
             break;
         case 'toggle-select-by-set-name':
-            logEvent(data.username, `${data.selectBySetName ? 'enabled' : 'disabled'} select by set name`);
             if (data.selectBySetName) {
+                logEvent(data.username, `enabled select by set name`);
                 document.getElementById('difficulty-settings').classList.add('d-none');
                 document.getElementById('set-settings').classList.remove('d-none');
             } else {
+                logEvent(data.username, `enabled select by difficulty`);
                 document.getElementById('difficulty-settings').classList.remove('d-none');
                 document.getElementById('set-settings').classList.add('d-none');
             }
