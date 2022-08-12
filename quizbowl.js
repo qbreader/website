@@ -81,12 +81,13 @@ function stringMatchesReference(string, reference) {
  * @param {String} givenAnswer 
  * @param {Boolean} inPower 
  * @param {Boolean} endOfQuestion 
+ * @returns {['accept' | 'prompt' | 'reject', Number]} - [directive, points]
  */
 function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
     const isFormattedAnswerline = answerline.includes('<u>');
-    let isCorrect = (checkAnswer(answerline, givenAnswer, isFormattedAnswerline) !== 'reject');
-
-    return isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5);
+    let directive = checkAnswer(answerline, givenAnswer, isFormattedAnswerline);
+    let isCorrect = (directive === 'accept');
+    return [directive, isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5)];
 }
 
 

@@ -181,43 +181,53 @@ const socketOnConnectionAcknowledged = (message) => {
 }
 
 const socketOnGiveAnswer = (message) => {
-    let { userId, username, givenAnswer, score, celerity } = message;
-    logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
-
-    document.getElementById('next').disabled = false;
-
-    // Update question text and show answer:
-    if (score > 0) {
-        document.getElementById('next').innerHTML = 'Next';
-        document.getElementById('buzz').disabled = true;
+    let { userId, username, givenAnswer, directive, score, celerity } = message;
+    if (directive === 'prompt') {
+        logEvent(username, `answered with "${givenAnswer}" and was prompted`);
     } else {
-        if (document.getElementById('toggle-multiple-buzzes').checked || userId !== USER_ID) {
-            document.getElementById('buzz').disabled = false;
-        } else {
+        logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
+    }
+
+    if (directive === 'prompt' && userId === USER_ID) {
+        document.getElementById('answer-input-group').classList.remove('d-none');
+        document.getElementById('answer-input').focus();
+        document.getElementById('answer-input').placeholder = 'Prompt';
+    } else {
+        document.getElementById('answer-input').placeholder = 'Enter answer';
+        document.getElementById('next').disabled = false;
+
+        // Update question text and show answer:
+        if (directive === 'accept') {
+            document.getElementById('next').innerHTML = 'Next';
             document.getElementById('buzz').disabled = true;
+            Array.from(document.getElementsByClassName('tuh')).forEach(element => {
+                element.innerHTML = parseInt(element.innerHTML) + 1;
+            });
         }
-        document.getElementById('pause').disabled = false;
+
+        if (directive === 'reject') {
+            if (document.getElementById('toggle-multiple-buzzes').checked || userId !== USER_ID) {
+                document.getElementById('buzz').disabled = false;
+            } else {
+                document.getElementById('buzz').disabled = true;
+            }
+            document.getElementById('pause').disabled = false;
+        }
+
+        if (score > 10) {
+            document.getElementById('powers-' + userId).innerHTML = parseInt(document.getElementById('powers-' + userId).innerHTML) + 1;
+        } else if (score === 10) {
+            document.getElementById('tens-' + userId).innerHTML = parseInt(document.getElementById('tens-' + userId).innerHTML) + 1;
+        } else if (score < 0) {
+            document.getElementById('negs-' + userId).innerHTML = parseInt(document.getElementById('negs-' + userId).innerHTML) + 1;
+        }
+
+        document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
+        document.getElementById('celerity-' + userId).innerHTML = Math.round(1000 * celerity) / 1000;
+        document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
+
+        sortPlayerAccordion();
     }
-
-    if (score > 0) {
-        Array.from(document.getElementsByClassName('tuh')).forEach(element => {
-            element.innerHTML = parseInt(element.innerHTML) + 1;
-        });
-    }
-
-    if (score > 10) {
-        document.getElementById('powers-' + userId).innerHTML = parseInt(document.getElementById('powers-' + userId).innerHTML) + 1;
-    } else if (score === 10) {
-        document.getElementById('tens-' + userId).innerHTML = parseInt(document.getElementById('tens-' + userId).innerHTML) + 1;
-    } else if (score < 0) {
-        document.getElementById('negs-' + userId).innerHTML = parseInt(document.getElementById('negs-' + userId).innerHTML) + 1;
-    }
-
-    document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
-    document.getElementById('celerity-' + userId).innerHTML = Math.round(1000 * celerity) / 1000;
-    document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
-
-    sortPlayerAccordion();
 }
 
 const socketOnJoin = (message) => {
@@ -510,7 +520,7 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 
 
 document.getElementById('difficulties').addEventListener('change', function () {
-    socket.send(JSON.stringify({ 
+    socket.send(JSON.stringify({
         type: 'difficulties',
         value: rangeToArray(this.value)
     }));
