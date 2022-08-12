@@ -155,9 +155,9 @@ const socketOnConnectionAcknowledged = (message) => {
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
-    document.getElementById('set-name-info').innerHTML = message.setName || '';
-    document.getElementById('packet-number-info').innerHTML = message.packetNumber || '-';
-    document.getElementById('question-number-info').innerHTML = message.questionNumber || '-';
+    document.getElementById('set-name-info').innerHTML = message.tossup?.setName ?? '';
+    document.getElementById('packet-number-info').innerHTML = message.tossup?.packetNumber ?? '-';
+    document.getElementById('question-number-info').innerHTML = message.tossup?.questionNumber ?? '-';
 
     document.getElementById('reading-speed').value = message.readingSpeed;
     document.getElementById('reading-speed-display').innerHTML = message.readingSpeed;
@@ -274,9 +274,9 @@ const socketOnNext = (message) => {
 
     tossup = message.tossup;
 
-    document.getElementById('set-name-info').innerHTML = tossup.setName;
-    document.getElementById('question-number-info').innerHTML = tossup.questionNumber;
-    document.getElementById('packet-number-info').innerHTML = tossup.packetNumber;
+    document.getElementById('set-name-info').innerHTML = tossup?.setName ?? '';
+    document.getElementById('question-number-info').innerHTML = tossup?.questionNumber ?? '-';
+    document.getElementById('packet-number-info').innerHTML = tossup?.packetNumber ?? '-';
 
     document.getElementById('options').classList.add('d-none');
     document.getElementById('next').classList.add('btn-primary');
@@ -307,9 +307,9 @@ const socketOnStart = (message) => {
 
     tossup = message.tossup;
 
-    document.getElementById('set-name-info').innerHTML = tossup.setName;
-    document.getElementById('question-number-info').innerHTML = tossup.questionNumber;
-    document.getElementById('packet-number-info').innerHTML = tossup.packetNumber;
+    document.getElementById('set-name-info').innerHTML = tossup?.setName ?? '';
+    document.getElementById('question-number-info').innerHTML = tossup?.questionNumber ?? '-';
+    document.getElementById('packet-number-info').innerHTML = tossup?.packetNumber ?? '-';
 }
 
 // Ping server every 45 seconds to prevent socket disconnection

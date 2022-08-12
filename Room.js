@@ -19,7 +19,6 @@ class Room {
         this.difficulties = [4, 5];
         this.setName = '2022 PACE NSC';
         this.packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
-        this.packetNumber = 1;
         this.readingSpeed = 50;
         this.validCategories = [];
         this.validSubcategories = [];
@@ -66,8 +65,6 @@ class Room {
             validSubcategories: this.validSubcategories,
             setName: this.setName,
             packetNumbers: this.packetNumbers,
-            packetNumber: this.packetNumber,
-            questionNumber: this.questionNumber,
             readingSpeed: this.readingSpeed,
             public: this.public,
             allowMultipleBuzzes: this.allowMultipleBuzzes,
@@ -146,8 +143,7 @@ class Room {
 
         if (type === 'packet-number') {
             this.packetNumbers = message.value;
-            this.packetNumber = message.value[0];
-            this.questionNumber = -1;
+            this.questionNumber = 0;
             this.sendSocketMessage(message);
         }
 
@@ -162,7 +158,7 @@ class Room {
 
         if (type === 'set-name') {
             this.setName = message.value;
-            this.questionNumber = -1;
+            this.questionNumber = 0;
             this.sendSocketMessage(message);
         }
 
@@ -174,7 +170,7 @@ class Room {
         if (type === 'toggle-select-by-set-name') {
             this.selectBySetName = message.selectBySetName;
             this.setName = message.setName;
-            this.questionNumber = -1;
+            this.questionNumber = 0;
             this.sendSocketMessage(message);
         }
 
@@ -208,6 +204,8 @@ class Room {
                 });
                 return false;
             }
+            this.questionNumber = this.tossup.questionNumber;
+            this.packetNumbers = this.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
         } else {
             this.tossup = await database.getRandomQuestion(
                 'tossup',
@@ -226,9 +224,6 @@ class Room {
         this.endOfSet = Object.keys(this.tossup).length === 0;
 
         this.questionProgress = 1;
-        this.packetNumbers = this.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
-        this.packetNumber = this.tossup.packetNumber;
-        this.questionNumber = this.tossup.questionNumber;
 
         return true;
     }
@@ -267,16 +262,6 @@ class Room {
 
     createPlayer(userId) {
         this.players[userId] = new Player(userId);
-    }
-
-    currentQuestion() {
-        return {
-            endOfSet: this.endOfSet,
-            question: this.tossup,
-            packetNumber: this.packetNumber,
-            questionNumber: this.questionNumber,
-            setName: this.setName,
-        };
     }
 
     deletePlayer(userId) {
