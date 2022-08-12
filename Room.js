@@ -68,7 +68,8 @@ class Room {
             readingSpeed: this.readingSpeed,
             public: this.public,
             allowMultipleBuzzes: this.allowMultipleBuzzes,
-            questionProgress: this.questionProgress
+            questionProgress: this.questionProgress,
+            tossup: this.tossup
         }));
 
         this.sendSocketMessage({
