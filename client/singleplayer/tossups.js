@@ -149,6 +149,7 @@ async function loadAndReadTossup() {
  * Recursively reads the question based on the reading speed.
  */
 function recursivelyPrintTossup() {
+    clearTimeout(timeoutId);
     if (!currentlyBuzzing && questionTextSplit.length > 0) {
         let word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
