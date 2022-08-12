@@ -101,27 +101,27 @@ function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
     const parseAnswerline = (answerline) => {
         const removeParentheses = (string) => {
             string = string.replace(/\([^\)]*\)/g, '');
-    
+
             return string;
         }
-    
+
         const splitMainAnswer = (string) => {
             let indexStart = string.indexOf('[');
             let indexEnd = string.indexOf(']');
             if (indexStart === -1) {
                 return { mainAnswer: string, subAnswer: '' };
             }
-    
+
             let mainAnswer = string.substring(0, indexStart).trim();
             let subAnswer = string.substring(indexStart + 1, indexEnd).trim();
-    
+
             return { mainAnswer, subAnswer };
         }
-    
+
         const splitIntoPhrases = (string) => {
             return string.split(';').map(token => token.trim());
         };
-    
+
         const splitIntoAnswers = (phrase) => {
             phrase = phrase.toLowerCase();
             let directive = 'accept'; // by default, this phrase accepts answers that match to it
@@ -130,14 +130,14 @@ function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
             } else if (phrase.startsWith('reject') || phrase.startsWith('do not accept')) {
                 directive = 'reject';
             }
-    
+
             phrase = phrase.replace(/^(or|prompt|prompt on|accept|reject|do not accept or prompt on|do not accept)/, '').trim();
-    
+
             const answers = phrase.split(' or ').map(token => token.trim()).filter(token => token.length > 0);
-    
+
             return { directive, answers };
         }
-    
+
         const extractUnderlining = (string) => {
             let matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
             if (matches) {
@@ -146,7 +146,7 @@ function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
                 return string;
             }
         }
-    
+
         const extractQuotes = (string) => {
             let matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
             if (matches) {
@@ -155,7 +155,7 @@ function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
                 return string;
             }
         }
-    
+
         answerline = removeParentheses(answerline);
         let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
         const subPhrases = splitIntoPhrases(subAnswer);
@@ -169,7 +169,7 @@ function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
         subPhrases.forEach(phrase => {
             if (phrase.length === 0) return;
             let { directive, answers } = splitIntoAnswers(phrase);
-            answers.forEach(answer => { 
+            answers.forEach(answer => {
                 if (directive === 'accept' || directive === 'prompt') {
                     answer = extractUnderlining(answer);
                 } else if (directive === 'reject') {
@@ -178,7 +178,7 @@ function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
                 parsedAnswerline[directive].push(answer);
             });
         })
-    
+
         return parsedAnswerline;
     }
 

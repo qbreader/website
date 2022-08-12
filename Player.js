@@ -1,5 +1,5 @@
 class Player {
-    constructor (userId) {
+    constructor(userId) {
         this.userId = userId;
         this.username = '';
         this.powers = 0;
