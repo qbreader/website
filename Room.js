@@ -279,23 +279,24 @@ class Room {
         this.buzzedIn = false;
         let endOfQuestion = (this.wordIndex === this.tossup.question.split(' ').length);
         let inPower = this.tossup.question.includes('(*)') && !this.tossup.question.split(' ').slice(0, this.wordIndex).join(' ').includes('(*)');
-        let points = quizbowl.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
+        let [directive, points] = quizbowl.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
 
-        if (points > 0) {
+        if (directive === 'accept') {
             this.revealQuestion();
             this.questionProgress = 2;
+            this.players[userId].updateStats(points, celerity);
             Object.values(this.players).forEach(player => { player.tuh++; });
-        } else {
+        } else if (directive === 'reject') {
             this.updateQuestion();
+            this.players[userId].updateStats(points, celerity);
         }
-
-        this.players[userId].updateStats(points, celerity);
 
         this.sendSocketMessage({
             type: 'give-answer',
             userId: userId,
             username: this.players[userId].username,
             givenAnswer: givenAnswer,
+            directive: directive,
             score: points,
             celerity: this.players[userId].celerity.correct.average
         });
