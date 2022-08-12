@@ -42,6 +42,14 @@ class Room {
             this.message(message, userId);
         });
 
+        socket.on('close', () => {
+            this.message({
+                type: 'leave',
+                userId: userId,
+                username: username
+            }, userId);
+        });
+
         const isNew = !(userId in this.players);
         if (isNew) {
             this.createPlayer(userId);
@@ -124,6 +132,7 @@ class Room {
 
         if (type === 'leave') {
             // this.deletePlayer(userId);
+            delete this.sockets[userId];
             this.sendSocketMessage(message);
         }
 
