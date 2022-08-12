@@ -11,24 +11,24 @@ class Room {
         this.players = {};
         this.sockets = {};
 
-        this.tossup = {};
+        this.buzzTimeout = null;
+        this.buzzedIn = false;
+        this.paused = false;
         this.questionNumber = 0;
         this.questionProgress = 0; // 0 = not started, 1 = reading, 2 = answer revealed
+        this.tossup = {};
         this.wordIndex = 0;
 
+        this.selectBySetName = false;
         this.difficulties = [4, 5];
         this.setName = '2022 PACE NSC';
         this.packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
-        this.readingSpeed = 50;
         this.validCategories = [];
         this.validSubcategories = [];
-        this.endOfSet = false;
+
+        this.readingSpeed = 50;
         this.public = true;
         this.allowMultipleBuzzes = true;
-        this.selectBySetName = false;
-        this.paused = false;
-        this.buzzTimeout = null;
-        this.buzzedIn = false;
     }
 
     connection(socket, userId, username) {
@@ -84,14 +84,14 @@ class Room {
             tossup: this.tossup
         }));
 
-        if (this.questionProgress > 0) {
+        if (this.questionProgress > 0 && this.tossup?.question) {
             socket.send(JSON.stringify({
                 type: 'update-question',
                 word: this.tossup.question.split(' ').slice(0, this.wordIndex).join(' ')
             }));
         }
 
-        if (this.questionProgress === 2) {
+        if (this.questionProgress === 2 && this.tossup?.answer) {
             socket.send(JSON.stringify({
                 type: 'update-answer',
                 answer: this.tossup.answer
@@ -202,6 +202,7 @@ class Room {
     async advanceQuestion() {
         this.wordIndex = 0;
         this.buzzedIn = false;
+        this.paused = false;
 
         if (this.selectBySetName) {
             this.tossup = await database.getNextQuestion(
@@ -216,9 +217,10 @@ class Room {
                     type: 'end-of-set'
                 });
                 return false;
+            } else {
+                this.questionNumber = this.tossup.questionNumber;
+                this.packetNumbers = this.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
             }
-            this.questionNumber = this.tossup.questionNumber;
-            this.packetNumbers = this.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
         } else {
             this.tossup = await database.getRandomQuestion(
                 'tossup',
@@ -233,8 +235,6 @@ class Room {
                 return false;
             }
         }
-
-        this.endOfSet = Object.keys(this.tossup).length === 0;
 
         this.questionProgress = 1;
 
@@ -288,6 +288,7 @@ class Room {
     }
 
     giveAnswer(userId, givenAnswer, celerity) {
+        if (Object.keys(this.tossup).length === 0) return;
         this.buzzedIn = false;
         let endOfQuestion = (this.wordIndex === this.tossup.question.split(' ').length);
         let inPower = this.tossup.question.includes('(*)') && !this.tossup.question.split(' ').slice(0, this.wordIndex).join(' ').includes('(*)');
@@ -325,7 +326,6 @@ class Room {
                     username: this.players[userId].username,
                     tossup: this.tossup
                 });
-                this.paused = false;
                 this.updateQuestion();
             }
         });
@@ -349,6 +349,7 @@ class Room {
     }
 
     revealQuestion() {
+        if (Object.keys(this.tossup).length === 0) return;
         let remainingQuestion = this.tossup.question.split(' ').slice(this.wordIndex).join(' ');
         this.sendSocketMessage({
             type: 'update-question',
@@ -385,6 +386,7 @@ class Room {
     }
 
     updateQuestion() {
+        if (Object.keys(this.tossup).length === 0) return;
         let questionSplit = this.tossup.question.split(' ');
         if (this.wordIndex >= questionSplit.length) {
             return;
