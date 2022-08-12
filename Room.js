@@ -18,6 +18,7 @@ class Room {
         this.questionProgress = 0; // 0 = not started, 1 = reading, 2 = answer revealed
         this.tossup = {};
         this.wordIndex = 0;
+        this.queryingQuestion = false;
 
         this.selectBySetName = false;
         this.difficulties = [4, 5];
@@ -106,7 +107,7 @@ class Room {
         });
     }
 
-    message(message, userId) {
+    async message(message, userId) {
         let type = message.type || '';
         if (type === 'buzz') {
             this.buzz(userId);
@@ -200,6 +201,7 @@ class Room {
     }
 
     async advanceQuestion() {
+        this.queryingQuestion = true;
         this.wordIndex = 0;
         this.buzzedIn = false;
         this.paused = false;
@@ -316,9 +318,11 @@ class Room {
     }
 
     next(userId) {
+        if (this.queryingQuestion) return;
         clearTimeout(this.buzzTimeout);
         this.revealQuestion();
         this.advanceQuestion().then((successful) => {
+            this.queryingQuestion = false;
             if (successful) {
                 this.sendSocketMessage({
                     type: 'next',
@@ -371,8 +375,10 @@ class Room {
     }
 
     start(userId) {
+        if (this.queryingQuestion) return;
         clearTimeout(this.buzzTimeout);
         this.advanceQuestion().then((successful) => {
+            this.queryingQuestion = false;
             if (successful) {
                 this.sendSocketMessage({
                     type: 'start',
