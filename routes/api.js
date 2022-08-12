@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
-const rooms = require('../rooms');
 const database = require('../database');
 const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('../quizbowl')
 
