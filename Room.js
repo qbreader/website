@@ -34,26 +34,38 @@ class Room {
     connection(socket, userId, username) {
         console.log(`User with userId ${userId} and username ${username} connected in room ${this.name}`);
 
-        this.sockets[userId] = socket;
-
         socket.on('message', message => {
             message = JSON.parse(message);
             this.message(message, userId);
         });
 
         socket.on('close', () => {
+            this.sendSocketMessage({
+                type: 'give-answer',
+                userId: userId,
+                username: username,
+                givenAnswer: '',
+                directive: 'reject',
+                score: -5,
+                celerity: this.players[userId].celerity.correct.average
+            });
+
             this.message({
                 type: 'leave',
                 userId: userId,
                 username: username
             }, userId);
+
+            this.updateQuestion();
+            this.players[userId].updateStats(-5, 0);
         });
+
+        this.sockets[userId] = socket;
 
         const isNew = !(userId in this.players);
         if (isNew) {
             this.createPlayer(userId);
         }
-
         this.players[userId].updateUsername(username);
 
         socket.send(JSON.stringify({
@@ -72,13 +84,6 @@ class Room {
             tossup: this.tossup
         }));
 
-        this.sendSocketMessage({
-            type: 'join',
-            isNew: isNew,
-            userId: userId,
-            username: username,
-        });
-
         if (this.questionProgress > 0) {
             socket.send(JSON.stringify({
                 type: 'update-question',
@@ -92,6 +97,13 @@ class Room {
                 answer: this.tossup.answer
             }));
         }
+
+        this.sendSocketMessage({
+            type: 'join',
+            isNew: isNew,
+            userId: userId,
+            username: username,
+        });
     }
 
     message(message, userId) {
