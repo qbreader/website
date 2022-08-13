@@ -1,5 +1,3 @@
-const uuid = require('uuid');
-
 const database = require('./database');
 const Player = require('./Player');
 const quizbowl = require('./quizbowl');
