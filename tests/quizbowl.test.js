@@ -51,11 +51,18 @@ const tests = [
     ['accept', answerline9, 'chimpanzee'],
 ];
 
+let successful = 0, total = 0;
 console.log('TESTING quizbowl.checkAnswer()');
 tests.forEach(test => {
     const expected = test[0];
     const answerline = test[1];
     const givenAnswer = test[2];
     const result = quizbowl.checkAnswer(answerline, givenAnswer);
+
     console.assert(expected === result, `expected "${expected}" but got "${result}" for given answer "${givenAnswer}"`);
-})
+
+    total++;
+    if (expected === result) successful++;
+});
+
+console.log(`${successful}/${total} tests successful`);
