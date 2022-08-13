@@ -20,6 +20,98 @@ const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "C
 const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "time", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
 
 
+function parseAnswerline(answerline) {
+    const removeParentheses = (string) => {
+        string = string.replace(/\([^\)]*\)/g, '');
+        return string;
+    }
+
+    const splitMainAnswer = (string) => {
+        let indexStart = string.indexOf('[');
+        let indexEnd = string.indexOf(']');
+        if (indexStart === -1) {
+            return { mainAnswer: string, subAnswer: '' };
+        }
+
+        let mainAnswer = string.substring(0, indexStart).trim();
+        let subAnswer = string.substring(indexStart + 1, indexEnd).trim();
+
+        return { mainAnswer, subAnswer };
+    }
+
+    const splitIntoPhrases = (string) => {
+        return string.split(';').map(token => token.trim());
+    };
+
+    const splitIntoAnswers = (phrase) => {
+        phrase = phrase.toLowerCase();
+        let directive = 'accept'; // by default, this phrase accepts answers that match to it
+        if (phrase.startsWith('prompt')) {
+            directive = 'prompt';
+        } else if (phrase.startsWith('reject') || phrase.startsWith('do not accept')) {
+            directive = 'reject';
+        }
+
+        phrase = phrase.replace(/^(or|prompt|prompt on|accept|reject|do not accept or prompt on|do not accept)/, '').trim();
+
+        const answers = phrase.split(' or ').map(token => token.trim()).filter(token => token.length > 0);
+
+        return { directive, answers };
+    }
+
+    const extractUnderlining = (string) => {
+        let matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
+        if (matches) {
+            return matches.reduce((prev, curr) => prev + curr + ' ', '').trim();
+        } else {
+            return string;
+        }
+    }
+
+    const extractQuotes = (string) => {
+        let matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
+        if (matches) {
+            return matches.reduce((prev, curr) => prev + curr + ' ', '').trim();
+        } else {
+            return string;
+        }
+    }
+
+    const extractKeyWords = (string) => {
+        const tokens = string.split(' ');
+        return tokens.filter(token => token.length > 0 && token.match(/<[^>]*>/))
+            .map(token => token.replace(/<[^>]*>/g, ''))
+            .reduce((prev, curr) => prev + curr + ' ', '')
+            .trim();
+    }
+
+    answerline = removeParentheses(answerline);
+    let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
+    const subPhrases = splitIntoPhrases(subAnswer);
+    mainAnswer = extractUnderlining(mainAnswer);
+    const parsedAnswerline = {
+        accept: [mainAnswer],
+        prompt: [],
+        reject: []
+    }
+
+    subPhrases.forEach(phrase => {
+        if (phrase.length === 0) return;
+        let { directive, answers } = splitIntoAnswers(phrase);
+        answers.forEach(answer => {
+            if (directive === 'accept' || directive === 'prompt') {
+                answer = [extractUnderlining(answer), extractKeyWords(answer)];
+            } else if (directive === 'reject') {
+                answer = [extractQuotes(answer), ''];
+            }
+            parsedAnswerline[directive].push(answer);
+        });
+    });
+
+    return parsedAnswerline;
+}
+
+
 function stringMatchesReference(string, reference) {
     const removePunctuation = (string) => {
         return string.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
@@ -84,8 +176,7 @@ function stringMatchesReference(string, reference) {
  * @returns {['accept' | 'prompt' | 'reject', Number]} - [directive, points]
  */
 function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
-    const isFormattedAnswerline = answerline.includes('<u>');
-    let directive = checkAnswer(answerline, givenAnswer, isFormattedAnswerline);
+    let directive = checkAnswer(answerline, givenAnswer);
     let isCorrect = (directive === 'accept');
     return [directive, isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5)];
 }
@@ -98,101 +189,22 @@ function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
  * @param {Boolean} isFormattedAnswerline 
  * @returns {'accept' | 'prompt' | 'reject'}
  */
-function checkAnswer(answerline, givenAnswer, isFormattedAnswerline) {
-    const parseAnswerline = (answerline) => {
-        const removeParentheses = (string) => {
-            string = string.replace(/\([^\)]*\)/g, '');
-
-            return string;
+function checkAnswer(answerline, givenAnswer) {
+    const answerWorks = (answerline, givenAnswer, isFormattedAnswerline) => {
+        if (isFormattedAnswerline) {
+            return stringMatchesReference(answerline, givenAnswer) || stringMatchesReference(answerline, givenAnswer);
+        } else {
+            return stringMatchesReference(givenAnswer, answerline);
         }
+    };
 
-        const splitMainAnswer = (string) => {
-            let indexStart = string.indexOf('[');
-            let indexEnd = string.indexOf(']');
-            if (indexStart === -1) {
-                return { mainAnswer: string, subAnswer: '' };
-            }
-
-            let mainAnswer = string.substring(0, indexStart).trim();
-            let subAnswer = string.substring(indexStart + 1, indexEnd).trim();
-
-            return { mainAnswer, subAnswer };
-        }
-
-        const splitIntoPhrases = (string) => {
-            return string.split(';').map(token => token.trim());
-        };
-
-        const splitIntoAnswers = (phrase) => {
-            phrase = phrase.toLowerCase();
-            let directive = 'accept'; // by default, this phrase accepts answers that match to it
-            if (phrase.startsWith('prompt')) {
-                directive = 'prompt';
-            } else if (phrase.startsWith('reject') || phrase.startsWith('do not accept')) {
-                directive = 'reject';
-            }
-
-            phrase = phrase.replace(/^(or|prompt|prompt on|accept|reject|do not accept or prompt on|do not accept)/, '').trim();
-
-            const answers = phrase.split(' or ').map(token => token.trim()).filter(token => token.length > 0);
-
-            return { directive, answers };
-        }
-
-        const extractUnderlining = (string) => {
-            let matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
-            if (matches) {
-                return matches.reduce((prev, curr) => prev + curr + ' ', '').trim();
-            } else {
-                return string;
-            }
-        }
-
-        const extractQuotes = (string) => {
-            let matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
-            if (matches) {
-                return matches.reduce((prev, curr) => prev + curr + ' ', '').trim();
-            } else {
-                return string;
-            }
-        }
-
-        answerline = removeParentheses(answerline);
-        let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
-        const subPhrases = splitIntoPhrases(subAnswer);
-        mainAnswer = extractUnderlining(mainAnswer);
-        const parsedAnswerline = {
-            accept: [mainAnswer],
-            prompt: [],
-            reject: []
-        }
-
-        subPhrases.forEach(phrase => {
-            if (phrase.length === 0) return;
-            let { directive, answers } = splitIntoAnswers(phrase);
-            answers.forEach(answer => {
-                if (directive === 'accept' || directive === 'prompt') {
-                    answer = extractUnderlining(answer);
-                } else if (directive === 'reject') {
-                    answer = extractQuotes(answer);
-                }
-                parsedAnswerline[directive].push(answer);
-            });
-        })
-
-        return parsedAnswerline;
-    }
-
+    const isFormattedAnswerline = answerline.includes('<u>');
     const parsedAnswerline = parseAnswerline(answerline);
 
-    for (let type of ['reject', 'accept', 'prompt']) {
-        for (let answer of parsedAnswerline[type]) {
-            if (stringMatchesReference(
-                isFormattedAnswerline ? answer : givenAnswer,
-                isFormattedAnswerline ? givenAnswer : answer
-            )) {
-                return type;
-            }
+    for (const type of ['reject', 'accept', 'prompt']) {
+        for (const answer of parsedAnswerline[type]) {
+            if (answerWorks(answer[0], givenAnswer, isFormattedAnswerline)) return type;
+            if (answerWorks(answer[1], givenAnswer, isFormattedAnswerline)) return type;
         }
     }
 
