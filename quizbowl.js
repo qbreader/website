@@ -120,14 +120,20 @@ function stringMatchesReference(string, reference) {
         return string.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
     }
 
-    string = string.toLowerCase().trim();
+    const replaceSpecialCharacters = (string) => {
+        return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
     string = removePunctuation(string);
+    string = replaceSpecialCharacters(string);
+    string = string.toLowerCase().trim();
     string = string.replace('-', ' ');
 
+    reference = removePunctuation(reference);
+    reference = replaceSpecialCharacters(reference);
     reference = reference.toLowerCase().trim();
     reference = reference.replace(/<\/?[biu]>/g, '');
     reference = reference.replace(/<\/?em>/g, '');
-    reference = removePunctuation(reference);
     reference = reference.replace('-', ' ');
 
     if (string.length === 0) return false;
