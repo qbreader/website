@@ -112,6 +112,10 @@ function parseAnswerline(answerline) {
 
 
 function stringMatchesReference(string, reference) {
+    if (string === null || string === undefined || reference === null || reference === undefined) {
+        return false;
+    }
+
     const removePunctuation = (string) => {
         return string.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
     }
