@@ -88,9 +88,8 @@ function parseAnswerline(answerline) {
     answerline = removeParentheses(answerline);
     let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
     const subPhrases = splitIntoPhrases(subAnswer);
-    mainAnswer = extractUnderlining(mainAnswer);
     const parsedAnswerline = {
-        accept: [mainAnswer],
+        accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer)]],
         prompt: [],
         reject: []
     }
@@ -192,7 +191,7 @@ function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
 function checkAnswer(answerline, givenAnswer) {
     const answerWorks = (answerline, givenAnswer, isFormattedAnswerline) => {
         if (isFormattedAnswerline) {
-            return stringMatchesReference(answerline, givenAnswer) || stringMatchesReference(answerline, givenAnswer);
+            return stringMatchesReference(answerline, givenAnswer);
         } else {
             return stringMatchesReference(givenAnswer, answerline);
         }
@@ -212,4 +211,4 @@ function checkAnswer(answerline, givenAnswer) {
 }
 
 
-module.exports = { CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, scoreTossup };
+module.exports = { CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, checkAnswer, scoreTossup };
