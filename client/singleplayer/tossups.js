@@ -1,28 +1,22 @@
-var timeoutId = -1;
-
-var setName = '';
+// Room settings
 var packetNumbers = [];
-var packetNumber = -1;
+var setName = '';
 var validCategories;
 var validSubcategories;
 
+// Status variables
+var currentlyBuzzing = false;
+var inPower = false;
+var packetNumber = -1;
+var paused = false;
+// WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
+var questionNumber = 0;
+var timeoutId = -1;
+// Whether or not the user clicked that they got the question wrong. `true` means the button currently says "I was right".
+var toggleCorrectClicked = false;
 var questions = [{}];
 var questionText = '';
 var questionTextSplit = [];
-
-/**
- * WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
- */
-var questionNumber = 0;
-
-var currentlyBuzzing = false;
-var paused = false;
-/**
- * Whether or not the user clicked that they got the question wrong.
- * `true` means the button currently says "I was right".
- */
-var toggleCorrectClicked = false;
-var inPower = false;
 
 
 /**

@@ -1,14 +1,16 @@
-var setName = '';
+// Room settings
 var packetNumbers = [];
-var packetNumber = -1;
+var setName = '';
 var validCategories;
 var validSubcategories;
 
+// Status variables
+var currentBonusPart = -1;
+var onQuestion = true;
+var packetNumber = -1;
 var questions = [{}];
 var questionNumber = 0;
 
-var onQuestion = true;
-var currentBonusPart = -1;
 
 /**
  * Clears user stats.
