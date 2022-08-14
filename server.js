@@ -64,6 +64,8 @@ app.get('/', (req, res) => {
 
 wss.on('connection', (ws) => {
     let [roomName, userId, username] = ws.protocol.split('%%%');
+    userId = decodeURIComponent(userId);
+    username = decodeURIComponent(username);
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
     if (!rooms.hasOwnProperty(roomName)) {

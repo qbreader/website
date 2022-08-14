@@ -9,7 +9,7 @@ var tossup = {};
 // Do not escape room name as that is how it is stored on the server.
 const ROOM_NAME = location.pathname.substring(13);
 
-const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${USER_ID}%%%${username}`);
+const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${encodeURIComponent(USER_ID)}%%%${encodeURIComponent(username)}`);
 socket.onopen = function () {
     console.log('Connected to websocket');
 }
