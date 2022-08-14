@@ -1,13 +1,12 @@
-var USER_ID = localStorage.getItem('USER_ID') || 'unknown';
-var username = localStorage.getItem('username') || randomUsername();
-document.getElementById('username').value = username;
+var changedCategories = false;
 var validCategories = [];
 var validSubcategories = [];
-var changedCategories = false;
-var tossup = {};
 
 // Do not escape room name as that is how it is stored on the server.
 const ROOM_NAME = location.pathname.substring(13);
+var tossup = {};
+var USER_ID = localStorage.getItem('USER_ID') || 'unknown';
+var username = localStorage.getItem('username') || randomUsername();
 
 const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${encodeURIComponent(USER_ID)}%%%${encodeURIComponent(username)}`);
 socket.onopen = function () {
@@ -650,8 +649,8 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 
 
 document.addEventListener('keydown', function (event) {
+    // press escape to close chat
     if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
-        // press escape to close chat
         document.getElementById('chat-input-group').classList.add('d-none');
     }
 
@@ -682,3 +681,5 @@ document.addEventListener('keypress', function (event) {
         document.getElementById('chat').click();
     }
 });
+
+document.getElementById('username').value = username;
