@@ -161,11 +161,21 @@ const socketOnConnectionAcknowledged = (message) => {
     document.getElementById('packet-number-info').innerHTML = message.tossup?.packetNumber ?? '-';
     document.getElementById('question-number-info').innerHTML = message.tossup?.questionNumber ?? '-';
 
+    document.getElementById('toggle-multiple-buzzes').checked = message.allowMultipleBuzzes;
+    document.getElementById('chat').disabled = message.public;
+    document.getElementById('toggle-visibility').checked = message.public;
     document.getElementById('reading-speed').value = message.readingSpeed;
     document.getElementById('reading-speed-display').innerHTML = message.readingSpeed;
-    document.getElementById('toggle-visibility').checked = message.public;
-    document.getElementById('chat').disabled = message.public;
-    document.getElementById('toggle-multiple-buzzes').checked = message.allowMultipleBuzzes;
+
+    if (message.selectBySetName) {
+        document.getElementById('toggle-select-by-set-name').checked = true;
+        document.getElementById('difficulty-settings').classList.add('d-none');
+        document.getElementById('set-settings').classList.remove('d-none');
+    } else {
+        document.getElementById('toggle-select-by-set-name').checked = false;
+        document.getElementById('difficulty-settings').classList.remove('d-none');
+        document.getElementById('set-settings').classList.add('d-none');
+    }
 
     if (message.questionProgress === 0) {
         document.getElementById('next').innerHTML = 'Start';
@@ -174,8 +184,14 @@ const socketOnConnectionAcknowledged = (message) => {
     } else if (message.questionProgress === 1) {
         document.getElementById('next').innerHTML = 'Skip';
         document.getElementById('options').classList.add('d-none');
-        document.getElementById('buzz').disabled = false;
-        document.getElementById('pause').disabled = false;
+        if (message.buzzedIn) {
+            document.getElementById('buzz').disabled = true;
+            document.getElementById('next').disabled = true;
+            document.getElementById('pause').disabled = true;
+        } else {
+            document.getElementById('buzz').disabled = false;
+            document.getElementById('pause').disabled = false;
+        }
     } else {
         document.getElementById('next').innerHTML = 'Next';
         document.getElementById('options').classList.add('d-none');
