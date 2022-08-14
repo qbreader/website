@@ -10,6 +10,18 @@ function randomRoomName() {
 }
 
 
+document.getElementById('form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    let roomName = document.getElementById('new-room-name').value;
+    if (roomName.length === 0) {
+        roomName = document.getElementById('new-room-name').placeholder;
+    } else {
+        roomName = roomName.replaceAll(' ', '-');
+    }
+    window.location.href = '/multiplayer/' + encodeURIComponent(roomName);
+});
+
+
 fetch(`/api/multiplayer/room-list`)
     .then(response => response.json())
     .then(rooms => {
@@ -25,17 +37,4 @@ fetch(`/api/multiplayer/room-list`)
         });
     });
 
-document.getElementById('form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    let roomName = document.getElementById('new-room-name').value;
-    if (roomName.length === 0) {
-        roomName = document.getElementById('new-room-name').placeholder;
-    } else {
-        roomName = roomName.replaceAll(' ', '-');
-    }
-    window.location.href = '/multiplayer/' + encodeURIComponent(roomName);
-});
-
-window.onload = () => {
-    document.getElementById('new-room-name').placeholder = randomRoomName();
-}
+document.getElementById('new-room-name').placeholder = randomRoomName();
