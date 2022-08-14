@@ -154,7 +154,7 @@ function updateStatDisplay() {
 }
 
 
-document.getElementById('next').addEventListener('click', async function () {
+document.getElementById('next').addEventListener('click', function () {
     this.blur();
 
     if (this.innerHTML === 'Next') {
@@ -163,7 +163,7 @@ document.getElementById('next').addEventListener('click', async function () {
     }
 
     onQuestion = true;
-    await loadAndReadBonus();
+    loadAndReadBonus();
 });
 
 
@@ -193,10 +193,8 @@ document.getElementById('start').addEventListener('click', async function () {
     onQuestion = true;
     initialize();
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    await getBonuses(setName, packetNumber).then(async (data) => {
-        questions = data;
-        await loadAndReadBonus();
-    });
+    questions = await getBonuses(setName, packetNumber);
+    loadAndReadBonus();
 });
 
 
@@ -274,6 +272,5 @@ window.onload = () => {
     }
 
     loadCategoryModal(validCategories, validSubcategories);
-
     updateStatDisplay();
 }

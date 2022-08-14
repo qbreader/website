@@ -263,10 +263,10 @@ document.getElementById('buzz').addEventListener('click', function () {
 });
 
 
-document.getElementById('next').addEventListener('click', async function () {
+document.getElementById('next').addEventListener('click', function () {
     this.blur();
     createTossupCard(questions[questionNumber], setName);
-    await loadAndReadTossup();
+    loadAndReadTossup();
 });
 
 
@@ -297,14 +297,12 @@ document.getElementById('set-name').addEventListener('change', function () {
 });
 
 
-document.getElementById('start').addEventListener('click', function () {
+document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     initialize();
     document.getElementById('question').innerHTML = 'Fetching questions...';
-    getTossups(setName, packetNumber).then(async (data) => {
-        questions = data;
-        await loadAndReadTossup();
-    });
+    questions = await getTossups(setName, packetNumber);
+    loadAndReadTossup();
 });
 
 
