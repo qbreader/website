@@ -84,10 +84,12 @@ socket.onmessage = function (event) {
         case 'toggle-select-by-set-name':
             if (data.selectBySetName) {
                 logEvent(data.username, `enabled select by set name`);
+                document.getElementById('toggle-select-by-set-name').checked = true;
                 document.getElementById('difficulty-settings').classList.add('d-none');
                 document.getElementById('set-settings').classList.remove('d-none');
             } else {
                 logEvent(data.username, `enabled select by difficulty`);
+                document.getElementById('toggle-select-by-set-name').checked = false;
                 document.getElementById('difficulty-settings').classList.remove('d-none');
                 document.getElementById('set-settings').classList.add('d-none');
             }
