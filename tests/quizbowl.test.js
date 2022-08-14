@@ -9,7 +9,7 @@ const answerline6 = "<b><u>primatology</u></b> [or word forms; accept any answer
 const answerline7 = "Heinrich <b><u>Böll</u></b> [or Heinrich Theodor <b><u>Böll</u></b>]";
 const answerline8 = "Heinrich Böll [or Heinrich Theodor Böll]";
 const answerline9 = "primatology [or word forms; accept any answers about the study of great apes, nonhuman primates, gorillas, bonobos, or chimpanzees; prompt on the study of monkeys or simians; prompt on word forms of ethology, biology, anthropology, or evolutionary or social psychology; prompt on the study of animals with “what type of animals?”]"
-
+const answerline10 = "China [or People’s Republic of China; do not accept or prompt on “Republic of China”]";
 const tests = [
     // single answerline
     ['accept', answerline1, 'manchester'],
@@ -49,6 +49,11 @@ const tests = [
     // unformatted answerlines
     ['reject', answerline9, 'chimp'], // TODO: make this accept
     ['accept', answerline9, 'chimpanzee'],
+
+    // reject clauses that are a subset of acceptable answer
+    ['accept', answerline10, 'China'],
+    ['accept', answerline10, 'people’s republic of China'],
+    ['reject', answerline10, 'republic of china'],
 ];
 
 let successful = 0, total = 0;
