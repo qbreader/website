@@ -18,16 +18,16 @@ class Room {
         this.wordIndex = 0;
         this.queryingQuestion = false;
 
-        this.selectBySetName = false;
         this.difficulties = [4, 5];
-        this.setName = '2022 PACE NSC';
         this.packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+        this.setName = '2022 PACE NSC';
         this.validCategories = [];
         this.validSubcategories = [];
-
-        this.readingSpeed = 50;
-        this.public = true;
+        
         this.allowMultipleBuzzes = true;
+        this.public = true;
+        this.readingSpeed = 50;
+        this.selectBySetName = false;
     }
 
     connection(socket, userId, username) {
@@ -69,18 +69,24 @@ class Room {
 
         socket.send(JSON.stringify({
             type: 'connection-acknowledged',
-            players: this.players,
             userId: userId,
+
+            players: this.players,
+
+            buzzedIn: this.buzzedIn,
+            tossup: this.tossup,
+            questionProgress: this.questionProgress,
+
             difficulties: this.difficulties,
+            packetNumbers: this.packetNumbers,
+            setName: this.setName,
             validCategories: this.validCategories,
             validSubcategories: this.validSubcategories,
-            setName: this.setName,
-            packetNumbers: this.packetNumbers,
-            readingSpeed: this.readingSpeed,
-            public: this.public,
+
             allowMultipleBuzzes: this.allowMultipleBuzzes,
-            questionProgress: this.questionProgress,
-            tossup: this.tossup
+            public: this.public,
+            readingSpeed: this.readingSpeed,
+            selectBySetName: this.selectBySetName
         }));
 
         if (this.questionProgress > 0 && this.tossup?.question) {
