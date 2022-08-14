@@ -1,7 +1,7 @@
 /**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
- * @return {Array<JSON>} An array containing the bonuses.
+ * @return {Promise<Array<JSON>>} An array containing the bonuses.
  */
 async function getBonuses(setName, packetNumber) {
     return await fetch(`/api/packet-bonuses?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
@@ -13,7 +13,7 @@ async function getBonuses(setName, packetNumber) {
 /**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
- * @return {{tossups: Array<JSON>, bonuses: Array<JSON>}} An array containing the questions.
+ * @return {Promise<{tossups: Array<JSON>, bonuses: Array<JSON>}>} An array containing the questions.
  */
 async function getPacket(setName, packetNumber) {
     return await fetch(`/api/packet?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`).then(response => response.json());
@@ -23,7 +23,7 @@ async function getPacket(setName, packetNumber) {
 /**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
- * @return {Array<JSON>} An array containing the tossups.
+ * @return {Promise<Array<JSON>>} An array containing the tossups.
  */
 async function getTossups(setName, packetNumber) {
     return await fetch(`/api/packet-tossups?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
