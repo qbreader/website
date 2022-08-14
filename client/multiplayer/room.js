@@ -150,11 +150,13 @@ const socketOnConnectionAcknowledged = (message) => {
 
     validCategories = message.validCategories || [];
     validSubcategories = message.validSubcategories || [];
+    loadCategoryModal(validCategories, validSubcategories);
 
     document.getElementById('difficulties').value = arrayToRange(message.difficulties || []);
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
+    tossup = message.tossup;
     document.getElementById('set-name-info').innerHTML = message.tossup?.setName ?? '';
     document.getElementById('packet-number-info').innerHTML = message.tossup?.packetNumber ?? '-';
     document.getElementById('question-number-info').innerHTML = message.tossup?.questionNumber ?? '-';
@@ -164,7 +166,6 @@ const socketOnConnectionAcknowledged = (message) => {
     document.getElementById('toggle-visibility').checked = message.public;
     document.getElementById('chat').disabled = message.public;
     document.getElementById('toggle-multiple-buzzes').checked = message.allowMultipleBuzzes;
-    loadCategoryModal(validCategories, validSubcategories);
 
     if (message.questionProgress === 0) {
         document.getElementById('next').innerHTML = 'Start';
