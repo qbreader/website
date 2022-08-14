@@ -148,7 +148,7 @@ async function loadAndReadTossup() {
 /**
  * Toggles pausing or resuming the tossup.
  */
- function pause() {
+function pause() {
     if (paused) {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').innerHTML = 'Pause';
@@ -365,14 +365,14 @@ window.onload = () => {
     }
     document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
     document.getElementById('reading-speed').value = localStorage.speed;
-    
+
     if (localStorage.getItem('validCategories') === null) {
         localStorage.setItem('validCategories', '[]');
         validCategories = [];
     } else {
         validCategories = JSON.parse(localStorage.getItem('validCategories'));
     }
-    
+
     if (localStorage.getItem('validSubcategories') === null) {
         localStorage.setItem('validSubcategories', '[]');
         validSubcategories = [];

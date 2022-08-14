@@ -238,7 +238,7 @@ window.onload = () => {
     } else {
         validCategories = JSON.parse(localStorage.getItem('validCategories'));
     }
-    
+
     if (localStorage.getItem('validSubcategories') === null) {
         localStorage.setItem('validSubcategories', '[]');
         validSubcategories = [];
