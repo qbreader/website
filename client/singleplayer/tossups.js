@@ -146,6 +146,24 @@ async function loadAndReadTossup() {
 
 
 /**
+ * Toggles pausing or resuming the tossup.
+ */
+ function pause() {
+    if (paused) {
+        document.getElementById('buzz').removeAttribute('disabled');
+        document.getElementById('pause').innerHTML = 'Pause';
+        recursivelyPrintTossup();
+    }
+    else {
+        document.getElementById('buzz').setAttribute('disabled', 'disabled');
+        document.getElementById('pause').innerHTML = 'Resume';
+        clearTimeout(timeoutId);
+    }
+    paused = !paused;
+}
+
+
+/**
  * Recursively reads the question based on the reading speed.
  */
 function recursivelyPrintTossup() {
