@@ -210,7 +210,13 @@ function checkAnswer(answerline, givenAnswer) {
     const isFormattedAnswerline = answerline.includes('<u>');
     const parsedAnswerline = parseAnswerline(answerline);
 
-    for (const type of ['reject', 'accept', 'prompt']) {
+    for (const answer of parsedAnswerline['reject']) {
+        if (stringMatchesReference(answer[0], givenAnswer) && stringMatchesReference(givenAnswer, answer[0])) {
+            return 'reject';
+        }
+    }
+
+    for (const type of ['accept', 'prompt']) {
         for (const answer of parsedAnswerline[type]) {
             if (answerWorks(answer[0], givenAnswer, isFormattedAnswerline)) return type;
             if (answerWorks(answer[1], givenAnswer, isFormattedAnswerline)) return type;
