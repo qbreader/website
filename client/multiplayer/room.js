@@ -607,11 +607,11 @@ document.getElementById('toggle-multiple-buzzes').addEventListener('click', func
 
 document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ 
-        type: 'toggle-select-by-set-name', 
-        userId: USER_ID, username: username, 
-        setName: document.getElementById('set-name').value, 
-        selectBySetName: this.checked 
+    socket.send(JSON.stringify({
+        type: 'toggle-select-by-set-name',
+        userId: USER_ID, username: username,
+        setName: document.getElementById('set-name').value,
+        selectBySetName: this.checked
     }));
 });
 

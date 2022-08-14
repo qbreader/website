@@ -273,10 +273,12 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 });
 
 
-fetch(`/api/set-list`).then(response => response.json()).then(data => {
-    data.forEach(setName => {
-        let option = document.createElement('option');
-        option.innerHTML = setName;
-        document.getElementById('set-list').appendChild(option);
+fetch(`/api/set-list`)
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(setName => {
+            let option = document.createElement('option');
+            option.innerHTML = setName;
+            document.getElementById('set-list').appendChild(option);
+        });
     });
-});
