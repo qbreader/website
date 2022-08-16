@@ -54,6 +54,7 @@ client.connect().then(() => {
 
             if (bonuses) {
                 bonuses.forEach((bonus, index) => {
+                    delete bonus.values;
                     bonus._id = new ObjectId();
                     bonus.packet = packet._id;
                     bonus.set = set._id;
