@@ -72,8 +72,8 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
 
     question.setName = setName;
 
-    if (!alwaysUseUnformattedAnswer && question.hasOwnProperty('answer_formatted')) {
-        question.answer = question.answer_formatted;
+    if (!alwaysUseUnformattedAnswer && question.hasOwnProperty('formatted_answer')) {
+        question.answer = question.formatted_answer;
     }
 
     return question || {};
@@ -121,8 +121,8 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
             result['tossups'] = await QUESTIONS.find({ packet: packet._id, type: 'tossup' }, { sort: { questionNumber: 1 } }).toArray();
             if (!alwaysUseUnformattedAnswer) {
                 for (let question of result['tossups']) {
-                    if (question.hasOwnProperty('answer_formatted')) {
-                        question.answer = question.answer_formatted;
+                    if (question.hasOwnProperty('formatted_answer')) {
+                        question.answer = question.formatted_answer;
                     }
                 }
             }
@@ -132,8 +132,8 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
             result['bonuses'] = await QUESTIONS.find({ packet: packet._id, type: 'bonus' }, { sort: { questionNumber: 1 } }).toArray();
             if (!alwaysUseUnformattedAnswer) {
                 for (let question of result['bonuses']) {
-                    if (question.hasOwnProperty('answers_formatted')) {
-                        question.answers = question.answers_formatted;
+                    if (question.hasOwnProperty('formatted_answers')) {
+                        question.answers = question.formatted_answers;
                     }
                 }
             }
@@ -172,8 +172,8 @@ async function getRandomQuestion(type, difficulties, allowedCategories, allowedS
     let set = await SETS.findOne({ _id: question.set });
     question.setName = set.name;
 
-    if (!alwaysUseUnformattedAnswer && type === 'tossup' && question.hasOwnProperty('answer_formatted')) {
-        question.answer = question.answer_formatted;
+    if (!alwaysUseUnformattedAnswer && type === 'tossup' && question.hasOwnProperty('formatted_answer')) {
+        question.answer = question.formatted_answer;
     }
 
     return question;

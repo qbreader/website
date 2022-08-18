@@ -25,7 +25,7 @@ async function deleteSet(setName) {
 function listSetsWithAnswerFormatting() {
     questions.aggregate([
         {
-            $match: { $or: [{ answer_formatted: { $exists: true } }, { answers_formatted: { $exists: true } }] }
+            $match: { $or: [{ formatted_answer: { $exists: true } }, { formatted_answers: { $exists: true } }] }
         },
         {
             $group: { _id: "$set" }
