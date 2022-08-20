@@ -76,9 +76,9 @@ socket.onmessage = function (event) {
         case 'start':
             socketOnStart(data);
             break;
-        case 'toggle-multiple-buzzes':
-            logEvent(data.username, `${data.allowMultipleBuzzes ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
-            document.getElementById('toggle-multiple-buzzes').checked = data.allowMultipleBuzzes;
+        case 'toggle-rebuzz':
+            logEvent(data.username, `${data.rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
+            document.getElementById('toggle-rebuzz').checked = data.rebuzz;
             break;
         case 'toggle-select-by-set-name':
             if (data.selectBySetName) {
@@ -162,7 +162,7 @@ const socketOnConnectionAcknowledged = (message) => {
     document.getElementById('packet-number-info').innerHTML = message.tossup?.packetNumber ?? '-';
     document.getElementById('question-number-info').innerHTML = message.tossup?.questionNumber ?? '-';
 
-    document.getElementById('toggle-multiple-buzzes').checked = message.allowMultipleBuzzes;
+    document.getElementById('toggle-rebuzz').checked = message.rebuzz;
     document.getElementById('chat').disabled = message.public;
     document.getElementById('toggle-visibility').checked = message.public;
     document.getElementById('reading-speed').value = message.readingSpeed;
@@ -234,7 +234,7 @@ const socketOnGiveAnswer = (message) => {
         }
 
         if (directive === 'reject') {
-            if (document.getElementById('toggle-multiple-buzzes').checked || userId !== USER_ID) {
+            if (document.getElementById('toggle-rebuzz').checked || userId !== USER_ID) {
                 document.getElementById('buzz').disabled = false;
             } else {
                 document.getElementById('buzz').disabled = true;
@@ -598,9 +598,9 @@ document.getElementById('set-name').addEventListener('change', async function ()
 });
 
 
-document.getElementById('toggle-multiple-buzzes').addEventListener('click', function () {
+document.getElementById('toggle-rebuzz').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-multiple-buzzes', userId: USER_ID, username: username, allowMultipleBuzzes: this.checked }));
+    socket.send(JSON.stringify({ type: 'toggle-rebuzz', userId: USER_ID, username: username, rebuzz: this.checked }));
 });
 
 

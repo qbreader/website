@@ -87,7 +87,7 @@ class Room {
             validCategories: this.query.categories,
             validSubcategories: this.query.subcategories,
 
-            allowMultipleBuzzes: this.settings.rebuzz,
+            rebuzz: this.settings.rebuzz,
             public: this.settings.public,
             readingSpeed: this.settings.readingSpeed,
             selectBySetName: this.settings.selectBySetName
@@ -184,8 +184,8 @@ class Room {
             this.sendSocketMessage(message);
         }
 
-        if (type === 'toggle-multiple-buzzes') {
-            this.settings.rebuzz = message.allowMultipleBuzzes;
+        if (type === 'toggle-rebuzz') {
+            this.settings.rebuzz = message.rebuzz;
             this.sendSocketMessage(message);
         }
 
