@@ -117,7 +117,7 @@ class Room {
     }
 
     async message(message, userId) {
-        let type = message.type || '';
+        const type = message.type || '';
         if (type === 'buzz') {
             this.buzz(userId);
         }
@@ -142,8 +142,7 @@ class Room {
         }
 
         if (type === 'difficulties') {
-            this.query.difficulties = message.value;
-            this.sendSocketMessage(message);
+            this.adjustQuery(userId, 'difficulties', message.value);
         }
 
         if (type === 'give-answer') {
@@ -207,6 +206,18 @@ class Room {
             this.query.subcategories = message.subcategories;
             this.sendSocketMessage(message);
         }
+    }
+
+    adjustQuery(userId, setting, value) {
+        if (this.query.hasOwnProperty(setting)) {
+            this.query[setting] = value;
+        }
+
+        this.sendSocketMessage({
+            type: setting,
+            username: this.players[userId].username,
+            value: value
+        });
     }
 
     async advanceQuestion() {
