@@ -40,7 +40,7 @@ class Room {
 
         socket.on('message', message => {
             message = JSON.parse(message);
-            this.message(message, userId);
+            this.message(userId, message);
         });
 
         socket.on('close', () => {
@@ -59,11 +59,11 @@ class Room {
                 });
             }
 
-            this.message({
+            this.message(userId, {
                 type: 'leave',
                 userId: userId,
                 username: username
-            }, userId);
+            });
         });
 
         this.sockets[userId] = socket;
@@ -118,7 +118,7 @@ class Room {
         });
     }
 
-    async message(message, userId) {
+    async message(userId, message) {
         const type = message.type || '';
 
         if (type === 'buzz') {
