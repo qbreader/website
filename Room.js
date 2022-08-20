@@ -13,11 +13,11 @@ class Room {
         this.buzzTimeout = null;
         this.buzzedIn = null;
         this.paused = false;
+        this.queryingQuestion = false;
         this.questionNumber = 0;
         this.questionProgress = 0; // 0 = not started, 1 = reading, 2 = answer revealed
         this.tossup = {};
         this.wordIndex = 0;
-        this.queryingQuestion = false;
 
         this.query = {
             difficulties: [4, 5], 
@@ -28,8 +28,8 @@ class Room {
         };
 
         this.settings = {
-            rebuzz: true,
             public: true,
+            rebuzz: true,
             readingSpeed: 50,
             selectBySetName: false
         };
