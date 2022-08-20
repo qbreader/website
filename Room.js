@@ -11,7 +11,7 @@ class Room {
         this.sockets = {};
 
         this.buzzTimeout = null;
-        this.buzzedIn = false;
+        this.buzzedIn = null;
         this.paused = false;
         this.questionNumber = 0;
         this.questionProgress = 0; // 0 = not started, 1 = reading, 2 = answer revealed
@@ -44,24 +44,26 @@ class Room {
         });
 
         socket.on('close', () => {
-            this.sendSocketMessage({
-                type: 'give-answer',
-                userId: userId,
-                username: username,
-                givenAnswer: '',
-                directive: 'reject',
-                score: -5,
-                celerity: this.players[userId].celerity.correct.average
-            });
+            if (this.buzzedIn === userId) {
+                this.buzzedIn = null;
+                this.players[userId].updateStats(-5, 0);
+                this.updateQuestion();
+                this.sendSocketMessage({
+                    type: 'give-answer',
+                    userId: userId,
+                    username: username,
+                    givenAnswer: '',
+                    directive: 'reject',
+                    score: -5,
+                    celerity: this.players[userId].celerity.correct.average
+                });
+            }
 
             this.message({
                 type: 'leave',
                 userId: userId,
                 username: username
             }, userId);
-
-            this.updateQuestion();
-            this.players[userId].updateStats(-5, 0);
         });
 
         this.sockets[userId] = socket;
@@ -223,7 +225,7 @@ class Room {
     async advanceQuestion() {
         this.queryingQuestion = true;
         this.wordIndex = 0;
-        this.buzzedIn = false;
+        this.buzzedIn = null;
         this.paused = false;
 
         if (this.settings.selectBySetName) {
@@ -271,7 +273,7 @@ class Room {
                 username: this.players[userId].username
             });
         } else {
-            this.buzzedIn = true;
+            this.buzzedIn = userId;
             clearTimeout(this.buzzTimeout);
             this.sendSocketMessage({
                 type: 'buzz',
@@ -311,7 +313,7 @@ class Room {
 
     giveAnswer(userId, givenAnswer, celerity) {
         if (Object.keys(this.tossup).length === 0) return;
-        this.buzzedIn = false;
+        this.buzzedIn = null;
         let endOfQuestion = (this.wordIndex === this.tossup.question.split(' ').length);
         let inPower = this.tossup.question.includes('(*)') && !this.tossup.question.split(' ').slice(0, this.wordIndex).join(' ').includes('(*)');
         let [directive, points] = quizbowl.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
