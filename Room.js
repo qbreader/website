@@ -18,16 +18,20 @@ class Room {
         this.wordIndex = 0;
         this.queryingQuestion = false;
 
-        this.difficulties = [4, 5];
-        this.packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
-        this.setName = '2022 PACE NSC';
-        this.validCategories = [];
-        this.validSubcategories = [];
-        
-        this.allowMultipleBuzzes = true;
-        this.public = true;
-        this.readingSpeed = 50;
-        this.selectBySetName = false;
+        this.query = {
+            difficulties: [4, 5], 
+            packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 
+            setName: '2022 PACE NSC', 
+            categories: [], 
+            subcategories: []
+        };
+
+        this.settings = {
+            rebuzz: true,
+            public: true,
+            readingSpeed: 50,
+            selectBySetName: false
+        };
     }
 
     connection(socket, userId, username) {
@@ -77,16 +81,16 @@ class Room {
             tossup: this.tossup,
             questionProgress: this.questionProgress,
 
-            difficulties: this.difficulties,
-            packetNumbers: this.packetNumbers,
-            setName: this.setName,
-            validCategories: this.validCategories,
-            validSubcategories: this.validSubcategories,
+            difficulties: this.query.difficulties,
+            packetNumbers: this.query.packetNumbers,
+            setName: this.query.setName,
+            validCategories: this.query.categories,
+            validSubcategories: this.query.subcategories,
 
-            allowMultipleBuzzes: this.allowMultipleBuzzes,
-            public: this.public,
-            readingSpeed: this.readingSpeed,
-            selectBySetName: this.selectBySetName
+            allowMultipleBuzzes: this.settings.rebuzz,
+            public: this.settings.public,
+            readingSpeed: this.settings.readingSpeed,
+            selectBySetName: this.settings.selectBySetName
         }));
 
         if (this.questionProgress > 0 && this.tossup?.question) {
@@ -137,7 +141,7 @@ class Room {
         }
 
         if (type === 'difficulties') {
-            this.difficulties = message.value;
+            this.query.difficulties = message.value;
             this.sendSocketMessage(message);
         }
 
@@ -160,7 +164,7 @@ class Room {
         }
 
         if (type === 'packet-number') {
-            this.packetNumbers = message.value;
+            this.query.packetNumbers = message.value;
             this.questionNumber = 0;
             this.sendSocketMessage(message);
         }
@@ -170,36 +174,36 @@ class Room {
         }
 
         if (type === 'reading-speed') {
-            this.readingSpeed = message.value;
+            this.settings.readingSpeed = message.value;
             this.sendSocketMessage(message);
         }
 
         if (type === 'set-name') {
-            this.setName = message.value;
+            this.query.setName = message.value;
             this.questionNumber = 0;
             this.sendSocketMessage(message);
         }
 
         if (type === 'toggle-multiple-buzzes') {
-            this.allowMultipleBuzzes = message.allowMultipleBuzzes;
+            this.settings.rebuzz = message.allowMultipleBuzzes;
             this.sendSocketMessage(message);
         }
 
         if (type === 'toggle-select-by-set-name') {
-            this.selectBySetName = message.selectBySetName;
-            this.setName = message.setName;
+            this.settings.selectBySetName = message.selectBySetName;
+            this.query.setName = message.setName;
             this.questionNumber = 0;
             this.sendSocketMessage(message);
         }
 
         if (type === 'toggle-visibility') {
-            this.public = message.public;
+            this.settings.public = message.public;
             this.sendSocketMessage(message);
         }
 
         if (type === 'update-categories') {
-            this.validCategories = message.categories;
-            this.validSubcategories = message.subcategories;
+            this.query.categories = message.categories;
+            this.query.subcategories = message.subcategories;
             this.sendSocketMessage(message);
         }
     }
@@ -210,13 +214,13 @@ class Room {
         this.buzzedIn = false;
         this.paused = false;
 
-        if (this.selectBySetName) {
+        if (this.settings.selectBySetName) {
             this.tossup = await database.getNextQuestion(
-                this.setName,
-                this.packetNumbers,
+                this.query.setName,
+                this.query.packetNumbers,
                 this.questionNumber,
-                this.validCategories,
-                this.validSubcategories
+                this.query.categories,
+                this.query.subcategories
             );
             if (Object.keys(this.tossup).length === 0) {
                 this.sendSocketMessage({
@@ -225,14 +229,14 @@ class Room {
                 return false;
             } else {
                 this.questionNumber = this.tossup.questionNumber;
-                this.packetNumbers = this.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
+                this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
             }
         } else {
             this.tossup = await database.getRandomQuestion(
                 'tossup',
-                this.difficulties,
-                this.validCategories,
-                this.validSubcategories
+                this.query.difficulties,
+                this.query.categories,
+                this.query.subcategories
             );
             if (Object.keys(this.tossup).length === 0) {
                 this.sendSocketMessage({
@@ -423,7 +427,7 @@ class Room {
 
         this.buzzTimeout = setTimeout(() => {
             this.updateQuestion();
-        }, time * 0.9 * (125 - this.readingSpeed));
+        }, time * 0.9 * (125 - this.settings.readingSpeed));
     }
 }
 
