@@ -120,11 +120,12 @@ class Room {
 
     async message(message, userId) {
         const type = message.type || '';
+
         if (type === 'buzz') {
             this.buzz(userId);
         }
 
-        if (type === 'change-username' || type === 'join') {
+        if (type === 'change-username') {
             this.sendSocketMessage({
                 type: 'change-username',
                 userId: userId,
@@ -140,7 +141,10 @@ class Room {
 
         if (type === 'clear-stats') {
             this.players[userId].clearStats();
-            this.sendSocketMessage(message);
+            this.sendSocketMessage({
+                type: 'clear-stats',
+                userId: userId
+            });
         }
 
         if (type === 'difficulties') {
@@ -157,18 +161,18 @@ class Room {
             this.sendSocketMessage(message);
         }
 
-        if (type === 'next' || type === 'skip') {
-            this.next(userId);
-        }
-
-        if (type === 'start') {
-            this.start(userId);
+        if (type === 'next' || type === 'skip' || type === 'start') {
+            this.next(userId, type);
         }
 
         if (type === 'packet-number') {
             this.query.packetNumbers = message.value;
             this.questionNumber = 0;
-            this.sendSocketMessage(message);
+            this.sendSocketMessage({
+                type: 'packet-number',
+                username: this.players[userId].username,
+                value: this.query.packetNumbers
+            });
         }
 
         if (type === 'pause') {
@@ -177,36 +181,62 @@ class Room {
 
         if (type === 'reading-speed') {
             this.settings.readingSpeed = message.value;
-            this.sendSocketMessage(message);
+            this.sendSocketMessage({
+                type: 'reading-speed',
+                username: this.players[userId].username,
+                value: this.settings.readingSpeed
+            });
         }
 
         if (type === 'set-name') {
             this.query.setName = message.value;
             this.questionNumber = 0;
-            this.sendSocketMessage(message);
+            this.sendSocketMessage({
+                type: 'set-name',
+                username: this.players[userId].username,
+                value: this.query.setName
+            });
         }
 
         if (type === 'toggle-rebuzz') {
             this.settings.rebuzz = message.rebuzz;
-            this.sendSocketMessage(message);
+            this.sendSocketMessage({
+                type: 'toggle-rebuzz',
+                rebuzz: this.settings.rebuzz,
+                username: this.players[userId].username
+            });
         }
 
         if (type === 'toggle-select-by-set-name') {
             this.settings.selectBySetName = message.selectBySetName;
             this.query.setName = message.setName;
             this.questionNumber = 0;
-            this.sendSocketMessage(message);
+            this.sendSocketMessage({
+                type: 'toggle-select-by-set-name',
+                selectBySetName: this.settings.selectBySetName,
+                setName: this.query.setName,
+                username: this.players[userId].username
+            });
         }
 
         if (type === 'toggle-visibility') {
             this.settings.public = message.public;
-            this.sendSocketMessage(message);
+            this.sendSocketMessage({
+                type: 'toggle-visibility',
+                public: this.settings.public,
+                username: this.players[userId].username
+            });
         }
 
         if (type === 'update-categories') {
             this.query.categories = message.categories;
             this.query.subcategories = message.subcategories;
-            this.sendSocketMessage(message);
+            this.sendSocketMessage({
+                type: 'update-categories',
+                categories: this.query.categories,
+                subcategories: this.query.subcategories,
+                username: this.players[userId].username
+            });
         }
     }
 
@@ -277,7 +307,6 @@ class Room {
             clearTimeout(this.buzzTimeout);
             this.sendSocketMessage({
                 type: 'buzz',
-                userId: userId,
                 username: this.players[userId].username
             });
 
@@ -291,9 +320,8 @@ class Room {
     chat(userId, message) {
         this.sendSocketMessage({
             type: 'chat',
-            userId: userId,
-            username: this.players[userId].username,
-            message: message
+            message: message,
+            username: this.players[userId].username
         });
     }
 
@@ -339,7 +367,7 @@ class Room {
         });
     }
 
-    next(userId) {
+    next(userId, type) {
         if (this.queryingQuestion) return;
         clearTimeout(this.buzzTimeout);
         this.revealQuestion();
@@ -347,7 +375,7 @@ class Room {
             this.queryingQuestion = false;
             if (successful) {
                 this.sendSocketMessage({
-                    type: 'next',
+                    type: type,
                     userId: userId,
                     username: this.players[userId].username,
                     tossup: this.tossup
@@ -369,7 +397,6 @@ class Room {
         this.sendSocketMessage({
             type: 'pause',
             paused: this.paused,
-            userId: userId,
             username: this.players[userId].username
         });
     }
@@ -394,23 +421,6 @@ class Room {
         for (const socket of Object.values(this.sockets)) {
             socket.send(JSON.stringify(message));
         }
-    }
-
-    start(userId) {
-        if (this.queryingQuestion) return;
-        clearTimeout(this.buzzTimeout);
-        this.advanceQuestion().then((successful) => {
-            this.queryingQuestion = false;
-            if (successful) {
-                this.sendSocketMessage({
-                    type: 'start',
-                    userId: userId,
-                    username: this.players[userId].username,
-                    tossup: this.tossup
-                });
-                this.updateQuestion();
-            }
-        });
     }
 
     updateQuestion() {

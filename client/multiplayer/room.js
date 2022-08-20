@@ -86,6 +86,7 @@ socket.onmessage = function (event) {
                 document.getElementById('toggle-select-by-set-name').checked = true;
                 document.getElementById('difficulty-settings').classList.add('d-none');
                 document.getElementById('set-settings').classList.remove('d-none');
+                document.getElementById('set-name').innerHTML = data.setName;
             } else {
                 logEvent(data.username, `enabled select by difficulty`);
                 document.getElementById('toggle-select-by-set-name').checked = false;
@@ -146,6 +147,7 @@ const socketOnClearStats = (message) => {
 }
 
 const socketOnConnectionAcknowledged = (message) => {
+    console.log(message);
     USER_ID = message.userId;
     localStorage.setItem('USER_ID', USER_ID);
 
@@ -279,7 +281,7 @@ const socketOnLostBuzzerRace = (message) => {
 }
 
 const socketOnNext = (message) => {
-    if (document.getElementById('next').innerHTML === 'Skip') {
+    if (message.type === 'skip') {
         logEvent(message.username, `skipped the question`);
     } else {
         logEvent(message.username, `went to the next question`);
@@ -493,8 +495,6 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
     socket.send(JSON.stringify({
         type: 'give-answer',
-        userId: USER_ID,
-        username: username,
         givenAnswer: answer,
         celerity: celerity,
     }));
@@ -505,13 +505,13 @@ document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     document.getElementById('answer-input-group').classList.remove('d-none');
     document.getElementById('answer-input').focus();
-    socket.send(JSON.stringify({ type: 'buzz', userId: USER_ID, username: username }));
+    socket.send(JSON.stringify({ type: 'buzz' }));
 });
 
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     if (changedCategories) {
-        socket.send(JSON.stringify({ type: 'update-categories', username: username, categories: validCategories, subcategories: validSubcategories }));
+        socket.send(JSON.stringify({ type: 'update-categories', categories: validCategories, subcategories: validSubcategories }));
     }
     changedCategories = false;
 });
@@ -534,13 +534,13 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
 
     if (message.length === 0) return;
 
-    socket.send(JSON.stringify({ type: 'chat', userId: USER_ID, username: username, message: message }));
+    socket.send(JSON.stringify({ type: 'chat', message: message }));
 });
 
 
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'clear-stats', userId: USER_ID, username: username }));
+    socket.send(JSON.stringify({ type: 'clear-stats' }));
 });
 
 
@@ -556,28 +556,28 @@ document.getElementById('next').addEventListener('click', function () {
     this.blur();
 
     if (document.getElementById('next').innerHTML === 'Start') {
-        socket.send(JSON.stringify({ type: 'start', userId: USER_ID, username: username }));
+        socket.send(JSON.stringify({ type: 'start' }));
     } else if (document.getElementById('next').innerHTML === 'Next') {
-        socket.send(JSON.stringify({ type: 'next', userId: USER_ID, username: username }));
+        socket.send(JSON.stringify({ type: 'next' }));
     } else if (document.getElementById('next').innerHTML === 'Skip') {
-        socket.send(JSON.stringify({ type: 'skip', userId: USER_ID, username: username }));
+        socket.send(JSON.stringify({ type: 'skip' }));
     }
 });
 
 
 document.getElementById('packet-number').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'packet-number', username: username, value: rangeToArray(this.value, maxPacketNumber) }));
+    socket.send(JSON.stringify({ type: 'packet-number', value: rangeToArray(this.value, maxPacketNumber) }));
 });
 
 
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'pause', userId: USER_ID, username: username }));
+    socket.send(JSON.stringify({ type: 'pause' }));
 });
 
 
 document.getElementById('reading-speed').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'reading-speed', userId: USER_ID, username: username, value: this.value }));
+    socket.send(JSON.stringify({ type: 'reading-speed', value: this.value }));
 });
 
 
@@ -594,13 +594,13 @@ document.getElementById('set-name').addEventListener('change', async function ()
         document.getElementById('packet-number').value = `1-${maxPacketNumber}`;
     }
 
-    socket.send(JSON.stringify({ type: 'set-name', username: username, value: this.value }));
+    socket.send(JSON.stringify({ type: 'set-name', value: this.value }));
 });
 
 
 document.getElementById('toggle-rebuzz').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-rebuzz', userId: USER_ID, username: username, rebuzz: this.checked }));
+    socket.send(JSON.stringify({ type: 'toggle-rebuzz', rebuzz: this.checked }));
 });
 
 
@@ -608,7 +608,6 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
     this.blur();
     socket.send(JSON.stringify({
         type: 'toggle-select-by-set-name',
-        userId: USER_ID, username: username,
         setName: document.getElementById('set-name').value,
         selectBySetName: this.checked
     }));
@@ -617,7 +616,7 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
 
 document.getElementById('toggle-visibility').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-visibility', userId: USER_ID, username: username, public: this.checked }));
+    socket.send(JSON.stringify({ type: 'toggle-visibility', public: this.checked }));
 });
 
 
