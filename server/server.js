@@ -8,12 +8,12 @@ const wss = new WebSocket.Server({ server });
 
 const Room = require('./Room');
 
-const apiRouter = require('./routes/api');
-const apiInfoRouter = require('./routes/api-info');
-const tossupsRouter = require('./routes/tossups');
-const bonusesRouter = require('./routes/bonuses');
-const multiplayerRouter = require('./routes/multiplayer');
-const aboutRouter = require('./routes/about');
+const apiRouter = require('../routes/api');
+const apiInfoRouter = require('../routes/api-info');
+const tossupsRouter = require('../routes/tossups');
+const bonusesRouter = require('../routes/bonuses');
+const multiplayerRouter = require('../routes/multiplayer');
+const aboutRouter = require('../routes/about');
 
 const rooms = {};
 
@@ -24,19 +24,19 @@ app.get('/*.html', (req, res) => {
 });
 
 app.get('/*.js', (req, res) => {
-    res.sendFile(__dirname + '/client/' + req.url);
+    res.sendFile(req.url, { root: './client' });
 });
 
 app.get('/*.css', (req, res) => {
-    res.sendFile(__dirname + '/client/' + req.url);
+    res.sendFile(req.url, { root: './client' });
 });
 
 app.get('/*.map', (req, res) => {
-    res.sendFile(__dirname + '/client/' + req.url);
+    res.sendFile(req.url, { root: './client' });
 });
 
 app.get('/*.ico', (req, res) => {
-    res.sendFile(__dirname + '/client/' + req.url);
+    res.sendFile(req.url, { root: './client' });
 });
 
 app.get('/api/multiplayer/room-list', (req, res) => {
@@ -58,7 +58,7 @@ app.use('/api-info', apiInfoRouter);
 app.use('/about', aboutRouter);
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/client/singleplayer/tossups.html');
+    res.sendFile('tossups.html', { root: './client/singleplayer/' });
 });
 
 
@@ -77,7 +77,7 @@ wss.on('connection', (ws) => {
 
 
 app.use((req, res) => {
-    res.sendFile(__dirname + '/client/' + req.url);
+    res.sendFile(req.url, { root: './client' });
 });
 
 server.listen(port, () => {

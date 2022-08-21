@@ -1,4 +1,4 @@
-const quizbowl = require('../quizbowl.js');
+const quizbowl = require('../server/quizbowl.js');
 
 const answerline1 = "<b><u>Manchester</u></b>"
 const answerline2 = "<b><u>damper</u></b>s [or <b><u>dashpot</u></b>s; accept (tuned) mass <b><u>damper</u></b>s]"
