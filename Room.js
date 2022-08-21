@@ -1,4 +1,4 @@
-const Colors = require('./Colors');
+const Colors = require('./server/Colors');
 const database = require('./database');
 const Player = require('./Player');
 const quizbowl = require('./quizbowl');
