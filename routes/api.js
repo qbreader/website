@@ -11,6 +11,10 @@ router.get('/num-packets', async (req, res) => {
     res.send(numPackets.toString());
 });
 
+router.get('/random-name', (req, res) => {
+    res.send(database.getRandomName());
+});
+
 router.get('/packet', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
