@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
+
 const database = require('../database');
-const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('../quizbowl')
 
 // DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
 
