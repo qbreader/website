@@ -42,7 +42,7 @@ app.get('/*.ico', (req, res) => {
 app.get('/api/multiplayer/room-list', (req, res) => {
     let roomList = {};
     for (const roomName in rooms) {
-        if (rooms[roomName].public) {
+        if (rooms[roomName].settings.public) {
             roomList[roomName] = [Object.keys(rooms[roomName].players).length, Object.keys(rooms[roomName].sockets).length];
         }
     }
