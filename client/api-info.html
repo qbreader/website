@@ -48,6 +48,10 @@
         <p>
             Base URL: <code>qbreader.org/api</code>.
         </p>
+        <p class="mt-3">
+            All multiplayer is done through WebSockets.
+            Rooms are created dynamically when new WebSocket connections are made.
+        </p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/num-packets</code></div>
@@ -74,12 +78,7 @@
                     </li>
                     <li>
                         <b>returns</b> - a <b>JSON object</b> representing the packet you requested in the format
-                        <code>
-                            {
-                                tossups: [{}, ...],
-                                bonuses: [{}, ...]
-                            }
-                        </code>
+                        <code> { tossups: [{}, ...], bonuses: [{}, ...] } </code>
                     </li>
                 </ul>
             </li>
@@ -92,12 +91,7 @@
                     <li><code>packetNumber</code> - the number of the packet in the set, starting from 1.</li>
                     <li>
                         <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in the format
-                        <code>
-                            {
-                                tossups: [],
-                                bonuses: [{}, ...]
-                            }
-                        </code>
+                        <code> { tossups: [], bonuses: [{}, ...] } </code>
                     </li>
                 </ul>
             </li>
@@ -110,7 +104,7 @@
                     <li><code>packetNumber</code> - the number of the packet in the set, starting from 1.</li>
                     <li>
                         <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in the format
-                        <code>{ tossups: [{}, ...], bonuses: [] }</code>
+                        <code> { tossups: [{}, ...], bonuses: [] } </code>
                     </li>
                 </ul>
             </li>
@@ -152,11 +146,6 @@
                 <ul><li><b>returns</b> - An <b>array of strings</b> representing the names of the sets.</li></ul>
             </li>
         </ul>
-
-        <p class="mt-3">
-            All multiplayer is done through WebSockets.
-            Rooms are created dynamically when new WebSocket connections are made.
-        </p>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
