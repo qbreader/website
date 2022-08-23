@@ -59,6 +59,16 @@ router.post('/random-question', async (req, res) => {
 });
 */
 
+router.post('/report-question', async (req, res) => {
+    const _id = req.body._id;
+    const successful = await database.reportQuestion(_id);
+    if (successful) {
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
+    }
+})
+
 router.get('/set-list', (req, res) => {
     const setList = database.getSetList(req.query.setName);
     res.send(setList);

@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
 
 const ADJECTIVES = ['adaptable', 'adept', 'affectionate', 'agreeable', 'alluring', 'amazing', 'ambitious', 'amiable', 'ample', 'approachable', 'awesome', 'blithesome', 'bountiful', 'brave', 'breathtaking', 'bright', 'brilliant', 'capable', 'captivating', 'charming', 'competitive', 'confident', 'considerate', 'courageous', 'creative', 'dazzling', 'determined', 'devoted', 'diligent', 'diplomatic', 'dynamic', 'educated', 'efficient', 'elegant', 'enchanting', 'energetic', 'engaging', 'excellent', 'fabulous', 'faithful', 'fantastic', 'favorable', 'fearless', 'flexible', 'focused', 'fortuitous', 'frank', 'friendly', 'funny', 'generous', 'giving', 'gleaming', 'glimmering', 'glistening', 'glittering', 'glowing', 'gorgeous', 'gregarious', 'gripping', 'hardworking', 'helpful', 'hilarious', 'honest', 'humorous', 'imaginative', 'incredible', 'independent', 'inquisitive', 'insightful', 'kind', 'knowledgeable', 'likable', 'lovely', 'loving', 'loyal', 'lustrous', 'magnificent', 'marvelous', 'mirthful', 'moving', 'nice', 'optimistic', 'organized', 'outstanding', 'passionate', 'patient', 'perfect', 'persistent', 'personable', 'philosophical', 'plucky', 'polite', 'powerful', 'productive', 'proficient', 'propitious', 'qualified', 'ravishing', 'relaxed', 'remarkable', 'resourceful', 'responsible', 'romantic', 'rousing', 'sensible', 'shimmering', 'shining', 'sincere', 'sleek', 'sparkling', 'spectacular', 'spellbinding', 'splendid', 'stellar', 'stunning', 'stupendous', 'super', 'technological', 'thoughtful', 'twinkling', 'unique', 'upbeat', 'vibrant', 'vivacious', 'vivid', 'warmhearted', 'willing', 'wondrous', 'zestful'];
@@ -198,4 +198,19 @@ function getSetList() {
 }
 
 
-module.exports = { getNextQuestion, getNumPackets, getPacket, getRandomQuestion, getSetList, getRandomName };
+/**
+ * Report question with given id to the database.
+ * @param {String} _id 
+ * @returns {Promise<Boolean>} true if successful, false otherwise.
+ */
+async function reportQuestion(_id) {
+    return await QUESTIONS.updateOne({ _id: new ObjectId(_id) }, { $inc: { reported: 1 } }).then(() => {
+        console.log('Reported question with id ' + _id);
+        return true;
+    }).catch(error => {
+        console.log('DATABASE ERROR:', error);
+        return false;
+    });
+}
+
+module.exports = { getNextQuestion, getNumPackets, getPacket, getRandomQuestion, getSetList, getRandomName, reportQuestion };
