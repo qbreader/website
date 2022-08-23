@@ -6,7 +6,6 @@ if (['http://www.qbreader.org', 'http://qbreader.herokuapp.com', 'https://qbread
     location.href = 'https://www.qbreader.org' + location.pathname;
 }
 
-var questionCounter = 1;
 var maxPacketNumber = 24;
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
@@ -76,55 +75,34 @@ function arrayToRange(array) {
 }
 
 
-function createTossupCard(tossup, setName) {
-    if (!tossup || Object.keys(tossup).length === 0) return;
+const createTossupCard = (function () {
+    let questionCounter = 0;
 
-    const { question, answer, category, subcategory, packetNumber, questionNumber } = tossup;
+    return function (tossup, setName) {
+        if (!tossup || Object.keys(tossup).length === 0) return;
 
-    // append a card containing the question to the history element
-    let card = document.createElement('div');
-    card.className = 'card my-2';
-
-    let cardHeader = document.createElement('div');
-    cardHeader.className = 'card-header';
-    cardHeader.setAttribute('data-bs-toggle', 'collapse');
-    cardHeader.setAttribute('data-bs-target', '#question-' + questionCounter);
-    cardHeader.innerHTML = answer;
-    card.appendChild(cardHeader);
-
-    let cardContainer = document.createElement('div');
-    cardContainer.id = 'question-' + questionCounter;
-    cardContainer.className = 'card-container collapse';
-
-    let cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
-
-    let cardText = document.createElement('p');
-    cardText.className = 'card-text';
-    cardText.innerHTML = question;
-    cardBody.appendChild(cardText);
-
-    let cardFooter = document.createElement('div');
-    cardFooter.className = 'card-footer';
-
-    let cardFooterText = document.createElement('small');
-    cardFooterText.className = 'text-muted';
-    cardFooterText.innerHTML = `${setName} / ${category} / ${subcategory}`;
-    cardFooter.appendChild(cardFooterText);
-
-    let cardFooterText2 = document.createElement('small');
-    cardFooterText2.className = 'text-muted float-end';
-    cardFooterText2.innerHTML = `Packet ${packetNumber} / Question ${questionNumber}`;
-    cardFooter.appendChild(cardFooterText2);
-
-    cardContainer.appendChild(cardBody);
-    cardContainer.appendChild(cardFooter);
-    card.appendChild(cardContainer);
-
-    document.getElementById('room-history').prepend(card);
-
-    questionCounter++;
-}
+        questionCounter++;
+        const { question, answer, category, subcategory, packetNumber, questionNumber, _id } = tossup;
+    
+        // append a card containing the question to the history element
+        let card = document.createElement('div');
+        card.className = 'card my-2';
+        card.innerHTML = `
+            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">${answer}</div>
+            <div class="card-container collapse" id="question-${questionCounter}">
+                <div class="card-body">
+                    <p class="card-text">${question}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">${setName} / ${category} / ${subcategory}</small>
+                    <small class="text-muted float-end">Packet ${packetNumber} / Question ${questionNumber}</small>
+                </div>
+            </div>
+        `
+    
+        document.getElementById('room-history').prepend(card);
+    }
+})();
 
 
 function isTouchDevice() {
