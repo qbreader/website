@@ -162,7 +162,7 @@ function stringMatchesReference(string, reference) {
         for (let j = 0; j < referenceTokens.length; j++) {
             let errors = dljs.distance(stringTokens[i], referenceTokens[j]);
 
-            if (4 * errors < referenceTokens[j].length) {
+            if (4 * errors <= referenceTokens[j].length) {
                 tokenMatches = true;
                 break;
             }
