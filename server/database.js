@@ -205,7 +205,7 @@ function getSetList() {
  * @returns {Promise<Boolean>} true if successful, false otherwise.
  */
 async function reportQuestion(_id) {
-    return await questions.updateOne({ _id: new ObjectId(_id) }, { $inc: { reported: 1 } }).then(() => {
+    return await questions.updateOne({ _id: new ObjectId(_id) }, { $inc: { reports: 1 } }).then(() => {
         console.log('Reported question with id ' + _id);
         return true;
     }).catch(error => {
