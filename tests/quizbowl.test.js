@@ -46,7 +46,7 @@ const tests = [
 
     ['accept', formatted_answer_8, 'Louis-Philippe'],
     ['accept', formatted_answer_8, 'Louis-Phillipe'],
-    // ['prompt', formatted_answer_8, 'Citizen King'],
+    ['prompt', formatted_answer_8, 'Citizen King'],
     ['reject', formatted_answer_8, 'Louis'],
     ['reject', formatted_answer_8, 'Philippe'],
 
