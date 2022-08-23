@@ -22,6 +22,13 @@ async function deleteSet(setName) {
 }
 
 
+function deleteReports() {
+    questions.updateMany({ reports: { $exists: true } }, { $unset: { reports: '' } }).then(result => {
+        console.log(result);
+    });
+}
+
+
 function listSetsWithAnswerFormatting() {
     questions.aggregate([
         {
