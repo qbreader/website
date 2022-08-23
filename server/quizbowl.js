@@ -89,19 +89,19 @@ function parseAnswerline(answerline) {
     let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
     const subPhrases = splitIntoPhrases(subAnswer);
     const parsedAnswerline = {
-        accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer)]],
+        accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), '']],
         prompt: [],
         reject: []
     }
 
     subPhrases.forEach(phrase => {
         if (phrase.length === 0) return;
-        let { directive, answers } = splitIntoAnswers(phrase);
+        const { directive, answers } = splitIntoAnswers(phrase);
         answers.forEach(answer => {
             if (directive === 'accept' || directive === 'prompt') {
-                answer = [extractUnderlining(answer), extractKeyWords(answer)];
+                answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
             } else if (directive === 'reject') {
-                answer = [extractQuotes(answer), ''];
+                answer = ['', '', extractQuotes(answer)];
             }
             parsedAnswerline[directive].push(answer);
         });
@@ -211,7 +211,7 @@ function checkAnswer(answerline, givenAnswer) {
     const parsedAnswerline = parseAnswerline(answerline);
 
     for (const answer of parsedAnswerline['reject']) {
-        if (stringMatchesReference(answer[0], givenAnswer) && stringMatchesReference(givenAnswer, answer[0])) {
+        if (stringMatchesReference(answer[2], givenAnswer) && stringMatchesReference(givenAnswer, answer[2])) {
             return 'reject';
         }
     }
@@ -220,6 +220,7 @@ function checkAnswer(answerline, givenAnswer) {
         for (const answer of parsedAnswerline[type]) {
             if (answerWorks(answer[0], givenAnswer, isFormattedAnswerline)) return type;
             if (answerWorks(answer[1], givenAnswer, isFormattedAnswerline)) return type;
+            if (answerWorks(answer[2], givenAnswer, isFormattedAnswerline)) return type;
         }
     }
 
