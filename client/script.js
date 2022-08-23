@@ -83,15 +83,20 @@ const createTossupCard = (function () {
 
         questionCounter++;
         const { question, answer, category, subcategory, packetNumber, questionNumber, _id } = tossup;
-    
+
         // append a card containing the question to the history element
         let card = document.createElement('div');
         card.className = 'card my-2';
         card.innerHTML = `
-            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">${answer}</div>
+            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
+                ${answer}
+            </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
-                    <p class="card-text">${question}</p>
+                    <p class="card-text">
+                        ${question}
+                        <a href="#" id="report-question-${_id}">Report Question</a>
+                    </p>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">${setName} / ${category} / ${subcategory}</small>
@@ -99,8 +104,13 @@ const createTossupCard = (function () {
                 </div>
             </div>
         `
-    
+
         document.getElementById('room-history').prepend(card);
+
+        document.getElementById('report-question-' + _id).addEventListener('click', function (e) {
+            e.preventDefault();
+            reportQuestion(_id);
+        });
     }
 })();
 
@@ -187,6 +197,26 @@ function rangeToArray(string, max = 0) {
     return array;
 }
 
+
+function reportQuestion(_id) {
+    fetch('/api/report-question', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            _id: _id
+        })
+    }).then(response => {
+        if (response.status === 200) {
+            alert('Question has been reported.');
+        } else {
+            alert('There was an error reporting the question.');
+        }
+    }).catch(error => {
+        alert('There was an error reporting the question.');
+    });
+}
 
 /**
  * Adds the given category if it is not in the list of valid categories.
