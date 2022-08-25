@@ -269,8 +269,10 @@ document.getElementById('toggle-high-contrast-question-text').addEventListener('
     this.blur();
     if (this.checked) {
         document.getElementById('question').classList.add('high-contrast-question-text');
+        localStorage.setItem('high-contrast-question-text', 'true');
     } else {
         document.getElementById('question').classList.remove('high-contrast-question-text');
+        localStorage.removeItem('high-contrast-question-text');
     }
 });
 
@@ -278,6 +280,11 @@ document.getElementById('toggle-options').addEventListener('click', function () 
     this.blur();
     document.getElementById('options').classList.toggle('d-none');
 });
+
+if (localStorage.getItem('high-contrast-question-text') === 'true') {
+    document.getElementById('toggle-high-contrast-question-text').checked = true;
+    document.getElementById('question').classList.add('high-contrast-question-text');
+}
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
