@@ -10643,5 +10643,20 @@ progress {
     display: none !important;
   }
 }
+.high-contrast-question-text {
+  border: 1px solid slategray;
+  padding: 1em;
+  font-family: "Times New Roman", serif;
+  font-size: 20px;
+}
+
+.buttons {
+  border-bottom: 0.5px solid lightgray;
+  margin-bottom: 0.5em;
+}
+
+.room-history {
+  border-top: 0.5px solid lightgray;
+}
 
 /*# sourceMappingURL=bootstrap.css.map */
