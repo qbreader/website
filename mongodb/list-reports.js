@@ -25,7 +25,7 @@ questions.find({ reports: { $exists: true }, type: 'tossup' }, { sort: { reports
     question.answer = question.answer.replace(/<\/u>/g, Colors.ENDC);
     const string = `
 ${setName} Packet ${question.packetNumber} Question ${question.questionNumber}
-Set ID: ${Colors.OKBLUE}${question.set}${Colors.ENDC}
+Question ID: ${Colors.OKBLUE}${question._id}${Colors.ENDC}
 ${question.question}
 ANSWER: ${question.answer}
 Number of reports: ${question.reports}`;
