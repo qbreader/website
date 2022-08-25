@@ -226,6 +226,10 @@
                     <button type="button" class="btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                 </div>
                 <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
+                    <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
+                </div>
+                <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-visibility" checked>
                     <label class="form-check-label" for="toggle-visibility">Public room</label>
                 </div>
@@ -240,7 +244,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
-                <div class="position-sticky top-0 pt-2 bg-body">
+                <div class="buttons position-sticky top-0 pt-2 bg-body">
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s or n key" class="mb-2 btn btn-primary" id="next">Next</button>
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: enter key"  class="mb-2 btn btn-info"    id="chat">Chat</button>
@@ -266,7 +270,7 @@
                 <br>
                 <div class="mt-2" id="question"></div>
                 <p class="my-1 my-lg-3" id="answer"></p>
-                <ul class="list-unstyled" id="room-history"></ul>
+                <ul class="room-history list-unstyled" id="room-history"></ul>
             </div>
         </div>
     </div>
