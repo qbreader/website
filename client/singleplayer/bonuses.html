@@ -166,9 +166,13 @@
                 <datalist id="set-list"></datalist>
                 <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet #s">
                 <input type="text" class="form-control" id="question-number" placeholder="Starting question #">
-                <div class="text-center mt-3">
+                <div class="text-center mt-3 mb-2">
                     <button type="button" class="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
+                    <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
                 </div>
                 <div class="d-none d-lg-block">
                     <hr>

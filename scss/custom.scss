@@ -61,3 +61,18 @@ $enable-negative-margins: true;
 @import "../node_modules/bootstrap/scss/utilities/api";
 
 // 6. Add additional custom code here
+.high-contrast-question-text {
+    border: 1px solid slategray;
+    padding: 1em;
+    font-family: "Times New Roman", serif;
+    font-size: 20px;
+}
+
+.buttons {
+    border-bottom: .5px solid lightgray;
+    margin-bottom: .5em;
+}
+
+.room-history {
+    border-top: .5px solid lightgray;
+}

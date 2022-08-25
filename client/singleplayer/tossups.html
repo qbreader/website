@@ -169,9 +169,13 @@
                 <div class="my-2"></div>
                 <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
                 <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
-                <div class="text-center">
+                <div class="text-center mb-2">
                     <button type="button" class="btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
+                    <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
@@ -191,7 +195,7 @@
                 <a class="mt-1 mt-lg-3 p-0 btn btn-link float-end d-none" id="toggle-correct">I was wrong</a>
                 <div class="mt-1 mt-lg-3" id="answer"></div>
                 <br>
-                <ul class="list-unstyled" id="room-history"></ul>
+                <ul class="room-history list-unstyled" id="room-history"></ul>
             </div>
         </div>
     </div>
