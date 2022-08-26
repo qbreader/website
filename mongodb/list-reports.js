@@ -24,10 +24,11 @@ questions.find({ reports: { $exists: true }, type: 'tossup' }, { sort: { reports
     question.answer = question.answer.replace(/<u>/g, Colors.UNDERLINE);
     question.answer = question.answer.replace(/<\/u>/g, Colors.ENDC);
     const string = `
-${setName} Packet ${question.packetNumber} Question ${question.questionNumber}
+${Colors.OKCYAN}${setName}${Colors.ENDC} Packet ${question.packetNumber} Question ${question.questionNumber}
 Question ID: ${Colors.OKBLUE}${question._id}${Colors.ENDC}
 ${question.question}
 ANSWER: ${question.answer}
+<${question.category} / ${question.subcategory}>
 Number of reports: ${question.reports}`;
     console.log(string);
 });
