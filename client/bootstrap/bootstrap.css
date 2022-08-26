@@ -1,22 +1,4 @@
 @charset "UTF-8";
-.bg-custom {
-  background-color: #fbefdf;
-}
-
-.card-header {
-  cursor: pointer;
-}
-
-#logo {
-  font-family: Inter, "Source Sans Pro", sans-serif;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.logo-prefix {
-  color: #0080ff;
-}
-
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -10643,6 +10625,19 @@ progress {
     display: none !important;
   }
 }
+.bg-custom {
+  background-color: #fbefdf;
+}
+
+.buttons {
+  border-bottom: 0.5px solid lightgray;
+  margin-bottom: 0.5em;
+}
+
+.card-header {
+  cursor: pointer;
+}
+
 .high-contrast-question-text {
   border: 1px solid slategray;
   padding: 1em;
@@ -10650,9 +10645,14 @@ progress {
   font-size: 20px;
 }
 
-.buttons {
-  border-bottom: 0.5px solid lightgray;
-  margin-bottom: 0.5em;
+#logo {
+  font-family: Inter, "Source Sans Pro", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo-prefix {
+  color: #0080ff;
 }
 
 .room-history {
