@@ -7,6 +7,7 @@ if (['http://www.qbreader.org', 'http://qbreader.herokuapp.com', 'https://qbread
 }
 
 var maxPacketNumber = 24;
+const SET_LIST = [];
 
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
 const SUBCATEGORIES = {
@@ -257,6 +258,12 @@ function updateSubcategory(subcategory, validSubcategories) {
 }
 
 document.getElementById('set-name').addEventListener('change', async function (event) {
+    // make border red if set name is not in set list
+    if (SET_LIST.includes(this.value) || this.value.length === 0) {
+        this.classList.remove('is-invalid');
+    } else {
+        this.classList.add('is-invalid');
+    }
     maxPacketNumber = await getNumPackets(this.value);
     if (maxPacketNumber > 0) {
         document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
@@ -301,5 +308,11 @@ fetch(`/api/set-list`)
             let option = document.createElement('option');
             option.innerHTML = setName;
             document.getElementById('set-list').appendChild(option);
+            SET_LIST.push(setName);
         });
+    }).then(() => {
+        let setName = localStorage.getItem('set-name');
+        if (setName.length > 0 && !SET_LIST.includes(setName)) {
+            document.getElementById('set-name').classList.add('is-invalid');
+        }
     });
