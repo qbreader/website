@@ -7,31 +7,13 @@
 // 2. Include any default variable overrides here
 
 $custom: #fbefdf;
-$logo-color: #0080ff;
+$enable-negative-margins: true;
 $font-family-sans-serif: Helvetica, sans-serif;
 
 $link-color: #039;
 $link-decoration: none;
 
-$enable-negative-margins: true;
-
-.bg-custom {
-    background-color: $custom;
-}
-
-.card-header {
-    cursor: pointer;
-}
-
-#logo {
-    font-family: Inter, 'Source Sans Pro', sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.logo-prefix {
-    color: $logo-color;
-}
+$logo-color: #0080ff;
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../node_modules/bootstrap/scss/variables";
@@ -61,6 +43,20 @@ $enable-negative-margins: true;
 @import "../node_modules/bootstrap/scss/utilities/api";
 
 // 6. Add additional custom code here
+
+.bg-custom {
+    background-color: $custom;
+}
+
+.buttons {
+    border-bottom: .5px solid lightgray;
+    margin-bottom: .5em;
+}
+
+.card-header {
+    cursor: pointer;
+}
+
 .high-contrast-question-text {
     border: 1px solid slategray;
     padding: 1em;
@@ -68,9 +64,14 @@ $enable-negative-margins: true;
     font-size: 20px;
 }
 
-.buttons {
-    border-bottom: .5px solid lightgray;
-    margin-bottom: .5em;
+#logo {
+    font-family: Inter, 'Source Sans Pro', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.logo-prefix {
+    color: $logo-color;
 }
 
 .room-history {
