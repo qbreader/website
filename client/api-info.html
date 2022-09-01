@@ -118,18 +118,44 @@
                     </li>
                 </ul>
             </li>
-            <!-- <li class="list-group-item">
+            <li class="list-group-item">
                 <div>POST <code>qbreader.org/api/random-question</code></div>
                 <div>Parameters:</div>
                 <ul>
-                    <li><code>setName</code> - the name of the set (URI-encoded).</li>
-                    <li><code>packetNumber</code> - the number of the packet in the set, starting from 1.</li>
                     <li>
-                        <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in the format
-                        <code>{ tossups: [], bonuses: [{}, ...] }</code>
+                        <code>type</code> - a string that either equals "tossup" or "bonus".
+                        Otherwise, returns a <code>400 Bad Request</code> response.
+                    </li>
+                    <li>
+                        <code>difficulties</code> (optional) - an <b>array of numbers</b> representing the valid possible difficulties.
+                        <ul>
+                            <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
+                            <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to select.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <code>categories</code> (optional) - an <b>array of strings</b> that contain the allowed categories.
+                        <ul>
+                            <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
+                            <li>Can also be a <b>string</b> if there is only 1 category.</li>
+                            <li>Take special care to ensure that the first letter of each word of the category is capitalized.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <code>subcategories</code> (optional) - an <b>array of strings</b> that contain the allowed subcategories.
+                        <ul>
+                            <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
+                            <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
+                            <li>Take special care to ensure that the first letter of each word of the subcategory is capitalized.</li>
+                            <li>This api endpoint does <b>not</b> check for consistency between categories and subcategories.</li>
+                            <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories will return no questions.</i></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>returns</b> - a <b>JSON object</b> representing a random question.
                     </li>
                 </ul>
-            </li> -->
+            </li>
             <li class="list-group-item">
                 <div>POST <code>qbreader.org/api/report-question</code></div>
                 <div>Parameters:</div>

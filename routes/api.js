@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const database = require('../server/database');
+const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('../server/quizbowl.js');
 
 // DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
 
@@ -36,28 +37,48 @@ router.get('/random-name', (req, res) => {
     res.send(database.getRandomName());
 });
 
-/** 
+
 router.post('/random-question', async (req, res) => {
     if (req.body.type !== 'tossup' && req.body.type !== 'bonus') {
         res.status(400).send('Invalid question type specified.');
     }
 
-    if (req.body.difficulty === undefined) {
-        req.body.difficulty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    if (req.body.difficulties === undefined) {
+        req.body.difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
-    if (req.body.category === undefined) {
-        req.body.category = CATEGORIES;
+
+    if (typeof req.body.difficulties === 'string') {
+        req.body.difficulties = parseInt(req.body.difficulties);
     }
-    if (typeof req.body.difficulty === 'number' || typeof req.body.difficulty === 'string') {
-        req.body.difficulty = [req.body.difficulty];
+
+    if (typeof req.body.difficulties === 'number') {
+        req.body.difficulties = [req.body.difficulties];
     }
-    if (typeof req.body.category === 'string') {
-        req.body.category = [req.body.category];
+
+    if (req.body.categories === undefined) {
+        req.body.categories = CATEGORIES;
     }
-    const question = await database.getRandomQuestion(req.body.type, req.body.difficulty, req.body.category);
-    res.send(JSON.stringify(bonus));
+
+    if (typeof req.body.categories === 'string') {
+        req.body.categories = [req.body.categories];
+    }
+
+    if (req.body.subcategories === undefined) {
+        req.body.subcategories = SUBCATEGORIES_FLATTENED;
+    }
+
+    if (typeof req.body.subcategories === 'string') {
+        req.body.subcategories = [req.body.subcategories];
+    }
+
+    const question = await database.getRandomQuestion(req.body.type, req.body.difficulties, req.body.categories, req.body.subcategories);
+    if (Object.keys(question).length > 0) {
+        res.send(JSON.stringify(question));
+    } else {
+        res.sendStatus(404);
+    }
 });
-*/
+
 
 router.post('/report-question', async (req, res) => {
     const _id = req.body._id;
