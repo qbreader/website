@@ -19,6 +19,10 @@ const rooms = {};
 
 app.use(express.json());
 
+app.get('/robots.txt', (req, res) => {
+    res.sendFile('robots.txt', { root: './client' });
+})
+
 app.get('/*.html', (req, res) => {
     res.redirect(req.url.substring(0, req.url.length - 5));
 });
