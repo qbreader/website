@@ -11,6 +11,127 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/"><span class="logo-prefix">QB</span>Reader</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/tossups">Tossups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bonuses">Bonuses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/multiplayer">Multiplayer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api-info">API</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about.html">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-1 mt-lg-3 mb-5 pb-5 px-xxl-5">
+        <div class="row" id="info">
+            <div class="options col-12 col-lg-3 col-xxl-2 d-lg-block order-lg-1 mb-5" id="options">
+                <div class="accordion" id="player-accordion"></div>
+                <hr>
+                <div class="form-floating mb-1">
+                    <input type="text" class="form-control" id="username" placeholder="Username">
+                    <label for="username">Username</label>
+                </div>
+                <div id="difficulty-settings">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="difficulties" placeholder="Difficulties">
+                        <label for="difficulties">Difficulties</label>
+                    </div>
+                    <div class="mt-2">
+                        1 - Middle School, 2 to 5 - High School, 6 to 9 - College, 10 - Open
+                    </div>
+                    <hr>
+                </div>
+                <div id="set-settings" class="mb-2 d-none">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="set-name" list="set-list">
+                        <label for="set-name">Set Name</label>
+                        <datalist id="set-list"></datalist>
+                    </div>
+                    <div class="my-1"></div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="packet-number">
+                        <label for="packet-number">Packet Numbers</label>
+                    </div>
+                </div>
+                <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
+                <div class="text-center mb-2">
+                    <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
+                    <button type="button" class="btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
+                    <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-visibility" checked>
+                    <label class="form-check-label" for="toggle-visibility">Public room</label>
+                </div>
+                <p class="mb-1 text-muted">Note: chat is only available for private rooms.</p>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-rebuzz">
+                    <label class="form-check-label" for="toggle-rebuzz">Allow multiple buzzes</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-select-by-set-name">
+                    <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 col-xxl-10">
+                <div class="buttons position-sticky top-0 pt-2 bg-body">
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s or n key" class="mb-2 btn btn-primary" id="next">Next</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: enter key"  class="mb-2 btn btn-info"    id="chat">Chat</button>
+                    <button type="button" class="mb-2 btn btn-danger d-lg-none" id="toggle-options">Options</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
+                    <form id="answer-form">
+                        <!-- User enters answer here -->
+                        <div class="input-group d-none my-2" id="answer-input-group">
+                            <input type="text" class="form-control" id="answer-input" placeholder="Enter answer">
+                            <button type="submit" class="btn btn-success" id="answer-submit">Submit</button>
+                        </div>
+                    </form>
+                    <form id="chat-form">
+                        <div class="input-group d-none my-2" id="chat-input-group">
+                            <input type="text" class="form-control" id="chat-input" placeholder="Chat">
+                            <button type="submit" class="btn btn-success" id="chat-submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <span class="float-end ps-5 me-lg-2" id="question-metadata">
+                    <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info"></span> Question <span id="question-number-info"></span></b>
+                </span>
+                <br>
+                <div class="mt-2" id="question"></div>
+                <p class="my-1 my-lg-3" id="answer"></p>
+                <ul class="room-history list-unstyled" id="room-history"></ul>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="category-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
@@ -150,127 +271,6 @@
                 </div>
                 <div class="modal-footer">
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
-        <div class="container-fluid">
-            <a class="navbar-brand ms-1 py-0" id="logo" href="/"><span class="logo-prefix">QB</span>Reader</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/tossups">Tossups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/bonuses">Bonuses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/multiplayer">Multiplayer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api-info">API</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/about.html">About</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container-fluid mt-1 mt-lg-3 mb-5 pb-5 px-xxl-5">
-        <div class="row" id="info">
-            <div class="options col-12 col-lg-3 col-xxl-2 d-lg-block order-lg-1 mb-5" id="options">
-                <div class="accordion" id="player-accordion"></div>
-                <hr>
-                <div class="form-floating mb-1">
-                    <input type="text" class="form-control" id="username" placeholder="Username">
-                    <label for="username">Username</label>
-                </div>
-                <div id="difficulty-settings">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="difficulties" placeholder="Difficulties">
-                        <label for="difficulties">Difficulties</label>
-                    </div>
-                    <div class="mt-2">
-                        1 - Middle School, 2 to 5 - High School, 6 to 9 - College, 10 - Open
-                    </div>
-                    <hr>
-                </div>
-                <div id="set-settings" class="mb-2 d-none">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="set-name" list="set-list">
-                        <label for="set-name">Set Name</label>
-                        <datalist id="set-list"></datalist>
-                    </div>
-                    <div class="my-1"></div>
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="packet-number">
-                        <label for="packet-number">Packet Numbers</label>
-                    </div>
-                </div>
-                <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
-                <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
-                <div class="text-center mb-2">
-                    <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
-                    <button type="button" class="btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
-                    <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-visibility" checked>
-                    <label class="form-check-label" for="toggle-visibility">Public room</label>
-                </div>
-                <p class="mb-1 text-muted">Note: chat is only available for private rooms.</p>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-rebuzz">
-                    <label class="form-check-label" for="toggle-rebuzz">Allow multiple buzzes</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-select-by-set-name">
-                    <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
-                </div>
-            </div>
-            <div class="col-12 col-lg-9 col-xxl-10">
-                <div class="buttons position-sticky top-0 pt-2 bg-body">
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s or n key" class="mb-2 btn btn-primary" id="next">Next</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: enter key"  class="mb-2 btn btn-info"    id="chat">Chat</button>
-                    <button type="button" class="mb-2 btn btn-danger d-lg-none" id="toggle-options">Options</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
-                    <form id="answer-form">
-                        <!-- User enters answer here -->
-                        <div class="input-group d-none my-2" id="answer-input-group">
-                            <input type="text" class="form-control" id="answer-input" placeholder="Enter answer">
-                            <button type="submit" class="btn btn-success" id="answer-submit">Submit</button>
-                        </div>
-                    </form>
-                    <form id="chat-form">
-                        <div class="input-group d-none my-2" id="chat-input-group">
-                            <input type="text" class="form-control" id="chat-input" placeholder="Chat">
-                            <button type="submit" class="btn btn-success" id="chat-submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
-                <span class="float-end ps-5 me-lg-2" id="question-metadata">
-                    <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info"></span> Question <span id="question-number-info"></span></b>
-                </span>
-                <br>
-                <div class="mt-2" id="question"></div>
-                <p class="my-1 my-lg-3" id="answer"></p>
-                <ul class="room-history list-unstyled" id="room-history"></ul>
             </div>
         </div>
     </div>
