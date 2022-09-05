@@ -228,8 +228,24 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = () => {
-    if (sessionStorage.getItem('stats') === null) {
-        sessionStorage.setItem('stats', [0, 0, 0, 0]);
+    if (localStorage.getItem('setNameBonusSave')) {
+        setName = localStorage.getItem('setNameBonusSave');
+        document.getElementById('set-name').value = setName;
+        (async () => {
+            maxPacketNumber = await getNumPackets(setName);
+            document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
+            if (maxPacketNumber === 0) {
+                document.getElementById('set-name').classList.add('is-invalid');
+            }
+        })();
+    }
+
+    if (localStorage.getItem('packetNumberBonusSave')) {
+        document.getElementById('packet-number').value = localStorage.getItem('packetNumberBonusSave');
+    }
+
+    if (localStorage.getItem('questionNumberBonusSave')) {
+        document.getElementById('question-number').value = localStorage.getItem('questionNumberBonusSave');
     }
 
     if (localStorage.getItem('validCategories') === null) {
@@ -254,24 +270,8 @@ window.onload = () => {
         });
     }
 
-    if (localStorage.getItem('setNameBonusSave')) {
-        setName = localStorage.getItem('setNameBonusSave');
-        document.getElementById('set-name').value = setName;
-        (async () => {
-            maxPacketNumber = await getNumPackets(setName);
-            document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
-            if (maxPacketNumber === 0) {
-                document.getElementById('set-name').classList.add('is-invalid');
-            }
-        })();
-    }
-
-    if (localStorage.getItem('packetNumberBonusSave')) {
-        document.getElementById('packet-number').value = localStorage.getItem('packetNumberBonusSave');
-    }
-
-    if (localStorage.getItem('questionNumberBonusSave')) {
-        document.getElementById('question-number').value = localStorage.getItem('questionNumberBonusSave');
+    if (sessionStorage.getItem('stats') === null) {
+        sessionStorage.setItem('stats', [0, 0, 0, 0]);
     }
 
     loadCategoryModal(validCategories, validSubcategories);
