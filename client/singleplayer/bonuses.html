@@ -11,6 +11,83 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/"><span class="logo-prefix">QB</span>Reader</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/tossups">Tossups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/bonuses">Bonuses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/multiplayer">Multiplayer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api-info">API</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-1 mt-lg-3 mb-5 pb-5 px-xxl-5">
+        <div class="row" id="info">
+            <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-lg-1 mb-5" id="options">
+                <input type="text" class="form-control" id="set-name" placeholder="Set name" list="set-list">
+                <datalist id="set-list"></datalist>
+                <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet #s">
+                <input type="text" class="form-control" id="question-number" placeholder="Starting question #">
+                <div class="text-center mt-3 mb-2">
+                    <button type="button" class="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
+                    <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
+                    <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
+                </div>
+                <div class="d-none d-lg-block">
+                    <hr>
+                    <p>
+                        <span class="text-nowrap"><kbd>k</kbd> = toggle last bonus part</span><br>
+                        <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
+                        <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
+                        <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 col-xxl-10">
+                <div class="buttons position-sticky top-0 pt-2 bg-body">
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="reveal" disabled>Reveal</button>
+                    <button type="button" class="mb-2 btn btn-danger d-lg-none"  id="toggle-options" disabled>Options</button>
+                </div>
+                <span class="" id="statline">0.00 PPB with 0 bonuses seen (0/0/0/0, 0 pts)</span>
+                <span class="float-end ps-5 me-lg-2" id="question-metadata">
+                    <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info">-</span> Question <span id="question-number-info">-</span></b>
+                </span>
+                <br>
+                <div class="mt-2" id="question"></div>
+                <p class="my-1 my-lg-3" id="answer"></p>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="category-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
@@ -119,86 +196,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
-        <div class="container-fluid">
-            <a class="navbar-brand ms-1 py-0" id="logo" href="/"><span class="logo-prefix">QB</span>Reader</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/tossups">Tossups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/bonuses">Bonuses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/multiplayer">Multiplayer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api-info">API</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/about">About</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container-fluid mt-1 mt-lg-3 mb-5 pb-5 px-xxl-5">
-        <div class="row" id="info">
-            <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-lg-1 mb-5" id="options">
-                <input type="text" class="form-control" id="set-name" placeholder="Set name" list="set-list">
-                <datalist id="set-list"></datalist>
-                <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet #s">
-                <input type="text" class="form-control" id="question-number" placeholder="Starting question #">
-                <div class="text-center mt-3 mb-2">
-                    <button type="button" class="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
-                    <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
-                    <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
-                </div>
-                <div class="d-none d-lg-block">
-                    <hr>
-                    <p>
-                        <span class="text-nowrap"><kbd>k</kbd> = toggle last bonus part</span><br>
-                        <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
-                        <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
-                        <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
-                    </p>
-                </div>
-            </div>
-            <div class="col-12 col-lg-9 col-xxl-10">
-                <div class="buttons position-sticky top-0 pt-2 bg-body">
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="reveal" disabled>Reveal</button>
-                    <button type="button" class="mb-2 btn btn-danger d-lg-none"  id="toggle-options" disabled>Options</button>
-                </div>
-                <span class="" id="statline">0.00 PPB with 0 bonuses seen (0/0/0/0, 0 pts)</span>
-                <span class="float-end ps-5 me-lg-2" id="question-metadata">
-                    <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info">-</span> Question <span id="question-number-info">-</span></b>
-                </span>
-                <br>
-                <div class="mt-2" id="question"></div>
-                <p class="my-1 my-lg-3" id="answer"></p>
-
             </div>
         </div>
     </div>
