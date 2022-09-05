@@ -355,12 +355,6 @@ window.onload = () => {
         document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
     }
 
-    if (localStorage.getItem('speed') === null) {
-        localStorage.setItem('speed', 50);
-    }
-    document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
-    document.getElementById('reading-speed').value = localStorage.speed;
-
     if (localStorage.getItem('validCategories') === null) {
         localStorage.setItem('validCategories', '[]');
         validCategories = [];
@@ -395,6 +389,12 @@ window.onload = () => {
         sessionStorage.setItem('points', 0);
     if (sessionStorage.getItem('totalCelerity') === null)
         sessionStorage.setItem('totalCelerity', 0);
+
+    if (localStorage.getItem('speed') === null) {
+        localStorage.setItem('speed', 50);
+    }
+    document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
+    document.getElementById('reading-speed').value = localStorage.speed;
 
     loadCategoryModal(validCategories, validSubcategories);
     updateStatDisplay();
