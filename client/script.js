@@ -310,9 +310,4 @@ fetch(`/api/set-list`)
             document.getElementById('set-list').appendChild(option);
             SET_LIST.push(setName);
         });
-    }).then(() => {
-        let setName = localStorage.getItem('set-name');
-        if (setName.length > 0 && !SET_LIST.includes(setName)) {
-            document.getElementById('set-name').classList.add('is-invalid');
-        }
     });

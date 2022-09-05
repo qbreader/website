@@ -260,6 +260,9 @@ window.onload = () => {
         (async () => {
             maxPacketNumber = await getNumPackets(setName);
             document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
+            if (maxPacketNumber === 0) {
+                document.getElementById('set-name').classList.add('is-invalid');
+            }
         })();
     }
 
