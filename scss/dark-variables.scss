@@ -93,3 +93,22 @@ $modal-footer-border-color:     $modal-header-border-color;
 
 $close-color:                   $white;
 $close-text-shadow:             0 1px 0 $black;
+
+// List Groups
+$list-group-bg:                     rgba($body-bg, .05);
+$list-group-border-color:           rgba($white, .125);
+$list-group-color:                  $body-color;
+
+$list-group-hover-bg:               $gray-900;
+$list-group-active-color:           $component-active-color;
+$list-group-active-bg:              $component-active-bg;
+$list-group-active-border-color:    $list-group-active-bg;
+
+$list-group-disabled-color:         $gray-400;
+$list-group-disabled-bg:            $list-group-bg;
+
+$list-group-action-color:           $gray-300;
+$list-group-action-hover-color:     $list-group-action-color;
+
+$list-group-action-active-color:    $body-color;
+$list-group-action-active-bg:       $gray-800;
