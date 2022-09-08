@@ -272,8 +272,13 @@ document.getElementById('set-name').addEventListener('change', async function (e
     }
 });
 
+const stylesheet = document.querySelector('link[rel="stylesheet"]');
 document.getElementById('toggle-dark-mode').addEventListener('click', function () {
-    document.body.classList.toggle('dark');
+    if (stylesheet.getAttribute('href') === '/bootstrap/light.css') {
+        stylesheet.setAttribute('href', '/bootstrap/dark.css');
+    } else {
+        stylesheet.setAttribute('href', '/bootstrap/light.css');
+    }
 });
 
 document.getElementById('toggle-high-contrast-question-text').addEventListener('click', function () {
@@ -296,6 +301,11 @@ if (localStorage.getItem('high-contrast-question-text') === 'true') {
     document.getElementById('toggle-high-contrast-question-text').checked = true;
     document.getElementById('question').classList.add('high-contrast-question-text');
 }
+
+// Get OS preferred color scheme
+// if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+//     stylesheet.setAttribute('href', '/bootstrap/dark.css');
+// }
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
