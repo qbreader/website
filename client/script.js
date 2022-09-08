@@ -272,6 +272,10 @@ document.getElementById('set-name').addEventListener('change', async function (e
     }
 });
 
+document.getElementById('toggle-dark-mode').addEventListener('click', function () {
+    document.body.classList.toggle('dark');
+});
+
 document.getElementById('toggle-high-contrast-question-text').addEventListener('click', function () {
     this.blur();
     if (this.checked) {
