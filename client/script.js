@@ -14,15 +14,21 @@ const stylesheet = document.querySelector('link[rel="stylesheet"]');
 document.getElementById('toggle-dark-mode').addEventListener('click', function () {
     if (stylesheet.getAttribute('href') === '/bootstrap/light.css') {
         stylesheet.setAttribute('href', '/bootstrap/dark.css');
+        localStorage.setItem('color-theme', 'dark');
     } else {
         stylesheet.setAttribute('href', '/bootstrap/light.css');
+        localStorage.setItem('color-theme', 'light');
     }
 });
 
-// Get OS preferred color scheme
-// if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-//     stylesheet.setAttribute('href', '/bootstrap/dark.css');
-// }
+if (localStorage.getItem('color-theme') === 'dark') {
+    document.head.innerHTML += `<link rel="stylesheet" href="/bootstrap/dark.css">`
+} else if (localStorage.getItem('color-theme') === null) {
+    // Get OS preferred color scheme
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        stylesheet.setAttribute('href', '/bootstrap/dark.css');
+    }
+}
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
