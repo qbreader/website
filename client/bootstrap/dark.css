@@ -75,7 +75,7 @@
   --bs-light-rgb: 222, 226, 230;
   --bs-dark-rgb: 52, 58, 64;
   --bs-body-color: #d3d3d3;
-  --bs-body-bg: hsl(210deg, 14%, 15%);
+  --bs-body-bg: #21262c;
 }
 
 .accordion-button {
@@ -3650,7 +3650,7 @@ textarea.form-control-lg {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: hsl(210deg, 14%, 15%);
+  background-color: #21262c;
   background-clip: padding-box;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.3rem;
@@ -3924,8 +3924,8 @@ textarea.form-control-lg {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #f8f9fa;
-  background-color: hsl(210deg, 14%, 15%);
-  border-color: #495057 #495057 hsl(210deg, 14%, 15%);
+  background-color: #21262c;
+  border-color: #495057 #495057 #21262c;
 }
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
