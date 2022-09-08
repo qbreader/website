@@ -10,6 +10,9 @@ const formatted_answers = [
     "<b><u>primatology</u></b> [or word forms; accept any answers about the study of great <b><u>ape</u></b>s, nonhuman <b><u>primate</u></b>s, <b><u>gorilla</u></b>s, <b><u>bonobo</u></b>s, or <b><u>chimp</u></b>anzees; prompt on the study of <u>monkey</u>s or <u>simian</u>s; prompt on word forms of <u>ethology</u>, <u>biology</u>, <u>anthropology</u>, or evolutionary or social <u>psychology</u>; prompt on the study of <u>animal</u>s with “what type of animals?”]", 
     "Heinrich <b><u>Böll</u></b> [or Heinrich Theodor <b><u>Böll</u></b>]", 
     "<b><u>Louis-Philippe</u></b> [or <b><u>Duke d’Orleans</u></b>; prompt on “Citizen King” before mentioned]", 
+    "Johann <b><u>Tserclaes</u></b>, Graf von <b><u>Tilly</u></b> (accept either underlined answer as well as Count of <b><u>Tilly</u></b>)", 
+    "<b><u>Paul</u></b> <b><u>Bäumer</u></b> [accept either name]", 
+    "<b><u>Matsuo</u></b> <b><u>Bashō</u></b> [accept either underlined part; accept <b><u>Matsuo</u></b> Kinsaku or <b><u>Matsuo</u></b> Chūemon Munefusa]"
 ];
 
 const answers = [
@@ -58,6 +61,23 @@ const tests = [
     ['prompt', formatted_answers[8], 'Citizen King'],
     ['reject', formatted_answers[8], 'Louis'],
     ['reject', formatted_answers[8], 'Philippe'],
+
+    // accept either clauses
+    ['accept', formatted_answers[9], 'Tserclaes'],
+    ['accept', formatted_answers[9], 'Tilly'],
+    ['accept', formatted_answers[9], 'Count of Tilly'],
+
+    // accept either clauses with special characters
+    ['accept', formatted_answers[10], 'Baumer'],
+    ['accept', formatted_answers[10], 'Bäumer'],
+    ['accept', formatted_answers[10], 'Paul'],
+    ['accept', formatted_answers[10], 'Paul Bäumer'],
+
+    ['accept', formatted_answers[11], 'Basho'],
+    ['accept', formatted_answers[11], 'Bashō'],
+    ['accept', formatted_answers[11], 'Matsuo'],
+    ['accept', formatted_answers[11], 'Matsuo Basho'],
+    ['accept', formatted_answers[11], 'Matsuo Bashō'],
 
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],
