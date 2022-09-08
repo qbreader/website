@@ -77,6 +77,9 @@ function parseAnswerline(answerline) {
         }
     }
 
+    /** 
+     * Get all words which are partially or wholly underlined.
+     */
     const extractKeyWords = (string) => {
         const tokens = string.split(' ');
         return tokens.filter(token => token.length > 0 && token.match(/<[^>]*>/))
@@ -213,6 +216,16 @@ function checkAnswer(answerline, givenAnswer) {
     for (const answer of parsedAnswerline['reject']) {
         if (stringMatchesReference(answer[2], givenAnswer) && stringMatchesReference(givenAnswer, answer[2])) {
             return 'reject';
+        }
+    }
+
+    if (answerline.includes('[accept either') || answerline.includes('(accept either')) {
+        const [answer1, answer2] = parsedAnswerline.accept[0][0].split(' ');
+        if (answerWorks(answer1, givenAnswer, isFormattedAnswerline)) {
+            return 'accept';
+        }
+        if (answerWorks(answer2, givenAnswer, isFormattedAnswerline)) {
+            return 'accept';
         }
     }
 
