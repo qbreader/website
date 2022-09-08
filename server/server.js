@@ -39,6 +39,10 @@ app.get('/*.map', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
 
+app.get('/*.png', (req, res) => {
+    res.sendFile(req.url, { root: './client' });
+});
+
 app.get('/*.ico', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
