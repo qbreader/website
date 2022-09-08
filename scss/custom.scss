@@ -3,13 +3,10 @@
 
 // 2. Include any default variable overrides here
 
-$custom: #fbefdf;
 $enable-negative-margins: true;
 $font-family-sans-serif: Helvetica, sans-serif;
 
 $link-decoration: none;
-
-$logo-color: #0080ff;
 
 // 4. Include any optional Bootstrap CSS as needed
 @import "../node_modules/bootstrap/scss/accordion";
@@ -62,7 +59,11 @@ $logo-color: #0080ff;
 }
 
 .logo-prefix {
-    color: $logo-color;
+    color: $logo-prefix-color;
+}
+
+.logo-suffix {
+    color: $logo-suffix-color;
 }
 
 .room-history {
