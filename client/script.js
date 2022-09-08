@@ -21,14 +21,6 @@ document.getElementById('toggle-dark-mode').addEventListener('click', function (
     }
 });
 
-if (localStorage.getItem('color-theme') === 'dark') {
-    document.head.innerHTML += `<link rel="stylesheet" href="/bootstrap/dark.css">`
-} else if (localStorage.getItem('color-theme') === null) {
-    // Get OS preferred color scheme
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        stylesheet.setAttribute('href', '/bootstrap/dark.css');
-    }
-}
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
