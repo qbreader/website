@@ -1,5 +1,16 @@
 // Variables taken from https://github.com/ForEvolve/bootstrap-dark/blob/master/scss/_dark-variables.scss
 
+$body-bg:     #191d21;
+$body-color:  #d3d3d3;
+
+$custom: #dfebfb;
+
+$link-color: #6699ff;
+$logo-prefix-color: #0080ff;
+$logo-suffix-color: #000000;
+
+/* ##### */
+
 $white:    #fff;
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
@@ -48,11 +59,6 @@ $theme-colors: (
     "light": $light,
     "dark": $dark,
 );
-
-$body-bg:     #191d21;
-$body-color:  #d3d3d3;
-
-$link-color: #6699ff;
 
 * {
     /* redefine theme color variables */

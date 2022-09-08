@@ -9755,6 +9755,10 @@ progress {
   color: #0080ff;
 }
 
+.logo-suffix {
+  color: #000000;
+}
+
 .room-history {
   border-top: 0.5px solid lightgray;
 }
