@@ -9,6 +9,20 @@
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/bootstrap/light.css">
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark') {
+            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
+        } else if (localStorage.getItem('color-theme') === 'light') {
+            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
+        } else {
+            // Get OS preferred color scheme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
+            } else {
+                document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
+            }
+        }
+    </script>
 </head>
 
 <body>
