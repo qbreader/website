@@ -1,11 +1,4 @@
 node_modules
+
 .DS_store
-categories.txt
 .env
-
-quizdb.json
-workspace.code-workspace
-
-packet.txt
-parser.txt
-packets-info.txt
