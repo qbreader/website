@@ -9759,6 +9759,7 @@ progress {
 }
 
 .buttons {
+  background-color: #21262c;
   border-bottom: 0.5px solid lightgray;
   margin-bottom: 0.5em;
 }
