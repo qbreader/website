@@ -74,7 +74,10 @@
                 <datalist id="set-list"></datalist>
                 <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet Numbers">
                 <input type="text" class="form-control" id="question-number" placeholder="Starting question #">
-                <div class="text-center mt-3 mb-2">
+                <div class="my-2"></div>
+                <label for="font-size">Font size: <span id="font-size-display">16</span>px</label>
+                <input class="form-range" id="font-size" type="range" value="16" min="10" max="30" step="1">
+                <div class="text-center mb-2">
                     <button type="button" class="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
                 </div>
