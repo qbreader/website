@@ -33,7 +33,6 @@ function createBonusPart(bonusPartNumber, bonusText) {
 
     let inputWrapper = document.createElement('label');
     inputWrapper.style = "cursor: pointer";
-    inputWrapper.className = 'ps-5 ms-n5';
     inputWrapper.appendChild(input);
 
     let p = document.createElement('p');
