@@ -2,9 +2,10 @@
 @import "../node_modules/bootstrap/scss/functions";
 
 // 3. Include remainder of required Bootstrap stylesheets
+@import "./light-variables.scss";
+
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
 @import "../node_modules/bootstrap/scss/root";
 
-@import "./light-variables.scss";
 @import "./custom.scss";
