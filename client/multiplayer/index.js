@@ -13,13 +13,24 @@ document.getElementById('form').addEventListener('submit', (event) => {
 fetch(`/api/multiplayer/room-list`)
     .then(response => response.json())
     .then(rooms => {
-        Object.keys(rooms).forEach(room => {
+        rooms = Object.entries(rooms);
+        rooms.sort((a, b) => {
+            if (a[1][1] === b[1][1]) {
+                return b[1][0] - a[1][0];
+            } else {
+                return b[1][1] - a[1][1];
+            }
+        });
+        return rooms;
+    })
+    .then(rooms => {
+        rooms.forEach(room => {
             let a = document.createElement('a');
-            a.href = `/multiplayer/${room}`;
-            a.innerHTML = decodeURIComponent(room);
+            a.href = `/multiplayer/${room[0]}`;
+            a.innerHTML = decodeURIComponent(room[0]);
             let li = document.createElement('li');
             li.appendChild(a);
-            li.appendChild(document.createTextNode(` - ${rooms[room][0]} player${rooms[room][0] === 1 ? '' : 's'} - ${rooms[room][1]} online`));
+            li.appendChild(document.createTextNode(` - ${room[1][0]} player${room[1][0] === 1 ? '' : 's'} - ${room[1][1]} online`));
             li.classList.add('list-group-item');
             document.getElementById('room-list').appendChild(li);
         });
