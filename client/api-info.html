@@ -69,11 +69,14 @@
     <div class="container-xl mt-1 mt-lg-3 mb-4">
         <p>The API documentation for QB Reader.</p>
         <p>
-            Base URL: <code>qbreader.org/api</code>.
+            <b>Base URL:</b> <code>https://www.qbreader.org/api</code>
         </p>
-        <p class="mt-3">
-            All multiplayer is done through WebSockets.
-            Rooms are created dynamically when new WebSocket connections are made.
+        <p>
+            The base URL for the multiplayer API is <code>qbreader.org/api/multiplayer</code>
+            (Note: There is only one multiplayer API endpoint.)
+        </p>
+        <p>
+            New rooms are created on the server when a WebSocket connection is established.
         </p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
@@ -107,7 +110,7 @@
             </li>
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/packet-bonuses</code></div>
-                <i>If you are only interested in the bonuses, this is twice as fast as using <code>/api/packet</code>.</i>
+                <i>If you are only interested in the bonuses, this is twice as fast as using</i> <code>/api/packet</code>
                 <div>Parameters:</div>
                 <ul>
                     <li><code>setName</code> - the name of the set (URI-encoded).</li>
@@ -120,7 +123,7 @@
             </li>
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/packet-tossups</code></div>
-                <i>If you are only interested in the tossups, this is twice as fast as using <code>/api/packet</code>.</i>
+                <i>If you are only interested in the tossups, this is twice as fast as using</i> <code>/api/packet</code>
                 <div>Parameters:</div>
                 <ul>
                     <li><code>setName</code> - the name of the set (URI-encoded).</li>
@@ -191,6 +194,11 @@
             </li>
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/set-list</code></div>
+                <i>Takes no parameters.</i>
+                <ul><li><b>returns</b> - An <b>array of strings</b> representing the names of the sets.</li></ul>
+            </li>
+            <li class="list-group-item">
+                <div>GET <code>qbreader.org/api/multiplayer/room-list</code></div>
                 <i>Takes no parameters.</i>
                 <ul><li><b>returns</b> - An <b>array of strings</b> representing the names of the sets.</li></ul>
             </li>
