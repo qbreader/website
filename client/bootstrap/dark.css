@@ -671,7 +671,7 @@
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #212529;
+  background-color: #222222;
   background-clip: border-box;
   border: 1px solid rgba(255, 255, 255, 0.125);
   border-radius: 0.25rem;
@@ -745,10 +745,6 @@
   margin-bottom: -0.5rem;
   margin-left: -0.5rem;
   border-bottom: 0;
-}
-.card-header-tabs .nav-link.active {
-  background-color: #212529;
-  border-bottom-color: #212529;
 }
 
 .card-header-pills {
@@ -1238,8 +1234,8 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #dee2e6;
-  background-color: #212529;
+  color: #d3d3d3;
+  background-color: #222222;
   background-clip: padding-box;
   border: 1px solid #6c757d;
   appearance: none;
@@ -1258,7 +1254,7 @@
   cursor: pointer;
 }
 .form-control:focus {
-  color: #dee2e6;
+  color: #d3d3d3;
   background-color: #222222;
   border-color: #739ac2;
   outline: 0;
@@ -1279,7 +1275,7 @@
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
   margin-inline-end: 0.75rem;
-  color: #dee2e6;
+  color: #d3d3d3;
   background-color: #343a40;
   pointer-events: none;
   border-color: inherit;
@@ -1301,7 +1297,7 @@
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
   margin-inline-end: 0.75rem;
-  color: #dee2e6;
+  color: #d3d3d3;
   background-color: #343a40;
   pointer-events: none;
   border-color: inherit;
@@ -1405,8 +1401,8 @@ textarea.form-control-lg {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #dee2e6;
-  background-color: #212529;
+  color: #d3d3d3;
+  background-color: #222222;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
@@ -1435,7 +1431,7 @@ textarea.form-control-lg {
 }
 .form-select:-moz-focusring {
   color: transparent;
-  text-shadow: 0 0 0 #dee2e6;
+  text-shadow: 0 0 0 #d3d3d3;
 }
 
 .form-select-sm {
@@ -1470,7 +1466,7 @@ textarea.form-control-lg {
   height: 1em;
   margin-top: 0.25em;
   vertical-align: top;
-  background-color: #212529;
+  background-color: #222222;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -1724,7 +1720,7 @@ textarea.form-control-lg {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #dee2e6;
+  color: #d3d3d3;
   text-align: center;
   white-space: nowrap;
   background-color: #343a40;
