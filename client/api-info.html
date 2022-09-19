@@ -200,7 +200,12 @@
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/multiplayer/room-list</code></div>
                 <i>Takes no parameters.</i>
-                <ul><li><b>returns</b> - An <b>array of strings</b> representing the names of the sets.</li></ul>
+                <ul><li>
+                    <b>returns</b> - A Javascript <b>object</b> whose keys are room names and whose values are arrays of the form <code>[number of players, number of active players]</code>.
+                </li>
+                <li>
+                    Only returns public rooms.
+                </li></ul>
             </li>
         </ul>
     </div>
