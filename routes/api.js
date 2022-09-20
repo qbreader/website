@@ -41,6 +41,7 @@ router.get('/random-name', (req, res) => {
 router.post('/random-question', async (req, res) => {
     if (req.body.type !== 'tossup' && req.body.type !== 'bonus') {
         res.status(400).send('Invalid question type specified.');
+        return;
     }
 
     if (req.body.difficulties === undefined) {
