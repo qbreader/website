@@ -90,7 +90,7 @@ const createTossupCard = (function () {
                 <div class="card-body">
                     <p class="card-text">
                         ${question}
-                        <a href="#" id="report-question-${_id}">Report Question</a>
+                        <a href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                     </p>
                 </div>
                 <div class="card-footer">
@@ -103,8 +103,7 @@ const createTossupCard = (function () {
         document.getElementById('room-history').prepend(card);
 
         document.getElementById('report-question-' + _id).addEventListener('click', function (e) {
-            e.preventDefault();
-            reportQuestion(_id);
+            document.getElementById('report-question-id').value = _id;
         });
     }
 })();
@@ -188,14 +187,16 @@ function rangeToArray(string, max = 0) {
 }
 
 
-function reportQuestion(_id) {
+function reportQuestion(_id, reason="", description="") {
     fetch('/api/report-question', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            _id: _id
+            _id: _id,
+            reason: reason,
+            description: description
         })
     }).then(response => {
         if (response.status === 200) {
@@ -265,6 +266,14 @@ document.getElementById('font-size').addEventListener('input', function () {
     localStorage.setItem('font-size', this.value);
     document.getElementById('font-size-display').innerHTML = this.value;
     document.getElementById('question').style.setProperty('font-size', `${this.value}px`);
+});
+
+document.getElementById('report-question-submit').addEventListener('click', function () {
+    reportQuestion(
+        document.getElementById('report-question-id').value,
+        document.getElementById('report-question-reason').value,
+        document.getElementById('report-question-description').value
+    );
 });
 
 document.getElementById('toggle-high-contrast-question-text').addEventListener('click', function () {
