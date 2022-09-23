@@ -83,7 +83,9 @@ router.get('/random-question', async (req, res) => {
 
 router.post('/report-question', async (req, res) => {
     const _id = req.body._id;
-    const successful = await database.reportQuestion(_id);
+    const reason = req.body.reason ?? '';
+    const description = req.body.description ?? '';
+    const successful = await database.reportQuestion(_id, reason, description);
     if (successful) {
         res.sendStatus(200);
     } else {

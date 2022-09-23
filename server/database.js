@@ -204,8 +204,13 @@ function getSetList() {
  * @param {String} _id 
  * @returns {Promise<Boolean>} true if successful, false otherwise.
  */
-async function reportQuestion(_id) {
-    return await questions.updateOne({ _id: new ObjectId(_id) }, { $inc: { reports: 1 } }).then(() => {
+async function reportQuestion(_id, reason, description) {
+    return await questions.updateOne({ _id: new ObjectId(_id) }, { $push: { 
+        reports: {
+            reason: reason,
+            description: description
+        }
+    }}).then(() => {
         console.log('Reported question with id ' + _id);
         return true;
     }).catch(error => {
