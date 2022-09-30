@@ -238,14 +238,16 @@
                         <div class="mb-3">
                             <label for="report-question-reason" class="col-form-label">Reason:</label>
                             <select class="form-select" id="report-question-reason" aria-label="Default select example">
-                                <option value="answerline-formatting" selected>Answerline formatting error</option>
-                                <option value="missing-parts">Missing parts of question/answer</option>
-                                <option value="unnecessary-parts">Unnecessary parts in question/answer</option>
-                                <option value="answerline-parsing">Incorrect answerline parsing</option>
+                                <option value="answerline-parsing" selected>Incorrect answer checking/parsing</option>
+                                <option value="wrong-category">Wrong category/subcategory</option>
+                                <option value="answerline-formatting">Answerline formatting error</option>
+                                <option value="missing-parts">Missing/cutoff parts of question/answer</option>
+                                <option value="unnecessary-text">Unnecessary text in question/answer</option>
                                 <option value="other">Other</option>
                             </select>
                         </div>
                         <div>
+                            <p class="text-muted">If your answer was parsed incorrectly, please enter what answer you gave below.</p>
                             <label for="report-question-description" class="col-form-label">Additional Information:</label>
                             <textarea class="form-control" id="report-question-description" rows="3"></textarea>
                         </div>
