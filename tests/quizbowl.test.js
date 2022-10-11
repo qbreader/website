@@ -2,16 +2,16 @@ const quizbowl = require('../server/quizbowl.js');
 
 const formatted_answers = [
     "Jasper <b><u>Johns</u></b>",
-    "<b><u>Manchester</u></b>", 
-    "<b><u>damper</u></b>s [or <b><u>dashpot</u></b>s; accept (tuned) mass <b><u>damper</u></b>s]", 
-    "Alice <b><u>Munro</u></b> [or Alice Ann <b><u>Munro</u></b> or Alice Ann <b><u>Laidlaw</u></b>] (The first two stories are “The Progress of Love” and “Hateship, Friendship, Courtship, Loveship, Marriage.”)", 
-    "<b><u>light pollution</u></b> [accept <b><u>sky glow</u></b> or <b><u>glare</u></b>; prompt on artificial <u>light</u>] (The Znamya project created large mirrors intended to light up the night.)", 
-    "<b><u>Sahara</u></b> Desert [or aṣ-<b><u>Ṣaḥrāʾ al-Kubrā</u></b> or <b><u>Aneẓruf</u></b> <b><u>Ameqran</u></b>; accept <b><u>Deshret</u></b>; accept Nilo-<b><u>Saharan</u></b> languages; accept <b><u>Tibesti</u></b> Mountains or <b><u>Tassili</u></b> n’Ajjer or <b><u>Aïr</u></b> Mountains until read; accept the <b><u>Fezzan</u></b> or <b><u>Illizi</u></b> or <b><u>Hoggar</u></b> Mountains or <b><u>Ahaggar</u></b> or <b><u>Tanezrouft</u></b> or <b><u>Grand Erg</u></b> Oriental; accept <b><u>Ténéré</u></b> until “Tenerian”; prompt on <u>Algeria</u> or <u>Chad</u> or <u>Libya</u> or <u>Niger</u> or <u>Egypt</u>; prompt on North <u>Africa</u> or <u>Maghreb</u>]", 
-    "<b><u>primatology</u></b> [or word forms; accept any answers about the study of great <b><u>ape</u></b>s, nonhuman <b><u>primate</u></b>s, <b><u>gorilla</u></b>s, <b><u>bonobo</u></b>s, or <b><u>chimp</u></b>anzees; prompt on the study of <u>monkey</u>s or <u>simian</u>s; prompt on word forms of <u>ethology</u>, <u>biology</u>, <u>anthropology</u>, or evolutionary or social <u>psychology</u>; prompt on the study of <u>animal</u>s with “what type of animals?”]", 
-    "Heinrich <b><u>Böll</u></b> [or Heinrich Theodor <b><u>Böll</u></b>]", 
-    "<b><u>Louis-Philippe</u></b> [or <b><u>Duke d’Orleans</u></b>; prompt on “Citizen King” before mentioned]", 
-    "Johann <b><u>Tserclaes</u></b>, Graf von <b><u>Tilly</u></b> (accept either underlined answer as well as Count of <b><u>Tilly</u></b>)", 
-    "<b><u>Paul</u></b> <b><u>Bäumer</u></b> [accept either name]", 
+    "<b><u>Manchester</u></b>",
+    "<b><u>damper</u></b>s [or <b><u>dashpot</u></b>s; accept (tuned) mass <b><u>damper</u></b>s]",
+    "Alice <b><u>Munro</u></b> [or Alice Ann <b><u>Munro</u></b> or Alice Ann <b><u>Laidlaw</u></b>] (The first two stories are “The Progress of Love” and “Hateship, Friendship, Courtship, Loveship, Marriage.”)",
+    "<b><u>light pollution</u></b> [accept <b><u>sky glow</u></b> or <b><u>glare</u></b>; prompt on artificial <u>light</u>] (The Znamya project created large mirrors intended to light up the night.)",
+    "<b><u>Sahara</u></b> Desert [or aṣ-<b><u>Ṣaḥrāʾ al-Kubrā</u></b> or <b><u>Aneẓruf</u></b> <b><u>Ameqran</u></b>; accept <b><u>Deshret</u></b>; accept Nilo-<b><u>Saharan</u></b> languages; accept <b><u>Tibesti</u></b> Mountains or <b><u>Tassili</u></b> n’Ajjer or <b><u>Aïr</u></b> Mountains until read; accept the <b><u>Fezzan</u></b> or <b><u>Illizi</u></b> or <b><u>Hoggar</u></b> Mountains or <b><u>Ahaggar</u></b> or <b><u>Tanezrouft</u></b> or <b><u>Grand Erg</u></b> Oriental; accept <b><u>Ténéré</u></b> until “Tenerian”; prompt on <u>Algeria</u> or <u>Chad</u> or <u>Libya</u> or <u>Niger</u> or <u>Egypt</u>; prompt on North <u>Africa</u> or <u>Maghreb</u>]",
+    "<b><u>primatology</u></b> [or word forms; accept any answers about the study of great <b><u>ape</u></b>s, nonhuman <b><u>primate</u></b>s, <b><u>gorilla</u></b>s, <b><u>bonobo</u></b>s, or <b><u>chimp</u></b>anzees; prompt on the study of <u>monkey</u>s or <u>simian</u>s; prompt on word forms of <u>ethology</u>, <u>biology</u>, <u>anthropology</u>, or evolutionary or social <u>psychology</u>; prompt on the study of <u>animal</u>s with “what type of animals?”]",
+    "Heinrich <b><u>Böll</u></b> [or Heinrich Theodor <b><u>Böll</u></b>]",
+    "<b><u>Louis-Philippe</u></b> [or <b><u>Duke d’Orleans</u></b>; prompt on “Citizen King” before mentioned]",
+    "Johann <b><u>Tserclaes</u></b>, Graf von <b><u>Tilly</u></b> (accept either underlined answer as well as Count of <b><u>Tilly</u></b>)",
+    "<b><u>Paul</u></b> <b><u>Bäumer</u></b> [accept either name]",
     "<b><u>Matsuo</u></b> <b><u>Bashō</u></b> [accept either underlined part; accept <b><u>Matsuo</u></b> Kinsaku or <b><u>Matsuo</u></b> Chūemon Munefusa]"
 ];
 
@@ -30,7 +30,7 @@ const tests = [
     ['accept', formatted_answers[1], 'manchester'],
     ['accept', formatted_answers[1], 'MANCHESTER'],
     ['reject', formatted_answers[1], 'London'],
-    
+
     // multiple answerlines
     ['accept', formatted_answers[2], 'dampers'],
     ['accept', formatted_answers[2], 'dashpot'],

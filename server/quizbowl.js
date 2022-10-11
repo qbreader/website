@@ -77,7 +77,7 @@ function parseAnswerline(answerline) {
         }
     }
 
-    /** 
+    /**
      * Get all words which are partially or wholly underlined.
      */
     const extractKeyWords = (string) => {
@@ -181,10 +181,10 @@ function stringMatchesReference(string, reference) {
 
 
 /**
- * @param {String} answerline 
- * @param {String} givenAnswer 
- * @param {Boolean} inPower 
- * @param {Boolean} endOfQuestion 
+ * @param {String} answerline
+ * @param {String} givenAnswer
+ * @param {Boolean} inPower
+ * @param {Boolean} endOfQuestion
  * @returns {['accept' | 'prompt' | 'reject', Number]} - [directive, points]
  */
 function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
@@ -195,10 +195,10 @@ function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
 
 
 /**
- * 
- * @param {String} answerline 
- * @param {String} givenAnswer 
- * @param {Boolean} isFormattedAnswerline 
+ *
+ * @param {String} answerline
+ * @param {String} givenAnswer
+ * @param {Boolean} isFormattedAnswerline
  * @returns {'accept' | 'prompt' | 'reject'}
  */
 function checkAnswer(answerline, givenAnswer) {
