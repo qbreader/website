@@ -30,13 +30,18 @@ const ANIMALS = ['aardvark', 'alligator', 'alpaca', 'anaconda', 'ant', 'anteater
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
  * @param {Number} currentQuestionNumber - current question number. **Starts at 1.**
- * @param {Array<String>} validCategories 
- * @param {Array<String>} validSubcategories 
- * @param {String} type - Type of question you want to get. Default: `'tossup'`. 
+ * @param {Array<String>} validCategories
+ * @param {Array<String>} validSubcategories
+ * @param {String} type - Type of question you want to get. Default: `'tossup'`.
  * @param {Boolean} alwaysUseUnformattedAnswer - whether to always use the unformatted answer. Default: `false`
  * @returns {Promise<JSON>}
  */
 async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = 'tossup', alwaysUseUnformattedAnswer = false) {
+    if (!SET_LIST.includes(setName)) {
+        console.log(`WARNING: "${setName}" not found in SET_LIST`);
+        return 0;
+    }
+
     let set = await sets.findOne({ name: setName }).catch(error => {
         console.log('DATABASE ERROR:', error);
         return {};
@@ -201,11 +206,11 @@ function getSetList() {
 
 /**
  * Report question with given id to the database.
- * @param {String} _id 
+ * @param {String} _id
  * @returns {Promise<Boolean>} true if successful, false otherwise.
  */
 async function reportQuestion(_id, reason, description) {
-    return await questions.updateOne({ _id: new ObjectId(_id) }, { $push: { 
+    return await questions.updateOne({ _id: new ObjectId(_id) }, { $push: {
         reports: {
             reason: reason,
             description: description
