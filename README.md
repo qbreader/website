@@ -15,9 +15,5 @@ The website is at localhost:3000
 Pull requests are welcome.
 I also appreciate feedback and feature suggestions through email, discord, or issues.
 
-## Credits
-### Inspiration
+## Inspiration
 - https://github.com/kgurazad/quizbug2
-
-### Program
-- [packet-parser](https://github.com/qbreader/packet-parser). *Regex-based packet parser written in Python*
