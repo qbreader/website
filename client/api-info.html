@@ -158,14 +158,14 @@
                         Otherwise, returns a <code>400 Bad Request</code> response.
                     </li>
                     <li>
-                        <code>difficulties</code> (optional) - an <b>array of numbers</b> representing the valid possible difficulties.
+                        [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid possible difficulties.
                         <ul>
                             <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
                             <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to select.</li>
                         </ul>
                     </li>
                     <li>
-                        <code>categories</code> (optional) - an <b>array of strings</b> that contain the allowed categories.
+                        [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed categories.
                         <ul>
                             <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
                             <li>Can also be a <b>string</b> if there is only 1 category.</li>
@@ -173,7 +173,7 @@
                         </ul>
                     </li>
                     <li>
-                        <code>subcategories</code> (optional) - an <b>array of strings</b> that contain the allowed subcategories.
+                        [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed subcategories.
                         <ul>
                             <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
                             <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
@@ -193,8 +193,8 @@
                 <div>Parameters:</div>
                 <ul>
                     <li><code>_id</code> - the id of the question being reported.</li>
-                    <li><code>reason</code> (optional) - the reason why the question is being reported.</li>
-                    <li><code>description</code> (optional) - a description of the problem.</li>
+                    <li>[optional] <code>reason</code> - the reason why the question is being reported.</li>
+                    <li>[optional] <code>description</code> - a description of the problem.</li>
                     <li>
                         <b>returns</b> - a 200 status code if the operation was successful and a 500 status code if there was an error.
                     </li>
