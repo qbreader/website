@@ -88,7 +88,10 @@
                     </li>
                     <li>
                         <b>returns:</b> a <b>string</b> that represents the number of packets in the set.
-                        <ul><li>Example: <code>23</code></li></ul>
+                        <ul>
+                            <li>Example: <code>23</code></li>
+                            <li>If the set name is not found, returns a <code>404 Not Found</code> status and a response of <code>0</code></li>
+                        </ul>
                     </li>
                 </ul>
             </li>
@@ -118,6 +121,7 @@
                     <li>
                         <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in the format
                         <code> { tossups: [], bonuses: [{}, ...] } </code>
+                        <ul><li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty) packet that equals <code>{ tossups: [], bonuses: [] }</code></li></ul>
                     </li>
                 </ul>
             </li>
@@ -131,6 +135,7 @@
                     <li>
                         <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in the format
                         <code> { tossups: [{}, ...], bonuses: [] } </code>
+                        <ul><li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty) packet that equals <code>{ tossups: [], bonuses: [] }</code></li></ul>
                     </li>
                 </ul>
             </li>
@@ -179,6 +184,7 @@
                     </li>
                     <li>
                         <b>returns</b> - a <b>JSON object</b> representing a random question.
+                        <ul><li>If a question is not found, returns a <code>404 Not Found</code> status.</li></ul>
                     </li>
                 </ul>
             </li>
