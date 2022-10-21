@@ -9,6 +9,9 @@ const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('../server/quizbowl.js')
 router.get('/num-packets', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     const numPackets = await database.getNumPackets(req.query.setName);
+    if (numPackets === 0) {
+        res.statusCode = 404;
+    }
     res.send(numPackets.toString());
 });
 
@@ -16,6 +19,9 @@ router.get('/packet', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
     const packet = await database.getPacket(req.query.setName, req.query.packetNumber);
+    if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
+        res.statusCode = 404;
+    }
     res.send(JSON.stringify(packet));
 });
 
@@ -23,6 +29,9 @@ router.get('/packet-bonuses', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
     const packet = await database.getPacket(req.query.setName, req.query.packetNumber, ['bonuses']);
+    if (packet.bonuses.length === 0) {
+        res.statusCode = 404;
+    }
     res.send(JSON.stringify(packet));
 });
 
@@ -30,6 +39,9 @@ router.get('/packet-tossups', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
     const packet = await database.getPacket(req.query.setName, req.query.packetNumber, ['tossups']);
+    if (packet.tossups.length === 0) {
+        res.statusCode = 404;
+    }
     res.send(JSON.stringify(packet));
 });
 
