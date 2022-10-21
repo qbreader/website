@@ -16,6 +16,7 @@ class Room {
         this.queryingQuestion = false;
         this.questionNumber = 0;
         this.questionProgress = 0; // 0 = not started, 1 = reading, 2 = answer revealed
+        this.questionSplit = [];
         this.tossup = {};
         this.wordIndex = 0;
 
@@ -99,7 +100,7 @@ class Room {
         if (this.questionProgress > 0 && this.tossup?.question) {
             socket.send(JSON.stringify({
                 type: 'update-question',
-                word: this.tossup.question.split(' ').slice(0, this.wordIndex).join(' ')
+                word: this.questionSplit.slice(0, this.wordIndex).join(' ')
             }));
         }
 
@@ -291,6 +292,7 @@ class Room {
         }
 
         this.questionProgress = 1;
+        this.questionSplit = this.tossup.question.split(' ');
 
         return true;
     }
@@ -342,8 +344,8 @@ class Room {
     giveAnswer(userId, givenAnswer, celerity) {
         if (Object.keys(this.tossup).length === 0) return;
         this.buzzedIn = null;
-        let endOfQuestion = (this.wordIndex === this.tossup.question.split(' ').length);
-        let inPower = this.tossup.question.includes('(*)') && !this.tossup.question.split(' ').slice(0, this.wordIndex).join(' ').includes('(*)');
+        let endOfQuestion = (this.wordIndex === this.questionSplit.length);
+        let inPower = this.tossup.question.includes('(*)') && !this.questionSplit.slice(0, this.wordIndex).join(' ').includes('(*)');
         let [directive, points] = quizbowl.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
 
         if (directive === 'accept') {
@@ -403,7 +405,7 @@ class Room {
 
     revealQuestion() {
         if (Object.keys(this.tossup).length === 0) return;
-        let remainingQuestion = this.tossup.question.split(' ').slice(this.wordIndex).join(' ');
+        let remainingQuestion = this.questionSplit.slice(this.wordIndex).join(' ');
         this.sendSocketMessage({
             type: 'update-question',
             word: remainingQuestion
@@ -414,7 +416,7 @@ class Room {
             answer: this.tossup.answer
         });
 
-        this.wordIndex = this.tossup.question.split(' ').length;
+        this.wordIndex = this.questionSplit.length;
     }
 
     sendSocketMessage(message) {
@@ -426,12 +428,11 @@ class Room {
     updateQuestion() {
         clearTimeout(this.buzzTimeout);
         if (Object.keys(this.tossup).length === 0) return;
-        let questionSplit = this.tossup.question.split(' ');
-        if (this.wordIndex >= questionSplit.length) {
+        if (this.wordIndex >= this.questionSplit.length) {
             return;
         }
 
-        let word = questionSplit[this.wordIndex];
+        let word = this.questionSplit[this.wordIndex];
         this.wordIndex++;
 
         // calculate time needed before reading next word
