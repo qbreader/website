@@ -1,6 +1,6 @@
 {
     "name": "qbreader",
-    "version": "2.5.4",
+    "version": "2.5.5",
     "scripts": {
         "start": "node server/server.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css"
