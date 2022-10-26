@@ -285,6 +285,12 @@ document.getElementById('buzz').addEventListener('click', function () {
 });
 
 
+document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
+    randomQuestions = [];
+    getRandomQuestion('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+});
+
+
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
     createTossupCard(questions[questionNumber], setName);

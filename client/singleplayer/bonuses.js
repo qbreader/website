@@ -172,6 +172,11 @@ function updateStatDisplay() {
         = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
 }
 
+document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
+    randomQuestions = [];
+    getRandomQuestion('bonus', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+});
+
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
