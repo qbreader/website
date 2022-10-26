@@ -291,10 +291,16 @@ class Room {
             }
         }
 
-        this.questionProgress = 1;
-        this.questionSplit = this.tossup.question.split(' ');
-
-        return true;
+        if (!this.tossup.hasOwnProperty('question')) {
+            this.sendSocketMessage({
+                type: 'no-questions-found'
+            });
+            return false;
+        } else {
+            this.questionProgress = 1;
+            this.questionSplit = this.tossup.question.split(' ');
+            return true;
+        }
     }
 
     buzz(userId) {
