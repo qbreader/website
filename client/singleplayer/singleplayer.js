@@ -126,8 +126,16 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
     if (this.checked) {
         document.getElementById('difficulty-settings').classList.add('d-none');
         document.getElementById('set-settings').classList.remove('d-none');
+        localStorage.setItem('selectBySetName', 'true');
     } else {
         document.getElementById('difficulty-settings').classList.remove('d-none');
         document.getElementById('set-settings').classList.add('d-none');
+        localStorage.setItem('selectBySetName', 'false');
     }
-})
+});
+
+if (localStorage.getItem('selectBySetName') === 'false') {
+    document.getElementById('toggle-select-by-set-name').checked = false;
+    document.getElementById('difficulty-settings').classList.remove('d-none');
+    document.getElementById('set-settings').classList.add('d-none');
+}
