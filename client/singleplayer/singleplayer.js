@@ -20,6 +20,30 @@ async function getPacket(setName, packetNumber) {
 }
 
 
+async function getRandomQuestion(questionType, difficulties = [], validCategories = [], validSubcategories = []) {
+    return await fetch(`/api/random-question`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            type: questionType,
+            difficulties: difficulties,
+            categories: validCategories,
+            subcategories: validSubcategories
+        })
+    }).then(response => response.json())
+    .then(question => {
+        if (questionType === 'tossup' && question.hasOwnProperty('formatted_answer')) {
+            question.answer = question.formatted_answer;
+        }
+        if (questionType === 'bonus' && question.hasOwnProperty('formatted_answers')) {
+            question.answers = question.formatted_answers;
+        }
+        return question;
+    })
+}
+
 /**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
