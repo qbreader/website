@@ -183,7 +183,13 @@
                         </ul>
                     </li>
                     <li>
-                        <b>returns</b> - a <b>JSON object</b> representing a random question.
+                        [optional] <code>number</code> - a <b>number</b> that specifies how many questions to return (the length of the return array).
+                        <ul>
+                            If <b>undefined or omitted,</b> returns 1 question.
+                        </ul>
+                    </li>
+                    <li>
+                        <b>returns</b> - a <b>JSON array</b> of random questions.
                         <ul><li>If a question is not found, returns a <code>404 Not Found</code> status.</li></ul>
                     </li>
                 </ul>
