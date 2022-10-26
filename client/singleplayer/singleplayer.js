@@ -1,4 +1,10 @@
 /**
+ * An array of random questions.
+ * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
+ */
+let randomQuestions = [];
+
+/**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
  * @return {Promise<Array<JSON>>} An array containing the bonuses.
@@ -21,27 +27,34 @@ async function getPacket(setName, packetNumber) {
 
 
 async function getRandomQuestion(questionType, difficulties = [], validCategories = [], validSubcategories = []) {
-    return await fetch(`/api/random-question`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            type: questionType,
-            difficulties: difficulties,
-            categories: validCategories,
-            subcategories: validSubcategories
+    if (randomQuestions.length === 0) {
+        randomQuestions = await fetch(`/api/random-question`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: questionType,
+                difficulties: difficulties,
+                categories: validCategories,
+                subcategories: validSubcategories,
+                number: 20
+            })
+        }).then(response => response.json())
+        .then(questions => {
+            for (let i = 0; i < questions.length; i++) {
+                if (questionType === 'tossup' && questions[i].hasOwnProperty('formatted_answer')) {
+                    questions[i].answer = questions[i].formatted_answer;
+                }
+                if (questionType === 'bonus' && questions[i].hasOwnProperty('formatted_answers')) {
+                    questions[i].answers = questions[i].formatted_answers;
+                }
+            }
+            return questions;
         })
-    }).then(response => response.json())
-    .then(question => {
-        if (questionType === 'tossup' && question.hasOwnProperty('formatted_answer')) {
-            question.answer = question.formatted_answer;
-        }
-        if (questionType === 'bonus' && question.hasOwnProperty('formatted_answers')) {
-            question.answers = question.formatted_answers;
-        }
-        return question;
-    })
+    }
+
+    return randomQuestions.pop();
 }
 
 /**
