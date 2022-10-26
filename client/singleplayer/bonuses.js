@@ -73,31 +73,51 @@ async function loadAndReadBonus() {
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
-    do {  // Get the next question
-        questionNumber++;
+    if (document.getElementById('toggle-select-by-set-name').checked) {
+        do {  // Get the next question
+            questionNumber++;
 
-        // Go to the next packet if you reach the end of this packet
-        if (questionNumber >= questions.length) {
-            packetNumbers.shift();
-            if (packetNumbers.length == 0) {
-                window.alert("No more questions left");
-                document.getElementById('reveal').disabled = true;
-                document.getElementById('next').disabled = true;
-                return;  // alert the user if there are no more packets
+            // Go to the next packet if you reach the end of this packet
+            if (questionNumber >= questions.length) {
+                packetNumbers.shift();
+                if (packetNumbers.length == 0) {
+                    window.alert("No more questions left");
+                    document.getElementById('reveal').disabled = true;
+                    document.getElementById('next').disabled = true;
+                    return;  // alert the user if there are no more packets
+                }
+                packetNumber = packetNumbers[0];
+                document.getElementById('question').innerHTML = 'Fetching questions...';
+                questions = await getBonuses(setName, packetNumber);
+                questionNumber = 0;
             }
-            packetNumber = packetNumbers[0];
-            document.getElementById('question').innerHTML = 'Fetching questions...';
-            questions = await getBonuses(setName, packetNumber);
+
+            // Get the next question if the current one is in the wrong category and subcategory
+        } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
+
+        if (questions.length > 0) {
+            document.getElementById('question-number-info').innerHTML = questionNumber + 1;
+        }
+    } else {
+        document.getElementById('question').innerHTML = 'Fetching questions...';
+        questions = [await getRandomQuestion(
+            'bonus',
+            rangeToArray(document.getElementById('difficulties').value),
+            validCategories,
+            validSubcategories
+        )];
+
+        ({ setName, packetNumber, questionNumber } = questions[0]);
+
+        if (questions.length > 0) {
+            document.getElementById('question-number-info').innerHTML = questionNumber;
             questionNumber = 0;
         }
-
-        // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
+    }
 
     if (questions.length > 0) {
         document.getElementById('set-name-info').innerHTML = setName;
         document.getElementById('packet-number-info').innerHTML = packetNumber;
-        document.getElementById('question-number-info').innerHTML = questionNumber + 1;
 
         currentBonusPart = 0;
 
@@ -190,7 +210,7 @@ document.getElementById('set-name').addEventListener('change', function () {
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     onQuestion = true;
-    initialize();
+    initialize(document.getElementById('toggle-select-by-set-name').checked);
     document.getElementById('question').innerHTML = 'Fetching questions...';
     questions = await getBonuses(setName, packetNumber);
     loadAndReadBonus();

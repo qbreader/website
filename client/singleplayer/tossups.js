@@ -94,38 +94,60 @@ async function loadAndReadTossup() {
     clearTimeout(timeoutId);
     currentlyBuzzing = false;
 
-    packetNumber = packetNumbers[0];
+    if (document.getElementById('toggle-select-by-set-name').checked) {
+        packetNumber = packetNumbers[0];
 
-    do {  // Get the next question
-        questionNumber++;
+        do {  // Get the next question
+            questionNumber++;
 
-        // Go to the next packet if you reach the end of this packet
-        if (questionNumber >= questions.length) {
-            packetNumbers.shift();
-            if (packetNumbers.length == 0) {
-                window.alert("No more questions left");
-                document.getElementById('buzz').disabled = true;
-                document.getElementById('pause').disabled = true;
-                document.getElementById('next').disabled = true;
-                return;  // alert the user if there are no more packets
+            // Go to the next packet if you reach the end of this packet
+            if (questionNumber >= questions.length) {
+                packetNumbers.shift();
+                if (packetNumbers.length == 0) {
+                    window.alert("No more questions left");
+                    document.getElementById('buzz').disabled = true;
+                    document.getElementById('pause').disabled = true;
+                    document.getElementById('next').disabled = true;
+                    return;  // alert the user if there are no more packets
+                }
+                packetNumber = packetNumbers[0];
+                clearTimeout(timeoutId); // stop reading the current question
+                document.getElementById('question').innerHTML = 'Fetching questions...';
+                questions = await getTossups(setName, packetNumber);
+                questionNumber = 0;
             }
-            packetNumber = packetNumbers[0];
-            clearTimeout(timeoutId); // stop reading the current question 
-            questions = await getTossups(setName, packetNumber);
+
+            // Get the next question if the current one is in the wrong category and subcategory
+        } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
+
+        if (questions.length > 0) {
+            questionText = questions[questionNumber]['question'];
+            questionTextSplit = questionText.split(' ');
+            document.getElementById('question-number-info').innerHTML = questionNumber + 1;
+        }
+    } else {
+        document.getElementById('question').innerHTML = 'Fetching questions...';
+        questions = [await getRandomQuestion(
+            'tossup',
+            rangeToArray(document.getElementById('difficulties').value),
+            validCategories,
+            validSubcategories
+        )];
+
+        ({ setName, packetNumber, questionNumber } = questions[0]);
+
+        if (questions.length > 0) {
+            questionText = questions[0]['question'];
+            questionTextSplit = questionText.split(' ');
+            document.getElementById('question-number-info').innerHTML = questionNumber;
             questionNumber = 0;
         }
-
-        // Get the next question if the current one is in the wrong category and subcategory
-    } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
+    }
 
     if (questions.length > 0) {
         document.getElementById('set-name-info').innerHTML = setName;
         document.getElementById('packet-number-info').innerHTML = packetNumber;
-        document.getElementById('question-number-info').innerHTML = questionNumber + 1;
         document.getElementById('question').innerHTML = '';
-
-        questionText = questions[questionNumber]['question'];
-        questionTextSplit = questionText.split(' ');
 
         document.getElementById('next').innerHTML = 'Skip';
         document.getElementById('buzz').innerHTML = 'Buzz';
@@ -199,7 +221,7 @@ function toggleCorrect() {
             shift('tens', 1);
             shift('points', 10);
         }
-        // Check if there is more question to be read 
+        // Check if there is more question to be read
         if (questionTextSplit.length == 0) {
             shift('dead', -1);
         } else if (setName.toLowerCase().includes('pace')) {
@@ -299,7 +321,7 @@ document.getElementById('set-name').addEventListener('change', function () {
 
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    initialize();
+    initialize(document.getElementById('toggle-select-by-set-name').checked);
     document.getElementById('question').innerHTML = 'Fetching questions...';
     questions = await getTossups(setName, packetNumber);
     loadAndReadTossup();
