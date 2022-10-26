@@ -216,6 +216,11 @@ document.getElementById('start').addEventListener('click', async function () {
     loadAndReadBonus();
 });
 
+document.getElementById('difficulties').addEventListener('change', async function () {
+    randomQuestions = [];
+    getRandomQuestion('bonus', rangeToArray(this.value), validCategories, validSubcategories);
+});
+
 
 document.addEventListener('keydown', (event) => {
     if (document.activeElement.tagName === 'INPUT') return;
