@@ -333,6 +333,10 @@ document.getElementById('toggle-correct').addEventListener('click', function () 
     toggleCorrect();
 });
 
+document.getElementById('difficulties').addEventListener('change', async function () {
+    randomQuestions = [];
+    getRandomQuestion('tossup', rangeToArray(this.value), validCategories, validSubcategories);
+});
 
 document.addEventListener('keydown', (event) => {
     if (document.activeElement.tagName === 'INPUT') return;
