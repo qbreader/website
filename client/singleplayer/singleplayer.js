@@ -97,3 +97,13 @@ document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
     clearStats();
 });
+
+document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
+    if (this.checked) {
+        document.getElementById('difficulty-settings').classList.add('d-none');
+        document.getElementById('set-settings').classList.remove('d-none');
+    } else {
+        document.getElementById('difficulty-settings').classList.remove('d-none');
+        document.getElementById('set-settings').classList.add('d-none');
+    }
+})

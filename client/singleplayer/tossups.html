@@ -70,10 +70,18 @@
     <div class="container-fluid mt-1 mt-lg-3 mb-5 pb-5 px-xxl-5">
         <div class="row" id="info">
             <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-lg-1 mb-5" id="options">
-                <input type="text" class="form-control" id="set-name" placeholder="Set Name" list="set-list">
-                <datalist id="set-list"></datalist>
-                <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet Numbers">
-                <input type="text" class="form-control" id="question-number" placeholder="Starting Question #">
+                <div id="set-settings">
+                    <input type="text" class="form-control" id="set-name" placeholder="Set Name" list="set-list">
+                    <datalist id="set-list"></datalist>
+                    <input type="text" class="form-control my-1" id="packet-number" placeholder="Packet Numbers">
+                    <input type="text" class="form-control" id="question-number" placeholder="Starting Question #">
+                </div>
+                <div id="difficulty-settings" class="mb-2 d-none">
+                    <input type="text" class="form-control" id="difficulties" placeholder="Difficulties">
+                    <div class="mt-2">
+                        1 - Middle School, 2 to 5 - High School, 6 to 9 - College, 10 - Open
+                    </div>
+                </div>
                 <div class="my-2"></div>
                 <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
                 <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
@@ -86,6 +94,10 @@
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
                     <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-select-by-set-name" checked>
+                    <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
