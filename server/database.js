@@ -32,7 +32,7 @@ const ANIMALS = ['aardvark', 'alligator', 'alpaca', 'anaconda', 'ant', 'anteater
  * @param {Number} currentQuestionNumber - current question number. **Starts at 1.**
  * @param {Array<String>} validCategories
  * @param {Array<String>} validSubcategories
- * @param {String} type - Type of question you want to get. Default: `'tossup'`.
+ * @param {'tossup' | 'bonus'} type - Type of question you want to get. Default: `'tossup'`.
  * @param {Boolean} alwaysUseUnformattedAnswer - whether to always use the unformatted answer. Default: `false`
  * @returns {Promise<JSON>}
  */
@@ -161,31 +161,35 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
  * @param {Array<Number>} difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array to select any difficulty.
  * @param {Array<String>} allowedCategories - an array of allowed categories. Pass a 0-length array to select any category.
  * @param {Array<String>} allowedSubcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
- * @returns {Promise<JSON>}
+ * @param {Number} number - how many random tossups to return
+ * @returns {Promise<Array<JSON>>}
  */
-async function getRandomQuestion(type, difficulties, allowedCategories, allowedSubcategories, alwaysUseUnformattedAnswer = false) {
+async function getRandomQuestion(type, difficulties, allowedCategories, allowedSubcategories, number = 1) {
     if (difficulties.length === 0) difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     if (allowedCategories.length === 0) allowedCategories = CATEGORIES;
     if (allowedSubcategories.length === 0) allowedSubcategories = SUBCATEGORIES_FLATTENED;
 
-    let question = await questions.aggregate([
+    let questionArray = await questions.aggregate([
         { $match: { type: type, difficulty: { $in: difficulties }, category: { $in: allowedCategories }, subcategory: { $in: allowedSubcategories } } },
-        { $sample: { size: 1 } }
+        { $sample: { size: number } },
+        { $lookup: {
+            from: 'sets',
+            localField: 'set',
+            foreignField: '_id',
+            as: 'setName'
+        }}
     ]).toArray();
 
-    if (question.length === 0) {
+    questionArray.forEach(question => {
+        question.setName = question.setName[0].name;
+        return question;
+    });
+
+    if (questionArray.length === 0) {
         return {};
     }
 
-    question = question[0];
-    let set = await sets.findOne({ _id: question.set });
-    question.setName = set.name;
-
-    if (!alwaysUseUnformattedAnswer && type === 'tossup' && question.hasOwnProperty('formatted_answer')) {
-        question.answer = question.formatted_answer;
-    }
-
-    return question;
+    return questionArray;
 }
 
 

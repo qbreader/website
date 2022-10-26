@@ -84,9 +84,13 @@ router.post('/random-question', async (req, res) => {
         req.body.subcategories = [req.body.subcategories];
     }
 
-    const question = await database.getRandomQuestion(req.body.type, req.body.difficulties, req.body.categories, req.body.subcategories);
-    if (Object.keys(question).length > 0) {
-        res.send(JSON.stringify(question));
+    if (req.body.number === undefined) {
+        req.body.number = 1;
+    }
+
+    const questions = await database.getRandomQuestion(req.body.type, req.body.difficulties, req.body.categories, req.body.subcategories, req.body.number);
+    if (questions.length > 0) {
+        res.send(JSON.stringify(questions));
     } else {
         res.sendStatus(404);
     }
