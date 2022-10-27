@@ -186,7 +186,7 @@ async function getRandomQuestion(type, difficulties, allowedCategories, allowedS
     });
 
     if (questionArray.length === 0) {
-        return {};
+        return [{}];
     }
 
     return questionArray;
