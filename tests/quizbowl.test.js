@@ -21,6 +21,7 @@ const formatted_answers = [
     "<b><u>1980s</u></b> [prompt on <u>80s</u>]",
     "<u>working memory</u> [prompt on partial answers or on “short-term memory”]",
     "Pyotr Ilyich <b><u>Tchaikovsky</u></b>’s <b><u>Piano Concerto</u></b> No. <b><u>1</u></b> [accept <b><u>Tchaikovsky</u></b>’s <b><u>PianoConcerto</u></b> in <b><u>B-flat</u></b> <b><u>minor</u></b> until “B-flat” is read; accept word forms like <b><u>Tchaikovsky</u></b>’s <b><u>first piano concerto</u></b>; prompt on partial answer]",
+    "<b><u>Space Shuttle</u></b> [or <b><u>Space Transportation System</u></b>; or <b><u>STS</u></b>; prompt on US <u>space</u> flight or <u>NASA</u>; anti-prompt on <u>Challenger</u> Disaster or <u>Columbia</u> Disaster by asking \"What larger NASA program was it a part of?\"; anti-prompt on <u>Endeavor</u> by asking \"What larger NASA program was it a part of?\"]",
 ];
 
 const answers = [
@@ -125,6 +126,9 @@ const tests = [
 
     ['accept', formatted_answers[19], 'Tchaikovsky Piano Concerto no 1'],
     // ['prompt', formatted_answers[19], 'Piano Concerto'], // TODO
+
+    ['accept', formatted_answers[20], 'Endeavor'],
+    ['prompt', formatted_answers[20], 'NASA'],
 
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],
