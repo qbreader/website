@@ -114,7 +114,14 @@ function parseAnswerline(answerline) {
 }
 
 
-function stringMatchesReference(string, reference) {
+/**
+ *
+ * @param {String} string
+ * @param {String} reference
+ * @param {Number} strictness - the number of characters per error allowed for two tokens to match.
+ * @returns {Boolean}
+ */
+function stringMatchesReference(string, reference, strictness=4) {
     if (string === null || string === undefined || reference === null || reference === undefined) {
         return false;
     }
@@ -127,9 +134,19 @@ function stringMatchesReference(string, reference) {
         return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
+    const stemmer = (string) => {
+        if (string.charAt(string.length - 1) === 's') {
+            return string.substring(0, string.length - 1);
+        } else {
+            return string;
+        }
+    }
+
     string = removePunctuation(string);
     string = replaceSpecialCharacters(string);
     string = string.toLowerCase().trim();
+    string = string.replace(/<\/?[biu]>/g, '');
+    string = string.replace(/<\/?em>/g, '');
     string = string.replace('-', ' ');
 
     reference = removePunctuation(reference);
@@ -143,12 +160,22 @@ function stringMatchesReference(string, reference) {
 
     let stringTokens = string
         .split(' ')
-        .filter(token => !METAWORDS.includes(token) && token.length > 0)
-        .map(token => isNaN(token) ? token : toWords(parseInt(token)));
+        .filter(token => !METAWORDS.includes(token) && token.length > 0);
+
+    for (let i = stringTokens.length - 1; i >= 0; i--) {
+        if (!isNaN(stringTokens[i])) {
+            stringTokens.push(toWords(parseInt(stringTokens[i])));
+        }
+    }
+
     let referenceTokens = reference
         .split(' ')
-        .filter(token => !METAWORDS.includes(token) && token.length > 0)
-        .map(token => isNaN(token) ? token : toWords(parseInt(token)));
+        .filter(token => !METAWORDS.includes(token) && token.length > 0);
+    for (let i = referenceTokens.length - 1; i >= 0; i--) {
+        if (!isNaN(referenceTokens[i])) {
+            referenceTokens.push(toWords(parseInt(referenceTokens[i])));
+        }
+    }
 
     if (stringTokens.length === 0) {
         return false;
@@ -163,11 +190,14 @@ function stringMatchesReference(string, reference) {
         let tokenMatches = false;
 
         for (let j = 0; j < referenceTokens.length; j++) {
-            let errors = dljs.distance(stringTokens[i], referenceTokens[j]);
+            let errors = dljs.distance(stemmer(stringTokens[i]), stemmer(referenceTokens[j]));
 
-            if (4 * errors <= referenceTokens[j].length) {
+            // console.log(stringTokens[i], referenceTokens[j]);
+            if (strictness * errors <= referenceTokens[j].length || referenceTokens[j].includes(stringTokens[i])) {
                 tokenMatches = true;
                 break;
+            } else {
+                // console.log(errors, stringTokens[j], referenceTokens[j]);
             }
         }
 
@@ -214,7 +244,7 @@ function checkAnswer(answerline, givenAnswer) {
     const parsedAnswerline = parseAnswerline(answerline);
 
     for (const answer of parsedAnswerline['reject']) {
-        if (stringMatchesReference(answer[2], givenAnswer) && stringMatchesReference(givenAnswer, answer[2])) {
+        if (stringMatchesReference(answer[2], givenAnswer, 7) && stringMatchesReference(givenAnswer, answer[2], 7)) {
             return 'reject';
         }
     }
@@ -234,6 +264,16 @@ function checkAnswer(answerline, givenAnswer) {
             if (answerWorks(answer[0], givenAnswer, isFormattedAnswerline)) return type;
             if (answerWorks(answer[1], givenAnswer, isFormattedAnswerline)) return type;
             if (answerWorks(answer[2], givenAnswer, isFormattedAnswerline)) return type;
+        }
+    }
+
+    if (answerline.includes('[prompt on partial') || answerline.includes('(prompt on partial')) {
+        const [answer1, answer2] = parsedAnswerline.accept[0][0].split(' ');
+        if (answerWorks(answer1, givenAnswer, isFormattedAnswerline)) {
+            return 'prompt';
+        }
+        if (answerWorks(answer2, givenAnswer, isFormattedAnswerline)) {
+            return 'prompt';
         }
     }
 
