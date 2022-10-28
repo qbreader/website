@@ -12,13 +12,24 @@ const formatted_answers = [
     "<b><u>Louis-Philippe</u></b> [or <b><u>Duke d’Orleans</u></b>; prompt on “Citizen King” before mentioned]",
     "Johann <b><u>Tserclaes</u></b>, Graf von <b><u>Tilly</u></b> (accept either underlined answer as well as Count of <b><u>Tilly</u></b>)",
     "<b><u>Paul</u></b> <b><u>Bäumer</u></b> [accept either name]",
-    "<b><u>Matsuo</u></b> <b><u>Bashō</u></b> [accept either underlined part; accept <b><u>Matsuo</u></b> Kinsaku or <b><u>Matsuo</u></b> Chūemon Munefusa]"
+    "<b><u>Matsuo</u></b> <b><u>Bashō</u></b> [accept either underlined part; accept <b><u>Matsuo</u></b> Kinsaku or <b><u>Matsuo</u></b> Chūemon Munefusa]",
+    "<b><u>Prime Minister</u></b> of <b><u>Australia</u></b> [prompt on partial answers]",
+    "hypothesis <b><u>test</u></b>",
+    "<b><u>graphene</u></b> [do not accept or prompt on \"graphite\"]",
+    "<b><u>amide</u></b>s [do not accept or prompt on \"amines\"]",
+    "<b><u>cosmic microwave background</u></b> radiation [or <b><u>CMB</u></b>; or <b><u>CMBR</u></b>]",
+    "<b><u>1980s</u></b> [prompt on <u>80s</u>]",
+    "<u>working memory</u> [prompt on partial answers or on “short-term memory”]",
+    "Pyotr Ilyich <b><u>Tchaikovsky</u></b>’s <b><u>Piano Concerto</u></b> No. <b><u>1</u></b> [accept <b><u>Tchaikovsky</u></b>’s <b><u>PianoConcerto</u></b> in <b><u>B-flat</u></b> <b><u>minor</u></b> until “B-flat” is read; accept word forms like <b><u>Tchaikovsky</u></b>’s <b><u>first piano concerto</u></b>; prompt on partial answer]",
 ];
 
 const answers = [
     "Heinrich Böll [or Heinrich Theodor Böll]",
     "primatology [or word forms; accept any answers about the study of great apes, nonhuman primates, gorillas, bonobos, or chimpanzees; prompt on the study of monkeys or simians; prompt on word forms of ethology, biology, anthropology, or evolutionary or social psychology; prompt on the study of animals with “what type of animals?”]",
-    "China [or People’s Republic of China; do not accept or prompt on “Republic of China”]"
+    "China [or People’s Republic of China; do not accept or prompt on “Republic of China”]",
+    "amides [do not accept or prompt on \"amines\"]",
+    "RAF [or Red Army Faction; accept Baader–Meinhof group; accept Baader–Meinhof gang; accept Rote Armee Fraktion] (The Action Directe communiqué was also signed “kommando elisabeth van dyck,” in reference to a fallen member of RAF.)",
+    "Lenski's longterm E. coli evolution experiment [accept anything mentioning the long term evolution of E. Coli]",
 ];
 
 const tests = [
@@ -79,19 +90,66 @@ const tests = [
     ['accept', formatted_answers[11], 'Matsuo Basho'],
     ['accept', formatted_answers[11], 'Matsuo Bashō'],
 
+    ['accept', formatted_answers[12], 'prime minister of australia'],
+    ['accept', formatted_answers[12], 'australia prime minister'],
+    ['accept', formatted_answers[12], 'australian prime minister'],
+    ['prompt', formatted_answers[12], 'prime minister'],
+
+    ['accept', formatted_answers[13], 'hypothesis testing'],
+    ['accept', formatted_answers[13], 'testing'],
+    ['accept', formatted_answers[13], 'test'],
+
+    ['accept', formatted_answers[14], 'graphene'],
+    ['reject', formatted_answers[14], 'graphite'],
+
+    ['accept', formatted_answers[15], 'amides'],
+    ['accept', formatted_answers[15], 'amide'],
+    ['reject', formatted_answers[15], 'amine'],
+
+    ['accept', formatted_answers[16], 'cosmic microwave background radiation'],
+    ['accept', formatted_answers[16], 'cosmic microwave background'],
+    ['accept', formatted_answers[16], 'cmb'],
+    ['accept', formatted_answers[16], 'cmbr'],
+
+    ['accept', formatted_answers[17], '1980s'],
+    ['accept', formatted_answers[17], '1980'],
+    ['prompt', formatted_answers[17], '80'],
+    ['prompt', formatted_answers[17], '80s'],
+    ['reject', formatted_answers[17], '90s'],
+    ['reject', formatted_answers[17], '90'],
+    // ['reject', formatted_answers[17], '1990'], // TODO
+    // ['reject', formatted_answers[17], '1990s'], // TODO
+
+    ['accept', formatted_answers[18], 'working memory'],
+    ['prompt', formatted_answers[18], 'memory'],
+
+    ['accept', formatted_answers[19], 'Tchaikovsky Piano Concerto no 1'],
+    // ['prompt', formatted_answers[19], 'Piano Concerto'], // TODO
+
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],
     ['accept', answers[0], 'Böll'],
     ['accept', answers[0], 'Heinrich Böll'],
 
     // unformatted answerlines
-    ['reject', answers[1], 'chimp'], // TODO: make this accept
+    ['accept', answers[1], 'chimp'],
     ['accept', answers[1], 'chimpanzee'],
 
     // reject clauses that are a subset of acceptable answer
     ['accept', answers[2], 'China'],
     ['accept', answers[2], 'people’s republic of China'],
     ['reject', answers[2], 'republic of china'],
+
+    ['accept', answers[3], 'amides'],
+    ['accept', answers[3], 'amide'],
+    ['reject', answers[3], 'amine'],
+
+    ['accept', answers[4], 'baader meinhof'],
+    ['accept', answers[4], 'raf'],
+    ['accept', answers[4], 'red army faction'],
+    ['accept', answers[4], 'red army'],
+
+    ['accept', answers[5], 'lenski long term e coli experiment'],
 ];
 
 let successful = 0, total = 0;
