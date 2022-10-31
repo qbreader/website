@@ -31,6 +31,7 @@ const answers = [
     "amides [do not accept or prompt on \"amines\"]",
     "RAF [or Red Army Faction; accept Baader–Meinhof group; accept Baader–Meinhof gang; accept Rote Armee Fraktion] (The Action Directe communiqué was also signed “kommando elisabeth van dyck,” in reference to a fallen member of RAF.)",
     "Lenski's longterm E. coli evolution experiment [accept anything mentioning the long term evolution of E. Coli]",
+    "time [accept time-like interval; prompt on T]",
 ];
 
 const tests = [
@@ -154,6 +155,8 @@ const tests = [
     ['accept', answers[4], 'red army'],
 
     ['accept', answers[5], 'lenski long term e coli experiment'],
+
+    ['accept', answers[6], 'time'],
 ];
 
 let successful = 0, total = 0;
