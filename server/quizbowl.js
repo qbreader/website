@@ -94,7 +94,7 @@ function parseAnswerline(answerline) {
     let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
     const subPhrases = splitIntoPhrases(subAnswer);
     const parsedAnswerline = {
-        accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), '']],
+        accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), extractQuotes(mainAnswer)]],
         prompt: [],
         reject: []
     }
@@ -230,7 +230,6 @@ function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
  *
  * @param {String} answerline
  * @param {String} givenAnswer
- * @param {Boolean} isFormattedAnswerline
  * @returns {'accept' | 'prompt' | 'reject'}
  */
 function checkAnswer(answerline, givenAnswer) {
@@ -246,7 +245,7 @@ function checkAnswer(answerline, givenAnswer) {
     const parsedAnswerline = parseAnswerline(answerline);
 
     for (const answer of parsedAnswerline['reject']) {
-        if (stringMatchesReference(answer[2], givenAnswer, 7) && stringMatchesReference(givenAnswer, answer[2], 7)) {
+        if (stringMatchesReference(answer[2], givenAnswer, 11) && stringMatchesReference(givenAnswer, answer[2], 11)) {
             return 'reject';
         }
     }

@@ -22,6 +22,10 @@ const formatted_answers = [
     "<u>working memory</u> [prompt on partial answers or on “short-term memory”]",
     "Pyotr Ilyich <b><u>Tchaikovsky</u></b>’s <b><u>Piano Concerto</u></b> No. <b><u>1</u></b> [accept <b><u>Tchaikovsky</u></b>’s <b><u>PianoConcerto</u></b> in <b><u>B-flat</u></b> <b><u>minor</u></b> until “B-flat” is read; accept word forms like <b><u>Tchaikovsky</u></b>’s <b><u>first piano concerto</u></b>; prompt on partial answer]",
     "<b><u>Space Shuttle</u></b> [or <b><u>Space Transportation System</u></b>; or <b><u>STS</u></b>; prompt on US <u>space</u> flight or <u>NASA</u>; anti-prompt on <u>Challenger</u> Disaster or <u>Columbia</u> Disaster by asking \"What larger NASA program was it a part of?\"; anti-prompt on <u>Endeavor</u> by asking \"What larger NASA program was it a part of?\"]",
+    "<b><u>Second Continental Congress</u></b> [prompt on <u>Continental Congress</u>]",
+    "sacramental <b><u>bread</u></b> [accept the <b><u>host</u></b>; prompt on <u>Eucharist</u>; prompt on <u>food</u>]",
+    "The <b><u>Wasteland</u></b>",
+    "<b><u>W</u></b>orld <b><u>T</u></b>rade <b><u>O</u></b>rganization",
 ];
 
 const answers = [
@@ -32,6 +36,12 @@ const answers = [
     "RAF [or Red Army Faction; accept Baader–Meinhof group; accept Baader–Meinhof gang; accept Rote Armee Fraktion] (The Action Directe communiqué was also signed “kommando elisabeth van dyck,” in reference to a fallen member of RAF.)",
     "Lenski's longterm E. coli evolution experiment [accept anything mentioning the long term evolution of E. Coli]",
     "time [accept time-like interval; prompt on T]",
+    "defenestration [prompt on “falling”; accept reasonable equivalents like “jumping out of a window” or “being thrown out of a window”; prompt on “suicide”]",
+    "electric charge density [accept rho before \"rho\"; prompt on \"density\" after \"charge\"; do not accept or prompt on \"density\" before \"charge\"]",
+    "wave-particle duality [accept de Broglie wave until “de Broglie”; accept answers indicating that something is both a wave and a particle; prompt on duality or wave nature or complementarity; prompt on interference by asking “what property of matter causes the interference?”]",
+    "“September 1, 1939”",
+    "IR spectroscopy",
+    "adsorption [accept chemisorption or chemical adsorption or physisorption or physical adsorption; prompt on “sorption”; do not accept or prompt on “absorption”]"
 ];
 
 const tests = [
@@ -131,6 +141,16 @@ const tests = [
     ['accept', formatted_answers[20], 'Endeavor'],
     ['prompt', formatted_answers[20], 'NASA'],
 
+    ['accept', formatted_answers[21], 'second contentinal congress'],
+
+    ['accept', formatted_answers[22], 'Eucharist bread'],
+
+    ['accept', formatted_answers[23], 'wasteland'],
+    // ['accept', formatted_answers[23], 'waste land'], // TODO?
+    ['reject', formatted_answers[23], 'waste'],
+
+    ['accept', formatted_answers[24], 'wto'],
+
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],
     ['accept', answers[0], 'Böll'],
@@ -157,6 +177,21 @@ const tests = [
     ['accept', answers[5], 'lenski long term e coli experiment'],
 
     ['accept', answers[6], 'time'],
+
+    ['accept', answers[7], 'defenestration'],
+    ['accept', answers[7], 'jump out of a window'],
+    ['accept', answers[7], 'jumping out of a window'],
+
+    // ['accept', answers[8], 'charge density'], // TODO
+
+    ['accept', answers[9], 'wave-particle duality'],
+
+    ['accept', answers[10], 'september 1 1939'],
+
+    ['accept', answers[11], 'ir spec'],
+
+    ['accept', answers[12], 'adsorption'],
+    ['reject', answers[12], 'absorption'],
 ];
 
 let successful = 0, total = 0;
