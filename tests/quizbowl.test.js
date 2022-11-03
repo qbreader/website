@@ -26,6 +26,7 @@ const formatted_answers = [
     "sacramental <b><u>bread</u></b> [accept the <b><u>host</u></b>; prompt on <u>Eucharist</u>; prompt on <u>food</u>]",
     "The <b><u>Wasteland</u></b>",
     "<b><u>W</u></b>orld <b><u>T</u></b>rade <b><u>O</u></b>rganization",
+    "The (Holy) <b><u>Grail</u></b>",
 ];
 
 const answers = [
@@ -150,6 +151,9 @@ const tests = [
     ['reject', formatted_answers[23], 'waste'],
 
     ['accept', formatted_answers[24], 'wto'],
+
+    ['accept', formatted_answers[25], 'grail'],
+    ['accept', formatted_answers[25], 'holy grail'],
 
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],
