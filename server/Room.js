@@ -292,6 +292,10 @@ class Room {
             }
         }
 
+        if (this.tossup.hasOwnProperty('formatted_answer')) {
+            this.tossup.answer = this.tossup.formatted_answer;
+        }
+
         this.questionProgress = 1;
         this.questionSplit = this.tossup.question.split(' ');
         return true;
