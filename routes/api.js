@@ -50,6 +50,52 @@ router.get('/random-name', (req, res) => {
 });
 
 
+router.post('/query', async (req, res) => {
+    if (req.body.type !== 'tossup' && req.body.type !== 'bonus') {
+        res.status(400).send('Invalid question type specified.');
+        return;
+    }
+
+    if (req.body.difficulties === undefined) {
+        req.body.difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    }
+
+    if (typeof req.body.difficulties === 'string') {
+        req.body.difficulties = parseInt(req.body.difficulties);
+    }
+
+    if (typeof req.body.difficulties === 'number') {
+        req.body.difficulties = [req.body.difficulties];
+    }
+
+    if (req.body.categories === undefined) {
+        req.body.categories = CATEGORIES;
+    }
+
+    if (typeof req.body.categories === 'string') {
+        req.body.categories = [req.body.categories];
+    }
+
+    if (req.body.subcategories === undefined) {
+        req.body.subcategories = SUBCATEGORIES_FLATTENED;
+    }
+
+    if (typeof req.body.subcategories === 'string') {
+        req.body.subcategories = [req.body.subcategories];
+    }
+
+    if (req.body.setName === undefined) {
+        req.body.setName = '';
+    }
+
+    const { count, questionArray } = await database.getQuery(req.body.query, req.body.difficulties, req.body.setName, req.body.type, req.body.type, req.body.categories, req.body.subcategories);
+    if (questionArray.length > 0) {
+        res.send({ count, questionArray });
+    } else {
+        res.sendStatus(404);
+    }
+});
+
 router.post('/random-question', async (req, res) => {
     if (req.body.type !== 'tossup' && req.body.type !== 'bonus') {
         res.status(400).send('Invalid question type specified.');

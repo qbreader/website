@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A text-based quizbowl packet reader to read tossups to yourself.">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/bootstrap/light.css">
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark') {
+            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
+        } else if (localStorage.getItem('color-theme') === 'light') {
+            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
+        } else {
+            // Get OS preferred color scheme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
+            } else {
+                document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/">
+                <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/tossups">Tossups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bonuses">Bonuses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/multiplayer">Multiplayer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/db">Database</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api-info">API</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link p-1" href="#" id="toggle-dark-mode">
+                                <img src="/dark-mode.png" width="28" height="28">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="root"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/script.js"></script>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script src="/database/index.js" type="text/babel"></script>
+</body>

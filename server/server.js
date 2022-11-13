@@ -13,6 +13,7 @@ const apiInfoRouter = require('../routes/api-info');
 const tossupsRouter = require('../routes/tossups');
 const bonusesRouter = require('../routes/bonuses');
 const multiplayerRouter = require('../routes/multiplayer');
+const databaseRouter = require('../routes/database');
 const aboutRouter = require('../routes/about');
 
 const rooms = {};
@@ -62,8 +63,13 @@ app.use('/api', apiRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/bonuses', bonusesRouter);
 app.use('/multiplayer', multiplayerRouter);
+app.use('/db', databaseRouter);
 app.use('/api-info', apiInfoRouter);
 app.use('/about', aboutRouter);
+
+app.get('/database', (req, res) => {
+    res.redirect('/db');
+});
 
 app.get('/', (req, res) => {
     res.sendFile('tossups.html', { root: './client/singleplayer/' });

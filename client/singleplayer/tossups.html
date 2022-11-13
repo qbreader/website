@@ -88,29 +88,38 @@
                 <label for="font-size">Font size: <span id="font-size-display">16</span>px</label>
                 <input class="form-range" id="font-size" type="range" value="16" min="10" max="30" step="1">
                 <div class="text-center mb-2">
-                    <button type="button" class="btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
+                    <button type="button" class="btn btn-danger" id="category-select-button" data-bs-toggle="modal"
+                        data-bs-target="#category-modal">Categories</button>
                     <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
+                    <input class="form-check-input" type="checkbox" role="switch"
+                        id="toggle-high-contrast-question-text">
                     <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-select-by-set-name" checked>
+                    <input class="form-check-input" type="checkbox" role="switch" value=""
+                        id="toggle-select-by-set-name" checked>
                     <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
                 <div class="buttons position-sticky top-0 pt-2">
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"      class="mb-2 btn btn-success" id="start">Start</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"      class="mb-2 btn btn-primary" id="next" disabled>Next</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
-                    <button type="button" class="mb-2 btn btn-danger d-lg-none"  id="toggle-options" disabled>Options</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s key"
+                        class="mb-2 btn btn-success" id="start">Start</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: n key"
+                        class="mb-2 btn btn-primary" id="next" disabled>Next</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"
+                        class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
+                    <button type="button" class="mb-2 btn btn-danger d-lg-none" id="toggle-options"
+                        disabled>Options</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"
+                        class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
                 </div>
                 <span class="" id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span>
                 <span class="float-end ps-5 me-lg-2" id="question-metadata">
-                    <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info">-</span> Question <span id="question-number-info">-</span></b>
+                    <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info">-</span>
+                        Question <span id="question-number-info">-</span></b>
                 </span>
                 <br>
                 <div class="mt-2" id="question"></div>
@@ -134,37 +143,47 @@
                         <div class="col-6" id="categories">
                             <h5 class="text-center">Categories</h5>
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Literature">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Literature">Literature<br></label>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1"
+                                for="Literature">Literature<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="History">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="History">History<br></label>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1"
+                                for="History">History<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Science">
                             <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Science">Science<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Fine Arts">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Fine Arts">Fine Arts<br></label>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Fine Arts">Fine
+                                Arts<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Religion">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Religion">Religion<br></label>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1"
+                                for="Religion">Religion<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Mythology">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Mythology">Mythology<br></label>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1"
+                                for="Mythology">Mythology<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Philosophy">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Philosophy">Philosophy<br></label>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1"
+                                for="Philosophy">Philosophy<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Social Science">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Social Science">Social Science<br></label>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Social Science">Social
+                                Science<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Current Events">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Current Events">Current Events<br></label>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Current Events">Current
+                                Events<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Geography">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Geography">Geography<br></label>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1"
+                                for="Geography">Geography<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Other Academic">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Other Academic">Other Academic<br></label>
+                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Other Academic">Other
+                                Academic<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Trash">
                             <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Trash">Trash<br></label>
@@ -172,43 +191,55 @@
                         <div class="col-6" id="subcategories">
                             <h5 class="text-center">Subcategories</h5>
                             <input type="checkbox" class="btn-check" autocomplete="off" id="American Literature">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="American Literature">American Literature<br></label>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1"
+                                for="American Literature">American Literature<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="British Literature">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="British Literature">British Literature<br></label>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="British Literature">British
+                                Literature<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Classical Literature">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Classical Literature">Classical Literature<br></label>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1"
+                                for="Classical Literature">Classical Literature<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="European Literature">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="European Literature">European Literature<br></label>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1"
+                                for="European Literature">European Literature<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="World Literature">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="World Literature">World Literature<br></label>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="World Literature">World
+                                Literature<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Other Literature">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Other Literature">Other Literature<br></label>
+                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Other Literature">Other
+                                Literature<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="American History">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="American History">American History <br></label>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="American History">American
+                                History <br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Ancient History">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Ancient History">Ancient History<br></label>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Ancient History">Ancient
+                                History<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="European History">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="European History">European History<br></label>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="European History">European
+                                History<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="World History">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="World History">World History<br></label>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="World History">World
+                                History<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Other History">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Other History">Other History<br></label>
+                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Other History">Other
+                                History<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Biology">
                             <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Biology">Biology<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Chemistry">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Chemistry">Chemistry<br></label>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1"
+                                for="Chemistry">Chemistry<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Physics">
                             <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Physics">Physics<br></label>
@@ -217,16 +248,20 @@
                             <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Math">Math<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Other Science">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Other Science">Other Science<br></label>
+                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Other Science">Other
+                                Science<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Visual Fine Arts">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Visual Fine Arts">Visual Fine Arts<br></label>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Visual Fine Arts">Visual
+                                Fine Arts<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Auditory Fine Arts">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Auditory Fine Arts">Auditory Fine Arts<br></label>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1"
+                                for="Auditory Fine Arts">Auditory Fine Arts<br></label>
 
                             <input type="checkbox" class="btn-check" autocomplete="off" id="Other Fine Arts">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Other Fine Arts">Other Fine Arts<br></label>
+                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Other Fine Arts">Other Fine
+                                Arts<br></label>
                         </div>
                     </div>
                 </div>
@@ -259,8 +294,10 @@
                             </select>
                         </div>
                         <div>
-                            <p class="text-muted">If your answer was parsed incorrectly, please enter what answer you gave below.</p>
-                            <label for="report-question-description" class="col-form-label">Additional Information:</label>
+                            <p class="text-muted">If your answer was parsed incorrectly, please enter what answer you
+                                gave below.</p>
+                            <label for="report-question-description" class="col-form-label">Additional
+                                Information:</label>
                             <textarea class="form-control" id="report-question-description" rows="3"></textarea>
                         </div>
                     </form>
