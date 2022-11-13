@@ -7,7 +7,7 @@ const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
-client.connect().then(() => {
+client.connect().then(async () => {
     console.log('connected to mongodb');
 });
 
@@ -155,6 +155,74 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
     });
 }
 
+/**
+ *
+ * @param {String} queryString - the query to search for
+ * @param {Array<String>} difficulties
+ * @param {*} setName
+ * @param {*} searchType
+ * @param {*} questionType
+ * @param {*} validCategories
+ * @param {*} validSubcategories
+ * @returns
+ */
+async function getQuery(queryString, difficulties, setName, searchType, questionType, validCategories, validSubcategories) {
+    if (difficulties.length === 0) difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    if (validCategories.length === 0) validCategories = CATEGORIES;
+    if (validSubcategories.length === 0) validSubcategories = SUBCATEGORIES_FLATTENED;
+
+    const query = {
+        $or: [{ question: new RegExp(queryString, 'i') }, { answer: new RegExp(queryString, 'i') }],
+        type: questionType,
+        difficulty: { $in: difficulties },
+        category: { $in: validCategories },
+        subcategory: { $in: validSubcategories },
+    }
+
+    console.log('DATABASE QUERY:', query);
+
+    await sets.findOne({
+        name: setName
+    }).then(set => {
+        if (set) {
+            query['set'] = set._id;
+        }
+    }).catch(error => {
+        console.log('DATABASE ERROR:', error);
+        return '';
+    });
+
+    let questionArray = await questions.aggregate([
+        { $match: query, },
+        { $limit: 50 },
+        {
+            $lookup: {
+                from: 'sets',
+                localField: 'set',
+                foreignField: '_id',
+                as: 'setName'
+            }
+        }
+    ]).toArray();
+
+    let count = await questions.aggregate([
+        { $match: query, },
+        { $count: 'count' }
+    ]).toArray();
+
+    if (count[0]) {
+        count = count[0].count;
+    } else {
+        count = 0;
+    }
+
+    questionArray.forEach(question => {
+        question.setName = question.setName[0].name;
+        return question;
+    });
+
+    return { count, questionArray };
+}
 
 /**
  * @param {'tossup' | 'bonus'} type - the type of question to get
@@ -172,12 +240,14 @@ async function getRandomQuestion(type, difficulties, allowedCategories, allowedS
     let questionArray = await questions.aggregate([
         { $match: { type: type, difficulty: { $in: difficulties }, category: { $in: allowedCategories }, subcategory: { $in: allowedSubcategories } } },
         { $sample: { size: number } },
-        { $lookup: {
-            from: 'sets',
-            localField: 'set',
-            foreignField: '_id',
-            as: 'setName'
-        }}
+        {
+            $lookup: {
+                from: 'sets',
+                localField: 'set',
+                foreignField: '_id',
+                as: 'setName'
+            }
+        }
     ]).toArray();
 
     questionArray.forEach(question => {
@@ -214,12 +284,14 @@ function getSetList() {
  * @returns {Promise<Boolean>} true if successful, false otherwise.
  */
 async function reportQuestion(_id, reason, description) {
-    return await questions.updateOne({ _id: new ObjectId(_id) }, { $push: {
-        reports: {
-            reason: reason,
-            description: description
+    return await questions.updateOne({ _id: new ObjectId(_id) }, {
+        $push: {
+            reports: {
+                reason: reason,
+                description: description
+            }
         }
-    }}).then(() => {
+    }).then(() => {
         console.log('Reported question with id ' + _id);
         return true;
     }).catch(error => {
@@ -229,4 +301,4 @@ async function reportQuestion(_id, reason, description) {
 }
 
 
-module.exports = { getNextQuestion, getNumPackets, getPacket, getRandomQuestion, getSetList, getRandomName, reportQuestion };
+module.exports = { getNextQuestion, getNumPackets, getPacket, getQuery, getRandomQuestion, getSetList, getRandomName, reportQuestion };
