@@ -27,6 +27,10 @@ const formatted_answers = [
     "The <b><u>Wasteland</u></b>",
     "<b><u>W</u></b>orld <b><u>T</u></b>rade <b><u>O</u></b>rganization",
     "The (Holy) <b><u>Grail</u></b>",
+
+    // or in the main answer,
+    // and commas instead of semicolons or "or" in alternate answer
+    "<b><u>Furies</u></b> or <b><u>Erinyes</u></b> [accept <b><u>Eumenides</u></b>, <b><u>Semnai</u></b>, or <b><u>Dirae</u></b>]",
 ];
 
 const answers = [
@@ -42,7 +46,8 @@ const answers = [
     "wave-particle duality [accept de Broglie wave until “de Broglie”; accept answers indicating that something is both a wave and a particle; prompt on duality or wave nature or complementarity; prompt on interference by asking “what property of matter causes the interference?”]",
     "“September 1, 1939”",
     "IR spectroscopy",
-    "adsorption [accept chemisorption or chemical adsorption or physisorption or physical adsorption; prompt on “sorption”; do not accept or prompt on “absorption”]"
+    "adsorption [accept chemisorption or chemical adsorption or physisorption or physical adsorption; prompt on “sorption”; do not accept or prompt on “absorption”]",
+    "fluorescence microscopy [prompt on super-resolved microscopy or confocal microscopy]",
 ];
 
 const tests = [
@@ -50,6 +55,7 @@ const tests = [
     ['accept', formatted_answers[0], 'Jasper Johns'],
     ['accept', formatted_answers[0], 'Johns'],
     ['reject', formatted_answers[0], 'Jasper'],
+    ['reject', formatted_answers[0], 'Jo'],
 
     ['accept', formatted_answers[1], 'manchester'],
     ['accept', formatted_answers[1], 'MANCHESTER'],
@@ -155,10 +161,16 @@ const tests = [
     ['accept', formatted_answers[25], 'grail'],
     ['accept', formatted_answers[25], 'holy grail'],
 
+    ['accept', formatted_answers[26], 'Furies'],
+    ['accept', formatted_answers[26], 'Erinyes'],
+    ['accept', formatted_answers[26], 'Eumenides'],
+    ['accept', formatted_answers[26], 'Semnai'],
+
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],
     ['accept', answers[0], 'Böll'],
     ['accept', answers[0], 'Heinrich Böll'],
+    ['reject', answers[0], 'H'],
 
     // unformatted answerlines
     ['accept', answers[1], 'chimp'],
@@ -196,6 +208,8 @@ const tests = [
 
     ['accept', answers[12], 'adsorption'],
     ['reject', answers[12], 'absorption'],
+
+    ['accept', answers[13], 'microscopy'],
 ];
 
 let successful = 0, total = 0;

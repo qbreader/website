@@ -123,7 +123,7 @@ function parseAnswerline(answerline) {
  * @param {Number} strictness - the number of characters per error allowed for two tokens to match.
  * @returns {Boolean}
  */
-function stringMatchesReference(string, reference, strictness=4) {
+function stringMatchesReference(string, reference, strictness = 4) {
     if (string === null || string === undefined || reference === null || reference === undefined) {
         return false;
     }
@@ -243,6 +243,10 @@ function checkAnswer(answerline, givenAnswer) {
 
     const isFormattedAnswerline = answerline.includes('<u>');
     const parsedAnswerline = parseAnswerline(answerline);
+
+    if (!isFormattedAnswerline && answerline.length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer)) {
+        return 'reject';
+    }
 
     for (const answer of parsedAnswerline['reject']) {
         if (stringMatchesReference(answer[2], givenAnswer, 11) && stringMatchesReference(givenAnswer, answer[2], 11)) {
