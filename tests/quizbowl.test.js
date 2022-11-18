@@ -27,10 +27,11 @@ const formatted_answers = [
     "The <b><u>Wasteland</u></b>",
     "<b><u>W</u></b>orld <b><u>T</u></b>rade <b><u>O</u></b>rganization",
     "The (Holy) <b><u>Grail</u></b>",
+    "<b><u>coagulation</u></b> or blood <b><u>clotting</u></b>",
 
-    // or in the main answer,
+    // TODO: or in the main answer
     // and commas instead of semicolons or "or" in alternate answer
-    "<b><u>Furies</u></b> or <b><u>Erinyes</u></b> [accept <b><u>Eumenides</u></b>, <b><u>Semnai</u></b>, or <b><u>Dirae</u></b>]",
+    // "<b><u>Furies</u></b> or <b><u>Erinyes</u></b> [accept <b><u>Eumenides</u></b>, <b><u>Semnai</u></b>, or <b><u>Dirae</u></b>]",
 ];
 
 const answers = [
@@ -161,10 +162,14 @@ const tests = [
     ['accept', formatted_answers[25], 'grail'],
     ['accept', formatted_answers[25], 'holy grail'],
 
-    ['accept', formatted_answers[26], 'Furies'],
-    ['accept', formatted_answers[26], 'Erinyes'],
-    ['accept', formatted_answers[26], 'Eumenides'],
-    ['accept', formatted_answers[26], 'Semnai'],
+    ['accept', formatted_answers[26], 'coagulation'],
+    ['accept', formatted_answers[26], 'clotting'],
+    ['accept', formatted_answers[26], 'blood clotting'],
+
+    // ['accept', formatted_answers[27], 'Furies'],
+    // ['accept', formatted_answers[27], 'Erinyes'],
+    // ['accept', formatted_answers[27], 'Eumenides'],
+    // ['accept', formatted_answers[27], 'Semnai'],
 
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],
