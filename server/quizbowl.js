@@ -99,6 +99,12 @@ function parseAnswerline(answerline) {
         reject: []
     }
 
+    if (mainAnswer.includes(' or ')) {
+        let parts = mainAnswer.split(' or ');
+        parsedAnswerline.accept.push([extractUnderlining(parts[0]), extractKeyWords(parts[0]), extractQuotes(parts[0])]);
+        parsedAnswerline.accept.push([extractUnderlining(parts[1]), extractKeyWords(parts[1]), extractQuotes(parts[1])]);
+    }
+
     subPhrases.forEach(phrase => {
         if (phrase.length === 0) return;
         const { directive, answers } = splitIntoAnswers(phrase);
