@@ -299,7 +299,7 @@ class QueryForm extends React.Component {
             bonusCount: 0,
 
             difficulties: '',
-            query: '',
+            queryString: '',
             questionType: 'all',
             searchType: 'all',
         };
@@ -339,7 +339,7 @@ class QueryForm extends React.Component {
     }
 
     handleSubmit(event) {
-        console.log('A query was submitted: ' + this.state.query);
+        console.log('A query was submitted: ' + this.state.queryString);
 
         fetch(`/api/query`, {
             method: 'POST',
@@ -347,7 +347,7 @@ class QueryForm extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                query: this.state.query,
+                queryString: this.state.queryString,
                 questionType: this.state.questionType,
                 searchType: this.state.searchType,
                 setName: document.getElementById('set-name').value,
@@ -392,7 +392,7 @@ class QueryForm extends React.Component {
                 <CategoryModal />
                 <form className="mt-3" onSubmit={this.handleSubmit}>
                     <div className="input-group mb-2">
-                        <input type="text" className="form-control" id="query" placeholder="Query" value={this.state.query} onChange={this.onQueryChange}></input>
+                        <input type="text" className="form-control" id="query" placeholder="Query" value={this.state.queryString} onChange={this.onQueryChange}></input>
                         <button type="submit" className="btn btn-info">Search</button>
                     </div>
                     <div className="row mb-2">
