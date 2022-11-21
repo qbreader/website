@@ -25,6 +25,8 @@ const ADJECTIVES = ['adaptable', 'adept', 'affectionate', 'agreeable', 'alluring
 const ANIMALS = ['aardvark', 'alligator', 'alpaca', 'anaconda', 'ant', 'anteater', 'antelope', 'aphid', 'armadillo', 'baboon', 'badger', 'barracuda', 'bat', 'beaver', 'bedbug', 'bee', 'bird', 'bison', 'bobcat', 'buffalo', 'butterfly', 'buzzard', 'camel', 'carp', 'cat', 'caterpillar', 'catfish', 'cheetah', 'chicken', 'chimpanzee', 'chipmunk', 'cobra', 'cod', 'condor', 'cougar', 'cow', 'coyote', 'crab', 'cricket', 'crocodile', 'crow', 'cuckoo', 'deer', 'dinosaur', 'dog', 'dolphin', 'donkey', 'dove', 'dragonfly', 'duck', 'eagle', 'eel', 'elephant', 'emu', 'falcon', 'ferret', 'finch', 'fish', 'flamingo', 'flea', 'fly', 'fox', 'frog', 'goat', 'goose', 'gopher', 'gorilla', 'hamster', 'hare', 'hawk', 'hippopotamus', 'horse', 'hummingbird', 'husky', 'iguana', 'impala', 'kangaroo', 'lemur', 'leopard', 'lion', 'lizard', 'llama', 'lobster', 'margay', 'monkey', 'moose', 'mosquito', 'moth', 'mouse', 'mule', 'octopus', 'orca', 'ostrich', 'otter', 'owl', 'ox', 'oyster', 'panda', 'parrot', 'peacock', 'pelican', 'penguin', 'perch', 'pheasant', 'pig', 'pigeon', 'porcupine', 'quagga', 'rabbit', 'raccoon', 'rat', 'rattlesnake', 'rooster', 'seal', 'sheep', 'skunk', 'sloth', 'snail', 'snake', 'spider', 'tiger', 'whale', 'wolf', 'wombat', 'zebra'];
 
 
+const MAX_QUERY_RETURN_LENGTH = 50;
+
 /**
  * Gets the next question with a question number greater than `currentQuestionNumber` that satisfies the given conditions.
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
@@ -158,51 +160,98 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
 /**
  *
  * @param {String} queryString - the query to search for
- * @param {Array<String>} difficulties
- * @param {*} setName
- * @param {*} searchType
- * @param {*} questionType
- * @param {*} validCategories
- * @param {*} validSubcategories
- * @returns
+ * @param {Array<Number>} difficulties
+ * @param {String} setName
+ * @param {'question' | 'answer' | 'all'} searchType
+ * @param {'tossup' | 'bonus' | 'all'} questionType
+ * @param {Array<String>} validCategories
+ * @param {Array<String>} validSubcategories
+ * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
 async function getQuery(queryString, difficulties, setName, searchType, questionType, validCategories, validSubcategories) {
     if (difficulties.length === 0) difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     if (validCategories.length === 0) validCategories = CATEGORIES;
     if (validSubcategories.length === 0) validSubcategories = SUBCATEGORIES_FLATTENED;
 
+    let returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
+    if (questionType === 'tossup' || questionType === 'all') {
+        const tossups = await getTossupQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories);
+        returnValue.tossups = tossups;
+    }
+
+    if (questionType === 'bonus' || questionType === 'all') {
+        const bonuses = await getBonusQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories);
+        returnValue.bonuses = bonuses;
+    }
+
+    return returnValue;
+}
+
+
+async function getTossupQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories) {
+    const orQuery = [];
+    if (searchType === 'question' || searchType === 'all') {
+        orQuery.push({ question: { $regex: queryString, $options: 'i' } });
+    }
+
+    if (searchType === 'answer' || searchType === 'all') {
+        orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
+    }
+
     const query = {
-        $or: [{ question: new RegExp(queryString, 'i') }, { answer: new RegExp(queryString, 'i') }],
-        type: questionType,
+        $or: orQuery,
+        type: 'tossup',
         difficulty: { $in: difficulties },
         category: { $in: validCategories },
         subcategory: { $in: validSubcategories },
     }
 
-    console.log('DATABASE QUERY:', query);
+    if (setName) {
+        query.setName = setName;
+    }
 
-    await sets.findOne({
-        name: setName
-    }).then(set => {
-        if (set) {
-            query['set'] = set._id;
-        }
-    }).catch(error => {
-        console.log('DATABASE ERROR:', error);
-        return '';
-    });
+    return queryHelper(query);
+}
+
+async function getBonusQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories) {
+    const orQuery = [];
+    if (searchType === 'question' || searchType === 'all') {
+        orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
+        orQuery.push({ leadin: { $regex: queryString, $options: 'i' } });
+    }
+
+    if (searchType === 'answer' || searchType === 'all') {
+        orQuery.push({ answers: { $regex: queryString, $options: 'i' } });
+    }
+
+    const query = {
+        $or: orQuery,
+        type: 'bonus',
+        difficulty: { $in: difficulties },
+        category: { $in: validCategories },
+        subcategory: { $in: validSubcategories },
+    }
+
+    if (setName) {
+        query.setName = setName;
+    }
+
+    return queryHelper(query);
+}
+
+async function queryHelper(query) {
+    console.log('DATABASE QUERY:', query);
 
     let questionArray = await questions.aggregate([
         { $match: query, },
-        { $limit: 50 },
         {
-            $lookup: {
-                from: 'sets',
-                localField: 'set',
-                foreignField: '_id',
-                as: 'setName'
+            $sort: {
+                setName: -1,
+                packetNumber: 1,
+                questionNumber: 1
             }
-        }
+        },
+        { $limit: MAX_QUERY_RETURN_LENGTH },
     ]).toArray();
 
     let count = await questions.aggregate([
@@ -215,11 +264,6 @@ async function getQuery(queryString, difficulties, setName, searchType, question
     } else {
         count = 0;
     }
-
-    questionArray.forEach(question => {
-        question.setName = question.setName[0].name;
-        return question;
-    });
 
     return { count, questionArray };
 }

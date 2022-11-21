@@ -295,11 +295,12 @@ class QueryForm extends React.Component {
             tossups: [],
             bonuses: [],
 
-            count: 0,
+            tossupCount: 0,
+            bonusCount: 0,
 
             difficulties: '',
             query: '',
-            questionType: 'tossups',
+            questionType: 'all',
             searchType: 'all',
         };
         this.onDifficultyChange = this.onDifficultyChange.bind(this);
@@ -347,7 +348,8 @@ class QueryForm extends React.Component {
             },
             body: JSON.stringify({
                 query: this.state.query,
-                type: 'tossup',
+                questionType: this.state.questionType,
+                searchType: this.state.searchType,
                 setName: document.getElementById('set-name').value,
                 difficulties: rangeToArray(this.state.difficulties),
                 categories: validCategories,
@@ -355,15 +357,23 @@ class QueryForm extends React.Component {
             })
         }).then(response => response.json())
             .then(response => {
-                let { count, questionArray } = response;
-                for (let i = 0; i < questionArray.length; i++) {
-                    if (questionArray[i].hasOwnProperty('formatted_answer')) {
-                        questionArray[i].answer = questionArray[i].formatted_answer;
+                const { tossups, bonuses } = response;
+                let { count: tossupCount, questionArray: tossupArray } = tossups;
+                for (let i = 0; i < tossupArray.length; i++) {
+                    if (tossupArray[i].hasOwnProperty('formatted_answer')) {
+                        tossupArray[i].answer = tossupArray[i].formatted_answer;
                     }
                 }
-                this.setState({ count: count });
-                this.setState({ tossups: questionArray });
-                return questionArray;
+                this.setState({ tossupCount: tossupCount });
+                this.setState({ tossups: tossupArray });
+
+                let { count: bonusCount, questionArray: bonusArray } = bonuses;
+                for (let i = 0; i < bonusArray.length; i++) {
+                    if (bonusArray[i].hasOwnProperty('formatted_answers'))
+                        bonusArray[i].answers = bonusArray[i].formatted_answers;
+                }
+                this.setState({ bonusCount: bonusCount });
+                this.setState({ bonuses: bonusArray });
             });
 
         event.preventDefault();
@@ -396,17 +406,17 @@ class QueryForm extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-5">
-                            <select disabled className="form-select" id="search-type" value={this.state.searchType} onChange={this.onSearchTypeChange}>
+                            <select className="form-select" id="search-type" value={this.state.searchType} onChange={this.onSearchTypeChange}>
                                 <option value="all">All text (question and answer)</option>
                                 <option value="question">Question</option>
                                 <option value="answer">Answer</option>
                             </select>
                         </div>
                         <div className="col-5">
-                            <select disabled className="form-select disabled" id="question-type" value={this.state.questionType} onChange={this.onQuestionTypeChange}>
+                            <select className="form-select disabled" id="question-type" value={this.state.questionType} onChange={this.onQuestionTypeChange}>
                                 <option value="all">All questions (tossups and bonuses)</option>
-                                <option value="tossups">Tossups</option>
-                                <option value="bonuses">Bonuses</option>
+                                <option value="tossup">Tossups</option>
+                                <option value="bonus">Bonuses</option>
                             </select>
                         </div>
                         <div className="col-2">
@@ -415,10 +425,18 @@ class QueryForm extends React.Component {
                     </div>
                 </form>
 
-                {this.state.tossups.length > 0 && <p className="row text-center"><h3 className="mt-3">Tossups</h3></p>}
-                {this.state.count > 0 && <p className="text-muted">Showing {this.state.tossups.length} out of {this.state.count} results</p>}
+                <div className="row text-center"><h3 className="mt-3" id="tossups">Tossups</h3></div>
+                {this.state.tossupCount > 0
+                    ? <p><div className="text-muted float-start">Showing {this.state.tossups.length} out of {this.state.tossupCount} results</div>&nbsp;
+                        <div className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></div></p>
+                    : <p className="text-muted">No tossups found</p>}
                 <div>{tossupCards}</div>
-                {this.state.bonuses.length > 0 && <div className="row text-center"><h3 className="mt-3">Bonuses</h3></div>}
+                <p className="mb-5"></p>
+                <div className="row text-center"><h3 className="mt-3" id="bonuses">Bonuses</h3></div>
+                {this.state.bonusCount > 0
+                    ? <p><div className="text-muted float-start">Showing {this.state.bonuses.length} out of {this.state.bonusCount} results</div>&nbsp;
+                        <div className="text-muted float-end"><a href="#tossups">Jump to tossups</a></div></p>
+                    : <p className="text-muted">No bonuses found</p>}
                 <div>{bonusCards}</div>
                 <p className="mb-5"></p>
             </div>
