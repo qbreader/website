@@ -1,6 +1,8 @@
 const dljs = require('damerau-levenshtein-js');
 const { toWords } = require('number-to-words');
 
+const DIFFICULTIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const SUBCATEGORIES = [
     ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
@@ -292,4 +294,4 @@ function checkAnswer(answerline, givenAnswer) {
 }
 
 
-module.exports = { CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, checkAnswer, scoreTossup };
+module.exports = { DIFFICULTIES, CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, checkAnswer, scoreTossup };

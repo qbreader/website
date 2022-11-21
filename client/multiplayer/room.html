@@ -47,6 +47,9 @@
                         <a class="nav-link active" aria-current="page" href="/multiplayer">Multiplayer</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/db">Database</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/api-info">API</a>
                     </li>
                     <li class="nav-item">
@@ -102,15 +105,18 @@
                 <label for="font-size">Font size: <span id="font-size-display">16</span>px</label>
                 <input class="form-range" id="font-size" type="range" value="16" min="10" max="30" step="1">
                 <div class="text-center mb-2">
-                    <button type="button" class="btn btn-danger"  id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
+                    <button type="button" class="btn btn-danger" id="category-select-button" data-bs-toggle="modal"
+                        data-bs-target="#category-modal">Categories</button>
                     <button type="button" class="btn btn-warning" id="clear-stats">Clear Stats</button>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="toggle-high-contrast-question-text">
+                    <input class="form-check-input" type="checkbox" role="switch"
+                        id="toggle-high-contrast-question-text">
                     <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-visibility" checked>
+                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-visibility"
+                        checked>
                     <label class="form-check-label" for="toggle-visibility">Public room</label>
                 </div>
                 <p class="mb-1 text-muted">Note: chat is only available for private rooms.</p>
@@ -119,17 +125,22 @@
                     <label class="form-check-label" for="toggle-rebuzz">Allow multiple buzzes</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" value="" id="toggle-select-by-set-name">
+                    <input class="form-check-input" type="checkbox" role="switch" value=""
+                        id="toggle-select-by-set-name">
                     <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
                 <div class="buttons position-sticky top-0 pt-2">
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s or n key" class="mb-2 btn btn-primary" id="next">Next</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"      class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: enter key"  class="mb-2 btn btn-info"    id="chat">Chat</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: s or n key"
+                        class="mb-2 btn btn-primary" id="next">Next</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: p key"
+                        class="mb-2 btn btn-primary" id="pause" disabled>Pause</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: enter key"
+                        class="mb-2 btn btn-info" id="chat">Chat</button>
                     <button type="button" class="mb-2 btn btn-danger d-lg-none" id="toggle-options">Options</button>
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"   class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Shortcut: spacebar"
+                        class="mb-2 btn btn-primary float-end" id="buzz" disabled>Buzz</button>
                     <form id="answer-form">
                         <!-- User enters answer here -->
                         <div class="input-group d-none my-2" id="answer-input-group">
@@ -145,7 +156,8 @@
                     </form>
                 </div>
                 <span class="float-end ps-5 me-lg-2" id="question-metadata">
-                    <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info"></span> Question <span id="question-number-info"></span></b>
+                    <b id="question-info"><span id="set-name-info"></span> Packet <span id="packet-number-info"></span>
+                        Question <span id="question-number-info"></span></b>
                 </span>
                 <br>
                 <div class="mt-2" id="question"></div>
@@ -214,8 +226,7 @@
                         </div>
                         <div class="col-6" id="subcategories">
                             <h5 class="text-center">Subcategories</h5>
-                            <input type="checkbox" class="btn-check" autocomplete="off"
-                                id="American Literature">
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="American Literature">
                             <label class="btn btn-outline-primary w-100 rounded-0 my-1"
                                 for="American Literature">American Literature<br></label>
 
@@ -223,13 +234,11 @@
                             <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="British Literature">British
                                 Literature<br></label>
 
-                            <input type="checkbox" class="btn-check" autocomplete="off"
-                                id="Classical Literature">
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="Classical Literature">
                             <label class="btn btn-outline-primary w-100 rounded-0 my-1"
                                 for="Classical Literature">Classical Literature<br></label>
 
-                            <input type="checkbox" class="btn-check" autocomplete="off"
-                                id="European Literature">
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="European Literature">
                             <label class="btn btn-outline-primary w-100 rounded-0 my-1"
                                 for="European Literature">European Literature<br></label>
 
@@ -323,8 +332,10 @@
                             </select>
                         </div>
                         <div>
-                            <p class="text-muted">If your answer was parsed incorrectly, please enter what answer you gave below.</p>
-                            <label for="report-question-description" class="col-form-label">Additional Information:</label>
+                            <p class="text-muted">If your answer was parsed incorrectly, please enter what answer you
+                                gave below.</p>
+                            <label for="report-question-description" class="col-form-label">Additional
+                                Information:</label>
                             <textarea class="form-control" id="report-question-description" rows="3"></textarea>
                         </div>
                     </form>
