@@ -48,6 +48,9 @@
                         <a class="nav-link" href="/multiplayer">Multiplayer</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/db">Database</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/api-info">API</a>
                     </li>
                     <li class="nav-item">
@@ -90,7 +93,8 @@
                         <b>returns:</b> a <b>string</b> that represents the number of packets in the set.
                         <ul>
                             <li>Example: <code>23</code></li>
-                            <li>If the set name is not found, returns a <code>404 Not Found</code> status and a response of <code>0</code></li>
+                            <li>If the set name is not found, returns a <code>404 Not Found</code> status and a response
+                                of <code>0</code></li>
                         </ul>
                     </li>
                 </ul>
@@ -113,29 +117,39 @@
             </li>
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/packet-bonuses</code></div>
-                <i>If you are only interested in the bonuses, this is twice as fast as using</i> <code>/api/packet</code>
+                <i>If you are only interested in the bonuses, this is twice as fast as using</i>
+                <code>/api/packet</code>
                 <div>Parameters:</div>
                 <ul>
                     <li><code>setName</code> - the name of the set (URI-encoded).</li>
                     <li><code>packetNumber</code> - the number of the packet in the set, starting from 1.</li>
                     <li>
-                        <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in the format
+                        <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in
+                        the format
                         <code> { tossups: [], bonuses: [{}, ...] } </code>
-                        <ul><li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty) packet that equals <code>{ tossups: [], bonuses: [] }</code></li></ul>
+                        <ul>
+                            <li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty)
+                                packet that equals <code>{ tossups: [], bonuses: [] }</code></li>
+                        </ul>
                     </li>
                 </ul>
             </li>
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/packet-tossups</code></div>
-                <i>If you are only interested in the tossups, this is twice as fast as using</i> <code>/api/packet</code>
+                <i>If you are only interested in the tossups, this is twice as fast as using</i>
+                <code>/api/packet</code>
                 <div>Parameters:</div>
                 <ul>
                     <li><code>setName</code> - the name of the set (URI-encoded).</li>
                     <li><code>packetNumber</code> - the number of the packet in the set, starting from 1.</li>
                     <li>
-                        <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in the format
+                        <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in
+                        the format
                         <code> { tossups: [{}, ...], bonuses: [] } </code>
-                        <ul><li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty) packet that equals <code>{ tossups: [], bonuses: [] }</code></li></ul>
+                        <ul>
+                            <li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty)
+                                packet that equals <code>{ tossups: [], bonuses: [] }</code></li>
+                        </ul>
                     </li>
                 </ul>
             </li>
@@ -145,7 +159,9 @@
                 <ul>
                     <li>
                         <b>returns</b> - a random adjective-noun pair that can be used as a name.
-                        <ul><li>Example: <code>amiable-emu</code></li></ul>
+                        <ul>
+                            <li>Example: <code>amiable-emu</code></li>
+                        </ul>
                     </li>
                 </ul>
             </li>
@@ -158,39 +174,50 @@
                         Otherwise, returns a <code>400 Bad Request</code> response.
                     </li>
                     <li>
-                        [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid possible difficulties.
+                        [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid
+                        possible difficulties.
                         <ul>
                             <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
-                            <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to select.</li>
+                            <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to
+                                select.</li>
                         </ul>
                     </li>
                     <li>
-                        [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed categories.
+                        [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed
+                        categories.
                         <ul>
                             <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
                             <li>Can also be a <b>string</b> if there is only 1 category.</li>
-                            <li>Take special care to ensure that the first letter of each word of the category is capitalized.</li>
+                            <li>Take special care to ensure that the first letter of each word of the category is
+                                capitalized.</li>
                         </ul>
                     </li>
                     <li>
-                        [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed subcategories.
+                        [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed
+                        subcategories.
                         <ul>
                             <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
                             <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
-                            <li>Take special care to ensure that the first letter of each word of the subcategory is capitalized.</li>
-                            <li>This api endpoint does <b>not</b> check for consistency between categories and subcategories.</li>
-                            <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories will return no questions.</i></li>
+                            <li>Take special care to ensure that the first letter of each word of the subcategory is
+                                capitalized.</li>
+                            <li>This api endpoint does <b>not</b> check for consistency between categories and
+                                subcategories.</li>
+                            <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories
+                                    will return no questions.</i></li>
                         </ul>
                     </li>
                     <li>
-                        [optional] <code>number</code> - a <b>number</b> that specifies how many questions to return (the length of the return array).
+                        [optional] <code>number</code> - a <b>number</b> that specifies how many questions to return
+                        (the length of the return array).
                         <ul>
                             If <b>undefined or omitted,</b> returns 1 question.
                         </ul>
                     </li>
                     <li>
                         <b>returns</b> - a <b>JSON array</b> of random questions.
-                        <ul><li>If a question is not found, returns a <code>404 Not Found</code> status.</li></ul>
+                        <ul>
+                            <li>If a question is not found, returns a <code>404 Not Found</code> status.</li>
+                        </ul>
                     </li>
                 </ul>
             </li>
@@ -202,24 +229,30 @@
                     <li>[optional] <code>reason</code> - the reason why the question is being reported.</li>
                     <li>[optional] <code>description</code> - a description of the problem.</li>
                     <li>
-                        <b>returns</b> - a 200 status code if the operation was successful and a 500 status code if there was an error.
+                        <b>returns</b> - a 200 status code if the operation was successful and a 500 status code if
+                        there was an error.
                     </li>
                 </ul>
             </li>
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/set-list</code></div>
                 <i>Takes no parameters.</i>
-                <ul><li><b>returns</b> - An <b>array of strings</b> representing the names of the sets.</li></ul>
+                <ul>
+                    <li><b>returns</b> - An <b>array of strings</b> representing the names of the sets.</li>
+                </ul>
             </li>
             <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/multiplayer/room-list</code></div>
                 <i>Takes no parameters.</i>
-                <ul><li>
-                    <b>returns</b> - A Javascript <b>object</b> whose keys are room names and whose values are arrays of the form <code>[number of players, number of active players]</code>.
-                </li>
-                <li>
-                    Only returns public rooms.
-                </li></ul>
+                <ul>
+                    <li>
+                        <b>returns</b> - A Javascript <b>object</b> whose keys are room names and whose values are
+                        arrays of the form <code>[number of players, number of active players]</code>.
+                    </li>
+                    <li>
+                        Only returns public rooms.
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>
