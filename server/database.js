@@ -24,8 +24,8 @@ sets.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(s
 const ADJECTIVES = ['adaptable', 'adept', 'affectionate', 'agreeable', 'alluring', 'amazing', 'ambitious', 'amiable', 'ample', 'approachable', 'awesome', 'blithesome', 'bountiful', 'brave', 'breathtaking', 'bright', 'brilliant', 'capable', 'captivating', 'charming', 'competitive', 'confident', 'considerate', 'courageous', 'creative', 'dazzling', 'determined', 'devoted', 'diligent', 'diplomatic', 'dynamic', 'educated', 'efficient', 'elegant', 'enchanting', 'energetic', 'engaging', 'excellent', 'fabulous', 'faithful', 'fantastic', 'favorable', 'fearless', 'flexible', 'focused', 'fortuitous', 'frank', 'friendly', 'funny', 'generous', 'giving', 'gleaming', 'glimmering', 'glistening', 'glittering', 'glowing', 'gorgeous', 'gregarious', 'gripping', 'hardworking', 'helpful', 'hilarious', 'honest', 'humorous', 'imaginative', 'incredible', 'independent', 'inquisitive', 'insightful', 'kind', 'knowledgeable', 'likable', 'lovely', 'loving', 'loyal', 'lustrous', 'magnificent', 'marvelous', 'mirthful', 'moving', 'nice', 'optimistic', 'organized', 'outstanding', 'passionate', 'patient', 'perfect', 'persistent', 'personable', 'philosophical', 'plucky', 'polite', 'powerful', 'productive', 'proficient', 'propitious', 'qualified', 'ravishing', 'relaxed', 'remarkable', 'resourceful', 'responsible', 'romantic', 'rousing', 'sensible', 'shimmering', 'shining', 'sincere', 'sleek', 'sparkling', 'spectacular', 'spellbinding', 'splendid', 'stellar', 'stunning', 'stupendous', 'super', 'technological', 'thoughtful', 'twinkling', 'unique', 'upbeat', 'vibrant', 'vivacious', 'vivid', 'warmhearted', 'willing', 'wondrous', 'zestful'];
 const ANIMALS = ['aardvark', 'alligator', 'alpaca', 'anaconda', 'ant', 'anteater', 'antelope', 'aphid', 'armadillo', 'baboon', 'badger', 'barracuda', 'bat', 'beaver', 'bedbug', 'bee', 'bird', 'bison', 'bobcat', 'buffalo', 'butterfly', 'buzzard', 'camel', 'carp', 'cat', 'caterpillar', 'catfish', 'cheetah', 'chicken', 'chimpanzee', 'chipmunk', 'cobra', 'cod', 'condor', 'cougar', 'cow', 'coyote', 'crab', 'cricket', 'crocodile', 'crow', 'cuckoo', 'deer', 'dinosaur', 'dog', 'dolphin', 'donkey', 'dove', 'dragonfly', 'duck', 'eagle', 'eel', 'elephant', 'emu', 'falcon', 'ferret', 'finch', 'fish', 'flamingo', 'flea', 'fly', 'fox', 'frog', 'goat', 'goose', 'gopher', 'gorilla', 'hamster', 'hare', 'hawk', 'hippopotamus', 'horse', 'hummingbird', 'husky', 'iguana', 'impala', 'kangaroo', 'lemur', 'leopard', 'lion', 'lizard', 'llama', 'lobster', 'margay', 'monkey', 'moose', 'mosquito', 'moth', 'mouse', 'mule', 'octopus', 'orca', 'ostrich', 'otter', 'owl', 'ox', 'oyster', 'panda', 'parrot', 'peacock', 'pelican', 'penguin', 'perch', 'pheasant', 'pig', 'pigeon', 'porcupine', 'quagga', 'rabbit', 'raccoon', 'rat', 'rattlesnake', 'rooster', 'seal', 'sheep', 'skunk', 'sloth', 'snail', 'snake', 'spider', 'tiger', 'whale', 'wolf', 'wombat', 'zebra'];
 
-
-const MAX_QUERY_RETURN_LENGTH = 50;
+const DEFAULT_QUERY_RETURN_LENGTH = 50;
+const MAX_QUERY_RETURN_LENGTH = 200;
 
 /**
  * Gets the next question with a question number greater than `currentQuestionNumber` that satisfies the given conditions.
@@ -175,27 +175,35 @@ function escapeRegExp(string) {
  * @param {Array<String>} subcategories
  * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
-async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES }) {
+async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH }) {
     if (difficulties.length === 0) difficulties = DIFFICULTIES;
     if (categories.length === 0) categories = CATEGORIES;
     if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
 
+    maxQueryReturnLength = parseInt(maxQueryReturnLength);
+    if (maxQueryReturnLength <= 0) {
+        maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+    }
+    maxQueryReturnLength = Math.min(maxQueryReturnLength, MAX_QUERY_RETURN_LENGTH);
+
     let returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
     if (questionType === 'tossup' || questionType === 'all') {
-        const tossups = await getTossupQuery(queryString, difficulties, setName, searchType, categories, subcategories);
+        const tossups = await getTossupQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength });
         returnValue.tossups = tossups;
     }
 
     if (questionType === 'bonus' || questionType === 'all') {
-        const bonuses = await getBonusQuery(queryString, difficulties, setName, searchType, categories, subcategories);
+        const bonuses = await getBonusQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength });
         returnValue.bonuses = bonuses;
     }
+
+    console.log(`DATABASE QUERY: question type: ${questionType}; search type: ${searchType}; query string: "${queryString}"`)
 
     return returnValue;
 }
 
 
-async function getTossupQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories) {
+async function getTossupQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength }) {
     queryString = queryString.trim();
     queryString = escapeRegExp(queryString);
     const orQuery = [];
@@ -211,18 +219,18 @@ async function getTossupQuery(queryString, difficulties, setName, searchType, va
         $or: orQuery,
         type: 'tossup',
         difficulty: { $in: difficulties },
-        category: { $in: validCategories },
-        subcategory: { $in: validSubcategories },
+        category: { $in: categories },
+        subcategory: { $in: subcategories },
     }
 
     if (setName) {
         query.setName = setName;
     }
 
-    return queryHelper(query);
+    return queryHelper(query, maxQueryReturnLength);
 }
 
-async function getBonusQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories) {
+async function getBonusQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength }) {
     queryString = queryString.trim();
     queryString = escapeRegExp(queryString);
     const orQuery = [];
@@ -239,20 +247,18 @@ async function getBonusQuery(queryString, difficulties, setName, searchType, val
         $or: orQuery,
         type: 'bonus',
         difficulty: { $in: difficulties },
-        category: { $in: validCategories },
-        subcategory: { $in: validSubcategories },
+        category: { $in: categories },
+        subcategory: { $in: subcategories },
     }
 
     if (setName) {
         query.setName = setName;
     }
 
-    return queryHelper(query);
+    return queryHelper(query, maxQueryReturnLength);
 }
 
-async function queryHelper(query) {
-    console.log('DATABASE QUERY:', query);
-
+async function queryHelper(query, maxQueryReturnLength) {
     let questionArray = await questions.aggregate([
         { $match: query, },
         {
@@ -262,7 +268,7 @@ async function queryHelper(query) {
                 questionNumber: 1
             }
         },
-        { $limit: MAX_QUERY_RETURN_LENGTH },
+        { $limit: maxQueryReturnLength },
     ]).toArray();
 
     let count = await questions.aggregate([
@@ -356,4 +362,4 @@ async function reportQuestion(_id, reason, description) {
 }
 
 
-module.exports = { getNextQuestion, getNumPackets, getPacket, getQuery, getRandomQuestion, getSetList, getRandomName, reportQuestion };
+module.exports = { DEFAULT_QUERY_RETURN_LENGTH, getNextQuestion, getNumPackets, getPacket, getQuery, getRandomQuestion, getSetList, getRandomName, reportQuestion };
