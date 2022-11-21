@@ -187,7 +187,7 @@ class TossupCard extends React.Component {
                 <div className="card-container">
                     <div className="card-body">
                         {tossup.question}&nbsp;
-                        <a href="#" onClick={document.getElementById('report-question-id').value = tossup._id} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                        <a href="#" onClick={() => { document.getElementById('report-question-id').value = tossup._id }} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                         <hr></hr>
                         <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup.answer }}></span></div>
                     </div>
@@ -334,6 +334,8 @@ class QueryForm extends React.Component {
             queryString: '',
             questionType: 'all',
             searchType: 'all',
+
+            currentlySearching: false,
         };
         this.onDifficultyChange = this.onDifficultyChange.bind(this);
         this.onMaxQueryReturnLengthChange = this.onMaxQueryReturnLengthChange.bind(this);
@@ -376,6 +378,9 @@ class QueryForm extends React.Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
+        this.setState({ currentlySearching: true });
+
         console.log('A query was submitted: ' + this.state.queryString);
 
         fetch(`/api/query`, {
@@ -393,7 +398,13 @@ class QueryForm extends React.Component {
                 searchType: this.state.searchType,
                 setName: document.getElementById('set-name').value,
             })
-        }).then(response => response.json())
+        }).then(response => {
+            if (response.status === 400) {
+                throw new Error('Invalid query');
+            }
+            return response;
+        })
+            .then(response => response.json())
             .then(response => {
                 const { tossups, bonuses } = response;
                 let { count: tossupCount, questionArray: tossupArray } = tossups;
@@ -412,9 +423,13 @@ class QueryForm extends React.Component {
                 }
                 this.setState({ bonusCount: bonusCount });
                 this.setState({ bonuses: bonusArray });
+                this.setState({ currentlySearching: false });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Invalid query. Please check your search parameters and try again.');
+                this.setState({ currentlySearching: false });
             });
-
-        event.preventDefault();
     }
 
     render() {
@@ -466,21 +481,27 @@ class QueryForm extends React.Component {
                     </div>
                 </form>
 
+                {this.state.currentlySearching ? <div className="d-block mx-auto mt-3 spinner-border" role="status"><span class="d-none">Loading...</span></div> : null
+                }
                 <div className="row text-center"><h3 className="mt-3" id="tossups">Tossups</h3></div>
-                {this.state.tossupCount > 0
-                    ? <p><div className="text-muted float-start">Showing {this.state.tossups.length} out of {this.state.tossupCount} results</div>&nbsp;
-                        <div className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></div></p>
-                    : <p className="text-muted">No tossups found</p>}
+                {
+                    this.state.tossupCount > 0
+                        ? <p><div className="text-muted float-start">Showing {this.state.tossups.length} out of {this.state.tossupCount} results</div>&nbsp;
+                            <div className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></div></p>
+                        : <p className="text-muted">No tossups found</p>
+                }
                 <div>{tossupCards}</div>
                 <p className="mb-5"></p>
                 <div className="row text-center"><h3 className="mt-3" id="bonuses">Bonuses</h3></div>
-                {this.state.bonusCount > 0
-                    ? <p><div className="text-muted float-start">Showing {this.state.bonuses.length} out of {this.state.bonusCount} results</div>&nbsp;
-                        <div className="text-muted float-end"><a href="#tossups">Jump to tossups</a></div></p>
-                    : <p className="text-muted">No bonuses found</p>}
+                {
+                    this.state.bonusCount > 0
+                        ? <p><div className="text-muted float-start">Showing {this.state.bonuses.length} out of {this.state.bonusCount} results</div>&nbsp;
+                            <div className="text-muted float-end"><a href="#tossups">Jump to tossups</a></div></p>
+                        : <p className="text-muted">No bonuses found</p>
+                }
                 <div>{bonusCards}</div>
                 <p className="mb-5"></p>
-            </div>
+            </div >
         )
     }
 }
