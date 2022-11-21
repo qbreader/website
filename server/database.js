@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const { MongoClient, ObjectId } = require('mongodb');
-const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
+const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -164,23 +164,23 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
  * @param {String} setName
  * @param {'question' | 'answer' | 'all'} searchType
  * @param {'tossup' | 'bonus' | 'all'} questionType
- * @param {Array<String>} validCategories
- * @param {Array<String>} validSubcategories
+ * @param {Array<String>} categories
+ * @param {Array<String>} subcategories
  * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
-async function getQuery(queryString, difficulties, setName, searchType, questionType, validCategories, validSubcategories) {
-    if (difficulties.length === 0) difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    if (validCategories.length === 0) validCategories = CATEGORIES;
-    if (validSubcategories.length === 0) validSubcategories = SUBCATEGORIES_FLATTENED;
+async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES }) {
+    if (difficulties.length === 0) difficulties = DIFFICULTIES;
+    if (categories.length === 0) categories = CATEGORIES;
+    if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
 
     let returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
     if (questionType === 'tossup' || questionType === 'all') {
-        const tossups = await getTossupQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories);
+        const tossups = await getTossupQuery(queryString, difficulties, setName, searchType, categories, subcategories);
         returnValue.tossups = tossups;
     }
 
     if (questionType === 'bonus' || questionType === 'all') {
-        const bonuses = await getBonusQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories);
+        const bonuses = await getBonusQuery(queryString, difficulties, setName, searchType, categories, subcategories);
         returnValue.bonuses = bonuses;
     }
 
