@@ -21,8 +21,8 @@ const SUBCATEGORIES = {
 const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 
 /**
- * 
- * @param {String} setName 
+ *
+ * @param {String} setName
  * @returns
  */
 async function getNumPackets(setName) {
@@ -110,12 +110,12 @@ const createTossupCard = (function () {
 
 
 /**
- * @param {JSON} question 
+ * @param {JSON} question
  * @param {Array<String>} validCategories
  * @param {Array<String>} validSubcategories
  * @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
  */
- function isValidCategory(question, validCategories, validSubcategories) {
+function isValidCategory(question, validCategories, validSubcategories) {
     if (validCategories.length === 0 && validSubcategories.length === 0) return true;
 
     return validCategories.includes(question.category) && validSubcategories.includes(question.subcategory);
@@ -124,8 +124,8 @@ const createTossupCard = (function () {
 
 /**
  * Updates the category modal to show the given categories and subcategories.
- * @param {Array<String>} validCategories 
- * @param {Array<String>} validSubcategories 
+ * @param {Array<String>} validCategories
+ * @param {Array<String>} validSubcategories
  * @returns {void}
  */
 function loadCategoryModal(validCategories, validSubcategories) {
@@ -187,7 +187,7 @@ function rangeToArray(string, max = 0) {
 }
 
 
-function reportQuestion(_id, reason="", description="") {
+function reportQuestion(_id, reason = "", description = "") {
     fetch('/api/report-question', {
         method: 'POST',
         headers: {
@@ -212,9 +212,9 @@ function reportQuestion(_id, reason="", description="") {
 /**
  * Adds the given category if it is not in the list of valid categories.
  * Otherwise, the category is removed.
- * @param {String} category 
- * @param {Array<String>} validCategories 
- * @param {Array<String>} validSubcategories 
+ * @param {String} category
+ * @param {Array<String>} validCategories
+ * @param {Array<String>} validSubcategories
  * @returns `[validCategories, validSubcategories]`
  */
 function updateCategory(category, validCategories, validSubcategories) {
@@ -233,8 +233,8 @@ function updateCategory(category, validCategories, validSubcategories) {
 /**
  * Adds the given subcategory if it is not in the list of valid subcategories.
  * Otherwise, the subcategory is removed.
- * @param {String} subcategory 
- * @param {Array<String>} validSubcategories 
+ * @param {String} subcategory
+ * @param {Array<String>} validSubcategories
  * @returns `validSubcategories`
  */
 function updateSubcategory(subcategory, validSubcategories) {
