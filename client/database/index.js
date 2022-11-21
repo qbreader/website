@@ -55,6 +55,37 @@ const SUBCATEGORY_BUTTONS = [
 var validCategories = [];
 var validSubcategories = [];
 
+function reportQuestion(_id, reason = "", description = "") {
+    fetch('/api/report-question', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            _id: _id,
+            reason: reason,
+            description: description
+        })
+    }).then(response => {
+        if (response.status === 200) {
+            alert('Question has been reported.');
+        } else {
+            alert('There was an error reporting the question.');
+        }
+    }).catch(error => {
+        alert('There was an error reporting the question.');
+    });
+}
+
+document.getElementById('report-question-submit').addEventListener('click', function () {
+    reportQuestion(
+        document.getElementById('report-question-id').value,
+        document.getElementById('report-question-reason').value,
+        document.getElementById('report-question-description').value
+    );
+});
+
+
 function rangeToArray(string, max = 0) {
     if (string.length === 0) {
         string = `1-${max}`;
@@ -156,7 +187,7 @@ class TossupCard extends React.Component {
                 <div className="card-container">
                     <div className="card-body">
                         {tossup.question}&nbsp;
-                        <a href="#" id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                        <a href="#" onClick={document.getElementById('report-question-id').value = tossup._id} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                         <hr></hr>
                         <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup.answer }}></span></div>
                     </div>

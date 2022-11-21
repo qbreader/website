@@ -79,6 +79,47 @@
         </div>
     </div>
 
+    <div class="modal" id="report-question-modal" tabindex="-2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Report Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="report-question-id" class="col-form-label">Question ID:</label>
+                            <input type="text" class="form-control" id="report-question-id" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="report-question-reason" class="col-form-label">Reason:</label>
+                            <select class="form-select" id="report-question-reason" aria-label="Default select example">
+                                <option value="answerline-parsing" selected>Incorrect answer checking/parsing</option>
+                                <option value="wrong-category">Wrong category/subcategory</option>
+                                <option value="answerline-formatting">Answerline formatting error</option>
+                                <option value="missing-parts">Missing/cutoff parts of question/answer</option>
+                                <option value="unnecessary-text">Unnecessary text in question/answer</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p class="text-muted">If your answer was parsed incorrectly, please enter what answer you
+                                gave below.</p>
+                            <label for="report-question-description" class="col-form-label">Additional
+                                Information:</label>
+                            <textarea class="form-control" id="report-question-description" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="report-question-submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
