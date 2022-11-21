@@ -32,6 +32,10 @@ app.get('/*.js', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
 
+app.get('/*.jsx', (req, res) => {
+    res.sendFile(req.url, { root: './client' });
+});
+
 app.get('/*.css', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
