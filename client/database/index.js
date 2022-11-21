@@ -358,7 +358,7 @@ class QueryForm extends React.Component {
     }
 
     onQueryChange(event) {
-        this.setState({ query: event.target.value });
+        this.setState({ queryString: event.target.value });
     }
 
     onSearchTypeChange(event) {
