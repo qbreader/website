@@ -51,7 +51,7 @@ router.get('/random-name', (req, res) => {
 
 
 router.post('/query', async (req, res) => {
-    if (req.body.type !== 'tossup' && req.body.type !== 'bonus') {
+    if (!['tossup', 'bonus', 'all'].includes(req.body.questionType)) {
         res.status(400).send('Invalid question type specified.');
         return;
     }
@@ -84,16 +84,17 @@ router.post('/query', async (req, res) => {
         req.body.subcategories = [req.body.subcategories];
     }
 
+    if (!['all', 'question', 'answer'].includes(req.body.searchType)) {
+        res.status(400).send('Invalid search type specified.');
+        return;
+    }
+
     if (req.body.setName === undefined) {
         req.body.setName = '';
     }
 
-    const { count, questionArray } = await database.getQuery(req.body.query, req.body.difficulties, req.body.setName, req.body.type, req.body.type, req.body.categories, req.body.subcategories);
-    if (questionArray.length > 0) {
-        res.send({ count, questionArray });
-    } else {
-        res.sendStatus(404);
-    }
+    const queryResult = await database.getQuery(req.body.query, req.body.difficulties, req.body.setName, req.body.searchType, req.body.questionType, req.body.categories, req.body.subcategories);
+    res.send(JSON.stringify(queryResult));
 });
 
 router.post('/random-question', async (req, res) => {
