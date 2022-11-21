@@ -1,6 +1,8 @@
 const dljs = require('damerau-levenshtein-js');
 const { toWords } = require('number-to-words');
 
+const DIFFICULTIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const SUBCATEGORIES = [
     ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
@@ -123,7 +125,7 @@ function parseAnswerline(answerline) {
  * @param {Number} strictness - the number of characters per error allowed for two tokens to match.
  * @returns {Boolean}
  */
-function stringMatchesReference(string, reference, strictness=4) {
+function stringMatchesReference(string, reference, strictness = 4) {
     if (string === null || string === undefined || reference === null || reference === undefined) {
         return false;
     }
@@ -282,4 +284,4 @@ function checkAnswer(answerline, givenAnswer) {
 }
 
 
-module.exports = { CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, checkAnswer, scoreTossup };
+module.exports = { DIFFICULTIES, CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, checkAnswer, scoreTossup };

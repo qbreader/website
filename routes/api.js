@@ -93,7 +93,7 @@ router.post('/query', async (req, res) => {
         req.body.setName = '';
     }
 
-    const queryResult = await database.getQuery(req.body.query, req.body.difficulties, req.body.setName, req.body.searchType, req.body.questionType, req.body.categories, req.body.subcategories);
+    const queryResult = await database.getQuery(req.body);
     res.send(JSON.stringify(queryResult));
 });
 
