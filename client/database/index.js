@@ -330,11 +330,13 @@ class QueryForm extends React.Component {
             bonusCount: 0,
 
             difficulties: '',
+            maxQueryReturnLength: '',
             queryString: '',
             questionType: 'all',
             searchType: 'all',
         };
         this.onDifficultyChange = this.onDifficultyChange.bind(this);
+        this.onMaxQueryReturnLengthChange = this.onMaxQueryReturnLengthChange.bind(this);
         this.onQueryChange = this.onQueryChange.bind(this);
         this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
         this.onQuestionTypeChange = this.onQuestionTypeChange.bind(this);
@@ -355,6 +357,10 @@ class QueryForm extends React.Component {
 
     onDifficultyChange(event) {
         this.setState({ difficulties: event.target.value });
+    }
+
+    onMaxQueryReturnLengthChange(event) {
+        this.setState({ maxQueryReturnLength: event.target.value });
     }
 
     onQueryChange(event) {
@@ -378,13 +384,14 @@ class QueryForm extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                categories: validCategories,
+                subcategories: validSubcategories,
+                difficulties: rangeToArray(this.state.difficulties),
+                maxQueryReturnLength: this.state.maxQueryReturnLength,
                 queryString: this.state.queryString,
                 questionType: this.state.questionType,
                 searchType: this.state.searchType,
                 setName: document.getElementById('set-name').value,
-                difficulties: rangeToArray(this.state.difficulties),
-                categories: validCategories,
-                subcategories: validSubcategories,
             })
         }).then(response => response.json())
             .then(response => {
@@ -427,10 +434,13 @@ class QueryForm extends React.Component {
                         <button type="submit" className="btn btn-info">Search</button>
                     </div>
                     <div className="row mb-2">
-                        <div id="difficulty-settings" className="col-4">
+                        <div id="difficulty-settings" className="col-2">
                             <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={this.state.difficulties} onChange={this.onDifficultyChange} />
                         </div>
-                        <div className="col-8">
+                        <div id="max-query-length" className="col-3">
+                            <input type="text" className="form-control" id="difficulties" placeholder="# to Display (default: 50)" value={this.state.maxQueryReturnLength} onChange={this.onMaxQueryReturnLengthChange} />
+                        </div>
+                        <div className="col-7">
                             <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
                             <datalist id="set-list"></datalist>
                         </div>

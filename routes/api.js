@@ -84,6 +84,10 @@ router.post('/query', async (req, res) => {
         req.body.subcategories = [req.body.subcategories];
     }
 
+    if (isNaN(req.body.maxQueryReturnLength) || req.body.maxQueryReturnLength === '') {
+        req.body.maxQueryReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
+    }
+
     if (!['all', 'question', 'answer'].includes(req.body.searchType)) {
         res.status(400).send('Invalid search type specified.');
         return;
