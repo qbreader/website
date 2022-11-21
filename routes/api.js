@@ -50,6 +50,57 @@ router.get('/random-name', (req, res) => {
 });
 
 
+router.post('/query', async (req, res) => {
+    if (!['tossup', 'bonus', 'all'].includes(req.body.questionType)) {
+        res.status(400).send('Invalid question type specified.');
+        return;
+    }
+
+    if (req.body.difficulties === undefined) {
+        req.body.difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    }
+
+    if (typeof req.body.difficulties === 'string') {
+        req.body.difficulties = parseInt(req.body.difficulties);
+    }
+
+    if (typeof req.body.difficulties === 'number') {
+        req.body.difficulties = [req.body.difficulties];
+    }
+
+    if (req.body.categories === undefined) {
+        req.body.categories = CATEGORIES;
+    }
+
+    if (typeof req.body.categories === 'string') {
+        req.body.categories = [req.body.categories];
+    }
+
+    if (req.body.subcategories === undefined) {
+        req.body.subcategories = SUBCATEGORIES_FLATTENED;
+    }
+
+    if (typeof req.body.subcategories === 'string') {
+        req.body.subcategories = [req.body.subcategories];
+    }
+
+    if (isNaN(req.body.maxQueryReturnLength) || req.body.maxQueryReturnLength === '') {
+        req.body.maxQueryReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
+    }
+
+    if (!['all', 'question', 'answer'].includes(req.body.searchType)) {
+        res.status(400).send('Invalid search type specified.');
+        return;
+    }
+
+    if (req.body.setName === undefined) {
+        req.body.setName = '';
+    }
+
+    const queryResult = await database.getQuery(req.body);
+    res.send(JSON.stringify(queryResult));
+});
+
 router.post('/random-question', async (req, res) => {
     if (req.body.type !== 'tossup' && req.body.type !== 'bonus') {
         res.status(400).send('Invalid question type specified.');
