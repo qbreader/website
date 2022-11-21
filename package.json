@@ -1,6 +1,6 @@
 {
     "name": "qbreader",
-    "version": "2.6.2",
+    "version": "3.0.0",
     "scripts": {
         "build": "npx babel client/database/index.jsx -o client/database/index.js",
         "start": "node server/server.js",
