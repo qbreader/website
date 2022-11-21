@@ -158,6 +158,13 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
 }
 
 /**
+ * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+ */
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+/**
  *
  * @param {String} queryString - the query to search for
  * @param {Array<Number>} difficulties
@@ -189,6 +196,8 @@ async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName
 
 
 async function getTossupQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories) {
+    queryString = queryString.trim();
+    queryString = escapeRegExp(queryString);
     const orQuery = [];
     if (searchType === 'question' || searchType === 'all') {
         orQuery.push({ question: { $regex: queryString, $options: 'i' } });
@@ -214,6 +223,8 @@ async function getTossupQuery(queryString, difficulties, setName, searchType, va
 }
 
 async function getBonusQuery(queryString, difficulties, setName, searchType, validCategories, validSubcategories) {
+    queryString = queryString.trim();
+    queryString = escapeRegExp(queryString);
     const orQuery = [];
     if (searchType === 'question' || searchType === 'all') {
         orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
