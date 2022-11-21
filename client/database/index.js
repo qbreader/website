@@ -453,7 +453,7 @@ class QueryForm extends React.Component {
                             <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={this.state.difficulties} onChange={this.onDifficultyChange} />
                         </div>
                         <div id="max-query-length" className="col-3">
-                            <input type="text" className="form-control" id="difficulties" placeholder="# to Display (default: 50)" value={this.state.maxQueryReturnLength} onChange={this.onMaxQueryReturnLengthChange} />
+                            <input type="text" className="form-control" id="difficulties" placeholder="Max # to Display (default: 50)" value={this.state.maxQueryReturnLength} onChange={this.onMaxQueryReturnLengthChange} />
                         </div>
                         <div className="col-7">
                             <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
