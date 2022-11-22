@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const database = require('../server/database');
-const { CATEGORIES, SUBCATEGORIES_FLATTENED } = require('../server/quizbowl.js');
+const { CATEGORIES, SUBCATEGORIES_FLATTENED_ALL } = require('../server/quizbowl.js');
 
 // DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
 
@@ -77,7 +77,7 @@ router.post('/query', async (req, res) => {
     }
 
     if (req.body.subcategories === undefined) {
-        req.body.subcategories = SUBCATEGORIES_FLATTENED;
+        req.body.subcategories = SUBCATEGORIES_FLATTENED_ALL;
     }
 
     if (typeof req.body.subcategories === 'string') {
@@ -128,7 +128,7 @@ router.post('/random-question', async (req, res) => {
     }
 
     if (req.body.subcategories === undefined) {
-        req.body.subcategories = SUBCATEGORIES_FLATTENED;
+        req.body.subcategories = SUBCATEGORIES_FLATTENED_ALL;
     }
 
     if (typeof req.body.subcategories === 'string') {

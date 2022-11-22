@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const { MongoClient, ObjectId } = require('mongodb');
-const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
+const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, SUBCATEGORIES_FLATTENED_ALL } = require('./quizbowl');
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -175,10 +175,10 @@ function escapeRegExp(string) {
  * @param {Array<String>} subcategories
  * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
-async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH, randomize = false }) {
+async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED_ALL, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH, randomize = false }) {
     if (difficulties.length === 0) difficulties = DIFFICULTIES;
     if (categories.length === 0) categories = CATEGORIES;
-    if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+    if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED_ALL;
 
     maxQueryReturnLength = parseInt(maxQueryReturnLength);
     if (maxQueryReturnLength <= 0) {
@@ -222,6 +222,10 @@ async function getTossupQuery({ queryString, difficulties, setName, searchType, 
         category: { $in: categories },
         subcategory: { $in: subcategories },
     }
+
+    console.log(difficulties);
+    console.log(categories);
+    console.log(subcategories);
 
     if (setName) {
         query.setName = setName;
