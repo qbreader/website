@@ -212,6 +212,7 @@ class TossupCard extends React.Component {
 
     render() {
         const tossup = this.props.tossup;
+        const powerParts = tossup.question.split("(*)")
         return (
             <div className="card my-2">
                 <div className="card-header">
@@ -220,7 +221,7 @@ class TossupCard extends React.Component {
                 </div>
                 <div className="card-container">
                     <div className="card-body">
-                        <span dangerouslySetInnerHTML={{ __html: tossup.question }}></span>&nbsp;
+                        <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? "<b>" + powerParts[0] + "(*)</b>" + powerParts[1] : tossup.question }}></span>&nbsp;
                         <a href="#" onClick={() => { document.getElementById('report-question-id').value = tossup._id }} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                         <hr></hr>
                         <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup.answer }}></span></div>
