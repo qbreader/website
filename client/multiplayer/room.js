@@ -204,6 +204,8 @@ const socketOnConnectionAcknowledged = (message) => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
         createPlayerAccordionItem(message.players[userId]);
     });
+
+    sortPlayerAccordion();
 }
 
 const socketOnEndOfSet = (message) => {
