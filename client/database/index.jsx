@@ -55,6 +55,40 @@ const SUBCATEGORY_BUTTONS = [
 var validCategories = [];
 var validSubcategories = [];
 
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+function highlightTossupQuery(tossup, queryString, searchType = 'all') {
+    if (searchType === 'question' || searchType === 'all') {
+        tossup.question = tossup.question.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+    }
+
+    if (searchType === 'answer' || searchType === 'all') {
+        tossup.answer = tossup.answer.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+    }
+
+    return tossup;
+}
+
+function highlightBonusQuery(bonus, queryString, searchType = 'all') {
+    if (searchType === 'question' || searchType === 'all') {
+        bonus.leadin = bonus.leadin.replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+
+        for (let i = 0; i < bonus.parts.length; i++) {
+            bonus.parts[i] = bonus.parts[i].replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+        }
+    }
+
+    if (searchType === 'answer' || searchType === 'all') {
+        for (let i = 0; i < bonus.parts.length; i++) {
+            bonus.answers[i] = bonus.answers[i].replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+        }
+    }
+
+    return bonus;
+}
+
 function reportQuestion(_id, reason = "", description = "") {
     fetch('/api/report-question', {
         method: 'POST',
@@ -186,7 +220,7 @@ class TossupCard extends React.Component {
                 </div>
                 <div className="card-container">
                     <div className="card-body">
-                        {tossup.question}&nbsp;
+                        <span dangerouslySetInnerHTML={{ __html: tossup.question }}></span>&nbsp;
                         <a href="#" onClick={() => { document.getElementById('report-question-id').value = tossup._id }} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                         <hr></hr>
                         <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup.answer }}></span></div>
@@ -212,18 +246,18 @@ class BonusCard extends React.Component {
                 </div>
                 <div className="card-container">
                     <div className="card-body">
-                        <p>{bonus.leadin}</p>
+                        <p dangerouslySetInnerHTML={{ __html: bonus.leadin }}></p>
                         {[0, 1, 2].map((i) =>
                             <div>
                                 <hr></hr>
-                                <p>[10] {bonus.parts[i]}</p>
+                                <p>[10] <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span></p>
                                 <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: bonus.answers[i] }}></span></div>
                             </div>
                         )}
                         {/* <a href="#" id={`report-question-${bonus._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a> */}
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }
@@ -412,11 +446,19 @@ class QueryForm extends React.Component {
             .then(response => {
                 const { tossups, bonuses } = response;
                 let { count: tossupCount, questionArray: tossupArray } = tossups;
+
                 for (let i = 0; i < tossupArray.length; i++) {
                     if (tossupArray[i].hasOwnProperty('formatted_answer')) {
                         tossupArray[i].answer = tossupArray[i].formatted_answer;
                     }
                 }
+
+                if (this.state.queryString !== '') {
+                    for (let i = 0; i < tossupArray.length; i++) {
+                        tossupArray[i] = highlightTossupQuery(tossupArray[i], this.state.queryString, this.state.searchType);
+                    }
+                }
+
                 this.setState({ tossupCount: tossupCount });
                 this.setState({ tossups: tossupArray });
 
@@ -425,6 +467,13 @@ class QueryForm extends React.Component {
                     if (bonusArray[i].hasOwnProperty('formatted_answers'))
                         bonusArray[i].answers = bonusArray[i].formatted_answers;
                 }
+
+                if (this.state.queryString !== '') {
+                    for (let i = 0; i < bonusArray.length; i++) {
+                        bonusArray[i] = highlightBonusQuery(bonusArray[i], this.state.queryString, this.state.searchType);
+                    }
+                }
+
                 this.setState({ bonusCount: bonusCount });
                 this.setState({ bonuses: bonusArray });
                 this.setState({ currentlySearching: false });

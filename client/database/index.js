@@ -18,6 +18,33 @@ const CATEGORY_BUTTONS = [["Literature", "primary"], ["History", "success"], ["S
 const SUBCATEGORY_BUTTONS = [["American Literature", "primary"], ["British Literature", "primary"], ["Classical Literature", "primary"], ["European Literature", "primary"], ["World Literature", "primary"], ["Other Literature", "primary"], ["American History", "success"], ["Ancient History", "success"], ["European History", "success"], ["World History", "success"], ["Other History", "success"], ["Biology", "danger"], ["Chemistry", "danger"], ["Physics", "danger"], ["Math", "danger"], ["Other Science", "danger"], ["Visual Fine Arts", "warning"], ["Auditory Fine Arts", "warning"], ["Other Fine Arts", "warning"]];
 var validCategories = [];
 var validSubcategories = [];
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+function highlightTossupQuery(tossup, queryString, searchType = 'all') {
+  if (searchType === 'question' || searchType === 'all') {
+    tossup.question = tossup.question.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+  }
+  if (searchType === 'answer' || searchType === 'all') {
+    tossup.answer = tossup.answer.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+  }
+  return tossup;
+}
+function highlightBonusQuery(bonus, queryString, searchType = 'all') {
+  if (searchType === 'question' || searchType === 'all') {
+    bonus.leadin = bonus.leadin.replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+    for (let i = 0; i < bonus.parts.length; i++) {
+      bonus.parts[i] = bonus.parts[i].replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+    }
+  }
+  if (searchType === 'answer' || searchType === 'all') {
+    for (let i = 0; i < bonus.parts.length; i++) {
+      bonus.answers[i] = bonus.answers[i].replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+    }
+  }
+  return bonus;
+}
 function reportQuestion(_id, reason = "", description = "") {
   fetch('/api/report-question', {
     method: 'POST',
@@ -131,7 +158,11 @@ class TossupCard extends React.Component {
       className: "card-container"
     }, /*#__PURE__*/React.createElement("div", {
       className: "card-body"
-    }, tossup.question, "\xA0", /*#__PURE__*/React.createElement("a", {
+    }, /*#__PURE__*/React.createElement("span", {
+      dangerouslySetInnerHTML: {
+        __html: tossup.question
+      }
+    }), "\xA0", /*#__PURE__*/React.createElement("a", {
       href: "#",
       onClick: () => {
         document.getElementById('report-question-id').value = tossup._id;
@@ -162,7 +193,15 @@ class BonusCard extends React.Component {
       className: "card-container"
     }, /*#__PURE__*/React.createElement("div", {
       className: "card-body"
-    }, /*#__PURE__*/React.createElement("p", null, bonus.leadin), [0, 1, 2].map(i => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10] ", bonus.parts[i]), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("p", {
+      dangerouslySetInnerHTML: {
+        __html: bonus.leadin
+      }
+    }), [0, 1, 2].map(i => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10] ", /*#__PURE__*/React.createElement("span", {
+      dangerouslySetInnerHTML: {
+        __html: bonus.parts[i]
+      }
+    })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
       dangerouslySetInnerHTML: {
         __html: bonus.answers[i]
       }
@@ -379,6 +418,11 @@ class QueryForm extends React.Component {
           tossupArray[i].answer = tossupArray[i].formatted_answer;
         }
       }
+      if (this.state.queryString !== '') {
+        for (let i = 0; i < tossupArray.length; i++) {
+          tossupArray[i] = highlightTossupQuery(tossupArray[i], this.state.queryString, this.state.searchType);
+        }
+      }
       this.setState({
         tossupCount: tossupCount
       });
@@ -391,6 +435,11 @@ class QueryForm extends React.Component {
       } = bonuses;
       for (let i = 0; i < bonusArray.length; i++) {
         if (bonusArray[i].hasOwnProperty('formatted_answers')) bonusArray[i].answers = bonusArray[i].formatted_answers;
+      }
+      if (this.state.queryString !== '') {
+        for (let i = 0; i < bonusArray.length; i++) {
+          bonusArray[i] = highlightBonusQuery(bonusArray[i], this.state.queryString, this.state.searchType);
+        }
       }
       this.setState({
         bonusCount: bonusCount

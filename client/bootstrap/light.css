@@ -9817,4 +9817,9 @@ progress {
   border-top: 0.5px solid lightgray;
 }
 
+.text-highlight {
+  background-color: #0dcaf0;
+  color: #212529;
+}
+
 /*# sourceMappingURL=light.css.map */
