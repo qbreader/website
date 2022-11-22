@@ -1,3 +1,6 @@
+import Select from "react-select";
+import difficultyOptions from "../quizbowl";
+
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
 const SUBCATEGORIES = {
     "Literature": ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
@@ -363,7 +366,7 @@ class QueryForm extends React.Component {
             tossupCount: 0,
             bonusCount: 0,
 
-            difficulties: '',
+            difficulties: [],
             maxQueryReturnLength: '',
             queryString: '',
             questionType: 'all',
@@ -428,7 +431,7 @@ class QueryForm extends React.Component {
             body: JSON.stringify({
                 categories: validCategories,
                 subcategories: validSubcategories,
-                difficulties: rangeToArray(this.state.difficulties),
+                difficulties: this.state.difficulties,
                 maxQueryReturnLength: this.state.maxQueryReturnLength,
                 queryString: this.state.queryString,
                 questionType: this.state.questionType,
@@ -504,10 +507,10 @@ class QueryForm extends React.Component {
                     </div>
                     <div className="row mb-2">
                         <div id="difficulty-settings" className="col-2">
-                            <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={this.state.difficulties} onChange={this.onDifficultyChange} />
+                            <Select id="difficulties" className="form-control" isMulti options={difficultyOptions} value={this.state.difficulties} onChange={this.onDifficultyChange}></Select>
                         </div>
                         <div id="max-query-length" className="col-3">
-                            <input type="text" className="form-control" id="difficulties" placeholder="Max # to Display (default: 50)" value={this.state.maxQueryReturnLength} onChange={this.onMaxQueryReturnLengthChange} />
+                            <input type="text" className="form-control" id="max-number" placeholder="Max # to Display (default: 50)" value={this.state.maxQueryReturnLength} onChange={this.onMaxQueryReturnLengthChange} />
                         </div>
                         <div className="col-7">
                             <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />

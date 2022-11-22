@@ -1,3 +1,5 @@
+import Select from "react-select";
+import difficultyOptions from "../quizbowl";
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const SUBCATEGORIES = {
   "Literature": ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
@@ -326,7 +328,7 @@ class QueryForm extends React.Component {
       bonuses: [],
       tossupCount: 0,
       bonusCount: 0,
-      difficulties: '',
+      difficulties: [],
       maxQueryReturnLength: '',
       queryString: '',
       questionType: 'all',
@@ -391,7 +393,7 @@ class QueryForm extends React.Component {
       body: JSON.stringify({
         categories: validCategories,
         subcategories: validSubcategories,
-        difficulties: rangeToArray(this.state.difficulties),
+        difficulties: this.state.difficulties,
         maxQueryReturnLength: this.state.maxQueryReturnLength,
         queryString: this.state.queryString,
         questionType: this.state.questionType,
@@ -490,11 +492,11 @@ class QueryForm extends React.Component {
     }, /*#__PURE__*/React.createElement("div", {
       id: "difficulty-settings",
       className: "col-2"
-    }, /*#__PURE__*/React.createElement("input", {
-      type: "text",
-      className: "form-control",
+    }, /*#__PURE__*/React.createElement(Select, {
       id: "difficulties",
-      placeholder: "Difficulties (1-10)",
+      className: "form-control",
+      isMulti: true,
+      options: difficultyOptions,
       value: this.state.difficulties,
       onChange: this.onDifficultyChange
     })), /*#__PURE__*/React.createElement("div", {
@@ -503,7 +505,7 @@ class QueryForm extends React.Component {
     }, /*#__PURE__*/React.createElement("input", {
       type: "text",
       className: "form-control",
-      id: "difficulties",
+      id: "max-number",
       placeholder: "Max # to Display (default: 50)",
       value: this.state.maxQueryReturnLength,
       onChange: this.onMaxQueryReturnLengthChange
