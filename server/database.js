@@ -11,6 +11,7 @@ client.connect().then(async () => {
     console.log('connected to mongodb');
 });
 
+const colors = require('../colors');
 const database = client.db('qbreader');
 const questions = database.collection('questions');
 const sets = database.collection('sets');
@@ -197,7 +198,7 @@ async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName
         returnValue.bonuses = bonuses;
     }
 
-    console.log(`DATABASE QUERY: question type: ${questionType}; search type: ${searchType}; query string: "${queryString}"`)
+    console.log(`DATABASE QUERY: query string: ${colors.OKCYAN}${queryString}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; search type: ${colors.OKGREEN}${searchType}${colors.ENDC}; difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; set name: ${colors.OKGREEN}${setName}${colors.ENDC}; max query return length: ${colors.OKGREEN}${maxQueryReturnLength}; randomize: ${colors.OKGREEN}${randomize}${colors.ENDC}`);
 
     return returnValue;
 }
@@ -222,10 +223,6 @@ async function getTossupQuery({ queryString, difficulties, setName, searchType, 
         category: { $in: categories },
         subcategory: { $in: subcategories },
     }
-
-    console.log(difficulties);
-    console.log(categories);
-    console.log(subcategories);
 
     if (setName) {
         query.setName = setName;
@@ -278,8 +275,6 @@ async function queryHelper(query, maxQueryReturnLength, randomize) {
     if (randomize) {
         aggregation[1] = { $sample: { size: maxQueryReturnLength } };
     }
-
-    console.log(aggregation);
 
     try {
         let questionArray = await questions.aggregate(aggregation).toArray();
