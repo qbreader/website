@@ -1,12 +1,12 @@
 @charset "UTF-8";
 /* ##### */
 /* redefine theme colors for dark theme */
-.form-switch .form-check-input {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%28108, 117, 125, 1%29'/%3e%3c/svg%3e") !important;
-}
-
 kbd {
   background-color: #6c757d !important;
+}
+
+.form-switch .form-check-input {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%28108, 117, 125, 1%29'/%3e%3c/svg%3e") !important;
 }
 
 :root {
@@ -9825,6 +9825,11 @@ progress {
 
 .room-history {
   border-top: 0.5px solid lightgray;
+}
+
+.text-highlight {
+  background-color: #17a2b8;
+  color: #343a40;
 }
 
 /*# sourceMappingURL=dark.css.map */

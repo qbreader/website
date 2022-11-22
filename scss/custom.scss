@@ -70,3 +70,8 @@ $link-decoration: none;
 .room-history {
     border-top: .5px solid lightgray;
 }
+
+.text-highlight {
+    background-color: $info;
+    color: $dark;
+}
