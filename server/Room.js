@@ -1,4 +1,4 @@
-const Colors = require('../Colors');
+const colors = require('../colors');
 const database = require('./database');
 const Player = require('./Player');
 const quizbowl = require('./quizbowl');
@@ -37,7 +37,7 @@ class Room {
     }
 
     connection(socket, userId, username) {
-        console.log(`Connection in room ${Colors.HEADER}${this.name}${Colors.ENDC} - userId: ${Colors.OKBLUE}${userId}${Colors.ENDC}, username: ${Colors.OKBLUE}${username}${Colors.ENDC}`);
+        console.log(`Connection in room ${colors.HEADER}${this.name}${colors.ENDC} - userId: ${colors.OKBLUE}${userId}${colors.ENDC}, username: ${colors.OKBLUE}${username}${colors.ENDC}`);
 
         socket.on('message', message => {
             message = JSON.parse(message);
