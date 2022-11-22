@@ -148,7 +148,7 @@ class TossupCard extends React.Component {
   }
   render() {
     const tossup = this.props.tossup;
-    const powerParts = tossup.question.split("(*)")
+    const powerParts = tossup.question.split("(*)");
     return /*#__PURE__*/React.createElement("div", {
       className: "card my-2"
     }, /*#__PURE__*/React.createElement("div", {
