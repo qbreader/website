@@ -346,6 +346,9 @@ class QueryForm extends React.Component {
     }
 
     componentDidMount() {
+        document.getElementById('randomize').addEventListener('click', (event) => {
+            this.handleSubmit(event, true);
+        });
         fetch(`/api/set-list`)
             .then(response => response.json())
             .then(data => {
@@ -377,7 +380,7 @@ class QueryForm extends React.Component {
         this.setState({ questionType: event.target.value });
     }
 
-    handleSubmit(event) {
+    handleSubmit(event, randomize = false) {
         event.preventDefault();
         this.setState({ currentlySearching: true });
 
@@ -395,6 +398,7 @@ class QueryForm extends React.Component {
                 maxQueryReturnLength: this.state.maxQueryReturnLength,
                 queryString: this.state.queryString,
                 questionType: this.state.questionType,
+                randomize: randomize,
                 searchType: this.state.searchType,
                 setName: document.getElementById('set-name').value,
             })
@@ -447,6 +451,7 @@ class QueryForm extends React.Component {
                     <div className="input-group mb-2">
                         <input type="text" className="form-control" id="query" placeholder="Query" value={this.state.queryString} onChange={this.onQueryChange}></input>
                         <button type="submit" className="btn btn-info">Search</button>
+                        <button id="randomize" className="btn btn-success">Random</button>
                     </div>
                     <div className="row mb-2">
                         <div id="difficulty-settings" className="col-2">

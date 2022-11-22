@@ -175,7 +175,7 @@ function escapeRegExp(string) {
  * @param {Array<String>} subcategories
  * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
-async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH }) {
+async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH, randomize = false }) {
     if (difficulties.length === 0) difficulties = DIFFICULTIES;
     if (categories.length === 0) categories = CATEGORIES;
     if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
@@ -188,12 +188,12 @@ async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName
 
     let returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
     if (questionType === 'tossup' || questionType === 'all') {
-        const tossups = await getTossupQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength });
+        const tossups = await getTossupQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize });
         returnValue.tossups = tossups;
     }
 
     if (questionType === 'bonus' || questionType === 'all') {
-        const bonuses = await getBonusQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength });
+        const bonuses = await getBonusQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize });
         returnValue.bonuses = bonuses;
     }
 
@@ -203,7 +203,7 @@ async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName
 }
 
 
-async function getTossupQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength }) {
+async function getTossupQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize }) {
     queryString = queryString.trim();
     queryString = escapeRegExp(queryString);
     const orQuery = [];
@@ -227,10 +227,10 @@ async function getTossupQuery({ queryString, difficulties, setName, searchType, 
         query.setName = setName;
     }
 
-    return queryHelper(query, maxQueryReturnLength);
+    return queryHelper(query, maxQueryReturnLength, randomize);
 }
 
-async function getBonusQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength }) {
+async function getBonusQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize }) {
     queryString = queryString.trim();
     queryString = escapeRegExp(queryString);
     const orQuery = [];
@@ -255,11 +255,11 @@ async function getBonusQuery({ queryString, difficulties, setName, searchType, c
         query.setName = setName;
     }
 
-    return queryHelper(query, maxQueryReturnLength);
+    return queryHelper(query, maxQueryReturnLength, randomize);
 }
 
-async function queryHelper(query, maxQueryReturnLength) {
-    let questionArray = await questions.aggregate([
+async function queryHelper(query, maxQueryReturnLength, randomize) {
+    const aggregation = [
         { $match: query, },
         {
             $sort: {
@@ -269,20 +269,33 @@ async function queryHelper(query, maxQueryReturnLength) {
             }
         },
         { $limit: maxQueryReturnLength },
-    ]).toArray();
+    ];
 
-    let count = await questions.aggregate([
-        { $match: query, },
-        { $count: 'count' }
-    ]).toArray();
-
-    if (count[0]) {
-        count = count[0].count;
-    } else {
-        count = 0;
+    if (randomize) {
+        aggregation[1] = { $sample: { size: maxQueryReturnLength } };
     }
 
-    return { count, questionArray };
+    console.log(aggregation);
+
+    try {
+        let questionArray = await questions.aggregate(aggregation).toArray();
+        let count = await questions.aggregate([
+            { $match: query, },
+            { $count: 'count' }
+        ]).toArray();
+
+        if (count[0]) {
+            count = count[0].count;
+        } else {
+            count = 0;
+        }
+
+        return { count, questionArray };
+
+    } catch (MongoServerError) {
+        console.log(MongoServerError);
+        return { count: 0, questionArray: [] };
+    }
 }
 
 /**
