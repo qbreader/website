@@ -655,7 +655,7 @@ document.addEventListener('keydown', function (event) {
         document.getElementById('chat-input-group').classList.add('d-none');
     }
 
-    if (document.activeElement.tagName === 'INPUT') return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     switch (event.key) {
         case ' ':
