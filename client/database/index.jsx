@@ -1,6 +1,3 @@
-import Select from "react-select";
-import difficultyOptions from "../quizbowl";
-
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
 const SUBCATEGORIES = {
     "Literature": ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
@@ -53,6 +50,19 @@ const SUBCATEGORY_BUTTONS = [
     ["Visual Fine Arts", "warning"],
     ["Auditory Fine Arts", "warning"],
     ["Other Fine Arts", "warning"],
+]
+
+const difficultyOptions = [
+    { "value": 1, "label": "1 (Middle School)" },
+    { "value": 2, "label": "2 (Easy High School)"},
+    { "value": 3, "label": "3 (Regular High School)"},
+    { "value": 4, "label": "4 (Hard High School)"},
+    { "value": 5, "label": "5 (National High School)"},
+    { "value": 6, "label": "6 (Easy College)"},
+    { "value": 7, "label": "7 (Middle College)"},
+    { "value": 8, "label": "8 (Regulars College)"},
+    { "value": 9, "label": "9 (Nationals College)"},
+    { "value": 10, "label": "10 (Open)"}
 ]
 
 var validCategories = [];
@@ -398,7 +408,7 @@ class QueryForm extends React.Component {
     }
 
     onDifficultyChange(event) {
-        this.setState({ difficulties: event.target.value });
+        this.setState({ difficulties: event });
     }
 
     onMaxQueryReturnLengthChange(event) {
@@ -431,7 +441,7 @@ class QueryForm extends React.Component {
             body: JSON.stringify({
                 categories: validCategories,
                 subcategories: validSubcategories,
-                difficulties: this.state.difficulties,
+                difficulties: this.state.difficulties.map(option => option.value),
                 maxQueryReturnLength: this.state.maxQueryReturnLength,
                 queryString: this.state.queryString,
                 questionType: this.state.questionType,
@@ -506,13 +516,13 @@ class QueryForm extends React.Component {
                         <button id="randomize" className="btn btn-success">Random</button>
                     </div>
                     <div className="row mb-2">
-                        <div id="difficulty-settings" className="col-2">
-                            <Select id="difficulties" className="form-control" isMulti options={difficultyOptions} value={this.state.difficulties} onChange={this.onDifficultyChange}></Select>
+                        <div id="difficulty-settings" className="col-4">
+                            <Select id="difficulties" isMulti placeholder="Difficulties" options={difficultyOptions} value={this.state.difficulties} onChange={this.onDifficultyChange}></Select>
                         </div>
                         <div id="max-query-length" className="col-3">
                             <input type="text" className="form-control" id="max-number" placeholder="Max # to Display (default: 50)" value={this.state.maxQueryReturnLength} onChange={this.onMaxQueryReturnLengthChange} />
                         </div>
-                        <div className="col-7">
+                        <div className="col-5">
                             <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
                             <datalist id="set-list"></datalist>
                         </div>

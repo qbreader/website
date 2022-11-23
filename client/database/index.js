@@ -1,5 +1,3 @@
-import Select from "react-select";
-import difficultyOptions from "../quizbowl";
 const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const SUBCATEGORIES = {
   "Literature": ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
@@ -18,6 +16,37 @@ const SUBCATEGORIES = {
 const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 const CATEGORY_BUTTONS = [["Literature", "primary"], ["History", "success"], ["Science", "danger"], ["Fine Arts", "warning"], ["Religion", "secondary"], ["Mythology", "secondary"], ["Philosophy", "secondary"], ["Social Science", "secondary"], ["Current Events", "secondary"], ["Geography", "secondary"], ["Other Academic", "secondary"], ["Trash", "secondary"]];
 const SUBCATEGORY_BUTTONS = [["American Literature", "primary"], ["British Literature", "primary"], ["Classical Literature", "primary"], ["European Literature", "primary"], ["World Literature", "primary"], ["Other Literature", "primary"], ["American History", "success"], ["Ancient History", "success"], ["European History", "success"], ["World History", "success"], ["Other History", "success"], ["Biology", "danger"], ["Chemistry", "danger"], ["Physics", "danger"], ["Math", "danger"], ["Other Science", "danger"], ["Visual Fine Arts", "warning"], ["Auditory Fine Arts", "warning"], ["Other Fine Arts", "warning"]];
+const difficultyOptions = [{
+  "value": 1,
+  "label": "1 (Middle School)"
+}, {
+  "value": 2,
+  "label": "2 (Easy High School)"
+}, {
+  "value": 3,
+  "label": "3 (Regular High School)"
+}, {
+  "value": 4,
+  "label": "4 (Hard High School)"
+}, {
+  "value": 5,
+  "label": "5 (National High School)"
+}, {
+  "value": 6,
+  "label": "6 (Easy College)"
+}, {
+  "value": 7,
+  "label": "7 (Middle College)"
+}, {
+  "value": 8,
+  "label": "8 (Regulars College)"
+}, {
+  "value": 9,
+  "label": "9 (Nationals College)"
+}, {
+  "value": 10,
+  "label": "10 (Open)"
+}];
 var validCategories = [];
 var validSubcategories = [];
 function escapeRegExp(string) {
@@ -356,7 +385,7 @@ class QueryForm extends React.Component {
   }
   onDifficultyChange(event) {
     this.setState({
-      difficulties: event.target.value
+      difficulties: event
     });
   }
   onMaxQueryReturnLengthChange(event) {
@@ -393,7 +422,7 @@ class QueryForm extends React.Component {
       body: JSON.stringify({
         categories: validCategories,
         subcategories: validSubcategories,
-        difficulties: this.state.difficulties,
+        difficulties: this.state.difficulties.map(option => option.value),
         maxQueryReturnLength: this.state.maxQueryReturnLength,
         queryString: this.state.queryString,
         questionType: this.state.questionType,
@@ -491,11 +520,11 @@ class QueryForm extends React.Component {
       className: "row mb-2"
     }, /*#__PURE__*/React.createElement("div", {
       id: "difficulty-settings",
-      className: "col-2"
+      className: "col-4"
     }, /*#__PURE__*/React.createElement(Select, {
       id: "difficulties",
-      className: "form-control",
       isMulti: true,
+      placeholder: "Difficulties",
       options: difficultyOptions,
       value: this.state.difficulties,
       onChange: this.onDifficultyChange
@@ -510,7 +539,7 @@ class QueryForm extends React.Component {
       value: this.state.maxQueryReturnLength,
       onChange: this.onMaxQueryReturnLengthChange
     })), /*#__PURE__*/React.createElement("div", {
-      className: "col-7"
+      className: "col-5"
     }, /*#__PURE__*/React.createElement("input", {
       type: "text",
       className: "form-control",

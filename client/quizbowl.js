@@ -20,19 +20,6 @@ const SUBCATEGORIES = {
 }
 const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
 
-const difficultyOptions = [
-    { "value": 1, "label": "1 (Middle School)" },
-    { "value": 2, "label": "2 (Easy High School)"},
-    { "value": 3, "label": "3 (Regular High School)"},
-    { "value": 4, "label": "4 (Hard High School)"},
-    { "value": 5, "label": "5 (National High School)"},
-    { "value": 6, "label": "6 (Easy College)"},
-    { "value": 7, "label": "7 (Middle College)"},
-    { "value": 8, "label": "8 (Regulars College)"},
-    { "value": 9, "label": "9 (Nationals College)"},
-    { "value": 10, "label": "10 (Open)"}
-]
-
 /**
  *
  * @param {String} setName
