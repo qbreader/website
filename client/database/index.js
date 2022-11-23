@@ -148,6 +148,7 @@ class TossupCard extends React.Component {
   }
   render() {
     const tossup = this.props.tossup;
+    const powerParts = tossup.question.split("(*)");
     return /*#__PURE__*/React.createElement("div", {
       className: "card my-2"
     }, /*#__PURE__*/React.createElement("div", {
@@ -160,7 +161,7 @@ class TossupCard extends React.Component {
       className: "card-body"
     }, /*#__PURE__*/React.createElement("span", {
       dangerouslySetInnerHTML: {
-        __html: tossup.question
+        __html: powerParts.length > 1 ? "<b>" + powerParts[0] + "(*)</b>" + powerParts[1] : tossup.question
       }
     }), "\xA0", /*#__PURE__*/React.createElement("a", {
       href: "#",
