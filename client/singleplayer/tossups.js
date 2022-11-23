@@ -345,7 +345,7 @@ document.getElementById('difficulties').addEventListener('change', async functio
 });
 
 document.addEventListener('keydown', (event) => {
-    if (document.activeElement.tagName === 'INPUT') return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     switch (event.key) {
         case ' ':
