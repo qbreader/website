@@ -176,7 +176,7 @@ function escapeRegExp(string) {
  * @param {Array<String>} subcategories
  * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
-async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED_ALL, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH, randomize = false }) {
+async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED_ALL, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH, randomize = false, regex = false }) {
     if (difficulties.length === 0) difficulties = DIFFICULTIES;
     if (categories.length === 0) categories = CATEGORIES;
     if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED_ALL;
@@ -187,79 +187,59 @@ async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName
     }
     maxQueryReturnLength = Math.min(maxQueryReturnLength, MAX_QUERY_RETURN_LENGTH);
 
+    if (!regex) {
+        queryString = queryString.trim();
+        queryString = escapeRegExp(queryString);
+    }
+
     let returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
     if (questionType === 'tossup' || questionType === 'all') {
-        const tossups = await getTossupQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize });
+        const tossups = await queryHelper({ queryString, difficulties, setName, questionType: 'tossup', searchType, categories, subcategories, maxQueryReturnLength, randomize });
         returnValue.tossups = tossups;
     }
 
     if (questionType === 'bonus' || questionType === 'all') {
-        const bonuses = await getBonusQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize });
+        const bonuses = await queryHelper({ queryString, difficulties, setName, questionType: 'bonus', searchType, categories, subcategories, maxQueryReturnLength, randomize });
         returnValue.bonuses = bonuses;
     }
 
-    console.log(`DATABASE QUERY: query string: ${colors.OKCYAN}${queryString}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; search type: ${colors.OKGREEN}${searchType}${colors.ENDC}; difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; set name: ${colors.OKGREEN}${setName}${colors.ENDC}; max query return length: ${colors.OKGREEN}${maxQueryReturnLength}; randomize: ${colors.OKGREEN}${randomize}${colors.ENDC}`);
+    console.log(`DATABASE QUERY: query string: ${colors.OKCYAN}${queryString}${colors.ENDC};`);
+    console.log(`difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; max length: ${colors.OKGREEN}${maxQueryReturnLength}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; randomize: ${colors.OKGREEN}${randomize}${colors.ENDC}; regex: ${colors.OKGREEN}${regex}${colors.ENDC}; search type: ${colors.OKGREEN}${searchType}${colors.ENDC}; set name: ${colors.OKGREEN}${setName}${colors.ENDC};`);
 
     return returnValue;
 }
 
-
-async function getTossupQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize }) {
-    queryString = queryString.trim();
-    queryString = escapeRegExp(queryString);
+async function queryHelper({ queryString, difficulties, questionType, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize }) {
     const orQuery = [];
-    if (searchType === 'question' || searchType === 'all') {
-        orQuery.push({ question: { $regex: queryString, $options: 'i' } });
+    if (['question', 'all'].includes(searchType)) {
+        if (questionType === 'tossup') {
+            orQuery.push({ question: { $regex: queryString, $options: 'i' } });
+        } else if (questionType === 'bonus') {
+            orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
+            orQuery.push({ leadin: { $regex: queryString, $options: 'i' } });
+        }
     }
 
-    if (searchType === 'answer' || searchType === 'all') {
-        orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
+    if (['answer', 'all'].includes(searchType)) {
+        if (questionType === 'tossup') {
+            orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
+        } else if (questionType === 'bonus') {
+            orQuery.push({ answers: { $regex: queryString, $options: 'i' } });
+        }
     }
-
-    const query = {
-        $or: orQuery,
-        type: 'tossup',
-        difficulty: { $in: difficulties },
-        category: { $in: categories },
-        subcategory: { $in: subcategories },
-    };
 
     if (setName) {
         query.setName = setName;
     }
 
-    return queryHelper(query, maxQueryReturnLength, randomize);
-}
-
-async function getBonusQuery({ queryString, difficulties, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize }) {
-    queryString = queryString.trim();
-    queryString = escapeRegExp(queryString);
-    const orQuery = [];
-    if (searchType === 'question' || searchType === 'all') {
-        orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
-        orQuery.push({ leadin: { $regex: queryString, $options: 'i' } });
-    }
-
-    if (searchType === 'answer' || searchType === 'all') {
-        orQuery.push({ answers: { $regex: queryString, $options: 'i' } });
-    }
-
     const query = {
         $or: orQuery,
-        type: 'bonus',
+        type: questionType,
         difficulty: { $in: difficulties },
         category: { $in: categories },
         subcategory: { $in: subcategories },
     };
 
-    if (setName) {
-        query.setName = setName;
-    }
-
-    return queryHelper(query, maxQueryReturnLength, randomize);
-}
-
-async function queryHelper(query, maxQueryReturnLength, randomize) {
     const aggregation = [
         { $match: query, },
         {

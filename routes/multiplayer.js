@@ -7,6 +7,6 @@ router.get('/', (req, res) => {
 
 router.get('/*', (req, res) => {
     res.sendFile('room.html', { root: './client/multiplayer' });
-})
+});
 
 module.exports = router;
