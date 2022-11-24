@@ -23,6 +23,7 @@ class Room {
         this.query = {
             difficulties: [4, 5],
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+            questionType: 'tossup',
             setName: '2022 PACE NSC',
             categories: [],
             subcategories: []
@@ -38,7 +39,7 @@ class Room {
 
     connection(socket, userId, username) {
         console.log(`Connection in room ${colors.HEADER}${this.name}${colors.ENDC} - userId: ${colors.OKBLUE}${userId}${colors.ENDC}, username: ${colors.OKBLUE}${username}${colors.ENDC}`);
-
+        console.log(`With settings ${colors.OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${colors.ENDC}`);
         socket.on('message', message => {
             message = JSON.parse(message);
             this.message(userId, message);
@@ -277,12 +278,7 @@ class Room {
                 this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
             }
         } else {
-            this.tossup = await database.getRandomQuestion(
-                'tossup',
-                this.query.difficulties,
-                this.query.categories,
-                this.query.subcategories
-            );
+            this.tossup = await database.getRandomQuestions(this.query);
             this.tossup = this.tossup[0];
             if (Object.keys(this.tossup).length === 0) {
                 this.sendSocketMessage({

@@ -29,6 +29,14 @@ const DEFAULT_QUERY_RETURN_LENGTH = 50;
 const MAX_QUERY_RETURN_LENGTH = 200;
 
 /**
+ * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+ */
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+
+/**
  * Gets the next question with a question number greater than `currentQuestionNumber` that satisfies the given conditions.
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
@@ -40,15 +48,14 @@ const MAX_QUERY_RETURN_LENGTH = 200;
  * @returns {Promise<JSON>}
  */
 async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = 'tossup', alwaysUseUnformattedAnswer = false) {
+    if (setName === '') {
+        return 0;
+    }
+
     if (!SET_LIST.includes(setName)) {
         console.log(`WARNING: "${setName}" not found in SET_LIST`);
         return 0;
     }
-
-    let set = await sets.findOne({ name: setName }).catch(error => {
-        console.log('DATABASE ERROR:', error);
-        return {};
-    });
 
     if (validCategories.length === 0) validCategories = CATEGORIES;
     if (validSubcategories.length === 0) validSubcategories = SUBCATEGORIES_FLATTENED;
@@ -56,7 +63,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     let question = await questions.findOne({
         $or: [
             {
-                set: set._id,
+                setName: setName,
                 category: { $in: validCategories },
                 subcategory: { $in: validSubcategories },
                 packetNumber: packetNumbers[0],
@@ -64,7 +71,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
                 type: type
             },
             {
-                set: set._id,
+                setName: setName,
                 category: { $in: validCategories },
                 subcategory: { $in: validSubcategories },
                 packetNumber: { $in: packetNumbers.slice(1) },
@@ -82,8 +89,6 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
         return {};
     }
 
-    question.setName = setName;
-
     if (!alwaysUseUnformattedAnswer && Object.prototype.hasOwnProperty.call(question, 'formatted_answer')) {
         question.answer = question.formatted_answer;
     }
@@ -97,6 +102,10 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
  * @returns {Promise<Number>} the number of packets in the set.
  */
 async function getNumPackets(setName) {
+    if (setName === '') {
+        return 0;
+    }
+
     if (!SET_LIST.includes(setName)) {
         console.log(`WARNING: "${setName}" not found in SET_LIST`);
         return 0;
@@ -166,12 +175,6 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
     });
 }
 
-/**
- * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
- */
-function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
 
 /**
  *
@@ -285,49 +288,39 @@ async function queryHelper({ queryString, difficulties, questionType, setName, s
     }
 }
 
-/**
- * @param {'tossup' | 'bonus'} type - the type of question to get
- * @param {Array<Number>} difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array to select any difficulty.
- * @param {Array<String>} allowedCategories - an array of allowed categories. Pass a 0-length array to select any category.
- * @param {Array<String>} allowedSubcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
- * @param {Number} number - how many random tossups to return
- * @returns {Promise<Array<JSON>>}
- */
-async function getRandomQuestion(type, difficulties, allowedCategories, allowedSubcategories, number = 1) {
-    if (difficulties.length === 0) difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    if (allowedCategories.length === 0) allowedCategories = CATEGORIES;
-    if (allowedSubcategories.length === 0) allowedSubcategories = SUBCATEGORIES_FLATTENED;
-
-    let questionArray = await questions.aggregate([
-        { $match: { type: type, difficulty: { $in: difficulties }, category: { $in: allowedCategories }, subcategory: { $in: allowedSubcategories } } },
-        { $sample: { size: number } },
-        {
-            $lookup: {
-                from: 'sets',
-                localField: 'set',
-                foreignField: '_id',
-                as: 'setName'
-            }
-        }
-    ]).toArray();
-
-    questionArray.forEach(question => {
-        question.setName = question.setName[0].name;
-        return question;
-    });
-
-    if (questionArray.length === 0) {
-        return [{}];
-    }
-
-    return questionArray;
-}
-
 
 function getRandomName() {
     const ADJECTIVE_INDEX = Math.floor(Math.random() * ADJECTIVES.length);
     const ANIMAL_INDEX = Math.floor(Math.random() * ANIMALS.length);
     return `${ADJECTIVES[ADJECTIVE_INDEX]}-${ANIMALS[ANIMAL_INDEX]}`;
+}
+
+
+/**
+ * Get an array of random questions. This method is 3-4x faster than using the randomize option in getQuery.
+ * @param {'tossup' | 'bonus'} questionType - the type of question to get
+ * @param {Array<Number>} difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array to select any difficulty.
+ * @param {Array<String>} categories - an array of allowed categories. Pass a 0-length array to select any category.
+ * @param {Array<String>} subcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
+ * @param {Number} number - how many random tossups to return
+ * @returns {Promise<Array<JSON>>}
+ */
+async function getRandomQuestions({ questionType = 'tossup', difficulties = DIFFICULTIES, categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED, number = 1 }) {
+    if (difficulties.length === 0) difficulties = DIFFICULTIES;
+    if (categories.length === 0) categories = CATEGORIES;
+    if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+
+    let questionArray = await questions.aggregate([
+        { $match: { type: questionType, difficulty: { $in: difficulties }, category: { $in: categories }, subcategory: { $in: subcategories } } },
+        { $sample: { size: number } },
+    ]).toArray();
+
+    if (questionArray.length === 0) {
+        return [{}];
+    }
+
+    console.log(`DATABASE RANDOM QUESTIONS: difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; number: ${colors.OKGREEN}${number}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC};`);
+    return questionArray;
 }
 
 
@@ -362,4 +355,4 @@ async function reportQuestion(_id, reason, description) {
 }
 
 
-module.exports = { DEFAULT_QUERY_RETURN_LENGTH, getNextQuestion, getNumPackets, getPacket, getQuery, getRandomQuestion, getSetList, getRandomName, reportQuestion };
+module.exports = { DEFAULT_QUERY_RETURN_LENGTH, getNextQuestion, getNumPackets, getPacket, getQuery, getRandomQuestions, getSetList, getRandomName, reportQuestion };

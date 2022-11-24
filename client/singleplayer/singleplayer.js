@@ -34,7 +34,7 @@ async function getRandomQuestion(questionType, difficulties = [], validCategorie
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                type: questionType,
+                questionType: questionType,
                 difficulties: difficulties,
                 categories: validCategories,
                 subcategories: validSubcategories,
