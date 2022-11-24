@@ -1,8 +1,11 @@
+// Functions and variables used in both the tossup and bonus pages.
+
 /**
  * An array of random questions.
  * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
  */
 let randomQuestions = [];
+let maxPacketNumber = 24;
 
 /**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
@@ -56,6 +59,7 @@ async function getRandomQuestion(questionType, difficulties = [], validCategorie
 
     return randomQuestions.pop();
 }
+
 
 /**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
@@ -130,6 +134,22 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 });
 
 
+document.getElementById('set-name').addEventListener('change', async function (event) {
+    // make border red if set name is not in set list
+    if (SET_LIST.includes(this.value) || this.value.length === 0) {
+        this.classList.remove('is-invalid');
+    } else {
+        this.classList.add('is-invalid');
+    }
+    maxPacketNumber = await getNumPackets(this.value);
+    if (this.value === '' || maxPacketNumber > 0) {
+        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
+    } else {
+        document.getElementById('packet-number').placeholder = 'Packet Numbers';
+    }
+});
+
+
 document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
     if (this.checked) {
         document.getElementById('difficulty-settings').classList.add('d-none');
@@ -141,6 +161,7 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
         localStorage.setItem('selectBySetName', 'false');
     }
 });
+
 
 if (localStorage.getItem('selectBySetName') === 'false') {
     document.getElementById('toggle-select-by-set-name').checked = false;

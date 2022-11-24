@@ -1,3 +1,5 @@
+// Functions and variables specific to the bonuses page.
+
 // Room settings
 var packetNumbers = [];
 var setName = '';
@@ -172,14 +174,22 @@ function updateStatDisplay() {
         = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
 }
 
+
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
     getRandomQuestion('bonus', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
 });
 
+
 document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
     clearStats();
+});
+
+
+document.getElementById('difficulties').addEventListener('change', async function () {
+    randomQuestions = [];
+    getRandomQuestion('bonus', rangeToArray(this.value), validCategories, validSubcategories);
 });
 
 
@@ -224,11 +234,6 @@ document.getElementById('start').addEventListener('click', async function () {
     document.getElementById('question').innerHTML = 'Fetching questions...';
     questions = await getBonuses(setName, packetNumber);
     loadAndReadBonus();
-});
-
-document.getElementById('difficulties').addEventListener('change', async function () {
-    randomQuestions = [];
-    getRandomQuestion('bonus', rangeToArray(this.value), validCategories, validSubcategories);
 });
 
 

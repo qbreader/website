@@ -1,7 +1,11 @@
+// Javascript code common to *all* pages of the site.
+
+// Never use trailing slash, except for the root directory
 if (location.pathname.endsWith('/') && location.pathname.length > 1) {
     location.pathname = location.pathname.substring(0, location.pathname.length - 1);
 }
 
+// Always use https and www
 if (['http://www.qbreader.org', 'http://qbreader.herokuapp.com', 'https://qbreader.herokuapp.com'].includes(location.origin)) {
     location.href = 'https://www.qbreader.org' + location.pathname;
 }
