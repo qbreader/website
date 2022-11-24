@@ -1,24 +1,3 @@
-// import React from 'react';
-
-// eslint-disable-next-line no-unused-vars
-const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
-const SUBCATEGORIES = {
-    'Literature': ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
-    'History': ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
-    'Science': ['Biology', 'Chemistry', 'Physics', 'Math', 'Other Science'],
-    'Fine Arts': ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
-    'Religion': ['Religion'],
-    'Mythology': ['Mythology'],
-    'Philosophy': ['Philosophy'],
-    'Social Science': ['Social Science'],
-    'Current Events': ['Current Events'],
-    'Geography': ['Geography'],
-    'Other Academic': ['Other Academic'],
-    'Trash': ['Trash'],
-};
-// eslint-disable-next-line no-unused-vars
-const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
-
 const CATEGORY_BUTTONS = [
     ['Literature', 'primary'],
     ['History', 'success'],
@@ -59,9 +38,11 @@ const SUBCATEGORY_BUTTONS = [
 var validCategories = [];
 var validSubcategories = [];
 
+
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
+
 
 function highlightTossupQuery({ tossup, queryString, regex = false, searchType = 'all' }) {
     if (!regex) {
@@ -78,6 +59,7 @@ function highlightTossupQuery({ tossup, queryString, regex = false, searchType =
 
     return tossup;
 }
+
 
 function highlightBonusQuery({ bonus, queryString, regex = false, searchType = 'all' }) {
     if (!regex) {
@@ -100,28 +82,6 @@ function highlightBonusQuery({ bonus, queryString, regex = false, searchType = '
     return bonus;
 }
 
-function reportQuestion(_id, reason = '', description = '') {
-    fetch('/api/report-question', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            _id: _id,
-            reason: reason,
-            description: description
-        })
-    }).then(response => {
-        if (response.status === 200) {
-            alert('Question has been reported.');
-        } else {
-            alert('There was an error reporting the question.');
-        }
-    // eslint-disable-next-line no-unused-vars
-    }).catch(error => {
-        alert('There was an error reporting the question.');
-    });
-}
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
     reportQuestion(
@@ -131,91 +91,6 @@ document.getElementById('report-question-submit').addEventListener('click', func
     );
 });
 
-
-function rangeToArray(string, max = 0) {
-    if (string.length === 0) {
-        string = `1-${max}`;
-    }
-
-    if (string.endsWith('-')) {
-        string = string + max;
-    }
-
-    let tokens = string.split(',');
-    let ranges = [];
-    for (let i = 0; i < tokens.length; i++) {
-        let range = tokens[i].trim().split('-');
-        if (range.length === 1) {
-            ranges.push([parseInt(range[0]), parseInt(range[0])]);
-        } else {
-            ranges.push([parseInt(range[0]), parseInt(range[1])]);
-        }
-    }
-
-    let array = [];
-    for (let i = 0; i < ranges.length; i++) {
-        for (let j = ranges[i][0]; j <= ranges[i][1]; j++) {
-            array.push(j);
-        }
-    }
-
-    return array;
-}
-
-function updateCategory(category, validCategories, validSubcategories) {
-    if (validCategories.includes(category)) {
-        validCategories = validCategories.filter(a => a !== category);
-        validSubcategories = validSubcategories.filter(a => !SUBCATEGORIES[category].includes(a));
-    } else {
-        validCategories.push(category);
-        validSubcategories = validSubcategories.concat(SUBCATEGORIES[category]);
-    }
-
-    return [validCategories, validSubcategories];
-}
-
-function updateSubcategory(subcategory, validSubcategories) {
-    if (validSubcategories.includes(subcategory)) {
-        validSubcategories = validSubcategories.filter(a => a !== subcategory);
-    } else {
-        validSubcategories.push(subcategory);
-    }
-
-    return validSubcategories;
-}
-
-/**
- * Updates the category modal to show the given categories and subcategories.
- * @param {Array<String>} validCategories
- * @param {Array<String>} validSubcategories
- * @returns {void}
- */
-function loadCategoryModal(validCategories, validSubcategories) {
-    document.querySelectorAll('#categories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
-
-    if (validSubcategories.length === 0) {
-        let subcategoryInfoText = document.createElement('div');
-        subcategoryInfoText.className = 'text-muted text-center';
-        subcategoryInfoText.innerHTML = 'You must select categories before you can select subcategories.';
-        subcategoryInfoText.id = 'subcategory-info-text';
-        document.getElementById('subcategories').appendChild(subcategoryInfoText);
-    } else if (document.getElementById('subcategory-info-text')) {
-        document.getElementById('subcategory-info-text').remove();
-    }
-
-    validCategories.forEach(category => {
-        document.getElementById(category).checked = true;
-        SUBCATEGORIES[category].forEach(subcategory => {
-            document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
-        });
-    });
-
-    validSubcategories.forEach(subcategory => {
-        document.getElementById(subcategory).checked = true;
-    });
-}
 
 // eslint-disable-next-line no-undef
 class TossupCard extends React.Component {
@@ -244,6 +119,7 @@ class TossupCard extends React.Component {
         );
     }
 }
+
 
 // eslint-disable-next-line no-undef
 class BonusCard extends React.Component {
@@ -277,6 +153,7 @@ class BonusCard extends React.Component {
     }
 }
 
+
 // eslint-disable-next-line no-undef
 class CategoryModalButton extends React.Component {
     constructor(props) {
@@ -289,6 +166,7 @@ class CategoryModalButton extends React.Component {
         );
     }
 }
+
 
 // eslint-disable-next-line no-undef
 class CategoryButton extends React.Component {
@@ -312,6 +190,7 @@ class CategoryButton extends React.Component {
     }
 }
 
+
 // eslint-disable-next-line no-undef
 class SubcategoryButton extends React.Component {
     constructor(props) {
@@ -333,6 +212,7 @@ class SubcategoryButton extends React.Component {
         </div>);
     }
 }
+
 
 // eslint-disable-next-line no-undef
 class CategoryModal extends React.Component {
@@ -371,6 +251,7 @@ class CategoryModal extends React.Component {
         );
     }
 }
+
 
 // eslint-disable-next-line no-undef
 class QueryForm extends React.Component {
@@ -595,6 +476,7 @@ class QueryForm extends React.Component {
         );
     }
 }
+
 
 // eslint-disable-next-line no-undef
 const root = ReactDOM.createRoot(document.getElementById('root'));

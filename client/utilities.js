@@ -1,6 +1,5 @@
-// Contains variables and functions specific to quizbowl gameplay.
+// Constants and functions useful for quizbowl.
 
-var maxPacketNumber = 24;
 const SET_LIST = [];
 
 const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
@@ -19,21 +18,6 @@ const SUBCATEGORIES = {
     'Trash': ['Trash'],
 };
 const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
-
-/**
- *
- * @param {String} setName
- * @returns
- */
-async function getNumPackets(setName) {
-    if (setName === undefined) return 0;
-
-    return fetch(`/api/num-packets?setName=${encodeURIComponent(setName)}`)
-        .then(response => response.json())
-        .then(data => {
-            return parseInt(data);
-        });
-}
 
 
 function arrayToRange(array) {
@@ -107,6 +91,22 @@ const createTossupCard = (function () {
         });
     };
 })();
+
+
+/**
+ * @param {String} setName
+ * @returns {Number} The number of packets in the set.
+ */
+async function getNumPackets(setName) {
+    if (setName === undefined) return 0;
+    if (setName === '') return 0;
+
+    return fetch(`/api/num-packets?setName=${encodeURIComponent(setName)}`)
+        .then(response => response.json())
+        .then(data => {
+            return parseInt(data);
+        });
+}
 
 
 /**
@@ -209,6 +209,7 @@ function reportQuestion(_id, reason = '', description = '') {
     });
 }
 
+
 /**
  * Adds the given category if it is not in the list of valid categories.
  * Otherwise, the category is removed.
@@ -247,61 +248,6 @@ function updateSubcategory(subcategory, validSubcategories) {
     return validSubcategories;
 }
 
-document.getElementById('set-name').addEventListener('change', async function (event) {
-    // make border red if set name is not in set list
-    if (SET_LIST.includes(this.value) || this.value.length === 0) {
-        this.classList.remove('is-invalid');
-    } else {
-        this.classList.add('is-invalid');
-    }
-    maxPacketNumber = await getNumPackets(this.value);
-    if (maxPacketNumber > 0) {
-        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
-    } else {
-        document.getElementById('packet-number').placeholder = 'Packet Numbers';
-    }
-});
-
-document.getElementById('font-size').addEventListener('input', function () {
-    localStorage.setItem('font-size', this.value);
-    document.getElementById('font-size-display').innerHTML = this.value;
-    document.getElementById('question').style.setProperty('font-size', `${this.value}px`);
-});
-
-document.getElementById('report-question-submit').addEventListener('click', function () {
-    reportQuestion(
-        document.getElementById('report-question-id').value,
-        document.getElementById('report-question-reason').value,
-        document.getElementById('report-question-description').value
-    );
-});
-
-document.getElementById('toggle-high-contrast-question-text').addEventListener('click', function () {
-    this.blur();
-    if (this.checked) {
-        document.getElementById('question').classList.add('high-contrast-question-text');
-        localStorage.setItem('high-contrast-question-text', 'true');
-    } else {
-        document.getElementById('question').classList.remove('high-contrast-question-text');
-        localStorage.removeItem('high-contrast-question-text');
-    }
-});
-
-document.getElementById('toggle-options').addEventListener('click', function () {
-    this.blur();
-    document.getElementById('options').classList.toggle('d-none');
-});
-
-if (localStorage.getItem('font-size')) {
-    document.getElementById('font-size').value = localStorage.getItem('font-size');
-    document.getElementById('font-size-display').innerHTML = localStorage.getItem('font-size');
-    document.getElementById('question').style.setProperty('font-size', `${localStorage.getItem('font-size')}px`);
-}
-
-if (localStorage.getItem('high-contrast-question-text') === 'true') {
-    document.getElementById('toggle-high-contrast-question-text').checked = true;
-    document.getElementById('question').classList.add('high-contrast-question-text');
-}
 
 fetch('/api/set-list')
     .then(response => response.json())

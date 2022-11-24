@@ -3,6 +3,8 @@ var changedCategories = false;
 var validCategories = [];
 var validSubcategories = [];
 
+var maxPacketNumber = 24;
+
 // Do not escape room name as that is how it is stored on the server.
 const ROOM_NAME = location.pathname.substring(13);
 var tossup = {};
@@ -149,7 +151,6 @@ const socketOnClearStats = (message) => {
 };
 
 const socketOnConnectionAcknowledged = (message) => {
-    console.log(message);
     USER_ID = message.userId;
     localStorage.setItem('USER_ID', USER_ID);
 
@@ -161,6 +162,12 @@ const socketOnConnectionAcknowledged = (message) => {
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
+    (async () => {
+        maxPacketNumber = await getNumPackets(document.getElementById('set-name').value);
+        if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
+            document.getElementById('set-name').classList.add('is-invalid');
+        }
+    })();
     tossup = message.tossup;
     document.getElementById('set-name-info').innerHTML = message.tossup?.setName ?? '';
     document.getElementById('packet-number-info').innerHTML = message.tossup?.packetNumber ?? '-';
@@ -591,8 +598,13 @@ document.getElementById('reading-speed').addEventListener('input', function () {
 
 
 document.getElementById('set-name').addEventListener('change', async function () {
+    if (SET_LIST.includes(this.value) || this.value.length === 0) {
+        this.classList.remove('is-invalid');
+    } else {
+        this.classList.add('is-invalid');
+    }
     maxPacketNumber = await getNumPackets(this.value);
-    if (this.value === '') {
+    if (this.value === '' || maxPacketNumber === 0) {
         document.getElementById('packet-number').value = '';
     } else {
         document.getElementById('packet-number').value = `1-${maxPacketNumber}`;
