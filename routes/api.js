@@ -158,11 +158,11 @@ router.post('/report-question', async (req, res) => {
     } else {
         res.sendStatus(500);
     }
-})
+});
 
 router.get('/set-list', (req, res) => {
     const setList = database.getSetList(req.query.setName);
     res.send(setList);
-})
+});
 
 module.exports = router;
