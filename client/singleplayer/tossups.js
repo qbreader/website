@@ -1,3 +1,5 @@
+// Functions and variables specific to the tossups page.
+
 // Room settings
 var packetNumbers = [];
 var setName = '';
@@ -297,6 +299,12 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 });
 
 
+document.getElementById('difficulties').addEventListener('change', async function () {
+    randomQuestions = [];
+    getRandomQuestion('tossup', rangeToArray(this.value), validCategories, validSubcategories);
+});
+
+
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
     createTossupCard(questions[questionNumber], setName);
@@ -345,10 +353,6 @@ document.getElementById('toggle-correct').addEventListener('click', function () 
     toggleCorrect();
 });
 
-document.getElementById('difficulties').addEventListener('change', async function () {
-    randomQuestions = [];
-    getRandomQuestion('tossup', rangeToArray(this.value), validCategories, validSubcategories);
-});
 
 document.addEventListener('keydown', (event) => {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
