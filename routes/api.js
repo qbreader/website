@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const database = require('../server/database');
-const { CATEGORIES, SUBCATEGORIES_FLATTENED_ALL } = require('../server/quizbowl.js');
 
 // DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
 
@@ -56,8 +55,9 @@ router.post('/query', async (req, res) => {
         return;
     }
 
-    if (req.body.difficulties === undefined) {
-        req.body.difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    if (!['all', 'question', 'answer'].includes(req.body.searchType)) {
+        res.status(400).send('Invalid search type specified.');
+        return;
     }
 
     if (typeof req.body.difficulties === 'string') {
@@ -68,16 +68,8 @@ router.post('/query', async (req, res) => {
         req.body.difficulties = [req.body.difficulties];
     }
 
-    if (req.body.categories === undefined) {
-        req.body.categories = CATEGORIES;
-    }
-
     if (typeof req.body.categories === 'string') {
         req.body.categories = [req.body.categories];
-    }
-
-    if (req.body.subcategories === undefined) {
-        req.body.subcategories = SUBCATEGORIES_FLATTENED_ALL;
     }
 
     if (typeof req.body.subcategories === 'string') {
@@ -88,27 +80,14 @@ router.post('/query', async (req, res) => {
         req.body.maxQueryReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
     }
 
-    if (!['all', 'question', 'answer'].includes(req.body.searchType)) {
-        res.status(400).send('Invalid search type specified.');
-        return;
-    }
-
-    if (req.body.setName === undefined) {
-        req.body.setName = '';
-    }
-
     const queryResult = await database.getQuery(req.body);
     res.send(JSON.stringify(queryResult));
 });
 
 router.post('/random-question', async (req, res) => {
-    if (req.body.type !== 'tossup' && req.body.type !== 'bonus') {
+    if (!['tossup', 'bonus'].includes(req.body.questionType)) {
         res.status(400).send('Invalid question type specified.');
         return;
-    }
-
-    if (req.body.difficulties === undefined) {
-        req.body.difficulties = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
 
     if (typeof req.body.difficulties === 'string') {
@@ -119,27 +98,15 @@ router.post('/random-question', async (req, res) => {
         req.body.difficulties = [req.body.difficulties];
     }
 
-    if (req.body.categories === undefined) {
-        req.body.categories = CATEGORIES;
-    }
-
     if (typeof req.body.categories === 'string') {
         req.body.categories = [req.body.categories];
-    }
-
-    if (req.body.subcategories === undefined) {
-        req.body.subcategories = SUBCATEGORIES_FLATTENED_ALL;
     }
 
     if (typeof req.body.subcategories === 'string') {
         req.body.subcategories = [req.body.subcategories];
     }
 
-    if (req.body.number === undefined) {
-        req.body.number = 1;
-    }
-
-    const questions = await database.getRandomQuestion(req.body.type, req.body.difficulties, req.body.categories, req.body.subcategories, req.body.number);
+    const questions = await database.getRandomQuestions(req.body);
     if (questions.length > 0) {
         res.send(JSON.stringify(questions));
     } else {
