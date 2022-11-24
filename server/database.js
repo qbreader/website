@@ -228,10 +228,6 @@ async function queryHelper({ queryString, difficulties, questionType, setName, s
         }
     }
 
-    if (setName) {
-        query.setName = setName;
-    }
-
     const query = {
         $or: orQuery,
         type: questionType,
@@ -239,6 +235,10 @@ async function queryHelper({ queryString, difficulties, questionType, setName, s
         category: { $in: categories },
         subcategory: { $in: subcategories },
     };
+
+    if (setName) {
+        query.setName = setName;
+    }
 
     const aggregation = [
         { $match: query, },
