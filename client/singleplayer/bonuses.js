@@ -1,17 +1,17 @@
 // Functions and variables specific to the bonuses page.
 
 // Room settings
-var packetNumbers = [];
-var setName = '';
-var validCategories;
-var validSubcategories;
+const packetNumbers = [];
+let setName = '';
+let validCategories;
+let validSubcategories;
 
 // Status variables
-var currentBonusPart = -1;
-var onQuestion = true;
-var packetNumber = -1;
-var questions = [{}];
-var questionNumber = 0;
+let currentBonusPart = -1;
+let onQuestion = true;
+let packetNumber = -1;
+let questions = [{}];
+let questionNumber = 0;
 
 
 /**
@@ -24,7 +24,7 @@ function clearStats() {
 
 
 function createBonusPart(bonusPartNumber, bonusText) {
-    let input = document.createElement('input');
+    const input = document.createElement('input');
     input.id = `checkbox-${bonusPartNumber + 1}`;
     input.className = 'checkbox form-check-input rounded-0 me-1';
     input.type = 'checkbox';
@@ -33,18 +33,18 @@ function createBonusPart(bonusPartNumber, bonusText) {
         this.blur();
     });
 
-    let inputWrapper = document.createElement('label');
+    const inputWrapper = document.createElement('label');
     inputWrapper.style = 'cursor: pointer';
     inputWrapper.appendChild(input);
 
-    let p = document.createElement('p');
+    const p = document.createElement('p');
     p.appendChild(document.createTextNode('[10] ' + bonusText));
 
-    let bonusPart = document.createElement('div');
+    const bonusPart = document.createElement('div');
     bonusPart.id = `bonus-part-${bonusPartNumber + 1}`;
     bonusPart.appendChild(p);
 
-    let row = document.createElement('div');
+    const row = document.createElement('div');
     row.className = 'd-flex';
     row.appendChild(inputWrapper);
     row.appendChild(bonusPart);
@@ -54,9 +54,9 @@ function createBonusPart(bonusPartNumber, bonusText) {
 
 
 function getPointsForCurrentBonus() {
-    let statsArray = sessionStorage.stats.split(',');
+    const statsArray = sessionStorage.stats.split(',');
 
-    var pointsOnBonus = 0;
+    let pointsOnBonus = 0;
     Array.from(document.getElementsByClassName('checkbox')).forEach((checkbox) => {
         if (checkbox.checked) pointsOnBonus += 10;
     });
@@ -125,7 +125,7 @@ async function loadAndReadBonus() {
 
         // Update the question text:
 
-        let paragraph = document.createElement('p');
+        const paragraph = document.createElement('p');
         paragraph.appendChild(document.createTextNode(questions[questionNumber]['leadin']));
         document.getElementById('question').innerHTML = '';
         document.getElementById('question').appendChild(paragraph);
@@ -144,7 +144,7 @@ function revealBonusPart() {
     if (onQuestion) {
         createBonusPart(currentBonusPart, questions[questionNumber]['parts'][currentBonusPart]);
     } else {
-        let paragraph = document.createElement('p');
+        const paragraph = document.createElement('p');
         paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber]['answers'][currentBonusPart];
         document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
         currentBonusPart++;
@@ -163,13 +163,13 @@ function revealBonusPart() {
  * Calculates that points per bonus and updates the display.
  */
 function updateStatDisplay() {
-    let statsArray = sessionStorage.stats.split(',');
+    const statsArray = sessionStorage.stats.split(',');
 
-    let numBonuses = parseInt(statsArray[0]) + parseInt(statsArray[1]) + parseInt(statsArray[2]) + parseInt(statsArray[3]);
-    let points = 30 * parseInt(statsArray[0]) + 20 * parseInt(statsArray[1]) + 10 * parseInt(statsArray[2]) || 0;
-    let ppb = Math.round(100 * points / numBonuses) / 100 || 0;
+    const numBonuses = parseInt(statsArray[0]) + parseInt(statsArray[1]) + parseInt(statsArray[2]) + parseInt(statsArray[3]);
+    const points = 30 * parseInt(statsArray[0]) + 20 * parseInt(statsArray[1]) + 10 * parseInt(statsArray[2]) || 0;
+    const ppb = Math.round(100 * points / numBonuses) / 100 || 0;
 
-    let includePlural = (numBonuses == 1) ? '' : 'es';
+    const includePlural = (numBonuses == 1) ? '' : 'es';
     document.getElementById('statline').innerHTML
         = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
 }

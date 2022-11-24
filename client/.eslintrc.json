@@ -3,7 +3,7 @@
         "browser": true,
         "node": false
     },
-    "ignorePatterns": ["database/index.js"],
+    "ignorePatterns": ["database/index.js", "bootstrap/*.js"],
     "rules": {
         "no-undef": "off",
         "no-unused-vars": "off",

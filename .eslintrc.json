@@ -33,6 +33,11 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "prefer-const": ["error", {
+            "destructuring": "all",
+            "ignoreReadBeforeAssign": false
+        }],
+        "no-var": "error"
     }
 }

@@ -60,7 +60,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     if (validCategories.length === 0) validCategories = CATEGORIES;
     if (validSubcategories.length === 0) validSubcategories = SUBCATEGORIES_FLATTENED;
 
-    let question = await questions.findOne({
+    const question = await questions.findOne({
         $or: [
             {
                 setName: setName,
@@ -143,13 +143,13 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
             return { 'tossups': [], 'bonuses': [] };
         }
 
-        let packet = set.packets[packetNumber - 1];
-        let result = {};
+        const packet = set.packets[packetNumber - 1];
+        const result = {};
 
         if (allowedTypes.includes('tossups')) {
             result['tossups'] = await questions.find({ packet: packet._id, type: 'tossup' }, { sort: { questionNumber: 1 } }).toArray();
             if (!alwaysUseUnformattedAnswer) {
-                for (let question of result['tossups']) {
+                for (const question of result['tossups']) {
                     if (Object.prototype.hasOwnProperty.call(question, 'formatted_answer')) {
                         question.answer = question.formatted_answer;
                     }
@@ -160,7 +160,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
         if (allowedTypes.includes('bonuses')) {
             result['bonuses'] = await questions.find({ packet: packet._id, type: 'bonus' }, { sort: { questionNumber: 1 } }).toArray();
             if (!alwaysUseUnformattedAnswer) {
-                for (let question of result['bonuses']) {
+                for (const question of result['bonuses']) {
                     if (Object.prototype.hasOwnProperty.call(question, 'formatted_answers')) {
                         question.answers = question.formatted_answers;
                     }
@@ -203,7 +203,7 @@ async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName
         queryString = escapeRegExp(queryString);
     }
 
-    let returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
+    const returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
     if (questionType === 'tossup' || questionType === 'all') {
         const tossups = await queryHelper({ queryString, difficulties, setName, questionType: 'tossup', searchType, categories, subcategories, maxQueryReturnLength, randomize });
         returnValue.tossups = tossups;
@@ -268,7 +268,7 @@ async function queryHelper({ queryString, difficulties, questionType, setName, s
     }
 
     try {
-        let questionArray = await questions.aggregate(aggregation).toArray();
+        const questionArray = await questions.aggregate(aggregation).toArray();
         let count = await questions.aggregate([
             { $match: query, },
             { $count: 'count' }
@@ -310,7 +310,7 @@ async function getRandomQuestions({ questionType = 'tossup', difficulties = DIFF
     if (categories.length === 0) categories = CATEGORIES;
     if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
 
-    let questionArray = await questions.aggregate([
+    const questionArray = await questions.aggregate([
         { $match: { type: questionType, difficulty: { $in: difficulties }, category: { $in: categories }, subcategory: { $in: subcategories } } },
         { $sample: { size: number } },
     ]).toArray();

@@ -25,10 +25,10 @@ fetch('/api/multiplayer/room-list')
     })
     .then(rooms => {
         rooms.forEach(room => {
-            let a = document.createElement('a');
+            const a = document.createElement('a');
             a.href = `/multiplayer/${room[0]}`;
             a.innerHTML = decodeURIComponent(room[0]);
-            let li = document.createElement('li');
+            const li = document.createElement('li');
             li.appendChild(a);
             li.appendChild(document.createTextNode(` - ${room[1][0]} player${room[1][0] === 1 ? '' : 's'} - ${room[1][1]} online`));
             li.classList.add('list-group-item');

@@ -344,9 +344,9 @@ class Room {
     giveAnswer(userId, givenAnswer, celerity) {
         if (Object.keys(this.tossup).length === 0) return;
         this.buzzedIn = null;
-        let endOfQuestion = (this.wordIndex === this.questionSplit.length);
-        let inPower = this.tossup.question.includes('(*)') && !this.questionSplit.slice(0, this.wordIndex).join(' ').includes('(*)');
-        let [directive, points] = quizbowl.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
+        const endOfQuestion = (this.wordIndex === this.questionSplit.length);
+        const inPower = this.tossup.question.includes('(*)') && !this.questionSplit.slice(0, this.wordIndex).join(' ').includes('(*)');
+        const [directive, points] = quizbowl.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
 
         if (directive === 'accept') {
             this.revealQuestion();
@@ -405,7 +405,7 @@ class Room {
 
     revealQuestion() {
         if (Object.keys(this.tossup).length === 0) return;
-        let remainingQuestion = this.questionSplit.slice(this.wordIndex).join(' ');
+        const remainingQuestion = this.questionSplit.slice(this.wordIndex).join(' ');
         this.sendSocketMessage({
             type: 'update-question',
             word: remainingQuestion
@@ -432,7 +432,7 @@ class Room {
             return;
         }
 
-        let word = this.questionSplit[this.wordIndex];
+        const word = this.questionSplit[this.wordIndex];
         this.wordIndex++;
 
         // calculate time needed before reading next word
