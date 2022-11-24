@@ -63,30 +63,37 @@ function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-function highlightTossupQuery(tossup, queryString, searchType = 'all') {
+function highlightTossupQuery({ tossup, queryString, regex = false, searchType = 'all' }) {
+    if (!regex) {
+        queryString = escapeRegExp(queryString);
+    }
+
     if (searchType === 'question' || searchType === 'all') {
-        tossup.question = tossup.question.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+        tossup.question = tossup.question.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
     }
 
     if (searchType === 'answer' || searchType === 'all') {
-        tossup.answer = tossup.answer.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+        tossup.answer = tossup.answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
     }
 
     return tossup;
 }
 
-function highlightBonusQuery(bonus, queryString, searchType = 'all') {
-    if (searchType === 'question' || searchType === 'all') {
-        bonus.leadin = bonus.leadin.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+function highlightBonusQuery({ bonus, queryString, regex = false, searchType = 'all' }) {
+    if (!regex) {
+        queryString = escapeRegExp(queryString);
+    }
 
+    if (searchType === 'question' || searchType === 'all') {
+        bonus.leadin = bonus.leadin.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
         for (let i = 0; i < bonus.parts.length; i++) {
-            bonus.parts[i] = bonus.parts[i].replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+            bonus.parts[i] = bonus.parts[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
         }
     }
 
     if (searchType === 'answer' || searchType === 'all') {
         for (let i = 0; i < bonus.parts.length; i++) {
-            bonus.answers[i] = bonus.answers[i].replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+            bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
         }
     }
 
@@ -380,6 +387,7 @@ class QueryForm extends React.Component {
             maxQueryReturnLength: '',
             queryString: '',
             questionType: 'all',
+            regex: false,
             searchType: 'all',
 
             currentlySearching: false,
@@ -387,8 +395,9 @@ class QueryForm extends React.Component {
         this.onDifficultyChange = this.onDifficultyChange.bind(this);
         this.onMaxQueryReturnLengthChange = this.onMaxQueryReturnLengthChange.bind(this);
         this.onQueryChange = this.onQueryChange.bind(this);
-        this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
         this.onQuestionTypeChange = this.onQuestionTypeChange.bind(this);
+        this.onRegexChange = this.onRegexChange.bind(this);
+        this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -427,6 +436,10 @@ class QueryForm extends React.Component {
         this.setState({ questionType: event.target.value });
     }
 
+    onRegexChange(event) {
+        this.setState({ regex: event.target.checked });
+    }
+
     handleSubmit(event, randomize = false) {
         event.preventDefault();
         this.setState({ currentlySearching: true });
@@ -446,6 +459,7 @@ class QueryForm extends React.Component {
                 queryString: this.state.queryString,
                 questionType: this.state.questionType,
                 randomize: randomize,
+                regex: this.state.regex,
                 searchType: this.state.searchType,
                 setName: document.getElementById('set-name').value,
             })
@@ -468,7 +482,7 @@ class QueryForm extends React.Component {
 
                 if (this.state.queryString !== '') {
                     for (let i = 0; i < tossupArray.length; i++) {
-                        tossupArray[i] = highlightTossupQuery(tossupArray[i], this.state.queryString, this.state.searchType);
+                        tossupArray[i] = highlightTossupQuery({ tossup: tossupArray[i], queryString: this.state.queryString, searchType: this.state.searchType, regex: this.state.regex } );
                     }
                 }
 
@@ -483,7 +497,7 @@ class QueryForm extends React.Component {
 
                 if (this.state.queryString !== '') {
                     for (let i = 0; i < bonusArray.length; i++) {
-                        bonusArray[i] = highlightBonusQuery(bonusArray[i], this.state.queryString, this.state.searchType);
+                        bonusArray[i] = highlightBonusQuery({ bonus: bonusArray[i], queryString: this.state.queryString, searchType: this.state.searchType, regex: this.state.regex });
                     }
                 }
 
@@ -527,7 +541,7 @@ class QueryForm extends React.Component {
                             <datalist id="set-list"></datalist>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                         <div className="col-5">
                             <select className="form-select" id="search-type" value={this.state.searchType} onChange={this.onSearchTypeChange}>
                                 <option value="all">All text (question and answer)</option>
@@ -544,6 +558,15 @@ class QueryForm extends React.Component {
                         </div>
                         <div className="col-2">
                             <CategoryModalButton />
+                        </div>
+                    </div>
+                    <div className="row mb-2">
+                        <div className="col-12">
+                            <div className="form-check form-switch">
+                                <input className="form-check-input" type="checkbox" role="switch" id="toggle-regex" checked={this.state.regex} onChange={this.onRegexChange} />
+                                <label className="form-check-label" htmlFor="toggle-regex">Search using regular expression</label>
+                                <a href="https://www.sitepoint.com/learn-regex/"> What&apos;s this?</a>
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -26,25 +26,41 @@ function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-function highlightTossupQuery(tossup, queryString, searchType = 'all') {
+function highlightTossupQuery({
+  tossup,
+  queryString,
+  regex = false,
+  searchType = 'all'
+}) {
+  if (!regex) {
+    queryString = escapeRegExp(queryString);
+  }
   if (searchType === 'question' || searchType === 'all') {
-    tossup.question = tossup.question.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+    tossup.question = tossup.question.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
   }
   if (searchType === 'answer' || searchType === 'all') {
-    tossup.answer = tossup.answer.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+    tossup.answer = tossup.answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
   }
   return tossup;
 }
-function highlightBonusQuery(bonus, queryString, searchType = 'all') {
+function highlightBonusQuery({
+  bonus,
+  queryString,
+  regex = false,
+  searchType = 'all'
+}) {
+  if (!regex) {
+    queryString = escapeRegExp(queryString);
+  }
   if (searchType === 'question' || searchType === 'all') {
-    bonus.leadin = bonus.leadin.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+    bonus.leadin = bonus.leadin.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
     for (let i = 0; i < bonus.parts.length; i++) {
-      bonus.parts[i] = bonus.parts[i].replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+      bonus.parts[i] = bonus.parts[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
     }
   }
   if (searchType === 'answer' || searchType === 'all') {
     for (let i = 0; i < bonus.parts.length; i++) {
-      bonus.answers[i] = bonus.answers[i].replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
+      bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
     }
   }
   return bonus;
@@ -352,14 +368,16 @@ class QueryForm extends React.Component {
       maxQueryReturnLength: '',
       queryString: '',
       questionType: 'all',
+      regex: false,
       searchType: 'all',
       currentlySearching: false
     };
     this.onDifficultyChange = this.onDifficultyChange.bind(this);
     this.onMaxQueryReturnLengthChange = this.onMaxQueryReturnLengthChange.bind(this);
     this.onQueryChange = this.onQueryChange.bind(this);
-    this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
     this.onQuestionTypeChange = this.onQuestionTypeChange.bind(this);
+    this.onRegexChange = this.onRegexChange.bind(this);
+    this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
@@ -399,6 +417,11 @@ class QueryForm extends React.Component {
       questionType: event.target.value
     });
   }
+  onRegexChange(event) {
+    this.setState({
+      regex: event.target.checked
+    });
+  }
   handleSubmit(event, randomize = false) {
     event.preventDefault();
     this.setState({
@@ -418,6 +441,7 @@ class QueryForm extends React.Component {
         queryString: this.state.queryString,
         questionType: this.state.questionType,
         randomize: randomize,
+        regex: this.state.regex,
         searchType: this.state.searchType,
         setName: document.getElementById('set-name').value
       })
@@ -442,7 +466,12 @@ class QueryForm extends React.Component {
       }
       if (this.state.queryString !== '') {
         for (let i = 0; i < tossupArray.length; i++) {
-          tossupArray[i] = highlightTossupQuery(tossupArray[i], this.state.queryString, this.state.searchType);
+          tossupArray[i] = highlightTossupQuery({
+            tossup: tossupArray[i],
+            queryString: this.state.queryString,
+            searchType: this.state.searchType,
+            regex: this.state.regex
+          });
         }
       }
       this.setState({
@@ -460,7 +489,12 @@ class QueryForm extends React.Component {
       }
       if (this.state.queryString !== '') {
         for (let i = 0; i < bonusArray.length; i++) {
-          bonusArray[i] = highlightBonusQuery(bonusArray[i], this.state.queryString, this.state.searchType);
+          bonusArray[i] = highlightBonusQuery({
+            bonus: bonusArray[i],
+            queryString: this.state.queryString,
+            searchType: this.state.searchType,
+            regex: this.state.regex
+          });
         }
       }
       this.setState({
@@ -540,7 +574,7 @@ class QueryForm extends React.Component {
     }), /*#__PURE__*/React.createElement("datalist", {
       id: "set-list"
     }))), /*#__PURE__*/React.createElement("div", {
-      className: "row"
+      className: "row mb-2"
     }, /*#__PURE__*/React.createElement("div", {
       className: "col-5"
     }, /*#__PURE__*/React.createElement("select", {
@@ -569,7 +603,25 @@ class QueryForm extends React.Component {
       value: "bonus"
     }, "Bonuses"))), /*#__PURE__*/React.createElement("div", {
       className: "col-2"
-    }, /*#__PURE__*/React.createElement(CategoryModalButton, null)))), this.state.currentlySearching ? /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement(CategoryModalButton, null))), /*#__PURE__*/React.createElement("div", {
+      className: "row mb-2"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "col-12"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-check form-switch"
+    }, /*#__PURE__*/React.createElement("input", {
+      className: "form-check-input",
+      type: "checkbox",
+      role: "switch",
+      id: "toggle-regex",
+      checked: this.state.regex,
+      onChange: this.onRegexChange
+    }), /*#__PURE__*/React.createElement("label", {
+      className: "form-check-label",
+      htmlFor: "toggle-regex"
+    }, "Search using regular expression"), /*#__PURE__*/React.createElement("a", {
+      href: "https://www.sitepoint.com/learn-regex/"
+    }, " What's this?"))))), this.state.currentlySearching ? /*#__PURE__*/React.createElement("div", {
       className: "d-block mx-auto mt-3 spinner-border",
       role: "status"
     }, /*#__PURE__*/React.createElement("span", {
