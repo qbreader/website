@@ -10,7 +10,7 @@ document.getElementById('form').addEventListener('submit', (event) => {
 });
 
 
-fetch(`/api/multiplayer/room-list`)
+fetch('/api/multiplayer/room-list')
     .then(response => response.json())
     .then(rooms => {
         rooms = Object.entries(rooms);
@@ -36,8 +36,8 @@ fetch(`/api/multiplayer/room-list`)
         });
     });
 
-fetch(`/api/random-name`)
+fetch('/api/random-name')
     .then(res => res.text())
     .then(roomName => {
-        document.getElementById('new-room-name').placeholder = roomName
+        document.getElementById('new-room-name').placeholder = roomName;
     });

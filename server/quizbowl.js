@@ -3,35 +3,35 @@ const { toWords } = require('number-to-words');
 
 const DIFFICULTIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
+const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 const SUBCATEGORIES = [
-    ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
-    ["American History", "Ancient History", "European History", "World History", "Other History"],
-    ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
-    ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"],
-    ["Religion"],
-    ["Mythology"],
-    ["Philosophy"],
-    ["Social Science"],
-    ["Current Events"],
-    ["Geography"],
-    ["Other Academic"],
-    ["Trash"]
+    ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
+    ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
+    ['Biology', 'Chemistry', 'Physics', 'Math', 'Other Science'],
+    ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
+    ['Religion'],
+    ['Mythology'],
+    ['Philosophy'],
+    ['Social Science'],
+    ['Current Events'],
+    ['Geography'],
+    ['Other Academic'],
+    ['Trash']
 ];
-const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
+const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 /**
  * Subcategories flattened, but also includes the 4 optional subcategories
  * "Long Fiction", "Short Fiction", "Poetry", and "Drama".
  */
-const SUBCATEGORIES_FLATTENED_ALL = ["Long Fiction", "Short Fiction", "Poetry", "Drama", "American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
-const METAWORDS = ["the", "like", "descriptions", "description", "of", "do", "not", "as", "accept", "or", "other", "prompt", "on", "except", "before", "after", "is", "read", "stated", "mentioned", "at", "any", "don't", "more", "specific", "etc", "eg", "answers", "word", "forms"];
+const SUBCATEGORIES_FLATTENED_ALL = ['Long Fiction', 'Short Fiction', 'Poetry', 'Drama', 'American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
+const METAWORDS = ['the', 'like', 'descriptions', 'description', 'of', 'do', 'not', 'as', 'accept', 'or', 'other', 'prompt', 'on', 'except', 'before', 'after', 'is', 'read', 'stated', 'mentioned', 'at', 'any', 'don\'t', 'more', 'specific', 'etc', 'eg', 'answers', 'word', 'forms'];
 
 
 function parseAnswerline(answerline) {
     const removeParentheses = (string) => {
-        string = string.replace(/\([^\)]*\)/g, '');
+        string = string.replace(/\([^)]*\)/g, '');
         return string;
-    }
+    };
 
     const splitMainAnswer = (string) => {
         let indexStart = string.indexOf('[');
@@ -44,7 +44,7 @@ function parseAnswerline(answerline) {
         let subAnswer = string.substring(indexStart + 1, indexEnd).trim();
 
         return { mainAnswer, subAnswer };
-    }
+    };
 
     const splitIntoPhrases = (string) => {
         return string.split(';').map(token => token.trim());
@@ -66,7 +66,7 @@ function parseAnswerline(answerline) {
         const answers = phrase.split(' or ').map(token => token.trim()).filter(token => token.length > 0);
 
         return { directive, answers };
-    }
+    };
 
     const extractUnderlining = (string) => {
         let matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
@@ -75,7 +75,7 @@ function parseAnswerline(answerline) {
         } else {
             return string;
         }
-    }
+    };
 
     const extractQuotes = (string) => {
         let matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
@@ -84,7 +84,7 @@ function parseAnswerline(answerline) {
         } else {
             return string;
         }
-    }
+    };
 
     /**
      * Get all words which are partially or wholly underlined.
@@ -95,7 +95,7 @@ function parseAnswerline(answerline) {
             .map(token => token.replace(/<[^>]*>/g, ''))
             .reduce((prev, curr) => prev + curr + ' ', '')
             .trim();
-    }
+    };
 
     answerline = removeParentheses(answerline);
     let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
@@ -104,7 +104,7 @@ function parseAnswerline(answerline) {
         accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), extractQuotes(mainAnswer)]],
         prompt: [],
         reject: []
-    }
+    };
 
     if (mainAnswer.includes(' or ')) {
         let parts = mainAnswer.split(' or ');
@@ -142,12 +142,12 @@ function stringMatchesReference(string, reference, strictness = 4) {
     }
 
     const removePunctuation = (string) => {
-        return string.replace(/[.,!;:'"\/?@#$%^&*_~]/g, '');
-    }
+        return string.replace(/[.,!;:'"\\/?@#$%^&*_~]/g, '');
+    };
 
     const replaceSpecialCharacters = (string) => {
         return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    }
+    };
 
     const stemmer = (string) => {
         if (string.charAt(string.length - 1) === 's') {
@@ -155,7 +155,7 @@ function stringMatchesReference(string, reference, strictness = 4) {
         } else {
             return string;
         }
-    }
+    };
 
     string = removePunctuation(string);
     string = replaceSpecialCharacters(string);

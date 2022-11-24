@@ -1,21 +1,25 @@
-const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
+// import React from 'react';
+
+// eslint-disable-next-line no-unused-vars
+const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 const SUBCATEGORIES = {
-  "Literature": ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
-  "History": ["American History", "Ancient History", "European History", "World History", "Other History"],
-  "Science": ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
-  "Fine Arts": ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"],
-  "Religion": ["Religion"],
-  "Mythology": ["Mythology"],
-  "Philosophy": ["Philosophy"],
-  "Social Science": ["Social Science"],
-  "Current Events": ["Current Events"],
-  "Geography": ["Geography"],
-  "Other Academic": ["Other Academic"],
-  "Trash": ["Trash"]
+  'Literature': ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
+  'History': ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
+  'Science': ['Biology', 'Chemistry', 'Physics', 'Math', 'Other Science'],
+  'Fine Arts': ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
+  'Religion': ['Religion'],
+  'Mythology': ['Mythology'],
+  'Philosophy': ['Philosophy'],
+  'Social Science': ['Social Science'],
+  'Current Events': ['Current Events'],
+  'Geography': ['Geography'],
+  'Other Academic': ['Other Academic'],
+  'Trash': ['Trash']
 };
-const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
-const CATEGORY_BUTTONS = [["Literature", "primary"], ["History", "success"], ["Science", "danger"], ["Fine Arts", "warning"], ["Religion", "secondary"], ["Mythology", "secondary"], ["Philosophy", "secondary"], ["Social Science", "secondary"], ["Current Events", "secondary"], ["Geography", "secondary"], ["Other Academic", "secondary"], ["Trash", "secondary"]];
-const SUBCATEGORY_BUTTONS = [["American Literature", "primary"], ["British Literature", "primary"], ["Classical Literature", "primary"], ["European Literature", "primary"], ["World Literature", "primary"], ["Other Literature", "primary"], ["American History", "success"], ["Ancient History", "success"], ["European History", "success"], ["World History", "success"], ["Other History", "success"], ["Biology", "danger"], ["Chemistry", "danger"], ["Physics", "danger"], ["Math", "danger"], ["Other Science", "danger"], ["Visual Fine Arts", "warning"], ["Auditory Fine Arts", "warning"], ["Other Fine Arts", "warning"]];
+// eslint-disable-next-line no-unused-vars
+const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
+const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
+const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Math', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
 var validCategories = [];
 var validSubcategories = [];
 function escapeRegExp(string) {
@@ -33,19 +37,19 @@ function highlightTossupQuery(tossup, queryString, searchType = 'all') {
 }
 function highlightBonusQuery(bonus, queryString, searchType = 'all') {
   if (searchType === 'question' || searchType === 'all') {
-    bonus.leadin = bonus.leadin.replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+    bonus.leadin = bonus.leadin.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
     for (let i = 0; i < bonus.parts.length; i++) {
-      bonus.parts[i] = bonus.parts[i].replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+      bonus.parts[i] = bonus.parts[i].replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
     }
   }
   if (searchType === 'answer' || searchType === 'all') {
     for (let i = 0; i < bonus.parts.length; i++) {
-      bonus.answers[i] = bonus.answers[i].replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+      bonus.answers[i] = bonus.answers[i].replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
     }
   }
   return bonus;
 }
-function reportQuestion(_id, reason = "", description = "") {
+function reportQuestion(_id, reason = '', description = '') {
   fetch('/api/report-question', {
     method: 'POST',
     headers: {
@@ -62,6 +66,7 @@ function reportQuestion(_id, reason = "", description = "") {
     } else {
       alert('There was an error reporting the question.');
     }
+    // eslint-disable-next-line no-unused-vars
   }).catch(error => {
     alert('There was an error reporting the question.');
   });
@@ -76,10 +81,10 @@ function rangeToArray(string, max = 0) {
   if (string.endsWith('-')) {
     string = string + max;
   }
-  let tokens = string.split(",");
+  let tokens = string.split(',');
   let ranges = [];
   for (let i = 0; i < tokens.length; i++) {
-    let range = tokens[i].trim().split("-");
+    let range = tokens[i].trim().split('-');
     if (range.length === 1) {
       ranges.push([parseInt(range[0]), parseInt(range[0])]);
     } else {
@@ -142,13 +147,15 @@ function loadCategoryModal(validCategories, validSubcategories) {
     document.getElementById(subcategory).checked = true;
   });
 }
+
+// eslint-disable-next-line no-undef
 class TossupCard extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
     const tossup = this.props.tossup;
-    const powerParts = tossup.question.split("(*)");
+    const powerParts = tossup.question.split('(*)');
     return /*#__PURE__*/React.createElement("div", {
       className: "card my-2"
     }, /*#__PURE__*/React.createElement("div", {
@@ -161,7 +168,7 @@ class TossupCard extends React.Component {
       className: "card-body"
     }, /*#__PURE__*/React.createElement("span", {
       dangerouslySetInnerHTML: {
-        __html: powerParts.length > 1 ? "<b>" + powerParts[0] + "(*)</b>" + powerParts[1] : tossup.question
+        __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question
       }
     }), "\xA0", /*#__PURE__*/React.createElement("a", {
       href: "#",
@@ -178,6 +185,8 @@ class TossupCard extends React.Component {
     })))));
   }
 }
+
+// eslint-disable-next-line no-undef
 class BonusCard extends React.Component {
   constructor(props) {
     super(props);
@@ -198,7 +207,9 @@ class BonusCard extends React.Component {
       dangerouslySetInnerHTML: {
         __html: bonus.leadin
       }
-    }), [0, 1, 2].map(i => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10] ", /*#__PURE__*/React.createElement("span", {
+    }), [0, 1, 2].map(i => /*#__PURE__*/React.createElement("div", {
+      key: `${bonus._id}-${i}`
+    }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10] ", /*#__PURE__*/React.createElement("span", {
       dangerouslySetInnerHTML: {
         __html: bonus.parts[i]
       }
@@ -209,6 +220,8 @@ class BonusCard extends React.Component {
     })))))));
   }
 }
+
+// eslint-disable-next-line no-undef
 class CategoryModalButton extends React.Component {
   constructor(props) {
     super(props);
@@ -223,12 +236,14 @@ class CategoryModalButton extends React.Component {
     }, "Categories");
   }
 }
+
+// eslint-disable-next-line no-undef
 class CategoryButton extends React.Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
-    document.getElementById(this.props.category).addEventListener('click', e => {
+    document.getElementById(this.props.category).addEventListener('click', () => {
       [validCategories, validSubcategories] = updateCategory(this.props.category, validCategories, validSubcategories);
       loadCategoryModal(validCategories, validSubcategories);
     });
@@ -246,12 +261,14 @@ class CategoryButton extends React.Component {
     }, category, /*#__PURE__*/React.createElement("br", null)));
   }
 }
+
+// eslint-disable-next-line no-undef
 class SubcategoryButton extends React.Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
-    document.getElementById(this.props.subcategory).addEventListener('click', e => {
+    document.getElementById(this.props.subcategory).addEventListener('click', () => {
       validSubcategories = updateSubcategory(this.props.subcategory, validSubcategories);
       loadCategoryModal(validCategories, validSubcategories);
     });
@@ -269,6 +286,8 @@ class SubcategoryButton extends React.Component {
     }, subcategory, /*#__PURE__*/React.createElement("br", null)));
   }
 }
+
+// eslint-disable-next-line no-undef
 class CategoryModal extends React.Component {
   constructor(props) {
     super(props);
@@ -319,6 +338,8 @@ class CategoryModal extends React.Component {
     }))))))));
   }
 }
+
+// eslint-disable-next-line no-undef
 class QueryForm extends React.Component {
   constructor(props) {
     super(props);
@@ -345,7 +366,7 @@ class QueryForm extends React.Component {
     document.getElementById('randomize').addEventListener('click', event => {
       this.handleSubmit(event, true);
     });
-    fetch(`/api/set-list`).then(response => response.json()).then(data => {
+    fetch('/api/set-list').then(response => response.json()).then(data => {
       data.forEach(setName => {
         let option = document.createElement('option');
         option.innerHTML = setName;
@@ -384,7 +405,7 @@ class QueryForm extends React.Component {
       currentlySearching: true
     });
     console.log('A query was submitted: ' + this.state.queryString);
-    fetch(`/api/query`, {
+    fetch('/api/query', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -415,7 +436,7 @@ class QueryForm extends React.Component {
         questionArray: tossupArray
       } = tossups;
       for (let i = 0; i < tossupArray.length; i++) {
-        if (tossupArray[i].hasOwnProperty('formatted_answer')) {
+        if (Object.prototype.hasOwnProperty.call(tossupArray[i], 'formatted_answer')) {
           tossupArray[i].answer = tossupArray[i].formatted_answer;
         }
       }
@@ -435,7 +456,7 @@ class QueryForm extends React.Component {
         questionArray: bonusArray
       } = bonuses;
       for (let i = 0; i < bonusArray.length; i++) {
-        if (bonusArray[i].hasOwnProperty('formatted_answers')) bonusArray[i].answers = bonusArray[i].formatted_answers;
+        if (Object.prototype.hasOwnProperty.call(bonusArray[i], 'formatted_answers')) bonusArray[i].answers = bonusArray[i].formatted_answers;
       }
       if (this.state.queryString !== '') {
         for (let i = 0; i < bonusArray.length; i++) {
@@ -586,5 +607,7 @@ class QueryForm extends React.Component {
     }));
   }
 }
+
+// eslint-disable-next-line no-undef
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render( /*#__PURE__*/React.createElement(QueryForm, null));
