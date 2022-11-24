@@ -104,7 +104,7 @@ async function loadAndReadTossup() {
             if (questionNumber >= questions.length) {
                 packetNumbers.shift();
                 if (packetNumbers.length == 0) {
-                    window.alert("No more questions left");
+                    window.alert('No more questions left');
                     document.getElementById('buzz').disabled = true;
                     document.getElementById('pause').disabled = true;
                     document.getElementById('next').disabled = true;
@@ -195,7 +195,7 @@ function recursivelyPrintTossup() {
             time += 2;
         else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
             time += 0.75;
-        else if (word === "(*)")
+        else if (word === '(*)')
             time = 0;
 
         timeoutId = window.setTimeout(() => {
@@ -273,9 +273,9 @@ function updateStatDisplay() {
     document.getElementById('statline').innerHTML
         = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
     if (numTossups === 0) //disable clear stats button if no stats
-        document.getElementById('clear-stats').setAttribute("disabled", "disabled");
+        document.getElementById('clear-stats').setAttribute('disabled', 'disabled');
     else
-        document.getElementById('clear-stats').removeAttribute("disabled");
+        document.getElementById('clear-stats').removeAttribute('disabled');
 }
 
 
@@ -288,6 +288,12 @@ document.getElementById('buzz').addEventListener('click', function () {
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
     getRandomQuestion('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+});
+
+
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    clearStats();
 });
 
 
@@ -348,20 +354,20 @@ document.addEventListener('keydown', (event) => {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     switch (event.key) {
-        case ' ':
-            document.getElementById('buzz').click();
-            // Prevent spacebar from scrolling the page:
-            if (event.target == document.body) event.preventDefault();
-            break;
-        case 'n':
-            document.getElementById('next').click();
-            break;
-        case 'p':
-            document.getElementById('pause').click();
-            break;
-        case 's':
-            document.getElementById('start').click();
-            break;
+    case ' ':
+        document.getElementById('buzz').click();
+        // Prevent spacebar from scrolling the page:
+        if (event.target == document.body) event.preventDefault();
+        break;
+    case 'n':
+        document.getElementById('next').click();
+        break;
+    case 'p':
+        document.getElementById('pause').click();
+        break;
+    case 's':
+        document.getElementById('start').click();
+        break;
     }
 });
 
@@ -430,4 +436,4 @@ window.onload = () => {
 
     loadCategoryModal(validCategories, validSubcategories);
     updateStatDisplay();
-}
+};

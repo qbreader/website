@@ -2,14 +2,14 @@
 // Shamelessly copied from https://svn.blender.org/svnroot/bf-blender/trunk/blender/build_files/scons/tools/bcolors.py
 
 
-const HEADER = '\033[95m';
-const OKBLUE = '\033[94m';
-const OKCYAN = '\033[96m';
-const OKGREEN = '\033[92m';
-const WARNING = '\033[93m';
-const FAIL = '\033[91m';
-const ENDC = '\033[0m';
-const BOLD = '\033[1m';
-const UNDERLINE = '\033[4m';
+const HEADER = '\x1b[95m';
+const OKBLUE = '\x1b[94m';
+const OKCYAN = '\x1b[96m';
+const OKGREEN = '\x1b[92m';
+const WARNING = '\x1b[93m';
+const FAIL = '\x1b[91m';
+const ENDC = '\x1b[0m';
+const BOLD = '\x1b[1m';
+const UNDERLINE = '\x1b[4m';
 
 module.exports = { HEADER, OKBLUE, OKCYAN, OKGREEN, WARNING, FAIL, ENDC, BOLD, UNDERLINE };

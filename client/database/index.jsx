@@ -1,56 +1,60 @@
-const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
+// import React from 'react';
+
+// eslint-disable-next-line no-unused-vars
+const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 const SUBCATEGORIES = {
-    "Literature": ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
-    "History": ["American History", "Ancient History", "European History", "World History", "Other History"],
-    "Science": ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
-    "Fine Arts": ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"],
-    "Religion": ["Religion"],
-    "Mythology": ["Mythology"],
-    "Philosophy": ["Philosophy"],
-    "Social Science": ["Social Science"],
-    "Current Events": ["Current Events"],
-    "Geography": ["Geography"],
-    "Other Academic": ["Other Academic"],
-    "Trash": ["Trash"],
-}
-const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
+    'Literature': ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
+    'History': ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
+    'Science': ['Biology', 'Chemistry', 'Physics', 'Math', 'Other Science'],
+    'Fine Arts': ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
+    'Religion': ['Religion'],
+    'Mythology': ['Mythology'],
+    'Philosophy': ['Philosophy'],
+    'Social Science': ['Social Science'],
+    'Current Events': ['Current Events'],
+    'Geography': ['Geography'],
+    'Other Academic': ['Other Academic'],
+    'Trash': ['Trash'],
+};
+// eslint-disable-next-line no-unused-vars
+const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 
 const CATEGORY_BUTTONS = [
-    ["Literature", "primary"],
-    ["History", "success"],
-    ["Science", "danger"],
-    ["Fine Arts", "warning"],
-    ["Religion", "secondary"],
-    ["Mythology", "secondary"],
-    ["Philosophy", "secondary"],
-    ["Social Science", "secondary"],
-    ["Current Events", "secondary"],
-    ["Geography", "secondary"],
-    ["Other Academic", "secondary"],
-    ["Trash", "secondary"],
-]
+    ['Literature', 'primary'],
+    ['History', 'success'],
+    ['Science', 'danger'],
+    ['Fine Arts', 'warning'],
+    ['Religion', 'secondary'],
+    ['Mythology', 'secondary'],
+    ['Philosophy', 'secondary'],
+    ['Social Science', 'secondary'],
+    ['Current Events', 'secondary'],
+    ['Geography', 'secondary'],
+    ['Other Academic', 'secondary'],
+    ['Trash', 'secondary'],
+];
 
 const SUBCATEGORY_BUTTONS = [
-    ["American Literature", "primary"],
-    ["British Literature", "primary"],
-    ["Classical Literature", "primary"],
-    ["European Literature", "primary"],
-    ["World Literature", "primary"],
-    ["Other Literature", "primary"],
-    ["American History", "success"],
-    ["Ancient History", "success"],
-    ["European History", "success"],
-    ["World History", "success"],
-    ["Other History", "success"],
-    ["Biology", "danger"],
-    ["Chemistry", "danger"],
-    ["Physics", "danger"],
-    ["Math", "danger"],
-    ["Other Science", "danger"],
-    ["Visual Fine Arts", "warning"],
-    ["Auditory Fine Arts", "warning"],
-    ["Other Fine Arts", "warning"],
-]
+    ['American Literature', 'primary'],
+    ['British Literature', 'primary'],
+    ['Classical Literature', 'primary'],
+    ['European Literature', 'primary'],
+    ['World Literature', 'primary'],
+    ['Other Literature', 'primary'],
+    ['American History', 'success'],
+    ['Ancient History', 'success'],
+    ['European History', 'success'],
+    ['World History', 'success'],
+    ['Other History', 'success'],
+    ['Biology', 'danger'],
+    ['Chemistry', 'danger'],
+    ['Physics', 'danger'],
+    ['Math', 'danger'],
+    ['Other Science', 'danger'],
+    ['Visual Fine Arts', 'warning'],
+    ['Auditory Fine Arts', 'warning'],
+    ['Other Fine Arts', 'warning'],
+];
 
 var validCategories = [];
 var validSubcategories = [];
@@ -73,23 +77,23 @@ function highlightTossupQuery(tossup, queryString, searchType = 'all') {
 
 function highlightBonusQuery(bonus, queryString, searchType = 'all') {
     if (searchType === 'question' || searchType === 'all') {
-        bonus.leadin = bonus.leadin.replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+        bonus.leadin = bonus.leadin.replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
 
         for (let i = 0; i < bonus.parts.length; i++) {
-            bonus.parts[i] = bonus.parts[i].replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+            bonus.parts[i] = bonus.parts[i].replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
         }
     }
 
     if (searchType === 'answer' || searchType === 'all') {
         for (let i = 0; i < bonus.parts.length; i++) {
-            bonus.answers[i] = bonus.answers[i].replace(RegExp(escapeRegExp(queryString), 'ig'), `<span class="text-highlight">$&</span>`);
+            bonus.answers[i] = bonus.answers[i].replace(RegExp(escapeRegExp(queryString), 'ig'), '<span class="text-highlight">$&</span>');
         }
     }
 
     return bonus;
 }
 
-function reportQuestion(_id, reason = "", description = "") {
+function reportQuestion(_id, reason = '', description = '') {
     fetch('/api/report-question', {
         method: 'POST',
         headers: {
@@ -106,6 +110,7 @@ function reportQuestion(_id, reason = "", description = "") {
         } else {
             alert('There was an error reporting the question.');
         }
+    // eslint-disable-next-line no-unused-vars
     }).catch(error => {
         alert('There was an error reporting the question.');
     });
@@ -129,10 +134,10 @@ function rangeToArray(string, max = 0) {
         string = string + max;
     }
 
-    let tokens = string.split(",");
+    let tokens = string.split(',');
     let ranges = [];
     for (let i = 0; i < tokens.length; i++) {
-        let range = tokens[i].trim().split("-");
+        let range = tokens[i].trim().split('-');
         if (range.length === 1) {
             ranges.push([parseInt(range[0]), parseInt(range[0])]);
         } else {
@@ -205,6 +210,7 @@ function loadCategoryModal(validCategories, validSubcategories) {
     });
 }
 
+// eslint-disable-next-line no-undef
 class TossupCard extends React.Component {
     constructor(props) {
         super(props);
@@ -212,7 +218,7 @@ class TossupCard extends React.Component {
 
     render() {
         const tossup = this.props.tossup;
-        const powerParts = tossup.question.split("(*)")
+        const powerParts = tossup.question.split('(*)');
         return (
             <div className="card my-2">
                 <div className="card-header">
@@ -221,17 +227,18 @@ class TossupCard extends React.Component {
                 </div>
                 <div className="card-container">
                     <div className="card-body">
-                        <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? "<b>" + powerParts[0] + "(*)</b>" + powerParts[1] : tossup.question }}></span>&nbsp;
-                        <a href="#" onClick={() => { document.getElementById('report-question-id').value = tossup._id }} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                        <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question }}></span>&nbsp;
+                        <a href="#" onClick={() => { document.getElementById('report-question-id').value = tossup._id; }} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                         <hr></hr>
                         <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup.answer }}></span></div>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
+// eslint-disable-next-line no-undef
 class BonusCard extends React.Component {
     constructor(props) {
         super(props);
@@ -249,7 +256,7 @@ class BonusCard extends React.Component {
                     <div className="card-body">
                         <p dangerouslySetInnerHTML={{ __html: bonus.leadin }}></p>
                         {[0, 1, 2].map((i) =>
-                            <div>
+                            <div key={`${bonus._id}-${i}`}>
                                 <hr></hr>
                                 <p>[10] <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span></p>
                                 <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: bonus.answers[i] }}></span></div>
@@ -258,11 +265,12 @@ class BonusCard extends React.Component {
                         {/* <a href="#" id={`report-question-${bonus._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a> */}
                     </div>
                 </div>
-            </div >
-        )
+            </div>
+        );
     }
 }
 
+// eslint-disable-next-line no-undef
 class CategoryModalButton extends React.Component {
     constructor(props) {
         super(props);
@@ -271,17 +279,18 @@ class CategoryModalButton extends React.Component {
     render() {
         return (
             <button type="button" className="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
-        )
+        );
     }
 }
 
+// eslint-disable-next-line no-undef
 class CategoryButton extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        document.getElementById(this.props.category).addEventListener('click', (e) => {
+        document.getElementById(this.props.category).addEventListener('click', () => {
             [validCategories, validSubcategories] = updateCategory(this.props.category, validCategories, validSubcategories);
             loadCategoryModal(validCategories, validSubcategories);
         });
@@ -296,13 +305,14 @@ class CategoryButton extends React.Component {
     }
 }
 
+// eslint-disable-next-line no-undef
 class SubcategoryButton extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        document.getElementById(this.props.subcategory).addEventListener('click', (e) => {
+        document.getElementById(this.props.subcategory).addEventListener('click', () => {
             validSubcategories = updateSubcategory(this.props.subcategory, validSubcategories);
             loadCategoryModal(validCategories, validSubcategories);
         });
@@ -317,6 +327,7 @@ class SubcategoryButton extends React.Component {
     }
 }
 
+// eslint-disable-next-line no-undef
 class CategoryModal extends React.Component {
     constructor(props) {
         super(props);
@@ -350,10 +361,11 @@ class CategoryModal extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
+// eslint-disable-next-line no-undef
 class QueryForm extends React.Component {
     constructor(props) {
         super(props);
@@ -384,7 +396,7 @@ class QueryForm extends React.Component {
         document.getElementById('randomize').addEventListener('click', (event) => {
             this.handleSubmit(event, true);
         });
-        fetch(`/api/set-list`)
+        fetch('/api/set-list')
             .then(response => response.json())
             .then(data => {
                 data.forEach(setName => {
@@ -421,7 +433,7 @@ class QueryForm extends React.Component {
 
         console.log('A query was submitted: ' + this.state.queryString);
 
-        fetch(`/api/query`, {
+        fetch('/api/query', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -449,7 +461,7 @@ class QueryForm extends React.Component {
                 let { count: tossupCount, questionArray: tossupArray } = tossups;
 
                 for (let i = 0; i < tossupArray.length; i++) {
-                    if (tossupArray[i].hasOwnProperty('formatted_answer')) {
+                    if (Object.prototype.hasOwnProperty.call(tossupArray[i], 'formatted_answer')) {
                         tossupArray[i].answer = tossupArray[i].formatted_answer;
                     }
                 }
@@ -465,7 +477,7 @@ class QueryForm extends React.Component {
 
                 let { count: bonusCount, questionArray: bonusArray } = bonuses;
                 for (let i = 0; i < bonusArray.length; i++) {
-                    if (bonusArray[i].hasOwnProperty('formatted_answers'))
+                    if (Object.prototype.hasOwnProperty.call(bonusArray[i], 'formatted_answers'))
                         bonusArray[i].answers = bonusArray[i].formatted_answers;
                 }
 
@@ -556,10 +568,11 @@ class QueryForm extends React.Component {
                 }
                 <div>{bonusCards}</div>
                 <p className="mb-5"></p>
-            </div >
-        )
+            </div>
+        );
     }
 }
 
+// eslint-disable-next-line no-undef
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<QueryForm />)
+root.render(<QueryForm />);

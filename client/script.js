@@ -7,7 +7,7 @@ if (['http://www.qbreader.org', 'http://qbreader.herokuapp.com', 'https://qbread
 }
 
 function isTouchDevice() {
-    return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
+    return true == ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch);
 }
 
 const stylesheet = document.querySelector('link[rel="stylesheet"]');
