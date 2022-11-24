@@ -1,15 +1,15 @@
 /* eslint-disable no-undef */
-var changedCategories = false;
-var validCategories = [];
-var validSubcategories = [];
+let changedCategories = false;
+let validCategories = [];
+let validSubcategories = [];
 
-var maxPacketNumber = 24;
+let maxPacketNumber = 24;
 
 // Do not escape room name as that is how it is stored on the server.
 const ROOM_NAME = location.pathname.substring(13);
-var tossup = {};
-var USER_ID = localStorage.getItem('USER_ID') || 'unknown';
-var username = localStorage.getItem('username') || randomUsername();
+let tossup = {};
+let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
+let username = localStorage.getItem('username') || randomUsername();
 
 const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${encodeURIComponent(USER_ID)}%%%${encodeURIComponent(username)}`);
 socket.onopen = function () {
@@ -17,7 +17,7 @@ socket.onopen = function () {
 };
 
 socket.onmessage = function (event) {
-    let data = JSON.parse(event.data);
+    const data = JSON.parse(event.data);
     // console.log(data);
     switch (data.type) {
     case 'connection-acknowledged':
@@ -222,7 +222,7 @@ const socketOnEndOfSet = () => {
 };
 
 const socketOnGiveAnswer = (message) => {
-    let { userId, username, givenAnswer, directive, score, celerity } = message;
+    const { userId, username, givenAnswer, directive, score, celerity } = message;
     if (directive === 'prompt') {
         logEvent(username, `answered with "${givenAnswer}" and was prompted`);
     } else {
@@ -356,37 +356,37 @@ const PING_INTERVAL_ID = setInterval(() => {
 
 
 function createPlayerAccordionItem(player) {
-    let { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
-    let button = document.createElement('button');
+    const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
+    const button = document.createElement('button');
     button.className = 'accordion-button collapsed';
     button.type = 'button';
     button.setAttribute('data-bs-target', '#accordion-body-' + userId);
     button.setAttribute('data-bs-toggle', 'collapse');
 
-    let buttonUsername = document.createElement('span');
+    const buttonUsername = document.createElement('span');
     buttonUsername.id = 'accordion-button-username-' + userId;
     buttonUsername.innerHTML = username;
 
     button.appendChild(buttonUsername);
     button.innerHTML += '&nbsp;(';
 
-    let buttonPoints = document.createElement('span');
+    const buttonPoints = document.createElement('span');
     buttonPoints.id = 'accordion-button-points-' + userId;
     buttonPoints.innerHTML = points;
     buttonPoints.classList.add('stats-' + userId);
     button.appendChild(buttonPoints);
     button.innerHTML += '&nbsp;pts)';
 
-    let h2 = document.createElement('h2');
+    const h2 = document.createElement('h2');
     h2.className = 'accordion-header';
     h2.id = 'heading-' + userId;
     h2.appendChild(button);
 
-    let accordionBody = document.createElement('div');
+    const accordionBody = document.createElement('div');
     accordionBody.className = 'accordion-body';
     // 0/0/0 with 0 tossups seen (0 pts, celerity: 0)
 
-    let powersSpan = document.createElement('span');
+    const powersSpan = document.createElement('span');
     powersSpan.innerHTML = powers;
     powersSpan.id = 'powers-' + userId;
     powersSpan.classList.add('stats');
@@ -394,7 +394,7 @@ function createPlayerAccordionItem(player) {
     accordionBody.appendChild(powersSpan);
     accordionBody.innerHTML += '/';
 
-    let tensSpan = document.createElement('span');
+    const tensSpan = document.createElement('span');
     tensSpan.innerHTML = tens;
     tensSpan.id = 'tens-' + userId;
     tensSpan.classList.add('stats');
@@ -402,7 +402,7 @@ function createPlayerAccordionItem(player) {
     accordionBody.appendChild(tensSpan);
     accordionBody.innerHTML += '/';
 
-    let negsSpan = document.createElement('span');
+    const negsSpan = document.createElement('span');
     negsSpan.innerHTML = negs;
     negsSpan.id = 'negs-' + userId;
     negsSpan.classList.add('stats');
@@ -411,7 +411,7 @@ function createPlayerAccordionItem(player) {
 
     accordionBody.innerHTML += ', ';
 
-    let tuhSpan = document.createElement('span');
+    const tuhSpan = document.createElement('span');
     tuhSpan.innerHTML = tuh;
     tuhSpan.id = 'tuh-' + userId;
     tuhSpan.classList.add('tuh');
@@ -421,7 +421,7 @@ function createPlayerAccordionItem(player) {
 
     accordionBody.innerHTML += ' tossups seen (';
 
-    let pointsSpan = document.createElement('span');
+    const pointsSpan = document.createElement('span');
     pointsSpan.innerHTML = points;
     pointsSpan.id = 'points-' + userId;
     pointsSpan.classList.add('points');
@@ -430,7 +430,7 @@ function createPlayerAccordionItem(player) {
 
     accordionBody.innerHTML += ' pts, celerity: ';
 
-    let celeritySpan = document.createElement('span');
+    const celeritySpan = document.createElement('span');
     celeritySpan.innerHTML = Math.round(1000 * celerity) / 1000;
     celeritySpan.id = 'celerity-' + userId;
     celeritySpan.classList.add('stats');
@@ -439,12 +439,12 @@ function createPlayerAccordionItem(player) {
 
     accordionBody.innerHTML += ')';
 
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     div.className = 'accordion-collapse collapse';
     div.id = 'accordion-body-' + userId;
     div.appendChild(accordionBody);
 
-    let accordionItem = document.createElement('div');
+    const accordionItem = document.createElement('div');
     accordionItem.className = 'accordion-item';
     accordionItem.id = 'accordion-' + userId;
     accordionItem.appendChild(h2);
@@ -454,9 +454,9 @@ function createPlayerAccordionItem(player) {
 
 
 function logEvent(username, message) {
-    let i = document.createElement('i');
+    const i = document.createElement('i');
     i.innerHTML = `<b>${username}</b> ${message}`;
-    let div = document.createElement('li');
+    const div = document.createElement('li');
     div.appendChild(i);
     document.getElementById('room-history').prepend(div);
 }
@@ -475,15 +475,15 @@ function randomUsername() {
 
 
 function sortPlayerAccordion(descending = true) {
-    let accordion = document.getElementById('player-accordion');
-    let items = Array.from(accordion.children);
+    const accordion = document.getElementById('player-accordion');
+    const items = Array.from(accordion.children);
     items.sort((a, b) => {
-        let aPoints = parseInt(document.getElementById('points-' + a.id.substring(10)).innerHTML);
-        let bPoints = parseInt(document.getElementById('points-' + b.id.substring(10)).innerHTML);
+        const aPoints = parseInt(document.getElementById('points-' + a.id.substring(10)).innerHTML);
+        const bPoints = parseInt(document.getElementById('points-' + b.id.substring(10)).innerHTML);
         // if points are equal, sort alphabetically by username
         if (aPoints === bPoints) {
-            let aUsername = document.getElementById('accordion-button-username-' + a.id.substring(10)).innerHTML;
-            let bUsername = document.getElementById('accordion-button-username-' + b.id.substring(10)).innerHTML;
+            const aUsername = document.getElementById('accordion-button-username-' + a.id.substring(10)).innerHTML;
+            const bUsername = document.getElementById('accordion-button-username-' + b.id.substring(10)).innerHTML;
             return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
         }
         return descending ? bPoints - aPoints : aPoints - bPoints;
@@ -497,13 +497,13 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     event.preventDefault();
     event.stopPropagation();
 
-    let answer = document.getElementById('answer-input').value;
+    const answer = document.getElementById('answer-input').value;
     document.getElementById('answer-input').value = '';
     document.getElementById('answer-input-group').classList.add('d-none');
     document.getElementById('answer-input').blur();
 
-    let characterCount = document.getElementById('question').innerHTML.length;
-    let celerity = 1 - characterCount / tossup.question.length;
+    const characterCount = document.getElementById('question').innerHTML.length;
+    const celerity = 1 - characterCount / tossup.question.length;
 
     socket.send(JSON.stringify({
         type: 'give-answer',
@@ -540,7 +540,7 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
     event.preventDefault();
     event.stopPropagation();
 
-    let message = document.getElementById('chat-input').value;
+    const message = document.getElementById('chat-input').value;
     document.getElementById('chat-input').value = '';
     document.getElementById('chat-input-group').classList.add('d-none');
 

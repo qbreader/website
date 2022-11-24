@@ -35,8 +35,8 @@ const SUBCATEGORY_BUTTONS = [
     ['Other Fine Arts', 'warning'],
 ];
 
-var validCategories = [];
-var validSubcategories = [];
+let validCategories = [];
+let validSubcategories = [];
 
 
 function escapeRegExp(string) {
@@ -290,7 +290,7 @@ class QueryForm extends React.Component {
             .then(response => response.json())
             .then(data => {
                 data.forEach(setName => {
-                    let option = document.createElement('option');
+                    const option = document.createElement('option');
                     option.innerHTML = setName;
                     document.getElementById('set-list').appendChild(option);
                 });
@@ -353,7 +353,7 @@ class QueryForm extends React.Component {
             .then(response => response.json())
             .then(response => {
                 const { tossups, bonuses } = response;
-                let { count: tossupCount, questionArray: tossupArray } = tossups;
+                const { count: tossupCount, questionArray: tossupArray } = tossups;
 
                 for (let i = 0; i < tossupArray.length; i++) {
                     if (Object.prototype.hasOwnProperty.call(tossupArray[i], 'formatted_answer')) {
@@ -370,7 +370,7 @@ class QueryForm extends React.Component {
                 this.setState({ tossupCount: tossupCount });
                 this.setState({ tossups: tossupArray });
 
-                let { count: bonusCount, questionArray: bonusArray } = bonuses;
+                const { count: bonusCount, questionArray: bonusArray } = bonuses;
                 for (let i = 0; i < bonusArray.length; i++) {
                     if (Object.prototype.hasOwnProperty.call(bonusArray[i], 'formatted_answers'))
                         bonusArray[i].answers = bonusArray[i].formatted_answers;

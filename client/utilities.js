@@ -64,7 +64,7 @@ const createTossupCard = (function () {
         const { question, answer, category, subcategory, packetNumber, questionNumber, _id } = tossup;
 
         // append a card containing the question to the history element
-        let card = document.createElement('div');
+        const card = document.createElement('div');
         card.className = 'card my-2';
         card.innerHTML = `
             <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
@@ -134,7 +134,7 @@ function loadCategoryModal(validCategories, validSubcategories) {
     document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
 
     if (validSubcategories.length === 0) {
-        let subcategoryInfoText = document.createElement('div');
+        const subcategoryInfoText = document.createElement('div');
         subcategoryInfoText.className = 'text-muted text-center';
         subcategoryInfoText.innerHTML = 'You must select categories before you can select subcategories.';
         subcategoryInfoText.id = 'subcategory-info-text';
@@ -165,10 +165,10 @@ function rangeToArray(string, max = 0) {
         string = string + max;
     }
 
-    let tokens = string.split(',');
-    let ranges = [];
+    const tokens = string.split(',');
+    const ranges = [];
     for (let i = 0; i < tokens.length; i++) {
-        let range = tokens[i].trim().split('-');
+        const range = tokens[i].trim().split('-');
         if (range.length === 1) {
             ranges.push([parseInt(range[0]), parseInt(range[0])]);
         } else {
@@ -176,7 +176,7 @@ function rangeToArray(string, max = 0) {
         }
     }
 
-    let array = [];
+    const array = [];
     for (let i = 0; i < ranges.length; i++) {
         for (let j = ranges[i][0]; j <= ranges[i][1]; j++) {
             array.push(j);
@@ -253,7 +253,7 @@ fetch('/api/set-list')
     .then(response => response.json())
     .then(data => {
         data.forEach(setName => {
-            let option = document.createElement('option');
+            const option = document.createElement('option');
             option.innerHTML = setName;
             document.getElementById('set-list').appendChild(option);
             SET_LIST.push(setName);
