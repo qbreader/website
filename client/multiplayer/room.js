@@ -500,6 +500,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     let answer = document.getElementById('answer-input').value;
     document.getElementById('answer-input').value = '';
     document.getElementById('answer-input-group').classList.add('d-none');
+    document.getElementById('answer-input').blur();
 
     let characterCount = document.getElementById('question').innerHTML.length;
     let celerity = 1 - characterCount / tossup.question.length;
