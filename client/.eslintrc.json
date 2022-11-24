@@ -1,0 +1,13 @@
+{
+    "env": {
+        "browser": true,
+        "node": false
+    },
+    "ignorePatterns": ["database/index.js"],
+    "rules": {
+        "no-undef": "off",
+        "no-unused-vars": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off"
+    }
+}

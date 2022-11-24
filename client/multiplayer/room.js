@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 var changedCategories = false;
 var validCategories = [];
 var validSubcategories = [];
@@ -11,132 +12,133 @@ var username = localStorage.getItem('username') || randomUsername();
 const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${encodeURIComponent(USER_ID)}%%%${encodeURIComponent(username)}`);
 socket.onopen = function () {
     console.log('Connected to websocket');
-}
+};
 
 socket.onmessage = function (event) {
     let data = JSON.parse(event.data);
     // console.log(data);
     switch (data.type) {
-        case 'connection-acknowledged':
-            socketOnConnectionAcknowledged(data);
-            break;
-        case 'buzz':
-            socketOnBuzz(data);
-            break;
-        case 'change-username':
-            socketOnChangeUsername(data);
-            break;
-        case 'chat':
-            socketOnChat(data);
-            break;
-        case 'clear-stats':
-            socketOnClearStats(data);
-            break;
-        case 'end-of-set':
-            socketOnEndOfSet(data);
-            break;
-        case 'difficulties':
-        case 'packet-number':
-            data.value = arrayToRange(data.value);
-        case 'set-name':
-            if (data.value.length > 0) {
-                logEvent(data.username, `changed the ${data.type} to ${data.value}`);
-            } else {
-                logEvent(data.username, `cleared the ${data.type}`);
-            }
-            document.getElementById(data.type).value = data.value;
-            break;
-        case 'give-answer':
-            socketOnGiveAnswer(data);
-            break;
-        case 'join':
-            socketOnJoin(data);
-            break;
-        case 'leave':
-            socketOnLeave(data);
-            break;
-        case 'lost-buzzer-race':
-            socketOnLostBuzzerRace(data);
-            break;
-        case 'next':
-        case 'skip':
-            socketOnNext(data);
-            break;
-        case 'no-questions-found':
-            socketOnNoQuestionsFound(data);
-            break;
-        case 'pause':
-            socketOnPause(data);
-            break;
-        case 'reading-speed':
-            logEvent(data.username, `changed the reading speed to ${data.value}`);
-            document.getElementById('reading-speed').value = data.value;
-            document.getElementById('reading-speed-display').innerHTML = data.value;
-            break;
-        case 'start':
-            socketOnStart(data);
-            break;
-        case 'toggle-rebuzz':
-            logEvent(data.username, `${data.rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
-            document.getElementById('toggle-rebuzz').checked = data.rebuzz;
-            break;
-        case 'toggle-select-by-set-name':
-            if (data.selectBySetName) {
-                logEvent(data.username, `enabled select by set name`);
-                document.getElementById('toggle-select-by-set-name').checked = true;
-                document.getElementById('difficulty-settings').classList.add('d-none');
-                document.getElementById('set-settings').classList.remove('d-none');
-                document.getElementById('set-name').innerHTML = data.setName;
-            } else {
-                logEvent(data.username, `enabled select by difficulty`);
-                document.getElementById('toggle-select-by-set-name').checked = false;
-                document.getElementById('difficulty-settings').classList.remove('d-none');
-                document.getElementById('set-settings').classList.add('d-none');
-            }
-            break;
-        case 'toggle-visibility':
-            logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
-            document.getElementById('toggle-visibility').checked = data.public;
-            document.getElementById('chat').disabled = data.public;
-            break;
-        case 'update-categories':
-            logEvent(data.username, `updated the categories`);
-            validCategories = data.categories;
-            validSubcategories = data.subcategories;
-            loadCategoryModal(validCategories, validSubcategories);
-            break;
-        case 'update-answer':
-            document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
-            break;
-        case 'update-question':
-            document.getElementById('question').innerHTML += data.word + ' ';
-            break;
+    case 'connection-acknowledged':
+        socketOnConnectionAcknowledged(data);
+        break;
+    case 'buzz':
+        socketOnBuzz(data);
+        break;
+    case 'change-username':
+        socketOnChangeUsername(data);
+        break;
+    case 'chat':
+        socketOnChat(data);
+        break;
+    case 'clear-stats':
+        socketOnClearStats(data);
+        break;
+    case 'end-of-set':
+        socketOnEndOfSet(data);
+        break;
+    case 'difficulties':
+    case 'packet-number':
+        data.value = arrayToRange(data.value);
+    // eslint-disable-next-line no-fallthrough
+    case 'set-name':
+        if (data.value.length > 0) {
+            logEvent(data.username, `changed the ${data.type} to ${data.value}`);
+        } else {
+            logEvent(data.username, `cleared the ${data.type}`);
+        }
+        document.getElementById(data.type).value = data.value;
+        break;
+    case 'give-answer':
+        socketOnGiveAnswer(data);
+        break;
+    case 'join':
+        socketOnJoin(data);
+        break;
+    case 'leave':
+        socketOnLeave(data);
+        break;
+    case 'lost-buzzer-race':
+        socketOnLostBuzzerRace(data);
+        break;
+    case 'next':
+    case 'skip':
+        socketOnNext(data);
+        break;
+    case 'no-questions-found':
+        socketOnNoQuestionsFound(data);
+        break;
+    case 'pause':
+        socketOnPause(data);
+        break;
+    case 'reading-speed':
+        logEvent(data.username, `changed the reading speed to ${data.value}`);
+        document.getElementById('reading-speed').value = data.value;
+        document.getElementById('reading-speed-display').innerHTML = data.value;
+        break;
+    case 'start':
+        socketOnStart(data);
+        break;
+    case 'toggle-rebuzz':
+        logEvent(data.username, `${data.rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
+        document.getElementById('toggle-rebuzz').checked = data.rebuzz;
+        break;
+    case 'toggle-select-by-set-name':
+        if (data.selectBySetName) {
+            logEvent(data.username, 'enabled select by set name');
+            document.getElementById('toggle-select-by-set-name').checked = true;
+            document.getElementById('difficulty-settings').classList.add('d-none');
+            document.getElementById('set-settings').classList.remove('d-none');
+            document.getElementById('set-name').innerHTML = data.setName;
+        } else {
+            logEvent(data.username, 'enabled select by difficulty');
+            document.getElementById('toggle-select-by-set-name').checked = false;
+            document.getElementById('difficulty-settings').classList.remove('d-none');
+            document.getElementById('set-settings').classList.add('d-none');
+        }
+        break;
+    case 'toggle-visibility':
+        logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
+        document.getElementById('toggle-visibility').checked = data.public;
+        document.getElementById('chat').disabled = data.public;
+        break;
+    case 'update-categories':
+        logEvent(data.username, 'updated the categories');
+        validCategories = data.categories;
+        validSubcategories = data.subcategories;
+        loadCategoryModal(validCategories, validSubcategories);
+        break;
+    case 'update-answer':
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
+        break;
+    case 'update-question':
+        document.getElementById('question').innerHTML += data.word + ' ';
+        break;
     }
-}
+};
 
 socket.onclose = function () {
     console.log('Disconnected from websocket');
     clearInterval(PING_INTERVAL_ID);
     window.alert('Disconnected from server');
-}
+};
 
 const socketOnBuzz = (message) => {
-    logEvent(message.username, `buzzed`);
+    logEvent(message.username, 'buzzed');
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('pause').disabled = true;
     document.getElementById('next').disabled = true;
-}
+};
 
 const socketOnChangeUsername = (message) => {
     logEvent(message.oldUsername, 'changed their username to ' + message.newUsername);
     document.getElementById('accordion-button-username-' + message.userId).innerHTML = message.newUsername;
     sortPlayerAccordion();
-}
+};
 
 const socketOnChat = (message) => {
     logEvent(message.username, `says "${message.message}"`);
-}
+};
 
 const socketOnClearStats = (message) => {
     Array.from(document.getElementsByClassName('stats-' + message.userId)).forEach(element => {
@@ -144,7 +146,7 @@ const socketOnClearStats = (message) => {
     });
 
     sortPlayerAccordion();
-}
+};
 
 const socketOnConnectionAcknowledged = (message) => {
     console.log(message);
@@ -206,11 +208,11 @@ const socketOnConnectionAcknowledged = (message) => {
     });
 
     sortPlayerAccordion();
-}
+};
 
-const socketOnEndOfSet = (message) => {
+const socketOnEndOfSet = () => {
     window.alert('You have reached the end of the set');
-}
+};
 
 const socketOnGiveAnswer = (message) => {
     let { userId, username, givenAnswer, directive, score, celerity } = message;
@@ -260,33 +262,33 @@ const socketOnGiveAnswer = (message) => {
 
         sortPlayerAccordion();
     }
-}
+};
 
 const socketOnJoin = (message) => {
-    logEvent(message.username, `joined the game`);
+    logEvent(message.username, 'joined the game');
     if (message.isNew && message.userId !== USER_ID) {
         createPlayerAccordionItem(message);
         sortPlayerAccordion();
     }
-}
+};
 
 const socketOnLeave = (message) => {
-    logEvent(message.username, `left the game`);
+    logEvent(message.username, 'left the game');
     // document.getElementById('accordion-' + message.userId).remove();
-}
+};
 
 const socketOnLostBuzzerRace = (message) => {
-    logEvent(message.username, `lost the buzzer race`);
+    logEvent(message.username, 'lost the buzzer race');
     if (message.userId === USER_ID) {
         document.getElementById('answer-input-group').classList.add('d-none');
     }
-}
+};
 
 const socketOnNext = (message) => {
     if (message.type === 'skip') {
-        logEvent(message.username, `skipped the question`);
+        logEvent(message.username, 'skipped the question');
     } else {
-        logEvent(message.username, `went to the next question`);
+        logEvent(message.username, 'went to the next question');
     }
 
     tossup.question = document.getElementById('question').innerHTML;
@@ -310,18 +312,18 @@ const socketOnNext = (message) => {
     document.getElementById('buzz').disabled = false;
     document.getElementById('pause').innerHTML = 'Pause';
     document.getElementById('pause').disabled = false;
-}
+};
 
-const socketOnNoQuestionsFound = (message) => {
+const socketOnNoQuestionsFound = () => {
     window.alert('No questions found');
-}
+};
 
 const socketOnPause = (message) => {
     logEvent(message.username, `${message.paused ? '' : 'un'}paused the game`);
-}
+};
 
 const socketOnStart = (message) => {
-    logEvent(message.username, `started the game`);
+    logEvent(message.username, 'started the game');
 
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
@@ -338,7 +340,7 @@ const socketOnStart = (message) => {
     document.getElementById('set-name-info').innerHTML = tossup?.setName ?? '';
     document.getElementById('question-number-info').innerHTML = tossup?.questionNumber ?? '-';
     document.getElementById('packet-number-info').innerHTML = tossup?.packetNumber ?? '-';
-}
+};
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(() => {
@@ -400,7 +402,7 @@ function createPlayerAccordionItem(player) {
     negsSpan.classList.add('stats-' + userId);
     accordionBody.appendChild(negsSpan);
 
-    accordionBody.innerHTML += ', '
+    accordionBody.innerHTML += ', ';
 
     let tuhSpan = document.createElement('span');
     tuhSpan.innerHTML = tuh;
@@ -519,7 +521,7 @@ document.getElementById('category-modal').addEventListener('hidden.bs.modal', fu
 });
 
 
-document.getElementById('chat').addEventListener('click', function (event) {
+document.getElementById('chat').addEventListener('click', function () {
     this.blur();
     document.getElementById('chat-input-group').classList.remove('d-none');
     document.getElementById('chat-input').focus();
@@ -630,7 +632,7 @@ document.getElementById('username').addEventListener('change', function () {
 
 
 document.querySelectorAll('#categories input').forEach(input => {
-    input.addEventListener('click', function (event) {
+    input.addEventListener('click', function () {
         this.blur();
         [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
         loadCategoryModal(validCategories, validSubcategories);
@@ -640,7 +642,7 @@ document.querySelectorAll('#categories input').forEach(input => {
 
 
 document.querySelectorAll('#subcategories input').forEach(input => {
-    input.addEventListener('click', function (event) {
+    input.addEventListener('click', function () {
         this.blur();
         validSubcategories = updateSubcategory(input.id, validSubcategories);
         loadCategoryModal(validCategories, validSubcategories);
@@ -658,18 +660,18 @@ document.addEventListener('keydown', function (event) {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     switch (event.key) {
-        case ' ':
-            // Prevent spacebar from scrolling the page
-            document.getElementById('buzz').click();
-            if (event.target == document.body) event.preventDefault();
-            break;
-        case 'n':
-        case 's':
-            document.getElementById('next').click();
-            break;
-        case 'p':
-            document.getElementById('pause').click();
-            break;
+    case ' ':
+        // Prevent spacebar from scrolling the page
+        document.getElementById('buzz').click();
+        if (event.target == document.body) event.preventDefault();
+        break;
+    case 'n':
+    case 's':
+        document.getElementById('next').click();
+        break;
+    case 'p':
+        document.getElementById('pause').click();
+        break;
     }
 });
 

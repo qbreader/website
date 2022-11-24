@@ -242,7 +242,7 @@ class Room {
     }
 
     adjustQuery(userId, setting, value) {
-        if (this.query.hasOwnProperty(setting)) {
+        if (Object.prototype.hasOwnProperty.call(this.query, setting)) {
             this.query[setting] = value;
         }
 
@@ -292,7 +292,7 @@ class Room {
             }
         }
 
-        if (this.tossup.hasOwnProperty('formatted_answer')) {
+        if (Object.prototype.hasOwnProperty.call(this.tossup, 'formatted_answer')) {
             this.tossup.answer = this.tossup.formatted_answer;
         }
 
@@ -446,7 +446,7 @@ class Room {
             time += 2;
         else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
             time += 0.75;
-        else if (word === "(*)")
+        else if (word === '(*)')
             time = 0;
 
         this.sendSocketMessage({

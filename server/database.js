@@ -84,7 +84,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
 
     question.setName = setName;
 
-    if (!alwaysUseUnformattedAnswer && question.hasOwnProperty('formatted_answer')) {
+    if (!alwaysUseUnformattedAnswer && Object.prototype.hasOwnProperty.call(question, 'formatted_answer')) {
         question.answer = question.formatted_answer;
     }
 
@@ -133,7 +133,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
             result['tossups'] = await questions.find({ packet: packet._id, type: 'tossup' }, { sort: { questionNumber: 1 } }).toArray();
             if (!alwaysUseUnformattedAnswer) {
                 for (let question of result['tossups']) {
-                    if (question.hasOwnProperty('formatted_answer')) {
+                    if (Object.prototype.hasOwnProperty.call(question, 'formatted_answer')) {
                         question.answer = question.formatted_answer;
                     }
                 }
@@ -144,7 +144,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
             result['bonuses'] = await questions.find({ packet: packet._id, type: 'bonus' }, { sort: { questionNumber: 1 } }).toArray();
             if (!alwaysUseUnformattedAnswer) {
                 for (let question of result['bonuses']) {
-                    if (question.hasOwnProperty('formatted_answers')) {
+                    if (Object.prototype.hasOwnProperty.call(question, 'formatted_answers')) {
                         question.answers = question.formatted_answers;
                     }
                 }
@@ -222,7 +222,7 @@ async function getTossupQuery({ queryString, difficulties, setName, searchType, 
         difficulty: { $in: difficulties },
         category: { $in: categories },
         subcategory: { $in: subcategories },
-    }
+    };
 
     if (setName) {
         query.setName = setName;
@@ -250,7 +250,7 @@ async function getBonusQuery({ queryString, difficulties, setName, searchType, c
         difficulty: { $in: difficulties },
         category: { $in: categories },
         subcategory: { $in: subcategories },
-    }
+    };
 
     if (setName) {
         query.setName = setName;

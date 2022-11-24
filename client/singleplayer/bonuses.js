@@ -32,7 +32,7 @@ function createBonusPart(bonusPartNumber, bonusText) {
     });
 
     let inputWrapper = document.createElement('label');
-    inputWrapper.style = "cursor: pointer";
+    inputWrapper.style = 'cursor: pointer';
     inputWrapper.appendChild(input);
 
     let p = document.createElement('p');
@@ -81,7 +81,7 @@ async function loadAndReadBonus() {
             if (questionNumber >= questions.length) {
                 packetNumbers.shift();
                 if (packetNumbers.length == 0) {
-                    window.alert("No more questions left");
+                    window.alert('No more questions left');
                     document.getElementById('reveal').disabled = true;
                     document.getElementById('next').disabled = true;
                     return;  // alert the user if there are no more packets
@@ -177,6 +177,11 @@ document.getElementById('category-modal').addEventListener('hidden.bs.modal', fu
     getRandomQuestion('bonus', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
 });
 
+document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    clearStats();
+});
+
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
@@ -231,27 +236,27 @@ document.addEventListener('keydown', (event) => {
     if (document.activeElement.tagName === 'INPUT') return;
 
     switch (event.key) {
-        case ' ':
-            document.getElementById('reveal').click();
-            break;
-        case 'k':
-            document.getElementById(`checkbox-${currentBonusPart}`).click();
-            break;
-        case 'n':
-            document.getElementById('next').click();
-            break;
-        case 's':
-            document.getElementById('start').click();
-            break;
-        case '1':
-            document.getElementById('checkbox-1').click();
-            break;
-        case '2':
-            document.getElementById('checkbox-2').click();
-            break;
-        case '3':
-            document.getElementById('checkbox-3').click();
-            break;
+    case ' ':
+        document.getElementById('reveal').click();
+        break;
+    case 'k':
+        document.getElementById(`checkbox-${currentBonusPart}`).click();
+        break;
+    case 'n':
+        document.getElementById('next').click();
+        break;
+    case 's':
+        document.getElementById('start').click();
+        break;
+    case '1':
+        document.getElementById('checkbox-1').click();
+        break;
+    case '2':
+        document.getElementById('checkbox-2').click();
+        break;
+    case '3':
+        document.getElementById('checkbox-3').click();
+        break;
     }
 });
 
@@ -305,4 +310,4 @@ window.onload = () => {
 
     loadCategoryModal(validCategories, validSubcategories);
     updateStatDisplay();
-}
+};

@@ -28,7 +28,7 @@ async function getPacket(setName, packetNumber) {
 
 async function getRandomQuestion(questionType, difficulties = [], validCategories = [], validSubcategories = []) {
     if (randomQuestions.length === 0) {
-        randomQuestions = await fetch(`/api/random-question`, {
+        randomQuestions = await fetch('/api/random-question', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,17 +41,17 @@ async function getRandomQuestion(questionType, difficulties = [], validCategorie
                 number: 20
             })
         }).then(response => response.json())
-        .then(questions => {
-            for (let i = 0; i < questions.length; i++) {
-                if (questionType === 'tossup' && questions[i].hasOwnProperty('formatted_answer')) {
-                    questions[i].answer = questions[i].formatted_answer;
+            .then(questions => {
+                for (let i = 0; i < questions.length; i++) {
+                    if (questionType === 'tossup' && Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer')) {
+                        questions[i].answer = questions[i].formatted_answer;
+                    }
+                    if (questionType === 'bonus' && Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answers')) {
+                        questions[i].answers = questions[i].formatted_answers;
+                    }
                 }
-                if (questionType === 'bonus' && questions[i].hasOwnProperty('formatted_answers')) {
-                    questions[i].answers = questions[i].formatted_answers;
-                }
-            }
-            return questions;
-        })
+                return questions;
+            });
     }
 
     return randomQuestions.pop();
@@ -129,11 +129,6 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     });
 });
 
-
-document.getElementById('clear-stats').addEventListener('click', function () {
-    this.blur();
-    clearStats();
-});
 
 document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
     if (this.checked) {

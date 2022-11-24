@@ -3,22 +3,22 @@
 var maxPacketNumber = 24;
 const SET_LIST = [];
 
-const CATEGORIES = ["Literature", "History", "Science", "Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"]
+const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 const SUBCATEGORIES = {
-    "Literature": ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature"],
-    "History": ["American History", "Ancient History", "European History", "World History", "Other History"],
-    "Science": ["Biology", "Chemistry", "Physics", "Math", "Other Science"],
-    "Fine Arts": ["Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts"],
-    "Religion": ["Religion"],
-    "Mythology": ["Mythology"],
-    "Philosophy": ["Philosophy"],
-    "Social Science": ["Social Science"],
-    "Current Events": ["Current Events"],
-    "Geography": ["Geography"],
-    "Other Academic": ["Other Academic"],
-    "Trash": ["Trash"],
-}
-const SUBCATEGORIES_FLATTENED = ["American Literature", "British Literature", "Classical Literature", "European Literature", "World Literature", "Other Literature", "American History", "Ancient History", "European History", "World History", "Other History", "Biology", "Chemistry", "Physics", "Math", "Other Science", "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts", "Religion", "Mythology", "Philosophy", "Social Science", "Current Events", "Geography", "Other Academic", "Trash"];
+    'Literature': ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
+    'History': ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
+    'Science': ['Biology', 'Chemistry', 'Physics', 'Math', 'Other Science'],
+    'Fine Arts': ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
+    'Religion': ['Religion'],
+    'Mythology': ['Mythology'],
+    'Philosophy': ['Philosophy'],
+    'Social Science': ['Social Science'],
+    'Current Events': ['Current Events'],
+    'Geography': ['Geography'],
+    'Other Academic': ['Other Academic'],
+    'Trash': ['Trash'],
+};
+const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 
 /**
  *
@@ -98,14 +98,14 @@ const createTossupCard = (function () {
                     <small class="text-muted float-end">Packet ${packetNumber} / Question ${questionNumber}</small>
                 </div>
             </div>
-        `
+        `;
 
         document.getElementById('room-history').prepend(card);
 
         document.getElementById('report-question-' + _id).addEventListener('click', function (e) {
             document.getElementById('report-question-id').value = _id;
         });
-    }
+    };
 })();
 
 
@@ -165,10 +165,10 @@ function rangeToArray(string, max = 0) {
         string = string + max;
     }
 
-    let tokens = string.split(",");
+    let tokens = string.split(',');
     let ranges = [];
     for (let i = 0; i < tokens.length; i++) {
-        let range = tokens[i].trim().split("-");
+        let range = tokens[i].trim().split('-');
         if (range.length === 1) {
             ranges.push([parseInt(range[0]), parseInt(range[0])]);
         } else {
@@ -187,7 +187,7 @@ function rangeToArray(string, max = 0) {
 }
 
 
-function reportQuestion(_id, reason = "", description = "") {
+function reportQuestion(_id, reason = '', description = '') {
     fetch('/api/report-question', {
         method: 'POST',
         headers: {
@@ -303,7 +303,7 @@ if (localStorage.getItem('high-contrast-question-text') === 'true') {
     document.getElementById('question').classList.add('high-contrast-question-text');
 }
 
-fetch(`/api/set-list`)
+fetch('/api/set-list')
     .then(response => response.json())
     .then(data => {
         data.forEach(setName => {
