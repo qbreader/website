@@ -34,14 +34,14 @@ function parseAnswerline(answerline) {
     };
 
     const splitMainAnswer = (string) => {
-        let indexStart = string.indexOf('[');
-        let indexEnd = string.indexOf(']');
+        const indexStart = string.indexOf('[');
+        const indexEnd = string.indexOf(']');
         if (indexStart === -1) {
             return { mainAnswer: string, subAnswer: '' };
         }
 
-        let mainAnswer = string.substring(0, indexStart).trim();
-        let subAnswer = string.substring(indexStart + 1, indexEnd).trim();
+        const mainAnswer = string.substring(0, indexStart).trim();
+        const subAnswer = string.substring(indexStart + 1, indexEnd).trim();
 
         return { mainAnswer, subAnswer };
     };
@@ -69,7 +69,7 @@ function parseAnswerline(answerline) {
     };
 
     const extractUnderlining = (string) => {
-        let matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
+        const matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
         if (matches) {
             return matches.reduce((prev, curr) => prev + curr + ' ', '').trim();
         } else {
@@ -78,7 +78,7 @@ function parseAnswerline(answerline) {
     };
 
     const extractQuotes = (string) => {
-        let matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
+        const matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
         if (matches) {
             return matches.reduce((prev, curr) => prev + curr + ' ', '').trim();
         } else {
@@ -98,7 +98,7 @@ function parseAnswerline(answerline) {
     };
 
     answerline = removeParentheses(answerline);
-    let { mainAnswer, subAnswer } = splitMainAnswer(answerline);
+    const { mainAnswer, subAnswer } = splitMainAnswer(answerline);
     const subPhrases = splitIntoPhrases(subAnswer);
     const parsedAnswerline = {
         accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), extractQuotes(mainAnswer)]],
@@ -107,7 +107,7 @@ function parseAnswerline(answerline) {
     };
 
     if (mainAnswer.includes(' or ')) {
-        let parts = mainAnswer.split(' or ');
+        const parts = mainAnswer.split(' or ');
         parsedAnswerline.accept.push([extractUnderlining(parts[0]), extractKeyWords(parts[0]), extractQuotes(parts[0])]);
         parsedAnswerline.accept.push([extractUnderlining(parts[1]), extractKeyWords(parts[1]), extractQuotes(parts[1])]);
     }
@@ -173,7 +173,7 @@ function stringMatchesReference(string, reference, strictness = 4) {
 
     if (string.length === 0) return false;
 
-    let stringTokens = string
+    const stringTokens = string
         .split(' ')
         .filter(token => !METAWORDS.includes(token) && token.length > 0);
 
@@ -183,7 +183,7 @@ function stringMatchesReference(string, reference, strictness = 4) {
         }
     }
 
-    let referenceTokens = reference
+    const referenceTokens = reference
         .split(' ')
         .filter(token => !METAWORDS.includes(token) && token.length > 0);
     for (let i = referenceTokens.length - 1; i >= 0; i--) {
@@ -205,7 +205,7 @@ function stringMatchesReference(string, reference, strictness = 4) {
         let tokenMatches = false;
 
         for (let j = 0; j < referenceTokens.length; j++) {
-            let errors = dljs.distance(stemmer(stringTokens[i]), stemmer(referenceTokens[j]));
+            const errors = dljs.distance(stemmer(stringTokens[i]), stemmer(referenceTokens[j]));
 
             // console.log(stringTokens[i], referenceTokens[j]);
             if (strictness * errors <= referenceTokens[j].length || referenceTokens[j].includes(stringTokens[i])) {
@@ -233,8 +233,8 @@ function stringMatchesReference(string, reference, strictness = 4) {
  * @returns {['accept' | 'prompt' | 'reject', Number]} - [directive, points]
  */
 function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
-    let directive = checkAnswer(answerline, givenAnswer);
-    let isCorrect = (directive === 'accept');
+    const directive = checkAnswer(answerline, givenAnswer);
+    const isCorrect = (directive === 'accept');
     return [directive, isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5)];
 }
 

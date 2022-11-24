@@ -1,24 +1,24 @@
 // Functions and variables specific to the tossups page.
 
 // Room settings
-var packetNumbers = [];
-var setName = '';
-var validCategories;
-var validSubcategories;
+const packetNumbers = [];
+let setName = '';
+let validCategories;
+let validSubcategories;
 
 // Status variables
-var currentlyBuzzing = false;
-var inPower = false;
-var packetNumber = -1;
-var paused = false;
+let currentlyBuzzing = false;
+let inPower = false;
+let packetNumber = -1;
+let paused = false;
 // WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
-var questionNumber = 0;
-var timeoutId = -1;
+let questionNumber = 0;
+let timeoutId = -1;
 // Whether or not the user clicked that they got the question wrong. `true` means the button currently says "I was right".
-var toggleCorrectClicked = false;
-var questions = [{}];
-var questionText = '';
-var questionTextSplit = [];
+let toggleCorrectClicked = false;
+let questions = [{}];
+let questionText = '';
+let questionTextSplit = [];
 
 
 /**
@@ -45,7 +45,7 @@ function buzz() {
         }
 
         // Update question text and show answer:
-        let characterCount = document.getElementById('question').innerHTML.length;
+        const characterCount = document.getElementById('question').innerHTML.length;
         document.getElementById('question').innerHTML += questionTextSplit.join(' ');
         shift('totalCelerity', 1 - characterCount / document.getElementById('question').innerHTML.length);
         document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber]['answer'];
@@ -187,7 +187,7 @@ function pause() {
 function recursivelyPrintTossup() {
     clearTimeout(timeoutId);
     if (!currentlyBuzzing && questionTextSplit.length > 0) {
-        let word = questionTextSplit.shift();
+        const word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
 
         //calculate time needed before reading next word
@@ -268,10 +268,10 @@ function toggleCorrect() {
  * Updates the displayed stat line.
  */
 function updateStatDisplay() {
-    let numTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens) + parseInt(sessionStorage.negs) + parseInt(sessionStorage.dead);
+    const numTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens) + parseInt(sessionStorage.negs) + parseInt(sessionStorage.dead);
     let celerity = numTossups != 0 ? parseFloat(sessionStorage.totalCelerity) / numTossups : 0;
     celerity = Math.round(1000 * celerity) / 1000;
-    let includePlural = (numTossups == 1) ? '' : 's';
+    const includePlural = (numTossups == 1) ? '' : 's';
     document.getElementById('statline').innerHTML
         = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
     if (numTossups === 0) //disable clear stats button if no stats
