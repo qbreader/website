@@ -120,12 +120,20 @@ async function getNumPackets(setName) {
  * @returns {Promise<{tossups: Array<JSON>, bonuses: Array<JSON>}>}
  */
 async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses'], alwaysUseUnformattedAnswer = false) {
+    if (setName === '') {
+        return { 'tossups': [], 'bonuses': [] };
+    }
+
     if (!SET_LIST.includes(setName)) {
         console.log(`WARNING: "${setName}" not found in SET_LIST`);
         return { 'tossups': [], 'bonuses': [] };
     }
 
     return await sets.findOne({ name: setName }).then(async set => {
+        if (packetNumber < 1 || packetNumber > set.packets.length) {
+            return { 'tossups': [], 'bonuses': [] };
+        }
+
         let packet = set.packets[packetNumber - 1];
         let result = {};
 
