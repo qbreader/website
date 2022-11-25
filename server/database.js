@@ -53,7 +53,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     }
 
     if (!SET_LIST.includes(setName)) {
-        console.log(`WARNING: "${setName}" not found in SET_LIST`);
+        console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
         return 0;
     }
 
@@ -81,7 +81,7 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
     }, {
         sort: { packetNumber: 1, questionNumber: 1 }
     }).catch(error => {
-        console.log('DATABASE ERROR:', error);
+        console.log('[DATABASE] ERROR:', error);
         return {};
     });
 
@@ -107,14 +107,14 @@ async function getNumPackets(setName) {
     }
 
     if (!SET_LIST.includes(setName)) {
-        console.log(`WARNING: "${setName}" not found in SET_LIST`);
+        console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
         return 0;
     }
 
     return await sets.findOne({ name: setName }).then(set => {
         return set ? (set.packets.length) : 0;
     }).catch(error => {
-        console.log('DATABASE ERROR:', error);
+        console.log('[DATABASE] ERROR:', error);
         return 0;
     });
 }
@@ -134,7 +134,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
     }
 
     if (!SET_LIST.includes(setName)) {
-        console.log(`WARNING: "${setName}" not found in SET_LIST`);
+        console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
         return { 'tossups': [], 'bonuses': [] };
     }
 
@@ -170,7 +170,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
 
         return result;
     }).catch(error => {
-        console.log('DATABASE ERROR:', error);
+        console.log('[DATABASE] ERROR:', error);
         return { 'tossups': [], 'bonuses': [] };
     });
 }
@@ -214,8 +214,7 @@ async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName
         returnValue.bonuses = bonuses;
     }
 
-    console.log(`DATABASE QUERY: query string: ${colors.OKCYAN}${queryString}${colors.ENDC};`);
-    console.log(`difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; max length: ${colors.OKGREEN}${maxQueryReturnLength}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; randomize: ${colors.OKGREEN}${randomize}${colors.ENDC}; regex: ${colors.OKGREEN}${regex}${colors.ENDC}; search type: ${colors.OKGREEN}${searchType}${colors.ENDC}; set name: ${colors.OKGREEN}${setName}${colors.ENDC};`);
+    console.log(`[DATABASE] QUERY: string: ${colors.OKCYAN}${queryString}${colors.ENDC}; difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; max length: ${colors.OKGREEN}${maxQueryReturnLength}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; randomize: ${colors.OKGREEN}${randomize}${colors.ENDC}; regex: ${colors.OKGREEN}${regex}${colors.ENDC}; search type: ${colors.OKGREEN}${searchType}${colors.ENDC}; set name: ${colors.OKGREEN}${setName}${colors.ENDC};`);
 
     return returnValue;
 }
@@ -319,7 +318,7 @@ async function getRandomQuestions({ questionType = 'tossup', difficulties = DIFF
         return [{}];
     }
 
-    console.log(`DATABASE RANDOM QUESTIONS: difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; number: ${colors.OKGREEN}${number}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC};`);
+    console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; number: ${colors.OKGREEN}${number}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC};`);
     return questionArray;
 }
 
@@ -349,7 +348,7 @@ async function reportQuestion(_id, reason, description) {
         console.log('Reported question with id ' + _id);
         return true;
     }).catch(error => {
-        console.log('DATABASE ERROR:', error);
+        console.log('[DATABASE] ERROR:', error);
         return false;
     });
 }
