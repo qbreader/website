@@ -1,7 +1,7 @@
 // Functions and variables specific to the tossups page.
 
 // Room settings
-const packetNumbers = [];
+let packetNumbers = [];
 let setName = '';
 let validCategories;
 let validSubcategories;
