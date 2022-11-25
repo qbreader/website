@@ -28,6 +28,7 @@ const formatted_answers = [
     '<b><u>W</u></b>orld <b><u>T</u></b>rade <b><u>O</u></b>rganization',
     'The (Holy) <b><u>Grail</u></b>',
     '<b><u>coagulation</u></b> or blood <b><u>clotting</u></b>',
+    '<b><u>golden apples </u></b> [prompt on a partial answer]'
 
     // TODO: or in the main answer
     // and commas instead of semicolons or "or" in alternate answer
@@ -166,10 +167,14 @@ const tests = [
     ['accept', formatted_answers[26], 'clotting'],
     ['accept', formatted_answers[26], 'blood clotting'],
 
-    // ['accept', formatted_answers[27], 'Furies'],
-    // ['accept', formatted_answers[27], 'Erinyes'],
-    // ['accept', formatted_answers[27], 'Eumenides'],
-    // ['accept', formatted_answers[27], 'Semnai'],
+    ['accept', formatted_answers[27], 'golden apple'],
+    ['prompt', formatted_answers[27], 'apples'],
+    ['prompt', formatted_answers[27], 'apple'],
+
+    // ['accept', formatted_answers[28], 'Furies'],
+    // ['accept', formatted_answers[28], 'Erinyes'],
+    // ['accept', formatted_answers[28], 'Eumenides'],
+    // ['accept', formatted_answers[28], 'Semnai'],
 
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],

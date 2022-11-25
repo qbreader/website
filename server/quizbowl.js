@@ -285,7 +285,7 @@ function checkAnswer(answerline, givenAnswer) {
         }
     }
 
-    if (answerline.includes('[prompt on partial') || answerline.includes('(prompt on partial')) {
+    if (/[[(]prompt on (a )?partial/.test(answerline)) {
         const [answer1, answer2] = parsedAnswerline.accept[0][0].split(' ');
         if (answerWorks(answer1, givenAnswer, isFormattedAnswerline)) {
             return 'prompt';
