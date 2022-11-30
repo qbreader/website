@@ -74,7 +74,7 @@ function highlightBonusQuery({ bonus, queryString, regex = false, searchType = '
     }
 
     if (searchType === 'answer' || searchType === 'all') {
-        for (let i = 0; i < bonus.parts.length; i++) {
+        for (let i = 0; i < bonus.answers.length; i++) {
             bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
         }
     }

@@ -1,7 +1,7 @@
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Math', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
-var validCategories = [];
-var validSubcategories = [];
+let validCategories = [];
+let validSubcategories = [];
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -39,7 +39,7 @@ function highlightBonusQuery({
     }
   }
   if (searchType === 'answer' || searchType === 'all') {
-    for (let i = 0; i < bonus.parts.length; i++) {
+    for (let i = 0; i < bonus.answers.length; i++) {
       bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
     }
   }
@@ -271,7 +271,7 @@ class QueryForm extends React.Component {
     });
     fetch('/api/set-list').then(response => response.json()).then(data => {
       data.forEach(setName => {
-        let option = document.createElement('option');
+        const option = document.createElement('option');
         option.innerHTML = setName;
         document.getElementById('set-list').appendChild(option);
       });
@@ -340,7 +340,7 @@ class QueryForm extends React.Component {
         tossups,
         bonuses
       } = response;
-      let {
+      const {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
@@ -365,7 +365,7 @@ class QueryForm extends React.Component {
       this.setState({
         tossups: tossupArray
       });
-      let {
+      const {
         count: bonusCount,
         questionArray: bonusArray
       } = bonuses;
