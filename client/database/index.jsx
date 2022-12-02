@@ -104,7 +104,7 @@ class TossupCard extends React.Component {
         return (
             <div className="card my-2">
                 <div className="card-header">
-                    <b>{tossup.setName} | {tossup.category} | {tossup.subcategory}</b>
+                    <b>{tossup.setName} | {tossup.category} | {tossup.subcategory} | {tossup.difficulty}</b>
                     <b className="float-end">Packet {tossup.packetNumber} | Question {tossup.questionNumber}</b>
                 </div>
                 <div className="card-container">
@@ -132,7 +132,7 @@ class BonusCard extends React.Component {
         return (
             <div className="card my-2">
                 <div className="card-header">
-                    <b>{bonus.setName} | {bonus.category} | {bonus.subcategory}</b>
+                    <b>{bonus.setName} | {bonus.category} | {bonus.subcategory} | {bonus.difficulty}</b>
                     <b className="float-end">Packet {bonus.packetNumber} | Question {bonus.questionNumber}</b>
                 </div>
                 <div className="card-container">
