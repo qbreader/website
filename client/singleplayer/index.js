@@ -84,12 +84,13 @@ async function getTossups(setName, packetNumber) {
 
 /**
  * Initizalizes all variables (called when the user presses the start button).
+ * @param {Boolean} selectBySetName - Whether or not the user is selecting by set name.
  * @returns {Promsie<Boolean>} Whether or not the function was successful.
  */
-function initialize(alertOnFailure = true) {
+function initialize(selectBySetName) {
     setName = document.getElementById('set-name').value.trim();
-    if (setName.length == 0) {
-        if (alertOnFailure) alert('Please enter a set name.');
+    if (setName.length === 0 && selectBySetName) {
+        alert('Please enter a set name.');
         return false;
     }
 
