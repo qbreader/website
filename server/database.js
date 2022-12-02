@@ -318,7 +318,7 @@ async function getRandomQuestions({ questionType = 'tossup', difficulties = DIFF
         return [{}];
     }
 
-    console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; number: ${colors.OKGREEN}${number}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC};`);
+    console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; number: ${colors.OKGREEN}${number}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; categories: ${colors.OKGREEN}${categories}${colors.ENDC}; subcategories: ${colors.OKGREEN}${subcategories}${colors.ENDC};`);
     return questionArray;
 }
 
