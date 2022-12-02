@@ -13,6 +13,9 @@ let maxPacketNumber = 24;
  * @return {Promise<Array<JSON>>} An array containing the bonuses.
  */
 async function getBonuses(setName, packetNumber) {
+    if (setName === '') {
+        return [];
+    }
     return await fetch(`/api/packet-bonuses?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
         .then(response => response.json())
         .then(data => data.bonuses);
@@ -25,6 +28,9 @@ async function getBonuses(setName, packetNumber) {
  * @return {Promise<{tossups: Array<JSON>, bonuses: Array<JSON>}>} An array containing the questions.
  */
 async function getPacket(setName, packetNumber) {
+    if (setName === '') {
+        return { tossups: [], bonuses: [] };
+    }
     return await fetch(`/api/packet?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`).then(response => response.json());
 }
 
@@ -67,6 +73,9 @@ async function getRandomQuestion(questionType, difficulties = [], validCategorie
  * @return {Promise<Array<JSON>>} An array containing the tossups.
  */
 async function getTossups(setName, packetNumber) {
+    if (setName === '') {
+        return [];
+    }
     return await fetch(`/api/packet-tossups?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
         .then(response => response.json())
         .then(data => data.tossups);
