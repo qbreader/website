@@ -171,7 +171,7 @@ function BonusCard({ bonus }) {
                         <div key={`${bonus._id}-${i}`}>
                             <hr></hr>
                             <p>[10] <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span></p>
-                            <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i]}}></span></div>
+                            <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i] }}></span></div>
                         </div>
                     )}
                     {/* <a href="#" id={`report-question-${bonus._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a> */}
