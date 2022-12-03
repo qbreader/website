@@ -129,7 +129,7 @@ async function getNumPackets(setName) {
  * @returns {Promise<{tossups: Array<JSON>, bonuses: Array<JSON>}>}
  */
 async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses'], alwaysUseUnformattedAnswer = false) {
-    if (setName === '') {
+    if (setName === '' || isNaN(packetNumber) || packetNumber < 1) {
         return { 'tossups': [], 'bonuses': [] };
     }
 
@@ -139,7 +139,7 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
     }
 
     return await sets.findOne({ name: setName }).then(async set => {
-        if (packetNumber < 1 || packetNumber > set.packets.length) {
+        if (packetNumber > set.packets.length) {
             return { 'tossups': [], 'bonuses': [] };
         }
 
