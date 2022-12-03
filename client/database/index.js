@@ -2,6 +2,37 @@ const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['S
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Math', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
 let validCategories = [];
 let validSubcategories = [];
+function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
+  const JSONdata = {
+    tossups,
+    bonuses
+  };
+  const hiddenElement = document.createElement('a');
+  hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(JSONdata, null, 4));
+  hiddenElement.target = '_blank';
+  hiddenElement.download = filename;
+  hiddenElement.click();
+}
+function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
+  let textdata = '';
+  for (let tossup of tossups) {
+    textdata += `${tossup.setName} Packet ${tossup.packetNumber}\nQuestion ID: ${tossup._id}\n`;
+    textdata += `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}\n`;
+    textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
+  }
+  for (let bonus of bonuses) {
+    textdata += `${bonus.setName} Packet ${bonus.packetNumber}\nQuestion ID: ${bonus._id}\n${bonus.questionNumber}. ${bonus.leadin}\n`;
+    for (let i = 0; i < bonus.parts.length; i++) {
+      textdata += `${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+    }
+    textdata += `<${bonus.category} / ${bonus.subcategory}>\n\n`;
+  }
+  const hiddenElement = document.createElement('a');
+  hiddenElement.href = 'data:attachment/text;charset=utf-8,' + encodeURIComponent(textdata);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = filename;
+  hiddenElement.click();
+}
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -19,7 +50,11 @@ function highlightTossupQuery({
     tossup.question = tossup.question.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
   }
   if (searchType === 'answer' || searchType === 'all') {
-    tossup.answer = tossup.answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+    if (tossup.formatted_answer) {
+      tossup.formatted_answer = tossup.formatted_answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+    } else {
+      tossup.answer = tossup.answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+    }
   }
   return tossup;
 }
@@ -39,8 +74,14 @@ function highlightBonusQuery({
     }
   }
   if (searchType === 'answer' || searchType === 'all') {
-    for (let i = 0; i < bonus.answers.length; i++) {
-      bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+    if (bonus.formatted_answers) {
+      for (let i = 0; i < bonus.answers.length; i++) {
+        bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+      }
+    } else {
+      for (let i = 0; i < bonus.answers.length; i++) {
+        bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+      }
     }
   }
   return bonus;
@@ -81,7 +122,7 @@ class TossupCard extends React.Component {
       "data-bs-target": "#report-question-modal"
     }, "Report Question"), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
       dangerouslySetInnerHTML: {
-        __html: tossup.answer
+        __html: tossup?.formatted_answer ?? tossup.answer
       }
     })))));
   }
@@ -116,7 +157,7 @@ class BonusCard extends React.Component {
       }
     })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
       dangerouslySetInnerHTML: {
-        __html: bonus.answers[i]
+        __html: (bonus?.formatted_answers ?? bonus.answers)[i]
       }
     })))))));
   }
@@ -344,11 +385,6 @@ class QueryForm extends React.Component {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
-      for (let i = 0; i < tossupArray.length; i++) {
-        if (Object.prototype.hasOwnProperty.call(tossupArray[i], 'formatted_answer')) {
-          tossupArray[i].answer = tossupArray[i].formatted_answer;
-        }
-      }
       if (this.state.queryString !== '') {
         for (let i = 0; i < tossupArray.length; i++) {
           tossupArray[i] = highlightTossupQuery({
@@ -369,9 +405,6 @@ class QueryForm extends React.Component {
         count: bonusCount,
         questionArray: bonusArray
       } = bonuses;
-      for (let i = 0; i < bonusArray.length; i++) {
-        if (Object.prototype.hasOwnProperty.call(bonusArray[i], 'formatted_answers')) bonusArray[i].answers = bonusArray[i].formatted_answers;
-      }
       if (this.state.queryString !== '') {
         for (let i = 0; i < bonusArray.length; i++) {
           bonusArray[i] = highlightBonusQuery({
@@ -489,11 +522,11 @@ class QueryForm extends React.Component {
     }, "Bonuses"))), /*#__PURE__*/React.createElement("div", {
       className: "col-2"
     }, /*#__PURE__*/React.createElement(CategoryModalButton, null))), /*#__PURE__*/React.createElement("div", {
-      className: "row mb-2"
+      className: "row mb-3"
     }, /*#__PURE__*/React.createElement("div", {
       className: "col-12"
     }, /*#__PURE__*/React.createElement("div", {
-      className: "form-check form-switch"
+      className: "form-check form-switch d-inline-block"
     }, /*#__PURE__*/React.createElement("input", {
       className: "form-check-input",
       type: "checkbox",
@@ -506,7 +539,21 @@ class QueryForm extends React.Component {
       htmlFor: "toggle-regex"
     }, "Search using regular expression"), /*#__PURE__*/React.createElement("a", {
       href: "https://www.sitepoint.com/learn-regex/"
-    }, " What's this?"))))), this.state.currentlySearching ? /*#__PURE__*/React.createElement("div", {
+    }, " What's this?")), /*#__PURE__*/React.createElement("div", {
+      className: "float-end"
+    }, /*#__PURE__*/React.createElement("b", null, "Download as:"), /*#__PURE__*/React.createElement("a", {
+      className: "ms-2 download-link",
+      onClick: () => {
+        downloadQuestionsAsText(this.state.tossups, this.state.bonuses);
+      }
+    }, "TXT"), /*#__PURE__*/React.createElement("a", {
+      className: "ms-2 btn-link disabled"
+    }, "CSV"), /*#__PURE__*/React.createElement("a", {
+      className: "ms-2 download-link",
+      onClick: () => {
+        downloadQuestionsAsJSON(this.state.tossups, this.state.bonuses);
+      }
+    }, "JSON"))))), this.state.currentlySearching ? /*#__PURE__*/React.createElement("div", {
       className: "d-block mx-auto mt-3 spinner-border",
       role: "status"
     }, /*#__PURE__*/React.createElement("span", {
@@ -514,32 +561,32 @@ class QueryForm extends React.Component {
     }, "Loading...")) : null, /*#__PURE__*/React.createElement("div", {
       className: "row text-center"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "mt-3",
+      className: "mt-2",
       id: "tossups"
-    }, "Tossups")), this.state.tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("div", {
+    }, "Tossups")), this.state.tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
       className: "text-muted float-start"
-    }, "Showing ", this.state.tossups.length, " out of ", this.state.tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("div", {
+    }, "Showing ", this.state.tossups.length, " out of ", this.state.tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
       className: "text-muted float-end"
     }, /*#__PURE__*/React.createElement("a", {
       href: "#bonuses"
     }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("p", {
       className: "text-muted"
-    }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("p", {
+    }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("div", {
       className: "mb-5"
     }), /*#__PURE__*/React.createElement("div", {
       className: "row text-center"
     }, /*#__PURE__*/React.createElement("h3", {
       className: "mt-3",
       id: "bonuses"
-    }, "Bonuses")), this.state.bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("div", {
+    }, "Bonuses")), this.state.bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
       className: "text-muted float-start"
-    }, "Showing ", this.state.bonuses.length, " out of ", this.state.bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("div", {
+    }, "Showing ", this.state.bonuses.length, " out of ", this.state.bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
       className: "text-muted float-end"
     }, /*#__PURE__*/React.createElement("a", {
       href: "#tossups"
     }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("p", {
       className: "text-muted"
-    }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("p", {
+    }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("div", {
       className: "mb-5"
     }));
   }
