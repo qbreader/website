@@ -40,3 +40,14 @@ if (localStorage.getItem('high-contrast-question-text') === 'true') {
     document.getElementById('toggle-high-contrast-question-text').checked = true;
     document.getElementById('question').classList.add('high-contrast-question-text');
 }
+
+fetch('/api/set-list')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(setName => {
+            const option = document.createElement('option');
+            option.innerHTML = setName;
+            document.getElementById('set-list').appendChild(option);
+            SET_LIST.push(setName);
+        });
+    });
