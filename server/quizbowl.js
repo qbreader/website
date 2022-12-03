@@ -178,7 +178,7 @@ function stringMatchesReference(string, reference, strictness = 4) {
         .filter(token => !METAWORDS.includes(token) && token.length > 0);
 
     for (let i = stringTokens.length - 1; i >= 0; i--) {
-        if (!isNaN(stringTokens[i])) {
+        if (isFinite(stringTokens[i])) {
             stringTokens.push(toWords(parseInt(stringTokens[i])));
         }
     }
@@ -187,7 +187,7 @@ function stringMatchesReference(string, reference, strictness = 4) {
         .split(' ')
         .filter(token => !METAWORDS.includes(token) && token.length > 0);
     for (let i = referenceTokens.length - 1; i >= 0; i--) {
-        if (!isNaN(referenceTokens[i])) {
+        if (isFinite(referenceTokens[i])) {
             referenceTokens.push(toWords(parseInt(referenceTokens[i])));
         }
     }
