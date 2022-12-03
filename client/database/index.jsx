@@ -39,6 +39,40 @@ let validCategories = [];
 let validSubcategories = [];
 
 
+function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
+    const JSONdata = { tossups, bonuses };
+    const hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(JSONdata, null, 4));
+    hiddenElement.target = '_blank';
+    hiddenElement.download = filename;
+    hiddenElement.click();
+}
+
+
+function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
+    let textdata = '';
+    for (let tossup of tossups) {
+        textdata += `${tossup.setName} Packet ${tossup.packetNumber}\nQuestion ID: ${tossup._id}\n`;
+        textdata += `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}\n`;
+        textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
+    }
+
+    for (let bonus of bonuses) {
+        textdata += `${bonus.setName} Packet ${bonus.packetNumber}\nQuestion ID: ${bonus._id}\n${bonus.questionNumber}. ${bonus.leadin}\n`;
+        for (let i = 0; i < bonus.parts.length; i++) {
+            textdata += `${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+        }
+        textdata += `<${bonus.category} / ${bonus.subcategory}>\n\n`;
+    }
+
+    const hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:attachment/text;charset=utf-8,' + encodeURIComponent(textdata);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = filename;
+    hiddenElement.click();
+}
+
+
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -54,7 +88,11 @@ function highlightTossupQuery({ tossup, queryString, regex = false, searchType =
     }
 
     if (searchType === 'answer' || searchType === 'all') {
-        tossup.answer = tossup.answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+        if (tossup.formatted_answer) {
+            tossup.formatted_answer = tossup.formatted_answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+        } else {
+            tossup.answer = tossup.answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+        }
     }
 
     return tossup;
@@ -74,8 +112,14 @@ function highlightBonusQuery({ bonus, queryString, regex = false, searchType = '
     }
 
     if (searchType === 'answer' || searchType === 'all') {
-        for (let i = 0; i < bonus.answers.length; i++) {
-            bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+        if (bonus.formatted_answers) {
+            for (let i = 0; i < bonus.answers.length; i++) {
+                bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+            }
+        } else {
+            for (let i = 0; i < bonus.answers.length; i++) {
+                bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+            }
         }
     }
 
@@ -112,7 +156,7 @@ class TossupCard extends React.Component {
                         <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question }}></span>&nbsp;
                         <a href="#" onClick={() => { document.getElementById('report-question-id').value = tossup._id; }} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                         <hr></hr>
-                        <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup.answer }}></span></div>
+                        <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.formatted_answer ?? tossup.answer }}></span></div>
                     </div>
                 </div>
             </div>
@@ -142,7 +186,7 @@ class BonusCard extends React.Component {
                             <div key={`${bonus._id}-${i}`}>
                                 <hr></hr>
                                 <p>[10] <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span></p>
-                                <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: bonus.answers[i] }}></span></div>
+                                <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i]}}></span></div>
                             </div>
                         )}
                         {/* <a href="#" id={`report-question-${bonus._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a> */}
@@ -273,6 +317,7 @@ class QueryForm extends React.Component {
 
             currentlySearching: false,
         };
+
         this.onDifficultyChange = this.onDifficultyChange.bind(this);
         this.onMaxQueryReturnLengthChange = this.onMaxQueryReturnLengthChange.bind(this);
         this.onQueryChange = this.onQueryChange.bind(this);
@@ -355,12 +400,6 @@ class QueryForm extends React.Component {
                 const { tossups, bonuses } = response;
                 const { count: tossupCount, questionArray: tossupArray } = tossups;
 
-                for (let i = 0; i < tossupArray.length; i++) {
-                    if (Object.prototype.hasOwnProperty.call(tossupArray[i], 'formatted_answer')) {
-                        tossupArray[i].answer = tossupArray[i].formatted_answer;
-                    }
-                }
-
                 if (this.state.queryString !== '') {
                     for (let i = 0; i < tossupArray.length; i++) {
                         tossupArray[i] = highlightTossupQuery({ tossup: tossupArray[i], queryString: this.state.queryString, searchType: this.state.searchType, regex: this.state.regex } );
@@ -371,10 +410,6 @@ class QueryForm extends React.Component {
                 this.setState({ tossups: tossupArray });
 
                 const { count: bonusCount, questionArray: bonusArray } = bonuses;
-                for (let i = 0; i < bonusArray.length; i++) {
-                    if (Object.prototype.hasOwnProperty.call(bonusArray[i], 'formatted_answers'))
-                        bonusArray[i].answers = bonusArray[i].formatted_answers;
-                }
 
                 if (this.state.queryString !== '') {
                     for (let i = 0; i < bonusArray.length; i++) {
@@ -441,37 +476,46 @@ class QueryForm extends React.Component {
                             <CategoryModalButton />
                         </div>
                     </div>
-                    <div className="row mb-2">
+                    <div className="row mb-3">
                         <div className="col-12">
-                            <div className="form-check form-switch">
+                            <div className="form-check form-switch d-inline-block">
                                 <input className="form-check-input" type="checkbox" role="switch" id="toggle-regex" checked={this.state.regex} onChange={this.onRegexChange} />
                                 <label className="form-check-label" htmlFor="toggle-regex">Search using regular expression</label>
                                 <a href="https://www.sitepoint.com/learn-regex/"> What&apos;s this?</a>
+                            </div>
+                            <div className="float-end">
+                                <b>Download as:</b>
+                                <a className="ms-2 download-link" onClick={() => {downloadQuestionsAsText(this.state.tossups, this.state.bonuses);}}>TXT</a>
+                                <a className="ms-2 btn-link disabled">CSV</a>
+                                <a className="ms-2 download-link" onClick={() => {downloadQuestionsAsJSON(this.state.tossups, this.state.bonuses);}}>JSON</a>
                             </div>
                         </div>
                     </div>
                 </form>
 
-                {this.state.currentlySearching ? <div className="d-block mx-auto mt-3 spinner-border" role="status"><span className="d-none">Loading...</span></div> : null
+                {
+                    this.state.currentlySearching
+                        ? <div className="d-block mx-auto mt-3 spinner-border" role="status"><span className="d-none">Loading...</span></div>
+                        : null
                 }
-                <div className="row text-center"><h3 className="mt-3" id="tossups">Tossups</h3></div>
+                <div className="row text-center"><h3 className="mt-2" id="tossups">Tossups</h3></div>
                 {
                     this.state.tossupCount > 0
-                        ? <p><div className="text-muted float-start">Showing {this.state.tossups.length} out of {this.state.tossupCount} results</div>&nbsp;
-                            <div className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></div></p>
+                        ? <p><span className="text-muted float-start">Showing {this.state.tossups.length} out of {this.state.tossupCount} results</span>&nbsp;
+                            <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
                         : <p className="text-muted">No tossups found</p>
                 }
                 <div>{tossupCards}</div>
-                <p className="mb-5"></p>
+                <div className="mb-5"></div>
                 <div className="row text-center"><h3 className="mt-3" id="bonuses">Bonuses</h3></div>
                 {
                     this.state.bonusCount > 0
-                        ? <p><div className="text-muted float-start">Showing {this.state.bonuses.length} out of {this.state.bonusCount} results</div>&nbsp;
-                            <div className="text-muted float-end"><a href="#tossups">Jump to tossups</a></div></p>
+                        ? <p><span className="text-muted float-start">Showing {this.state.bonuses.length} out of {this.state.bonusCount} results</span>&nbsp;
+                            <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
                         : <p className="text-muted">No bonuses found</p>
                 }
                 <div>{bonusCards}</div>
-                <p className="mb-5"></p>
+                <div className="mb-5"></div>
             </div>
         );
     }
