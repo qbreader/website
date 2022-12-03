@@ -23,7 +23,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
   for (let bonus of bonuses) {
     textdata += `${bonus.setName} Packet ${bonus.packetNumber}\nQuestion ID: ${bonus._id}\n${bonus.questionNumber}. ${bonus.leadin}\n`;
     for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+      textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
     }
     textdata += `<${bonus.category} / ${bonus.subcategory}>\n\n`;
   }
