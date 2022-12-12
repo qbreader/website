@@ -20,13 +20,17 @@ class Room {
         this.tossup = {};
         this.wordIndex = 0;
 
+        this.randomQuestionCache = [];
+        this.setCache = [];
+
         this.query = {
             difficulties: [4, 5],
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
             questionType: 'tossup',
             setName: '2022 PACE NSC',
             categories: [],
-            subcategories: []
+            subcategories: [],
+            reverse: true // used for `database.getSet`
         };
 
         this.settings = {
@@ -150,7 +154,12 @@ class Room {
         }
 
         if (type === 'difficulties') {
-            this.adjustQuery(userId, 'difficulties', message.value);
+            this.sendSocketMessage({
+                type: 'difficulties',
+                username: this.players[userId].username,
+                value: message.value
+            });
+            this.adjustQuery(['difficulties'], [message.value]);
         }
 
         if (type === 'give-answer') {
@@ -168,8 +177,7 @@ class Room {
         }
 
         if (type === 'packet-number') {
-            this.query.packetNumbers = message.value;
-            this.questionNumber = 0;
+            this.adjustQuery(['packetNumbers'], [message.value]);
             this.sendSocketMessage({
                 type: 'packet-number',
                 username: this.players[userId].username,
@@ -191,13 +199,13 @@ class Room {
         }
 
         if (type === 'set-name') {
-            this.query.setName = message.value;
-            this.questionNumber = 0;
             this.sendSocketMessage({
                 type: 'set-name',
                 username: this.players[userId].username,
-                value: this.query.setName
+                value: message.value
             });
+
+            this.adjustQuery(['setName'], [message.value]);
         }
 
         if (type === 'toggle-rebuzz') {
@@ -210,15 +218,14 @@ class Room {
         }
 
         if (type === 'toggle-select-by-set-name') {
-            this.settings.selectBySetName = message.selectBySetName;
-            this.query.setName = message.setName;
-            this.questionNumber = 0;
             this.sendSocketMessage({
                 type: 'toggle-select-by-set-name',
-                selectBySetName: this.settings.selectBySetName,
+                selectBySetName: message.selectBySetName,
                 setName: this.query.setName,
                 username: this.players[userId].username
             });
+            this.settings.selectBySetName = message.selectBySetName;
+            this.adjustQuery(['setName'], [message.setName]);
         }
 
         if (type === 'toggle-visibility') {
@@ -231,27 +238,39 @@ class Room {
         }
 
         if (type === 'update-categories') {
-            this.query.categories = message.categories;
-            this.query.subcategories = message.subcategories;
             this.sendSocketMessage({
                 type: 'update-categories',
-                categories: this.query.categories,
-                subcategories: this.query.subcategories,
+                categories: message.categories,
+                subcategories: message.subcategories,
                 username: this.players[userId].username
             });
+            this.adjustQuery(['categories', 'subcategories'], [message.categories, message.subcategories]);
         }
     }
 
-    adjustQuery(userId, setting, value) {
-        if (Object.prototype.hasOwnProperty.call(this.query, setting)) {
-            this.query[setting] = value;
+    adjustQuery(settings, values) {
+        if (settings.length !== values.length) {
+            return;
         }
 
-        this.sendSocketMessage({
-            type: setting,
-            username: this.players[userId].username,
-            value: value
-        });
+        for (let i = 0; i < settings.length; i++) {
+            const setting = settings[i];
+            const value = values[i];
+            if (Object.prototype.hasOwnProperty.call(this.query, setting)) {
+                this.query[setting] = value;
+            }
+        }
+
+        if (this.settings.selectBySetName) {
+            this.questionNumber = 0;
+            database.getSet(this.query).then(set => {
+                this.setCache = set;
+            });
+        } else {
+            database.getRandomQuestions(this.query).then(tossups => {
+                this.randomQuestionCache = tossups;
+            });
+        }
     }
 
     async advanceQuestion() {
@@ -261,25 +280,25 @@ class Room {
         this.paused = false;
 
         if (this.settings.selectBySetName) {
-            this.tossup = await database.getNextQuestion(
-                this.query.setName,
-                this.query.packetNumbers,
-                this.questionNumber,
-                this.query.categories,
-                this.query.subcategories
-            );
-            if (Object.keys(this.tossup).length === 0) {
+            if (this.setCache.length === 0) {
+                this.setCache = await database.getSet(this.query);
+            }
+
+            if (this.setCache.length === 0) {
                 this.sendSocketMessage({
                     type: 'end-of-set'
                 });
                 return false;
             } else {
+                this.tossup = this.setCache.pop();
                 this.questionNumber = this.tossup.questionNumber;
                 this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
             }
         } else {
-            this.tossup = await database.getRandomQuestions(this.query);
-            this.tossup = this.tossup[0];
+            if (this.randomQuestionCache.length === 0) {
+                this.randomQuestionCache = await database.getRandomQuestions(this.query);
+            }
+            this.tossup = this.randomQuestionCache.pop();
             if (Object.keys(this.tossup).length === 0) {
                 this.sendSocketMessage({
                     type: 'no-questions-found'
