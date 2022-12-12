@@ -50,6 +50,11 @@ $link-decoration: none;
     cursor: pointer;
 }
 
+// make sure content goes below entire row when row contains floats
+.float-row {
+    overflow: auto;
+}
+
 .high-contrast-question-text {
     border: 1px solid slategray;
     padding: 1em;
