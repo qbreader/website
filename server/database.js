@@ -40,14 +40,14 @@ function escapeRegExp(string) {
  * Gets the next question with a question number greater than `currentQuestionNumber` that satisfies the given conditions.
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
- * @param {Number} currentQuestionNumber - current question number. **Starts at 1.**
- * @param {Array<String>} validCategories
- * @param {Array<String>} validSubcategories
+ * @param {Array<String>} categories
+ * @param {Array<String>} subcategories
  * @param {'tossup' | 'bonus'} type - Type of question you want to get. Default: `'tossup'`.
  * @param {Boolean} alwaysUseUnformattedAnswer - whether to always use the unformatted answer. Default: `false`
+ * @param {Boolean} reverse - whether to reverse the order of the questions. Useful for functions that pop at the end of the array, Default: `false`
  * @returns {Promise<JSON>}
  */
-async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, validCategories, validSubcategories, type = 'tossup', alwaysUseUnformattedAnswer = false) {
+async function getSet({ setName, packetNumbers, categories, subcategories, type = 'tossup', alwaysUseUnformattedAnswer = false, reverse = false }) {
     if (setName === '') {
         return 0;
     }
@@ -57,43 +57,32 @@ async function getNextQuestion(setName, packetNumbers, currentQuestionNumber, va
         return 0;
     }
 
-    if (validCategories.length === 0) validCategories = CATEGORIES;
-    if (validSubcategories.length === 0) validSubcategories = SUBCATEGORIES_FLATTENED;
+    if (categories.length === 0) categories = CATEGORIES;
+    if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
 
-    const question = await questions.findOne({
-        $or: [
-            {
-                setName: setName,
-                category: { $in: validCategories },
-                subcategory: { $in: validSubcategories },
-                packetNumber: packetNumbers[0],
-                questionNumber: { $gt: currentQuestionNumber },
-                type: type
-            },
-            {
-                setName: setName,
-                category: { $in: validCategories },
-                subcategory: { $in: validSubcategories },
-                packetNumber: { $in: packetNumbers.slice(1) },
-                type: type
-            },
-        ]
+    const questionArray = await questions.find({
+        setName: setName,
+        category: { $in: categories },
+        subcategory: { $in: subcategories },
+        packetNumber: { $in: packetNumbers },
+        type: type
     }, {
-        sort: { packetNumber: 1, questionNumber: 1 }
-    }).catch(error => {
-        console.log('[DATABASE] ERROR:', error);
-        return {};
-    });
+        sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 }
+    }).toArray();
 
-    if (!question) {
+    if (!questionArray) {
         return {};
     }
 
-    if (!alwaysUseUnformattedAnswer && Object.prototype.hasOwnProperty.call(question, 'formatted_answer')) {
-        question.answer = question.formatted_answer;
+    if (!alwaysUseUnformattedAnswer && type === 'tossup') {
+        for (let i = 0; i < questionArray.length; i++) {
+            if (questionArray[i].formatted_answer) {
+                questionArray[i].answer = questionArray[i].formatted_answer;
+            }
+        }
     }
 
-    return question || {};
+    return questionArray || [];
 }
 
 
@@ -301,10 +290,10 @@ function getRandomName() {
  * @param {Array<Number>} difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array to select any difficulty.
  * @param {Array<String>} categories - an array of allowed categories. Pass a 0-length array to select any category.
  * @param {Array<String>} subcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
- * @param {Number} number - how many random tossups to return
+ * @param {Number} number - how many random tossups to return. Default: 20.
  * @returns {Promise<Array<JSON>>}
  */
-async function getRandomQuestions({ questionType = 'tossup', difficulties = DIFFICULTIES, categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED, number = 1 }) {
+async function getRandomQuestions({ questionType = 'tossup', difficulties = DIFFICULTIES, categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED, number = 20 }) {
     if (difficulties.length === 0) difficulties = DIFFICULTIES;
     if (categories.length === 0) categories = CATEGORIES;
     if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
@@ -354,4 +343,4 @@ async function reportQuestion(_id, reason, description) {
 }
 
 
-module.exports = { DEFAULT_QUERY_RETURN_LENGTH, getNextQuestion, getNumPackets, getPacket, getQuery, getRandomQuestions, getSetList, getRandomName, reportQuestion };
+module.exports = { DEFAULT_QUERY_RETURN_LENGTH, getSet, getNumPackets, getPacket, getQuery, getRandomQuestions, getSetList, getRandomName, reportQuestion };
