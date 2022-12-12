@@ -2,7 +2,7 @@
     "name": "qbreader",
     "version": "3.0.0",
     "scripts": {
-        "build": "npm run sass && npm run compile-react",
+        "build": "npm run compile-react",
         "compile-react": "npx babel client/database/index.jsx -o client/database/index.js",
         "start": "node server/server.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css"
@@ -14,6 +14,7 @@
         "express": "^4.17.1",
         "mongodb": "^4.8.0",
         "number-to-words": "^1.2.4",
+        "sass": "^1.56.2",
         "uuid": "^8.3.2",
         "ws": "^8.8.0"
     },
