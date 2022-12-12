@@ -2,6 +2,7 @@
     "name": "qbreader",
     "version": "3.0.0",
     "scripts": {
+        "build": "npm run sass && npm run compile-react",
         "compile-react": "npx babel client/database/index.jsx -o client/database/index.js",
         "start": "node server/server.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css"
