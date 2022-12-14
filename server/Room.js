@@ -10,7 +10,7 @@ class Room {
         this.players = {};
         this.sockets = {};
 
-        this.buzzTimeout = null;
+        this.timeoutID = null;
         this.buzzedIn = null;
         this.paused = false;
         this.queryingQuestion = false;
@@ -325,7 +325,7 @@ class Room {
             });
         } else {
             this.buzzedIn = userId;
-            clearTimeout(this.buzzTimeout);
+            clearTimeout(this.timeoutID);
             this.sendSocketMessage({
                 type: 'buzz',
                 username: this.players[userId].username
@@ -390,7 +390,7 @@ class Room {
 
     next(userId, type) {
         if (this.queryingQuestion) return;
-        clearTimeout(this.buzzTimeout);
+        clearTimeout(this.timeoutID);
         this.revealQuestion();
         this.advanceQuestion().then((successful) => {
             this.queryingQuestion = false;
@@ -410,7 +410,7 @@ class Room {
         this.paused = !this.paused;
 
         if (this.paused) {
-            clearTimeout(this.buzzTimeout);
+            clearTimeout(this.timeoutID);
         } else {
             this.updateQuestion();
         }
@@ -445,7 +445,6 @@ class Room {
     }
 
     updateQuestion() {
-        clearTimeout(this.buzzTimeout);
         if (Object.keys(this.tossup).length === 0) return;
         if (this.wordIndex >= this.questionSplit.length) {
             return;
@@ -469,7 +468,7 @@ class Room {
             word: word
         });
 
-        this.buzzTimeout = setTimeout(() => {
+        this.timeoutID = setTimeout(() => {
             this.updateQuestion();
         }, time * 0.9 * (125 - this.settings.readingSpeed));
     }
