@@ -11,14 +11,64 @@ let currentlyBuzzing = false;
 let inPower = false;
 let packetNumber = -1;
 let paused = false;
+let queryingQuestion = false;
+
 // WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
 let questionNumber = 0;
-let timeoutId = -1;
+let timeoutID = -1;
+
 // Whether or not the user clicked that they got the question wrong. `true` means the button currently says "I was right".
 let toggleCorrectClicked = false;
 let questions = [{}];
 let questionText = '';
 let questionTextSplit = [];
+
+
+async function advanceQuestion() {
+    if (document.getElementById('toggle-select-by-set-name').checked) {
+        packetNumber = packetNumbers[0];
+
+        do {  // Get the next question
+            questionNumber++;
+
+            // Go to the next packet if you reach the end of this packet
+            if (questionNumber >= questions.length) {
+                packetNumbers.shift();
+                if (packetNumbers.length == 0) {
+                    window.alert('No more questions left');
+                    document.getElementById('buzz').disabled = true;
+                    document.getElementById('pause').disabled = true;
+                    document.getElementById('next').disabled = true;
+                    return;  // alert the user if there are no more packets
+                }
+                packetNumber = packetNumbers[0];
+                document.getElementById('question').innerHTML = 'Fetching questions...';
+                questions = await getTossups(setName, packetNumber);
+                questionNumber = 0;
+            }
+
+            // Get the next question if the current one is in the wrong category and subcategory
+        } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
+
+        if (questions.length > 0) {
+            questionText = questions[questionNumber]['question'];
+            questionTextSplit = questionText.split(' ');
+            document.getElementById('question-number-info').innerHTML = questionNumber + 1;
+        }
+    } else {
+        document.getElementById('question').innerHTML = 'Fetching questions...';
+        questions = [ await getRandomQuestion('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories) ];
+
+        ({ setName, packetNumber, questionNumber } = questions[0]);
+
+        if (questions.length > 0) {
+            questionText = questions[0]['question'];
+            questionTextSplit = questionText.split(' ');
+            document.getElementById('question-number-info').innerHTML = questionNumber;
+            questionNumber = 0;
+        }
+    }
+}
 
 
 /**
@@ -58,7 +108,7 @@ function buzz() {
         updateStatDisplay();
     } else {
         // Stop the question reading
-        clearTimeout(timeoutId);
+        clearTimeout(timeoutID);
         currentlyBuzzing = true;
 
         // Include buzzpoint
@@ -84,7 +134,14 @@ function clearStats() {
 }
 
 
-async function loadAndReadTossup() {
+async function next() {
+    if (queryingQuestion) return;
+
+    // Stop reading the current question:
+    clearTimeout(timeoutID);
+    currentlyBuzzing = false;
+    queryingQuestion = true;
+
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
     document.getElementById('toggle-correct').innerHTML = 'I was wrong';
@@ -92,59 +149,8 @@ async function loadAndReadTossup() {
 
     document.getElementById('question').innerHTML = '';
     document.getElementById('answer').innerHTML = '';
-    // Stop reading the current question:
-    clearTimeout(timeoutId);
-    currentlyBuzzing = false;
 
-    if (document.getElementById('toggle-select-by-set-name').checked) {
-        packetNumber = packetNumbers[0];
-
-        do {  // Get the next question
-            questionNumber++;
-
-            // Go to the next packet if you reach the end of this packet
-            if (questionNumber >= questions.length) {
-                packetNumbers.shift();
-                if (packetNumbers.length == 0) {
-                    window.alert('No more questions left');
-                    document.getElementById('buzz').disabled = true;
-                    document.getElementById('pause').disabled = true;
-                    document.getElementById('next').disabled = true;
-                    return;  // alert the user if there are no more packets
-                }
-                packetNumber = packetNumbers[0];
-                clearTimeout(timeoutId); // stop reading the current question
-                document.getElementById('question').innerHTML = 'Fetching questions...';
-                questions = await getTossups(setName, packetNumber);
-                questionNumber = 0;
-            }
-
-            // Get the next question if the current one is in the wrong category and subcategory
-        } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
-
-        if (questions.length > 0) {
-            questionText = questions[questionNumber]['question'];
-            questionTextSplit = questionText.split(' ');
-            document.getElementById('question-number-info').innerHTML = questionNumber + 1;
-        }
-    } else {
-        document.getElementById('question').innerHTML = 'Fetching questions...';
-        questions = [await getRandomQuestion(
-            'tossup',
-            rangeToArray(document.getElementById('difficulties').value),
-            validCategories,
-            validSubcategories
-        )];
-
-        ({ setName, packetNumber, questionNumber } = questions[0]);
-
-        if (questions.length > 0) {
-            questionText = questions[0]['question'];
-            questionTextSplit = questionText.split(' ');
-            document.getElementById('question-number-info').innerHTML = questionNumber;
-            questionNumber = 0;
-        }
-    }
+    await advanceQuestion();
 
     if (questions.length > 0) {
         document.getElementById('set-name-info').innerHTML = setName;
@@ -157,8 +163,9 @@ async function loadAndReadTossup() {
         document.getElementById('pause').innerHTML = 'Pause';
         document.getElementById('pause').disabled = false;
         paused = false;
+        queryingQuestion = false;
         // Read the question:
-        recursivelyPrintTossup();
+        updateQuestion();
     }
 }
 
@@ -170,12 +177,12 @@ function pause() {
     if (paused) {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').innerHTML = 'Pause';
-        recursivelyPrintTossup();
+        updateQuestion();
     }
     else {
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
         document.getElementById('pause').innerHTML = 'Resume';
-        clearTimeout(timeoutId);
+        clearTimeout(timeoutID);
     }
     paused = !paused;
 }
@@ -184,8 +191,7 @@ function pause() {
 /**
  * Recursively reads the question based on the reading speed.
  */
-function recursivelyPrintTossup() {
-    clearTimeout(timeoutId);
+function updateQuestion() {
     if (!currentlyBuzzing && questionTextSplit.length > 0) {
         const word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
@@ -200,8 +206,8 @@ function recursivelyPrintTossup() {
         else if (word === '(*)')
             time = 0;
 
-        timeoutId = window.setTimeout(() => {
-            recursivelyPrintTossup();
+        timeoutID = window.setTimeout(() => {
+            updateQuestion();
         }, time * 0.9 * (125 - document.getElementById('reading-speed').value));
     } else {
         document.getElementById('pause').disabled = true;
@@ -308,7 +314,7 @@ document.getElementById('difficulties').addEventListener('change', async functio
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
     createTossupCard(questions[questionNumber], setName);
-    loadAndReadTossup();
+    next();
 });
 
 
@@ -344,7 +350,7 @@ document.getElementById('start').addEventListener('click', async function () {
     initialize(document.getElementById('toggle-select-by-set-name').checked);
     document.getElementById('question').innerHTML = 'Fetching questions...';
     questions = await getTossups(setName, packetNumber);
-    loadAndReadTossup();
+    next();
 });
 
 
