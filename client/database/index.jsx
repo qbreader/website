@@ -372,7 +372,7 @@ function QueryForm() {
                 <div className="row mb-3">
                     <div className="col-12">
                         <div className="form-check form-switch d-inline-block">
-                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-regex" checked={regex} onChange={event => {setRegex(event.target.value);}} />
+                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-regex" checked={regex} onChange={() => {setRegex(!regex);}} />
                             <label className="form-check-label" htmlFor="toggle-regex">Search using regular expression</label>
                             <a href="https://www.sitepoint.com/learn-regex/"> What&apos;s this?</a>
                         </div>
