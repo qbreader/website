@@ -447,8 +447,8 @@ function QueryForm() {
     role: "switch",
     id: "toggle-regex",
     checked: regex,
-    onChange: event => {
-      setRegex(event.target.value);
+    onChange: () => {
+      setRegex(!regex);
     }
   }), /*#__PURE__*/React.createElement("label", {
     className: "form-check-label",
