@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The API documentation for QB Reader.">
 
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/bootstrap/light.css">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+    <link href="/bootstrap/light.css" rel="stylesheet">
     <script>
         if (localStorage.getItem('color-theme') === 'dark') {
             document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
@@ -33,9 +33,8 @@
             <a class="navbar-brand ms-1 py-0" id="logo" href="/">
                 <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -53,7 +52,7 @@
                         <a class="nav-link" href="/db">Database</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/api-info">API</a>
+                        <a class="nav-link active" href="/api-info" aria-current="page">API</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/about">About</a>
@@ -62,7 +61,7 @@
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link p-1" href="#" id="toggle-dark-mode">
+                            <a class="nav-link p-1" id="toggle-dark-mode" href="#">
                                 <img src="/dark-mode.png" width="28" height="28">
                             </a>
                         </li>
@@ -205,6 +204,7 @@
                         <ul>
                             <li>If <b>undefined or omitted,</b> then all sets are searched.</li>
                         </ul>
+                    </li>
                     <li>
                         [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid
                         possible difficulties.

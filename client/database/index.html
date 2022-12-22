@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Search through the database that powers qbreader.">
 
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/bootstrap/light.css">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+    <link href="/bootstrap/light.css" rel="stylesheet">
     <script>
         if (localStorage.getItem('color-theme') === 'dark') {
             document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
@@ -33,15 +33,14 @@
             <a class="navbar-brand ms-1 py-0" id="logo" href="/">
                 <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/tossups">Tossups</a>
+                        <a class="nav-link" href="/tossups" aria-current="page">Tossups</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/bonuses">Bonuses</a>
@@ -62,7 +61,7 @@
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link p-1" href="#" id="toggle-dark-mode">
+                            <a class="nav-link p-1" id="toggle-dark-mode" href="#">
                                 <img src="/dark-mode.png" width="28" height="28">
                             </a>
                         </li>
@@ -88,16 +87,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Report Question</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="btn-close" data-bs-dismiss="modal" type="button" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="report-question-id" class="col-form-label">Question ID:</label>
-                            <input type="text" class="form-control" id="report-question-id" disabled>
+                            <label class="col-form-label" for="report-question-id">Question ID:</label>
+                            <input class="form-control" id="report-question-id" type="text" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="report-question-reason" class="col-form-label">Reason:</label>
+                            <label class="col-form-label" for="report-question-reason">Reason:</label>
                             <select class="form-select" id="report-question-reason" aria-label="Default select example">
                                 <option value="answerline-parsing" selected>Incorrect answer checking/parsing</option>
                                 <option value="wrong-category">Wrong category/subcategory</option>
@@ -110,15 +109,15 @@
                         <div>
                             <p class="text-muted">Tired of these terrible questions? Play <a
                                     href="https://hsquizbowl.org/forums/viewtopic.php?t=25977">C++</a>!.</p>
-                            <label for="report-question-description" class="col-form-label">Additional
+                            <label class="col-form-label" for="report-question-description">Additional
                                 Information:</label>
                             <textarea class="form-control" id="report-question-description" rows="3"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="report-question-submit">Submit</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" id="report-question-submit" type="button">Submit</button>
                 </div>
             </div>
         </div>
@@ -137,3 +136,5 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="/database/index.js"></script>
 </body>
+
+</html>
