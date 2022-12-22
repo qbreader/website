@@ -2,17 +2,19 @@
 
 - A [QuizBug](https://quizbug2.karangurazada.com/)/[Protobowl](https://protobowl.com/)/tkbot where you pick a packet and it reads tossups or bonuses to you.
 - Supports both singleplayer and multiplayer.
+- Also contains a searchable database.
 
 ## Running the Server
 
-If you're interested in running the server locally or deploying a clone, please **contact me** @geoffrey-wu so I can give you (read-only) credentials to the server.
+If you're interested in running the server locally or deploying a clone, please **contact me** on discord at [thedoge#1189](https://discord.com/users/298250592135020545) so I can give you (read-only) credentials to the server.
 
 1. Clone the repository and navigate to its root directory.
    e.g. `git clone https://github.com/qbreader/website && cd website`
 2. Run `npm install`.
-3. Run `npm run build`.
-4. Run `npm start`.
+3. Run `npm start`.
    The website is at localhost:3000
+
+The website is built by default, but if you make any changes, you can rebuild using `npm run build`.
 
 ## Tech Stack
 
@@ -24,7 +26,3 @@ The CSS is compiled from source from Bootstrap Sass + my own modifications (espe
 
 Pull requests are welcome.
 I also appreciate feedback and feature suggestions through email, discord, or issues.
-
-## Inspiration
-
-- https://github.com/kgurazad/quizbug2
