@@ -26,3 +26,6 @@ The CSS is compiled from source from Bootstrap Sass + my own modifications (espe
 
 Pull requests are welcome.
 I also appreciate feedback and feature suggestions through email, discord, or issues.
+Make sure to format your code using the provided eslint rules.
+I recommend sorting your HTML attributes using [this vscode extension](https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-attrs-sorter),
+which I have configured to follow https://codeguide.co/#attribute-order.

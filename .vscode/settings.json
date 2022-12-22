@@ -3,9 +3,31 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "eslint.validate": ["javascript"],
+    "eslint.validate": [
+        "javascript"
+    ],
     "[html]": {
-        "editor.rulers": [135]
+        "editor.rulers": [
+            135
+        ]
     },
-    "html.format.wrapLineLength": 135
+    "html.format.wrapLineLength": 135,
+    // based on https://codeguide.co/#attribute-order
+    "attrsSorter.order": [
+        "class",
+        "id",
+        "name",
+        "data-.+",
+        "src",
+        "for",
+        "type",
+        "href",
+        "value",
+        "title",
+        "alt",
+        "role",
+        "aria-.+",
+        "tabindex",
+        "style"
+    ]
 }
