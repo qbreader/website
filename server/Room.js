@@ -53,7 +53,7 @@ class Room {
             if (this.buzzedIn === userId) {
                 this.buzzedIn = null;
                 this.players[userId].updateStats(-5, 0);
-                this.updateQuestion();
+                this.readQuestion();
                 this.sendSocketMessage({
                     type: 'give-answer',
                     userId: userId,
@@ -281,10 +281,6 @@ class Room {
 
         if (this.settings.selectBySetName) {
             if (this.setCache.length === 0) {
-                this.setCache = await database.getSet(this.query);
-            }
-
-            if (this.setCache.length === 0) {
                 this.sendSocketMessage({
                     type: 'end-of-set'
                 });
@@ -369,11 +365,10 @@ class Room {
 
         if (directive === 'accept') {
             this.revealQuestion();
-            this.questionProgress = 2;
             this.players[userId].updateStats(points, celerity);
             Object.values(this.players).forEach(player => { player.tuh++; });
         } else if (directive === 'reject') {
-            this.updateQuestion();
+            this.readQuestion();
             this.players[userId].updateStats(points, celerity);
         }
 
@@ -388,22 +383,27 @@ class Room {
         });
     }
 
-    next(userId, type) {
+    async next(userId, type) {
         if (this.queryingQuestion) return;
         clearTimeout(this.timeoutID);
-        this.revealQuestion();
-        this.advanceQuestion().then((successful) => {
-            this.queryingQuestion = false;
-            if (successful) {
-                this.sendSocketMessage({
-                    type: type,
-                    userId: userId,
-                    username: this.players[userId].username,
-                    tossup: this.tossup
-                });
-                this.updateQuestion();
-            }
+
+        if (this.questionProgress !== 2) {
+            this.revealQuestion();
+        }
+
+        const hasNextQuestion = await this.advanceQuestion();
+
+        this.queryingQuestion = false;
+
+        if (!hasNextQuestion) return;
+
+        this.sendSocketMessage({
+            type: type,
+            userId: userId,
+            username: this.players[userId].username,
+            tossup: this.tossup
         });
+        this.readQuestion();
     }
 
     pause(userId) {
@@ -412,7 +412,7 @@ class Room {
         if (this.paused) {
             clearTimeout(this.timeoutID);
         } else {
-            this.updateQuestion();
+            this.readQuestion();
         }
 
         this.sendSocketMessage({
@@ -422,29 +422,7 @@ class Room {
         });
     }
 
-    revealQuestion() {
-        if (Object.keys(this.tossup).length === 0) return;
-        const remainingQuestion = this.questionSplit.slice(this.wordIndex).join(' ');
-        this.sendSocketMessage({
-            type: 'update-question',
-            word: remainingQuestion
-        });
-
-        this.sendSocketMessage({
-            type: 'update-answer',
-            answer: this.tossup.answer
-        });
-
-        this.wordIndex = this.questionSplit.length;
-    }
-
-    sendSocketMessage(message) {
-        for (const socket of Object.values(this.sockets)) {
-            socket.send(JSON.stringify(message));
-        }
-    }
-
-    updateQuestion() {
+    readQuestion() {
         if (Object.keys(this.tossup).length === 0) return;
         if (this.wordIndex >= this.questionSplit.length) {
             return;
@@ -469,8 +447,31 @@ class Room {
         });
 
         this.timeoutID = setTimeout(() => {
-            this.updateQuestion();
+            this.readQuestion();
         }, time * 0.9 * (125 - this.settings.readingSpeed));
+    }
+
+    revealQuestion() {
+        if (Object.keys(this.tossup).length === 0) return;
+        const remainingQuestion = this.questionSplit.slice(this.wordIndex).join(' ');
+        this.sendSocketMessage({
+            type: 'update-question',
+            word: remainingQuestion
+        });
+
+        this.sendSocketMessage({
+            type: 'update-answer',
+            answer: this.tossup.answer
+        });
+
+        this.wordIndex = this.questionSplit.length;
+        this.questionProgress = 2;
+    }
+
+    sendSocketMessage(message) {
+        for (const socket of Object.values(this.sockets)) {
+            socket.send(JSON.stringify(message));
+        }
     }
 }
 
