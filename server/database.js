@@ -37,7 +37,7 @@ function escapeRegExp(string) {
 
 
 /**
- * Gets the next question with a question number greater than `currentQuestionNumber` that satisfies the given conditions.
+ * Gets all questions in a set that satisfy the given parameters.
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
  * @param {Array<String>} categories
@@ -49,12 +49,12 @@ function escapeRegExp(string) {
  */
 async function getSet({ setName, packetNumbers, categories, subcategories, type = 'tossup', alwaysUseUnformattedAnswer = false, reverse = false }) {
     if (setName === '') {
-        return 0;
+        return [];
     }
 
     if (!SET_LIST.includes(setName)) {
         console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
-        return 0;
+        return [];
     }
 
     if (categories.length === 0) categories = CATEGORIES;
@@ -69,10 +69,6 @@ async function getSet({ setName, packetNumbers, categories, subcategories, type 
     }, {
         sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 }
     }).toArray();
-
-    if (!questionArray) {
-        return {};
-    }
 
     if (!alwaysUseUnformattedAnswer && type === 'tossup') {
         for (let i = 0; i < questionArray.length; i++) {
