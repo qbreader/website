@@ -24,6 +24,9 @@ let questionText = '';
 let questionTextSplit = [];
 
 
+/**
+ * @returns {Promise<boolean>} Whether or not there is a next question
+ */
 async function advanceQuestion() {
     if (document.getElementById('toggle-select-by-set-name').checked) {
         packetNumber = packetNumbers[0];
@@ -39,7 +42,7 @@ async function advanceQuestion() {
                     document.getElementById('buzz').disabled = true;
                     document.getElementById('pause').disabled = true;
                     document.getElementById('next').disabled = true;
-                    return;  // alert the user if there are no more packets
+                    return false;  // alert the user if there are no more packets
                 }
                 packetNumber = packetNumbers[0];
                 document.getElementById('question').innerHTML = 'Fetching questions...';
@@ -66,8 +69,12 @@ async function advanceQuestion() {
             questionTextSplit = questionText.split(' ');
             document.getElementById('question-number-info').innerHTML = questionNumber;
             questionNumber = 0;
+        } else {
+            return false;
         }
     }
+
+    return true;
 }
 
 
@@ -144,29 +151,29 @@ async function next() {
 
     // Update the toggle-correct button:
     toggleCorrectClicked = false;
+
+    document.getElementById('answer').innerHTML = '';
+    document.getElementById('question').innerHTML = '';
     document.getElementById('toggle-correct').innerHTML = 'I was wrong';
     document.getElementById('toggle-correct').classList.add('d-none');
 
+    const hasNextQuestion = await advanceQuestion();
+
+    queryingQuestion = false;
+
+    if (!hasNextQuestion) return;
+
+    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('buzz').disabled = false;
+    document.getElementById('next').innerHTML = 'Skip';
+    document.getElementById('packet-number-info').innerHTML = packetNumber;
+    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').disabled = false;
     document.getElementById('question').innerHTML = '';
-    document.getElementById('answer').innerHTML = '';
+    document.getElementById('set-name-info').innerHTML = setName;
 
-    await advanceQuestion();
-
-    if (questions.length > 0) {
-        document.getElementById('set-name-info').innerHTML = setName;
-        document.getElementById('packet-number-info').innerHTML = packetNumber;
-        document.getElementById('question').innerHTML = '';
-
-        document.getElementById('next').innerHTML = 'Skip';
-        document.getElementById('buzz').innerHTML = 'Buzz';
-        document.getElementById('buzz').disabled = false;
-        document.getElementById('pause').innerHTML = 'Pause';
-        document.getElementById('pause').disabled = false;
-        paused = false;
-        queryingQuestion = false;
-        // Read the question:
-        updateQuestion();
-    }
+    paused = false;
+    readQuestion();
 }
 
 
@@ -177,7 +184,7 @@ function pause() {
     if (paused) {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').innerHTML = 'Pause';
-        updateQuestion();
+        readQuestion();
     }
     else {
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
@@ -191,7 +198,7 @@ function pause() {
 /**
  * Recursively reads the question based on the reading speed.
  */
-function updateQuestion() {
+function readQuestion() {
     if (!currentlyBuzzing && questionTextSplit.length > 0) {
         const word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
@@ -207,7 +214,7 @@ function updateQuestion() {
             time = 0;
 
         timeoutID = window.setTimeout(() => {
-            updateQuestion();
+            readQuestion();
         }, time * 0.9 * (125 - document.getElementById('reading-speed').value));
     } else {
         document.getElementById('pause').disabled = true;
@@ -347,7 +354,7 @@ document.getElementById('set-name').addEventListener('change', function () {
 
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    initialize(document.getElementById('toggle-select-by-set-name').checked);
+    start(document.getElementById('toggle-select-by-set-name').checked);
     document.getElementById('question').innerHTML = 'Fetching questions...';
     questions = await getTossups(setName, packetNumber);
     next();
