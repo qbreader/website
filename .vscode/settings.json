@@ -5,6 +5,7 @@
     },
     "eslint.validate": ["javascript"],
     "[html]": {
-        "editor.rulers": [120]
-    }
+        "editor.rulers": [135]
+    },
+    "html.format.wrapLineLength": 135
 }
