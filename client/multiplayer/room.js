@@ -611,7 +611,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
         document.getElementById('packet-number').value = `1-${maxPacketNumber}`;
     }
 
-    socket.send(JSON.stringify({ type: 'set-name', value: this.value }));
+    socket.send(JSON.stringify({ type: 'set-name', value: this.value, packetNumbers: rangeToArray(document.getElementById('packet-number').value) }));
 });
 
 
