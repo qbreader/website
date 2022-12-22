@@ -53,7 +53,7 @@ class Room {
             if (this.buzzedIn === userId) {
                 this.buzzedIn = null;
                 this.players[userId].updateStats(-5, 0);
-                this.readQuestion();
+                this.readQuestion(new Date().getTime());
                 this.sendSocketMessage({
                     type: 'give-answer',
                     userId: userId,
@@ -367,7 +367,7 @@ class Room {
             this.players[userId].updateStats(points, celerity);
             Object.values(this.players).forEach(player => { player.tuh++; });
         } else if (directive === 'reject') {
-            this.readQuestion();
+            this.readQuestion(new Date().getTime());
             this.players[userId].updateStats(points, celerity);
         }
 
@@ -402,7 +402,7 @@ class Room {
             username: this.players[userId].username,
             tossup: this.tossup
         });
-        this.readQuestion();
+        this.readQuestion(new Date().getTime());
     }
 
     pause(userId) {
@@ -411,7 +411,7 @@ class Room {
         if (this.paused) {
             clearTimeout(this.timeoutID);
         } else {
-            this.readQuestion();
+            this.readQuestion(new Date().getTime());
         }
 
         this.sendSocketMessage({
@@ -421,7 +421,7 @@ class Room {
         });
     }
 
-    readQuestion() {
+    readQuestion(expectedReadTime) {
         if (Object.keys(this.tossup).length === 0) return;
         if (this.wordIndex >= this.questionSplit.length) {
             return;
@@ -446,8 +446,8 @@ class Room {
         });
 
         this.timeoutID = setTimeout(() => {
-            this.readQuestion();
-        }, time * 0.9 * (125 - this.settings.readingSpeed));
+            this.readQuestion(time * 0.9 * (125 - this.settings.readingSpeed) + expectedReadTime);
+        }, time * 0.9 * (125 - this.settings.readingSpeed) - new Date().getTime() + expectedReadTime);
     }
 
     revealQuestion() {
