@@ -204,8 +204,7 @@ class Room {
                 username: this.players[userId].username,
                 value: message.value
             });
-
-            this.adjustQuery(['setName'], [message.value]);
+            this.adjustQuery(['setName', 'packetNumbers'], [message.value, message.packetNumbers]);
         }
 
         if (type === 'toggle-rebuzz') {
