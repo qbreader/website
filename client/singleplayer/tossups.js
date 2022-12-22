@@ -173,7 +173,7 @@ async function next() {
     document.getElementById('set-name-info').innerHTML = setName;
 
     paused = false;
-    readQuestion();
+    readQuestion(new Date().getTime());
 }
 
 
@@ -184,7 +184,7 @@ function pause() {
     if (paused) {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').innerHTML = 'Pause';
-        readQuestion();
+        readQuestion(new Date().getTime());
     }
     else {
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
@@ -198,7 +198,7 @@ function pause() {
 /**
  * Recursively reads the question based on the reading speed.
  */
-function readQuestion() {
+function readQuestion(expectedReadTime) {
     if (!currentlyBuzzing && questionTextSplit.length > 0) {
         const word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
@@ -214,8 +214,8 @@ function readQuestion() {
             time = 0;
 
         timeoutID = window.setTimeout(() => {
-            readQuestion();
-        }, time * 0.9 * (125 - document.getElementById('reading-speed').value));
+            readQuestion(time * 0.9 * (125 - document.getElementById('reading-speed').value) + expectedReadTime);
+        }, time * 0.9 * (125 - document.getElementById('reading-speed').value) - new Date().getTime() + expectedReadTime);
     } else {
         document.getElementById('pause').disabled = true;
     }
