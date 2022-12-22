@@ -233,7 +233,7 @@ document.getElementById('set-name').addEventListener('change', function () {
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     onQuestion = true;
-    initialize(document.getElementById('toggle-select-by-set-name').checked);
+    start(document.getElementById('toggle-select-by-set-name').checked);
     document.getElementById('question').innerHTML = 'Fetching questions...';
     questions = await getBonuses(setName, packetNumber);
     next();
