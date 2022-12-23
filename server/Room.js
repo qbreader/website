@@ -273,10 +273,10 @@ class Room {
     }
 
     async advanceQuestion() {
-        this.queryingQuestion = true;
-        this.wordIndex = 0;
         this.buzzedIn = null;
         this.paused = false;
+        this.queryingQuestion = true;
+        this.wordIndex = 0;
 
         if (this.settings.selectBySetName) {
             if (this.setCache.length === 0) {
@@ -307,7 +307,7 @@ class Room {
         }
 
         this.questionProgress = 1;
-        this.questionSplit = this.tossup.question.split(' ');
+        this.questionSplit = this.tossup.question.split(' ').filter(word => word !== '');
         return true;
     }
 
@@ -421,7 +421,7 @@ class Room {
         });
     }
 
-    readQuestion(expectedReadTime) {
+    async readQuestion(expectedReadTime) {
         if (Object.keys(this.tossup).length === 0) return;
         if (this.wordIndex >= this.questionSplit.length) {
             return;
@@ -429,6 +429,11 @@ class Room {
 
         const word = this.questionSplit[this.wordIndex];
         this.wordIndex++;
+
+        this.sendSocketMessage({
+            type: 'update-question',
+            word: word
+        });
 
         // calculate time needed before reading next word
         let time = Math.log(word.length) + 1;
@@ -440,14 +445,12 @@ class Room {
         else if (word === '(*)')
             time = 0;
 
-        this.sendSocketMessage({
-            type: 'update-question',
-            word: word
-        });
+        time = time * 0.9 * (125 - this.settings.readingSpeed);
+        const delay = time - new Date().getTime() + expectedReadTime;
 
         this.timeoutID = setTimeout(() => {
-            this.readQuestion(time * 0.9 * (125 - this.settings.readingSpeed) + expectedReadTime);
-        }, time * 0.9 * (125 - this.settings.readingSpeed) - new Date().getTime() + expectedReadTime);
+            this.readQuestion(time + expectedReadTime);
+        }, delay);
     }
 
     revealQuestion() {
