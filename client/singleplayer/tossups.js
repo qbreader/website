@@ -55,7 +55,7 @@ async function advanceQuestion() {
 
         if (questions.length > 0) {
             questionText = questions[questionNumber]['question'];
-            questionTextSplit = questionText.split(' ');
+            questionTextSplit = questionText.split(' ').filter(word => word !== '');
             document.getElementById('question-number-info').innerHTML = questionNumber + 1;
         }
     } else {
@@ -66,7 +66,7 @@ async function advanceQuestion() {
 
         if (questions.length > 0) {
             questionText = questions[0]['question'];
-            questionTextSplit = questionText.split(' ');
+            questionTextSplit = questionText.split(' ').filter(word => word !== '');
             document.getElementById('question-number-info').innerHTML = questionNumber;
             questionNumber = 0;
         } else {
@@ -203,7 +203,7 @@ function readQuestion(expectedReadTime) {
         const word = questionTextSplit.shift();
         document.getElementById('question').innerHTML += word + ' ';
 
-        //calculate time needed before reading next word
+        // calculate time needed before reading next word
         let time = Math.log(word.length) + 1;
         if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123)
             || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
@@ -213,9 +213,12 @@ function readQuestion(expectedReadTime) {
         else if (word === '(*)')
             time = 0;
 
+        time = time * 0.9 * (125 - document.getElementById('reading-speed').value);
+        const delay = time - new Date().getTime() + expectedReadTime;
+
         timeoutID = window.setTimeout(() => {
-            readQuestion(time * 0.9 * (125 - document.getElementById('reading-speed').value) + expectedReadTime);
-        }, time * 0.9 * (125 - document.getElementById('reading-speed').value) - new Date().getTime() + expectedReadTime);
+            readQuestion(time + expectedReadTime);
+        }, delay);
     } else {
         document.getElementById('pause').disabled = true;
     }
