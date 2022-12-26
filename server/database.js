@@ -173,15 +173,15 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
  * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
 async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED_ALL, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH, randomize = false, regex = false }) {
-    if (difficulties.length === 0) difficulties = DIFFICULTIES;
-    if (categories.length === 0) categories = CATEGORIES;
-    if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED_ALL;
+    if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
+    if (!categories || categories.length === 0) categories = CATEGORIES;
+    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED_ALL;
+    if (!queryString) queryString = '';
+    if (!maxQueryReturnLength) maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
 
     maxQueryReturnLength = parseInt(maxQueryReturnLength);
-    if (maxQueryReturnLength <= 0) {
-        maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
-    }
     maxQueryReturnLength = Math.min(maxQueryReturnLength, MAX_QUERY_RETURN_LENGTH);
+    if (maxQueryReturnLength <= 0) maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
 
     if (!regex) {
         queryString = queryString.trim();
