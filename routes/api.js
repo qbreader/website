@@ -17,7 +17,7 @@ router.get('/num-packets', async (req, res) => {
 router.get('/packet', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket(req.query.setName, req.query.packetNumber);
+    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber });
     if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -27,7 +27,7 @@ router.get('/packet', async (req, res) => {
 router.get('/packet-bonuses', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket(req.query.setName, req.query.packetNumber, ['bonuses']);
+    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber, questionTypes: ['bonuses'] });
     if (packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -37,7 +37,7 @@ router.get('/packet-bonuses', async (req, res) => {
 router.get('/packet-tossups', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket(req.query.setName, req.query.packetNumber, ['tossups']);
+    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber, questionTypes: ['tossups'] });
     if (packet.tossups.length === 0) {
         res.statusCode = 404;
     }
@@ -76,8 +76,12 @@ router.post('/query', async (req, res) => {
         req.body.subcategories = [req.body.subcategories];
     }
 
-    if (isNaN(req.body.maxQueryReturnLength) || req.body.maxQueryReturnLength === '') {
-        req.body.maxQueryReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
+    if (req.body.maxReturnLength === undefined) {
+        req.body.maxReturnLength = req.body.maxQueryReturnLength;
+    }
+
+    if (isNaN(req.body.maxReturnLength) || req.body.maxReturnLength === '') {
+        req.body.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
     }
 
     const queryResult = await database.getQuery(req.body);

@@ -269,7 +269,7 @@ function QueryForm() {
         categories: validCategories,
         subcategories: validSubcategories,
         difficulties: rangeToArray(difficulties),
-        maxQueryReturnLength: maxQueryReturnLength,
+        maxReturnLength: maxQueryReturnLength,
         queryString: queryString,
         questionType: questionType,
         randomize: randomize,
@@ -374,7 +374,7 @@ function QueryForm() {
       setDifficulties(event.target.value);
     }
   })), /*#__PURE__*/React.createElement("div", {
-    id: "max-query-length",
+    id: "max-query-return-length",
     className: "col-3"
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
