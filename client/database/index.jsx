@@ -278,7 +278,7 @@ function QueryForm() {
                 categories: validCategories,
                 subcategories: validSubcategories,
                 difficulties: rangeToArray(difficulties),
-                maxQueryReturnLength: maxQueryReturnLength,
+                maxReturnLength: maxQueryReturnLength,
                 queryString: queryString,
                 questionType: questionType,
                 randomize: randomize,
@@ -342,7 +342,7 @@ function QueryForm() {
                     <div id="difficulty-settings" className="col-2">
                         <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={difficulties} onChange={event => {setDifficulties(event.target.value);}} />
                     </div>
-                    <div id="max-query-length" className="col-3">
+                    <div id="max-query-return-length" className="col-3">
                         <input type="text" className="form-control" id="difficulties" placeholder="Max # to Display (default: 50)" value={maxQueryReturnLength} onChange={event => {setMaxQueryReturnLength(event.target.value);}} />
                     </div>
                     <div className="col-7">

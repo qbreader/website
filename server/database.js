@@ -42,35 +42,34 @@ function escapeRegExp(string) {
  * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
  * @param {Array<String>} categories
  * @param {Array<String>} subcategories
- * @param {'tossup' | 'bonus'} type - Type of question you want to get. Default: `'tossup'`.
- * @param {Boolean} alwaysUseUnformattedAnswer - whether to always use the unformatted answer. Default: `false`
- * @param {Boolean} reverse - whether to reverse the order of the questions. Useful for functions that pop at the end of the array, Default: `false`
+ * @param {'tossup' | 'bonus'} questionType - Type of question you want to get. Default: `'tossup'`.
+ * @param {Boolean} replaceUnformattedAnswer - whether to replace the 'answer(s)' key on each question with the value corresponding to 'formatted_answer(s)' (if it exists). Default: `true`
+ * @param {Boolean} reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
  * @returns {Promise<JSON>}
  */
-async function getSet({ setName, packetNumbers, categories, subcategories, type = 'tossup', alwaysUseUnformattedAnswer = false, reverse = false }) {
-    if (setName === '') {
-        return [];
-    }
+async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', replaceUnformattedAnswer = true, reverse = false }) {
+    if (!setName) return [];
 
     if (!SET_LIST.includes(setName)) {
         console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
         return [];
     }
 
-    if (categories.length === 0) categories = CATEGORIES;
-    if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+    if (!categories || categories.length === 0) categories = CATEGORIES;
+    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+    if (!questionType) questionType = 'tossup';
 
     const questionArray = await questions.find({
         setName: setName,
         category: { $in: categories },
         subcategory: { $in: subcategories },
         packetNumber: { $in: packetNumbers },
-        type: type
+        type: questionType
     }, {
         sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 }
     }).toArray();
 
-    if (!alwaysUseUnformattedAnswer && type === 'tossup') {
+    if (replaceUnformattedAnswer && questionType === 'tossup') {
         for (let i = 0; i < questionArray.length; i++) {
             if (questionArray[i].formatted_answer) {
                 questionArray[i].answer = questionArray[i].formatted_answer;
@@ -87,9 +86,7 @@ async function getSet({ setName, packetNumbers, categories, subcategories, type 
  * @returns {Promise<Number>} the number of packets in the set.
  */
 async function getNumPackets(setName) {
-    if (setName === '') {
-        return 0;
-    }
+    if (!setName) return 0;
 
     if (!SET_LIST.includes(setName)) {
         console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
@@ -108,13 +105,13 @@ async function getNumPackets(setName) {
 /**
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @param {Number} packetNumber - **one-indexed** packet number
- * @param {Array<String>} allowedTypes - Array of allowed types. Default: `['tossups', 'bonuses]`
+ * @param {Array<String>} questionTypes - Default: `['tossups', 'bonuses]`
  * If only one allowed type is specified, only that type will be searched for (increasing query speed).
  * The other type will be returned as an empty array.
  * @returns {Promise<{tossups: Array<JSON>, bonuses: Array<JSON>}>}
  */
-async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonuses'], alwaysUseUnformattedAnswer = false) {
-    if (setName === '' || isNaN(packetNumber) || packetNumber < 1) {
+async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], replaceUnformattedAnswer = true }) {
+    if (!setName || isNaN(packetNumber) || packetNumber < 1) {
         return { 'tossups': [], 'bonuses': [] };
     }
 
@@ -131,9 +128,9 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
         const packet = set.packets[packetNumber - 1];
         const result = {};
 
-        if (allowedTypes.includes('tossups')) {
+        if (questionTypes.includes('tossups')) {
             result['tossups'] = await questions.find({ packet: packet._id, type: 'tossup' }, { sort: { questionNumber: 1 } }).toArray();
-            if (!alwaysUseUnformattedAnswer) {
+            if (replaceUnformattedAnswer) {
                 for (const question of result['tossups']) {
                     if (Object.prototype.hasOwnProperty.call(question, 'formatted_answer')) {
                         question.answer = question.formatted_answer;
@@ -142,9 +139,9 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
             }
         }
 
-        if (allowedTypes.includes('bonuses')) {
+        if (questionTypes.includes('bonuses')) {
             result['bonuses'] = await questions.find({ packet: packet._id, type: 'bonus' }, { sort: { questionNumber: 1 } }).toArray();
-            if (!alwaysUseUnformattedAnswer) {
+            if (replaceUnformattedAnswer) {
                 for (const question of result['bonuses']) {
                     if (Object.prototype.hasOwnProperty.call(question, 'formatted_answers')) {
                         question.answers = question.formatted_answers;
@@ -172,16 +169,17 @@ async function getPacket(setName, packetNumber, allowedTypes = ['tossups', 'bonu
  * @param {Array<String>} subcategories
  * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
-async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName = '', searchType = 'all', questionType = 'all', categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED_ALL, maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH, randomize = false, regex = false }) {
+async function getQuery({ queryString, difficulties, setName, searchType = 'all', questionType = 'all', categories, subcategories, maxReturnLength, randomize = false, regex = false } = {}) {
+    if (!queryString) queryString = '';
     if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
     if (!categories || categories.length === 0) categories = CATEGORIES;
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED_ALL;
-    if (!queryString) queryString = '';
-    if (!maxQueryReturnLength) maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+    if (!setName) setName = '';
+    if (!maxReturnLength) maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
 
-    maxQueryReturnLength = parseInt(maxQueryReturnLength);
-    maxQueryReturnLength = Math.min(maxQueryReturnLength, MAX_QUERY_RETURN_LENGTH);
-    if (maxQueryReturnLength <= 0) maxQueryReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+    maxReturnLength = parseInt(maxReturnLength);
+    maxReturnLength = Math.min(maxReturnLength, MAX_QUERY_RETURN_LENGTH);
+    if (maxReturnLength <= 0) maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
 
     if (!regex) {
         queryString = queryString.trim();
@@ -190,21 +188,21 @@ async function getQuery({ queryString = '', difficulties = DIFFICULTIES, setName
 
     const returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
     if (questionType === 'tossup' || questionType === 'all') {
-        const tossups = await queryHelper({ queryString, difficulties, setName, questionType: 'tossup', searchType, categories, subcategories, maxQueryReturnLength, randomize });
+        const tossups = await queryHelper({ queryString, difficulties, setName, questionType: 'tossup', searchType, categories, subcategories, maxReturnLength, randomize });
         returnValue.tossups = tossups;
     }
 
     if (questionType === 'bonus' || questionType === 'all') {
-        const bonuses = await queryHelper({ queryString, difficulties, setName, questionType: 'bonus', searchType, categories, subcategories, maxQueryReturnLength, randomize });
+        const bonuses = await queryHelper({ queryString, difficulties, setName, questionType: 'bonus', searchType, categories, subcategories, maxReturnLength, randomize });
         returnValue.bonuses = bonuses;
     }
 
-    console.log(`[DATABASE] QUERY: string: ${colors.OKCYAN}${queryString}${colors.ENDC}; difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; max length: ${colors.OKGREEN}${maxQueryReturnLength}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; randomize: ${colors.OKGREEN}${randomize}${colors.ENDC}; regex: ${colors.OKGREEN}${regex}${colors.ENDC}; search type: ${colors.OKGREEN}${searchType}${colors.ENDC}; set name: ${colors.OKGREEN}${setName}${colors.ENDC};`);
+    console.log(`[DATABASE] QUERY: string: ${colors.OKCYAN}${queryString}${colors.ENDC}; difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; max length: ${colors.OKGREEN}${maxReturnLength}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; randomize: ${colors.OKGREEN}${randomize}${colors.ENDC}; regex: ${colors.OKGREEN}${regex}${colors.ENDC}; search type: ${colors.OKGREEN}${searchType}${colors.ENDC}; set name: ${colors.OKGREEN}${setName}${colors.ENDC};`);
 
     return returnValue;
 }
 
-async function queryHelper({ queryString, difficulties, questionType, setName, searchType, categories, subcategories, maxQueryReturnLength, randomize }) {
+async function queryHelper({ queryString, difficulties, questionType, setName, searchType, categories, subcategories, maxReturnLength, randomize }) {
     const orQuery = [];
     if (['question', 'all'].includes(searchType)) {
         if (questionType === 'tossup') {
@@ -244,11 +242,11 @@ async function queryHelper({ queryString, difficulties, questionType, setName, s
                 questionNumber: 1
             }
         },
-        { $limit: maxQueryReturnLength },
+        { $limit: maxReturnLength },
     ];
 
     if (randomize) {
-        aggregation[1] = { $sample: { size: maxQueryReturnLength } };
+        aggregation[1] = { $sample: { size: maxReturnLength } };
     }
 
     try {
@@ -289,10 +287,11 @@ function getRandomName() {
  * @param {Number} number - how many random tossups to return. Default: 20.
  * @returns {Promise<Array<JSON>>}
  */
-async function getRandomQuestions({ questionType = 'tossup', difficulties = DIFFICULTIES, categories = CATEGORIES, subcategories = SUBCATEGORIES_FLATTENED, number = 20 }) {
-    if (difficulties.length === 0) difficulties = DIFFICULTIES;
-    if (categories.length === 0) categories = CATEGORIES;
-    if (subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+async function getRandomQuestions({ questionType = 'tossup', difficulties, categories, subcategories, number }) {
+    if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
+    if (!categories || categories.length === 0) categories = CATEGORIES;
+    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+    if (!number) number = 20;
 
     const questionArray = await questions.aggregate([
         { $match: { type: questionType, difficulty: { $in: difficulties }, category: { $in: categories }, subcategory: { $in: subcategories } } },
