@@ -173,8 +173,23 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
 });
 
 
+document.getElementById('toggle-show-history').addEventListener('click', function () {
+    if (this.checked) {
+        document.getElementById('room-history').classList.remove('d-none');
+        localStorage.setItem('showHistory', 'true');
+    } else {
+        document.getElementById('room-history').classList.add('d-none');
+        localStorage.setItem('showHistory', 'false');
+    }
+});
+
 if (localStorage.getItem('selectBySetName') === 'false') {
     document.getElementById('toggle-select-by-set-name').checked = false;
     document.getElementById('difficulty-settings').classList.remove('d-none');
     document.getElementById('set-settings').classList.add('d-none');
+}
+
+if (localStorage.getItem('showHistory') === 'false') {
+    document.getElementById('toggle-show-history').checked = false;
+    document.getElementById('room-history').classList.add('d-none');
 }
