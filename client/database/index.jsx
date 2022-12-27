@@ -188,7 +188,7 @@ function BonusCard({ bonus }) {
 
 
 // eslint-disable-next-line no-undef
-function CategoryButton ({ category, color }) {
+function CategoryButton({ category, color }) {
     function handleClick() {
         [validCategories, validSubcategories] = updateCategory(category, validCategories, validSubcategories);
         loadCategoryModal(validCategories, validSubcategories);
@@ -343,35 +343,33 @@ function QueryForm() {
                     <button type="submit" className="btn btn-info">Search</button>
                     <button id="randomize" className="btn btn-success" onClick={event => {handleSubmit(event, true);}}>Random</button>
                 </div>
-                <div className="row mb-2">
-                    <div id="difficulty-settings" className="col-2">
+                <div className="row">
+                    <div id="difficulty-settings" className="col-6 col-xl-3 mb-2">
                         <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={difficulties} onChange={event => {setDifficulties(event.target.value);}} />
                     </div>
-                    <div id="max-query-return-length" className="col-3">
+                    <div id="max-query-return-length" className="col-6 col-xl-3 mb-2">
                         <input type="text" className="form-control" id="difficulties" placeholder="Max # to Display (default: 50)" value={maxQueryReturnLength} onChange={event => {setMaxQueryReturnLength(event.target.value);}} />
                     </div>
-                    <div className="col-7">
+                    <div className="input-group col-12 col-xl-6 mb-2">
                         <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
                         <datalist id="set-list"></datalist>
+                        <button type="button" className="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     </div>
                 </div>
                 <div className="row mb-2">
-                    <div className="col-5">
+                    <div className="col-6">
                         <select className="form-select" id="search-type" value={searchType} onChange={event => {setSearchType(event.target.value);}}>
-                            <option value="all">All text (question and answer)</option>
+                            <option value="all">All text</option>
                             <option value="question">Question</option>
                             <option value="answer">Answer</option>
                         </select>
                     </div>
-                    <div className="col-5">
+                    <div className="col-6">
                         <select className="form-select disabled" id="question-type" value={questionType} onChange={event => {setQuestionType(event.target.value);}}>
-                            <option value="all">All questions (tossups and bonuses)</option>
+                            <option value="all">All questions</option>
                             <option value="tossup">Tossups</option>
                             <option value="bonus">Bonuses</option>
                         </select>
-                    </div>
-                    <div className="col-2">
-                        <button type="button" className="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     </div>
                 </div>
                 <div className="row mb-3">
