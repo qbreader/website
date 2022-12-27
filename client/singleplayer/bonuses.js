@@ -241,8 +241,19 @@ document.getElementById('start').addEventListener('click', async function () {
 });
 
 
+document.getElementById('toggle-show-history').addEventListener('click', function () {
+    if (this.checked) {
+        document.getElementById('room-history').classList.remove('d-none');
+        localStorage.setItem('showBonusHistory', 'true');
+    } else {
+        document.getElementById('room-history').classList.add('d-none');
+        localStorage.setItem('showBonusHistory', 'false');
+    }
+});
+
+
 document.addEventListener('keydown', (event) => {
-    if (document.activeElement.tagName === 'INPUT') return;
+    if (!['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     switch (event.key) {
     case ' ':
@@ -320,3 +331,8 @@ window.onload = () => {
     loadCategoryModal(validCategories, validSubcategories);
     updateStatDisplay();
 };
+
+if (localStorage.getItem('showBonusHistory') === 'false') {
+    document.getElementById('toggle-show-history').checked = false;
+    document.getElementById('room-history').classList.add('d-none');
+}

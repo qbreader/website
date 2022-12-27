@@ -370,6 +370,17 @@ document.getElementById('toggle-correct').addEventListener('click', function () 
 });
 
 
+document.getElementById('toggle-show-history').addEventListener('click', function () {
+    if (this.checked) {
+        document.getElementById('room-history').classList.remove('d-none');
+        localStorage.setItem('showTossupHistory', 'true');
+    } else {
+        document.getElementById('room-history').classList.add('d-none');
+        localStorage.setItem('showTossupHistory', 'false');
+    }
+});
+
+
 document.addEventListener('keydown', (event) => {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
@@ -457,3 +468,9 @@ window.onload = () => {
     loadCategoryModal(validCategories, validSubcategories);
     updateStatDisplay();
 };
+
+
+if (localStorage.getItem('showTossupHistory') === 'false') {
+    document.getElementById('toggle-show-history').checked = false;
+    document.getElementById('room-history').classList.add('d-none');
+}
