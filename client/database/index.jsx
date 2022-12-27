@@ -158,6 +158,8 @@ function TossupCard({ tossup }) {
 
 
 function BonusCard({ bonus }) {
+    const _id = bonus._id;
+
     return (
         <div className="card my-2">
             <div className="card-header">
@@ -170,11 +172,14 @@ function BonusCard({ bonus }) {
                     {[0, 1, 2].map((i) =>
                         <div key={`${bonus._id}-${i}`}>
                             <hr></hr>
-                            <p>[10] <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span></p>
+                            <p>
+                                [10]
+                                <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span>&nbsp;
+                                { i === 2 && <a href="#" onClick={() => { document.getElementById('report-question-id').value = _id; }} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a> }
+                            </p>
                             <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i] }}></span></div>
                         </div>
                     )}
-                    {/* <a href="#" id={`report-question-${bonus._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a> */}
                 </div>
             </div>
         </div>

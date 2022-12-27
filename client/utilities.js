@@ -54,6 +54,57 @@ function arrayToRange(array) {
 }
 
 
+const createBonusCard = (function () {
+    const removeAllParentheses = (string) => {
+        return string.replace(/[([][^)\]]*[)\]]/g, '');
+    };
+
+    let questionCounter = 0;
+
+    return function (bonus) {
+        if (!bonus || Object.keys(bonus).length === 0) return;
+
+        questionCounter++;
+        const { leadin, parts, answers, category, subcategory, setName, packetNumber, questionNumber, _id } = bonus;
+
+        // append a card containing the question to the history element
+        const card = document.createElement('div');
+        card.className = 'card my-2';
+        card.innerHTML = `
+            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
+                ${removeAllParentheses(answers[0])} / ${removeAllParentheses(answers[1])} / ${removeAllParentheses(answers[2])}
+            </div>
+            <div class="card-container collapse" id="question-${questionCounter}">
+                <div class="card-body">
+                    <p>${leadin}</p>
+                    <hr></hr>
+                    <p>[10] ${parts[0]}</p>
+                    <p>ANSWER: ${answers[0]}</p>
+                    <hr></hr>
+                    <p>[10] ${parts[1]}</p>
+                    <p>ANSWER: ${answers[1]}</p>
+                    <hr></hr>
+                    <p>
+                        [10] ${parts[2]}
+                        <a href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                    </p>
+                    <div>ANSWER: ${answers[2]}</div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">${setName} / ${category} / ${subcategory}</small>
+                    <small class="text-muted float-end">Packet ${packetNumber} / Question ${questionNumber}</small>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('room-history').prepend(card);
+
+        document.getElementById('report-question-' + _id).addEventListener('click', () => {
+            document.getElementById('report-question-id').value = _id;
+        });
+    };
+})();
+
 const createTossupCard = (function () {
     let questionCounter = 0;
 
