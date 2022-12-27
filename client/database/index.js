@@ -369,10 +369,10 @@ function QueryForm() {
       handleSubmit(event, true);
     }
   }, "Random")), /*#__PURE__*/React.createElement("div", {
-    className: "row mb-2"
+    className: "row"
   }, /*#__PURE__*/React.createElement("div", {
     id: "difficulty-settings",
-    className: "col-2"
+    className: "col-6 col-xl-3 mb-2"
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
     className: "form-control",
@@ -384,7 +384,7 @@ function QueryForm() {
     }
   })), /*#__PURE__*/React.createElement("div", {
     id: "max-query-return-length",
-    className: "col-3"
+    className: "col-6 col-xl-3 mb-2"
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
     className: "form-control",
@@ -395,7 +395,7 @@ function QueryForm() {
       setMaxQueryReturnLength(event.target.value);
     }
   })), /*#__PURE__*/React.createElement("div", {
-    className: "col-7"
+    className: "input-group col-12 col-xl-6 mb-2"
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
     className: "form-control",
@@ -404,10 +404,16 @@ function QueryForm() {
     list: "set-list"
   }), /*#__PURE__*/React.createElement("datalist", {
     id: "set-list"
-  }))), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "btn btn-danger",
+    id: "category-select-button",
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#category-modal"
+  }, "Categories"))), /*#__PURE__*/React.createElement("div", {
     className: "row mb-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "col-5"
+    className: "col-6"
   }, /*#__PURE__*/React.createElement("select", {
     className: "form-select",
     id: "search-type",
@@ -417,12 +423,12 @@ function QueryForm() {
     }
   }, /*#__PURE__*/React.createElement("option", {
     value: "all"
-  }, "All text (question and answer)"), /*#__PURE__*/React.createElement("option", {
+  }, "All text"), /*#__PURE__*/React.createElement("option", {
     value: "question"
   }, "Question"), /*#__PURE__*/React.createElement("option", {
     value: "answer"
   }, "Answer"))), /*#__PURE__*/React.createElement("div", {
-    className: "col-5"
+    className: "col-6"
   }, /*#__PURE__*/React.createElement("select", {
     className: "form-select disabled",
     id: "question-type",
@@ -432,19 +438,11 @@ function QueryForm() {
     }
   }, /*#__PURE__*/React.createElement("option", {
     value: "all"
-  }, "All questions (tossups and bonuses)"), /*#__PURE__*/React.createElement("option", {
+  }, "All questions"), /*#__PURE__*/React.createElement("option", {
     value: "tossup"
   }, "Tossups"), /*#__PURE__*/React.createElement("option", {
     value: "bonus"
-  }, "Bonuses"))), /*#__PURE__*/React.createElement("div", {
-    className: "col-2"
-  }, /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "btn btn-danger",
-    id: "category-select-button",
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#category-modal"
-  }, "Categories"))), /*#__PURE__*/React.createElement("div", {
+  }, "Bonuses")))), /*#__PURE__*/React.createElement("div", {
     className: "row mb-3"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-12"
