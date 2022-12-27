@@ -124,6 +124,7 @@ function TossupCard({
 function BonusCard({
   bonus
 }) {
+  const _id = bonus._id;
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
@@ -140,11 +141,19 @@ function BonusCard({
     }
   }), [0, 1, 2].map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
-  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10] ", /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10]", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: bonus.parts[i]
     }
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
+  }), "\xA0", i === 2 && /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    onClick: () => {
+      document.getElementById('report-question-id').value = _id;
+    },
+    id: `report-question-${_id}`,
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#report-question-modal"
+  }, "Report Question")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: (bonus?.formatted_answers ?? bonus.answers)[i]
     }

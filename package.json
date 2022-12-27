@@ -1,6 +1,6 @@
 {
     "name": "qbreader",
-    "version": "3.0.0",
+    "version": "3.2.0",
     "scripts": {
         "build": "npm run compile-react && npm run sass",
         "compile-react": "npx babel client/database/index.jsx -o client/database/index.js",

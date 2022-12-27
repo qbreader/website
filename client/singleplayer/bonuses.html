@@ -134,6 +134,7 @@
                 </div>
                 <div class="mt-2" id="question"></div>
                 <p class="my-1 my-lg-3" id="answer"></p>
+                <ul class="room-history list-unstyled" id="room-history"></ul>
             </div>
         </div>
     </div>
@@ -285,8 +286,8 @@
                         <div class="mb-3">
                             <label class="col-form-label" for="report-question-reason">Reason:</label>
                             <select class="form-select" id="report-question-reason" aria-label="Default select example">
-                                <option value="answerline-parsing" selected>Incorrect answer checking/parsing</option>
-                                <option value="wrong-category">Wrong category/subcategory</option>
+                                <option value="wrong-category" selected>Wrong category/subcategory</option>
+                                <option value="answerline-parsing">Incorrect answer checking/parsing</option>
                                 <option value="answerline-formatting">Answerline formatting error</option>
                                 <option value="missing-parts">Missing/cutoff parts of question/answer</option>
                                 <option value="unnecessary-text">Unnecessary text in question/answer</option>

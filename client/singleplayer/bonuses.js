@@ -198,6 +198,7 @@ document.getElementById('difficulties').addEventListener('change', async functio
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
+    createBonusCard(questions[questionNumber]);
 
     if (this.innerHTML === 'Next') {
         getPointsForCurrentBonus();
