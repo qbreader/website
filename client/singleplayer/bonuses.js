@@ -253,7 +253,7 @@ document.getElementById('toggle-show-history').addEventListener('click', functio
 
 
 document.addEventListener('keydown', (event) => {
-    if (!['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     switch (event.key) {
     case ' ':
