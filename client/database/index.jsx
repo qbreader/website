@@ -173,7 +173,7 @@ function BonusCard({ bonus }) {
                         <div key={`${bonus._id}-${i}`}>
                             <hr></hr>
                             <p>
-                                [10]
+                                [10]&nbsp;
                                 <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span>&nbsp;
                                 { i === 2 && <a href="#" onClick={() => { document.getElementById('report-question-id').value = _id; }} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a> }
                             </p>
