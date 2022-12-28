@@ -63,7 +63,7 @@ function parseAnswerline(answerline) {
 
         phrase = phrase.replace(/^(or|prompt|prompt on|antiprompt|antiprompt on|anti-prompt|anti-prompt on|accept|reject|do not accept or prompt on|do not accept)/, '').trim();
 
-        const answers = phrase.split(' or ').map(token => token.trim()).filter(token => token.length > 0);
+        const answers = phrase.split(/ or |, /).map(token => token.trim()).filter(token => token.length > 0);
 
         return { directive, answers };
     };

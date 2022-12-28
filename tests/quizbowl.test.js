@@ -28,11 +28,8 @@ const formatted_answers = [
     '<b><u>W</u></b>orld <b><u>T</u></b>rade <b><u>O</u></b>rganization',
     'The (Holy) <b><u>Grail</u></b>',
     '<b><u>coagulation</u></b> or blood <b><u>clotting</u></b>',
-    '<b><u>golden apples </u></b> [prompt on a partial answer]'
-
-    // TODO: or in the main answer
-    // and commas instead of semicolons or "or" in alternate answer
-    // "<b><u>Furies</u></b> or <b><u>Erinyes</u></b> [accept <b><u>Eumenides</u></b>, <b><u>Semnai</u></b>, or <b><u>Dirae</u></b>]",
+    '<b><u>golden apples </u></b> [prompt on a partial answer]',
+    '<b><u>Furies</u></b> or <b><u>Erinyes</u></b> [accept <b><u>Eumenides</u></b>, <b><u>Semnai</u></b>, or <b><u>Dirae</u></b>]',
 ];
 
 const answers = [
@@ -171,10 +168,12 @@ const tests = [
     ['prompt', formatted_answers[27], 'apples'],
     ['prompt', formatted_answers[27], 'apple'],
 
-    // ['accept', formatted_answers[28], 'Furies'],
-    // ['accept', formatted_answers[28], 'Erinyes'],
-    // ['accept', formatted_answers[28], 'Eumenides'],
-    // ['accept', formatted_answers[28], 'Semnai'],
+    // and commas instead of semicolons or "or" in alternate answer
+    ['accept', formatted_answers[28], 'Furies'],
+    ['accept', formatted_answers[28], 'Erinyes'],
+    ['accept', formatted_answers[28], 'Eumenides'],
+    ['accept', formatted_answers[28], 'Semnai'],
+    ['accept', formatted_answers[29], ' The Story of the Shipwrecked Sailor'],
 
     ['accept', answers[0], 'boll'],
     ['accept', answers[0], 'heinrich boll'],
