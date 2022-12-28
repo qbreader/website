@@ -30,6 +30,7 @@ const formatted_answers = [
     '<b><u>coagulation</u></b> or blood <b><u>clotting</u></b>',
     '<b><u>golden apples </u></b> [prompt on a partial answer]',
     '<b><u>Furies</u></b> or <b><u>Erinyes</u></b> [accept <b><u>Eumenides</u></b>, <b><u>Semnai</u></b>, or <b><u>Dirae</u></b>]',
+    '<b><u>sailor</u></b> [or al-<b><u>Ba\u1e25riyy</u></b>; accept answers like <b><u>seaman</u></b> or <b><u>mariner</u></b> or <b><u>pirate</u></b>; accept <i>The Story of the Shipwrecked </i><i><b><u>Sailor</u></b></i>; prompt on <u>merchant</u>]',
 ];
 
 const answers = [
@@ -173,6 +174,9 @@ const tests = [
     ['accept', formatted_answers[28], 'Erinyes'],
     ['accept', formatted_answers[28], 'Eumenides'],
     ['accept', formatted_answers[28], 'Semnai'],
+
+    // italics
+    ['accept', formatted_answers[29], 'sailor'],
     ['accept', formatted_answers[29], ' The Story of the Shipwrecked Sailor'],
 
     ['accept', answers[0], 'boll'],
