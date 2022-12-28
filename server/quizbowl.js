@@ -33,6 +33,12 @@ function parseAnswerline(answerline) {
         return string;
     };
 
+    const removeItalics = (string) => {
+        string = string.replace(/<i>/g, '');
+        string = string.replace(/<\/i>/g, '');
+        return string;
+    };
+
     const splitMainAnswer = (string) => {
         const indexStart = string.indexOf('[');
         const indexEnd = string.indexOf(']');
@@ -98,6 +104,8 @@ function parseAnswerline(answerline) {
     };
 
     answerline = removeParentheses(answerline);
+    answerline = removeItalics(answerline);
+
     const { mainAnswer, subAnswer } = splitMainAnswer(answerline);
     const subPhrases = splitIntoPhrases(subAnswer);
     const parsedAnswerline = {
