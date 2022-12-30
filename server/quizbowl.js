@@ -41,8 +41,8 @@ function parseAnswerline(answerline) {
     };
 
     const splitMainAnswer = (string) => {
-        const bracketsSubAnswer = (string.match(/(?<=\[)[^\]]*(?=\])/) ?? [''])[0];
-        const parenthesesSubAnswer = (string.match(/(?<=\()[^)]*(?=\))/) ?? [''])[0];
+        const bracketsSubAnswer = (string.match(/(?<=\[)[^\]]*(?=\])/g) ?? ['']).pop();
+        const parenthesesSubAnswer = (string.match(/(?<=\()[^)]*(?=\))/g) ?? ['']).pop();
 
         const mainAnswer = removeAllParentheses(string);
 
