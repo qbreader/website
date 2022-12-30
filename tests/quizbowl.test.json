@@ -1,6 +1,34 @@
 {
     "formatted": [
         {
+            "answerline": "switching from <u>Democrat to Republican</u> (accept equivalent answers; prompt on “switching parties” by asking, from “which party to which party?”)",
+            "tests": [
+                { "directive": "accept", "given": "Democrat to Republican" },
+                { "directive": "accept", "given": "from Democrat to Republican" },
+                { "directive": "prompt", "given": "switching parties" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Zhu Di</u></b> [Accept <b><u>Yongle</u></b> Emperor, <b><u>Chengzu</u></b> Emperor of <b><u>Ming</u></b>, or <b><u>Taizong</u></b> Emperor of <b><u>Ming</u></b>; Prompt on <u>Prince of Yan</u>]",
+            "tests": [
+                { "directive": "accept", "given": "Zhu Di" },
+                { "directive": "accept", "given": "Yongle" },
+                { "directive": "accept", "given": "Yongle Emperor" },
+                { "directive": "accept", "given": "Taizong of Ming" },
+                { "directive": "prompt", "given": "Prince of Yan" },
+                { "directive": "reject", "given": "Zhu" }
+            ]
+        },
+        {
+            "answerline": "<b><u>fir</u></b>es (accept <b><u>flam</u></b>es; accept <b><u>Atash</u></b> before it is read; accept <b><u>atar</u></b> or <b><u>adar</u></b> before “Atar” is read; accept <b><u>athra</u></b>; accept <b><u>atarsh</u></b>)",
+            "tests": [
+                { "directive": "accept", "given": "fire" },
+                { "directive": "accept", "given": "flame" },
+                { "directive": "accept", "given": "flames" },
+                { "directive": "accept", "given": "Atash" }
+            ]
+        },
+        {
             "answerline": "Republic of <b><u>Iraq</u></b>",
             "tests": [
                 { "directive": "accept", "given": "Iraq" },
@@ -253,6 +281,15 @@
         }
     ],
     "unformatted": [
+        {
+            "answerline": "fires (accept flames; accept Atash before it is read; accept atar or adar before “Atar” is read; accept athra; accept atarsh)",
+            "tests": [
+                { "directive": "accept", "given": "fire" },
+                { "directive": "accept", "given": "flame" },
+                { "directive": "accept", "given": "flames" },
+                { "directive": "accept", "given": "Atash" }
+            ]
+        },
         {
             "answerline": "Heinrich Böll [or Heinrich Theodor Böll]",
             "tests": [
