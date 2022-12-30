@@ -157,6 +157,12 @@ function stringMatchesReference(string, reference, strictness = 4) {
         return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     };
 
+    const replaceSpecialPhrases = (string) => {
+        if (string.match(/dr\.?/)) return 'doctor';
+
+        return string;
+    };
+
     const stemmer = (string) => {
         if (string.charAt(string.length - 1) === 's') {
             return string.substring(0, string.length - 1);
@@ -193,7 +199,9 @@ function stringMatchesReference(string, reference, strictness = 4) {
 
     const referenceTokens = reference
         .split(' ')
-        .filter(token => !METAWORDS.includes(token) && token.length > 0);
+        .filter(token => !METAWORDS.includes(token) && token.length > 0)
+        .map(string => replaceSpecialPhrases(string));
+
     for (let i = referenceTokens.length - 1; i >= 0; i--) {
         if (isFinite(referenceTokens[i])) {
             referenceTokens.push(toWords(parseInt(referenceTokens[i])));
