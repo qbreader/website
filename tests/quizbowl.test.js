@@ -36,6 +36,7 @@ function testAnswerType(type) {
     return { successful, total };
 }
 
+// eslint-disable-next-line prefer-const
 let successful = 0, total = 0;
 
 let { successful: s, total: t } = testAnswerType('formatted');
