@@ -26,12 +26,194 @@ const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'C
 const SUBCATEGORIES_FLATTENED_ALL = ['Long Fiction', 'Short Fiction', 'Poetry', 'Drama', 'American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 const METAWORDS = ['the', 'like', 'descriptions', 'description', 'of', 'do', 'not', 'as', 'accept', 'or', 'other', 'prompt', 'on', 'except', 'before', 'after', 'is', 'read', 'stated', 'mentioned', 'at', 'any', 'don\'t', 'more', 'specific', 'etc', 'eg', 'answers', 'word', 'forms'];
 
+/**
+ * Implements the Porter Stemming Algorithm.
+ * Source: https://tartarus.org/martin/PorterStemmer/js.txt
+ */
+const stemmer = (() => {
+    const step2list = {
+            'ational' : 'ate',
+            'tional' : 'tion',
+            'enci' : 'ence',
+            'anci' : 'ance',
+            'izer' : 'ize',
+            'bli' : 'ble',
+            'alli' : 'al',
+            'entli' : 'ent',
+            'eli' : 'e',
+            'ousli' : 'ous',
+            'ization' : 'ize',
+            'ation' : 'ate',
+            'ator' : 'ate',
+            'alism' : 'al',
+            'iveness' : 'ive',
+            'fulness' : 'ful',
+            'ousness' : 'ous',
+            'aliti' : 'al',
+            'iviti' : 'ive',
+            'biliti' : 'ble',
+            'logi' : 'log'
+        },
+
+        step3list = {
+            'icate' : 'ic',
+            'ative' : '',
+            'alize' : 'al',
+            'iciti' : 'ic',
+            'ical' : 'ic',
+            'ful' : '',
+            'ness' : ''
+        },
+
+        c = '[^aeiou]',          // consonant
+        v = '[aeiouy]',          // vowel
+        C = c + '[^aeiouy]*',    // consonant sequence
+        V = v + '[aeiou]*',      // vowel sequence
+
+        mgr0 = '^(' + C + ')?' + V + C,               // [C]VC... is m>0
+        meq1 = '^(' + C + ')?' + V + C + '(' + V + ')?$',  // [C]VC[V] is m=1
+        mgr1 = '^(' + C + ')?' + V + C + V + C,       // [C]VCVC... is m>1
+        s_v = '^(' + C + ')?' + v;                   // vowel in stem
+
+    return function (w) {
+        let 	stem,
+            suffix,
+            re,
+            re2,
+            re3,
+            re4;
+
+        if (w.length < 3) { return w; }
+
+        const firstch = w.substr(0,1);
+        if (firstch == 'y') {
+            w = firstch.toUpperCase() + w.substr(1);
+        }
+
+        // Step 1a
+        re = /^(.+?)(ss|i)es$/;
+        re2 = /^(.+?)([^s])s$/;
+
+        if (re.test(w)) { w = w.replace(re,'$1$2'); }
+        else if (re2.test(w)) {	w = w.replace(re2,'$1$2'); }
+
+        // Step 1b
+        re = /^(.+?)eed$/;
+        re2 = /^(.+?)(ed|ing)$/;
+        if (re.test(w)) {
+            const fp = re.exec(w);
+            re = new RegExp(mgr0);
+            if (re.test(fp[1])) {
+                re = /.$/;
+                w = w.replace(re,'');
+            }
+        } else if (re2.test(w)) {
+            const fp = re2.exec(w);
+            stem = fp[1];
+            re2 = new RegExp(s_v);
+            if (re2.test(stem)) {
+                w = stem;
+                re2 = /(at|bl|iz)$/;
+                re3 = new RegExp('([^aeiouylsz])\\1$');
+                re4 = new RegExp('^' + C + v + '[^aeiouwxy]$');
+                if (re2.test(w)) {	w = w + 'e'; }
+                else if (re3.test(w)) { re = /.$/; w = w.replace(re,''); }
+                else if (re4.test(w)) { w = w + 'e'; }
+            }
+        }
+
+        // Step 1c
+        re = /^(.+?)y$/;
+        if (re.test(w)) {
+            const fp = re.exec(w);
+            stem = fp[1];
+            re = new RegExp(s_v);
+            if (re.test(stem)) { w = stem + 'i'; }
+        }
+
+        // Step 2
+        re = /^(.+?)(ational|tional|enci|anci|izer|bli|alli|entli|eli|ousli|ization|ation|ator|alism|iveness|fulness|ousness|aliti|iviti|biliti|logi)$/;
+        if (re.test(w)) {
+            const fp = re.exec(w);
+            stem = fp[1];
+            suffix = fp[2];
+            re = new RegExp(mgr0);
+            if (re.test(stem)) {
+                w = stem + step2list[suffix];
+            }
+        }
+
+        // Step 3
+        re = /^(.+?)(icate|ative|alize|iciti|ical|ful|ness)$/;
+        if (re.test(w)) {
+            const fp = re.exec(w);
+            stem = fp[1];
+            suffix = fp[2];
+            re = new RegExp(mgr0);
+            if (re.test(stem)) {
+                w = stem + step3list[suffix];
+            }
+        }
+
+        // Step 4
+        re = /^(.+?)(al|ance|ence|er|ic|able|ible|ant|ement|ment|ent|ou|ism|ate|iti|ous|ive|ize)$/;
+        re2 = /^(.+?)(s|t)(ion)$/;
+        if (re.test(w)) {
+            const fp = re.exec(w);
+            stem = fp[1];
+            re = new RegExp(mgr1);
+            if (re.test(stem)) {
+                w = stem;
+            }
+        } else if (re2.test(w)) {
+            const fp = re2.exec(w);
+            stem = fp[1] + fp[2];
+            re2 = new RegExp(mgr1);
+            if (re2.test(stem)) {
+                w = stem;
+            }
+        }
+
+        // Step 5
+        re = /^(.+?)e$/;
+        if (re.test(w)) {
+            const fp = re.exec(w);
+            stem = fp[1];
+            re = new RegExp(mgr1);
+            re2 = new RegExp(meq1);
+            re3 = new RegExp('^' + C + v + '[^aeiouwxy]$');
+            if (re.test(stem) || (re2.test(stem) && !(re3.test(stem)))) {
+                w = stem;
+            }
+        }
+
+        re = /ll$/;
+        re2 = new RegExp(mgr1);
+        if (re.test(w) && re2.test(w)) {
+            re = /.$/;
+            w = w.replace(re,'');
+        }
+
+        // and turn initial Y back to y
+
+        if (firstch == 'y') {
+            w = firstch.toLowerCase() + w.substr(1);
+        }
+
+        return w;
+    };
+})();
+
 
 function parseAnswerline(answerline) {
     const removeAllParentheses = (string) => {
         string = string.replace(/\([^)]*\)/g, '');
         string = string.replace(/\[[^\]]*\]/g, '');
         return string;
+    };
+
+    const removeHTMLTags = (string) => {
+        return string.replace(/<[^>]*>/g, '');
     };
 
     const removeItalics = (string) => {
@@ -108,6 +290,16 @@ function parseAnswerline(answerline) {
             .trim();
     };
 
+    const getAbbreviation = (string) => {
+        return string
+            .split(' ')
+            .filter(token => token.length > 0)
+            .map(token => removeHTMLTags(token))
+            .map(token => token.charAt(0))
+            .reduce((a, b) => a + b, '')
+            .trim();
+    };
+
     answerline = removeItalics(answerline);
 
     const { mainAnswer, subAnswer } = splitMainAnswer(answerline);
@@ -117,6 +309,8 @@ function parseAnswerline(answerline) {
         prompt: [],
         reject: []
     };
+
+    parsedAnswerline.accept.push([getAbbreviation(mainAnswer), '', '']);
 
     if (mainAnswer.includes(' or ')) {
         const parts = mainAnswer.split(' or ');
@@ -148,7 +342,7 @@ function parseAnswerline(answerline) {
  * @param {Number} strictness - the number of characters per error allowed for two tokens to match.
  * @returns {Boolean}
  */
-function stringMatchesReference(string, reference, strictness = 5) {
+function stringMatchesReference({ string, reference, strictness = 5, acceptSubstring = false }) {
     if (string === null || string === undefined || reference === null || reference === undefined) {
         return false;
     }
@@ -165,14 +359,6 @@ function stringMatchesReference(string, reference, strictness = 5) {
         if (string.match(/dr\.?/)) return 'doctor';
 
         return string;
-    };
-
-    const stemmer = (string) => {
-        if (string.charAt(string.length - 1) === 's') {
-            return string.substring(0, string.length - 1);
-        } else {
-            return string;
-        }
     };
 
     string = removePunctuation(string);
@@ -228,7 +414,7 @@ function stringMatchesReference(string, reference, strictness = 5) {
             const errors = dljs.distance(stemmer(stringTokens[i]), stemmer(referenceTokens[j]));
 
             // console.log(stringTokens[i], referenceTokens[j]);
-            if (strictness * errors <= referenceTokens[j].length || referenceTokens[j].includes(stringTokens[i])) {
+            if (strictness * errors <= referenceTokens[j].length || (acceptSubstring && referenceTokens[j].includes(stringTokens[i]))) {
                 tokenMatches = true;
                 break;
             } else {
@@ -268,9 +454,9 @@ function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
 function checkAnswer(answerline, givenAnswer) {
     const answerWorks = (answerline, givenAnswer, isFormattedAnswerline) => {
         if (isFormattedAnswerline) {
-            return stringMatchesReference(answerline, givenAnswer);
+            return stringMatchesReference({ string: answerline, reference: givenAnswer });
         } else {
-            return stringMatchesReference(givenAnswer, answerline);
+            return stringMatchesReference({ string: givenAnswer, reference: answerline, acceptSubstring: true });
         }
     };
 
@@ -282,9 +468,15 @@ function checkAnswer(answerline, givenAnswer) {
     }
 
     for (const answer of parsedAnswerline['reject']) {
-        if (stringMatchesReference(answer[2], givenAnswer, 11) && stringMatchesReference(givenAnswer, answer[2], 11)) {
-            return 'reject';
+        if (!stringMatchesReference({ string: answer[2], reference: givenAnswer, strictness: 11 })) {
+            continue;
         }
+
+        if (!stringMatchesReference({ string: givenAnswer, reference: answer[2], strictness: 11 })) {
+            continue;
+        }
+
+        return 'reject';
     }
 
     if (answerline.includes('[accept either') || answerline.includes('(accept either')) {

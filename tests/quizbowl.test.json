@@ -1,6 +1,12 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>calcium</u></b> [or <b><u>Ca</u></b>; accept <b><u>calcination</u></b> or <b><u>calciner</u></b>]",
+            "tests": [
+                { "directive": "reject", "given": "carbon" }
+            ]
+        },
+        {
             "answerline": "<b><u>binary fission</u></b> [accept <b><u>mitochondrial fission</u></b> until “Drp1” is read, but prompt after; prompt on <u>fission</u>, <u>fission yeast</u>, <u>cytokinesis</u>, or <u>cell division</u>; do not accept or prompt on “mitosis” or “meiosis” or “multiple fission”]",
             "tests": [
                 { "directive": "accept", "given": "binary fission" },
