@@ -36,6 +36,7 @@ function testAnswerType(type) {
     return { successful, total };
 }
 
+console.time('quizbowl.test.js');
 let successful = 0, total = 0;
 
 let { successful: s, total: t } = testAnswerType('formatted');
@@ -47,3 +48,4 @@ successful += s;
 total += t;
 
 console.log(`OVERALL ${successful}/${total} tests successful`);
+console.timeEnd('quizbowl.test.js');
