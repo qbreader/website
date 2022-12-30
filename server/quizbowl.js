@@ -28,8 +28,9 @@ const METAWORDS = ['the', 'like', 'descriptions', 'description', 'of', 'do', 'no
 
 
 function parseAnswerline(answerline) {
-    const removeParentheses = (string) => {
+    const removeAllParentheses = (string) => {
         string = string.replace(/\([^)]*\)/g, '');
+        string = string.replace(/\[[^\]]*\]/g, '');
         return string;
     };
 
@@ -40,16 +41,20 @@ function parseAnswerline(answerline) {
     };
 
     const splitMainAnswer = (string) => {
-        const indexStart = string.indexOf('[');
-        const indexEnd = string.indexOf(']');
-        if (indexStart === -1) {
-            return { mainAnswer: string, subAnswer: '' };
+        const bracketsSubAnswer = (string.match(/(?<=\[)[^\]]*(?=\])/) ?? [''])[0];
+        const parenthesesSubAnswer = (string.match(/(?<=\()[^)]*(?=\))/) ?? [''])[0];
+
+        const mainAnswer = removeAllParentheses(string);
+
+        if (bracketsSubAnswer.length !== 0) return { mainAnswer, subAnswer: bracketsSubAnswer };
+
+        for (const directive of ['or', 'prompt', 'antiprompt', 'anti-prompt', 'accept', 'reject', 'do not accept']) {
+            if (parenthesesSubAnswer.toLowerCase().startsWith(directive)) {
+                return { mainAnswer, subAnswer: parenthesesSubAnswer };
+            }
         }
 
-        const mainAnswer = string.substring(0, indexStart).trim();
-        const subAnswer = string.substring(indexStart + 1, indexEnd).trim();
-
-        return { mainAnswer, subAnswer };
+        return { mainAnswer, subAnswer: '' };
     };
 
     const splitIntoPhrases = (string) => {
@@ -69,7 +74,7 @@ function parseAnswerline(answerline) {
 
         phrase = phrase.replace(/^(or|prompt|prompt on|antiprompt|antiprompt on|anti-prompt|anti-prompt on|accept|reject|do not accept or prompt on|do not accept)/, '').trim();
 
-        const answers = phrase.split(/ or |, /).map(token => token.trim()).filter(token => token.length > 0);
+        const answers = phrase.split(/,? or |, /).map(token => token.trim()).filter(token => token.length > 0);
 
         return { directive, answers };
     };
@@ -103,7 +108,6 @@ function parseAnswerline(answerline) {
             .trim();
     };
 
-    answerline = removeParentheses(answerline);
     answerline = removeItalics(answerline);
 
     const { mainAnswer, subAnswer } = splitMainAnswer(answerline);
