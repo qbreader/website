@@ -3,6 +3,9 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
+    "[json]": {
+        "editor.formatOnSave": false
+    },
     "eslint.validate": [
         "javascript"
     ],

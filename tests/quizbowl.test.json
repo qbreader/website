@@ -1,0 +1,339 @@
+{
+    "formatted": [
+        {
+            "answerline": "Jasper <b><u>Johns</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "Jasper Johns" },
+                { "directive": "accept", "given": "Johns" },
+                { "directive": "reject", "given": "Jasper" },
+                { "directive": "reject", "given": "Jo" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Manchester</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "manchester" },
+                { "directive": "accept", "given": "MANCHESTER" },
+                { "directive": "reject", "given": "London" }
+            ]
+        },
+        {
+            "answerline": "<b><u>damper</u></b>s [or <b><u>dashpot</u></b>s; accept (tuned) mass <b><u>damper</u></b>s]",
+            "tests": [
+                { "directive": "accept", "given": "dampers" },
+                { "directive": "accept", "given": "dashpot" },
+                { "directive": "accept", "given": "tuned mass dampers" }
+            ]
+        },
+        {
+            "answerline": "Alice <b><u>Munro</u></b> [or Alice Ann <b><u>Munro</u></b> or Alice Ann <b><u>Laidlaw</u></b>] (The first two stories are “The Progress of Love” and “Hateship, Friendship, Courtship, Loveship, Marriage.”)",
+            "tests": [
+                { "directive": "accept", "given": "Munro" },
+                { "directive": "accept", "given": "Alice Munro" }
+            ]
+        },
+        {
+            "answerline": "<b><u>light pollution</u></b> [accept <b><u>sky glow</u></b> or <b><u>glare</u></b>; prompt on artificial <u>light</u>] (The Znamya project created large mirrors intended to light up the night.)",
+            "tests": [
+                { "directive": "prompt", "given": "light" },
+                { "directive": "accept", "given": "light pollution" },
+                { "directive": "reject", "given": "pollution" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Sahara</u></b> Desert [or aṣ-<b><u>Ṣaḥrāʾ al-Kubrā</u></b> or <b><u>Aneẓruf</u></b> <b><u>Ameqran</u></b>; accept <b><u>Deshret</u></b>; accept Nilo-<b><u>Saharan</u></b> languages; accept <b><u>Tibesti</u></b> Mountains or <b><u>Tassili</u></b> n’Ajjer or <b><u>Aïr</u></b> Mountains until read; accept the <b><u>Fezzan</u></b> or <b><u>Illizi</u></b> or <b><u>Hoggar</u></b> Mountains or <b><u>Ahaggar</u></b> or <b><u>Tanezrouft</u></b> or <b><u>Grand Erg</u></b> Oriental; accept <b><u>Ténéré</u></b> until “Tenerian”; prompt on <u>Algeria</u> or <u>Chad</u> or <u>Libya</u> or <u>Niger</u> or <u>Egypt</u>; prompt on North <u>Africa</u> or <u>Maghreb</u>]",
+            "tests": [
+                { "directive": "reject", "given": "Desert" }
+            ]
+        },
+        {
+            "answerline": "<b><u>primatology</u></b> [or word forms; accept any answers about the study of great <b><u>ape</u></b>s, nonhuman <b><u>primate</u></b>s, <b><u>gorilla</u></b>s, <b><u>bonobo</u></b>s, or <b><u>chimp</u></b>anzees; prompt on the study of <u>monkey</u>s or <u>simian</u>s; prompt on word forms of <u>ethology</u>, <u>biology</u>, <u>anthropology</u>, or evolutionary or social <u>psychology</u>; prompt on the study of <u>animal</u>s with “what type of animals?”]",
+            "tests": [
+                { "directive": "accept", "given": "chimpanzee" },
+                { "directive": "accept", "given": "chimp" }
+            ]
+        },
+        {
+            "answerline": "Heinrich <b><u>Böll</u></b> [or Heinrich Theodor <b><u>Böll</u></b>]",
+            "tests": [
+                { "directive": "accept", "given": "boll" },
+                { "directive": "accept", "given": "heinrich boll" },
+                { "directive": "accept", "given": "Böll" },
+                { "directive": "accept", "given": "Heinrich Böll" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Louis-Philippe</u></b> [or <b><u>Duke d’Orleans</u></b>; prompt on “Citizen King” before mentioned]",
+            "tests": [
+                { "directive": "accept", "given": "Louis-Philippe" },
+                { "directive": "accept", "given": "Louis-Phillipe" },
+                { "directive": "prompt", "given": "Citizen King" },
+                { "directive": "reject", "given": "Louis" },
+                { "directive": "reject", "given": "Philippe" }
+            ]
+        },
+        {
+            "answerline": "Johann <b><u>Tserclaes</u></b>, Graf von <b><u>Tilly</u></b> (accept either underlined answer as well as Count of <b><u>Tilly</u></b>)",
+            "tests": [
+                { "directive": "accept", "given": "Tserclaes" },
+                { "directive": "accept", "given": "Tilly" },
+                { "directive": "accept", "given": "Count of Tilly" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Paul</u></b> <b><u>Bäumer</u></b> [accept either name]",
+            "tests": [
+                { "directive": "accept", "given": "Baumer" },
+                { "directive": "accept", "given": "Bäumer" },
+                { "directive": "accept", "given": "Paul" },
+                { "directive": "accept", "given": "Paul Bäumer" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Matsuo</u></b> <b><u>Bashō</u></b> [accept either underlined part; accept <b><u>Matsuo</u></b> Kinsaku or <b><u>Matsuo</u></b> Chūemon Munefusa]",
+            "tests": [
+                { "directive": "accept", "given": "Basho" },
+                { "directive": "accept", "given": "Bashō" },
+                { "directive": "accept", "given": "Matsuo" },
+                { "directive": "accept", "given": "Matsuo Basho" },
+                { "directive": "accept", "given": "Matsuo Bashō" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Prime Minister</u></b> of <b><u>Australia</u></b> [prompt on partial answers]",
+            "tests": [
+                { "directive": "accept", "given": "prime minister of australia" },
+                { "directive": "accept", "given": "australia prime minister" },
+                { "directive": "accept", "given": "australian prime minister" },
+                { "directive": "prompt", "given": "prime minister" }
+            ]
+        },
+        {
+            "answerline": "hypothesis <b><u>test</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "hypothesis testing" },
+                { "directive": "accept", "given": "testing" },
+                { "directive": "accept", "given": "test" }
+            ]
+        },
+        {
+            "answerline": "<b><u>graphene</u></b> [do not accept or prompt on \"graphite\"]",
+            "tests": [
+                { "directive": "accept", "given": "graphene" },
+                { "directive": "reject", "given": "graphite" }
+            ]
+        },
+        {
+            "answerline": "<b><u>amide</u></b>s [do not accept or prompt on \"amines\"]",
+            "tests": [
+                { "directive": "accept", "given": "amides" },
+                { "directive": "accept", "given": "amide" },
+                { "directive": "reject", "given": "amine" }
+            ]
+        },
+        {
+            "answerline": "<b><u>cosmic microwave background</u></b> radiation [or <b><u>CMB</u></b>; or <b><u>CMBR</u></b>]",
+            "tests": [
+                { "directive": "accept", "given": "cosmic microwave background radiation" },
+                { "directive": "accept", "given": "cosmic microwave background" },
+                { "directive": "accept", "given": "cmb" },
+                { "directive": "accept", "given": "cmbr" }
+            ]
+        },
+        {
+            "answerline": "<b><u>1980s</u></b> [prompt on <u>80s</u>]",
+            "tests": [
+                { "directive": "accept", "given": "1980s" },
+                { "directive": "accept", "given": "1980" },
+                { "directive": "prompt", "given": "80" },
+                { "directive": "prompt", "given": "80s" },
+                { "directive": "reject", "given": "90s" },
+                { "directive": "reject", "given": "90" }
+            ]
+        },
+        {
+            "answerline": "<u>working memory</u> [prompt on partial answers or on “short-term memory”]",
+            "tests": [
+                { "directive": "accept", "given": "working memory" },
+                { "directive": "prompt", "given": "memory" }
+            ]
+        },
+        {
+            "answerline": "Pyotr Ilyich <b><u>Tchaikovsky</u></b>’s <b><u>Piano Concerto</u></b> No. <b><u>1</u></b> [accept <b><u>Tchaikovsky</u></b>’s <b><u>PianoConcerto</u></b> in <b><u>B-flat</u></b> <b><u>minor</u></b> until “B-flat” is read; accept word forms like <b><u>Tchaikovsky</u></b>’s <b><u>first piano concerto</u></b>; prompt on partial answer]",
+            "tests": [
+                { "directive": "accept", "given": "Tchaikovsky Piano Concerto no 1" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Space Shuttle</u></b> [or <b><u>Space Transportation System</u></b>; or <b><u>STS</u></b>; prompt on US <u>space</u> flight or <u>NASA</u>; anti-prompt on <u>Challenger</u> Disaster or <u>Columbia</u> Disaster by asking \"What larger NASA program was it a part of?\"; anti-prompt on <u>Endeavor</u> by asking \"What larger NASA program was it a part of?\"]",
+            "tests": [
+                { "directive": "accept", "given": "Endeavor" },
+                { "directive": "prompt", "given": "NASA" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Second Continental Congress</u></b> [prompt on <u>Continental Congress</u>]",
+            "tests": [
+                { "directive": "accept", "given": "second contentinal congress" }
+            ]
+        },
+        {
+            "answerline": "sacramental <b><u>bread</u></b> [accept the <b><u>host</u></b>; prompt on <u>Eucharist</u>; prompt on <u>food</u>]",
+            "tests": [
+                { "directive": "accept", "given": "Eucharist bread" }
+            ]
+        },
+        {
+            "answerline": "The <b><u>Wasteland</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "wasteland" },
+                { "directive": "reject", "given": "waste" }
+            ]
+        },
+        {
+            "answerline": "<b><u>W</u></b>orld <b><u>T</u></b>rade <b><u>O</u></b>rganization",
+            "tests": [
+                { "directive": "accept", "given": "wto" }
+            ]
+        },
+        {
+            "answerline": "The (Holy) <b><u>Grail</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "grail" },
+                { "directive": "accept", "given": "holy grail" }
+            ]
+        },
+        {
+            "answerline": "<b><u>coagulation</u></b> or blood <b><u>clotting</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "coagulation" },
+                { "directive": "accept", "given": "clotting" },
+                { "directive": "accept", "given": "blood clotting" }
+            ]
+        },
+        {
+            "answerline": "<b><u>golden apples </u></b> [prompt on a partial answer]",
+            "tests": [
+                { "directive": "accept", "given": "golden apple" },
+                { "directive": "prompt", "given": "apples" },
+                { "directive": "prompt", "given": "apple" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Furies</u></b> or <b><u>Erinyes</u></b> [accept <b><u>Eumenides</u></b>, <b><u>Semnai</u></b>, or <b><u>Dirae</u></b>]",
+            "tests": [
+                { "directive": "accept", "given": "Furies" },
+                { "directive": "accept", "given": "Erinyes" },
+                { "directive": "accept", "given": "Eumenides" },
+                { "directive": "accept", "given": "Semnai" }
+            ]
+        },
+        {
+            "answerline": "<b><u>sailor</u></b> [or al-<b><u>Baḥriyy</u></b>; accept answers like <b><u>seaman</u></b> or <b><u>mariner</u></b> or <b><u>pirate</u></b>; accept <i>The Story of the Shipwrecked </i><i><b><u>Sailor</u></b></i>; prompt on <u>merchant</u>]",
+            "tests": [
+                { "directive": "accept", "given": "sailor" },
+                { "directive": "accept", "given": "The Story of the Shipwrecked Sailor" }
+            ]
+        }
+    ],
+    "unformatted": [
+        {
+            "answerline": "Heinrich Böll [or Heinrich Theodor Böll]",
+            "tests": [
+                { "directive": "accept", "given": "boll" },
+                { "directive": "accept", "given": "heinrich boll" },
+                { "directive": "accept", "given": "Böll" },
+                { "directive": "accept", "given": "Heinrich Böll" },
+                { "directive": "reject", "given": "H" }
+            ]
+        },
+        {
+            "answerline": "primatology [or word forms; accept any answers about the study of great apes, nonhuman primates, gorillas, bonobos, or chimpanzees; prompt on the study of monkeys or simians; prompt on word forms of ethology, biology, anthropology, or evolutionary or social psychology; prompt on the study of animals with “what type of animals?”]",
+            "tests": [
+                { "directive": "accept", "given": "chimp" },
+                { "directive": "accept", "given": "chimpanzee" }
+            ]
+        },
+        {
+            "answerline": "China [or People’s Republic of China; do not accept or prompt on “Republic of China”]",
+            "tests": [
+                { "directive": "accept", "given": "China" },
+                { "directive": "accept", "given": "people’s republic of China" },
+                { "directive": "reject", "given": "republic of china" }
+            ]
+        },
+        {
+            "answerline": "amides [do not accept or prompt on \"amines\"]",
+            "tests": [
+                { "directive": "accept", "given": "amides" },
+                { "directive": "accept", "given": "amide" },
+                { "directive": "reject", "given": "amine" }
+            ]
+        },
+        {
+            "answerline": "RAF [or Red Army Faction; accept Baader–Meinhof group; accept Baader–Meinhof gang; accept Rote Armee Fraktion] (The Action Directe communiqué was also signed “kommando elisabeth van dyck,” in reference to a fallen member of RAF.)",
+            "tests": [
+                { "directive": "accept", "given": "baader meinhof" },
+                { "directive": "accept", "given": "raf" },
+                { "directive": "accept", "given": "red army faction" },
+                { "directive": "accept", "given": "red army" }
+            ]
+        },
+        {
+            "answerline": "Lenski's longterm E. coli evolution experiment [accept anything mentioning the long term evolution of E. Coli]",
+            "tests": [
+                { "directive": "accept", "given": "lenski long term e coli experiment" }
+            ]
+        },
+        {
+            "answerline": "time [accept time-like interval; prompt on T]",
+            "tests": [
+                { "directive": "accept", "given": "time" }
+            ]
+        },
+        {
+            "answerline": "defenestration [prompt on “falling”; accept reasonable equivalents like “jumping out of a window” or “being thrown out of a window”; prompt on “suicide”]",
+            "tests": [
+                { "directive": "accept", "given": "defenestration" },
+                { "directive": "accept", "given": "jump out of a window" },
+                { "directive": "accept", "given": "jumping out of a window" }
+            ]
+        },
+        {
+            "answerline": "electric charge density [accept rho before \"rho\"; prompt on \"density\" after \"charge\"; do not accept or prompt on \"density\" before \"charge\"]",
+            "tests": [
+            ]
+        },
+        {
+            "answerline": "wave-particle duality [accept de Broglie wave until “de Broglie”; accept answers indicating that something is both a wave and a particle; prompt on duality or wave nature or complementarity; prompt on interference by asking “what property of matter causes the interference?”]",
+            "tests": [
+                { "directive": "accept", "given": "wave-particle duality" }
+            ]
+        },
+        {
+            "answerline": "“September 1, 1939”",
+            "tests": [
+                { "directive": "accept", "given": "september 1 1939" }
+            ]
+        },
+        {
+            "answerline": "IR spectroscopy",
+            "tests": [
+                { "directive": "accept", "given": "ir spec" }
+            ]
+        },
+        {
+            "answerline": "adsorption [accept chemisorption or chemical adsorption or physisorption or physical adsorption; prompt on “sorption”; do not accept or prompt on “absorption”]",
+            "tests": [
+                { "directive": "accept", "given": "adsorption" },
+                { "directive": "reject", "given": "absorption" }
+            ]
+        },
+        {
+            "answerline": "fluorescence microscopy [prompt on super-resolved microscopy or confocal microscopy]",
+            "tests": [
+                { "directive": "accept", "given": "microscopy" }
+            ]
+        }
+    ]
+}
