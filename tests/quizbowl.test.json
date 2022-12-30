@@ -1,6 +1,15 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>Doctor Zhivago</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "Dr. Zhivago" },
+                { "directive": "accept", "given": "Dr Zhivago" },
+                { "directive": "reject", "given": "Dr" },
+                { "directive": "accept", "given": "Doctor Zhivago" }
+            ]
+        },
+        {
             "answerline": "Jasper <b><u>Johns</u></b>",
             "tests": [
                 { "directive": "accept", "given": "Jasper Johns" },
