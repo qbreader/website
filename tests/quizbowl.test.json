@@ -1,6 +1,13 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>binary fission</u></b> [accept <b><u>mitochondrial fission</u></b> until “Drp1” is read, but prompt after; prompt on <u>fission</u>, <u>fission yeast</u>, <u>cytokinesis</u>, or <u>cell division</u>; do not accept or prompt on “mitosis” or “meiosis” or “multiple fission”]",
+            "tests": [
+                { "directive": "accept", "given": "binary fission" },
+                { "directive": "prompt", "given": "cytokinesis" }
+            ]
+        },
+        {
             "answerline": "[French] <b><u>Socialist</u></b> Party [or Parti <b><u>Socialiste</u></b>; accept <b><u>Socialists</u></b>; prompt on “PS”]",
             "tests": [
                 { "directive": "accept", "given": "socialist" },
