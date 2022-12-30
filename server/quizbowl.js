@@ -144,7 +144,7 @@ function parseAnswerline(answerline) {
  * @param {Number} strictness - the number of characters per error allowed for two tokens to match.
  * @returns {Boolean}
  */
-function stringMatchesReference(string, reference, strictness = 4) {
+function stringMatchesReference(string, reference, strictness = 5) {
     if (string === null || string === undefined || reference === null || reference === undefined) {
         return false;
     }
