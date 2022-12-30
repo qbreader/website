@@ -1,6 +1,13 @@
 {
     "formatted": [
         {
+            "answerline": "[French] <b><u>Socialist</u></b> Party [or Parti <b><u>Socialiste</u></b>; accept <b><u>Socialists</u></b>; prompt on “PS”]",
+            "tests": [
+                { "directive": "accept", "given": "socialist" },
+                { "directive": "prompt", "given": "ps" }
+            ]
+        },
+        {
             "answerline": "switching from <u>Democrat to Republican</u> (accept equivalent answers; prompt on “switching parties” by asking, from “which party to which party?”)",
             "tests": [
                 { "directive": "accept", "given": "Democrat to Republican" },
