@@ -2,8 +2,16 @@ const express = require('express');
 const router = express.Router();
 
 const database = require('../server/database');
+const { checkAnswer } = require('../server/scorer');
 
 // DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
+
+router.get('/check-answer', (req, res) => {
+    const answerline = decodeURIComponent(req.query.answerline);
+    const givenAnswer = decodeURIComponent(req.query.givenAnswer);
+    const directive = checkAnswer(answerline, givenAnswer);
+    res.send(JSON.stringify(directive));
+});
 
 router.get('/num-packets', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
