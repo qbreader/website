@@ -89,6 +89,23 @@
         </p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
+                <div>GET <code>qbreader.org/api/check-answer</code></div>
+                <div>Parameters:</div>
+                <ul>
+                    <li>
+                        <code>answerline</code> - the answerline of the question.
+                        Preferably including the html tags <code>&lt;b&gt;</code> and <code>&lt;u&gt;</code>, if they are present.
+                    </li>
+                    <li>
+                        <code>givenAnswer</code> - the answer the user gave.
+                    </li>
+                    <li>
+                        <b>returns:</b> the directive - a <b>string</b> that either equals <code>accept</code>, <code>reject</code>, or
+                        <code>prompt</code>.
+                    </li>
+                </ul>
+            </li>
+            <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/num-packets</code></div>
                 <div>Parameters:</div>
                 <ul>
