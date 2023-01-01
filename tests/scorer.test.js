@@ -1,5 +1,5 @@
-const quizbowl = require('../server/quizbowl.js');
-const tests = require('./quizbowl.test.json');
+const scorer = require('../server/scorer.js');
+const tests = require('./scorer.test.json');
 
 function testAnswerline(group) {
     const answerline = group.answerline;
@@ -9,7 +9,7 @@ function testAnswerline(group) {
         const expected = test.directive;
         const givenAnswer = test.given;
 
-        const result = quizbowl.checkAnswer(answerline, givenAnswer);
+        const result = scorer.checkAnswer(answerline, givenAnswer);
 
         console.assert(expected === result, `expected "${expected}" but got "${result}" for given answer "${givenAnswer}"`);
 
@@ -22,7 +22,7 @@ function testAnswerline(group) {
 
 
 function testAnswerType(type) {
-    console.log(`TESTING quizbowl.checkAnswer() for ${type} answerlines`);
+    console.log(`TESTING scorer.checkAnswer() for ${type} answerlines`);
     let successful = 0, total = 0;
 
     tests[type].forEach(group => {
@@ -36,7 +36,7 @@ function testAnswerType(type) {
     return { successful, total };
 }
 
-console.time('quizbowl.test.js');
+console.time('scorer.test.js');
 let successful = 0, total = 0;
 
 let { successful: s, total: t } = testAnswerType('formatted');
@@ -48,4 +48,4 @@ successful += s;
 total += t;
 
 console.log(`OVERALL ${successful}/${total} tests successful`);
-console.timeEnd('quizbowl.test.js');
+console.timeEnd('scorer.test.js');

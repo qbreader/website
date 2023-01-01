@@ -1,7 +1,7 @@
 const colors = require('../colors');
 const database = require('./database');
 const Player = require('./Player');
-const quizbowl = require('./quizbowl');
+const scorer = require('./scorer');
 
 class Room {
     constructor(name) {
@@ -360,7 +360,7 @@ class Room {
         this.buzzedIn = null;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.tossup.question.includes('(*)') && !this.questionSplit.slice(0, this.wordIndex).join(' ').includes('(*)');
-        const [directive, points] = quizbowl.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
+        const [directive, points] = scorer.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
 
         if (directive === 'accept') {
             this.revealQuestion();
