@@ -129,6 +129,7 @@ async function giveAnswer(givenAnswer) {
         updateScore(false);
         document.getElementById('buzz').disabled = false;
         document.getElementById('buzz').innerHTML = 'Buzz';
+        document.getElementById('pause').disabled = false;
         readQuestion(new Date().getTime());
     } else if (directive === 'prompt') {
         document.getElementById('answer-input-group').classList.remove('d-none');
@@ -319,7 +320,8 @@ function updateScore(isCorrect) {
  */
 function updateStatDisplay() {
     const numTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens) + parseInt(sessionStorage.negs) + parseInt(sessionStorage.dead);
-    let celerity = numTossups != 0 ? parseFloat(sessionStorage.totalCelerity) / numTossups : 0;
+    const numCorrectTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens);
+    let celerity = numCorrectTossups != 0 ? parseFloat(sessionStorage.totalCelerity) / numCorrectTossups : 0;
     celerity = Math.round(1000 * celerity) / 1000;
     const includePlural = (numTossups === 1) ? '' : 's';
     document.getElementById('statline').innerHTML
