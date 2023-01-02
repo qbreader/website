@@ -8,7 +8,6 @@ let validSubcategories;
 
 // Status variables
 let currentlyBuzzing = false;
-let inPower = false;
 let packetNumber = -1;
 let paused = false;
 let queryingQuestion = false;
@@ -17,8 +16,14 @@ let queryingQuestion = false;
 let questionNumber = 0;
 let timeoutID = -1;
 
-// Whether or not the user clicked that they got the question wrong. `true` means the button currently says "I was right".
-let toggleCorrectClicked = false;
+// Whether or not the user clicked that they got the question wrong. `-1` means the button currently says "I was wrong".
+let toggleCorrectClicked = -1;
+let previous = {
+    points: 0,
+    celerity: 0,
+    endOfQuestion: false,
+};
+
 let questions = [{}];
 let questionText = '';
 let questionTextSplit = [];
@@ -37,13 +42,14 @@ async function advanceQuestion() {
             // Go to the next packet if you reach the end of this packet
             if (questionNumber >= questions.length) {
                 packetNumbers.shift();
-                if (packetNumbers.length == 0) {
+                if (packetNumbers.length === 0) {
                     window.alert('No more questions left');
                     document.getElementById('buzz').disabled = true;
                     document.getElementById('pause').disabled = true;
                     document.getElementById('next').disabled = true;
                     return false;  // alert the user if there are no more packets
                 }
+
                 packetNumber = packetNumbers[0];
                 document.getElementById('question').innerHTML = 'Fetching questions...';
                 questions = await getTossups(setName, packetNumber);
@@ -53,8 +59,8 @@ async function advanceQuestion() {
             // Get the next question if the current one is in the wrong category and subcategory
         } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
 
-        if (questions.length > 0) {
-            questionText = questions[questionNumber]['question'];
+        if (Object.keys(questions[0]).length > 0) {
+            questionText = questions[questionNumber].question;
             questionTextSplit = questionText.split(' ').filter(word => word !== '');
             document.getElementById('question-number-info').innerHTML = questionNumber + 1;
         }
@@ -64,14 +70,12 @@ async function advanceQuestion() {
 
         ({ setName, packetNumber, questionNumber } = questions[0]);
 
-        if (questions.length > 0) {
-            questionText = questions[0]['question'];
-            questionTextSplit = questionText.split(' ').filter(word => word !== '');
-            document.getElementById('question-number-info').innerHTML = questionNumber;
-            questionNumber = 0;
-        } else {
-            return false;
-        }
+        if (Object.keys(questions[0]).length === 0) return false;
+
+        questionText = questions[0]['question'];
+        questionTextSplit = questionText.split(' ').filter(word => word !== '');
+        document.getElementById('question-number-info').innerHTML = questionNumber;
+        questionNumber = 0;
     }
 
     return true;
@@ -84,46 +88,15 @@ async function advanceQuestion() {
  * and updates the score.
  */
 function buzz() {
-    if (currentlyBuzzing) {
-        // Update scoring:
-        inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
-        if (inPower) {
-            shift('powers', 1);
-            if (setName.toLowerCase().includes('pace')) {
-                shift('points', 20);
-            }
-            else {
-                shift('points', 15);
-            }
-        }
-        else {
-            shift('tens', 1);
-            shift('points', 10);
-        }
+    // Stop the question reading
+    clearTimeout(timeoutID);
+    currentlyBuzzing = true;
 
-        // Update question text and show answer:
-        const characterCount = document.getElementById('question').innerHTML.length;
-        document.getElementById('question').innerHTML += questionTextSplit.join(' ');
-        shift('totalCelerity', 1 - characterCount / document.getElementById('question').innerHTML.length);
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber]['answer'];
-        document.getElementById('buzz').innerHTML = 'Buzz';
-        document.getElementById('next').innerHTML = 'Next';
+    // Include buzzpoint
+    document.getElementById('question').innerHTML += '(#) ';
 
-        document.getElementById('buzz').setAttribute('disabled', 'disabled');
-        document.getElementById('toggle-correct').classList.remove('d-none');
-        document.getElementById('toggle-correct').innerHTML = 'I was wrong';
-        updateStatDisplay();
-    } else {
-        // Stop the question reading
-        clearTimeout(timeoutID);
-        currentlyBuzzing = true;
-
-        // Include buzzpoint
-        document.getElementById('question').innerHTML += '(#) ';
-
-        document.getElementById('buzz').innerHTML = 'Reveal';
-        document.getElementById('pause').setAttribute('disabled', 'disabled');
-    }
+    document.getElementById('buzz').innerHTML = 'Reveal';
+    document.getElementById('pause').disabled = true;
 }
 
 
@@ -141,6 +114,30 @@ function clearStats() {
 }
 
 
+async function giveAnswer(givenAnswer) {
+    currentlyBuzzing = false;
+
+    const directive = await checkAnswer(questions[questionNumber].answer, givenAnswer);
+    console.log(questions[questionNumber].answer);
+    console.log(givenAnswer);
+    console.log(directive);
+
+    if (directive === 'accept') {
+        updateScore(true);
+        revealQuestion();
+    } else if (directive === 'reject') {
+        updateScore(false);
+        document.getElementById('buzz').disabled = false;
+        document.getElementById('buzz').innerHTML = 'Buzz';
+        readQuestion(new Date().getTime());
+    } else if (directive === 'prompt') {
+        document.getElementById('answer-input-group').classList.remove('d-none');
+        document.getElementById('answer-input').focus();
+        document.getElementById('answer-input').placeholder = 'Prompt';
+    }
+}
+
+
 async function next() {
     if (queryingQuestion) return;
 
@@ -150,7 +147,7 @@ async function next() {
     queryingQuestion = true;
 
     // Update the toggle-correct button:
-    toggleCorrectClicked = false;
+    toggleCorrectClicked = -1;
 
     document.getElementById('answer').innerHTML = '';
     document.getElementById('question').innerHTML = '';
@@ -225,58 +222,95 @@ function readQuestion(expectedReadTime) {
 }
 
 
+function reveal() {
+    currentlyBuzzing = false;
+    updateScore(true);
+    revealQuestion();
+}
+
+
+function revealQuestion() {
+    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber].answer;
+    document.getElementById('question').innerHTML += questionTextSplit.join(' ');
+
+    document.getElementById('buzz').disabled = true;
+    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('next').innerHTML = 'Next';
+
+    document.getElementById('toggle-correct').classList.remove('d-none');
+    document.getElementById('toggle-correct').innerHTML = 'I was wrong';
+}
+
+
 function toggleCorrect() {
-    if (toggleCorrectClicked) {
+    let result;
+
+    if (previous.points > 10) result = 'powers';
+
+    if (previous.points === 10) result = 'tens';
+
+    if (previous.points === 0) result = 'zeroes';
+
+    if (previous.points < 0) result = 'negs';
+
+    shift(result, toggleCorrectClicked);
+    shift('points', toggleCorrectClicked * previous.points);
+
+    // Check if there is more question to be read
+    if (questionTextSplit.length === 0) {
+        shift('dead', -toggleCorrectClicked);
+    } else if (setName.toLowerCase().includes('pace')) {
+        shift('negs', -toggleCorrectClicked);
+    } else {
+        shift('negs', -toggleCorrectClicked);
+        shift('points', -5 * toggleCorrectClicked);
+    }
+
+    document.getElementById('toggle-correct').innerHTML = (toggleCorrectClicked === 1 ? 'I was wrong' : 'I was right');
+    toggleCorrectClicked = -1 * toggleCorrectClicked;
+    updateStatDisplay();
+}
+
+
+function updateScore(isCorrect) {
+    let points = 0;
+    let celerity = 0;
+    const endOfQuestion = (questionTextSplit.length === 0);
+    const inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
+
+    if (isCorrect) {
         if (inPower) {
             shift('powers', 1);
             if (setName.toLowerCase().includes('pace')) {
-                shift('points', 20);
-            }
-            else {
-                shift('points', 15);
+                points = 20;
+            } else {
+                points = 15;
             }
         } else {
             shift('tens', 1);
-            shift('points', 10);
-        }
-        // Check if there is more question to be read
-        if (questionTextSplit.length == 0) {
-            shift('dead', -1);
-        } else if (setName.toLowerCase().includes('pace')) {
-            shift('negs', -1);
-        } else {
-            shift('negs', -1);
-            shift('points', 5);
-        }
-        document.getElementById('toggle-correct').innerHTML = 'I was wrong';
-    }
-    else {
-        if (inPower) {
-            shift('powers', -1);
-            if (setName.toLowerCase().includes('pace')) {
-                shift('points', -20);
-            }
-            else {
-                shift('points', -15);
-            }
-        }
-        else {
-            shift('tens', -1);
-            shift('points', -10);
+            points = 10;
         }
 
-        if (questionTextSplit.length == 0) {
+        const characterCount = document.getElementById('question').innerHTML.length;
+        celerity = 1 - characterCount / questionText.length;
+        shift('totalCelerity', celerity);
+    } else {
+        if (endOfQuestion) {
             shift('dead', 1);
         } else if (setName.toLowerCase().includes('pace')) {
             shift('negs', 1);
         } else {
             shift('negs', 1);
-            shift('points', -5);
+            points = -5;
         }
-        document.getElementById('toggle-correct').innerHTML = 'I was right';
     }
+
+    shift('points', points);
+
     updateStatDisplay();
-    toggleCorrectClicked = !toggleCorrectClicked;
+
+    previous.points = points;
+    previous.celerity = celerity;
 }
 
 
@@ -287,19 +321,45 @@ function updateStatDisplay() {
     const numTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens) + parseInt(sessionStorage.negs) + parseInt(sessionStorage.dead);
     let celerity = numTossups != 0 ? parseFloat(sessionStorage.totalCelerity) / numTossups : 0;
     celerity = Math.round(1000 * celerity) / 1000;
-    const includePlural = (numTossups == 1) ? '' : 's';
+    const includePlural = (numTossups === 1) ? '' : 's';
     document.getElementById('statline').innerHTML
         = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
-    if (numTossups === 0) //disable clear stats button if no stats
-        document.getElementById('clear-stats').setAttribute('disabled', 'disabled');
-    else
-        document.getElementById('clear-stats').removeAttribute('disabled');
+
+    // disable clear stats button if no stats
+    document.getElementById('clear-stats').disabled = (numTossups === 0);
 }
+
+
+document.getElementById('answer-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const answer = document.getElementById('answer-input').value;
+
+    document.getElementById('answer-input').value = '';
+    document.getElementById('answer-input').blur();
+    document.getElementById('answer-input').placeholder = 'Enter answer';
+    document.getElementById('answer-input-group').classList.add('d-none');
+
+    giveAnswer(answer);
+});
 
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
+
+    if (currentlyBuzzing) {
+        reveal();
+        return;
+    }
+
     buzz();
+
+    if (document.getElementById('type-to-answer').checked) {
+        document.getElementById('answer-input-group').classList.remove('d-none');
+        document.getElementById('answer-input').focus();
+        this.disabled = true;
+    }
 });
 
 
@@ -371,13 +431,20 @@ document.getElementById('toggle-correct').addEventListener('click', function () 
 
 
 document.getElementById('toggle-show-history').addEventListener('click', function () {
+    this.blur();
+    localStorage.setItem('showTossupHistory', this.checked ? 'true' : 'false');
+
     if (this.checked) {
         document.getElementById('room-history').classList.remove('d-none');
-        localStorage.setItem('showTossupHistory', 'true');
     } else {
         document.getElementById('room-history').classList.add('d-none');
-        localStorage.setItem('showTossupHistory', 'false');
     }
+});
+
+
+document.getElementById('type-to-answer').addEventListener('click', function () {
+    this.blur();
+    localStorage.setItem('typeToAnswer', this.checked ? 'true' : 'false');
 });
 
 
@@ -462,6 +529,7 @@ window.onload = () => {
     if (localStorage.getItem('speed') === null) {
         localStorage.setItem('speed', 50);
     }
+
     document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
     document.getElementById('reading-speed').value = localStorage.speed;
 
@@ -469,8 +537,11 @@ window.onload = () => {
     updateStatDisplay();
 };
 
-
 if (localStorage.getItem('showTossupHistory') === 'false') {
     document.getElementById('toggle-show-history').checked = false;
     document.getElementById('room-history').classList.add('d-none');
+}
+
+if (localStorage.getItem('typeToAnswer') === 'false') {
+    document.getElementById('type-to-answer').checked = false;
 }
