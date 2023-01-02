@@ -263,7 +263,7 @@ function toggleCorrect() {
         shift('negs', -toggleCorrectClicked);
     } else {
         shift('negs', -toggleCorrectClicked);
-        shift('points', -5 * toggleCorrectClicked);
+        shift('points', 5 * toggleCorrectClicked);
     }
 
     document.getElementById('toggle-correct').innerHTML = (toggleCorrectClicked === 1 ? 'I was wrong' : 'I was right');
