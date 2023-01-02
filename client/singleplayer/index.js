@@ -8,6 +8,17 @@ let randomQuestions = [];
 let maxPacketNumber = 24;
 
 /**
+ * @param {String} answerline
+ * @param {String} givenAnswer
+ * @returns {"accept" | "prompt" | "reject"} directive
+ */
+async function checkAnswer(answerline, givenAnswer) {
+    return await fetch(`/api/check-answer?answerline=${encodeURIComponent(answerline)}&givenAnswer=${encodeURIComponent(givenAnswer)}`)
+        .then(response => response.json());
+}
+
+
+/**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
  * @param {String} packetNumber - The packet number of the set.
  * @return {Promise<Array<JSON>>} An array containing the bonuses.
@@ -16,6 +27,7 @@ async function getBonuses(setName, packetNumber) {
     if (setName === '') {
         return [];
     }
+
     return await fetch(`/api/packet-bonuses?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
         .then(response => response.json())
         .then(data => data.bonuses);
@@ -83,6 +95,16 @@ async function getTossups(setName, packetNumber) {
 
 
 /**
+ * Increases or decreases a session storage item by a certain amount.
+ * @param {String} item - The name of the sessionStorage item.
+ * @param {Number} x - The amount to increase/decrease the sessionStorage item.
+ */
+function shift(item, x) {
+    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
+}
+
+
+/**
  * Initizalizes all variables (called when the user presses the start button).
  * @param {Boolean} selectBySetName - Whether or not the user is selecting by set name.
  * @returns {Promsie<Boolean>} Whether or not the function was successful.
@@ -108,16 +130,6 @@ function start(selectBySetName) {
     document.getElementById('next').innerHTML = 'Skip';
 
     return true;
-}
-
-
-/**
- * Increases or decreases a session storage item by a certain amount.
- * @param {String} item - The name of the sessionStorage item.
- * @param {Number} x - The amount to increase/decrease the sessionStorage item.
- */
-function shift(item, x) {
-    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
 }
 
 
