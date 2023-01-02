@@ -108,6 +108,10 @@
                     <input class="form-check-input" id="toggle-show-history" type="checkbox" value role="switch" checked>
                     <label class="form-check-label" for="toggle-show-history">Show question history</label>
                 </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" id="type-to-answer" type="checkbox" value role="switch" checked>
+                    <label class="form-check-label" for="type-to-answer">Type to answer</label>
+                </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
                 <div class="buttons position-sticky top-0 pt-2">
@@ -120,6 +124,13 @@
                     <button class="mb-2 btn btn-danger d-lg-none" id="toggle-options" type="button" disabled>Options</button>
                     <button class="mb-2 btn btn-primary float-end" id="buzz" data-bs-placement="top" data-bs-toggle="tooltip"
                         type="button" title="Shortcut: spacebar" disabled>Buzz</button>
+                    <form id="answer-form">
+                        <!-- User enters answer here -->
+                        <div class="input-group d-none my-2" id="answer-input-group">
+                            <input class="form-control" id="answer-input" type="text" placeholder="Enter answer">
+                            <button class="btn btn-success" id="answer-submit" type="submit">Submit</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="float-row">
                     <span class id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span>
