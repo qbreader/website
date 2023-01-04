@@ -1,6 +1,12 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>mitochondria</u></b> [or <b><u>mitochondrion</u></b>]",
+            "tests": [
+                { "directive": "accept", "given": "mitochondria" }
+            ]
+        },
+        {
             "answerline": "<b><u>calcium</u></b> [or <b><u>Ca</u></b>; accept <b><u>calcination</u></b> or <b><u>calciner</u></b>]",
             "tests": [
                 { "directive": "reject", "given": "carbon" }

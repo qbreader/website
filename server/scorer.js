@@ -333,7 +333,7 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
     };
 
     const replaceSpecialPhrases = (string) => {
-        if (string.match(/dr\.?/)) return 'doctor';
+        if (string === 'dr' || string === 'dr.') return 'doctor';
 
         return string;
     };
@@ -382,6 +382,8 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
     if (referenceTokens.length === 0) {
         return false;
     }
+
+    // console.log(stringTokens, referenceTokens);
 
     // check if every token in the string is in the reference
     for (let i = 0; i < stringTokens.length; i++) {
