@@ -239,16 +239,13 @@ function rangeToArray(string, max = 0) {
 
 
 function reportQuestion(_id, reason = '', description = '') {
+    document.getElementById('report-question-submit').disabled = true;
     fetch('/api/report-question', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            _id: _id,
-            reason: reason,
-            description: description
-        })
+        body: JSON.stringify({ _id, reason, description })
     }).then(response => {
         if (response.status === 200) {
             alert('Question has been reported.');
@@ -257,6 +254,9 @@ function reportQuestion(_id, reason = '', description = '') {
         }
     }).catch(error => {
         alert('There was an error reporting the question.');
+    }).finally(() => {
+        document.getElementById('report-question-close').click();
+        document.getElementById('report-question-submit').disabled = false;
     });
 }
 
