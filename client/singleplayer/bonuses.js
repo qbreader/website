@@ -258,6 +258,8 @@ document.addEventListener('keydown', (event) => {
     switch (event.key) {
     case ' ':
         document.getElementById('reveal').click();
+        // Prevent spacebar from scrolling the page
+        if (event.target == document.body) event.preventDefault();
         break;
     case 'k':
         document.getElementById(`checkbox-${currentBonusPart}`).click();
