@@ -137,7 +137,13 @@ document.getElementById('report-question-submit').addEventListener('click', func
 
 
 function TossupCard({ tossup }) {
+    const _id = tossup._id;
     const powerParts = tossup.question.split('(*)');
+
+    function onClick() {
+        document.getElementById('report-question-id').value = _id;
+    }
+
     return (
         <div className="card my-2">
             <div className="card-header">
@@ -147,7 +153,7 @@ function TossupCard({ tossup }) {
             <div className="card-container">
                 <div className="card-body">
                     <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question }}></span>&nbsp;
-                    <a href="#" onClick={() => { document.getElementById('report-question-id').value = tossup._id; }} id={`report-question-${tossup._id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                    <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                     <hr></hr>
                     <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.formatted_answer ?? tossup.answer }}></span></div>
                 </div>
@@ -159,6 +165,16 @@ function TossupCard({ tossup }) {
 
 function BonusCard({ bonus }) {
     const _id = bonus._id;
+    const bonusLength = bonus.parts.length;
+    const indices = [];
+
+    for (let i = 0; i < bonusLength; i++) {
+        indices.push(i);
+    }
+
+    function onClick() {
+        document.getElementById('report-question-id').value = _id;
+    }
 
     return (
         <div className="card my-2">
@@ -169,13 +185,16 @@ function BonusCard({ bonus }) {
             <div className="card-container">
                 <div className="card-body">
                     <p dangerouslySetInnerHTML={{ __html: bonus.leadin }}></p>
-                    {[0, 1, 2].map((i) =>
+                    {indices.map((i) =>
                         <div key={`${bonus._id}-${i}`}>
                             <hr></hr>
                             <p>
                                 [10]&nbsp;
                                 <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span>&nbsp;
-                                { i === 2 && <a href="#" onClick={() => { document.getElementById('report-question-id').value = _id; }} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a> }
+                                {
+                                    i + 1 === bonusLength &&
+                                    <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                                }
                             </p>
                             <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i] }}></span></div>
                         </div>
