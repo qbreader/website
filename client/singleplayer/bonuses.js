@@ -105,7 +105,9 @@ function getPointsForCurrentBonus() {
         if (checkbox.checked) pointsOnBonus += 10;
     });
 
-    statsArray[3 - Math.round(pointsOnBonus / 10)]++;
+    const numberOfIncorrectParts = Math.max(3 - Math.round(pointsOnBonus / 10), 0);
+
+    statsArray[numberOfIncorrectParts]++;
     sessionStorage.setItem('stats', statsArray);
     return pointsOnBonus;
 }
@@ -142,7 +144,8 @@ async function next() {
  * Called when the users wants to reveal the next bonus part.
  */
 function revealBonusPart() {
-    if (currentBonusPart > 2) return;
+    if (currentBonusPart >= questions[questionNumber]['parts'].length)
+        return;
 
     if (onQuestion) {
         createBonusPart(currentBonusPart, questions[questionNumber]['parts'][currentBonusPart]);
@@ -155,7 +158,7 @@ function revealBonusPart() {
 
     onQuestion = !onQuestion;
 
-    if (currentBonusPart > 2) {
+    if (currentBonusPart >= questions[questionNumber]['parts'].length) {
         document.getElementById('reveal').disabled = true;
         document.getElementById('next').innerHTML = 'Next';
     }
@@ -278,6 +281,9 @@ document.addEventListener('keydown', (event) => {
         break;
     case '3':
         document.getElementById('checkbox-3').click();
+        break;
+    case '4':
+        document.getElementById('checkbox-4').click();
         break;
     }
 });

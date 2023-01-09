@@ -92,7 +92,11 @@ document.getElementById('report-question-submit').addEventListener('click', func
 function TossupCard({
   tossup
 }) {
+  const _id = tossup._id;
   const powerParts = tossup.question.split('(*)');
+  function onClick() {
+    document.getElementById('report-question-id').value = _id;
+  }
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
@@ -109,10 +113,8 @@ function TossupCard({
     }
   }), "\xA0", /*#__PURE__*/React.createElement("a", {
     href: "#",
-    onClick: () => {
-      document.getElementById('report-question-id').value = tossup._id;
-    },
-    id: `report-question-${tossup._id}`,
+    onClick: onClick,
+    id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"
   }, "Report Question"), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
@@ -125,6 +127,14 @@ function BonusCard({
   bonus
 }) {
   const _id = bonus._id;
+  const bonusLength = bonus.parts.length;
+  const indices = [];
+  for (let i = 0; i < bonusLength; i++) {
+    indices.push(i);
+  }
+  function onClick() {
+    document.getElementById('report-question-id').value = _id;
+  }
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
@@ -139,17 +149,15 @@ function BonusCard({
     dangerouslySetInnerHTML: {
       __html: bonus.leadin
     }
-  }), [0, 1, 2].map(i => /*#__PURE__*/React.createElement("div", {
+  }), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
   }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10]\xA0", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: bonus.parts[i]
     }
-  }), "\xA0", i === 2 && /*#__PURE__*/React.createElement("a", {
+  }), "\xA0", i + 1 === bonusLength && /*#__PURE__*/React.createElement("a", {
     href: "#",
-    onClick: () => {
-      document.getElementById('report-question-id').value = _id;
-    },
+    onClick: onClick,
     id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"

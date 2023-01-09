@@ -67,28 +67,40 @@ const createBonusCard = (function () {
         questionCounter++;
         const { leadin, parts, answers, category, subcategory, setName, packetNumber, questionNumber, _id } = bonus;
 
+        const bonusLength = bonus.parts.length;
+
+        let cardHeader = '';
+
+        for (let i = 0; i < bonusLength; i++) {
+            cardHeader += removeAllParentheses(answers[i]);
+
+            if (i !== bonusLength - 1)
+                cardHeader += ' / ';
+        }
+
+        let cardBody = '';
+
+        for (let i = 0; i < bonusLength; i++) {
+            cardBody += `<hr></hr>
+            <p>
+                [10] ${parts[i]}
+                ${i + 1 === bonusLength ? `<a href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>` : ''}
+            </p>
+            <div>ANSWER: ${answers[i]}</div>`;
+        }
+
+
         // append a card containing the question to the history element
         const card = document.createElement('div');
         card.className = 'card my-2';
         card.innerHTML = `
             <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
-                ${removeAllParentheses(answers[0])} / ${removeAllParentheses(answers[1])} / ${removeAllParentheses(answers[2])}
+                ${cardHeader}
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
                     <p>${leadin}</p>
-                    <hr></hr>
-                    <p>[10] ${parts[0]}</p>
-                    <p>ANSWER: ${answers[0]}</p>
-                    <hr></hr>
-                    <p>[10] ${parts[1]}</p>
-                    <p>ANSWER: ${answers[1]}</p>
-                    <hr></hr>
-                    <p>
-                        [10] ${parts[2]}
-                        <a href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
-                    </p>
-                    <div>ANSWER: ${answers[2]}</div>
+                    ${cardBody}
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">${setName} / ${category} / ${subcategory}</small>
