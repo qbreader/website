@@ -1,6 +1,32 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>Invisible Man</u></b> [do not accept or prompt on “The Invisible Man”]",
+            "tests": [
+                { "directive": "accept", "given": "Invisible Man" },
+                { "directive": "reject", "given": "The Invisible Man" }
+            ]
+        },
+        {
+            "answerline": "<b><u>resistivity</u></b> [reject “resistance”]",
+            "tests": [
+                { "directive": "accept", "given": "resistivity" },
+                { "directive": "reject", "given": "resistance" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Seven Years’</u></b> War [accept the <b><u>French and Indian</u></b> War; accept <b><u>Third Carnatic</u></b> War]",
+            "tests": [
+                { "directive": "accept", "given": "Seven Years" }
+            ]
+        },
+        {
+            "answerline": "<b><u>other</u></b> [accept <i>The <b><u>Other</u></b> America: Poverty in the United States</i>; accept <i>How the <b><u>Other</u></b> Half Lives: Studies among the Tenements of New York</i>]",
+            "tests": [
+                { "directive": "accept", "given": "other" }
+            ]
+        },
+        {
             "answerline": "<b><u>mitochondria</u></b> [or <b><u>mitochondrion</u></b>]",
             "tests": [
                 { "directive": "accept", "given": "mitochondria" }
@@ -68,6 +94,15 @@
                 { "directive": "accept", "given": "Dr Zhivago" },
                 { "directive": "reject", "given": "Dr" },
                 { "directive": "accept", "given": "Doctor Zhivago" }
+            ]
+        },
+        {
+            "answerline": "The <b><u>Cabinet of Dr. Caligari</u></b> [or Das <b><u>Cabinet des Dr. Caligari</u></b>]",
+            "tests": [
+                { "directive": "accept", "given": "Cabinet of Dr. Caligari" },
+                { "directive": "accept", "given": "Cabinet of Doctor Caligari" },
+                { "directive": "accept", "given": "codc" },
+                { "directive": "accept", "given": "tcodc" }
             ]
         },
         {
