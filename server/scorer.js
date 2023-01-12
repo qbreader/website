@@ -1,7 +1,8 @@
 const { distance } = require('damerau-levenshtein-js');
 const { toWords } = require('number-to-words');
 
-const METAWORDS = ['the', 'like', 'descriptions', 'description', 'of', 'do', 'not', 'as', 'accept', 'or', 'other', 'prompt', 'on', 'except', 'before', 'after', 'is', 'read', 'stated', 'mentioned', 'at', 'any', 'don\'t', 'more', 'specific', 'etc', 'eg', 'answers', 'word', 'forms'];
+// const METAWORDS = ['the', 'like', 'descriptions', 'description', 'of', 'do', 'not', 'as', 'accept', 'or', 'other', 'prompt', 'on', 'except', 'before', 'after', 'is', 'read', 'stated', 'mentioned', 'at', 'any', 'don\'t', 'more', 'specific', 'etc', 'eg', 'answers', 'word', 'forms'];
+const METAWORDS = [];
 
 /**
  * Implements the Porter Stemming Algorithm.
@@ -182,11 +183,14 @@ const stemmer = (() => {
 })();
 
 
+/**
+ * Parses the answerline, returning the acceptable, promptable, and rejectable answers.
+ * @param {String} answerline
+ * @returns {{ "accept": String[][3], "prompt": String[][3], "reject": String[][3] }}
+ */
 function parseAnswerline(answerline) {
     const removeAllParentheses = (string) => {
-        string = string.replace(/\([^)]*\)/g, '');
-        string = string.replace(/\[[^\]]*\]/g, '');
-        return string;
+        return string.replace(/[([][^\])]*[)\]]/g, '');
     };
 
     const removeHTMLTags = (string) => {
@@ -194,23 +198,21 @@ function parseAnswerline(answerline) {
     };
 
     const removeItalics = (string) => {
-        string = string.replace(/<i>/g, '');
-        string = string.replace(/<\/i>/g, '');
-        return string;
+        return string.replace(/<\/?i>/g, '');
     };
 
     const splitMainAnswer = (string) => {
-        const bracketsSubAnswer = (string.match(/\[[^\]]*\]/g) ?? ['[]']).pop().slice(1, -1);
-        const parenthesesSubAnswer = (string.match(/\([^)]*\)/g) ?? ['()']).pop().slice(1, -1);
+        const bracketsSubAnswer = (string.match(/(?<=\[)[^\]]*(?=\])/g) ?? ['']).pop();
+        const parenthesesSubAnswer = (string.match(/(?<=\()[^)]*(?=\))/g) ?? ['']).pop();
 
         const mainAnswer = removeAllParentheses(string);
 
-        if (bracketsSubAnswer.length !== 0) return { mainAnswer, subAnswer: bracketsSubAnswer };
+        if (bracketsSubAnswer.length !== 0)
+            return { mainAnswer, subAnswer: bracketsSubAnswer };
 
         for (const directive of ['or', 'prompt', 'antiprompt', 'anti-prompt', 'accept', 'reject', 'do not accept']) {
-            if (parenthesesSubAnswer.toLowerCase().startsWith(directive)) {
+            if (parenthesesSubAnswer.toLowerCase().startsWith(directive))
                 return { mainAnswer, subAnswer: parenthesesSubAnswer };
-            }
         }
 
         return { mainAnswer, subAnswer: '' };
@@ -239,18 +241,22 @@ function parseAnswerline(answerline) {
     };
 
     const extractUnderlining = (string) => {
-        const matches = string.match(/<u>[^<]*<\/u>/g);
+        const matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
         if (matches) {
-            return matches.map(match => match.slice(3, -4)).reduce((prev, curr) => prev + curr + ' ', '').trim();
+            return matches
+                .reduce((prev, curr) => prev + curr + ' ', '')
+                .trim();
         } else {
             return string;
         }
     };
 
     const extractQuotes = (string) => {
-        const matches = string.match(/["“‟❝][^"”❞]*["”❞]/g);
+        const matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
         if (matches) {
-            return matches.map(match => match.slice(1, -1)).reduce((prev, curr) => prev + curr + ' ', '').trim();
+            return matches
+                .reduce((prev, curr) => prev + curr + ' ', '')
+                .trim();
         } else {
             return string;
         }
@@ -260,9 +266,10 @@ function parseAnswerline(answerline) {
      * Get all words which are partially or wholly underlined.
      */
     const extractKeyWords = (string) => {
-        const tokens = string.split(' ');
-        return tokens.filter(token => token.length > 0 && token.match(/<[^>]*>/))
-            .map(token => token.replace(/<[^>]*>/g, ''))
+        return string
+            .split(' ')
+            .filter(token => token.length > 0 && token.match(/<\/?u>/))
+            .map(token => removeHTMLTags(token))
             .reduce((prev, curr) => prev + curr + ' ', '')
             .trim();
     };
@@ -271,8 +278,7 @@ function parseAnswerline(answerline) {
         return string
             .split(' ')
             .filter(token => token.length > 0)
-            .map(token => removeHTMLTags(token))
-            .map(token => token.charAt(0))
+            .map(token => removeHTMLTags(token).charAt(0))
             .reduce((a, b) => a + b, '')
             .trim();
     };
@@ -287,16 +293,19 @@ function parseAnswerline(answerline) {
         reject: []
     };
 
-    parsedAnswerline.accept.push([getAbbreviation(mainAnswer), '', '']);
+    parsedAnswerline.accept.push([getAbbreviation(mainAnswer), getAbbreviation(extractUnderlining(mainAnswer)), '']);
 
     if (mainAnswer.includes(' or ')) {
         const parts = mainAnswer.split(' or ');
-        parsedAnswerline.accept.push([extractUnderlining(parts[0]), extractKeyWords(parts[0]), extractQuotes(parts[0])]);
-        parsedAnswerline.accept.push([extractUnderlining(parts[1]), extractKeyWords(parts[1]), extractQuotes(parts[1])]);
+        for (const part of parts) {
+            parsedAnswerline.accept.push([extractUnderlining(part), extractKeyWords(part), extractQuotes(part)]);
+        }
     }
 
     subPhrases.forEach(phrase => {
-        if (phrase.length === 0) return;
+        if (phrase.length === 0)
+            return;
+
         const { directive, answers } = splitIntoAnswers(phrase);
         answers.forEach(answer => {
             if (directive === 'accept' || directive === 'prompt') {
@@ -304,6 +313,7 @@ function parseAnswerline(answerline) {
             } else if (directive === 'reject') {
                 answer = ['', '', extractQuotes(answer)];
             }
+
             parsedAnswerline[directive].push(answer);
         });
     });
@@ -319,13 +329,17 @@ function parseAnswerline(answerline) {
  * @param {Number} strictness - the number of characters per error allowed for two tokens to match.
  * @returns {Boolean}
  */
-function stringMatchesReference({ string, reference, strictness = 5, acceptSubstring = false }) {
+function stringMatchesReference({ string, reference, strictness = 5, acceptSubstring = false, useStemmer = true }) {
     if (string === null || string === undefined || reference === null || reference === undefined) {
         return false;
     }
 
+    if (string.length === 0) {
+        return false;
+    }
+
     const removePunctuation = (string) => {
-        return string.replace(/[.,!;:'"\\/?@#$%^&*_~]/g, '');
+        return string.replace(/[.,!;:'"\\/?@#$%^&*_~’]/g, '');
     };
 
     const replaceSpecialCharacters = (string) => {
@@ -340,19 +354,21 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
 
     string = removePunctuation(string);
     string = replaceSpecialCharacters(string);
-    string = string.toLowerCase().trim();
-    string = string.replace(/<\/?[biu]>/g, '');
-    string = string.replace(/<\/?em>/g, '');
-    string = string.replace('-', ' ');
+    string = string
+        .toLowerCase()
+        .replace(/<\/?[biu]>/g, '')
+        .replace(/<\/?em>/g, '')
+        .replace('-', ' ')
+        .trim();
 
     reference = removePunctuation(reference);
     reference = replaceSpecialCharacters(reference);
-    reference = reference.toLowerCase().trim();
-    reference = reference.replace(/<\/?[biu]>/g, '');
-    reference = reference.replace(/<\/?em>/g, '');
-    reference = reference.replace('-', ' ');
-
-    if (string.length === 0) return false;
+    reference = reference
+        .toLowerCase()
+        .replace(/<\/?[biu]>/g, '')
+        .replace(/<\/?em>/g, '')
+        .replace('-', ' ')
+        .trim();
 
     const stringTokens = string
         .split(' ')
@@ -375,13 +391,11 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
         }
     }
 
-    if (stringTokens.length === 0) {
+    if (stringTokens.length === 0)
         return false;
-    }
 
-    if (referenceTokens.length === 0) {
+    if (referenceTokens.length === 0)
         return false;
-    }
 
     // console.log(stringTokens, referenceTokens);
 
@@ -390,14 +404,17 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
         let tokenMatches = false;
 
         for (let j = 0; j < referenceTokens.length; j++) {
-            const errors = distance(stemmer(stringTokens[i]), stemmer(referenceTokens[j]));
+            let errors;
 
-            // console.log(stringTokens[i], referenceTokens[j]);
+            if (useStemmer) {
+                errors = distance(stemmer(stringTokens[i]), stemmer(referenceTokens[j]));
+            } else {
+                errors = distance(stringTokens[i], referenceTokens[j]);
+            }
+
             if (strictness * errors <= referenceTokens[j].length || (acceptSubstring && referenceTokens[j].includes(stringTokens[i]))) {
                 tokenMatches = true;
                 break;
-            } else {
-                // console.log(errors, stringTokens[j], referenceTokens[j]);
             }
         }
 
@@ -407,6 +424,69 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
     }
 
     return true;
+}
+
+
+/**
+ *
+ * @param {String} answerline
+ * @param {String} givenAnswer
+ * @returns {'accept' | 'prompt' | 'reject'}
+ */
+function checkAnswer(answerline, givenAnswer) {
+    const answerWorks = (answerline, givenAnswer, answerlineIsFormatted) => {
+        if (answerlineIsFormatted) {
+            return stringMatchesReference({ string: answerline, reference: givenAnswer });
+        } else {
+            return stringMatchesReference({ string: givenAnswer, reference: answerline, acceptSubstring: true });
+        }
+    };
+
+    const answerlineIsFormatted = answerline.includes('<u>');
+    const parsedAnswerline = parseAnswerline(answerline);
+
+    if (!answerlineIsFormatted && parsedAnswerline.accept[0][0].length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer)) {
+        return 'reject';
+    }
+
+    for (const answer of parsedAnswerline.reject) {
+        const useStemmer = (stemmer(answer[2]) !== stemmer(parsedAnswerline.accept[0][0]));
+
+        if (!stringMatchesReference({ string: answer[2], reference: givenAnswer, strictness: 11, useStemmer }))
+            continue;
+
+        if (!stringMatchesReference({ string: givenAnswer, reference: answer[2], strictness: 11, useStemmer }))
+            continue;
+
+        return 'reject';
+    }
+
+    if (answerline.includes('[accept either') || answerline.includes('(accept either')) {
+        for (const answer of parsedAnswerline.accept[0][0].split(' ')) {
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
+                return 'accept';
+            }
+        }
+    }
+
+    for (const type of ['accept', 'prompt']) {
+        for (const answers of parsedAnswerline[type]) {
+            for (const answer of answers) {
+                if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
+                    return type;
+            }
+        }
+    }
+
+    if (/prompt on (a )?partial/.test(answerline)) {
+        for (const answer of parsedAnswerline.accept[0][0].split(' ')) {
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
+                return 'prompt';
+            }
+        }
+    }
+
+    return 'reject';
 }
 
 
@@ -423,70 +503,5 @@ function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
     return [directive, isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5)];
 }
 
-
-/**
- *
- * @param {String} answerline
- * @param {String} givenAnswer
- * @returns {'accept' | 'prompt' | 'reject'}
- */
-function checkAnswer(answerline, givenAnswer) {
-    const answerWorks = (answerline, givenAnswer, isFormattedAnswerline) => {
-        if (isFormattedAnswerline) {
-            return stringMatchesReference({ string: answerline, reference: givenAnswer });
-        } else {
-            return stringMatchesReference({ string: givenAnswer, reference: answerline, acceptSubstring: true });
-        }
-    };
-
-    const isFormattedAnswerline = answerline.includes('<u>');
-    const parsedAnswerline = parseAnswerline(answerline);
-
-    if (!isFormattedAnswerline && answerline.length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer)) {
-        return 'reject';
-    }
-
-    for (const answer of parsedAnswerline['reject']) {
-        if (!stringMatchesReference({ string: answer[2], reference: givenAnswer, strictness: 11 })) {
-            continue;
-        }
-
-        if (!stringMatchesReference({ string: givenAnswer, reference: answer[2], strictness: 11 })) {
-            continue;
-        }
-
-        return 'reject';
-    }
-
-    if (answerline.includes('[accept either') || answerline.includes('(accept either')) {
-        const [answer1, answer2] = parsedAnswerline.accept[0][0].split(' ');
-        if (answerWorks(answer1, givenAnswer, isFormattedAnswerline)) {
-            return 'accept';
-        }
-        if (answerWorks(answer2, givenAnswer, isFormattedAnswerline)) {
-            return 'accept';
-        }
-    }
-
-    for (const type of ['accept', 'prompt']) {
-        for (const answer of parsedAnswerline[type]) {
-            if (answerWorks(answer[0], givenAnswer, isFormattedAnswerline)) return type;
-            if (answerWorks(answer[1], givenAnswer, isFormattedAnswerline)) return type;
-            if (answerWorks(answer[2], givenAnswer, isFormattedAnswerline)) return type;
-        }
-    }
-
-    if (/[[(]prompt on (a )?partial/.test(answerline)) {
-        const [answer1, answer2] = parsedAnswerline.accept[0][0].split(' ');
-        if (answerWorks(answer1, givenAnswer, isFormattedAnswerline)) {
-            return 'prompt';
-        }
-        if (answerWorks(answer2, givenAnswer, isFormattedAnswerline)) {
-            return 'prompt';
-        }
-    }
-
-    return 'reject';
-}
 
 module.exports = { checkAnswer, scoreTossup };
