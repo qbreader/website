@@ -171,7 +171,7 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
  */
 async function getQuery({ queryString, difficulties, setName, searchType = 'all', questionType = 'all', categories, subcategories, maxReturnLength, randomize = false, regex = false } = {}) {
     if (!queryString) queryString = '';
-    if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
+    if (!difficulties || difficulties.length === 0) difficulties = [0].concat(DIFFICULTIES);
     if (!categories || categories.length === 0) categories = CATEGORIES;
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED_ALL;
     if (!setName) setName = '';
