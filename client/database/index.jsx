@@ -147,7 +147,7 @@ function TossupCard({ tossup }) {
     return (
         <div className="card my-2">
             <div className="card-header">
-                <b>{tossup.setName} | {tossup.category} | {tossup.subcategory} | {tossup.difficulty}</b>
+                <b>{tossup.setName} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}</b>
                 <b className="float-end">Packet {tossup.packetNumber} | Question {tossup.questionNumber}</b>
             </div>
             <div className="card-container">
@@ -179,7 +179,7 @@ function BonusCard({ bonus }) {
     return (
         <div className="card my-2">
             <div className="card-header">
-                <b>{bonus.setName} | {bonus.category} | {bonus.subcategory} | {bonus.difficulty}</b>
+                <b>{bonus.setName} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}</b>
                 <b className="float-end">Packet {bonus.packetNumber} | Question {bonus.questionNumber}</b>
             </div>
             <div className="card-container">

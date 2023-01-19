@@ -101,7 +101,7 @@ function TossupCard({
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header"
-  }, /*#__PURE__*/React.createElement("b", null, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
+  }, /*#__PURE__*/React.createElement("b", null, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", tossup.packetNumber, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
     className: "card-container"
@@ -139,7 +139,7 @@ function BonusCard({
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header"
-  }, /*#__PURE__*/React.createElement("b", null, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
+  }, /*#__PURE__*/React.createElement("b", null, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", bonus.packetNumber, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
     className: "card-container"
