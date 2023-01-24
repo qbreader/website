@@ -1,6 +1,20 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>0</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "0" },
+                { "directive": "accept", "given": "zero" }
+            ]
+        },
+        {
+            "answerline": "<b><u>zero</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "0" },
+                { "directive": "accept", "given": "zero" }
+            ]
+        },
+        {
             "answerline": "<b><u>Invisible Man</u></b> [do not accept or prompt on “The Invisible Man”]",
             "tests": [
                 { "directive": "accept", "given": "Invisible Man" },
@@ -342,6 +356,20 @@
         }
     ],
     "unformatted": [
+        {
+            "answerline": "0",
+            "tests": [
+                { "directive": "accept", "given": "0" },
+                { "directive": "accept", "given": "zero" }
+            ]
+        },
+        {
+            "answerline": "zero",
+            "tests": [
+                { "directive": "accept", "given": "0" },
+                { "directive": "accept", "given": "zero" }
+            ]
+        },
         {
             "answerline": "fires (accept flames; accept Atash before it is read; accept atar or adar before “Atar” is read; accept athra; accept atarsh)",
             "tests": [

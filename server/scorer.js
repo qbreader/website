@@ -323,7 +323,7 @@ function parseAnswerline(answerline) {
 
 
 /**
- *
+ * Returns true if and only if every token in `string` is present in `reference`.
  * @param {String} string
  * @param {String} reference
  * @param {Number} strictness - the number of characters per error allowed for two tokens to match.
@@ -376,7 +376,7 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
 
     for (let i = stringTokens.length - 1; i >= 0; i--) {
         if (isFinite(stringTokens[i])) {
-            stringTokens.push(toWords(parseInt(stringTokens[i])));
+            stringTokens[i] = toWords(parseInt(stringTokens[i]));
         }
     }
 
