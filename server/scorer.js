@@ -1,5 +1,6 @@
 const { distance } = require('damerau-levenshtein-js');
 const { toWords } = require('number-to-words');
+const { romanToArab, isValidRoman } = require('roman-numbers');
 
 // const METAWORDS = ['the', 'like', 'descriptions', 'description', 'of', 'do', 'not', 'as', 'accept', 'or', 'other', 'prompt', 'on', 'except', 'before', 'after', 'is', 'read', 'stated', 'mentioned', 'at', 'any', 'don\'t', 'more', 'specific', 'etc', 'eg', 'answers', 'word', 'forms'];
 const METAWORDS = [];
@@ -375,6 +376,10 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
         .filter(token => !METAWORDS.includes(token) && token.length > 0);
 
     for (let i = stringTokens.length - 1; i >= 0; i--) {
+        if (isValidRoman(stringTokens[i].toUpperCase())) {
+            stringTokens[i] = toWords(romanToArab(stringTokens[i].toUpperCase()));
+        }
+
         if (isFinite(stringTokens[i])) {
             stringTokens[i] = toWords(parseInt(stringTokens[i]));
         }
@@ -386,6 +391,12 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
         .map(string => replaceSpecialPhrases(string));
 
     for (let i = referenceTokens.length - 1; i >= 0; i--) {
+        if (isValidRoman(referenceTokens[i].toUpperCase())) {
+            const arabNumeral = romanToArab(referenceTokens[i].toUpperCase());
+            referenceTokens.push(arabNumeral.toString());
+            referenceTokens.push(toWords(arabNumeral));
+        }
+
         if (isFinite(referenceTokens[i])) {
             referenceTokens.push(toWords(parseInt(referenceTokens[i])));
         }
