@@ -8,7 +8,7 @@ let validSubcategories;
 
 // Status variables
 let currentBonusPart = -1;
-let onQuestion = true;
+let onAnswer = true;
 let packetNumber = -1;
 let questions = [{}];
 let questionNumber = 0;
@@ -113,6 +113,29 @@ function getPointsForCurrentBonus() {
 }
 
 
+async function giveAnswer(givenAnswer) {
+    const directive = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
+    console.log(questions[questionNumber].answers[currentBonusPart]);
+    console.log(givenAnswer);
+    console.log(directive);
+
+    if (directive === 'accept') {
+        document.getElementById('reveal').disabled = false;
+        revealBonusPart();
+        revealBonusPart();
+        document.getElementById(`checkbox-${currentBonusPart}`).checked = true;
+    } else if (directive === 'reject') {
+        document.getElementById('reveal').disabled = false;
+        revealBonusPart();
+        revealBonusPart();
+    } else if (directive === 'prompt') {
+        document.getElementById('answer-input-group').classList.remove('d-none');
+        document.getElementById('answer-input').focus();
+        document.getElementById('answer-input').placeholder = 'Prompt';
+    }
+}
+
+
 /**
  * Loads and reads the next question.
  */
@@ -147,7 +170,7 @@ function revealBonusPart() {
     if (currentBonusPart >= questions[questionNumber]['parts'].length)
         return;
 
-    if (onQuestion) {
+    if (onAnswer) {
         createBonusPart(currentBonusPart, questions[questionNumber]['parts'][currentBonusPart]);
     } else {
         const paragraph = document.createElement('p');
@@ -156,7 +179,7 @@ function revealBonusPart() {
         currentBonusPart++;
     }
 
-    onQuestion = !onQuestion;
+    onAnswer = !onAnswer;
 
     if (currentBonusPart >= questions[questionNumber]['parts'].length) {
         document.getElementById('reveal').disabled = true;
@@ -179,6 +202,21 @@ function updateStatDisplay() {
     document.getElementById('statline').innerHTML
         = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
 }
+
+
+document.getElementById('answer-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const answer = document.getElementById('answer-input').value;
+
+    document.getElementById('answer-input').value = '';
+    document.getElementById('answer-input').blur();
+    document.getElementById('answer-input').placeholder = 'Enter answer';
+    document.getElementById('answer-input-group').classList.add('d-none');
+
+    giveAnswer(answer);
+});
 
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
@@ -208,7 +246,7 @@ document.getElementById('next').addEventListener('click', function () {
         updateStatDisplay();
     }
 
-    onQuestion = true;
+    onAnswer = true;
     next();
 });
 
@@ -225,7 +263,13 @@ document.getElementById('question-number').addEventListener('change', function (
 
 document.getElementById('reveal').addEventListener('click', function () {
     this.blur();
-    revealBonusPart();
+    if (!onAnswer && document.getElementById('type-to-answer').checked) {
+        document.getElementById('answer-input-group').classList.remove('d-none');
+        document.getElementById('answer-input').focus();
+        this.disabled = true;
+    } else {
+        revealBonusPart();
+    }
 });
 
 
@@ -236,7 +280,7 @@ document.getElementById('set-name').addEventListener('change', function () {
 
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    onQuestion = true;
+    onAnswer = true;
     start(document.getElementById('toggle-select-by-set-name').checked);
     document.getElementById('question').innerHTML = 'Fetching questions...';
     questions = await getBonuses(setName, packetNumber);
@@ -252,6 +296,12 @@ document.getElementById('toggle-show-history').addEventListener('click', functio
         document.getElementById('room-history').classList.add('d-none');
         localStorage.setItem('showBonusHistory', 'false');
     }
+});
+
+
+document.getElementById('type-to-answer').addEventListener('click', function () {
+    this.blur();
+    localStorage.setItem('typeToAnswer', this.checked ? 'true' : 'false');
 });
 
 
@@ -343,4 +393,8 @@ window.onload = () => {
 if (localStorage.getItem('showBonusHistory') === 'false') {
     document.getElementById('toggle-show-history').checked = false;
     document.getElementById('room-history').classList.add('d-none');
+}
+
+if (localStorage.getItem('typeToAnswer') === 'false') {
+    document.getElementById('type-to-answer').checked = false;
 }
