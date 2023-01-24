@@ -276,7 +276,6 @@ function QueryForm() {
   function handleSubmit(event, randomize = false) {
     event.preventDefault();
     setCurrentlySearching(true);
-    console.log('A query was submitted: ' + queryString);
     fetch('/api/query', {
       method: 'POST',
       headers: {

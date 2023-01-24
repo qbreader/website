@@ -118,9 +118,6 @@ async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
     const directive = await checkAnswer(questions[questionNumber].answer, givenAnswer);
-    console.log(questions[questionNumber].answer);
-    console.log(givenAnswer);
-    console.log(directive);
 
     if (directive === 'accept') {
         updateScore(true);
