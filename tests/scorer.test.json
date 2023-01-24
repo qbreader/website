@@ -1,6 +1,20 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>Louis XIV</u></b> [prompt on <u>Louis</u> alone; prompt on the <u>Sun King</u> or le <u>Roi Soleil</u>]",
+            "tests": [
+                { "directive": "accept", "given": "Louis 14" },
+                { "directive": "accept", "given": "Louis XIV" },
+                { "directive": "prompt", "given": "Louis" }
+            ]
+        },
+        {
+            "answerline": "<b><u>Louis 14</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "Louis XIV" }
+            ]
+        },
+        {
             "answerline": "<b><u>0</u></b>",
             "tests": [
                 { "directive": "accept", "given": "0" },
