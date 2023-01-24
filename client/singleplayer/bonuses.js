@@ -115,9 +115,6 @@ function getPointsForCurrentBonus() {
 
 async function giveAnswer(givenAnswer) {
     const directive = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
-    console.log(questions[questionNumber].answers[currentBonusPart]);
-    console.log(givenAnswer);
-    console.log(directive);
 
     if (directive === 'accept') {
         document.getElementById('reveal').disabled = false;
