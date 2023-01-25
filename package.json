@@ -14,7 +14,7 @@
         "express": "4.18.2",
         "mongodb": "^4.8.0",
         "number-to-words": "^1.2.4",
-        "roman-numbers": "^1.0.2",
+        "roman-numerals": "^0.3.2",
         "uuid": "^8.3.2",
         "ws": "^8.8.0"
     },
