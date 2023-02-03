@@ -677,6 +677,9 @@ document.addEventListener('keydown', function (event) {
         document.getElementById('buzz').click();
         if (event.target == document.body) event.preventDefault();
         break;
+    case 'k':
+        document.getElementsByClassName('card-header')[0].click();
+        break;
     case 'n':
     case 's':
         document.getElementById('next').click();
