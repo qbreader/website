@@ -13,6 +13,7 @@ router.get('/check-answer', (req, res) => {
     res.send(JSON.stringify(directive));
 });
 
+
 router.get('/num-packets', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     const numPackets = await database.getNumPackets(req.query.setName);
@@ -21,6 +22,7 @@ router.get('/num-packets', async (req, res) => {
     }
     res.send(numPackets.toString());
 });
+
 
 router.get('/packet', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
@@ -32,6 +34,7 @@ router.get('/packet', async (req, res) => {
     res.send(JSON.stringify(packet));
 });
 
+
 router.get('/packet-bonuses', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
     req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
@@ -41,6 +44,7 @@ router.get('/packet-bonuses', async (req, res) => {
     }
     res.send(JSON.stringify(packet));
 });
+
 
 router.get('/packet-tossups', async (req, res) => {
     req.query.setName = decodeURIComponent(req.query.setName);
@@ -52,49 +56,65 @@ router.get('/packet-tossups', async (req, res) => {
     res.send(JSON.stringify(packet));
 });
 
-router.get('/random-name', (req, res) => {
-    res.send(database.getRandomName());
-});
 
+router.get('/query', async (req, res) => {
+    req.query.queryString = decodeURIComponent(req.query.queryString);
+    req.query.questionType = decodeURIComponent(req.query.questionType);
+    req.query.searchType = decodeURIComponent(req.query.searchType);
+    req.query.difficulties = decodeURIComponent(req.query.difficulties);
+    req.query.categories = decodeURIComponent(req.query.categories);
+    req.query.subcategories = decodeURIComponent(req.query.subcategories);
+    req.query.maxReturnLength = decodeURIComponent(req.query.maxReturnLength);
+    req.query.randomize = (req.query.randomize === 'true');
+    req.query.regex = (req.query.regex === 'true');
 
-router.post('/query', async (req, res) => {
-    if (!['tossup', 'bonus', 'all'].includes(req.body.questionType)) {
+    if (!['tossup', 'bonus', 'all'].includes(req.query.questionType)) {
         res.status(400).send('Invalid question type specified.');
         return;
     }
 
-    if (!['all', 'question', 'answer'].includes(req.body.searchType)) {
+    if (!['all', 'question', 'answer'].includes(req.query.searchType)) {
         res.status(400).send('Invalid search type specified.');
         return;
     }
 
-    if (typeof req.body.difficulties === 'string') {
-        req.body.difficulties = parseInt(req.body.difficulties);
+    if (req.query.difficulties === '') {
+        req.query.difficulties = null;
+    } else {
+        req.query.difficulties = req.query.difficulties
+            .split(',')
+            .map((difficulty) => parseInt(difficulty));
     }
 
-    if (typeof req.body.difficulties === 'number') {
-        req.body.difficulties = [req.body.difficulties];
+    if (req.query.categories === '') {
+        req.query.categories = null;
+    } else {
+        req.query.categories = req.query.categories.split(',');
     }
 
-    if (typeof req.body.categories === 'string') {
-        req.body.categories = [req.body.categories];
+    if (req.query.subcategories === '') {
+        req.query.subcategories = null;
+    } else {
+        req.query.subcategories = req.query.subcategories.split(',');
     }
 
-    if (typeof req.body.subcategories === 'string') {
-        req.body.subcategories = [req.body.subcategories];
+    if (req.query.maxReturnLength === undefined) {
+        req.query.maxReturnLength = req.query.maxQueryReturnLength;
     }
 
-    if (req.body.maxReturnLength === undefined) {
-        req.body.maxReturnLength = req.body.maxQueryReturnLength;
+    if (isNaN(req.query.maxReturnLength) || req.query.maxReturnLength === '') {
+        req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
     }
 
-    if (isNaN(req.body.maxReturnLength) || req.body.maxReturnLength === '') {
-        req.body.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
-    }
-
-    const queryResult = await database.getQuery(req.body);
+    const queryResult = await database.getQuery(req.query);
     res.send(JSON.stringify(queryResult));
 });
+
+
+router.get('/random-name', (req, res) => {
+    res.send(database.getRandomName());
+});
+
 
 router.post('/random-question', async (req, res) => {
     if (!['tossup', 'bonus'].includes(req.body.questionType)) {
@@ -139,9 +159,11 @@ router.post('/report-question', async (req, res) => {
     }
 });
 
+
 router.get('/set-list', (req, res) => {
     const setList = database.getSetList(req.query.setName);
     res.send(setList);
 });
+
 
 module.exports = router;
