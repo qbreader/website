@@ -456,6 +456,9 @@ document.addEventListener('keydown', (event) => {
         // Prevent spacebar from scrolling the page:
         if (event.target == document.body) event.preventDefault();
         break;
+    case 'k':
+        document.getElementsByClassName('card-header')[0].click();
+        break;
     case 'n':
         document.getElementById('next').click();
         break;
