@@ -260,7 +260,7 @@ function QueryForm() {
   const [tossupCount, setTossupCount] = React.useState(0);
   const [bonusCount, setBonusCount] = React.useState(0);
   const [difficulties, setDifficulties] = React.useState('');
-  const [maxQueryReturnLength, setMaxQueryReturnLength] = React.useState('');
+  const [maxReturnLength, setMaxReturnLength] = React.useState('');
   const [queryString, setQueryString] = React.useState('');
   const [questionType, setQuestionType] = React.useState('all');
   const [regex, setRegex] = React.useState(false);
@@ -276,23 +276,12 @@ function QueryForm() {
   function handleSubmit(event, randomize = false) {
     event.preventDefault();
     setCurrentlySearching(true);
-    fetch('/api/query', {
-      method: 'POST',
+    const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
+    fetch(uri, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        categories: validCategories,
-        subcategories: validSubcategories,
-        difficulties: rangeToArray(difficulties),
-        maxReturnLength: maxQueryReturnLength,
-        queryString: queryString,
-        questionType: questionType,
-        randomize: randomize,
-        regex: regex,
-        searchType: searchType,
-        setName: document.getElementById('set-name').value
-      })
+      }
     }).then(response => {
       if (response.status === 400) {
         throw new Error('Invalid query');
@@ -311,7 +300,7 @@ function QueryForm() {
         for (let i = 0; i < tossupArray.length; i++) {
           tossupArray[i] = highlightTossupQuery({
             tossup: tossupArray[i],
-            queryString,
+            queryString: queryString.trim(),
             searchType,
             regex
           });
@@ -327,7 +316,7 @@ function QueryForm() {
         for (let i = 0; i < bonusArray.length; i++) {
           bonusArray[i] = highlightBonusQuery({
             bonus: bonusArray[i],
-            queryString,
+            queryString: queryString.trim(),
             searchType,
             regex
           });
@@ -395,11 +384,11 @@ function QueryForm() {
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
     className: "form-control",
-    id: "difficulties",
+    id: "max-return-length",
     placeholder: "Max # to Display (default: 50)",
-    value: maxQueryReturnLength,
+    value: maxReturnLength,
     onChange: event => {
-      setMaxQueryReturnLength(event.target.value);
+      setMaxReturnLength(event.target.value);
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "input-group col-12 col-xl-6 mb-2"
