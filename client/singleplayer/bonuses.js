@@ -392,6 +392,6 @@ if (localStorage.getItem('showBonusHistory') === 'false') {
     document.getElementById('room-history').classList.add('d-none');
 }
 
-if (localStorage.getItem('typeToAnswer') === 'false') {
-    document.getElementById('type-to-answer').checked = false;
+if (localStorage.getItem('typeToAnswer') === 'true') {
+    document.getElementById('type-to-answer').checked = true;
 }
