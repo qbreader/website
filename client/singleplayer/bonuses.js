@@ -312,13 +312,16 @@ document.addEventListener('keydown', (event) => {
         if (event.target == document.body) event.preventDefault();
         break;
     case 'k':
-        document.getElementById(`checkbox-${currentBonusPart}`).click();
+        document.getElementsByClassName('card-header')[0].click();
         break;
     case 'n':
         document.getElementById('next').click();
         break;
     case 's':
         document.getElementById('start').click();
+        break;
+    case '0':
+        document.getElementById(`checkbox-${currentBonusPart}`).click();
         break;
     case '1':
         document.getElementById('checkbox-1').click();
