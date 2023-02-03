@@ -270,7 +270,7 @@ function QueryForm() {
     const [tossupCount, setTossupCount] = React.useState(0);
     const [bonusCount, setBonusCount] = React.useState(0);
     const [difficulties, setDifficulties] = React.useState('');
-    const [maxQueryReturnLength, setMaxQueryReturnLength] = React.useState('');
+    const [maxReturnLength, setMaxReturnLength] = React.useState('');
     const [queryString, setQueryString] = React.useState('');
     const [questionType, setQuestionType] = React.useState('all');
     const [regex, setRegex] = React.useState(false);
@@ -291,23 +291,13 @@ function QueryForm() {
         event.preventDefault();
         setCurrentlySearching(true);
 
-        fetch('/api/query', {
-            method: 'POST',
+        const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
+
+        fetch(uri, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                categories: validCategories,
-                subcategories: validSubcategories,
-                difficulties: rangeToArray(difficulties),
-                maxReturnLength: maxQueryReturnLength,
-                queryString: queryString,
-                questionType: questionType,
-                randomize: randomize,
-                regex: regex,
-                searchType: searchType,
-                setName: document.getElementById('set-name').value,
-            })
         }).then(response => {
             if (response.status === 400) {
                 throw new Error('Invalid query');
@@ -321,7 +311,7 @@ function QueryForm() {
 
                 if (queryString !== '') {
                     for (let i = 0; i < tossupArray.length; i++) {
-                        tossupArray[i] = highlightTossupQuery({ tossup: tossupArray[i], queryString, searchType, regex } );
+                        tossupArray[i] = highlightTossupQuery({ tossup: tossupArray[i], queryString: queryString.trim(), searchType, regex } );
                     }
                 }
 
@@ -332,7 +322,7 @@ function QueryForm() {
 
                 if (queryString !== '') {
                     for (let i = 0; i < bonusArray.length; i++) {
-                        bonusArray[i] = highlightBonusQuery({ bonus: bonusArray[i], queryString, searchType, regex });
+                        bonusArray[i] = highlightBonusQuery({ bonus: bonusArray[i], queryString: queryString.trim(), searchType, regex });
                     }
                 }
 
@@ -349,7 +339,7 @@ function QueryForm() {
     }
 
     const tossupCards = tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} />);
-    const bonusCards = bonuses.map(bonus => <BonusCard key={bonus._id} bonus={bonus} />);
+    const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus} />);
 
     return (
         <div>
@@ -365,7 +355,7 @@ function QueryForm() {
                         <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={difficulties} onChange={event => {setDifficulties(event.target.value);}} />
                     </div>
                     <div id="max-query-return-length" className="col-6 col-xl-3 mb-2">
-                        <input type="text" className="form-control" id="difficulties" placeholder="Max # to Display (default: 50)" value={maxQueryReturnLength} onChange={event => {setMaxQueryReturnLength(event.target.value);}} />
+                        <input type="text" className="form-control" id="max-return-length" placeholder="Max # to Display (default: 50)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
                     </div>
                     <div className="input-group col-12 col-xl-6 mb-2">
                         <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
