@@ -213,6 +213,15 @@
             ]
         },
         {
+            "answerline": "<b><u>Paul Bäumer</u></b> [accept either name]",
+            "tests": [
+                { "directive": "accept", "given": "Baumer" },
+                { "directive": "accept", "given": "Bäumer" },
+                { "directive": "accept", "given": "Paul" },
+                { "directive": "accept", "given": "Paul Bäumer" }
+            ]
+        },
+        {
             "answerline": "<b><u>Paul</u></b> <b><u>Bäumer</u></b> [accept either name]",
             "tests": [
                 { "directive": "accept", "given": "Baumer" },
