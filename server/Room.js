@@ -1,4 +1,4 @@
-const colors = require('../colors');
+const bcolors = require('../bcolors');
 const database = require('./database');
 const Player = require('./Player');
 const scorer = require('./scorer');
@@ -42,8 +42,8 @@ class Room {
     }
 
     connection(socket, userId, username) {
-        console.log(`Connection in room ${colors.HEADER}${this.name}${colors.ENDC} - userId: ${colors.OKBLUE}${userId}${colors.ENDC}, username: ${colors.OKBLUE}${username}${colors.ENDC}`);
-        console.log(`With settings ${colors.OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${colors.ENDC}`);
+        console.log(`Connection in room ${bcolors.HEADER}${this.name}${bcolors.ENDC} - userId: ${bcolors.OKBLUE}${userId}${bcolors.ENDC}, username: ${bcolors.OKBLUE}${username}${bcolors.ENDC}`);
+        console.log(`With settings ${bcolors.OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${bcolors.ENDC}`);
         socket.on('message', message => {
             message = JSON.parse(message);
             this.message(userId, message);
