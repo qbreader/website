@@ -11,7 +11,7 @@ client.connect().then(async () => {
     console.log('connected to mongodb');
 });
 
-const colors = require('../colors');
+const bcolors = require('../bcolors');
 const database = client.db('qbreader');
 const questions = database.collection('questions');
 const sets = database.collection('sets');
@@ -197,7 +197,7 @@ async function getQuery({ queryString, difficulties, setName, searchType = 'all'
         returnValue.bonuses = bonuses;
     }
 
-    console.log(`[DATABASE] QUERY: string: ${colors.OKCYAN}${queryString}${colors.ENDC}; difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; max length: ${colors.OKGREEN}${maxReturnLength}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; randomize: ${colors.OKGREEN}${randomize}${colors.ENDC}; regex: ${colors.OKGREEN}${regex}${colors.ENDC}; search type: ${colors.OKGREEN}${searchType}${colors.ENDC}; set name: ${colors.OKGREEN}${setName}${colors.ENDC};`);
+    console.log(`[DATABASE] QUERY: string: ${bcolors.OKCYAN}${queryString}${bcolors.ENDC}; difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; max length: ${bcolors.OKGREEN}${maxReturnLength}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; randomize: ${bcolors.OKGREEN}${randomize}${bcolors.ENDC}; regex: ${bcolors.OKGREEN}${regex}${bcolors.ENDC}; search type: ${bcolors.OKGREEN}${searchType}${bcolors.ENDC}; set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC};`);
 
     return returnValue;
 }
@@ -302,7 +302,7 @@ async function getRandomQuestions({ questionType = 'tossup', difficulties, categ
         return [{}];
     }
 
-    console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${colors.OKGREEN}${difficulties}${colors.ENDC}; number: ${colors.OKGREEN}${number}${colors.ENDC}; question type: ${colors.OKGREEN}${questionType}${colors.ENDC}; categories: ${colors.OKGREEN}${categories}${colors.ENDC}; subcategories: ${colors.OKGREEN}${subcategories}${colors.ENDC};`);
+    console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; number: ${bcolors.OKGREEN}${number}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; categories: ${bcolors.OKGREEN}${categories}${bcolors.ENDC}; subcategories: ${bcolors.OKGREEN}${subcategories}${bcolors.ENDC};`);
     return questionArray;
 }
 
