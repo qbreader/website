@@ -11,7 +11,7 @@ app.set('trust proxy', true);
 const fs = require('fs');
 const ipFilter = require('express-ipfilter').IpFilter;
 const IpDeniedError = require('express-ipfilter').IpDeniedError;
-const ips = fs.readFileSync('./BLOCKED_IPS', 'utf-8').trim().split('\n');
+const ips = require('../BLOCKED_IPS');
 console.log(`Blocked IPs: ${ips}`);
 app.use(ipFilter(ips, { mode: 'deny', log: true }));
 
