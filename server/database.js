@@ -294,6 +294,10 @@ async function getRandomQuestions({ questionType = 'tossup', difficulties, categ
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
     if (!number) number = 20;
 
+    /**
+     * Tests show that using the `$in yearRange` match stage is about as fast as using `$gte`.
+     */
+
     const questionArray = await questions.aggregate([
         { $match: {
             type: questionType,
