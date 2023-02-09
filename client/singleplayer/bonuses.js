@@ -114,7 +114,7 @@ function getPointsForCurrentBonus() {
 
 
 async function giveAnswer(givenAnswer) {
-    const directive = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
+    const [directive, directedPrompt] = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
 
     if (directive === 'accept') {
         document.getElementById('reveal').disabled = false;
@@ -128,7 +128,7 @@ async function giveAnswer(givenAnswer) {
     } else if (directive === 'prompt') {
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
-        document.getElementById('answer-input').placeholder = 'Prompt';
+        document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
     }
 }
 

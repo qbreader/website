@@ -308,9 +308,18 @@ function parseAnswerline(answerline) {
             return;
 
         const { directive, answers } = splitIntoAnswers(phrase);
+        const index = phrase.indexOf('by asking');
+        const directedPrompt = (index >= 0) ? extractQuotes(phrase.slice(index + 9)) : null;
+
         answers.forEach(answer => {
-            if (directive === 'accept' || directive === 'prompt') {
+            if (directive === 'accept') {
                 answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
+            } else if (directive === 'prompt') {
+                if (directedPrompt) {
+                    answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(phrase.slice(0, index)), directedPrompt];
+                } else {
+                    answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
+                }
             } else if (directive === 'reject') {
                 answer = ['', '', extractQuotes(answer)];
             }
@@ -445,10 +454,10 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
 
 
 /**
- *
+ * Check if the given answer matches the answerline.
  * @param {String} answerline
  * @param {String} givenAnswer
- * @returns {'accept' | 'prompt' | 'reject'}
+ * @returns {['accept' | 'prompt' | 'reject', String | null]} - [directive, directed prompt]
  */
 function checkAnswer(answerline, givenAnswer) {
     const answerWorks = (answerline, givenAnswer, answerlineIsFormatted) => {
@@ -462,9 +471,8 @@ function checkAnswer(answerline, givenAnswer) {
     const answerlineIsFormatted = answerline.includes('<u>');
     const parsedAnswerline = parseAnswerline(answerline);
 
-    if (!answerlineIsFormatted && parsedAnswerline.accept[0][0].length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer)) {
-        return 'reject';
-    }
+    if (!answerlineIsFormatted && parsedAnswerline.accept[0][0].length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer))
+        return ['reject', null];
 
     for (const answer of parsedAnswerline.reject) {
         const useStemmer = (stemmer(answer[2]) !== stemmer(parsedAnswerline.accept[0][0]));
@@ -475,35 +483,39 @@ function checkAnswer(answerline, givenAnswer) {
         if (!stringMatchesReference({ string: givenAnswer, reference: answer[2], strictness: 11, useStemmer }))
             continue;
 
-        return 'reject';
+        return ['reject', null];
     }
 
     if (answerline.includes('[accept either') || answerline.includes('(accept either')) {
         for (const answer of parsedAnswerline.accept[0][0].split(' ')) {
-            if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
-                return 'accept';
-            }
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
+                return ['accept', null];
         }
     }
 
-    for (const type of ['accept', 'prompt']) {
-        for (const answers of parsedAnswerline[type]) {
-            for (const answer of answers) {
-                if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-                    return type;
-            }
+    for (const answers of parsedAnswerline.accept) {
+        for (const answer of answers) {
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
+                return ['accept', null];
+        }
+    }
+
+    for (const answers of parsedAnswerline.prompt) {
+        for (let i = 0; i < 3; i++) {
+            const answer = answers[i];
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
+                return ['prompt', answers[3] ?? null];
         }
     }
 
     if (/prompt on (a )?partial/.test(answerline)) {
         for (const answer of parsedAnswerline.accept[0][0].split(' ')) {
-            if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
-                return 'prompt';
-            }
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
+                return ['prompt', null];
         }
     }
 
-    return 'reject';
+    return ['reject', null];
 }
 
 
@@ -512,13 +524,12 @@ function checkAnswer(answerline, givenAnswer) {
  * @param {String} givenAnswer
  * @param {Boolean} inPower
  * @param {Boolean} endOfQuestion
- * @returns {['accept' | 'prompt' | 'reject', Number]} - [directive, points]
+ * @returns {{ 'directive': 'accept' | 'prompt' | 'reject', 'points': Number, 'directedPrompt': String }}
  */
 function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
-    const directive = checkAnswer(answerline, givenAnswer);
+    const [directive, directedPrompt] = checkAnswer(answerline, givenAnswer);
     const isCorrect = (directive === 'accept');
-    return [directive, isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5)];
+    return { directive, points: isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5), directedPrompt };
 }
-
 
 module.exports = { checkAnswer, scoreTossup };
