@@ -221,9 +221,9 @@ const socketOnEndOfSet = () => {
 };
 
 const socketOnGiveAnswer = (message) => {
-    const { userId, username, givenAnswer, directive, score, celerity } = message;
+    const { userId, username, givenAnswer, directive, directedPrompt, score, celerity } = message;
     if (directive === 'prompt') {
-        logEvent(username, `answered with "${givenAnswer}" and was prompted`);
+        logEvent(username, `answered with "${givenAnswer}" and was prompted ${directedPrompt ? 'with "' + directedPrompt + '"' : ''}`);
     } else {
         logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
     }
@@ -231,7 +231,7 @@ const socketOnGiveAnswer = (message) => {
     if (directive === 'prompt' && userId === USER_ID) {
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
-        document.getElementById('answer-input').placeholder = 'Prompt';
+        document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
     } else {
         document.getElementById('answer-input').placeholder = 'Enter answer';
         document.getElementById('next').disabled = false;
