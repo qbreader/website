@@ -26,8 +26,9 @@ async function advanceQuestion() {
                     window.alert('No more questions left');
                     document.getElementById('reveal').disabled = true;
                     document.getElementById('next').disabled = true;
-                    return;  // alert the user if there are no more packets
+                    return;
                 }
+
                 packetNumber = packetNumbers[0];
                 document.getElementById('question').innerHTML = 'Fetching questions...';
                 questions = await getBonuses(setName, packetNumber);
@@ -41,13 +42,14 @@ async function advanceQuestion() {
             document.getElementById('question-number-info').innerHTML = questionNumber + 1;
         }
     } else {
-        document.getElementById('question').innerHTML = 'Fetching questions...';
+        queryLock();
         questions = [await getRandomQuestion(
             'bonus',
             rangeToArray(document.getElementById('difficulties').value),
             validCategories,
             validSubcategories
         )];
+        queryUnlock();
 
         ({ setName, packetNumber, questionNumber } = questions[0]);
 
@@ -218,7 +220,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
-    getRandomQuestion('bonus', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomQuestions('bonus', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
 });
 
 
@@ -230,7 +232,7 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 
 document.getElementById('difficulties').addEventListener('change', async function () {
     randomQuestions = [];
-    getRandomQuestion('bonus', rangeToArray(this.value), validCategories, validSubcategories);
+    loadRandomQuestions('bonus', rangeToArray(this.value), validCategories, validSubcategories);
 });
 
 

@@ -47,37 +47,49 @@ async function getPacket(setName, packetNumber) {
 }
 
 
-async function getRandomQuestion(questionType, difficulties = [], validCategories = [], validSubcategories = []) {
-    if (randomQuestions.length === 0) {
-        randomQuestions = await fetch('/api/random-question', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                questionType: questionType,
-                difficulties: difficulties,
-                categories: validCategories,
-                subcategories: validSubcategories,
-                number: 20
-            })
-        }).then(response => response.json())
-            .then(questions => {
-                for (let i = 0; i < questions.length; i++) {
-                    if (questionType === 'tossup' && Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer')) {
-                        questions[i].answer = questions[i].formatted_answer;
-                    }
-                    if (questionType === 'bonus' && Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answers')) {
-                        questions[i].answers = questions[i].formatted_answers;
-                    }
+async function loadRandomQuestions(questionType, difficulties = [], categories = [], subcategories = []) {
+    randomQuestions = await fetch('/api/random-question', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            questionType: questionType,
+            difficulties: difficulties,
+            categories: categories,
+            subcategories: subcategories,
+            number: 20
+        })
+    }).then(response => response.json())
+        .then(questions => {
+            for (let i = 0; i < questions.length; i++) {
+                if (questionType === 'tossup' && Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer')) {
+                    questions[i].answer = questions[i].formatted_answer;
                 }
-                return questions;
-            });
-    }
+                if (questionType === 'bonus' && Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answers')) {
+                    questions[i].answers = questions[i].formatted_answers;
+                }
+            }
 
-    return randomQuestions.pop();
+            return questions;
+        });
 }
 
+
+async function getRandomQuestion(questionType, difficulties = [], categories = [], subcategories = []) {
+    if (randomQuestions.length === 0) {
+        await loadRandomQuestions(questionType, difficulties, categories, subcategories);
+    }
+
+    const randomQuestion = randomQuestions.pop();
+
+    // Begin loading the next batch of questions (asynchronously)
+    if (randomQuestions.length === 0) {
+        loadRandomQuestions(questionType, difficulties, categories, subcategories);
+    }
+
+    return randomQuestion;
+}
 
 /**
  * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
