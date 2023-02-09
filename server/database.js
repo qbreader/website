@@ -285,16 +285,23 @@ function getRandomName() {
  * @param {Array<String>} categories - an array of allowed categories. Pass a 0-length array to select any category.
  * @param {Array<String>} subcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
  * @param {Number} number - how many random tossups to return. Default: 20.
+ * @param {Array<Number>} yearRange - an array of allowed years. Pass a 0-length array to select any year.
  * @returns {Promise<Array<JSON>>}
  */
-async function getRandomQuestions({ questionType = 'tossup', difficulties, categories, subcategories, number }) {
+async function getRandomQuestions({ questionType = 'tossup', difficulties, categories, subcategories, number, yearRange = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023] }) {
     if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
     if (!categories || categories.length === 0) categories = CATEGORIES;
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
     if (!number) number = 20;
 
     const questionArray = await questions.aggregate([
-        { $match: { type: questionType, difficulty: { $in: difficulties }, category: { $in: categories }, subcategory: { $in: subcategories } } },
+        { $match: {
+            type: questionType,
+            difficulty: { $in: difficulties },
+            category: { $in: categories },
+            subcategory: { $in: subcategories },
+            setYear: { $in: yearRange },
+        } },
         { $sample: { size: number } },
     ]).toArray();
 
