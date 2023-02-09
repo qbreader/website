@@ -10,7 +10,6 @@ let validSubcategories;
 let currentlyBuzzing = false;
 let packetNumber = -1;
 let paused = false;
-let queryingQuestion = false;
 
 // WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
 let questionNumber = 0;
@@ -27,6 +26,23 @@ let previous = {
 let questions = [{}];
 let questionText = '';
 let questionTextSplit = [];
+
+
+function queryLock() {
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    document.getElementById('start').disabled = true;
+    document.getElementById('next').disabled = true;
+    document.getElementById('pause').disabled = true;
+    document.getElementById('buzz').disabled = true;
+}
+
+
+function queryUnlock() {
+    document.getElementById('start').disabled = false;
+    document.getElementById('next').disabled = false;
+    document.getElementById('pause').disabled = false;
+    document.getElementById('buzz').disabled = false;
+}
 
 
 /**
@@ -51,8 +67,11 @@ async function advanceQuestion() {
                 }
 
                 packetNumber = packetNumbers[0];
-                document.getElementById('question').innerHTML = 'Fetching questions...';
+
+                queryLock();
                 questions = await getTossups(setName, packetNumber);
+                queryUnlock();
+
                 questionNumber = 0;
             }
 
@@ -65,8 +84,9 @@ async function advanceQuestion() {
             document.getElementById('question-number-info').innerHTML = questionNumber + 1;
         }
     } else {
-        document.getElementById('question').innerHTML = 'Fetching questions...';
+        queryLock();
         questions = [ await getRandomQuestion('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories) ];
+        queryUnlock();
 
         ({ setName, packetNumber, questionNumber } = questions[0]);
 
@@ -137,12 +157,9 @@ async function giveAnswer(givenAnswer) {
 
 
 async function next() {
-    if (queryingQuestion) return;
-
     // Stop reading the current question:
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
-    queryingQuestion = true;
 
     // Update the toggle-correct button:
     toggleCorrectClicked = -1;
@@ -154,9 +171,8 @@ async function next() {
 
     const hasNextQuestion = await advanceQuestion();
 
-    queryingQuestion = false;
-
-    if (!hasNextQuestion) return;
+    if (!hasNextQuestion)
+        return;
 
     document.getElementById('buzz').innerHTML = 'Buzz';
     document.getElementById('buzz').disabled = false;
@@ -417,8 +433,11 @@ document.getElementById('set-name').addEventListener('change', function () {
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     start(document.getElementById('toggle-select-by-set-name').checked);
-    document.getElementById('question').innerHTML = 'Fetching questions...';
+
+    queryLock();
     questions = await getTossups(setName, packetNumber);
+    queryUnlock();
+
     next();
 });
 
