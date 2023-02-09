@@ -9,8 +9,8 @@ const { checkAnswer } = require('../server/scorer');
 router.get('/check-answer', (req, res) => {
     const answerline = decodeURIComponent(req.query.answerline);
     const givenAnswer = decodeURIComponent(req.query.givenAnswer);
-    const directive = checkAnswer(answerline, givenAnswer);
-    res.send(JSON.stringify(directive));
+    const [directive, directedPrompt] = checkAnswer(answerline, givenAnswer);
+    res.send(JSON.stringify([directive, directedPrompt]));
 });
 
 

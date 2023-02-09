@@ -8,10 +8,15 @@ function testAnswerline(group) {
     group.tests.forEach(test => {
         const expected = test.directive;
         const givenAnswer = test.given;
+        const expectedDirectedPrompt = test.directedPrompt;
 
-        const result = scorer.checkAnswer(answerline, givenAnswer);
+        const [result, directedPrompt] = scorer.checkAnswer(answerline, givenAnswer);
 
         console.assert(expected === result, `expected "${expected}" but got "${result}" for given answer "${givenAnswer}"`);
+
+        if (expectedDirectedPrompt || directedPrompt) {
+            console.assert(expectedDirectedPrompt === directedPrompt, `expected directed prompt "${expectedDirectedPrompt}" but got "${directedPrompt}" for given answer "${givenAnswer}"`);
+        }
 
         total++;
         if (expected === result) successful++;

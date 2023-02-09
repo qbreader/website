@@ -10,7 +10,7 @@ let maxPacketNumber = 24;
 /**
  * @param {String} answerline
  * @param {String} givenAnswer
- * @returns {"accept" | "prompt" | "reject"} directive
+ * @returns {Promise<[ "accept" | "prompt" | "reject", String | null ]>} [directive, directedPrompt]
  */
 async function checkAnswer(answerline, givenAnswer) {
     return await fetch(`/api/check-answer?answerline=${encodeURIComponent(answerline)}&givenAnswer=${encodeURIComponent(givenAnswer)}`)

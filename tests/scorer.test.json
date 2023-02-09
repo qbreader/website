@@ -1,6 +1,17 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>slave</u></b>s [or <b><u>enslaved</u></b> people or <b><u>slavery</u></b>; accept <b><u>slave</u></b> narratives or<i></i> <i><b><u>Slave</u></b> Narrative Collection</i>; prompt on <u>African</u>-Americans or <u>Black</u> people or specific groups of Africans such as <u>Igbo</u> by asking “of what status?”; prompt on <u>child</u>ren or <u>boy</u>s or <u>girl</u>s; prompt on plantation <u>worker</u>s or house <u>servant</u>s] (The “landing” is Igbo Landing.)",
+            "tests": [
+                { "directive": "prompt", "given": "igbo", "directedPrompt": "of what status?" },
+                { "directive": "prompt", "given": "black", "directedPrompt": "of what status?" },
+                { "directive": "prompt", "given": "child" },
+                { "directive": "prompt", "given": "boys" },
+                { "directive": "prompt", "given": "girl" },
+                { "directive": "reject", "given": "of what status"}
+            ]
+        },
+        {
             "answerline": "<b><u>Louis XIV</u></b> [prompt on <u>Louis</u> alone; prompt on the <u>Sun King</u> or le <u>Roi Soleil</u>]",
             "tests": [
                 { "directive": "accept", "given": "Louis 14" },
@@ -85,7 +96,7 @@
             "tests": [
                 { "directive": "accept", "given": "Democrat to Republican" },
                 { "directive": "accept", "given": "from Democrat to Republican" },
-                { "directive": "prompt", "given": "switching parties" }
+                { "directive": "prompt", "given": "switching parties", "directedPrompt": "which party to which party?" }
             ]
         },
         {
@@ -465,14 +476,10 @@
             ]
         },
         {
-            "answerline": "electric charge density [accept rho before \"rho\"; prompt on \"density\" after \"charge\"; do not accept or prompt on \"density\" before \"charge\"]",
-            "tests": [
-            ]
-        },
-        {
             "answerline": "wave-particle duality [accept de Broglie wave until “de Broglie”; accept answers indicating that something is both a wave and a particle; prompt on duality or wave nature or complementarity; prompt on interference by asking “what property of matter causes the interference?”]",
             "tests": [
-                { "directive": "accept", "given": "wave-particle duality" }
+                { "directive": "accept", "given": "wave-particle duality" },
+                { "directive": "prompt", "given": "interference", "directedPrompt": "what property of matter causes the interference?" }
             ]
         },
         {

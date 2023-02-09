@@ -117,7 +117,7 @@ function clearStats() {
 async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
-    const directive = await checkAnswer(questions[questionNumber].answer, givenAnswer);
+    const [directive, directedPrompt] = await checkAnswer(questions[questionNumber].answer, givenAnswer);
 
     if (directive === 'accept') {
         updateScore(true);
@@ -131,7 +131,7 @@ async function giveAnswer(givenAnswer) {
     } else if (directive === 'prompt') {
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
-        document.getElementById('answer-input').placeholder = 'Prompt';
+        document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
     }
 }
 

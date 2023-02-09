@@ -360,7 +360,7 @@ class Room {
         this.buzzedIn = null;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.tossup.question.includes('(*)') && !this.questionSplit.slice(0, this.wordIndex).join(' ').includes('(*)');
-        const [directive, points] = scorer.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
+        const { directive, points, directedPrompt } = scorer.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
 
         if (directive === 'accept') {
             this.revealQuestion();
@@ -373,10 +373,11 @@ class Room {
 
         this.sendSocketMessage({
             type: 'give-answer',
-            userId: userId,
+            userId,
             username: this.players[userId].username,
-            givenAnswer: givenAnswer,
-            directive: directive,
+            givenAnswer,
+            directive,
+            directedPrompt,
             score: points,
             celerity: this.players[userId].celerity.correct.average
         });
