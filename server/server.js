@@ -6,6 +6,20 @@ const uuid = require('uuid');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
 
+const fs = require('fs');
+const ipFilter = require('express-ipfilter').IpFilter;
+const IpDeniedError = require('express-ipfilter').IpDeniedError;
+const ips = fs.readFileSync('./BLOCKED_IPS', 'utf-8').trim().split('\n');
+app.use(ipFilter(ips, { mode: 'deny', log: false }));
+
+app.use((err, req, res, _next) => {
+    if (err instanceof IpDeniedError) {
+        res.end();
+    } else {
+        res.status(err.status || 500);
+    }
+});
+
 const Room = require('./Room');
 
 const apiRouter = require('../routes/api');
