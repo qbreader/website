@@ -10,10 +10,13 @@ const fs = require('fs');
 const ipFilter = require('express-ipfilter').IpFilter;
 const IpDeniedError = require('express-ipfilter').IpDeniedError;
 const ips = fs.readFileSync('./BLOCKED_IPS', 'utf-8').trim().split('\n');
+console.log(`Blocked IPs: ${ips}`);
 app.use(ipFilter(ips, { mode: 'deny', log: false }));
 
 app.use((err, req, res, _next) => {
     if (err instanceof IpDeniedError) {
+        console.log(`Blocked IP: ${req.ip}`);
+        res.status(403);
         res.end();
     } else {
         res.status(err.status || 500);
