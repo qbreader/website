@@ -13,6 +13,20 @@ let packetNumber = -1;
 let questions = [{}];
 let questionNumber = 0;
 
+function queryLock() {
+    document.getElementById('question').innerHTML = 'Fetching questions...';
+    document.getElementById('start').disabled = true;
+    document.getElementById('next').disabled = true;
+    document.getElementById('reveal').disabled = true;
+}
+
+
+function queryUnlock() {
+    document.getElementById('start').disabled = false;
+    document.getElementById('next').disabled = false;
+    document.getElementById('reveal').disabled = false;
+}
+
 
 async function advanceQuestion() {
     if (document.getElementById('toggle-select-by-set-name').checked) {
@@ -30,8 +44,11 @@ async function advanceQuestion() {
                 }
 
                 packetNumber = packetNumbers[0];
-                document.getElementById('question').innerHTML = 'Fetching questions...';
+
+                queryLock();
                 questions = await getBonuses(setName, packetNumber);
+                queryUnlock();
+
                 questionNumber = 0;
             }
 
@@ -281,8 +298,11 @@ document.getElementById('start').addEventListener('click', async function () {
     this.blur();
     onAnswer = true;
     start(document.getElementById('toggle-select-by-set-name').checked);
-    document.getElementById('question').innerHTML = 'Fetching questions...';
+
+    queryLock();
     questions = await getBonuses(setName, packetNumber);
+    queryUnlock();
+
     next();
 });
 
