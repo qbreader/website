@@ -364,7 +364,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
-    getRandomQuestion('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomQuestions('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
 });
 
 
@@ -376,7 +376,7 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 
 document.getElementById('difficulties').addEventListener('change', async function () {
     randomQuestions = [];
-    getRandomQuestion('tossup', rangeToArray(this.value), validCategories, validSubcategories);
+    loadRandomQuestions('tossup', rangeToArray(this.value), validCategories, validSubcategories);
 });
 
 
