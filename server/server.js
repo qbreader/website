@@ -7,7 +7,7 @@ const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
 
 
-const clientIp = (req, res) => {
+const clientIp = (req, _res) => {
     return req.headers['x-forwarded-for'] ? (req.headers['x-forwarded-for']).split(',')[0] : req.ip;
 };
 
@@ -15,7 +15,7 @@ const ipFilter = require('express-ipfilter').IpFilter;
 const IpDeniedError = require('express-ipfilter').IpDeniedError;
 const ips = require('../BLOCKED_IPS');
 console.log(`Blocked IPs: ${ips}`);
-app.use(ipFilter(ips, { mode: 'deny', log: true, detectIp: clientIp }));
+app.use(ipFilter(ips, { mode: 'deny', log: false, detectIp: clientIp }));
 
 app.use((err, req, res, _next) => {
     if (err instanceof IpDeniedError) {
