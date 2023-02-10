@@ -8,15 +8,15 @@ const wss = new WebSocket.Server({ server });
 
 app.set('trust proxy', true);
 
-const fs = require('fs');
 const ipFilter = require('express-ipfilter').IpFilter;
 const IpDeniedError = require('express-ipfilter').IpDeniedError;
 const ips = require('../BLOCKED_IPS');
 console.log(`Blocked IPs: ${ips}`);
-app.use(ipFilter(ips, { mode: 'deny', log: true }));
+app.use(ipFilter(ips, { mode: 'deny', log: false }));
 
 app.use((err, req, res, _next) => {
     if (err instanceof IpDeniedError) {
+        console.log(`Blocked IP: ${req.ip}`);
         res.status(403);
         res.end();
     } else {
@@ -117,6 +117,7 @@ app.use((req, res) => {
 });
 
 
-server.listen(port, () => {
+// listen on ipv4 instead of ipv6
+server.listen({ port, host: '0.0.0.0' }, () => {
     console.log(`listening at port=${port}`);
 });
