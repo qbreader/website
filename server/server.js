@@ -6,13 +6,16 @@ const uuid = require('uuid');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
 
-app.set('trust proxy', true);
+
+const clientIp = (req, res) => {
+    return req.headers['x-forwarded-for'] ? (req.headers['x-forwarded-for']).split(',')[0] : req.ip;
+};
 
 const ipFilter = require('express-ipfilter').IpFilter;
 const IpDeniedError = require('express-ipfilter').IpDeniedError;
 const ips = require('../BLOCKED_IPS');
 console.log(`Blocked IPs: ${ips}`);
-app.use(ipFilter(ips, { mode: 'deny', log: true }));
+app.use(ipFilter(ips, { mode: 'deny', log: true, detectIp: clientIp }));
 
 app.use((err, req, res, _next) => {
     if (err instanceof IpDeniedError) {
