@@ -4,7 +4,21 @@ const router = express.Router();
 const database = require('../server/database');
 const { checkAnswer } = require('../server/scorer');
 
+const rateLimit = require('express-rate-limit');
+
+const apiLimiter = rateLimit({
+    windowMs: 4 * 1000, // 4 seconds
+    max: 20, // Limit each IP to 20 requests per `window`
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+// Apply the rate limiting middleware to API calls only
+router.use(apiLimiter);
+
+
 // DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
+
 
 router.get('/check-answer', (req, res) => {
     const answerline = decodeURIComponent(req.query.answerline);
