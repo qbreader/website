@@ -7,7 +7,7 @@ const { checkAnswer } = require('../server/scorer');
 const rateLimit = require('express-rate-limit');
 
 const apiLimiter = rateLimit({
-    windowMs: 4 * 1000, // 4 seconds
+    windowMs: 1000, // 4 seconds
     max: 20, // Limit each IP to 20 requests per `window`
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
