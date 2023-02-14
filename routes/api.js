@@ -72,13 +72,10 @@ router.get('/packet-tossups', async (req, res) => {
 
 
 router.get('/query', async (req, res) => {
-    req.query.queryString = decodeURIComponent(req.query.queryString);
-    req.query.questionType = decodeURIComponent(req.query.questionType);
-    req.query.searchType = decodeURIComponent(req.query.searchType);
-    req.query.difficulties = decodeURIComponent(req.query.difficulties);
-    req.query.categories = decodeURIComponent(req.query.categories);
-    req.query.subcategories = decodeURIComponent(req.query.subcategories);
-    req.query.maxReturnLength = decodeURIComponent(req.query.maxReturnLength);
+    for (const key of ['queryString', 'questionType', 'searchType', 'difficulties', 'categories', 'subcategories', 'maxReturnLength']) {
+        req.query[key] = req.query[key] ? decodeURIComponent(req.query[key]) : req.query[key];
+    }
+
     req.query.randomize = (req.query.randomize === 'true');
     req.query.regex = (req.query.regex === 'true');
 
@@ -92,31 +89,21 @@ router.get('/query', async (req, res) => {
         return;
     }
 
-    if (req.query.difficulties === '') {
-        req.query.difficulties = null;
-    } else {
+    if (req.query.difficulties) {
         req.query.difficulties = req.query.difficulties
             .split(',')
             .map((difficulty) => parseInt(difficulty));
     }
 
-    if (req.query.categories === '') {
-        req.query.categories = null;
-    } else {
+    if (req.query.categories) {
         req.query.categories = req.query.categories.split(',');
     }
 
-    if (req.query.subcategories === '') {
-        req.query.subcategories = null;
-    } else {
+    if (req.query.subcategories) {
         req.query.subcategories = req.query.subcategories.split(',');
     }
 
-    if (req.query.maxReturnLength === undefined) {
-        req.query.maxReturnLength = req.query.maxQueryReturnLength;
-    }
-
-    if (isNaN(req.query.maxReturnLength) || req.query.maxReturnLength === '') {
+    if (!req.query.maxReturnLength || isNaN(req.query.maxReturnLength)) {
         req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
     }
 
