@@ -1,4 +1,4 @@
-const { getQuery, getPacket, getSet, getRandomQuestions, getNumPackets } = require('../server/database');
+const { getQuery, getPacket, getSet, getRandomQuestions, getNumPackets, reportQuestion } = require('../server/database');
 
 async function testTiming(count) {
     const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
@@ -11,13 +11,13 @@ async function testTiming(count) {
 
     console.time('getPacket');
     for (let i = 0; i < count; i++) {
-        await getPacket({ setName: '2022 PACE NSC', packetNumber: 5 });
+        await getPacket({ setName: '2018 PACE NSC', packetNumber: 5 });
     }
     console.timeEnd('getPacket');
 
     console.time('getSet');
     for (let i = 0; i < count; i++) {
-        await getSet({ setName: '2022 PACE NSC', packetNumbers, questionType: 'bonus' });
+        await getSet({ setName: '2018 PACE NSC', packetNumbers, questionType: 'bonus' });
     }
     console.timeEnd('getSet');
 
@@ -26,45 +26,78 @@ async function testTiming(count) {
         await getRandomQuestions({ questionType: 'bonus', verbose: false });
     }
     console.timeEnd('getRandomQuestions');
+
+    console.time('reportQuestion');
+    for (let i = 0; i < count; i++) {
+        await reportQuestion('630020e3cab8fa6d1490b8ea', 'other', 'test');
+    }
+    console.timeEnd('reportQuestion');
 }
 
 
 async function testCorrectness() {
     {
-        const { tossups, bonuses } = await getQuery({ queryString: 'taoism', questionType: 'all', setName: '2022 NASAT', verbose: false, maxReturnLength: 400 });
+        const { tossups, bonuses } = await getQuery({ queryString: 'newton', questionType: 'all', setName: '2018 PACE NSC', verbose: false, maxReturnLength: 400 });
         console.assert(tossups && bonuses);
-        console.assert(tossups.count === 1, `${tossups.count} != 1`);
-        console.assert(bonuses.count === 0, `${bonuses.count} != 0`);
-        console.assert(tossups.questionArray[0].question === 'Legendarily, red and white variants of this stuff resulted from Guanyin\'s blood and breastmilk. This stuff is depicted beneath a set of "air radicals" in the character for the form of energy called qi (chee). In an origin story for the Dragon Boat Festival, locals dropped this stuff into the river where Qu Yuan (choo yoo-EN) died while attempting to save his body. This stuff, which official records label Zhang Daoling a "thief" of, provides the popular name for a movement that sought to create a state consisting only of "chosen people" under a "Celestial Master." A Han dynasty movement of religious Taoism is often named for the fact that newcomers had to donate "five pecks" of this stuff. At East Asian funerals, this stuff is traditionally offered in a bowl with vertical chopsticks. For 10 points, sake is a wine made from what staple crop grown in paddies?');
+        console.assert(tossups.count === 5, `${tossups.count} != 5`);
+        console.assert(bonuses.count === 2, `${bonuses.count} != 2`);
+        console.assert(
+            tossups.questionArray[0].question === 'A theorem introduced by this man gives a formula to find the radii of four mutually tangent circles. The second book of a work by this mathematician consists of a classification of algebraic curves, including his namesake "folium." This man is the inventor, and sometimes the namesake, of the field of analytic geometry. This man\'s three (*) "laws of nature" were a major influence on Isaac Newton\'s laws of motion. An upper limit on the number of positive roots of a polynomial can be found using this mathematician\'s "rule of signs." In two dimensions, ordered pairs are used to represent the x- and y-coordinates of numbers in his namesake coordinate system. For 10 points, name this French mathematician, who, in a famous work of philosophy, stated "Cogito ergo sum."',
+            tossups.questionArray[0].question
+        );
+        console.assert(
+            tossups.questionArray[0].answer === 'René Descartes (day-CART)',
+            tossups.questionArray[0].answer
+        );
     }
 
     {
-        const { tossups, bonuses } = await getPacket({ setName: '2022 PACE NSC', packetNumber: 5 });
+        const { tossups, bonuses } = await getPacket({ setName: '2018 PACE NSC', packetNumber: 5 });
         console.assert(tossups && bonuses);
         console.assert(tossups.length === 21, `${tossups.length} != 21`);
         console.assert(bonuses.length === 21, `${bonuses.length} != 21`);
-        console.assert(tossups[0].question === 'This character leads a prince away from his hunting expedition to tell him that his father had been pushed down a well three years prior. This character sets all the horses free after learning the low status of his position as "Keeper of the Heavenly Horses." This character writes "The Great Sage Equal to Heaven reached this place" on a pillar, then urinates on it, only to discover that it is a giant (*) finger. This character is born from a stone egg and is taught the "72 transformations" in a novel which is titled for them in Arthur Waley\'s translation. This character earns Buddhahood after retrieving scriptures alongside Sandy, Pigsy, and the monk Xuánzàng ("shwen-zong"). For 10 points, the novel Journey to the West features what legendary primate?');
-        console.assert(bonuses[0].leadin === 'This term was coined by law professor William Baude in 2015. For 10 points each:');
+        console.assert(
+            tossups[0].question === 'In his final appearance, this character experiences a severe toothache after asserting "as a weapon I may be of some use. But as a man, I\'m a wreck," then leaves to join King Milan\'s forces. This man buys a painting of two boys fishing, and commissions a portrait, from his fellow expatriate Mihailov. He is shocked to learn that his lover is pregnant between one scene in which he glimpses his rival Makhotin\'s chestnut (*) Gladiator, and another scene in which he rides his own horse Frou-Frou to death. This character first encounters his future lover at a railway station, where a worker is crushed by a train, and is initially interested in Kitty Shcherbatsky. For 10 points, name this Leo Tolstoy character, a nobleman who has an affair with Anna Karenina.',
+            tossups[0].question
+        );
+        console.assert(
+            tossups[0].answer === 'Count Alexei (Kirillovich) <b><u>Vronsky</u></b> [prompt on <u>Alexei</u>]',
+            tossups[0].answer
+        );
+        console.assert(
+            bonuses[0].leadin === 'The 170 men who rowed each of these ships often came from Piraeus and were thetes, the lowest class of citizen. For 10 points each:',
+            bonuses[0].leadin
+        );
     }
 
     {
-        const tossups = await getSet({ setName: '2022 PACE NSC', packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], questionType: 'tossup' });
-        const bonuses = await getSet({ setName: '2022 PACE NSC', packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], questionType: 'bonus' });
+        const tossups = await getSet({ setName: '2016 NASAT', packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], questionType: 'tossup' });
+        const bonuses = await getSet({ setName: '2016 NASAT', packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], questionType: 'bonus' });
 
-        console.assert(tossups.length === 462);
-        console.assert(bonuses.length === 468);
-        console.assert(tossups[201].question === 'The death of this composer’s close friend Marianne von Genzinger inspired his final piece for solo piano, his Variations in F Minor. Another piece by this composer includes the chorus “The heavens are telling the glory of God,” and opens with a section that switches from C minor to C major on the word “light.” Like Johann Nepomuk Hummel, this composer responded to the invention of the keyed trumpet by writing a trumpet (*) concerto in E-flat major. One of this composer’s Erdödy string quartets provided the melody of Germany’s national anthem. This composer wrote 104 symphonies, which earned him the nickname “The Father of the Symphony.” For 10 points, name this Austrian composer of the Farewell and Surprise symphonies.');
-        console.assert(bonuses[201].leadin === 'This country’s folk song “Korobeiniki” became retroactively popular after being used in the theme of the video game Tetris. For 10 points each:');
+        console.assert(tossups.length === 336, `${tossups.length} != 336`);
+        console.assert(bonuses.length === 336, `${bonuses.length} != 336`);
+        console.assert(
+            tossups[0].question === 'Besides his treatise on the Divine Names, the most notable work by Pseudo-Dionysius the Areopagite discusses these things. The phrase "Grigori" refers to some of these things that are heavily described in the apocryphal Books of Enoch. First Corinthians 11 argues that, specifically because of these things, women should wear head coverings when praying or prophesying. Tertullian suggested these things are what created the gigantic Nephilim. In the Talmud, Elisha ben Abuyah declares that there are "two powers in heaven" when he sees one of these things named Metatron. The book of Daniel mentions one of these beings by name, saying he will help fight the princes of Persia and protect Israel. For 10 points, name these celestial figures that include Gabriel and Michael.',
+            tossups[0].question
+        );
+        console.assert(
+            tossups[0].answer === '<b><u>angel</u></b>s [or <b><u>archangel</u></b>s; or fallen <b><u>angel</u></b>s; or <b><u>Watcher</u></b>s; or <b><u>mal\'akh</u></b>im; or <b><u>Grigori</u></b> until it is read]',
+            tossups[0].answer
+        );
+        console.assert(
+            bonuses[0].leadin === 'In a painting by this artist, a heavily-garlanded Pan sprawls in front of an eagle, flanked by a female personification of Death, who holds a bloody sword, and one of Pain, who wears a crown of thorns. For 10 points each:',
+            bonuses[0].leadin
+        );
     }
 
     {
-        const number = await getNumPackets('2022 PACE NSC');
-        console.assert(number === 23, `${number} != 23`);
+        const number = await getNumPackets('2018 PACE NSC');
+        console.assert(number === 25, `${number} != 25`);
     }
 
     {
-        const number = await getNumPackets('2022 NASAT');
-        console.assert(number === 20, `${number} != 20`);
+        const number = await getNumPackets('2016 NASAT');
+        console.assert(number === 16, `${number} != 16`);
     }
 }
 
