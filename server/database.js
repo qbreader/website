@@ -179,7 +179,9 @@ async function getQuery({ queryString, difficulties, setName, searchType = 'all'
 
     maxReturnLength = parseInt(maxReturnLength);
     maxReturnLength = Math.min(maxReturnLength, MAX_QUERY_RETURN_LENGTH);
-    if (maxReturnLength <= 0) maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+
+    if (maxReturnLength <= 0)
+        maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
 
     if (!regex) {
         queryString = queryString.trim();
@@ -187,83 +189,115 @@ async function getQuery({ queryString, difficulties, setName, searchType = 'all'
     }
 
     const returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
-    if (questionType === 'tossup' || questionType === 'all') {
-        const tossups = await queryHelper({ queryString, difficulties, setName, questionType: 'tossup', searchType, categories, subcategories, maxReturnLength, randomize });
-        returnValue.tossups = tossups;
-    }
 
-    if (questionType === 'bonus' || questionType === 'all') {
-        const bonuses = await queryHelper({ queryString, difficulties, setName, questionType: 'bonus', searchType, categories, subcategories, maxReturnLength, randomize });
-        returnValue.bonuses = bonuses;
-    }
+    let tossupQuery = null;
+    if (questionType === 'tossup' || questionType === 'all')
+        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize });
+
+    let bonusQuery = null;
+    if (questionType === 'bonus' || questionType === 'all')
+        bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize });
 
     console.log(`[DATABASE] QUERY: string: ${bcolors.OKCYAN}${queryString}${bcolors.ENDC}; difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; max length: ${bcolors.OKGREEN}${maxReturnLength}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; randomize: ${bcolors.OKGREEN}${randomize}${bcolors.ENDC}; regex: ${bcolors.OKGREEN}${regex}${bcolors.ENDC}; search type: ${bcolors.OKGREEN}${searchType}${bcolors.ENDC}; set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC};`);
+
+    const values = await Promise.all([tossupQuery, bonusQuery]);
+
+    if (values[0])
+        returnValue.tossups = values[0];
+
+    if (values[1])
+        returnValue.bonuses = values[1];
 
     return returnValue;
 }
 
-async function queryHelper({ queryString, difficulties, questionType, setName, searchType, categories, subcategories, maxReturnLength, randomize }) {
-    const orQuery = [];
-    if (['question', 'all'].includes(searchType)) {
-        if (questionType === 'tossup') {
-            orQuery.push({ question: { $regex: queryString, $options: 'i' } });
-        } else if (questionType === 'bonus') {
-            orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
-            orQuery.push({ leadin: { $regex: queryString, $options: 'i' } });
-        }
-    }
 
-    if (['answer', 'all'].includes(searchType)) {
-        if (questionType === 'tossup') {
-            orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
-        } else if (questionType === 'bonus') {
-            orQuery.push({ answers: { $regex: queryString, $options: 'i' } });
-        }
-    }
+async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize }) {
+    const orQuery = [];
+    if (['question', 'all'].includes(searchType))
+        orQuery.push({ question: { $regex: queryString, $options: 'i' } });
+
+    if (['answer', 'all'].includes(searchType))
+        orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
 
     const query = {
         $or: orQuery,
-        type: questionType,
+        type: 'tossup',
         difficulty: { $in: difficulties },
         category: { $in: categories },
         subcategory: { $in: subcategories },
     };
 
-    if (setName) {
+    if (setName)
         query.setName = setName;
-    }
 
     const aggregation = [
         { $match: query, },
-        {
-            $sort: {
-                setName: -1,
-                packetNumber: 1,
-                questionNumber: 1
-            }
-        },
+        { $sort: {
+            setName: -1,
+            packetNumber: 1,
+            questionNumber: 1
+        } },
         { $limit: maxReturnLength },
     ];
 
-    if (randomize) {
+    if (randomize)
         aggregation[1] = { $sample: { size: maxReturnLength } };
-    }
 
     try {
-        const questionArray = await questions.aggregate(aggregation).toArray();
-        let count = await questions.aggregate([
-            { $match: query, },
-            { $count: 'count' }
-        ]).toArray();
-
-        if (count[0]) {
-            count = count[0].count;
-        } else {
-            count = 0;
-        }
-
+        const [questionArray, count] = await Promise.all([
+            questions.aggregate(aggregation).toArray(),
+            questions.countDocuments(query),
+        ]);
         return { count, questionArray };
+    } catch (MongoServerError) {
+        console.log(MongoServerError);
+        return { count: 0, questionArray: [] };
+    }
+}
 
+
+async function queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize }) {
+    const orQuery = [];
+    if (['question', 'all'].includes(searchType)) {
+        orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
+        orQuery.push({ leadin: { $regex: queryString, $options: 'i' } });
+    }
+
+    if (['answer', 'all'].includes(searchType)) {
+        orQuery.push({ answers: { $regex: queryString, $options: 'i' } });
+    }
+
+    const query = {
+        $or: orQuery,
+        type: 'bonus',
+        difficulty: { $in: difficulties },
+        category: { $in: categories },
+        subcategory: { $in: subcategories },
+    };
+
+    if (setName)
+        query.setName = setName;
+
+    const aggregation = [
+        { $match: query, },
+        { $sort: {
+            setName: -1,
+            packetNumber: 1,
+            questionNumber: 1
+        } },
+        { $limit: maxReturnLength },
+    ];
+
+    if (randomize)
+        aggregation[1] = { $sample: { size: maxReturnLength } };
+
+    try {
+        const [questionArray, count] = await Promise.all([
+            questions.aggregate(aggregation).toArray(),
+            questions.countDocuments(query),
+        ]);
+        return { count, questionArray };
     } catch (MongoServerError) {
         console.log(MongoServerError);
         return { count: 0, questionArray: [] };
