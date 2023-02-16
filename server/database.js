@@ -45,7 +45,7 @@ function escapeRegExp(string) {
  * @param {'tossup' | 'bonus'} questionType - Type of question you want to get. Default: `'tossup'`.
  * @param {Boolean} replaceUnformattedAnswer - whether to replace the 'answer(s)' key on each question with the value corresponding to 'formatted_answer(s)' (if it exists). Default: `true`
  * @param {Boolean} reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
- * @returns {Promise<JSON>}
+ * @returns {Promise<Array<JSON>>}
  */
 async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', replaceUnformattedAnswer = true, reverse = false }) {
     if (!setName) return [];
