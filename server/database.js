@@ -169,7 +169,7 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
  * @param {Array<String>} subcategories
  * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
  */
-async function getQuery({ queryString, difficulties, setName, searchType = 'all', questionType = 'all', categories, subcategories, maxReturnLength, randomize = false, regex = false } = {}) {
+async function getQuery({ queryString, difficulties, setName, searchType = 'all', questionType = 'all', categories, subcategories, maxReturnLength, randomize = false, regex = false, verbose = true } = {}) {
     if (!queryString) queryString = '';
     if (!difficulties || difficulties.length === 0) difficulties = [0].concat(DIFFICULTIES);
     if (!categories || categories.length === 0) categories = CATEGORIES;
@@ -198,7 +198,6 @@ async function getQuery({ queryString, difficulties, setName, searchType = 'all'
     if (questionType === 'bonus' || questionType === 'all')
         bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize });
 
-    console.log(`[DATABASE] QUERY: string: ${bcolors.OKCYAN}${queryString}${bcolors.ENDC}; difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; max length: ${bcolors.OKGREEN}${maxReturnLength}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; randomize: ${bcolors.OKGREEN}${randomize}${bcolors.ENDC}; regex: ${bcolors.OKGREEN}${regex}${bcolors.ENDC}; search type: ${bcolors.OKGREEN}${searchType}${bcolors.ENDC}; set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC};`);
 
     const values = await Promise.all([tossupQuery, bonusQuery]);
 
@@ -207,6 +206,9 @@ async function getQuery({ queryString, difficulties, setName, searchType = 'all'
 
     if (values[1])
         returnValue.bonuses = values[1];
+
+    if (verbose)
+        console.log(`[DATABASE] QUERY: string: ${bcolors.OKCYAN}${queryString}${bcolors.ENDC}; difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; max length: ${bcolors.OKGREEN}${maxReturnLength}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; randomize: ${bcolors.OKGREEN}${randomize}${bcolors.ENDC}; regex: ${bcolors.OKGREEN}${regex}${bcolors.ENDC}; search type: ${bcolors.OKGREEN}${searchType}${bcolors.ENDC}; set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC};`);
 
     return returnValue;
 }
@@ -322,7 +324,7 @@ function getRandomName() {
  * @param {Array<Number>} yearRange - an array of allowed years. Pass a 0-length array to select any year.
  * @returns {Promise<Array<JSON>>}
  */
-async function getRandomQuestions({ questionType = 'tossup', difficulties, categories, subcategories, number, yearRange = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023] }) {
+async function getRandomQuestions({ questionType = 'tossup', difficulties, categories, subcategories, number, verbose = true, yearRange = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023] }) {
     if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
     if (!categories || categories.length === 0) categories = CATEGORIES;
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
@@ -347,7 +349,9 @@ async function getRandomQuestions({ questionType = 'tossup', difficulties, categ
         return [{}];
     }
 
-    console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; number: ${bcolors.OKGREEN}${number}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; categories: ${bcolors.OKGREEN}${categories}${bcolors.ENDC}; subcategories: ${bcolors.OKGREEN}${subcategories}${bcolors.ENDC};`);
+    if (verbose)
+        console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; number: ${bcolors.OKGREEN}${number}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; categories: ${bcolors.OKGREEN}${categories}${bcolors.ENDC}; subcategories: ${bcolors.OKGREEN}${subcategories}${bcolors.ENDC};`);
+
     return questionArray;
 }
 
