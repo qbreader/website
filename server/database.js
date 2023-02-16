@@ -13,8 +13,11 @@ client.connect().then(async () => {
 
 const bcolors = require('../bcolors');
 const database = client.db('qbreader');
-const questions = database.collection('questions');
 const sets = database.collection('sets');
+
+const tossups = database.collection('tossups');
+const bonuses = database.collection('bonuses');
+
 
 const SET_LIST = []; // initialized on server load
 sets.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(set => {
@@ -33,51 +36,6 @@ const MAX_QUERY_RETURN_LENGTH = 400;
  */
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-
-
-/**
- * Gets all questions in a set that satisfy the given parameters.
- * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
- * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
- * @param {Array<String>} categories
- * @param {Array<String>} subcategories
- * @param {'tossup' | 'bonus'} questionType - Type of question you want to get. Default: `'tossup'`.
- * @param {Boolean} replaceUnformattedAnswer - whether to replace the 'answer(s)' key on each question with the value corresponding to 'formatted_answer(s)' (if it exists). Default: `true`
- * @param {Boolean} reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
- * @returns {Promise<Array<JSON>>}
- */
-async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', replaceUnformattedAnswer = true, reverse = false }) {
-    if (!setName) return [];
-
-    if (!SET_LIST.includes(setName)) {
-        console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
-        return [];
-    }
-
-    if (!categories || categories.length === 0) categories = CATEGORIES;
-    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
-    if (!questionType) questionType = 'tossup';
-
-    const questionArray = await questions.find({
-        setName: setName,
-        category: { $in: categories },
-        subcategory: { $in: subcategories },
-        packetNumber: { $in: packetNumbers },
-        type: questionType
-    }, {
-        sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 }
-    }).toArray();
-
-    if (replaceUnformattedAnswer && questionType === 'tossup') {
-        for (let i = 0; i < questionArray.length; i++) {
-            if (questionArray[i].formatted_answer) {
-                questionArray[i].answer = questionArray[i].formatted_answer;
-            }
-        }
-    }
-
-    return questionArray || [];
 }
 
 
@@ -120,54 +78,52 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
         return { 'tossups': [], 'bonuses': [] };
     }
 
-    return await sets.findOne({ name: setName }).then(async set => {
-        if (packetNumber > set.packets.length) {
-            return { 'tossups': [], 'bonuses': [] };
-        }
+    const set = await sets.findOne({ name: setName });
 
-        const packet = set.packets[packetNumber - 1];
-        const result = {};
-
-        if (questionTypes.includes('tossups')) {
-            result['tossups'] = await questions.find({ packet: packet._id, type: 'tossup' }, { sort: { questionNumber: 1 } }).toArray();
-            if (replaceUnformattedAnswer) {
-                for (const question of result['tossups']) {
-                    if (Object.prototype.hasOwnProperty.call(question, 'formatted_answer')) {
-                        question.answer = question.formatted_answer;
-                    }
-                }
-            }
-        }
-
-        if (questionTypes.includes('bonuses')) {
-            result['bonuses'] = await questions.find({ packet: packet._id, type: 'bonus' }, { sort: { questionNumber: 1 } }).toArray();
-            if (replaceUnformattedAnswer) {
-                for (const question of result['bonuses']) {
-                    if (Object.prototype.hasOwnProperty.call(question, 'formatted_answers')) {
-                        question.answers = question.formatted_answers;
-                    }
-                }
-            }
-        }
-
-        return result;
-    }).catch(error => {
-        console.log('[DATABASE] ERROR:', error);
+    if (packetNumber > set.packets.length)
         return { 'tossups': [], 'bonuses': [] };
-    });
+
+    const packetId = set.packets[packetNumber - 1]._id;
+
+    const tossupResult = questionTypes.includes('tossups') ? tossups.find({ packet: packetId }, { sort: { questionNumber: 1 } }).toArray() : null;
+    const bonusResult  = questionTypes.includes('bonuses') ? bonuses.find({ packet: packetId }, { sort: { questionNumber: 1 } }).toArray() : null;
+
+    const values = await Promise.all([tossupResult, bonusResult]);
+
+    const result = {};
+
+    if (questionTypes.includes('tossups'))
+        result.tossups = values[0];
+
+    if (questionTypes.includes('bonuses'))
+        result.bonuses = values[1];
+
+    if (replaceUnformattedAnswer) {
+        for (const question of result.tossups || []) {
+            if (Object.prototype.hasOwnProperty.call(question, 'formatted_answer'))
+                question.answer = question.formatted_answer;
+        }
+
+        for (const question of result.bonuses || []) {
+            if (Object.prototype.hasOwnProperty.call(question, 'formatted_answers'))
+                question.answers = question.formatted_answers;
+        }
+    }
+
+    return result;
 }
 
 
 /**
  *
  * @param {String} queryString - the query to search for
- * @param {Array<Number>} difficulties
+ * @param {Array<Number>} difficulties - an array of difficulties
  * @param {String} setName
  * @param {'question' | 'answer' | 'all'} searchType
  * @param {'tossup' | 'bonus' | 'all'} questionType
  * @param {Array<String>} categories
  * @param {Array<String>} subcategories
- * @returns {Promise<{'tossups': {'count': Number, 'questionArray': Array<JSON>}, 'bonuses': {'count': Number, 'questionArray': Array<JSON>}}>}
+ * @returns {Promise<{tossups: {count: Number, questionArray: Array<JSON>}, bonuses: {count: Number, questionArray: Array<JSON>}}>}
  */
 async function getQuery({ queryString, difficulties, setName, searchType = 'all', questionType = 'all', categories, subcategories, maxReturnLength, randomize = false, regex = false, verbose = true } = {}) {
     if (!queryString) queryString = '';
@@ -224,7 +180,6 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
 
     const query = {
         $or: orQuery,
-        type: 'tossup',
         difficulty: { $in: difficulties },
         category: { $in: categories },
         subcategory: { $in: subcategories },
@@ -248,8 +203,8 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
 
     try {
         const [questionArray, count] = await Promise.all([
-            questions.aggregate(aggregation).toArray(),
-            questions.countDocuments(query),
+            tossups.aggregate(aggregation).toArray(),
+            tossups.countDocuments(query),
         ]);
         return { count, questionArray };
     } catch (MongoServerError) {
@@ -272,7 +227,6 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
 
     const query = {
         $or: orQuery,
-        type: 'bonus',
         difficulty: { $in: difficulties },
         category: { $in: categories },
         subcategory: { $in: subcategories },
@@ -296,8 +250,8 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
 
     try {
         const [questionArray, count] = await Promise.all([
-            questions.aggregate(aggregation).toArray(),
-            questions.countDocuments(query),
+            bonuses.aggregate(aggregation).toArray(),
+            bonuses.countDocuments(query),
         ]);
         return { count, questionArray };
     } catch (MongoServerError) {
@@ -330,29 +284,109 @@ async function getRandomQuestions({ questionType = 'tossup', difficulties, categ
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
     if (!number) number = 20;
 
+    if (verbose)
+        console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; number: ${bcolors.OKGREEN}${number}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; categories: ${bcolors.OKGREEN}${categories}${bcolors.ENDC}; subcategories: ${bcolors.OKGREEN}${subcategories}${bcolors.ENDC};`);
+
     /**
      * Tests show that using the `$in yearRange` match stage is about as fast as using `$gte`.
      */
 
-    const questionArray = await questions.aggregate([
-        { $match: {
-            type: questionType,
-            difficulty: { $in: difficulties },
-            category: { $in: categories },
-            subcategory: { $in: subcategories },
-            setYear: { $in: yearRange },
-        } },
-        { $sample: { size: number } },
-    ]).toArray();
+    if (questionType === 'tossup') {
+        const questionArray = await tossups.aggregate([
+            { $match: {
+                difficulty: { $in: difficulties },
+                category: { $in: categories },
+                subcategory: { $in: subcategories },
+                setYear: { $in: yearRange },
+            } },
+            { $sample: { size: number } },
+        ]).toArray();
 
-    if (questionArray.length === 0) {
-        return [{}];
+        if (questionArray.length === 0)
+            return [{}];
+
+        return questionArray;
+    } else if (questionType === 'bonus') {
+        const questionArray = await bonuses.aggregate([
+            { $match: {
+                difficulty: { $in: difficulties },
+                category: { $in: categories },
+                subcategory: { $in: subcategories },
+                setYear: { $in: yearRange },
+            } },
+            { $sample: { size: number } },
+        ]).toArray();
+
+        if (questionArray.length === 0)
+            return [{}];
+
+        return questionArray;
+    }
+}
+
+
+/**
+ * Gets all questions in a set that satisfy the given parameters.
+ * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
+ * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
+ * @param {Array<String>} categories
+ * @param {Array<String>} subcategories
+ * @param {'tossup' | 'bonus'} questionType - Type of question you want to get. Default: `'tossup'`.
+ * @param {Boolean} replaceUnformattedAnswer - whether to replace the 'answer(s)' key on each question with the value corresponding to 'formatted_answer(s)' (if it exists). Default: `true`
+ * @param {Boolean} reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
+ * @returns {Promise<Array<JSON>>}
+ */
+async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', replaceUnformattedAnswer = true, reverse = false }) {
+    if (!setName) return [];
+
+    if (!SET_LIST.includes(setName)) {
+        console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
+        return [];
     }
 
-    if (verbose)
-        console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; number: ${bcolors.OKGREEN}${number}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; categories: ${bcolors.OKGREEN}${categories}${bcolors.ENDC}; subcategories: ${bcolors.OKGREEN}${subcategories}${bcolors.ENDC};`);
+    if (!categories || categories.length === 0) categories = CATEGORIES;
+    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+    if (!questionType) questionType = 'tossup';
 
-    return questionArray;
+    if (questionType === 'tossup') {
+        const questionArray = await tossups.find({
+            setName: setName,
+            category: { $in: categories },
+            subcategory: { $in: subcategories },
+            packetNumber: { $in: packetNumbers },
+        }, {
+            sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 }
+        }).toArray();
+
+        if (replaceUnformattedAnswer) {
+            for (let i = 0; i < questionArray.length; i++) {
+                if (questionArray[i].formatted_answer) {
+                    questionArray[i].answer = questionArray[i].formatted_answer;
+                }
+            }
+        }
+
+        return questionArray || [];
+    } else if (questionType === 'bonus') {
+        const questionArray = await bonuses.find({
+            setName: setName,
+            category: { $in: categories },
+            subcategory: { $in: subcategories },
+            packetNumber: { $in: packetNumbers },
+        }, {
+            sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 }
+        }).toArray();
+
+        if (replaceUnformattedAnswer) {
+            for (let i = 0; i < questionArray.length; i++) {
+                if (questionArray[i].formatted_answers) {
+                    questionArray[i].answers = questionArray[i].formatted_answers;
+                }
+            }
+        }
+
+        return questionArray || [];
+    }
 }
 
 
@@ -369,22 +403,36 @@ function getSetList() {
  * @param {String} _id
  * @returns {Promise<Boolean>} true if successful, false otherwise.
  */
-async function reportQuestion(_id, reason, description) {
-    return await questions.updateOne({ _id: new ObjectId(_id) }, {
-        $push: {
-            reports: {
-                reason: reason,
-                description: description
-            }
-        }
-    }).then(() => {
-        console.log('Reported question with id ' + _id);
-        return true;
-    }).catch(error => {
-        console.log('[DATABASE] ERROR:', error);
-        return false;
+async function reportQuestion(_id, reason, description, verbose = true) {
+    tossups.updateOne({ _id: new ObjectId(_id) }, {
+        $push: { reports: {
+            reason: reason,
+            description: description
+        } }
     });
+
+    bonuses.updateOne({ _id: new ObjectId(_id) }, {
+        $push: { reports: {
+            reason: reason,
+            description: description
+        } }
+    });
+
+    if (verbose)
+        console.log('Reported question with id ' + _id);
+
+    return true;
 }
 
 
-module.exports = { DEFAULT_QUERY_RETURN_LENGTH, getSet, getNumPackets, getPacket, getQuery, getRandomQuestions, getSetList, getRandomName, reportQuestion };
+module.exports = {
+    DEFAULT_QUERY_RETURN_LENGTH,
+    getNumPackets,
+    getPacket,
+    getQuery,
+    getRandomName,
+    getRandomQuestions,
+    getSet,
+    getSetList,
+    reportQuestion,
+};
