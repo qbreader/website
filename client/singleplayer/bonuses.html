@@ -16,13 +16,11 @@
             document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
         } else if (localStorage.getItem('color-theme') === 'light') {
             document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
-        } else {
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             // Get OS preferred color scheme
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
-            } else {
-                document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
-            }
+            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
         }
     </script>
 </head>
