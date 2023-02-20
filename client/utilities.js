@@ -1,8 +1,5 @@
 // Constants and functions useful for quizbowl.
 
-const SET_LIST = [];
-
-const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 const SUBCATEGORIES = {
     'Literature': ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
     'History': ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
@@ -17,7 +14,6 @@ const SUBCATEGORIES = {
     'Other Academic': ['Other Academic'],
     'Trash': ['Trash'],
 };
-const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Math', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 
 
 function arrayToRange(array) {

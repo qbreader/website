@@ -189,14 +189,16 @@ const stemmer = (() => {
  * @param {String} answerline
  * @returns {{ "accept": String[][3], "prompt": String[][3], "reject": String[][3] }}
  */
-function parseAnswerline(answerline) {
-    const removeAllParentheses = (string) => {
+const parseAnswerline = (() => {
+    const removeParentheses = (string) => {
         return string.replace(/[([][^\])]*[)\]]/g, '');
     };
+
 
     const removeHTMLTags = (string) => {
         return string.replace(/<[^>]*>/g, '');
     };
+
 
     const removeItalics = (string) => {
         return string.replace(/<\/?i>/g, '');
@@ -206,7 +208,7 @@ function parseAnswerline(answerline) {
         const bracketsSubAnswer = (string.match(/(?<=\[)[^\]]*(?=\])/g) ?? ['']).pop();
         const parenthesesSubAnswer = (string.match(/(?<=\()[^)]*(?=\))/g) ?? ['']).pop();
 
-        const mainAnswer = removeAllParentheses(string);
+        const mainAnswer = removeParentheses(string);
 
         if (bracketsSubAnswer.length !== 0)
             return { mainAnswer, subAnswer: bracketsSubAnswer };
@@ -284,52 +286,54 @@ function parseAnswerline(answerline) {
             .trim();
     };
 
-    answerline = removeItalics(answerline);
+    return (answerline) => {
+        answerline = removeItalics(answerline);
 
-    const { mainAnswer, subAnswer } = splitMainAnswer(answerline);
-    const subPhrases = splitIntoPhrases(subAnswer);
-    const parsedAnswerline = {
-        accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), extractQuotes(mainAnswer)]],
-        prompt: [],
-        reject: []
-    };
+        const { mainAnswer, subAnswer } = splitMainAnswer(answerline);
+        const subPhrases = splitIntoPhrases(subAnswer);
+        const parsedAnswerline = {
+            accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), extractQuotes(mainAnswer)]],
+            prompt: [],
+            reject: []
+        };
 
-    parsedAnswerline.accept.push([getAbbreviation(mainAnswer), getAbbreviation(extractUnderlining(mainAnswer)), '']);
+        parsedAnswerline.accept.push([getAbbreviation(mainAnswer), getAbbreviation(extractUnderlining(mainAnswer)), '']);
 
-    if (mainAnswer.includes(' or ')) {
-        const parts = mainAnswer.split(' or ');
-        for (const part of parts) {
-            parsedAnswerline.accept.push([extractUnderlining(part), extractKeyWords(part), extractQuotes(part)]);
-        }
-    }
-
-    subPhrases.forEach(phrase => {
-        if (phrase.length === 0)
-            return;
-
-        const { directive, answers } = splitIntoAnswers(phrase);
-        const index = phrase.indexOf('by asking');
-        const directedPrompt = (index >= 0) ? extractQuotes(phrase.slice(index + 9)) : null;
-
-        answers.forEach(answer => {
-            if (directive === 'accept') {
-                answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
-            } else if (directive === 'prompt') {
-                if (directedPrompt) {
-                    answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(phrase.slice(0, index)), directedPrompt];
-                } else {
-                    answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
-                }
-            } else if (directive === 'reject') {
-                answer = ['', '', extractQuotes(answer)];
+        if (mainAnswer.includes(' or ')) {
+            const parts = mainAnswer.split(' or ');
+            for (const part of parts) {
+                parsedAnswerline.accept.push([extractUnderlining(part), extractKeyWords(part), extractQuotes(part)]);
             }
+        }
 
-            parsedAnswerline[directive].push(answer);
+        subPhrases.forEach(phrase => {
+            if (phrase.length === 0)
+                return;
+
+            const { directive, answers } = splitIntoAnswers(phrase);
+            const index = phrase.indexOf('by asking');
+            const directedPrompt = (index >= 0) ? extractQuotes(phrase.slice(index + 9)) : null;
+
+            answers.forEach(answer => {
+                if (directive === 'accept') {
+                    answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
+                } else if (directive === 'prompt') {
+                    if (directedPrompt) {
+                        answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(phrase.slice(0, index)), directedPrompt];
+                    } else {
+                        answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
+                    }
+                } else if (directive === 'reject') {
+                    answer = ['', '', extractQuotes(answer)];
+                }
+
+                parsedAnswerline[directive].push(answer);
+            });
         });
-    });
 
-    return parsedAnswerline;
-}
+        return parsedAnswerline;
+    };
+})();
 
 
 /**
@@ -339,15 +343,7 @@ function parseAnswerline(answerline) {
  * @param {Number} strictness - the number of characters per error allowed for two tokens to match.
  * @returns {Boolean}
  */
-function stringMatchesReference({ string, reference, strictness = 5, acceptSubstring = false, useStemmer = true }) {
-    if (string === null || string === undefined || reference === null || reference === undefined) {
-        return false;
-    }
-
-    if (string.length === 0) {
-        return false;
-    }
-
+const stringMatchesReference = (() => {
     const removePunctuation = (string) => {
         return string.replace(/[.,!;:'"\\/?@#$%^&*_~’]/g, '');
     };
@@ -357,101 +353,106 @@ function stringMatchesReference({ string, reference, strictness = 5, acceptSubst
     };
 
     const replaceSpecialPhrases = (string) => {
-        if (string === 'dr' || string === 'dr.') return 'doctor';
+        if (string === 'dr' || string === 'dr.')
+            return 'doctor';
 
         return string;
     };
 
-    string = removePunctuation(string);
-    string = replaceSpecialCharacters(string);
-    string = string
-        .toLowerCase()
-        .replace(/<\/?[biu]>/g, '')
-        .replace(/<\/?em>/g, '')
-        .replace('-', ' ')
-        .trim();
 
-    reference = removePunctuation(reference);
-    reference = replaceSpecialCharacters(reference);
-    reference = reference
-        .toLowerCase()
-        .replace(/<\/?[biu]>/g, '')
-        .replace(/<\/?em>/g, '')
-        .replace('-', ' ')
-        .trim();
-
-    const stringTokens = string
-        .split(' ')
-        .filter(token => !METAWORDS.includes(token) && token.length > 0);
-
-    for (let i = stringTokens.length - 1; i >= 0; i--) {
-        try {
-            stringTokens[i] = toWords(toArabic(stringTokens[i]));
-        } catch (e) {
-            if (e.message !== 'toArabic expects a valid roman number' && !(e instanceof TypeError))
-                throw e;
-        }
-
-        if (isFinite(stringTokens[i])) {
-            stringTokens[i] = toWords(parseInt(stringTokens[i]));
-        }
-    }
-
-    const referenceTokens = reference
-        .split(' ')
-        .filter(token => !METAWORDS.includes(token) && token.length > 0)
-        .map(string => replaceSpecialPhrases(string));
-
-    for (let i = referenceTokens.length - 1; i >= 0; i--) {
-        try {
-            const arabNumeral = toWords(toArabic(referenceTokens[i]));
-            referenceTokens.push(arabNumeral.toString());
-            referenceTokens.push(toWords(arabNumeral));
-        } catch (e) {
-            if (e.message !== 'toArabic expects a valid roman number' && !(e instanceof TypeError))
-                throw e;
-        }
-
-        if (isFinite(referenceTokens[i])) {
-            referenceTokens.push(toWords(parseInt(referenceTokens[i])));
-        }
-    }
-
-    if (stringTokens.length === 0)
-        return false;
-
-    if (referenceTokens.length === 0)
-        return false;
-
-    // console.log(stringTokens, referenceTokens);
-
-    // check if every token in the string is in the reference
-    for (let i = 0; i < stringTokens.length; i++) {
-        let tokenMatches = false;
-
-        for (let j = 0; j < referenceTokens.length; j++) {
-            let errors;
-
-            if (useStemmer) {
-                errors = distance(stemmer(stringTokens[i]), stemmer(referenceTokens[j]));
-            } else {
-                errors = distance(stringTokens[i], referenceTokens[j]);
-            }
-
-            if (strictness * errors <= referenceTokens[j].length || (acceptSubstring && referenceTokens[j].includes(stringTokens[i]))) {
-                tokenMatches = true;
-                break;
-            }
-        }
-
-        if (!tokenMatches) {
+    return ({ string, reference, strictness = 5, acceptSubstring = false, useStemmer = true }) => {
+        if (string === null || string === undefined || reference === null || reference === undefined)
             return false;
+
+        if (string.length === 0)
+            return false;
+
+        string = removePunctuation(string);
+        string = replaceSpecialCharacters(string);
+        string = string
+            .toLowerCase()
+            .replace(/-/g, ' ')
+            .trim();
+
+        reference = removePunctuation(reference);
+        reference = replaceSpecialCharacters(reference);
+        reference = reference
+            .toLowerCase()
+            .replace(/-/g, ' ')
+            .trim();
+
+        const stringTokens = string
+            .split(' ')
+            .filter(token => !METAWORDS.includes(token) && token.length > 0);
+
+        if (stringTokens.length === 0)
+            return false;
+
+        for (let i = stringTokens.length - 1; i >= 0; i--) {
+            try {
+                stringTokens[i] = toWords(toArabic(stringTokens[i]));
+            } catch (e) {
+                if (e.message !== 'toArabic expects a valid roman number' && !(e instanceof TypeError))
+                    throw e;
+            }
+
+            if (isFinite(stringTokens[i])) {
+                stringTokens[i] = toWords(parseInt(stringTokens[i]));
+            }
         }
-    }
 
-    return true;
-}
+        const referenceTokens = reference
+            .split(' ')
+            .filter(token => !METAWORDS.includes(token) && token.length > 0)
+            .map(string => replaceSpecialPhrases(string));
 
+        if (referenceTokens.length === 0)
+            return false;
+
+        for (let i = referenceTokens.length - 1; i >= 0; i--) {
+            try {
+                const arabNumeral = toWords(toArabic(referenceTokens[i]));
+                referenceTokens.push(arabNumeral.toString());
+                referenceTokens.push(toWords(arabNumeral));
+            } catch (e) {
+                if (e.message !== 'toArabic expects a valid roman number' && !(e instanceof TypeError))
+                    throw e;
+            }
+
+            if (isFinite(referenceTokens[i])) {
+                referenceTokens.push(toWords(parseInt(referenceTokens[i])));
+            }
+        }
+
+        // console.log(stringTokens, referenceTokens);
+
+        // check if every token in the string is in the reference
+        for (let i = 0; i < stringTokens.length; i++) {
+            let tokenMatches = false;
+
+            for (let j = 0; j < referenceTokens.length; j++) {
+                let errors;
+
+                if (useStemmer) {
+                    errors = distance(stemmer(stringTokens[i]), stemmer(referenceTokens[j]));
+                } else {
+                    errors = distance(stringTokens[i], referenceTokens[j]);
+                }
+
+                if (strictness * errors <= referenceTokens[j].length || (acceptSubstring && referenceTokens[j].includes(stringTokens[i]))) {
+                    tokenMatches = true;
+                    break;
+                }
+            }
+
+            if (!tokenMatches) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+})();
 
 /**
  * Check if the given answer matches the answerline.
