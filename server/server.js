@@ -4,7 +4,10 @@ const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
 const uuid = require('uuid');
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({
+    server,
+    maxPayload: 128 * 1024, // 128 KB
+});
 
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
