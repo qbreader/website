@@ -39,48 +39,38 @@ function escapeRegExp(string) {
 
 function highlightTossupQuery({
   tossup,
-  queryString,
-  regex = false,
+  regExp,
   searchType = 'all'
 }) {
-  if (!regex) {
-    queryString = escapeRegExp(queryString);
-  }
-  if (searchType === 'question' || searchType === 'all') {
-    tossup.question = tossup.question.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
-  }
+  if (searchType === 'question' || searchType === 'all') tossup.question = tossup.question.replace(regExp, '<span class="text-highlight">$&</span>');
   if (searchType === 'answer' || searchType === 'all') {
     if (tossup.formatted_answer) {
-      tossup.formatted_answer = tossup.formatted_answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+      tossup.formatted_answer = tossup.formatted_answer.replace(regExp, '<span class="text-highlight">$&</span>');
     } else {
-      tossup.answer = tossup.answer.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+      tossup.answer = tossup.answer.replace(regExp, '<span class="text-highlight">$&</span>');
     }
   }
   return tossup;
 }
 function highlightBonusQuery({
   bonus,
-  queryString,
-  regex = false,
+  regExp,
   searchType = 'all'
 }) {
-  if (!regex) {
-    queryString = escapeRegExp(queryString);
-  }
   if (searchType === 'question' || searchType === 'all') {
-    bonus.leadin = bonus.leadin.replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+    bonus.leadin = bonus.leadin.replace(regExp, '<span class="text-highlight">$&</span>');
     for (let i = 0; i < bonus.parts.length; i++) {
-      bonus.parts[i] = bonus.parts[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+      bonus.parts[i] = bonus.parts[i].replace(regExp, '<span class="text-highlight">$&</span>');
     }
   }
   if (searchType === 'answer' || searchType === 'all') {
     if (bonus.formatted_answers) {
       for (let i = 0; i < bonus.answers.length; i++) {
-        bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+        bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(regExp, '<span class="text-highlight">$&</span>');
       }
     } else {
       for (let i = 0; i < bonus.answers.length; i++) {
-        bonus.answers[i] = bonus.answers[i].replace(RegExp(queryString, 'ig'), '<span class="text-highlight">$&</span>');
+        bonus.answers[i] = bonus.answers[i].replace(regExp, '<span class="text-highlight">$&</span>');
       }
     }
   }
@@ -268,9 +258,7 @@ function QueryForm() {
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
   React.useEffect(() => {
     fetch('/api/set-list').then(response => response.json()).then(data => {
-      data.forEach(setName => {
-        document.getElementById('set-list').innerHTML += `<option>${setName}</option>`;
-      });
+      document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
     });
   }, []);
   function handleSubmit(event, randomize = false) {
@@ -296,11 +284,12 @@ function QueryForm() {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
+      const regExp = RegExp(regex ? queryString : escapeRegExp(queryString), 'ig');
       if (queryString !== '') {
         for (let i = 0; i < tossupArray.length; i++) {
           tossupArray[i] = highlightTossupQuery({
             tossup: tossupArray[i],
-            queryString: queryString.trim(),
+            regExp,
             searchType,
             regex
           });
@@ -316,7 +305,7 @@ function QueryForm() {
         for (let i = 0; i < bonusArray.length; i++) {
           bonusArray[i] = highlightBonusQuery({
             bonus: bonusArray[i],
-            queryString: queryString.trim(),
+            regExp,
             searchType,
             regex
           });

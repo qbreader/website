@@ -1,4 +1,7 @@
-// Event listeners for pages that read questions to the user.
+/**
+ * Event listeners for pages that read questions to the user,
+ * and retrieval of `SET_LIST`.
+ */
 
 document.getElementById('font-size').addEventListener('input', function () {
     localStorage.setItem('font-size', this.value);
@@ -41,13 +44,13 @@ if (localStorage.getItem('high-contrast-question-text') === 'true') {
     document.getElementById('question').classList.add('high-contrast-question-text');
 }
 
+const SET_LIST = [];
+
 fetch('/api/set-list')
     .then(response => response.json())
     .then(data => {
+        document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
         data.forEach(setName => {
-            const option = document.createElement('option');
-            option.innerHTML = setName;
-            document.getElementById('set-list').appendChild(option);
             SET_LIST.push(setName);
         });
     });

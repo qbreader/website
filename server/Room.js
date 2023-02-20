@@ -132,11 +132,12 @@ class Room {
     async message(userId, message) {
         const type = message.type || '';
 
-        if (type === 'buzz') {
+        switch (type) {
+        case 'buzz':
             this.buzz(userId);
-        }
+            break;
 
-        if (type === 'change-username') {
+        case 'change-username':
             this.sendSocketMessage({
                 type: 'change-username',
                 userId: userId,
@@ -144,84 +145,86 @@ class Room {
                 newUsername: message.username
             });
             this.players[userId].updateUsername(message.username);
-        }
+            break;
 
-        if (type === 'chat') {
+        case 'chat':
             this.chat(userId, message.message);
-        }
+            break;
 
-        if (type === 'clear-stats') {
+        case 'clear-stats':
             this.players[userId].clearStats();
             this.sendSocketMessage({
                 type: 'clear-stats',
                 userId: userId
             });
-        }
+            break;
 
-        if (type === 'difficulties') {
+        case 'difficulties':
             this.sendSocketMessage({
                 type: 'difficulties',
                 username: this.players[userId].username,
                 value: message.value
             });
             this.adjustQuery(['difficulties'], [message.value]);
-        }
+            break;
 
-        if (type === 'give-answer') {
+        case 'give-answer':
             this.giveAnswer(userId, message.givenAnswer, message.celerity);
-        }
+            break;
 
-        if (type === 'leave') {
+        case 'leave':
             // this.deletePlayer(userId);
             delete this.sockets[userId];
             this.sendSocketMessage(message);
-        }
+            break;
 
-        if (type === 'next' || type === 'skip' || type === 'start') {
+        case 'next':
+        case 'skip':
+        case 'start':
             this.next(userId, type);
-        }
+            break;
 
-        if (type === 'packet-number') {
+        case 'packet-number':
             this.adjustQuery(['packetNumbers'], [message.value]);
             this.sendSocketMessage({
                 type: 'packet-number',
                 username: this.players[userId].username,
                 value: this.query.packetNumbers
             });
-        }
+            break;
 
-        if (type === 'pause') {
+        case 'pause':
             this.pause(userId);
-        }
+            break;
 
-        if (type === 'reading-speed') {
+        case 'reading-speed':
             this.settings.readingSpeed = message.value;
             this.sendSocketMessage({
                 type: 'reading-speed',
                 username: this.players[userId].username,
                 value: this.settings.readingSpeed
             });
-        }
+            break;
 
-        if (type === 'set-name') {
+        case 'set-name':
             this.sendSocketMessage({
                 type: 'set-name',
                 username: this.players[userId].username,
                 value: message.value
             });
             this.adjustQuery(['setName', 'packetNumbers'], [message.value, message.packetNumbers]);
-        }
+            break;
 
-        if (type === 'toggle-rebuzz') {
+        case 'toggle-rebuzz':
             this.settings.rebuzz = message.rebuzz;
             this.sendSocketMessage({
                 type: 'toggle-rebuzz',
                 rebuzz: this.settings.rebuzz,
                 username: this.players[userId].username
             });
-        }
+            break;
 
-        if (type === 'toggle-select-by-set-name') {
+        case 'toggle-select-by-set-name':
             this.sendSocketMessage({
                 type: 'toggle-select-by-set-name',
                 selectBySetName: message.selectBySetName,
@@ -230,18 +233,18 @@ class Room {
             });
             this.settings.selectBySetName = message.selectBySetName;
             this.adjustQuery(['setName'], [message.setName]);
-        }
+            break;
 
-        if (type === 'toggle-visibility') {
+        case 'toggle-visibility':
             this.settings.public = message.public;
             this.sendSocketMessage({
                 type: 'toggle-visibility',
                 public: this.settings.public,
                 username: this.players[userId].username
             });
-        }
+            break;
 
-        if (type === 'update-categories') {
+        case 'update-categories':
             this.sendSocketMessage({
                 type: 'update-categories',
                 categories: message.categories,
@@ -249,6 +252,7 @@ class Room {
                 username: this.players[userId].username
             });
             this.adjustQuery(['categories', 'subcategories'], [message.categories, message.subcategories]);
+            break;
         }
     }
 
@@ -364,7 +368,7 @@ class Room {
         if (Object.keys(this.tossup).length === 0) return;
         this.buzzedIn = null;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
-        const inPower = this.tossup.question.includes('(*)') && !this.questionSplit.slice(0, this.wordIndex).join(' ').includes('(*)');
+        const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
         const { directive, points, directedPrompt } = scorer.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
 
         if (directive === 'accept') {
@@ -483,8 +487,10 @@ class Room {
             }
         }
 
+        message = JSON.stringify(message);
+
         for (const socket of Object.values(this.sockets)) {
-            socket.send(JSON.stringify(message));
+            socket.send(message);
         }
     }
 }

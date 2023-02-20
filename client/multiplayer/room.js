@@ -22,21 +22,27 @@ socket.onmessage = function (event) {
     case 'connection-acknowledged':
         socketOnConnectionAcknowledged(data);
         break;
+
     case 'buzz':
         socketOnBuzz(data);
         break;
+
     case 'change-username':
         socketOnChangeUsername(data);
         break;
+
     case 'chat':
         socketOnChat(data);
         break;
+
     case 'clear-stats':
         socketOnClearStats(data);
         break;
+
     case 'end-of-set':
         socketOnEndOfSet(data);
         break;
+
     case 'difficulties':
     case 'packet-number':
         data.value = arrayToRange(data.value);
@@ -49,40 +55,51 @@ socket.onmessage = function (event) {
         }
         document.getElementById(data.type).value = data.value;
         break;
+
     case 'give-answer':
         socketOnGiveAnswer(data);
         break;
+
     case 'join':
         socketOnJoin(data);
         break;
+
     case 'leave':
         socketOnLeave(data);
         break;
+
     case 'lost-buzzer-race':
         socketOnLostBuzzerRace(data);
         break;
+
     case 'next':
     case 'skip':
         socketOnNext(data);
         break;
+
     case 'no-questions-found':
         socketOnNoQuestionsFound(data);
         break;
+
     case 'pause':
         socketOnPause(data);
         break;
+
     case 'reading-speed':
         logEvent(data.username, `changed the reading speed to ${data.value}`);
         document.getElementById('reading-speed').value = data.value;
         document.getElementById('reading-speed-display').innerHTML = data.value;
         break;
+
     case 'start':
         socketOnStart(data);
         break;
+
     case 'toggle-rebuzz':
         logEvent(data.username, `${data.rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
         document.getElementById('toggle-rebuzz').checked = data.rebuzz;
         break;
+
     case 'toggle-select-by-set-name':
         if (data.selectBySetName) {
             logEvent(data.username, 'enabled select by set name');
@@ -97,23 +114,28 @@ socket.onmessage = function (event) {
             document.getElementById('set-settings').classList.add('d-none');
         }
         break;
+
     case 'toggle-visibility':
         logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
         document.getElementById('toggle-visibility').checked = data.public;
         document.getElementById('chat').disabled = data.public;
         break;
+
     case 'update-categories':
         logEvent(data.username, 'updated the categories');
         validCategories = data.categories;
         validSubcategories = data.subcategories;
         loadCategoryModal(validCategories, validSubcategories);
         break;
+
     case 'update-answer':
         document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
         break;
+
     case 'update-question':
         document.getElementById('question').innerHTML += data.word + ' ';
         break;
+
     }
 };
 
@@ -618,16 +640,20 @@ document.addEventListener('keydown', function (event) {
         document.getElementById('buzz').click();
         if (event.target == document.body) event.preventDefault();
         break;
+
     case 'k':
         document.getElementsByClassName('card-header')[0].click();
         break;
+
     case 'n':
     case 's':
         document.getElementById('next').click();
         break;
+
     case 'p':
         document.getElementById('pause').click();
         break;
+
     }
 });
 
