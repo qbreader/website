@@ -6,6 +6,11 @@ const uuid = require('uuid');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
 
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
 
 const clientIp = (req, _res) => {
     return req.headers['x-forwarded-for'] ? (req.headers['x-forwarded-for']).split(',')[0] : req.ip;
@@ -103,6 +108,7 @@ app.get('/', (req, res) => {
 
 wss.on('connection', (ws) => {
     let [roomName, userId, username] = ws.protocol.split('%%%');
+    roomName = DOMPurify.sanitize(decodeURIComponent(roomName));
     userId = decodeURIComponent(userId);
     username = decodeURIComponent(username);
     userId = (userId === 'unknown') ? uuid.v4() : userId;
