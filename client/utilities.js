@@ -55,10 +55,6 @@ function arrayToRange(array) {
 
 
 const createBonusCard = (function () {
-    const removeAllParentheses = (string) => {
-        return string.replace(/[([][^)\]]*[)\]]/g, '');
-    };
-
     let questionCounter = 0;
 
     return function (bonus) {
@@ -117,6 +113,7 @@ const createBonusCard = (function () {
     };
 })();
 
+
 const createTossupCard = (function () {
     let questionCounter = 0;
 
@@ -124,21 +121,23 @@ const createTossupCard = (function () {
         if (!tossup || Object.keys(tossup).length === 0) return;
 
         questionCounter++;
+
         const { question, answer, category, subcategory, alternate_subcategory, packetNumber, questionNumber, _id } = tossup;
+        const powerParts = question.split('(*)');
 
         // append a card containing the question to the history element
         const card = document.createElement('div');
         card.className = 'card my-2';
         card.innerHTML = `
             <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
-                ${answer}
+                ${removeAllParentheses(answer)}
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
-                    <p class="card-text">
-                        ${question}
-                        <a href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
-                    </p>
+                    ${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : question}
+                    <a href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                    <hr></hr>
+                    <div>ANSWER: ${answer}</div>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">${setName} / ${category} / ${subcategory} ${alternate_subcategory ? '(' + alternate_subcategory + ')' : ''}</small>
@@ -247,6 +246,11 @@ function rangeToArray(string, max = 0) {
     }
 
     return array;
+}
+
+
+function removeAllParentheses(string) {
+    return string.replace(/[([][^)\]]*[)\]]/g, '');
 }
 
 
