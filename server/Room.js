@@ -3,6 +3,11 @@ const database = require('./database');
 const Player = require('./Player');
 const scorer = require('./scorer');
 
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
 class Room {
     constructor(name) {
         this.name = name;
@@ -138,7 +143,7 @@ class Room {
                 oldUsername: this.players[userId].username,
                 newUsername: message.username
             });
-            this.players[userId].username = message.username;
+            this.players[userId].updateUsername(message.username);
         }
 
         if (type === 'chat') {
@@ -472,6 +477,12 @@ class Room {
     }
 
     sendSocketMessage(message) {
+        for (const field of Object.keys(message)) {
+            if (typeof message[field] === 'string') {
+                message[field] = DOMPurify.sanitize(message[field]);
+            }
+        }
+
         for (const socket of Object.values(this.sockets)) {
             socket.send(JSON.stringify(message));
         }
