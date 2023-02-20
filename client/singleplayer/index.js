@@ -62,12 +62,15 @@ async function loadRandomQuestions(questionType, difficulties = [], categories =
         })
     }).then(response => response.json())
         .then(questions => {
-            for (let i = 0; i < questions.length; i++) {
-                if (questionType === 'tossup' && Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer')) {
-                    questions[i].answer = questions[i].formatted_answer;
+            if (questionType === 'tossup') {
+                for (let i = 0; i < questions.length; i++) {
+                    if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer'))
+                        questions[i].answer = questions[i].formatted_answer;
                 }
-                if (questionType === 'bonus' && Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answers')) {
-                    questions[i].answers = questions[i].formatted_answers;
+            } else if (questionType === 'bonus') {
+                for (let i = 0; i < questions.length; i++) {
+                    if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answers'))
+                        questions[i].answers = questions[i].formatted_answers;
                 }
             }
 
