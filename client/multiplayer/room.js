@@ -356,98 +356,39 @@ const PING_INTERVAL_ID = setInterval(() => {
 
 function createPlayerAccordionItem(player) {
     const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
-    const button = document.createElement('button');
-    button.className = 'accordion-button collapsed';
-    button.type = 'button';
-    button.setAttribute('data-bs-target', '#accordion-body-' + userId);
-    button.setAttribute('data-bs-toggle', 'collapse');
 
-    const buttonUsername = document.createElement('span');
-    buttonUsername.id = 'accordion-button-username-' + userId;
-    buttonUsername.innerHTML = username;
-
-    button.appendChild(buttonUsername);
-    button.innerHTML += '&nbsp;(';
-
-    const buttonPoints = document.createElement('span');
-    buttonPoints.id = 'accordion-button-points-' + userId;
-    buttonPoints.innerHTML = points;
-    buttonPoints.classList.add('stats-' + userId);
-    button.appendChild(buttonPoints);
-    button.innerHTML += '&nbsp;pts)';
-
-    const h2 = document.createElement('h2');
-    h2.className = 'accordion-header';
-    h2.id = 'heading-' + userId;
-    h2.appendChild(button);
-
-    const accordionBody = document.createElement('div');
-    accordionBody.className = 'accordion-body';
     // 0/0/0 with 0 tossups seen (0 pts, celerity: 0)
 
-    const powersSpan = document.createElement('span');
-    powersSpan.innerHTML = powers;
-    powersSpan.id = 'powers-' + userId;
-    powersSpan.classList.add('stats');
-    powersSpan.classList.add('stats-' + userId);
-    accordionBody.appendChild(powersSpan);
-    accordionBody.innerHTML += '/';
-
-    const tensSpan = document.createElement('span');
-    tensSpan.innerHTML = tens;
-    tensSpan.id = 'tens-' + userId;
-    tensSpan.classList.add('stats');
-    tensSpan.classList.add('stats-' + userId);
-    accordionBody.appendChild(tensSpan);
-    accordionBody.innerHTML += '/';
-
-    const negsSpan = document.createElement('span');
-    negsSpan.innerHTML = negs;
-    negsSpan.id = 'negs-' + userId;
-    negsSpan.classList.add('stats');
-    negsSpan.classList.add('stats-' + userId);
-    accordionBody.appendChild(negsSpan);
-
-    accordionBody.innerHTML += ', ';
-
-    const tuhSpan = document.createElement('span');
-    tuhSpan.innerHTML = tuh;
-    tuhSpan.id = 'tuh-' + userId;
-    tuhSpan.classList.add('tuh');
-    tuhSpan.classList.add('stats');
-    tuhSpan.classList.add('stats-' + userId);
-    accordionBody.appendChild(tuhSpan);
-
-    accordionBody.innerHTML += ' tossups seen (';
-
-    const pointsSpan = document.createElement('span');
-    pointsSpan.innerHTML = points;
-    pointsSpan.id = 'points-' + userId;
-    pointsSpan.classList.add('points');
-    pointsSpan.classList.add('stats-' + userId);
-    accordionBody.appendChild(pointsSpan);
-
-    accordionBody.innerHTML += ' pts, celerity: ';
-
-    const celeritySpan = document.createElement('span');
-    celeritySpan.innerHTML = Math.round(1000 * celerity) / 1000;
-    celeritySpan.id = 'celerity-' + userId;
-    celeritySpan.classList.add('stats');
-    celeritySpan.classList.add('stats-' + userId);
-    accordionBody.appendChild(celeritySpan);
-
-    accordionBody.innerHTML += ')';
-
-    const div = document.createElement('div');
-    div.className = 'accordion-collapse collapse';
-    div.id = 'accordion-body-' + userId;
-    div.appendChild(accordionBody);
+    const powerSpan = `<span id="powers-${userId}" class="stats stats-${userId}">${powers}</span>`;
+    const tenSpan = `<span id="tens-${userId}" class="stats stats-${userId}">${tens}</span>`;
+    const negSpan = `<span id="negs-${userId}" class="stats stats-${userId}">${negs}</span>`;
 
     const accordionItem = document.createElement('div');
     accordionItem.className = 'accordion-item';
-    accordionItem.id = 'accordion-' + userId;
-    accordionItem.appendChild(h2);
-    accordionItem.appendChild(div);
+    accordionItem.id = `accordion-${userId}`;
+    accordionItem.innerHTML = `
+        <h2 class="accordion-header" id="heading-${userId}">
+            <button class="accordion-button collapsed" type="button" data-bs-target="#accordion-body-${userId}" data-bs-toggle="collapse">
+                <span id="accordion-button-username-${userId}">
+                    ${username}
+                </span>&nbsp;(<span class="stats-${userId}" id="accordion-button-points-${userId}">
+                    ${points}
+                </span>&nbsp;pts)
+            </button>
+        </h2>
+        <div class="accordion-collapse collapse" id="accordion-body-${userId}">
+            <div class="accordion-body">
+                ${powerSpan}/${tenSpan}/${negSpan},
+                <span id="tuh-${userId}" class="tuh stats stats-${userId}">
+                    ${tuh}
+                </span> tossups seen (<span id="points-${userId}" class="points stats-${userId}">${points}</span>
+                pts, celerity:
+                <span id="celerity-${userId}" class="stats stats-${userId}">
+                    ${Math.round(1000 * celerity) / 1000}
+                </span>)
+        </div>
+    `;
+
     document.getElementById('player-accordion').appendChild(accordionItem);
 }
 
