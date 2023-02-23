@@ -44,6 +44,7 @@ const bonusesRouter = require('../routes/bonuses');
 const multiplayerRouter = require('../routes/multiplayer');
 const databaseRouter = require('../routes/database');
 const aboutRouter = require('../routes/about');
+const backupsRouter = require('../routes/backups');
 
 const rooms = {};
 
@@ -99,6 +100,7 @@ app.use('/multiplayer', multiplayerRouter);
 app.use('/db', databaseRouter);
 app.use('/api-info', apiInfoRouter);
 app.use('/about', aboutRouter);
+app.use('/backups', backupsRouter);
 
 app.get('/database', (req, res) => {
     res.redirect('/db');
