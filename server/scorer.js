@@ -384,13 +384,24 @@ const stringMatchesReference = (() => {
         return string.replace(/[.,!;:'"\\/?@#$%^&*_~’]/g, '');
     };
 
+
     const replaceSpecialCharacters = (string) => {
         return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     };
 
+
+    const replaceSpecialSubstrings = (string) => {
+        return string
+            .replace(/\(s\)/g, 's');
+    };
+
+
     const replaceSpecialPhrases = (string) => {
-        if (string === 'dr' || string === 'dr.')
+        switch (string) {
+        case 'dr':
+        case 'dr.':
             return 'doctor';
+        }
 
         return string;
     };
@@ -417,7 +428,8 @@ const stringMatchesReference = (() => {
 
         const stringTokens = string
             .split(' ')
-            .filter(token => !METAWORDS.includes(token) && token.length > 0);
+            .filter(token => !METAWORDS.includes(token) && token.length > 0)
+            .map(string => replaceSpecialSubstrings(string));
 
         if (stringTokens.length === 0)
             return false;
@@ -438,6 +450,7 @@ const stringMatchesReference = (() => {
         const referenceTokens = reference
             .split(' ')
             .filter(token => !METAWORDS.includes(token) && token.length > 0)
+            .map(string => replaceSpecialSubstrings(string))
             .map(string => replaceSpecialPhrases(string));
 
         if (referenceTokens.length === 0)
