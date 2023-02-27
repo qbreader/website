@@ -64,7 +64,7 @@ const createBonusCard = (function () {
         let cardHeader = '';
 
         for (let i = 0; i < bonusLength; i++) {
-            cardHeader += removeAllParentheses(answers[i]);
+            cardHeader += removeParentheses(answers[i]);
 
             if (i !== bonusLength - 1)
                 cardHeader += ' / ';
@@ -126,7 +126,7 @@ const createTossupCard = (function () {
         card.className = 'card my-2';
         card.innerHTML = `
             <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
-                ${removeAllParentheses(answer)}
+                ${removeParentheses(answer)}
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
@@ -245,8 +245,10 @@ function rangeToArray(string, max = 0) {
 }
 
 
-function removeAllParentheses(string) {
-    return string.replace(/[([][^)\]]*[)\]]/g, '');
+function removeParentheses(string) {
+    return string
+        .replace(/\([^)]*\)/g, '')
+        .replace(/\[[^\]]*\]/g, '');
 }
 
 
