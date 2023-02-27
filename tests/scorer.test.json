@@ -1,6 +1,12 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>anti-vaccination</u></b> sentiment [accept <b><u>anti-vax</u></b> sentiment or <b><u>anti-vaxxer</u></b>s; accept <b><u>vaccine hesitancy</u></b> before “hesitant” is read; accept answers expressing the idea that <b><u>vaccines are harmful</u></b>, that the MMR <b><u>vaccine causes autism</u></b>, or that the hepatitis B <b><u>vaccine causes multiple sclerosis</u></b>; accept “immunization” in place of “vaccination” until read; prompt on <u>medical distrust</u>]",
+            "tests": [
+                {"directive": "accept", "given": "antivax"}
+            ]
+        },
+        {
             "answerline": "Frédéric (François) <b><u>Chopin</u></b> [or Fryderyk (Franciszek) <b><u>Szopen</u></b>]",
             "tests": [
                 { "directive": "accept", "given": "Chopin" },
