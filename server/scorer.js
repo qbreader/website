@@ -206,6 +206,7 @@ const parseAnswerline = (() => {
         return string.replace(/<\/?i>/g, '');
     };
 
+
     const splitMainAnswer = (string) => {
         const bracketsSubAnswer = (string.match(/(?<=\[)[^\]]*(?=\])/g) ?? ['']).pop();
         const parenthesesSubAnswer = (string.match(/(?<=\()[^)]*(?=\))/g) ?? ['']).pop();
@@ -223,9 +224,11 @@ const parseAnswerline = (() => {
         return { mainAnswer, subAnswer: '' };
     };
 
+
     const splitIntoPhrases = (string) => {
         return string.split(';').map(token => token.trim());
     };
+
 
     const splitIntoAnswers = (phrase) => {
         phrase = phrase.toLowerCase();
@@ -245,6 +248,7 @@ const parseAnswerline = (() => {
         return { directive, answers };
     };
 
+
     const extractUnderlining = (string) => {
         const matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
         if (matches) {
@@ -256,6 +260,7 @@ const parseAnswerline = (() => {
         }
     };
 
+
     const extractQuotes = (string) => {
         const matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
         if (matches) {
@@ -266,6 +271,7 @@ const parseAnswerline = (() => {
             return string;
         }
     };
+
 
     /**
      * Get all words which are partially or wholly underlined.
@@ -279,6 +285,7 @@ const parseAnswerline = (() => {
             .trim();
     };
 
+
     const getAbbreviation = (string) => {
         return string
             .split(' ')
@@ -287,6 +294,19 @@ const parseAnswerline = (() => {
             .reduce((a, b) => a + b, '')
             .trim();
     };
+
+
+    const addSpecialAnswers = (string) => {
+        string = string.toLowerCase();
+        switch (string) {
+        case 'nineteen eighty-four':
+        case 'nineteen eighty four':
+            return '1984';
+        }
+
+        return null;
+    };
+
 
     return (answerline) => {
         answerline = removeItalics(answerline);
@@ -308,6 +328,12 @@ const parseAnswerline = (() => {
             }
         }
 
+        parsedAnswerline.accept[0].forEach(answer => {
+            const specialAnswer = addSpecialAnswers(answer);
+            if (specialAnswer !== null)
+                parsedAnswerline.accept.push([specialAnswer, '', '']);
+        });
+
         subPhrases.forEach(phrase => {
             if (phrase.length === 0)
                 return;
@@ -315,6 +341,12 @@ const parseAnswerline = (() => {
             const { directive, answers } = splitIntoAnswers(phrase);
             const index = phrase.indexOf('by asking');
             const directedPrompt = (index >= 0) ? extractQuotes(phrase.slice(index + 9)) : null;
+
+            answers.forEach(answer => {
+                const specialAnswer = addSpecialAnswers(answer);
+                if (specialAnswer !== null)
+                    parsedAnswerline.accept.push([specialAnswer, '', '']);
+            });
 
             answers.forEach(answer => {
                 switch (directive) {
