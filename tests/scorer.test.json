@@ -1,6 +1,13 @@
 {
     "formatted": [
         {
+            "answerline": "Frédéric (François) <b><u>Chopin</u></b> [or Fryderyk (Franciszek) <b><u>Szopen</u></b>]",
+            "tests": [
+                { "directive": "accept", "given": "Chopin" },
+                { "directive": "accept", "given": "Szopen" }
+            ]
+        },
+        {
             "answerline": "<b><u>slave</u></b>s [or <b><u>enslaved</u></b> people or <b><u>slavery</u></b>; accept <b><u>slave</u></b> narratives or<i></i> <i><b><u>Slave</u></b> Narrative Collection</i>; prompt on <u>African</u>-Americans or <u>Black</u> people or specific groups of Africans such as <u>Igbo</u> by asking “of what status?”; prompt on <u>child</u>ren or <u>boy</u>s or <u>girl</u>s; prompt on plantation <u>worker</u>s or house <u>servant</u>s] (The “landing” is Igbo Landing.)",
             "tests": [
                 { "directive": "prompt", "given": "igbo", "directedPrompt": "of what status?" },
