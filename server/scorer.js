@@ -302,6 +302,8 @@ const parseAnswerline = (() => {
         case 'nineteen eighty-four':
         case 'nineteen eighty four':
             return '1984';
+        case 'mouse':
+            return 'mice';
         }
 
         return null;
