@@ -317,16 +317,18 @@ const parseAnswerline = (() => {
             const directedPrompt = (index >= 0) ? extractQuotes(phrase.slice(index + 9)) : null;
 
             answers.forEach(answer => {
-                if (directive === 'accept') {
+                switch (directive) {
+                case 'accept':
                     answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
-                } else if (directive === 'prompt') {
-                    if (directedPrompt) {
-                        answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(phrase.slice(0, index)), directedPrompt];
-                    } else {
-                        answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
-                    }
-                } else if (directive === 'reject') {
+                    break;
+                case 'prompt':
+                    answer = directedPrompt
+                        ? [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(phrase.slice(0, index)), directedPrompt]
+                        : [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
+                    break;
+                case 'reject':
                     answer = ['', '', extractQuotes(answer)];
+                    break;
                 }
 
                 parsedAnswerline[directive].push(answer);
@@ -373,14 +375,12 @@ const stringMatchesReference = (() => {
         string = replaceSpecialCharacters(string);
         string = string
             .toLowerCase()
-            .replace(/-/g, ' ')
             .trim();
 
         reference = removePunctuation(reference);
         reference = replaceSpecialCharacters(reference);
         reference = reference
             .toLowerCase()
-            .replace(/-/g, ' ')
             .trim();
 
         const stringTokens = string
@@ -465,7 +465,12 @@ const stringMatchesReference = (() => {
 function checkAnswer(answerline, givenAnswer) {
     const answerWorks = (answerline, givenAnswer, answerlineIsFormatted) => {
         if (answerlineIsFormatted) {
-            return stringMatchesReference({ string: answerline, reference: givenAnswer });
+            if (/-/.test(answerline) || /-/.test(givenAnswer)) {
+                return stringMatchesReference({ string: answerline.replace(/-/g, ' '), reference: givenAnswer.replace(/-/g, ' ') })
+                || stringMatchesReference({ string: answerline.replace(/-/g, ''), reference: givenAnswer.replace(/-/g, '') });
+            } else {
+                return stringMatchesReference({ string: answerline, reference: givenAnswer });
+            }
         } else {
             return stringMatchesReference({ string: givenAnswer, reference: answerline, acceptSubstring: true });
         }
