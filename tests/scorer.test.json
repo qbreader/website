@@ -1,6 +1,12 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>Bosnian War</u></b> [prompt on “Yugoslav War(s)”]",
+            "tests": [
+                { "directive": "prompt", "given": "yugoslav war" }
+            ]
+        },
+        {
             "answerline": "<b><u>Nineteen Eighty-Four</u></b>",
             "tests": [
                 { "directive": "accept", "given": "1984" }
