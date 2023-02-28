@@ -217,7 +217,7 @@ const parseAnswerline = (() => {
             return { mainAnswer, subAnswer: bracketsSubAnswer };
 
         for (const directive of ['or', 'prompt', 'antiprompt', 'anti-prompt', 'accept', 'reject', 'do not accept']) {
-            if (parenthesesSubAnswer.toLowerCase().startsWith(directive))
+            if (parenthesesSubAnswer.startsWith(directive))
                 return { mainAnswer, subAnswer: parenthesesSubAnswer };
         }
 
@@ -231,7 +231,6 @@ const parseAnswerline = (() => {
 
 
     const splitIntoAnswers = (phrase) => {
-        phrase = phrase.toLowerCase();
         let directive = 'accept'; // by default, this phrase accepts answers that match to it
         if (phrase.startsWith('prompt')) {
             directive = 'prompt';
@@ -296,7 +295,7 @@ const parseAnswerline = (() => {
     };
 
 
-    const addSpecialAnswers = (string) => {
+    const getEquivalentAnswer = (string) => {
         string = string.toLowerCase();
         switch (string) {
         case 'nineteen eighty-four':
@@ -331,7 +330,12 @@ const parseAnswerline = (() => {
         }
 
         parsedAnswerline.accept[0].forEach(answer => {
-            const specialAnswer = addSpecialAnswers(answer);
+            if (/-/.test(answer)) {
+                parsedAnswerline.accept.push([answer.replace(/-/g, ' '), '', '']);
+                parsedAnswerline.accept.push([answer.replace(/-/g, ''), '', '']);
+            }
+
+            const specialAnswer = getEquivalentAnswer(answer);
             if (specialAnswer !== null)
                 parsedAnswerline.accept.push([specialAnswer, '', '']);
         });
@@ -345,7 +349,12 @@ const parseAnswerline = (() => {
             const directedPrompt = (index >= 0) ? extractQuotes(phrase.slice(index + 9)) : null;
 
             answers.forEach(answer => {
-                const specialAnswer = addSpecialAnswers(answer);
+                if (/-/.test(answer)) {
+                    parsedAnswerline.accept.push([answer.replace(/-/g, ' '), '', '']);
+                    parsedAnswerline.accept.push([answer.replace(/-/g, ''), '', '']);
+                }
+
+                const specialAnswer = getEquivalentAnswer(answer);
                 if (specialAnswer !== null)
                     parsedAnswerline.accept.push([specialAnswer, '', '']);
             });
@@ -393,8 +402,7 @@ const stringMatchesReference = (() => {
 
 
     const replaceSpecialSubstrings = (string) => {
-        return string
-            .replace(/\(s\)/g, 's');
+        return string.replace(/\(s\)/g, 's');
     };
 
 
@@ -418,15 +426,11 @@ const stringMatchesReference = (() => {
 
         string = removePunctuation(string);
         string = replaceSpecialCharacters(string);
-        string = string
-            .toLowerCase()
-            .trim();
+        string = string.trim();
 
         reference = removePunctuation(reference);
         reference = replaceSpecialCharacters(reference);
-        reference = reference
-            .toLowerCase()
-            .trim();
+        reference = reference.trim();
 
         const stringTokens = string
             .split(' ')
@@ -510,14 +514,12 @@ const stringMatchesReference = (() => {
  * @returns {['accept' | 'prompt' | 'reject', String | null]} - [directive, directed prompt]
  */
 function checkAnswer(answerline, givenAnswer) {
+    answerline = answerline.toLowerCase();
+    givenAnswer = givenAnswer.toLowerCase();
+
     const answerWorks = (answerline, givenAnswer, answerlineIsFormatted) => {
         if (answerlineIsFormatted) {
-            if (/-/.test(answerline) || /-/.test(givenAnswer)) {
-                return stringMatchesReference({ string: answerline.replace(/-/g, ' '), reference: givenAnswer.replace(/-/g, ' ') })
-                || stringMatchesReference({ string: answerline.replace(/-/g, ''), reference: givenAnswer.replace(/-/g, '') });
-            } else {
-                return stringMatchesReference({ string: answerline, reference: givenAnswer });
-            }
+            return stringMatchesReference({ string: answerline, reference: givenAnswer });
         } else {
             return stringMatchesReference({ string: givenAnswer, reference: answerline, acceptSubstring: true });
         }
@@ -541,7 +543,7 @@ function checkAnswer(answerline, givenAnswer) {
         return ['reject', null];
     }
 
-    if (answerline.includes('[accept either') || answerline.includes('(accept either')) {
+    if (/[[(]accept either/i.test(answerline)) {
         for (const answer of parsedAnswerline.accept[0][0].split(' ')) {
             if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
                 return ['accept', null];
