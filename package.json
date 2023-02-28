@@ -6,7 +6,9 @@
         "compile-react": "babel client/database/index.jsx -o client/database/index.js",
         "start": "node server/server.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "test:frontend": "node tests/scorer.test.js",
+        "test:backend": "node tests/database.test.js"
     },
     "dependencies": {
         "bootstrap": "5.2.3",
