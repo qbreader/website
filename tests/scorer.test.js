@@ -26,9 +26,12 @@ function testAnswerline(group) {
 }
 
 
-function testAnswerType(type) {
+function testAnswerType(type, count = -1) {
     console.log(`TESTING scorer.checkAnswer() for ${type} answerlines`);
     let successful = 0, total = 0;
+
+    if (count > 0)
+        tests[type].splice(count);
 
     tests[type].forEach(group => {
         const { successful: s, total: t } = testAnswerline(group);
@@ -44,11 +47,13 @@ function testAnswerType(type) {
 console.time('scorer.test.js');
 let successful = 0, total = 0;
 
-let { successful: s, total: t } = testAnswerType('formatted');
+const count = -1;
+
+let { successful: s, total: t } = testAnswerType('formatted', count);
 successful += s;
 total += t;
 
-({ successful: s, total: t } = testAnswerType('unformatted'));
+({ successful: s, total: t } = testAnswerType('unformatted', count));
 successful += s;
 total += t;
 
