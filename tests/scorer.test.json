@@ -1,6 +1,13 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>wavefunction</u></b> [or <b><u>psi</u></b> before mention]",
+            "tests": [
+                { "directive": "accept", "given": "wave function" },
+                { "directive": "accept", "given": "wavefunction" }
+            ]
+        },
+        {
             "answerline": "<b><u>Mouse</u></b>",
             "tests": [
                 { "directive": "accept", "given": "mice" }

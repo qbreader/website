@@ -303,6 +303,8 @@ const parseAnswerline = (() => {
             return '1984';
         case 'mouse':
             return 'mice';
+        case 'wavefunction':
+            return 'wave function';
         }
 
         return null;
