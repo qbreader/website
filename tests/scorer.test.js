@@ -1,8 +1,9 @@
 const scorer = require('../server/scorer.js');
 const tests = require('./scorer.test.json');
+const bcolors = require('../bcolors.js');
 
 function errorText(text) { // colors text red
-    return '\x1b[31m' + text + '\x1b[0m';
+    return `${bcolors.FAIL}${text}${bcolors.ENDC}`;
 }
 
 
