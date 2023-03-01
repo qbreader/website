@@ -1,5 +1,11 @@
 const scorer = require('../server/scorer.js');
 const tests = require('./scorer.test.json');
+const bcolors = require('../bcolors.js');
+
+function errorText(text) { // colors text red
+    return `${bcolors.FAIL}${text}${bcolors.ENDC}`;
+}
+
 
 function testAnswerline(group) {
     const answerline = group.answerline;
@@ -12,14 +18,20 @@ function testAnswerline(group) {
 
         const [result, directedPrompt] = scorer.checkAnswer(answerline, givenAnswer);
 
-        console.assert(expected === result, `expected "${expected}" but got "${result}" for given answer "${givenAnswer}"`);
-
-        if (expectedDirectedPrompt || directedPrompt) {
-            console.assert(expectedDirectedPrompt === directedPrompt, `expected directed prompt "${expectedDirectedPrompt}" but got "${directedPrompt}" for given answer "${givenAnswer}"`);
-        }
+        const eqAnswer = expected === result;
 
         total++;
-        if (expected === result) successful++;
+
+        console.assert(eqAnswer, errorText(`expected "${expected}" but got "${result}" for given answer "${givenAnswer}"`));
+        if (!eqAnswer) return;
+
+        if (expectedDirectedPrompt || directedPrompt) {
+            const eqPrompt = expectedDirectedPrompt === directedPrompt;
+            console.assert(eqPrompt, errorText(`expected directed prompt "${expectedDirectedPrompt}" but got "${directedPrompt}" for given answer "${givenAnswer}"`));
+            if (!eqPrompt) return;
+        }
+
+        successful++;
     });
 
     return { successful, total };
@@ -59,3 +71,7 @@ total += t;
 
 console.log(`OVERALL ${successful}/${total} tests successful`);
 console.timeEnd('scorer.test.js');
+
+if (successful !== total) {
+    process.exit(1);
+}
