@@ -189,6 +189,7 @@ const socketOnConnectionAcknowledged = (message) => {
             document.getElementById('set-name').classList.add('is-invalid');
         }
     })();
+
     tossup = message.tossup;
     document.getElementById('set-name-info').innerHTML = message.tossup?.setName ?? '';
     document.getElementById('packet-number-info').innerHTML = message.tossup?.packetNumber ?? '-';
@@ -228,6 +229,11 @@ const socketOnConnectionAcknowledged = (message) => {
     } else {
         document.getElementById('next').innerHTML = 'Next';
         document.getElementById('options').classList.add('d-none');
+    }
+
+    if (message.isPermanent) {
+        document.getElementById('toggle-visibility').disabled = true;
+        document.getElementById('private-chat-warning').classList.add('d-none');
     }
 
     Object.keys(message.players).forEach(userId => {
