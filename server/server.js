@@ -13,6 +13,8 @@ const wss = new WebSocket.Server({
     maxPayload: 128 * 1024, // 128 KB
 });
 
+app.use(express.json());
+
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
@@ -41,6 +43,43 @@ app.use((err, req, res, _next) => {
 
 const Room = require('./Room');
 
+const rooms = {};
+const permanentRooms = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
+
+for (const roomName of permanentRooms) {
+    rooms[roomName] = new Room(roomName);
+}
+
+app.get('/api/multiplayer/room-list', (req, res) => {
+    const roomList = {};
+    for (const roomName in rooms) {
+        if (rooms[roomName].settings.public) {
+            roomList[roomName] = [
+                Object.keys(rooms[roomName].players).length,
+                Object.keys(rooms[roomName].sockets).length,
+                permanentRooms.includes(roomName),
+            ];
+        }
+    }
+
+    res.send(JSON.stringify(roomList));
+});
+
+wss.on('connection', (ws) => {
+    let [roomName, userId, username] = ws.protocol.split('%%%');
+    roomName = DOMPurify.sanitize(decodeURIComponent(roomName));
+    userId = decodeURIComponent(userId);
+    username = decodeURIComponent(username);
+    userId = (userId === 'unknown') ? uuid.v4() : userId;
+
+    if (!Object.prototype.hasOwnProperty.call(rooms, roomName)) {
+        rooms[roomName] = new Room(roomName);
+    }
+
+    rooms[roomName].connection(ws, userId, username);
+});
+
+
 const apiRouter = require('../routes/api');
 const apiInfoRouter = require('../routes/api-info');
 const tossupsRouter = require('../routes/tossups');
@@ -49,10 +88,6 @@ const multiplayerRouter = require('../routes/multiplayer');
 const databaseRouter = require('../routes/database');
 const aboutRouter = require('../routes/about');
 const backupsRouter = require('../routes/backups');
-
-const rooms = {};
-
-app.use(express.json());
 
 app.get('/robots.txt', (req, res) => {
     res.sendFile('robots.txt', { root: './client' });
@@ -86,17 +121,6 @@ app.get('/*.ico', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
 
-app.get('/api/multiplayer/room-list', (req, res) => {
-    const roomList = {};
-    for (const roomName in rooms) {
-        if (rooms[roomName].settings.public) {
-            roomList[roomName] = [Object.keys(rooms[roomName].players).length, Object.keys(rooms[roomName].sockets).length];
-        }
-    }
-
-    res.send(JSON.stringify(roomList));
-});
-
 app.use('/api', apiRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/bonuses', bonusesRouter);
@@ -112,21 +136,6 @@ app.get('/database', (req, res) => {
 
 app.get('/', (req, res) => {
     res.sendFile('tossups.html', { root: './client/singleplayer/' });
-});
-
-
-wss.on('connection', (ws) => {
-    let [roomName, userId, username] = ws.protocol.split('%%%');
-    roomName = DOMPurify.sanitize(decodeURIComponent(roomName));
-    userId = decodeURIComponent(userId);
-    username = decodeURIComponent(username);
-    userId = (userId === 'unknown') ? uuid.v4() : userId;
-
-    if (!Object.prototype.hasOwnProperty.call(rooms, roomName)) {
-        rooms[roomName] = new Room(roomName);
-    }
-
-    rooms[roomName].connection(ws, userId, username);
 });
 
 
