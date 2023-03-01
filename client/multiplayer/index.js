@@ -25,14 +25,19 @@ fetch('/api/multiplayer/room-list')
     })
     .then(rooms => {
         rooms.forEach(room => {
-            const a = document.createElement('a');
-            a.href = `/multiplayer/${room[0]}`;
-            a.innerHTML = decodeURIComponent(room[0]);
+            const [roomName, [playerCount, onlineCount, isPermanent]] = room;
             const li = document.createElement('li');
-            li.appendChild(a);
-            li.appendChild(document.createTextNode(` - ${room[1][0]} player${room[1][0] === 1 ? '' : 's'} - ${room[1][1]} online`));
+            li.innerHTML = `
+                <a href="/multiplayer/${roomName}">${decodeURIComponent(roomName)}</a>
+                - ${playerCount} player${playerCount === 1 ? '' : 's'} - ${onlineCount} online
+            `;
             li.classList.add('list-group-item');
-            document.getElementById('room-list').appendChild(li);
+
+            if (isPermanent) {
+                document.getElementById('permanent-room-list').appendChild(li);
+            } else {
+                document.getElementById('room-list').appendChild(li);
+            }
         });
     });
 
