@@ -9,8 +9,9 @@ const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
 class Room {
-    constructor(name) {
+    constructor(name, isPermanent = false) {
         this.name = name;
+        this.isPermanent = isPermanent;
 
         this.players = {};
         this.sockets = {};
@@ -88,6 +89,8 @@ class Room {
         socket.send(JSON.stringify({
             type: 'connection-acknowledged',
             userId: userId,
+
+            isPermanent: this.isPermanent,
 
             players: this.players,
 
@@ -236,6 +239,9 @@ class Room {
             break;
 
         case 'toggle-visibility':
+            if (this.isPermanent)
+                break;
+
             this.settings.public = message.public;
             this.sendSocketMessage({
                 type: 'toggle-visibility',

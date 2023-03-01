@@ -41,13 +41,14 @@ app.use((err, req, res, _next) => {
     }
 });
 
+
 const Room = require('./Room');
 
 const rooms = {};
 const permanentRooms = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
 
 for (const roomName of permanentRooms) {
-    rooms[roomName] = new Room(roomName);
+    rooms[roomName] = new Room(roomName, true);
 }
 
 app.get('/api/multiplayer/room-list', (req, res) => {
@@ -72,9 +73,8 @@ wss.on('connection', (ws) => {
     username = decodeURIComponent(username);
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
-    if (!Object.prototype.hasOwnProperty.call(rooms, roomName)) {
-        rooms[roomName] = new Room(roomName);
-    }
+    if (!Object.prototype.hasOwnProperty.call(rooms, roomName))
+        rooms[roomName] = new Room(roomName, false);
 
     rooms[roomName].connection(ws, userId, username);
 });
