@@ -137,11 +137,11 @@ function TossupCard({ tossup }) {
 
     return (
         <div className="card my-2">
-            <div className="card-header">
+            <div className="card-header" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`} aria-expanded="true">
                 <b>{tossup.setName} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}</b>
                 <b className="float-end">Packet {tossup.packetNumber} | Question {tossup.questionNumber}</b>
             </div>
-            <div className="card-container">
+            <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
                     <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question }}></span>&nbsp;
                     <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
@@ -169,11 +169,11 @@ function BonusCard({ bonus }) {
 
     return (
         <div className="card my-2">
-            <div className="card-header">
+            <div className="card-header" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`} aria-expanded="true">
                 <b>{bonus.setName} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}</b>
                 <b className="float-end">Packet {bonus.packetNumber} | Question {bonus.questionNumber}</b>
             </div>
-            <div className="card-container">
+            <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
                     <p dangerouslySetInnerHTML={{ __html: bonus.leadin }}></p>
                     {indices.map((i) =>

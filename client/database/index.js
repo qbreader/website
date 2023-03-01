@@ -90,11 +90,15 @@ function TossupCard({
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header"
+    className: "card-header",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": `#question-${_id}`,
+    "aria-expanded": "true"
   }, /*#__PURE__*/React.createElement("b", null, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", tossup.packetNumber, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container"
+    className: "card-container collapse show",
+    id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/React.createElement("span", {
@@ -128,11 +132,15 @@ function BonusCard({
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header"
+    className: "card-header",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": `#question-${_id}`,
+    "aria-expanded": "true"
   }, /*#__PURE__*/React.createElement("b", null, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", bonus.packetNumber, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container"
+    className: "card-container collapse show",
+    id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/React.createElement("p", {
