@@ -413,6 +413,8 @@ const stringMatchesReference = (() => {
         case 'dr':
         case 'dr.':
             return 'doctor';
+
+        // ordinals
         case '1st':
             return 'first';
         case '2nd':
@@ -433,6 +435,12 @@ const stringMatchesReference = (() => {
             return 'ninth';
         case '10th':
             return 'tenth';
+
+            // units
+        case 'cm':
+            return 'centimeter';
+        case 'mm':
+            return 'millimeter';
         }
 
         return string;
