@@ -1,6 +1,13 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>Second Punic</u></b> War [prompt on <b><u>Punic</u></b> Wars; prompt on <b><u>Carthaginian</u></b> Wars]",
+            "tests": [
+                { "directive": "accept", "given": "2nd punic" },
+                { "directive": "prompt", "given": "punic" }
+            ]
+        },
+        {
             "answerline": "<b><u>wavefunction</u></b> [or <b><u>psi</u></b> before mention]",
             "tests": [
                 { "directive": "accept", "given": "wave function" },
