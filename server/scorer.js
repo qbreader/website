@@ -413,6 +413,26 @@ const stringMatchesReference = (() => {
         case 'dr':
         case 'dr.':
             return 'doctor';
+        case '1st':
+            return 'first';
+        case '2nd':
+            return 'second';
+        case '3rd':
+            return 'third';
+        case '4th':
+            return 'fourth';
+        case '5th':
+            return 'fifth';
+        case '6th':
+            return 'sixth';
+        case '7th':
+            return 'seventh';
+        case '8th':
+            return 'eighth';
+        case '9th':
+            return 'ninth';
+        case '10th':
+            return 'tenth';
         }
 
         return string;
@@ -437,7 +457,8 @@ const stringMatchesReference = (() => {
         const stringTokens = string
             .split(' ')
             .filter(token => !METAWORDS.includes(token) && token.length > 0)
-            .map(string => replaceSpecialSubstrings(string));
+            .map(string => replaceSpecialSubstrings(string))
+            .map(string => replaceSpecialPhrases(string));
 
         if (stringTokens.length === 0)
             return false;
