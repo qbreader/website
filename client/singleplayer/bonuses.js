@@ -46,8 +46,11 @@ async function advanceQuestion() {
                 packetNumber = packetNumbers[0];
 
                 queryLock();
-                questions = await getBonuses(setName, packetNumber);
-                queryUnlock();
+                try {
+                    questions = await getBonuses(setName, packetNumber);
+                } finally {
+                    queryUnlock();
+                }
 
                 questionNumber = 0;
             }
@@ -60,13 +63,17 @@ async function advanceQuestion() {
         }
     } else {
         queryLock();
-        questions = [await getRandomQuestion(
-            'bonus',
-            rangeToArray(document.getElementById('difficulties').value),
-            validCategories,
-            validSubcategories
-        )];
-        queryUnlock();
+        try {
+            questions = await getRandomQuestion(
+                'bonus',
+                rangeToArray(document.getElementById('difficulties').value),
+                validCategories,
+                validSubcategories,
+            );
+            questions = [questions];
+        } finally {
+            queryUnlock();
+        }
 
         ({ setName, packetNumber, questionNumber } = questions[0]);
 
@@ -300,8 +307,11 @@ document.getElementById('start').addEventListener('click', async function () {
     start(document.getElementById('toggle-select-by-set-name').checked);
 
     queryLock();
-    questions = await getBonuses(setName, packetNumber);
-    queryUnlock();
+    try {
+        questions = await getBonuses(setName, packetNumber);
+    } finally {
+        queryUnlock();
+    }
 
     next();
 });
