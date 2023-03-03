@@ -136,6 +136,12 @@ socket.onmessage = function (event) {
         document.getElementById('question').innerHTML += data.word + ' ';
         break;
 
+    case 'year-range':
+        console.log(data);
+        document.getElementById('year-range-a').value = data.minYear;
+        document.getElementById('year-range-b').value = data.maxYear;
+        document.getElementById('year-range').innerHTML = `${data.minYear} - ${data.maxYear}`;
+        break;
     }
 };
 
@@ -235,6 +241,10 @@ const socketOnConnectionAcknowledged = (message) => {
         document.getElementById('toggle-visibility').disabled = true;
         document.getElementById('private-chat-warning').classList.add('d-none');
     }
+
+    document.getElementById('year-range-a').value = message.minYear;
+    document.getElementById('year-range-b').value = message.maxYear;
+    document.getElementById('year-range').innerHTML = `${message.minYear} - ${message.maxYear}`;
 
     Object.keys(message.players).forEach(userId => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
@@ -611,6 +621,15 @@ document.getElementById('username').addEventListener('change', function () {
     localStorage.setItem('username', username);
 });
 
+document.getElementById('year-range-a').addEventListener('click', function () {
+    const [minYear, maxYear] = document.getElementById('year-range').innerHTML.split('-').map(x => parseInt(x));
+    socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
+});
+
+document.getElementById('year-range-b').addEventListener('click', function () {
+    const [minYear, maxYear] = document.getElementById('year-range').innerHTML.split('-').map(x => parseInt(x));
+    socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
+});
 
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function () {

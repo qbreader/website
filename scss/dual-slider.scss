@@ -1,0 +1,33 @@
+// source: https://stackoverflow.com/questions/4753946/html-slider-with-two-inputs-possible
+// with some modifications
+
+section.dual-slider {
+    position: relative;
+    height: 48px;
+}
+
+section.dual-slider input {
+    position: absolute;
+    overflow: hidden;
+    bottom: 0;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+section.dual-slider input::-webkit-slider-thumb {
+    position: relative;
+    z-index: 1;
+    outline: 0;
+}
+
+section.dual-slider input::-moz-range-thumb {
+    position: relative;
+    z-index: 10;
+    -moz-appearance: none;
+    width: 9px;
+}
+
+section.dual-slider .rangeValues {
+    cursor: default;
+}
