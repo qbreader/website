@@ -481,6 +481,18 @@ document.getElementById('type-to-answer').addEventListener('click', function () 
 });
 
 
+document.getElementById('year-range-a').addEventListener('change', function () {
+    randomQuestions = [];
+    loadRandomQuestions('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+});
+
+
+document.getElementById('year-range-b').addEventListener('change', function () {
+    randomQuestions = [];
+    loadRandomQuestions('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+});
+
+
 document.addEventListener('keydown', (event) => {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 

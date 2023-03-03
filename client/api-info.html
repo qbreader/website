@@ -196,18 +196,6 @@
                 </ul>
             </li>
             <li class="list-group-item">
-                <div>GET <code>qbreader.org/api/random-name</code></div>
-                <i>Takes no parameters.</i>
-                <ul>
-                    <li>
-                        <b>returns</b> - a random adjective-noun pair that can be used as a name.
-                        <ul>
-                            <li>Example: <code>amiable-emu</code></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="list-group-item">
                 <div>GET <code>qbreader.org/api/query</code></div>
                 <div>Parameters:</div>
                 <ul>
@@ -293,6 +281,18 @@
                 </ul>
             </li>
             <li class="list-group-item">
+                <div>GET <code>qbreader.org/api/random-name</code></div>
+                <i>Takes no parameters.</i>
+                <ul>
+                    <li>
+                        <b>returns</b> - a random adjective-noun pair that can be used as a name.
+                        <ul>
+                            <li>Example: <code>amiable-emu</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="list-group-item">
                 <div>POST <code>qbreader.org/api/random-question</code></div>
                 <div>Parameters:</div>
                 <ul>
@@ -339,6 +339,12 @@
                         <ul>
                             If <b>undefined or omitted,</b> returns 1 question.
                         </ul>
+                    </li>
+                    <li>
+                        [optional] <code>minYear</code> - a <b>number</b> (default: 2010)
+                    </li>
+                    <li>
+                        [optional] <code>maxYear</code> - a <b>number</b> (default: 2023)
                     </li>
                     <li>
                         <b>returns</b> - a <b>JSON array</b> of random questions.
