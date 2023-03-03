@@ -18,18 +18,15 @@ function updateValues() {
     displayElement.innerHTML = slide1 + ' - ' + slide2;
 }
 
-window.onload = () => {
-    // Initialize Sliders
-    let sliderSections = document.getElementsByClassName('dual-slider');
-    for (let x = 0; x < sliderSections.length; x++) {
-        let sliders = sliderSections[x].getElementsByTagName('input');
-        console.log(sliders);
-        for (let y = 0; y < sliders.length; y++) {
-            if (sliders[y].type ==='range') {
-                sliders[y].oninput = updateValues;
-                // Manually trigger event first time to display values
-                sliders[y].oninput();
-            }
+// Initialize Sliders
+let sliderSections = document.getElementsByClassName('dual-slider');
+for (let x = 0; x < sliderSections.length; x++) {
+    let sliders = sliderSections[x].getElementsByTagName('input');
+    for (let y = 0; y < sliders.length; y++) {
+        if (sliders[y].type ==='range') {
+            sliders[y].oninput = updateValues;
+            // Manually trigger event first time to display values
+            sliders[y].oninput();
         }
     }
-};
+}
