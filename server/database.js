@@ -275,47 +275,58 @@ function getRandomName() {
  * @param {Array<String>} categories - an array of allowed categories. Pass a 0-length array to select any category.
  * @param {Array<String>} subcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
  * @param {Number} number - how many random tossups to return. Default: 20.
- * @param {Array<Number>} yearRange - an array of allowed years. Pass a 0-length array to select any year.
+ * @param {Number} minYear - the minimum year to select from. Default: 2010.
+ * @param {Number} maxYear - the maximum year to select from. Default: 2023.
  * @returns {Promise<Array<JSON>>}
  */
-async function getRandomQuestions({ questionType = 'tossup', difficulties, categories, subcategories, number, verbose = true, yearRange = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023] }) {
+async function getRandomQuestions({ questionType = 'tossup', difficulties, categories, subcategories, number, verbose = true, minYear = 2010, maxYear = 2023 }) {
     if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
     if (!categories || categories.length === 0) categories = CATEGORIES;
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
     if (!number) number = 20;
 
-    if (verbose)
-        console.log(`[DATABASE] RANDOM QUESTIONS: difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; number: ${bcolors.OKGREEN}${number}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; categories: ${bcolors.OKGREEN}${categories}${bcolors.ENDC}; subcategories: ${bcolors.OKGREEN}${subcategories}${bcolors.ENDC};`);
+    if (isFinite(minYear)) {
+        minYear = parseInt(minYear);
+    } else {
+        minYear = 2010;
+    }
 
-    /**
-     * Tests show that using the `$in yearRange` match stage is about as fast as using `$gte`.
-     */
+    if (isFinite(maxYear)) {
+        maxYear = parseInt(maxYear);
+    } else {
+        maxYear = 2023;
+    }
+
+    if (verbose)
+        console.log(`\
+[DATABASE] RANDOM QUESTIONS: \
+question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; \
+difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; \
+years: ${bcolors.OKGREEN}${minYear} to ${maxYear}${bcolors.ENDC}; \
+number: ${bcolors.OKGREEN}${number}${bcolors.ENDC}; \
+categories: ${bcolors.OKCYAN}${categories}${bcolors.ENDC}; \
+subcategories: ${bcolors.OKCYAN}${subcategories}${bcolors.ENDC};\
+`);
+
+    const aggregation = [
+        { $match: {
+            difficulty: { $in: difficulties },
+            category: { $in: categories },
+            subcategory: { $in: subcategories },
+            setYear: { $gte: minYear, $lte: maxYear },
+        } },
+        { $sample: { size: number } },
+    ];
 
     if (questionType === 'tossup') {
-        const questionArray = await tossups.aggregate([
-            { $match: {
-                difficulty: { $in: difficulties },
-                category: { $in: categories },
-                subcategory: { $in: subcategories },
-                setYear: { $in: yearRange },
-            } },
-            { $sample: { size: number } },
-        ]).toArray();
+        const questionArray = await tossups.aggregate(aggregation).toArray();
 
         if (questionArray.length === 0)
             return [{}];
 
         return questionArray;
     } else if (questionType === 'bonus') {
-        const questionArray = await bonuses.aggregate([
-            { $match: {
-                difficulty: { $in: difficulties },
-                category: { $in: categories },
-                subcategory: { $in: subcategories },
-                setYear: { $in: yearRange },
-            } },
-            { $sample: { size: number } },
-        ]).toArray();
+        const questionArray = await bonuses.aggregate(aggregation).toArray();
 
         if (questionArray.length === 0)
             return [{}];

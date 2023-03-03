@@ -31,6 +31,8 @@ $link-decoration: none;
 
 // 8. Add additional custom code here
 
+@import "./dual-slider";
+
 .bg-custom {
     background-color: $custom;
 }

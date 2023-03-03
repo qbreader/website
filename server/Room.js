@@ -31,6 +31,8 @@ class Room {
 
         this.query = {
             difficulties: [4, 5],
+            minYear: 2010,
+            maxYear: 2023,
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
             questionType: 'tossup',
             setName: '2022 PACE NSC',
@@ -99,6 +101,8 @@ class Room {
             questionProgress: this.questionProgress,
 
             difficulties: this.query.difficulties,
+            minYear: this.query.minYear,
+            maxYear: this.query.maxYear,
             packetNumbers: this.query.packetNumbers,
             setName: this.query.setName,
             validCategories: this.query.categories,
@@ -259,13 +263,21 @@ class Room {
             });
             this.adjustQuery(['categories', 'subcategories'], [message.categories, message.subcategories]);
             break;
+
+        case 'year-range':
+            this.sendSocketMessage({
+                type: 'year-range',
+                minYear: message.minYear,
+                maxYear: message.maxYear,
+            });
+            this.adjustQuery(['minYear', 'maxYear'], [message.minYear, message.maxYear]);
+            break;
         }
     }
 
     adjustQuery(settings, values) {
-        if (settings.length !== values.length) {
+        if (settings.length !== values.length)
             return;
-        }
 
         for (let i = 0; i < settings.length; i++) {
             const setting = settings[i];
