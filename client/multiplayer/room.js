@@ -4,6 +4,7 @@ let validCategories = [];
 let validSubcategories = [];
 
 let maxPacketNumber = 24;
+let powermarkPosition = 0;
 
 // Do not escape room name as that is how it is stored on the server.
 const ROOM_NAME = location.pathname.substring(13);
@@ -130,10 +131,18 @@ socket.onmessage = function (event) {
 
     case 'update-answer':
         document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
+        let question = (document.getElementById('question').innerHTML);
+        if (powermarkPosition)
+            question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
+        const powerParts = question.split('(*)');
+        document.getElementById('question').innerHTML = `${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : powerParts[0]}`;
         break;
 
     case 'update-question':
-        document.getElementById('question').innerHTML += data.word + ' ';
+        if (data.word === '(*)')
+            powermarkPosition = document.getElementById('question').innerHTML.length;
+        else
+            document.getElementById('question').innerHTML += data.word + ' ';
         break;
 
     case 'year-range':
@@ -351,6 +360,7 @@ const socketOnNext = (message) => {
     document.getElementById('next').classList.remove('btn-success');
     document.getElementById('next').innerHTML = 'Skip';
     document.getElementById('question').innerHTML = '';
+    powermarkPosition = 0;
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
     document.getElementById('buzz').disabled = false;
@@ -370,6 +380,7 @@ const socketOnStart = (message) => {
     logEvent(message.username, 'started the game');
 
     document.getElementById('question').innerHTML = '';
+    powermarkPosition = 0;
     document.getElementById('answer').innerHTML = '';
     document.getElementById('buzz').innerHTML = 'Buzz';
     document.getElementById('buzz').disabled = false;
