@@ -131,10 +131,10 @@ socket.onmessage = function (event) {
 
     case 'update-answer':
         document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
-        let question = (document.getElementById('question').innerHTML);
+        question = (document.getElementById('question').innerHTML);
         if (powermarkPosition)
             question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
-        const powerParts = question.split('(*)');
+        powerParts = question.split('(*)');
         document.getElementById('question').innerHTML = `${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : powerParts[0]}`;
         break;
 
