@@ -10,6 +10,7 @@ let validSubcategories;
 let currentlyBuzzing = false;
 let packetNumber = -1;
 let paused = false;
+let powermarkPosition = 0;
 
 // WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
 let questionNumber = 0;
@@ -196,6 +197,7 @@ async function next() {
     document.getElementById('set-name-info').innerHTML = setName;
 
     paused = false;
+    powermarkPosition = 0;
     readQuestion(new Date().getTime());
 }
 
@@ -224,7 +226,10 @@ function pause() {
 function readQuestion(expectedReadTime) {
     if (!currentlyBuzzing && questionTextSplit.length > 0) {
         const word = questionTextSplit.shift();
-        document.getElementById('question').innerHTML += word + ' ';
+        if (word === '(*)')
+            powermarkPosition = document.getElementById('question').innerHTML.length;
+        else
+            document.getElementById('question').innerHTML += word + ' ';
 
         // calculate time needed before reading next word
         let time = Math.log(word.length) + 1;
@@ -257,7 +262,11 @@ function reveal() {
 
 function revealQuestion() {
     document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber].answer;
-    document.getElementById('question').innerHTML += questionTextSplit.join(' ');
+    let question = (document.getElementById('question').innerHTML);
+    if (powermarkPosition)
+        question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
+    const powerParts = (question + questionTextSplit.join(' ')).split('(*)');
+    document.getElementById('question').innerHTML = `${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : powerParts[0]}`;
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('buzz').innerHTML = 'Buzz';
