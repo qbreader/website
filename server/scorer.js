@@ -607,17 +607,4 @@ function checkAnswer(answerline, givenAnswer) {
 }
 
 
-/**
- * @param {String} answerline
- * @param {String} givenAnswer
- * @param {Boolean} inPower
- * @param {Boolean} endOfQuestion
- * @returns {{ 'directive': 'accept' | 'prompt' | 'reject', 'points': Number, 'directedPrompt': String }}
- */
-function scoreTossup(answerline, givenAnswer, inPower, endOfQuestion) {
-    const [directive, directedPrompt] = checkAnswer(answerline, givenAnswer);
-    const isCorrect = (directive === 'accept');
-    return { directive, points: isCorrect ? (inPower ? 15 : 10) : (endOfQuestion ? 0 : -5), directedPrompt };
-}
-
-module.exports = { checkAnswer, scoreTossup };
+module.exports = { checkAnswer };
