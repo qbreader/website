@@ -2,6 +2,7 @@ const bcolors = require('../bcolors');
 const database = require('./database');
 const Player = require('./Player');
 const scorer = require('./scorer');
+const quizbowl = require('./quizbowl');
 
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
@@ -176,7 +177,7 @@ class Room {
             break;
 
         case 'give-answer':
-            this.giveAnswer(userId, message.givenAnswer, message.celerity);
+            this.giveAnswer(userId, message.givenAnswer);
             break;
 
         case 'leave':
@@ -382,20 +383,31 @@ class Room {
         delete this.players[userId];
     }
 
-    giveAnswer(userId, givenAnswer, celerity) {
-        if (Object.keys(this.tossup).length === 0) return;
+    giveAnswer(userId, givenAnswer) {
+        if (Object.keys(this.tossup).length === 0)
+            return;
+
         this.buzzedIn = null;
+        const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-        const { directive, points, directedPrompt } = scorer.scoreTossup(this.tossup.answer, givenAnswer, inPower, endOfQuestion);
+        const [directive, directedPrompt] = scorer.checkAnswer(this.tossup.answer, givenAnswer);
+        const points = quizbowl.scoreTossup({
+            isCorrect: directive === 'accept',
+            inPower,
+            endOfQuestion,
+        });
 
-        if (directive === 'accept') {
+        switch (directive) {
+        case 'accept':
             this.revealQuestion();
             this.players[userId].updateStats(points, celerity);
             Object.values(this.players).forEach(player => { player.tuh++; });
-        } else if (directive === 'reject') {
+            break;
+        case 'reject':
             this.readQuestion(new Date().getTime());
             this.players[userId].updateStats(points, celerity);
+            break;
         }
 
         this.sendSocketMessage({

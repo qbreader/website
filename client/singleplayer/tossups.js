@@ -21,6 +21,7 @@ let toggleCorrectClicked = -1;
 let previous = {
     points: 0,
     celerity: 0,
+    result: null,
     endOfQuestion: false,
 };
 
@@ -105,7 +106,7 @@ async function advanceQuestion() {
 
         if (Object.keys(questions[0]).length === 0) return false;
 
-        questionText = questions[0]['question'];
+        questionText = questions[0].question;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');
         document.getElementById('question-number-info').innerHTML = questionNumber;
         questionNumber = 0;
@@ -166,6 +167,14 @@ async function giveAnswer(givenAnswer) {
         document.getElementById('answer-input').focus();
         document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
     }
+}
+
+
+function isPace(setName) {
+    if (!setName)
+        return false;
+
+    return setName.includes('PACE');
 }
 
 
@@ -253,13 +262,6 @@ function readQuestion(expectedReadTime) {
 }
 
 
-function reveal() {
-    currentlyBuzzing = false;
-    updateScore(true);
-    revealQuestion();
-}
-
-
 function revealQuestion() {
     document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber].answer;
     let question = (document.getElementById('question').innerHTML);
@@ -278,23 +280,14 @@ function revealQuestion() {
 
 
 function toggleCorrect() {
-    let result;
-
-    if (previous.points > 10) result = 'powers';
-
-    if (previous.points === 10) result = 'tens';
-
-    if (previous.points === 0) result = 'zeroes';
-
-    if (previous.points < 0) result = 'negs';
-
-    shift(result, toggleCorrectClicked);
+    shift(previous.result, toggleCorrectClicked);
     shift('points', toggleCorrectClicked * previous.points);
+    shift('totalCelerity', toggleCorrectClicked * previous.celerity);
 
     // Check if there is more question to be read
-    if (questionTextSplit.length === 0) {
+    if (previous.endOfQuestion) {
         shift('dead', -toggleCorrectClicked);
-    } else if (setName.toLowerCase().includes('pace')) {
+    } else if (isPace(setName)) {
         shift('negs', -toggleCorrectClicked);
     } else {
         shift('negs', -toggleCorrectClicked);
@@ -308,44 +301,42 @@ function toggleCorrect() {
 
 
 function updateScore(isCorrect) {
-    let points = 0;
     let celerity = 0;
     const endOfQuestion = (questionTextSplit.length === 0);
-    const inPower = !document.getElementById('question').innerHTML.includes('(*)') && questionText.includes('(*)');
+    const inPower = questionTextSplit.includes('(*)') && questionText.includes('(*)');
+    const powerValue = isPace(setName) ? 20 : 15;
+    const negValue = isPace(setName) ? 0 : -5;
+    const points = isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
+
+    let result;
 
     if (isCorrect) {
         if (inPower) {
-            shift('powers', 1);
-            if (setName.toLowerCase().includes('pace')) {
-                points = 20;
-            } else {
-                points = 15;
-            }
+            result = 'powers';
         } else {
-            shift('tens', 1);
-            points = 10;
+            result = 'tens';
         }
 
-        const characterCount = document.getElementById('question').innerHTML.length;
-        celerity = 1 - characterCount / questionText.length;
+        const characterCount = questionTextSplit.join(' ').length;
+        celerity = characterCount / questionText.length;
         shift('totalCelerity', celerity);
     } else {
         if (endOfQuestion) {
-            shift('dead', 1);
-        } else if (setName.toLowerCase().includes('pace')) {
-            shift('negs', 1);
+            result = 'dead';
         } else {
-            shift('negs', 1);
-            points = -5;
+            result = 'negs';
         }
     }
 
+    shift(result, 1);
     shift('points', points);
 
     updateStatDisplay();
 
-    previous.points = points;
     previous.celerity = celerity;
+    previous.endOfQuestion = endOfQuestion;
+    previous.points = points;
+    previous.result = result;
 }
 
 
@@ -384,8 +375,12 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
 
+    // reveal answer on second click
+    // when NOT using type to answer
     if (currentlyBuzzing) {
-        reveal();
+        currentlyBuzzing = false;
+        updateScore(true);
+        revealQuestion();
         return;
     }
 
