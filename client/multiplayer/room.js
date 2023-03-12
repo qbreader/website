@@ -491,13 +491,9 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     document.getElementById('answer-input-group').classList.add('d-none');
     document.getElementById('answer-input').blur();
 
-    const characterCount = document.getElementById('question').innerHTML.length;
-    const celerity = 1 - characterCount / tossup.question.length;
-
     socket.send(JSON.stringify({
         type: 'give-answer',
         givenAnswer: answer,
-        celerity: celerity,
     }));
 });
 
