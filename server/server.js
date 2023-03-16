@@ -10,7 +10,7 @@ const uuid = require('uuid');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({
     server,
-    maxPayload: 128 * 1024, // 128 KB
+    maxPayload: 1024 * 1024 * 1, // 1 MB
 });
 
 app.use(express.json());
@@ -77,6 +77,15 @@ wss.on('connection', (ws) => {
         rooms[roomName] = new Room(roomName, false);
 
     rooms[roomName].connection(ws, userId, username);
+
+    ws.on('error', (err) => {
+        if (err instanceof RangeError) {
+            console.log(`[WEBSOCKET] WARNING: Max payload exceeded from ip ${ws._socket.remoteAddress}`);
+            ws.close();
+        } else {
+            console.log(err);
+        }
+    });
 });
 
 
