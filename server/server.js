@@ -51,7 +51,7 @@ for (const roomName of permanentRooms) {
     rooms[roomName] = new Room(roomName, true);
 }
 
-app.get('/api/multiplayer/room-list', (req, res) => {
+app.get('/api/multiplayer/room-list', (_req, res) => {
     const roomList = {};
     for (const roomName in rooms) {
         if (rooms[roomName].settings.public) {
@@ -98,7 +98,7 @@ const databaseRouter = require('../routes/database');
 const aboutRouter = require('../routes/about');
 const backupsRouter = require('../routes/backups');
 
-app.get('/robots.txt', (req, res) => {
+app.get('/robots.txt', (_req, res) => {
     res.sendFile('robots.txt', { root: './client' });
 });
 
@@ -139,11 +139,11 @@ app.use('/api-info', apiInfoRouter);
 app.use('/about', aboutRouter);
 app.use('/backups', backupsRouter);
 
-app.get('/database', (req, res) => {
+app.get('/database', (_req, res) => {
     res.redirect('/db');
 });
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
     res.sendFile('tossups.html', { root: './client/singleplayer/' });
 });
 
