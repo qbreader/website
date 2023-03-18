@@ -242,7 +242,7 @@ function TossupCard({ tossup }) {
             <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
                     <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question }}></span>&nbsp;
-                    <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                    <a className="user-select-none" href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                     <hr></hr>
                     <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.formatted_answer ?? tossup.answer }}></span></div>
                 </div>
@@ -279,10 +279,10 @@ function BonusCard({ bonus }) {
                             <hr></hr>
                             <p>
                                 [10]&nbsp;
-                                <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span>&nbsp;
+                                <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span>
                                 {
                                     i + 1 === bonusLength &&
-                                    <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                                    <>&nbsp;<a className="user-select-none" href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a></>
                                 }
                             </p>
                             <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i] }}></span></div>
