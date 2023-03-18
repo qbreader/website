@@ -54,15 +54,16 @@ const createBonusCard = (function () {
     let questionCounter = 0;
 
     return function (bonus) {
-        if (!bonus || Object.keys(bonus).length === 0) return;
+        if (!bonus || Object.keys(bonus).length === 0)
+            return;
 
         questionCounter++;
+
         const { leadin, parts, answers, category, subcategory, alternate_subcategory, setName, packetNumber, questionNumber, _id } = bonus;
 
         const bonusLength = bonus.parts.length;
 
         let cardHeader = '';
-
         for (let i = 0; i < bonusLength; i++) {
             cardHeader += removeParentheses(answers[i]);
 
@@ -71,12 +72,11 @@ const createBonusCard = (function () {
         }
 
         let cardBody = '';
-
         for (let i = 0; i < bonusLength; i++) {
             cardBody += `<hr></hr>
             <p>
                 [10] ${parts[i]}
-                ${i + 1 === bonusLength ? `<a href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>` : ''}
+                ${i + 1 === bonusLength ? `<a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>` : ''}
             </p>
             <div>ANSWER: ${answers[i]}</div>`;
         }
@@ -131,7 +131,7 @@ const createTossupCard = (function () {
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
                     ${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : question}
-                    <a href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                    <a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                     <hr></hr>
                     <div>ANSWER: ${answer}</div>
                 </div>

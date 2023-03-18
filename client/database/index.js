@@ -150,6 +150,7 @@ function TossupCard({
       __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question
     }
   }), "\xA0", /*#__PURE__*/React.createElement("a", {
+    className: "user-select-none",
     href: "#",
     onClick: onClick,
     id: `report-question-${_id}`,
@@ -197,13 +198,14 @@ function BonusCard({
     dangerouslySetInnerHTML: {
       __html: bonus.parts[i]
     }
-  }), "\xA0", i + 1 === bonusLength && /*#__PURE__*/React.createElement("a", {
+  }), i + 1 === bonusLength && /*#__PURE__*/React.createElement(React.Fragment, null, "\xA0", /*#__PURE__*/React.createElement("a", {
+    className: "user-select-none",
     href: "#",
     onClick: onClick,
     id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"
-  }, "Report Question")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
+  }, "Report Question"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: (bonus?.formatted_answers ?? bonus.answers)[i]
     }
