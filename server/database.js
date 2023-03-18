@@ -85,8 +85,18 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
 
     const packetId = set.packets[packetNumber - 1]._id;
 
-    const tossupResult = questionTypes.includes('tossups') ? tossups.find({ packet: packetId }, { sort: { questionNumber: 1 } }).toArray() : null;
-    const bonusResult  = questionTypes.includes('bonuses') ? bonuses.find({ packet: packetId }, { sort: { questionNumber: 1 } }).toArray() : null;
+    const tossupResult = questionTypes.includes('tossups')
+        ? tossups.find({ packet: packetId }, {
+            sort: { questionNumber: 1 },
+            project: { reports: 0 },
+        }).toArray()
+        : null;
+
+    const bonusResult  = questionTypes.includes('bonuses')
+        ? bonuses.find({ packet: packetId }, {
+            sort: { questionNumber: 1 },
+            project: { reports: 0 },
+        }).toArray() : null;
 
     const values = await Promise.all([tossupResult, bonusResult]);
 
@@ -196,6 +206,7 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
             questionNumber: 1
         } },
         { $limit: maxReturnLength },
+        { $project: { reports: 0 } },
     ];
 
     if (randomize)
@@ -243,6 +254,7 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
             questionNumber: 1
         } },
         { $limit: maxReturnLength },
+        { $project: { reports: 0 } },
     ];
 
     if (randomize)
@@ -316,23 +328,24 @@ subcategories: ${bcolors.OKCYAN}${subcategories}${bcolors.ENDC};\
             setYear: { $gte: minYear, $lte: maxYear },
         } },
         { $sample: { size: number } },
+        { $project: { reports: 0 } },
     ];
 
-    if (questionType === 'tossup') {
-        const questionArray = await tossups.aggregate(aggregation).toArray();
+    let questionArray = [{}];
 
-        if (questionArray.length === 0)
-            return [{}];
-
-        return questionArray;
-    } else if (questionType === 'bonus') {
-        const questionArray = await bonuses.aggregate(aggregation).toArray();
-
-        if (questionArray.length === 0)
-            return [{}];
-
-        return questionArray;
+    switch (questionType) {
+    case 'tossup':
+        questionArray = await tossups.aggregate(aggregation).toArray();
+        break;
+    case 'bonus':
+        questionArray = await bonuses.aggregate(aggregation).toArray();
+        break;
     }
+
+    if (questionArray.length === 0)
+        return [{}];
+
+    return questionArray;
 }
 
 
@@ -359,15 +372,20 @@ async function getSet({ setName, packetNumbers, categories, subcategories, quest
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
     if (!questionType) questionType = 'tossup';
 
+    const filter = {
+        setName: setName,
+        category: { $in: categories },
+        subcategory: { $in: subcategories },
+        packetNumber: { $in: packetNumbers },
+    };
+
+    const options = {
+        sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 },
+        project: { reports: 0 },
+    };
+
     if (questionType === 'tossup') {
-        const questionArray = await tossups.find({
-            setName: setName,
-            category: { $in: categories },
-            subcategory: { $in: subcategories },
-            packetNumber: { $in: packetNumbers },
-        }, {
-            sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 }
-        }).toArray();
+        const questionArray = await tossups.find(filter, options).toArray();
 
         if (replaceUnformattedAnswer) {
             for (let i = 0; i < questionArray.length; i++) {
@@ -379,14 +397,7 @@ async function getSet({ setName, packetNumbers, categories, subcategories, quest
 
         return questionArray || [];
     } else if (questionType === 'bonus') {
-        const questionArray = await bonuses.find({
-            setName: setName,
-            category: { $in: categories },
-            subcategory: { $in: subcategories },
-            packetNumber: { $in: packetNumbers },
-        }, {
-            sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 }
-        }).toArray();
+        const questionArray = await bonuses.find(filter, options).toArray();
 
         if (replaceUnformattedAnswer) {
             for (let i = 0; i < questionArray.length; i++) {
