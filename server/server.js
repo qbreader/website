@@ -89,15 +89,6 @@ wss.on('connection', (ws) => {
 });
 
 
-const apiRouter = require('../routes/api');
-const apiInfoRouter = require('../routes/api-info');
-const tossupsRouter = require('../routes/tossups');
-const bonusesRouter = require('../routes/bonuses');
-const multiplayerRouter = require('../routes/multiplayer');
-const databaseRouter = require('../routes/database');
-const aboutRouter = require('../routes/about');
-const backupsRouter = require('../routes/backups');
-
 app.get('/robots.txt', (_req, res) => {
     res.sendFile('robots.txt', { root: './client' });
 });
@@ -130,6 +121,18 @@ app.get('/*.ico', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
 
+
+const apiRouter = require('../routes/api');
+const apiInfoRouter = require('../routes/api-info');
+const tossupsRouter = require('../routes/tossups');
+const bonusesRouter = require('../routes/bonuses');
+const multiplayerRouter = require('../routes/multiplayer');
+const databaseRouter = require('../routes/database');
+const aboutRouter = require('../routes/about');
+const backupsRouter = require('../routes/backups');
+const indexRouter = require('../routes/index');
+
+
 app.use('/api', apiRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/bonuses', bonusesRouter);
@@ -138,15 +141,12 @@ app.use('/db', databaseRouter);
 app.use('/api-info', apiInfoRouter);
 app.use('/about', aboutRouter);
 app.use('/backups', backupsRouter);
+app.use('/', indexRouter);
+
 
 app.get('/database', (_req, res) => {
     res.redirect('/db');
 });
-
-app.get('/', (_req, res) => {
-    res.sendFile('tossups.html', { root: './client/singleplayer/' });
-});
-
 
 app.use((req, res) => {
     res.sendFile(req.url, { root: './client' });
