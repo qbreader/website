@@ -8,8 +8,7 @@
         "eslint:recommended",
         "plugin:react/recommended"
     ],
-    "overrides": [
-    ],
+    "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
@@ -32,12 +31,23 @@
             "unix"
         ],
         "no-var": "error",
-        "no-unused-vars": "off",
-        "object-curly-spacing": ["error", "always"],
-        "prefer-const": ["error", {
-            "destructuring": "all",
-            "ignoreReadBeforeAssign": false
-        }],
+        "no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_"
+            }
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "prefer-const": [
+            "error",
+            {
+                "destructuring": "all",
+                "ignoreReadBeforeAssign": false
+            }
+        ],
         "quotes": [
             "error",
             "single"
