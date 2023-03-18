@@ -48,6 +48,104 @@ function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
     hiddenElement.click();
 }
 
+function escapeCSVString(string) {
+    if (string === undefined || string === null)
+        return '';
+
+    if (typeof string !== 'string')
+        string = string.toString();
+
+    return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
+}
+
+function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
+    const header = [
+        '_id',
+        'question',
+        'answer',
+        'formatted_answer',
+        'category',
+        'subcategory',
+        'setName',
+        'packetNumber',
+        'questionNumber',
+        'difficulty',
+        'setYear',
+        'set',
+        'packet',
+        'createdAt',
+        'updatedAt',
+    ];
+
+    let csvdata = header.join(',') + '\n';
+    for (const tossup of tossups) {
+        for (const key of header)
+            csvdata += escapeCSVString(tossup[key]) + ',';
+
+        csvdata = csvdata.slice(0, -1);
+        csvdata += '\n';
+    }
+
+    const hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(csvdata);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = filename;
+    hiddenElement.click();
+}
+
+
+function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
+    const header = [
+        '_id',
+        'leadin',
+        'parts.0',
+        'parts.1',
+        'parts.2',
+        'answers.0',
+        'answers.1',
+        'answers.2',
+        'formatted_answers.0',
+        'formatted_answers.1',
+        'formatted_answers.2',
+        'category',
+        'subcategory',
+        'setName',
+        'packetNumber',
+        'questionNumber',
+        'difficulty',
+        'setYear',
+        'set',
+        'packet',
+        'createdAt',
+        'updatedAt',
+    ];
+
+    let csvdata = header.join(',') + '\n';
+    for (const bonus of bonuses) {
+        for (const key of header) {
+            if (key.includes('parts') || key.includes('answers') || key.includes('formatted_answers')) {
+                const [mainKey, index] = key.split('.');
+                if (mainKey in bonus) {
+                    csvdata += escapeCSVString(bonus[mainKey][index]) + ',';
+                } else {
+                    csvdata += ',';
+                }
+            } else {
+                csvdata += escapeCSVString(bonus[key]) + ',';
+            }
+        }
+
+        csvdata = csvdata.slice(0, -1);
+        csvdata += '\n';
+    }
+
+    const hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(csvdata);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = filename;
+    hiddenElement.click();
+}
+
 
 function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
     let textdata = '';
@@ -380,7 +478,7 @@ function QueryForm() {
                         <div className="float-end">
                             <b>Download as:</b>
                             <a className="ms-2 download-link" onClick={() => {downloadQuestionsAsText(tossups, bonuses);}}>TXT</a>
-                            <a className="ms-2 btn-link disabled">CSV</a>
+                            <a className="ms-2 download-link" onClick={() => {downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses);}}>CSV</a>
                             <a className="ms-2 download-link" onClick={() => {downloadQuestionsAsJSON(tossups, bonuses);}}>JSON</a>
                         </div>
                     </div>
