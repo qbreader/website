@@ -54,3 +54,33 @@ fetch('/api/set-list')
             SET_LIST.push(setName);
         });
     });
+
+function fillSetName(event) {
+    const setNameInput = document.getElementById('set-name');
+    const name = event.target.innerHTML;
+    setNameInput.value = name;
+    setNameInput.focus();
+}
+
+function removeDropdown() {
+    document.getElementById('set-dropdown')?.remove();
+}
+
+if (window.navigator.userAgent.match(/Mobile.*Firefox/)) {
+    const set_name_input = document.getElementById('set-name');
+    set_name_input.addEventListener('input', function () {    
+        document.getElementById('set-dropdown')?.remove();
+        const set = this.value.toLowerCase();
+        const dropdown_items = SET_LIST.filter(setName =>
+            setName.toLowerCase().includes(set))
+            .map(setName => `<a class="dropdown-item" onclick="fillSetName(event)">${setName}</a>`)
+            .join('');
+        const dropdown_html = dropdown_items === '' ? '' : `
+        <div id="set-dropdown" class="dropdown-menu" style="display: inline" aria-labelledby="set-name">
+            ${dropdown_items}
+        </div>
+        `;
+        set_name_input.insertAdjacentHTML('afterend', dropdown_html);
+    });
+    set_name_input.addEventListener('blur', removeDropdown);
+}
