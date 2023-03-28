@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -8861,6 +8862,15 @@ section.dual-slider .rangeValues {
   font-weight: bold;
 }
 
+code {
+  font-family: "Fira Code", monospace;
+}
+
+@supports (font-variation-settings: normal) {
+  code {
+    font-family: "Fira Code VF", monospace;
+  }
+}
 .logo-prefix {
   color: #0080ff;
 }

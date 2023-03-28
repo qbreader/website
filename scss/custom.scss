@@ -7,6 +7,8 @@ $font-family-sans-serif: Helvetica, sans-serif;
 $link-decoration: none;
 
 // 6. Optionally include any other parts as needed
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css); // Fira Code font
+
 @import "../node_modules/bootstrap/scss/accordion";
 @import "../node_modules/bootstrap/scss/buttons";
 @import "../node_modules/bootstrap/scss/card";
@@ -67,6 +69,12 @@ $link-decoration: none;
     font-family: Inter, 'Source Sans Pro', sans-serif;
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+code { font-family: 'Fira Code', monospace; }
+
+@supports (font-variation-settings: normal) {
+  code { font-family: 'Fira Code VF', monospace; }
 }
 
 .logo-prefix {

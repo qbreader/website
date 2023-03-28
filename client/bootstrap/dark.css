@@ -1,6 +1,7 @@
 @charset "UTF-8";
 /* ##### */
 /* redefine theme colors for dark theme */
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
 kbd {
   background-color: #6c757d !important;
 }
@@ -8871,6 +8872,15 @@ section.dual-slider .rangeValues {
   font-weight: bold;
 }
 
+code {
+  font-family: "Fira Code", monospace;
+}
+
+@supports (font-variation-settings: normal) {
+  code {
+    font-family: "Fira Code VF", monospace;
+  }
+}
 .logo-prefix {
   color: #0080ff;
 }
