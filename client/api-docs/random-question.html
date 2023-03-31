@@ -69,67 +69,116 @@
         </div>
     </nav>
 
-    <div class="container-xl mt-3 mb-4">
-        <div>POST <code>qbreader.org/api/random-question</code></div>
-        <div>Parameters:</div>
-        <ul>
-            <li>
-                <code>questionType</code> - a <b>string</b> that either equals "tossup" or "bonus".
-                Otherwise, returns a <code>400 Bad Request</code> response.
-            </li>
-            <li>
-                [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid
-                possible difficulties.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
-                    <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to
-                        select.</li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed
-                categories.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
-                    <li>Can also be a <b>string</b> if there is only 1 category.</li>
-                    <li>Take special care to ensure that the first letter of each word of the category is
-                        capitalized.</li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed
-                subcategories.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
-                    <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
-                    <li>Take special care to ensure that the first letter of each word of the subcategory is
-                        capitalized.</li>
-                    <li>This api endpoint does <b>not</b> check for consistency between categories and
-                        subcategories.</li>
-                    <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories
-                            will return no questions.</i></li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>number</code> - a <b>number</b> that specifies how many questions to return
-                (the length of the return array).
-                <ul>
-                    If <b>undefined or omitted,</b> returns 1 question.
-                </ul>
-            </li>
-            <li>
-                [optional] <code>minYear</code> - a <b>number</b> (default: 2010)
-            </li>
-            <li>
-                [optional] <code>maxYear</code> - a <b>number</b> (default: 2023)
-            </li>
-            <li>
-                <b>returns</b> - a <b>JSON array</b> of random questions.
-                <ul>
-                    <li>If a question is not found, returns a <code>404 Not Found</code> status.</li>
-                </ul>
-            </li>
-        </ul>
+    <div class="container-xl mt-3 mb-4 row">
+        <div class="col-1"></div> <!-- empty column for some left margin -->
+        <!-- docs sidebar -->
+        <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
+            <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="/api-docs"><code>Overview</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Database</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/query"><code>query</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-question" class="active fw-semibold" aria-current="page"><code>random-question</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet"><code>packet</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet-tossups"><code>packet-tossups</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet-bonuses"><code>packet-bonuses</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/num-packets"><code>num-packets</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/set-list"><code>set-list</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Multiplayer</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/multiplayer/room-list"><code>room-list</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Other</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/check-answer"><code>check-answer</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/report-question"><code>report-question</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-name"><code>random-name</code></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-9">
+            <div>POST <code>qbreader.org/api/random-question</code></div>
+            <div>Parameters:</div>
+            <ul>
+                <li>
+                    <code>questionType</code> - a <b>string</b> that either equals "tossup" or "bonus".
+                    Otherwise, returns a <code>400 Bad Request</code> response.
+                </li>
+                <li>
+                    [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid
+                    possible difficulties.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
+                        <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to
+                            select.</li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed
+                    categories.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
+                        <li>Can also be a <b>string</b> if there is only 1 category.</li>
+                        <li>Take special care to ensure that the first letter of each word of the category is
+                            capitalized.</li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed
+                    subcategories.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
+                        <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
+                        <li>Take special care to ensure that the first letter of each word of the subcategory is
+                            capitalized.</li>
+                        <li>This api endpoint does <b>not</b> check for consistency between categories and
+                            subcategories.</li>
+                        <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories
+                                will return no questions.</i></li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>number</code> - a <b>number</b> that specifies how many questions to return
+                    (the length of the return array).
+                    <ul>
+                        If <b>undefined or omitted,</b> returns 1 question.
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>minYear</code> - a <b>number</b> (default: 2010)
+                </li>
+                <li>
+                    [optional] <code>maxYear</code> - a <b>number</b> (default: 2023)
+                </li>
+                <li>
+                    <b>returns</b> - a <b>JSON array</b> of random questions.
+                    <ul>
+                        <li>If a question is not found, returns a <code>404 Not Found</code> status.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
