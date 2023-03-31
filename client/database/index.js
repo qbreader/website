@@ -308,6 +308,7 @@ function QueryForm() {
   const [queryString, setQueryString] = React.useState('');
   const [questionType, setQuestionType] = React.useState('all');
   const [regex, setRegex] = React.useState(false);
+  const [diacritics, setDiacritics] = React.useState(false);
   const [searchType, setSearchType] = React.useState('all');
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
   React.useEffect(() => {
@@ -318,7 +319,8 @@ function QueryForm() {
   function handleSubmit(event, randomize = false) {
     event.preventDefault();
     setCurrentlySearching(true);
-    const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
+    const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&ignoreDiacritics=${encodeURIComponent(diacritics)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
+    console.log(uri);
     fetch(uri, {
       method: 'GET',
       headers: {
@@ -332,13 +334,14 @@ function QueryForm() {
     }).then(response => response.json()).then(response => {
       const {
         tossups,
-        bonuses
+        bonuses,
+        queryString: modifiedQueryString
       } = response;
       const {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
-      const regExp = RegExp(regex ? queryString : escapeRegExp(queryString), 'ig');
+      const regExp = RegExp(modifiedQueryString, 'ig');
       if (queryString !== '') {
         for (let i = 0; i < tossupArray.length; i++) {
           tossupArray[i] = highlightTossupQuery({
@@ -428,7 +431,7 @@ function QueryForm() {
     type: "text",
     className: "form-control",
     id: "max-return-length",
-    placeholder: "Max # to Display (default: 50)",
+    placeholder: "# to Display (default: 25)",
     value: maxReturnLength,
     onChange: event => {
       setMaxReturnLength(event.target.value);
@@ -486,7 +489,7 @@ function QueryForm() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-12"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "form-check form-switch d-inline-block"
+    className: "form-check form-switch"
   }, /*#__PURE__*/React.createElement("input", {
     className: "form-check-input",
     type: "checkbox",
@@ -502,6 +505,21 @@ function QueryForm() {
   }, "Search using regular expression"), /*#__PURE__*/React.createElement("a", {
     href: "https://www.sitepoint.com/learn-regex/"
   }, " What's this?")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-ignore-diacritics",
+    checked: !regex && diacritics,
+    disabled: regex,
+    onChange: () => {
+      setDiacritics(!diacritics);
+    }
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-ignore-diacritics"
+  }, "Ignore diacritics when searching (Note: may slow down search)")), /*#__PURE__*/React.createElement("div", {
     className: "float-end"
   }, /*#__PURE__*/React.createElement("b", null, "Download as:"), /*#__PURE__*/React.createElement("a", {
     className: "ms-2 download-link",
