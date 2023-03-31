@@ -69,24 +69,73 @@
         </div>
     </nav>
 
-    <div class="container-xl mt-3 mb-4">
-        <div>GET <code>qbreader.org/api/packet-tossups</code></div>
-        <i>If you are only interested in the tossups, this is twice as fast as using</i>
-        <code>/api/packet</code>
-        <div>Parameters:</div>
-        <ul>
-            <li><code>setName</code> - the name of the set (URI-encoded).</li>
-            <li><code>packetNumber</code> - the number of the packet in the set, starting from 1.</li>
-            <li>
-                <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in
-                the format
-                <code> { tossups: [{}, ...], bonuses: [] } </code>
-                <ul>
-                    <li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty)
-                        packet that equals <code>{ tossups: [], bonuses: [] }</code></li>
-                </ul>
-            </li>
-        </ul>
+    <div class="container-xl mt-3 mb-4 row">
+        <div class="col-1"></div> <!-- empty column for some left margin -->
+        <!-- docs sidebar -->
+        <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
+            <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="/api-docs"><code>Overview</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Database</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/query"><code>query</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-question"><code>random-question</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet"><code>packet</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet-tossups" class="active fw-semibold" aria-current="page"><code>packet-tossups</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet-bonuses"><code>packet-bonuses</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/num-packets"><code>num-packets</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/set-list"><code>set-list</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Multiplayer</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/multiplayer/room-list"><code>room-list</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Other</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/check-answer"><code>check-answer</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/report-question"><code>report-question</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-name"><code>random-name</code></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-9">
+            <div>GET <code>qbreader.org/api/packet-tossups</code></div>
+            <i>If you are only interested in the tossups, this is twice as fast as using</i>
+            <code>/api/packet</code>
+            <div>Parameters:</div>
+            <ul>
+                <li><code>setName</code> - the name of the set (URI-encoded).</li>
+                <li><code>packetNumber</code> - the number of the packet in the set, starting from 1.</li>
+                <li>
+                    <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in
+                    the format
+                    <code> { tossups: [{}, ...], bonuses: [] } </code>
+                    <ul>
+                        <li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty)
+                            packet that equals <code>{ tossups: [], bonuses: [] }</code></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
