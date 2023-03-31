@@ -37,6 +37,21 @@ async function testTiming(count) {
 
 async function testCorrectness() {
     {
+        const { tossups, bonuses } = await getQuery({ queryString: 'qigong', setName: '2023 ACF Regionals', verbose: false });
+        console.assert(tossups && bonuses);
+        console.assert(tossups.count === 1, `${tossups.count} != ${1}`);
+        console.assert(bonuses.count === 0, `${bonuses.count} != ${0}`);
+        console.assert(
+            tossups.questionArray[0].question === 'Note to moderator: Read the answerline carefully. A simplified, secular form of this practice is nicknamed “the 24.” Arthur Rosenfeld hosted a PBS program that instructed this practice for longevity and taught that chewing food 36 times can enhance the sensitivity, or “listening power,” outlined in this practice’s “classics.” The last Saturday in April is a worldwide holiday for this practice, whose methods of silk reeling and pushing hands may be attributed to its legendary inventor Zhāng Sānfēng (“jahng sahn-fung”) of the Wǔdāng (“oo-dahng”) Mountains. The Sūn (“swun”) and Yáng lineages are two of the five major styles of this type of nèijiā (“nay-jʼyah”), which originated in Chén (“chun”) Village. Unlike repetitive qìgōng (“chee-gong”), this balance-promoting practice’s “frames” link up to 108 specific postures. For 10 points, the elderly in Kowloon Park often perform what internal martial art whose routines feature slow movements?',
+            tossups.questionArray[0].question
+        );
+        console.assert(
+            tossups.questionArray[0].answer === 'tai chi [or tàijíquán or t’ai chi ch’üan; accept shadowboxing; prompt on Chinese martial arts until read; prompt on wǔshù or guóshù or kuoshu; prompt on exercise, physical activity, or meditation; prompt on nèijiā or nèigōng or nèijìng until “nèijiā” is read; prompt on qìgōng, ch‘i kung, chi gung, or chi ‘ung until “qìgōng” is read; prompt on Wǔdāng quán until read; prompt on traditional Chinese medicine or TCM or Zhōngyī; reject “boxing”]',
+            tossups.questionArray[0].answer
+        );
+    }
+
+    {
         const { tossups, bonuses } = await getQuery({ queryString: 'newton', questionType: 'all', setName: '2018 PACE NSC', verbose: false, maxReturnLength: 400 });
         console.assert(tossups && bonuses);
         console.assert(tossups.count === 5, `${tossups.count} != 5`);
