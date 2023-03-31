@@ -363,6 +363,7 @@ function QueryForm() {
     const [queryString, setQueryString] = React.useState('');
     const [questionType, setQuestionType] = React.useState('all');
     const [regex, setRegex] = React.useState(false);
+    const [diacritics, setDiacritics] = React.useState(false);
     const [searchType, setSearchType] = React.useState('all');
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
 
@@ -378,7 +379,9 @@ function QueryForm() {
         event.preventDefault();
         setCurrentlySearching(true);
 
-        const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
+        const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&ignoreDiacritics=${encodeURIComponent(diacritics)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
+
+        console.log(uri);
 
         fetch(uri, {
             method: 'GET',
@@ -393,10 +396,10 @@ function QueryForm() {
         })
             .then(response => response.json())
             .then(response => {
-                const { tossups, bonuses } = response;
+                const { tossups, bonuses, queryString: modifiedQueryString } = response;
                 const { count: tossupCount, questionArray: tossupArray } = tossups;
 
-                const regExp = RegExp(regex ? queryString : escapeRegExp(queryString), 'ig');
+                const regExp = RegExp(modifiedQueryString, 'ig');
 
                 if (queryString !== '') {
                     for (let i = 0; i < tossupArray.length; i++) {
@@ -444,7 +447,7 @@ function QueryForm() {
                         <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={difficulties} onChange={event => {setDifficulties(event.target.value);}} />
                     </div>
                     <div id="max-query-return-length" className="col-6 col-xl-3 mb-2">
-                        <input type="text" className="form-control" id="max-return-length" placeholder="Max # to Display (default: 50)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
+                        <input type="text" className="form-control" id="max-return-length" placeholder="# to Display (default: 25)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
                     </div>
                     <div className="input-group col-12 col-xl-6 mb-2">
                         <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
@@ -470,10 +473,14 @@ function QueryForm() {
                 </div>
                 <div className="row mb-3">
                     <div className="col-12">
-                        <div className="form-check form-switch d-inline-block">
+                        <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-regex" checked={regex} onChange={() => {setRegex(!regex);}} />
                             <label className="form-check-label" htmlFor="toggle-regex">Search using regular expression</label>
                             <a href="https://www.sitepoint.com/learn-regex/"> What&apos;s this?</a>
+                        </div>
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
+                            <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics when searching (Note: may slow down search)</label>
                         </div>
                         <div className="float-end">
                             <b>Download as:</b>
