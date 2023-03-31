@@ -3,11 +3,23 @@ const { getQuery, getPacket, getSet, getRandomQuestions, getNumPackets, reportQu
 async function testTiming(count) {
     const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 
-    console.time('getQuery');
+    console.time('getQuery (empty string)');
     for (let i = 0; i < count; i++) {
         await getQuery({ questionType: 'all', verbose: false });
     }
-    console.timeEnd('getQuery');
+    console.timeEnd('getQuery (empty string)');
+
+    console.time('getQuery (string = abc)');
+    for (let i = 0; i < count; i++) {
+        await getQuery({ queryString: 'abc', questionType: 'all', verbose: false });
+    }
+    console.timeEnd('getQuery (string = abc)');
+
+    console.time('getQuery (string = cesaire), ignore diacritics');
+    for (let i = 0; i < count; i++) {
+        await getQuery({ queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
+    }
+    console.timeEnd('getQuery (string = cesaire), ignore diacritics');
 
     console.time('getPacket');
     for (let i = 0; i < count; i++) {
@@ -37,7 +49,7 @@ async function testTiming(count) {
 
 async function testCorrectness() {
     {
-        const { tossups, bonuses } = await getQuery({ queryString: 'qigong', setName: '2023 ACF Regionals', verbose: false });
+        const { tossups, bonuses } = await getQuery({ queryString: 'qigong', setName: '2023 ACF Regionals', verbose: false, ignoreDiacritics: true });
         console.assert(tossups && bonuses);
         console.assert(tossups.count === 1, `${tossups.count} != ${1}`);
         console.assert(bonuses.count === 0, `${bonuses.count} != ${0}`);

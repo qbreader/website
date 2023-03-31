@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const { MongoClient, ObjectId } = require('mongodb');
-const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, SUBCATEGORIES_FLATTENED_ALL } = require('./quizbowl');
+const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -28,7 +28,7 @@ sets.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(s
 const ADJECTIVES = ['adaptable', 'adept', 'affectionate', 'agreeable', 'alluring', 'amazing', 'ambitious', 'amiable', 'ample', 'approachable', 'awesome', 'blithesome', 'bountiful', 'brave', 'breathtaking', 'bright', 'brilliant', 'capable', 'captivating', 'charming', 'competitive', 'confident', 'considerate', 'courageous', 'creative', 'dazzling', 'determined', 'devoted', 'diligent', 'diplomatic', 'dynamic', 'educated', 'efficient', 'elegant', 'enchanting', 'energetic', 'engaging', 'excellent', 'fabulous', 'faithful', 'fantastic', 'favorable', 'fearless', 'flexible', 'focused', 'fortuitous', 'frank', 'friendly', 'funny', 'generous', 'giving', 'gleaming', 'glimmering', 'glistening', 'glittering', 'glowing', 'gorgeous', 'gregarious', 'gripping', 'hardworking', 'helpful', 'hilarious', 'honest', 'humorous', 'imaginative', 'incredible', 'independent', 'inquisitive', 'insightful', 'kind', 'knowledgeable', 'likable', 'lovely', 'loving', 'loyal', 'lustrous', 'magnificent', 'marvelous', 'mirthful', 'moving', 'nice', 'optimistic', 'organized', 'outstanding', 'passionate', 'patient', 'perfect', 'persistent', 'personable', 'philosophical', 'plucky', 'polite', 'powerful', 'productive', 'proficient', 'propitious', 'qualified', 'ravishing', 'relaxed', 'remarkable', 'resourceful', 'responsible', 'romantic', 'rousing', 'sensible', 'shimmering', 'shining', 'sincere', 'sleek', 'sparkling', 'spectacular', 'spellbinding', 'splendid', 'stellar', 'stunning', 'stupendous', 'super', 'technological', 'thoughtful', 'twinkling', 'unique', 'upbeat', 'vibrant', 'vivacious', 'vivid', 'warmhearted', 'willing', 'wondrous', 'zestful'];
 const ANIMALS = ['aardvark', 'alligator', 'alpaca', 'anaconda', 'ant', 'anteater', 'antelope', 'aphid', 'armadillo', 'baboon', 'badger', 'barracuda', 'bat', 'beaver', 'bedbug', 'bee', 'bird', 'bison', 'bobcat', 'buffalo', 'butterfly', 'buzzard', 'camel', 'carp', 'cat', 'caterpillar', 'catfish', 'cheetah', 'chicken', 'chimpanzee', 'chipmunk', 'cobra', 'cod', 'condor', 'cougar', 'cow', 'coyote', 'crab', 'cricket', 'crocodile', 'crow', 'cuckoo', 'deer', 'dinosaur', 'dog', 'dolphin', 'donkey', 'dove', 'dragonfly', 'duck', 'eagle', 'eel', 'elephant', 'emu', 'falcon', 'ferret', 'finch', 'fish', 'flamingo', 'flea', 'fly', 'fox', 'frog', 'goat', 'goose', 'gopher', 'gorilla', 'hamster', 'hare', 'hawk', 'hippopotamus', 'horse', 'hummingbird', 'husky', 'iguana', 'impala', 'kangaroo', 'lemur', 'leopard', 'lion', 'lizard', 'llama', 'lobster', 'margay', 'monkey', 'moose', 'mosquito', 'moth', 'mouse', 'mule', 'octopus', 'orca', 'ostrich', 'otter', 'owl', 'ox', 'oyster', 'panda', 'parrot', 'peacock', 'pelican', 'penguin', 'perch', 'pheasant', 'pig', 'pigeon', 'porcupine', 'quagga', 'rabbit', 'raccoon', 'rat', 'rattlesnake', 'rooster', 'seal', 'sheep', 'skunk', 'sloth', 'snail', 'snake', 'spider', 'tiger', 'whale', 'wolf', 'wombat', 'zebra'];
 
-const DEFAULT_QUERY_RETURN_LENGTH = 50;
+const DEFAULT_QUERY_RETURN_LENGTH = 25;
 const MAX_QUERY_RETURN_LENGTH = 400;
 
 /**
@@ -39,9 +39,9 @@ function escapeRegExp(string) {
 }
 
 
-const regexIgnoreAccents = (() => {
+const regexIgnoreDiacritics = (() => {
     const characterGroups = [
-        ['[aàáâäæãåā]'],
+        ['[aàáâǎäãåā]'],
         ['[eèéêëēėę]'],
         ['[iîïíīįì]'],
         ['[oôöòóøōõ]'],
@@ -53,7 +53,18 @@ const regexIgnoreAccents = (() => {
         ['[nñń]'],
     ];
 
+    const allCharacters = new RegExp(characterGroups.map(group => group[0]).join('|'), 'gi');
+
     return (string) => {
+        const matchingCharacters = string.match(allCharacters).length;
+        if (matchingCharacters > 10) {
+            if (string.length > 15) {
+                return string.replace(allCharacters, '.');
+            } else {
+                return string;
+            }
+        }
+
         for (const group of characterGroups) {
             string = string.replace(new RegExp(group[0], 'gi'), group[0]);
         }
@@ -158,13 +169,28 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
  * @param {Array<String>} subcategories
  * @returns {Promise<{tossups: {count: Number, questionArray: Array<JSON>}, bonuses: {count: Number, questionArray: Array<JSON>}}>}
  */
-async function getQuery({ queryString, difficulties, setName, searchType = 'all', questionType = 'all', categories, subcategories, maxReturnLength, randomize = false, regex = false, verbose = true } = {}) {
-    if (!queryString) queryString = '';
-    if (!difficulties || difficulties.length === 0) difficulties = [0].concat(DIFFICULTIES);
-    if (!categories || categories.length === 0) categories = CATEGORIES;
-    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED_ALL;
-    if (!setName) setName = '';
-    if (!maxReturnLength) maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+async function getQuery({
+    queryString,
+    difficulties,
+    setName,
+    searchType = 'all',
+    questionType = 'all',
+    categories,
+    subcategories,
+    maxReturnLength,
+    randomize = false,
+    regex = false,
+    verbose = false,
+    ignoreDiacritics = false,
+} = {}) {
+    if (verbose)
+        console.time('getQuery');
+
+    if (!queryString)
+        queryString = '';
+
+    if (!maxReturnLength)
+        maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
 
     maxReturnLength = parseInt(maxReturnLength);
     maxReturnLength = Math.min(maxReturnLength, MAX_QUERY_RETURN_LENGTH);
@@ -175,17 +201,19 @@ async function getQuery({ queryString, difficulties, setName, searchType = 'all'
     if (!regex) {
         queryString = queryString.trim();
         queryString = escapeRegExp(queryString);
-        queryString = regexIgnoreAccents(queryString);
+
+        if (ignoreDiacritics)
+            queryString = regexIgnoreDiacritics(queryString);
     }
 
-    const returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
+    const returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] }, queryString };
 
     let tossupQuery = null;
-    if (questionType === 'tossup' || questionType === 'all')
+    if (['tossup', 'all'].includes(questionType))
         tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize });
 
     let bonusQuery = null;
-    if (questionType === 'bonus' || questionType === 'all')
+    if (['bonus', 'all'].includes(questionType))
         bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize });
 
 
@@ -197,8 +225,20 @@ async function getQuery({ queryString, difficulties, setName, searchType = 'all'
     if (values[1])
         returnValue.bonuses = values[1];
 
-    if (verbose)
-        console.log(`[DATABASE] QUERY: string: ${bcolors.OKCYAN}${queryString}${bcolors.ENDC}; difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; max length: ${bcolors.OKGREEN}${maxReturnLength}${bcolors.ENDC}; question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; randomize: ${bcolors.OKGREEN}${randomize}${bcolors.ENDC}; regex: ${bcolors.OKGREEN}${regex}${bcolors.ENDC}; search type: ${bcolors.OKGREEN}${searchType}${bcolors.ENDC}; set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC};`);
+    if (verbose) {
+        console.log(`\
+[DATABASE] QUERY: string: ${bcolors.OKCYAN}${queryString}${bcolors.ENDC}; \
+difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; \
+max length: ${bcolors.OKGREEN}${maxReturnLength}${bcolors.ENDC}; \
+question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; \
+ignore diacritics: ${bcolors.OKGREEN}${ignoreDiacritics}${bcolors.ENDC}; \
+randomize: ${bcolors.OKGREEN}${randomize}${bcolors.ENDC}; \
+regex: ${bcolors.OKGREEN}${regex}${bcolors.ENDC}; \
+search type: ${bcolors.OKGREEN}${searchType}${bcolors.ENDC}; \
+set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC}; \
+`);
+        console.timeEnd('getQuery');
+    }
 
     return returnValue;
 }
@@ -212,29 +252,10 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
     if (['answer', 'all'].includes(searchType))
         orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
 
-    const query = {
-        $or: orQuery,
-        difficulty: { $in: difficulties },
-        category: { $in: categories },
-        subcategory: { $in: subcategories },
-    };
-
-    if (setName)
-        query.setName = setName;
-
-    const aggregation = [
-        { $match: query, },
-        { $sort: {
-            setName: -1,
-            packetNumber: 1,
-            questionNumber: 1
-        } },
-        { $limit: maxReturnLength },
-        { $project: { reports: 0 } },
-    ];
-
-    if (randomize)
-        aggregation[1] = { $sample: { size: maxReturnLength } };
+    const [aggregation, query] = buildQueryAggregation({
+        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize,
+        isEmpty: queryString === '',
+    });
 
     try {
         const [questionArray, count] = await Promise.all([
@@ -260,12 +281,40 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
         orQuery.push({ answers: { $regex: queryString, $options: 'i' } });
     }
 
+    const [aggregation, query] = buildQueryAggregation({
+        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize,
+        isEmpty: queryString === '',
+    });
+
+    try {
+        const [questionArray, count] = await Promise.all([
+            bonuses.aggregate(aggregation).toArray(),
+            bonuses.countDocuments(query),
+        ]);
+        return { count, questionArray };
+    } catch (MongoServerError) {
+        console.log(MongoServerError);
+        return { count: 0, questionArray: [] };
+    }
+}
+
+
+function buildQueryAggregation({ orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, isEmpty }) {
     const query = {
         $or: orQuery,
-        difficulty: { $in: difficulties },
-        category: { $in: categories },
-        subcategory: { $in: subcategories },
     };
+
+    if (isEmpty)
+        delete query.$or;
+
+    if (difficulties)
+        query.difficulty = { $in: difficulties };
+
+    if (categories)
+        query.category = { $in: categories };
+
+    if (subcategories)
+        query.subcategory = { $in: subcategories };
 
     if (setName)
         query.setName = setName;
@@ -284,16 +333,7 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
     if (randomize)
         aggregation[1] = { $sample: { size: maxReturnLength } };
 
-    try {
-        const [questionArray, count] = await Promise.all([
-            bonuses.aggregate(aggregation).toArray(),
-            bonuses.countDocuments(query),
-        ]);
-        return { count, questionArray };
-    } catch (MongoServerError) {
-        console.log(MongoServerError);
-        return { count: 0, questionArray: [] };
-    }
+    return [aggregation, query];
 }
 
 
