@@ -69,90 +69,139 @@
         </div>
     </nav>
 
-    <div class="container-xl mt-3 mb-4">
-        <div>GET <code>qbreader.org/api/query</code></div>
-        <div>Parameters:</div>
-        <ul>
-            <li>
-                <code>questionType</code> - a <b>string</b> that either equals "tossup", "bonus", or "all".
-                Otherwise, returns a <code>400 Bad Request</code> response.
-            </li>
-            <li>
-                <code>searchType</code> - a <b>string</b> that either equals "question", "answer", or "all".
-                Otherwise, returns a <code>400 Bad Request</code> response.
-            </li>
-            <li>
-                [optional] <code>queryString</code> - a <b>string</b> that the query is searching for.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> it defaults to an empty string.</li>
-                </ul>
+    <div class="container-xl mt-3 mb-4 row">
+        <div class="col-1"></div> <!-- empty column for some left margin -->
+        <!-- docs sidebar -->
+        <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
+            <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="/api-docs"><code>Overview</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Database</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/query" class="active fw-semibold" aria-current="page"><code>query</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-question"><code>random-question</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet"><code>packet</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet-tossups"><code>packet-tossups</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet-bonuses"><code>packet-bonuses</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/num-packets"><code>num-packets</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/set-list"><code>set-list</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Multiplayer</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/multiplayer/room-list"><code>room-list</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Other</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/check-answer"><code>check-answer</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/report-question"><code>report-question</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-name"><code>random-name</code></a>
+                </li>
+            </ul>
+        </div>
 
-            </li>
-            <li>
-                [optional] <code>regex</code> - a <b>boolean</b> that indicates whether <code>queryString</code>
-                should be treated as a regular expression.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> it defaults to <code>false</code>.</li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>randomize</code> - a <b>boolean</b> that indicates whether the results should
-                be in random order.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> it defaults to <code>false</code>.</li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>setName</code> - a <b>string</b> that is the name of the set to search in.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> then all sets are searched.</li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid
-                possible difficulties.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
-                    <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to
-                        select.</li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed
-                categories.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
-                    <li>Can also be a <b>string</b> if there is only 1 category.</li>
-                    <li>Take special care to ensure that the first letter of each word of the category is
-                        capitalized.</li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed
-                subcategories.
-                <ul>
-                    <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
-                    <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
-                    <li>Take special care to ensure that the first letter of each word of the subcategory is
-                        capitalized.</li>
-                    <li>This api endpoint does <b>not</b> check for consistency between categories and
-                        subcategories.</li>
-                    <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories
-                            will return no questions.</i></li>
-                </ul>
-            </li>
-            <li>
-                [optional] <code>maxReturnLength</code> - a <b>number</b> that specifies the maximum number
-                of questions to return
-                <ul>
-                    <li>If <b>0, negative, undefined, or omitted,</b> then the default is 50.</li>
-                    <li>If <b>greater than 200,</b> the query will return no more than 200 questions.</li>
-                </ul>
-            </li>
-            <li>
-                <b>returns</b> - a <b>JSON object</b> of questions.
-            </li>
-        </ul>
+        <div class="col-9">
+            <div>GET <code>qbreader.org/api/query</code></div>
+            <div>Parameters:</div>
+            <ul>
+                <li>
+                    <code>questionType</code> - a <b>string</b> that either equals "tossup", "bonus", or "all".
+                    Otherwise, returns a <code>400 Bad Request</code> response.
+                </li>
+                <li>
+                    <code>searchType</code> - a <b>string</b> that either equals "question", "answer", or "all".
+                    Otherwise, returns a <code>400 Bad Request</code> response.
+                </li>
+                <li>
+                    [optional] <code>queryString</code> - a <b>string</b> that the query is searching for.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> it defaults to an empty string.</li>
+                    </ul>
+
+                </li>
+                <li>
+                    [optional] <code>regex</code> - a <b>boolean</b> that indicates whether <code>queryString</code>
+                    should be treated as a regular expression.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> it defaults to <code>false</code>.</li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>randomize</code> - a <b>boolean</b> that indicates whether the results should
+                    be in random order.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> it defaults to <code>false</code>.</li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>setName</code> - a <b>string</b> that is the name of the set to search in.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> then all sets are searched.</li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid
+                    possible difficulties.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
+                        <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to
+                            select.</li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed
+                    categories.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
+                        <li>Can also be a <b>string</b> if there is only 1 category.</li>
+                        <li>Take special care to ensure that the first letter of each word of the category is
+                            capitalized.</li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed
+                    subcategories.
+                    <ul>
+                        <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
+                        <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
+                        <li>Take special care to ensure that the first letter of each word of the subcategory is
+                            capitalized.</li>
+                        <li>This api endpoint does <b>not</b> check for consistency between categories and
+                            subcategories.</li>
+                        <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories
+                                will return no questions.</i></li>
+                    </ul>
+                </li>
+                <li>
+                    [optional] <code>maxReturnLength</code> - a <b>number</b> that specifies the maximum number
+                    of questions to return
+                    <ul>
+                        <li>If <b>0, negative, undefined, or omitted,</b> then the default is 50.</li>
+                        <li>If <b>greater than 200,</b> the query will return no more than 200 questions.</li>
+                    </ul>
+                </li>
+                <li>
+                    <b>returns</b> - a <b>JSON object</b> of questions.
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
