@@ -39,6 +39,29 @@ function escapeRegExp(string) {
 }
 
 
+const regexIgnoreAccents = (() => {
+    const characterGroups = [
+        ['[aàáâäæãåā]'],
+        ['[eèéêëēėę]'],
+        ['[iîïíīįì]'],
+        ['[oôöòóøōõ]'],
+        ['[uûüùúū]'],
+        ['[yÿ]'],
+        ['[sśš]'],
+        ['[zžźż]'],
+        ['[cçćč]'],
+        ['[nñń]'],
+    ];
+
+    return (string) => {
+        for (const group of characterGroups) {
+            string = string.replace(new RegExp(group[0], 'gi'), group[0]);
+        }
+        return string;
+    };
+})();
+
+
 /**
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @returns {Promise<Number>} the number of packets in the set.
@@ -152,6 +175,7 @@ async function getQuery({ queryString, difficulties, setName, searchType = 'all'
     if (!regex) {
         queryString = queryString.trim();
         queryString = escapeRegExp(queryString);
+        queryString = regexIgnoreAccents(queryString);
     }
 
     const returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] } };
