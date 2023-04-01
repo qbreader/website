@@ -496,7 +496,7 @@ function QueryForm() {
             <div className="row text-center"><h3 className="mt-2" id="tossups">Tossups</h3></div>
             {
                 tossupCount > 0
-                    ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
+                    ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} impostors among us</span>&nbsp;
                         <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
                     : <p className="text-muted">No tossups found</p>
             }
@@ -505,7 +505,7 @@ function QueryForm() {
             <div className="row text-center"><h3 className="mt-3" id="bonuses">Bonuses</h3></div>
             {
                 bonusCount > 0
-                    ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
+                    ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} impostors among us</span>&nbsp;
                         <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
                     : <p className="text-muted">No bonuses found</p>
             }
