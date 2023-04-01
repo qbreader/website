@@ -130,6 +130,7 @@
 
             <a href="#tossup"><h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4></a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="tossupExample"></code></pre>
+            <button class="btn btn-sm btn-primary" onclick="getTossupExample()">Get another example</button>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div><code>_id</code><code class="text-muted">: string</code></div>
@@ -191,9 +192,11 @@
                     <div><code>difficulty</code><code class="text-muted">: number</code></div>
                     <div>The difficulty of the question. <i>Always an integer in <code>[0-10]</code>.</i></div>
                 </li>
+            </ul>
 
             <a href="#bonus"><h4 class="mt-4 md-2" id="bonus"><code>Bonus</code></h4></a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="bonusExample"></code></pre>
+            <button class="btn btn-sm btn-primary" onclick="getBonusExample()">Get another example</button>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div><code>_id</code><code class="text-muted">: string</code></div>
@@ -263,35 +266,42 @@
     </div>
 
     <script>
-        fetch("/api/random-question", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "questionType": "tossup",
-                "number": 1,
-            })
-        }).then(res => res.json())
-        .then(data => data[0])
-        .then(data => {
-            document.getElementById("tossupExample").innerHTML = JSON.stringify(data, null, 4);
-        });
+        function getTossupExample() {
+            fetch("/api/random-question", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "questionType": "tossup",
+                    "number": 1,
+                })
+            }).then(res => res.json())
+            .then(data => data[0])
+            .then(data => {
+                document.getElementById("tossupExample").innerText = JSON.stringify(data, null, 4);
+            });
+        }
 
-        fetch("/api/random-question", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "questionType": "bonus",
-                "number": 1,
-            })
-        }).then(res => res.json())
-        .then(data => data[0])
-        .then(data => {
-            document.getElementById("bonusExample").innerHTML = JSON.stringify(data, null, 4);
-        });
+        function getBonusExample() {
+            fetch("/api/random-question", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "questionType": "bonus",
+                    "number": 1,
+                })
+            }).then(res => res.json())
+            .then(data => data[0])
+            .then(data => {
+                document.getElementById("bonusExample").innerText = JSON.stringify(data, null, 4);
+            });
+        }
+
+        getTossupExample();
+        getBonusExample();
     </script>
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
