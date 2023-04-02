@@ -128,68 +128,100 @@
                 structure of these objects.
             </p>
 
-            <a href="#tossup"><h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4></a>
+            <a href="#tossup">
+                <h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4>
+            </a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="tossupExample"></code></pre>
             <button class="btn btn-sm btn-primary" onclick="getTossupExample()">Get another example</button>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div><code>_id</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>_id</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The internal ID of the tossup.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>question</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>question</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The question text.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>formatted_answer</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>formatted_answer</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The answerline, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>answer</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>answer</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The answerline, unformatted.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>category</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>category</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The category of the question.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>subcategory</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>subcategory</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The subcategory of the question.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>packet</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>packet</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The internal ID of the packet the question is from.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>set</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>set</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The internal ID of the set the question is from.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>setName</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>setName</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The name of the set the question is from.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>type</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>type</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The type of the question. <i>Always <code>"tossup"</code> for tossups.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>packetNumber</code><code class="text-muted">: number</code></div>
+                    <div>
+                        <code>packetNumber</code><code class="text-muted">: number</code>
+                    </div>
                     <div>The packet number of the packet the question is from. <i>Always a positive integer.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>questionNumber</code><code class="text-muted">: number</code></div>
+                    <div>
+                        <code>questionNumber</code><code class="text-muted">: number</code>
+                    </div>
                     <div>The question number of the question in the packet. <i>Always a positive integer.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>createdAt</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>createdAt</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The date the question was created in the database. <i>ISO 8601 format.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>updatedAt</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>updatedAt</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The date the question was last modified in the database. <i>ISO 8601 format.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>difficulty</code><code class="text-muted">: number</code></div>
+                    <div>
+                        <code>difficulty</code><code class="text-muted">: number</code>
+                    </div>
                     <div>The difficulty of the question. <i>Always an integer in <code>[0-10]</code>.</i></div>
                 </li>
             </ul>
@@ -199,68 +231,101 @@
             <button class="btn btn-sm btn-primary" onclick="getBonusExample()">Get another example</button>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div><code>_id</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>_id</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The internal ID of the bonus.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>leadin</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>leadin</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The leadin of the bonus.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>parts</code><code class="text-muted">: [string, string, string]</code></div>
+                    <div>
+                        <code>parts</code><code class="text-muted">: [string, string, string]</code>
+                    </div>
                     <div>The parts of the bonus.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>formatted_answers</code><code class="text-muted">: [string, string, string]</code></div>
+                    <div>
+                        <code>formatted_answers</code><code class="text-muted">: [string, string, string]</code>
+                    </div>
                     <div>The answerlines, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>answers</code><code class="text-muted">: [string, string, string]</code></div>
+                    <div>
+                        <code>answers</code><code class="text-muted">: [string, string, string]</code>
+                    </div>
                     <div>The answerlines, unformatted.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>category</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>category</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The category of the question.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>subcategory</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>subcategory</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The subcategory of the question.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>packet</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>packet</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The internal ID of the packet the question is from.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>set</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>set</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The internal ID of the set the question is from.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>setName</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>setName</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The name of the set the question is from.</div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>type</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>type</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The type of the question. <i>Always <code>"bonus"</code> for bonuses.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>packetNumber</code><code class="text-muted">: number</code></div>
+                    <div>
+                        <code>packetNumber</code><code class="text-muted">: number</code>
+                    </div>
                     <div>The packet number of the packet the question is from. <i>Always a positive integer.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>questionNumber</code><code class="text-muted">: number</code></div>
+                    <div>
+                        <code>questionNumber</code><code class="text-muted">: number</code>
+                    </div>
                     <div>The question number of the question in the packet. <i>Always a positive integer.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>createdAt</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>createdAt</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The date the question was created in the database. <i>ISO 8601 format.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>updatedAt</code><code class="text-muted">: string</code></div>
+                    <div>
+                        <code>updatedAt</code><code class="text-muted">: string</code>
+                    </div>
                     <div>The date the question was last modified in the database. <i>ISO 8601 format.</i></div>
                 </li>
                 <li class="list-group-item">
-                    <div><code>difficulty</code><code class="text-muted">: number</code></div>
+                    <div>
+                        <code>difficulty</code><code class="text-muted">: number</code>
+                    </div>
                     <div>The difficulty of the question. <i>Always an integer in <code>[0-10]</code>.</i></div>
+                </li>
             </ul>
         </div>
     </div>
