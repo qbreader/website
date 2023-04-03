@@ -547,7 +547,9 @@ function QueryForm() {
   }, /*#__PURE__*/React.createElement("h3", {
     className: "mt-2",
     id: "tossups"
-  }, "Tossups")), tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+  }, "Tossups")), /*#__PURE__*/React.createElement("div", {
+    className: "float-row"
+  }, tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
   }, "Showing ", tossups.length, " of ", tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
@@ -555,14 +557,16 @@ function QueryForm() {
     href: "#bonuses"
   }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("p", {
     className: "text-muted"
-  }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("div", {
+  }, "No tossups found")), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("div", {
     className: "mb-5"
   }), /*#__PURE__*/React.createElement("div", {
     className: "row text-center"
   }, /*#__PURE__*/React.createElement("h3", {
     className: "mt-3",
     id: "bonuses"
-  }, "Bonuses")), bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+  }, "Bonuses")), /*#__PURE__*/React.createElement("div", {
+    className: "float-row"
+  }, bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
   }, "Showing ", bonuses.length, " of ", bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
@@ -570,7 +574,7 @@ function QueryForm() {
     href: "#tossups"
   }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("p", {
     className: "text-muted"
-  }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("div", {
+  }, "No bonuses found")), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("div", {
     className: "mb-5"
   }));
 }
