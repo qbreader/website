@@ -97,6 +97,10 @@ app.get('/*.html', (req, res) => {
     res.redirect(req.url.substring(0, req.url.length - 5));
 });
 
+app.get('/react(-dom)?/umd/*.js', (req, res) => {
+    res.sendFile(req.url, { root: './node_modules' });
+});
+
 app.get('/*.js', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
