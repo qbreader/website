@@ -56,7 +56,7 @@ const regexIgnoreDiacritics = (() => {
     const allCharacters = new RegExp(characterGroups.map(group => group[0]).join('|'), 'gi');
 
     return (string) => {
-        const matchingCharacters = string.match(allCharacters).length;
+        const matchingCharacters = string.match(allCharacters)?.length ?? 0;
         if (matchingCharacters > 6) {
             console.log(string);
             if (string.length > matchingCharacters) {
