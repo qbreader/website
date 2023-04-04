@@ -57,9 +57,8 @@ const regexIgnoreDiacritics = (() => {
 
     return (string) => {
         const matchingCharacters = string.match(allCharacters)?.length ?? 0;
-        if (matchingCharacters > 6) {
-            console.log(string);
-            if (string.length > matchingCharacters) {
+        if (matchingCharacters > 10) {
+            if (string.length > matchingCharacters + 3) {
                 return string.replace(allCharacters, '.');
             } else {
                 return string;
