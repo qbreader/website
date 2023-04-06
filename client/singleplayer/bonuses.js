@@ -8,7 +8,6 @@ let validSubcategories;
 
 // Status variables
 let currentBonusPart = -1;
-let onAnswer = true;
 let packetNumber = -1;
 let questions = [{}];
 let questionNumber = 0;
@@ -142,16 +141,15 @@ function getPointsForCurrentBonus() {
 async function giveAnswer(givenAnswer) {
     const [directive, directedPrompt] = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
 
-    if (directive === 'accept') {
+    switch (directive) {
+    case 'accept':
+        document.getElementById(`checkbox-${currentBonusPart + 1}`).checked = true;
+    // eslint-disable-next-line no-fallthrough
+    case 'reject':
         document.getElementById('reveal').disabled = false;
         revealBonusPart();
-        revealBonusPart();
-        document.getElementById(`checkbox-${currentBonusPart}`).checked = true;
-    } else if (directive === 'reject') {
-        document.getElementById('reveal').disabled = false;
-        revealBonusPart();
-        revealBonusPart();
-    } else if (directive === 'prompt') {
+        break;
+    case 'prompt':
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
         document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
@@ -169,20 +167,20 @@ async function next() {
 
     await advanceQuestion();
 
-    if (questions.length > 0) {
-        document.getElementById('set-name-info').innerHTML = setName;
-        document.getElementById('packet-number-info').innerHTML = packetNumber;
+    if (questions.length === 0)
+        return;
 
-        currentBonusPart = 0;
+    document.getElementById('set-name-info').innerHTML = setName;
+    document.getElementById('packet-number-info').innerHTML = packetNumber;
 
-        // Update the question text:
-        const paragraph = document.createElement('p');
-        paragraph.appendChild(document.createTextNode(questions[questionNumber]['leadin']));
-        document.getElementById('question').innerHTML = '';
-        document.getElementById('question').appendChild(paragraph);
+    // Update the question text:
+    const paragraph = document.createElement('p');
+    paragraph.appendChild(document.createTextNode(questions[questionNumber].leadin));
+    document.getElementById('question').innerHTML = '';
+    document.getElementById('question').appendChild(paragraph);
 
-        revealBonusPart();
-    }
+    currentBonusPart = 0;
+    createBonusPart(currentBonusPart, questions[questionNumber].parts[currentBonusPart]);
 }
 
 
@@ -193,20 +191,16 @@ function revealBonusPart() {
     if (currentBonusPart >= questions[questionNumber]['parts'].length)
         return;
 
-    if (onAnswer) {
-        createBonusPart(currentBonusPart, questions[questionNumber]['parts'][currentBonusPart]);
-    } else {
-        const paragraph = document.createElement('p');
-        paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber]['answers'][currentBonusPart];
-        document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
-        currentBonusPart++;
-    }
-
-    onAnswer = !onAnswer;
+    const paragraph = document.createElement('p');
+    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber]['answers'][currentBonusPart];
+    document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
+    currentBonusPart++;
 
     if (currentBonusPart >= questions[questionNumber]['parts'].length) {
         document.getElementById('reveal').disabled = true;
         document.getElementById('next').innerHTML = 'Next';
+    } else {
+        createBonusPart(currentBonusPart, questions[questionNumber]['parts'][currentBonusPart]);
     }
 }
 
@@ -269,7 +263,6 @@ document.getElementById('next').addEventListener('click', function () {
         updateStatDisplay();
     }
 
-    onAnswer = true;
     next();
 });
 
@@ -286,7 +279,7 @@ document.getElementById('question-number').addEventListener('change', function (
 
 document.getElementById('reveal').addEventListener('click', function () {
     this.blur();
-    if (!onAnswer && document.getElementById('type-to-answer').checked) {
+    if (document.getElementById('type-to-answer').checked) {
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
         this.disabled = true;
@@ -303,7 +296,6 @@ document.getElementById('set-name').addEventListener('change', function () {
 
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    onAnswer = true;
     start(document.getElementById('toggle-select-by-set-name').checked);
 
     queryLock();
@@ -344,13 +336,17 @@ document.getElementById('year-range-a').onchange = function () {
 
 
 document.addEventListener('keydown', (event) => {
-    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName))
+        return;
 
     switch (event.key) {
     case ' ':
         document.getElementById('reveal').click();
+
         // Prevent spacebar from scrolling the page
-        if (event.target == document.body) event.preventDefault();
+        if (event.target == document.body)
+            event.preventDefault();
+
         break;
     case 'k':
         document.getElementsByClassName('card-header')[0].click();
