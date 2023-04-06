@@ -146,10 +146,10 @@ socket.onmessage = function (event) {
         break;
 
     case 'year-range':
-        console.log(data);
-        document.getElementById('year-range-a').value = data.minYear;
-        document.getElementById('year-range-b').value = data.maxYear;
-        document.getElementById('year-range').innerHTML = `${data.minYear} - ${data.maxYear}`;
+        $('#slider').slider('values', 0, data.minYear);
+        $('#slider').slider('values', 1, data.maxYear);
+        document.getElementById('year-range-a').innerHTML = data.minYear;
+        document.getElementById('year-range-b').innerHTML = data.maxYear;
         break;
     }
 };
@@ -251,9 +251,10 @@ const socketOnConnectionAcknowledged = (message) => {
         document.getElementById('private-chat-warning').classList.add('d-none');
     }
 
-    document.getElementById('year-range-a').value = message.minYear;
-    document.getElementById('year-range-b').value = message.maxYear;
-    document.getElementById('year-range').innerHTML = `${message.minYear} - ${message.maxYear}`;
+    $('#slider').slider('values', 0, message.minYear);
+    $('#slider').slider('values', 1, message.maxYear);
+    document.getElementById('year-range-a').innerHTML = message.minYear;
+    document.getElementById('year-range-b').innerHTML = message.maxYear;
 
     Object.keys(message.players).forEach(userId => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
@@ -628,15 +629,12 @@ document.getElementById('username').addEventListener('change', function () {
     localStorage.setItem('username', username);
 });
 
-document.getElementById('year-range-a').addEventListener('click', function () {
-    const [minYear, maxYear] = document.getElementById('year-range').innerHTML.split('-').map(x => parseInt(x));
-    socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
-});
 
-document.getElementById('year-range-b').addEventListener('click', function () {
-    const [minYear, maxYear] = document.getElementById('year-range').innerHTML.split('-').map(x => parseInt(x));
+document.getElementById('year-range-a').onchange = function () {
+    const [minYear, maxYear] = $('#slider').slider('values');
     socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
-});
+};
+
 
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function () {

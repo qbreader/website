@@ -8795,37 +8795,6 @@ progress {
     display: none !important;
   }
 }
-section.dual-slider {
-  position: relative;
-  height: 48px;
-}
-
-section.dual-slider input {
-  position: absolute;
-  overflow: hidden;
-  bottom: 0;
-  outline: none;
-  margin: 0;
-  padding: 0;
-}
-
-section.dual-slider input::-webkit-slider-thumb {
-  position: relative;
-  z-index: 1;
-  outline: 0;
-}
-
-section.dual-slider input::-moz-range-thumb {
-  position: relative;
-  z-index: 10;
-  -moz-appearance: none;
-  width: 9px;
-}
-
-section.dual-slider .rangeValues {
-  cursor: default;
-}
-
 .bg-custom {
   background-color: #fbefdf;
 }
@@ -8876,6 +8845,23 @@ section.dual-slider .rangeValues {
 .text-highlight {
   background-color: #f8ff00;
   color: #212529;
+}
+
+.ui-slider {
+  background-color: #dee2e6;
+  height: 8px;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.ui-slider-handle {
+  border-radius: 100%;
+  font-size: 13px;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  outline-color: #0d6efd;
 }
 
 /*# sourceMappingURL=light.css.map */

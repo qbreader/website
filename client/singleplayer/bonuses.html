@@ -10,17 +10,23 @@
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
-    <link href="/bootstrap/dark.css" rel="stylesheet">
+
+    <link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
+        crossorigin="anonymous"></script>
+    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
     <script>
         if (localStorage.getItem('color-theme') === 'dark') {
-            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
+            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
         } else if (localStorage.getItem('color-theme') === 'light') {
-            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
+            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
         } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             // Get OS preferred color scheme
-            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
+            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
         } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
+            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
         }
     </script>
 </head>
@@ -83,10 +89,12 @@
                     <p class="mt-2">
                         1 - Middle School, 2 to 5 - High School, 6 to 9 - College, 10 - Open
                     </p>
-                    <section class="dual-slider">
-                        <p>Year range: <span class="rangeValues" id="year-range"></span></p>
-                        <input class="form-range" id="year-range-a" type="range" value="2010" min="2000" max="2023" step="1">
-                        <input class="form-range" id="year-range-b" type="range" value="2023" min="2000" max="2023" step="1">
+                    <section>
+                        Year range:
+                        <span class="sliderValue0" id="year-range-a">2010</span>
+                        -
+                        <span class="sliderValue1" id="year-range-b">2023</span>
+                        <div id="slider"></div>
                     </section>
                 </div>
                 <div class="my-2"></div>
