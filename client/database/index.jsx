@@ -494,25 +494,21 @@ function QueryForm() {
 
             { currentlySearching && <div className="d-block mx-auto mt-3 spinner-border" role="status"><span className="d-none">Loading...</span></div> }
             <div className="row text-center"><h3 className="mt-2" id="tossups">Tossups</h3></div>
-            <div className="float-row">
-                {
-                    tossupCount > 0
-                        ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} impostors among us ඞ</span>&nbsp;
-                            <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
-                        : <p className="text-muted">No tossups found</p>
-                }
-            </div>
+            {
+                tossupCount > 0
+                    ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
+                        <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
+                    : <p className="text-muted">No tossups found</p>
+            }
             <div>{tossupCards}</div>
             <div className="mb-5"></div>
             <div className="row text-center"><h3 className="mt-3" id="bonuses">Bonuses</h3></div>
-            <div className="float-row">
-                {
-                    bonusCount > 0
-                        ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} impostors among us ඞ</span>&nbsp;
-                            <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
-                        : <p className="text-muted">No bonuses found</p>
-                }
-            </div>
+            {
+                bonusCount > 0
+                    ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
+                        <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
+                    : <p className="text-muted">No bonuses found</p>
+            }
             <div>{bonusCards}</div>
             <div className="mb-5"></div>
         </div>
