@@ -188,19 +188,19 @@ async function next() {
  * Called when the users wants to reveal the next bonus part.
  */
 function revealBonusPart() {
-    if (currentBonusPart >= questions[questionNumber]['parts'].length)
+    if (currentBonusPart >= questions[questionNumber].parts.length)
         return;
 
     const paragraph = document.createElement('p');
-    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber]['answers'][currentBonusPart];
+    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber].answers[currentBonusPart];
     document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
     currentBonusPart++;
 
-    if (currentBonusPart >= questions[questionNumber]['parts'].length) {
+    if (currentBonusPart >= questions[questionNumber].parts.length) {
         document.getElementById('reveal').disabled = true;
         document.getElementById('next').innerHTML = 'Next';
     } else {
-        createBonusPart(currentBonusPart, questions[questionNumber]['parts'][currentBonusPart]);
+        createBonusPart(currentBonusPart, questions[questionNumber].parts[currentBonusPart]);
     }
 }
 
