@@ -551,7 +551,7 @@ function QueryForm() {
     className: "float-row"
   }, tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
-  }, "Showing ", tossups.length, " of ", tossupCount, " impostors among us \u0D9E"), "\xA0", /*#__PURE__*/React.createElement("span", {
+  }, "Showing ", tossups.length, " of ", tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#bonuses"
@@ -568,7 +568,7 @@ function QueryForm() {
     className: "float-row"
   }, bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
-  }, "Showing ", bonuses.length, " of ", bonusCount, " impostors among us \u0D9E"), "\xA0", /*#__PURE__*/React.createElement("span", {
+  }, "Showing ", bonuses.length, " of ", bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#tossups"

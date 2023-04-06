@@ -359,7 +359,7 @@ async function getRandomQuestions({ questionType = 'tossup', difficulties, categ
     if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
     if (!categories || categories.length === 0) categories = CATEGORIES;
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
-    if (!number) number = 20;
+    if (!number) number = 1;
 
     if (isFinite(minYear)) {
         minYear = parseInt(minYear);
