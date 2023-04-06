@@ -488,6 +488,9 @@ document.getElementById('type-to-answer').addEventListener('click', function () 
 document.getElementById('year-range-a').onchange = function () {
     randomQuestions = [];
     loadRandomQuestions('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+
+    localStorage.setItem('minYear', $('#slider').slider('values', 0));
+    localStorage.setItem('maxYear', $('#slider').slider('values', 1));
 };
 
 
@@ -517,6 +520,16 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = () => {
+    if (localStorage.getItem('minYear')) {
+        $('#slider').slider('values', 0, localStorage.getItem('minYear'));
+        document.getElementById('year-range-a').innerHTML = localStorage.getItem('minYear');
+    }
+
+    if (localStorage.getItem('maxYear')) {
+        $('#slider').slider('values', 1, localStorage.getItem('maxYear'));
+        document.getElementById('year-range-b').innerHTML = localStorage.getItem('maxYear');
+    }
+
     if (localStorage.getItem('setNameTossupSave')) {
         setName = localStorage.getItem('setNameTossupSave');
         document.getElementById('set-name').value = setName;
