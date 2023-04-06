@@ -48,7 +48,8 @@ async function getPacket(setName, packetNumber) {
 
 
 async function loadRandomQuestions(questionType, difficulties = [], categories = [], subcategories = []) {
-    const [minYear, maxYear] = document.getElementById('year-range').innerHTML.split('-').map(x => parseInt(x));
+    const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
+    const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
 
     randomQuestions = await fetch('/api/random-question', {
         method: 'POST',

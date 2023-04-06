@@ -14,7 +14,7 @@ function isTouchDevice() {
     return true == ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch);
 }
 
-const stylesheet = document.querySelector('link[rel="stylesheet"]');
+const stylesheet = document.querySelector('#custom-css');
 document.getElementById('toggle-dark-mode').addEventListener('click', function () {
     if (stylesheet.getAttribute('href') === '/bootstrap/light.css') {
         stylesheet.setAttribute('href', '/bootstrap/dark.css');
