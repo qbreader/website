@@ -68,7 +68,7 @@ function removeDropdown() {
 
 if (window.navigator.userAgent.match(/Mobile.*Firefox/)) {
     const set_name_input = document.getElementById('set-name');
-    set_name_input.addEventListener('input', function () {    
+    set_name_input.addEventListener('input', function () {
         document.getElementById('set-dropdown')?.remove();
         const set = this.value.toLowerCase();
         const dropdown_items = SET_LIST.filter(setName =>
