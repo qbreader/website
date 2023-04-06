@@ -24,9 +24,9 @@ for (let x = 0; x < sliderSections.length; x++) {
     let sliders = sliderSections[x].getElementsByTagName('input');
     for (let y = 0; y < sliders.length; y++) {
         if (sliders[y].type ==='range') {
-            sliders[y].oninput = updateValues;
+            sliders[y].onclick = updateValues;
             // Manually trigger event first time to display values
-            sliders[y].oninput();
+            sliders[y].onclick();
         }
     }
 }
