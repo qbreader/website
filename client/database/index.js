@@ -1,3 +1,4 @@
+const paginationShiftLength = screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Math', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
 let validCategories = [];
@@ -322,15 +323,93 @@ function QueryForm() {
   const [searchType, setSearchType] = React.useState('all');
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
   const [showCardFooters, setShowCardFooters] = React.useState(false);
+  let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
+  let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
+  const [tossupPaginationLength, setTossupPaginationLength] = React.useState(1);
+  const [bonusPaginationLength, setBonusPaginationLength] = React.useState(1);
+  const [tossupPaginationShift, setTossupPaginationShift] = React.useState(0);
+  const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
   React.useEffect(() => {
     fetch('/api/set-list').then(response => response.json()).then(data => {
       document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
     });
   }, []);
-  function handleSubmit(event, randomize = false) {
+  function arrayBetween(start, end) {
+    return Array(end - start).fill().map((_, idx) => start + idx);
+  }
+  function getMaxPagination() {
+    return Math.floor(5000 / (maxReturnLength || 25));
+  }
+  function handleTossupPaginationClick(event, value) {
+    event.preventDefault();
+    switch (value) {
+      case 'first':
+        tossupPaginationNumber = 1;
+        break;
+      case 'previous':
+        tossupPaginationNumber = Math.max(1, tossupPaginationNumber - 1);
+        break;
+      case 'next':
+        tossupPaginationNumber = Math.min(tossupPaginationLength, tossupPaginationNumber + 1, getMaxPagination());
+        break;
+      case 'last':
+        tossupPaginationNumber = Math.min(tossupPaginationLength, getMaxPagination());
+        break;
+      default:
+        tossupPaginationNumber = value;
+        break;
+    }
+    setTossupPaginationNumber(tossupPaginationNumber);
+    setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
+    handleSubmit(event, false, true);
+  }
+  function handleBonusPaginationClick(event, value) {
+    event.preventDefault();
+    switch (value) {
+      case 'first':
+        bonusPaginationNumber = 1;
+        break;
+      case 'previous':
+        bonusPaginationNumber = Math.max(1, bonusPaginationNumber - 1);
+        break;
+      case 'next':
+        bonusPaginationNumber = Math.min(bonusPaginationLength, bonusPaginationNumber + 1, getMaxPagination());
+        break;
+      case 'last':
+        bonusPaginationNumber = Math.min(bonusPaginationLength, getMaxPagination());
+        break;
+      default:
+        bonusPaginationNumber = value;
+        break;
+    }
+    setBonusPaginationNumber(bonusPaginationNumber);
+    setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
+    handleSubmit(event, false, true);
+  }
+  function handleSubmit(event, randomize = false, paginationUpdate = false) {
     event.preventDefault();
     setCurrentlySearching(true);
-    const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&ignoreDiacritics=${encodeURIComponent(diacritics)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
+    if (randomize || !paginationUpdate) {
+      tossupPaginationNumber = 1;
+      bonusPaginationNumber = 1;
+      setTossupPaginationNumber(tossupPaginationNumber);
+      setBonusPaginationNumber(bonusPaginationNumber);
+    }
+    const uri = `/api/query?
+            queryString=${encodeURIComponent(queryString)}&
+            categories=${encodeURIComponent(validCategories)}&
+            subcategories=${encodeURIComponent(validSubcategories)}&
+            difficulties=${encodeURIComponent(rangeToArray(difficulties))}&
+            maxReturnLength=${encodeURIComponent(maxReturnLength)}&
+            questionType=${encodeURIComponent(questionType)}&
+            randomize=${encodeURIComponent(randomize)}&
+            ignoreDiacritics=${encodeURIComponent(diacritics)}&
+            regex=${encodeURIComponent(regex)}&
+            searchType=${encodeURIComponent(searchType)}&
+            setName=${encodeURIComponent(document.getElementById('set-name').value)}&
+            tossupPagination=${encodeURIComponent(tossupPaginationNumber)}&
+            bonusPagination=${encodeURIComponent(bonusPaginationNumber)}&
+        `.replace(/\s/g, '');
     fetch(uri, {
       method: 'GET',
       headers: {
@@ -348,6 +427,7 @@ function QueryForm() {
         queryString: modifiedQueryString
       } = response;
       const regExp = RegExp(modifiedQueryString, 'ig');
+      const workingMaxReturnLength = Math.max(1, maxReturnLength || 25);
       const {
         count: tossupCount,
         questionArray: tossupArray
@@ -380,10 +460,19 @@ function QueryForm() {
       }
       setBonusCount(bonusCount);
       setBonuses(bonusArray);
-      setCurrentlySearching(false);
+      if (randomize) {
+        setTossupPaginationLength(1);
+        setBonusPaginationLength(1);
+      } else {
+        setTossupPaginationLength(Math.ceil(tossupCount / workingMaxReturnLength));
+        setBonusPaginationLength(Math.ceil(bonusCount / workingMaxReturnLength));
+      }
+      setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
+      setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
     }).catch(error => {
       console.error('Error:', error);
       alert('Invalid query. Please check your search parameters and try again.');
+    }).finally(() => {
       setCurrentlySearching(false);
     });
   }
@@ -465,7 +554,7 @@ function QueryForm() {
     "data-bs-toggle": "modal",
     "data-bs-target": "#category-modal"
   }, "Categories"))), /*#__PURE__*/React.createElement("div", {
-    className: "row mb-2"
+    className: "row mb-xl-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-6"
   }, /*#__PURE__*/React.createElement("select", {
@@ -497,7 +586,7 @@ function QueryForm() {
   }, "Tossups"), /*#__PURE__*/React.createElement("option", {
     value: "bonus"
   }, "Bonuses")))), /*#__PURE__*/React.createElement("div", {
-    className: "row mb-3"
+    className: "row"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-12"
   }, /*#__PURE__*/React.createElement("div", {
@@ -571,9 +660,64 @@ function QueryForm() {
   }, "Loading...")), /*#__PURE__*/React.createElement("div", {
     className: "row text-center"
   }, /*#__PURE__*/React.createElement("h3", {
-    className: "mt-2",
     id: "tossups"
-  }, "Tossups")), tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+  }, "Tossups")), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
+    "aria-label": "bonus nagivation"
+  }, /*#__PURE__*/React.createElement("ul", {
+    className: "pagination justify-content-center"
+  }, /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "First",
+    onClick: event => {
+      handleTossupPaginationClick(event, 'first');
+    }
+  }, "\xAB")), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Previous",
+    onClick: event => {
+      handleTossupPaginationClick(event, 'previous');
+    }
+  }, "\u2039")), arrayBetween(Math.min(tossupPaginationShift), Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)).map(i => {
+    const isActive = tossupPaginationNumber === i + 1;
+    return /*#__PURE__*/React.createElement("li", {
+      key: `tossup-pagination-${i + 1}`,
+      className: "page-item"
+    }, /*#__PURE__*/React.createElement("a", {
+      className: `page-link ${isActive && 'active'}`,
+      href: "#",
+      onClick: event => {
+        handleTossupPaginationClick(event, i + 1);
+      }
+    }, i + 1));
+  }), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Next",
+    onClick: event => {
+      handleTossupPaginationClick(event, 'next');
+    }
+  }, "\u203A")), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Last",
+    onClick: event => {
+      handleTossupPaginationClick(event, 'last');
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xBB"))))), /*#__PURE__*/React.createElement("div", {
+    className: "float-row"
+  }, tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
   }, "Showing ", tossups.length, " of ", tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
@@ -581,14 +725,69 @@ function QueryForm() {
     href: "#bonuses"
   }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("p", {
     className: "text-muted"
-  }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("div", {
+  }, "No tossups found")), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("div", {
     className: "mb-5"
   }), /*#__PURE__*/React.createElement("div", {
     className: "row text-center"
   }, /*#__PURE__*/React.createElement("h3", {
-    className: "mt-3",
     id: "bonuses"
-  }, "Bonuses")), bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+  }, "Bonuses")), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
+    "aria-label": "bonus nagivation"
+  }, /*#__PURE__*/React.createElement("ul", {
+    className: "pagination justify-content-center"
+  }, /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "First",
+    onClick: event => {
+      handleBonusPaginationClick(event, 'first');
+    }
+  }, "\xAB")), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Previous",
+    onClick: event => {
+      handleBonusPaginationClick(event, 'previous');
+    }
+  }, "\u2039")), arrayBetween(Math.min(bonusPaginationShift), Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength)).map(i => {
+    const isActive = bonusPaginationNumber === i + 1;
+    return /*#__PURE__*/React.createElement("li", {
+      key: `bonus-pagination-${i + 1}`,
+      className: "page-item"
+    }, /*#__PURE__*/React.createElement("a", {
+      className: `page-link ${isActive && 'active'}`,
+      href: "#",
+      onClick: event => {
+        handleBonusPaginationClick(event, i + 1);
+      }
+    }, i + 1));
+  }), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Next",
+    onClick: event => {
+      handleBonusPaginationClick(event, 'next');
+    }
+  }, "\u203A")), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Last",
+    onClick: event => {
+      handleBonusPaginationClick(event, 'last');
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xBB"))))), /*#__PURE__*/React.createElement("div", {
+    className: "float-row"
+  }, bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
   }, "Showing ", bonuses.length, " of ", bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
@@ -596,7 +795,7 @@ function QueryForm() {
     href: "#tossups"
   }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("p", {
     className: "text-muted"
-  }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("div", {
+  }, "No bonuses found")), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("div", {
     className: "mb-5"
   }));
 }
