@@ -182,6 +182,8 @@ async function getQuery({
     regex = false,
     verbose = false,
     ignoreDiacritics = false,
+    tossupPagination = 1,
+    bonusPagination = 1,
 } = {}) {
     if (verbose)
         console.time('getQuery');
@@ -210,11 +212,11 @@ async function getQuery({
 
     let tossupQuery = null;
     if (['tossup', 'all'].includes(questionType))
-        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize });
+        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination });
 
     let bonusQuery = null;
     if (['bonus', 'all'].includes(questionType))
-        bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize });
+        bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination });
 
 
     const values = await Promise.all([tossupQuery, bonusQuery]);
@@ -244,7 +246,7 @@ set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC}; \
 }
 
 
-async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize }) {
+async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination }) {
     const orQuery = [];
     if (['question', 'all'].includes(searchType))
         orQuery.push({ question: { $regex: queryString, $options: 'i' } });
@@ -259,7 +261,7 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
 
     try {
         const [questionArray, count] = await Promise.all([
-            tossups.aggregate(aggregation).toArray(),
+            tossups.aggregate(aggregation).skip((tossupPagination - 1) * maxReturnLength).limit(maxReturnLength).toArray(),
             tossups.countDocuments(query),
         ]);
         return { count, questionArray };
@@ -270,7 +272,7 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
 }
 
 
-async function queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize }) {
+async function queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination }) {
     const orQuery = [];
     if (['question', 'all'].includes(searchType)) {
         orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
@@ -288,7 +290,7 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
 
     try {
         const [questionArray, count] = await Promise.all([
-            bonuses.aggregate(aggregation).toArray(),
+            bonuses.aggregate(aggregation).skip((bonusPagination - 1) * maxReturnLength).limit(maxReturnLength).toArray(),
             bonuses.countDocuments(query),
         ]);
         return { count, questionArray };
@@ -326,7 +328,8 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
             packetNumber: 1,
             questionNumber: 1
         } },
-        { $limit: maxReturnLength },
+        // { $skip: (pagination - 1) * maxReturnLength },
+        // { $limit: maxReturnLength },
         { $project: { reports: 0 } },
     ];
 
