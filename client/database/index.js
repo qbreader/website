@@ -77,10 +77,6 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
   hiddenElement.download = filename;
   hiddenElement.click();
 }
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-
 function highlightTossupQuery({
   tossup,
   regExp,
@@ -124,9 +120,11 @@ document.getElementById('report-question-submit').addEventListener('click', func
   reportQuestion(document.getElementById('report-question-id').value, document.getElementById('report-question-reason').value, document.getElementById('report-question-description').value);
 });
 function TossupCard({
-  tossup
+  tossup,
+  showCardFooter
 }) {
   const _id = tossup._id;
+  const packetName = tossup.packetName;
   const powerParts = tossup.question.split('(*)');
   function onClick() {
     document.getElementById('report-question-id').value = _id;
@@ -149,23 +147,30 @@ function TossupCard({
     dangerouslySetInnerHTML: {
       __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question
     }
-  }), "\xA0", /*#__PURE__*/React.createElement("a", {
-    className: "user-select-none",
+  }), "\xA0", /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
+    dangerouslySetInnerHTML: {
+      __html: tossup?.formatted_answer ?? tossup.answer
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: `card-footer ${!showCardFooter && 'd-none'}`
+  }, /*#__PURE__*/React.createElement("small", {
+    className: "text-muted"
+  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
+    className: "text-muted float-end"
+  }, /*#__PURE__*/React.createElement("a", {
     href: "#",
     onClick: onClick,
     id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"
-  }, "Report Question"), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: tossup?.formatted_answer ?? tossup.answer
-    }
-  })))));
+  }, "Report Question")))));
 }
 function BonusCard({
-  bonus
+  bonus,
+  showCardFooter
 }) {
   const _id = bonus._id;
+  const packetName = bonus.packetName;
   const bonusLength = bonus.parts.length;
   const indices = [];
   for (let i = 0; i < bonusLength; i++) {
@@ -198,18 +203,23 @@ function BonusCard({
     dangerouslySetInnerHTML: {
       __html: bonus.parts[i]
     }
-  }), i + 1 === bonusLength && /*#__PURE__*/React.createElement(React.Fragment, null, "\xA0", /*#__PURE__*/React.createElement("a", {
-    className: "user-select-none",
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
+    dangerouslySetInnerHTML: {
+      __html: (bonus?.formatted_answers ?? bonus.answers)[i]
+    }
+  }))))), /*#__PURE__*/React.createElement("div", {
+    className: `card-footer ${!showCardFooter && 'd-none'}`
+  }, /*#__PURE__*/React.createElement("small", {
+    className: "text-muted"
+  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
+    className: "text-muted float-end"
+  }, /*#__PURE__*/React.createElement("a", {
     href: "#",
     onClick: onClick,
     id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"
-  }, "Report Question"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: (bonus?.formatted_answers ?? bonus.answers)[i]
-    }
-  })))))));
+  }, "Report Question")))));
 }
 
 // eslint-disable-next-line no-undef
@@ -311,6 +321,7 @@ function QueryForm() {
   const [diacritics, setDiacritics] = React.useState(false);
   const [searchType, setSearchType] = React.useState('all');
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
+  const [showCardFooters, setShowCardFooters] = React.useState(false);
   React.useEffect(() => {
     fetch('/api/set-list').then(response => response.json()).then(data => {
       document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
@@ -320,7 +331,6 @@ function QueryForm() {
     event.preventDefault();
     setCurrentlySearching(true);
     const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&ignoreDiacritics=${encodeURIComponent(diacritics)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
-    console.log(uri);
     fetch(uri, {
       method: 'GET',
       headers: {
@@ -337,11 +347,11 @@ function QueryForm() {
         bonuses,
         queryString: modifiedQueryString
       } = response;
+      const regExp = RegExp(modifiedQueryString, 'ig');
       const {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
-      const regExp = RegExp(modifiedQueryString, 'ig');
       if (queryString !== '') {
         for (let i = 0; i < tossupArray.length; i++) {
           tossupArray[i] = highlightTossupQuery({
@@ -379,11 +389,13 @@ function QueryForm() {
   }
   const tossupCards = tossups.map(tossup => /*#__PURE__*/React.createElement(TossupCard, {
     key: tossup._id,
-    tossup: tossup
+    tossup: tossup,
+    showCardFooter: showCardFooters
   }));
   const bonusCards = bonuses.map(bonus => /*#__PURE__*/React.createElement(BonusCard, {
     key: bonus._id,
-    bonus: bonus
+    bonus: bonus,
+    showCardFooter: showCardFooters
   }));
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
     className: "mt-3",
@@ -520,6 +532,20 @@ function QueryForm() {
     className: "form-check-label",
     htmlFor: "toggle-ignore-diacritics"
   }, "Ignore diacritics when searching (Note: may slow down search)")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-show-card-footers",
+    checked: showCardFooters,
+    onChange: () => {
+      setShowCardFooters(!showCardFooters);
+    }
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-show-card-footers"
+  }, "Show card footers")), /*#__PURE__*/React.createElement("div", {
     className: "float-end"
   }, /*#__PURE__*/React.createElement("b", null, "Download as:"), /*#__PURE__*/React.createElement("a", {
     className: "ms-2 download-link",
@@ -547,9 +573,7 @@ function QueryForm() {
   }, /*#__PURE__*/React.createElement("h3", {
     className: "mt-2",
     id: "tossups"
-  }, "Tossups")), /*#__PURE__*/React.createElement("div", {
-    className: "float-row"
-  }, tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+  }, "Tossups")), tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
   }, "Showing ", tossups.length, " of ", tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
@@ -557,16 +581,14 @@ function QueryForm() {
     href: "#bonuses"
   }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("p", {
     className: "text-muted"
-  }, "No tossups found")), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("div", {
+  }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("div", {
     className: "mb-5"
   }), /*#__PURE__*/React.createElement("div", {
     className: "row text-center"
   }, /*#__PURE__*/React.createElement("h3", {
     className: "mt-3",
     id: "bonuses"
-  }, "Bonuses")), /*#__PURE__*/React.createElement("div", {
-    className: "float-row"
-  }, bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+  }, "Bonuses")), bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
   }, "Showing ", bonuses.length, " of ", bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
@@ -574,7 +596,7 @@ function QueryForm() {
     href: "#tossups"
   }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("p", {
     className: "text-muted"
-  }, "No bonuses found")), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("div", {
+  }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("div", {
     className: "mb-5"
   }));
 }
