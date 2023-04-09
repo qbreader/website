@@ -108,6 +108,24 @@ router.get('/query', async (req, res) => {
         req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
     }
 
+    if (!req.query.tossupPagination) {
+        req.query.tossupPagination = 1;
+    }
+
+    if (!req.query.bonusPagination) {
+        req.query.bonusPagination = 1;
+    }
+
+    const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
+
+    if (!isFinite(req.query.tossupPagination) || !isFinite(req.query.bonusPagination)) {
+        res.status(400).send('Invalid pagination specified.');
+        return;
+    } else {
+        req.query.tossupPagination = Math.min(parseInt(req.query.tossupPagination), maxPagination);
+        req.query.bonusPagination = Math.min(parseInt(req.query.bonusPagination), maxPagination);
+    }
+
     const queryResult = await database.getQuery(req.query);
     res.send(JSON.stringify(queryResult));
 });

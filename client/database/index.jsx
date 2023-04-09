@@ -1,3 +1,5 @@
+const paginationShiftLength = screen.width > 992 ? 10 : 5;
+
 const CATEGORY_BUTTONS = [
     ['Literature', 'primary'],
     ['History', 'success'],
@@ -372,6 +374,13 @@ function QueryForm() {
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
     const [showCardFooters, setShowCardFooters] = React.useState(false);
 
+    let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
+    let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
+    const [tossupPaginationLength, setTossupPaginationLength] = React.useState(1);
+    const [bonusPaginationLength, setBonusPaginationLength] = React.useState(1);
+    const [tossupPaginationShift, setTossupPaginationShift] = React.useState(0);
+    const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
+
     React.useEffect(() => {
         fetch('/api/set-list')
             .then(response => response.json())
@@ -380,11 +389,92 @@ function QueryForm() {
             });
     }, []);
 
-    function handleSubmit(event, randomize = false) {
+    function arrayBetween(start, end) {
+        return Array(end - start).fill().map((_, idx) => start + idx);
+    }
+
+    function getMaxPagination() {
+        return Math.floor(5000 / (maxReturnLength || 25));
+    }
+
+    function handleTossupPaginationClick(event, value) {
+        event.preventDefault();
+
+        switch (value) {
+        case 'first':
+            tossupPaginationNumber = 1;
+            break;
+        case 'previous':
+            tossupPaginationNumber = Math.max(1, tossupPaginationNumber - 1);
+            break;
+        case 'next':
+            tossupPaginationNumber = Math.min(tossupPaginationLength, tossupPaginationNumber + 1, getMaxPagination());
+            break;
+        case 'last':
+            tossupPaginationNumber = Math.min(tossupPaginationLength, getMaxPagination());
+            break;
+        default:
+            tossupPaginationNumber = value;
+            break;
+        }
+
+        setTossupPaginationNumber(tossupPaginationNumber);
+        setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
+        handleSubmit(event, false, true);
+    }
+
+    function handleBonusPaginationClick(event, value) {
+        event.preventDefault();
+
+        switch (value) {
+        case 'first':
+            bonusPaginationNumber = 1;
+            break;
+        case 'previous':
+            bonusPaginationNumber = Math.max(1, bonusPaginationNumber - 1);
+            break;
+        case 'next':
+            bonusPaginationNumber = Math.min(bonusPaginationLength, bonusPaginationNumber + 1, getMaxPagination());
+            break;
+        case 'last':
+            bonusPaginationNumber = Math.min(bonusPaginationLength, getMaxPagination());
+            break;
+        default:
+            bonusPaginationNumber = value;
+            break;
+        }
+
+        setBonusPaginationNumber(bonusPaginationNumber);
+        setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
+        handleSubmit(event, false, true);
+    }
+
+    function handleSubmit(event, randomize = false, paginationUpdate = false) {
         event.preventDefault();
         setCurrentlySearching(true);
 
-        const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&ignoreDiacritics=${encodeURIComponent(diacritics)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
+        if (randomize || !paginationUpdate) {
+            tossupPaginationNumber = 1;
+            bonusPaginationNumber = 1;
+            setTossupPaginationNumber(tossupPaginationNumber);
+            setBonusPaginationNumber(bonusPaginationNumber);
+        }
+
+        const uri = `/api/query?
+            queryString=${encodeURIComponent(queryString)}&
+            categories=${encodeURIComponent(validCategories)}&
+            subcategories=${encodeURIComponent(validSubcategories)}&
+            difficulties=${encodeURIComponent(rangeToArray(difficulties))}&
+            maxReturnLength=${encodeURIComponent(maxReturnLength)}&
+            questionType=${encodeURIComponent(questionType)}&
+            randomize=${encodeURIComponent(randomize)}&
+            ignoreDiacritics=${encodeURIComponent(diacritics)}&
+            regex=${encodeURIComponent(regex)}&
+            searchType=${encodeURIComponent(searchType)}&
+            setName=${encodeURIComponent(document.getElementById('set-name').value)}&
+            tossupPagination=${encodeURIComponent(tossupPaginationNumber)}&
+            bonusPagination=${encodeURIComponent(bonusPaginationNumber)}&
+        `.replace(/\s/g, '');
 
         fetch(uri, {
             method: 'GET',
@@ -401,6 +491,7 @@ function QueryForm() {
             .then(response => {
                 const { tossups, bonuses, queryString: modifiedQueryString } = response;
                 const regExp = RegExp(modifiedQueryString, 'ig');
+                const workingMaxReturnLength = Math.max(1, maxReturnLength || 25);
 
                 const { count: tossupCount, questionArray: tossupArray } = tossups;
                 if (queryString !== '') {
@@ -420,11 +511,22 @@ function QueryForm() {
                 setBonusCount(bonusCount);
                 setBonuses(bonusArray);
 
-                setCurrentlySearching(false);
+                if (randomize) {
+                    setTossupPaginationLength(1);
+                    setBonusPaginationLength(1);
+                } else {
+                    setTossupPaginationLength(Math.ceil(tossupCount / workingMaxReturnLength));
+                    setBonusPaginationLength(Math.ceil(bonusCount / workingMaxReturnLength));
+                }
+
+                setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
+                setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('Invalid query. Please check your search parameters and try again.');
+            })
+            .finally(() => {
                 setCurrentlySearching(false);
             });
     }
@@ -454,7 +556,7 @@ function QueryForm() {
                         <button type="button" className="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     </div>
                 </div>
-                <div className="row mb-2">
+                <div className="row mb-xl-2">
                     <div className="col-6">
                         <select className="form-select" id="search-type" value={searchType} onChange={event => {setSearchType(event.target.value);}}>
                             <option value="all">All text</option>
@@ -470,7 +572,7 @@ function QueryForm() {
                         </select>
                     </div>
                 </div>
-                <div className="row mb-3">
+                <div className="row">
                     <div className="col-12">
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-regex" checked={regex} onChange={() => {setRegex(!regex);}} />
@@ -496,22 +598,110 @@ function QueryForm() {
             </form>
 
             { currentlySearching && <div className="d-block mx-auto mt-3 spinner-border" role="status"><span className="d-none">Loading...</span></div> }
-            <div className="row text-center"><h3 className="mt-2" id="tossups">Tossups</h3></div>
+            <div className="row text-center">
+                <h3 id="tossups">Tossups</h3>
+            </div>
             {
-                tossupCount > 0
-                    ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
-                        <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
-                    : <p className="text-muted">No tossups found</p>
+                tossupPaginationLength > 1 &&
+                <nav aria-label="bonus nagivation">
+                    <ul className="pagination justify-content-center">
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="First" onClick={event => {handleTossupPaginationClick(event, 'first');}}>
+                                &laquo;
+                            </a>
+                        </li>
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Previous" onClick={event => {handleTossupPaginationClick(event, 'previous');}}>
+                                &lsaquo;
+                            </a>
+                        </li>
+                        {
+                            arrayBetween(
+                                Math.min(tossupPaginationShift),
+                                Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)
+                            ).map((i) => {
+                                const isActive = tossupPaginationNumber === i + 1;
+                                return <li key={`tossup-pagination-${i + 1}`} className="page-item">
+                                    <a className={`page-link ${isActive && 'active'}`} href="#" onClick={event => {handleTossupPaginationClick(event, i + 1);}}>
+                                        {i + 1}
+                                    </a>
+                                </li>;
+                            })
+                        }
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Next" onClick={event => {handleTossupPaginationClick(event, 'next');}}>
+                                &rsaquo;
+                            </a>
+                        </li>
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Last" onClick={event => {handleTossupPaginationClick(event, 'last');}}>
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             }
+            <div className="float-row">
+                {
+                    tossupCount > 0
+                        ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
+                            <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
+                        : <p className="text-muted">No tossups found</p>
+                }
+            </div>
             <div>{tossupCards}</div>
             <div className="mb-5"></div>
-            <div className="row text-center"><h3 className="mt-3" id="bonuses">Bonuses</h3></div>
+            <div className="row text-center">
+                <h3 id="bonuses">Bonuses</h3>
+            </div>
             {
-                bonusCount > 0
-                    ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
-                        <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
-                    : <p className="text-muted">No bonuses found</p>
+                bonusPaginationLength > 1 &&
+                <nav aria-label="bonus nagivation">
+                    <ul className="pagination justify-content-center">
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="First" onClick={event => {handleBonusPaginationClick(event, 'first');}}>
+                                &laquo;
+                            </a>
+                        </li>
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Previous" onClick={event => {handleBonusPaginationClick(event, 'previous');}}>
+                                &lsaquo;
+                            </a>
+                        </li>
+                        {
+                            arrayBetween(
+                                Math.min(bonusPaginationShift),
+                                Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength)
+                            ).map((i) => {
+                                const isActive = bonusPaginationNumber === i + 1;
+                                return <li key={`bonus-pagination-${i + 1}`} className="page-item">
+                                    <a className={`page-link ${isActive && 'active'}`} href="#" onClick={event => {handleBonusPaginationClick(event, i + 1);}}>
+                                        {i + 1}
+                                    </a>
+                                </li>;
+                            })
+                        }
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Next" onClick={event => {handleBonusPaginationClick(event, 'next');}}>
+                                &rsaquo;
+                            </a>
+                        </li>
+                        <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Last" onClick={event => {handleBonusPaginationClick(event, 'last');}}>
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             }
+            <div className="float-row">
+                {
+                    bonusCount > 0
+                        ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
+                            <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
+                        : <p className="text-muted">No bonuses found</p>
+                }
+            </div>
             <div>{bonusCards}</div>
             <div className="mb-5"></div>
         </div>
