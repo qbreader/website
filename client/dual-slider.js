@@ -28,6 +28,16 @@ $(document).ready(function() {
     document.getElementById('slider').classList.remove('ui-widget-content');
     document.getElementById('slider').classList.remove('ui-widget');
 
+    if (localStorage.getItem('minYear') && !location.pathname.startsWith('multiplayer')) {
+        $('#slider').slider('values', 0, localStorage.getItem('minYear'));
+        document.getElementById('year-range-a').innerHTML = localStorage.getItem('minYear');
+    }
+
+    if (localStorage.getItem('maxYear') && !location.pathname.startsWith('multiplayer')) {
+        $('#slider').slider('values', 1, localStorage.getItem('maxYear'));
+        document.getElementById('year-range-b').innerHTML = localStorage.getItem('maxYear');
+    }
+
     $('input.sliderValue').change(function() {
         let $this = $(this);
         $('#slider').slider('values', $this.data('index'), $this.val());
