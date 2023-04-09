@@ -171,11 +171,6 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
 }
 
 
-function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-
-
 function highlightTossupQuery({ tossup, regExp, searchType = 'all' }) {
     if (searchType === 'question' || searchType === 'all')
         tossup.question = tossup.question.replace(regExp, '<span class="text-highlight">$&</span>');
@@ -225,8 +220,9 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 
-function TossupCard({ tossup }) {
+function TossupCard({ tossup, showCardFooter }) {
     const _id = tossup._id;
+    const packetName = tossup.packetName;
     const powerParts = tossup.question.split('(*)');
 
     function onClick() {
@@ -242,9 +238,14 @@ function TossupCard({ tossup }) {
             <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
                     <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question }}></span>&nbsp;
-                    <a className="user-select-none" href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                     <hr></hr>
                     <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.formatted_answer ?? tossup.answer }}></span></div>
+                </div>
+                <div className={`card-footer ${!showCardFooter && 'd-none'}`}>
+                    <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
+                    <small className="text-muted float-end">
+                        <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                    </small>
                 </div>
             </div>
         </div>
@@ -252,8 +253,9 @@ function TossupCard({ tossup }) {
 }
 
 
-function BonusCard({ bonus }) {
+function BonusCard({ bonus, showCardFooter }) {
     const _id = bonus._id;
+    const packetName = bonus.packetName;
     const bonusLength = bonus.parts.length;
     const indices = [];
 
@@ -280,14 +282,16 @@ function BonusCard({ bonus }) {
                             <p>
                                 [10]&nbsp;
                                 <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span>
-                                {
-                                    i + 1 === bonusLength &&
-                                    <>&nbsp;<a className="user-select-none" href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a></>
-                                }
                             </p>
                             <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i] }}></span></div>
                         </div>
                     )}
+                </div>
+                <div className={`card-footer ${!showCardFooter && 'd-none'}`}>
+                    <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
+                    <small className="text-muted float-end">
+                        <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                    </small>
                 </div>
             </div>
         </div>
@@ -366,6 +370,7 @@ function QueryForm() {
     const [diacritics, setDiacritics] = React.useState(false);
     const [searchType, setSearchType] = React.useState('all');
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
+    const [showCardFooters, setShowCardFooters] = React.useState(false);
 
     React.useEffect(() => {
         fetch('/api/set-list')
@@ -381,8 +386,6 @@ function QueryForm() {
 
         const uri = `/api/query?queryString=${encodeURIComponent(queryString)}&categories=${encodeURIComponent(validCategories)}&subcategories=${encodeURIComponent(validSubcategories)}&difficulties=${encodeURIComponent(rangeToArray(difficulties))}&maxReturnLength=${encodeURIComponent(maxReturnLength)}&questionType=${encodeURIComponent(questionType)}&randomize=${encodeURIComponent(randomize)}&ignoreDiacritics=${encodeURIComponent(diacritics)}&regex=${encodeURIComponent(regex)}&searchType=${encodeURIComponent(searchType)}&setName=${encodeURIComponent(document.getElementById('set-name').value)}`;
 
-        console.log(uri);
-
         fetch(uri, {
             method: 'GET',
             headers: {
@@ -397,27 +400,23 @@ function QueryForm() {
             .then(response => response.json())
             .then(response => {
                 const { tossups, bonuses, queryString: modifiedQueryString } = response;
-                const { count: tossupCount, questionArray: tossupArray } = tossups;
-
                 const regExp = RegExp(modifiedQueryString, 'ig');
 
+                const { count: tossupCount, questionArray: tossupArray } = tossups;
                 if (queryString !== '') {
                     for (let i = 0; i < tossupArray.length; i++) {
                         tossupArray[i] = highlightTossupQuery({ tossup: tossupArray[i], regExp, searchType, regex } );
                     }
                 }
-
                 setTossupCount(tossupCount);
                 setTossups(tossupArray);
 
                 const { count: bonusCount, questionArray: bonusArray } = bonuses;
-
                 if (queryString !== '') {
                     for (let i = 0; i < bonusArray.length; i++) {
                         bonusArray[i] = highlightBonusQuery({ bonus: bonusArray[i], regExp, searchType, regex });
                     }
                 }
-
                 setBonusCount(bonusCount);
                 setBonuses(bonusArray);
 
@@ -430,8 +429,8 @@ function QueryForm() {
             });
     }
 
-    const tossupCards = tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} />);
-    const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus} />);
+    const tossupCards = tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
+    const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
 
     return (
         <div>
@@ -481,6 +480,10 @@ function QueryForm() {
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
                             <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics when searching (Note: may slow down search)</label>
+                        </div>
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-show-card-footers" checked={showCardFooters} onChange={() => {setShowCardFooters(!showCardFooters);}} />
+                            <label className="form-check-label" htmlFor="toggle-show-card-footers">Show card footers</label>
                         </div>
                         <div className="float-end">
                             <b>Download as:</b>
