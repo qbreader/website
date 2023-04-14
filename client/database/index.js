@@ -661,7 +661,17 @@ function QueryForm() {
     className: "row text-center"
   }, /*#__PURE__*/React.createElement("h3", {
     id: "tossups"
-  }, "Tossups")), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
+  }, "Tossups")), /*#__PURE__*/React.createElement("div", {
+    className: "float-row"
+  }, tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-muted float-start"
+  }, "Showing ", tossups.length, " of ", tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
+    className: "text-muted float-end"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#bonuses"
+  }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("p", {
+    className: "text-muted"
+  }, "No tossups found")), /*#__PURE__*/React.createElement("div", null, tossupCards), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
     "aria-label": "bonus nagivation"
   }, /*#__PURE__*/React.createElement("ul", {
     className: "pagination justify-content-center"
@@ -716,22 +726,22 @@ function QueryForm() {
   }, /*#__PURE__*/React.createElement("span", {
     "aria-hidden": "true"
   }, "\xBB"))))), /*#__PURE__*/React.createElement("div", {
-    className: "float-row"
-  }, tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
-    className: "text-muted float-start"
-  }, "Showing ", tossups.length, " of ", tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
-    className: "text-muted float-end"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "#bonuses"
-  }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("p", {
-    className: "text-muted"
-  }, "No tossups found")), /*#__PURE__*/React.createElement("div", null, tossupCards), /*#__PURE__*/React.createElement("div", {
     className: "mb-5"
   }), /*#__PURE__*/React.createElement("div", {
     className: "row text-center"
   }, /*#__PURE__*/React.createElement("h3", {
     id: "bonuses"
-  }, "Bonuses")), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
+  }, "Bonuses")), /*#__PURE__*/React.createElement("div", {
+    className: "float-row"
+  }, bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-muted float-start"
+  }, "Showing ", bonuses.length, " of ", bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
+    className: "text-muted float-end"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#tossups"
+  }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("p", {
+    className: "text-muted"
+  }, "No bonuses found")), /*#__PURE__*/React.createElement("div", null, bonusCards), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
     "aria-label": "bonus nagivation"
   }, /*#__PURE__*/React.createElement("ul", {
     className: "pagination justify-content-center"
@@ -786,16 +796,6 @@ function QueryForm() {
   }, /*#__PURE__*/React.createElement("span", {
     "aria-hidden": "true"
   }, "\xBB"))))), /*#__PURE__*/React.createElement("div", {
-    className: "float-row"
-  }, bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
-    className: "text-muted float-start"
-  }, "Showing ", bonuses.length, " of ", bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
-    className: "text-muted float-end"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "#tossups"
-  }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("p", {
-    className: "text-muted"
-  }, "No bonuses found")), /*#__PURE__*/React.createElement("div", null, bonusCards), /*#__PURE__*/React.createElement("div", {
     className: "mb-5"
   }));
 }
