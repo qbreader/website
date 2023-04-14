@@ -148,6 +148,21 @@ function clearStats() {
 }
 
 
+/**
+ * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
+ * @param {String} packetNumber - The packet number of the set.
+ * @return {Promise<Array<JSON>>} An array containing the tossups.
+ */
+async function getTossups(setName, packetNumber) {
+    if (setName === '') {
+        return [];
+    }
+    return await fetch(`/api/packet-tossups?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
+        .then(response => response.json())
+        .then(data => data.tossups);
+}
+
+
 async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
