@@ -17,14 +17,14 @@ let questionNumber = 0;
 let timeoutID = -1;
 
 // Whether or not the user clicked that they got the question wrong. `-1` means the button currently says "I was wrong".
-let toggleCorrectClicked = -1;
 let previous = {
-    points: 0,
-    celerity: 0,
-    result: null,
+    isCorrect: true,
+    inPower: false,
+    negValue: -5,
+    powerValue: 15,
     endOfQuestion: false,
+    celerity: 0,
 };
-
 let questions = [{}];
 let questionText = '';
 let questionTextSplit = [];
@@ -168,19 +168,27 @@ async function giveAnswer(givenAnswer) {
 
     const [directive, directedPrompt] = await checkAnswer(questions[questionNumber].answer, givenAnswer);
 
-    if (directive === 'accept') {
+    switch (directive) {
+    case 'accept':
         updateScore(true);
         revealQuestion();
-    } else if (directive === 'reject') {
+        break;
+    case 'reject':
         updateScore(false);
-        document.getElementById('buzz').disabled = false;
-        document.getElementById('buzz').innerHTML = 'Buzz';
-        document.getElementById('pause').disabled = false;
-        readQuestion(new Date().getTime());
-    } else if (directive === 'prompt') {
+        if (document.getElementById('toggle-rebuzz').checked) {
+            document.getElementById('buzz').disabled = false;
+            document.getElementById('buzz').innerHTML = 'Buzz';
+            document.getElementById('pause').disabled = false;
+            readQuestion(new Date().getTime());
+        } else {
+            revealQuestion();
+        }
+        break;
+    case 'prompt':
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
         document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
+        break;
     }
 }
 
@@ -197,9 +205,6 @@ async function next() {
     // Stop reading the current question:
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
-
-    // Update the toggle-correct button:
-    toggleCorrectClicked = -1;
 
     document.getElementById('answer').innerHTML = '';
     document.getElementById('question').innerHTML = '';
@@ -282,6 +287,7 @@ function revealQuestion() {
     let question = (document.getElementById('question').innerHTML);
     if (powermarkPosition)
         question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
+
     const powerParts = (question + questionTextSplit.join(' ')).split('(*)');
     document.getElementById('question').innerHTML = `${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : powerParts[0]}`;
 
@@ -290,57 +296,53 @@ function revealQuestion() {
     document.getElementById('next').innerHTML = 'Next';
 
     document.getElementById('toggle-correct').classList.remove('d-none');
-    document.getElementById('toggle-correct').innerHTML = 'I was wrong';
+    document.getElementById('toggle-correct').innerHTML = previous.isCorrect ? 'I was wrong' : 'I was right';
 }
 
 
 function toggleCorrect() {
-    shift(previous.result, toggleCorrectClicked);
-    shift('points', toggleCorrectClicked * previous.points);
-    shift('totalCelerity', toggleCorrectClicked * previous.celerity);
+    const multiplier = previous.isCorrect ? -1 : 1;
 
-    // Check if there is more question to be read
-    if (previous.endOfQuestion) {
-        shift('dead', -toggleCorrectClicked);
-    } else if (isPace(setName)) {
-        shift('negs', -toggleCorrectClicked);
+    if (previous.inPower) {
+        shift('powers', multiplier * 1);
+        shift('points', multiplier * previous.powerValue);
     } else {
-        shift('negs', -toggleCorrectClicked);
-        shift('points', 5 * toggleCorrectClicked);
+        shift('tens', multiplier * 1);
+        shift('points', multiplier * 10);
     }
 
-    document.getElementById('toggle-correct').innerHTML = (toggleCorrectClicked === 1 ? 'I was wrong' : 'I was right');
-    toggleCorrectClicked = -1 * toggleCorrectClicked;
+    if (previous.endOfQuestion) {
+        shift('dead', multiplier * -1);
+    } else {
+        shift('negs', multiplier * -1);
+        shift('points', multiplier * -previous.negValue);
+    }
+
+    shift('totalCelerity', multiplier * previous.celerity);
+
+    previous.isCorrect = !previous.isCorrect;
+    document.getElementById('toggle-correct').innerHTML = (previous.isCorrect ? 'I was wrong' : 'I was right');
     updateStatDisplay();
 }
 
 
 function updateScore(isCorrect) {
-    let celerity = 0;
     const endOfQuestion = (questionTextSplit.length === 0);
     const inPower = questionTextSplit.includes('(*)') && questionText.includes('(*)');
     const powerValue = isPace(setName) ? 20 : 15;
     const negValue = isPace(setName) ? 0 : -5;
     const points = isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
 
+    const characterCount = questionTextSplit.join(' ').length;
+    const celerity = characterCount / questionText.length;
+
     let result;
 
     if (isCorrect) {
-        if (inPower) {
-            result = 'powers';
-        } else {
-            result = 'tens';
-        }
-
-        const characterCount = questionTextSplit.join(' ').length;
-        celerity = characterCount / questionText.length;
+        result = inPower ? 'powers' : 'tens';
         shift('totalCelerity', celerity);
     } else {
-        if (endOfQuestion) {
-            result = 'dead';
-        } else {
-            result = 'negs';
-        }
+        result = endOfQuestion ? 'dead' : 'negs';
     }
 
     shift(result, 1);
@@ -350,8 +352,10 @@ function updateScore(isCorrect) {
 
     previous.celerity = celerity;
     previous.endOfQuestion = endOfQuestion;
-    previous.points = points;
-    previous.result = result;
+    previous.inPower = inPower;
+    previous.negValue = negValue;
+    previous.powerValue = powerValue;
+    previous.isCorrect = isCorrect;
 }
 
 
@@ -496,7 +500,19 @@ document.getElementById('toggle-show-history').addEventListener('click', functio
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
     this.blur();
-    localStorage.setItem('typeToAnswer', this.checked ? 'true' : 'false');
+    if (this.checked) {
+        localStorage.setItem('typeToAnswer', 'true');
+        document.getElementById('toggle-rebuzz').disabled = false;
+    } else {
+        localStorage.setItem('typeToAnswer', 'false');
+        document.getElementById('toggle-rebuzz').disabled = true;
+    }
+});
+
+
+document.getElementById('toggle-rebuzz').addEventListener('click', function () {
+    this.blur();
+    localStorage.setItem('toggleRebuzz', this.checked ? 'true' : 'false');
 });
 
 
@@ -606,6 +622,11 @@ if (localStorage.getItem('showTossupHistory') === 'false') {
     document.getElementById('room-history').classList.add('d-none');
 }
 
+if (localStorage.getItem('toggleRebuzz') === 'false') {
+    document.getElementById('toggle-rebuzz').checked = false;
+}
+
 if (localStorage.getItem('typeToAnswer') === 'false') {
     document.getElementById('type-to-answer').checked = false;
+    document.getElementById('toggle-rebuzz').disabled = true;
 }
