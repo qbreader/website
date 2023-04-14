@@ -231,13 +231,20 @@ function TossupCard({ tossup, showCardFooter }) {
         document.getElementById('report-question-id').value = _id;
     }
 
+    function copyToClick() {
+        navigator.clipboard.writeText(`${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}\n<${tossup.category} / ${tossup.subcategory}>`);
+
+        const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
+        toast.show();
+    }
+
     return (
         <div className="card my-2">
-            <div className="card-header" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`} aria-expanded="true">
+            <div className="card-header" onClick={copyToClick}>
                 <b>{tossup.setName} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}</b>
                 <b className="float-end">Packet {tossup.packetNumber} | Question {tossup.questionNumber}</b>
             </div>
-            <div className="card-container collapse show" id={`question-${_id}`}>
+            <div className="card-container" id={`question-${_id}`}>
                 <div className="card-body">
                     <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question }}></span>&nbsp;
                     <hr></hr>
@@ -246,7 +253,9 @@ function TossupCard({ tossup, showCardFooter }) {
                 <div className={`card-footer ${!showCardFooter && 'd-none'}`}>
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
-                        <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                        <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
+                            Report Question
+                        </a>
                     </small>
                 </div>
             </div>
@@ -269,13 +278,26 @@ function BonusCard({ bonus, showCardFooter }) {
         document.getElementById('report-question-id').value = _id;
     }
 
+    function copyToClick() {
+        let textdata = `${bonus.questionNumber}. ${bonus.leadin}\n`;
+        for (let i = 0; i < bonus.parts.length; i++) {
+            textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+        }
+        textdata += `<${bonus.category} / ${bonus.subcategory}>`;
+
+        navigator.clipboard.writeText(textdata);
+
+        const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
+        toast.show();
+    }
+
     return (
         <div className="card my-2">
-            <div className="card-header" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`} aria-expanded="true">
+            <div className="card-header" onClick={copyToClick}>
                 <b>{bonus.setName} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}</b>
                 <b className="float-end">Packet {bonus.packetNumber} | Question {bonus.questionNumber}</b>
             </div>
-            <div className="card-container collapse show" id={`question-${_id}`}>
+            <div className="card-container" id={`question-${_id}`}>
                 <div className="card-body">
                     <p dangerouslySetInnerHTML={{ __html: bonus.leadin }}></p>
                     {indices.map((i) =>
@@ -292,7 +314,9 @@ function BonusCard({ bonus, showCardFooter }) {
                 <div className={`card-footer ${!showCardFooter && 'd-none'}`}>
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
-                        <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+                        <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
+                            Report Question
+                        </a>
                     </small>
                 </div>
             </div>
