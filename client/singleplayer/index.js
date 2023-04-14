@@ -18,22 +18,6 @@ async function checkAnswer(answerline, givenAnswer) {
 }
 
 
-/**
- * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
- * @param {String} packetNumber - The packet number of the set.
- * @return {Promise<Array<JSON>>} An array containing the bonuses.
- */
-async function getBonuses(setName, packetNumber) {
-    if (setName === '') {
-        return [];
-    }
-
-    return await fetch(`/api/packet-bonuses?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
-        .then(response => response.json())
-        .then(data => data.bonuses);
-}
-
-
 async function loadRandomQuestions(questionType, difficulties = [], categories = [], subcategories = [], number = 1) {
     const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
     const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
@@ -83,20 +67,6 @@ async function getRandomQuestion(questionType, difficulties = [], categories = [
     }
 
     return randomQuestion;
-}
-
-/**
- * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
- * @param {String} packetNumber - The packet number of the set.
- * @return {Promise<Array<JSON>>} An array containing the tossups.
- */
-async function getTossups(setName, packetNumber) {
-    if (setName === '') {
-        return [];
-    }
-    return await fetch(`/api/packet-tossups?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
-        .then(response => response.json())
-        .then(data => data.tossups);
 }
 
 
