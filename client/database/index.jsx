@@ -601,6 +601,15 @@ function QueryForm() {
             <div className="row text-center">
                 <h3 id="tossups">Tossups</h3>
             </div>
+            <div className="float-row">
+                {
+                    tossupCount > 0
+                        ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
+                            <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
+                        : <p className="text-muted">No tossups found</p>
+                }
+            </div>
+            <div>{tossupCards}</div>
             {
                 tossupPaginationLength > 1 &&
                 <nav aria-label="bonus nagivation">
@@ -641,19 +650,19 @@ function QueryForm() {
                     </ul>
                 </nav>
             }
-            <div className="float-row">
-                {
-                    tossupCount > 0
-                        ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
-                            <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
-                        : <p className="text-muted">No tossups found</p>
-                }
-            </div>
-            <div>{tossupCards}</div>
             <div className="mb-5"></div>
             <div className="row text-center">
                 <h3 id="bonuses">Bonuses</h3>
             </div>
+            <div className="float-row">
+                {
+                    bonusCount > 0
+                        ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
+                            <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
+                        : <p className="text-muted">No bonuses found</p>
+                }
+            </div>
+            <div>{bonusCards}</div>
             {
                 bonusPaginationLength > 1 &&
                 <nav aria-label="bonus nagivation">
@@ -694,15 +703,6 @@ function QueryForm() {
                     </ul>
                 </nav>
             }
-            <div className="float-row">
-                {
-                    bonusCount > 0
-                        ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
-                            <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
-                        : <p className="text-muted">No bonuses found</p>
-                }
-            </div>
-            <div>{bonusCards}</div>
             <div className="mb-5"></div>
         </div>
     );
