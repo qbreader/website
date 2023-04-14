@@ -130,17 +130,20 @@ function TossupCard({
   function onClick() {
     document.getElementById('report-question-id').value = _id;
   }
+  function copyToClick() {
+    navigator.clipboard.writeText(`${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}\n<${tossup.category} / ${tossup.subcategory}>`);
+    const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
+    toast.show();
+  }
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header",
-    "data-bs-toggle": "collapse",
-    "data-bs-target": `#question-${_id}`,
-    "aria-expanded": "true"
+    onClick: copyToClick
   }, /*#__PURE__*/React.createElement("b", null, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", tossup.packetNumber, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container collapse show",
+    className: "card-container",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
@@ -180,17 +183,25 @@ function BonusCard({
   function onClick() {
     document.getElementById('report-question-id').value = _id;
   }
+  function copyToClick() {
+    let textdata = `${bonus.questionNumber}. ${bonus.leadin}\n`;
+    for (let i = 0; i < bonus.parts.length; i++) {
+      textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+    }
+    textdata += `<${bonus.category} / ${bonus.subcategory}>`;
+    navigator.clipboard.writeText(textdata);
+    const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
+    toast.show();
+  }
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header",
-    "data-bs-toggle": "collapse",
-    "data-bs-target": `#question-${_id}`,
-    "aria-expanded": "true"
+    onClick: copyToClick
   }, /*#__PURE__*/React.createElement("b", null, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", bonus.packetNumber, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container collapse show",
+    className: "card-container",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
