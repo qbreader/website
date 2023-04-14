@@ -565,7 +565,7 @@ function QueryForm() {
     "data-bs-toggle": "modal",
     "data-bs-target": "#category-modal"
   }, "Categories"))), /*#__PURE__*/React.createElement("div", {
-    className: "row mb-xl-2"
+    className: "row mb-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-6"
   }, /*#__PURE__*/React.createElement("select", {
@@ -647,7 +647,7 @@ function QueryForm() {
     htmlFor: "toggle-show-card-footers"
   }, "Show card footers")), /*#__PURE__*/React.createElement("div", {
     className: "float-end"
-  }, /*#__PURE__*/React.createElement("b", null, "Download as:"), /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("b", null, "Download:"), /*#__PURE__*/React.createElement("a", {
     className: "ms-2 download-link",
     onClick: () => {
       downloadQuestionsAsText(tossups, bonuses);
@@ -669,21 +669,21 @@ function QueryForm() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "d-none"
   }, "Loading...")), /*#__PURE__*/React.createElement("div", {
-    className: "row text-center"
+    className: "row text-center mt-2 mt-sm-0"
   }, /*#__PURE__*/React.createElement("h3", {
     id: "tossups"
-  }, "Tossups")), /*#__PURE__*/React.createElement("div", {
-    className: "float-row"
-  }, tossupCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+  }, "Tossups")), tossupCount > 0 ? /*#__PURE__*/React.createElement("div", {
+    className: "float-row mb-3"
+  }, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
   }, "Showing ", tossups.length, " of ", tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#bonuses"
-  }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("p", {
+  }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("div", {
     className: "text-muted"
-  }, "No tossups found")), /*#__PURE__*/React.createElement("div", null, tossupCards), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
-    "aria-label": "bonus nagivation"
+  }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
+    "aria-label": "tossup nagivation"
   }, /*#__PURE__*/React.createElement("ul", {
     className: "pagination justify-content-center"
   }, /*#__PURE__*/React.createElement("li", {
@@ -742,17 +742,17 @@ function QueryForm() {
     className: "row text-center"
   }, /*#__PURE__*/React.createElement("h3", {
     id: "bonuses"
-  }, "Bonuses")), /*#__PURE__*/React.createElement("div", {
-    className: "float-row"
-  }, bonusCount > 0 ? /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
+  }, "Bonuses")), bonusCount > 0 ? /*#__PURE__*/React.createElement("div", {
+    className: "float-row mb-3"
+  }, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
   }, "Showing ", bonuses.length, " of ", bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#tossups"
-  }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("p", {
+  }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("div", {
     className: "text-muted"
-  }, "No bonuses found")), /*#__PURE__*/React.createElement("div", null, bonusCards), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
+  }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
     "aria-label": "bonus nagivation"
   }, /*#__PURE__*/React.createElement("ul", {
     className: "pagination justify-content-center"

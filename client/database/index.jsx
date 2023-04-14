@@ -580,7 +580,7 @@ function QueryForm() {
                         <button type="button" className="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     </div>
                 </div>
-                <div className="row mb-xl-2">
+                <div className="row mb-2">
                     <div className="col-6">
                         <select className="form-select" id="search-type" value={searchType} onChange={event => {setSearchType(event.target.value);}}>
                             <option value="all">All text</option>
@@ -612,7 +612,7 @@ function QueryForm() {
                             <label className="form-check-label" htmlFor="toggle-show-card-footers">Show card footers</label>
                         </div>
                         <div className="float-end">
-                            <b>Download as:</b>
+                            <b>Download:</b>
                             <a className="ms-2 download-link" onClick={() => {downloadQuestionsAsText(tossups, bonuses);}}>TXT</a>
                             <a className="ms-2 download-link" onClick={() => {downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses);}}>CSV</a>
                             <a className="ms-2 download-link" onClick={() => {downloadQuestionsAsJSON(tossups, bonuses);}}>JSON</a>
@@ -622,21 +622,21 @@ function QueryForm() {
             </form>
 
             { currentlySearching && <div className="d-block mx-auto mt-3 spinner-border" role="status"><span className="d-none">Loading...</span></div> }
-            <div className="row text-center">
+            <div className="row text-center mt-2 mt-sm-0">
                 <h3 id="tossups">Tossups</h3>
             </div>
-            <div className="float-row">
-                {
-                    tossupCount > 0
-                        ? <p><span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
-                            <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span></p>
-                        : <p className="text-muted">No tossups found</p>
-                }
-            </div>
+            {
+                tossupCount > 0
+                    ? <div className="float-row mb-3">
+                        <span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
+                        <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span>
+                    </div>
+                    : <div className="text-muted">No tossups found</div>
+            }
             <div>{tossupCards}</div>
             {
                 tossupPaginationLength > 1 &&
-                <nav aria-label="bonus nagivation">
+                <nav aria-label="tossup nagivation">
                     <ul className="pagination justify-content-center">
                         <li className="page-item">
                             <a className="page-link" href="#" aria-label="First" onClick={event => {handleTossupPaginationClick(event, 'first');}}>
@@ -678,14 +678,14 @@ function QueryForm() {
             <div className="row text-center">
                 <h3 id="bonuses">Bonuses</h3>
             </div>
-            <div className="float-row">
-                {
-                    bonusCount > 0
-                        ? <p><span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
-                            <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span></p>
-                        : <p className="text-muted">No bonuses found</p>
-                }
-            </div>
+            {
+                bonusCount > 0
+                    ? <div className="float-row mb-3">
+                        <span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
+                        <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span>
+                    </div>
+                    : <div className="text-muted">No bonuses found</div>
+            }
             <div>{bonusCards}</div>
             {
                 bonusPaginationLength > 1 &&
