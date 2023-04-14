@@ -34,20 +34,7 @@ async function getBonuses(setName, packetNumber) {
 }
 
 
-/**
- * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
- * @param {String} packetNumber - The packet number of the set.
- * @return {Promise<{tossups: Array<JSON>, bonuses: Array<JSON>}>} An array containing the questions.
- */
-async function getPacket(setName, packetNumber) {
-    if (setName === '') {
-        return { tossups: [], bonuses: [] };
-    }
-    return await fetch(`/api/packet?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`).then(response => response.json());
-}
-
-
-async function loadRandomQuestions(questionType, difficulties = [], categories = [], subcategories = []) {
+async function loadRandomQuestions(questionType, difficulties = [], categories = [], subcategories = [], number = 1) {
     const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
     const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
 
@@ -61,7 +48,7 @@ async function loadRandomQuestions(questionType, difficulties = [], categories =
             difficulties,
             categories,
             subcategories,
-            number: 20,
+            number,
             minYear,
             maxYear,
         })
@@ -85,15 +72,14 @@ async function loadRandomQuestions(questionType, difficulties = [], categories =
 
 
 async function getRandomQuestion(questionType, difficulties = [], categories = [], subcategories = []) {
-    if (randomQuestions.length === 0) {
-        await loadRandomQuestions(questionType, difficulties, categories, subcategories);
-    }
+    if (randomQuestions.length === 0)
+        await loadRandomQuestions(questionType, difficulties, categories, subcategories, 20);
 
     const randomQuestion = randomQuestions.pop();
 
     // Begin loading the next batch of questions (asynchronously)
     if (randomQuestions.length === 0) {
-        loadRandomQuestions(questionType, difficulties, categories, subcategories);
+        loadRandomQuestions(questionType, difficulties, categories, subcategories, 20);
     }
 
     return randomQuestion;
