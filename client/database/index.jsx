@@ -396,7 +396,7 @@ function QueryForm() {
     const [diacritics, setDiacritics] = React.useState(false);
     const [searchType, setSearchType] = React.useState('all');
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
-    const [showCardFooters, setShowCardFooters] = React.useState(false);
+    const [showCardFooters, setShowCardFooters] = React.useState(true);
 
     let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
     let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
