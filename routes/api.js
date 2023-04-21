@@ -21,15 +21,14 @@ router.use(apiLimiter);
 
 
 router.get('/check-answer', (req, res) => {
-    const answerline = decodeURIComponent(req.query.answerline);
-    const givenAnswer = decodeURIComponent(req.query.givenAnswer);
+    const answerline = req.query.answerline;
+    const givenAnswer = req.query.givenAnswer;
     const [directive, directedPrompt] = checkAnswer(answerline, givenAnswer);
     res.send(JSON.stringify([directive, directedPrompt]));
 });
 
 
 router.get('/num-packets', async (req, res) => {
-    req.query.setName = decodeURIComponent(req.query.setName);
     const numPackets = await database.getNumPackets(req.query.setName);
     if (numPackets === 0) {
         res.statusCode = 404;
@@ -39,9 +38,9 @@ router.get('/num-packets', async (req, res) => {
 
 
 router.get('/packet', async (req, res) => {
-    req.query.setName = decodeURIComponent(req.query.setName);
-    req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber });
+    const setName = req.query.setName;
+    const packetNumber = parseInt(req.query.packetNumber);
+    const packet = await database.getPacket({ setName, packetNumber });
     if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -50,9 +49,9 @@ router.get('/packet', async (req, res) => {
 
 
 router.get('/packet-bonuses', async (req, res) => {
-    req.query.setName = decodeURIComponent(req.query.setName);
-    req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber, questionTypes: ['bonuses'] });
+    const setName = req.query.setName;
+    const packetNumber = parseInt(req.query.packetNumber);
+    const packet = await database.getPacket({ setName, packetNumber, questionTypes: ['bonuses'] });
     if (packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -61,9 +60,9 @@ router.get('/packet-bonuses', async (req, res) => {
 
 
 router.get('/packet-tossups', async (req, res) => {
-    req.query.setName = decodeURIComponent(req.query.setName);
-    req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber, questionTypes: ['tossups'] });
+    const setName = req.query.setName;
+    const packetNumber = parseInt(req.query.packetNumber);
+    const packet = await database.getPacket({ setName, packetNumber, questionTypes: ['tossups'] });
     if (packet.tossups.length === 0) {
         res.statusCode = 404;
     }
@@ -72,10 +71,6 @@ router.get('/packet-tossups', async (req, res) => {
 
 
 router.get('/query', async (req, res) => {
-    for (const key of ['queryString', 'questionType', 'searchType', 'difficulties', 'categories', 'subcategories', 'maxReturnLength']) {
-        req.query[key] = req.query[key] ? decodeURIComponent(req.query[key]) : req.query[key];
-    }
-
     req.query.randomize = (req.query.randomize === 'true');
     req.query.regex = (req.query.regex === 'true');
     req.query.ignoreDiacritics = (req.query.ignoreDiacritics === 'true');
@@ -104,10 +99,6 @@ router.get('/query', async (req, res) => {
         req.query.subcategories = req.query.subcategories.split(',');
     }
 
-    if (!req.query.maxReturnLength || isNaN(req.query.maxReturnLength)) {
-        req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
-    }
-
     if (!req.query.tossupPagination) {
         req.query.tossupPagination = 1;
     }
@@ -116,15 +107,21 @@ router.get('/query', async (req, res) => {
         req.query.bonusPagination = 1;
     }
 
-    const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
-
     if (!isFinite(req.query.tossupPagination) || !isFinite(req.query.bonusPagination)) {
         res.status(400).send('Invalid pagination specified.');
         return;
-    } else {
-        req.query.tossupPagination = Math.min(parseInt(req.query.tossupPagination), maxPagination);
-        req.query.bonusPagination = Math.min(parseInt(req.query.bonusPagination), maxPagination);
     }
+
+    if (!req.query.maxReturnLength || isNaN(req.query.maxReturnLength)) {
+        req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
+    }
+
+    const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
+
+    req.query.tossupPagination = Math.min(parseInt(req.query.tossupPagination), maxPagination);
+    req.query.bonusPagination = Math.min(parseInt(req.query.bonusPagination), maxPagination);
+    req.query.tossupPagination = Math.max(req.query.tossupPagination, 1);
+    req.query.bonusPagination = Math.max(req.query.bonusPagination, 1);
 
     const queryResult = await database.getQuery(req.query);
     res.send(JSON.stringify(queryResult));

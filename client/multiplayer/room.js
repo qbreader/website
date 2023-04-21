@@ -6,7 +6,7 @@ let validSubcategories = [];
 let maxPacketNumber = 24;
 let powermarkPosition = 0;
 
-// Do not escape room name as that is how it is stored on the server.
+// Do not escape room name, as most browsers automatically do this
 const ROOM_NAME = location.pathname.substring(13);
 let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
