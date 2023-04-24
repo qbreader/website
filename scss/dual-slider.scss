@@ -1,33 +1,18 @@
-// source: https://stackoverflow.com/questions/4753946/html-slider-with-two-inputs-possible
-// with some modifications
+// primarily based on jquery
 
-section.dual-slider {
-    position: relative;
-    height: 48px;
+.ui-slider {
+    background-color: $slider-background;
+    height: 8px;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
 }
 
-section.dual-slider input {
-    position: absolute;
-    overflow: hidden;
-    bottom: 0;
-    outline: none;
-    margin: 0;
-    padding: 0;
-}
-
-section.dual-slider input::-webkit-slider-thumb {
-    position: relative;
-    z-index: 1;
-    outline: 0;
-}
-
-section.dual-slider input::-moz-range-thumb {
-    position: relative;
-    z-index: 10;
-    -moz-appearance: none;
-    width: 9px;
-}
-
-section.dual-slider .rangeValues {
-    cursor: default;
+.ui-slider-handle {
+    border-radius: 100%;
+    font-size: 13px;
+    background-color: $primary;
+    border-color: $primary;
+    outline-color: $primary;
 }
