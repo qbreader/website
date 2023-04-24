@@ -121,17 +121,51 @@
         </div>
 
         <div class="col-9">
-            <div>POST <code>qbreader.org/api/report-question</code></div>
-            <div>Parameters:</div>
-            <ul>
-                <li><code>_id</code> - the id of the question being reported.</li>
-                <li>[optional] <code>reason</code> - the reason why the question is being reported.</li>
-                <li>[optional] <code>description</code> - a description of the problem.</li>
-                <li>
-                    <b>returns</b> - a 200 status code if the operation was successful and a 500 status code if
-                    there was an error.
+            <h3 class="md-4"><div><code>POST</code> <code>qbreader.org/api/report-question</code></div></h3>
+
+            <p>
+                Report a question error.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>_id</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The internal ID of the question.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>reason</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: ""</code>
+                    </div>
+                    <div>
+                        The reason why the question is being reported.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>description</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: ""</code>
+                    </div>
+                    <div>
+                        A description of the problem.
+                    </div>
                 </li>
             </ul>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                <code>200 OK</code> if the operation was successful and <code>500 Internal Server Error</code> if there was an error.
+            </div>
         </div>
     </div>
 

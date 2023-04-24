@@ -121,21 +121,53 @@
         </div>
 
         <div class="col-9">
-            <div>GET <code>qbreader.org/api/packet-tossups</code></div>
-            <i>If you are only interested in the tossups, this is twice as fast as using</i>
-            <code>/api/packet</code>
-            <div>Parameters:</div>
-            <ul>
-                <li><code>setName</code> - the name of the set (URI-encoded).</li>
-                <li><code>packetNumber</code> - the number of the packet in the set, starting from 1.</li>
-                <li>
-                    <b>returns</b> - a <b>JSON object</b> representing the bonuses from the packet you requested in
-                    the format
-                    <code> { tossups: [{}, ...], bonuses: [] } </code>
-                    <ul>
-                        <li>If the set is not found, returns a <code>404 Not Found</code> status and an (empty)
-                            packet that equals <code>{ tossups: [], bonuses: [] }</code></li>
-                    </ul>
+            <h3 class="md-4"><div><code>GET</code> <code>qbreader.org/api/packet-tossups</code></div></h3>
+
+            <p>
+                Get only tossups from a packet.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>setName</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The name of the set. See <a href="/api-docs/set-list"><code>/set-list</code></a> for a list of all sets.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>packetNumber</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The number of the packet in the set, starting from 1.
+                    </div>
+                </li>
+            </ul>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                A JSON <code>object</code> with the following properties:
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>tossups</code><code class="text-muted">: <a href="/api-docs/schemas#tossup" target="_blank" class="text-muted">Tossup</a>[]</code>
+                    </div>
+                    <div>
+                        An array of
+                        <a href="/api-docs/schemas#tossup" target="_blank" class="link-primary">
+                            <code>Tossups</code>
+                        </a> that are in the packet.
+                    </div>
                 </li>
             </ul>
         </div>
