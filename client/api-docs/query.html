@@ -248,13 +248,37 @@
                 <li class="list-group-item">
                     <div>
                         <code>maxReturnLength</code><code class="text-muted">: number</code>
-                        <code class="text-muted float-end fw-semibold">default: 50</code>
+                        <code class="text-muted float-end fw-semibold">default: 25</code>
                     </div>
                     <div>
                         The maximum number of questions to return.
                         <ul>
                             <li>If <code>0</code> or negative, then the default is <code>50</code></li>
                             <li>If greater than <code>200</code>, the query will return no more than 200 questions.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>tossupPagination</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold">default: 1</code>
+                    </div>
+                    <div>
+                        The page of tossups to return.
+                        <ul>
+                            <li>Limited to a max of <code>4000 / maxReturnLength</code>, rounded down.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>bonusPagination</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold">default: 1</code>
+                    </div>
+                    <div>
+                        The page of bonuses to return.
+                        <ul>
+                            <li>Limited to a max of <code>4000 / maxReturnLength</code>, rounded down.</li>
                         </ul>
                     </div>
                 </li>
