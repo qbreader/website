@@ -393,6 +393,55 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = () => {
+    if (!sessionStorage.getItem('stats')) {
+        sessionStorage.setItem('stats', [0, 0, 0, 0]);
+    }
+    updateStatDisplay();
+
+
+    if (localStorage.getItem('packetNumberBonusSave')) {
+        document.getElementById('packet-number').value = localStorage.getItem('packetNumberBonusSave');
+    }
+
+    if (localStorage.getItem('questionNumberBonusSave')) {
+        document.getElementById('question-number').value = localStorage.getItem('questionNumberBonusSave');
+    }
+
+    if (localStorage.getItem('showBonusHistory') === 'false') {
+        document.getElementById('toggle-show-history').checked = false;
+        document.getElementById('room-history').classList.add('d-none');
+    }
+
+    if (localStorage.getItem('typeToAnswer') === 'true') {
+        document.getElementById('type-to-answer').checked = true;
+    }
+
+
+    if (localStorage.getItem('validCategories')) {
+        validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    } else {
+        localStorage.setItem('validCategories', '[]');
+        validCategories = [];
+    }
+
+    if (localStorage.getItem('validSubcategories')) {
+        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+    } else {
+        localStorage.setItem('validSubcategories', '[]');
+        validSubcategories = [];
+    }
+
+    if (validCategories.length > 0 && validSubcategories.length === 0) {
+        validCategories.forEach(category => {
+            SUBCATEGORIES[category].forEach(subcategory => {
+                validSubcategories.push(subcategory);
+            });
+        });
+    }
+
+    loadCategoryModal(validCategories, validSubcategories);
+
+
     if (localStorage.getItem('setNameBonusSave')) {
         setName = localStorage.getItem('setNameBonusSave');
         document.getElementById('set-name').value = setName;
@@ -404,50 +453,4 @@ window.onload = () => {
             }
         })();
     }
-
-    if (localStorage.getItem('packetNumberBonusSave')) {
-        document.getElementById('packet-number').value = localStorage.getItem('packetNumberBonusSave');
-    }
-
-    if (localStorage.getItem('questionNumberBonusSave')) {
-        document.getElementById('question-number').value = localStorage.getItem('questionNumberBonusSave');
-    }
-
-    if (localStorage.getItem('validCategories') === null) {
-        localStorage.setItem('validCategories', '[]');
-        validCategories = [];
-    } else {
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    }
-
-    if (localStorage.getItem('validSubcategories') === null) {
-        localStorage.setItem('validSubcategories', '[]');
-        validSubcategories = [];
-    } else {
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-    }
-
-    if (validCategories.length > 0 && validSubcategories.length === 0) {
-        validCategories.forEach(category => {
-            SUBCATEGORIES[category].forEach(subcategory => {
-                validSubcategories.push(subcategory);
-            });
-        });
-    }
-
-    if (sessionStorage.getItem('stats') === null) {
-        sessionStorage.setItem('stats', [0, 0, 0, 0]);
-    }
-
-    loadCategoryModal(validCategories, validSubcategories);
-    updateStatDisplay();
 };
-
-if (localStorage.getItem('showBonusHistory') === 'false') {
-    document.getElementById('toggle-show-history').checked = false;
-    document.getElementById('room-history').classList.add('d-none');
-}
-
-if (localStorage.getItem('typeToAnswer') === 'true') {
-    document.getElementById('type-to-answer').checked = true;
-}
