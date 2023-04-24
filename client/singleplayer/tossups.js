@@ -622,8 +622,8 @@ if (localStorage.getItem('showTossupHistory') === 'false') {
     document.getElementById('room-history').classList.add('d-none');
 }
 
-if (localStorage.getItem('toggleRebuzz') === 'false') {
-    document.getElementById('toggle-rebuzz').checked = false;
+if (localStorage.getItem('toggleRebuzz') === 'true') {
+    document.getElementById('toggle-rebuzz').checked = true;
 }
 
 if (localStorage.getItem('typeToAnswer') === 'false') {

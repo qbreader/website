@@ -44,9 +44,9 @@ class Room {
 
         this.settings = {
             public: true,
-            rebuzz: true,
+            rebuzz: false,
             readingSpeed: 50,
-            selectBySetName: false
+            selectBySetName: false,
         };
     }
 
