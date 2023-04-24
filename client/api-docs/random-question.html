@@ -121,66 +121,115 @@
         </div>
 
         <div class="col-9">
-            <div>POST <code>qbreader.org/api/random-question</code></div>
-            <div>Parameters:</div>
-            <ul>
-                <li>
-                    <code>questionType</code> - a <b>string</b> that either equals "tossup" or "bonus".
-                    Otherwise, returns a <code>400 Bad Request</code> response.
+            <h3 class="md-4"><div><code>POST</code> <code>qbreader.org/api/random-question</code></div></h3>
+
+            <p>
+                Get random questions from the database.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>questionType</code><code class="text-muted">: "tossup" | "bonus"</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The type of question to search for.
+                        <ul>
+                            <li><code>"tossup"</code> - only tossups</li>
+                            <li><code>"bonus"</code> - only bonuses</li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid
-                    possible difficulties.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
-                        <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to
-                            select.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>difficulties</code><code class="text-muted">: number[] | number | string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The difficulties to search for.
+                        <ul>
+                            <li>If <code>undefined</code> then all difficulties are allowed.</li>
+                            <li>Can also be a <code>string</code> or <code>number</code> if there is only 1 difficulty.</li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed
-                    categories.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
-                        <li>Can also be a <b>string</b> if there is only 1 category.</li>
-                        <li>Take special care to ensure that the first letter of each word of the category is
-                            capitalized.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>categories</code><code class="text-muted">: string[] | string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The categories to search for.
+                        <ul>
+                            <li>If <code>undefined</code> then all categories are allowed.</li>
+                            <li>Can also be a <code>string</code> if there is only 1 category.</li>
+                            <li>Take special care to ensure that the first letter of each word of the category is
+                                capitalized.</li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed
-                    subcategories.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
-                        <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
-                        <li>Take special care to ensure that the first letter of each word of the subcategory is
-                            capitalized.</li>
-                        <li>This api endpoint does <b>not</b> check for consistency between categories and
-                            subcategories.</li>
-                        <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories
-                                will return no questions.</i></li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>subcategories</code><code class="text-muted">: string[] | string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The subcategories to search for.
+                        <ul>
+                            <li>If <code>undefined</code> then all subcategories are allowed.</li>
+                            <li>Can also be a <code>string</code> if there is only 1 subcategory.</li>
+                            <li>Take special care to ensure that the first letter of each word of the subcategory is
+                                capitalized.</li>
+                            <li>This API endpoint does <b>not</b> check for consistency between categories and
+                                subcategories.</li>
+                            <li><i>For example, requesting the <code>"History"</code> and the <code>"Biology"</code>
+                                and <code>"Chemistry"</code> subcategories will return no questions.</i></li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>number</code> - a <b>number</b> that specifies how many questions to return
-                    (the length of the return array).
-                    <ul>
-                        If <b>undefined or omitted,</b> returns 1 question.
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>number</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold">default: 1</code>
+                    </div>
+                    <div>
+                        How many questions to return.
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>minYear</code> - a <b>number</b> (default: 2010)
+                <li class="list-group-item">
+                    <div>
+                        <code>minYear</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold">default: 2010</code>
+                    </div>
+                    <div>
+                        The oldest year to search for.
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>maxYear</code> - a <b>number</b> (default: 2023)
-                </li>
-                <li>
-                    <b>returns</b> - a <b>JSON array</b> of random questions.
-                    <ul>
-                        <li>If a question is not found, returns a <code>404 Not Found</code> status.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>maxYear</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold">default: 2023</code>
+                    </div>
+                    <div>
+                        The most recent year to search for.
+                    </div>
                 </li>
             </ul>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                An <code>array</code> of questions that match the query.
+                <code class="text-muted">:
+                    <a href="/api-docs/schemas#tossup" target="_blank" class="text-muted">Tossup</a>[] |
+                    <a href="/api-docs/schemas#bonus" target="_blank" class="text-muted">Bonus</a>[]
+                </code>
+            </div>
         </div>
     </div>
 

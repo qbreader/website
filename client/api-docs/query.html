@@ -121,87 +121,205 @@
         </div>
 
         <div class="col-9">
-            <div>GET <code>qbreader.org/api/query</code></div>
-            <div>Parameters:</div>
-            <ul>
-                <li>
-                    <code>questionType</code> - a <b>string</b> that either equals "tossup", "bonus", or "all".
-                    Otherwise, returns a <code>400 Bad Request</code> response.
-                </li>
-                <li>
-                    <code>searchType</code> - a <b>string</b> that either equals "question", "answer", or "all".
-                    Otherwise, returns a <code>400 Bad Request</code> response.
-                </li>
-                <li>
-                    [optional] <code>queryString</code> - a <b>string</b> that the query is searching for.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> it defaults to an empty string.</li>
-                    </ul>
+            <h3 class="md-4"><div><code>GET</code> <code>qbreader.org/api/query</code></div></h3>
 
+            <p>
+                Query the QB Reader database for questions.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>questionType</code><code class="text-muted">: "tossup" | "bonus" | "all"</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The type of question to search for.
+                        <ul>
+                            <li><code>"tossup"</code> - only tossups</li>
+                            <li><code>"bonus"</code> - only bonuses</li>
+                            <li><code>"all"</code> - both tossups and bonuses</li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>regex</code> - a <b>boolean</b> that indicates whether <code>queryString</code>
-                    should be treated as a regular expression.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> it defaults to <code>false</code>.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>searchType</code><code class="text-muted">: "question" | "answer" | "all"</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        Where to search for the query string.
+                        <ul>
+                            <li><code>"question"</code> - only search question bodies</li>
+                            <li><code>"answer"</code> - only search answerlines</li>
+                            <li><code>"all"</code> - search both question bodies and answerlines</li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>randomize</code> - a <b>boolean</b> that indicates whether the results should
-                    be in random order.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> it defaults to <code>false</code>.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>queryString</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: ""</code>
+                    </div>
+                    <div>
+                        The string to search for.
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>setName</code> - a <b>string</b> that is the name of the set to search in.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> then all sets are searched.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>regex</code><code class="text-muted">: boolean</code>
+                        <code class="text-muted float-end fw-semibold">default: false</code>
+                    </div>
+                    <div>
+                        Treat <code>queryString</code> as a regular expression.
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>difficulties</code> - an <b>array of numbers</b> representing the valid
-                    possible difficulties.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> then all difficulties are allowed.</li>
-                        <li>Can also be a <b>string</b> or <b>number</b> if there is only 1 difficulty you want to
-                            select.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>randomize</code><code class="text-muted">: boolean</code>
+                        <code class="text-muted float-end fw-semibold">default: false</code>
+                    </div>
+                    <div>
+                        Randomize result order.
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>categories</code> - an <b>array of strings</b> that contain the allowed
-                    categories.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> then all categories are allowed.</li>
-                        <li>Can also be a <b>string</b> if there is only 1 category.</li>
-                        <li>Take special care to ensure that the first letter of each word of the category is
-                            capitalized.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>setName</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The name of the set to search in.
+                        <ul>
+                            <li>If <code>undefined</code> then all sets are searched.</li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>subcategories</code> - an <b>array of strings</b> that contain the allowed
-                    subcategories.
-                    <ul>
-                        <li>If <b>undefined or omitted,</b> then all subcategories are allowed.</li>
-                        <li>Can also be a <b>string</b> if there is only 1 subcategory.</li>
-                        <li>Take special care to ensure that the first letter of each word of the subcategory is
-                            capitalized.</li>
-                        <li>This api endpoint does <b>not</b> check for consistency between categories and
-                            subcategories.</li>
-                        <li><i>For example, requesting the "history" and the "biology" and "chemistry" subcategories
-                                will return no questions.</i></li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>difficulties</code><code class="text-muted">: number[] | number | string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The difficulties to search for.
+                        <ul>
+                            <li>If <code>undefined</code> then all difficulties are allowed.</li>
+                            <li>Can also be a <code>string</code> or <code>number</code> if there is only 1 difficulty.</li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    [optional] <code>maxReturnLength</code> - a <b>number</b> that specifies the maximum number
-                    of questions to return
-                    <ul>
-                        <li>If <b>0, negative, undefined, or omitted,</b> then the default is 50.</li>
-                        <li>If <b>greater than 200,</b> the query will return no more than 200 questions.</li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>categories</code><code class="text-muted">: string[] | string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The categories to search for.
+                        <ul>
+                            <li>If <code>undefined</code> then all categories are allowed.</li>
+                            <li>Can also be a <code>string</code> if there is only 1 category.</li>
+                            <li>Take special care to ensure that the first letter of each word of the category is
+                                capitalized.</li>
+                        </ul>
+                    </div>
                 </li>
-                <li>
-                    <b>returns</b> - a <b>JSON object</b> of questions.
+                <li class="list-group-item">
+                    <div>
+                        <code>subcategories</code><code class="text-muted">: string[] | string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The subcategories to search for.
+                        <ul>
+                            <li>If <code>undefined</code> then all subcategories are allowed.</li>
+                            <li>Can also be a <code>string</code> if there is only 1 subcategory.</li>
+                            <li>Take special care to ensure that the first letter of each word of the subcategory is
+                                capitalized.</li>
+                            <li>This API endpoint does <b>not</b> check for consistency between categories and
+                                subcategories.</li>
+                            <li><i>For example, requesting the <code>"History"</code> and the <code>"Biology"</code>
+                                and <code>"Chemistry"</code> subcategories will return no questions.</i></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>maxReturnLength</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold">default: 50</code>
+                    </div>
+                    <div>
+                        The maximum number of questions to return.
+                        <ul>
+                            <li>If <code>0</code> or negative, then the default is <code>50</code></li>
+                            <li>If greater than <code>200</code>, the query will return no more than 200 questions.</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                A JSON <code>object</code> with the following properties:
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>tossups</code><code class="text-muted">: object</code>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div>
+                                    <code>count</code><code class="text-muted">: number</code>
+                                </div>
+                                <div>The number of tossups that match the query.</div>
+                            </li>
+                            <li class="list-group-item">
+                                <div>
+                                    <code>questionArray</code><code class="text-muted">: <a href="/api-docs/schemas#tossup" target="_blank" class="text-muted">Tossup</a>[]</code>
+                                </div>
+                                <div>
+                                    An array of
+                                    <a href="/api-docs/schemas#tossup" target="_blank" class="link-primary">
+                                        <code>Tossups</code>
+                                    </a> that match the query.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>bonuses</code><code class="text-muted">: object</code>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div>
+                                    <code>count</code><code class="text-muted">: number</code>
+                                </div>
+                                <div>The number of bonuses that match the query.</div>
+                            </li>
+                            <li class="list-group-item">
+                                <div>
+                                    <code>questionArray</code><code class="text-muted">: <a href="/api-docs/schemas#bonus" target="_blank" class="text-muted">Bonus</a>[]</code>
+                                </div>
+                                <div>
+                                    An array of
+                                    <a href="/api-docs/schemas#bonus" target="_blank" class="link-primary">
+                                        <code>Bonuses</code>
+                                    </a> that match the query.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>queryString</code><code class="text-muted">: string</code>
+                    </div>
+                    <div>The query string sent in the request.</div>
                 </li>
             </ul>
         </div>

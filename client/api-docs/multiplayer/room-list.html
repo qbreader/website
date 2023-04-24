@@ -121,15 +121,37 @@
         </div>
 
         <div class="col-9">
-            <div>GET <code>qbreader.org/api/multiplayer/room-list</code></div>
-            <i>Takes no parameters.</i>
-            <ul>
-                <li>
-                    <b>returns</b> - A Javascript <b>object</b> whose keys are room names and whose values are
-                    arrays of the form <code>[number of players, number of active players]</code>.
-                </li>
-                <li>
-                    Only returns public rooms.
+            <h3 class="md-4"><div><code>GET</code> <code>qbreader.org/api/room-list</code></div></h3>
+
+            <p>
+                Get public rooms.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <div>
+                <p>
+                    This endpoint takes no parameters.
+                </p>
+            </div>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                A JSON <code>object</code> with the following properties:
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code class="fst-italic">&lt;room name&gt;</code><code class="text-muted">: [number, number, boolean]</code>
+                    </div>
+                    <div>
+                        An array of the form
+                        <code>[<i>&lt;number of players&gt;</i>, <i>&lt;number of active players&gt;</i>,
+                            <i>&lt;if the room is permenant&gt;</i>]</code>.
+                    </div>
                 </li>
             </ul>
         </div>
