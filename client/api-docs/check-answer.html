@@ -121,35 +121,44 @@
         </div>
 
         <div class="col-9">
-            <div>GET <code>qbreader.org/api/check-answer</code></div>
-            <div>Parameters:</div>
-            <ul>
-                <li>
-                    <code>answerline</code> - the answerline of the question.
-                    Preferably including the html tags <code>&lt;b&gt;</code> and <code>&lt;u&gt;</code>, if they are present.
+            <h3 class="md-4"><div><code>GET</code> <code>qbreader.org/api/check-answer</code></div></h3>
+
+            <p>
+                Judge an answer to be correct, incorrect, or prompt. Directed prompts are supported.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>answerline</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The answerline of the question.
+                        Preferably including the HTML tags <code>&lt;b&gt;</code> and <code>&lt;u&gt;</code>, if they are present.
+                    </div>
                 </li>
-                <li>
-                    <code>givenAnswer</code> - the answer the user gave.
-                </li>
-                <li>
-                    <b>returns:</b> an <b>array</b> <code>[directive, directedPrompt]</code>
-                    <ul>
-                        <li>
-                            Example: <code>[ "prompt", "of what status?" ]</code>
-                        </li>
-                        <li>
-                            Example: <code>[ "accept", null ]</code>
-                        </li>
-                        <li>
-                            <code>directive</code> either equals <code>accept</code>, <code>reject</code>, or <code>prompt</code>
-                        </li>
-                        <li>
-                            <code>directedPrompt</code> equals a <b>string</b> if there is a directed prompt, and <code>null</code>
-                            otherwise
-                        </li>
-                    </ul>
+                <li class="list-group-item">
+                    <div>
+                        <code>givenAnswer</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The answer to check.
+                    </div>
                 </li>
             </ul>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                An <code>array</code> of the form <code>[directive, directedPrompt]</code>.
+                <code class="text-muted">: ["accept" | "reject" | "prompt", string | null]</code>
+            </div>
         </div>
     </div>
 

@@ -121,21 +121,33 @@
         </div>
 
         <div class="col-9">
-            <div>GET <code>qbreader.org/api/num-packets</code></div>
-            <div>Parameters:</div>
-            <ul>
-                <li>
-                    <code>setName</code> - the name of the set (URI-encoded).
-                </li>
-                <li>
-                    <b>returns:</b> a <b>string</b> that represents the number of packets in the set.
-                    <ul>
-                        <li>Example: <code>23</code></li>
-                        <li>If the set name is not found, returns a <code>404 Not Found</code> status and a response
-                            of <code>0</code></li>
-                    </ul>
+            <h3 class="md-4"><div><code>GET</code> <code>qbreader.org/api/num-packets</code></div></h3>
+
+            <p>
+                Get the number of packets in a set.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>setName</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The name of the set. See <a href="/api-docs/set-list"><code>/set-list</code></a> for a list of all sets.
+                    </div>
                 </li>
             </ul>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                The <code>number</code> of packets in the set.
+            </div>
         </div>
     </div>
 
