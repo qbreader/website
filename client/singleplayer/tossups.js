@@ -551,6 +551,68 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = () => {
+    for (const parameter of ['powers', 'tens', 'negs', 'dead', 'points', 'totalCelerity']) {
+        if (!sessionStorage.getItem(parameter))
+            sessionStorage.setItem(parameter, 0);
+    }
+    updateStatDisplay();
+
+
+    if (localStorage.getItem('packetNumberTossupSave')) {
+        document.getElementById('packet-number').value = localStorage.getItem('packetNumberTossupSave');
+    }
+
+    if (localStorage.getItem('questionNumberTossupSave')) {
+        document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
+    }
+
+    if (localStorage.getItem('showTossupHistory') === 'false') {
+        document.getElementById('toggle-show-history').checked = false;
+        document.getElementById('room-history').classList.add('d-none');
+    }
+
+    if (localStorage.getItem('speed')) {
+        document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
+        document.getElementById('reading-speed').value = localStorage.speed;
+    } else {
+        localStorage.setItem('speed', 50);
+    }
+
+    if (localStorage.getItem('toggleRebuzz') === 'true') {
+        document.getElementById('toggle-rebuzz').checked = true;
+    }
+
+    if (localStorage.getItem('typeToAnswer') === 'false') {
+        document.getElementById('type-to-answer').checked = false;
+        document.getElementById('toggle-rebuzz').disabled = true;
+    }
+
+
+    if (localStorage.getItem('validCategories')) {
+        validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    } else {
+        localStorage.setItem('validCategories', '[]');
+        validCategories = [];
+    }
+
+    if (localStorage.getItem('validSubcategories')) {
+        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+    } else {
+        localStorage.setItem('validSubcategories', '[]');
+        validSubcategories = [];
+    }
+
+    if (validCategories.length > 0 && validSubcategories.length === 0) {
+        validCategories.forEach(category => {
+            SUBCATEGORIES[category].forEach(subcategory => {
+                validSubcategories.push(subcategory);
+            });
+        });
+    }
+
+    loadCategoryModal(validCategories, validSubcategories);
+
+
     if (localStorage.getItem('setNameTossupSave')) {
         setName = localStorage.getItem('setNameTossupSave');
         document.getElementById('set-name').value = setName;
@@ -562,71 +624,4 @@ window.onload = () => {
             }
         })();
     }
-
-    if (localStorage.getItem('packetNumberTossupSave')) {
-        document.getElementById('packet-number').value = localStorage.getItem('packetNumberTossupSave');
-    }
-
-    if (localStorage.getItem('questionNumberTossupSave')) {
-        document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
-    }
-
-    if (localStorage.getItem('validCategories') === null) {
-        localStorage.setItem('validCategories', '[]');
-        validCategories = [];
-    } else {
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    }
-
-    if (localStorage.getItem('validSubcategories') === null) {
-        localStorage.setItem('validSubcategories', '[]');
-        validSubcategories = [];
-    } else {
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-    }
-
-    if (validCategories.length > 0 && validSubcategories.length === 0) {
-        validCategories.forEach(category => {
-            SUBCATEGORIES[category].forEach(subcategory => {
-                validSubcategories.push(subcategory);
-            });
-        });
-    }
-
-    if (sessionStorage.getItem('powers') === null)
-        sessionStorage.setItem('powers', 0);
-    if (sessionStorage.getItem('tens') === null)
-        sessionStorage.setItem('tens', 0);
-    if (sessionStorage.getItem('negs') === null)
-        sessionStorage.setItem('negs', 0);
-    if (sessionStorage.getItem('dead') === null)
-        sessionStorage.setItem('dead', 0);
-    if (sessionStorage.getItem('points') === null)
-        sessionStorage.setItem('points', 0);
-    if (sessionStorage.getItem('totalCelerity') === null)
-        sessionStorage.setItem('totalCelerity', 0);
-
-    if (localStorage.getItem('speed') === null) {
-        localStorage.setItem('speed', 50);
-    }
-
-    document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
-    document.getElementById('reading-speed').value = localStorage.speed;
-
-    loadCategoryModal(validCategories, validSubcategories);
-    updateStatDisplay();
 };
-
-if (localStorage.getItem('showTossupHistory') === 'false') {
-    document.getElementById('toggle-show-history').checked = false;
-    document.getElementById('room-history').classList.add('d-none');
-}
-
-if (localStorage.getItem('toggleRebuzz') === 'true') {
-    document.getElementById('toggle-rebuzz').checked = true;
-}
-
-if (localStorage.getItem('typeToAnswer') === 'false') {
-    document.getElementById('type-to-answer').checked = false;
-    document.getElementById('toggle-rebuzz').disabled = true;
-}
