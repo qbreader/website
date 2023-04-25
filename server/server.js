@@ -13,6 +13,10 @@ const wss = new WebSocket.Server({
     maxPayload: 1024 * 1024 * 1, // 1 MB
 });
 
+// See https://masteringjs.io/tutorials/express/query-parameters
+// for why we use 'simple'
+app.set('query parser', 'simple');
+
 app.use(express.json());
 
 const createDOMPurify = require('dompurify');
