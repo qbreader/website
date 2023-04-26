@@ -293,9 +293,9 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
     }
 
     function copyToClick() {
-        let textdata = `${bonus.questionNumber}. ${bonus.leadin}\n`;
+        let textdata = `${bonus.questionNumber}. ${bonus.leadin}`;
         for (let i = 0; i < bonus.parts.length; i++) {
-            textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
+            textdata += `\n[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
         }
 
         if (bonus.category && bonus.subcategory) {
