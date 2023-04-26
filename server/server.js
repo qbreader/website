@@ -13,6 +13,10 @@ const wss = new WebSocket.Server({
     maxPayload: 1024 * 1024 * 1, // 1 MB
 });
 
+// See https://masteringjs.io/tutorials/express/query-parameters
+// for why we use 'simple'
+app.set('query parser', 'simple');
+
 app.use(express.json());
 
 const createDOMPurify = require('dompurify');
@@ -127,7 +131,7 @@ app.get('/*.ico', (req, res) => {
 
 
 const apiRouter = require('../routes/api');
-const apiInfoRouter = require('../routes/api-info');
+const apiDocsRouter = require('../routes/api-docs');
 const tossupsRouter = require('../routes/tossups');
 const bonusesRouter = require('../routes/bonuses');
 const multiplayerRouter = require('../routes/multiplayer');
@@ -142,7 +146,7 @@ app.use('/tossups', tossupsRouter);
 app.use('/bonuses', bonusesRouter);
 app.use('/multiplayer', multiplayerRouter);
 app.use('/db', databaseRouter);
-app.use('/api-info', apiInfoRouter);
+app.use('/api-docs', apiDocsRouter);
 app.use('/about', aboutRouter);
 app.use('/backups', backupsRouter);
 app.use('/', indexRouter);
