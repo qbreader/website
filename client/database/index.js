@@ -127,7 +127,6 @@ function TossupCard({
 }) {
   const _id = tossup._id;
   const packetName = tossup.packetName;
-  const powerParts = tossup.question.split('(*)');
   function onClick() {
     document.getElementById('report-question-id').value = _id;
   }
@@ -144,6 +143,7 @@ function TossupCard({
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
+  const powerParts = highlightedTossup.question.split('(*)');
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {

@@ -225,7 +225,6 @@ document.getElementById('report-question-submit').addEventListener('click', func
 function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
     const _id = tossup._id;
     const packetName = tossup.packetName;
-    const powerParts = tossup.question.split('(*)');
 
     function onClick() {
         document.getElementById('report-question-id').value = _id;
@@ -247,6 +246,8 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
         const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
         toast.show();
     }
+
+    const powerParts = highlightedTossup.question.split('(*)');
 
     return (
         <div className="card my-2">
