@@ -11,19 +11,9 @@
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
+    <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script>
-        if (localStorage.getItem('color-theme') === 'dark') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (localStorage.getItem('color-theme') === 'light') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            // Get OS preferred color scheme
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        }
-    </script>
+    <script src="/apply-theme.js"></script>
 </head>
 
 <body>
@@ -227,7 +217,9 @@
                 </li>
             </ul>
 
-            <a href="#bonus"><h4 class="mt-4 md-2" id="bonus"><code>Bonus</code></h4></a>
+            <a href="#bonus">
+                <h4 class="mt-4 md-2" id="bonus"><code>Bonus</code></h4>
+            </a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="bonusExample"></code></pre>
             <button class="btn btn-sm btn-primary" onclick="getBonusExample()">Get another example</button>
             <ul class="list-group list-group-flush">
@@ -343,10 +335,10 @@
                     "number": 1,
                 })
             }).then(res => res.json())
-            .then(data => data[0])
-            .then(data => {
-                document.getElementById("tossupExample").innerText = JSON.stringify(data, null, 4);
-            });
+                .then(data => data[0])
+                .then(data => {
+                    document.getElementById("tossupExample").innerText = JSON.stringify(data, null, 4);
+                });
         }
 
         function getBonusExample() {
@@ -360,10 +352,10 @@
                     "number": 1,
                 })
             }).then(res => res.json())
-            .then(data => data[0])
-            .then(data => {
-                document.getElementById("bonusExample").innerText = JSON.stringify(data, null, 4);
-            });
+                .then(data => data[0])
+                .then(data => {
+                    document.getElementById("bonusExample").innerText = JSON.stringify(data, null, 4);
+                });
         }
 
         getTossupExample();
