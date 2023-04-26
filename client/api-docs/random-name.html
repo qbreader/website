@@ -11,19 +11,9 @@
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
+    <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script>
-        if (localStorage.getItem('color-theme') === 'dark') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (localStorage.getItem('color-theme') === 'light') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            // Get OS preferred color scheme
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        }
-    </script>
+    <script src="/apply-theme.js"></script>
 </head>
 
 <body>
@@ -122,7 +112,9 @@
         </div>
 
         <div class="col-9">
-            <h3 class="md-4"><div><code>GET</code> <code>qbreader.org/api/random-name</code></div></h3>
+            <h3 class="md-4">
+                <div><code>GET</code> <code>qbreader.org/api/random-name</code></div>
+            </h3>
 
             <p>
                 Get a random adjective-noun pair that can be used as a name.
