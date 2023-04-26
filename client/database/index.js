@@ -122,6 +122,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 function TossupCard({
   tossup,
+  highlightedTossup,
   showCardFooter
 }) {
   const _id = tossup._id;
@@ -131,7 +132,15 @@ function TossupCard({
     document.getElementById('report-question-id').value = _id;
   }
   function copyToClick() {
-    navigator.clipboard.writeText(`${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}\n<${tossup.category} / ${tossup.subcategory}>`);
+    let textdata = `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}`;
+    if (tossup.category && tossup.subcategory) {
+      textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
+    } else if (tossup.category) {
+      textdata += `\n<${tossup.category}>`;
+    } else if (tossup.subcategory) {
+      textdata += `\n<${tossup.subcategory}>`;
+    }
+    navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
@@ -149,11 +158,11 @@ function TossupCard({
     className: "card-body"
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question
+      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
     }
   }), "\xA0", /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: tossup?.formatted_answer ?? tossup.answer
+      __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer ${!showCardFooter && 'd-none'}`
@@ -171,6 +180,7 @@ function TossupCard({
 }
 function BonusCard({
   bonus,
+  highlightedBonus,
   showCardFooter
 }) {
   const _id = bonus._id;
@@ -186,9 +196,15 @@ function BonusCard({
   function copyToClick() {
     let textdata = `${bonus.questionNumber}. ${bonus.leadin}\n`;
     for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+      textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
     }
-    textdata += `<${bonus.category} / ${bonus.subcategory}>`;
+    if (bonus.category && bonus.subcategory) {
+      textdata += `\n<${bonus.category} / ${bonus.subcategory}>`;
+    } else if (bonus.category) {
+      textdata += `\n<${bonus.category}>`;
+    } else if (bonus.subcategory) {
+      textdata += `\n<${bonus.subcategory}>`;
+    }
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
@@ -207,17 +223,17 @@ function BonusCard({
     className: "card-body"
   }, /*#__PURE__*/React.createElement("p", {
     dangerouslySetInnerHTML: {
-      __html: bonus.leadin
+      __html: highlightedBonus.leadin
     }
   }), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
   }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10]\xA0", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: bonus.parts[i]
+      __html: highlightedBonus.parts[i]
     }
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: (bonus?.formatted_answers ?? bonus.answers)[i]
+      __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer ${!showCardFooter && 'd-none'}`
@@ -323,6 +339,8 @@ function CategoryModal() {
 function QueryForm() {
   const [tossups, setTossups] = React.useState([]);
   const [bonuses, setBonuses] = React.useState([]);
+  const [highlightedTossups, setHighlightedTossups] = React.useState([]);
+  const [highlightedBonuses, setHighlightedBonuses] = React.useState([]);
   const [tossupCount, setTossupCount] = React.useState(0);
   const [bonusCount, setBonusCount] = React.useState(0);
   const [difficulties, setDifficulties] = React.useState('');
@@ -443,34 +461,40 @@ function QueryForm() {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
+      setTossupCount(tossupCount);
+      setTossups(tossupArray);
+
+      // create deep copy to highlight
+      const highlightedTossupArray = JSON.parse(JSON.stringify(tossupArray));
       if (queryString !== '') {
-        for (let i = 0; i < tossupArray.length; i++) {
-          tossupArray[i] = highlightTossupQuery({
-            tossup: tossupArray[i],
+        for (let i = 0; i < highlightedTossupArray.length; i++) {
+          highlightedTossupArray[i] = highlightTossupQuery({
+            tossup: highlightedTossupArray[i],
             regExp,
             searchType,
             regex
           });
         }
       }
-      setTossupCount(tossupCount);
-      setTossups(tossupArray);
+      setHighlightedTossups(highlightedTossupArray);
       const {
         count: bonusCount,
         questionArray: bonusArray
       } = bonuses;
+      setBonusCount(bonusCount);
+      setBonuses(bonusArray);
+      const highlightedBonusArray = JSON.parse(JSON.stringify(bonusArray));
       if (queryString !== '') {
-        for (let i = 0; i < bonusArray.length; i++) {
-          bonusArray[i] = highlightBonusQuery({
-            bonus: bonusArray[i],
+        for (let i = 0; i < highlightedBonusArray.length; i++) {
+          highlightedBonusArray[i] = highlightBonusQuery({
+            bonus: highlightedBonusArray[i],
             regExp,
             searchType,
             regex
           });
         }
       }
-      setBonusCount(bonusCount);
-      setBonuses(bonusArray);
+      setHighlightedBonuses(highlightedBonusArray);
       if (randomize) {
         setTossupPaginationLength(1);
         setBonusPaginationLength(1);
@@ -487,16 +511,27 @@ function QueryForm() {
       setCurrentlySearching(false);
     });
   }
-  const tossupCards = tossups.map(tossup => /*#__PURE__*/React.createElement(TossupCard, {
-    key: tossup._id,
-    tossup: tossup,
-    showCardFooter: showCardFooters
-  }));
-  const bonusCards = bonuses.map(bonus => /*#__PURE__*/React.createElement(BonusCard, {
-    key: bonus._id,
-    bonus: bonus,
-    showCardFooter: showCardFooters
-  }));
+  const tossupCards = [];
+  for (let i = 0; i < highlightedTossups.length; i++) {
+    tossupCards.push( /*#__PURE__*/React.createElement(TossupCard, {
+      key: i,
+      tossup: tossups[i],
+      highlightedTossup: highlightedTossups[i],
+      showCardFooter: showCardFooters
+    }));
+  }
+  const bonusCards = [];
+  for (let i = 0; i < highlightedBonuses.length; i++) {
+    bonusCards.push( /*#__PURE__*/React.createElement(BonusCard, {
+      key: i,
+      bonus: bonuses[i],
+      highlightedBonus: highlightedBonuses[i],
+      showCardFooter: showCardFooters
+    }));
+  }
+  // tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
+  // const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
+
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
     className: "mt-3",
     onSubmit: event => {
