@@ -15,19 +15,9 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
         crossorigin="anonymous"></script>
+    <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script>
-        if (localStorage.getItem('color-theme') === 'dark') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (localStorage.getItem('color-theme') === 'light') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            // Get OS preferred color scheme
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        }
-    </script>
+    <script src="/apply-theme.js"></script>
 </head>
 
 <body>
