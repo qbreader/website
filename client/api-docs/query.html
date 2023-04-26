@@ -121,7 +121,9 @@
         </div>
 
         <div class="col-9">
-            <h3 class="md-4"><div><code>GET</code> <code>qbreader.org/api/query</code></div></h3>
+            <h3 class="md-4">
+                <div><code>GET</code> <code>qbreader.org/api/query</code></div>
+            </h3>
 
             <p>
                 Query the QB Reader database for questions.
@@ -209,12 +211,13 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>difficulties</code><code class="text-muted">: number[] | number | string</code>
+                        <code>difficulties</code><code class="text-muted">: number | string</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
                         The difficulties to search for.
                         <ul>
+                            <li>To pass multiple difficulties, separate values by a comma.</li>
                             <li>If <code>undefined</code> then all difficulties are allowed.</li>
                             <li>Can also be a <code>string</code> or <code>number</code> if there is only 1 difficulty.</li>
                         </ul>
@@ -222,12 +225,13 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>categories</code><code class="text-muted">: string[] | string</code>
+                        <code>categories</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
                         The categories to search for.
                         <ul>
+                            <li>To pass multiple categories, separate values by a comma.</li>
                             <li>If <code>undefined</code> then all categories are allowed.</li>
                             <li>Can also be a <code>string</code> if there is only 1 category.</li>
                             <li>Take special care to ensure that the first letter of each word of the category is
@@ -237,12 +241,13 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>subcategories</code><code class="text-muted">: string[] | string</code>
+                        <code>subcategories</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
                         The subcategories to search for.
                         <ul>
+                            <li>To pass multiple subcategories, separate values by a comma.</li>
                             <li>If <code>undefined</code> then all subcategories are allowed.</li>
                             <li>Can also be a <code>string</code> if there is only 1 subcategory.</li>
                             <li>Take special care to ensure that the first letter of each word of the subcategory is
@@ -250,7 +255,7 @@
                             <li>This API endpoint does <b>not</b> check for consistency between categories and
                                 subcategories.</li>
                             <li><i>For example, requesting the <code>"History"</code> and the <code>"Biology"</code>
-                                and <code>"Chemistry"</code> subcategories will return no questions.</i></li>
+                                    and <code>"Chemistry"</code> subcategories will return no questions.</i></li>
                         </ul>
                     </div>
                 </li>
@@ -312,7 +317,8 @@
                             </li>
                             <li class="list-group-item">
                                 <div>
-                                    <code>questionArray</code><code class="text-muted">: <a href="/api-docs/schemas#tossup" target="_blank" class="text-muted">Tossup</a>[]</code>
+                                    <code>questionArray</code><code
+                                        class="text-muted">: <a href="/api-docs/schemas#tossup" target="_blank" class="text-muted">Tossup</a>[]</code>
                                 </div>
                                 <div>
                                     An array of
@@ -336,7 +342,8 @@
                             </li>
                             <li class="list-group-item">
                                 <div>
-                                    <code>questionArray</code><code class="text-muted">: <a href="/api-docs/schemas#bonus" target="_blank" class="text-muted">Bonus</a>[]</code>
+                                    <code>questionArray</code><code
+                                        class="text-muted">: <a href="/api-docs/schemas#bonus" target="_blank" class="text-muted">Bonus</a>[]</code>
                                 </div>
                                 <div>
                                     An array of
