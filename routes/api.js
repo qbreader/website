@@ -17,12 +17,20 @@ const apiLimiter = rateLimit({
 router.use(apiLimiter);
 
 
-// DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
+// express encodes same parameter passed multiple times as an array
+// this middleware converts it to a single value
+router.get((req, _res, next) => {
+    for (const key in req.query) {
+        if (Array.isArray(req.query[key])) {
+            req.query[key] = req.query[key][0];
+        }
+    }
+    next();
+});
 
 
 router.get('/check-answer', (req, res) => {
-    const answerline = req.query.answerline;
-    const givenAnswer = req.query.givenAnswer;
+    const { answerline, givenAnswer } = req.query;
     const [directive, directedPrompt] = checkAnswer(answerline, givenAnswer);
     res.send(JSON.stringify([directive, directedPrompt]));
 });
@@ -118,6 +126,7 @@ router.get('/query', async (req, res) => {
 
     const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
 
+    // bound pagination between 1 and maxPagination
     req.query.tossupPagination = Math.min(parseInt(req.query.tossupPagination), maxPagination);
     req.query.bonusPagination = Math.min(parseInt(req.query.bonusPagination), maxPagination);
     req.query.tossupPagination = Math.max(req.query.tossupPagination, 1);
