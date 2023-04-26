@@ -352,7 +352,14 @@
                     <div>
                         <code>queryString</code><code class="text-muted">: string</code>
                     </div>
-                    <div>The query string sent in the request.</div>
+                    <div>
+                        The exact string used to search the MongoDB database.
+                        This may differ from the queryString passed in as a parameter:
+                        <ul>
+                            <li>If <code>regex</code> is <code>false</code>, then regex characters are escaped.</li>
+                            <li>If <code>ignoreDiacritics</code> is <code>true</code>, then diacritic substitutions are made.</li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
