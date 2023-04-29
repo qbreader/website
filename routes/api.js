@@ -19,7 +19,7 @@ router.use(apiLimiter);
 
 // express encodes same parameter passed multiple times as an array
 // this middleware converts it to a single value
-router.get((req, _res, next) => {
+router.use((req, _res, next) => {
     for (const key in req.query) {
         if (Array.isArray(req.query[key])) {
             req.query[key] = req.query[key][0];
