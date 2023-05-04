@@ -132,6 +132,9 @@ router.get('/query', async (req, res) => {
     req.query.tossupPagination = Math.max(req.query.tossupPagination, 1);
     req.query.bonusPagination = Math.max(req.query.bonusPagination, 1);
 
+    req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
+    req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
+
     const queryResult = await database.getQuery(req.query);
     res.send(JSON.stringify(queryResult));
 });
