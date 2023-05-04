@@ -265,8 +265,8 @@ class TossupRoom {
             break;
 
         case 'year-range': {
-            const minYear = isNaN(minYear) ? quizbowl.DEFAULT_MIN_YEAR : parseInt(message.minYear);
-            const maxYear = isNaN(maxYear) ? quizbowl.DEFAULT_MAX_YEAR : parseInt(message.maxYear);
+            const minYear = isNaN(message.minYear) ? quizbowl.DEFAULT_MIN_YEAR : parseInt(message.minYear);
+            const maxYear = isNaN(message.maxYear) ? quizbowl.DEFAULT_MAX_YEAR : parseInt(message.maxYear);
             this.sendSocketMessage({
                 type: 'year-range',
                 minYear: minYear,
