@@ -46,13 +46,13 @@ app.use((err, req, res, _next) => {
 });
 
 
-const Room = require('./Room');
+const TossupRoom = require('./TossupRoom');
 
 const rooms = {};
 const permanentRooms = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
 
 for (const roomName of permanentRooms) {
-    rooms[roomName] = new Room(roomName, true);
+    rooms[roomName] = new TossupRoom(roomName, true);
 }
 
 app.get('/api/multiplayer/room-list', (_req, res) => {
@@ -78,7 +78,7 @@ wss.on('connection', (ws) => {
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
     if (!Object.prototype.hasOwnProperty.call(rooms, roomName))
-        rooms[roomName] = new Room(roomName, false);
+        rooms[roomName] = new TossupRoom(roomName, false);
 
     rooms[roomName].connection(ws, userId, username);
 

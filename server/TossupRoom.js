@@ -9,7 +9,7 @@ const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
-class Room {
+class TossupRoom {
     constructor(name, isPermanent = false) {
         this.name = name;
         this.isPermanent = isPermanent;
@@ -32,10 +32,9 @@ class Room {
 
         this.query = {
             difficulties: [4, 5],
-            minYear: 2010,
-            maxYear: 2023,
+            minYear: quizbowl.DEFAULT_MIN_YEAR,
+            maxYear: quizbowl.DEFAULT_MAX_YEAR,
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-            questionType: 'tossup',
             setName: '2022 PACE NSC',
             categories: [],
             subcategories: [],
@@ -265,14 +264,17 @@ class Room {
             this.adjustQuery(['categories', 'subcategories'], [message.categories, message.subcategories]);
             break;
 
-        case 'year-range':
+        case 'year-range': {
+            const minYear = isNaN(minYear) ? quizbowl.DEFAULT_MIN_YEAR : parseInt(message.minYear);
+            const maxYear = isNaN(maxYear) ? quizbowl.DEFAULT_MAX_YEAR : parseInt(message.maxYear);
             this.sendSocketMessage({
                 type: 'year-range',
-                minYear: message.minYear,
-                maxYear: message.maxYear,
+                minYear: minYear,
+                maxYear: maxYear,
             });
-            this.adjustQuery(['minYear', 'maxYear'], [message.minYear, message.maxYear]);
+            this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
             break;
+        }
         }
     }
 
@@ -294,7 +296,7 @@ class Room {
                 this.setCache = set;
             });
         } else {
-            database.getRandomQuestions(this.query).then(tossups => {
+            database.getRandomTossups(this.query).then(tossups => {
                 this.randomQuestionCache = tossups;
             });
         }
@@ -319,15 +321,17 @@ class Room {
             }
         } else {
             if (this.randomQuestionCache.length === 0) {
-                this.randomQuestionCache = await database.getRandomQuestions(this.query);
+                this.randomQuestionCache = await database.getRandomTossups(this.query);
+                if (this.randomQuestionCache.length === 0) {
+                    this.tossup = {};
+                    this.sendSocketMessage({
+                        type: 'no-questions-found'
+                    });
+                    return false;
+                }
             }
+
             this.tossup = this.randomQuestionCache.pop();
-            if (Object.keys(this.tossup).length === 0) {
-                this.sendSocketMessage({
-                    type: 'no-questions-found'
-                });
-                return false;
-            }
         }
 
         if (Object.prototype.hasOwnProperty.call(this.tossup, 'formatted_answer')) {
@@ -525,4 +529,4 @@ class Room {
     }
 }
 
-module.exports = Room;
+module.exports = TossupRoom;

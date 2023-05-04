@@ -77,7 +77,13 @@
                     <a href="/api-docs/query"><code>query</code></a>
                 </li>
                 <li class="nav-item">
-                    <a href="/api-docs/random-question"><code>random-question</code></a>
+                    <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-question"><code>random-question (deprecated)</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-tossup"><code>random-tossup</code></a>
                 </li>
                 <li class="nav-item">
                     <a href="/api-docs/packet"><code>packet</code></a>
@@ -118,6 +124,10 @@
                 The QB Reader API represents tossups and bonuses as JSON objects. These schemas describe the
                 structure of these objects.
             </p>
+
+            <strong>
+                Note: the <code>type</code> field of tossups and bonuses is deprecated and will be removed in a future update.
+            </strong>
 
             <a href="#tossup">
                 <h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4>
@@ -183,7 +193,11 @@
                     <div>
                         <code>type</code><code class="text-muted">: string</code>
                     </div>
-                    <div>The type of the question. <i>Always <code>"tossup"</code> for tossups.</i></div>
+                    <div>
+                        The type of the question.
+                        <i>Always <code>"tossup"</code> for tossups.</i>
+                        <strong>Note: this field will be deprecated in a future update.</strong>
+                    </div>
                 </li>
                 <li class="list-group-item">
                     <div>
@@ -287,7 +301,11 @@
                     <div>
                         <code>type</code><code class="text-muted">: string</code>
                     </div>
-                    <div>The type of the question. <i>Always <code>"bonus"</code> for bonuses.</i></div>
+                    <div>
+                        The type of the question.
+                        <i>Always <code>"bonus"</code> for bonuses.</i>
+                        <strong>Note: this field will be deprecated in a future update.</strong>
+                    </div>
                 </li>
                 <li class="list-group-item">
                     <div>
@@ -325,34 +343,18 @@
 
     <script>
         function getTossupExample() {
-            fetch("/api/random-question", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    "questionType": "tossup",
-                    "number": 1,
-                })
-            }).then(res => res.json())
-                .then(data => data[0])
+            fetch('/api/random-tossup')
+                .then(res => res.json())
+                .then(data => data.tossups[0])
                 .then(data => {
                     document.getElementById("tossupExample").innerText = JSON.stringify(data, null, 4);
                 });
         }
 
         function getBonusExample() {
-            fetch("/api/random-question", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    "questionType": "bonus",
-                    "number": 1,
-                })
-            }).then(res => res.json())
-                .then(data => data[0])
+            fetch('/api/random-bonus')
+                .then(res => res.json())
+                .then(data => data.bonuses[0])
                 .then(data => {
                     document.getElementById("bonusExample").innerText = JSON.stringify(data, null, 4);
                 });

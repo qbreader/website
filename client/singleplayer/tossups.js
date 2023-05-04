@@ -16,8 +16,7 @@ let powermarkPosition = 0;
 let questionNumber = 0;
 let timeoutID = -1;
 
-// Whether or not the user clicked that they got the question wrong. `-1` means the button currently says "I was wrong".
-let previous = {
+const previous = {
     isCorrect: true,
     inPower: false,
     negValue: -5,
@@ -40,6 +39,7 @@ function queryLock() {
 
 
 function queryUnlock() {
+    document.getElementById('question').innerHTML = '';
     document.getElementById('start').disabled = false;
     document.getElementById('next').disabled = false;
     document.getElementById('pause').disabled = false;
@@ -91,20 +91,18 @@ async function advanceQuestion() {
     } else {
         queryLock();
         try {
-            questions = await getRandomQuestion(
-                'tossup',
-                rangeToArray(document.getElementById('difficulties').value),
-                validCategories,
-                validSubcategories,
-            );
+            questions = await getRandomTossup(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
             questions = [questions];
         } finally {
             queryUnlock();
         }
 
-        ({ setName, packetNumber, questionNumber } = questions[0]);
+        if (!questions[0]) {
+            alert('No questions found');
+            return false;
+        }
 
-        if (Object.keys(questions[0]).length === 0) return false;
+        ({ setName, packetNumber, questionNumber } = questions[0]);
 
         questionText = questions[0].question;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');
@@ -200,6 +198,46 @@ function isPace(setName) {
     return setName.includes('PACE');
 }
 
+async function loadRandomTossups(difficulties = [], categories = [], subcategories = [], number = 1) {
+    const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
+    const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
+
+    const uri = `/api/random-tossup?
+            difficulties=${encodeURIComponent(difficulties)}&
+            categories=${encodeURIComponent(categories)}&
+            subcategories=${encodeURIComponent(subcategories)}&
+            number=${encodeURIComponent(number)}&
+            minYear=${encodeURIComponent(minYear)}&
+            maxYear=${encodeURIComponent(maxYear)}&
+        `.replace(/\s/g, '');
+
+    randomQuestions = await fetch(uri)
+        .then(response => response.json())
+        .then(response => response.tossups)
+        .then(questions => {
+            for (let i = 0; i < questions.length; i++) {
+                if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer'))
+                    questions[i].answer = questions[i].formatted_answer;
+            }
+
+            return questions;
+        });
+}
+
+
+async function getRandomTossup(difficulties = [], categories = [], subcategories = []) {
+    if (randomQuestions.length === 0)
+        await loadRandomTossups(difficulties, categories, subcategories, 20);
+
+    const randomQuestion = randomQuestions.pop();
+
+    // Begin loading the next batch of questions (asynchronously)
+    if (randomQuestions.length === 0)
+        loadRandomTossups(difficulties, categories, subcategories, 20);
+
+    return randomQuestion;
+}
+
 
 async function next() {
     // Stop reading the current question:
@@ -239,8 +277,7 @@ function pause() {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').innerHTML = 'Pause';
         readQuestion(new Date().getTime());
-    }
-    else {
+    } else {
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
         document.getElementById('pause').innerHTML = 'Resume';
         clearTimeout(timeoutID);
@@ -415,7 +452,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
-    loadRandomQuestions('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomTossups(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
 });
 
 
@@ -427,7 +464,7 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 
 document.getElementById('difficulties').addEventListener('change', async function () {
     randomQuestions = [];
-    loadRandomQuestions('tossup', rangeToArray(this.value), validCategories, validSubcategories);
+    loadRandomTossups(rangeToArray(this.value), validCategories, validSubcategories);
 });
 
 
@@ -486,6 +523,20 @@ document.getElementById('toggle-correct').addEventListener('click', function () 
 });
 
 
+document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
+    if (this.checked) {
+        document.getElementById('difficulty-settings').classList.add('d-none');
+        document.getElementById('set-settings').classList.remove('d-none');
+        localStorage.setItem('selectBySetName', 'true');
+    } else {
+        document.getElementById('difficulty-settings').classList.remove('d-none');
+        document.getElementById('set-settings').classList.add('d-none');
+        localStorage.setItem('selectBySetName', 'false');
+    }
+});
+
+
+
 document.getElementById('toggle-show-history').addEventListener('click', function () {
     this.blur();
     localStorage.setItem('showTossupHistory', this.checked ? 'true' : 'false');
@@ -518,7 +569,7 @@ document.getElementById('toggle-rebuzz').addEventListener('click', function () {
 
 document.getElementById('year-range-a').onchange = function () {
     randomQuestions = [];
-    loadRandomQuestions('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomTossups(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
 
     localStorage.setItem('minYear', $('#slider').slider('values', 0));
     localStorage.setItem('maxYear', $('#slider').slider('values', 1));
@@ -612,6 +663,12 @@ window.onload = () => {
 
     loadCategoryModal(validCategories, validSubcategories);
 
+
+    if (localStorage.getItem('selectBySetName') === 'false') {
+        document.getElementById('difficulty-settings').classList.remove('d-none');
+        document.getElementById('set-settings').classList.add('d-none');
+        document.getElementById('toggle-select-by-set-name').checked = false;
+    }
 
     if (localStorage.getItem('setNameTossupSave')) {
         setName = localStorage.getItem('setNameTossupSave');
