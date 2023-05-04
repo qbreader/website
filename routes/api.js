@@ -142,6 +142,58 @@ router.get('/random-name', (req, res) => {
 });
 
 
+router.get('/random-bonus', async (req, res) => {
+    if (req.query.difficulties)
+        req.query.difficulties = req.query.difficulties
+            .split(',')
+            .map((difficulty) => parseInt(difficulty));
+
+    if (req.query.categories)
+        req.query.categories = req.query.categories.split(',');
+
+    if (req.query.subcategories)
+        req.query.subcategories = req.query.subcategories.split(',');
+
+    req.query.bonusLength = (req.query.threePartBonuses === 'true') ? 3 : undefined;
+
+    req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
+    req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
+    req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
+
+    const bonuses = await database.getRandomBonuses(req.query);
+    if (bonuses.length === 0) {
+        res.status(404);
+    }
+    res.send(JSON.stringify({ bonuses: bonuses }));
+});
+
+
+router.get('/random-tossup', async (req, res) => {
+    if (req.query.difficulties)
+        req.query.difficulties = req.query.difficulties
+            .split(',')
+            .map((difficulty) => parseInt(difficulty));
+
+    if (req.query.categories)
+        req.query.categories = req.query.categories.split(',');
+
+    if (req.query.subcategories)
+        req.query.subcategories = req.query.subcategories.split(',');
+
+    req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
+    req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
+    req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
+
+    const tossups = await database.getRandomTossups(req.query);
+    if (tossups.length === 0) {
+        res.status(404);
+    }
+
+    res.send(JSON.stringify({ tossups: tossups }));
+});
+
+
+// DEPRECATED and will be removed in the future
 router.post('/random-question', async (req, res) => {
     if (!['tossup', 'bonus'].includes(req.body.questionType)) {
         res.status(400).send('Invalid question type specified.');
@@ -163,6 +215,10 @@ router.post('/random-question', async (req, res) => {
     if (typeof req.body.subcategories === 'string') {
         req.body.subcategories = [req.body.subcategories];
     }
+
+    req.body.minYear = isNaN(req.body.minYear) ? undefined : parseInt(req.body.minYear);
+    req.body.maxYear = isNaN(req.body.maxYear) ? undefined : parseInt(req.body.maxYear);
+    req.body.number = isNaN(req.body.number) ? undefined : parseInt(req.body.number);
 
     const questions = await database.getRandomQuestions(req.body);
     if (questions.length > 0) {
