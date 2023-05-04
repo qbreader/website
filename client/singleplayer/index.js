@@ -13,6 +13,9 @@ let maxPacketNumber = 24;
  * @returns {Promise<[ "accept" | "prompt" | "reject", String | null ]>} [directive, directedPrompt]
  */
 async function checkAnswer(answerline, givenAnswer) {
+    if (givenAnswer === '')
+        return ['reject', null];
+
     return await fetch(`/api/check-answer?answerline=${encodeURIComponent(answerline)}&givenAnswer=${encodeURIComponent(givenAnswer)}`)
         .then(response => response.json());
 }
