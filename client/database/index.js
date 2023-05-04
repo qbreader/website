@@ -347,11 +347,13 @@ function QueryForm() {
   const [maxReturnLength, setMaxReturnLength] = React.useState('');
   const [queryString, setQueryString] = React.useState('');
   const [questionType, setQuestionType] = React.useState('all');
+  const [searchType, setSearchType] = React.useState('all');
+  const [minYear, setMinYear] = React.useState('');
+  const [maxYear, setMaxYear] = React.useState('');
   const [regex, setRegex] = React.useState(false);
   const [diacritics, setDiacritics] = React.useState(false);
-  const [searchType, setSearchType] = React.useState('all');
-  const [currentlySearching, setCurrentlySearching] = React.useState(false);
   const [showCardFooters, setShowCardFooters] = React.useState(true);
+  const [currentlySearching, setCurrentlySearching] = React.useState(false);
   let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
   let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
   const [tossupPaginationLength, setTossupPaginationLength] = React.useState(1);
@@ -438,6 +440,8 @@ function QueryForm() {
             setName=${encodeURIComponent(document.getElementById('set-name').value)}&
             tossupPagination=${encodeURIComponent(tossupPaginationNumber)}&
             bonusPagination=${encodeURIComponent(bonusPaginationNumber)}&
+            minYear=${encodeURIComponent(minYear)}&
+            maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
     fetch(uri, {
       method: 'GET',
@@ -560,7 +564,6 @@ function QueryForm() {
   }, "Random")), /*#__PURE__*/React.createElement("div", {
     className: "row"
   }, /*#__PURE__*/React.createElement("div", {
-    id: "difficulty-settings",
     className: "col-6 col-xl-3 mb-2"
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
@@ -572,10 +575,9 @@ function QueryForm() {
       setDifficulties(event.target.value);
     }
   })), /*#__PURE__*/React.createElement("div", {
-    id: "max-query-return-length",
     className: "col-6 col-xl-3 mb-2"
   }, /*#__PURE__*/React.createElement("input", {
-    type: "text",
+    type: "number",
     className: "form-control",
     id: "max-return-length",
     placeholder: "# to Display (default: 25)",
@@ -600,9 +602,9 @@ function QueryForm() {
     "data-bs-toggle": "modal",
     "data-bs-target": "#category-modal"
   }, "Categories"))), /*#__PURE__*/React.createElement("div", {
-    className: "row mb-2"
+    className: "row"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "col-6"
+    className: "col-6 col-md-3 mb-2"
   }, /*#__PURE__*/React.createElement("select", {
     className: "form-select",
     id: "search-type",
@@ -617,9 +619,9 @@ function QueryForm() {
   }, "Question"), /*#__PURE__*/React.createElement("option", {
     value: "answer"
   }, "Answer"))), /*#__PURE__*/React.createElement("div", {
-    className: "col-6"
+    className: "col-6 col-md-3 mb-2"
   }, /*#__PURE__*/React.createElement("select", {
-    className: "form-select disabled",
+    className: "form-select",
     id: "question-type",
     value: questionType,
     onChange: event => {
@@ -631,7 +633,29 @@ function QueryForm() {
     value: "tossup"
   }, "Tossups"), /*#__PURE__*/React.createElement("option", {
     value: "bonus"
-  }, "Bonuses")))), /*#__PURE__*/React.createElement("div", {
+  }, "Bonuses"))), /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-md-3 mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    className: "form-control",
+    id: "min-year",
+    placeholder: "Min year",
+    value: minYear,
+    onChange: event => {
+      setMinYear(event.target.value);
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-md-3 mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    className: "form-control",
+    id: "max-year",
+    placeholder: "Max year",
+    value: maxYear,
+    onChange: event => {
+      setMaxYear(event.target.value);
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "row"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-12"
