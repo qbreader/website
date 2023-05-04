@@ -185,6 +185,8 @@ async function getQuery({
     ignoreDiacritics = false,
     tossupPagination = 1,
     bonusPagination = 1,
+    minYear,
+    maxYear,
 } = {}) {
     if (verbose)
         console.time('getQuery');
@@ -213,11 +215,11 @@ async function getQuery({
 
     let tossupQuery = null;
     if (['tossup', 'all'].includes(questionType))
-        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination });
+        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear });
 
     let bonusQuery = null;
     if (['bonus', 'all'].includes(questionType))
-        bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination });
+        bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination, minYear, maxYear });
 
 
     const values = await Promise.all([tossupQuery, bonusQuery]);
@@ -247,7 +249,7 @@ set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC}; \
 }
 
 
-async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination }) {
+async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear }) {
     const orQuery = [];
     if (['question', 'all'].includes(searchType))
         orQuery.push({ question: { $regex: queryString, $options: 'i' } });
@@ -256,7 +258,7 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
         orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
 
     const [aggregation, query] = buildQueryAggregation({
-        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize,
+        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear,
         isEmpty: queryString === '',
     });
 
@@ -273,7 +275,7 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
 }
 
 
-async function queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination }) {
+async function queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination, minYear, maxYear }) {
     const orQuery = [];
     if (['question', 'all'].includes(searchType)) {
         orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
@@ -285,7 +287,7 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
     }
 
     const [aggregation, query] = buildQueryAggregation({
-        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize,
+        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear,
         isEmpty: queryString === '',
     });
 
@@ -302,7 +304,7 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
 }
 
 
-function buildQueryAggregation({ orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, isEmpty }) {
+function buildQueryAggregation({ orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty }) {
     const query = {
         $or: orQuery,
     };
@@ -321,6 +323,14 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
 
     if (setName)
         query.setName = setName;
+
+    if (minYear && maxYear) {
+        query.setYear = { $gte: minYear };
+    } else if (minYear)
+        query.setYear = { $gte: minYear };
+    else if (maxYear) {
+        query.setYear = { $lte: maxYear };
+    }
 
     const aggregation = [
         { $match: query, },

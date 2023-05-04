@@ -414,15 +414,20 @@ function QueryForm() {
     const [highlightedBonuses, setHighlightedBonuses] = React.useState([]);
     const [tossupCount, setTossupCount] = React.useState(0);
     const [bonusCount, setBonusCount] = React.useState(0);
+
     const [difficulties, setDifficulties] = React.useState('');
     const [maxReturnLength, setMaxReturnLength] = React.useState('');
     const [queryString, setQueryString] = React.useState('');
     const [questionType, setQuestionType] = React.useState('all');
+    const [searchType, setSearchType] = React.useState('all');
+    const [minYear, setMinYear] = React.useState('');
+    const [maxYear, setMaxYear] = React.useState('');
+
     const [regex, setRegex] = React.useState(false);
     const [diacritics, setDiacritics] = React.useState(false);
-    const [searchType, setSearchType] = React.useState('all');
-    const [currentlySearching, setCurrentlySearching] = React.useState(false);
     const [showCardFooters, setShowCardFooters] = React.useState(true);
+
+    const [currentlySearching, setCurrentlySearching] = React.useState(false);
 
     let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
     let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
@@ -524,6 +529,8 @@ function QueryForm() {
             setName=${encodeURIComponent(document.getElementById('set-name').value)}&
             tossupPagination=${encodeURIComponent(tossupPaginationNumber)}&
             bonusPagination=${encodeURIComponent(bonusPaginationNumber)}&
+            minYear=${encodeURIComponent(minYear)}&
+            maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
 
         fetch(uri, {
@@ -610,11 +617,11 @@ function QueryForm() {
                     <button id="randomize" className="btn btn-success" onClick={event => {handleSubmit(event, true);}}>Random</button>
                 </div>
                 <div className="row">
-                    <div id="difficulty-settings" className="col-6 col-xl-3 mb-2">
+                    <div className="col-6 col-xl-3 mb-2">
                         <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={difficulties} onChange={event => {setDifficulties(event.target.value);}} />
                     </div>
-                    <div id="max-query-return-length" className="col-6 col-xl-3 mb-2">
-                        <input type="text" className="form-control" id="max-return-length" placeholder="# to Display (default: 25)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
+                    <div className="col-6 col-xl-3 mb-2">
+                        <input type="number" className="form-control" id="max-return-length" placeholder="# to Display (default: 25)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
                     </div>
                     <div className="input-group col-12 col-xl-6 mb-2">
                         <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
@@ -622,20 +629,26 @@ function QueryForm() {
                         <button type="button" className="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     </div>
                 </div>
-                <div className="row mb-2">
-                    <div className="col-6">
+                <div className="row">
+                    <div className="col-6 col-md-3 mb-2">
                         <select className="form-select" id="search-type" value={searchType} onChange={event => {setSearchType(event.target.value);}}>
                             <option value="all">All text</option>
                             <option value="question">Question</option>
                             <option value="answer">Answer</option>
                         </select>
                     </div>
-                    <div className="col-6">
-                        <select className="form-select disabled" id="question-type" value={questionType} onChange={event => {setQuestionType(event.target.value);}}>
+                    <div className="col-6 col-md-3 mb-2">
+                        <select className="form-select" id="question-type" value={questionType} onChange={event => {setQuestionType(event.target.value);}}>
                             <option value="all">All questions</option>
                             <option value="tossup">Tossups</option>
                             <option value="bonus">Bonuses</option>
                         </select>
+                    </div>
+                    <div className="col-6 col-md-3 mb-2">
+                        <input type="number" className="form-control" id="min-year" placeholder="Min year" value={minYear} onChange={event => {setMinYear(event.target.value);}} />
+                    </div>
+                    <div className="col-6 col-md-3 mb-2">
+                        <input type="number" className="form-control" id="max-year" placeholder="Max year" value={maxYear} onChange={event => {setMaxYear(event.target.value);}} />
                     </div>
                 </div>
                 <div className="row">
