@@ -325,7 +325,7 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
         query.setName = setName;
 
     if (minYear && maxYear) {
-        query.setYear = { $gte: minYear };
+        query.setYear = { $gte: minYear, $lte: maxYear };
     } else if (minYear)
         query.setYear = { $gte: minYear };
     else if (maxYear) {
