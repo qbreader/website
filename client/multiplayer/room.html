@@ -73,22 +73,6 @@
                     <input class="form-control" id="username" type="text" placeholder="Username">
                     <label for="username">Username</label>
                 </div>
-                <div id="difficulty-settings">
-                    <div class="form-floating">
-                        <input class="form-control" id="difficulties" type="text" placeholder="Difficulties">
-                        <label for="difficulties">Difficulties</label>
-                    </div>
-                    <p class="mt-2">
-                        1 - Middle School, 2 to 5 - High School, 6 to 9 - College, 10 - Open
-                    </p>
-                    <section>
-                        Year range:
-                        <span class="sliderValue0" id="year-range-a">2010</span>
-                        -
-                        <span class="sliderValue1" id="year-range-b">2023</span>
-                        <div id="slider"></div>
-                    </section>
-                </div>
                 <div class="mb-2 d-none" id="set-settings">
                     <div class="form-floating">
                         <input class="form-control" id="set-name" type="text" list="set-list">
@@ -100,6 +84,34 @@
                         <input class="form-control" id="packet-number" type="text">
                         <label for="packet-number">Packet Numbers</label>
                     </div>
+                </div>
+                <div id="difficulty-settings">
+                    <div class="dropdown-checklist btn-group w-100 mb-2">
+                        <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
+                            aria-expanded="true" aria-haspopup="true">
+                            Difficulties
+                        </button>
+                        <button class="btn btn-default dropdown-toggle dropdown-toggle-split" type="button"></button>
+                        <ul class="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
+                            <li><label><input type="checkbox" value="1"> 1: Middle School</label></li>
+                            <li><label><input type="checkbox" value="2"> 2: Easy High School</label></li>
+                            <li><label><input type="checkbox" value="3"> 3: Regular High School</label></li>
+                            <li><label><input type="checkbox" value="4"> 4: Hard High School</label></li>
+                            <li><label><input type="checkbox" value="5"> 5: National High School</label></li>
+                            <li><label><input type="checkbox" value="6"> 6: 1 dot / Easy College</label></li>
+                            <li><label><input type="checkbox" value="7"> 7: 2 dot / Medium College</label></li>
+                            <li><label><input type="checkbox" value="8"> 8: 3 dot / Regular College</label></li>
+                            <li><label><input type="checkbox" value="9"> 9: 4 dot / Nationals College</label></li>
+                            <li><label><input type="checkbox" value="10"> 10: Open</label></li>
+                        </ul>
+                    </div>
+                    <section>
+                        Year range:
+                        <span class="sliderValue0" id="year-range-a">2010</span>
+                        -
+                        <span class="sliderValue1" id="year-range-b">2023</span>
+                        <div id="slider"></div>
+                    </section>
                 </div>
                 <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
                 <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
@@ -115,11 +127,6 @@
                     <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" id="toggle-visibility" type="checkbox" value role="switch" checked>
-                    <label class="form-check-label" for="toggle-visibility">Public room</label>
-                </div>
-                <p class="mb-1 text-muted" id="private-chat-warning">Note: chat is only available for private rooms.</p>
-                <div class="form-check form-switch">
                     <input class="form-check-input" id="toggle-rebuzz" type="checkbox" value role="switch">
                     <label class="form-check-label" for="toggle-rebuzz">Allow rebuzzes</label>
                 </div>
@@ -127,6 +134,11 @@
                     <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" value role="switch">
                     <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                 </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" id="toggle-visibility" type="checkbox" value role="switch" checked>
+                    <label class="form-check-label" for="toggle-visibility">Public room</label>
+                </div>
+                <p class="mb-1 text-muted" id="private-chat-warning">Note: chat is only available for private rooms.</p>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
                 <div class="buttons position-sticky top-0 pt-2">
@@ -349,6 +361,7 @@
     <script src="/multiplayer/room.js"></script>
 
     <script src="/dual-slider.js"></script>
+    <script src="/dropdown-checklist.js"></script>
 </body>
 
 </html>
