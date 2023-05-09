@@ -1,6 +1,7 @@
 // Functions and variables specific to the tossups page.
 
 // Room settings
+let difficulties = [];
 let packetNumbers = [];
 let setName = '';
 let validCategories;
@@ -91,7 +92,7 @@ async function advanceQuestion() {
     } else {
         queryLock();
         try {
-            questions = await getRandomTossup(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+            questions = await getRandomTossup(difficulties, validCategories, validSubcategories);
             questions = [questions];
         } finally {
             queryUnlock();
@@ -452,7 +453,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
-    loadRandomTossups(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomTossups(difficulties, validCategories, validSubcategories);
 });
 
 
@@ -462,9 +463,10 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 });
 
 
-document.getElementById('difficulties').addEventListener('change', async function () {
+document.getElementById('difficulties').addEventListener('change', function () {
     randomQuestions = [];
-    loadRandomTossups(rangeToArray(this.value), validCategories, validSubcategories);
+    difficulties = getDropdownValues('difficulties');
+    loadRandomTossups(difficulties, validCategories, validSubcategories);
 });
 
 
@@ -569,7 +571,7 @@ document.getElementById('toggle-rebuzz').addEventListener('click', function () {
 
 document.getElementById('year-range-a').onchange = function () {
     randomQuestions = [];
-    loadRandomTossups(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomTossups(difficulties, validCategories, validSubcategories);
 
     localStorage.setItem('minYear', $('#slider').slider('values', 0));
     localStorage.setItem('maxYear', $('#slider').slider('values', 1));

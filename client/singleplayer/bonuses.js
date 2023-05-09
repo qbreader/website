@@ -1,6 +1,7 @@
 // Functions and variables specific to the bonuses page.
 
 // Room settings
+let difficulties = [];
 let packetNumbers = [];
 let setName = '';
 let validCategories;
@@ -64,7 +65,7 @@ async function advanceQuestion() {
     } else {
         queryLock();
         try {
-            questions = await getRandomBonus(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+            questions = await getRandomBonus(difficulties, validCategories, validSubcategories);
             questions = [questions];
         } finally {
             queryUnlock();
@@ -221,7 +222,6 @@ async function loadRandomBonuses(difficulties = [], categories = [], subcategori
  * Loads and reads the next question.
  */
 async function next() {
-    console.log('next');
     document.getElementById('question').innerHTML = '';
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
@@ -299,7 +299,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
-    loadRandomBonuses(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomBonuses(difficulties, validCategories, validSubcategories);
 });
 
 
@@ -309,9 +309,10 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 });
 
 
-document.getElementById('difficulties').addEventListener('change', async function () {
+document.getElementById('difficulties').addEventListener('change', function () {
     randomQuestions = [];
-    loadRandomBonuses(rangeToArray(this.value), validCategories, validSubcategories);
+    difficulties = getDropdownValues('difficulties');
+    loadRandomBonuses(difficulties, validCategories, validSubcategories);
 });
 
 
@@ -405,7 +406,7 @@ document.getElementById('type-to-answer').addEventListener('click', function () 
 
 document.getElementById('year-range-a').onchange = function () {
     randomQuestions = [];
-    loadRandomBonuses(rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomBonuses(difficulties, validCategories, validSubcategories);
 
     localStorage.setItem('minYear', $('#slider').slider('values', 0));
     localStorage.setItem('maxYear', $('#slider').slider('values', 1));

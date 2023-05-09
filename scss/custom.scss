@@ -11,6 +11,7 @@ $link-decoration: none;
 
 @import "../node_modules/bootstrap/scss/accordion";
 @import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/button-group";
 @import "../node_modules/bootstrap/scss/card";
 @import "../node_modules/bootstrap/scss/close";
 @import "../node_modules/bootstrap/scss/containers";
@@ -95,3 +96,4 @@ code { font-family: 'Fira Code', monospace; }
 }
 
 @import "./dual-slider";
+@import "./dropdown-checklist";
