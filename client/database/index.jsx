@@ -415,7 +415,7 @@ function QueryForm() {
     const [tossupCount, setTossupCount] = React.useState(0);
     const [bonusCount, setBonusCount] = React.useState(0);
 
-    const [difficulties, setDifficulties] = React.useState('');
+    const [difficulties, setDifficulties] = React.useState([]);
     const [maxReturnLength, setMaxReturnLength] = React.useState('');
     const [queryString, setQueryString] = React.useState('');
     const [questionType, setQuestionType] = React.useState('all');
@@ -519,7 +519,7 @@ function QueryForm() {
             queryString=${encodeURIComponent(queryString)}&
             categories=${encodeURIComponent(validCategories)}&
             subcategories=${encodeURIComponent(validSubcategories)}&
-            difficulties=${encodeURIComponent(rangeToArray(difficulties))}&
+            difficulties=${encodeURIComponent(difficulties)}&
             maxReturnLength=${encodeURIComponent(maxReturnLength)}&
             questionType=${encodeURIComponent(questionType)}&
             randomize=${encodeURIComponent(randomize)}&
@@ -607,6 +607,34 @@ function QueryForm() {
     // tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
     // const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
 
+    React.useEffect(() => {
+        Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
+            input.addEventListener('change', function () {
+                if (input.checked)
+                    input.closest('li').classList.add('active');
+                else
+                    input.closest('li').classList.remove('active');
+            });
+        });
+
+        Array.from(document.querySelectorAll('.allow-focus')).forEach(dropdown => {
+            dropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        });
+
+        document.getElementById('difficulties').addEventListener('change', function () {
+            const tempDifficulties = [];
+            Array.from(document.getElementById('difficulties').children).forEach(li => {
+                const input = li.querySelector('input');
+                if (input.checked) {
+                    tempDifficulties.push(parseInt(input.value));
+                }
+            });
+            setDifficulties(tempDifficulties);
+        });
+    }, []);
+
     return (
         <div>
             <CategoryModal />
@@ -618,7 +646,25 @@ function QueryForm() {
                 </div>
                 <div className="row">
                     <div className="col-6 col-xl-3 mb-2">
-                        <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={difficulties} onChange={event => {setDifficulties(event.target.value);}} />
+                        <div className="dropdown-checklist btn-group w-100">
+                            <button className="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown"
+                                type="button" aria-expanded="true" aria-haspopup="true">
+                            Difficulties
+                            </button>
+                            <button className="btn btn-default dropdown-toggle dropdown-toggle-split" type="button"></button>
+                            <ul className="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
+                                <li><label><input type="checkbox" value="1" /> 1: Middle School</label></li>
+                                <li><label><input type="checkbox" value="2" /> 2: Easy High School</label></li>
+                                <li><label><input type="checkbox" value="3" /> 3: Regular High School</label></li>
+                                <li><label><input type="checkbox" value="4" /> 4: Hard High School</label></li>
+                                <li><label><input type="checkbox" value="5" /> 5: National High School</label></li>
+                                <li><label><input type="checkbox" value="6" /> 6: 1 dot / Easy College</label></li>
+                                <li><label><input type="checkbox" value="7" /> 7: 2 dot / Medium College</label></li>
+                                <li><label><input type="checkbox" value="8" /> 8: 3 dot / Regular College</label></li>
+                                <li><label><input type="checkbox" value="9" /> 9: 4 dot / Nationals College</label></li>
+                                <li><label><input type="checkbox" value="10"/> 10: Open</label></li>
+                            </ul>
+                        </div>
                     </div>
                     <div className="col-6 col-xl-3 mb-2">
                         <input type="number" className="form-control" id="max-return-length" placeholder="# to Display (default: 25)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />

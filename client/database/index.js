@@ -343,7 +343,7 @@ function QueryForm() {
   const [highlightedBonuses, setHighlightedBonuses] = React.useState([]);
   const [tossupCount, setTossupCount] = React.useState(0);
   const [bonusCount, setBonusCount] = React.useState(0);
-  const [difficulties, setDifficulties] = React.useState('');
+  const [difficulties, setDifficulties] = React.useState([]);
   const [maxReturnLength, setMaxReturnLength] = React.useState('');
   const [queryString, setQueryString] = React.useState('');
   const [questionType, setQuestionType] = React.useState('all');
@@ -430,7 +430,7 @@ function QueryForm() {
             queryString=${encodeURIComponent(queryString)}&
             categories=${encodeURIComponent(validCategories)}&
             subcategories=${encodeURIComponent(validSubcategories)}&
-            difficulties=${encodeURIComponent(rangeToArray(difficulties))}&
+            difficulties=${encodeURIComponent(difficulties)}&
             maxReturnLength=${encodeURIComponent(maxReturnLength)}&
             questionType=${encodeURIComponent(questionType)}&
             randomize=${encodeURIComponent(randomize)}&
@@ -536,6 +536,28 @@ function QueryForm() {
   // tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
   // const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
 
+  React.useEffect(() => {
+    Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
+      input.addEventListener('change', function () {
+        if (input.checked) input.closest('li').classList.add('active');else input.closest('li').classList.remove('active');
+      });
+    });
+    Array.from(document.querySelectorAll('.allow-focus')).forEach(dropdown => {
+      dropdown.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
+    document.getElementById('difficulties').addEventListener('change', function () {
+      const tempDifficulties = [];
+      Array.from(document.getElementById('difficulties').children).forEach(li => {
+        const input = li.querySelector('input');
+        if (input.checked) {
+          tempDifficulties.push(parseInt(input.value));
+        }
+      });
+      setDifficulties(tempDifficulties);
+    });
+  }, []);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
     className: "mt-3",
     onSubmit: event => {
@@ -565,16 +587,53 @@ function QueryForm() {
     className: "row"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-6 col-xl-3 mb-2"
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    className: "form-control",
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "dropdown-checklist btn-group w-100"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-default text-start w-100",
+    id: "dropdownMenu1",
+    "data-bs-toggle": "dropdown",
+    type: "button",
+    "aria-expanded": "true",
+    "aria-haspopup": "true"
+  }, "Difficulties"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-default dropdown-toggle dropdown-toggle-split",
+    type: "button"
+  }), /*#__PURE__*/React.createElement("ul", {
+    className: "dropdown-menu checkbox-menu allow-focus",
     id: "difficulties",
-    placeholder: "Difficulties (1-10)",
-    value: difficulties,
-    onChange: event => {
-      setDifficulties(event.target.value);
-    }
-  })), /*#__PURE__*/React.createElement("div", {
+    "aria-labelledby": "dropdownMenu1"
+  }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "1"
+  }), " 1: Middle School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "2"
+  }), " 2: Easy High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "3"
+  }), " 3: Regular High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "4"
+  }), " 4: Hard High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "5"
+  }), " 5: National High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "6"
+  }), " 6: 1 dot / Easy College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "7"
+  }), " 7: 2 dot / Medium College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "8"
+  }), " 8: 3 dot / Regular College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "9"
+  }), " 9: 4 dot / Nationals College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "10"
+  }), " 10: Open"))))), /*#__PURE__*/React.createElement("div", {
     className: "col-6 col-xl-3 mb-2"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
