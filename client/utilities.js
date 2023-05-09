@@ -119,7 +119,7 @@ const createTossupCard = (function () {
         questionCounter++;
 
         const { question, answer, category, subcategory, alternate_subcategory, packetNumber, questionNumber, _id } = tossup;
-        const powerParts = question.split('(*)');
+        const powerParts = question.replace(/<\/?b>/g, '').split('(*)');
 
         // append a card containing the question to the history element
         const card = document.createElement('div');
