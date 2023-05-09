@@ -50,6 +50,10 @@ $link-decoration: none;
     cursor: pointer;
 }
 
+#difficulty-settings {
+    min-height: 125px;
+}
+
 .download-link {
     cursor: pointer;
 }
@@ -88,6 +92,10 @@ code { font-family: 'Fira Code', monospace; }
 
 .room-history {
     border-top: .5px solid lightgray;
+}
+
+#set-settings {
+    min-height: 125px;
 }
 
 .text-highlight {
