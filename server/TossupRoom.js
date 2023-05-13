@@ -19,6 +19,7 @@ class TossupRoom {
 
         this.timeoutID = null;
         this.buzzedIn = null;
+        this.buzzes = [];
         this.paused = false;
         this.queryingQuestion = false;
         this.questionNumber = 0;
@@ -303,6 +304,7 @@ class TossupRoom {
 
     async advanceQuestion() {
         this.buzzedIn = null;
+        this.buzzes = [];
         this.paused = false;
         this.queryingQuestion = true;
         this.wordIndex = 0;
@@ -343,6 +345,10 @@ class TossupRoom {
     }
 
     buzz(userId) {
+        if (!this.settings.rebuzz && this.buzzes.includes(userId)) {
+            return;
+        }
+
         if (this.buzzedIn) {
             this.sendSocketMessage({
                 type: 'lost-buzzer-race',
@@ -351,6 +357,7 @@ class TossupRoom {
             });
         } else {
             this.buzzedIn = userId;
+            this.buzzes.push(userId);
             clearTimeout(this.timeoutID);
             this.sendSocketMessage({
                 type: 'buzz',
@@ -408,8 +415,13 @@ class TossupRoom {
             Object.values(this.players).forEach(player => { player.tuh++; });
             break;
         case 'reject':
-            this.readQuestion(new Date().getTime());
             this.players[userId].updateStats(points, celerity);
+            if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
+                this.revealQuestion();
+                Object.values(this.players).forEach(player => { player.tuh++; });
+            } else {
+                this.readQuestion(new Date().getTime());
+            }
             break;
         }
 
@@ -498,6 +510,7 @@ class TossupRoom {
 
     revealQuestion() {
         if (Object.keys(this.tossup).length === 0) return;
+
         const remainingQuestion = this.questionSplit.slice(this.wordIndex).join(' ');
         this.sendSocketMessage({
             type: 'update-question',
