@@ -16,19 +16,9 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
         crossorigin="anonymous"></script>
+    <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script>
-        if (localStorage.getItem('color-theme') === 'dark') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (localStorage.getItem('color-theme') === 'light') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            // Get OS preferred color scheme
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        }
-    </script>
+    <script src="/apply-theme.js"></script>
 </head>
 
 <body>
@@ -56,7 +46,7 @@
                         <a class="nav-link" href="/db">Database</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/api-info">API</a>
+                        <a class="nav-link" href="/api-docs">API</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/about">About</a>
@@ -84,11 +74,26 @@
                     <input class="form-control my-1" id="packet-number" type="text" placeholder="Packet Numbers">
                     <input class="form-control" id="question-number" type="text" placeholder="Starting Question #">
                 </div>
-                <div class="mb-2 d-none" id="difficulty-settings">
-                    <input class="form-control" id="difficulties" type="text" placeholder="Difficulties">
-                    <p class="mt-2">
-                        1 - Middle School, 2 to 5 - High School, 6 to 9 - College, 10 - Open
-                    </p>
+                <div class="d-none" id="difficulty-settings">
+                    <div class="dropdown-checklist btn-group w-100 mb-2">
+                        <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
+                            aria-expanded="true" aria-haspopup="true">
+                            Difficulties
+                        </button>
+                        <button class="btn btn-default dropdown-toggle dropdown-toggle-split" type="button"></button>
+                        <ul class="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
+                            <li><label><input type="checkbox" value="1"> 1: Middle School</label></li>
+                            <li><label><input type="checkbox" value="2"> 2: Easy High School</label></li>
+                            <li><label><input type="checkbox" value="3"> 3: Regular High School</label></li>
+                            <li><label><input type="checkbox" value="4"> 4: Hard High School</label></li>
+                            <li><label><input type="checkbox" value="5"> 5: National High School</label></li>
+                            <li><label><input type="checkbox" value="6"> 6: 1 dot / Easy College</label></li>
+                            <li><label><input type="checkbox" value="7"> 7: 2 dot / Medium College</label></li>
+                            <li><label><input type="checkbox" value="8"> 8: 3 dot / Regular College</label></li>
+                            <li><label><input type="checkbox" value="9"> 9: 4 dot / Nationals College</label></li>
+                            <li><label><input type="checkbox" value="10"> 10: Open</label></li>
+                        </ul>
+                    </div>
                     <section>
                         Year range:
                         <span class="sliderValue0" id="year-range-a">2010</span>
@@ -97,39 +102,44 @@
                         <div id="slider"></div>
                     </section>
                 </div>
-                <div class="my-2"></div>
-                <label for="font-size">Font size: <span id="font-size-display">16</span>px</label>
-                <input class="form-range" id="font-size" type="range" value="16" min="10" max="30" step="1">
-                <div class="text-center mb-2">
-                    <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal" data-bs-toggle="modal"
-                        type="button">Categories</button>
-                    <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" id="toggle-high-contrast-question-text" type="checkbox" role="switch">
-                    <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" value role="switch" checked>
-                    <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" id="toggle-show-history" type="checkbox" value role="switch" checked>
-                    <label class="form-check-label" for="toggle-show-history">Show question history</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" id="type-to-answer" type="checkbox" value role="switch">
-                    <label class="form-check-label" for="type-to-answer">Type to answer</label>
-                </div>
-                <div class="d-none d-lg-block">
-                    <hr>
-                    <p>
-                        <span class="text-nowrap"><kbd>k</kbd> = show/hide last question</span><br>
-                        <span class="text-nowrap"><kbd>0</kbd> = toggle last bonus part</span><br>
-                        <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
-                        <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
-                        <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
-                    </p>
+                <div class="mt-2" id="general-settings">
+                    <label for="font-size">Font size: <span id="font-size-display">16</span>px</label>
+                    <input class="form-range" id="font-size" type="range" value="16" min="10" max="30" step="1">
+                    <div class="text-center mb-2">
+                        <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal"
+                            data-bs-toggle="modal" type="button">Categories</button>
+                        <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-high-contrast-question-text" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-three-part-bonuses" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-three-part-bonuses">Only use 3-part bonuses</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-show-history" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-show-history">Show question history</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="type-to-answer" type="checkbox" role="switch">
+                        <label class="form-check-label" for="type-to-answer">Type to answer</label>
+                    </div>
+                    <div class="d-none d-lg-block">
+                        <hr>
+                        <p>
+                            <span class="text-nowrap"><kbd>k</kbd> = show/hide last question</span><br>
+                            <span class="text-nowrap"><kbd>0</kbd> = toggle last bonus part</span><br>
+                            <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
+                            <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
+                            <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
+                        </p>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-lg-9 col-xxl-10">
@@ -345,6 +355,7 @@
     <script src="/singleplayer/bonuses.js"></script>
 
     <script src="/dual-slider.js"></script>
+    <script src="/dropdown-checklist.js"></script>
 </body>
 
 </html>

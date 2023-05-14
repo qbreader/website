@@ -28,7 +28,7 @@ fetch('/api/multiplayer/room-list')
             const [roomName, [playerCount, onlineCount, isPermanent]] = room;
             const li = document.createElement('li');
             li.innerHTML = `
-                <a href="/multiplayer/${roomName}">${decodeURIComponent(roomName)}</a>
+                <a href="/multiplayer/${encodeURIComponent(roomName)}">${roomName}</a>
                 - ${playerCount} player${playerCount === 1 ? '' : 's'} - ${onlineCount} online
             `;
             li.classList.add('list-group-item');

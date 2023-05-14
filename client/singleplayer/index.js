@@ -13,60 +13,11 @@ let maxPacketNumber = 24;
  * @returns {Promise<[ "accept" | "prompt" | "reject", String | null ]>} [directive, directedPrompt]
  */
 async function checkAnswer(answerline, givenAnswer) {
+    if (givenAnswer === '')
+        return ['reject', null];
+
     return await fetch(`/api/check-answer?answerline=${encodeURIComponent(answerline)}&givenAnswer=${encodeURIComponent(givenAnswer)}`)
         .then(response => response.json());
-}
-
-
-async function loadRandomQuestions(questionType, difficulties = [], categories = [], subcategories = [], number = 1) {
-    const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
-    const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
-
-    randomQuestions = await fetch('/api/random-question', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            questionType,
-            difficulties,
-            categories,
-            subcategories,
-            number,
-            minYear,
-            maxYear,
-        })
-    }).then(response => response.json())
-        .then(questions => {
-            if (questionType === 'tossup') {
-                for (let i = 0; i < questions.length; i++) {
-                    if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer'))
-                        questions[i].answer = questions[i].formatted_answer;
-                }
-            } else if (questionType === 'bonus') {
-                for (let i = 0; i < questions.length; i++) {
-                    if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answers'))
-                        questions[i].answers = questions[i].formatted_answers;
-                }
-            }
-
-            return questions;
-        });
-}
-
-
-async function getRandomQuestion(questionType, difficulties = [], categories = [], subcategories = []) {
-    if (randomQuestions.length === 0)
-        await loadRandomQuestions(questionType, difficulties, categories, subcategories, 20);
-
-    const randomQuestion = randomQuestions.pop();
-
-    // Begin loading the next batch of questions (asynchronously)
-    if (randomQuestions.length === 0) {
-        loadRandomQuestions(questionType, difficulties, categories, subcategories, 20);
-    }
-
-    return randomQuestion;
 }
 
 
@@ -146,22 +97,3 @@ document.getElementById('set-name').addEventListener('change', async function (e
         document.getElementById('packet-number').placeholder = 'Packet Numbers';
     }
 });
-
-
-document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
-    if (this.checked) {
-        document.getElementById('difficulty-settings').classList.add('d-none');
-        document.getElementById('set-settings').classList.remove('d-none');
-        localStorage.setItem('selectBySetName', 'true');
-    } else {
-        document.getElementById('difficulty-settings').classList.remove('d-none');
-        document.getElementById('set-settings').classList.add('d-none');
-        localStorage.setItem('selectBySetName', 'false');
-    }
-});
-
-if (localStorage.getItem('selectBySetName') === 'false') {
-    document.getElementById('toggle-select-by-set-name').checked = false;
-    document.getElementById('difficulty-settings').classList.remove('d-none');
-    document.getElementById('set-settings').classList.add('d-none');
-}

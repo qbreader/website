@@ -186,8 +186,6 @@ const stemmer = (() => {
 
 /**
  * Parses the answerline, returning the acceptable, promptable, and rejectable answers.
- * @param {String} answerline
- * @returns {{ "accept": String[][3], "prompt": String[][3], "reject": String[][3] }}
  */
 const parseAnswerline = (() => {
     const removeParentheses = (string) => {
@@ -204,6 +202,12 @@ const parseAnswerline = (() => {
 
     const removeItalics = (string) => {
         return string.replace(/<\/?i>/g, '');
+    };
+
+    const replaceSpecialSubstrings = (string) => {
+        return string
+            .replace(/\(s\)/g, 's')
+            .replace(/\p{Pd}/gu, '-'); // replace all dashes with the same dash
     };
 
 
@@ -295,88 +299,112 @@ const parseAnswerline = (() => {
     };
 
 
-    const getEquivalentAnswer = (string) => {
+    const getEquivalentAnswers = (string) => {
         string = string.toLowerCase();
         switch (string) {
         case 'nineteen eighty-four':
         case 'nineteen eighty four':
-            return '1984';
+            return ['1984'];
         case 'mouse':
-            return 'mice';
+            return ['mice'];
         case 'wavefunction':
-            return 'wave function';
+            return ['wave function'];
+        case 'wave function':
+            return ['wavefunction'];
+        case 'world war 1':
+        case 'world war i':
+        case 'world war one':
+            return [
+                'first world war',
+                'great war',
+            ];
+        case 'world war ii':
+        case 'world war two':
+        case 'world war 2':
+            return [
+                'ww2',
+                'wwii',
+                'world war ii',
+                'world war 2',
+                'world war two',
+                'second world war'
+            ];
         }
 
         return null;
     };
 
 
+    /**
+     * @param {String} answerline
+     */
     return (answerline) => {
         answerline = removeItalics(answerline);
+        answerline = replaceSpecialSubstrings(answerline);
 
         const { mainAnswer, subAnswer } = splitMainAnswer(answerline);
         const subPhrases = splitIntoPhrases(subAnswer);
+        /**
+         * @type {{ "accept": String[], "prompt": String[][2], "reject": String[] }}
+         */
         const parsedAnswerline = {
-            accept: [[extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), extractQuotes(mainAnswer)]],
+            accept: [extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), extractQuotes(mainAnswer)],
             prompt: [],
             reject: []
         };
 
-        parsedAnswerline.accept.push([getAbbreviation(mainAnswer), getAbbreviation(extractUnderlining(mainAnswer)), '']);
+        parsedAnswerline.accept.push(getAbbreviation(mainAnswer), getAbbreviation(extractUnderlining(mainAnswer)));
 
         if (mainAnswer.includes(' or ')) {
             const parts = mainAnswer.split(' or ');
             for (const part of parts) {
-                parsedAnswerline.accept.push([extractUnderlining(part), extractKeyWords(part), extractQuotes(part)]);
+                parsedAnswerline.accept.push(extractUnderlining(part), extractKeyWords(part), extractQuotes(part));
             }
         }
 
-        parsedAnswerline.accept[0].forEach(answer => {
+        parsedAnswerline.accept.forEach(answer => {
             if (/-/.test(answer)) {
-                parsedAnswerline.accept.push([answer.replace(/-/g, ' '), '', '']);
-                parsedAnswerline.accept.push([answer.replace(/-/g, ''), '', '']);
+                parsedAnswerline.accept.push(answer.replace(/-/g, ' '));
+                parsedAnswerline.accept.push(answer.replace(/-/g, ''));
             }
 
-            const specialAnswer = getEquivalentAnswer(answer);
-            if (specialAnswer !== null)
-                parsedAnswerline.accept.push([specialAnswer, '', '']);
+            const specialAnswers = getEquivalentAnswers(answer);
+            if (specialAnswers !== null)
+                parsedAnswerline.accept = parsedAnswerline.accept.concat(specialAnswers);
         });
 
         subPhrases.forEach(phrase => {
             if (phrase.length === 0)
                 return;
 
-            const { directive, answers } = splitIntoAnswers(phrase);
             const index = phrase.indexOf('by asking');
             const directedPrompt = (index >= 0) ? extractQuotes(phrase.slice(index + 9)) : null;
+            phrase = directedPrompt ? phrase.slice(0, index) : phrase;
+
+            const { directive, answers } = splitIntoAnswers(phrase);
 
             answers.forEach(answer => {
                 if (/-/.test(answer)) {
-                    parsedAnswerline.accept.push([answer.replace(/-/g, ' '), '', '']);
-                    parsedAnswerline.accept.push([answer.replace(/-/g, ''), '', '']);
+                    parsedAnswerline.accept.push(answer.replace(/-/g, ' '));
+                    parsedAnswerline.accept.push(answer.replace(/-/g, ''));
                 }
-
-                const specialAnswer = getEquivalentAnswer(answer);
-                if (specialAnswer !== null)
-                    parsedAnswerline.accept.push([specialAnswer, '', '']);
             });
 
             answers.forEach(answer => {
                 switch (directive) {
                 case 'accept':
-                    answer = [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
+                    parsedAnswerline[directive].push(extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer));
                     break;
-                case 'prompt':
-                    answer = directedPrompt
-                        ? [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(phrase.slice(0, index)), directedPrompt]
-                        : [extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer)];
-                    break;
-                case 'reject':
-                    answer = ['', '', extractQuotes(answer)];
+                case 'prompt': {
+                    parsedAnswerline[directive].push([extractUnderlining(answer), directedPrompt]);
+                    parsedAnswerline[directive].push([extractKeyWords(answer), directedPrompt]);
+                    parsedAnswerline[directive].push([extractQuotes(answer), directedPrompt]);
                     break;
                 }
-
-                parsedAnswerline[directive].push(answer);
+                case 'reject':
+                    parsedAnswerline[directive].push(extractQuotes(answer));
+                    break;
+                }
             });
         });
 
@@ -400,11 +428,6 @@ const stringMatchesReference = (() => {
 
     const replaceSpecialCharacters = (string) => {
         return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    };
-
-
-    const replaceSpecialSubstrings = (string) => {
-        return string.replace(/\(s\)/g, 's');
     };
 
 
@@ -465,7 +488,6 @@ const stringMatchesReference = (() => {
         const stringTokens = string
             .split(' ')
             .filter(token => !METAWORDS.includes(token) && token.length > 0)
-            .map(string => replaceSpecialSubstrings(string))
             .map(string => replaceSpecialPhrases(string));
 
         if (stringTokens.length === 0)
@@ -487,7 +509,6 @@ const stringMatchesReference = (() => {
         const referenceTokens = reference
             .split(' ')
             .filter(token => !METAWORDS.includes(token) && token.length > 0)
-            .map(string => replaceSpecialSubstrings(string))
             .map(string => replaceSpecialPhrases(string));
 
         if (referenceTokens.length === 0)
@@ -542,7 +563,10 @@ const stringMatchesReference = (() => {
  * Check if the given answer matches the answerline.
  * @param {String} answerline
  * @param {String} givenAnswer
- * @returns {['accept' | 'prompt' | 'reject', String | null]} - [directive, directed prompt]
+ * @returns {{
+    * directive: 'accept' | 'prompt' | 'reject',
+    * directedPrompt: String | null
+ * }}
  */
 function checkAnswer(answerline, givenAnswer) {
     answerline = answerline.toLowerCase();
@@ -559,45 +583,41 @@ function checkAnswer(answerline, givenAnswer) {
     const answerlineIsFormatted = answerline.includes('<u>');
     const parsedAnswerline = parseAnswerline(answerline);
 
-    if (!answerlineIsFormatted && parsedAnswerline.accept[0][0].length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer))
+    if (!answerlineIsFormatted && parsedAnswerline.accept[0].length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer))
         return ['reject', null];
 
     for (const answer of parsedAnswerline.reject) {
-        const useStemmer = (stemmer(answer[2]) !== stemmer(parsedAnswerline.accept[0][0]));
+        const useStemmer = (stemmer(answer) !== stemmer(parsedAnswerline.accept[0]));
 
-        if (!stringMatchesReference({ string: answer[2], reference: givenAnswer, strictness: 11, useStemmer }))
+        if (!stringMatchesReference({ string: answer, reference: givenAnswer, strictness: 11, useStemmer }))
             continue;
 
-        if (!stringMatchesReference({ string: givenAnswer, reference: answer[2], strictness: 11, useStemmer }))
+        if (!stringMatchesReference({ string: givenAnswer, reference: answer, strictness: 11, useStemmer }))
             continue;
 
         return ['reject', null];
     }
 
     if (/[[(]accept either/i.test(answerline)) {
-        for (const answer of parsedAnswerline.accept[0][0].split(' ')) {
+        for (const answer of parsedAnswerline.accept[0].split(' ')) {
             if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
                 return ['accept', null];
         }
     }
 
-    for (const answers of parsedAnswerline.accept) {
-        for (const answer of answers) {
-            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-                return ['accept', null];
-        }
+    for (const answer of parsedAnswerline.accept) {
+        if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
+            return ['accept', null];
     }
 
-    for (const answers of parsedAnswerline.prompt) {
-        for (let i = 0; i < 3; i++) {
-            const answer = answers[i];
-            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-                return ['prompt', answers[3] ?? null];
-        }
+    for (const answer of parsedAnswerline.prompt) {
+        const directedPrompt = answer[1];
+        if (answerWorks(answer[0], givenAnswer, answerlineIsFormatted))
+            return ['prompt', directedPrompt];
     }
 
     if (/prompt on (a )?partial/.test(answerline)) {
-        for (const answer of parsedAnswerline.accept[0][0].split(' ')) {
+        for (const answer of parsedAnswerline.accept[0].split(' ')) {
             if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
                 return ['prompt', null];
         }

@@ -1,6 +1,7 @@
 // Functions and variables specific to the bonuses page.
 
 // Room settings
+let difficulties = [];
 let packetNumbers = [];
 let setName = '';
 let validCategories;
@@ -21,6 +22,7 @@ function queryLock() {
 
 
 function queryUnlock() {
+    document.getElementById('question').innerHTML = '';
     document.getElementById('start').disabled = false;
     document.getElementById('next').disabled = false;
     document.getElementById('reveal').disabled = false;
@@ -39,7 +41,7 @@ async function advanceQuestion() {
                     window.alert('No more questions left');
                     document.getElementById('reveal').disabled = true;
                     document.getElementById('next').disabled = true;
-                    return;
+                    return false;
                 }
 
                 packetNumber = packetNumbers[0];
@@ -63,15 +65,15 @@ async function advanceQuestion() {
     } else {
         queryLock();
         try {
-            questions = await getRandomQuestion(
-                'bonus',
-                rangeToArray(document.getElementById('difficulties').value),
-                validCategories,
-                validSubcategories,
-            );
+            questions = await getRandomBonus(difficulties, validCategories, validSubcategories);
             questions = [questions];
         } finally {
             queryUnlock();
+        }
+
+        if (!questions[0]) {
+            alert('No questions found');
+            return false;
         }
 
         ({ setName, packetNumber, questionNumber } = questions[0]);
@@ -81,6 +83,8 @@ async function advanceQuestion() {
             questionNumber = 0;
         }
     }
+
+    return true;
 }
 
 /**
@@ -154,6 +158,20 @@ function getPointsForCurrentBonus() {
 }
 
 
+async function getRandomBonus(difficulties = [], categories = [], subcategories = []) {
+    if (randomQuestions.length === 0)
+        await loadRandomBonuses(difficulties, categories, subcategories, 20);
+
+    const randomQuestion = randomQuestions.pop();
+
+    // Begin loading the next batch of questions (asynchronously)
+    if (randomQuestions.length === 0)
+        loadRandomBonuses(difficulties, categories, subcategories, 20);
+
+    return randomQuestion;
+}
+
+
 async function giveAnswer(givenAnswer) {
     const [directive, directedPrompt] = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
 
@@ -173,6 +191,33 @@ async function giveAnswer(givenAnswer) {
 }
 
 
+async function loadRandomBonuses(difficulties = [], categories = [], subcategories = [], number = 1) {
+    const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
+    const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
+
+    const uri = `/api/random-bonus?
+            difficulties=${encodeURIComponent(difficulties)}&
+            categories=${encodeURIComponent(categories)}&
+            subcategories=${encodeURIComponent(subcategories)}&
+            number=${encodeURIComponent(number)}&
+            minYear=${encodeURIComponent(minYear)}&
+            maxYear=${encodeURIComponent(maxYear)}&
+        `.replace(/\s/g, '');
+
+    randomQuestions = await fetch(uri)
+        .then(response => response.json())
+        .then(response => response.bonuses)
+        .then(questions => {
+            for (let i = 0; i < questions.length; i++) {
+                if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answers'))
+                    questions[i].answers = questions[i].formatted_answers;
+            }
+
+            return questions;
+        });
+}
+
+
 /**
  * Loads and reads the next question.
  */
@@ -181,9 +226,9 @@ async function next() {
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
 
-    await advanceQuestion();
+    const hasNextQuestion = await advanceQuestion();
 
-    if (questions.length === 0)
+    if (!hasNextQuestion)
         return;
 
     document.getElementById('set-name-info').innerHTML = setName;
@@ -254,7 +299,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
-    loadRandomQuestions('bonus', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomBonuses(difficulties, validCategories, validSubcategories);
 });
 
 
@@ -264,9 +309,10 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 });
 
 
-document.getElementById('difficulties').addEventListener('change', async function () {
+document.getElementById('difficulties').addEventListener('change', function () {
     randomQuestions = [];
-    loadRandomQuestions('bonus', rangeToArray(this.value), validCategories, validSubcategories);
+    difficulties = getDropdownValues('difficulties');
+    loadRandomBonuses(difficulties, validCategories, validSubcategories);
 });
 
 
@@ -325,6 +371,22 @@ document.getElementById('start').addEventListener('click', async function () {
 });
 
 
+document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
+    if (this.checked) {
+        document.getElementById('difficulty-settings').classList.add('d-none');
+        document.getElementById('set-settings').classList.remove('d-none');
+        localStorage.setItem('selectBySetName', 'true');
+    } else {
+        document.getElementById('difficulty-settings').classList.remove('d-none');
+        document.getElementById('set-settings').classList.add('d-none');
+        localStorage.setItem('selectBySetName', 'false');
+    }
+
+    document.getElementById('toggle-three-part-bonuses').disabled = this.checked;
+});
+
+
+
 document.getElementById('toggle-show-history').addEventListener('click', function () {
     if (this.checked) {
         document.getElementById('room-history').classList.remove('d-none');
@@ -344,7 +406,7 @@ document.getElementById('type-to-answer').addEventListener('click', function () 
 
 document.getElementById('year-range-a').onchange = function () {
     randomQuestions = [];
-    loadRandomQuestions('bonus', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomBonuses(difficulties, validCategories, validSubcategories);
 
     localStorage.setItem('minYear', $('#slider').slider('values', 0));
     localStorage.setItem('maxYear', $('#slider').slider('values', 1));
@@ -393,6 +455,67 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = () => {
+    if (!sessionStorage.getItem('stats')) {
+        sessionStorage.setItem('stats', [0, 0, 0, 0]);
+    }
+    updateStatDisplay();
+
+
+    if (localStorage.getItem('packetNumberBonusSave')) {
+        document.getElementById('packet-number').value = localStorage.getItem('packetNumberBonusSave');
+    }
+
+    if (localStorage.getItem('questionNumberBonusSave')) {
+        document.getElementById('question-number').value = localStorage.getItem('questionNumberBonusSave');
+    }
+
+    if (localStorage.getItem('showBonusHistory') === 'false') {
+        document.getElementById('toggle-show-history').checked = false;
+        document.getElementById('room-history').classList.add('d-none');
+    }
+
+    if (localStorage.getItem('threePartBonuses') === 'false') {
+        document.getElementById('toggle-three-part-bonuses').checked = false;
+    }
+
+    if (localStorage.getItem('typeToAnswer') === 'true') {
+        document.getElementById('type-to-answer').checked = true;
+    }
+
+
+    if (localStorage.getItem('validCategories')) {
+        validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    } else {
+        localStorage.setItem('validCategories', '[]');
+        validCategories = [];
+    }
+
+    if (localStorage.getItem('validSubcategories')) {
+        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+    } else {
+        localStorage.setItem('validSubcategories', '[]');
+        validSubcategories = [];
+    }
+
+    if (validCategories.length > 0 && validSubcategories.length === 0) {
+        validCategories.forEach(category => {
+            SUBCATEGORIES[category].forEach(subcategory => {
+                validSubcategories.push(subcategory);
+            });
+        });
+    }
+
+    loadCategoryModal(validCategories, validSubcategories);
+
+
+    if (localStorage.getItem('selectBySetName') === 'false') {
+        document.getElementById('difficulty-settings').classList.remove('d-none');
+        document.getElementById('set-settings').classList.add('d-none');
+        document.getElementById('toggle-select-by-set-name').checked = false;
+    } else {
+        document.getElementById('toggle-three-part-bonuses').disabled = true;
+    }
+
     if (localStorage.getItem('setNameBonusSave')) {
         setName = localStorage.getItem('setNameBonusSave');
         document.getElementById('set-name').value = setName;
@@ -404,50 +527,4 @@ window.onload = () => {
             }
         })();
     }
-
-    if (localStorage.getItem('packetNumberBonusSave')) {
-        document.getElementById('packet-number').value = localStorage.getItem('packetNumberBonusSave');
-    }
-
-    if (localStorage.getItem('questionNumberBonusSave')) {
-        document.getElementById('question-number').value = localStorage.getItem('questionNumberBonusSave');
-    }
-
-    if (localStorage.getItem('validCategories') === null) {
-        localStorage.setItem('validCategories', '[]');
-        validCategories = [];
-    } else {
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    }
-
-    if (localStorage.getItem('validSubcategories') === null) {
-        localStorage.setItem('validSubcategories', '[]');
-        validSubcategories = [];
-    } else {
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-    }
-
-    if (validCategories.length > 0 && validSubcategories.length === 0) {
-        validCategories.forEach(category => {
-            SUBCATEGORIES[category].forEach(subcategory => {
-                validSubcategories.push(subcategory);
-            });
-        });
-    }
-
-    if (sessionStorage.getItem('stats') === null) {
-        sessionStorage.setItem('stats', [0, 0, 0, 0]);
-    }
-
-    loadCategoryModal(validCategories, validSubcategories);
-    updateStatDisplay();
 };
-
-if (localStorage.getItem('showBonusHistory') === 'false') {
-    document.getElementById('toggle-show-history').checked = false;
-    document.getElementById('room-history').classList.add('d-none');
-}
-
-if (localStorage.getItem('typeToAnswer') === 'true') {
-    document.getElementById('type-to-answer').checked = true;
-}

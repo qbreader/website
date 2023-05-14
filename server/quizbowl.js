@@ -1,3 +1,6 @@
+const DEFAULT_MIN_YEAR = 2010;
+const DEFAULT_MAX_YEAR = 2023;
+
 const DIFFICULTIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
@@ -26,4 +29,4 @@ function scoreTossup({ isCorrect, inPower, endOfQuestion, isPace = false }) {
     return isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
 }
 
-module.exports = { DIFFICULTIES, CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, scoreTossup };
+module.exports = { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, DIFFICULTIES, CATEGORIES, SUBCATEGORIES, SUBCATEGORIES_FLATTENED, scoreTossup };

@@ -6,7 +6,7 @@ let validSubcategories = [];
 let maxPacketNumber = 24;
 let powermarkPosition = 0;
 
-// Do not escape room name as that is how it is stored on the server.
+// Do not escape room name, as most browsers automatically do this
 const ROOM_NAME = location.pathname.substring(13);
 let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
@@ -45,6 +45,13 @@ socket.onmessage = function (event) {
         break;
 
     case 'difficulties':
+        if (data.value.length > 0) {
+            logEvent(data.username, `changed the ${data.type} to ${data.value}`);
+        } else {
+            logEvent(data.username, `cleared the ${data.type}`);
+        }
+        updateDifficulties(data.value);
+        break;
     case 'packet-number':
         data.value = arrayToRange(data.value);
     // eslint-disable-next-line no-fallthrough
@@ -194,7 +201,7 @@ const socketOnConnectionAcknowledged = (message) => {
     validSubcategories = message.validSubcategories || [];
     loadCategoryModal(validCategories, validSubcategories);
 
-    document.getElementById('difficulties').value = arrayToRange(message.difficulties || []);
+    updateDifficulties(message.difficulties || []);
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
@@ -483,6 +490,21 @@ function sortPlayerAccordion(descending = true) {
 }
 
 
+function updateDifficulties(difficulties) {
+    Array.from(document.getElementById('difficulties').children).forEach(li => {
+        const input = li.querySelector('input');
+
+        if (difficulties.includes(parseInt(input.value))) {
+            input.checked = true;
+            li.classList.add('active');
+        } else {
+            input.checked = false;
+            li.classList.remove('active');
+        }
+    });
+}
+
+
 document.getElementById('answer-form').addEventListener('submit', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -545,7 +567,7 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 document.getElementById('difficulties').addEventListener('change', function () {
     socket.send(JSON.stringify({
         type: 'difficulties',
-        value: rangeToArray(this.value)
+        value: getDropdownValues('difficulties'),
     }));
 });
 

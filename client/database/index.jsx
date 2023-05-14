@@ -222,21 +222,32 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 
-function TossupCard({ tossup, showCardFooter }) {
+function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
     const _id = tossup._id;
     const packetName = tossup.packetName;
-    const powerParts = tossup.question.split('(*)');
 
     function onClick() {
         document.getElementById('report-question-id').value = _id;
     }
 
     function copyToClick() {
-        navigator.clipboard.writeText(`${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}\n<${tossup.category} / ${tossup.subcategory}>`);
+        let textdata = `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}`;
+
+        if (tossup.category && tossup.subcategory) {
+            textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
+        } else if (tossup.category) {
+            textdata += `\n<${tossup.category}>`;
+        } else if (tossup.subcategory) {
+            textdata += `\n<${tossup.subcategory}>`;
+        }
+
+        navigator.clipboard.writeText(textdata);
 
         const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
         toast.show();
     }
+
+    const powerParts = highlightedTossup.question.split('(*)');
 
     return (
         <div className="card my-2">
@@ -246,9 +257,13 @@ function TossupCard({ tossup, showCardFooter }) {
             </div>
             <div className="card-container" id={`question-${_id}`}>
                 <div className="card-body">
-                    <span dangerouslySetInnerHTML={{ __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question }}></span>&nbsp;
+                    <span dangerouslySetInnerHTML={{
+                        __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
+                    }}></span>&nbsp;
                     <hr></hr>
-                    <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.formatted_answer ?? tossup.answer }}></span></div>
+                    <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{
+                        __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
+                    }}></span></div>
                 </div>
                 <div className={`card-footer ${!showCardFooter && 'd-none'}`}>
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
@@ -264,7 +279,7 @@ function TossupCard({ tossup, showCardFooter }) {
 }
 
 
-function BonusCard({ bonus, showCardFooter }) {
+function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
     const _id = bonus._id;
     const packetName = bonus.packetName;
     const bonusLength = bonus.parts.length;
@@ -279,11 +294,18 @@ function BonusCard({ bonus, showCardFooter }) {
     }
 
     function copyToClick() {
-        let textdata = `${bonus.questionNumber}. ${bonus.leadin}\n`;
+        let textdata = `${bonus.questionNumber}. ${bonus.leadin}`;
         for (let i = 0; i < bonus.parts.length; i++) {
-            textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+            textdata += `\n[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
         }
-        textdata += `<${bonus.category} / ${bonus.subcategory}>`;
+
+        if (bonus.category && bonus.subcategory) {
+            textdata += `\n<${bonus.category} / ${bonus.subcategory}>`;
+        } else if (bonus.category) {
+            textdata += `\n<${bonus.category}>`;
+        } else if (bonus.subcategory) {
+            textdata += `\n<${bonus.subcategory}>`;
+        }
 
         navigator.clipboard.writeText(textdata);
 
@@ -299,15 +321,17 @@ function BonusCard({ bonus, showCardFooter }) {
             </div>
             <div className="card-container" id={`question-${_id}`}>
                 <div className="card-body">
-                    <p dangerouslySetInnerHTML={{ __html: bonus.leadin }}></p>
+                    <p dangerouslySetInnerHTML={{ __html: highlightedBonus.leadin }}></p>
                     {indices.map((i) =>
                         <div key={`${bonus._id}-${i}`}>
                             <hr></hr>
                             <p>
                                 [10]&nbsp;
-                                <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }}></span>
+                                <span dangerouslySetInnerHTML={{ __html: highlightedBonus.parts[i] }}></span>
                             </p>
-                            <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i] }}></span></div>
+                            <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{
+                                __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
+                            }}></span></div>
                         </div>
                     )}
                 </div>
@@ -386,17 +410,24 @@ function CategoryModal() {
 function QueryForm() {
     const [tossups, setTossups] = React.useState([]);
     const [bonuses, setBonuses] = React.useState([]);
+    const [highlightedTossups, setHighlightedTossups] = React.useState([]);
+    const [highlightedBonuses, setHighlightedBonuses] = React.useState([]);
     const [tossupCount, setTossupCount] = React.useState(0);
     const [bonusCount, setBonusCount] = React.useState(0);
-    const [difficulties, setDifficulties] = React.useState('');
+
+    const [difficulties, setDifficulties] = React.useState([]);
     const [maxReturnLength, setMaxReturnLength] = React.useState('');
     const [queryString, setQueryString] = React.useState('');
     const [questionType, setQuestionType] = React.useState('all');
+    const [searchType, setSearchType] = React.useState('all');
+    const [minYear, setMinYear] = React.useState('');
+    const [maxYear, setMaxYear] = React.useState('');
+
     const [regex, setRegex] = React.useState(false);
     const [diacritics, setDiacritics] = React.useState(false);
-    const [searchType, setSearchType] = React.useState('all');
-    const [currentlySearching, setCurrentlySearching] = React.useState(false);
     const [showCardFooters, setShowCardFooters] = React.useState(true);
+
+    const [currentlySearching, setCurrentlySearching] = React.useState(false);
 
     let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
     let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
@@ -488,7 +519,7 @@ function QueryForm() {
             queryString=${encodeURIComponent(queryString)}&
             categories=${encodeURIComponent(validCategories)}&
             subcategories=${encodeURIComponent(validSubcategories)}&
-            difficulties=${encodeURIComponent(rangeToArray(difficulties))}&
+            difficulties=${encodeURIComponent(difficulties)}&
             maxReturnLength=${encodeURIComponent(maxReturnLength)}&
             questionType=${encodeURIComponent(questionType)}&
             randomize=${encodeURIComponent(randomize)}&
@@ -498,6 +529,8 @@ function QueryForm() {
             setName=${encodeURIComponent(document.getElementById('set-name').value)}&
             tossupPagination=${encodeURIComponent(tossupPaginationNumber)}&
             bonusPagination=${encodeURIComponent(bonusPaginationNumber)}&
+            minYear=${encodeURIComponent(minYear)}&
+            maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
 
         fetch(uri, {
@@ -518,22 +551,29 @@ function QueryForm() {
                 const workingMaxReturnLength = Math.max(1, maxReturnLength || 25);
 
                 const { count: tossupCount, questionArray: tossupArray } = tossups;
-                if (queryString !== '') {
-                    for (let i = 0; i < tossupArray.length; i++) {
-                        tossupArray[i] = highlightTossupQuery({ tossup: tossupArray[i], regExp, searchType, regex } );
-                    }
-                }
                 setTossupCount(tossupCount);
                 setTossups(tossupArray);
 
-                const { count: bonusCount, questionArray: bonusArray } = bonuses;
+                // create deep copy to highlight
+                const highlightedTossupArray = JSON.parse(JSON.stringify(tossupArray));
                 if (queryString !== '') {
-                    for (let i = 0; i < bonusArray.length; i++) {
-                        bonusArray[i] = highlightBonusQuery({ bonus: bonusArray[i], regExp, searchType, regex });
+                    for (let i = 0; i < highlightedTossupArray.length; i++) {
+                        highlightedTossupArray[i] = highlightTossupQuery({ tossup: highlightedTossupArray[i], regExp, searchType, regex } );
                     }
                 }
+                setHighlightedTossups(highlightedTossupArray);
+
+                const { count: bonusCount, questionArray: bonusArray } = bonuses;
                 setBonusCount(bonusCount);
                 setBonuses(bonusArray);
+
+                const highlightedBonusArray = JSON.parse(JSON.stringify(bonusArray));
+                if (queryString !== '') {
+                    for (let i = 0; i < highlightedBonusArray.length; i++) {
+                        highlightedBonusArray[i] = highlightBonusQuery({ bonus: highlightedBonusArray[i], regExp, searchType, regex });
+                    }
+                }
+                setHighlightedBonuses(highlightedBonusArray);
 
                 if (randomize) {
                     setTossupPaginationLength(1);
@@ -555,8 +595,45 @@ function QueryForm() {
             });
     }
 
-    const tossupCards = tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
-    const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
+    const tossupCards = [];
+    for (let i = 0; i < highlightedTossups.length; i++) {
+        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} showCardFooter={showCardFooters}/>);
+    }
+
+    const bonusCards = [];
+    for (let i = 0; i < highlightedBonuses.length; i++) {
+        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} showCardFooter={showCardFooters}/>);
+    }
+    // tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
+    // const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
+
+    React.useEffect(() => {
+        Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
+            input.addEventListener('change', function () {
+                if (input.checked)
+                    input.closest('li').classList.add('active');
+                else
+                    input.closest('li').classList.remove('active');
+            });
+        });
+
+        Array.from(document.querySelectorAll('.allow-focus')).forEach(dropdown => {
+            dropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        });
+
+        document.getElementById('difficulties').addEventListener('change', function () {
+            const tempDifficulties = [];
+            Array.from(document.getElementById('difficulties').children).forEach(li => {
+                const input = li.querySelector('input');
+                if (input.checked) {
+                    tempDifficulties.push(parseInt(input.value));
+                }
+            });
+            setDifficulties(tempDifficulties);
+        });
+    }, []);
 
     return (
         <div>
@@ -568,11 +645,29 @@ function QueryForm() {
                     <button id="randomize" className="btn btn-success" onClick={event => {handleSubmit(event, true);}}>Random</button>
                 </div>
                 <div className="row">
-                    <div id="difficulty-settings" className="col-6 col-xl-3 mb-2">
-                        <input type="text" className="form-control" id="difficulties" placeholder="Difficulties (1-10)" value={difficulties} onChange={event => {setDifficulties(event.target.value);}} />
+                    <div className="col-6 col-xl-3 mb-2">
+                        <div className="dropdown-checklist btn-group w-100">
+                            <button className="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown"
+                                type="button" aria-expanded="true" aria-haspopup="true">
+                            Difficulties
+                            </button>
+                            <button className="btn btn-default dropdown-toggle dropdown-toggle-split" type="button"></button>
+                            <ul className="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
+                                <li><label><input type="checkbox" value="1" /> 1: Middle School</label></li>
+                                <li><label><input type="checkbox" value="2" /> 2: Easy High School</label></li>
+                                <li><label><input type="checkbox" value="3" /> 3: Regular High School</label></li>
+                                <li><label><input type="checkbox" value="4" /> 4: Hard High School</label></li>
+                                <li><label><input type="checkbox" value="5" /> 5: National High School</label></li>
+                                <li><label><input type="checkbox" value="6" /> 6: 1 dot / Easy College</label></li>
+                                <li><label><input type="checkbox" value="7" /> 7: 2 dot / Medium College</label></li>
+                                <li><label><input type="checkbox" value="8" /> 8: 3 dot / Regular College</label></li>
+                                <li><label><input type="checkbox" value="9" /> 9: 4 dot / Nationals College</label></li>
+                                <li><label><input type="checkbox" value="10"/> 10: Open</label></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div id="max-query-return-length" className="col-6 col-xl-3 mb-2">
-                        <input type="text" className="form-control" id="max-return-length" placeholder="# to Display (default: 25)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
+                    <div className="col-6 col-xl-3 mb-2">
+                        <input type="number" className="form-control" id="max-return-length" placeholder="# to Display (default: 25)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
                     </div>
                     <div className="input-group col-12 col-xl-6 mb-2">
                         <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
@@ -580,20 +675,26 @@ function QueryForm() {
                         <button type="button" className="btn btn-danger" id="category-select-button" data-bs-toggle="modal" data-bs-target="#category-modal">Categories</button>
                     </div>
                 </div>
-                <div className="row mb-2">
-                    <div className="col-6">
+                <div className="row">
+                    <div className="col-6 col-md-3 mb-2">
                         <select className="form-select" id="search-type" value={searchType} onChange={event => {setSearchType(event.target.value);}}>
                             <option value="all">All text</option>
                             <option value="question">Question</option>
                             <option value="answer">Answer</option>
                         </select>
                     </div>
-                    <div className="col-6">
-                        <select className="form-select disabled" id="question-type" value={questionType} onChange={event => {setQuestionType(event.target.value);}}>
+                    <div className="col-6 col-md-3 mb-2">
+                        <select className="form-select" id="question-type" value={questionType} onChange={event => {setQuestionType(event.target.value);}}>
                             <option value="all">All questions</option>
                             <option value="tossup">Tossups</option>
                             <option value="bonus">Bonuses</option>
                         </select>
+                    </div>
+                    <div className="col-6 col-md-3 mb-2">
+                        <input type="number" className="form-control" id="min-year" placeholder="Min year" value={minYear} onChange={event => {setMinYear(event.target.value);}} />
+                    </div>
+                    <div className="col-6 col-md-3 mb-2">
+                        <input type="number" className="form-control" id="max-year" placeholder="Max year" value={maxYear} onChange={event => {setMaxYear(event.target.value);}} />
                     </div>
                 </div>
                 <div className="row">
