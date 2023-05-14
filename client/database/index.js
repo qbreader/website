@@ -122,19 +122,28 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 function TossupCard({
   tossup,
+  highlightedTossup,
   showCardFooter
 }) {
   const _id = tossup._id;
   const packetName = tossup.packetName;
-  const powerParts = tossup.question.split('(*)');
   function onClick() {
     document.getElementById('report-question-id').value = _id;
   }
   function copyToClick() {
-    navigator.clipboard.writeText(`${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}\n<${tossup.category} / ${tossup.subcategory}>`);
+    let textdata = `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}`;
+    if (tossup.category && tossup.subcategory) {
+      textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
+    } else if (tossup.category) {
+      textdata += `\n<${tossup.category}>`;
+    } else if (tossup.subcategory) {
+      textdata += `\n<${tossup.subcategory}>`;
+    }
+    navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
+  const powerParts = highlightedTossup.question.split('(*)');
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
@@ -149,11 +158,11 @@ function TossupCard({
     className: "card-body"
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question
+      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
     }
   }), "\xA0", /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: tossup?.formatted_answer ?? tossup.answer
+      __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer ${!showCardFooter && 'd-none'}`
@@ -171,6 +180,7 @@ function TossupCard({
 }
 function BonusCard({
   bonus,
+  highlightedBonus,
   showCardFooter
 }) {
   const _id = bonus._id;
@@ -184,11 +194,17 @@ function BonusCard({
     document.getElementById('report-question-id').value = _id;
   }
   function copyToClick() {
-    let textdata = `${bonus.questionNumber}. ${bonus.leadin}\n`;
+    let textdata = `${bonus.questionNumber}. ${bonus.leadin}`;
     for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+      textdata += `\n[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
     }
-    textdata += `<${bonus.category} / ${bonus.subcategory}>`;
+    if (bonus.category && bonus.subcategory) {
+      textdata += `\n<${bonus.category} / ${bonus.subcategory}>`;
+    } else if (bonus.category) {
+      textdata += `\n<${bonus.category}>`;
+    } else if (bonus.subcategory) {
+      textdata += `\n<${bonus.subcategory}>`;
+    }
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
@@ -207,17 +223,17 @@ function BonusCard({
     className: "card-body"
   }, /*#__PURE__*/React.createElement("p", {
     dangerouslySetInnerHTML: {
-      __html: bonus.leadin
+      __html: highlightedBonus.leadin
     }
   }), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
   }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10]\xA0", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: bonus.parts[i]
+      __html: highlightedBonus.parts[i]
     }
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: (bonus?.formatted_answers ?? bonus.answers)[i]
+      __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer ${!showCardFooter && 'd-none'}`
@@ -323,17 +339,21 @@ function CategoryModal() {
 function QueryForm() {
   const [tossups, setTossups] = React.useState([]);
   const [bonuses, setBonuses] = React.useState([]);
+  const [highlightedTossups, setHighlightedTossups] = React.useState([]);
+  const [highlightedBonuses, setHighlightedBonuses] = React.useState([]);
   const [tossupCount, setTossupCount] = React.useState(0);
   const [bonusCount, setBonusCount] = React.useState(0);
-  const [difficulties, setDifficulties] = React.useState('');
+  const [difficulties, setDifficulties] = React.useState([]);
   const [maxReturnLength, setMaxReturnLength] = React.useState('');
   const [queryString, setQueryString] = React.useState('');
   const [questionType, setQuestionType] = React.useState('all');
+  const [searchType, setSearchType] = React.useState('all');
+  const [minYear, setMinYear] = React.useState('');
+  const [maxYear, setMaxYear] = React.useState('');
   const [regex, setRegex] = React.useState(false);
   const [diacritics, setDiacritics] = React.useState(false);
-  const [searchType, setSearchType] = React.useState('all');
-  const [currentlySearching, setCurrentlySearching] = React.useState(false);
   const [showCardFooters, setShowCardFooters] = React.useState(true);
+  const [currentlySearching, setCurrentlySearching] = React.useState(false);
   let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
   let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
   const [tossupPaginationLength, setTossupPaginationLength] = React.useState(1);
@@ -410,7 +430,7 @@ function QueryForm() {
             queryString=${encodeURIComponent(queryString)}&
             categories=${encodeURIComponent(validCategories)}&
             subcategories=${encodeURIComponent(validSubcategories)}&
-            difficulties=${encodeURIComponent(rangeToArray(difficulties))}&
+            difficulties=${encodeURIComponent(difficulties)}&
             maxReturnLength=${encodeURIComponent(maxReturnLength)}&
             questionType=${encodeURIComponent(questionType)}&
             randomize=${encodeURIComponent(randomize)}&
@@ -420,6 +440,8 @@ function QueryForm() {
             setName=${encodeURIComponent(document.getElementById('set-name').value)}&
             tossupPagination=${encodeURIComponent(tossupPaginationNumber)}&
             bonusPagination=${encodeURIComponent(bonusPaginationNumber)}&
+            minYear=${encodeURIComponent(minYear)}&
+            maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
     fetch(uri, {
       method: 'GET',
@@ -443,34 +465,40 @@ function QueryForm() {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
+      setTossupCount(tossupCount);
+      setTossups(tossupArray);
+
+      // create deep copy to highlight
+      const highlightedTossupArray = JSON.parse(JSON.stringify(tossupArray));
       if (queryString !== '') {
-        for (let i = 0; i < tossupArray.length; i++) {
-          tossupArray[i] = highlightTossupQuery({
-            tossup: tossupArray[i],
+        for (let i = 0; i < highlightedTossupArray.length; i++) {
+          highlightedTossupArray[i] = highlightTossupQuery({
+            tossup: highlightedTossupArray[i],
             regExp,
             searchType,
             regex
           });
         }
       }
-      setTossupCount(tossupCount);
-      setTossups(tossupArray);
+      setHighlightedTossups(highlightedTossupArray);
       const {
         count: bonusCount,
         questionArray: bonusArray
       } = bonuses;
+      setBonusCount(bonusCount);
+      setBonuses(bonusArray);
+      const highlightedBonusArray = JSON.parse(JSON.stringify(bonusArray));
       if (queryString !== '') {
-        for (let i = 0; i < bonusArray.length; i++) {
-          bonusArray[i] = highlightBonusQuery({
-            bonus: bonusArray[i],
+        for (let i = 0; i < highlightedBonusArray.length; i++) {
+          highlightedBonusArray[i] = highlightBonusQuery({
+            bonus: highlightedBonusArray[i],
             regExp,
             searchType,
             regex
           });
         }
       }
-      setBonusCount(bonusCount);
-      setBonuses(bonusArray);
+      setHighlightedBonuses(highlightedBonusArray);
       if (randomize) {
         setTossupPaginationLength(1);
         setBonusPaginationLength(1);
@@ -487,16 +515,49 @@ function QueryForm() {
       setCurrentlySearching(false);
     });
   }
-  const tossupCards = tossups.map(tossup => /*#__PURE__*/React.createElement(TossupCard, {
-    key: tossup._id,
-    tossup: tossup,
-    showCardFooter: showCardFooters
-  }));
-  const bonusCards = bonuses.map(bonus => /*#__PURE__*/React.createElement(BonusCard, {
-    key: bonus._id,
-    bonus: bonus,
-    showCardFooter: showCardFooters
-  }));
+  const tossupCards = [];
+  for (let i = 0; i < highlightedTossups.length; i++) {
+    tossupCards.push( /*#__PURE__*/React.createElement(TossupCard, {
+      key: i,
+      tossup: tossups[i],
+      highlightedTossup: highlightedTossups[i],
+      showCardFooter: showCardFooters
+    }));
+  }
+  const bonusCards = [];
+  for (let i = 0; i < highlightedBonuses.length; i++) {
+    bonusCards.push( /*#__PURE__*/React.createElement(BonusCard, {
+      key: i,
+      bonus: bonuses[i],
+      highlightedBonus: highlightedBonuses[i],
+      showCardFooter: showCardFooters
+    }));
+  }
+  // tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
+  // const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
+
+  React.useEffect(() => {
+    Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
+      input.addEventListener('change', function () {
+        if (input.checked) input.closest('li').classList.add('active');else input.closest('li').classList.remove('active');
+      });
+    });
+    Array.from(document.querySelectorAll('.allow-focus')).forEach(dropdown => {
+      dropdown.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
+    document.getElementById('difficulties').addEventListener('change', function () {
+      const tempDifficulties = [];
+      Array.from(document.getElementById('difficulties').children).forEach(li => {
+        const input = li.querySelector('input');
+        if (input.checked) {
+          tempDifficulties.push(parseInt(input.value));
+        }
+      });
+      setDifficulties(tempDifficulties);
+    });
+  }, []);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
     className: "mt-3",
     onSubmit: event => {
@@ -525,22 +586,57 @@ function QueryForm() {
   }, "Random")), /*#__PURE__*/React.createElement("div", {
     className: "row"
   }, /*#__PURE__*/React.createElement("div", {
-    id: "difficulty-settings",
     className: "col-6 col-xl-3 mb-2"
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    className: "form-control",
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "dropdown-checklist btn-group w-100"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-default text-start w-100",
+    id: "dropdownMenu1",
+    "data-bs-toggle": "dropdown",
+    type: "button",
+    "aria-expanded": "true",
+    "aria-haspopup": "true"
+  }, "Difficulties"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-default dropdown-toggle dropdown-toggle-split",
+    type: "button"
+  }), /*#__PURE__*/React.createElement("ul", {
+    className: "dropdown-menu checkbox-menu allow-focus",
     id: "difficulties",
-    placeholder: "Difficulties (1-10)",
-    value: difficulties,
-    onChange: event => {
-      setDifficulties(event.target.value);
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    id: "max-query-return-length",
+    "aria-labelledby": "dropdownMenu1"
+  }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "1"
+  }), " 1: Middle School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "2"
+  }), " 2: Easy High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "3"
+  }), " 3: Regular High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "4"
+  }), " 4: Hard High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "5"
+  }), " 5: National High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "6"
+  }), " 6: 1 dot / Easy College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "7"
+  }), " 7: 2 dot / Medium College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "8"
+  }), " 8: 3 dot / Regular College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "9"
+  }), " 9: 4 dot / Nationals College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "10"
+  }), " 10: Open"))))), /*#__PURE__*/React.createElement("div", {
     className: "col-6 col-xl-3 mb-2"
   }, /*#__PURE__*/React.createElement("input", {
-    type: "text",
+    type: "number",
     className: "form-control",
     id: "max-return-length",
     placeholder: "# to Display (default: 25)",
@@ -565,9 +661,9 @@ function QueryForm() {
     "data-bs-toggle": "modal",
     "data-bs-target": "#category-modal"
   }, "Categories"))), /*#__PURE__*/React.createElement("div", {
-    className: "row mb-2"
+    className: "row"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "col-6"
+    className: "col-6 col-md-3 mb-2"
   }, /*#__PURE__*/React.createElement("select", {
     className: "form-select",
     id: "search-type",
@@ -582,9 +678,9 @@ function QueryForm() {
   }, "Question"), /*#__PURE__*/React.createElement("option", {
     value: "answer"
   }, "Answer"))), /*#__PURE__*/React.createElement("div", {
-    className: "col-6"
+    className: "col-6 col-md-3 mb-2"
   }, /*#__PURE__*/React.createElement("select", {
-    className: "form-select disabled",
+    className: "form-select",
     id: "question-type",
     value: questionType,
     onChange: event => {
@@ -596,7 +692,29 @@ function QueryForm() {
     value: "tossup"
   }, "Tossups"), /*#__PURE__*/React.createElement("option", {
     value: "bonus"
-  }, "Bonuses")))), /*#__PURE__*/React.createElement("div", {
+  }, "Bonuses"))), /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-md-3 mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    className: "form-control",
+    id: "min-year",
+    placeholder: "Min year",
+    value: minYear,
+    onChange: event => {
+      setMinYear(event.target.value);
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-md-3 mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    className: "form-control",
+    id: "max-year",
+    placeholder: "Max year",
+    value: maxYear,
+    onChange: event => {
+      setMaxYear(event.target.value);
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "row"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-12"

@@ -7,8 +7,11 @@ $font-family-sans-serif: Helvetica, sans-serif;
 $link-decoration: none;
 
 // 6. Optionally include any other parts as needed
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css); // Fira Code font
+
 @import "../node_modules/bootstrap/scss/accordion";
 @import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/button-group";
 @import "../node_modules/bootstrap/scss/card";
 @import "../node_modules/bootstrap/scss/close";
 @import "../node_modules/bootstrap/scss/containers";
@@ -47,6 +50,10 @@ $link-decoration: none;
     cursor: pointer;
 }
 
+#difficulty-settings {
+    min-height: 125px;
+}
+
 .download-link {
     cursor: pointer;
 }
@@ -69,6 +76,12 @@ $link-decoration: none;
     font-weight: bold;
 }
 
+code { font-family: 'Fira Code', monospace; }
+
+@supports (font-variation-settings: normal) {
+  code { font-family: 'Fira Code VF', monospace; }
+}
+
 .logo-prefix {
     color: $logo-prefix-color;
 }
@@ -81,9 +94,14 @@ $link-decoration: none;
     border-top: .5px solid lightgray;
 }
 
+#set-settings {
+    min-height: 125px;
+}
+
 .text-highlight {
     background-color: #f8ff00;
     color: $dark;
 }
 
 @import "./dual-slider";
+@import "./dropdown-checklist";

@@ -1,7 +1,30 @@
 {
     "formatted": [
         {
-            "answerline": "21 cm line [prompt on the hydrogen line before mention]",
+            "answerline": "<b><u>World War two</u></b> [or <b><u>World War ii</u></b>]",
+            "tests": [
+                { "directive": "accept", "given": "ww2" },
+                { "directive": "accept", "given": "wwii" },
+                { "directive": "accept", "given": "world war 2" },
+                { "directive": "accept", "given": "world war two" },
+                { "directive": "accept", "given": "second world war" },
+                { "directive": "accept", "given": "world war ii" },
+                { "directive": "reject", "given": "wwi" }
+            ]
+        },
+        {
+            "answerline": "<b><u>World War I</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "wwi" },
+                { "directive": "accept", "given": "world war 1" },
+                { "directive": "accept", "given": "world war one" },
+                { "directive": "accept", "given": "first world war" },
+                { "directive": "accept", "given": "great war" },
+                { "directive": "reject", "given": "world war ii" }
+            ]
+        },
+        {
+            "answerline": "<b><u>21</u></b> cm line [prompt on the hydrogen line before mention]",
             "tests": [
                 { "directive": "accept", "given": "21 cm" },
                 { "directive": "accept", "given": "21 centimeter" }

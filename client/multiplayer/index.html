@@ -10,19 +10,9 @@
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
+    <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script>
-        if (localStorage.getItem('color-theme') === 'dark') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (localStorage.getItem('color-theme') === 'light') {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            // Get OS preferred color scheme
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/dark.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.querySelector('#custom-css').setAttribute('href', "/bootstrap/light.css");
-        }
-    </script>
+    <script src="/apply-theme.js"></script>
 </head>
 
 <body>
@@ -50,7 +40,7 @@
                         <a class="nav-link" href="/db">Database</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/api-info">API</a>
+                        <a class="nav-link" href="/api-docs">API</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/about">About</a>
