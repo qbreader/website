@@ -41,46 +41,50 @@ function escapeRegExp(string) {
 
 
 const regexIgnoreDiacritics = (() => {
-    const characterGroups = [
+    const baseCharacterGroups = [
         ['[aàáâǎäãåāăạả]'],
-        ['[bḃḅ]'],
         ['[cçćčɔ́ĉƈ]'],
-        ['[dďḋḍđδð]'],
         ['[eèéêëēėęĕẹẻếềể]'],
-        ['[fḟƒ]'],
-        ['[gğģǧġĝǥ]'],
-        ['[hḣĥħḫ"]'],
         ['[iîïíīįìĩỉĭịỉ]'],
-        ['[jĵȷǰ]'],
-        ['[kķǩƙ]'],
-        ['[lļľłĺļľł₺]'],
-        ['[mṁṃ]'],
         ['[nñńŉňŋňņṅñ]'],
         ['[oôöòóøōõơồổỗộơớờở]'],
-        ['[pṗ]'],
-        ['[rŕřṙ]'],
         ['[sśşšșṡŝ]'],
-        ['[tţťțṫŧťṯ]'],
         ['[uûüùúūưũŭůųủǖǘǚ]'],
-        ['[wẇŵ]'],
-        ['[xẋ]'],
         ['[yÿŷýỳỷ]'],
         ['[zžźż]'],
     ];
 
-    const allCharacters = new RegExp(characterGroups.map(group => group[0]).join('|'), 'gi');
+    const extendedCharacterGroups = [
+        ['[bḃḅ]'],
+        ['[dďḋḍđδð]'],
+        ['[fḟƒ]'],
+        ['[gğģǧġĝǥ]'],
+        ['[hḣĥħḫ"]'],
+        ['[jĵȷǰ]'],
+        ['[kķǩƙ]'],
+        ['[lļľłĺļľł₺]'],
+        ['[mṁṃ]'],
+        ['[pṗ]'],
+        ['[rŕřṙ]'],
+        ['[tţťțṫŧťṯ]'],
+        ['[wẇŵ]'],
+        ['[xẋ]'],
+    ].concat(baseCharacterGroups);
+
+    const allCharacters = new RegExp('[' + extendedCharacterGroups.map(group => group[0].slice(1, -1)).join('') + ']', 'gi');
+    const baseCharacters = new RegExp('[' + baseCharacterGroups.map(group => group[0].slice(1, -1)).join('') + ']', 'gi');
 
     return (string) => {
         const matchingCharacters = string.match(allCharacters)?.length ?? 0;
         if (matchingCharacters > 10) {
             if (string.length > matchingCharacters + 3) {
-                return string.replace(allCharacters, '.');
+                return string.replace(baseCharacters, '.');
             } else {
                 return string;
             }
         }
 
-        for (const group of characterGroups) {
+        for (const group of extendedCharacterGroups) {
             string = string.replace(new RegExp(group[0], 'gi'), group[0]);
         }
         return string;
