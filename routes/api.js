@@ -17,19 +17,26 @@ const apiLimiter = rateLimit({
 router.use(apiLimiter);
 
 
-// DO NOT DECODE THE ROOM NAMES - THEY ARE SAVED AS ENCODED
+// express encodes same parameter passed multiple times as an array
+// this middleware converts it to a single value
+router.use((req, _res, next) => {
+    for (const key in req.query) {
+        if (Array.isArray(req.query[key])) {
+            req.query[key] = req.query[key][0];
+        }
+    }
+    next();
+});
 
 
 router.get('/check-answer', (req, res) => {
-    const answerline = decodeURIComponent(req.query.answerline);
-    const givenAnswer = decodeURIComponent(req.query.givenAnswer);
+    const { answerline, givenAnswer } = req.query;
     const [directive, directedPrompt] = checkAnswer(answerline, givenAnswer);
     res.send(JSON.stringify([directive, directedPrompt]));
 });
 
 
 router.get('/num-packets', async (req, res) => {
-    req.query.setName = decodeURIComponent(req.query.setName);
     const numPackets = await database.getNumPackets(req.query.setName);
     if (numPackets === 0) {
         res.statusCode = 404;
@@ -39,9 +46,9 @@ router.get('/num-packets', async (req, res) => {
 
 
 router.get('/packet', async (req, res) => {
-    req.query.setName = decodeURIComponent(req.query.setName);
-    req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber });
+    const setName = req.query.setName;
+    const packetNumber = parseInt(req.query.packetNumber);
+    const packet = await database.getPacket({ setName, packetNumber });
     if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -50,9 +57,9 @@ router.get('/packet', async (req, res) => {
 
 
 router.get('/packet-bonuses', async (req, res) => {
-    req.query.setName = decodeURIComponent(req.query.setName);
-    req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber, questionTypes: ['bonuses'] });
+    const setName = req.query.setName;
+    const packetNumber = parseInt(req.query.packetNumber);
+    const packet = await database.getPacket({ setName, packetNumber, questionTypes: ['bonuses'] });
     if (packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -61,9 +68,9 @@ router.get('/packet-bonuses', async (req, res) => {
 
 
 router.get('/packet-tossups', async (req, res) => {
-    req.query.setName = decodeURIComponent(req.query.setName);
-    req.query.packetNumber = parseInt(decodeURIComponent(req.query.packetNumber));
-    const packet = await database.getPacket({ setName: req.query.setName, packetNumber: req.query.packetNumber, questionTypes: ['tossups'] });
+    const setName = req.query.setName;
+    const packetNumber = parseInt(req.query.packetNumber);
+    const packet = await database.getPacket({ setName, packetNumber, questionTypes: ['tossups'] });
     if (packet.tossups.length === 0) {
         res.statusCode = 404;
     }
@@ -72,10 +79,6 @@ router.get('/packet-tossups', async (req, res) => {
 
 
 router.get('/query', async (req, res) => {
-    for (const key of ['queryString', 'questionType', 'searchType', 'difficulties', 'categories', 'subcategories', 'maxReturnLength']) {
-        req.query[key] = req.query[key] ? decodeURIComponent(req.query[key]) : req.query[key];
-    }
-
     req.query.randomize = (req.query.randomize === 'true');
     req.query.regex = (req.query.regex === 'true');
     req.query.ignoreDiacritics = (req.query.ignoreDiacritics === 'true');
@@ -104,10 +107,6 @@ router.get('/query', async (req, res) => {
         req.query.subcategories = req.query.subcategories.split(',');
     }
 
-    if (!req.query.maxReturnLength || isNaN(req.query.maxReturnLength)) {
-        req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
-    }
-
     if (!req.query.tossupPagination) {
         req.query.tossupPagination = 1;
     }
@@ -116,15 +115,25 @@ router.get('/query', async (req, res) => {
         req.query.bonusPagination = 1;
     }
 
-    const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
-
     if (!isFinite(req.query.tossupPagination) || !isFinite(req.query.bonusPagination)) {
         res.status(400).send('Invalid pagination specified.');
         return;
-    } else {
-        req.query.tossupPagination = Math.min(parseInt(req.query.tossupPagination), maxPagination);
-        req.query.bonusPagination = Math.min(parseInt(req.query.bonusPagination), maxPagination);
     }
+
+    if (!req.query.maxReturnLength || isNaN(req.query.maxReturnLength)) {
+        req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
+    }
+
+    const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
+
+    // bound pagination between 1 and maxPagination
+    req.query.tossupPagination = Math.min(parseInt(req.query.tossupPagination), maxPagination);
+    req.query.bonusPagination = Math.min(parseInt(req.query.bonusPagination), maxPagination);
+    req.query.tossupPagination = Math.max(req.query.tossupPagination, 1);
+    req.query.bonusPagination = Math.max(req.query.bonusPagination, 1);
+
+    req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
+    req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
 
     const queryResult = await database.getQuery(req.query);
     res.send(JSON.stringify(queryResult));
@@ -136,6 +145,58 @@ router.get('/random-name', (req, res) => {
 });
 
 
+router.get('/random-bonus', async (req, res) => {
+    if (req.query.difficulties)
+        req.query.difficulties = req.query.difficulties
+            .split(',')
+            .map((difficulty) => parseInt(difficulty));
+
+    if (req.query.categories)
+        req.query.categories = req.query.categories.split(',');
+
+    if (req.query.subcategories)
+        req.query.subcategories = req.query.subcategories.split(',');
+
+    req.query.bonusLength = (req.query.threePartBonuses === 'true') ? 3 : undefined;
+
+    req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
+    req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
+    req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
+
+    const bonuses = await database.getRandomBonuses(req.query);
+    if (bonuses.length === 0) {
+        res.status(404);
+    }
+    res.send(JSON.stringify({ bonuses: bonuses }));
+});
+
+
+router.get('/random-tossup', async (req, res) => {
+    if (req.query.difficulties)
+        req.query.difficulties = req.query.difficulties
+            .split(',')
+            .map((difficulty) => parseInt(difficulty));
+
+    if (req.query.categories)
+        req.query.categories = req.query.categories.split(',');
+
+    if (req.query.subcategories)
+        req.query.subcategories = req.query.subcategories.split(',');
+
+    req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
+    req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
+    req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
+
+    const tossups = await database.getRandomTossups(req.query);
+    if (tossups.length === 0) {
+        res.status(404);
+    }
+
+    res.send(JSON.stringify({ tossups: tossups }));
+});
+
+
+// DEPRECATED and will be removed in the future
 router.post('/random-question', async (req, res) => {
     if (!['tossup', 'bonus'].includes(req.body.questionType)) {
         res.status(400).send('Invalid question type specified.');
@@ -157,6 +218,10 @@ router.post('/random-question', async (req, res) => {
     if (typeof req.body.subcategories === 'string') {
         req.body.subcategories = [req.body.subcategories];
     }
+
+    req.body.minYear = isNaN(req.body.minYear) ? undefined : parseInt(req.body.minYear);
+    req.body.maxYear = isNaN(req.body.maxYear) ? undefined : parseInt(req.body.maxYear);
+    req.body.number = isNaN(req.body.number) ? undefined : parseInt(req.body.number);
 
     const questions = await database.getRandomQuestions(req.body);
     if (questions.length > 0) {

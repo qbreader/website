@@ -1,6 +1,7 @@
 // Functions and variables specific to the tossups page.
 
 // Room settings
+let difficulties = [];
 let packetNumbers = [];
 let setName = '';
 let validCategories;
@@ -16,8 +17,7 @@ let powermarkPosition = 0;
 let questionNumber = 0;
 let timeoutID = -1;
 
-// Whether or not the user clicked that they got the question wrong. `-1` means the button currently says "I was wrong".
-let previous = {
+const previous = {
     isCorrect: true,
     inPower: false,
     negValue: -5,
@@ -40,6 +40,7 @@ function queryLock() {
 
 
 function queryUnlock() {
+    document.getElementById('question').innerHTML = '';
     document.getElementById('start').disabled = false;
     document.getElementById('next').disabled = false;
     document.getElementById('pause').disabled = false;
@@ -91,20 +92,18 @@ async function advanceQuestion() {
     } else {
         queryLock();
         try {
-            questions = await getRandomQuestion(
-                'tossup',
-                rangeToArray(document.getElementById('difficulties').value),
-                validCategories,
-                validSubcategories,
-            );
+            questions = await getRandomTossup(difficulties, validCategories, validSubcategories);
             questions = [questions];
         } finally {
             queryUnlock();
         }
 
-        ({ setName, packetNumber, questionNumber } = questions[0]);
+        if (!questions[0]) {
+            alert('No questions found');
+            return false;
+        }
 
-        if (Object.keys(questions[0]).length === 0) return false;
+        ({ setName, packetNumber, questionNumber } = questions[0]);
 
         questionText = questions[0].question;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');
@@ -200,6 +199,46 @@ function isPace(setName) {
     return setName.includes('PACE');
 }
 
+async function loadRandomTossups(difficulties = [], categories = [], subcategories = [], number = 1) {
+    const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
+    const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
+
+    const uri = `/api/random-tossup?
+            difficulties=${encodeURIComponent(difficulties)}&
+            categories=${encodeURIComponent(categories)}&
+            subcategories=${encodeURIComponent(subcategories)}&
+            number=${encodeURIComponent(number)}&
+            minYear=${encodeURIComponent(minYear)}&
+            maxYear=${encodeURIComponent(maxYear)}&
+        `.replace(/\s/g, '');
+
+    randomQuestions = await fetch(uri)
+        .then(response => response.json())
+        .then(response => response.tossups)
+        .then(questions => {
+            for (let i = 0; i < questions.length; i++) {
+                if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer'))
+                    questions[i].answer = questions[i].formatted_answer;
+            }
+
+            return questions;
+        });
+}
+
+
+async function getRandomTossup(difficulties = [], categories = [], subcategories = []) {
+    if (randomQuestions.length === 0)
+        await loadRandomTossups(difficulties, categories, subcategories, 20);
+
+    const randomQuestion = randomQuestions.pop();
+
+    // Begin loading the next batch of questions (asynchronously)
+    if (randomQuestions.length === 0)
+        loadRandomTossups(difficulties, categories, subcategories, 20);
+
+    return randomQuestion;
+}
+
 
 async function next() {
     // Stop reading the current question:
@@ -239,8 +278,7 @@ function pause() {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').innerHTML = 'Pause';
         readQuestion(new Date().getTime());
-    }
-    else {
+    } else {
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
         document.getElementById('pause').innerHTML = 'Resume';
         clearTimeout(timeoutID);
@@ -415,7 +453,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     randomQuestions = [];
-    loadRandomQuestions('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomTossups(difficulties, validCategories, validSubcategories);
 });
 
 
@@ -425,9 +463,10 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 });
 
 
-document.getElementById('difficulties').addEventListener('change', async function () {
+document.getElementById('difficulties').addEventListener('change', function () {
     randomQuestions = [];
-    loadRandomQuestions('tossup', rangeToArray(this.value), validCategories, validSubcategories);
+    difficulties = getDropdownValues('difficulties');
+    loadRandomTossups(difficulties, validCategories, validSubcategories);
 });
 
 
@@ -486,6 +525,20 @@ document.getElementById('toggle-correct').addEventListener('click', function () 
 });
 
 
+document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
+    if (this.checked) {
+        document.getElementById('difficulty-settings').classList.add('d-none');
+        document.getElementById('set-settings').classList.remove('d-none');
+        localStorage.setItem('selectBySetName', 'true');
+    } else {
+        document.getElementById('difficulty-settings').classList.remove('d-none');
+        document.getElementById('set-settings').classList.add('d-none');
+        localStorage.setItem('selectBySetName', 'false');
+    }
+});
+
+
+
 document.getElementById('toggle-show-history').addEventListener('click', function () {
     this.blur();
     localStorage.setItem('showTossupHistory', this.checked ? 'true' : 'false');
@@ -518,7 +571,7 @@ document.getElementById('toggle-rebuzz').addEventListener('click', function () {
 
 document.getElementById('year-range-a').onchange = function () {
     randomQuestions = [];
-    loadRandomQuestions('tossup', rangeToArray(document.getElementById('difficulties').value), validCategories, validSubcategories);
+    loadRandomTossups(difficulties, validCategories, validSubcategories);
 
     localStorage.setItem('minYear', $('#slider').slider('values', 0));
     localStorage.setItem('maxYear', $('#slider').slider('values', 1));
@@ -551,6 +604,74 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = () => {
+    for (const parameter of ['powers', 'tens', 'negs', 'dead', 'points', 'totalCelerity']) {
+        if (!sessionStorage.getItem(parameter))
+            sessionStorage.setItem(parameter, 0);
+    }
+    updateStatDisplay();
+
+
+    if (localStorage.getItem('packetNumberTossupSave')) {
+        document.getElementById('packet-number').value = localStorage.getItem('packetNumberTossupSave');
+    }
+
+    if (localStorage.getItem('questionNumberTossupSave')) {
+        document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
+    }
+
+    if (localStorage.getItem('showTossupHistory') === 'false') {
+        document.getElementById('toggle-show-history').checked = false;
+        document.getElementById('room-history').classList.add('d-none');
+    }
+
+    if (localStorage.getItem('speed')) {
+        document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
+        document.getElementById('reading-speed').value = localStorage.speed;
+    } else {
+        localStorage.setItem('speed', 50);
+    }
+
+    if (localStorage.getItem('toggleRebuzz') === 'true') {
+        document.getElementById('toggle-rebuzz').checked = true;
+    }
+
+    if (localStorage.getItem('typeToAnswer') === 'false') {
+        document.getElementById('type-to-answer').checked = false;
+        document.getElementById('toggle-rebuzz').disabled = true;
+    }
+
+
+    if (localStorage.getItem('validCategories')) {
+        validCategories = JSON.parse(localStorage.getItem('validCategories'));
+    } else {
+        localStorage.setItem('validCategories', '[]');
+        validCategories = [];
+    }
+
+    if (localStorage.getItem('validSubcategories')) {
+        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
+    } else {
+        localStorage.setItem('validSubcategories', '[]');
+        validSubcategories = [];
+    }
+
+    if (validCategories.length > 0 && validSubcategories.length === 0) {
+        validCategories.forEach(category => {
+            SUBCATEGORIES[category].forEach(subcategory => {
+                validSubcategories.push(subcategory);
+            });
+        });
+    }
+
+    loadCategoryModal(validCategories, validSubcategories);
+
+
+    if (localStorage.getItem('selectBySetName') === 'false') {
+        document.getElementById('difficulty-settings').classList.remove('d-none');
+        document.getElementById('set-settings').classList.add('d-none');
+        document.getElementById('toggle-select-by-set-name').checked = false;
+    }
+
     if (localStorage.getItem('setNameTossupSave')) {
         setName = localStorage.getItem('setNameTossupSave');
         document.getElementById('set-name').value = setName;
@@ -562,71 +683,4 @@ window.onload = () => {
             }
         })();
     }
-
-    if (localStorage.getItem('packetNumberTossupSave')) {
-        document.getElementById('packet-number').value = localStorage.getItem('packetNumberTossupSave');
-    }
-
-    if (localStorage.getItem('questionNumberTossupSave')) {
-        document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
-    }
-
-    if (localStorage.getItem('validCategories') === null) {
-        localStorage.setItem('validCategories', '[]');
-        validCategories = [];
-    } else {
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    }
-
-    if (localStorage.getItem('validSubcategories') === null) {
-        localStorage.setItem('validSubcategories', '[]');
-        validSubcategories = [];
-    } else {
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-    }
-
-    if (validCategories.length > 0 && validSubcategories.length === 0) {
-        validCategories.forEach(category => {
-            SUBCATEGORIES[category].forEach(subcategory => {
-                validSubcategories.push(subcategory);
-            });
-        });
-    }
-
-    if (sessionStorage.getItem('powers') === null)
-        sessionStorage.setItem('powers', 0);
-    if (sessionStorage.getItem('tens') === null)
-        sessionStorage.setItem('tens', 0);
-    if (sessionStorage.getItem('negs') === null)
-        sessionStorage.setItem('negs', 0);
-    if (sessionStorage.getItem('dead') === null)
-        sessionStorage.setItem('dead', 0);
-    if (sessionStorage.getItem('points') === null)
-        sessionStorage.setItem('points', 0);
-    if (sessionStorage.getItem('totalCelerity') === null)
-        sessionStorage.setItem('totalCelerity', 0);
-
-    if (localStorage.getItem('speed') === null) {
-        localStorage.setItem('speed', 50);
-    }
-
-    document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
-    document.getElementById('reading-speed').value = localStorage.speed;
-
-    loadCategoryModal(validCategories, validSubcategories);
-    updateStatDisplay();
 };
-
-if (localStorage.getItem('showTossupHistory') === 'false') {
-    document.getElementById('toggle-show-history').checked = false;
-    document.getElementById('room-history').classList.add('d-none');
-}
-
-if (localStorage.getItem('toggleRebuzz') === 'false') {
-    document.getElementById('toggle-rebuzz').checked = false;
-}
-
-if (localStorage.getItem('typeToAnswer') === 'false') {
-    document.getElementById('type-to-answer').checked = false;
-    document.getElementById('toggle-rebuzz').disabled = true;
-}

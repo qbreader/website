@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The API documentation for QB Reader.">
+
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+
+    <link href="/bootstrap/light.css" rel="stylesheet">
+    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
+    <script src="/apply-theme.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/">
+                <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
+            </a>
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/tossups">Tossups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bonuses">Bonuses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/multiplayer">Multiplayer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/db">Database</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/api-docs" aria-current="page">API</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link p-1" id="toggle-dark-mode" href="#">
+                                <img src="/dark-mode.png" width="28" height="28">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-xl mt-3 mb-4 row">
+        <div class="col-1"></div> <!-- empty column for some left margin -->
+        <!-- docs sidebar -->
+        <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
+            <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="/api-docs"><code>Overview</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/schemas"><code>Object Schemas</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Database</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/query"><code>query</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-question"><code>random-question (deprecated)</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-tossup"><code>random-tossup</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet"><code>packet</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet-tossups" class="active fw-semibold" aria-current="page"><code>packet-tossups</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/packet-bonuses"><code>packet-bonuses</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/num-packets"><code>num-packets</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/set-list"><code>set-list</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Multiplayer</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/multiplayer/room-list"><code>room-list</code></a>
+                </li>
+                <h5 class="mt-4 mb-2">Other</h5>
+                <li class="nav-item">
+                    <a href="/api-docs/check-answer"><code>check-answer</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/report-question"><code>report-question</code></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/api-docs/random-name"><code>random-name</code></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-9">
+            <h3 class="md-4">
+                <div><code>GET</code> <code>qbreader.org/api/packet-tossups</code></div>
+            </h3>
+
+            <p>
+                Get only tossups from a packet.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>setName</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The name of the set. See <a href="/api-docs/set-list"><code>/set-list</code></a> for a list of all sets.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>packetNumber</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>
+                        The number of the packet in the set, starting from 1.
+                    </div>
+                </li>
+            </ul>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                A JSON <code>object</code> with the following properties:
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>tossups</code><code
+                            class="text-muted">: <a href="/api-docs/schemas#tossup" target="_blank" class="text-muted">Tossup</a>[]</code>
+                    </div>
+                    <div>
+                        An array of
+                        <a href="/api-docs/schemas#tossup" target="_blank" class="link-primary">
+                            <code>Tossups</code>
+                        </a> that are in the packet.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/script.js"></script>
+</body>
+
+</html>

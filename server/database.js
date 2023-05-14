@@ -13,8 +13,9 @@ client.connect().then(async () => {
 
 const bcolors = require('../bcolors');
 const database = client.db('qbreader');
-const sets = database.collection('sets');
+const quizbowl = require('./quizbowl');
 
+const sets = database.collection('sets');
 const tossups = database.collection('tossups');
 const bonuses = database.collection('bonuses');
 
@@ -198,6 +199,8 @@ async function getQuery({
     ignoreDiacritics = false,
     tossupPagination = 1,
     bonusPagination = 1,
+    minYear,
+    maxYear,
 } = {}) {
     if (verbose)
         console.time('getQuery');
@@ -226,11 +229,11 @@ async function getQuery({
 
     let tossupQuery = null;
     if (['tossup', 'all'].includes(questionType))
-        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination });
+        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear });
 
     let bonusQuery = null;
     if (['bonus', 'all'].includes(questionType))
-        bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination });
+        bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination, minYear, maxYear });
 
 
     const values = await Promise.all([tossupQuery, bonusQuery]);
@@ -260,7 +263,7 @@ set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC}; \
 }
 
 
-async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination }) {
+async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear }) {
     const orQuery = [];
     if (['question', 'all'].includes(searchType))
         orQuery.push({ question: { $regex: queryString, $options: 'i' } });
@@ -269,7 +272,7 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
         orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
 
     const [aggregation, query] = buildQueryAggregation({
-        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize,
+        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear,
         isEmpty: queryString === '',
     });
 
@@ -286,7 +289,7 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
 }
 
 
-async function queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination }) {
+async function queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination, minYear, maxYear }) {
     const orQuery = [];
     if (['question', 'all'].includes(searchType)) {
         orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
@@ -298,7 +301,7 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
     }
 
     const [aggregation, query] = buildQueryAggregation({
-        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize,
+        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear,
         isEmpty: queryString === '',
     });
 
@@ -315,7 +318,7 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
 }
 
 
-function buildQueryAggregation({ orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, isEmpty }) {
+function buildQueryAggregation({ orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty }) {
     const query = {
         $or: orQuery,
     };
@@ -334,6 +337,14 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
 
     if (setName)
         query.setName = setName;
+
+    if (minYear && maxYear) {
+        query.setYear = { $gte: minYear, $lte: maxYear };
+    } else if (minYear)
+        query.setYear = { $gte: minYear };
+    else if (maxYear) {
+        query.setYear = { $lte: maxYear };
+    }
 
     const aggregation = [
         { $match: query, },
@@ -361,34 +372,60 @@ function getRandomName() {
 }
 
 
+async function getRandomTossups({ difficulties, categories, subcategories, number = 1, minYear = quizbowl.DEFAULT_MIN_YEAR, maxYear = quizbowl.DEFAULT_MAX_YEAR }) {
+    return await getRandomQuestions({ questionType: 'tossup', difficulties, categories, subcategories, number, minYear, maxYear, verbose: false });
+}
+
+
+async function getRandomBonuses({ difficulties, categories, subcategories, number = 1, minYear = quizbowl.DEFAULT_MIN_YEAR, maxYear = quizbowl.DEFAULT_MAX_YEAR, bonusLength }) {
+    if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
+    if (!categories || categories.length === 0) categories = CATEGORIES;
+    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+
+    const aggregation = [
+        { $match: {
+            difficulty: { $in: difficulties },
+            category: { $in: categories },
+            subcategory: { $in: subcategories },
+            setYear: { $gte: minYear, $lte: maxYear },
+        } },
+        { $sample: { size: number } },
+        { $project: { reports: 0 } },
+    ];
+
+    if (bonusLength) {
+        bonusLength = parseInt(bonusLength);
+        aggregation[0].$match.parts = { $size: bonusLength };
+    }
+
+    return await bonuses.aggregate(aggregation).toArray();
+}
+
+
 /**
  * Get an array of random questions. This method is 3-4x faster than using the randomize option in getQuery.
  * @param {'tossup' | 'bonus'} questionType - the type of question to get
  * @param {Array<Number>} difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array to select any difficulty.
  * @param {Array<String>} categories - an array of allowed categories. Pass a 0-length array to select any category.
  * @param {Array<String>} subcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
- * @param {Number} number - how many random tossups to return. Default: 20.
+ * @param {Number} number - how many random tossups to return. Default: 1.
  * @param {Number} minYear - the minimum year to select from. Default: 2010.
  * @param {Number} maxYear - the maximum year to select from. Default: 2023.
  * @returns {Promise<Array<JSON>>}
  */
-async function getRandomQuestions({ questionType = 'tossup', difficulties, categories, subcategories, number, verbose = true, minYear = 2010, maxYear = 2023 }) {
+async function getRandomQuestions({
+    questionType = 'tossup',
+    difficulties,
+    categories,
+    subcategories,
+    number = 1,
+    minYear = quizbowl.DEFAULT_MIN_YEAR,
+    maxYear = quizbowl.DEFAULT_MAX_YEAR,
+    verbose = true,
+}) {
     if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
     if (!categories || categories.length === 0) categories = CATEGORIES;
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
-    if (!number) number = 1;
-
-    if (isFinite(minYear)) {
-        minYear = parseInt(minYear);
-    } else {
-        minYear = 2010;
-    }
-
-    if (isFinite(maxYear)) {
-        maxYear = parseInt(maxYear);
-    } else {
-        maxYear = 2023;
-    }
 
     if (verbose)
         console.log(`\
@@ -412,21 +449,12 @@ subcategories: ${bcolors.OKCYAN}${subcategories}${bcolors.ENDC};\
         { $project: { reports: 0 } },
     ];
 
-    let questionArray = [{}];
-
     switch (questionType) {
     case 'tossup':
-        questionArray = await tossups.aggregate(aggregation).toArray();
-        break;
+        return await tossups.aggregate(aggregation).toArray();
     case 'bonus':
-        questionArray = await bonuses.aggregate(aggregation).toArray();
-        break;
+        return await bonuses.aggregate(aggregation).toArray();
     }
-
-    if (questionArray.length === 0)
-        return [{}];
-
-    return questionArray;
 }
 
 
@@ -534,6 +562,8 @@ module.exports = {
     getPacket,
     getQuery,
     getRandomName,
+    getRandomTossups,
+    getRandomBonuses,
     getRandomQuestions,
     getSet,
     getSetList,
