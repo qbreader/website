@@ -47,6 +47,7 @@ class TossupRoom {
             rebuzz: false,
             readingSpeed: 50,
             selectBySetName: false,
+            skip: false,
         };
     }
 
@@ -108,10 +109,11 @@ class TossupRoom {
             validCategories: this.query.categories,
             validSubcategories: this.query.subcategories,
 
-            rebuzz: this.settings.rebuzz,
             public: this.settings.public,
             readingSpeed: this.settings.readingSpeed,
-            selectBySetName: this.settings.selectBySetName
+            rebuzz: this.settings.rebuzz,
+            selectBySetName: this.settings.selectBySetName,
+            skip: this.settings.skip,
         }));
 
         if (this.questionProgress > 0 && this.tossup?.question) {
@@ -123,7 +125,7 @@ class TossupRoom {
 
         if (this.questionProgress === 2 && this.tossup?.answer) {
             socket.send(JSON.stringify({
-                type: 'update-answer',
+                type: 'reveal-answer',
                 answer: this.tossup.answer
             }));
         }
@@ -240,6 +242,15 @@ class TossupRoom {
             });
             this.settings.selectBySetName = message.selectBySetName;
             this.adjustQuery(['setName'], [message.setName]);
+            break;
+
+        case 'toggle-skip':
+            this.settings.skip = message.skip;
+            this.sendSocketMessage({
+                type: 'toggle-skip',
+                skip: this.settings.skip,
+                username: this.players[userId].username
+            });
             break;
 
         case 'toggle-visibility':
@@ -439,6 +450,8 @@ class TossupRoom {
 
     async next(userId, type) {
         if (this.queryingQuestion) return;
+        if (this.questionProgress === 1 && !this.settings.skip) return;
+
         clearTimeout(this.timeoutID);
 
         if (this.questionProgress !== 2) {
@@ -518,7 +531,7 @@ class TossupRoom {
         });
 
         this.sendSocketMessage({
-            type: 'update-answer',
+            type: 'reveal-answer',
             answer: this.tossup.answer
         });
 

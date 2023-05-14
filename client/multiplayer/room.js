@@ -12,6 +12,22 @@ let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
 let username = localStorage.getItem('username') || randomUsername();
 
+function showNextButton() {
+    document.getElementById('next').classList.remove('d-none');
+    document.getElementById('next').disabled = false;
+    document.getElementById('skip').classList.add('d-none');
+    document.getElementById('skip').disabled = true;
+}
+
+
+function showSkipButton() {
+    document.getElementById('skip').classList.remove('d-none');
+    document.getElementById('skip').disabled = !document.getElementById('toggle-skip').checked;
+    document.getElementById('next').classList.add('d-none');
+    document.getElementById('next').disabled = true;
+}
+
+
 const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${encodeURIComponent(USER_ID)}%%%${encodeURIComponent(username)}`);
 socket.onopen = function () {
     console.log('Connected to websocket');
@@ -99,6 +115,24 @@ socket.onmessage = function (event) {
         document.getElementById('reading-speed-display').innerHTML = data.value;
         break;
 
+    case 'reveal-answer': {
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
+        document.getElementById('pause').disabled = true;
+        showNextButton();
+
+        question = document.getElementById('question').innerHTML;
+        if (powermarkPosition) {
+            question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
+        }
+        const powerParts = question.split('(*)');
+        if (powerParts.length > 1) {
+            document.getElementById('question').innerHTML = `<b>${powerParts[0]}(*)</b>${powerParts[1]}`;
+        } else {
+            document.getElementById('question').innerHTML = question;
+        }
+        break;
+    }
+
     case 'start':
         socketOnStart(data);
         break;
@@ -106,6 +140,12 @@ socket.onmessage = function (event) {
     case 'toggle-rebuzz':
         logEvent(data.username, `${data.rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
         document.getElementById('toggle-rebuzz').checked = data.rebuzz;
+        break;
+
+    case 'toggle-skip':
+        logEvent(data.username, `${data.skip ? 'enabled' : 'disabled'} skipping`);
+        document.getElementById('toggle-skip').checked = data.skip;
+        document.getElementById('skip').disabled = !data.skip || document.getElementById('skip').classList.contains('d-none');
         break;
 
     case 'toggle-select-by-set-name':
@@ -136,20 +176,12 @@ socket.onmessage = function (event) {
         loadCategoryModal(validCategories, validSubcategories);
         break;
 
-    case 'update-answer':
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
-        question = (document.getElementById('question').innerHTML);
-        if (powermarkPosition)
-            question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
-        powerParts = question.split('(*)');
-        document.getElementById('question').innerHTML = `${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : powerParts[0]}`;
-        break;
-
     case 'update-question':
-        if (data.word === '(*)')
+        if (data.word === '(*)') {
             powermarkPosition = document.getElementById('question').innerHTML.length;
-        else
+        } else {
             document.getElementById('question').innerHTML += data.word + ' ';
+        }
         break;
 
     case 'year-range':
@@ -173,6 +205,7 @@ const socketOnBuzz = (message) => {
     document.getElementById('buzz').disabled = true;
     document.getElementById('pause').disabled = true;
     document.getElementById('next').disabled = true;
+    document.getElementById('skip').disabled = true;
 };
 
 const socketOnChangeUsername = (message) => {
@@ -217,8 +250,9 @@ const socketOnConnectionAcknowledged = (message) => {
     document.getElementById('packet-number-info').innerHTML = message.tossup?.packetNumber ?? '-';
     document.getElementById('question-number-info').innerHTML = message.tossup?.questionNumber ?? '-';
 
-    document.getElementById('toggle-rebuzz').checked = message.rebuzz;
     document.getElementById('chat').disabled = message.public;
+    document.getElementById('toggle-rebuzz').checked = message.rebuzz;
+    document.getElementById('toggle-skip').checked = message.skip;
     document.getElementById('toggle-visibility').checked = message.public;
     document.getElementById('reading-speed').value = message.readingSpeed;
     document.getElementById('reading-speed-display').innerHTML = message.readingSpeed;
@@ -233,12 +267,14 @@ const socketOnConnectionAcknowledged = (message) => {
         document.getElementById('set-settings').classList.add('d-none');
     }
 
-    if (message.questionProgress === 0) {
+    switch (message.questionProgress) {
+    case 0:
         document.getElementById('next').innerHTML = 'Start';
         document.getElementById('next').classList.remove('btn-primary');
         document.getElementById('next').classList.add('btn-success');
-    } else if (message.questionProgress === 1) {
-        document.getElementById('next').innerHTML = 'Skip';
+        break;
+    case 1:
+        showSkipButton();
         document.getElementById('options').classList.add('d-none');
         if (message.buzzedIn) {
             document.getElementById('buzz').disabled = true;
@@ -248,9 +284,11 @@ const socketOnConnectionAcknowledged = (message) => {
             document.getElementById('buzz').disabled = false;
             document.getElementById('pause').disabled = false;
         }
-    } else {
-        document.getElementById('next').innerHTML = 'Next';
+        break;
+    case 2:
+        showNextButton();
         document.getElementById('options').classList.add('d-none');
+        break;
     }
 
     if (message.isPermanent) {
@@ -291,9 +329,7 @@ const socketOnGiveAnswer = (message) => {
         document.getElementById('answer-input').placeholder = 'Enter answer';
         document.getElementById('next').disabled = false;
 
-        // Update question text and show answer:
         if (directive === 'accept') {
-            document.getElementById('next').innerHTML = 'Next';
             document.getElementById('buzz').disabled = true;
             Array.from(document.getElementsByClassName('tuh')).forEach(element => {
                 element.innerHTML = parseInt(element.innerHTML) + 1;
@@ -301,12 +337,7 @@ const socketOnGiveAnswer = (message) => {
         }
 
         if (directive === 'reject') {
-            if (document.getElementById('toggle-rebuzz').checked || userId !== USER_ID) {
-                document.getElementById('buzz').disabled = false;
-            } else {
-                document.getElementById('buzz').disabled = true;
-            }
-            document.getElementById('pause').disabled = false;
+            document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === USER_ID;
         }
 
         if (score > 10) {
@@ -364,9 +395,7 @@ const socketOnNext = (message) => {
     document.getElementById('packet-number-info').innerHTML = tossup?.packetNumber ?? '-';
 
     document.getElementById('options').classList.add('d-none');
-    document.getElementById('next').classList.add('btn-primary');
-    document.getElementById('next').classList.remove('btn-success');
-    document.getElementById('next').innerHTML = 'Skip';
+    showSkipButton();
     document.getElementById('question').innerHTML = '';
     powermarkPosition = 0;
     document.getElementById('answer').innerHTML = '';
@@ -396,7 +425,8 @@ const socketOnStart = (message) => {
     document.getElementById('pause').disabled = false;
     document.getElementById('next').classList.add('btn-primary');
     document.getElementById('next').classList.remove('btn-success');
-    document.getElementById('next').innerHTML = 'Skip';
+    document.getElementById('next').innerHTML = 'Next';
+    showSkipButton();
 
     tossup = message.tossup;
 
@@ -574,14 +604,20 @@ document.getElementById('difficulties').addEventListener('change', function () {
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
-
-    if (document.getElementById('next').innerHTML === 'Start') {
+    switch (this.innerHTML) {
+    case 'Start':
         socket.send(JSON.stringify({ type: 'start' }));
-    } else if (document.getElementById('next').innerHTML === 'Next') {
+        break;
+    case 'Next':
         socket.send(JSON.stringify({ type: 'next' }));
-    } else if (document.getElementById('next').innerHTML === 'Skip') {
-        socket.send(JSON.stringify({ type: 'skip' }));
+        break;
     }
+});
+
+
+document.getElementById('skip').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'skip' }));
 });
 
 
@@ -626,6 +662,12 @@ document.getElementById('set-name').addEventListener('change', async function ()
 document.getElementById('toggle-rebuzz').addEventListener('click', function () {
     this.blur();
     socket.send(JSON.stringify({ type: 'toggle-rebuzz', rebuzz: this.checked }));
+});
+
+
+document.getElementById('toggle-skip').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-skip', skip: this.checked }));
 });
 
 
@@ -700,6 +742,7 @@ document.addEventListener('keydown', function (event) {
     case 'n':
     case 's':
         document.getElementById('next').click();
+        document.getElementById('skip').click();
         break;
 
     case 'p':
