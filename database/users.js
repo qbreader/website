@@ -33,11 +33,11 @@ async function createUser(username, password, email) {
 
 async function getBestBuzz(username) {
     const user_id = await getUserId(username);
-    const data = tossupData.findOne(
+    const data = await tossupData.findOne(
         { user_id: user_id, isCorrect: true },
         { sort: { celerity: -1 } },
     );
-    data.tossup = await tossups.findOne({ _id: data.tossup_id });
+    data.tossup = await tossups.findOne({ _id: new ObjectId(data.tossup_id) });
     return data;
 }
 
