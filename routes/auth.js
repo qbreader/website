@@ -16,6 +16,40 @@ const apiLimiter = rateLimit({
 // Apply the rate limiting middleware to API calls only
 router.use(apiLimiter);
 
+router.post('/edit-profile', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    // log out if player changed their username
+    if (username != req.body.username)
+        req.session = null;
+
+    userDB.updateUser(username, req.body);
+    res.sendStatus(200);
+});
+
+
+router.post('/edit-password', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    if (!(await checkPassword(username, req.body.oldPassword))) {
+        res.sendStatus(403);
+        return;
+    }
+
+    await updatePassword(username, req.body.newPassword);
+    res.sendStatus(200);
+});
+
+
+
 router.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -57,39 +91,6 @@ router.post('/signup', async (req, res) => {
         console.log(`/api/auth: SIGNUP: User ${username} successfully signed up.`);
         res.sendStatus(200);
     }
-});
-
-
-router.post('/edit-profile', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        res.sendStatus(401);
-        return;
-    }
-
-    // log out if player changed their username
-    if (username != req.body.username)
-        req.session = null;
-
-    userDB.updateUser(username, req.body);
-    res.sendStatus(200);
-});
-
-
-router.post('/edit-password', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        res.sendStatus(401);
-        return;
-    }
-
-    if (!(await checkPassword(username, req.body.oldPassword))) {
-        res.sendStatus(403);
-        return;
-    }
-
-    await updatePassword(username, req.body.newPassword);
-    res.sendStatus(200);
 });
 
 
