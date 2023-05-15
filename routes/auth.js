@@ -107,7 +107,6 @@ router.post('/record-tossup-data', async (req, res) => {
         return;
     }
 
-    console.log(req.body);
     const results = await userDB.recordTossupData(username, req.body);
     res.send(JSON.stringify(results));
 });
