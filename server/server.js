@@ -24,26 +24,9 @@ const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
-
-const clientIp = (req, _res) => {
-    return req.headers['x-forwarded-for'] ? (req.headers['x-forwarded-for']).split(',')[0] : req.ip;
-};
-
-const ipFilter = require('express-ipfilter').IpFilter;
-const IpDeniedError = require('express-ipfilter').IpDeniedError;
-const ips = require('../BLOCKED_IPS');
-console.log(`Blocked IPs: ${ips}`);
-app.use(ipFilter(ips, { mode: 'deny', log: false, detectIp: clientIp }));
-
-app.use((err, req, res, _next) => {
-    if (err instanceof IpDeniedError) {
-        console.log(`Blocked IP: ${req.ip}`);
-        res.status(403);
-        res.end();
-    } else {
-        res.status(err.status || 500);
-    }
-});
+const { ipFilterMiddleware, ipFilterError } = require('./ip-filter');
+app.use(ipFilterMiddleware);
+app.use(ipFilterError);
 
 
 const TossupRoom = require('./TossupRoom');
