@@ -79,8 +79,11 @@ router.get('/my-profile', async (req, res) => {
         return;
     }
 
-    const queries = await userDB.getQueries(username);
-    res.send(JSON.stringify({ queries }));
+    const [queries, bestBuzz] = await Promise.all([
+        await userDB.getQueries(username),
+        await userDB.getBestBuzz(username)
+    ]);
+    res.send(JSON.stringify({ queries, bestBuzz }));
 });
 
 
@@ -93,6 +96,19 @@ router.post('/record-query', async (req, res) => {
 
     const query = req.body;
     const results = await userDB.recordQuery(username, query);
+    res.send(JSON.stringify(results));
+});
+
+
+router.post('/record-tossup-data', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    console.log(req.body);
+    const results = await userDB.recordTossupData(username, req.body);
     res.send(JSON.stringify(results));
 });
 
