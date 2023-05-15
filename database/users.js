@@ -146,9 +146,15 @@ async function recordBonusData(username, data) {
         return false;
     }
 
-    for (const field of ['category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
+    for (const field of ['category', 'subcategory', 'difficulty', 'questionNumber']) {
         if (Object.prototype.hasOwnProperty.call(data.bonus, field)) {
             newData[field] = data.bonus[field];
+        }
+    }
+
+    for (const field of ['packet', 'set']) {
+        if (Object.prototype.hasOwnProperty.call(data.bonus, field)) {
+            newData[field] = new ObjectId(data.bonus[field]);
         }
     }
 
@@ -192,13 +198,19 @@ async function recordTossupData(username, data) {
         return false;
     }
 
-    for (const field of ['category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
+    for (const field of ['category', 'subcategory', 'difficulty', 'questionNumber']) {
         if (Object.prototype.hasOwnProperty.call(data.tossup, field)) {
             newData[field] = data.tossup[field];
         }
     }
 
-    newData.tossup_id = ObjectId(data.tossup._id);
+    for (const field of ['packet', 'set']) {
+        if (Object.prototype.hasOwnProperty.call(data.tossup, field)) {
+            newData[field] = new ObjectId(data.tossup[field]);
+        }
+    }
+
+    newData.tossup_id = new ObjectId(data.tossup._id);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await tossupData.insertOne(newData);
