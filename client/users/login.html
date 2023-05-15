@@ -5,6 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Backups for qbreader.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -28,13 +29,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/tossups" aria-current="page">Tossups</a>
+                        <a class="nav-link" href="/tossups">Tossups</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/bonuses">Bonuses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/multiplayer">Multiplayer</a>
+                        <a class="nav-link" href="/multiplayer">Multiplayer</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/db">Database</a>
@@ -62,31 +63,34 @@
         </div>
     </nav>
 
-    <div class="container mt-3 mb-4">
-        <div class="row">
-            <div class="col-12">
-                <p class="lead">Play quizbowl real-time against other players.</p>
-                <p>You can invite friends to join you by sharing the URL to your room.</p>
-                <p>Create/Join a Room:</p>
-                <form id="form">
-                    <div class="input-group">
-                        <input class="form-control" id="new-room-name" type="text">
-                        <button class="btn btn-success" type="submit">Go</button>
-                    </div>
-                </form>
-                <hr>
-                <p>Try one of these rooms:</p>
-                <ul class="list-group mb-3" id="permanent-room-list"></ul>
-                <p>Or, check out a public room:</p>
-                <ul class="list-group mb-5" id="room-list"></ul>
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <p class="mt-1 lead">
+            Don't have an account?
+            Sign up <a href="/users/signup">here</a>.
+        </p>
+        <form class="needs-validation" id="login-form" novalidate>
+            <div class="col-12 mb-3">
+                <label class="form-label" for="username">Username</label>
+                <input class="form-control" id="username" type="text" name="username" required>
+                <div class="invalid-feedback">Enter your username.</div>
             </div>
-        </div>
+            <div class="col-12 mb-3">
+                <label class="form-label" for="password">Password</label>
+                <input class="form-control" id="password" type="password" name="password" required>
+                <div class="invalid-feedback">Enter your password.</div>
+                <div class="form-text" id="passwordHelp">Forgot your password? Too bad.</div>
+            </div>
+            <button class="btn btn-primary" id="submission" type="submit">
+                Log in
+            </button>
+        </form>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
-    <script src="/multiplayer/index.js"></script>
+    <script src="/users/session-storage-ttl.js"></script>
+    <script src="/users/login.js"></script>
 </body>
 
 </html>

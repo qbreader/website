@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const database = require('../server/database');
+const database = require('../database/questions');
 const { checkAnswer } = require('../server/scorer');
 
 const rateLimit = require('express-rate-limit');
