@@ -45,9 +45,37 @@ router.post('/edit-password', async (req, res) => {
     }
 
     await updatePassword(username, req.body.newPassword);
+    req.session.username = username;
+    req.session.token = generateToken(username);
     res.sendStatus(200);
 });
 
+
+router.get('/get-profile', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const user = await userDB.getUser(username);
+    res.send(JSON.stringify({ user }));
+});
+
+
+router.get('/get-stats', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const [queries, bestBuzz] = await Promise.all([
+        await userDB.getQueries(username),
+        await userDB.getBestBuzz(username)
+    ]);
+    res.send(JSON.stringify({ queries, bestBuzz }));
+});
 
 
 router.post('/login', async (req, res) => {
@@ -69,21 +97,6 @@ router.post('/logout', (req, res) => {
     console.log(`/api/auth: LOGOUT: User ${req.session.username} successfully logged out.`);
     req.session = null;
     res.sendStatus(200);
-});
-
-
-router.get('/my-profile', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        res.sendStatus(401);
-        return;
-    }
-
-    const [queries, bestBuzz] = await Promise.all([
-        await userDB.getQueries(username),
-        await userDB.getBestBuzz(username)
-    ]);
-    res.send(JSON.stringify({ queries, bestBuzz }));
 });
 
 
@@ -118,7 +131,7 @@ router.post('/signup', async (req, res) => {
     // return error if username already exists
     const results = await userDB.getUser(username);
     if (results) {
-        console.log(`/api/auth: SIGNUP: User ${username} failed to sign up.`);
+        console.log(`/api/auth: SIGNUP: User ${username} failed to sign up. That username is taken.`);
         res.sendStatus(409);
     } else {
         // log the user in when they sign up

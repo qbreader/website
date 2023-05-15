@@ -1,7 +1,7 @@
 window.onload = () => {
     document.getElementById('username').innerHTML = getWithExpiry('username') ?? '';
 
-    fetch('/auth/my-profile')
+    fetch('/auth/get-stats')
         .then(response => response.json())
         .then(data => {
             const recentQueries = document.getElementById('recent-queries');
