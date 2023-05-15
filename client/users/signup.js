@@ -10,6 +10,7 @@ form.addEventListener('submit', (event) => {
 
     document.getElementById('submission').innerHTML = 'Submitting...';
 
+    const username = document.getElementById('username').value;
     fetch('/auth/signup', {
         method: 'POST',
         headers: {
@@ -18,7 +19,7 @@ form.addEventListener('submit', (event) => {
         body: JSON.stringify({
             email: document.getElementById('email').value,
             password: document.getElementById('password').value,
-            username: document.getElementById('username').value,
+            username: username,
         })
     }).then(function (response) {
         if (response.status === 200) {
