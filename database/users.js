@@ -10,6 +10,9 @@ const database = client.db('account-info');
 const users = database.collection('users');
 const queries = database.collection('queries');
 const tossupData = database.collection('tossup-data');
+// eslint-disable-next-line no-unused-vars
+const bonusData = database.collection('bonus-data');
+
 
 async function createUser(username, password, email) {
     return await users.insertOne({
@@ -18,6 +21,14 @@ async function createUser(username, password, email) {
         email,
         verified: false,
     });
+}
+
+
+async function getBestBuzz(username) {
+    return await tossupData.findOne(
+        { username: username, isCorrect: true },
+        { sort: { celerity: -1 } },
+    );
 }
 
 
@@ -48,12 +59,23 @@ async function getUser(username) {
 }
 
 
+async function recordBonusData(username, data) {
     const newData = {};
-    for (const field of ['pointsPerPart', 'bonus']) {
+    for (const field of ['pointsPerPart']) {
         if (!data[field]) {
             return false;
         } else {
             newData[field] = data[field];
+        }
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(data, 'bonus')) {
+        return false;
+    }
+
+    for (const field of ['_id', 'category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
+        if (data[field]) {
+            newData[field] = data.bonus[field];
         }
     }
 
@@ -82,16 +104,26 @@ async function recordQuery(username, query) {
 
 async function recordTossupData(username, data) {
     const newData = {};
-    for (const field of ['celerity', 'isCorrect', 'pointValue', 'tossup']) {
+    for (const field of ['celerity', 'isCorrect', 'pointValue']) {
         if (Object.prototype.hasOwnProperty.call(data, field)) {
             newData[field] = data[field];
         } else {
             return false;
         }
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(data, 'tossup')) {
+        return false;
+    }
+
+    for (const field of ['_id', 'category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
+        if (data[field]) {
+            newData[field] = data.tossup[field];
+        }
+    }
 
     newData.username = username;
     newData.createdAt = new Date();
-    console.log(newData);
     return await tossupData.insertOne(newData);
 }
 
