@@ -59,33 +59,33 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="mt-1 lead">
-            Don't have an account?
-            Sign up <a href="/users/signup">here</a>.
+        <p class="lead">
+            Welcome to QB Reader!
         </p>
-        <form class="needs-validation" id="login-form" novalidate>
-            <div class="col-12 mb-3">
-                <label class="form-label" for="username">Username</label>
-                <input class="form-control" id="username" type="text" name="username" required>
-                <div class="invalid-feedback">Enter your username.</div>
-            </div>
-            <div class="col-12 mb-3">
-                <label class="form-label" for="password">Password</label>
-                <input class="form-control" id="password" type="password" name="password" required>
-                <div class="invalid-feedback">Enter your password.</div>
-                <div class="form-text" id="passwordHelp">Forgot your password? Too bad.</div>
-            </div>
-            <button class="btn btn-primary" id="submission" type="submit">
-                Log in
-            </button>
-        </form>
+        <p>
+            You can start reading <a href="/tossups">tossups</a> and <a href="/bonuses">bonuses</a> to yourself,
+            or check out <a href="/multiplayer">multiplayer</a> or the searchable <a href="/db">database</a>.
+        </p>
+        <p>
+            Click <a id="toggle-dark-mode" href="#">this button</a> to toggle light/dark mode.
+            (It should default to your system setting.)
+        </p>
+        <p>
+            You can signup for an account <a href="/users/signup">here</a>!
+            Currently, the accounts don't do anything, but more features will be added in the future.
+        </p>
+        <h3>Changelog:</h3>
+        <p>
+            <a href="https://github.com/qbreader/website/releases">View the changelog on Github</a>.
+        </p>
+        <h3>Feature of the Day:</h3>
+        <blockquote class="blockquote">
+            <p>In the database, you can click card headers to copy the question to your clipboard.</p>
+        </blockquote>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
-
-    <script src="/users/session-storage-ttl.js"></script>
-    <script src="/users/login.js"></script>
 </body>
 
 </html>
