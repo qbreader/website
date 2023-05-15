@@ -8,7 +8,7 @@ client.connect().then(async () => {
 
 const database = client.db('account-info');
 const users = database.collection('users');
-
+const queries = database.collection('queries');
 
 async function createUser(username, password, email) {
     return await users.insertOne({
@@ -31,11 +31,36 @@ async function getPassword(username) {
 }
 
 
+async function getQueries(username) {
+    return await queries.find(
+        { username: username },
+        { sort: { createdAt: -1 } },
+    ).toArray();
+}
+
+
 /**
  * Get the user with the given username.
  */
 async function getUser(username) {
     return await users.findOne({ username: username });
+}
+
+
+async function recordQuery(username, query) {
+    if (await queries.countDocuments({ username: username }) >= 10) {
+        const oldest = await queries.findOne(
+            { username: username },
+            { sort: { createdAt: 1 } },
+        );
+        queries.deleteOne({ _id: oldest._id });
+    }
+
+    return await queries.insertOne({
+        username,
+        query,
+        createdAt: new Date(),
+    });
 }
 
 
@@ -63,6 +88,8 @@ async function updateUser(username, values) {
 module.exports = {
     createUser,
     getPassword,
+    getQueries,
     getUser,
+    recordQuery,
     updateUser,
 };

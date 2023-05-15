@@ -72,6 +72,31 @@ router.post('/logout', (req, res) => {
 });
 
 
+router.get('/my-profile', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const queries = await userDB.getQueries(username);
+    res.send(JSON.stringify({ queries }));
+});
+
+
+router.post('/record-query', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const query = req.body;
+    const results = await userDB.recordQuery(username, query);
+    res.send(JSON.stringify(results));
+});
+
+
 router.post('/signup', async (req, res) => {
     const username = req.body.username;
 
