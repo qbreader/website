@@ -9,6 +9,7 @@ client.connect().then(async () => {
 const database = client.db('account-info');
 const users = database.collection('users');
 const queries = database.collection('queries');
+const tossupData = database.collection('tossup-data');
 
 async function createUser(username, password, email) {
     return await users.insertOne({
@@ -47,6 +48,21 @@ async function getUser(username) {
 }
 
 
+    const newData = {};
+    for (const field of ['pointsPerPart', 'bonus']) {
+        if (!data[field]) {
+            return false;
+        } else {
+            newData[field] = data[field];
+        }
+    }
+
+    newData.username = username;
+    newData.createdAt = new Date();
+    return await bonusData.insertOne(newData);
+}
+
+
 async function recordQuery(username, query) {
     if (await queries.countDocuments({ username: username }) >= 10) {
         const oldest = await queries.findOne(
@@ -61,6 +77,22 @@ async function recordQuery(username, query) {
         query,
         createdAt: new Date(),
     });
+}
+
+
+async function recordTossupData(username, data) {
+    const newData = {};
+    for (const field of ['celerity', 'isCorrect', 'pointValue', 'tossup']) {
+        if (Object.prototype.hasOwnProperty.call(data, field)) {
+            newData[field] = data[field];
+        } else {
+            return false;
+        }
+
+    newData.username = username;
+    newData.createdAt = new Date();
+    console.log(newData);
+    return await tossupData.insertOne(newData);
 }
 
 
@@ -87,9 +119,12 @@ async function updateUser(username, values) {
 
 module.exports = {
     createUser,
+    getBestBuzz,
     getPassword,
     getQueries,
     getUser,
+    recordBonusData,
     recordQuery,
+    recordTossupData,
     updateUser,
 };
