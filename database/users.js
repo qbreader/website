@@ -37,6 +37,10 @@ async function getBestBuzz(username) {
         { user_id: user_id, isCorrect: true },
         { sort: { celerity: -1 } },
     );
+
+    if (!data)
+        return null;
+
     data.tossup = await tossups.findOne({ _id: new ObjectId(data.tossup_id) });
     return data;
 }
