@@ -8,3 +8,10 @@ document.getElementById('toggle-dark-mode').addEventListener('click', function (
         localStorage.setItem('color-theme', 'light');
     }
 });
+
+{
+    const username = getWithExpiry('username');
+    if (username) {
+        document.getElementById('welcome-username').innerHTML = `, ${username}`;
+    }
+}
