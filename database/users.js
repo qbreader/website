@@ -191,7 +191,7 @@ async function recordTossupData(username, data) {
 
     for (const field of ['category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
         if (Object.prototype.hasOwnProperty.call(data.tossup, field)) {
-            newData.tossup[field] = data.tossup[field];
+            newData[field] = data.tossup[field];
         }
     }
 
