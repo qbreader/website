@@ -13,6 +13,12 @@ window.onload = () => {
         });
 
     fetch('/auth/get-stats')
+        .then(response => {
+            if (response.status === 401) {
+                throw new Error('Unauthorized');
+            }
+            return response;
+        })
         .then(response => response.json())
         .then(data => {
             if (data.queries) {
@@ -24,7 +30,7 @@ window.onload = () => {
                 });
             }
 
-            if (data.bestBuzz) {
+            if (data.bestBuzz && data.bestBuzz.tossup) {
                 const tossup = data.bestBuzz.tossup;
                 const buzzPoint = Math.floor((1 - data.bestBuzz.celerity) * tossup.question.length);
                 tossup.question = `${tossup.question.slice(0, buzzPoint)} <span class="text-highlight">(#)</span> ${tossup.question.slice(buzzPoint)}`;
@@ -53,6 +59,9 @@ window.onload = () => {
                     </div>
                 `;
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
 };
 
