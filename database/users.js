@@ -70,7 +70,7 @@ async function getPassword(username) {
 async function getQueries(username) {
     const user_id = await getUserId(username);
     return await queries.find(
-        { user_id: user_id },
+        { user_id },
         { sort: { createdAt: -1 } },
     ).toArray();
 }
@@ -79,8 +79,11 @@ async function getQueries(username) {
 /**
  * Get the user with the given username.
  */
-async function getUser(username) {
-    return await users.findOne({ username: username });
+async function getUser(username, showPassword = false) {
+    return await users.findOne(
+        { username: username },
+        { projection: { password: showPassword ? 1 : 0 } },
+    );
 }
 
 

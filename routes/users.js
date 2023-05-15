@@ -4,6 +4,21 @@ const router = express.Router();
 const authentication = require('../server/authentication');
 
 
+function getPageSecurely(htmlFile) {
+    return async (req, res) => {
+        // don't show page if you're not logged in
+        if (!req.session || !authentication.checkToken(req.session.username, req.session.token)) {
+            res.redirect('/users/login');
+            return;
+        }
+
+        res.sendFile(htmlFile, { root: './client/users' });
+    };
+}
+
+router.get('/edit-profile', getPageSecurely('edit-profile.html'));
+router.get('/edit-password', getPageSecurely('edit-password.html'));
+
 router.get('/login', async (req, res) => {
     // don't show login page if you're already logged in
     if (req.session && authentication.checkToken(req.session.username, req.session.token)) {
@@ -15,16 +30,7 @@ router.get('/login', async (req, res) => {
 });
 
 
-router.get('/my-profile', async (req, res) => {
-    // don't show profile page if you're not logged in
-    if (req.session && authentication.checkToken(req.session.username, req.session.token)) {
-        res.sendFile('my-profile.html', { root: './client/users' });
-        return;
-    }
-
-    res.redirect('/users/login');
-});
-
+router.get('/my-profile', getPageSecurely('my-profile.html'));
 
 router.get('/signup', async (req, res) => {
     res.sendFile('signup.html', { root: './client/users' });

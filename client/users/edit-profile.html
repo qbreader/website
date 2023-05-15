@@ -65,6 +65,7 @@
                     <label class="form-label" for="username">Username</label>
                     <input class="form-control" id="username" type="text" name="username" required>
                     <div class="invalid-feedback">Enter your username.</div>
+                    <div class="form-text">Changing your username will log you out of your account.</div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -77,18 +78,20 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <label class="form-label" for="password">Password</label>
-                    <input class="form-control" id="password" type="password" name="password" required>
-                    <div class="invalid-feedback">Enter your password.</div>
+                    <input class="form-control" id="password" type="password" name="password" value="Uj1v3GAW+5fH" disabled>
+                    <div class="form-text">
+                        For security reasons, to change your password, click <a href="/edit-password">here</a>.
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-primary" id="submission" type="submit">Sign Up</button>
+            <button class="btn btn-primary" id="submission" type="submit">Submit</button>
         </form>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
-    <script src="/users/signup.js"></script>
+    <script src="/users/edit-profile.js"></script>
 </body>
 
 </html>
