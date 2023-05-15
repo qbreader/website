@@ -443,12 +443,19 @@ function QueryForm() {
             minYear=${encodeURIComponent(minYear)}&
             maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
-    fetch(uri, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(response => {
+    if (getWithExpiry('username')) {
+      fetch('/auth/record-query', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          queryString,
+          regex
+        })
+      });
+    }
+    fetch(uri).then(response => {
       if (response.status === 400) {
         throw new Error('Invalid query');
       }
