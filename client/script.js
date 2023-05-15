@@ -14,17 +14,6 @@ function isTouchDevice() {
     return true == ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch);
 }
 
-const stylesheet = document.querySelector('#custom-css');
-document.getElementById('toggle-dark-mode').addEventListener('click', function () {
-    if (stylesheet.getAttribute('href') === '/bootstrap/light.css') {
-        stylesheet.setAttribute('href', '/bootstrap/dark.css');
-        localStorage.setItem('color-theme', 'dark');
-    } else {
-        stylesheet.setAttribute('href', '/bootstrap/light.css');
-        localStorage.setItem('color-theme', 'light');
-    }
-});
-
 
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
