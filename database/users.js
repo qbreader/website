@@ -14,6 +14,29 @@ const tossupData = database.collection('tossup-data');
 const bonusData = database.collection('bonus-data');
 
 
+const username_to_id = {};
+
+/**
+ * Get the user ID of the user with the given username.
+ * @param {String} username
+ * @returns {Promise<String>} The user ID of the user with the given username, or null if it doesn't exist.
+ */
+async function getUserId(username) {
+    if (username_to_id[username]) {
+        return username_to_id[username];
+    }
+
+    return await users.findOne({ username: username }).then((user) => {
+        if (!user) {
+            return null;
+        }
+
+        username_to_id[username] = user._id;
+        return user._id;
+    });
+}
+
+
 async function createUser(username, password, email) {
     return await users.insertOne({
         username,
@@ -25,8 +48,9 @@ async function createUser(username, password, email) {
 
 
 async function getBestBuzz(username) {
+    const user_id = await getUserId(username);
     return await tossupData.findOne(
-        { username: username, isCorrect: true },
+        { user_id: user_id, isCorrect: true },
         { sort: { celerity: -1 } },
     );
 }
@@ -44,8 +68,9 @@ async function getPassword(username) {
 
 
 async function getQueries(username) {
+    const user_id = await getUserId(username);
     return await queries.find(
-        { username: username },
+        { user_id: user_id },
         { sort: { createdAt: -1 } },
     ).toArray();
 }
@@ -60,6 +85,7 @@ async function getUser(username) {
 
 
 async function recordBonusData(username, data) {
+    const user_id = await getUserId(username);
     const newData = {};
     for (const field of ['pointsPerPart']) {
         if (!data[field]) {
@@ -79,23 +105,24 @@ async function recordBonusData(username, data) {
         }
     }
 
-    newData.username = username;
+    newData.user_id = user_id;
     newData.createdAt = new Date();
     return await bonusData.insertOne(newData);
 }
 
 
 async function recordQuery(username, query) {
-    if (await queries.countDocuments({ username: username }) >= 10) {
+    const user_id = await getUserId(username);
+    if (await queries.countDocuments({ user_id }) >= 10) {
         const oldest = await queries.findOne(
-            { username: username },
+            { user_id },
             { sort: { createdAt: 1 } },
         );
         queries.deleteOne({ _id: oldest._id });
     }
 
     return await queries.insertOne({
-        username,
+        user_id,
         query,
         createdAt: new Date(),
     });
@@ -103,6 +130,7 @@ async function recordQuery(username, query) {
 
 
 async function recordTossupData(username, data) {
+    const user_id = await getUserId(username);
     const newData = {};
     for (const field of ['celerity', 'isCorrect', 'pointValue']) {
         if (Object.prototype.hasOwnProperty.call(data, field)) {
@@ -122,7 +150,7 @@ async function recordTossupData(username, data) {
         }
     }
 
-    newData.username = username;
+    newData.user_id = user_id;
     newData.createdAt = new Date();
     return await tossupData.insertOne(newData);
 }
@@ -138,6 +166,11 @@ async function updateUser(username, values) {
         if (values[field]) {
             user[field] = values[field];
         }
+    }
+
+    if (values.username) {
+        username_to_id[values.username] = user._id;
+        delete username_to_id[username];
     }
 
     if (values.email) {
