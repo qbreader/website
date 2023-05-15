@@ -172,7 +172,8 @@ router.post('/signup', async (req, res) => {
 router.get('/verify-email', async (req, res) => {
     const verified = verifyEmailLink(req.query.user_id, req.query.token);
     if (verified) {
-        res.redirect('/users/my-profile');
+        req.session = null;
+        res.redirect('/users/login');
     } else {
         res.redirect('/users/verify-email-failed');
     }
