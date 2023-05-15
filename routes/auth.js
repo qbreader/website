@@ -19,6 +19,8 @@ router.use(apiLimiter);
 router.post('/edit-profile', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
         return;
     }
@@ -34,6 +36,8 @@ router.post('/edit-profile', async (req, res) => {
 router.post('/edit-password', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
         return;
     }
@@ -53,6 +57,8 @@ router.post('/edit-password', async (req, res) => {
 router.get('/get-profile', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
         return;
     }
@@ -65,6 +71,8 @@ router.get('/get-profile', async (req, res) => {
 router.get('/get-stats', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
         return;
     }
@@ -104,6 +112,8 @@ router.post('/logout', (req, res) => {
 router.post('/record-query', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
         return;
     }
@@ -117,6 +127,8 @@ router.post('/record-query', async (req, res) => {
 router.post('/record-tossup-data', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
         return;
     }
@@ -129,6 +141,8 @@ router.post('/record-tossup-data', async (req, res) => {
 router.get('/send-verification-email', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
         return;
     }
