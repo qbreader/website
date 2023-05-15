@@ -13,6 +13,10 @@ const tossupData = database.collection('tossup-data');
 // eslint-disable-next-line no-unused-vars
 const bonusData = database.collection('bonus-data');
 
+const questionDatabase = client.db('qbreader');
+const tossups = questionDatabase.collection('tossups');
+const bonuses = questionDatabase.collection('bonuses');
+
 
 const username_to_id = {};
 
@@ -29,10 +33,12 @@ async function createUser(username, password, email) {
 
 async function getBestBuzz(username) {
     const user_id = await getUserId(username);
-    return await tossupData.findOne(
+    const data = tossupData.findOne(
         { user_id: user_id, isCorrect: true },
         { sort: { celerity: -1 } },
     );
+    data.tossup = await tossups.findOne({ _id: data.tossup_id });
+    return data;
 }
 
 
@@ -138,11 +144,12 @@ async function recordBonusData(username, data) {
     }
 
     for (const field of ['_id', 'category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
-        if (data[field]) {
+        if (Object.prototype.hasOwnProperty.call(data.bonus, field)) {
             newData[field] = data.bonus[field];
         }
     }
 
+    newData.bonus_id = data.bonus._id;
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await bonusData.insertOne(newData);
@@ -182,12 +189,13 @@ async function recordTossupData(username, data) {
         return false;
     }
 
-    for (const field of ['_id', 'category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
-        if (data[field]) {
-            newData[field] = data.tossup[field];
+    for (const field of ['category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
+        if (Object.prototype.hasOwnProperty.call(data.tossup, field)) {
+            newData.tossup[field] = data.tossup[field];
         }
     }
 
+    newData.tossup_id = data.tossup._id;
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await tossupData.insertOne(newData);
@@ -200,8 +208,6 @@ async function updateUser(username, values) {
     if (!user)
         return false;
 
-    console.log(values.email);
-    console.log(user.email);
     if (values.email !== user.email) {
         values.verifiedEmail = false;
     }
