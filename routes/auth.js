@@ -71,8 +71,6 @@ router.get('/get-profile', async (req, res) => {
 router.get('/get-stats', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
-        delete req.session.username;
-        delete req.session.token;
         res.sendStatus(401);
         return;
     }
@@ -92,7 +90,8 @@ router.post('/login', async (req, res) => {
     const password = req.body.password;
     if (await checkPassword(username, password)) {
         req.session.username = username;
-        req.session.token = generateToken(username, await userDB.getUserField(username, 'verifiedEmail'));
+        const verifiedEmail = await userDB.getUserField(username, 'verifiedEmail');
+        req.session.token = generateToken(username, verifiedEmail);
         console.log(`/api/auth: LOGIN: User ${username} successfully logged in.`);
         res.sendStatus(200);
     } else {
@@ -112,8 +111,6 @@ router.post('/logout', (req, res) => {
 router.post('/record-query', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
-        delete req.session.username;
-        delete req.session.token;
         res.sendStatus(401);
         return;
     }
@@ -127,8 +124,6 @@ router.post('/record-query', async (req, res) => {
 router.post('/record-tossup-data', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
-        delete req.session.username;
-        delete req.session.token;
         res.sendStatus(401);
         return;
     }

@@ -64,7 +64,7 @@ function checkToken(username, token, checkEmailVerification = false) {
         if (err) {
             return false;
         } else {
-            return decoded.username === username && (!checkEmailVerification || decoded.verifiedEmail);
+            return (decoded.username === username) && (!checkEmailVerification || decoded.verifiedEmail);
         }
     });
 }
