@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
-const baseURL = process.env.NODE_ENV === 'production' ? 'https://www.qbreader.org' : process.env.BASE_URL ?? 'http://localhost:3000';
+const baseURL = process.env.BASE_URL ?? (process.env.NODE_ENV === 'production' ? 'https://www.qbreader.org' : 'http://localhost:3000');
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
