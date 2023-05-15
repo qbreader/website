@@ -19,6 +19,13 @@ app.set('query parser', 'simple');
 
 app.use(express.json());
 
+const cookieSession = require('cookie-session');
+app.use(cookieSession({
+    name: 'session',
+    keys: [process.env.secretKey1 ?? 'secretKey1', process.env.secretKey2 ?? 'secretKey2'],
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+}));
+
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
@@ -113,26 +120,17 @@ app.get('/*.ico', (req, res) => {
 });
 
 
-const apiRouter = require('../routes/api');
-const apiDocsRouter = require('../routes/api-docs');
-const tossupsRouter = require('../routes/tossups');
-const bonusesRouter = require('../routes/bonuses');
-const multiplayerRouter = require('../routes/multiplayer');
-const databaseRouter = require('../routes/database');
-const aboutRouter = require('../routes/about');
-const backupsRouter = require('../routes/backups');
-const indexRouter = require('../routes/index');
-
-
-app.use('/api', apiRouter);
-app.use('/tossups', tossupsRouter);
-app.use('/bonuses', bonusesRouter);
-app.use('/multiplayer', multiplayerRouter);
-app.use('/db', databaseRouter);
-app.use('/api-docs', apiDocsRouter);
-app.use('/about', aboutRouter);
-app.use('/backups', backupsRouter);
-app.use('/', indexRouter);
+app.use('/about', require('../routes/about'));
+app.use('/api', require('../routes/api'));
+app.use('/api-docs', require('../routes/database'));
+app.use('/auth', require('../routes/auth'));
+app.use('/backups', require('../routes/backups'));
+app.use('/bonuses', require('../routes/tossups'));
+app.use('/db', require('../routes/multiplayer'));
+app.use('/multiplayer', require('../routes/bonuses'));
+app.use('/tossups', require('../routes/api-docs'));
+app.use('/users', require('../routes/users'));
+app.use('/', require('../routes/index'));
 
 
 app.get('/database', (_req, res) => {
