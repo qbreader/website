@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const { MongoClient, ObjectId } = require('mongodb');
-const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED } = require('./quizbowl');
+const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED } = require('../server/quizbowl');
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -13,7 +13,7 @@ client.connect().then(async () => {
 
 const bcolors = require('../bcolors');
 const database = client.db('qbreader');
-const quizbowl = require('./quizbowl');
+const quizbowl = require('../server/quizbowl');
 
 const sets = database.collection('sets');
 const tossups = database.collection('tossups');

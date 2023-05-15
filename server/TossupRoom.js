@@ -1,5 +1,5 @@
 const bcolors = require('../bcolors');
-const database = require('./database');
+const database = require('../database/questions');
 const Player = require('./Player');
 const scorer = require('./scorer');
 const quizbowl = require('./quizbowl');
