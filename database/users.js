@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -16,33 +16,13 @@ const bonusData = database.collection('bonus-data');
 
 const username_to_id = {};
 
-/**
- * Get the user ID of the user with the given username.
- * @param {String} username
- * @returns {Promise<String>} The user ID of the user with the given username, or null if it doesn't exist.
- */
-async function getUserId(username) {
-    if (username_to_id[username]) {
-        return username_to_id[username];
-    }
-
-    return await users.findOne({ username: username }).then((user) => {
-        if (!user) {
-            return null;
-        }
-
-        username_to_id[username] = user._id;
-        return user._id;
-    });
-}
-
 
 async function createUser(username, password, email) {
     return await users.insertOne({
         username,
         password,
         email,
-        verified: false,
+        verifiedEmail: false,
     });
 }
 
@@ -56,14 +36,48 @@ async function getBestBuzz(username) {
 }
 
 
-/**
- * Get the password of the user with the given username.
- * @param {String} username
- * @returns {Promise<String>} The password of the user with the given username, or null if it doesn't exist.
- */
-async function getPassword(username) {
-    const user = await users.findOne({ username: username });
-    return user ? user.password : null;
+async function getCategoryStats(username) {
+    const user_id = await getUserId(username);
+    return await getStatsHelper(user_id, 'category');
+}
+
+
+async function getUserField(username, field) {
+    const user = await users.findOne({ username });
+    return user ? user[field] : null;
+}
+
+
+async function getSubcategoryStats(username) {
+    const user_id = await getUserId(username);
+    return await getStatsHelper(user_id, 'subcategory');
+}
+
+
+async function getStatsHelper(user_id, groupByField) {
+    groupByField = '$' + groupByField;
+    const tossups = await tossupData.aggregate([
+        { $match: { user_id: user_id } },
+        { $group: {
+            _id: groupByField,
+            count: { $sum: 1 },
+            numCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+            totalCelerity: { $sum: '$celerity' },
+            totalPoints: { $sum: '$pointValue' },
+        } },
+    ]).toArray();
+
+    const bonuses = await bonusData.aggregate([
+        { $match: { user_id: user_id } },
+        { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
+        { $group: {
+            _id: groupByField,
+            count: { $sum: 1 },
+            totalPoints: { $sum: '$pointValue' },
+        } },
+    ]).toArray();
+
+    return { tossups, bonuses };
 }
 
 
@@ -84,6 +98,27 @@ async function getUser(username, showPassword = false) {
         { username: username },
         { projection: { password: showPassword ? 1 : 0 } },
     );
+}
+
+
+/**
+ * Get the user ID of the user with the given username.
+ * @param {String} username
+ * @returns {Promise<String>} The user ID of the user with the given username, or null if it doesn't exist.
+ */
+async function getUserId(username) {
+    if (username_to_id[username]) {
+        return username_to_id[username];
+    }
+
+    return await users.findOne({ username: username }).then((user) => {
+        if (!user) {
+            return null;
+        }
+
+        username_to_id[username] = user._id;
+        return user._id;
+    });
 }
 
 
@@ -165,8 +200,14 @@ async function updateUser(username, values) {
     if (!user)
         return false;
 
-    for (const field of ['username', 'password', 'email']) {
-        if (values[field]) {
+    console.log(values.email);
+    console.log(user.email);
+    if (values.email !== user.email) {
+        values.verifiedEmail = false;
+    }
+
+    for (const field of ['username', 'password', 'email', 'verifiedEmail']) {
+        if (Object.prototype.hasOwnProperty.call(values, field)) {
             user[field] = values[field];
         }
     }
@@ -176,23 +217,35 @@ async function updateUser(username, values) {
         delete username_to_id[username];
     }
 
-    if (values.email) {
-        user.verifiedEmail = false;
-    }
-
     await users.updateOne({ username: username }, { $set: user });
     return true;
 }
 
 
+/**
+ *
+ * @param {String} user_id
+ * @returns {Promise<Result>}
+ */
+async function verifyEmail(user_id) {
+    return await users.updateOne(
+        { _id: new ObjectId(user_id) },
+        { $set: { verifiedEmail: true } },
+    );
+}
+
 module.exports = {
     createUser,
     getBestBuzz,
-    getPassword,
+    getCategoryStats,
+    getUserId,
+    getSubcategoryStats,
     getQueries,
     getUser,
+    getUserField,
     recordBonusData,
     recordQuery,
     recordTossupData,
     updateUser,
+    verifyEmail,
 };

@@ -62,6 +62,19 @@
         <h1>
             <p>Welcome, <span id="username"></span>!</p>
         </h1>
+        <p>
+            Email: <b><span id="email"></span></b>
+        </p>
+        <p>
+            Email verified: <b><span id="email-verified"></span></b>
+            <br>
+            <span id="email-verification-span">Click this link to send a verification email:
+                <a href="#" id="email-verification-link">Verify my email</a>
+            </span>
+        </p>
+        <div class="alert alert-success d-none" id="email-verification-confirmation">
+            Email verification sent!
+        </div>
         <a class="btn btn-primary mb-3" href="/users/edit-profile">Edit profile</a>
         <a class="btn btn-primary mb-3" href="/users/edit-password">Edit password</a>
         <button class="btn btn-primary mb-3" id="logout" type="button">Logout</button>
