@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { checkPassword, checkToken, generateToken, saltAndHashPassword, updatePassword } = require('../server/authentication');
+const { checkPassword, checkToken, generateToken, saltAndHashPassword, sendVerificationEmail, updatePassword, verifyEmailLink } = require('../server/authentication');
 const userDB = require('../database/users');
 
 const rateLimit = require('express-rate-limit');
@@ -23,9 +23,8 @@ router.post('/edit-profile', async (req, res) => {
         return;
     }
 
-    // log out if player changed their username
-    if (username != req.body.username)
-        req.session = null;
+    // log out user
+    req.session = null;
 
     userDB.updateUser(username, req.body);
     res.sendStatus(200);
@@ -65,16 +64,18 @@ router.get('/get-profile', async (req, res) => {
 
 router.get('/get-stats', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token)) {
+    if (!checkToken(username, token, true)) {
         res.sendStatus(401);
         return;
     }
 
-    const [queries, bestBuzz] = await Promise.all([
+    const [queries, bestBuzz, categoryStats, subcategoryStats] = await Promise.all([
         await userDB.getQueries(username),
-        await userDB.getBestBuzz(username)
+        await userDB.getBestBuzz(username),
+        await userDB.getCategoryStats(username),
+        await userDB.getSubcategoryStats(username),
     ]);
-    res.send(JSON.stringify({ queries, bestBuzz }));
+    res.send(JSON.stringify({ queries, bestBuzz, categoryStats, subcategoryStats }));
 });
 
 
@@ -83,7 +84,7 @@ router.post('/login', async (req, res) => {
     const password = req.body.password;
     if (await checkPassword(username, password)) {
         req.session.username = username;
-        req.session.token = generateToken(username);
+        req.session.token = generateToken(username, await userDB.getUserField(username, 'verifiedEmail'));
         console.log(`/api/auth: LOGIN: User ${username} successfully logged in.`);
         res.sendStatus(200);
     } else {
@@ -102,7 +103,7 @@ router.post('/logout', (req, res) => {
 
 router.post('/record-query', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token)) {
+    if (!checkToken(username, token, true)) {
         res.sendStatus(401);
         return;
     }
@@ -115,13 +116,25 @@ router.post('/record-query', async (req, res) => {
 
 router.post('/record-tossup-data', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token)) {
+    if (!checkToken(username, token, true)) {
         res.sendStatus(401);
         return;
     }
 
     const results = await userDB.recordTossupData(username, req.body);
     res.send(JSON.stringify(results));
+});
+
+
+router.get('/send-verification-email', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    sendVerificationEmail(username);
+    res.sendStatus(200);
 });
 
 
@@ -143,6 +156,16 @@ router.post('/signup', async (req, res) => {
         await userDB.createUser(username, password, email);
         console.log(`/api/auth: SIGNUP: User ${username} successfully signed up.`);
         res.sendStatus(200);
+    }
+});
+
+
+router.get('/verify-email', async (req, res) => {
+    const verified = verifyEmailLink(req.query.user_id, req.query.token);
+    if (verified) {
+        res.redirect('/users/my-profile');
+    } else {
+        res.redirect('/users/verify-email-failed');
     }
 });
 

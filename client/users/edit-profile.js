@@ -31,8 +31,8 @@ form.addEventListener('submit', (event) => {
         })
     }).then(function (response) {
         if (response.status === 200) {
-            setWithExpiry('username', username, 1000 * 60 * 60 * 24);
-            window.location.href = '/users/my-profile';
+            localStorage.removeItem('username');
+            window.location.href = '/users/login';
         } else {
             document.getElementById('submission').innerHTML = 'Submit';
             alert('Username already exists.');
