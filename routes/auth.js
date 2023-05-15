@@ -108,6 +108,18 @@ router.post('/logout', (req, res) => {
 });
 
 
+router.post('/record-bonus', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const results = await userDB.recordBonusData(username, req.body);
+    res.send(JSON.stringify(results));
+});
+
+
 router.post('/record-query', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
@@ -121,7 +133,7 @@ router.post('/record-query', async (req, res) => {
 });
 
 
-router.post('/record-tossup-data', async (req, res) => {
+router.post('/record-tossup', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
         res.sendStatus(401);

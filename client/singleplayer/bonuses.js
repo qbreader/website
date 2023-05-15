@@ -222,6 +222,26 @@ async function loadRandomBonuses(difficulties = [], categories = [], subcategori
  * Loads and reads the next question.
  */
 async function next() {
+    if (questions[questionNumber] && currentBonusPart >= questions[questionNumber].parts.length) {
+        const pointsPerPart = Array.from(document.getElementsByClassName('checkbox')).map((checkbox, index) => {
+            if (!checkbox.checked)
+                return 0;
+
+            return questions[questionNumber]?.values ? questions[questionNumber].values[index] : 10;
+        });
+
+        fetch('/auth/record-bonus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                bonus: questions[questionNumber],
+                pointsPerPart: pointsPerPart,
+            })
+        });
+    }
+
     document.getElementById('question').innerHTML = '';
     document.getElementById('reveal').disabled = false;
     document.getElementById('next').innerHTML = 'Skip';
