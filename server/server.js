@@ -22,7 +22,7 @@ app.use(express.json());
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
     name: 'session',
-    keys: [process.env.secretKey1 ?? 'secretKey1', process.env.secretKey2 ?? 'secretKey2'],
+    keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
 }));
 
