@@ -122,13 +122,13 @@ app.get('/*.ico', (req, res) => {
 
 app.use('/about', require('../routes/about'));
 app.use('/api', require('../routes/api'));
-app.use('/api-docs', require('../routes/database'));
+app.use('/api-docs', require('../routes/api-docs'));
 app.use('/auth', require('../routes/auth'));
 app.use('/backups', require('../routes/backups'));
-app.use('/bonuses', require('../routes/tossups'));
-app.use('/db', require('../routes/multiplayer'));
-app.use('/multiplayer', require('../routes/bonuses'));
-app.use('/tossups', require('../routes/api-docs'));
+app.use('/bonuses', require('../routes/bonuses'));
+app.use('/db', require('../routes/database'));
+app.use('/multiplayer', require('../routes/multiplayer'));
+app.use('/tossups', require('../routes/tossups'));
 app.use('/users', require('../routes/users'));
 app.use('/', require('../routes/index'));
 
