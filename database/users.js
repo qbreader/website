@@ -15,7 +15,6 @@ const bonusData = database.collection('bonus-data');
 
 const questionDatabase = client.db('qbreader');
 const tossups = questionDatabase.collection('tossups');
-const bonuses = questionDatabase.collection('bonuses');
 
 
 const username_to_id = {};
@@ -41,7 +40,7 @@ async function getBestBuzz(username) {
     if (!data)
         return null;
 
-    data.tossup = await tossups.findOne({ _id: new ObjectId(data.tossup_id) });
+    data.tossup = await tossups.findOne({ _id: data.tossup_id });
     return data;
 }
 
@@ -114,7 +113,7 @@ async function getUser(username, showPassword = false) {
 /**
  * Get the user ID of the user with the given username.
  * @param {String} username
- * @returns {Promise<String>} The user ID of the user with the given username, or null if it doesn't exist.
+ * @returns {Promise<ObjectId>} The user ID of the user with the given username, or null if it doesn't exist.
  */
 async function getUserId(username) {
     if (username_to_id[username]) {
@@ -147,13 +146,13 @@ async function recordBonusData(username, data) {
         return false;
     }
 
-    for (const field of ['_id', 'category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
+    for (const field of ['category', 'subcategory', 'difficulty', 'packet', 'set', 'questionNumber']) {
         if (Object.prototype.hasOwnProperty.call(data.bonus, field)) {
             newData[field] = data.bonus[field];
         }
     }
 
-    newData.bonus_id = data.bonus._id;
+    newData.bonus_id = new ObjectId(data.bonus._id);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await bonusData.insertOne(newData);
@@ -199,7 +198,7 @@ async function recordTossupData(username, data) {
         }
     }
 
-    newData.tossup_id = data.tossup._id;
+    newData.tossup_id = ObjectId(data.tossup._id);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await tossupData.insertOne(newData);
