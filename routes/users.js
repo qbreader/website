@@ -22,7 +22,7 @@ router.get('/edit-password', getPageSecurely('edit-password.html'));
 router.get('/login', async (req, res) => {
     // don't show login page if you're already logged in
     if (req.session && authentication.checkToken(req.session.username, req.session.token)) {
-        res.redirect('/');
+        res.redirect('/users/my-profile');
         return;
     }
 
@@ -34,6 +34,11 @@ router.get('/my-profile', getPageSecurely('my-profile.html'));
 
 router.get('/signup', async (req, res) => {
     res.sendFile('signup.html', { root: './client/users' });
+});
+
+
+router.get('/verify-email-failed', async (req, res) => {
+    res.sendFile('verify-email-failed.html', { root: './client/users' });
 });
 
 
