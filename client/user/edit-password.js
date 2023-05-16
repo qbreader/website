@@ -30,7 +30,7 @@ form.addEventListener('submit', (event) => {
     }).then(function (response) {
         if (response.status === 200) {
             setWithExpiry('username', username, 1000 * 60 * 60 * 24);
-            window.location.href = '/users/my-profile';
+            window.location.href = '/user/my-profile';
         } else {
             document.getElementById('submission').innerHTML = 'Submit';
             document.getElementById('old-password').value = '';
