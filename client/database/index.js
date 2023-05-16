@@ -122,8 +122,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 function TossupCard({
   tossup,
-  highlightedTossup,
-  showCardFooter
+  highlightedTossup
 }) {
   const _id = tossup._id;
   const packetName = tossup.packetName;
@@ -218,7 +217,7 @@ function TossupCard({
       __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
-    className: `card-footer ${!showCardFooter && 'd-none'}`,
+    className: "card-footer",
     onClick: showTossupStats,
     "data-bs-toggle": "modal",
     "data-bs-target": "#tossup-stats-modal"
@@ -236,8 +235,7 @@ function TossupCard({
 }
 function BonusCard({
   bonus,
-  highlightedBonus,
-  showCardFooter
+  highlightedBonus
 }) {
   const _id = bonus._id;
   const packetName = bonus.packetName;
@@ -344,7 +342,7 @@ function BonusCard({
       __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
-    className: `card-footer ${!showCardFooter && 'd-none'}`,
+    className: "card-footer",
     onClick: showBonusStats,
     "data-bs-toggle": "modal",
     "data-bs-target": "#bonus-stats-modal"
@@ -463,7 +461,6 @@ function QueryForm() {
   const [maxYear, setMaxYear] = React.useState('');
   const [regex, setRegex] = React.useState(false);
   const [diacritics, setDiacritics] = React.useState(false);
-  const [showCardFooters, setShowCardFooters] = React.useState(true);
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
   let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
   let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
@@ -638,8 +635,7 @@ function QueryForm() {
     tossupCards.push( /*#__PURE__*/React.createElement(TossupCard, {
       key: i,
       tossup: tossups[i],
-      highlightedTossup: highlightedTossups[i],
-      showCardFooter: showCardFooters
+      highlightedTossup: highlightedTossups[i]
     }));
   }
   const bonusCards = [];
@@ -647,13 +643,9 @@ function QueryForm() {
     bonusCards.push( /*#__PURE__*/React.createElement(BonusCard, {
       key: i,
       bonus: bonuses[i],
-      highlightedBonus: highlightedBonuses[i],
-      showCardFooter: showCardFooters
+      highlightedBonus: highlightedBonuses[i]
     }));
   }
-  // tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
-  // const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
-
   React.useEffect(() => {
     Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
       input.addEventListener('change', function () {
@@ -868,20 +860,6 @@ function QueryForm() {
     className: "form-check-label",
     htmlFor: "toggle-ignore-diacritics"
   }, "Ignore diacritics when searching (Note: may slow down search)")), /*#__PURE__*/React.createElement("div", {
-    className: "form-check form-switch"
-  }, /*#__PURE__*/React.createElement("input", {
-    className: "form-check-input",
-    type: "checkbox",
-    role: "switch",
-    id: "toggle-show-card-footers",
-    checked: showCardFooters,
-    onChange: () => {
-      setShowCardFooters(!showCardFooters);
-    }
-  }), /*#__PURE__*/React.createElement("label", {
-    className: "form-check-label",
-    htmlFor: "toggle-show-card-footers"
-  }, "Show card footers")), /*#__PURE__*/React.createElement("div", {
     className: "float-end"
   }, /*#__PURE__*/React.createElement("b", null, "Download:"), /*#__PURE__*/React.createElement("a", {
     className: "ms-2 download-link",
