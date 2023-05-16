@@ -9408,6 +9408,10 @@ progress {
   margin-bottom: 0.5em;
 }
 
+.card-footer {
+  cursor: pointer;
+}
+
 .card-header {
   cursor: pointer;
 }
