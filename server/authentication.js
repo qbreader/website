@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const users = require('../database/users');
 
 const baseURL = process.env.BASE_URL ?? (process.env.NODE_ENV === 'production' ? 'https://www.qbreader.org' : 'http://localhost:3000');
 
@@ -30,7 +31,6 @@ const salt = process.env.SALT ? process.env.SALT : 'salt';
 const secret = process.env.SECRET ? process.env.SECRET : 'secret';
 
 
-const users = require('../database/users');
 
 /**
  * Stores the timestamp of the most recent email sent to a user.
@@ -38,8 +38,8 @@ const users = require('../database/users');
  * The timestamp is the number of milliseconds since January 1, 1970.
  * @type {{String: Number}}
  */
-const activeEmailTokens = {};
-
+const activeVerifyEmailTokens = {};
+const activeResetPasswordTokens = {};
 
 /**
  * Check whether or not the given username and password are valid.
@@ -95,9 +95,42 @@ function saltAndHashPassword(password) {
 }
 
 
+async function sendResetPasswordEmail(username) {
+    const email = await users.getUserField(username, 'email');
+    const user_id = await users.getUserId(username);
+    if (!user_id || !email) {
+        return false;
+    }
+
+    const timestamp = Date.parse((new Date()).toString());
+    const token = jwt.sign({ user_id, timestamp }, secret);
+    const url = `${baseURL}/auth/verify-reset-password?user_id=${user_id}&token=${token}`;
+    const message = {
+        from: 'info@qbreader.org',
+        to: email,
+        subject: 'Reset your password',
+        text: `Click this link to reset your password: ${url} This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it. Do not reply to this email; this inbox is unmonitored.`,
+        html: `<p>Click this link to reset your password: <a href="${url}">${url}</a></p> <p>This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it.</p> <i>Do not reply to this email; this inbox is unmonitored.</i>`,
+    };
+    transporter.sendMail(message, (error, info) => {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(`Email sent: ${info.response}`);
+            activeResetPasswordTokens[user_id] = timestamp;
+        }
+    });
+    return true;
+}
+
+
 async function sendVerificationEmail(username) {
     const email = await users.getUserField(username, 'email');
     const user_id = await users.getUserId(username);
+    if (!user_id || !email) {
+        return false;
+    }
+
     const timestamp = Date.parse((new Date()).toString());
     const token = jwt.sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-email?user_id=${user_id}&token=${token}`;
@@ -113,9 +146,10 @@ async function sendVerificationEmail(username) {
             console.log(error);
         } else {
             console.log(`Email sent: ${info.response}`);
-            activeEmailTokens[user_id] = timestamp;
+            activeVerifyEmailTokens[user_id] = timestamp;
         }
     });
+    return true;
 }
 
 
@@ -140,11 +174,11 @@ function verifyEmailLink(user_id, token) {
             return false;
         }
 
-        if (activeEmailTokens[user_id] !== timestamp) {
+        if (activeVerifyEmailTokens[user_id] !== timestamp) {
             return false;
         }
 
-        delete activeEmailTokens[user_id];
+        delete activeVerifyEmailTokens[user_id];
 
         if (new Date() - timestamp > expirationTime) {
             return false;
@@ -156,12 +190,45 @@ function verifyEmailLink(user_id, token) {
 }
 
 
+function verifyResetPasswordLink(user_id, token) {
+    const expirationTime = 1000 * 60 * 15; // 15 minutes
+    return jwt.verify(token, secret, (err, decoded) => {
+        if (err) {
+            return false;
+        }
+
+        const timestamp = parseInt(decoded.timestamp);
+        if (isNaN(timestamp)) {
+            return false;
+        }
+
+        if (decoded.user_id !== user_id) {
+            return false;
+        }
+
+        if (activeResetPasswordTokens[user_id] !== timestamp) {
+            return false;
+        }
+
+        delete activeResetPasswordTokens[user_id];
+
+        if (new Date() - timestamp > expirationTime) {
+            return false;
+        }
+
+        return true;
+    });
+}
+
+
 module.exports = {
     checkPassword,
     checkToken,
     generateToken,
     saltAndHashPassword,
+    sendResetPasswordEmail,
     sendVerificationEmail,
     updatePassword,
     verifyEmailLink,
+    verifyResetPasswordLink,
 };
