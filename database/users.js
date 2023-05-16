@@ -51,15 +51,70 @@ async function getCategoryStats(username, questionType) {
 }
 
 
-async function getUserField(username, field) {
-    const user = await users.findOne({ username });
-    return user ? user[field] : null;
-}
-
-
 async function getSubcategoryStats(username, questionType) {
     const user_id = await getUserId(username);
     return await getStatsHelper(user_id, questionType, 'subcategory');
+}
+
+
+/**
+ * Get the stats for a single bonus.
+ * @param {ObjectId} bonus_id the bonus id
+ * @returns {Promise<Document>} the bonus stats
+ */
+async function getSingleBonusStats(bonus_id) {
+    const result = await bonusData.aggregate([
+        { $match: { bonus_id } },
+        { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
+        { $addFields: {
+            is30: { $eq: ['$pointValue', 30] },
+            is20: { $eq: ['$pointValue', 20] },
+            is10: { $eq: ['$pointValue', 10] },
+            is0:  { $eq: ['$pointValue',  0] },
+        } },
+        { $group: {
+            _id: bonus_id,
+            count: { $sum: 1 },
+            '30s': { $sum: { $cond: ['$is30', 1, 0] } },
+            '20s': { $sum: { $cond: ['$is20', 1, 0] } },
+            '10s': { $sum: { $cond: ['$is10', 1, 0] } },
+            '0s':  { $sum: { $cond: ['$is0',  1, 0] } },
+            totalPoints: { $sum: '$pointValue' },
+            ppb: { $avg: '$pointValue' },
+        } },
+    ]).toArray();
+
+    return result[0];
+}
+
+
+/**
+ * Get the stats for a single tossup.
+ * @param {ObjectId} tossup_id the tossup id
+ * @returns {Promise<Document>} the tossup stats
+ */
+async function getSingleTossupStats(tossup_id) {
+    const result = await tossupData.aggregate([
+        { $match: { tossup_id } },
+        { $addFields: {
+            is15: { $gt: ['$pointValue', 10] },
+            is10: { $eq: ['$pointValue', 10] },
+            isNeg5: { $lt: ['$pointValue', 0] },
+        } },
+        { $group: {
+            numCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+            _id: tossup_id,
+            count: { $sum: 1 },
+            '15s': { $sum: { $cond: ['$is15', 1, 0] } },
+            '10s': { $sum: { $cond: ['$is10', 1, 0] } },
+            '-5s': { $sum: { $cond: ['$isNeg5', 1, 0] } },
+            totalCelerity: { $sum: '$celerity' },
+            totalPoints: { $sum: '$pointValue' },
+            ppth: { $avg: '$pointValue' },
+        } },
+    ]).toArray();
+
+    return result[0];
 }
 
 
@@ -76,15 +131,15 @@ async function getStatsHelper(user_id, questionType, groupByField) {
                 isNeg5: { $lt: ['$pointValue', 0] },
             } },
             { $group: {
+                numCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
                 _id: groupByField,
                 count: { $sum: 1 },
-                numCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
-                totalCelerity: { $sum: '$celerity' },
-                totalPoints: { $sum: '$pointValue' },
-                ppth: { $avg: '$pointValue' },
                 '15s': { $sum: { $cond: ['$is15', 1, 0] } },
                 '10s': { $sum: { $cond: ['$is10', 1, 0] } },
                 '-5s': { $sum: { $cond: ['$isNeg5', 1, 0] } },
+                totalCelerity: { $sum: '$celerity' },
+                totalPoints: { $sum: '$pointValue' },
+                ppth: { $avg: '$pointValue' },
             } },
             { $sort: { ppth: -1 } },
         ]).toArray();
@@ -101,12 +156,12 @@ async function getStatsHelper(user_id, questionType, groupByField) {
             { $group: {
                 _id: groupByField,
                 count: { $sum: 1 },
-                totalPoints: { $sum: '$pointValue' },
-                ppb: { $avg: '$pointValue' },
                 '30s': { $sum: { $cond: ['$is30', 1, 0] } },
                 '20s': { $sum: { $cond: ['$is20', 1, 0] } },
                 '10s': { $sum: { $cond: ['$is10', 1, 0] } },
                 '0s':  { $sum: { $cond: ['$is0',  1, 0] } },
+                totalPoints: { $sum: '$pointValue' },
+                ppb: { $avg: '$pointValue' },
             } },
             { $sort: { ppb: -1 } },
         ]).toArray();
@@ -131,6 +186,12 @@ async function getUser(username, showPassword = false) {
         { username: username },
         { projection: { password: showPassword ? 1 : 0 } },
     );
+}
+
+
+async function getUserField(username, field) {
+    const user = await users.findOne({ username });
+    return user ? user[field] : null;
 }
 
 
@@ -283,11 +344,13 @@ module.exports = {
     createUser,
     getBestBuzz,
     getCategoryStats,
-    getUserId,
-    getSubcategoryStats,
     getQueries,
+    getSingleBonusStats,
+    getSingleTossupStats,
+    getSubcategoryStats,
     getUser,
     getUserField,
+    getUserId,
     recordBonusData,
     recordQuery,
     recordTossupData,

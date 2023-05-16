@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { checkPassword, checkToken, generateToken, saltAndHashPassword, sendVerificationEmail, updatePassword, verifyEmailLink } = require('../server/authentication');
+const { ObjectId } = require('mongodb');
 const userDB = require('../database/users');
 
 const rateLimit = require('express-rate-limit');
@@ -68,7 +69,31 @@ router.get('/get-profile', async (req, res) => {
 });
 
 
-router.get('/get-stats-bonus', async (req, res) => {
+router.get('/stats/single-bonus', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const stats = await userDB.getSingleBonusStats(new ObjectId(req.query.bonus_id));
+    res.send(JSON.stringify({ stats }));
+});
+
+
+router.get('/stats/single-tossup', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const stats = await userDB.getSingleTossupStats(new ObjectId(req.query.tossup_id));
+    res.send(JSON.stringify({ stats }));
+});
+
+
+router.get('/get-user-stats-bonus', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
         res.sendStatus(401);
@@ -83,7 +108,7 @@ router.get('/get-stats-bonus', async (req, res) => {
 });
 
 
-router.get('/get-stats-database', async (req, res) => {
+router.get('/get-user-stats-database', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
         res.sendStatus(401);
@@ -97,7 +122,7 @@ router.get('/get-stats-database', async (req, res) => {
 });
 
 
-router.get('/get-stats-tossup', async (req, res) => {
+router.get('/get-user-stats-tossup', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
         res.sendStatus(401);

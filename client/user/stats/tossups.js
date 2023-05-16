@@ -1,4 +1,4 @@
-fetch('/auth/get-stats-tossup')
+fetch('/auth/get-user-stats-tossup')
     .then(response => {
         if (response.status === 401) {
             throw new Error('Unauthorized');
@@ -40,7 +40,7 @@ fetch('/auth/get-stats-tossup')
         if (data.categoryStats) {
             data.categoryStats.forEach(categoryStat => {
                 const category = categoryStat._id;
-                const averageCelerity = categoryStat.count > 0 ? (categoryStat.totalCelerity / categoryStat.count).toFixed(3) : 0;
+                const averageCelerity = categoryStat.numCorrect > 0 ? (categoryStat.totalCelerity / categoryStat.numCorrect).toFixed(3) : 0;
                 document.getElementById('category-stats-body').innerHTML += `
                     <tr>
                         <th scope="row">${category}</th>
@@ -59,7 +59,7 @@ fetch('/auth/get-stats-tossup')
         if (data.subcategoryStats) {
             data.subcategoryStats.forEach(subcategoryStat => {
                 const subcategory = subcategoryStat._id;
-                const averageCelerity = subcategoryStat.count > 0 ? (subcategoryStat.totalCelerity / subcategoryStat.count).toFixed(3) : 0;
+                const averageCelerity = subcategoryStat.numCorrect > 0 ? (subcategoryStat.totalCelerity / subcategoryStat.numCorrect).toFixed(3) : 0;
                 document.getElementById('subcategory-stats-body').innerHTML += `
                     <tr>
                         <th scope="row">${subcategory}</th>

@@ -1,4 +1,4 @@
-fetch('/auth/get-stats-bonus')
+fetch('/auth/get-user-stats-bonus')
     .then(response => {
         if (response.status === 401) {
             throw new Error('Unauthorized');
