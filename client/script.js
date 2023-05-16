@@ -10,6 +10,12 @@ if (['http://www.qbreader.org', 'http://qbreader.herokuapp.com', 'https://qbread
     location.href = 'https://www.qbreader.org' + location.pathname;
 }
 
+
+if (['http://test.qbreader.org', 'http://qbreader-test.herokuapp.com', 'https://qbreader-test.herokuapp.com'].includes(location.origin)) {
+    location.href = 'https://test.qbreader.org' + location.pathname;
+}
+
+
 function isTouchDevice() {
     return true == ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch);
 }
