@@ -68,20 +68,48 @@ router.get('/get-profile', async (req, res) => {
 });
 
 
-router.get('/get-stats', async (req, res) => {
+router.get('/get-stats-bonus', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
         res.sendStatus(401);
         return;
     }
 
-    const [queries, bestBuzz, categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getQueries(username),
-        await userDB.getBestBuzz(username),
-        await userDB.getCategoryStats(username),
-        await userDB.getSubcategoryStats(username),
+    const [categoryStats, subcategoryStats] = await Promise.all([
+        await userDB.getCategoryStats(username, 'bonus'),
+        await userDB.getSubcategoryStats(username, 'bonus'),
     ]);
-    res.send(JSON.stringify({ queries, bestBuzz, categoryStats, subcategoryStats }));
+    res.send(JSON.stringify({ categoryStats, subcategoryStats }));
+});
+
+
+router.get('/get-stats-database', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const [queries] = await Promise.all([
+        await userDB.getQueries(username)
+    ]);
+    res.send(JSON.stringify({ queries }));
+});
+
+
+router.get('/get-stats-tossup', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const [bestBuzz, categoryStats, subcategoryStats] = await Promise.all([
+        await userDB.getBestBuzz(username),
+        await userDB.getCategoryStats(username, 'tossup'),
+        await userDB.getSubcategoryStats(username, 'tossup'),
+    ]);
+    res.send(JSON.stringify({ bestBuzz, categoryStats, subcategoryStats }));
 });
 
 

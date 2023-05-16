@@ -59,40 +59,56 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <h1>
-            <p>Welcome, <span id="username"></span>!</p>
-        </h1>
-        <p>
-            Email: <b><span id="email"></span></b>
-        </p>
-        <p>
-            Email verified: <b><span id="email-verified"></span></b>
-            <br>
-            <span class="d-none" id="email-verification-span">
-                Click this link to send a verification email:
-                <a href="#" id="email-verification-link">Verify my email</a>.
-                <i>Without a verified email, your stats will not be tracked, and you will not be able to reset your password.</i>
-            </span>
-        </p>
-        <div class="alert alert-success d-none" id="email-verification-confirmation">
-            Email verification sent!
+        <div class="row">
+            <div class="col-12">
+                <h3>
+                    <p>Best buzz:</p>
+                </h3>
+                <div id="best-buzz"></div>
+            </div>
         </div>
-        <p>
-            <a class="btn btn-primary" href="/users/edit-profile">Edit profile</a>
-            <a class="btn btn-primary" href="/users/edit-password">Edit password</a>
-            <button class="btn btn-primary" id="logout" type="button">Logout</button>
-        </p>
-        <p>
-            Here are links to your <a href="/users/stats/tossups">tossup stats</a>,
-            <a href="/users/stats/bonuses">bonus stats</a>,
-            and <a href="/users/stats/database">database info</a>.
-        </p>
+        <div class="row">
+            <div class="col-12">
+                <h3>Category Stats:</h3>
+                <table class="table table-hover" id="category-stats">
+                    <thead>
+                        <tr>
+                            <th scope="col">Category</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col"># Correct</th>
+                            <th scope="col">Celerity</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">PPTUH</th>
+                        </tr>
+                    </thead>
+                    <tbody id="category-stats-body"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3>Subcategory Stats:</h3>
+                <table class="table table-hover" id="subcategory-stats">
+                    <thead>
+                        <tr>
+                            <th scope="col">Subcategory</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col"># Correct</th>
+                            <th scope="col">Celerity</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">PPTUH</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subcategory-stats-body"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
-    <script src="/users/my-profile.js"></script>
+    <script src="/users/stats/tossups.js"></script>
 </body>
 
 </html>
