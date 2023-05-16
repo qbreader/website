@@ -110,7 +110,7 @@ async function getSingleTossupStats(tossup_id) {
             '-5s': { $sum: { $cond: ['$isNeg5', 1, 0] } },
             totalCelerity: { $sum: '$celerity' },
             totalPoints: { $sum: '$pointValue' },
-            ppth: { $avg: '$pointValue' },
+            pptu: { $avg: '$pointValue' },
         } },
     ]).toArray();
 
@@ -139,9 +139,9 @@ async function getStatsHelper(user_id, questionType, groupByField) {
                 '-5s': { $sum: { $cond: ['$isNeg5', 1, 0] } },
                 totalCelerity: { $sum: '$celerity' },
                 totalPoints: { $sum: '$pointValue' },
-                ppth: { $avg: '$pointValue' },
+                pptu: { $avg: '$pointValue' },
             } },
-            { $sort: { ppth: -1 } },
+            { $sort: { pptu: -1 } },
         ]).toArray();
     case 'bonus':
         return await bonusData.aggregate([
