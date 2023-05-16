@@ -23,7 +23,7 @@ document.getElementById('logout').addEventListener('click', () => {
     fetch('/auth/logout', {
         method: 'POST',
     }).then(() => {
-        localStorage.removeItem('username');
+        localStorage.removeItem('account-username');
         window.location.href = '/user/login';
     });
 });

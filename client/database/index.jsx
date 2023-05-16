@@ -534,7 +534,7 @@ function QueryForm() {
         `.replace(/\s/g, '');
 
 
-        if (getWithExpiry('username')) {
+        if (getWithExpiry('account-username')) {
             fetch('/auth/record-query', {
                 method: 'POST',
                 headers: {

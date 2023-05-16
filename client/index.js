@@ -10,7 +10,7 @@ document.getElementById('toggle-dark-mode').addEventListener('click', function (
 });
 
 {
-    const username = getWithExpiry('username');
+    const username = getWithExpiry('account-username');
     if (username) {
         document.getElementById('welcome-username').innerHTML = `, ${username}`;
     }

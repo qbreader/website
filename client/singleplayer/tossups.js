@@ -245,7 +245,7 @@ async function next() {
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
 
-    if (getWithExpiry('username') && document.getElementById('answer').innerHTML) {
+    if (getWithExpiry('account-username') && document.getElementById('answer').innerHTML) {
         const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
         fetch('/auth/record-tossup', {
             method: 'POST',
@@ -253,7 +253,7 @@ async function next() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: getWithExpiry('username'),
+                username: getWithExpiry('account-username'),
                 tossup: questions[questionNumber],
                 isCorrect: previous.isCorrect,
                 pointValue: pointValue,
