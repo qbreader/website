@@ -222,7 +222,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 
-function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
+function TossupCard({ tossup, highlightedTossup }) {
     const _id = tossup._id;
     const packetName = tossup.packetName;
 
@@ -322,7 +322,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
                         __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
                     }}></span></div>
                 </div>
-                <div className={`card-footer ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
+                <div className="card-footer" onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
@@ -336,7 +336,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
 }
 
 
-function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
+function BonusCard({ bonus, highlightedBonus }) {
     const _id = bonus._id;
     const packetName = bonus.packetName;
     const bonusLength = bonus.parts.length;
@@ -448,7 +448,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
                         </div>
                     )}
                 </div>
-                <div className={`card-footer ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
+                <div className="card-footer" onClick={showBonusStats} data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
@@ -538,7 +538,6 @@ function QueryForm() {
 
     const [regex, setRegex] = React.useState(false);
     const [diacritics, setDiacritics] = React.useState(false);
-    const [showCardFooters, setShowCardFooters] = React.useState(true);
 
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
 
@@ -720,15 +719,13 @@ function QueryForm() {
 
     const tossupCards = [];
     for (let i = 0; i < highlightedTossups.length; i++) {
-        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} showCardFooter={showCardFooters}/>);
+        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]}/>);
     }
 
     const bonusCards = [];
     for (let i = 0; i < highlightedBonuses.length; i++) {
-        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} showCardFooter={showCardFooters}/>);
+        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]}/>);
     }
-    // tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
-    // const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
 
     React.useEffect(() => {
         Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
@@ -830,10 +827,6 @@ function QueryForm() {
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
                             <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics when searching (Note: may slow down search)</label>
-                        </div>
-                        <div className="form-check form-switch">
-                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-show-card-footers" checked={showCardFooters} onChange={() => {setShowCardFooters(!showCardFooters);}} />
-                            <label className="form-check-label" htmlFor="toggle-show-card-footers">Show card footers</label>
                         </div>
                         <div className="float-end">
                             <b>Download:</b>
