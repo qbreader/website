@@ -1,4 +1,4 @@
-fetch('/auth/get-user-stats-database')
+fetch('/auth/user-stats/database')
     .then(response => response.json())
     .then(data => {
         if (data.queries) {
