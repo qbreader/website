@@ -127,9 +127,6 @@ function TossupCard({
 }) {
   const _id = tossup._id;
   const packetName = tossup.packetName;
-  function onClick() {
-    document.getElementById('report-question-id').value = _id;
-  }
   function copyToClick() {
     let textdata = `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}`;
     if (tossup.category && tossup.subcategory) {
@@ -142,6 +139,62 @@ function TossupCard({
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
+  }
+  function onClick() {
+    document.getElementById('report-question-id').value = _id;
+  }
+  function showTossupStats() {
+    fetch('/auth/stats/single-tossup?tossup_id=' + _id).then(response => {
+      if (response.status === 401) {
+        document.getElementById('tossup-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
+        throw new Error('Unauthorized');
+      }
+      return response;
+    }).then(response => response.json()).then(response => {
+      document.getElementById('tossup-stats-question-id').value = _id;
+      const {
+        stats
+      } = response;
+      if (!stats) {
+        document.getElementById('tossup-stats-body').innerHTML = 'No stats found for this question.';
+        return;
+      }
+      const averageCelerity = stats.numCorrect > 0 ? (stats.totalCelerity / stats.numCorrect).toFixed(3) : 0;
+      document.getElementById('tossup-stats-body').innerHTML = `
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        TUH
+                        <span>${stats.count}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        15s
+                        <span>${stats['15s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        10s
+                        <span>${stats['10s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        -5s
+                        <span>${stats['-5s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Average celerity
+                        <span>${averageCelerity}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total points
+                        <span>${stats.totalPoints}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        PPTU
+                        <span>${stats.ppth}</span>
+                    </li>
+                </ul>
+                `;
+    }).catch(error => {
+      console.error('Error:', error);
+    });
   }
   const powerParts = highlightedTossup.question.split('(*)');
   return /*#__PURE__*/React.createElement("div", {
@@ -165,7 +218,10 @@ function TossupCard({
       __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
-    className: `card-footer ${!showCardFooter && 'd-none'}`
+    className: `card-footer ${!showCardFooter && 'd-none'}`,
+    onClick: showTossupStats,
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#tossup-stats-modal"
   }, /*#__PURE__*/React.createElement("small", {
     className: "text-muted"
   }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
@@ -190,9 +246,6 @@ function BonusCard({
   for (let i = 0; i < bonusLength; i++) {
     indices.push(i);
   }
-  function onClick() {
-    document.getElementById('report-question-id').value = _id;
-  }
   function copyToClick() {
     let textdata = `${bonus.questionNumber}. ${bonus.leadin}`;
     for (let i = 0; i < bonus.parts.length; i++) {
@@ -208,6 +261,61 @@ function BonusCard({
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
+  }
+  function onClick() {
+    document.getElementById('report-question-id').value = _id;
+  }
+  function showBonusStats() {
+    fetch('/auth/stats/single-bonus?bonus_id=' + _id).then(response => {
+      if (response.status === 401) {
+        document.getElementById('bonus-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
+        throw new Error('Unauthorized');
+      }
+      return response;
+    }).then(response => response.json()).then(response => {
+      document.getElementById('bonus-stats-question-id').value = _id;
+      const {
+        stats
+      } = response;
+      if (!stats) {
+        document.getElementById('bonus-stats-body').innerHTML = 'No stats found for this question.';
+        return;
+      }
+      document.getElementById('bonus-stats-body').innerHTML = `
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        BH
+                        <span>${stats.count}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        30s
+                        <span>${stats['30s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        20s
+                        <span>${stats['20s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        10s
+                        <span>${stats['10s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        0s
+                        <span>${stats['0s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total points
+                        <span>${stats.totalPoints}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        PPB
+                        <span>${stats.ppb}</span>
+                    </li>
+                </ul>
+                `;
+    }).catch(error => {
+      console.error('Error:', error);
+    });
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
@@ -236,7 +344,10 @@ function BonusCard({
       __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
-    className: `card-footer ${!showCardFooter && 'd-none'}`
+    className: `card-footer ${!showCardFooter && 'd-none'}`,
+    onClick: showBonusStats,
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#bonus-stats-modal"
   }, /*#__PURE__*/React.createElement("small", {
     className: "text-muted"
   }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
