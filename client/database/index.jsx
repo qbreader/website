@@ -395,6 +395,18 @@ function BonusCard({ bonus, highlightedBonus }) {
                         <span>${stats.count}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
+                        1st part %
+                        <span>${(100 * stats.part1).toFixed(1)}%</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        2nd part %
+                        <span>${(100 * stats.part2).toFixed(1)}%</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        3rd part %
+                        <span>${(100 * stats.part3).toFixed(1)}%</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
                         30s
                         <span>${stats['30s']}</span>
                     </li>
