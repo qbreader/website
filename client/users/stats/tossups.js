@@ -40,16 +40,17 @@ fetch('/auth/get-stats-tossup')
         if (data.categoryStats) {
             data.categoryStats.forEach(categoryStat => {
                 const category = categoryStat._id;
-                const averageCelerity = categoryStat.count > 0 ? 0.001 * Math.round(1000 * categoryStat.totalCelerity / categoryStat.count) : 0;
-                const averagePoints = categoryStat.count > 0 ? 0.01 * Math.round(100 * categoryStat.totalPoints / categoryStat.count) : 0;
+                const averageCelerity = categoryStat.count > 0 ? (categoryStat.totalCelerity / categoryStat.count).toFixed(3) : 0;
                 document.getElementById('category-stats-body').innerHTML += `
                     <tr>
                         <th scope="row">${category}</th>
-                        <td>${categoryStat.numCorrect}</td>
                         <td>${categoryStat.count}</td>
+                        <td>${categoryStat['15s']}</td>
+                        <td>${categoryStat['10s']}</td>
+                        <td>${categoryStat['-5s']}</td>
                         <td>${averageCelerity}</td>
                         <td>${categoryStat.totalPoints}</td>
-                        <td>${averagePoints}</td>
+                        <td>${categoryStat.ppth.toFixed(2)}</td>
                     </tr>
                 `;
             });
@@ -58,16 +59,17 @@ fetch('/auth/get-stats-tossup')
         if (data.subcategoryStats) {
             data.subcategoryStats.forEach(subcategoryStat => {
                 const subcategory = subcategoryStat._id;
-                const averageCelerity = subcategoryStat.count > 0 ? 0.001 * Math.round(1000 * subcategoryStat.totalCelerity / subcategoryStat.count) : 0;
-                const averagePoints = subcategoryStat.count > 0 ? 0.01 * Math.round(100 * subcategoryStat.totalPoints / subcategoryStat.count) : 0;
+                const averageCelerity = subcategoryStat.count > 0 ? (subcategoryStat.totalCelerity / subcategoryStat.count).toFixed(3) : 0;
                 document.getElementById('subcategory-stats-body').innerHTML += `
                     <tr>
                         <th scope="row">${subcategory}</th>
-                        <td>${subcategoryStat.numCorrect}</td>
                         <td>${subcategoryStat.count}</td>
+                        <td>${subcategoryStat['15s']}</td>
+                        <td>${subcategoryStat['10s']}</td>
+                        <td>${subcategoryStat['-5s']}</td>
                         <td>${averageCelerity}</td>
                         <td>${subcategoryStat.totalPoints}</td>
-                        <td>${averagePoints}</td>
+                        <td>${subcategoryStat.ppth.toFixed(2)}</td>
                     </tr>
                 `;
             });

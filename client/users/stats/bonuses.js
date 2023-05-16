@@ -10,7 +10,6 @@ fetch('/auth/get-stats-bonus')
         if (data.categoryStats) {
             data.categoryStats.forEach(categoryStat => {
                 const category = categoryStat._id;
-                const averagePoints = categoryStat.count > 0 ? 0.01 * Math.round(100 * categoryStat.totalPoints / categoryStat.count) : 0;
                 document.getElementById('category-stats-body').innerHTML += `
                     <tr>
                         <th scope="row">${category}</th>
@@ -20,7 +19,7 @@ fetch('/auth/get-stats-bonus')
                         <td>${categoryStat['10s']}</td>
                         <td>${categoryStat['0s']}</td>
                         <td>${categoryStat.totalPoints}</td>
-                        <td>${averagePoints}</td>
+                        <td>${categoryStat.ppb.toFixed(2)}</td>
                     </tr>
                 `;
             });
@@ -29,7 +28,6 @@ fetch('/auth/get-stats-bonus')
         if (data.subcategoryStats) {
             data.subcategoryStats.forEach(subcategoryStat => {
                 const subcategory = subcategoryStat._id;
-                const averagePoints = subcategoryStat.count > 0 ? 0.01 * Math.round(100 * subcategoryStat.totalPoints / subcategoryStat.count) : 0;
                 document.getElementById('subcategory-stats-body').innerHTML += `
                     <tr>
                         <th scope="row">${subcategory}</th>
@@ -39,7 +37,7 @@ fetch('/auth/get-stats-bonus')
                         <td>${subcategoryStat['10s']}</td>
                         <td>${subcategoryStat['0s']}</td>
                         <td>${subcategoryStat.totalPoints}</td>
-                        <td>${averagePoints}</td>
+                        <td>${subcategoryStat.ppb.toFixed(2)}</td>
                     </tr>
                 `;
             });
