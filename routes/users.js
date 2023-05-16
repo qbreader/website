@@ -36,6 +36,15 @@ router.get('/signup', async (req, res) => {
     res.sendFile('signup.html', { root: './client/users' });
 });
 
+router.get('/stats/bonuses', getPageSecurely('stats/bonuses.html'));
+
+router.get('/stats/database', (req, res) => {
+    res.redirect('/users/stats/db');
+});
+
+router.get('/stats/db', getPageSecurely('stats/database.html'));
+router.get('/stats/tossups', getPageSecurely('stats/tossups.html'));
+
 
 router.get('/verify-email-failed', async (req, res) => {
     res.sendFile('verify-email-failed.html', { root: './client/users' });

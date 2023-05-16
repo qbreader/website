@@ -45,9 +45,9 @@ async function getBestBuzz(username) {
 }
 
 
-async function getCategoryStats(username) {
+async function getCategoryStats(username, questionType) {
     const user_id = await getUserId(username);
-    return await getStatsHelper(user_id, 'category');
+    return await getStatsHelper(user_id, questionType, 'category');
 }
 
 
@@ -57,36 +57,50 @@ async function getUserField(username, field) {
 }
 
 
-async function getSubcategoryStats(username) {
+async function getSubcategoryStats(username, questionType) {
     const user_id = await getUserId(username);
-    return await getStatsHelper(user_id, 'subcategory');
+    return await getStatsHelper(user_id, questionType, 'subcategory');
 }
 
 
-async function getStatsHelper(user_id, groupByField) {
+async function getStatsHelper(user_id, questionType, groupByField) {
     groupByField = '$' + groupByField;
-    const tossups = await tossupData.aggregate([
-        { $match: { user_id: user_id } },
-        { $group: {
-            _id: groupByField,
-            count: { $sum: 1 },
-            numCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
-            totalCelerity: { $sum: '$celerity' },
-            totalPoints: { $sum: '$pointValue' },
-        } },
-    ]).toArray();
 
-    const bonuses = await bonusData.aggregate([
-        { $match: { user_id: user_id } },
-        { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
-        { $group: {
-            _id: groupByField,
-            count: { $sum: 1 },
-            totalPoints: { $sum: '$pointValue' },
-        } },
-    ]).toArray();
-
-    return { tossups, bonuses };
+    switch (questionType) {
+    case 'tossup':
+        return await tossupData.aggregate([
+            { $match: { user_id: user_id } },
+            { $group: {
+                _id: groupByField,
+                count: { $sum: 1 },
+                numCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+                totalCelerity: { $sum: '$celerity' },
+                totalPoints: { $sum: '$pointValue' },
+            } },
+            { $sort: { totalPoints: -1 } },
+        ]).toArray();
+    case 'bonus':
+        return await bonusData.aggregate([
+            { $match: { user_id: user_id } },
+            { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
+            { $addFields: {
+                is30: { $eq: ['$pointValue', 30] },
+                is20: { $eq: ['$pointValue', 20] },
+                is10: { $eq: ['$pointValue', 10] },
+                is0:  { $eq: ['$pointValue',  0] },
+            } },
+            { $group: {
+                _id: groupByField,
+                count: { $sum: 1 },
+                totalPoints: { $sum: '$pointValue' },
+                '30s': { $sum: { $cond: ['$is30', 1, 0] } },
+                '20s': { $sum: { $cond: ['$is20', 1, 0] } },
+                '10s': { $sum: { $cond: ['$is10', 1, 0] } },
+                '0s':  { $sum: { $cond: ['$is0',  1, 0] } },
+            } },
+            { $sort: { totalPoints: -1 } },
+        ]).toArray();
+    }
 }
 
 
