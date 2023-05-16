@@ -19,6 +19,10 @@ function getPageSecurely(htmlFile) {
 router.get('/edit-profile', getPageSecurely('edit-profile.html'));
 router.get('/edit-password', getPageSecurely('edit-password.html'));
 
+router.get('/forgot-password', async (req, res) => {
+    res.sendFile('forgot-password.html', { root: './client/user' });
+});
+
 router.get('/login', async (req, res) => {
     // don't show login page if you're already logged in
     if (req.session && authentication.checkToken(req.session.username, req.session.token)) {
@@ -31,6 +35,10 @@ router.get('/login', async (req, res) => {
 
 
 router.get('/my-profile', getPageSecurely('my-profile.html'));
+
+router.get('/reset-password', async (req, res) => {
+    res.sendFile('reset-password.html', { root: './client/user' });
+});
 
 router.get('/signup', async (req, res) => {
     res.sendFile('signup.html', { root: './client/user' });
@@ -46,8 +54,8 @@ router.get('/stats/db', getPageSecurely('stats/database.html'));
 router.get('/stats/tossups', getPageSecurely('stats/tossups.html'));
 
 
-router.get('/verify-email-failed', async (req, res) => {
-    res.sendFile('verify-email-failed.html', { root: './client/user' });
+router.get('/verify-failed', async (req, res) => {
+    res.sendFile('verify-failed.html', { root: './client/user' });
 });
 
 
