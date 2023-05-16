@@ -31,7 +31,7 @@ form.addEventListener('submit', (event) => {
         })
     }).then(function (response) {
         if (response.status === 200) {
-            localStorage.removeItem('username');
+            localStorage.removeItem('account-username');
             window.location.href = '/user/login';
         } else {
             document.getElementById('submission').innerHTML = 'Submit';
