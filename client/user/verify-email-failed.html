@@ -50,7 +50,7 @@
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/users/login" id="login-link">Log in</a>
+                            <a class="nav-link" href="/user/login" id="login-link">Log in</a>
                         </li>
                     </ul>
                 </div>
@@ -59,32 +59,14 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="mt-1 lead">
-            Don't have an account?
-            Sign up <a href="/users/signup">here</a>.
+        <p>
+            It looks like the email verification link has expired or is invalid.
+            Verification links only last for 15 minutes.
         </p>
-        <form class="needs-validation" id="login-form" novalidate>
-            <div class="col-12 mb-3">
-                <label class="form-label" for="username">Username</label>
-                <input class="form-control" id="username" type="text" name="username" required>
-                <div class="invalid-feedback">Enter your username.</div>
-            </div>
-            <div class="col-12 mb-3">
-                <label class="form-label" for="password">Password</label>
-                <input class="form-control" id="password" type="password" name="password" required>
-                <div class="invalid-feedback">Enter your password.</div>
-                <div class="form-text" id="passwordHelp">Forgot your password? Too bad.</div>
-            </div>
-            <button class="btn btn-primary" id="submission" type="submit">
-                Log in
-            </button>
-        </form>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
-
-    <script src="/users/login.js"></script>
 </body>
 
 </html>

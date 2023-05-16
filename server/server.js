@@ -83,6 +83,14 @@ wss.on('connection', (ws) => {
 });
 
 
+/**
+ * Redirects:
+ */
+app.use('/users', (req, res) => {
+    res.redirect(`/user${req.url}`);
+});
+
+
 app.get('/robots.txt', (_req, res) => {
     res.sendFile('robots.txt', { root: './client' });
 });
@@ -129,7 +137,7 @@ app.use('/bonuses', require('../routes/bonuses'));
 app.use('/db', require('../routes/database'));
 app.use('/multiplayer', require('../routes/multiplayer'));
 app.use('/tossups', require('../routes/tossups'));
-app.use('/users', require('../routes/users'));
+app.use('/user', require('../routes/user'));
 app.use('/', require('../routes/index'));
 
 

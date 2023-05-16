@@ -62,6 +62,6 @@ function getWithExpiry(key) {
     const username = getWithExpiry('username');
     if (username) {
         document.getElementById('login-link').innerHTML = username;
-        document.getElementById('login-link').href = '/users/my-profile';
+        document.getElementById('login-link').href = '/user/my-profile';
     }
 }
