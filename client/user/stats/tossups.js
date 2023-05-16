@@ -50,7 +50,7 @@ fetch('/auth/user-stats/tossup')
                         <td>${categoryStat['-5s']}</td>
                         <td>${averageCelerity}</td>
                         <td>${categoryStat.totalPoints}</td>
-                        <td>${categoryStat.ppth.toFixed(2)}</td>
+                        <td>${categoryStat.pptu.toFixed(2)}</td>
                     </tr>
                 `;
             });
@@ -69,7 +69,7 @@ fetch('/auth/user-stats/tossup')
                         <td>${subcategoryStat['-5s']}</td>
                         <td>${averageCelerity}</td>
                         <td>${subcategoryStat.totalPoints}</td>
-                        <td>${subcategoryStat.ppth.toFixed(2)}</td>
+                        <td>${subcategoryStat.pptu.toFixed(2)}</td>
                     </tr>
                 `;
             });

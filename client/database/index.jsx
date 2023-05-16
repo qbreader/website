@@ -294,7 +294,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         PPTU
-                        <span>${stats.ppth}</span>
+                        <span>${stats.pptu}</span>
                     </li>
                 </ul>
                 `;
