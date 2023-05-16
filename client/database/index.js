@@ -443,7 +443,7 @@ function QueryForm() {
             minYear=${encodeURIComponent(minYear)}&
             maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
-    if (getWithExpiry('username')) {
+    if (getWithExpiry('account-username')) {
       fetch('/auth/record-query', {
         method: 'POST',
         headers: {
