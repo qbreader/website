@@ -195,6 +195,12 @@ async function getUser(username, showPassword = false) {
 }
 
 
+async function getUsername(user_id) {
+    const user = await users.findOne({ _id: user_id });
+    return user ? user.username : null;
+}
+
+
 async function getUserField(username, field) {
     const user = await users.findOne({ username });
     return user ? user[field] : null;
@@ -314,7 +320,7 @@ async function updateUser(username, values) {
     if (!user)
         return false;
 
-    if (values.email !== user.email) {
+    if (values.email && values.email !== user.email) {
         values.verifiedEmail = false;
     }
 
@@ -355,6 +361,7 @@ module.exports = {
     getSingleTossupStats,
     getSubcategoryStats,
     getUser,
+    getUsername,
     getUserField,
     getUserId,
     recordBonusData,

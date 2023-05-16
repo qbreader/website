@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { checkPassword, checkToken, generateToken, saltAndHashPassword, sendVerificationEmail, updatePassword, verifyEmailLink } = require('../server/authentication');
+const { checkPassword, checkToken, generateToken, saltAndHashPassword, sendVerificationEmail, updatePassword, verifyEmailLink, sendResetPasswordEmail, verifyResetPasswordLink } = require('../server/authentication');
 const { ObjectId } = require('mongodb');
 const userDB = require('../database/users');
 
@@ -129,6 +129,32 @@ router.post('/record-tossup', async (req, res) => {
 });
 
 
+router.post('/reset-password', async (req, res) => {
+    const { user_id, verifyResetPassword } = req.session;
+    if (!verifyResetPassword) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const username = await userDB.getUsername(new ObjectId(user_id));
+    const password = req.body.password;
+    await updatePassword(username, password);
+    req.session = null;
+    res.redirect(200, '/user/login');
+
+    console.log(`/api/auth: RESET-PASSWORD: User ${username} successfully reset their password.`);
+});
+
+
+router.get('/send-password-reset-email', async (req, res) => {
+    if (await sendResetPasswordEmail(req.query.username)) {
+        res.redirect(200, '/');
+    } else {
+        res.redirect(500, '/');
+    }
+});
+
+
 router.get('/send-verification-email', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
@@ -138,8 +164,11 @@ router.get('/send-verification-email', async (req, res) => {
         return;
     }
 
-    sendVerificationEmail(username);
-    res.sendStatus(200);
+    if (await sendVerificationEmail(username)) {
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
+    }
 });
 
 
@@ -166,12 +195,26 @@ router.post('/signup', async (req, res) => {
 
 
 router.get('/verify-email', async (req, res) => {
-    const verified = verifyEmailLink(req.query.user_id, req.query.token);
+    const { user_id, token } = req.query;
+    const verified = verifyEmailLink(user_id, token);
     if (verified) {
         req.session = null;
         res.redirect('/user/login');
     } else {
-        res.redirect('/user/verify-email-failed');
+        res.redirect('/user/verify-failed');
+    }
+});
+
+
+router.get('/verify-reset-password', (req, res) => {
+    const { user_id, token } = req.query;
+    const verified = verifyResetPasswordLink(user_id, token);
+    if (verified) {
+        req.session.user_id = user_id;
+        req.session.verifyResetPassword = true;
+        res.redirect('/user/reset-password');
+    } else {
+        res.redirect('/user/verify-failed');
     }
 });
 
