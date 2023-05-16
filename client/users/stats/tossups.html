@@ -73,14 +73,14 @@
                 <table class="table table-hover" id="category-stats">
                     <thead>
                         <tr>
-                            <th scope="col">Category</th>
-                            <th scope="col">TUH</th>
-                            <th scope="col">15</th>
-                            <th scope="col">10</th>
-                            <th scope="col">-5</th>
-                            <th scope="col">Celerity</th>
-                            <th scope="col">Pts</th>
-                            <th scope="col">PPTU</th>
+                            <th scope="col" onclick="sortTable(0, false, 'category-stats')">Category</th>
+                            <th scope="col" onclick="sortTable(1, true, 'category-stats')">TUH</th>
+                            <th scope="col" onclick="sortTable(2, true, 'category-stats')">15</th>
+                            <th scope="col" onclick="sortTable(3, true, 'category-stats')">10</th>
+                            <th scope="col" onclick="sortTable(4, true, 'category-stats')">-5</th>
+                            <th scope="col" onclick="sortTable(5, true, 'category-stats')">Celerity</th>
+                            <th scope="col" onclick="sortTable(6, true, 'category-stats')">Pts</th>
+                            <th scope="col" onclick="sortTable(7, true, 'category-stats')">PPTU</th>
                         </tr>
                     </thead>
                     <tbody id="category-stats-body"></tbody>
@@ -93,14 +93,14 @@
                 <table class="table table-hover" id="subcategory-stats">
                     <thead>
                         <tr>
-                            <th scope="col">Subcategory</th>
-                            <th scope="col">TUH</th>
-                            <th scope="col">15</th>
-                            <th scope="col">10</th>
-                            <th scope="col">-5</th>
-                            <th scope="col">Celerity</th>
-                            <th scope="col">Pts</th>
-                            <th scope="col">PPTU</th>
+                            <th scope="col" onclick="sortTable(0, false, 'subcategory-stats')">Subcategory</th>
+                            <th scope="col" onclick="sortTable(1, true, 'subcategory-stats')">TUH</th>
+                            <th scope="col" onclick="sortTable(2, true, 'subcategory-stats')">15</th>
+                            <th scope="col" onclick="sortTable(3, true, 'subcategory-stats')">10</th>
+                            <th scope="col" onclick="sortTable(4, true, 'subcategory-stats')">-5</th>
+                            <th scope="col" onclick="sortTable(5, true, 'subcategory-stats')">Celerity</th>
+                            <th scope="col" onclick="sortTable(6, true, 'subcategory-stats')">Pts</th>
+                            <th scope="col" onclick="sortTable(7, true, 'subcategory-stats')">PPTU</th>
                         </tr>
                     </thead>
                     <tbody id="subcategory-stats-body"></tbody>
@@ -112,6 +112,7 @@
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
+    <script src="/users/stats/tables.js"></script>
     <script src="/users/stats/tossups.js"></script>
 </body>
 
