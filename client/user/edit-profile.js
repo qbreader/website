@@ -1,3 +1,12 @@
+window.onload = () => {
+    fetch('/auth/get-profile')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('username').value = data.user.username;
+            document.getElementById('email').value = data.user.email;
+        });
+};
+
 const form = document.getElementById('signup-form');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -11,23 +20,21 @@ form.addEventListener('submit', (event) => {
     document.getElementById('submission').innerHTML = 'Submitting...';
 
     const username = document.getElementById('username').value;
-    fetch('/auth/signup', {
+    fetch('/auth/edit-profile', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             email: document.getElementById('email').value,
-            password: document.getElementById('password').value,
             username: username,
         })
     }).then(function (response) {
         if (response.status === 200) {
-            setWithExpiry('username', username, 1000 * 60 * 60 * 24);
-            window.location.href = '/users/my-profile';
+            localStorage.removeItem('username');
+            window.location.href = '/user/login';
         } else {
             document.getElementById('submission').innerHTML = 'Submit';
-            document.getElementById('password').value = '';
             alert('Username already exists.');
         }
     });

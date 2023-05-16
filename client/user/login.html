@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Create a QB Reader account.">
+    <meta name="description" content="">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -50,7 +50,7 @@
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/users/login" id="login-link">Log in</a>
+                            <a class="nav-link" href="/user/login" id="login-link">Log in</a>
                         </li>
                     </ul>
                 </div>
@@ -59,36 +59,32 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <form class="needs-validation" id="signup-form" novalidate>
-            <div class="row mb-3">
-                <div class="col-12">
-                    <label class="form-label" for="username">Username</label>
-                    <input class="form-control" id="username" type="text" name="username" required>
-                    <div class="invalid-feedback">Enter your username.</div>
-                </div>
+        <p class="mt-1 lead">
+            Don't have an account?
+            Sign up <a href="/user/signup">here</a>.
+        </p>
+        <form class="needs-validation" id="login-form" novalidate>
+            <div class="col-12 mb-3">
+                <label class="form-label" for="username">Username</label>
+                <input class="form-control" id="username" type="text" name="username" required>
+                <div class="invalid-feedback">Enter your username.</div>
             </div>
-            <div class="row mb-3">
-                <div class="col-12">
-                    <label class="form-label" for="email">Email</label>
-                    <input class="form-control" id="email" type="email" name="email" placeholder="user@example.com" required>
-                    <div class="invalid-feedback">Enter a proper email.</div>
-                </div>
+            <div class="col-12 mb-3">
+                <label class="form-label" for="password">Password</label>
+                <input class="form-control" id="password" type="password" name="password" required>
+                <div class="invalid-feedback">Enter your password.</div>
+                <div class="form-text" id="passwordHelp">Forgot your password? Too bad.</div>
             </div>
-            <div class="row mb-3">
-                <div class="col-12">
-                    <label class="form-label" for="password">Password</label>
-                    <input class="form-control" id="password" type="password" name="password" required>
-                    <div class="invalid-feedback">Enter your password.</div>
-                </div>
-            </div>
-            <button class="btn btn-primary" id="submission" type="submit">Sign Up</button>
+            <button class="btn btn-primary" id="submission" type="submit">
+                Log in
+            </button>
         </form>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
-    <script src="/users/signup.js"></script>
+    <script src="/user/login.js"></script>
 </body>
 
 </html>

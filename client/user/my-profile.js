@@ -24,6 +24,6 @@ document.getElementById('logout').addEventListener('click', () => {
         method: 'POST',
     }).then(() => {
         localStorage.removeItem('username');
-        window.location.href = '/users/login';
+        window.location.href = '/user/login';
     });
 });

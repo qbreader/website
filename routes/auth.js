@@ -213,9 +213,9 @@ router.get('/verify-email', async (req, res) => {
     const verified = verifyEmailLink(req.query.user_id, req.query.token);
     if (verified) {
         req.session = null;
-        res.redirect('/users/login');
+        res.redirect('/user/login');
     } else {
-        res.redirect('/users/verify-email-failed');
+        res.redirect('/user/verify-email-failed');
     }
 });
 
