@@ -129,6 +129,8 @@ function buzz() {
     document.getElementById('question').innerHTML += '(#) ';
 
     document.getElementById('buzz').innerHTML = 'Reveal';
+    document.getElementById('next').disabled = true;
+    document.getElementById('start').disabled = true;
     document.getElementById('pause').disabled = true;
 }
 
@@ -177,7 +179,9 @@ async function giveAnswer(givenAnswer) {
         if (document.getElementById('toggle-rebuzz').checked) {
             document.getElementById('buzz').disabled = false;
             document.getElementById('buzz').innerHTML = 'Buzz';
+            document.getElementById('next').disabled = false;
             document.getElementById('pause').disabled = false;
+            document.getElementById('start').disabled = false;
             readQuestion(new Date().getTime());
         } else {
             revealQuestion();
@@ -331,7 +335,9 @@ function revealQuestion() {
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('next').disabled = false;
     document.getElementById('next').innerHTML = 'Next';
+    document.getElementById('start').disabled = false;
 
     document.getElementById('toggle-correct').classList.remove('d-none');
     document.getElementById('toggle-correct').innerHTML = previous.isCorrect ? 'I was wrong' : 'I was right';
