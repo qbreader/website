@@ -295,13 +295,8 @@ async function recordBonusData(username, data) {
         }
     }
 
-    for (const field of ['set']) {
-        if (Object.prototype.hasOwnProperty.call(data.bonus, field)) {
-            newData[field] = new ObjectId(data.bonus[field]);
-        }
-    }
-
     newData.bonus_id = new ObjectId(data.bonus._id);
+    newData.set_id = new ObjectId(data.bonus.set);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await bonusData.insertOne(newData);
@@ -347,13 +342,8 @@ async function recordTossupData(username, data) {
         }
     }
 
-    for (const field of ['set']) {
-        if (Object.prototype.hasOwnProperty.call(data.tossup, field)) {
-            newData[field] = new ObjectId(data.tossup[field]);
-        }
-    }
-
     newData.tossup_id = new ObjectId(data.tossup._id);
+    newData.set_id = new ObjectId(data.tossup.set);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await tossupData.insertOne(newData);
