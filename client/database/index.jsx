@@ -436,6 +436,8 @@ function QueryForm() {
     const [tossupPaginationShift, setTossupPaginationShift] = React.useState(0);
     const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
 
+    const [queryTime, setQueryTime] = React.useState(0);
+
     React.useEffect(() => {
         fetch('/api/set-list')
             .then(response => response.json())
@@ -505,6 +507,9 @@ function QueryForm() {
     }
 
     function handleSubmit(event, randomize = false, paginationUpdate = false) {
+        const startTime = performance.now();
+        console.log(startTime);
+
         event.preventDefault();
         setCurrentlySearching(true);
 
@@ -585,6 +590,10 @@ function QueryForm() {
 
                 setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
                 setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
+
+                const endTime = performance.now();
+                const timeElapsed = ((endTime - startTime) / 1000).toFixed(2);
+                setQueryTime(timeElapsed);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -729,7 +738,7 @@ function QueryForm() {
             {
                 tossupCount > 0
                     ? <div className="float-row mb-3">
-                        <span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results</span>&nbsp;
+                        <span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results ({queryTime} seconds)</span>&nbsp;
                         <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span>
                     </div>
                     : <div className="text-muted">No tossups found</div>
@@ -782,7 +791,7 @@ function QueryForm() {
             {
                 bonusCount > 0
                     ? <div className="float-row mb-3">
-                        <span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results</span>&nbsp;
+                        <span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results ({queryTime} seconds)</span>&nbsp;
                         <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span>
                     </div>
                     : <div className="text-muted">No bonuses found</div>

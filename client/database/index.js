@@ -360,6 +360,7 @@ function QueryForm() {
   const [bonusPaginationLength, setBonusPaginationLength] = React.useState(1);
   const [tossupPaginationShift, setTossupPaginationShift] = React.useState(0);
   const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
+  const [queryTime, setQueryTime] = React.useState(0);
   React.useEffect(() => {
     fetch('/api/set-list').then(response => response.json()).then(data => {
       document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
@@ -418,6 +419,8 @@ function QueryForm() {
     handleSubmit(event, false, true);
   }
   function handleSubmit(event, randomize = false, paginationUpdate = false) {
+    const startTime = performance.now();
+    console.log(startTime);
     event.preventDefault();
     setCurrentlySearching(true);
     if (randomize || !paginationUpdate) {
@@ -508,6 +511,9 @@ function QueryForm() {
       }
       setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
       setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
+      const endTime = performance.now();
+      const timeElapsed = ((endTime - startTime) / 1000).toFixed(2);
+      setQueryTime(timeElapsed);
     }).catch(error => {
       console.error('Error:', error);
       alert('Invalid query. Please check your search parameters and try again.');
@@ -794,7 +800,7 @@ function QueryForm() {
     className: "float-row mb-3"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
-  }, "Showing ", tossups.length, " of ", tossupCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
+  }, "Showing ", tossups.length, " of ", tossupCount, " results (", queryTime, " seconds)"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#bonuses"
@@ -864,7 +870,7 @@ function QueryForm() {
     className: "float-row mb-3"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-start"
-  }, "Showing ", bonuses.length, " of ", bonusCount, " results"), "\xA0", /*#__PURE__*/React.createElement("span", {
+  }, "Showing ", bonuses.length, " of ", bonusCount, " results (", queryTime, " seconds)"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#tossups"
