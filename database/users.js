@@ -262,13 +262,13 @@ async function recordBonusData(username, data) {
         return false;
     }
 
-    for (const field of ['category', 'subcategory', 'difficulty', 'questionNumber']) {
+    for (const field of ['category', 'subcategory', 'difficulty']) {
         if (Object.prototype.hasOwnProperty.call(data.bonus, field)) {
             newData[field] = data.bonus[field];
         }
     }
 
-    for (const field of ['packet', 'set']) {
+    for (const field of ['set']) {
         if (Object.prototype.hasOwnProperty.call(data.bonus, field)) {
             newData[field] = new ObjectId(data.bonus[field]);
         }
@@ -314,13 +314,13 @@ async function recordTossupData(username, data) {
         return false;
     }
 
-    for (const field of ['category', 'subcategory', 'difficulty', 'questionNumber']) {
+    for (const field of ['category', 'subcategory', 'difficulty']) {
         if (Object.prototype.hasOwnProperty.call(data.tossup, field)) {
             newData[field] = data.tossup[field];
         }
     }
 
-    for (const field of ['packet', 'set']) {
+    for (const field of ['set']) {
         if (Object.prototype.hasOwnProperty.call(data.tossup, field)) {
             newData[field] = new ObjectId(data.tossup[field]);
         }
