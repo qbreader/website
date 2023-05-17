@@ -265,7 +265,7 @@ function TossupCard({ tossup, highlightedTossup }) {
                     return;
                 }
 
-                const averageCelerity = stats.numCorrect > 0 ? (stats.totalCelerity / stats.numCorrect).toFixed(3) : 0;
+                const averageCelerity = stats.numCorrect > 0 ? (stats.totalCorrectCelerity / stats.numCorrect).toFixed(3) : 0;
                 document.getElementById('tossup-stats-body').innerHTML = `
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
