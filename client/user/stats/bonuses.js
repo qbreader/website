@@ -1,16 +1,18 @@
-fetch('/auth/user-stats/bonus')
-    .then(response => {
-        if (response.status === 401) {
-            throw new Error('Unauthorized');
-        }
-        return response;
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.categoryStats) {
-            data.categoryStats.forEach(categoryStat => {
-                const category = categoryStat._id;
-                document.getElementById('category-stats-body').innerHTML += `
+function fetchBonusStats(difficulties = '', setName = '') {
+    fetch(`/auth/user-stats/bonus?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}`)
+        .then(response => {
+            if (response.status === 401) {
+                throw new Error('Unauthorized');
+            }
+            return response;
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.categoryStats) {
+                let innerHTML = '';
+                data.categoryStats.forEach(categoryStat => {
+                    const category = categoryStat._id;
+                    innerHTML += `
                     <tr>
                         <th scope="row">${category}</th>
                         <td>${categoryStat.count}</td>
@@ -22,13 +24,15 @@ fetch('/auth/user-stats/bonus')
                         <td>${categoryStat.ppb.toFixed(2)}</td>
                     </tr>
                 `;
-            });
-        }
+                });
+                document.getElementById('category-stats-body').innerHTML = innerHTML;
+            }
 
-        if (data.subcategoryStats) {
-            data.subcategoryStats.forEach(subcategoryStat => {
-                const subcategory = subcategoryStat._id;
-                document.getElementById('subcategory-stats-body').innerHTML += `
+            if (data.subcategoryStats) {
+                let innerHTML = '';
+                data.subcategoryStats.forEach(subcategoryStat => {
+                    const subcategory = subcategoryStat._id;
+                    innerHTML += `
                     <tr>
                         <th scope="row">${subcategory}</th>
                         <td>${subcategoryStat.count}</td>
@@ -40,9 +44,20 @@ fetch('/auth/user-stats/bonus')
                         <td>${subcategoryStat.ppb.toFixed(2)}</td>
                     </tr>
                 `;
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+                });
+                document.getElementById('subcategory-stats-body').innerHTML = innerHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+fetchBonusStats();
+
+function onSubmit(event) {
+    event.preventDefault();
+    const setName = document.getElementById('set-name').value;
+    const difficulties = getDifficulties();
+    fetchBonusStats(difficulties, setName);
+}

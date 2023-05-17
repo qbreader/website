@@ -250,9 +250,17 @@ router.get('/user-stats/bonus', async (req, res) => {
         return;
     }
 
+    if (req.query.difficulties) {
+        req.query.difficulties = req.query.difficulties
+            .split(',')
+            .map((difficulty) => parseInt(difficulty));
+    }
+
+    const { difficulties, setName } = req.query;
+
     const [categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getCategoryStats(username, 'bonus'),
-        await userDB.getSubcategoryStats(username, 'bonus'),
+        await userDB.getCategoryStats(username, 'bonus', difficulties, setName),
+        await userDB.getSubcategoryStats(username, 'bonus', difficulties, setName),
     ]);
     res.send(JSON.stringify({ categoryStats, subcategoryStats }));
 });
@@ -279,10 +287,18 @@ router.get('/user-stats/tossup', async (req, res) => {
         return;
     }
 
+    if (req.query.difficulties) {
+        req.query.difficulties = req.query.difficulties
+            .split(',')
+            .map((difficulty) => parseInt(difficulty));
+    }
+
+    const { difficulties, setName } = req.query;
+
     const [bestBuzz, categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getBestBuzz(username),
-        await userDB.getCategoryStats(username, 'tossup'),
-        await userDB.getSubcategoryStats(username, 'tossup'),
+        await userDB.getBestBuzz(username, difficulties, setName),
+        await userDB.getCategoryStats(username, 'tossup', difficulties, setName),
+        await userDB.getSubcategoryStats(username, 'tossup', difficulties, setName),
     ]);
     res.send(JSON.stringify({ bestBuzz, categoryStats, subcategoryStats }));
 });
