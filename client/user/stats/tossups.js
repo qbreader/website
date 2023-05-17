@@ -1,5 +1,5 @@
-function fetchTossupStats(difficulties = '', setName = '') {
-    fetch(`/auth/user-stats/tossup?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}`)
+function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true } = {}) {
+    fetch(`/auth/user-stats/tossup?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}&includeMultiplayer=${encodeURIComponent(includeMultiplayer)}&includeSingleplayer=${encodeURIComponent(includeSingleplayer)}`)
         .then(response => {
             if (response.status === 401) {
                 throw new Error('Unauthorized');
@@ -36,6 +36,8 @@ function fetchTossupStats(difficulties = '', setName = '') {
                         </div>
                     </div>
                 `;
+            } else {
+                document.getElementById('best-buzz').innerHTML = '';
             }
 
             if (data.categoryStats) {
@@ -91,5 +93,7 @@ function onSubmit(event) {
     event.preventDefault();
     const setName = document.getElementById('set-name').value;
     const difficulties = getDifficulties();
-    fetchTossupStats(difficulties, setName);
+    const includeMultiplayer = document.getElementById('include-multiplayer').checked;
+    const includeSingleplayer = document.getElementById('include-singleplayer').checked;
+    fetchTossupStats({ difficulties, setName, includeMultiplayer, includeSingleplayer });
 }

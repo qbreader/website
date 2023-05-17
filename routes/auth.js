@@ -256,11 +256,14 @@ router.get('/user-stats/bonus', async (req, res) => {
             .map((difficulty) => parseInt(difficulty));
     }
 
-    const { difficulties, setName } = req.query;
+    req.query.includeMultiplayer = req.query.includeMultiplayer === 'true';
+    req.query.includeSingleplayer = req.query.includeSingleplayer === 'true';
+
+    const { difficulties, setName, includeMultiplayer, includeSingleplayer } = req.query;
 
     const [categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getCategoryStats(username, 'bonus', difficulties, setName),
-        await userDB.getSubcategoryStats(username, 'bonus', difficulties, setName),
+        await userDB.getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer }),
+        await userDB.getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer }),
     ]);
     res.send(JSON.stringify({ categoryStats, subcategoryStats }));
 });
@@ -293,12 +296,15 @@ router.get('/user-stats/tossup', async (req, res) => {
             .map((difficulty) => parseInt(difficulty));
     }
 
-    const { difficulties, setName } = req.query;
+    req.query.includeMultiplayer = req.query.includeMultiplayer === 'true';
+    req.query.includeSingleplayer = req.query.includeSingleplayer === 'true';
+
+    const { difficulties, setName, includeMultiplayer, includeSingleplayer } = req.query;
 
     const [bestBuzz, categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getBestBuzz(username, difficulties, setName),
-        await userDB.getCategoryStats(username, 'tossup', difficulties, setName),
-        await userDB.getSubcategoryStats(username, 'tossup', difficulties, setName),
+        await userDB.getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer }),
+        await userDB.getCategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer }),
+        await userDB.getSubcategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer }),
     ]);
     res.send(JSON.stringify({ bestBuzz, categoryStats, subcategoryStats }));
 });

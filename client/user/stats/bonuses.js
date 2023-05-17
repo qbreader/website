@@ -1,5 +1,5 @@
-function fetchBonusStats(difficulties = '', setName = '') {
-    fetch(`/auth/user-stats/bonus?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}`)
+function fetchBonusStats({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true } = {}) {
+    fetch(`/auth/user-stats/bonus?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}&includeMultiplayer=${encodeURIComponent(includeMultiplayer)}&includeSingleplayer=${encodeURIComponent(includeSingleplayer)}`)
         .then(response => {
             if (response.status === 401) {
                 throw new Error('Unauthorized');
@@ -59,5 +59,7 @@ function onSubmit(event) {
     event.preventDefault();
     const setName = document.getElementById('set-name').value;
     const difficulties = getDifficulties();
-    fetchBonusStats(difficulties, setName);
+    // const includeMultiplayer = document.getElementById('include-multiplayer').checked;
+    // const includeSingleplayer = document.getElementById('include-singleplayer').checked;
+    fetchBonusStats({ difficulties, setName });
 }
