@@ -10,11 +10,8 @@ const database = client.db('account-info');
 const users = database.collection('users');
 const queries = database.collection('queries');
 const tossupData = database.collection('tossup-data');
-// eslint-disable-next-line no-unused-vars
 const bonusData = database.collection('bonus-data');
-
-const questionDatabase = client.db('qbreader');
-const tossups = questionDatabase.collection('tossups');
+const { getSetId, getTossupById } = require('./questions');
 
 
 const username_to_id = {};
@@ -30,30 +27,40 @@ async function createUser(username, password, email) {
 }
 
 
-async function getBestBuzz(username) {
+async function getBestBuzz(username, difficulties, setName) {
     const user_id = await getUserId(username);
+    const matchDocument = { user_id: user_id, isCorrect: true };
+    if (difficulties) {
+        matchDocument.difficulty = { $in: difficulties };
+    }
+
+    if (setName) {
+        const set_id = await getSetId(setName);
+        matchDocument.set_id = set_id;
+    }
+
     const data = await tossupData.findOne(
-        { user_id: user_id, isCorrect: true },
+        matchDocument,
         { sort: { celerity: -1 } },
     );
 
     if (!data)
         return null;
 
-    data.tossup = await tossups.findOne({ _id: data.tossup_id });
+    data.tossup = await getTossupById(data.tossup_id);
     return data;
 }
 
 
-async function getCategoryStats(username, questionType) {
+async function getCategoryStats(username, questionType, difficulties, setName) {
     const user_id = await getUserId(username);
-    return await getStatsHelper(user_id, questionType, 'category');
+    return await getStatsHelper(user_id, questionType, 'category', difficulties, setName);
 }
 
 
-async function getSubcategoryStats(username, questionType) {
+async function getSubcategoryStats(username, questionType, difficulties, setName) {
     const user_id = await getUserId(username);
-    return await getStatsHelper(user_id, questionType, 'subcategory');
+    return await getStatsHelper(user_id, questionType, 'subcategory', difficulties, setName);
 }
 
 
@@ -125,13 +132,23 @@ async function getSingleTossupStats(tossup_id) {
 }
 
 
-async function getStatsHelper(user_id, questionType, groupByField) {
+async function getStatsHelper(user_id, questionType, groupByField, difficulties, setName) {
     groupByField = '$' + groupByField;
+
+    const matchDocument = { user_id: user_id };
+    if (difficulties) {
+        matchDocument.difficulty = { $in: difficulties };
+    }
+
+    if (setName) {
+        const set_id = await getSetId(setName);
+        matchDocument.set_id = set_id;
+    }
 
     switch (questionType) {
     case 'tossup':
         return await tossupData.aggregate([
-            { $match: { user_id: user_id } },
+            { $match: matchDocument },
             { $addFields: {
                 is15: { $gt: ['$pointValue', 10] },
                 is10: { $eq: ['$pointValue', 10] },
@@ -149,11 +166,11 @@ async function getStatsHelper(user_id, questionType, groupByField) {
                 totalPoints: { $sum: '$pointValue' },
                 pptu: { $avg: '$pointValue' },
             } },
-            { $sort: { pptu: -1 } },
+            { $sort: { pptu: -1, totalPoints: -1 } },
         ]).toArray();
     case 'bonus':
         return await bonusData.aggregate([
-            { $match: { user_id: user_id } },
+            { $match: matchDocument },
             { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
             { $addFields: {
                 is30: { $eq: ['$pointValue', 30] },
@@ -171,7 +188,7 @@ async function getStatsHelper(user_id, questionType, groupByField) {
                 totalPoints: { $sum: '$pointValue' },
                 ppb: { $avg: '$pointValue' },
             } },
-            { $sort: { ppb: -1 } },
+            { $sort: { ppb: -1, totalPoints: -1 } },
         ]).toArray();
     }
 }

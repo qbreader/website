@@ -59,9 +59,37 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
+        <form class="row" onsubmit="onSubmit(event)">
+            <div class="col-6 mb-2">
+                <div class="dropdown-checklist btn-group w-100">
+                    <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
+                        aria-expanded="true" aria-haspopup="true">
+                        Difficulties
+                    </button>
+                    <button class="btn btn-default dropdown-toggle dropdown-toggle-split" type="button"></button>
+                    <ul class="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
+                        <li><label><input type="checkbox" value="1" /> 1: Middle School</label></li>
+                        <li><label><input type="checkbox" value="2" /> 2: Easy High School</label></li>
+                        <li><label><input type="checkbox" value="3" /> 3: Regular High School</label></li>
+                        <li><label><input type="checkbox" value="4" /> 4: Hard High School</label></li>
+                        <li><label><input type="checkbox" value="5" /> 5: National High School</label></li>
+                        <li><label><input type="checkbox" value="6" /> 6: ● / Easy College</label></li>
+                        <li><label><input type="checkbox" value="7" /> 7: ●● / Medium College</label></li>
+                        <li><label><input type="checkbox" value="8" /> 8: ●●● / Regular College</label></li>
+                        <li><label><input type="checkbox" value="9" /> 9: ●●●● / Nationals College</label></li>
+                        <li><label><input type="checkbox" value="10" /> 10: Open</label></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="input-group col-6 mb-2">
+                <input type="text" class="form-control" id="set-name" placeholder="Set Name" list="set-list" />
+                <datalist id="set-list"></datalist>
+                <button type="submit" class="btn btn-info">Submit</button>
+            </div>
+        </form>
         <div class="row">
             <div class="col-12">
-                <h3>Category Stats:</h3>
+                <h3 class="text-center">Category Stats:</h3>
                 <table class="table table-hover" id="category-stats">
                     <thead>
                         <tr>
@@ -81,7 +109,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <h3>Subcategory Stats:</h3>
+                <h3 class="text-center">Subcategory Stats:</h3>
                 <table class="table table-hover" id="subcategory-stats">
                     <thead>
                         <tr>
@@ -104,8 +132,10 @@
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
-    <script src="/user/stats/tables.js"></script>
     <script src="/user/stats/bonuses.js"></script>
+    <script src="/user/stats/questions.js"></script>
+    <script src="/dropdown-checklist.js"></script>
+    <script src="/user/stats/tables.js"></script>
 </body>
 
 </html>

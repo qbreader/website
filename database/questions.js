@@ -525,11 +525,27 @@ async function getSet({ setName, packetNumbers, categories, subcategories, quest
 }
 
 
+async function getSetId(name) {
+    const set = await sets.findOne({ name });
+    return set ? set._id : null;
+}
+
+
 /**
  * @returns {Array<String>} an array of all the set names.
  */
 function getSetList() {
     return SET_LIST;
+}
+
+
+/**
+ *
+ * @param {ObjectId} _id
+ * @returns Promise<Document>
+ */
+async function getTossupById(_id) {
+    return await tossups.findOne({ _id: _id });
 }
 
 
@@ -570,6 +586,8 @@ module.exports = {
     getRandomBonuses,
     getRandomQuestions,
     getSet,
+    getSetId,
     getSetList,
+    getTossupById,
     reportQuestion,
 };
