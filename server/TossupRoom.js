@@ -444,7 +444,10 @@ class TossupRoom {
             directive,
             directedPrompt,
             score: points,
-            celerity: this.players[userId].celerity.correct.average
+            celerity: this.players[userId].celerity.correct.average,
+            // the below fields are used to record buzzpoint data
+            tossup: this.tossup,
+            perQuestionCelerity: celerity,
         });
     }
 
