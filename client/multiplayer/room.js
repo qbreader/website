@@ -354,6 +354,22 @@ const socketOnGiveAnswer = (message) => {
 
         sortPlayerAccordion();
     }
+
+    if (directive !== 'prompt' && userId === USER_ID) {
+        fetch('/auth/record-tossup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tossup: message.tossup,
+                isCorrect: score > 0,
+                pointValue: score,
+                celerity: message.perQuestionCelerity,
+                multiplayer: true,
+            })
+        });
+    }
 };
 
 const socketOnJoin = (message) => {

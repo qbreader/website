@@ -253,11 +253,11 @@ async function next() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: getWithExpiry('account-username'),
                 tossup: questions[questionNumber],
                 isCorrect: previous.isCorrect,
                 pointValue: pointValue,
                 celerity: previous.celerity,
+                multiplayer: false,
             })
         });
     }
