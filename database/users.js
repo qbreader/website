@@ -302,7 +302,7 @@ async function recordQuery(username, query) {
 async function recordTossupData(username, data) {
     const user_id = await getUserId(username);
     const newData = {};
-    for (const field of ['celerity', 'isCorrect', 'pointValue']) {
+    for (const field of ['celerity', 'isCorrect', 'pointValue', 'multiplayer']) {
         if (Object.prototype.hasOwnProperty.call(data, field)) {
             newData[field] = data[field];
         } else {
