@@ -54,7 +54,7 @@ if (window.navigator.userAgent.match(/Mobile.*Firefox/)) {
 }
 
 
-document.getElementById('set-name').addEventListener('change', async () => {
+document.getElementById('set-name').addEventListener('change', async function () {
     // make border red if set name is not in set list
     if (SET_LIST.includes(this.value) || this.value.length === 0) {
         this.classList.remove('is-invalid');
