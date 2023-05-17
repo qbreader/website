@@ -27,9 +27,23 @@ async function createUser(username, password, email) {
 }
 
 
-async function getBestBuzz(username, difficulties, setName) {
+async function getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer }) {
     const user_id = await getUserId(username);
     const matchDocument = { user_id: user_id, isCorrect: true };
+
+    if (!includeMultiplayer && !includeSingleplayer) {
+        return null;
+    }
+
+    if (!includeSingleplayer) {
+        matchDocument.multiplayer = true;
+    }
+
+    if (!includeMultiplayer) {
+        // if multiplayer field is missing, then it is singleplayer
+        matchDocument.multiplayer = { $ne: true };
+    }
+
     if (difficulties) {
         matchDocument.difficulty = { $in: difficulties };
     }
@@ -52,15 +66,15 @@ async function getBestBuzz(username, difficulties, setName) {
 }
 
 
-async function getCategoryStats(username, questionType, difficulties, setName) {
+async function getCategoryStats({ username, questionType, difficulties, setName, includeMultiplayer, includeSingleplayer }) {
     const user_id = await getUserId(username);
-    return await getStatsHelper(user_id, questionType, 'category', difficulties, setName);
+    return await getStatsHelper({ user_id, questionType, groupByField: 'category', difficulties, setName, includeMultiplayer, includeSingleplayer });
 }
 
 
-async function getSubcategoryStats(username, questionType, difficulties, setName) {
+async function getSubcategoryStats({ username, questionType, difficulties, setName, includeMultiplayer, includeSingleplayer } ) {
     const user_id = await getUserId(username);
-    return await getStatsHelper(user_id, questionType, 'subcategory', difficulties, setName);
+    return await getStatsHelper({ user_id, questionType, groupByField: 'subcategory', difficulties, setName, includeMultiplayer, includeSingleplayer });
 }
 
 
@@ -132,7 +146,7 @@ async function getSingleTossupStats(tossup_id) {
 }
 
 
-async function getStatsHelper(user_id, questionType, groupByField, difficulties, setName) {
+async function getStatsHelper({ user_id, questionType, groupByField, difficulties, setName, includeMultiplayer, includeSingleplayer }) {
     groupByField = '$' + groupByField;
 
     const matchDocument = { user_id: user_id };
@@ -143,6 +157,19 @@ async function getStatsHelper(user_id, questionType, groupByField, difficulties,
     if (setName) {
         const set_id = await getSetId(setName);
         matchDocument.set_id = set_id;
+    }
+
+    if (!includeMultiplayer && !includeSingleplayer) {
+        return [];
+    }
+
+    if (!includeSingleplayer) {
+        matchDocument.multiplayer = true;
+    }
+
+    if (!includeMultiplayer) {
+        // if multiplayer field is missing, then it is singleplayer
+        matchDocument.multiplayer = { $ne: true };
     }
 
     switch (questionType) {

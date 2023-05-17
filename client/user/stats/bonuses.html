@@ -59,33 +59,43 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <form class="row" onsubmit="onSubmit(event)">
-            <div class="col-6 mb-2">
-                <div class="dropdown-checklist btn-group w-100">
-                    <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
-                        aria-expanded="true" aria-haspopup="true">
-                        Difficulties
-                    </button>
-                    <button class="btn btn-default dropdown-toggle dropdown-toggle-split" type="button"></button>
-                    <ul class="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
-                        <li><label><input type="checkbox" value="1" /> 1: Middle School</label></li>
-                        <li><label><input type="checkbox" value="2" /> 2: Easy High School</label></li>
-                        <li><label><input type="checkbox" value="3" /> 3: Regular High School</label></li>
-                        <li><label><input type="checkbox" value="4" /> 4: Hard High School</label></li>
-                        <li><label><input type="checkbox" value="5" /> 5: National High School</label></li>
-                        <li><label><input type="checkbox" value="6" /> 6: ● / Easy College</label></li>
-                        <li><label><input type="checkbox" value="7" /> 7: ●● / Medium College</label></li>
-                        <li><label><input type="checkbox" value="8" /> 8: ●●● / Regular College</label></li>
-                        <li><label><input type="checkbox" value="9" /> 9: ●●●● / Nationals College</label></li>
-                        <li><label><input type="checkbox" value="10" /> 10: Open</label></li>
-                    </ul>
+        <form onsubmit="onSubmit(event)">
+            <div class="row">
+                <div class="col-6 mb-2">
+                    <div class="dropdown-checklist btn-group w-100">
+                        <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
+                            aria-expanded="true" aria-haspopup="true">
+                            Difficulties
+                        </button>
+                        <button class="btn btn-default dropdown-toggle dropdown-toggle-split" type="button"></button>
+                        <ul class="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
+                            <li><label><input type="checkbox" value="1" /> 1: Middle School</label></li>
+                            <li><label><input type="checkbox" value="2" /> 2: Easy High School</label></li>
+                            <li><label><input type="checkbox" value="3" /> 3: Regular High School</label></li>
+                            <li><label><input type="checkbox" value="4" /> 4: Hard High School</label></li>
+                            <li><label><input type="checkbox" value="5" /> 5: National High School</label></li>
+                            <li><label><input type="checkbox" value="6" /> 6: ● / Easy College</label></li>
+                            <li><label><input type="checkbox" value="7" /> 7: ●● / Medium College</label></li>
+                            <li><label><input type="checkbox" value="8" /> 8: ●●● / Regular College</label></li>
+                            <li><label><input type="checkbox" value="9" /> 9: ●●●● / Nationals College</label></li>
+                            <li><label><input type="checkbox" value="10" /> 10: Open</label></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="input-group col-6 mb-2">
+                    <input type="text" class="form-control" id="set-name" placeholder="Set Name" list="set-list" />
+                    <datalist id="set-list"></datalist>
+                    <button type="submit" class="btn btn-info">Submit</button>
                 </div>
             </div>
-            <div class="input-group col-6 mb-2">
-                <input type="text" class="form-control" id="set-name" placeholder="Set Name" list="set-list" />
-                <datalist id="set-list"></datalist>
-                <button type="submit" class="btn btn-info">Submit</button>
+            <!-- <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="include-multiplayer" checked />
+                <label class="form-check-label" for="include-multiplayer">Include multiplayer stats</label>
             </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="include-singleplayer" checked />
+                <label class="form-check-label" for="include-singleplayer">Include singleplayer stats</label>
+            </div> -->
         </form>
         <div class="row">
             <div class="col-12">
