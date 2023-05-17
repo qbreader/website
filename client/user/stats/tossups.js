@@ -1,17 +1,19 @@
-fetch('/auth/user-stats/tossup')
-    .then(response => {
-        if (response.status === 401) {
-            throw new Error('Unauthorized');
-        }
-        return response;
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.bestBuzz && data.bestBuzz.tossup) {
-            const tossup = data.bestBuzz.tossup;
-            const buzzPoint = Math.floor((1 - data.bestBuzz.celerity) * tossup.question.length);
-            tossup.question = `${tossup.question.slice(0, buzzPoint)} <span class="text-highlight">(#)</span> ${tossup.question.slice(buzzPoint)}`;
-            document.getElementById('best-buzz').innerHTML = `
+function fetchTossupStats(difficulties = '', setName = '') {
+    fetch(`/auth/user-stats/tossup?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}`)
+        .then(response => {
+            if (response.status === 401) {
+                throw new Error('Unauthorized');
+            }
+            return response;
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.bestBuzz && data.bestBuzz.tossup) {
+                const tossup = data.bestBuzz.tossup;
+                const buzzPoint = Math.floor((1 - data.bestBuzz.celerity) * tossup.question.length);
+                tossup.question = `${tossup.question.slice(0, buzzPoint)} <span class="text-highlight">(#)</span> ${tossup.question.slice(buzzPoint)}`;
+                document.getElementById('best-buzz').innerHTML = `
+                    <p>Celerity: ${data.bestBuzz.celerity}</p>
                     <div class="card mb-2">
                         <div class="card-header">
                             <b>${tossup.setName} | ${tossup.category} | ${tossup.subcategory} ${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | ${tossup.difficulty}</b>
@@ -33,15 +35,15 @@ fetch('/auth/user-stats/tossup')
                             </div>
                         </div>
                     </div>
-                    <p>Celerity: ${data.bestBuzz.celerity}</p>
                 `;
-        }
+            }
 
-        if (data.categoryStats) {
-            data.categoryStats.forEach(categoryStat => {
-                const category = categoryStat._id;
-                const averageCelerity = categoryStat.numCorrect > 0 ? (categoryStat.totalCorrectCelerity / categoryStat.numCorrect).toFixed(3) : 0;
-                document.getElementById('category-stats-body').innerHTML += `
+            if (data.categoryStats) {
+                let innerHTML = '';
+                data.categoryStats.forEach(categoryStat => {
+                    const category = categoryStat._id;
+                    const averageCelerity = categoryStat.numCorrect > 0 ? (categoryStat.totalCorrectCelerity / categoryStat.numCorrect).toFixed(3) : 0;
+                    innerHTML += `
                     <tr>
                         <th scope="row">${category}</th>
                         <td>${categoryStat.count}</td>
@@ -53,14 +55,16 @@ fetch('/auth/user-stats/tossup')
                         <td>${categoryStat.pptu.toFixed(2)}</td>
                     </tr>
                 `;
-            });
-        }
+                });
+                document.getElementById('category-stats-body').innerHTML = innerHTML;
+            }
 
-        if (data.subcategoryStats) {
-            data.subcategoryStats.forEach(subcategoryStat => {
-                const subcategory = subcategoryStat._id;
-                const averageCelerity = subcategoryStat.numCorrect > 0 ? (subcategoryStat.totalCorrectCelerity / subcategoryStat.numCorrect).toFixed(3) : 0;
-                document.getElementById('subcategory-stats-body').innerHTML += `
+            if (data.subcategoryStats) {
+                let innerHTML = '';
+                data.subcategoryStats.forEach(subcategoryStat => {
+                    const subcategory = subcategoryStat._id;
+                    const averageCelerity = subcategoryStat.numCorrect > 0 ? (subcategoryStat.totalCorrectCelerity / subcategoryStat.numCorrect).toFixed(3) : 0;
+                    innerHTML += `
                     <tr>
                         <th scope="row">${subcategory}</th>
                         <td>${subcategoryStat.count}</td>
@@ -72,9 +76,20 @@ fetch('/auth/user-stats/tossup')
                         <td>${subcategoryStat.pptu.toFixed(2)}</td>
                     </tr>
                 `;
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+                });
+                document.getElementById('subcategory-stats-body').innerHTML = innerHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+fetchTossupStats();
+
+function onSubmit(event) {
+    event.preventDefault();
+    const setName = document.getElementById('set-name').value;
+    const difficulties = getDifficulties();
+    fetchTossupStats(difficulties, setName);
+}
