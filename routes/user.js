@@ -45,12 +45,6 @@ router.get('/signup', async (req, res) => {
 });
 
 router.get('/stats/bonuses', getPageSecurely('stats/bonuses.html'));
-
-router.get('/stats/database', (req, res) => {
-    res.redirect('/user/stats/db');
-});
-
-router.get('/stats/db', getPageSecurely('stats/database.html'));
 router.get('/stats/tossups', getPageSecurely('stats/tossups.html'));
 
 
