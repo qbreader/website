@@ -1,4 +1,4 @@
-localStorage.removeItem('account-username');
+sessionStorage.removeItem('account-username');
 
 const form = document.getElementById('forgot-password-form');
 form.addEventListener('submit', (event) => {
