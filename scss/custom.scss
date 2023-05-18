@@ -10,6 +10,7 @@ $link-decoration: none;
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css); // Fira Code font
 
 @import "../node_modules/bootstrap/scss/accordion";
+@import "../node_modules/bootstrap/scss/alert";
 @import "../node_modules/bootstrap/scss/buttons";
 @import "../node_modules/bootstrap/scss/button-group";
 @import "../node_modules/bootstrap/scss/card";
@@ -25,6 +26,7 @@ $link-decoration: none;
 @import "../node_modules/bootstrap/scss/pagination";
 @import "../node_modules/bootstrap/scss/reboot";
 @import "../node_modules/bootstrap/scss/spinners";
+@import "../node_modules/bootstrap/scss/tables";
 @import "../node_modules/bootstrap/scss/toasts";
 @import "../node_modules/bootstrap/scss/tooltip";
 @import "../node_modules/bootstrap/scss/transitions";
@@ -44,6 +46,10 @@ $link-decoration: none;
     background-color: $body-bg;
     border-bottom: .5px solid lightgray;
     margin-bottom: .5em;
+}
+
+.card-footer {
+    cursor: pointer;
 }
 
 .card-header {

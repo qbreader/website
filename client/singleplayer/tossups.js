@@ -249,6 +249,23 @@ async function next() {
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
 
+    if (await getAccountUsername() && document.getElementById('answer').innerHTML) {
+        const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
+        fetch('/auth/record-tossup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tossup: questions[questionNumber],
+                isCorrect: previous.isCorrect,
+                pointValue: pointValue,
+                celerity: previous.celerity,
+                multiplayer: false,
+            })
+        });
+    }
+
     document.getElementById('answer').innerHTML = '';
     document.getElementById('question').innerHTML = '';
     document.getElementById('toggle-correct').innerHTML = 'I was wrong';

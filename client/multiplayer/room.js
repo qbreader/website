@@ -10,7 +10,7 @@ let powermarkPosition = 0;
 const ROOM_NAME = location.pathname.substring(13);
 let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
-let username = localStorage.getItem('username') || randomUsername();
+let username = localStorage.getItem('multiplayer-username') || randomUsername();
 
 function showNextButton() {
     document.getElementById('next').classList.remove('d-none');
@@ -354,6 +354,22 @@ const socketOnGiveAnswer = (message) => {
 
         sortPlayerAccordion();
     }
+
+    if (directive !== 'prompt' && userId === USER_ID) {
+        fetch('/auth/record-tossup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tossup: message.tossup,
+                isCorrect: score > 0,
+                pointValue: score,
+                celerity: message.perQuestionCelerity,
+                multiplayer: true,
+            })
+        });
+    }
 };
 
 const socketOnJoin = (message) => {
@@ -690,7 +706,7 @@ document.getElementById('toggle-visibility').addEventListener('click', function 
 document.getElementById('username').addEventListener('change', function () {
     socket.send(JSON.stringify({ type: 'change-username', userId: USER_ID, oldUsername: username, username: this.value }));
     username = this.value;
-    localStorage.setItem('username', username);
+    localStorage.setItem('multiplayer-username', username);
 });
 
 
