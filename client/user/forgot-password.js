@@ -14,4 +14,5 @@ form.addEventListener('submit', (event) => {
 
     const username = document.getElementById('username').value;
     fetch('/auth/send-password-reset-email?username=' + encodeURIComponent(username));
+    window.location.href = '/';
 }, false);
