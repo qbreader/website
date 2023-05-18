@@ -339,6 +339,9 @@ async function updateUser(username, values) {
     }
 
     if (values.username) {
+        if (await getUserId(values.username))
+            return false;
+
         username_to_id[values.username] = user._id;
         delete username_to_id[username];
     }
