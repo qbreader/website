@@ -35,7 +35,7 @@ form.addEventListener('submit', (event) => {
             window.location.href = '/user/login';
         } else {
             document.getElementById('submission').innerHTML = 'Submit';
-            alert('Username already exists.');
+            alert('Username already taken.');
         }
     });
 }, false);

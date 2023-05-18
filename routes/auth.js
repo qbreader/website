@@ -29,8 +29,11 @@ router.post('/edit-profile', async (req, res) => {
     // log out user
     req.session = null;
 
-    userDB.updateUser(username, req.body);
-    res.sendStatus(200);
+    if (await userDB.updateUser(username, req.body)) {
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
+    }
 });
 
 
