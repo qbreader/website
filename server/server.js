@@ -19,31 +19,21 @@ app.set('query parser', 'simple');
 
 app.use(express.json());
 
+const cookieSession = require('cookie-session');
+app.use(cookieSession({
+    name: 'session',
+    keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+}));
+
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
-
-const clientIp = (req, _res) => {
-    return req.headers['x-forwarded-for'] ? (req.headers['x-forwarded-for']).split(',')[0] : req.ip;
-};
-
-const ipFilter = require('express-ipfilter').IpFilter;
-const IpDeniedError = require('express-ipfilter').IpDeniedError;
-const ips = require('../BLOCKED_IPS');
-console.log(`Blocked IPs: ${ips}`);
-app.use(ipFilter(ips, { mode: 'deny', log: false, detectIp: clientIp }));
-
-app.use((err, req, res, _next) => {
-    if (err instanceof IpDeniedError) {
-        console.log(`Blocked IP: ${req.ip}`);
-        res.status(403);
-        res.end();
-    } else {
-        res.status(err.status || 500);
-    }
-});
+const { ipFilterMiddleware, ipFilterError } = require('./ip-filter');
+app.use(ipFilterMiddleware);
+app.use(ipFilterError);
 
 
 const TossupRoom = require('./TossupRoom');
@@ -93,6 +83,14 @@ wss.on('connection', (ws) => {
 });
 
 
+/**
+ * Redirects:
+ */
+app.use('/users', (req, res) => {
+    res.redirect(`/user${req.url}`);
+});
+
+
 app.get('/robots.txt', (_req, res) => {
     res.sendFile('robots.txt', { root: './client' });
 });
@@ -130,26 +128,17 @@ app.get('/*.ico', (req, res) => {
 });
 
 
-const apiRouter = require('../routes/api');
-const apiDocsRouter = require('../routes/api-docs');
-const tossupsRouter = require('../routes/tossups');
-const bonusesRouter = require('../routes/bonuses');
-const multiplayerRouter = require('../routes/multiplayer');
-const databaseRouter = require('../routes/database');
-const aboutRouter = require('../routes/about');
-const backupsRouter = require('../routes/backups');
-const indexRouter = require('../routes/index');
-
-
-app.use('/api', apiRouter);
-app.use('/tossups', tossupsRouter);
-app.use('/bonuses', bonusesRouter);
-app.use('/multiplayer', multiplayerRouter);
-app.use('/db', databaseRouter);
-app.use('/api-docs', apiDocsRouter);
-app.use('/about', aboutRouter);
-app.use('/backups', backupsRouter);
-app.use('/', indexRouter);
+app.use('/about', require('../routes/about'));
+app.use('/api', require('../routes/api'));
+app.use('/api-docs', require('../routes/api-docs'));
+app.use('/auth', require('../routes/auth'));
+app.use('/backups', require('../routes/backups'));
+app.use('/bonuses', require('../routes/bonuses'));
+app.use('/db', require('../routes/database'));
+app.use('/multiplayer', require('../routes/multiplayer'));
+app.use('/tossups', require('../routes/tossups'));
+app.use('/user', require('../routes/user'));
+app.use('/', require('../routes/index'));
 
 
 app.get('/database', (_req, res) => {

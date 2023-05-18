@@ -1,5 +1,5 @@
 const bcolors = require('../bcolors');
-const database = require('./database');
+const database = require('../database/questions');
 const Player = require('./Player');
 const scorer = require('./scorer');
 const quizbowl = require('./quizbowl');
@@ -444,7 +444,10 @@ class TossupRoom {
             directive,
             directedPrompt,
             score: points,
-            celerity: this.players[userId].celerity.correct.average
+            celerity: this.players[userId].celerity.correct.average,
+            // the below fields are used to record buzzpoint data
+            tossup: this.tossup,
+            perQuestionCelerity: celerity,
         });
     }
 
