@@ -6,7 +6,7 @@ if (location.pathname.endsWith('/') && location.pathname.length > 1) {
 }
 
 // Always use https and www
-if (['http://www.qbreader.org', 'http://qbreader.herokuapp.com', 'https://qbreader.herokuapp.com'].includes(location.origin)) {
+if (['http://www.qbreader.org', 'http://qbreader.herokuapp.com', 'https://qbreader.herokuapp.com', 'http://qbreader.herokuapp.com', 'https://qbreader-production.herokuapp.com'].includes(location.origin)) {
     location.href = 'https://www.qbreader.org' + location.pathname;
 }
 
