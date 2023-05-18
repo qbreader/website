@@ -657,20 +657,6 @@ function QueryForm() {
             maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
 
-
-        if (getWithExpiry('account-username')) {
-            fetch('/auth/record-query', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    queryString,
-                    regex,
-                })
-            });
-        }
-
         fetch(uri)
             .then(response => {
                 if (response.status === 400) {

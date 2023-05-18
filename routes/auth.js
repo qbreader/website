@@ -104,19 +104,6 @@ router.post('/record-bonus', async (req, res) => {
 });
 
 
-router.post('/record-query', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token, true)) {
-        res.sendStatus(401);
-        return;
-    }
-
-    const query = req.body;
-    const results = await userDB.recordQuery(username, query);
-    res.send(JSON.stringify(results));
-});
-
-
 router.post('/record-tossup', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token, true)) {
@@ -266,20 +253,6 @@ router.get('/user-stats/bonus', async (req, res) => {
         await userDB.getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer }),
     ]);
     res.send(JSON.stringify({ categoryStats, subcategoryStats }));
-});
-
-
-router.get('/user-stats/database', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token, true)) {
-        res.sendStatus(401);
-        return;
-    }
-
-    const [queries] = await Promise.all([
-        await userDB.getQueries(username)
-    ]);
-    res.send(JSON.stringify({ queries }));
 });
 
 
