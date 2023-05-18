@@ -9,9 +9,9 @@ document.getElementById('toggle-dark-mode').addEventListener('click', function (
     }
 });
 
-{
-    const username = getWithExpiry('account-username');
+(async () => {
+    const username = await getAccountUsername();
     if (username) {
         document.getElementById('welcome-username').innerHTML = `, ${username}`;
     }
-}
+})();

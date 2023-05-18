@@ -245,7 +245,7 @@ async function next() {
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
 
-    if (getWithExpiry('account-username') && document.getElementById('answer').innerHTML) {
+    if (await getAccountUsername() && document.getElementById('answer').innerHTML) {
         const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
         fetch('/auth/record-tossup', {
             method: 'POST',

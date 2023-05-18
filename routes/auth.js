@@ -72,6 +72,19 @@ router.get('/get-profile', async (req, res) => {
 });
 
 
+router.get('/get-username', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
+        res.sendStatus(401);
+        return;
+    }
+
+    res.send(JSON.stringify({ username }));
+});
+
+
 router.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;

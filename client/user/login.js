@@ -1,4 +1,4 @@
-localStorage.removeItem('account-username');
+sessionStorage.removeItem('account-username');
 
 const form = document.getElementById('login-form');
 form.addEventListener('submit', (event) => {
@@ -24,7 +24,7 @@ form.addEventListener('submit', (event) => {
         })
     }).then(function (response) {
         if (response.status === 200) {
-            setWithExpiry('account-username', username, 1000 * 60 * 60 * 24);
+            sessionStorage.setItem('account-username', username);
             window.location.href = '/user/my-profile';
         } else {
             document.getElementById('submission').innerHTML = 'Login';
