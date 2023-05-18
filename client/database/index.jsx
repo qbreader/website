@@ -222,13 +222,9 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 
-function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
+function TossupCard({ tossup, highlightedTossup }) {
     const _id = tossup._id;
     const packetName = tossup.packetName;
-
-    function onClick() {
-        document.getElementById('report-question-id').value = _id;
-    }
 
     function copyToClick() {
         let textdata = `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}`;
@@ -245,6 +241,67 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
 
         const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
         toast.show();
+    }
+
+    function onClick() {
+        document.getElementById('report-question-id').value = _id;
+    }
+
+    function showTossupStats() {
+        fetch('/auth/stats/single-tossup?tossup_id=' + _id)
+            .then(response => {
+                if (response.status === 401) {
+                    document.getElementById('tossup-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
+                    throw new Error('Unauthorized');
+                }
+                return response;
+            })
+            .then(response => response.json())
+            .then(response => {
+                document.getElementById('tossup-stats-question-id').value = _id;
+                const { stats } = response;
+                if (!stats) {
+                    document.getElementById('tossup-stats-body').innerHTML = 'No stats found for this question.';
+                    return;
+                }
+
+                const averageCelerity = stats.numCorrect > 0 ? (stats.totalCorrectCelerity / stats.numCorrect).toFixed(3) : 0;
+                document.getElementById('tossup-stats-body').innerHTML = `
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        TUH
+                        <span>${stats.count}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        15s
+                        <span>${stats['15s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        10s
+                        <span>${stats['10s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        -5s
+                        <span>${stats['-5s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Average celerity
+                        <span>${averageCelerity}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total points
+                        <span>${stats.totalPoints}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        PPTU
+                        <span>${stats.pptu}</span>
+                    </li>
+                </ul>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
     const powerParts = highlightedTossup.question.split('(*)');
@@ -265,7 +322,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
                         __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
                     }}></span></div>
                 </div>
-                <div className={`card-footer ${!showCardFooter && 'd-none'}`}>
+                <div className="card-footer" onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
@@ -279,7 +336,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
 }
 
 
-function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
+function BonusCard({ bonus, highlightedBonus }) {
     const _id = bonus._id;
     const packetName = bonus.packetName;
     const bonusLength = bonus.parts.length;
@@ -287,10 +344,6 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
 
     for (let i = 0; i < bonusLength; i++) {
         indices.push(i);
-    }
-
-    function onClick() {
-        document.getElementById('report-question-id').value = _id;
     }
 
     function copyToClick() {
@@ -311,6 +364,78 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
 
         const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
         toast.show();
+    }
+
+    function onClick() {
+        document.getElementById('report-question-id').value = _id;
+    }
+
+    function showBonusStats() {
+        fetch('/auth/stats/single-bonus?bonus_id=' + _id)
+            .then(response => {
+                if (response.status === 401) {
+                    document.getElementById('bonus-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
+                    throw new Error('Unauthorized');
+                }
+                return response;
+            })
+            .then(response => response.json())
+            .then(response => {
+                document.getElementById('bonus-stats-question-id').value = _id;
+                const { stats } = response;
+                if (!stats) {
+                    document.getElementById('bonus-stats-body').innerHTML = 'No stats found for this question.';
+                    return;
+                }
+
+                document.getElementById('bonus-stats-body').innerHTML = `
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        BH
+                        <span>${stats.count}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        1st part %
+                        <span>${(100 * stats.part1).toFixed(1)}%</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        2nd part %
+                        <span>${(100 * stats.part2).toFixed(1)}%</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        3rd part %
+                        <span>${(100 * stats.part3).toFixed(1)}%</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        30s
+                        <span>${stats['30s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        20s
+                        <span>${stats['20s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        10s
+                        <span>${stats['10s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        0s
+                        <span>${stats['0s']}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total points
+                        <span>${stats.totalPoints}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        PPB
+                        <span>${stats.ppb}</span>
+                    </li>
+                </ul>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
     return (
@@ -335,7 +460,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
                         </div>
                     )}
                 </div>
-                <div className={`card-footer ${!showCardFooter && 'd-none'}`}>
+                <div className="card-footer" onClick={showBonusStats} data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
@@ -425,7 +550,6 @@ function QueryForm() {
 
     const [regex, setRegex] = React.useState(false);
     const [diacritics, setDiacritics] = React.useState(false);
-    const [showCardFooters, setShowCardFooters] = React.useState(true);
 
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
 
@@ -538,17 +662,13 @@ function QueryForm() {
             maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
 
-        fetch(uri, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }).then(response => {
-            if (response.status === 400) {
-                throw new Error('Invalid query');
-            }
-            return response;
-        })
+        fetch(uri)
+            .then(response => {
+                if (response.status === 400) {
+                    throw new Error('Invalid query');
+                }
+                return response;
+            })
             .then(response => response.json())
             .then(response => {
                 const { tossups, bonuses, queryString: modifiedQueryString } = response;
@@ -606,15 +726,13 @@ function QueryForm() {
 
     const tossupCards = [];
     for (let i = 0; i < highlightedTossups.length; i++) {
-        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} showCardFooter={showCardFooters}/>);
+        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]}/>);
     }
 
     const bonusCards = [];
     for (let i = 0; i < highlightedBonuses.length; i++) {
-        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} showCardFooter={showCardFooters}/>);
+        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]}/>);
     }
-    // tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} showCardFooter={showCardFooters}/>);
-    // const bonusCards  = bonuses.map(bonus  => <BonusCard  key={bonus._id}  bonus={bonus}   showCardFooter={showCardFooters}/>);
 
     React.useEffect(() => {
         Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
@@ -716,10 +834,6 @@ function QueryForm() {
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
                             <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics when searching (Note: may slow down search)</label>
-                        </div>
-                        <div className="form-check form-switch">
-                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-show-card-footers" checked={showCardFooters} onChange={() => {setShowCardFooters(!showCardFooters);}} />
-                            <label className="form-check-label" htmlFor="toggle-show-card-footers">Show card footers</label>
                         </div>
                         <div className="float-end">
                             <b>Download:</b>
