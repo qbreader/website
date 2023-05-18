@@ -8,7 +8,6 @@ client.connect().then(async () => {
 
 const database = client.db('account-info');
 const users = database.collection('users');
-const queries = database.collection('queries');
 const tossupData = database.collection('tossup-data');
 const bonusData = database.collection('bonus-data');
 const { getSetId, getTossupById } = require('./questions');
@@ -221,15 +220,6 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
 }
 
 
-async function getQueries(username) {
-    const user_id = await getUserId(username);
-    return await queries.find(
-        { user_id },
-        { sort: { createdAt: -1 } },
-    ).toArray();
-}
-
-
 /**
  * Get the user with the given username.
  */
@@ -300,24 +290,6 @@ async function recordBonusData(username, data) {
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await bonusData.insertOne(newData);
-}
-
-
-async function recordQuery(username, query) {
-    const user_id = await getUserId(username);
-    if (await queries.countDocuments({ user_id }) >= 10) {
-        const oldest = await queries.findOne(
-            { user_id },
-            { sort: { createdAt: 1 } },
-        );
-        queries.deleteOne({ _id: oldest._id });
-    }
-
-    return await queries.insertOne({
-        user_id,
-        query,
-        createdAt: new Date(),
-    });
 }
 
 
@@ -392,7 +364,6 @@ module.exports = {
     createUser,
     getBestBuzz,
     getCategoryStats,
-    getQueries,
     getSingleBonusStats,
     getSingleTossupStats,
     getSubcategoryStats,
@@ -401,7 +372,6 @@ module.exports = {
     getUserField,
     getUserId,
     recordBonusData,
-    recordQuery,
     recordTossupData,
     updateUser,
     verifyEmail,
