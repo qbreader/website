@@ -95,7 +95,7 @@ router.post('/login', async (req, res) => {
         console.log(`/api/auth: LOGIN: User ${username} successfully logged in.`);
         res.sendStatus(200);
     } else {
-        console.log(`/api/auth: LOGIN: User ${username} failed to log in. Attempted password: ${password}`);
+        console.log(`/api/auth: LOGIN: User ${username} failed to log in.`);
         res.sendStatus(401);
     }
 });
