@@ -17,9 +17,10 @@ function sortTable(n, isFloat=false, tableId='table') {
         // Start by saying: no switching is done:
         switching = false;
         rows = table.rows;
-        /* Loop through all table rows (except the
-        first, which contains table headers): */
-        for (i = 1; i < (rows.length - 1); i++) {
+        // Loop through all table rows (except the
+        // first, which contains table headers,
+        // and the last, which contains table footers):
+        for (i = 1; i < (rows.length - 2); i++) {
             // Start by saying there should be no switching:
             shouldSwitch = false;
             /* Get the two elements you want to compare,

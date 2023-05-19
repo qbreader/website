@@ -8,44 +8,55 @@ function fetchBonusStats({ difficulties = '', setName = '', includeMultiplayer =
         })
         .then(response => response.json())
         .then(data => {
-            if (data.categoryStats) {
-                let innerHTML = '';
-                data.categoryStats.forEach(categoryStat => {
-                    const category = categoryStat._id;
-                    innerHTML += `
-                    <tr>
-                        <th scope="row">${category}</th>
-                        <td>${categoryStat.count}</td>
-                        <td>${categoryStat['30s']}</td>
-                        <td>${categoryStat['20s']}</td>
-                        <td>${categoryStat['10s']}</td>
-                        <td>${categoryStat['0s']}</td>
-                        <td>${categoryStat.totalPoints}</td>
-                        <td>${categoryStat.ppb.toFixed(2)}</td>
-                    </tr>
-                `;
-                });
-                document.getElementById('category-stats-body').innerHTML = innerHTML;
-            }
+            for (const type of ['category', 'subcategory']) {
+                if (!data[`${type}Stats`]) {
+                    continue;
+                }
 
-            if (data.subcategoryStats) {
                 let innerHTML = '';
-                data.subcategoryStats.forEach(subcategoryStat => {
-                    const subcategory = subcategoryStat._id;
+                const totalStats = {};
+                data[`${type}Stats`].forEach(stat => {
                     innerHTML += `
-                    <tr>
-                        <th scope="row">${subcategory}</th>
-                        <td>${subcategoryStat.count}</td>
-                        <td>${subcategoryStat['30s']}</td>
-                        <td>${subcategoryStat['20s']}</td>
-                        <td>${subcategoryStat['10s']}</td>
-                        <td>${subcategoryStat['0s']}</td>
-                        <td>${subcategoryStat.totalPoints}</td>
-                        <td>${subcategoryStat.ppb.toFixed(2)}</td>
-                    </tr>
-                `;
+                        <tr>
+                            <th scope="row">${stat._id}</th>
+                            <td>${stat.count}</td>
+                            <td>${stat['30s']}</td>
+                            <td>${stat['20s']}</td>
+                            <td>${stat['10s']}</td>
+                            <td>${stat['0s']}</td>
+                            <td>${stat.totalPoints}</td>
+                            <td>${stat.ppb.toFixed(2)}</td>
+                        </tr>
+                        `;
+
+                    Object.keys(stat).forEach(key => {
+                        if (['_id', 'ppb'].includes(key)) {
+                            return;
+                        }
+
+                        if (totalStats[key]) {
+                            totalStats[key] += stat[key];
+                        } else {
+                            totalStats[key] = stat[key];
+                        }
+                    });
+
                 });
-                document.getElementById('subcategory-stats-body').innerHTML = innerHTML;
+                document.getElementById(`${type}-stats-body`).innerHTML = innerHTML;
+
+                totalStats.ppb = totalStats.count > 0 ? totalStats.totalPoints / totalStats.count : 0;
+                document.getElementById(`${type}-stats-foot`).innerHTML = `
+                <tr>
+                    <th scope="col">Total</th>
+                    <th scope="col">${totalStats.count ?? 0}</th>
+                    <th scope="col">${totalStats['30s'] ?? 0}</th>
+                    <th scope="col">${totalStats['20s'] ?? 0}</th>
+                    <th scope="col">${totalStats['10s'] ?? 0}</th>
+                    <th scope="col">${totalStats['0s'] ?? 0}</th>
+                    <th scope="col">${totalStats.totalPoints ?? 0}</th>
+                    <th scope="col">${totalStats.ppb.toFixed(2)}</th>
+                </tr>
+                `;
             }
         })
         .catch(error => {
