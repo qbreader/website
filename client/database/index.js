@@ -122,7 +122,8 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 function TossupCard({
   tossup,
-  highlightedTossup
+  highlightedTossup,
+  showCardFooter
 }) {
   const _id = tossup._id;
   const packetName = tossup.packetName;
@@ -217,7 +218,7 @@ function TossupCard({
       __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "card-footer",
+    className: `card-footer ${!showCardFooter && 'd-none'}`,
     onClick: showTossupStats,
     "data-bs-toggle": "modal",
     "data-bs-target": "#tossup-stats-modal"
@@ -235,7 +236,8 @@ function TossupCard({
 }
 function BonusCard({
   bonus,
-  highlightedBonus
+  highlightedBonus,
+  showCardFooter
 }) {
   const _id = bonus._id;
   const packetName = bonus.packetName;
@@ -354,7 +356,7 @@ function BonusCard({
       __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
-    className: "card-footer",
+    className: `card-footer ${!showCardFooter && 'd-none'}`,
     onClick: showBonusStats,
     "data-bs-toggle": "modal",
     "data-bs-target": "#bonus-stats-modal"
@@ -473,6 +475,7 @@ function QueryForm() {
   const [maxYear, setMaxYear] = React.useState('');
   const [regex, setRegex] = React.useState(false);
   const [diacritics, setDiacritics] = React.useState(false);
+  const [showCardFooters, setShowCardFooters] = React.useState(true);
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
   let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
   let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
@@ -641,7 +644,8 @@ function QueryForm() {
     tossupCards.push( /*#__PURE__*/React.createElement(TossupCard, {
       key: i,
       tossup: tossups[i],
-      highlightedTossup: highlightedTossups[i]
+      highlightedTossup: highlightedTossups[i],
+      showCardFooter: showCardFooters
     }));
   }
   const bonusCards = [];
@@ -649,7 +653,8 @@ function QueryForm() {
     bonusCards.push( /*#__PURE__*/React.createElement(BonusCard, {
       key: i,
       bonus: bonuses[i],
-      highlightedBonus: highlightedBonuses[i]
+      highlightedBonus: highlightedBonuses[i],
+      showCardFooter: showCardFooters
     }));
   }
   React.useEffect(() => {
@@ -866,6 +871,20 @@ function QueryForm() {
     className: "form-check-label",
     htmlFor: "toggle-ignore-diacritics"
   }, "Ignore diacritics when searching (Note: may slow down search)")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-show-card-footers",
+    checked: showCardFooters,
+    onChange: () => {
+      setShowCardFooters(!showCardFooters);
+    }
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-show-card-footers"
+  }, "Show card footers")), /*#__PURE__*/React.createElement("div", {
     className: "float-end"
   }, /*#__PURE__*/React.createElement("b", null, "Download:"), /*#__PURE__*/React.createElement("a", {
     className: "ms-2 download-link",
