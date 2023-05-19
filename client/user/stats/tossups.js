@@ -40,46 +40,56 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                 document.getElementById('best-buzz').innerHTML = '';
             }
 
-            if (data.categoryStats) {
-                let innerHTML = '';
-                data.categoryStats.forEach(categoryStat => {
-                    const category = categoryStat._id;
-                    const averageCelerity = categoryStat.numCorrect > 0 ? (categoryStat.totalCorrectCelerity / categoryStat.numCorrect).toFixed(3) : 0;
-                    innerHTML += `
-                    <tr>
-                        <th scope="row">${category}</th>
-                        <td>${categoryStat.count}</td>
-                        <td>${categoryStat['15s']}</td>
-                        <td>${categoryStat['10s']}</td>
-                        <td>${categoryStat['-5s']}</td>
-                        <td>${averageCelerity}</td>
-                        <td>${categoryStat.totalPoints}</td>
-                        <td>${categoryStat.pptu.toFixed(2)}</td>
-                    </tr>
-                `;
-                });
-                document.getElementById('category-stats-body').innerHTML = innerHTML;
-            }
+            for (const type of ['category', 'subcategory']) {
+                if (!data[`${type}Stats`]) {
+                    continue;
+                }
 
-            if (data.subcategoryStats) {
                 let innerHTML = '';
-                data.subcategoryStats.forEach(subcategoryStat => {
-                    const subcategory = subcategoryStat._id;
-                    const averageCelerity = subcategoryStat.numCorrect > 0 ? (subcategoryStat.totalCorrectCelerity / subcategoryStat.numCorrect).toFixed(3) : 0;
+                const totalStats = {};
+                data[`${type}Stats`].forEach(stat => {
+                    const averageCelerity = stat.numCorrect > 0 ? (stat.totalCorrectCelerity / stat.numCorrect) : 0;
                     innerHTML += `
-                    <tr>
-                        <th scope="row">${subcategory}</th>
-                        <td>${subcategoryStat.count}</td>
-                        <td>${subcategoryStat['15s']}</td>
-                        <td>${subcategoryStat['10s']}</td>
-                        <td>${subcategoryStat['-5s']}</td>
-                        <td>${averageCelerity}</td>
-                        <td>${subcategoryStat.totalPoints}</td>
-                        <td>${subcategoryStat.pptu.toFixed(2)}</td>
-                    </tr>
-                `;
+                        <tr>
+                            <th scope="row">${stat._id}</th>
+                            <td>${stat.count}</td>
+                            <td>${stat['15s']}</td>
+                            <td>${stat['10s']}</td>
+                            <td>${stat['-5s']}</td>
+                            <td>${averageCelerity.toFixed(3)}</td>
+                            <td>${stat.totalPoints}</td>
+                            <td>${stat.pptu.toFixed(2)}</td>
+                        </tr>
+                        `;
+
+                    Object.keys(stat).forEach(key => {
+                        if (['_id', 'pptu'].includes(key)) {
+                            return;
+                        }
+
+                        if (totalStats[key]) {
+                            totalStats[key] += stat[key];
+                        } else {
+                            totalStats[key] = stat[key];
+                        }
+                    });
                 });
-                document.getElementById('subcategory-stats-body').innerHTML = innerHTML;
+                document.getElementById(`${type}-stats-body`).innerHTML = innerHTML;
+
+                totalStats.pptu = totalStats.count > 0 ? totalStats.totalPoints / totalStats.count : 0;
+                totalStats.averageCelerity = totalStats.numCorrect > 0 ? (totalStats.totalCorrectCelerity / totalStats.numCorrect) : 0;
+                document.getElementById(`${type}-stats-foot`).innerHTML = `
+                <tr>
+                    <th scope="col">Total</th>
+                    <th scope="col">${totalStats.count ?? 0}</th>
+                    <th scope="col">${totalStats['15s'] ?? 0}</th>
+                    <th scope="col">${totalStats['10s'] ?? 0}</th>
+                    <th scope="col">${totalStats['-5s'] ?? 0}</th>
+                    <th scope="col">${totalStats.averageCelerity.toFixed(3)}</th>
+                    <th scope="col">${totalStats.totalPoints ?? 0}</th>
+                    <th scope="col">${totalStats.pptu.toFixed(2)}</th>
+                </tr>
+                `;
             }
         })
         .catch(error => {
