@@ -222,7 +222,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 
-function TossupCard({ tossup, highlightedTossup }) {
+function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
     const _id = tossup._id;
     const packetName = tossup.packetName;
 
@@ -322,7 +322,7 @@ function TossupCard({ tossup, highlightedTossup }) {
                         __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
                     }}></span></div>
                 </div>
-                <div className="card-footer" onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
+                <div className={`card-footer ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
@@ -336,7 +336,7 @@ function TossupCard({ tossup, highlightedTossup }) {
 }
 
 
-function BonusCard({ bonus, highlightedBonus }) {
+function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
     const _id = bonus._id;
     const packetName = bonus.packetName;
     const bonusLength = bonus.parts.length;
@@ -460,7 +460,7 @@ function BonusCard({ bonus, highlightedBonus }) {
                         </div>
                     )}
                 </div>
-                <div className="card-footer" onClick={showBonusStats} data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
+                <div className={`card-footer ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
@@ -550,6 +550,7 @@ function QueryForm() {
 
     const [regex, setRegex] = React.useState(false);
     const [diacritics, setDiacritics] = React.useState(false);
+    const [showCardFooters, setShowCardFooters] = React.useState(true);
 
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
 
@@ -726,12 +727,12 @@ function QueryForm() {
 
     const tossupCards = [];
     for (let i = 0; i < highlightedTossups.length; i++) {
-        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]}/>);
+        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} showCardFooter={showCardFooters}/>);
     }
 
     const bonusCards = [];
     for (let i = 0; i < highlightedBonuses.length; i++) {
-        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]}/>);
+        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} showCardFooter={showCardFooters}/>);
     }
 
     React.useEffect(() => {
@@ -834,6 +835,10 @@ function QueryForm() {
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
                             <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics when searching (Note: may slow down search)</label>
+                        </div>
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-show-card-footers" checked={showCardFooters} onChange={() => {setShowCardFooters(!showCardFooters);}} />
+                            <label className="form-check-label" htmlFor="toggle-show-card-footers">Show card footers</label>
                         </div>
                         <div className="float-end">
                             <b>Download:</b>
