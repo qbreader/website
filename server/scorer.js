@@ -307,6 +307,8 @@ const parseAnswerline = (() => {
             return ['1984'];
         case 'mouse':
             return ['mice'];
+        case 'spacewalk':
+            return ['space walk'];
         case 'wavefunction':
             return ['wave function'];
         case 'wave function':
