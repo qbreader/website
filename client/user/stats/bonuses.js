@@ -2,7 +2,7 @@ function fetchBonusStats({ difficulties = '', setName = '', includeMultiplayer =
     fetch(`/auth/user-stats/bonus?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}&includeMultiplayer=${encodeURIComponent(includeMultiplayer)}&includeSingleplayer=${encodeURIComponent(includeSingleplayer)}`)
         .then(response => {
             if (response.status === 401) {
-                throw new Error('Unauthorized');
+                throw new Error('Unauthenticated');
             }
             return response;
         })

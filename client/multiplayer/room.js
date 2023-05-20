@@ -368,6 +368,11 @@ const socketOnGiveAnswer = (message) => {
                 celerity: message.perQuestionCelerity,
                 multiplayer: true,
             })
+        }).then(response => {
+            if (response.status === 401) {
+                deleteAccountUsername();
+                throw new Error('Unauthenticated');
+            }
         });
     }
 };

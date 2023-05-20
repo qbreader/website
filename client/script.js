@@ -29,6 +29,13 @@ const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 });
 
 
+function deleteAccountUsername() {
+    sessionStorage.setItem('account-username', null);
+    document.getElementById('login-link').innerHTML = 'Log in';
+    document.getElementById('login-link').href = '/user/login';
+}
+
+
 async function getAccountUsername() {
     let username = sessionStorage.getItem('account-username');
     if (username === null || username === undefined) {
@@ -49,6 +56,7 @@ async function getAccountUsername() {
 
     return username;
 }
+
 
 (async () => {
     const username = await getAccountUsername();
