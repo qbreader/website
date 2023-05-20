@@ -252,7 +252,11 @@ function removeParentheses(string) {
 }
 
 
-function reportQuestion(_id, reason = '', description = '') {
+function reportQuestion() {
+    const _id = document.getElementById('report-question-id').value;
+    const reason = document.getElementById('report-question-reason').value;
+    const description = document.getElementById('report-question-description').value;
+
     document.getElementById('report-question-submit').disabled = true;
     fetch('/api/report-question', {
         method: 'POST',
@@ -262,11 +266,13 @@ function reportQuestion(_id, reason = '', description = '') {
         body: JSON.stringify({ _id, reason, description })
     }).then(response => {
         if (response.status === 200) {
+            document.getElementById('report-question-reason').value = 'wrong-category';
+            document.getElementById('report-question-description').value = '';
             alert('Question has been reported.');
         } else {
             alert('There was an error reporting the question.');
         }
-    }).catch(error => {
+    }).catch(_error => {
         alert('There was an error reporting the question.');
     }).finally(() => {
         document.getElementById('report-question-close').click();
@@ -312,3 +318,8 @@ function updateSubcategory(subcategory, validSubcategories) {
 
     return validSubcategories;
 }
+
+
+document.getElementById('report-question-submit').addEventListener('click', function () {
+    reportQuestion();
+});

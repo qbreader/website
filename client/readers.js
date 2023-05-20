@@ -9,14 +9,6 @@ document.getElementById('font-size').addEventListener('input', function () {
     document.getElementById('question').style.setProperty('font-size', `${this.value}px`);
 });
 
-document.getElementById('report-question-submit').addEventListener('click', function () {
-    reportQuestion(
-        document.getElementById('report-question-id').value,
-        document.getElementById('report-question-reason').value,
-        document.getElementById('report-question-description').value
-    );
-});
-
 document.getElementById('toggle-high-contrast-question-text').addEventListener('click', function () {
     this.blur();
     if (this.checked) {
