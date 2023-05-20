@@ -325,7 +325,7 @@ const socketOnGiveAnswer = (message) => {
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
         document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
-    } else {
+    } else if (directive !== 'prompt') {
         document.getElementById('answer-input').placeholder = 'Enter answer';
         document.getElementById('next').disabled = false;
 
