@@ -344,7 +344,7 @@ function BonusCard({
     }
   }), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
-  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[10]\xA0", /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[", bonus.values ? bonus.values[i] : 10, bonus.difficulties ? bonus.difficulties[i] : '', "]\xA0", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedBonus.parts[i]
     }
