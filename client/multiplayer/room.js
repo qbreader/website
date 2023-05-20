@@ -373,10 +373,17 @@ const socketOnGiveAnswer = (message) => {
 };
 
 const socketOnJoin = (message) => {
-    logEvent(message.username, 'joined the game');
-    if (message.isNew && message.userId !== USER_ID) {
+    const { userId, username } = message;
+    logEvent(username, 'joined the game');
+    if (userId === USER_ID) {
+        return;
+    }
+
+    if (message.isNew) {
         createPlayerAccordionItem(message);
         sortPlayerAccordion();
+    } else {
+        document.getElementById('accordion-button-username-' + userId).innerHTML = username;
     }
 };
 
