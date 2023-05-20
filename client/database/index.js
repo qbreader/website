@@ -117,9 +117,6 @@ function highlightBonusQuery({
   }
   return bonus;
 }
-document.getElementById('report-question-submit').addEventListener('click', function () {
-  reportQuestion(document.getElementById('report-question-id').value, document.getElementById('report-question-reason').value, document.getElementById('report-question-description').value);
-});
 function TossupCard({
   tossup,
   highlightedTossup,
