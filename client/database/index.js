@@ -540,7 +540,6 @@ function QueryForm() {
   }
   function handleSubmit(event, randomize = false, paginationUpdate = false) {
     const startTime = performance.now();
-    console.log(startTime);
     event.preventDefault();
     setCurrentlySearching(true);
     if (randomize || !paginationUpdate) {
