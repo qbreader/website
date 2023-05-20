@@ -1,4 +1,4 @@
-sessionStorage.removeItem('account-username');
+deleteAccountUsername();
 
 const form = document.getElementById('login-form');
 form.addEventListener('submit', (event) => {

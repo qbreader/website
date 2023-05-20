@@ -241,9 +241,14 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
     function showTossupStats() {
         fetch('/auth/stats/single-tossup?tossup_id=' + _id)
             .then(response => {
-                if (response.status === 401) {
+                switch (response.status) {
+                case 401:
                     document.getElementById('tossup-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
-                    throw new Error('Unauthorized');
+                    deleteAccountUsername();
+                    throw new Error('Unauthenticated');
+                case 403:
+                    document.getElementById('tossup-stats-body').innerHTML = 'You need verify your account email to view question stats.';
+                    throw new Error('Forbidden');
                 }
                 return response;
             })
@@ -364,9 +369,14 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
     function showBonusStats() {
         fetch('/auth/stats/single-bonus?bonus_id=' + _id)
             .then(response => {
-                if (response.status === 401) {
+                switch (response.status) {
+                case 401:
                     document.getElementById('bonus-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
-                    throw new Error('Unauthorized');
+                    deleteAccountUsername();
+                    throw new Error('Unauthenticated');
+                case 403:
+                    document.getElementById('bonus-stats-body').innerHTML = 'You need verify your account email to view question stats.';
+                    throw new Error('Forbidden');
                 }
                 return response;
             })

@@ -239,6 +239,11 @@ async function next() {
                 bonus: questions[questionNumber],
                 pointsPerPart: pointsPerPart,
             })
+        }).then(response => {
+            if (response.status === 401) {
+                deleteAccountUsername();
+                throw new Error('Unauthenticated');
+            }
         });
     }
 

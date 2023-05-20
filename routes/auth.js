@@ -110,8 +110,15 @@ router.post('/logout', (req, res) => {
 
 router.post('/record-bonus', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token, true)) {
+    if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
+        return;
+    }
+
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(403);
         return;
     }
 
@@ -122,8 +129,15 @@ router.post('/record-bonus', async (req, res) => {
 
 router.post('/record-tossup', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token, true)) {
+    if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
+        return;
+    }
+
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(403);
         return;
     }
 
@@ -224,8 +238,15 @@ router.get('/verify-reset-password', (req, res) => {
 
 router.get('/stats/single-bonus', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token, true)) {
+    if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
+        return;
+    }
+
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(403);
         return;
     }
 
@@ -236,8 +257,15 @@ router.get('/stats/single-bonus', async (req, res) => {
 
 router.get('/stats/single-tossup', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token, true)) {
+    if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
+        return;
+    }
+
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(403);
         return;
     }
 
@@ -248,8 +276,15 @@ router.get('/stats/single-tossup', async (req, res) => {
 
 router.get('/user-stats/bonus', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token, true)) {
+    if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
+        return;
+    }
+
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(403);
         return;
     }
 
@@ -274,8 +309,15 @@ router.get('/user-stats/bonus', async (req, res) => {
 
 router.get('/user-stats/tossup', async (req, res) => {
     const { username, token } = req.session;
-    if (!checkToken(username, token, true)) {
+    if (!checkToken(username, token)) {
+        delete req.session.username;
+        delete req.session.token;
         res.sendStatus(401);
+        return;
+    }
+
+    if (!checkToken(username, token, true)) {
+        res.sendStatus(403);
         return;
     }
 
