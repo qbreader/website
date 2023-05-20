@@ -1,6 +1,13 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>spacewalk</u></b>s",
+            "tests": [
+                { "directive": "accept", "given": "space walk" },
+                { "directive": "accept", "given": "spacewalk" }
+            ]
+        },
+        {
             "answerline": "<b><u>World War two</u></b> [or <b><u>World War ii</u></b>]",
             "tests": [
                 { "directive": "accept", "given": "ww2" },
