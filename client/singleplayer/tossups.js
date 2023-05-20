@@ -263,6 +263,11 @@ async function next() {
                 celerity: previous.celerity,
                 multiplayer: false,
             })
+        }).then(response => {
+            if (response.status === 401) {
+                deleteAccountUsername();
+                throw new Error('Unauthenticated');
+            }
         });
     }
 
