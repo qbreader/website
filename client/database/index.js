@@ -754,7 +754,7 @@ function QueryForm() {
   }), " 7: \u25CF\u25CF / Medium College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     value: "8"
-  }), " 8: \u25CF\u25CF\u25CF / Regular College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+  }), " 8: \u25CF\u25CF\u25CF / Regionals College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     value: "9"
   }), " 9: \u25CF\u25CF\u25CF\u25CF / Nationals College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
