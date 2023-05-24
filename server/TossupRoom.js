@@ -54,7 +54,12 @@ class TossupRoom {
     connection(socket, userId, username) {
         console.log(`Connection in room ${bcolors.HEADER}${this.name}${bcolors.ENDC} - userId: ${bcolors.OKBLUE}${userId}${bcolors.ENDC}, username: ${bcolors.OKBLUE}${username}${bcolors.ENDC} - with settings ${bcolors.OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${bcolors.ENDC}`);
         socket.on('message', message => {
-            message = JSON.parse(message);
+            try {
+                message = JSON.parse(message);
+            } catch (error) {
+                console.log(`Error parsing message: ${message}`);
+                return;
+            }
             this.message(userId, message);
         });
 
