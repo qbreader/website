@@ -425,7 +425,7 @@ async function getRandomQuestions({
     number = 1,
     minYear = quizbowl.DEFAULT_MIN_YEAR,
     maxYear = quizbowl.DEFAULT_MAX_YEAR,
-    verbose = true,
+    verbose = false,
 }) {
     if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
     if (!categories || categories.length === 0) categories = CATEGORIES;
