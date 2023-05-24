@@ -788,7 +788,7 @@ function QueryForm() {
                                 <li><label><input type="checkbox" value="5" /> 5: National High School</label></li>
                                 <li><label><input type="checkbox" value="6" /> 6: ● / Easy College</label></li>
                                 <li><label><input type="checkbox" value="7" /> 7: ●● / Medium College</label></li>
-                                <li><label><input type="checkbox" value="8" /> 8: ●●● / Regular College</label></li>
+                                <li><label><input type="checkbox" value="8" /> 8: ●●● / Regionals College</label></li>
                                 <li><label><input type="checkbox" value="9" /> 9: ●●●● / Nationals College</label></li>
                                 <li><label><input type="checkbox" value="10"/> 10: Open</label></li>
                             </ul>
