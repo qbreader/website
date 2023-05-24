@@ -452,7 +452,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
                         <div key={`${bonus._id}-${i}`}>
                             <hr></hr>
                             <p>
-                                [{bonus.values ? bonus.values[i] : 10}{bonus.difficulties ? bonus.difficulties[i] : ''}]&nbsp;
+                                [{bonus.values ? (bonus.values[i] ?? 10) : 10}{bonus.difficulties ? bonus.difficulties[i] : ''}]&nbsp;
                                 <span dangerouslySetInnerHTML={{ __html: highlightedBonus.parts[i] }}></span>
                             </p>
                             <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{
