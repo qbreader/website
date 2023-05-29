@@ -37,7 +37,7 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                     </div>
                 `;
             } else {
-                document.getElementById('best-buzz').innerHTML = '';
+                document.getElementById('best-buzz').textContent = '';
             }
 
             for (const type of ['category', 'subcategory']) {

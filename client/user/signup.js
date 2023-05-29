@@ -8,7 +8,7 @@ form.addEventListener('submit', (event) => {
         return;
     }
 
-    document.getElementById('submission').innerHTML = 'Submitting...';
+    document.getElementById('submission').textContent = 'Submitting...';
 
     const username = document.getElementById('username').value;
     fetch('/auth/signup', {
@@ -27,7 +27,7 @@ form.addEventListener('submit', (event) => {
             sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
             window.location.href = '/user/my-profile';
         } else {
-            document.getElementById('submission').innerHTML = 'Submit';
+            document.getElementById('submission').textContent = 'Submit';
             document.getElementById('password').value = '';
             alert('Username already exists.');
         }
