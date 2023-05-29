@@ -487,7 +487,7 @@ function createPlayerAccordionItem(player) {
         <h2 class="accordion-header" id="heading-${userId}">
             <button class="accordion-button collapsed" type="button" data-bs-target="#accordion-body-${userId}" data-bs-toggle="collapse">
                 <span id="accordion-button-username-${userId}">
-                    ${username}
+                    ${escapeHTML(username)}
                 </span>&nbsp;(<span class="stats-${userId}" id="accordion-button-points-${userId}">
                     ${points}
                 </span>&nbsp;pts)
@@ -510,7 +510,12 @@ function createPlayerAccordionItem(player) {
 }
 
 
-function logChat(username, message, isLive = false) {
+function escapeHTML(unsafe) {
+    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
+}
+
+
+function logChat(username, message, isLive = false, userId = null) {
     const b = document.createElement('b');
     b.textContent = username;
 
