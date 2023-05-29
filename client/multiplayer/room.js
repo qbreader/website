@@ -36,10 +36,6 @@ socket.onopen = function () {
 socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
-    case 'connection-acknowledged':
-        socketOnConnectionAcknowledged(data);
-        break;
-
     case 'buzz':
         socketOnBuzz(data);
         break;
@@ -49,11 +45,19 @@ socket.onmessage = function (event) {
         break;
 
     case 'chat':
-        socketOnChat(data);
+        logChat(data.username, data.message, false, data.userId);
+        break;
+
+    case 'chat-live-update':
+        logChat(data.username, data.message, true, data.userId);
         break;
 
     case 'clear-stats':
         socketOnClearStats(data);
+        break;
+
+    case 'connection-acknowledged':
+        socketOnConnectionAcknowledged(data);
         break;
 
     case 'end-of-set':
@@ -82,6 +86,10 @@ socket.onmessage = function (event) {
 
     case 'give-answer':
         socketOnGiveAnswer(data);
+        break;
+
+    case 'give-answer-live-update':
+        logGiveAnswer(data.username, data.message, true);
         break;
 
     case 'join':
@@ -214,9 +222,6 @@ const socketOnChangeUsername = (message) => {
     sortPlayerAccordion();
 };
 
-const socketOnChat = (message) => {
-    logChat(message.username, message.message);
-};
 
 const socketOnClearStats = (message) => {
     Array.from(document.getElementsByClassName('stats-' + message.userId)).forEach(element => {
@@ -315,12 +320,15 @@ const socketOnEndOfSet = () => {
 
 const socketOnGiveAnswer = (message) => {
     const { userId, username, givenAnswer, directive, directedPrompt, score, celerity } = message;
+
+    logGiveAnswer(username, givenAnswer, false, directive);
+
     if (directive === 'prompt' && directedPrompt) {
-        logEvent(username, `answered with "${givenAnswer}" and was prompted with "${directedPrompt}"`);
+        logEvent(username, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
-        logEvent(username, `answered with "${givenAnswer}" and was prompted`);
+        logEvent(username, 'was prompted');
     } else {
-        logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
+        logEvent(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
     }
 
     if (directive === 'prompt' && userId === USER_ID) {
@@ -516,37 +524,106 @@ function escapeHTML(unsafe) {
 
 
 function logChat(username, message, isLive = false, userId = null) {
+    if (!isLive && message === '') {
+        document.getElementById('live-chat-' + userId).remove();
+        return;
+    }
+
+    if (!isLive && message) {
+        document.getElementById('live-chat-' + userId).className = '';
+        document.getElementById('live-chat-' + userId).id = '';
+        return;
+    }
+
     const b = document.createElement('b');
     b.textContent = username;
 
     const span = document.createElement('span');
     span.textContent = message;
 
-    const li = document.createElement('li');
-    li.appendChild(b);
-    li.appendChild(document.createTextNode(' '));
-    li.appendChild(span);
-
-    document.getElementById('room-history').prepend(li);
+    if (document.getElementById('live-chat-' + userId)) {
+        const li = document.getElementById('live-chat-' + userId);
+        li.textContent = '';
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(span);
+    } else {
+        const li = document.createElement('li');
+        li.id = 'live-chat-' + userId;
+        li.classList.add('text-muted');
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(span);
+        document.getElementById('room-history').prepend(li);
+    }
 }
 
 
 function logEvent(username, message) {
-    const b = document.createElement('b');
-    b.textContent = username;
+    const span1 = document.createElement('span');
+    span1.textContent = username;
 
-    const span = document.createElement('span');
-    span.textContent = message;
+    const span2 = document.createElement('span');
+    span2.textContent = message;
 
     const i = document.createElement('i');
-    i.appendChild(b);
+    i.appendChild(span1);
     i.appendChild(document.createTextNode(' '));
-    i.appendChild(span);
+    i.appendChild(span2);
 
     const li = document.createElement('li');
     li.appendChild(i);
 
     document.getElementById('room-history').prepend(li);
+}
+
+
+function logGiveAnswer(username, message, isLive = false, directive = null) {
+    const badge = document.createElement('span');
+    badge.textContent = 'Buzz';
+    switch (directive) {
+    case 'accept':
+        badge.className = 'badge text-dark bg-success';
+        break;
+    case 'reject':
+        badge.className = 'badge text-light bg-danger';
+        break;
+    case 'prompt':
+        badge.className = 'badge text-dark bg-warning';
+        break;
+    default:
+        badge.className = 'badge text-light bg-primary';
+        break;
+    }
+
+    const b = document.createElement('b');
+    b.textContent = username;
+
+    const span = document.createElement('span');
+    span.textContent = message;
+
+    if (document.getElementById('live-buzz')) {
+        const li = document.getElementById('live-buzz');
+        li.textContent = '';
+        li.appendChild(badge);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(span);
+    } else {
+        const li = document.createElement('li');
+        li.id = 'live-buzz';
+        li.appendChild(badge);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(span);
+        document.getElementById('room-history').prepend(li);
+    }
+
+    if (!isLive) {
+        document.getElementById('live-buzz').id = '';
+    }
 }
 
 
@@ -612,11 +689,17 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 });
 
 
+document.getElementById('answer-input').addEventListener('input', function () {
+    socket.send(JSON.stringify({ type: 'give-answer-live-update', message: this.value }));
+});
+
+
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     document.getElementById('answer-input-group').classList.remove('d-none');
     document.getElementById('answer-input').focus();
     socket.send(JSON.stringify({ type: 'buzz' }));
+    socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
 
 
@@ -632,6 +715,7 @@ document.getElementById('chat').addEventListener('click', function () {
     this.blur();
     document.getElementById('chat-input-group').classList.remove('d-none');
     document.getElementById('chat-input').focus();
+    socket.send(JSON.stringify({ type: 'chat-live-update', message: '' }));
 });
 
 
@@ -643,9 +727,12 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
     document.getElementById('chat-input').value = '';
     document.getElementById('chat-input-group').classList.add('d-none');
 
-    if (message.length === 0) return;
-
     socket.send(JSON.stringify({ type: 'chat', message: message }));
+});
+
+
+document.getElementById('chat-input').addEventListener('input', function () {
+    socket.send(JSON.stringify({ type: 'chat-live-update', message: this.value }));
 });
 
 
@@ -784,7 +871,9 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 document.addEventListener('keydown', function (event) {
     // press escape to close chat
     if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
+        document.getElementById('chat-input').value = '';
         document.getElementById('chat-input-group').classList.add('d-none');
+        socket.send(JSON.stringify({ type: 'chat', message: '' }));
     }
 
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
