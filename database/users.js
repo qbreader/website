@@ -26,7 +26,7 @@ async function createUser(username, password, email) {
 }
 
 
-async function getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer }) {
+async function getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     const user_id = await getUserId(username);
     const matchDocument = { user_id: user_id, isCorrect: true };
 
@@ -52,6 +52,18 @@ async function getBestBuzz({ username, difficulties, setName, includeMultiplayer
         matchDocument.set_id = set_id;
     }
 
+    if (startDate) {
+        matchDocument.createdAt = { $gte: startDate };
+    }
+
+    if (endDate) {
+        if (!matchDocument.createdAt) {
+            matchDocument.createdAt = {};
+        }
+
+        matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
+    }
+
     const data = await tossupData.findOne(
         matchDocument,
         { sort: { celerity: -1 } },
@@ -65,15 +77,15 @@ async function getBestBuzz({ username, difficulties, setName, includeMultiplayer
 }
 
 
-async function getCategoryStats({ username, questionType, difficulties, setName, includeMultiplayer, includeSingleplayer }) {
+async function getCategoryStats({ username, questionType, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     const user_id = await getUserId(username);
-    return await getStatsHelper({ user_id, questionType, groupByField: 'category', difficulties, setName, includeMultiplayer, includeSingleplayer });
+    return await getStatsHelper({ user_id, questionType, groupByField: 'category', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 }
 
 
-async function getSubcategoryStats({ username, questionType, difficulties, setName, includeMultiplayer, includeSingleplayer } ) {
+async function getSubcategoryStats({ username, questionType, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } ) {
     const user_id = await getUserId(username);
-    return await getStatsHelper({ user_id, questionType, groupByField: 'subcategory', difficulties, setName, includeMultiplayer, includeSingleplayer });
+    return await getStatsHelper({ user_id, questionType, groupByField: 'subcategory', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 }
 
 
@@ -145,7 +157,20 @@ async function getSingleTossupStats(tossup_id) {
 }
 
 
-async function getStatsHelper({ user_id, questionType, groupByField, difficulties, setName, includeMultiplayer, includeSingleplayer }) {
+/**
+ * @param {Object} params
+ * @param {ObjectId} params.user_id
+ * @param {'tossup' | 'bonus'} params.questionType
+ * @param {'category' | 'subcategory'} params.groupByField
+ * @param {Number[]} params.difficulties
+ * @param {String} params.setName
+ * @param {Boolean} params.includeMultiplayer
+ * @param {Boolean} params.includeSingleplayer
+ * @param {Date} params.startDate
+ * @param {Date} params.endDate
+ * @returns
+ */
+async function getStatsHelper({ user_id, questionType, groupByField, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     groupByField = '$' + groupByField;
 
     const matchDocument = { user_id: user_id };
@@ -171,6 +196,18 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
         matchDocument.multiplayer = { $ne: true };
     }
 
+    if (startDate) {
+        matchDocument.createdAt = { $gte: startDate };
+    }
+
+    if (endDate) {
+        if (!matchDocument.createdAt) {
+            matchDocument.createdAt = {};
+        }
+
+        matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
+    }
+
     switch (questionType) {
     case 'tossup':
         return await tossupData.aggregate([
@@ -193,7 +230,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
                 pptu: { $avg: '$pointValue' },
             } },
             { $addFields: {
-                averageCorrectCelerity: { $divide: ['$totalCorrectCelerity', '$numCorrect'] },
+                averageCorrectCelerity: { $cond: ['$numCorrect', { $divide: ['$totalCorrectCelerity', '$numCorrect'] }, 0] },
             } },
             { $sort: { pptu: -1, averageCorrectCelerity: -1, totalPoints: -1 } },
         ]).toArray();
