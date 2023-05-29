@@ -153,7 +153,7 @@ const createTossupCard = (function () {
 
 /**
  * @param {String} setName
- * @returns {Number} The number of packets in the set.
+ * @returns {Promise<Number>} The number of packets in the set.
  */
 async function getNumPackets(setName) {
     if (setName === undefined) return 0;
