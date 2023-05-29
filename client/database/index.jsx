@@ -217,8 +217,8 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
     const _id = tossup._id;
     const packetName = tossup.packetName;
 
-    function copyToClick() {
-        let textdata = `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}`;
+    function clickToCopy() {
+        let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
 
         if (tossup.category && tossup.subcategory) {
             textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
@@ -304,7 +304,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
 
     return (
         <div className="card my-2">
-            <div className="card-header" onClick={copyToClick}>
+            <div className="card-header" onClick={clickToCopy}>
                 <b>{tossup.setName} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}</b>
                 <b className="float-end">Packet {tossup.packetNumber} | Question {tossup.questionNumber}</b>
             </div>
@@ -342,8 +342,8 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
         indices.push(i);
     }
 
-    function copyToClick() {
-        let textdata = `${bonus.questionNumber}. ${bonus.leadin}`;
+    function clickToCopy() {
+        let textdata = `${bonus.leadin}`;
         for (let i = 0; i < bonus.parts.length; i++) {
             textdata += `\n[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
         }
@@ -441,7 +441,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
 
     return (
         <div className="card my-2">
-            <div className="card-header" onClick={copyToClick}>
+            <div className="card-header" onClick={clickToCopy}>
                 <b>{bonus.setName} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}</b>
                 <b className="float-end">Packet {bonus.packetNumber} | Question {bonus.questionNumber}</b>
             </div>
