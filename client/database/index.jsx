@@ -220,7 +220,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
     function clickToCopy() {
         let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
 
-        if (tossup.category && tossup.subcategory) {
+        if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
             textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
         } else if (tossup.category) {
             textdata += `\n<${tossup.category}>`;
@@ -348,7 +348,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
             textdata += `\n[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
         }
 
-        if (bonus.category && bonus.subcategory) {
+        if (bonus.category && bonus.subcategory && bonus.category !== bonus.subcategory) {
             textdata += `\n<${bonus.category} / ${bonus.subcategory}>`;
         } else if (bonus.category) {
             textdata += `\n<${bonus.category}>`;
