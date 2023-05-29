@@ -116,7 +116,7 @@ socket.onmessage = function (event) {
         break;
 
     case 'reveal-answer': {
-        document.getElementById('answer').textContent = 'ANSWER: ' + data.answer;
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
         document.getElementById('pause').disabled = true;
         showNextButton();
 
@@ -180,7 +180,7 @@ socket.onmessage = function (event) {
         if (data.word === '(*)') {
             powermarkPosition = document.getElementById('question').innerHTML.length;
         } else {
-            document.getElementById('question').textContent += data.word + ' ';
+            document.getElementById('question').innerHTML += data.word + ' ';
         }
         break;
 
