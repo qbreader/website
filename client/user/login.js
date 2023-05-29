@@ -22,9 +22,10 @@ form.addEventListener('submit', (event) => {
             username: username,
             password: document.getElementById('password').value
         })
-    }).then(function (response) {
+    }).then(async function (response) {
         if (response.status === 200) {
-            sessionStorage.setItem('account-username', username);
+            const { expires } = await response.json();
+            sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
             window.location.href = '/user/my-profile';
         } else {
             document.getElementById('submission').innerHTML = 'Login';

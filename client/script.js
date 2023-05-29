@@ -30,28 +30,40 @@ const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 
 
 function deleteAccountUsername() {
-    sessionStorage.setItem('account-username', null);
+    sessionStorage.setItem('account-username', JSON.stringify({ username: null, expires: null }));
     document.getElementById('login-link').innerHTML = 'Log in';
     document.getElementById('login-link').href = '/user/login';
 }
 
 
 async function getAccountUsername() {
-    let username = sessionStorage.getItem('account-username');
-    if (username === null || username === undefined) {
-        username = await fetch('/auth/get-username')
+    let data;
+    try {
+        data = sessionStorage.getItem('account-username');
+        data = data ? JSON.parse(data) : {};
+        data = data ? data : {};
+    } catch (e) {
+        data = {};
+        sessionStorage.setItem('account-username', JSON.stringify(data));
+    }
+
+    let { username, expires } = data;
+
+    if (username === null) {
+        return null;
+    } else if (username === undefined) {
+        const data = await fetch('/auth/get-username')
             .then(response => {
                 if (response.status === 401) {
-                    return { username: null };
+                    return { username: null, expires: null };
                 }
                 return response.json();
-            })
-            .then(data => {
-                return data.username;
             });
-        sessionStorage.setItem('account-username', username);
-    } else if (username === 'null') {
+        username = data.username;
+        sessionStorage.setItem('account-username', JSON.stringify(data));
+    } else if (expires === null || expires < Date.now()) {
         username = null;
+        sessionStorage.setItem('account-username', JSON.stringify({ username: null, expires: null }));
     }
 
     return username;
