@@ -294,8 +294,8 @@ router.get('/user-stats/bonus', async (req, res) => {
             .map((difficulty) => parseInt(difficulty));
     }
 
-    req.query.includeMultiplayer = req.query.includeMultiplayer === 'true';
-    req.query.includeSingleplayer = req.query.includeSingleplayer === 'true';
+    req.query.includeMultiplayer = !(req.query.includeMultiplayer === 'false');
+    req.query.includeSingleplayer = !(req.query.includeSingleplayer === 'false');
 
     const { difficulties, setName, includeMultiplayer, includeSingleplayer } = req.query;
 
@@ -327,8 +327,8 @@ router.get('/user-stats/tossup', async (req, res) => {
             .map((difficulty) => parseInt(difficulty));
     }
 
-    req.query.includeMultiplayer = req.query.includeMultiplayer === 'true';
-    req.query.includeSingleplayer = req.query.includeSingleplayer === 'true';
+    req.query.includeMultiplayer = !(req.query.includeMultiplayer === 'false');
+    req.query.includeSingleplayer = !(req.query.includeSingleplayer === 'false');
 
     const { difficulties, setName, includeMultiplayer, includeSingleplayer } = req.query;
 
