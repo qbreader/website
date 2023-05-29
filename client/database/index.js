@@ -161,7 +161,7 @@ function TossupCard({
         document.getElementById('tossup-stats-body').innerHTML = 'No stats found for this question.';
         return;
       }
-      const averageCelerity = stats.numCorrect > 0 ? (stats.totalCorrectCelerity / stats.numCorrect).toFixed(3) : 0;
+      const averageCelerity = stats.numCorrect > 0 ? stats.totalCorrectCelerity / stats.numCorrect : 0;
       document.getElementById('tossup-stats-body').innerHTML = `
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -182,7 +182,7 @@ function TossupCard({
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Average celerity
-                        <span>${averageCelerity}</span>
+                        <span>${averageCelerity.toFixed(3)}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Total points
@@ -190,7 +190,7 @@ function TossupCard({
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         PPTU
-                        <span>${stats.pptu}</span>
+                        <span>${stats.pptu.toFixed(2)}</span>
                     </li>
                 </ul>
                 `;
@@ -295,32 +295,20 @@ function BonusCard({
                         <span>${stats.count}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        1st part %
-                        <span>${(100 * stats.part1).toFixed(1)}%</span>
+                        1st part
+                        <span>${(10 * stats.part1).toFixed(2)} pts</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        2nd part %
-                        <span>${(100 * stats.part2).toFixed(1)}%</span>
+                        2nd part
+                        <span>${(10 * stats.part2).toFixed(2)} pts</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        3rd part %
-                        <span>${(100 * stats.part3).toFixed(1)}%</span>
+                        3rd part
+                        <span>${(10 * stats.part3).toFixed(2)} pts</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        30s
-                        <span>${stats['30s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        20s
-                        <span>${stats['20s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        10s
-                        <span>${stats['10s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        0s
-                        <span>${stats['0s']}</span>
+                        30s/20s/10s/0s
+                        <span>${stats['30s']}/${stats['20s']}/${stats['10s']}/${stats['0s']}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Total points
@@ -328,7 +316,7 @@ function BonusCard({
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         PPB
-                        <span>${stats.ppb}</span>
+                        <span>${stats.ppb.toFixed(2)}</span>
                     </li>
                 </ul>
                 `;
