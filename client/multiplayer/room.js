@@ -215,7 +215,7 @@ const socketOnChangeUsername = (message) => {
 };
 
 const socketOnChat = (message) => {
-    logEvent(message.username, `says "${message.message}"`);
+    logChat(message.username, message.message);
 };
 
 const socketOnClearStats = (message) => {
@@ -507,6 +507,22 @@ function createPlayerAccordionItem(player) {
     `;
 
     document.getElementById('player-accordion').appendChild(accordionItem);
+}
+
+
+function logChat(username, message, isLive = false) {
+    const b = document.createElement('b');
+    b.textContent = username;
+
+    const span = document.createElement('span');
+    span.textContent = message;
+
+    const li = document.createElement('li');
+    li.appendChild(b);
+    li.appendChild(document.createTextNode(' '));
+    li.appendChild(span);
+
+    document.getElementById('room-history').prepend(li);
 }
 
 
