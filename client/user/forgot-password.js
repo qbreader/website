@@ -10,7 +10,7 @@ form.addEventListener('submit', (event) => {
         return;
     }
 
-    document.getElementById('submission').innerHTML = 'Submitting...';
+    document.getElementById('submission').textContent = 'Submitting...';
 
     const username = document.getElementById('username').value;
     fetch('/auth/send-password-reset-email?username=' + encodeURIComponent(username));

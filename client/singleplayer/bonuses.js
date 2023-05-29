@@ -14,7 +14,7 @@ let questions = [{}];
 let questionNumber = 0;
 
 function queryLock() {
-    document.getElementById('question').innerHTML = 'Fetching questions...';
+    document.getElementById('question').textContent = 'Fetching questions...';
     document.getElementById('start').disabled = true;
     document.getElementById('next').disabled = true;
     document.getElementById('reveal').disabled = true;
@@ -22,7 +22,7 @@ function queryLock() {
 
 
 function queryUnlock() {
-    document.getElementById('question').innerHTML = '';
+    document.getElementById('question').textContent = '';
     document.getElementById('start').disabled = false;
     document.getElementById('next').disabled = false;
     document.getElementById('reveal').disabled = false;
@@ -60,7 +60,7 @@ async function advanceQuestion() {
         } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
 
         if (questions.length > 0) {
-            document.getElementById('question-number-info').innerHTML = questionNumber + 1;
+            document.getElementById('question-number-info').textContent = questionNumber + 1;
         }
     } else {
         queryLock();
@@ -79,7 +79,7 @@ async function advanceQuestion() {
         ({ setName, packetNumber, questionNumber } = questions[0]);
 
         if (questions.length > 0) {
-            document.getElementById('question-number-info').innerHTML = questionNumber;
+            document.getElementById('question-number-info').textContent = questionNumber;
             questionNumber = 0;
         }
     }
@@ -247,22 +247,22 @@ async function next() {
         });
     }
 
-    document.getElementById('question').innerHTML = '';
+    document.getElementById('question').textContent = '';
     document.getElementById('reveal').disabled = false;
-    document.getElementById('next').innerHTML = 'Skip';
+    document.getElementById('next').textContent = 'Skip';
 
     const hasNextQuestion = await advanceQuestion();
 
     if (!hasNextQuestion)
         return;
 
-    document.getElementById('set-name-info').innerHTML = setName;
-    document.getElementById('packet-number-info').innerHTML = packetNumber;
+    document.getElementById('set-name-info').textContent = setName;
+    document.getElementById('packet-number-info').textContent = packetNumber;
 
     // Update the question text:
     const paragraph = document.createElement('p');
     paragraph.appendChild(document.createTextNode(questions[questionNumber].leadin));
-    document.getElementById('question').innerHTML = '';
+    document.getElementById('question').textContent = '';
     document.getElementById('question').appendChild(paragraph);
 
     currentBonusPart = 0;
@@ -284,7 +284,7 @@ function revealBonusPart() {
 
     if (currentBonusPart >= questions[questionNumber].parts.length) {
         document.getElementById('reveal').disabled = true;
-        document.getElementById('next').innerHTML = 'Next';
+        document.getElementById('next').textContent = 'Next';
     } else {
         createBonusPart(currentBonusPart, questions[questionNumber].parts[currentBonusPart]);
     }

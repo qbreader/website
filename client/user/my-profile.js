@@ -1,12 +1,12 @@
 fetch('/auth/get-profile')
     .then(response => response.json())
     .then(data => {
-        document.getElementById('username').innerHTML = data.user.username;
-        document.getElementById('email').innerHTML = data.user.email;
+        document.getElementById('username').textContent = data.user.username;
+        document.getElementById('email').textContent = data.user.email;
         if (data.user.verifiedEmail) {
-            document.getElementById('email-verified').innerHTML = 'Yes';
+            document.getElementById('email-verified').textContent = 'Yes';
         } else {
-            document.getElementById('email-verified').innerHTML = 'No';
+            document.getElementById('email-verified').textContent = 'No';
             document.getElementById('email-verification-span').classList.remove('d-none');
         }
     });
