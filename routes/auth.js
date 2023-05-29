@@ -293,12 +293,19 @@ router.get('/user-stats/bonus', async (req, res) => {
 
     req.query.includeMultiplayer = !(req.query.includeMultiplayer === 'false');
     req.query.includeSingleplayer = !(req.query.includeSingleplayer === 'false');
+    req.query.startDate = req.query.startDate ? new Date(req.query.startDate) : null;
+    req.query.endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+    // note that isNaN(null) === true
+    if (isNaN(req.query.startDate) || isNaN(req.query.endDate)) {
+        res.sendStatus(400);
+        return;
+    }
 
-    const { difficulties, setName, includeMultiplayer, includeSingleplayer } = req.query;
+    const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
 
     const [categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer }),
-        await userDB.getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer }),
+        await userDB.getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+        await userDB.getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
     ]);
     res.send(JSON.stringify({ categoryStats, subcategoryStats }));
 });
@@ -325,13 +332,20 @@ router.get('/user-stats/tossup', async (req, res) => {
 
     req.query.includeMultiplayer = !(req.query.includeMultiplayer === 'false');
     req.query.includeSingleplayer = !(req.query.includeSingleplayer === 'false');
+    req.query.startDate = req.query.startDate ? new Date(req.query.startDate) : null;
+    req.query.endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+    // note that isNaN(null) === true
+    if (isNaN(req.query.startDate) || isNaN(req.query.endDate)) {
+        res.sendStatus(400);
+        return;
+    }
 
-    const { difficulties, setName, includeMultiplayer, includeSingleplayer } = req.query;
+    const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
 
     const [bestBuzz, categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer }),
-        await userDB.getCategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer }),
-        await userDB.getSubcategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer }),
+        await userDB.getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+        await userDB.getCategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+        await userDB.getSubcategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
     ]);
     res.send(JSON.stringify({ bestBuzz, categoryStats, subcategoryStats }));
 });
