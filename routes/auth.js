@@ -12,16 +12,14 @@ const apiLimiter = rateLimit({
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-
-
-// Apply the rate limiting middleware to API calls only
 router.use(apiLimiter);
+
+const maxAge = 24 * 60 * 60 * 1000; // 24 hours
 
 router.post('/edit-profile', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -40,8 +38,7 @@ router.post('/edit-profile', async (req, res) => {
 router.post('/edit-password', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -52,17 +49,20 @@ router.post('/edit-password', async (req, res) => {
     }
 
     await updatePassword(username, req.body.newPassword);
+
+    const expires = Date.now() + maxAge;
+    const verifiedEmail = await userDB.getUserField(username, 'verifiedEmail');
     req.session.username = username;
-    req.session.token = generateToken(username);
-    res.sendStatus(200);
+    req.session.token = generateToken(username, verifiedEmail);
+    req.session.expires = expires;
+    res.status(200).send(JSON.stringify({ expires }));
 });
 
 
 router.get('/get-profile', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -73,15 +73,14 @@ router.get('/get-profile', async (req, res) => {
 
 
 router.get('/get-username', async (req, res) => {
-    const { username, token } = req.session;
+    const { username, token, expires } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
 
-    res.send(JSON.stringify({ username }));
+    res.send(JSON.stringify({ username, expires }));
 });
 
 
@@ -89,11 +88,13 @@ router.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     if (await checkPassword(username, password)) {
-        req.session.username = username;
+        const expires = Date.now() + maxAge;
         const verifiedEmail = await userDB.getUserField(username, 'verifiedEmail');
+        req.session.username = username;
         req.session.token = generateToken(username, verifiedEmail);
+        req.session.expires = expires;
         console.log(`/api/auth: LOGIN: User ${username} successfully logged in.`);
-        res.sendStatus(200);
+        res.status(200).send(JSON.stringify({ expires }));
     } else {
         console.log(`/api/auth: LOGIN: User ${username} failed to log in.`);
         res.sendStatus(401);
@@ -111,8 +112,7 @@ router.post('/logout', (req, res) => {
 router.post('/record-bonus', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -130,8 +130,7 @@ router.post('/record-bonus', async (req, res) => {
 router.post('/record-tossup', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -175,8 +174,7 @@ router.get('/send-password-reset-email', async (req, res) => {
 router.get('/send-verification-email', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -199,14 +197,16 @@ router.post('/signup', async (req, res) => {
         res.sendStatus(409);
     } else {
         // log the user in when they sign up
+        const expires = Date.now() + maxAge;
         req.session.username = username;
         req.session.token = generateToken(username);
+        req.session.expires = expires;
 
         const password = saltAndHashPassword(req.body.password);
         const email = req.body.email;
         await userDB.createUser(username, password, email);
         console.log(`/api/auth: SIGNUP: User ${username} successfully signed up.`);
-        res.sendStatus(200);
+        res.status(200).send(JSON.stringify({ expires }));
     }
 });
 
@@ -239,8 +239,7 @@ router.get('/verify-reset-password', (req, res) => {
 router.get('/stats/single-bonus', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -258,8 +257,7 @@ router.get('/stats/single-bonus', async (req, res) => {
 router.get('/stats/single-tossup', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -277,8 +275,7 @@ router.get('/stats/single-tossup', async (req, res) => {
 router.get('/user-stats/bonus', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
@@ -310,8 +307,7 @@ router.get('/user-stats/bonus', async (req, res) => {
 router.get('/user-stats/tossup', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
-        delete req.session.username;
-        delete req.session.token;
+        delete req.session;
         res.sendStatus(401);
         return;
     }
