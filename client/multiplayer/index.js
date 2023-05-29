@@ -28,7 +28,7 @@ fetch('/api/multiplayer/room-list')
             const [roomName, [playerCount, onlineCount, isPermanent]] = room;
             const li = document.createElement('li');
             li.innerHTML = `
-                <a href="/multiplayer/${encodeURIComponent(roomName)}">${roomName}</a>
+                <a href="/multiplayer/${encodeURIComponent(roomName)}">${escapeHTML(roomName)}</a>
                 - ${playerCount} player${playerCount === 1 ? '' : 's'} - ${onlineCount} online
             `;
             li.classList.add('list-group-item');
@@ -46,3 +46,7 @@ fetch('/api/random-name')
     .then(roomName => {
         document.getElementById('new-room-name').placeholder = roomName;
     });
+
+function escapeHTML(unsafe) {
+    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
+}
