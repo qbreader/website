@@ -194,7 +194,7 @@ function loadCategoryModal(validCategories, validSubcategories) {
     if (validSubcategories.length === 0) {
         const subcategoryInfoText = document.createElement('div');
         subcategoryInfoText.className = 'text-muted text-center';
-        subcategoryInfoText.innerHTML = 'You must select categories before you can select subcategories.';
+        subcategoryInfoText.textContent = 'You must select categories before you can select subcategories.';
         subcategoryInfoText.id = 'subcategory-info-text';
         document.getElementById('subcategories').appendChild(subcategoryInfoText);
     } else if (document.getElementById('subcategory-info-text')) {

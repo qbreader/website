@@ -31,7 +31,7 @@ const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 
 function deleteAccountUsername() {
     sessionStorage.setItem('account-username', JSON.stringify({ username: null, expires: null }));
-    document.getElementById('login-link').innerHTML = 'Log in';
+    document.getElementById('login-link').textContent = 'Log in';
     document.getElementById('login-link').href = '/user/login';
 }
 
@@ -70,10 +70,9 @@ async function getAccountUsername() {
 }
 
 
-(async () => {
-    const username = await getAccountUsername();
+getAccountUsername().then(username => {
     if (username) {
-        document.getElementById('login-link').innerHTML = username;
+        document.getElementById('login-link').textContent = username;
         document.getElementById('login-link').href = '/user/my-profile';
     }
-})();
+});

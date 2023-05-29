@@ -10,7 +10,7 @@ form.addEventListener('submit', (event) => {
         return;
     }
 
-    document.getElementById('submission').innerHTML = 'Logging in...';
+    document.getElementById('submission').textContent = 'Logging in...';
 
     const username = document.getElementById('username').value;
     fetch('/auth/login', {
@@ -28,7 +28,7 @@ form.addEventListener('submit', (event) => {
             sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
             window.location.href = '/user/my-profile';
         } else {
-            document.getElementById('submission').innerHTML = 'Login';
+            document.getElementById('submission').textContent = 'Login';
             document.getElementById('password').value = '';
             alert('Invalid username or password.');
         }

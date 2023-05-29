@@ -31,7 +31,7 @@ let questionTextSplit = [];
 
 
 function queryLock() {
-    document.getElementById('question').innerHTML = 'Fetching questions...';
+    document.getElementById('question').textContent = 'Fetching questions...';
     document.getElementById('start').disabled = true;
     document.getElementById('next').disabled = true;
     document.getElementById('pause').disabled = true;
@@ -40,7 +40,7 @@ function queryLock() {
 
 
 function queryUnlock() {
-    document.getElementById('question').innerHTML = '';
+    document.getElementById('question').textContent = '';
     document.getElementById('start').disabled = false;
     document.getElementById('next').disabled = false;
     document.getElementById('pause').disabled = false;
@@ -87,7 +87,7 @@ async function advanceQuestion() {
         if (Object.keys(questions[0]).length > 0) {
             questionText = questions[questionNumber].question;
             questionTextSplit = questionText.split(' ').filter(word => word !== '');
-            document.getElementById('question-number-info').innerHTML = questionNumber + 1;
+            document.getElementById('question-number-info').textContent = questionNumber + 1;
         }
     } else {
         queryLock();
@@ -107,7 +107,7 @@ async function advanceQuestion() {
 
         questionText = questions[0].question;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');
-        document.getElementById('question-number-info').innerHTML = questionNumber;
+        document.getElementById('question-number-info').textContent = questionNumber;
         questionNumber = 0;
     }
 
@@ -126,9 +126,9 @@ function buzz() {
     currentlyBuzzing = true;
 
     // Include buzzpoint
-    document.getElementById('question').innerHTML += '(#) ';
+    document.getElementById('question').textContent += '(#) ';
 
-    document.getElementById('buzz').innerHTML = 'Reveal';
+    document.getElementById('buzz').textContent = 'Reveal';
     document.getElementById('next').disabled = true;
     document.getElementById('start').disabled = true;
     document.getElementById('pause').disabled = true;
@@ -178,7 +178,7 @@ async function giveAnswer(givenAnswer) {
         updateScore(false);
         if (document.getElementById('toggle-rebuzz').checked) {
             document.getElementById('buzz').disabled = false;
-            document.getElementById('buzz').innerHTML = 'Buzz';
+            document.getElementById('buzz').textContent = 'Buzz';
             document.getElementById('next').disabled = false;
             document.getElementById('pause').disabled = false;
             document.getElementById('start').disabled = false;
@@ -271,9 +271,9 @@ async function next() {
         });
     }
 
-    document.getElementById('answer').innerHTML = '';
-    document.getElementById('question').innerHTML = '';
-    document.getElementById('toggle-correct').innerHTML = 'I was wrong';
+    document.getElementById('answer').textContent = '';
+    document.getElementById('question').textContent = '';
+    document.getElementById('toggle-correct').textContent = 'I was wrong';
     document.getElementById('toggle-correct').classList.add('d-none');
 
     const hasNextQuestion = await advanceQuestion();
@@ -281,14 +281,14 @@ async function next() {
     if (!hasNextQuestion)
         return;
 
-    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
-    document.getElementById('next').innerHTML = 'Skip';
-    document.getElementById('packet-number-info').innerHTML = packetNumber;
-    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('next').textContent = 'Skip';
+    document.getElementById('packet-number-info').textContent = packetNumber;
+    document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
-    document.getElementById('question').innerHTML = '';
-    document.getElementById('set-name-info').innerHTML = setName;
+    document.getElementById('question').textContent = '';
+    document.getElementById('set-name-info').textContent = setName;
 
     paused = false;
     powermarkPosition = 0;
@@ -302,11 +302,11 @@ async function next() {
 function pause() {
     if (paused) {
         document.getElementById('buzz').removeAttribute('disabled');
-        document.getElementById('pause').innerHTML = 'Pause';
+        document.getElementById('pause').textContent = 'Pause';
         readQuestion(new Date().getTime());
     } else {
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
-        document.getElementById('pause').innerHTML = 'Resume';
+        document.getElementById('pause').textContent = 'Resume';
         clearTimeout(timeoutID);
     }
     paused = !paused;
@@ -322,7 +322,7 @@ function readQuestion(expectedReadTime) {
         if (word === '(*)')
             powermarkPosition = document.getElementById('question').innerHTML.length;
         else
-            document.getElementById('question').innerHTML += word + ' ';
+            document.getElementById('question').textContent += word + ' ';
 
         // calculate time needed before reading next word
         let time = Math.log(word.length) + 1;
@@ -356,13 +356,13 @@ function revealQuestion() {
     document.getElementById('question').innerHTML = `${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : powerParts[0]}`;
 
     document.getElementById('buzz').disabled = true;
-    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('next').disabled = false;
-    document.getElementById('next').innerHTML = 'Next';
+    document.getElementById('next').textContent = 'Next';
     document.getElementById('start').disabled = false;
 
     document.getElementById('toggle-correct').classList.remove('d-none');
-    document.getElementById('toggle-correct').innerHTML = previous.isCorrect ? 'I was wrong' : 'I was right';
+    document.getElementById('toggle-correct').textContent = previous.isCorrect ? 'I was wrong' : 'I was right';
 }
 
 
@@ -387,7 +387,7 @@ function toggleCorrect() {
     shift('totalCelerity', multiplier * previous.celerity);
 
     previous.isCorrect = !previous.isCorrect;
-    document.getElementById('toggle-correct').innerHTML = (previous.isCorrect ? 'I was wrong' : 'I was right');
+    document.getElementById('toggle-correct').textContent = previous.isCorrect ? 'I was wrong' : 'I was right';
     updateStatDisplay();
 }
 
@@ -523,7 +523,7 @@ document.getElementById('question-number').addEventListener('change', function (
 
 document.getElementById('reading-speed').addEventListener('input', function () {
     localStorage.setItem('speed', this.value);
-    document.getElementById('reading-speed-display').innerHTML = this.value;
+    document.getElementById('reading-speed-display').textContent = this.value;
 });
 
 
@@ -653,7 +653,7 @@ window.onload = () => {
     }
 
     if (localStorage.getItem('speed')) {
-        document.getElementById('reading-speed-display').innerHTML = localStorage.speed;
+        document.getElementById('reading-speed-display').textContent = localStorage.speed;
         document.getElementById('reading-speed').value = localStorage.speed;
     } else {
         localStorage.setItem('speed', 50);

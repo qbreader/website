@@ -17,7 +17,7 @@ $(document).ready(function() {
         values: [2010, 2023],
         slide: function(event, ui) {
             for (let i = 0; i < ui.values.length; ++i) {
-                $(`span.sliderValue${i}`)[0].innerHTML = ui.values[i];
+                $(`span.sliderValue${i}`)[0].textContent = ui.values[i];
                 if (!slidersToUpdate.includes($(`span.sliderValue${i}`)[0])) {
                     slidersToUpdate.push($(`span.sliderValue${i}`)[0]);
                 }
@@ -30,12 +30,12 @@ $(document).ready(function() {
 
     if (localStorage.getItem('minYear') && !location.pathname.startsWith('multiplayer')) {
         $('#slider').slider('values', 0, localStorage.getItem('minYear'));
-        document.getElementById('year-range-a').innerHTML = localStorage.getItem('minYear');
+        document.getElementById('year-range-a').textContent = localStorage.getItem('minYear');
     }
 
     if (localStorage.getItem('maxYear') && !location.pathname.startsWith('multiplayer')) {
         $('#slider').slider('values', 1, localStorage.getItem('maxYear'));
-        document.getElementById('year-range-b').innerHTML = localStorage.getItem('maxYear');
+        document.getElementById('year-range-b').textContent = localStorage.getItem('maxYear');
     }
 
     $('input.sliderValue').change(function() {

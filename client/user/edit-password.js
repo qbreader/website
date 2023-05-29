@@ -15,7 +15,7 @@ form.addEventListener('submit', async (event) => {
         return;
     }
 
-    document.getElementById('submission').innerHTML = 'Submitting...';
+    document.getElementById('submission').textContent = 'Submitting...';
 
     const username = await getAccountUsername();
     fetch('/auth/edit-password', {
@@ -33,7 +33,7 @@ form.addEventListener('submit', async (event) => {
             sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
             window.location.href = '/user/my-profile';
         } else {
-            document.getElementById('submission').innerHTML = 'Submit';
+            document.getElementById('submission').textContent = 'Submit';
             document.getElementById('old-password').value = '';
             document.getElementById('new-password').value = '';
             document.getElementById('confirm-password').value = '';

@@ -5,7 +5,7 @@
 
 document.getElementById('font-size').addEventListener('input', function () {
     localStorage.setItem('font-size', this.value);
-    document.getElementById('font-size-display').innerHTML = this.value;
+    document.getElementById('font-size-display').textContent = this.value;
     document.getElementById('question').style.setProperty('font-size', `${this.value}px`);
 });
 
@@ -27,7 +27,7 @@ document.getElementById('toggle-options').addEventListener('click', function () 
 
 if (localStorage.getItem('font-size')) {
     document.getElementById('font-size').value = localStorage.getItem('font-size');
-    document.getElementById('font-size-display').innerHTML = localStorage.getItem('font-size');
+    document.getElementById('font-size-display').textContent = localStorage.getItem('font-size');
     document.getElementById('question').style.setProperty('font-size', `${localStorage.getItem('font-size')}px`);
 }
 
