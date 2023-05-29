@@ -144,11 +144,11 @@ function TossupCard({
     fetch('/auth/stats/single-tossup?tossup_id=' + _id).then(response => {
       switch (response.status) {
         case 401:
-          document.getElementById('tossup-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
+          document.getElementById('tossup-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
           deleteAccountUsername();
           throw new Error('Unauthenticated');
         case 403:
-          document.getElementById('tossup-stats-body').innerHTML = 'You need verify your account email to view question stats.';
+          document.getElementById('tossup-stats-body').textContent = 'You need verify your account email to view question stats.';
           throw new Error('Forbidden');
       }
       return response;
@@ -158,7 +158,7 @@ function TossupCard({
         stats
       } = response;
       if (!stats) {
-        document.getElementById('tossup-stats-body').innerHTML = 'No stats found for this question.';
+        document.getElementById('tossup-stats-body').textContent = 'No stats found for this question.';
         return;
       }
       const averageCelerity = stats.numCorrect > 0 ? stats.totalCorrectCelerity / stats.numCorrect : 0;
@@ -271,11 +271,11 @@ function BonusCard({
     fetch('/auth/stats/single-bonus?bonus_id=' + _id).then(response => {
       switch (response.status) {
         case 401:
-          document.getElementById('bonus-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
+          document.getElementById('bonus-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
           deleteAccountUsername();
           throw new Error('Unauthenticated');
         case 403:
-          document.getElementById('bonus-stats-body').innerHTML = 'You need verify your account email to view question stats.';
+          document.getElementById('bonus-stats-body').textContent = 'You need verify your account email to view question stats.';
           throw new Error('Forbidden');
       }
       return response;
@@ -285,7 +285,7 @@ function BonusCard({
         stats
       } = response;
       if (!stats) {
-        document.getElementById('bonus-stats-body').innerHTML = 'No stats found for this question.';
+        document.getElementById('bonus-stats-body').textContent = 'No stats found for this question.';
         return;
       }
       document.getElementById('bonus-stats-body').innerHTML = `
