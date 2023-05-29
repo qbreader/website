@@ -124,8 +124,8 @@ function TossupCard({
 }) {
   const _id = tossup._id;
   const packetName = tossup.packetName;
-  function copyToClick() {
-    let textdata = `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}`;
+  function clickToCopy() {
+    let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
     if (tossup.category && tossup.subcategory) {
       textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
     } else if (tossup.category) {
@@ -203,7 +203,7 @@ function TossupCard({
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header",
-    onClick: copyToClick
+    onClick: clickToCopy
   }, /*#__PURE__*/React.createElement("b", null, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", tossup.packetNumber, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
@@ -248,8 +248,8 @@ function BonusCard({
   for (let i = 0; i < bonusLength; i++) {
     indices.push(i);
   }
-  function copyToClick() {
-    let textdata = `${bonus.questionNumber}. ${bonus.leadin}`;
+  function clickToCopy() {
+    let textdata = `${bonus.leadin}`;
     for (let i = 0; i < bonus.parts.length; i++) {
       textdata += `\n[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
     }
@@ -340,7 +340,7 @@ function BonusCard({
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header",
-    onClick: copyToClick
+    onClick: clickToCopy
   }, /*#__PURE__*/React.createElement("b", null, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", bonus.packetNumber, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
