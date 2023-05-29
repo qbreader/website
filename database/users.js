@@ -192,7 +192,10 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
                 totalPoints: { $sum: '$pointValue' },
                 pptu: { $avg: '$pointValue' },
             } },
-            { $sort: { pptu: -1, totalPoints: -1 } },
+            { $addFields: {
+                averageCorrectCelerity: { $divide: ['$totalCorrectCelerity', '$numCorrect'] },
+            } },
+            { $sort: { pptu: -1, averageCorrectCelerity: -1, totalPoints: -1 } },
         ]).toArray();
     case 'bonus':
         return await bonusData.aggregate([
