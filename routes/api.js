@@ -42,7 +42,7 @@ router.get('/num-packets', async (req, res) => {
     if (numPackets === 0) {
         res.statusCode = 404;
     }
-    res.send(numPackets.toString());
+    res.send(JSON.stringify({ numPackets: numPackets }));
 });
 
 
