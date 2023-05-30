@@ -167,7 +167,7 @@ async function getTossups(setName, packetNumber) {
 async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
-    const [directive, directedPrompt] = await checkAnswer(questions[questionNumber].answer, givenAnswer);
+    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber].answer, givenAnswer);
 
     switch (directive) {
     case 'accept':
