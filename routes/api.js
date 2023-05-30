@@ -3,6 +3,7 @@ const router = express.Router();
 
 const database = require('../database/questions');
 const { checkAnswer } = require('../server/scorer');
+const { tossupRooms } = require('../server/TossupRoom');
 
 const rateLimit = require('express-rate-limit');
 
@@ -248,6 +249,25 @@ router.post('/report-question', async (req, res) => {
 router.get('/set-list', (req, res) => {
     const setList = database.getSetList(req.query.setName);
     res.send(setList);
+});
+
+
+router.get('/multiplayer/room-list', (_req, res) => {
+    const roomList = [];
+    for (const roomName in tossupRooms) {
+        if (!tossupRooms[roomName].settings.public) {
+            continue;
+        }
+
+        roomList.push({
+            roomName: roomName,
+            playerCount: Object.keys(tossupRooms[roomName].players).length,
+            onlineCount: Object.keys(tossupRooms[roomName].sockets).length,
+            isPermanent: tossupRooms[roomName].isPermanent,
+        });
+    }
+
+    res.send(JSON.stringify({ roomList: roomList }));
 });
 
 
