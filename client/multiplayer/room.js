@@ -231,7 +231,7 @@ const socketOnClearStats = (message) => {
     sortPlayerAccordion();
 };
 
-const socketOnConnectionAcknowledged = (message) => {
+const socketOnConnectionAcknowledged = async (message) => {
     USER_ID = message.userId;
     localStorage.setItem('USER_ID', USER_ID);
 
@@ -243,12 +243,10 @@ const socketOnConnectionAcknowledged = (message) => {
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
-    (async () => {
-        maxPacketNumber = await getNumPackets(document.getElementById('set-name').value);
-        if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
-            document.getElementById('set-name').classList.add('is-invalid');
-        }
-    })();
+    maxPacketNumber = await getNumPackets(document.getElementById('set-name').value);
+    if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
+        document.getElementById('set-name').classList.add('is-invalid');
+    }
 
     tossup = message.tossup;
     document.getElementById('set-name-info').textContent = message.tossup?.setName ?? '';
