@@ -574,4 +574,29 @@ class TossupRoom {
     }
 }
 
-module.exports = TossupRoom;
+const tossupRooms = {};
+const permanentRooms = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
+
+for (const roomName of permanentRooms) {
+    tossupRooms[roomName] = new TossupRoom(roomName, true);
+}
+
+
+/**
+ * Returns the room with the given room name.
+ * If the room does not exist, it is created.
+ * @param {String} roomName
+ * @returns {TossupRoom}
+ */
+function createAndReturnRoom(roomName) {
+    roomName = DOMPurify.sanitize(roomName);
+
+    if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
+        tossupRooms[roomName] = new TossupRoom(roomName, false);
+    }
+
+    return tossupRooms[roomName];
+}
+
+
+module.exports = { createAndReturnRoom, tossupRooms };

@@ -26,51 +26,22 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
 }));
 
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
-const window = new JSDOM('').window;
-const DOMPurify = createDOMPurify(window);
-
 const { ipFilterMiddleware, ipFilterError } = require('./ip-filter');
 app.use(ipFilterMiddleware);
 app.use(ipFilterError);
 
 
-const TossupRoom = require('./TossupRoom');
-
-const rooms = {};
-const permanentRooms = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
-
-for (const roomName of permanentRooms) {
-    rooms[roomName] = new TossupRoom(roomName, true);
-}
-
-app.get('/api/multiplayer/room-list', (_req, res) => {
-    const roomList = {};
-    for (const roomName in rooms) {
-        if (rooms[roomName].settings.public) {
-            roomList[roomName] = [
-                Object.keys(rooms[roomName].players).length,
-                Object.keys(rooms[roomName].sockets).length,
-                permanentRooms.includes(roomName),
-            ];
-        }
-    }
-
-    res.send(JSON.stringify(roomList));
-});
+const { createAndReturnRoom } = require('./TossupRoom');
 
 wss.on('connection', (ws) => {
     let [roomName, userId, username] = ws.protocol.split('%%%');
-    roomName = DOMPurify.sanitize(decodeURIComponent(roomName));
+    roomName = decodeURIComponent(roomName);
     userId = decodeURIComponent(userId);
     username = decodeURIComponent(username);
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
-    if (!Object.prototype.hasOwnProperty.call(rooms, roomName))
-        rooms[roomName] = new TossupRoom(roomName, false);
-
-    rooms[roomName].connection(ws, userId, username);
+    const room = createAndReturnRoom(roomName);
+    room.connection(ws, userId, username);
 
     ws.on('error', (err) => {
         if (err instanceof RangeError) {
