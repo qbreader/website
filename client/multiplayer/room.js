@@ -36,10 +36,6 @@ socket.onopen = function () {
 socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
-    case 'connection-acknowledged':
-        socketOnConnectionAcknowledged(data);
-        break;
-
     case 'buzz':
         socketOnBuzz(data);
         break;
@@ -49,11 +45,19 @@ socket.onmessage = function (event) {
         break;
 
     case 'chat':
-        socketOnChat(data);
+        logChat(data.username, data.message, false, data.userId);
+        break;
+
+    case 'chat-live-update':
+        logChat(data.username, data.message, true, data.userId);
         break;
 
     case 'clear-stats':
         socketOnClearStats(data);
+        break;
+
+    case 'connection-acknowledged':
+        socketOnConnectionAcknowledged(data);
         break;
 
     case 'end-of-set':
@@ -62,9 +66,9 @@ socket.onmessage = function (event) {
 
     case 'difficulties':
         if (data.value.length > 0) {
-            logEvent(data.username, `changed the ${data.type} to ${data.value}`);
+            logEvent(data.username, `changed the difficulties to ${data.value}`);
         } else {
-            logEvent(data.username, `cleared the ${data.type}`);
+            logEvent(data.username, 'cleared the difficulties');
         }
         updateDifficulties(data.value);
         break;
@@ -82,6 +86,10 @@ socket.onmessage = function (event) {
 
     case 'give-answer':
         socketOnGiveAnswer(data);
+        break;
+
+    case 'give-answer-live-update':
+        logGiveAnswer(data.username, data.message, true);
         break;
 
     case 'join':
@@ -112,7 +120,7 @@ socket.onmessage = function (event) {
     case 'reading-speed':
         logEvent(data.username, `changed the reading speed to ${data.value}`);
         document.getElementById('reading-speed').value = data.value;
-        document.getElementById('reading-speed-display').innerHTML = data.value;
+        document.getElementById('reading-speed-display').textContent = data.value;
         break;
 
     case 'reveal-answer': {
@@ -128,7 +136,7 @@ socket.onmessage = function (event) {
         if (powerParts.length > 1) {
             document.getElementById('question').innerHTML = `<b>${powerParts[0]}(*)</b>${powerParts[1]}`;
         } else {
-            document.getElementById('question').innerHTML = question;
+            document.getElementById('question').textContent = question;
         }
         break;
     }
@@ -154,7 +162,7 @@ socket.onmessage = function (event) {
             document.getElementById('toggle-select-by-set-name').checked = true;
             document.getElementById('difficulty-settings').classList.add('d-none');
             document.getElementById('set-settings').classList.remove('d-none');
-            document.getElementById('set-name').innerHTML = data.setName;
+            document.getElementById('set-name').textContent = data.setName;
         } else {
             logEvent(data.username, 'enabled select by difficulty');
             document.getElementById('toggle-select-by-set-name').checked = false;
@@ -187,8 +195,8 @@ socket.onmessage = function (event) {
     case 'year-range':
         $('#slider').slider('values', 0, data.minYear);
         $('#slider').slider('values', 1, data.maxYear);
-        document.getElementById('year-range-a').innerHTML = data.minYear;
-        document.getElementById('year-range-b').innerHTML = data.maxYear;
+        document.getElementById('year-range-a').textContent = data.minYear;
+        document.getElementById('year-range-b').textContent = data.maxYear;
         break;
     }
 };
@@ -209,18 +217,15 @@ const socketOnBuzz = (message) => {
 };
 
 const socketOnChangeUsername = (message) => {
-    logEvent(message.oldUsername, 'changed their username to ' + message.newUsername);
-    document.getElementById('accordion-button-username-' + message.userId).innerHTML = message.newUsername;
+    logEvent(message.oldUsername, `changed their username to ${message.newUsername}`);
+    document.getElementById('accordion-button-username-' + message.userId).textContent = message.newUsername;
     sortPlayerAccordion();
 };
 
-const socketOnChat = (message) => {
-    logEvent(message.username, `says "${message.message}"`);
-};
 
 const socketOnClearStats = (message) => {
     Array.from(document.getElementsByClassName('stats-' + message.userId)).forEach(element => {
-        element.innerHTML = '0';
+        element.textContent = '0';
     });
 
     sortPlayerAccordion();
@@ -246,16 +251,16 @@ const socketOnConnectionAcknowledged = (message) => {
     })();
 
     tossup = message.tossup;
-    document.getElementById('set-name-info').innerHTML = message.tossup?.setName ?? '';
-    document.getElementById('packet-number-info').innerHTML = message.tossup?.packetNumber ?? '-';
-    document.getElementById('question-number-info').innerHTML = message.tossup?.questionNumber ?? '-';
+    document.getElementById('set-name-info').textContent = message.tossup?.setName ?? '';
+    document.getElementById('packet-number-info').textContent = message.tossup?.packetNumber ?? '-';
+    document.getElementById('question-number-info').textContent = message.tossup?.questionNumber ?? '-';
 
     document.getElementById('chat').disabled = message.public;
     document.getElementById('toggle-rebuzz').checked = message.rebuzz;
     document.getElementById('toggle-skip').checked = message.skip;
     document.getElementById('toggle-visibility').checked = message.public;
     document.getElementById('reading-speed').value = message.readingSpeed;
-    document.getElementById('reading-speed-display').innerHTML = message.readingSpeed;
+    document.getElementById('reading-speed-display').textContent = message.readingSpeed;
 
     if (message.selectBySetName) {
         document.getElementById('toggle-select-by-set-name').checked = true;
@@ -269,7 +274,7 @@ const socketOnConnectionAcknowledged = (message) => {
 
     switch (message.questionProgress) {
     case 0:
-        document.getElementById('next').innerHTML = 'Start';
+        document.getElementById('next').textContent = 'Start';
         document.getElementById('next').classList.remove('btn-primary');
         document.getElementById('next').classList.add('btn-success');
         break;
@@ -298,8 +303,8 @@ const socketOnConnectionAcknowledged = (message) => {
 
     $('#slider').slider('values', 0, message.minYear);
     $('#slider').slider('values', 1, message.maxYear);
-    document.getElementById('year-range-a').innerHTML = message.minYear;
-    document.getElementById('year-range-b').innerHTML = message.maxYear;
+    document.getElementById('year-range-a').textContent = message.minYear;
+    document.getElementById('year-range-b').textContent = message.maxYear;
 
     Object.keys(message.players).forEach(userId => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
@@ -315,10 +320,15 @@ const socketOnEndOfSet = () => {
 
 const socketOnGiveAnswer = (message) => {
     const { userId, username, givenAnswer, directive, directedPrompt, score, celerity } = message;
-    if (directive === 'prompt') {
-        logEvent(username, `answered with "${givenAnswer}" and was prompted ${directedPrompt ? 'with "' + directedPrompt + '"' : ''}`);
+
+    logGiveAnswer(username, givenAnswer, false, directive);
+
+    if (directive === 'prompt' && directedPrompt) {
+        logEvent(username, `was prompted with "${directedPrompt}"`);
+    } else if (directive === 'prompt') {
+        logEvent(username, 'was prompted');
     } else {
-        logEvent(username, `${score > 0 ? '' : 'in'}correctly answered with "${givenAnswer}" for ${score} points`);
+        logEvent(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
     }
 
     if (directive === 'prompt' && userId === USER_ID) {
@@ -332,7 +342,7 @@ const socketOnGiveAnswer = (message) => {
         if (directive === 'accept') {
             document.getElementById('buzz').disabled = true;
             Array.from(document.getElementsByClassName('tuh')).forEach(element => {
-                element.innerHTML = parseInt(element.innerHTML) + 1;
+                element.textContent = parseInt(element.innerHTML) + 1;
             });
         }
 
@@ -341,16 +351,16 @@ const socketOnGiveAnswer = (message) => {
         }
 
         if (score > 10) {
-            document.getElementById('powers-' + userId).innerHTML = parseInt(document.getElementById('powers-' + userId).innerHTML) + 1;
+            document.getElementById('powers-' + userId).textContent = parseInt(document.getElementById('powers-' + userId).innerHTML) + 1;
         } else if (score === 10) {
-            document.getElementById('tens-' + userId).innerHTML = parseInt(document.getElementById('tens-' + userId).innerHTML) + 1;
+            document.getElementById('tens-' + userId).textContent = parseInt(document.getElementById('tens-' + userId).innerHTML) + 1;
         } else if (score < 0) {
-            document.getElementById('negs-' + userId).innerHTML = parseInt(document.getElementById('negs-' + userId).innerHTML) + 1;
+            document.getElementById('negs-' + userId).textContent = parseInt(document.getElementById('negs-' + userId).innerHTML) + 1;
         }
 
-        document.getElementById('points-' + userId).innerHTML = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
-        document.getElementById('celerity-' + userId).innerHTML = Math.round(1000 * celerity) / 1000;
-        document.getElementById('accordion-button-points-' + userId).innerHTML = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
+        document.getElementById('points-' + userId).textContent = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
+        document.getElementById('celerity-' + userId).textContent = Math.round(1000 * celerity) / 1000;
+        document.getElementById('accordion-button-points-' + userId).textContent = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
 
         sortPlayerAccordion();
     }
@@ -388,7 +398,7 @@ const socketOnJoin = (message) => {
         createPlayerAccordionItem(message);
         sortPlayerAccordion();
     } else {
-        document.getElementById('accordion-button-username-' + userId).innerHTML = username;
+        document.getElementById('accordion-button-username-' + userId).textContent = username;
     }
 };
 
@@ -418,18 +428,18 @@ const socketOnNext = (message) => {
 
     tossup = message.tossup;
 
-    document.getElementById('set-name-info').innerHTML = tossup?.setName ?? '';
-    document.getElementById('question-number-info').innerHTML = tossup?.questionNumber ?? '-';
-    document.getElementById('packet-number-info').innerHTML = tossup?.packetNumber ?? '-';
+    document.getElementById('set-name-info').textContent = tossup?.setName ?? '';
+    document.getElementById('question-number-info').textContent = tossup?.questionNumber ?? '-';
+    document.getElementById('packet-number-info').textContent = tossup?.packetNumber ?? '-';
 
     document.getElementById('options').classList.add('d-none');
     showSkipButton();
-    document.getElementById('question').innerHTML = '';
+    document.getElementById('question').textContent = '';
     powermarkPosition = 0;
-    document.getElementById('answer').innerHTML = '';
-    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('answer').textContent = '';
+    document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
-    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
 };
 
@@ -444,23 +454,23 @@ const socketOnPause = (message) => {
 const socketOnStart = (message) => {
     logEvent(message.username, 'started the game');
 
-    document.getElementById('question').innerHTML = '';
+    document.getElementById('question').textContent = '';
     powermarkPosition = 0;
-    document.getElementById('answer').innerHTML = '';
-    document.getElementById('buzz').innerHTML = 'Buzz';
+    document.getElementById('answer').textContent = '';
+    document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
-    document.getElementById('pause').innerHTML = 'Pause';
+    document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
     document.getElementById('next').classList.add('btn-primary');
     document.getElementById('next').classList.remove('btn-success');
-    document.getElementById('next').innerHTML = 'Next';
+    document.getElementById('next').textContent = 'Next';
     showSkipButton();
 
     tossup = message.tossup;
 
-    document.getElementById('set-name-info').innerHTML = tossup?.setName ?? '';
-    document.getElementById('question-number-info').innerHTML = tossup?.questionNumber ?? '-';
-    document.getElementById('packet-number-info').innerHTML = tossup?.packetNumber ?? '-';
+    document.getElementById('set-name-info').textContent = tossup?.setName ?? '';
+    document.getElementById('question-number-info').textContent = tossup?.questionNumber ?? '-';
+    document.getElementById('packet-number-info').textContent = tossup?.packetNumber ?? '-';
 };
 
 // Ping server every 45 seconds to prevent socket disconnection
@@ -485,7 +495,7 @@ function createPlayerAccordionItem(player) {
         <h2 class="accordion-header" id="heading-${userId}">
             <button class="accordion-button collapsed" type="button" data-bs-target="#accordion-body-${userId}" data-bs-toggle="collapse">
                 <span id="accordion-button-username-${userId}">
-                    ${username}
+                    ${escapeHTML(username)}
                 </span>&nbsp;(<span class="stats-${userId}" id="accordion-button-points-${userId}">
                     ${points}
                 </span>&nbsp;pts)
@@ -508,12 +518,112 @@ function createPlayerAccordionItem(player) {
 }
 
 
+function escapeHTML(unsafe) {
+    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
+}
+
+
+function logChat(username, message, isLive = false, userId = null) {
+    if (!isLive && message === '') {
+        document.getElementById('live-chat-' + userId).remove();
+        return;
+    }
+
+    if (!isLive && message) {
+        document.getElementById('live-chat-' + userId).className = '';
+        document.getElementById('live-chat-' + userId).id = '';
+        return;
+    }
+
+    const b = document.createElement('b');
+    b.textContent = username;
+
+    const span = document.createElement('span');
+    span.textContent = message;
+
+    if (document.getElementById('live-chat-' + userId)) {
+        const li = document.getElementById('live-chat-' + userId);
+        li.textContent = '';
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(span);
+    } else {
+        const li = document.createElement('li');
+        li.id = 'live-chat-' + userId;
+        li.classList.add('text-muted');
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(span);
+        document.getElementById('room-history').prepend(li);
+    }
+}
+
+
 function logEvent(username, message) {
+    const span1 = document.createElement('span');
+    span1.textContent = username;
+
+    const span2 = document.createElement('span');
+    span2.textContent = message;
+
     const i = document.createElement('i');
-    i.innerHTML = `<b>${username}</b> ${message}`;
-    const div = document.createElement('li');
-    div.appendChild(i);
-    document.getElementById('room-history').prepend(div);
+    i.appendChild(span1);
+    i.appendChild(document.createTextNode(' '));
+    i.appendChild(span2);
+
+    const li = document.createElement('li');
+    li.appendChild(i);
+
+    document.getElementById('room-history').prepend(li);
+}
+
+
+function logGiveAnswer(username, message, isLive = false, directive = null) {
+    const badge = document.createElement('span');
+    badge.textContent = 'Buzz';
+    switch (directive) {
+    case 'accept':
+        badge.className = 'badge text-dark bg-success';
+        break;
+    case 'reject':
+        badge.className = 'badge text-light bg-danger';
+        break;
+    case 'prompt':
+        badge.className = 'badge text-dark bg-warning';
+        break;
+    default:
+        badge.className = 'badge text-light bg-primary';
+        break;
+    }
+
+    const b = document.createElement('b');
+    b.textContent = username;
+
+    const span = document.createElement('span');
+    span.textContent = message;
+
+    if (document.getElementById('live-buzz')) {
+        const li = document.getElementById('live-buzz');
+        li.textContent = '';
+        li.appendChild(badge);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(span);
+    } else {
+        const li = document.createElement('li');
+        li.id = 'live-buzz';
+        li.appendChild(badge);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(span);
+        document.getElementById('room-history').prepend(li);
+    }
+
+    if (!isLive) {
+        document.getElementById('live-buzz').id = '';
+    }
 }
 
 
@@ -579,11 +689,17 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 });
 
 
+document.getElementById('answer-input').addEventListener('input', function () {
+    socket.send(JSON.stringify({ type: 'give-answer-live-update', message: this.value }));
+});
+
+
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     document.getElementById('answer-input-group').classList.remove('d-none');
     document.getElementById('answer-input').focus();
     socket.send(JSON.stringify({ type: 'buzz' }));
+    socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
 
 
@@ -599,6 +715,7 @@ document.getElementById('chat').addEventListener('click', function () {
     this.blur();
     document.getElementById('chat-input-group').classList.remove('d-none');
     document.getElementById('chat-input').focus();
+    socket.send(JSON.stringify({ type: 'chat-live-update', message: '' }));
 });
 
 
@@ -610,9 +727,12 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
     document.getElementById('chat-input').value = '';
     document.getElementById('chat-input-group').classList.add('d-none');
 
-    if (message.length === 0) return;
-
     socket.send(JSON.stringify({ type: 'chat', message: message }));
+});
+
+
+document.getElementById('chat-input').addEventListener('input', function () {
+    socket.send(JSON.stringify({ type: 'chat-live-update', message: this.value }));
 });
 
 
@@ -666,7 +786,7 @@ document.getElementById('reading-speed').addEventListener('change', function () 
 
 
 document.getElementById('reading-speed').addEventListener('input', function () {
-    document.getElementById('reading-speed-display').innerHTML = this.value;
+    document.getElementById('reading-speed-display').textContent = this.value;
 });
 
 
@@ -751,7 +871,9 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 document.addEventListener('keydown', function (event) {
     // press escape to close chat
     if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
+        document.getElementById('chat-input').value = '';
         document.getElementById('chat-input-group').classList.add('d-none');
+        socket.send(JSON.stringify({ type: 'chat', message: '' }));
     }
 
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;

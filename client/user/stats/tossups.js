@@ -1,5 +1,5 @@
-function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true } = {}) {
-    fetch(`/auth/user-stats/tossup?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}&includeMultiplayer=${encodeURIComponent(includeMultiplayer)}&includeSingleplayer=${encodeURIComponent(includeSingleplayer)}`)
+function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
+    fetch(`/auth/user-stats/tossup?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}&includeMultiplayer=${encodeURIComponent(includeMultiplayer)}&includeSingleplayer=${encodeURIComponent(includeSingleplayer)}&startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`)
         .then(response => {
             if (response.status === 401) {
                 throw new Error('Unauthenticated');
@@ -37,7 +37,7 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                     </div>
                 `;
             } else {
-                document.getElementById('best-buzz').innerHTML = '';
+                document.getElementById('best-buzz').textContent = '';
             }
 
             for (const type of ['category', 'subcategory']) {
@@ -105,5 +105,7 @@ function onSubmit(event) {
     const difficulties = getDifficulties();
     const includeMultiplayer = document.getElementById('include-multiplayer').checked;
     const includeSingleplayer = document.getElementById('include-singleplayer').checked;
-    fetchTossupStats({ difficulties, setName, includeMultiplayer, includeSingleplayer });
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
+    fetchTossupStats({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 }

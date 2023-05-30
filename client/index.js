@@ -12,6 +12,6 @@ document.getElementById('toggle-dark-mode').addEventListener('click', function (
 (async () => {
     const username = await getAccountUsername();
     if (username) {
-        document.getElementById('welcome-username').innerHTML = `, ${username}`;
+        document.getElementById('welcome-username').textContent = `, ${username}`;
     }
 })();

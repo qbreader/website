@@ -162,7 +162,19 @@ class TossupRoom {
             break;
 
         case 'chat':
-            this.chat(userId, message.message);
+            this.sendSocketMessage({
+                type: 'chat',
+                username: this.players[userId].username,
+                message: message.message
+            });
+            break;
+
+        case 'chat-live-update':
+            this.sendSocketMessage({
+                type: 'chat-live-update',
+                username: this.players[userId].username,
+                message: message.message
+            });
             break;
 
         case 'clear-stats':
@@ -184,6 +196,14 @@ class TossupRoom {
 
         case 'give-answer':
             this.giveAnswer(userId, message.givenAnswer);
+            break;
+
+        case 'give-answer-live-update':
+            this.sendSocketMessage({
+                type: 'give-answer-live-update',
+                username: this.players[userId].username,
+                message: message.message
+            });
             break;
 
         case 'leave':
@@ -385,14 +405,6 @@ class TossupRoom {
                 word: '(#)'
             });
         }
-    }
-
-    chat(userId, message) {
-        this.sendSocketMessage({
-            type: 'chat',
-            message: message,
-            username: this.players[userId].username
-        });
     }
 
     createPlayer(userId) {
