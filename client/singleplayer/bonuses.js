@@ -173,7 +173,7 @@ async function getRandomBonus(difficulties = [], categories = [], subcategories 
 
 
 async function giveAnswer(givenAnswer) {
-    const [directive, directedPrompt] = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
+    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
 
     switch (directive) {
     case 'accept':

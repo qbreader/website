@@ -153,9 +153,20 @@
                 <h4 class="mt-4 md-2" id="returns">Returns</h4>
             </a>
             <div>
-                An <code>array</code> of the form <code>[directive, directedPrompt]</code>.
-                <code class="text-muted">: ["accept" | "reject" | "prompt", string | null]</code>
+                A JSON <code>object</code> with the following properties:
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>directive</code><code class="text-muted">: "accept" | "reject" | "prompt"</code>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>directedPrompt</code><code class="text-muted">: string | null</code>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 

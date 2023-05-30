@@ -586,7 +586,7 @@ function checkAnswer(answerline, givenAnswer) {
     const parsedAnswerline = parseAnswerline(answerline);
 
     if (!answerlineIsFormatted && parsedAnswerline.accept[0].length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer))
-        return ['reject', null];
+        return { directive: 'reject', directedPrompt: null };
 
     for (const answer of parsedAnswerline.reject) {
         const useStemmer = (stemmer(answer) !== stemmer(parsedAnswerline.accept[0]));
@@ -597,35 +597,39 @@ function checkAnswer(answerline, givenAnswer) {
         if (!stringMatchesReference({ string: givenAnswer, reference: answer, strictness: 11, useStemmer }))
             continue;
 
-        return ['reject', null];
+        return { directive: 'reject', directedPrompt: null };
     }
 
     if (/[[(]accept either/i.test(answerline)) {
         for (const answer of parsedAnswerline.accept[0].split(' ')) {
-            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-                return ['accept', null];
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
+                return { directive: 'accept', directedPrompt: null };
+            }
         }
     }
 
     for (const answer of parsedAnswerline.accept) {
-        if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-            return ['accept', null];
+        if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
+            return { directive: 'accept', directedPrompt: null };
+        }
     }
 
     for (const answer of parsedAnswerline.prompt) {
         const directedPrompt = answer[1];
-        if (answerWorks(answer[0], givenAnswer, answerlineIsFormatted))
-            return ['prompt', directedPrompt];
+        if (answerWorks(answer[0], givenAnswer, answerlineIsFormatted)) {
+            return { directive: 'prompt', directedPrompt: directedPrompt };
+        }
     }
 
     if (/prompt on (a )?partial/.test(answerline)) {
         for (const answer of parsedAnswerline.accept[0].split(' ')) {
-            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-                return ['prompt', null];
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
+                return { directive: 'prompt', directedPrompt: null };
+            }
         }
     }
 
-    return ['reject', null];
+    return { directive: 'reject', directedPrompt: null };
 }
 
 
