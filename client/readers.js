@@ -40,6 +40,7 @@ const SET_LIST = [];
 
 fetch('/api/set-list')
     .then(response => response.json())
+    .then(data => data.setList)
     .then(data => {
         document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
         data.forEach(setName => {

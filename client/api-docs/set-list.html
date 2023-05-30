@@ -137,8 +137,18 @@
                 <h4 class="mt-4 md-2" id="returns">Returns</h4>
             </a>
             <div>
-                An <code>array</code> of all the sets in the database. <code class="text-muted">: string[]</code>
+                A JSON <code>object</code> with the following properties:
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>tossups</code><code class="text-muted">: string[]</code>
+                    </div>
+                    <div>
+                        An <code>array</code> of all the sets in the database, sorted in reverse alphanumeric order.
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 
