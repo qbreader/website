@@ -9,6 +9,9 @@ const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
+const RateLimit = require('./RateLimit');
+const rateLimit1 = new RateLimit(50, 1000);
+
 class TossupRoom {
     constructor(name, isPermanent = false) {
         this.name = name;
@@ -49,11 +52,19 @@ class TossupRoom {
             selectBySetName: false,
             skip: false,
         };
+
+        this.rateLimitExceeded = new Set();
     }
 
     connection(socket, userId, username) {
         console.log(`Connection in room ${bcolors.HEADER}${this.name}${bcolors.ENDC} - userId: ${bcolors.OKBLUE}${userId}${bcolors.ENDC}, username: ${bcolors.OKBLUE}${username}${bcolors.ENDC} - with settings ${bcolors.OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${bcolors.ENDC}`);
         socket.on('message', message => {
+            if (rateLimit1(socket) && !this.rateLimitExceeded.has(username)) {
+                console.log(`Rate limit exceeded for ${bcolors.OKBLUE}${username}${bcolors.ENDC} in room ${bcolors.HEADER}${this.name}${bcolors.ENDC}`);
+                this.rateLimitExceeded.add(username);
+                return;
+            }
+
             try {
                 message = JSON.parse(message);
             } catch (error) {
