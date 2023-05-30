@@ -142,7 +142,8 @@ router.get('/query', async (req, res) => {
 
 
 router.get('/random-name', (req, res) => {
-    res.send(database.getRandomName());
+    const randomName = database.getRandomName();
+    res.send(JSON.stringify({ randomName: randomName }));
 });
 
 

@@ -45,9 +45,10 @@ fetch('/api/multiplayer/room-list')
     });
 
 fetch('/api/random-name')
-    .then(res => res.text())
-    .then(roomName => {
-        document.getElementById('new-room-name').placeholder = roomName;
+    .then(res => res.json())
+    .then(data => data.randomName)
+    .then(randomName => {
+        document.getElementById('new-room-name').placeholder = randomName;
     });
 
 function escapeHTML(unsafe) {
