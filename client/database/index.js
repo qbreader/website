@@ -124,9 +124,9 @@ function TossupCard({
 }) {
   const _id = tossup._id;
   const packetName = tossup.packetName;
-  function copyToClick() {
-    let textdata = `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}`;
-    if (tossup.category && tossup.subcategory) {
+  function clickToCopy() {
+    let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
+    if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
       textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
     } else if (tossup.category) {
       textdata += `\n<${tossup.category}>`;
@@ -144,11 +144,11 @@ function TossupCard({
     fetch('/auth/stats/single-tossup?tossup_id=' + _id).then(response => {
       switch (response.status) {
         case 401:
-          document.getElementById('tossup-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
+          document.getElementById('tossup-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
           deleteAccountUsername();
           throw new Error('Unauthenticated');
         case 403:
-          document.getElementById('tossup-stats-body').innerHTML = 'You need verify your account email to view question stats.';
+          document.getElementById('tossup-stats-body').textContent = 'You need verify your account email to view question stats.';
           throw new Error('Forbidden');
       }
       return response;
@@ -158,10 +158,10 @@ function TossupCard({
         stats
       } = response;
       if (!stats) {
-        document.getElementById('tossup-stats-body').innerHTML = 'No stats found for this question.';
+        document.getElementById('tossup-stats-body').textContent = 'No stats found for this question.';
         return;
       }
-      const averageCelerity = stats.numCorrect > 0 ? (stats.totalCorrectCelerity / stats.numCorrect).toFixed(3) : 0;
+      const averageCelerity = stats.numCorrect > 0 ? stats.totalCorrectCelerity / stats.numCorrect : 0;
       document.getElementById('tossup-stats-body').innerHTML = `
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -182,7 +182,7 @@ function TossupCard({
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Average celerity
-                        <span>${averageCelerity}</span>
+                        <span>${averageCelerity.toFixed(3)}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Total points
@@ -190,7 +190,7 @@ function TossupCard({
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         PPTU
-                        <span>${stats.pptu}</span>
+                        <span>${stats.pptu.toFixed(2)}</span>
                     </li>
                 </ul>
                 `;
@@ -203,7 +203,7 @@ function TossupCard({
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header",
-    onClick: copyToClick
+    onClick: clickToCopy
   }, /*#__PURE__*/React.createElement("b", null, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", tossup.packetNumber, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
@@ -248,12 +248,12 @@ function BonusCard({
   for (let i = 0; i < bonusLength; i++) {
     indices.push(i);
   }
-  function copyToClick() {
-    let textdata = `${bonus.questionNumber}. ${bonus.leadin}`;
+  function clickToCopy() {
+    let textdata = `${bonus.leadin}`;
     for (let i = 0; i < bonus.parts.length; i++) {
       textdata += `\n[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
     }
-    if (bonus.category && bonus.subcategory) {
+    if (bonus.category && bonus.subcategory && bonus.category !== bonus.subcategory) {
       textdata += `\n<${bonus.category} / ${bonus.subcategory}>`;
     } else if (bonus.category) {
       textdata += `\n<${bonus.category}>`;
@@ -271,11 +271,11 @@ function BonusCard({
     fetch('/auth/stats/single-bonus?bonus_id=' + _id).then(response => {
       switch (response.status) {
         case 401:
-          document.getElementById('bonus-stats-body').innerHTML = 'You need to make an account with a verified email to view question stats.';
+          document.getElementById('bonus-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
           deleteAccountUsername();
           throw new Error('Unauthenticated');
         case 403:
-          document.getElementById('bonus-stats-body').innerHTML = 'You need verify your account email to view question stats.';
+          document.getElementById('bonus-stats-body').textContent = 'You need verify your account email to view question stats.';
           throw new Error('Forbidden');
       }
       return response;
@@ -285,7 +285,7 @@ function BonusCard({
         stats
       } = response;
       if (!stats) {
-        document.getElementById('bonus-stats-body').innerHTML = 'No stats found for this question.';
+        document.getElementById('bonus-stats-body').textContent = 'No stats found for this question.';
         return;
       }
       document.getElementById('bonus-stats-body').innerHTML = `
@@ -295,32 +295,20 @@ function BonusCard({
                         <span>${stats.count}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        1st part %
-                        <span>${(100 * stats.part1).toFixed(1)}%</span>
+                        1st part
+                        <span>${(10 * stats.part1).toFixed(2)} pts</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        2nd part %
-                        <span>${(100 * stats.part2).toFixed(1)}%</span>
+                        2nd part
+                        <span>${(10 * stats.part2).toFixed(2)} pts</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        3rd part %
-                        <span>${(100 * stats.part3).toFixed(1)}%</span>
+                        3rd part
+                        <span>${(10 * stats.part3).toFixed(2)} pts</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        30s
-                        <span>${stats['30s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        20s
-                        <span>${stats['20s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        10s
-                        <span>${stats['10s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        0s
-                        <span>${stats['0s']}</span>
+                        30s/20s/10s/0s
+                        <span>${stats['30s']}/${stats['20s']}/${stats['10s']}/${stats['0s']}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Total points
@@ -328,7 +316,7 @@ function BonusCard({
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         PPB
-                        <span>${stats.ppb}</span>
+                        <span>${stats.ppb.toFixed(2)}</span>
                     </li>
                 </ul>
                 `;
@@ -340,7 +328,7 @@ function BonusCard({
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header",
-    onClick: copyToClick
+    onClick: clickToCopy
   }, /*#__PURE__*/React.createElement("b", null, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "float-end"
   }, "Packet ", bonus.packetNumber, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {

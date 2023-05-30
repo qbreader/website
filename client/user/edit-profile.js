@@ -17,7 +17,7 @@ form.addEventListener('submit', (event) => {
         return;
     }
 
-    document.getElementById('submission').innerHTML = 'Submitting...';
+    document.getElementById('submission').textContent = 'Submitting...';
 
     const username = document.getElementById('username').value;
     fetch('/auth/edit-profile', {
@@ -34,7 +34,7 @@ form.addEventListener('submit', (event) => {
             deleteAccountUsername();
             window.location.href = '/user/login';
         } else {
-            document.getElementById('submission').innerHTML = 'Submit';
+            document.getElementById('submission').textContent = 'Submit';
             alert('Username already taken.');
         }
     });

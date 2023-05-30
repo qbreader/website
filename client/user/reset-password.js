@@ -16,7 +16,7 @@ form.addEventListener('submit', (event) => {
         return;
     }
 
-    document.getElementById('submission').innerHTML = 'Submitting...';
+    document.getElementById('submission').textContent = 'Submitting...';
 
     fetch('/auth/reset-password', {
         method: 'POST',
