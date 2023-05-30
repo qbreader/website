@@ -143,8 +143,20 @@
                 <h4 class="mt-4 md-2" id="returns">Returns</h4>
             </a>
             <div>
-                The <code>number</code> of packets in the set.
+                A JSON <code>object</code> with the following properties:
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>numPackets</code><code class="text-muted">: number</code>
+                    </div>
+                    <div>
+                        The <code>number</code> of packets in the set.
+                        If a set with the given name does not exist, this will be <code>0</code>,
+                        and a <code>404</code> error will be returned.
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 
