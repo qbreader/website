@@ -247,8 +247,8 @@ router.post('/report-question', async (req, res) => {
 
 
 router.get('/set-list', (req, res) => {
-    const setList = database.getSetList(req.query.setName);
-    res.send(setList);
+    const setList = database.getSetList();
+    res.send(JSON.stringify({ setList }));
 });
 
 
