@@ -54,7 +54,7 @@ function start(selectBySetName) {
     questionNumber = parseInt(questionNumber) - 2;
 
     document.getElementById('next').disabled = false;
-    document.getElementById('next').innerHTML = 'Skip';
+    document.getElementById('next').textContent = 'Skip';
 
     return true;
 }
