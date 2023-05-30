@@ -91,9 +91,9 @@ document.getElementById('set-name').addEventListener('change', async function (e
         this.classList.add('is-invalid');
     }
     maxPacketNumber = await getNumPackets(this.value);
-    if (this.value === '' || maxPacketNumber > 0) {
-        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
-    } else {
+    if (this.value === '' || maxPacketNumber === 0) {
         document.getElementById('packet-number').placeholder = 'Packet Numbers';
+    } else {
+        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
     }
 });

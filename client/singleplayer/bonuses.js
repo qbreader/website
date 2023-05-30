@@ -479,7 +479,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 
-window.onload = () => {
+window.onload = async () => {
     if (!sessionStorage.getItem('stats')) {
         sessionStorage.setItem('stats', [0, 0, 0, 0]);
     }
@@ -544,12 +544,16 @@ window.onload = () => {
     if (localStorage.getItem('setNameBonusSave')) {
         setName = localStorage.getItem('setNameBonusSave');
         document.getElementById('set-name').value = setName;
-        (async () => {
-            maxPacketNumber = await getNumPackets(setName);
+        maxPacketNumber = await getNumPackets(setName);
+
+        if (setName === '') {
+            return;
+        }
+
+        if (maxPacketNumber === 0) {
+            document.getElementById('set-name').classList.add('is-invalid');
+        } else {
             document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
-            if (maxPacketNumber === 0) {
-                document.getElementById('set-name').classList.add('is-invalid');
-            }
-        })();
+        }
     }
 };
