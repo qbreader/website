@@ -16,13 +16,13 @@ function testAnswerline(group) {
         const givenAnswer = test.given;
         const expectedDirectedPrompt = test.directedPrompt;
 
-        const [result, directedPrompt] = scorer.checkAnswer(answerline, givenAnswer);
+        const { directive, directedPrompt } = scorer.checkAnswer(answerline, givenAnswer);
 
-        const eqAnswer = expected === result;
+        const eqAnswer = expected === directive;
 
         total++;
 
-        console.assert(eqAnswer, errorText(`expected "${expected}" but got "${result}" for given answer "${givenAnswer}"`));
+        console.assert(eqAnswer, errorText(`expected "${expected}" but got "${directive}" for given answer "${givenAnswer}"`));
         if (!eqAnswer) return;
 
         if (expectedDirectedPrompt || directedPrompt) {

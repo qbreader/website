@@ -32,8 +32,8 @@ router.use((req, _res, next) => {
 
 router.get('/check-answer', (req, res) => {
     const { answerline, givenAnswer } = req.query;
-    const [directive, directedPrompt] = checkAnswer(answerline, givenAnswer);
-    res.send(JSON.stringify([directive, directedPrompt]));
+    const { directive, directedPrompt } = checkAnswer(answerline, givenAnswer);
+    res.send(JSON.stringify({ directive: directive, directedPrompt: directedPrompt }));
 });
 
 

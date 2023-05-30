@@ -429,7 +429,7 @@ class TossupRoom {
         const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-        const [directive, directedPrompt] = scorer.checkAnswer(this.tossup.answer, givenAnswer);
+        const { directive, directedPrompt } = scorer.checkAnswer(this.tossup.answer, givenAnswer);
         const points = quizbowl.scoreTossup({
             isCorrect: directive === 'accept',
             inPower,
