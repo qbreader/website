@@ -1,4 +1,6 @@
-const { MongoClient, ObjectId } = require('mongodb');
+import { getSetId, getTossupById } from './questions.js';
+
+import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -10,7 +12,6 @@ const database = client.db('account-info');
 const users = database.collection('users');
 const tossupData = database.collection('tossup-data');
 const bonusData = database.collection('bonus-data');
-const { getSetId, getTossupById } = require('./questions');
 
 
 const username_to_id = {};
@@ -403,7 +404,7 @@ async function verifyEmail(user_id) {
     );
 }
 
-module.exports = {
+export {
     createUser,
     getBestBuzz,
     getCategoryStats,
