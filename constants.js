@@ -25,7 +25,7 @@ const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'C
  */
 const PERMANENT_ROOMS = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
 
-const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24; // 24 hours
+const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7; // 7 days
 
 const WEBSOCKET_MAX_PAYLOAD = 1024 * 1024 * 1; // 1 MB
 
