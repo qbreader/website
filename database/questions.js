@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const { MongoClient, ObjectId } = require('mongodb');
-const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED } = require('../server/quizbowl');
+const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } = require('../constants');
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -13,7 +13,6 @@ client.connect().then(async () => {
 
 const bcolors = require('../bcolors');
 const database = client.db('qbreader');
-const quizbowl = require('../server/quizbowl');
 
 const sets = database.collection('sets');
 const tossups = database.collection('tossups');
@@ -376,26 +375,98 @@ function getRandomName() {
 }
 
 
-async function getRandomTossups({ difficulties, categories, subcategories, number = 1, minYear = quizbowl.DEFAULT_MIN_YEAR, maxYear = quizbowl.DEFAULT_MAX_YEAR }) {
-    return await getRandomQuestions({ questionType: 'tossup', difficulties, categories, subcategories, number, minYear, maxYear, verbose: false });
-}
-
-
-async function getRandomBonuses({ difficulties, categories, subcategories, number = 1, minYear = quizbowl.DEFAULT_MIN_YEAR, maxYear = quizbowl.DEFAULT_MAX_YEAR, bonusLength }) {
-    if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
-    if (!categories || categories.length === 0) categories = CATEGORIES;
-    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
-
+/**
+ * Get an array of random tossups. This method is 3-4x faster than using the randomize option in getQuery.
+ * @param {Object} object - an object containing the parameters
+ * @param {Array<Number>} object.difficulties
+ * @param {Array<String>} object.categories
+ * @param {Array<String>} object.subcategories
+ * @param {Number} object.number
+ * @param {Number} object.minYear
+ * @param {Number} object.maxYear
+ * @param difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
+ * @param categories - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
+ * @param subcategories - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
+ * @param number - how many random tossups to return. Default: 1.
+ * @param minYear - the minimum year to select from. Default: 2010.
+ * @param maxYear - the maximum year to select from. Default: 2023.
+ * @returns {Promise<Array<JSON>>}
+ */
+async function getRandomTossups({
+    difficulties = DIFFICULTIES,
+    categories = CATEGORIES,
+    subcategories = SUBCATEGORIES_FLATTENED,
+    number = 1,
+    minYear = DEFAULT_MIN_YEAR,
+    maxYear = DEFAULT_MAX_YEAR
+} = {}) {
     const aggregation = [
-        { $match: {
-            difficulty: { $in: difficulties },
-            category: { $in: categories },
-            subcategory: { $in: subcategories },
-            setYear: { $gte: minYear, $lte: maxYear },
-        } },
+        { $match: { setYear: { $gte: minYear, $lte: maxYear } } },
         { $sample: { size: number } },
         { $project: { reports: 0 } },
     ];
+
+    if (difficulties.length) {
+        aggregation[0].$match.difficulty = { $in: difficulties };
+    }
+
+    if (categories.length) {
+        aggregation[0].$match.category = { $in: categories };
+    }
+
+    if (subcategories.length) {
+        aggregation[0].$match.subcategory = { $in: subcategories };
+    }
+
+    return await tossups.aggregate(aggregation).toArray();
+}
+
+
+/**
+ * Get an array of random bonuses. This method is 3-4x faster than using the randomize option in getQuery.
+ * @param {Object} object - an object containing the parameters
+ * @param {Array<Number>} object.difficulties
+ * @param {Array<String>} object.categories
+ * @param {Array<String>} object.subcategories
+ * @param {Number} object.number
+ * @param {Number} object.minYear
+ * @param {Number} object.maxYear
+ * @param {Number | null | undefined} object.bonusLength
+ * @param difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
+ * @param categories - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
+ * @param subcategories - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
+ * @param number - how many random bonuses to return. Default: 1.
+ * @param minYear - the minimum year to select from. Default: 2010.
+ * @param maxYear - the maximum year to select from. Default: 2023.
+ * @param bonusLength - if not null or undefined, only return bonuses with number of parts equal to `bonusLength`.
+ * @returns {Promise<Array<JSON>>}
+ */
+async function getRandomBonuses({
+    difficulties = DIFFICULTIES,
+    categories = CATEGORIES,
+    subcategories = SUBCATEGORIES_FLATTENED,
+    number = 1,
+    minYear = DEFAULT_MIN_YEAR,
+    maxYear = DEFAULT_MAX_YEAR,
+    bonusLength
+} = {}) {
+    const aggregation = [
+        { $match: { setYear: { $gte: minYear, $lte: maxYear } } },
+        { $sample: { size: number } },
+        { $project: { reports: 0 } },
+    ];
+
+    if (difficulties.length) {
+        aggregation[0].$match.difficulty = { $in: difficulties };
+    }
+
+    if (categories.length) {
+        aggregation[0].$match.category = { $in: categories };
+    }
+
+    if (subcategories.length) {
+        aggregation[0].$match.subcategory = { $in: subcategories };
+    }
 
     if (bonusLength) {
         bonusLength = parseInt(bonusLength);
@@ -403,62 +474,6 @@ async function getRandomBonuses({ difficulties, categories, subcategories, numbe
     }
 
     return await bonuses.aggregate(aggregation).toArray();
-}
-
-
-/**
- * Get an array of random questions. This method is 3-4x faster than using the randomize option in getQuery.
- * @param {'tossup' | 'bonus'} questionType - the type of question to get
- * @param {Array<Number>} difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array to select any difficulty.
- * @param {Array<String>} categories - an array of allowed categories. Pass a 0-length array to select any category.
- * @param {Array<String>} subcategories - an array of allowed subcategories. Pass a 0-length array to select any subcategory.
- * @param {Number} number - how many random tossups to return. Default: 1.
- * @param {Number} minYear - the minimum year to select from. Default: 2010.
- * @param {Number} maxYear - the maximum year to select from. Default: 2023.
- * @returns {Promise<Array<JSON>>}
- */
-async function getRandomQuestions({
-    questionType = 'tossup',
-    difficulties,
-    categories,
-    subcategories,
-    number = 1,
-    minYear = quizbowl.DEFAULT_MIN_YEAR,
-    maxYear = quizbowl.DEFAULT_MAX_YEAR,
-    verbose = false,
-}) {
-    if (!difficulties || difficulties.length === 0) difficulties = DIFFICULTIES;
-    if (!categories || categories.length === 0) categories = CATEGORIES;
-    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
-
-    if (verbose)
-        console.log(`\
-[DATABASE] RANDOM QUESTIONS: \
-question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; \
-difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; \
-years: ${bcolors.OKGREEN}${minYear} to ${maxYear}${bcolors.ENDC}; \
-number: ${bcolors.OKGREEN}${number}${bcolors.ENDC}; \
-categories: ${bcolors.OKCYAN}${categories}${bcolors.ENDC}; \
-subcategories: ${bcolors.OKCYAN}${subcategories}${bcolors.ENDC};\
-`);
-
-    const aggregation = [
-        { $match: {
-            difficulty: { $in: difficulties },
-            category: { $in: categories },
-            subcategory: { $in: subcategories },
-            setYear: { $gte: minYear, $lte: maxYear },
-        } },
-        { $sample: { size: number } },
-        { $project: { reports: 0 } },
-    ];
-
-    switch (questionType) {
-    case 'tossup':
-        return await tossups.aggregate(aggregation).toArray();
-    case 'bonus':
-        return await bonuses.aggregate(aggregation).toArray();
-    }
 }
 
 
@@ -584,7 +599,6 @@ module.exports = {
     getRandomName,
     getRandomTossups,
     getRandomBonuses,
-    getRandomQuestions,
     getSet,
     getSetId,
     getSetList,
