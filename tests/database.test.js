@@ -1,4 +1,4 @@
-const { getQuery, getPacket, getSet, getRandomQuestions, getNumPackets, reportQuestion } = require('../database/questions');
+const { getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } = require('../database/questions');
 
 async function testTiming(count) {
     const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
@@ -33,11 +33,17 @@ async function testTiming(count) {
     }
     console.timeEnd('getSet');
 
-    console.time('getRandomQuestions');
+    console.time('getRandomBonuses');
     for (let i = 0; i < count; i++) {
-        await getRandomQuestions({ questionType: 'bonus', verbose: false });
+        await getRandomBonuses();
     }
-    console.timeEnd('getRandomQuestions');
+    console.timeEnd('getRandomBonuses');
+
+    console.time('getRandomTossups');
+    for (let i = 0; i < count; i++) {
+        await getRandomTossups();
+    }
+    console.timeEnd('getRandomTossups');
 
     console.time('reportQuestion');
     for (let i = 0; i < count; i++) {
