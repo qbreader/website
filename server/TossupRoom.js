@@ -2,12 +2,23 @@ const bcolors = require('../bcolors');
 const database = require('../database/questions');
 const Player = require('./Player');
 const scorer = require('./scorer');
-const quizbowl = require('./quizbowl');
+const { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS } = require('../constants');
 
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
+
+
+/**
+ * @returns {Number} The number of points scored on a tossup.
+ */
+function scoreTossup({ isCorrect, inPower, endOfQuestion, isPace = false }) {
+    const powerValue = isPace ? 20 : 15;
+    const negValue = isPace ? 0 : -5;
+    return isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
+}
+
 
 class TossupRoom {
     constructor(name, isPermanent = false) {
@@ -33,8 +44,8 @@ class TossupRoom {
 
         this.query = {
             difficulties: [4, 5],
-            minYear: quizbowl.DEFAULT_MIN_YEAR,
-            maxYear: quizbowl.DEFAULT_MAX_YEAR,
+            minYear: DEFAULT_MIN_YEAR,
+            maxYear: DEFAULT_MAX_YEAR,
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
             setName: '2022 PACE NSC',
             categories: [],
@@ -301,8 +312,8 @@ class TossupRoom {
             break;
 
         case 'year-range': {
-            const minYear = isNaN(message.minYear) ? quizbowl.DEFAULT_MIN_YEAR : parseInt(message.minYear);
-            const maxYear = isNaN(message.maxYear) ? quizbowl.DEFAULT_MAX_YEAR : parseInt(message.maxYear);
+            const minYear = isNaN(message.minYear) ? DEFAULT_MIN_YEAR : parseInt(message.minYear);
+            const maxYear = isNaN(message.maxYear) ? DEFAULT_MAX_YEAR : parseInt(message.maxYear);
             this.sendSocketMessage({
                 type: 'year-range',
                 minYear: minYear,
@@ -430,7 +441,7 @@ class TossupRoom {
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
         const { directive, directedPrompt } = scorer.checkAnswer(this.tossup.answer, givenAnswer);
-        const points = quizbowl.scoreTossup({
+        const points = scoreTossup({
             isCorrect: directive === 'accept',
             inPower,
             endOfQuestion,
@@ -575,9 +586,8 @@ class TossupRoom {
 }
 
 const tossupRooms = {};
-const permanentRooms = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
 
-for (const roomName of permanentRooms) {
+for (const roomName of PERMANENT_ROOMS) {
     tossupRooms[roomName] = new TossupRoom(roomName, true);
 }
 

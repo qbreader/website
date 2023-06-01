@@ -2,16 +2,12 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+const { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } = require('../constants');
+
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
-const uuid = require('uuid');
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({
-    server,
-    maxPayload: 1024 * 1024 * 1, // 1 MB
-});
 
 // See https://masteringjs.io/tutorials/express/query-parameters
 // for why we use 'simple'
@@ -23,8 +19,9 @@ const cookieSession = require('cookie-session');
 app.use(cookieSession({
     name: 'session',
     keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    maxAge: COOKIE_MAX_AGE,
 }));
+
 
 const { ipFilterMiddleware, ipFilterError } = require('./ip-filter');
 app.use(ipFilterMiddleware);
@@ -32,6 +29,12 @@ app.use(ipFilterError);
 
 
 const { createAndReturnRoom } = require('./TossupRoom');
+const uuid = require('uuid');
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({
+    server,
+    maxPayload: WEBSOCKET_MAX_PAYLOAD,
+});
 
 wss.on('connection', (ws) => {
     let [roomName, userId, username] = ws.protocol.split('%%%');
