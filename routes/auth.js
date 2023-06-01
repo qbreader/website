@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const { COOKIE_MAX_AGE } = require('../constants');
 const { checkPassword, checkToken, generateToken, saltAndHashPassword, sendVerificationEmail, updatePassword, verifyEmailLink, sendResetPasswordEmail, verifyResetPasswordLink } = require('../server/authentication');
 const { ObjectId } = require('mongodb');
 const userDB = require('../database/users');
@@ -14,7 +15,6 @@ const apiLimiter = rateLimit({
 });
 router.use(apiLimiter);
 
-const maxAge = 24 * 60 * 60 * 1000; // 24 hours
 
 router.post('/edit-profile', async (req, res) => {
     const { username, token } = req.session;
@@ -50,7 +50,7 @@ router.post('/edit-password', async (req, res) => {
 
     await updatePassword(username, req.body.newPassword);
 
-    const expires = Date.now() + maxAge;
+    const expires = Date.now() + COOKIE_MAX_AGE;
     const verifiedEmail = await userDB.getUserField(username, 'verifiedEmail');
     req.session.username = username;
     req.session.token = generateToken(username, verifiedEmail);
@@ -88,7 +88,7 @@ router.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     if (await checkPassword(username, password)) {
-        const expires = Date.now() + maxAge;
+        const expires = Date.now() + COOKIE_MAX_AGE;
         const verifiedEmail = await userDB.getUserField(username, 'verifiedEmail');
         req.session.username = username;
         req.session.token = generateToken(username, verifiedEmail);
@@ -197,7 +197,7 @@ router.post('/signup', async (req, res) => {
         res.sendStatus(409);
     } else {
         // log the user in when they sign up
-        const expires = Date.now() + maxAge;
+        const expires = Date.now() + COOKIE_MAX_AGE;
         req.session.username = username;
         req.session.token = generateToken(username);
         req.session.expires = expires;
