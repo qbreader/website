@@ -1,11 +1,11 @@
-const bcolors = require('../bcolors');
-const database = require('../database/questions');
-const Player = require('./Player');
-const scorer = require('./scorer');
-const { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS } = require('../constants');
+import checkAnswer from './checkAnswer.js';
+import Player from './Player.js';
+import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
+import { getSet, getRandomTossups } from '../database/questions.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS } from '../constants.js';
 
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
+import createDOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
@@ -63,7 +63,7 @@ class TossupRoom {
     }
 
     connection(socket, userId, username) {
-        console.log(`Connection in room ${bcolors.HEADER}${this.name}${bcolors.ENDC} - userId: ${bcolors.OKBLUE}${userId}${bcolors.ENDC}, username: ${bcolors.OKBLUE}${username}${bcolors.ENDC} - with settings ${bcolors.OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${bcolors.ENDC}`);
+        console.log(`Connection in room ${HEADER}${this.name}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
         socket.on('message', message => {
             try {
                 message = JSON.parse(message);
@@ -339,11 +339,11 @@ class TossupRoom {
 
         if (this.settings.selectBySetName) {
             this.questionNumber = 0;
-            database.getSet(this.query).then(set => {
+            getSet(this.query).then(set => {
                 this.setCache = set;
             });
         } else {
-            database.getRandomTossups(this.query).then(tossups => {
+            getRandomTossups(this.query).then(tossups => {
                 this.randomQuestionCache = tossups;
             });
         }
@@ -369,7 +369,7 @@ class TossupRoom {
             }
         } else {
             if (this.randomQuestionCache.length === 0) {
-                this.randomQuestionCache = await database.getRandomTossups(this.query);
+                this.randomQuestionCache = await getRandomTossups(this.query);
                 if (this.randomQuestionCache.length === 0) {
                     this.tossup = {};
                     this.sendSocketMessage({
@@ -440,7 +440,7 @@ class TossupRoom {
         const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-        const { directive, directedPrompt } = scorer.checkAnswer(this.tossup.answer, givenAnswer);
+        const { directive, directedPrompt } = checkAnswer(this.tossup.answer, givenAnswer);
         const points = scoreTossup({
             isCorrect: directive === 'accept',
             inPower,
@@ -609,4 +609,4 @@ function createAndReturnRoom(roomName) {
 }
 
 
-module.exports = { createAndReturnRoom, tossupRooms };
+export { createAndReturnRoom, tossupRooms };

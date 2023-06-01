@@ -1,9 +1,9 @@
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
+import 'dotenv/config';
 
-const { MongoClient, ObjectId } = require('mongodb');
-const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } = require('../constants');
+import { OKCYAN, ENDC, OKGREEN } from '../bcolors.js';
+import { ADJECTIVES, ANIMALS, DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH, DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../constants.js';
+
+import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -11,7 +11,7 @@ client.connect().then(async () => {
     console.log('connected to mongodb');
 });
 
-const bcolors = require('../bcolors');
+
 const database = client.db('qbreader');
 
 const sets = database.collection('sets');
@@ -24,11 +24,6 @@ sets.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(s
     SET_LIST.push(set.name);
 });
 
-
-const { ADJECTIVES, ANIMALS } = require('../constants');
-
-const DEFAULT_QUERY_RETURN_LENGTH = 25;
-const MAX_QUERY_RETURN_LENGTH = 400;
 
 /**
  * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
@@ -248,15 +243,15 @@ async function getQuery({
 
     if (verbose) {
         console.log(`\
-[DATABASE] QUERY: string: ${bcolors.OKCYAN}${queryString}${bcolors.ENDC}; \
-difficulties: ${bcolors.OKGREEN}${difficulties}${bcolors.ENDC}; \
-max length: ${bcolors.OKGREEN}${maxReturnLength}${bcolors.ENDC}; \
-question type: ${bcolors.OKGREEN}${questionType}${bcolors.ENDC}; \
-ignore diacritics: ${bcolors.OKGREEN}${ignoreDiacritics}${bcolors.ENDC}; \
-randomize: ${bcolors.OKGREEN}${randomize}${bcolors.ENDC}; \
-regex: ${bcolors.OKGREEN}${regex}${bcolors.ENDC}; \
-search type: ${bcolors.OKGREEN}${searchType}${bcolors.ENDC}; \
-set name: ${bcolors.OKGREEN}${setName}${bcolors.ENDC}; \
+[DATABASE] QUERY: string: ${OKCYAN}${queryString}${ENDC}; \
+difficulties: ${OKGREEN}${difficulties}${ENDC}; \
+max length: ${OKGREEN}${maxReturnLength}${ENDC}; \
+question type: ${OKGREEN}${questionType}${ENDC}; \
+ignore diacritics: ${OKGREEN}${ignoreDiacritics}${ENDC}; \
+randomize: ${OKGREEN}${randomize}${ENDC}; \
+regex: ${OKGREEN}${regex}${ENDC}; \
+search type: ${OKGREEN}${searchType}${ENDC}; \
+set name: ${OKGREEN}${setName}${ENDC}; \
 `);
         console.timeEnd('getQuery');
     }
@@ -590,8 +585,7 @@ async function reportQuestion(_id, reason, description, verbose = true) {
 }
 
 
-module.exports = {
-    DEFAULT_QUERY_RETURN_LENGTH,
+export {
     getNumPackets,
     getPacket,
     getQuery,
