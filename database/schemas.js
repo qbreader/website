@@ -1,6 +1,6 @@
 // database schemas
 
-const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED_ALL } = require('../server/quizbowl');
+const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED_ALL } = require('../constants');
 
 const schemas = {
     tossup: {
