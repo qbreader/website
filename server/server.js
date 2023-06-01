@@ -23,7 +23,7 @@ const cookieSession = require('cookie-session');
 app.use(cookieSession({
     name: 'session',
     keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 }));
 
 const createDOMPurify = require('dompurify');

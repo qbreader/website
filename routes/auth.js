@@ -14,7 +14,7 @@ const apiLimiter = rateLimit({
 });
 router.use(apiLimiter);
 
-const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 router.post('/edit-profile', async (req, res) => {
     const { username, token } = req.session;
