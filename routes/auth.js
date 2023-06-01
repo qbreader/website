@@ -1,19 +1,18 @@
-const express = require('express');
-const router = express.Router();
+import { COOKIE_MAX_AGE } from '../constants.js';
+import * as userDB from '../database/users.js';
+import { checkPassword, checkToken, generateToken, saltAndHashPassword, sendVerificationEmail, updatePassword, verifyEmailLink, sendResetPasswordEmail, verifyResetPasswordLink } from '../server/authentication.js';
 
-const { COOKIE_MAX_AGE } = require('../constants');
-const { checkPassword, checkToken, generateToken, saltAndHashPassword, sendVerificationEmail, updatePassword, verifyEmailLink, sendResetPasswordEmail, verifyResetPasswordLink } = require('../server/authentication');
-const { ObjectId } = require('mongodb');
-const userDB = require('../database/users');
+import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
+import { ObjectId } from 'mongodb';
 
-const rateLimit = require('express-rate-limit');
-const apiLimiter = rateLimit({
+const router = Router();
+router.use(rateLimit({
     windowMs: 1000, // 4 seconds
     max: 20, // Limit each IP to 20 requests per `window`
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-router.use(apiLimiter);
+}));
 
 
 router.post('/edit-profile', async (req, res) => {
@@ -351,4 +350,4 @@ router.get('/user-stats/tossup', async (req, res) => {
 });
 
 
-module.exports = router;
+export default router;

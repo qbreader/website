@@ -1,21 +1,20 @@
-const express = require('express');
-const router = express.Router();
+import { DEFAULT_QUERY_RETURN_LENGTH } from '../constants.js';
+import { getNumPackets, getPacket, getQuery, getRandomName, getRandomBonuses, getRandomTossups, reportQuestion, getSetList } from '../database/questions.js';
+import checkAnswer from '../server/checkAnswer.js';
+import { tossupRooms } from '../server/TossupRoom.js';
 
-const database = require('../database/questions');
-const { checkAnswer } = require('../server/scorer');
-const { tossupRooms } = require('../server/TossupRoom');
+import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 
-const rateLimit = require('express-rate-limit');
 
-const apiLimiter = rateLimit({
+const router = Router();
+// Apply the rate limiting middleware to API calls only
+router.use(rateLimit({
     windowMs: 1000, // 4 seconds
     max: 20, // Limit each IP to 20 requests per `window`
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
-// Apply the rate limiting middleware to API calls only
-router.use(apiLimiter);
+}));
 
 
 // express encodes same parameter passed multiple times as an array
@@ -38,7 +37,7 @@ router.get('/check-answer', (req, res) => {
 
 
 router.get('/num-packets', async (req, res) => {
-    const numPackets = await database.getNumPackets(req.query.setName);
+    const numPackets = await getNumPackets(req.query.setName);
     if (numPackets === 0) {
         res.statusCode = 404;
     }
@@ -49,7 +48,7 @@ router.get('/num-packets', async (req, res) => {
 router.get('/packet', async (req, res) => {
     const setName = req.query.setName;
     const packetNumber = parseInt(req.query.packetNumber);
-    const packet = await database.getPacket({ setName, packetNumber });
+    const packet = await getPacket({ setName, packetNumber });
     if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -60,7 +59,7 @@ router.get('/packet', async (req, res) => {
 router.get('/packet-bonuses', async (req, res) => {
     const setName = req.query.setName;
     const packetNumber = parseInt(req.query.packetNumber);
-    const packet = await database.getPacket({ setName, packetNumber, questionTypes: ['bonuses'] });
+    const packet = await getPacket({ setName, packetNumber, questionTypes: ['bonuses'] });
     if (packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -71,7 +70,7 @@ router.get('/packet-bonuses', async (req, res) => {
 router.get('/packet-tossups', async (req, res) => {
     const setName = req.query.setName;
     const packetNumber = parseInt(req.query.packetNumber);
-    const packet = await database.getPacket({ setName, packetNumber, questionTypes: ['tossups'] });
+    const packet = await getPacket({ setName, packetNumber, questionTypes: ['tossups'] });
     if (packet.tossups.length === 0) {
         res.statusCode = 404;
     }
@@ -122,7 +121,7 @@ router.get('/query', async (req, res) => {
     }
 
     if (!req.query.maxReturnLength || isNaN(req.query.maxReturnLength)) {
-        req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
+        req.query.maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
     }
 
     const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
@@ -136,13 +135,13 @@ router.get('/query', async (req, res) => {
     req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
 
-    const queryResult = await database.getQuery(req.query);
+    const queryResult = await getQuery(req.query);
     res.send(JSON.stringify(queryResult));
 });
 
 
 router.get('/random-name', (req, res) => {
-    const randomName = database.getRandomName();
+    const randomName = getRandomName();
     res.send(JSON.stringify({ randomName: randomName }));
 });
 
@@ -172,7 +171,7 @@ router.get('/random-bonus', async (req, res) => {
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
     req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
 
-    const bonuses = await database.getRandomBonuses(req.query);
+    const bonuses = await getRandomBonuses(req.query);
     if (bonuses.length === 0) {
         res.status(404);
     }
@@ -203,7 +202,7 @@ router.get('/random-tossup', async (req, res) => {
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
     req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
 
-    const tossups = await database.getRandomTossups(req.query);
+    const tossups = await getRandomTossups(req.query);
     if (tossups.length === 0) {
         res.status(404);
     }
@@ -216,7 +215,7 @@ router.post('/report-question', async (req, res) => {
     const _id = req.body._id;
     const reason = req.body.reason ?? '';
     const description = req.body.description ?? '';
-    const successful = await database.reportQuestion(_id, reason, description);
+    const successful = await reportQuestion(_id, reason, description);
     if (successful) {
         res.sendStatus(200);
     } else {
@@ -226,7 +225,7 @@ router.post('/report-question', async (req, res) => {
 
 
 router.get('/set-list', (req, res) => {
-    const setList = database.getSetList();
+    const setList = getSetList();
     res.send(JSON.stringify({ setList }));
 });
 
@@ -250,4 +249,4 @@ router.get('/multiplayer/room-list', (_req, res) => {
 });
 
 
-module.exports = router;
+export default router;
