@@ -1,6 +1,6 @@
 {
     "name": "qbreader",
-    "version": "3.3.6",
+    "version": "4.0.0",
     "type": "module",
     "scripts": {
         "build": "npm run compile-react && npm run sass",
