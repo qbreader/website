@@ -198,42 +198,6 @@ router.get('/random-tossup', async (req, res) => {
 });
 
 
-// DEPRECATED and will be removed in the future
-router.post('/random-question', async (req, res) => {
-    if (!['tossup', 'bonus'].includes(req.body.questionType)) {
-        res.status(400).send('Invalid question type specified.');
-        return;
-    }
-
-    if (typeof req.body.difficulties === 'string') {
-        req.body.difficulties = parseInt(req.body.difficulties);
-    }
-
-    if (typeof req.body.difficulties === 'number') {
-        req.body.difficulties = [req.body.difficulties];
-    }
-
-    if (typeof req.body.categories === 'string') {
-        req.body.categories = [req.body.categories];
-    }
-
-    if (typeof req.body.subcategories === 'string') {
-        req.body.subcategories = [req.body.subcategories];
-    }
-
-    req.body.minYear = isNaN(req.body.minYear) ? undefined : parseInt(req.body.minYear);
-    req.body.maxYear = isNaN(req.body.maxYear) ? undefined : parseInt(req.body.maxYear);
-    req.body.number = isNaN(req.body.number) ? undefined : parseInt(req.body.number);
-
-    const questions = await database.getRandomQuestions(req.body);
-    if (questions.length > 0) {
-        res.send(JSON.stringify(questions));
-    } else {
-        res.sendStatus(404);
-    }
-});
-
-
 router.post('/report-question', async (req, res) => {
     const _id = req.body._id;
     const reason = req.body.reason ?? '';
