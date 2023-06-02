@@ -1,3 +1,5 @@
+import { getUsername } from './users.js';
+
 import { MongoClient } from 'mongodb';
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
@@ -33,14 +35,76 @@ async function getQuestionCount(packetName) {
 
 /**
  * @param {Object} params
+ * @param {String} params.packetName
+ * @param {ObjectId} user_id
+ */
+async function getUserStats({ packetName, user_id }) {
+    const buzzArray = await buzzes.aggregate([
+        { $match: { packetName, user_id } },
+        { $sort: { questionNumber: 1 } },
+        { $lookup: {
+            from: 'answers',
+            let: { questionNumber: '$questionNumber', packetName },
+            pipeline: [
+                { $match: { $expr: { $and: [
+                    { $eq: ['$questionNumber', '$$questionNumber'] },
+                    { $eq: ['$packetName', '$$packetName'] },
+                ] } } },
+            ],
+            as: 'answer',
+        } },
+        { $unwind: '$answer' },
+        { $project: {
+            _id: 0,
+            celerity: 1,
+            points: 1,
+            questionNumber: 1,
+            answer: '$answer.answer',
+            formatted_answer: '$answer.formatted_answer',
+            givenAnswer: 1,
+        } }
+    ]).toArray();
+
+    const leaderboard = await buzzes.aggregate([
+        { $match: { packetName } },
+        { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
+        { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined ] } } },
+        { $sort: { correctCelerity: -1 } },
+        { $group: {
+            _id: '$questionNumber',
+            bestCelerity: { $max: '$correctCelerity' },
+            averageCorrectCelerity: { $avg: '$correctCelerity' },
+            averagePoints: { $avg: '$points' },
+            bestUserId: { $first: '$user_id' },
+        } },
+        { $sort: { _id: 1 } },
+    ]).toArray();
+
+    for (const index in leaderboard) {
+        const question = leaderboard[index];
+        question.bestUsername = await getUsername(question.bestUserId);
+        question.rank = await buzzes.countDocuments({
+            packetName,
+            questionNumber: question._id,
+            celerity: { $gte: buzzArray[index].celerity },
+            points: { $gte: buzzArray[index].points },
+        });
+    }
+
+    return { buzzArray, leaderboard };
+}
+
+/**
+ * @param {Object} params
  * @param {Decimal} params.celerity
+ * @param {String} params.givenAnswer
  * @param {Boolean} params.isCorrect
  * @param {String} params.packetName
  * @param {Number} params.questionNumber
  * @param {ObjectId} params.user_id
  */
-async function recordBuzz({ celerity, isCorrect, packetName, questionNumber, user_id }) {
-    return await buzzes.insertOne({ user_id, packetName, questionNumber, celerity, isCorrect });
+async function recordBuzz({ celerity, givenAnswer, points, packetName, questionNumber, user_id }) {
+    return await buzzes.insertOne({ user_id, packetName, questionNumber, celerity, givenAnswer, points });
 }
 
-export { getAnswer, getQuestionCount, recordBuzz };
+export { getAnswer, getQuestionCount, getUserStats, recordBuzz };
