@@ -1,4 +1,5 @@
-import { getAnswer, getQuestionCount } from '../database/geoword.js';
+import { getAnswer, getQuestionCount, recordBuzz } from '../database/geoword.js';
+import { getUserId } from '../database/users.js';
 import { checkToken } from '../server/authentication.js';
 import checkAnswer from '../server/checkAnswer.js';
 
@@ -40,6 +41,29 @@ router.get('/api/get-question-count', async (req, res) => {
     const { packetName } = req.query;
     const questionCount = await getQuestionCount(packetName);
     res.json({ questionCount });
+});
+
+router.get('/api/record-buzz', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.sendStatus(401);
+        return;
+    }
+
+    req.query.celerity = parseFloat(req.query.celerity);
+    req.query.isCorrect = req.query.isCorrect === 'true';
+    req.query.questionNumber = parseInt(req.query.questionNumber);
+
+    const user_id = await getUserId(username);
+    const { packetName, questionNumber, celerity, isCorrect } = req.query;
+    const result = await recordBuzz({ celerity, isCorrect, packetName, questionNumber, user_id });
+
+    if (result) {
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
+    }
 });
 
 router.get('/audio/*.mp3', (req, res) => {

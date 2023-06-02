@@ -8,6 +8,7 @@ client.connect().then(async () => {
 
 const geoword = client.db('geoword');
 const answers = geoword.collection('answers');
+const buzzes = geoword.collection('buzzes');
 
 /**
  *
@@ -30,4 +31,16 @@ async function getQuestionCount(packetName) {
     return await answers.countDocuments({ packetName });
 }
 
-export { getAnswer, getQuestionCount };
+/**
+ * @param {Object} params
+ * @param {Decimal} params.celerity
+ * @param {Boolean} params.isCorrect
+ * @param {String} params.packetName
+ * @param {Number} params.questionNumber
+ * @param {ObjectId} params.user_id
+ */
+async function recordBuzz({ celerity, isCorrect, packetName, questionNumber, user_id }) {
+    return await buzzes.insertOne({ user_id, packetName, questionNumber, celerity, isCorrect });
+}
+
+export { getAnswer, getQuestionCount, recordBuzz };

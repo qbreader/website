@@ -70,6 +70,7 @@ function next() {
 
     document.getElementById('start-content').classList.add('d-none');
     document.getElementById('question-info').classList.add('d-none');
+    document.getElementById('next').disabled = true;
 
     currentQuestionNumber++;
 
@@ -79,7 +80,6 @@ function next() {
     }
 
     document.getElementById('buzz').disabled = false;
-    document.getElementById('next').disabled = true;
     document.getElementById('start').disabled = true;
 
     currentAudio = new Audio(`/geoword/audio/${packetName}/${currentQuestionNumber}.mp3`);
@@ -87,16 +87,22 @@ function next() {
     currentAudio.play();
 }
 
-function recordBuzz() {
-    return;
+function recordBuzz(packetName, questionNumber, celerity, isCorrect) {
+    fetch('/geoword/api/record-buzz?' + new URLSearchParams({
+        packetName,
+        questionNumber,
+        celerity,
+        isCorrect,
+    }));
 }
 
 function updateScore(isCorrect, givenAnswer, actualAnswer) {
-    recordBuzz();
-
     const delta = (endTime - startTime) / 1000;
     const isEndOfQuestion = delta > currentAudio.duration;
     const celerity = isEndOfQuestion ? 0 : 1 - delta / currentAudio.duration;
+
+    recordBuzz(packetName, currentQuestionNumber, celerity, isCorrect);
+
     totalCorrectCelerity += isCorrect ? celerity : 0;
     tuh++;
 
@@ -122,7 +128,6 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('next').disabled = false;
-    document.getElementById('start').disabled = false;
 }
 
 
