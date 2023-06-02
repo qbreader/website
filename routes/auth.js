@@ -204,6 +204,7 @@ router.post('/signup', async (req, res) => {
         const password = saltAndHashPassword(req.body.password);
         const email = req.body.email;
         await userDB.createUser(username, password, email);
+        sendVerificationEmail(username);
         console.log(`/api/auth: SIGNUP: User ${username} successfully signed up.`);
         res.status(200).send(JSON.stringify({ expires }));
     }
