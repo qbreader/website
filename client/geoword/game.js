@@ -1,22 +1,6 @@
 const packetName = window.location.pathname.split('/').pop();
 let packetLength = 20;
 
-document.getElementById('geoword-stats').href = '/geoword/stats/' + packetName;
-document.getElementById('packet-name').textContent = packetName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-
-fetch('/geoword/api/get-question-count?' + new URLSearchParams({ packetName }))
-    .then(response => response.json())
-    .then(data => {
-        packetLength = data.questionCount;
-        document.getElementById('packet-length').textContent = packetLength;
-    });
-
-const buzzAudio = new Audio('/geoword/audio/buzz.mp3');
-const correctAudio = new Audio('/geoword/audio/correct.mp3');
-const incorrectAudio = new Audio('/geoword/audio/incorrect.mp3');
-const promptAudio = new Audio('/geoword/audio/correct.mp3');
-const sampleAudio = new Audio('/geoword/audio/sample.mp3');
-
 let currentAudio;
 let currentQuestionNumber = 0;
 let startTime = null;
@@ -29,6 +13,34 @@ let points = 0;
 let tens = 0;
 let totalCorrectCelerity = 0;
 let tuh = 0;
+
+document.getElementById('geoword-stats').href = '/geoword/stats/' + packetName;
+document.getElementById('packet-name').textContent = packetName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+fetch('/geoword/api/get-question-count?' + new URLSearchParams({ packetName }))
+    .then(response => response.json())
+    .then(data => {
+        packetLength = data.questionCount;
+        document.getElementById('packet-length').textContent = packetLength;
+        return packetLength;
+    });
+
+fetch('/geoword/api/get-buzz-count?' + new URLSearchParams({ packetName }))
+    .then(response => response.json())
+    .then(data => {
+        if (data.buzzCount >= packetLength) {
+            // window.location.href = '/geoword/stats/' + packetName;
+        } else if (data.buzzCount > 0) {
+            document.getElementById('progress-info').textContent = `You have already read ${currentQuestionNumber} tossups and will start on question ${currentQuestionNumber + 1}.`;
+            currentQuestionNumber = data.buzzCount;
+        }
+    });
+
+const buzzAudio = new Audio('/geoword/audio/buzz.mp3');
+const correctAudio = new Audio('/geoword/audio/correct.mp3');
+const incorrectAudio = new Audio('/geoword/audio/incorrect.mp3');
+const promptAudio = new Audio('/geoword/audio/correct.mp3');
+const sampleAudio = new Audio('/geoword/audio/sample.mp3');
 
 async function checkGeowordAnswer(givenAnswer, questionNumber) {
     return await fetch('/geoword/api/check-answer?' + new URLSearchParams({

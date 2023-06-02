@@ -1,4 +1,4 @@
-import { getUsername } from './users.js';
+import { getUserId, getUsername } from './users.js';
 
 import { MongoClient } from 'mongodb';
 
@@ -27,6 +27,11 @@ async function getAnswer(packetName, questionNumber) {
         const { answer, formatted_answer } = result;
         return formatted_answer ?? answer;
     }
+}
+
+async function getBuzzCount(packetName, username) {
+    const user_id = await getUserId(username);
+    return await buzzes.countDocuments({ packetName, user_id });
 }
 
 async function getQuestionCount(packetName) {
@@ -104,7 +109,15 @@ async function getUserStats({ packetName, user_id }) {
  * @param {ObjectId} params.user_id
  */
 async function recordBuzz({ celerity, givenAnswer, points, packetName, questionNumber, user_id }) {
-    return await buzzes.insertOne({ user_id, packetName, questionNumber, celerity, givenAnswer, points });
+    const buzz = await buzzes.findOne({ user_id, packetName, questionNumber });
+
+    if (buzz) {
+        return false;
+    }
+
+    buzzes.insertOne({ celerity, givenAnswer, points, packetName, questionNumber, user_id });
+
+    return true;
 }
 
-export { getAnswer, getQuestionCount, getUserStats, recordBuzz };
+export { getAnswer, getBuzzCount, getQuestionCount, getUserStats, recordBuzz };
