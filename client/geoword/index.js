@@ -5,6 +5,7 @@ fetch('/geoword/api/get-question-count?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
         packetLength = data.questionCount;
+        document.getElementById('packet-length').textContent = packetLength;
     });
 
 const buzzAudio = new Audio('/geoword/audio/buzz.mp3');
@@ -115,6 +116,7 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
     document.getElementById('current-actual-answer').innerHTML = actualAnswer;
     document.getElementById('current-celerity').textContent = celerity.toFixed(3);
     document.getElementById('current-given-answer').textContent = givenAnswer;
+    document.getElementById('current-question-number').textContent = currentQuestionNumber;
     document.getElementById('current-status').textContent = isCorrect ? 'Correct' : 'Incorrect';
     document.getElementById('statline').textContent = `${tens}/${deads}/${negs} (10/0s/-5) with ${tuh} tossup${includePlural} seen (${points} pts, celerity: ${averageCelerity.toFixed(3)})`;
 
