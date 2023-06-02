@@ -26,8 +26,12 @@ router.get('/login', (req, res) => {
     res.sendFile('login.html', { root: './client/geoword' });
 });
 
-router.get('/stats', (req, res) => {
+router.get('/stats/:packetName', (req, res) => {
     res.sendFile('stats.html', { root: './client/geoword' });
+});
+
+router.get('/game/:packetName', (req, res) => {
+    res.sendFile('game.html', { root: './client/geoword' });
 });
 
 router.get('/api/check-answer', async (req, res) => {

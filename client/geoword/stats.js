@@ -1,10 +1,12 @@
-const packetName = 'beterword-sample';
+const packetName = window.location.pathname.split('/').pop();
+
+document.getElementById('packet-name').textContent = packetName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
 fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
         const { buzzArray, leaderboard } = data;
-        let innerHTML = '';
+        let innerHTML = '<hr>';
 
         for (const i in buzzArray) {
             innerHTML += `
@@ -24,6 +26,7 @@ fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
                     <div><b>Average points:</b> ${leaderboard[i].averagePoints.toFixed(2)}</div>
                 </div>
             </div>
+            <hr>
             `;
         }
         document.getElementById('stats').innerHTML = innerHTML;
