@@ -1,6 +1,7 @@
 const packetName = window.location.pathname.split('/').pop();
 let packetLength = 20;
 
+document.getElementById('geoword-stats').href = '/geoword/stats/' + packetName;
 document.getElementById('packet-name').textContent = packetName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
 fetch('/geoword/api/get-question-count?' + new URLSearchParams({ packetName }))
