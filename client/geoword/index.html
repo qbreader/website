@@ -79,6 +79,7 @@
             <p>
                 <!-- Choose which week you would like to play, and press start at the top when you're ready. -->
                 Welcome to geoword!
+                This packet has <b id="packet-length">20</b> questions.
                 Press start at the top when you're ready.
                 You can check your audio by playing this sample:
             </p>
@@ -87,6 +88,7 @@
             </div>
         </div>
         <div class="d-none" id="question-info">
+            <p><b>Question number:</b> <span id="current-question-number"></span></p>
             <p><b>Given answer:</b> <span id="current-given-answer"></span></p>
             <p><b>Actual answer:</b> <span id="current-actual-answer"></span></p>
             <p><b>Celerity:</b> <span id="current-celerity"></span></p>
@@ -94,7 +96,8 @@
         </div>
         <div class="d-none" id="end-content">
             Thank you for playing this packet of geoword.
-            You can check out stats here: <a href="/geoword/stats">Stats</a>.
+            You can check out your <a href="/geoword/personal-stats">personal stats here</a> and the
+            <a href="/geoword/leaderboard">leaderboard here</a>.
         </div>
     </div>
 
