@@ -79,7 +79,6 @@ function next() {
 
     document.getElementById('buzz').disabled = false;
     document.getElementById('next').disabled = true;
-    document.getElementById('pause').disabled = false;
     document.getElementById('start').disabled = true;
 
     currentAudio = new Audio(`/geoword/audio/${packetName}/${currentQuestionNumber}.mp3`);
@@ -121,7 +120,6 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('next').disabled = false;
-    document.getElementById('pause').disabled = true;
     document.getElementById('start').disabled = false;
 }
 
@@ -176,9 +174,6 @@ document.addEventListener('keydown', (event) => {
         break;
     case 'n':
         document.getElementById('next').click();
-        break;
-    case 'p':
-        document.getElementById('pause').click();
         break;
     case 's':
         document.getElementById('start').click();
