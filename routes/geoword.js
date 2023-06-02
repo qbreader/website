@@ -1,4 +1,4 @@
-import { getAnswer, getQuestionCount, recordBuzz } from '../database/geoword.js';
+import { getAnswer, getQuestionCount, getUserStats, recordBuzz } from '../database/geoword.js';
 import { getUserId } from '../database/users.js';
 import { checkToken } from '../server/authentication.js';
 import checkAnswer from '../server/checkAnswer.js';
@@ -43,6 +43,20 @@ router.get('/api/get-question-count', async (req, res) => {
     res.json({ questionCount });
 });
 
+router.get('/api/stats', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.sendStatus(401);
+        return;
+    }
+
+    const user_id = await getUserId(username);
+    const { packetName } = req.query;
+    const { buzzArray, leaderboard } = await getUserStats({ packetName, user_id });
+    res.json({ buzzArray, leaderboard });
+});
+
 router.get('/api/record-buzz', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
@@ -52,12 +66,12 @@ router.get('/api/record-buzz', async (req, res) => {
     }
 
     req.query.celerity = parseFloat(req.query.celerity);
-    req.query.isCorrect = req.query.isCorrect === 'true';
+    req.query.points = parseInt(req.query.points);
     req.query.questionNumber = parseInt(req.query.questionNumber);
 
     const user_id = await getUserId(username);
-    const { packetName, questionNumber, celerity, isCorrect } = req.query;
-    const result = await recordBuzz({ celerity, isCorrect, packetName, questionNumber, user_id });
+    const { packetName, questionNumber, celerity, points, givenAnswer } = req.query;
+    const result = await recordBuzz({ celerity, points, packetName, questionNumber, givenAnswer, user_id });
 
     if (result) {
         res.sendStatus(200);

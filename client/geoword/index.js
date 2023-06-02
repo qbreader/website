@@ -87,12 +87,13 @@ function next() {
     currentAudio.play();
 }
 
-function recordBuzz(packetName, questionNumber, celerity, isCorrect) {
+function recordBuzz(packetName, questionNumber, celerity, points, givenAnswer) {
     fetch('/geoword/api/record-buzz?' + new URLSearchParams({
         packetName,
         questionNumber,
         celerity,
-        isCorrect,
+        points,
+        givenAnswer,
     }));
 }
 
@@ -100,20 +101,22 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
     const delta = (endTime - startTime) / 1000;
     const isEndOfQuestion = delta > currentAudio.duration;
     const celerity = isEndOfQuestion ? 0 : 1 - delta / currentAudio.duration;
-
-    recordBuzz(packetName, currentQuestionNumber, celerity, isCorrect);
-
     totalCorrectCelerity += isCorrect ? celerity : 0;
     tuh++;
 
+    let currentPoints;
     if (isCorrect) {
+        currentPoints = 10;
         tens++;
     } else if (isEndOfQuestion) {
+        currentPoints = 0;
         deads++;
     } else {
+        currentPoints = -5;
         negs++;
     }
 
+    recordBuzz(packetName, currentQuestionNumber, celerity, currentPoints, givenAnswer);
     points = 10 * tens - 5 * negs;
 
     const averageCelerity = tens === 0 ? 0 : totalCorrectCelerity / tens;
@@ -122,6 +125,7 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
     document.getElementById('current-actual-answer').innerHTML = actualAnswer;
     document.getElementById('current-celerity').textContent = celerity.toFixed(3);
     document.getElementById('current-given-answer').textContent = givenAnswer;
+    document.getElementById('current-points').textContent = currentPoints;
     document.getElementById('current-question-number').textContent = currentQuestionNumber;
     document.getElementById('current-status').textContent = isCorrect ? 'Correct' : 'Incorrect';
     document.getElementById('statline').textContent = `${tens}/${deads}/${negs} (10/0s/-5) with ${tuh} tossup${includePlural} seen (${points} pts, celerity: ${averageCelerity.toFixed(3)})`;
