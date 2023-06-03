@@ -19,6 +19,8 @@ function scoreTossup({ isCorrect, inPower, endOfQuestion, isPace = false }) {
     return isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
 }
 
+const RateLimit = require('./RateLimit');
+const rateLimit1 = new RateLimit(50, 1000);
 
 class TossupRoom {
     constructor(name, isPermanent = false) {
@@ -60,11 +62,19 @@ class TossupRoom {
             selectBySetName: false,
             skip: false,
         };
+
+        this.rateLimitExceeded = new Set();
     }
 
     connection(socket, userId, username) {
         console.log(`Connection in room ${HEADER}${this.name}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
         socket.on('message', message => {
+            if (rateLimit1(socket) && !this.rateLimitExceeded.has(username)) {
+                console.log(`Rate limit exceeded for ${OKBLUE}${username}${ENDC} in room ${HEADER}${this.name}${ENDC}`);
+                this.rateLimitExceeded.add(username);
+                return;
+            }
+
             try {
                 message = JSON.parse(message);
             } catch (error) {
