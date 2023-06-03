@@ -62,6 +62,7 @@ async function getUserStats({ packetName, user_id }) {
         { $project: {
             _id: 0,
             celerity: 1,
+            pendingProtest: 1,
             points: 1,
             questionNumber: 1,
             answer: '$answer.answer',
@@ -99,6 +100,14 @@ async function getUserStats({ packetName, user_id }) {
     return { buzzArray, leaderboard };
 }
 
+async function recordProtest({ packetName, questionNumber, username }) {
+    const user_id = await getUserId(username);
+    return await buzzes.updateOne(
+        { user_id, packetName, questionNumber },
+        { $set: { pendingProtest: true } },
+    );
+}
+
 /**
  * @param {Object} params
  * @param {Decimal} params.celerity
@@ -120,4 +129,11 @@ async function recordBuzz({ celerity, givenAnswer, points, packetName, questionN
     return true;
 }
 
-export { getAnswer, getBuzzCount, getQuestionCount, getUserStats, recordBuzz };
+export {
+    getAnswer,
+    getBuzzCount,
+    getQuestionCount,
+    getUserStats,
+    recordProtest,
+    recordBuzz,
+};

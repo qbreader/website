@@ -9,10 +9,12 @@ fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
         let innerHTML = '<hr>';
 
         for (const i in buzzArray) {
+            const pendingString = buzzArray[i].pendingProtest ? ' (pending review)' : '';
+
             innerHTML += `
             <div class="row mb-3">
                 <div class="col-6">
-                    <div><b>Question #${buzzArray[i].questionNumber}</b></div>
+                    <div><b>Question #${buzzArray[i].questionNumber}</b> ${pendingString}</div>
                     <div><b>Answer:</b> ${buzzArray[i].formatted_answer}</div>
                     <div><b>Given answer:</b> ${escapeHTML(buzzArray[i].givenAnswer)}</div>
                     <div><b>Celerity:</b> ${buzzArray[i].celerity.toFixed(3)}</div>
@@ -21,8 +23,8 @@ fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
                 <div class="col-6">
                     <div><b>Your rank:</b> ${leaderboard[i].rank}</div>
                     <div><b>Best buzz:</b> ${leaderboard[i].bestUsername}</div>
-                    <div><b>Best celerity:</b> ${leaderboard[i].bestCelerity.toFixed(3)}</div>
-                    <div><b>Average correct celerity:</b> ${leaderboard[i].averageCorrectCelerity.toFixed(3)}</div>
+                    <div><b>Best celerity:</b> ${(leaderboard[i].bestCelerity ?? 0.0).toFixed(3)}</div>
+                    <div><b>Average correct celerity:</b> ${(leaderboard[i].averageCorrectCelerity ?? 0).toFixed(3)}</div>
                     <div><b>Average points:</b> ${leaderboard[i].averagePoints.toFixed(2)}</div>
                 </div>
             </div>

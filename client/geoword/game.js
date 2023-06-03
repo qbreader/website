@@ -59,11 +59,9 @@ async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
     const { actualAnswer, directive, directedPrompt } = await checkGeowordAnswer(givenAnswer, currentQuestionNumber);
-    console.log(actualAnswer);
 
     switch (directive) {
     case 'accept':
-        correctAudio.play();
         updateScore(true, givenAnswer, actualAnswer);
         break;
     case 'prompt':
@@ -73,7 +71,6 @@ async function giveAnswer(givenAnswer) {
         document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
         break;
     case 'reject':
-        incorrectAudio.play();
         updateScore(false, givenAnswer, actualAnswer);
         break;
     }
@@ -84,6 +81,8 @@ function next() {
     sampleAudio.currentTime = 0;
 
     document.getElementById('start-content').classList.add('d-none');
+    document.getElementById('record-protest-confirmation').classList.add('d-none');
+    document.getElementById('protest-text').classList.add('d-none');
     document.getElementById('question-info').classList.add('d-none');
     document.getElementById('next').disabled = true;
 
@@ -102,6 +101,23 @@ function next() {
     currentAudio.play();
 }
 
+function recordProtest(packetName, questionNumber) {
+    fetch('/geoword/api/record-protest?', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            packetName,
+            questionNumber
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('record-protest-confirmation').classList.remove('d-none');
+        });
+}
+
 function recordBuzz(packetName, questionNumber, celerity, points, givenAnswer) {
     fetch('/geoword/api/record-buzz?' + new URLSearchParams({
         packetName,
@@ -118,6 +134,13 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
     const celerity = isEndOfQuestion ? 0 : 1 - delta / currentAudio.duration;
     totalCorrectCelerity += isCorrect ? celerity : 0;
     tuh++;
+
+    if (isCorrect) {
+        correctAudio.play();
+    } else {
+        incorrectAudio.play();
+        document.getElementById('protest-text').classList.remove('d-none');
+    }
 
     let currentPoints;
     if (isCorrect) {
@@ -181,6 +204,10 @@ document.getElementById('next').addEventListener('click', next);
 
 document.getElementById('play-sample').addEventListener('click', () => {
     sampleAudio.play();
+});
+
+document.getElementById('record-protest').addEventListener('click', () => {
+    recordProtest(packetName, currentQuestionNumber);
 });
 
 document.getElementById('start').addEventListener('click', next);
