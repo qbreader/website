@@ -21,4 +21,4 @@ class RateLimit {
     }
 }
 
-module.exports = RateLimit;
+export default RateLimit;

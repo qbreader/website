@@ -1,5 +1,6 @@
 import checkAnswer from './checkAnswer.js';
 import Player from './Player.js';
+import RateLimit from './RateLimit.js';
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
 import { getSet, getRandomTossups } from '../database/questions.js';
 import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS } from '../constants.js';
@@ -9,6 +10,7 @@ import { JSDOM } from 'jsdom';
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
+const rateLimiter = new RateLimit(50, 1000);
 
 /**
  * @returns {Number} The number of points scored on a tossup.
@@ -18,9 +20,6 @@ function scoreTossup({ isCorrect, inPower, endOfQuestion, isPace = false }) {
     const negValue = isPace ? 0 : -5;
     return isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
 }
-
-const RateLimit = require('./RateLimit');
-const rateLimit1 = new RateLimit(50, 1000);
 
 class TossupRoom {
     constructor(name, isPermanent = false) {
@@ -69,7 +68,7 @@ class TossupRoom {
     connection(socket, userId, username) {
         console.log(`Connection in room ${HEADER}${this.name}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
         socket.on('message', message => {
-            if (rateLimit1(socket) && !this.rateLimitExceeded.has(username)) {
+            if (rateLimiter(socket) && !this.rateLimitExceeded.has(username)) {
                 console.log(`Rate limit exceeded for ${OKBLUE}${username}${ENDC} in room ${HEADER}${this.name}${ENDC}`);
                 this.rateLimitExceeded.add(username);
                 return;
