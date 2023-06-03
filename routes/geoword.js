@@ -1,4 +1,4 @@
-import { getAnswer, getBuzzCount, getQuestionCount, getUserStats, recordBuzz } from '../database/geoword.js';
+import { getAnswer, getBuzzCount, getQuestionCount, getUserStats, recordProtest, recordBuzz } from '../database/geoword.js';
 import { getUserId } from '../database/users.js';
 import { checkToken } from '../server/authentication.js';
 import checkAnswer from '../server/checkAnswer.js';
@@ -72,6 +72,25 @@ router.get('/api/get-question-count', async (req, res) => {
     const questionCount = await getQuestionCount(packetName);
     res.json({ questionCount });
 });
+
+router.put('/api/record-protest', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.sendStatus(401);
+        return;
+    }
+
+    const { packetName, questionNumber } = req.body;
+    const result = await recordProtest({ packetName, questionNumber, username });
+
+    if (result) {
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
+    }
+});
+
 
 router.get('/api/stats', async (req, res) => {
     const { username, token } = req.session;

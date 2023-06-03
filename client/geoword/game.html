@@ -81,6 +81,7 @@
                 Welcome to geoword!
                 This packet has <b id="packet-length">20</b> questions.
                 Press start at the top when you're ready.
+                If you leave in the middle of the packet, you can resume where you left off.
                 You can check your audio by playing this sample:
             </p>
             <div class="text-center">
@@ -90,11 +91,18 @@
         </div>
         <div class="d-none" id="question-info">
             <div><b>Status:</b> <span id="current-status"></span></div>
-            <div><b>Question number:</b> <span id="current-question-number"></span></div>
+            <div><b>Question #</b><span id="current-question-number"></span></div>
             <div><b>Answer:</b> <span id="current-actual-answer"></span></div>
             <div><b>Given answer:</b> <span id="current-given-answer"></span></div>
             <div><b>Celerity:</b> <span id="current-celerity"></span></div>
-            <div><b>Points:</b> <span id="current-points"></span></div>
+            <p><b>Points:</b> <span id="current-points"></span></p>
+            <p class="d-none" id="protest-text">
+                Click this button if you believe you were correct: <a href="#" id="record-protest">I was right</a>
+            </p>
+            <div class="alert alert-success d-none" id="record-protest-confirmation">
+                Your protest has been recorded.
+                A moderator will review it shortly.
+            </div>
         </div>
         <div class="d-none" id="end-content">
             Thank you for playing this packet of geoword.
