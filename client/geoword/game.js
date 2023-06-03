@@ -28,11 +28,11 @@ fetch('/geoword/api/get-question-count?' + new URLSearchParams({ packetName }))
 fetch('/geoword/api/get-buzz-count?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
-        if (data.buzzCount >= packetLength) {
-            // window.location.href = '/geoword/stats/' + packetName;
-        } else if (data.buzzCount > 0) {
-            document.getElementById('progress-info').textContent = `You have already read ${currentQuestionNumber} tossups and will start on question ${currentQuestionNumber + 1}.`;
-            currentQuestionNumber = data.buzzCount;
+        const { buzzCount } = data;
+
+        if (buzzCount > 0) {
+            currentQuestionNumber = buzzCount;
+            document.getElementById('progress-info').textContent = `You have already read ${buzzCount} tossups and will start on question ${buzzCount + 1}.`;
         }
     });
 
