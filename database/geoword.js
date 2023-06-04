@@ -34,6 +34,22 @@ async function getBuzzCount(packetName, username) {
     return await buzzes.countDocuments({ packetName, user_id });
 }
 
+async function getProgress(packetName, username) {
+    const user_id = await getUserId(username);
+    const result = await buzzes.aggregate([
+        { $match: { packetName, user_id } },
+        { $group: {
+            _id: null,
+            numberCorrect: { $sum: { $cond: [ { $gt: ['$points', 0] }, 1, 0 ] } },
+            points: { $sum: '$points' },
+            totalCorrectCelerity: { $sum: { $cond: [ { $gt: ['$points', 0] }, '$celerity', 0 ] } },
+            tossupsHeard: { $sum: 1 },
+        } },
+    ]).toArray();
+
+    return result[0];
+}
+
 async function getQuestionCount(packetName) {
     return await answers.countDocuments({ packetName });
 }
@@ -86,7 +102,7 @@ async function getUserStats({ packetName, user_id }) {
         { $sort: { _id: 1 } },
     ]).toArray();
 
-    for (const index in leaderboard) {
+    for (const index in buzzArray) {
         const question = leaderboard[index];
         question.bestUsername = await getUsername(question.bestUserId);
         question.rank = await buzzes.countDocuments({
@@ -132,6 +148,7 @@ async function recordBuzz({ celerity, givenAnswer, points, packetName, questionN
 export {
     getAnswer,
     getBuzzCount,
+    getProgress,
     getQuestionCount,
     getUserStats,
     recordProtest,

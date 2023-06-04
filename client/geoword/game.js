@@ -6,13 +6,10 @@ let currentQuestionNumber = 0;
 let startTime = null;
 let endTime = null;
 
-let deads = 0;
-let negs = 0;
 let numberCorrect = 0;
 let points = 0;
-let tens = 0;
 let totalCorrectCelerity = 0;
-let tuh = 0;
+let tossupsHeard = 0;
 
 document.getElementById('geoword-stats').href = '/geoword/stats/' + packetName;
 document.getElementById('packet-name').textContent = packetName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -25,15 +22,17 @@ fetch('/geoword/api/get-question-count?' + new URLSearchParams({ packetName }))
         return packetLength;
     });
 
-fetch('/geoword/api/get-buzz-count?' + new URLSearchParams({ packetName }))
+fetch('/geoword/api/get-progress?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
-        const { buzzCount } = data;
+        ({ numberCorrect, points, totalCorrectCelerity, tossupsHeard } = data);
 
-        if (buzzCount > 0) {
-            currentQuestionNumber = buzzCount;
-            document.getElementById('progress-info').textContent = `You have already read ${buzzCount} tossups and will start on question ${buzzCount + 1}.`;
+        if (tossupsHeard > 0) {
+            currentQuestionNumber = tossupsHeard;
+            document.getElementById('progress-info').textContent = `You have already read ${tossupsHeard} tossups and will start on question ${tossupsHeard + 1}.`;
         }
+
+        updateStatline(numberCorrect, points, tossupsHeard, totalCorrectCelerity);
     });
 
 const buzzAudio = new Audio('/geoword/audio/buzz.mp3');
@@ -132,33 +131,23 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
     const delta = (endTime - startTime) / 1000;
     const isEndOfQuestion = delta > currentAudio.duration;
     const celerity = isEndOfQuestion ? 0 : 1 - delta / currentAudio.duration;
-    totalCorrectCelerity += isCorrect ? celerity : 0;
-    tuh++;
+    const currentPoints = isCorrect ? 10 + Math.round(10 * celerity) : 0;
 
     if (isCorrect) {
         correctAudio.play();
+        numberCorrect++;
     } else {
         incorrectAudio.play();
         document.getElementById('protest-text').classList.remove('d-none');
     }
 
-    let currentPoints;
-    if (isCorrect) {
-        currentPoints = 10;
-        tens++;
-    } else if (isEndOfQuestion) {
-        currentPoints = 0;
-        deads++;
-    } else {
-        currentPoints = -5;
-        negs++;
-    }
-
     recordBuzz(packetName, currentQuestionNumber, celerity, currentPoints, givenAnswer);
-    points = 10 * tens - 5 * negs;
 
-    const averageCelerity = tens === 0 ? 0 : totalCorrectCelerity / tens;
-    const includePlural = tuh === 1 ? '' : 's';
+    points += currentPoints;
+    tossupsHeard++;
+    totalCorrectCelerity += isCorrect ? celerity : 0;
+
+    updateStatline(numberCorrect, points, tossupsHeard, totalCorrectCelerity);
 
     document.getElementById('current-actual-answer').innerHTML = actualAnswer;
     document.getElementById('current-celerity').textContent = celerity.toFixed(3);
@@ -166,12 +155,16 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
     document.getElementById('current-points').textContent = currentPoints;
     document.getElementById('current-question-number').textContent = currentQuestionNumber;
     document.getElementById('current-status').textContent = isCorrect ? 'Correct' : 'Incorrect';
-    document.getElementById('statline').textContent = `${tens}/${deads}/${negs} (10/0s/-5) with ${tuh} tossup${includePlural} seen (${points} pts, celerity: ${averageCelerity.toFixed(3)})`;
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('next').disabled = false;
 }
 
+function updateStatline(numberCorrect, points, tossupsHeard, totalCorrectCelerity) {
+    const averageCelerity = (numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect).toFixed(3);
+    const pointsPerTossup = (tossupsHeard === 0 ? 0 : points / tossupsHeard).toFixed(2);
+    document.getElementById('statline').textContent = `${pointsPerTossup} points per question (${points} points / ${tossupsHeard} TUH), celerity: ${averageCelerity}`;
+}
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
     event.preventDefault();
