@@ -1,4 +1,4 @@
-import { getAnswer, getBuzzCount, getQuestionCount, getUserStats, recordProtest, recordBuzz } from '../database/geoword.js';
+import { getAnswer, getBuzzCount, getProgress, getQuestionCount, getUserStats, recordProtest, recordBuzz } from '../database/geoword.js';
 import { getUserId } from '../database/users.js';
 import { checkToken } from '../server/authentication.js';
 import checkAnswer from '../server/checkAnswer.js';
@@ -55,7 +55,7 @@ router.get('/api/check-answer', async (req, res) => {
     res.json({ actualAnswer: answer, directive, directedPrompt });
 });
 
-router.get('/api/get-buzz-count', async (req, res) => {
+router.get('/api/get-progress', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
         delete req.session;
@@ -63,8 +63,8 @@ router.get('/api/get-buzz-count', async (req, res) => {
         return;
     }
 
-    const buzzCount = await getBuzzCount(req.query.packetName, username);
-    res.json({ buzzCount });
+    const { numberCorrect, points, totalCorrectCelerity, tossupsHeard } = await getProgress(req.query.packetName, username);
+    res.json({ numberCorrect, points, totalCorrectCelerity, tossupsHeard });
 });
 
 router.get('/api/get-question-count', async (req, res) => {
