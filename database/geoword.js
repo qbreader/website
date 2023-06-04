@@ -105,11 +105,10 @@ async function getUserStats({ packetName, user_id }) {
     for (const index in buzzArray) {
         const question = leaderboard[index];
         question.bestUsername = await getUsername(question.bestUserId);
-        question.rank = await buzzes.countDocuments({
+        question.rank = 1 + await buzzes.countDocuments({
             packetName,
             questionNumber: question._id,
-            celerity: { $gte: buzzArray[index].celerity },
-            points: { $gte: buzzArray[index].points },
+            points: { $gt: buzzArray[index].points },
         });
     }
 
