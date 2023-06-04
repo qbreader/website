@@ -9,7 +9,7 @@ client.connect().then(async () => {
 });
 
 const geoword = client.db('geoword');
-const answers = geoword.collection('answers');
+const tossups = geoword.collection('tossups');
 const buzzes = geoword.collection('buzzes');
 
 /**
@@ -19,7 +19,7 @@ const buzzes = geoword.collection('buzzes');
  * @returns
  */
 async function getAnswer(packetName, questionNumber) {
-    const result = await answers.findOne({ packetName, questionNumber });
+    const result = await tossups.findOne({ packetName, questionNumber });
 
     if (!result) {
         return '';
@@ -51,7 +51,7 @@ async function getProgress(packetName, username) {
 }
 
 async function getQuestionCount(packetName) {
-    return await answers.countDocuments({ packetName });
+    return await tossups.countDocuments({ packetName });
 }
 
 /**
@@ -64,7 +64,7 @@ async function getUserStats({ packetName, user_id }) {
         { $match: { packetName, user_id } },
         { $sort: { questionNumber: 1 } },
         { $lookup: {
-            from: 'answers',
+            from: 'tossups',
             let: { questionNumber: '$questionNumber', packetName },
             pipeline: [
                 { $match: { $expr: { $and: [
@@ -72,17 +72,17 @@ async function getUserStats({ packetName, user_id }) {
                     { $eq: ['$packetName', '$$packetName'] },
                 ] } } },
             ],
-            as: 'answer',
+            as: 'tossup',
         } },
-        { $unwind: '$answer' },
+        { $unwind: '$tossup' },
         { $project: {
             _id: 0,
             celerity: 1,
             pendingProtest: 1,
             points: 1,
             questionNumber: 1,
-            answer: '$answer.answer',
-            formatted_answer: '$answer.formatted_answer',
+            answer: '$tossup.answer',
+            formatted_answer: '$tossup.formatted_answer',
             givenAnswer: 1,
         } }
     ]).toArray();
