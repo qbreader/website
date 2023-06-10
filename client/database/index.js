@@ -500,6 +500,7 @@ function QueryForm() {
   const [maxYear, setMaxYear] = React.useState('');
   const [regex, setRegex] = React.useState(false);
   const [diacritics, setDiacritics] = React.useState(false);
+  const [exactPhrase, setExactPhrase] = React.useState(false);
   const [showCardFooters, setShowCardFooters] = React.useState(true);
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
   let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
@@ -584,6 +585,7 @@ function QueryForm() {
             maxReturnLength=${encodeURIComponent(maxReturnLength)}&
             questionType=${encodeURIComponent(questionType)}&
             randomize=${encodeURIComponent(randomize)}&
+            exactPhrase=${encodeURIComponent(exactPhrase)}&
             ignoreDiacritics=${encodeURIComponent(diacritics)}&
             regex=${encodeURIComponent(regex)}&
             searchType=${encodeURIComponent(searchType)}&
@@ -895,6 +897,21 @@ function QueryForm() {
     className: "form-check-label",
     htmlFor: "toggle-ignore-diacritics"
   }, "Ignore diacritics when searching (Note: may slow down search)")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-exact-phrase",
+    checked: !regex && exactPhrase,
+    disabled: regex,
+    onChange: () => {
+      setExactPhrase(!exactPhrase);
+    }
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-exact-phrase"
+  }, "Search for exact phrase")), /*#__PURE__*/React.createElement("div", {
     className: "form-check form-switch"
   }, /*#__PURE__*/React.createElement("input", {
     className: "form-check-input",

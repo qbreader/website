@@ -81,6 +81,7 @@ router.get('/packet-tossups', async (req, res) => {
 router.get('/query', async (req, res) => {
     req.query.randomize = (req.query.randomize === 'true');
     req.query.regex = (req.query.regex === 'true');
+    req.query.exactPhrase = (req.query.exactPhrase === 'true');
     req.query.ignoreDiacritics = (req.query.ignoreDiacritics === 'true');
 
     if (!['tossup', 'bonus', 'all'].includes(req.query.questionType)) {
