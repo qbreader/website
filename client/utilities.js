@@ -86,7 +86,7 @@ const createBonusCard = (function () {
         const card = document.createElement('div');
         card.className = 'card my-2';
         card.innerHTML = `
-            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
+            <div class="card-header clickable" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
                 ${cardHeader}
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
@@ -125,7 +125,7 @@ const createTossupCard = (function () {
         const card = document.createElement('div');
         card.className = 'card my-2';
         card.innerHTML = `
-            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
+            <div class="card-header clickable" data-bs-toggle="collapse" data-bs-target="#question-${questionCounter}" aria-expanded="true">
                 ${removeParentheses(answer)}
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">

@@ -53,16 +53,12 @@ $link-decoration: none;
     cursor: pointer;
 }
 
-.card-header {
+.clickable {
     cursor: pointer;
 }
 
 #difficulty-settings {
     min-height: 125px;
-}
-
-.download-link {
-    cursor: pointer;
 }
 
 // make sure content goes below entire row when row contains floats

@@ -324,16 +324,20 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
 
     return (
         <div className="card my-2">
-            <div className="card-header" onClick={clickToCopy}>
-                <b>{tossup.setName} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}</b>
-                <b className="float-end">Packet {tossup.packetNumber} | Question {tossup.questionNumber}</b>
+            <div className="card-header d-flex justify-content-between">
+                <b className="clickable" onClick={clickToCopy}>
+                    {tossup.setName} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
+                </b>
+                <b className="clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
+                    Packet {tossup.packetNumber} | Question {tossup.questionNumber}
+                </b>
             </div>
-            <div className="card-container" id={`question-${_id}`}>
+            <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
                     <span dangerouslySetInnerHTML={{
                         __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
-                    }}></span>&nbsp;
-                    <hr></hr>
+                    }}></span>
+                    <hr className="my-3"></hr>
                     <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{
                         __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
                     }}></span></div>
@@ -450,23 +454,28 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
 
     return (
         <div className="card my-2">
-            <div className="card-header" onClick={clickToCopy}>
-                <b>{bonus.setName} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}</b>
-                <b className="float-end">Packet {bonus.packetNumber} | Question {bonus.questionNumber}</b>
+            <div className="card-header d-flex justify-content-between">
+                <b className="clickable" onClick={clickToCopy}>
+                    {bonus.setName} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
+                </b>
+                <b className="clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
+                    Packet {bonus.packetNumber} | Question {bonus.questionNumber}
+                </b>
             </div>
-            <div className="card-container" id={`question-${_id}`}>
+            <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
                     <p dangerouslySetInnerHTML={{ __html: highlightedBonus.leadin }}></p>
                     {indices.map((i) =>
                         <div key={`${bonus._id}-${i}`}>
                             <hr></hr>
                             <p>
-                                {getBonusPartLabel(bonus, i)}&nbsp;
+                                <span>{getBonusPartLabel(bonus, i)} </span>
                                 <span dangerouslySetInnerHTML={{ __html: highlightedBonus.parts[i] }}></span>
                             </p>
-                            <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{
-                                __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
-                            }}></span></div>
+                            <div>
+                                <b>ANSWER: </b>
+                                <span dangerouslySetInnerHTML={{ __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i] }}></span>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -804,7 +813,7 @@ function QueryForm() {
                         </div>
                     </div>
                     <div className="col-6 col-xl-3 mb-2">
-                        <input type="number" className="form-control" id="max-return-length" placeholder="# to Display (default: 25)" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
+                        <input type="number" className="form-control" id="max-return-length" placeholder="# to Display" value={maxReturnLength} onChange={event => {setMaxReturnLength(event.target.value);}} />
                     </div>
                     <div className="input-group col-12 col-xl-6 mb-2">
                         <input type="text" className="form-control" id="set-name" placeholder="Set Name" list="set-list" />
@@ -828,10 +837,10 @@ function QueryForm() {
                         </select>
                     </div>
                     <div className="col-6 col-md-3 mb-2">
-                        <input type="number" className="form-control" id="min-year" placeholder="Min year" value={minYear} onChange={event => {setMinYear(event.target.value);}} />
+                        <input type="number" className="form-control" id="min-year" placeholder="Min Year" value={minYear} onChange={event => {setMinYear(event.target.value);}} />
                     </div>
                     <div className="col-6 col-md-3 mb-2">
-                        <input type="number" className="form-control" id="max-year" placeholder="Max year" value={maxYear} onChange={event => {setMaxYear(event.target.value);}} />
+                        <input type="number" className="form-control" id="max-year" placeholder="Max Year" value={maxYear} onChange={event => {setMaxYear(event.target.value);}} />
                     </div>
                 </div>
                 <div className="row">
@@ -851,9 +860,9 @@ function QueryForm() {
                         </div>
                         <div className="float-end">
                             <b>Download:</b>
-                            <a className="ms-2 download-link" onClick={() => {downloadQuestionsAsText(tossups, bonuses);}}>TXT</a>
-                            <a className="ms-2 download-link" onClick={() => {downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses);}}>CSV</a>
-                            <a className="ms-2 download-link" onClick={() => {downloadQuestionsAsJSON(tossups, bonuses);}}>JSON</a>
+                            <a className="ms-2 clickable" onClick={() => {downloadQuestionsAsText(tossups, bonuses);}}>TXT</a>
+                            <a className="ms-2 clickable" onClick={() => {downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses);}}>CSV</a>
+                            <a className="ms-2 clickable" onClick={() => {downloadQuestionsAsJSON(tossups, bonuses);}}>JSON</a>
                         </div>
                     </div>
                 </div>
@@ -971,6 +980,5 @@ function QueryForm() {
 }
 
 
-// eslint-disable-next-line no-undef
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<QueryForm />);
