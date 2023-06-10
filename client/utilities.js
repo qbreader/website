@@ -75,7 +75,7 @@ const createBonusCard = (function () {
         for (let i = 0; i < bonusLength; i++) {
             cardBody += `<hr></hr>
             <p>
-                [10] ${parts[i]}
+                ${getBonusPartLabel(bonus, i)} ${parts[i]}
                 ${i + 1 === bonusLength ? `<a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>` : ''}
             </p>
             <div>ANSWER: ${answers[i]}</div>`;
@@ -149,6 +149,22 @@ const createTossupCard = (function () {
         });
     };
 })();
+
+
+/**
+ * Return a string that represents the bonus part label for the given bonus and index.
+ * For example, '[10m]' or '[10]'.
+ * @param {*} bonus
+ * @param {*} index
+ * @param {*} defaultValue
+ * @param {*} defaultDifficulty
+ * @returns {String}
+ */
+function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = '') {
+    const value = bonus.values ? (bonus.values[index] ?? defaultValue) : defaultValue;
+    const difficulty = bonus.difficulties ? (bonus.difficulties[index] ?? defaultDifficulty) : defaultDifficulty;
+    return `[${value}${difficulty}]`;
+}
 
 
 /**
