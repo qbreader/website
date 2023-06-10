@@ -199,12 +199,13 @@ async function getQuery({
     maxReturnLength,
     randomize = false,
     regex = false,
-    verbose = false,
+    exactPhrase = false,
     ignoreDiacritics = false,
     tossupPagination = 1,
     bonusPagination = 1,
     minYear,
     maxYear,
+    verbose = false,
 } = {}) {
     if (verbose)
         console.time('getQuery');
@@ -225,8 +226,13 @@ async function getQuery({
         queryString = queryString.trim();
         queryString = escapeRegExp(queryString);
 
-        if (ignoreDiacritics)
+        if (ignoreDiacritics) {
             queryString = regexIgnoreDiacritics(queryString);
+        }
+
+        if (exactPhrase) {
+            queryString = `\\b${queryString}\\b`;
+        }
     }
 
     const returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] }, queryString };

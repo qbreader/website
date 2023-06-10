@@ -569,6 +569,7 @@ function QueryForm() {
 
     const [regex, setRegex] = React.useState(false);
     const [diacritics, setDiacritics] = React.useState(false);
+    const [exactPhrase, setExactPhrase] = React.useState(false);
     const [showCardFooters, setShowCardFooters] = React.useState(true);
 
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
@@ -671,6 +672,7 @@ function QueryForm() {
             maxReturnLength=${encodeURIComponent(maxReturnLength)}&
             questionType=${encodeURIComponent(questionType)}&
             randomize=${encodeURIComponent(randomize)}&
+            exactPhrase=${encodeURIComponent(exactPhrase)}&
             ignoreDiacritics=${encodeURIComponent(diacritics)}&
             regex=${encodeURIComponent(regex)}&
             searchType=${encodeURIComponent(searchType)}&
@@ -853,6 +855,10 @@ function QueryForm() {
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
                             <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics when searching (Note: may slow down search)</label>
+                        </div>
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-exact-phrase" checked={!regex && exactPhrase} disabled={regex} onChange={() => {setExactPhrase(!exactPhrase);}} />
+                            <label className="form-check-label" htmlFor="toggle-exact-phrase">Search for exact phrase</label>
                         </div>
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-show-card-footers" checked={showCardFooters} onChange={() => {setShowCardFooters(!showCardFooters);}} />

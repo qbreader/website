@@ -176,6 +176,16 @@
                 </li>
                 <li class="list-group-item">
                     <div>
+                        <code>exactPhrase</code><code class="text-muted">: boolean</code>
+                        <code class="text-muted float-end fw-semibold">default: false</code>
+                    </div>
+                    <div>
+                        Ensure that <code>queryString</code> is not part of another word.
+                        Using string interpolation, this is equivalent to the regular expression <code>/\b${queryString}\b/</code>.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
                         <code>ignoreDiacritics</code><code class="text-muted">: boolean</code>
                         <code class="text-muted float-end fw-semibold">default: false</code>
                     </div>
