@@ -61,14 +61,18 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
 function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
   let textdata = '';
   for (let tossup of tossups) {
-    textdata += `${tossup.setName} Packet ${tossup.packetNumber}\nQuestion ID: ${tossup._id}\n`;
-    textdata += `${tossup.questionNumber}. ${tossup.question}\nANSWER: ${tossup.answer}\n`;
+    textdata += `${tossup.setName} Packet ${tossup.packetNumber}\n`;
+    textdata += `Question ID: ${tossup._id}\n`;
+    textdata += `${tossup.questionNumber}. ${tossup.question}\n`;
+    textdata += `ANSWER: ${tossup.answer}\n`;
     textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
   }
   for (let bonus of bonuses) {
-    textdata += `${bonus.setName} Packet ${bonus.packetNumber}\nQuestion ID: ${bonus._id}\n${bonus.questionNumber}. ${bonus.leadin}\n`;
+    textdata += `${bonus.setName} Packet ${bonus.packetNumber}\n`;
+    textdata += `Question ID: ${bonus._id}\n`;
+    textdata += `${bonus.questionNumber}. ${bonus.leadin}\n`;
     for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+      textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
     }
     textdata += `<${bonus.category} / ${bonus.subcategory}>\n\n`;
   }
@@ -77,6 +81,21 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
   hiddenElement.target = '_blank';
   hiddenElement.download = filename;
   hiddenElement.click();
+}
+
+/**
+ * Return a string that represents the bonus part label for the given bonus and index.
+ * For example, '[10m]' or '[10]'.
+ * @param {*} bonus
+ * @param {*} index
+ * @param {*} defaultValue
+ * @param {*} defaultDifficulty
+ * @returns {String}
+ */
+function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = '') {
+  const value = bonus.values ? bonus.values[index] ?? defaultValue : defaultValue;
+  const difficulty = bonus.difficulties ? bonus.difficulties[index] ?? defaultDifficulty : defaultDifficulty;
+  return `[${value}${difficulty}]`;
 }
 function highlightTossupQuery({
   tossup,
@@ -249,16 +268,17 @@ function BonusCard({
     indices.push(i);
   }
   function clickToCopy() {
-    let textdata = `${bonus.leadin}`;
+    let textdata = `${bonus.leadin}\n`;
     for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `\n[10] ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}`;
+      textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\n`;
+      textdata += `ANSWER: ${bonus.answers[i]}\n`;
     }
     if (bonus.category && bonus.subcategory && bonus.category !== bonus.subcategory) {
-      textdata += `\n<${bonus.category} / ${bonus.subcategory}>`;
+      textdata += `<${bonus.category} / ${bonus.subcategory}>`;
     } else if (bonus.category) {
-      textdata += `\n<${bonus.category}>`;
+      textdata += `<${bonus.category}>`;
     } else if (bonus.subcategory) {
-      textdata += `\n<${bonus.subcategory}>`;
+      textdata += `<${bonus.subcategory}>`;
     }
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
@@ -342,7 +362,7 @@ function BonusCard({
     }
   }), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
-  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, "[", bonus.values ? bonus.values[i] ?? 10 : 10, bonus.difficulties ? bonus.difficulties[i] : '', "]\xA0", /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, getBonusPartLabel(bonus, i), "\xA0", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedBonus.parts[i]
     }
