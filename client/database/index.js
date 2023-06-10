@@ -221,12 +221,16 @@ function TossupCard({
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header",
+    className: "card-header d-flex justify-content-between"
+  }, /*#__PURE__*/React.createElement("b", {
+    className: "clickable",
     onClick: clickToCopy
-  }, /*#__PURE__*/React.createElement("b", null, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
-    className: "float-end"
+  }, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
+    className: "clickable",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": `#question-${_id}`
   }, "Packet ", tossup.packetNumber, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container",
+    className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
@@ -234,7 +238,9 @@ function TossupCard({
     dangerouslySetInnerHTML: {
       __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
     }
-  }), "\xA0", /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/React.createElement("hr", {
+    className: "my-3"
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
     }
@@ -347,12 +353,16 @@ function BonusCard({
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header",
+    className: "card-header d-flex justify-content-between"
+  }, /*#__PURE__*/React.createElement("b", {
+    className: "clickable",
     onClick: clickToCopy
-  }, /*#__PURE__*/React.createElement("b", null, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
-    className: "float-end"
+  }, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
+    className: "clickable",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": `#question-${_id}`
   }, "Packet ", bonus.packetNumber, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container",
+    className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
@@ -362,11 +372,11 @@ function BonusCard({
     }
   }), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
-  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, getBonusPartLabel(bonus, i), "\xA0", /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", null, getBonusPartLabel(bonus, i), " "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedBonus.parts[i]
     }
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
     }
@@ -774,7 +784,7 @@ function QueryForm() {
     type: "number",
     className: "form-control",
     id: "max-return-length",
-    placeholder: "# to Display (default: 25)",
+    placeholder: "# to Display",
     value: maxReturnLength,
     onChange: event => {
       setMaxReturnLength(event.target.value);
@@ -833,7 +843,7 @@ function QueryForm() {
     type: "number",
     className: "form-control",
     id: "min-year",
-    placeholder: "Min year",
+    placeholder: "Min Year",
     value: minYear,
     onChange: event => {
       setMinYear(event.target.value);
@@ -844,7 +854,7 @@ function QueryForm() {
     type: "number",
     className: "form-control",
     id: "max-year",
-    placeholder: "Max year",
+    placeholder: "Max Year",
     value: maxYear,
     onChange: event => {
       setMaxYear(event.target.value);
@@ -901,18 +911,18 @@ function QueryForm() {
   }, "Show card footers")), /*#__PURE__*/React.createElement("div", {
     className: "float-end"
   }, /*#__PURE__*/React.createElement("b", null, "Download:"), /*#__PURE__*/React.createElement("a", {
-    className: "ms-2 download-link",
+    className: "ms-2 clickable",
     onClick: () => {
       downloadQuestionsAsText(tossups, bonuses);
     }
   }, "TXT"), /*#__PURE__*/React.createElement("a", {
-    className: "ms-2 download-link",
+    className: "ms-2 clickable",
     onClick: () => {
       downloadTossupsAsCSV(tossups);
       downloadBonusesAsCSV(bonuses);
     }
   }, "CSV"), /*#__PURE__*/React.createElement("a", {
-    className: "ms-2 download-link",
+    className: "ms-2 clickable",
     onClick: () => {
       downloadQuestionsAsJSON(tossups, bonuses);
     }
@@ -1063,7 +1073,5 @@ function QueryForm() {
     className: "mb-5"
   }));
 }
-
-// eslint-disable-next-line no-undef
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render( /*#__PURE__*/React.createElement(QueryForm, null));

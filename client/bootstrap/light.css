@@ -9429,16 +9429,12 @@ progress {
   cursor: pointer;
 }
 
-.card-header {
+.clickable {
   cursor: pointer;
 }
 
 #difficulty-settings {
   min-height: 125px;
-}
-
-.download-link {
-  cursor: pointer;
 }
 
 .float-row {
