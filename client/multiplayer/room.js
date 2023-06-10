@@ -525,7 +525,7 @@ function escapeHTML(unsafe) {
 
 function logChat(username, message, isLive = false, userId = null) {
     if (!isLive && message === '') {
-        document.getElementById('live-chat-' + userId).remove();
+        document.getElementById('live-chat-' + userId).parentElement.remove();
         return;
     }
 
@@ -535,27 +535,24 @@ function logChat(username, message, isLive = false, userId = null) {
         return;
     }
 
+    if (document.getElementById('live-chat-' + userId)) {
+        document.getElementById('live-chat-' + userId).textContent = message;
+        return;
+    }
+
     const b = document.createElement('b');
     b.textContent = username;
 
     const span = document.createElement('span');
+    span.classList.add('text-muted');
+    span.id = 'live-chat-' + userId;
     span.textContent = message;
 
-    if (document.getElementById('live-chat-' + userId)) {
-        const li = document.getElementById('live-chat-' + userId);
-        li.textContent = '';
-        li.appendChild(b);
-        li.appendChild(document.createTextNode(' '));
-        li.appendChild(span);
-    } else {
-        const li = document.createElement('li');
-        li.id = 'live-chat-' + userId;
-        li.classList.add('text-muted');
-        li.appendChild(b);
-        li.appendChild(document.createTextNode(' '));
-        li.appendChild(span);
-        document.getElementById('room-history').prepend(li);
-    }
+    const li = document.createElement('li');
+    li.appendChild(b);
+    li.appendChild(document.createTextNode(' '));
+    li.appendChild(span);
+    document.getElementById('room-history').prepend(li);
 }
 
 

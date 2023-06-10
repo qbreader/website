@@ -176,7 +176,8 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'chat',
                 username: this.players[userId].username,
-                message: message.message
+                message: message.message,
+                userId: userId,
             });
             break;
 
@@ -184,7 +185,8 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'chat-live-update',
                 username: this.players[userId].username,
-                message: message.message
+                message: message.message,
+                userId: userId,
             });
             break;
 
