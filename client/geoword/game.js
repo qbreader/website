@@ -1,4 +1,6 @@
 const packetName = window.location.pathname.split('/').pop();
+const packetTitle = titleCase(packetName);
+
 let packetLength = 20;
 
 let currentAudio;
@@ -6,26 +8,27 @@ let currentQuestionNumber = 0;
 let startTime = null;
 let endTime = null;
 
+let division;
 let numberCorrect = 0;
 let points = 0;
 let totalCorrectCelerity = 0;
 let tossupsHeard = 0;
 
 document.getElementById('geoword-stats').href = '/geoword/stats/' + packetName;
-document.getElementById('packet-name').textContent = packetName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
 fetch('/geoword/api/get-question-count?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
         packetLength = data.questionCount;
         document.getElementById('packet-length').textContent = packetLength;
-        return packetLength;
     });
 
 fetch('/geoword/api/get-progress?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
-        ({ numberCorrect, points, totalCorrectCelerity, tossupsHeard } = data);
+        ({ division, numberCorrect, points, totalCorrectCelerity, tossupsHeard } = data);
+
+        document.getElementById('packet-name').textContent = `${packetTitle} (${division})`;
 
         if (tossupsHeard > 0) {
             currentQuestionNumber = tossupsHeard;
@@ -95,7 +98,7 @@ function next() {
     document.getElementById('buzz').disabled = false;
     document.getElementById('start').disabled = true;
 
-    currentAudio = new Audio(`/geoword/audio/${packetName}/${currentQuestionNumber}.mp3`);
+    currentAudio = new Audio(`/geoword/audio/${packetName}/${division}/${currentQuestionNumber}.mp3`);
     startTime = performance.now();
     currentAudio.play();
 }
@@ -108,7 +111,7 @@ function recordProtest(packetName, questionNumber) {
         },
         body: JSON.stringify({
             packetName,
-            questionNumber
+            questionNumber,
         }),
     })
         .then(response => response.json())
@@ -195,8 +198,22 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('next').addEventListener('click', next);
 
-document.getElementById('play-sample').addEventListener('click', () => {
-    sampleAudio.play();
+document.getElementById('play-sample').addEventListener('click', function () {
+    if (this.classList.contains('btn-primary')) {
+        sampleAudio.play();
+        this.classList.remove('btn-primary');
+        this.classList.add('btn-danger');
+    } else {
+        sampleAudio.pause();
+        sampleAudio.currentTime = 0;
+        this.classList.remove('btn-danger');
+        this.classList.add('btn-primary');
+    }
+
+    sampleAudio.addEventListener('ended', () => {
+        this.classList.remove('btn-danger');
+        this.classList.add('btn-primary');
+    });
 });
 
 document.getElementById('record-protest').addEventListener('click', () => {
