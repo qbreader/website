@@ -59,16 +59,32 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">Stats for <span id="packet-name"></span>:</p>
-        <p><b>Division:</b> <span id="division"></span></p>
-        <div id="stats"></div>
+        <p>
+            Choose your division for packet <b id="packet-name"></b>.
+            <i>You cannot change your division once you have submitted a response.</i>
+        </p>
+        <div>
+            <p>
+                "High School" corresponds to HS Regs+.
+                "D1" corresponds to ICT D1, and "D2" corresponds to ICT D2.
+                <i>Some packets, such as the samples, may have only 1 division.</i>
+            </p>
+            <form id="form">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <select class="form-select" id="division"></select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+            </form>
+        </div>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
     <script src="/geoword/script.js"></script>
-    <script src="/geoword/stats.js"></script>
+    <script src="/geoword/division.js"></script>
 </body>
 
 </html>

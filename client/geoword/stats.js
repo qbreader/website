@@ -1,11 +1,14 @@
 const packetName = window.location.pathname.split('/').pop();
+const packetTitle = titleCase(packetName);
 
-document.getElementById('packet-name').textContent = packetName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+document.getElementById('packet-name').textContent = packetTitle;
 
 fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
-        const { buzzArray, leaderboard } = data;
+        const { buzzArray, division, leaderboard } = data;
+        document.getElementById('division').textContent = division;
+
         let innerHTML = '<hr>';
 
         for (const i in buzzArray) {

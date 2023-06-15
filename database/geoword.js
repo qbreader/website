@@ -9,8 +9,10 @@ client.connect().then(async () => {
 });
 
 const geoword = client.db('geoword');
-const tossups = geoword.collection('tossups');
 const buzzes = geoword.collection('buzzes');
+const divisionChoices = geoword.collection('division-choices');
+const packets = geoword.collection('packets');
+const tossups = geoword.collection('tossups');
 
 /**
  *
@@ -34,6 +36,31 @@ async function getBuzzCount(packetName, username) {
     return await buzzes.countDocuments({ packetName, user_id });
 }
 
+async function getDivisionChoice(packetName, username) {
+    const user_id = await getUserId(username);
+    return await getDivisionById(packetName, user_id);
+}
+
+async function getDivisionById(packetName, user_id) {
+    const result = await divisionChoices.findOne({ packetName, user_id });
+    return result?.division;
+}
+
+/**
+ *
+ * @param {String} packetName
+ * @returns {Promise<Array<String>>} divisions
+ */
+async function getDivisions(packetName) {
+    const packet = await packets.findOne({ name: packetName });
+    return packet?.divisions;
+}
+
+async function getPacketList() {
+    const list = await packets.find({}).toArray();
+    return list.map(packet => packet.name);
+}
+
 async function getProgress(packetName, username) {
     const user_id = await getUserId(username);
     const result = await buzzes.aggregate([
@@ -47,6 +74,7 @@ async function getProgress(packetName, username) {
         } },
     ]).toArray();
 
+    result[0].division = await getDivisionById(packetName, user_id);
     return result[0];
 }
 
@@ -60,6 +88,8 @@ async function getQuestionCount(packetName) {
  * @param {ObjectId} user_id
  */
 async function getUserStats({ packetName, user_id }) {
+    const division = await getDivisionById(packetName, user_id);
+
     const buzzArray = await buzzes.aggregate([
         { $match: { packetName, user_id } },
         { $sort: { questionNumber: 1 } },
@@ -88,7 +118,7 @@ async function getUserStats({ packetName, user_id }) {
     ]).toArray();
 
     const leaderboard = await buzzes.aggregate([
-        { $match: { packetName } },
+        { $match: { packetName, division } },
         { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
         { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined ] } } },
         { $sort: { correctCelerity: -1 } },
@@ -112,16 +142,9 @@ async function getUserStats({ packetName, user_id }) {
         });
     }
 
-    return { buzzArray, leaderboard };
+    return { buzzArray, division, leaderboard };
 }
 
-async function recordProtest({ packetName, questionNumber, username }) {
-    const user_id = await getUserId(username);
-    return await buzzes.updateOne(
-        { user_id, packetName, questionNumber },
-        { $set: { pendingProtest: true } },
-    );
-}
 
 /**
  * @param {Object} params
@@ -133,23 +156,44 @@ async function recordProtest({ packetName, questionNumber, username }) {
  * @param {ObjectId} params.user_id
  */
 async function recordBuzz({ celerity, givenAnswer, points, packetName, questionNumber, user_id }) {
-    const buzz = await buzzes.findOne({ user_id, packetName, questionNumber });
+    const division = await getDivisionById(packetName, user_id);
 
-    if (buzz) {
-        return false;
-    }
-
-    buzzes.insertOne({ celerity, givenAnswer, points, packetName, questionNumber, user_id });
+    await buzzes.replaceOne(
+        { user_id, packetName, questionNumber },
+        { celerity, division, givenAnswer, points, packetName, questionNumber, user_id },
+        { upsert: true },
+    );
 
     return true;
+}
+
+async function recordDivision({ packetName, username, division }) {
+    const user_id = await getUserId(username);
+    return divisionChoices.replaceOne(
+        { user_id, packetName },
+        { user_id, packetName, division },
+        { upsert: true },
+    );
+}
+
+async function recordProtest({ packetName, questionNumber, username }) {
+    const user_id = await getUserId(username);
+    return await buzzes.updateOne(
+        { user_id, packetName, questionNumber },
+        { $set: { pendingProtest: true } },
+    );
 }
 
 export {
     getAnswer,
     getBuzzCount,
+    getDivisionChoice,
+    getDivisions,
+    getPacketList,
     getProgress,
     getQuestionCount,
     getUserStats,
-    recordProtest,
     recordBuzz,
+    recordDivision,
+    recordProtest,
 };
