@@ -57,7 +57,7 @@ async function getDivisions(packetName) {
 }
 
 async function getPacketList() {
-    const list = await packets.find({}).toArray();
+    const list = await packets.find({}, { sort: { order: 1 } }).toArray();
     return list.map(packet => packet.name);
 }
 
