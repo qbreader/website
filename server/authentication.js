@@ -1,15 +1,16 @@
-const crypto = require('crypto');
-const jwt = require('jsonwebtoken');
-const users = require('../database/users');
+import 'dotenv/config';
+
+import { getUserField, getUserId, updateUser, verifyEmail } from '../database/users.js';
+
+import { createHash } from 'crypto';
+import jsonwebtoken from 'jsonwebtoken';
+const { sign, verify } = jsonwebtoken;
+import { createTransport } from 'nodemailer';
+
 
 const baseURL = process.env.BASE_URL ?? (process.env.NODE_ENV === 'production' ? 'https://www.qbreader.org' : 'http://localhost:3000');
 
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
-
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
+const transporter = createTransport({
     host: 'smtp.sendgrid.net',
     port: 465,
     secure: true,
@@ -48,7 +49,7 @@ const activeResetPasswordTokens = {};
  * @returns {Promise<Boolean>}
  */
 async function checkPassword(username, password) {
-    return await users.getUserField(username, 'password') === saltAndHashPassword(password);
+    return await getUserField(username, 'password') === saltAndHashPassword(password);
 }
 
 
@@ -60,7 +61,7 @@ async function checkPassword(username, password) {
  * @returns {Boolean} True if the token is valid, and false otherwise.
  */
 function checkToken(username, token, checkEmailVerification = false) {
-    return jwt.verify(token, secret, (err, decoded) => {
+    return verify(token, secret, (err, decoded) => {
         if (err) {
             return false;
         } else {
@@ -77,7 +78,7 @@ function checkToken(username, token, checkEmailVerification = false) {
  * @returns A JWT token.
  */
 function generateToken(username, verifiedEmail = false) {
-    return jwt.sign({ username, verifiedEmail }, secret);
+    return sign({ username, verifiedEmail }, secret);
 }
 
 
@@ -88,22 +89,22 @@ function generateToken(username, verifiedEmail = false) {
  */
 function saltAndHashPassword(password) {
     password = salt + password + salt;
-    const hash = crypto.createHash('sha256').update(password).digest('base64');
-    const hash2 = crypto.createHash('sha256').update(hash).digest('base64');
-    const hash3 = crypto.createHash('sha256').update(hash2).digest('base64');
+    const hash = createHash('sha256').update(password).digest('base64');
+    const hash2 = createHash('sha256').update(hash).digest('base64');
+    const hash3 = createHash('sha256').update(hash2).digest('base64');
     return hash3;
 }
 
 
 async function sendResetPasswordEmail(username) {
-    const email = await users.getUserField(username, 'email');
-    const user_id = await users.getUserId(username);
+    const email = await getUserField(username, 'email');
+    const user_id = await getUserId(username);
     if (!user_id || !email) {
         return false;
     }
 
     const timestamp = Date.parse((new Date()).toString());
-    const token = jwt.sign({ user_id, timestamp }, secret);
+    const token = sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-reset-password?user_id=${user_id}&token=${token}`;
     const message = {
         from: 'info@qbreader.org',
@@ -125,14 +126,14 @@ async function sendResetPasswordEmail(username) {
 
 
 async function sendVerificationEmail(username) {
-    const email = await users.getUserField(username, 'email');
-    const user_id = await users.getUserId(username);
+    const email = await getUserField(username, 'email');
+    const user_id = await getUserId(username);
     if (!user_id || !email) {
         return false;
     }
 
     const timestamp = Date.parse((new Date()).toString());
-    const token = jwt.sign({ user_id, timestamp }, secret);
+    const token = sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-email?user_id=${user_id}&token=${token}`;
     const message = {
         from: 'info@qbreader.org',
@@ -154,13 +155,13 @@ async function sendVerificationEmail(username) {
 
 
 function updatePassword(username, newPassword) {
-    return users.updateUser(username, { password: saltAndHashPassword(newPassword) });
+    return updateUser(username, { password: saltAndHashPassword(newPassword) });
 }
 
 
 function verifyEmailLink(user_id, token) {
     const expirationTime = 1000 * 60 * 15; // 15 minutes
-    return jwt.verify(token, secret, (err, decoded) => {
+    return verify(token, secret, (err, decoded) => {
         if (err) {
             return false;
         }
@@ -184,7 +185,7 @@ function verifyEmailLink(user_id, token) {
             return false;
         }
 
-        users.verifyEmail(user_id);
+        verifyEmail(user_id);
         return true;
     });
 }
@@ -192,7 +193,7 @@ function verifyEmailLink(user_id, token) {
 
 function verifyResetPasswordLink(user_id, token) {
     const expirationTime = 1000 * 60 * 15; // 15 minutes
-    return jwt.verify(token, secret, (err, decoded) => {
+    return verify(token, secret, (err, decoded) => {
         if (err) {
             return false;
         }
@@ -221,7 +222,7 @@ function verifyResetPasswordLink(user_id, token) {
 }
 
 
-module.exports = {
+export {
     checkPassword,
     checkToken,
     generateToken,

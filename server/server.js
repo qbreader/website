@@ -1,76 +1,58 @@
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
+import 'dotenv/config';
 
-const express = require('express');
+import { ipFilterMiddleware, ipFilterError } from './ip-filter.js';
+import { createAndReturnRoom } from './TossupRoom.js';
+import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from '../constants.js';
+import aboutRouter from '../routes/about.js';
+import apiRouter from '../routes/api.js';
+import apiDocsRouter from '../routes/api-docs.js';
+import authRouter from '../routes/auth.js';
+import backupsRouter from '../routes/backups.js';
+import bonusesRouter from '../routes/bonuses.js';
+import databaseRouter from '../routes/database.js';
+import multiplayerRouter from '../routes/multiplayer.js';
+import tossupsRouter from '../routes/tossups.js';
+import userRouter from '../routes/user.js';
+import indexRouter from '../routes/index.js';
+
+import cookieSession from 'cookie-session';
+import express, { json } from 'express';
+import { createServer } from 'http';
+import { v4 } from 'uuid';
+import { WebSocketServer } from 'ws';
+
 const app = express();
-const server = require('http').createServer(app);
+const server = createServer(app);
 const port = process.env.PORT || 3000;
-const uuid = require('uuid');
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({
+const wss = new WebSocketServer({
     server,
-    maxPayload: 1024 * 1024 * 1, // 1 MB
+    maxPayload: WEBSOCKET_MAX_PAYLOAD,
 });
 
 // See https://masteringjs.io/tutorials/express/query-parameters
 // for why we use 'simple'
 app.set('query parser', 'simple');
 
-app.use(express.json());
+app.use(json());
 
-const cookieSession = require('cookie-session');
 app.use(cookieSession({
     name: 'session',
     keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: COOKIE_MAX_AGE,
 }));
 
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
-const window = new JSDOM('').window;
-const DOMPurify = createDOMPurify(window);
-
-const { ipFilterMiddleware, ipFilterError } = require('./ip-filter');
 app.use(ipFilterMiddleware);
 app.use(ipFilterError);
 
-
-const TossupRoom = require('./TossupRoom');
-
-const rooms = {};
-const permanentRooms = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
-
-for (const roomName of permanentRooms) {
-    rooms[roomName] = new TossupRoom(roomName, true);
-}
-
-app.get('/api/multiplayer/room-list', (_req, res) => {
-    const roomList = {};
-    for (const roomName in rooms) {
-        if (rooms[roomName].settings.public) {
-            roomList[roomName] = [
-                Object.keys(rooms[roomName].players).length,
-                Object.keys(rooms[roomName].sockets).length,
-                permanentRooms.includes(roomName),
-            ];
-        }
-    }
-
-    res.send(JSON.stringify(roomList));
-});
-
 wss.on('connection', (ws) => {
     let [roomName, userId, username] = ws.protocol.split('%%%');
-    roomName = DOMPurify.sanitize(decodeURIComponent(roomName));
+    roomName = decodeURIComponent(roomName);
     userId = decodeURIComponent(userId);
     username = decodeURIComponent(username);
-    userId = (userId === 'unknown') ? uuid.v4() : userId;
+    userId = (userId === 'unknown') ? v4() : userId;
 
-    if (!Object.prototype.hasOwnProperty.call(rooms, roomName))
-        rooms[roomName] = new TossupRoom(roomName, false);
-
-    rooms[roomName].connection(ws, userId, username);
+    const room = createAndReturnRoom(roomName);
+    room.connection(ws, userId, username);
 
     ws.on('error', (err) => {
         if (err instanceof RangeError) {
@@ -83,20 +65,8 @@ wss.on('connection', (ws) => {
 });
 
 
-/**
- * Redirects:
- */
-app.use('/users', (req, res) => {
-    res.redirect(`/user${req.url}`);
-});
-
-
 app.get('/robots.txt', (_req, res) => {
     res.sendFile('robots.txt', { root: './client' });
-});
-
-app.get('/*.html', (req, res) => {
-    res.redirect(req.url.substring(0, req.url.length - 5));
 });
 
 app.get('/react(-dom)?/umd/*.js', (req, res) => {
@@ -127,28 +97,36 @@ app.get('/*.ico', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
 
+app.use('/about', aboutRouter);
+app.use('/api', apiRouter);
+app.use('/api-docs', apiDocsRouter);
+app.use('/auth', authRouter);
+app.use('/backups', backupsRouter);
+app.use('/bonuses', bonusesRouter);
+app.use('/db', databaseRouter);
+app.use('/multiplayer', multiplayerRouter);
+app.use('/tossups', tossupsRouter);
+app.use('/user', userRouter);
+app.use('/', indexRouter);
 
-app.use('/about', require('../routes/about'));
-app.use('/api', require('../routes/api'));
-app.use('/api-docs', require('../routes/api-docs'));
-app.use('/auth', require('../routes/auth'));
-app.use('/backups', require('../routes/backups'));
-app.use('/bonuses', require('../routes/bonuses'));
-app.use('/db', require('../routes/database'));
-app.use('/multiplayer', require('../routes/multiplayer'));
-app.use('/tossups', require('../routes/tossups'));
-app.use('/user', require('../routes/user'));
-app.use('/', require('../routes/index'));
-
+/**
+ * Redirects:
+ */
+app.get('/*.html', (req, res) => {
+    res.redirect(req.url.substring(0, req.url.length - 5));
+});
 
 app.get('/database', (_req, res) => {
     res.redirect('/db');
 });
 
+app.use('/users', (req, res) => {
+    res.redirect(`/user${req.url}`);
+});
+
 app.use((req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
-
 
 // listen on ipv4 instead of ipv6
 server.listen({ port, host: '0.0.0.0' }, () => {

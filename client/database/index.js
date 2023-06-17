@@ -511,7 +511,7 @@ function QueryForm() {
   const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
   const [queryTime, setQueryTime] = React.useState(0);
   React.useEffect(() => {
-    fetch('/api/set-list').then(response => response.json()).then(data => {
+    fetch('/api/set-list').then(response => response.json()).then(data => data.setList).then(data => {
       document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
     });
   }, []);

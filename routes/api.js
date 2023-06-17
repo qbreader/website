@@ -1,20 +1,20 @@
-const express = require('express');
-const router = express.Router();
+import { DEFAULT_QUERY_RETURN_LENGTH } from '../constants.js';
+import { getNumPackets, getPacket, getQuery, getRandomName, getRandomBonuses, getRandomTossups, reportQuestion, getSetList } from '../database/questions.js';
+import checkAnswer from '../server/checkAnswer.js';
+import { tossupRooms } from '../server/TossupRoom.js';
 
-const database = require('../database/questions');
-const { checkAnswer } = require('../server/scorer');
+import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 
-const rateLimit = require('express-rate-limit');
 
-const apiLimiter = rateLimit({
+const router = Router();
+// Apply the rate limiting middleware to API calls only
+router.use(rateLimit({
     windowMs: 1000, // 4 seconds
     max: 20, // Limit each IP to 20 requests per `window`
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
-// Apply the rate limiting middleware to API calls only
-router.use(apiLimiter);
+}));
 
 
 // express encodes same parameter passed multiple times as an array
@@ -31,24 +31,24 @@ router.use((req, _res, next) => {
 
 router.get('/check-answer', (req, res) => {
     const { answerline, givenAnswer } = req.query;
-    const [directive, directedPrompt] = checkAnswer(answerline, givenAnswer);
-    res.send(JSON.stringify([directive, directedPrompt]));
+    const { directive, directedPrompt } = checkAnswer(answerline, givenAnswer);
+    res.send(JSON.stringify({ directive: directive, directedPrompt: directedPrompt }));
 });
 
 
 router.get('/num-packets', async (req, res) => {
-    const numPackets = await database.getNumPackets(req.query.setName);
+    const numPackets = await getNumPackets(req.query.setName);
     if (numPackets === 0) {
         res.statusCode = 404;
     }
-    res.send(numPackets.toString());
+    res.send(JSON.stringify({ numPackets: numPackets }));
 });
 
 
 router.get('/packet', async (req, res) => {
     const setName = req.query.setName;
     const packetNumber = parseInt(req.query.packetNumber);
-    const packet = await database.getPacket({ setName, packetNumber });
+    const packet = await getPacket({ setName, packetNumber });
     if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -59,7 +59,7 @@ router.get('/packet', async (req, res) => {
 router.get('/packet-bonuses', async (req, res) => {
     const setName = req.query.setName;
     const packetNumber = parseInt(req.query.packetNumber);
-    const packet = await database.getPacket({ setName, packetNumber, questionTypes: ['bonuses'] });
+    const packet = await getPacket({ setName, packetNumber, questionTypes: ['bonuses'] });
     if (packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
@@ -70,7 +70,7 @@ router.get('/packet-bonuses', async (req, res) => {
 router.get('/packet-tossups', async (req, res) => {
     const setName = req.query.setName;
     const packetNumber = parseInt(req.query.packetNumber);
-    const packet = await database.getPacket({ setName, packetNumber, questionTypes: ['tossups'] });
+    const packet = await getPacket({ setName, packetNumber, questionTypes: ['tossups'] });
     if (packet.tossups.length === 0) {
         res.statusCode = 404;
     }
@@ -122,7 +122,7 @@ router.get('/query', async (req, res) => {
     }
 
     if (!req.query.maxReturnLength || isNaN(req.query.maxReturnLength)) {
-        req.query.maxReturnLength = database.DEFAULT_QUERY_RETURN_LENGTH;
+        req.query.maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
     }
 
     const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
@@ -136,27 +136,35 @@ router.get('/query', async (req, res) => {
     req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
 
-    const queryResult = await database.getQuery(req.query);
+    const queryResult = await getQuery(req.query);
     res.send(JSON.stringify(queryResult));
 });
 
 
 router.get('/random-name', (req, res) => {
-    res.send(database.getRandomName());
+    const randomName = getRandomName();
+    res.send(JSON.stringify({ randomName: randomName }));
 });
 
 
 router.get('/random-bonus', async (req, res) => {
-    if (req.query.difficulties)
+    if (req.query.difficulties) {
         req.query.difficulties = req.query.difficulties
             .split(',')
             .map((difficulty) => parseInt(difficulty));
 
-    if (req.query.categories)
-        req.query.categories = req.query.categories.split(',');
+        req.query.difficulties = req.query.difficulties.length ? req.query.difficulties : undefined;
+    }
 
-    if (req.query.subcategories)
+    if (req.query.categories) {
+        req.query.categories = req.query.categories.split(',');
+        req.query.categories = req.query.categories.length ? req.query.categories : undefined;
+    }
+
+    if (req.query.subcategories) {
         req.query.subcategories = req.query.subcategories.split(',');
+        req.query.subcategories = req.query.subcategories.length ? req.query.subcategories : undefined;
+    }
 
     req.query.bonusLength = (req.query.threePartBonuses === 'true') ? 3 : undefined;
 
@@ -164,7 +172,7 @@ router.get('/random-bonus', async (req, res) => {
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
     req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
 
-    const bonuses = await database.getRandomBonuses(req.query);
+    const bonuses = await getRandomBonuses(req.query);
     if (bonuses.length === 0) {
         res.status(404);
     }
@@ -173,22 +181,29 @@ router.get('/random-bonus', async (req, res) => {
 
 
 router.get('/random-tossup', async (req, res) => {
-    if (req.query.difficulties)
+    if (req.query.difficulties) {
         req.query.difficulties = req.query.difficulties
             .split(',')
             .map((difficulty) => parseInt(difficulty));
 
-    if (req.query.categories)
-        req.query.categories = req.query.categories.split(',');
+        req.query.difficulties = req.query.difficulties.length ? req.query.difficulties : undefined;
+    }
 
-    if (req.query.subcategories)
+    if (req.query.categories) {
+        req.query.categories = req.query.categories.split(',');
+        req.query.categories = req.query.categories.length ? req.query.categories : undefined;
+    }
+
+    if (req.query.subcategories) {
         req.query.subcategories = req.query.subcategories.split(',');
+        req.query.subcategories = req.query.subcategories.length ? req.query.subcategories : undefined;
+    }
 
     req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
     req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
 
-    const tossups = await database.getRandomTossups(req.query);
+    const tossups = await getRandomTossups(req.query);
     if (tossups.length === 0) {
         res.status(404);
     }
@@ -197,47 +212,11 @@ router.get('/random-tossup', async (req, res) => {
 });
 
 
-// DEPRECATED and will be removed in the future
-router.post('/random-question', async (req, res) => {
-    if (!['tossup', 'bonus'].includes(req.body.questionType)) {
-        res.status(400).send('Invalid question type specified.');
-        return;
-    }
-
-    if (typeof req.body.difficulties === 'string') {
-        req.body.difficulties = parseInt(req.body.difficulties);
-    }
-
-    if (typeof req.body.difficulties === 'number') {
-        req.body.difficulties = [req.body.difficulties];
-    }
-
-    if (typeof req.body.categories === 'string') {
-        req.body.categories = [req.body.categories];
-    }
-
-    if (typeof req.body.subcategories === 'string') {
-        req.body.subcategories = [req.body.subcategories];
-    }
-
-    req.body.minYear = isNaN(req.body.minYear) ? undefined : parseInt(req.body.minYear);
-    req.body.maxYear = isNaN(req.body.maxYear) ? undefined : parseInt(req.body.maxYear);
-    req.body.number = isNaN(req.body.number) ? undefined : parseInt(req.body.number);
-
-    const questions = await database.getRandomQuestions(req.body);
-    if (questions.length > 0) {
-        res.send(JSON.stringify(questions));
-    } else {
-        res.sendStatus(404);
-    }
-});
-
-
 router.post('/report-question', async (req, res) => {
     const _id = req.body._id;
     const reason = req.body.reason ?? '';
     const description = req.body.description ?? '';
-    const successful = await database.reportQuestion(_id, reason, description);
+    const successful = await reportQuestion(_id, reason, description);
     if (successful) {
         res.sendStatus(200);
     } else {
@@ -247,9 +226,28 @@ router.post('/report-question', async (req, res) => {
 
 
 router.get('/set-list', (req, res) => {
-    const setList = database.getSetList(req.query.setName);
-    res.send(setList);
+    const setList = getSetList();
+    res.send(JSON.stringify({ setList }));
 });
 
 
-module.exports = router;
+router.get('/multiplayer/room-list', (_req, res) => {
+    const roomList = [];
+    for (const roomName in tossupRooms) {
+        if (!tossupRooms[roomName].settings.public) {
+            continue;
+        }
+
+        roomList.push({
+            roomName: roomName,
+            playerCount: Object.keys(tossupRooms[roomName].players).length,
+            onlineCount: Object.keys(tossupRooms[roomName].sockets).length,
+            isPermanent: tossupRooms[roomName].isPermanent,
+        });
+    }
+
+    res.send(JSON.stringify({ roomList: roomList }));
+});
+
+
+export default router;

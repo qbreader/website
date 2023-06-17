@@ -1,187 +1,12 @@
-const { distance } = require('damerau-levenshtein-js');
-const { toWords } = require('number-to-words');
-const { toArabic } = require('roman-numerals');
+import { distance } from 'damerau-levenshtein-js';
+import numberToWords from 'number-to-words';
+import { toArabic } from 'roman-numerals';
+import { stemmer } from 'stemmer';
+
+const { toWords } = numberToWords;
 
 // const METAWORDS = ['the', 'like', 'descriptions', 'description', 'of', 'do', 'not', 'as', 'accept', 'or', 'other', 'prompt', 'on', 'except', 'before', 'after', 'is', 'read', 'stated', 'mentioned', 'at', 'any', 'don\'t', 'more', 'specific', 'etc', 'eg', 'answers', 'word', 'forms'];
 const METAWORDS = [];
-
-/**
- * Implements the Porter Stemming Algorithm.
- * Source: https://tartarus.org/martin/PorterStemmer/js.txt
- */
-const stemmer = (() => {
-    const step2list = {
-            'ational' : 'ate',
-            'tional' : 'tion',
-            'enci' : 'ence',
-            'anci' : 'ance',
-            'izer' : 'ize',
-            'bli' : 'ble',
-            'alli' : 'al',
-            'entli' : 'ent',
-            'eli' : 'e',
-            'ousli' : 'ous',
-            'ization' : 'ize',
-            'ation' : 'ate',
-            'ator' : 'ate',
-            'alism' : 'al',
-            'iveness' : 'ive',
-            'fulness' : 'ful',
-            'ousness' : 'ous',
-            'aliti' : 'al',
-            'iviti' : 'ive',
-            'biliti' : 'ble',
-            'logi' : 'log'
-        },
-
-        step3list = {
-            'icate' : 'ic',
-            'ative' : '',
-            'alize' : 'al',
-            'iciti' : 'ic',
-            'ical' : 'ic',
-            'ful' : '',
-            'ness' : ''
-        },
-
-        c = '[^aeiou]',          // consonant
-        v = '[aeiouy]',          // vowel
-        C = c + '[^aeiouy]*',    // consonant sequence
-        V = v + '[aeiou]*',      // vowel sequence
-
-        mgr0 = '^(' + C + ')?' + V + C,               // [C]VC... is m>0
-        meq1 = '^(' + C + ')?' + V + C + '(' + V + ')?$',  // [C]VC[V] is m=1
-        mgr1 = '^(' + C + ')?' + V + C + V + C,       // [C]VCVC... is m>1
-        s_v = '^(' + C + ')?' + v;                   // vowel in stem
-
-    return function (w) {
-        let 	stem,
-            suffix,
-            re,
-            re2,
-            re3,
-            re4;
-
-        if (w.length < 3) { return w; }
-
-        const firstch = w.substr(0,1);
-        if (firstch == 'y') {
-            w = firstch.toUpperCase() + w.substr(1);
-        }
-
-        // Step 1a
-        re = /^(.+?)(ss|i)es$/;
-        re2 = /^(.+?)([^s])s$/;
-
-        if (re.test(w)) { w = w.replace(re,'$1$2'); }
-        else if (re2.test(w)) {	w = w.replace(re2,'$1$2'); }
-
-        // Step 1b
-        re = /^(.+?)eed$/;
-        re2 = /^(.+?)(ed|ing)$/;
-        if (re.test(w)) {
-            const fp = re.exec(w);
-            re = new RegExp(mgr0);
-            if (re.test(fp[1])) {
-                re = /.$/;
-                w = w.replace(re,'');
-            }
-        } else if (re2.test(w)) {
-            const fp = re2.exec(w);
-            stem = fp[1];
-            re2 = new RegExp(s_v);
-            if (re2.test(stem)) {
-                w = stem;
-                re2 = /(at|bl|iz)$/;
-                re3 = new RegExp('([^aeiouylsz])\\1$');
-                re4 = new RegExp('^' + C + v + '[^aeiouwxy]$');
-                if (re2.test(w)) {	w = w + 'e'; }
-                else if (re3.test(w)) { re = /.$/; w = w.replace(re,''); }
-                else if (re4.test(w)) { w = w + 'e'; }
-            }
-        }
-
-        // Step 1c
-        re = /^(.+?)y$/;
-        if (re.test(w)) {
-            const fp = re.exec(w);
-            stem = fp[1];
-            re = new RegExp(s_v);
-            if (re.test(stem)) { w = stem + 'i'; }
-        }
-
-        // Step 2
-        re = /^(.+?)(ational|tional|enci|anci|izer|bli|alli|entli|eli|ousli|ization|ation|ator|alism|iveness|fulness|ousness|aliti|iviti|biliti|logi)$/;
-        if (re.test(w)) {
-            const fp = re.exec(w);
-            stem = fp[1];
-            suffix = fp[2];
-            re = new RegExp(mgr0);
-            if (re.test(stem)) {
-                w = stem + step2list[suffix];
-            }
-        }
-
-        // Step 3
-        re = /^(.+?)(icate|ative|alize|iciti|ical|ful|ness)$/;
-        if (re.test(w)) {
-            const fp = re.exec(w);
-            stem = fp[1];
-            suffix = fp[2];
-            re = new RegExp(mgr0);
-            if (re.test(stem)) {
-                w = stem + step3list[suffix];
-            }
-        }
-
-        // Step 4
-        re = /^(.+?)(al|ance|ence|er|ic|able|ible|ant|ement|ment|ent|ou|ism|ate|iti|ous|ive|ize)$/;
-        re2 = /^(.+?)(s|t)(ion)$/;
-        if (re.test(w)) {
-            const fp = re.exec(w);
-            stem = fp[1];
-            re = new RegExp(mgr1);
-            if (re.test(stem)) {
-                w = stem;
-            }
-        } else if (re2.test(w)) {
-            const fp = re2.exec(w);
-            stem = fp[1] + fp[2];
-            re2 = new RegExp(mgr1);
-            if (re2.test(stem)) {
-                w = stem;
-            }
-        }
-
-        // Step 5
-        re = /^(.+?)e$/;
-        if (re.test(w)) {
-            const fp = re.exec(w);
-            stem = fp[1];
-            re = new RegExp(mgr1);
-            re2 = new RegExp(meq1);
-            re3 = new RegExp('^' + C + v + '[^aeiouwxy]$');
-            if (re.test(stem) || (re2.test(stem) && !(re3.test(stem)))) {
-                w = stem;
-            }
-        }
-
-        re = /ll$/;
-        re2 = new RegExp(mgr1);
-        if (re.test(w) && re2.test(w)) {
-            re = /.$/;
-            w = w.replace(re,'');
-        }
-
-        // and turn initial Y back to y
-
-        if (firstch == 'y') {
-            w = firstch.toLowerCase() + w.substr(1);
-        }
-
-        return w;
-    };
-})();
 
 
 /**
@@ -586,7 +411,7 @@ function checkAnswer(answerline, givenAnswer) {
     const parsedAnswerline = parseAnswerline(answerline);
 
     if (!answerlineIsFormatted && parsedAnswerline.accept[0].length > 1 && givenAnswer.length === 1 && isNaN(givenAnswer))
-        return ['reject', null];
+        return { directive: 'reject', directedPrompt: null };
 
     for (const answer of parsedAnswerline.reject) {
         const useStemmer = (stemmer(answer) !== stemmer(parsedAnswerline.accept[0]));
@@ -597,36 +422,40 @@ function checkAnswer(answerline, givenAnswer) {
         if (!stringMatchesReference({ string: givenAnswer, reference: answer, strictness: 11, useStemmer }))
             continue;
 
-        return ['reject', null];
+        return { directive: 'reject', directedPrompt: null };
     }
 
     if (/[[(]accept either/i.test(answerline)) {
         for (const answer of parsedAnswerline.accept[0].split(' ')) {
-            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-                return ['accept', null];
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
+                return { directive: 'accept', directedPrompt: null };
+            }
         }
     }
 
     for (const answer of parsedAnswerline.accept) {
-        if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-            return ['accept', null];
+        if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
+            return { directive: 'accept', directedPrompt: null };
+        }
     }
 
     for (const answer of parsedAnswerline.prompt) {
         const directedPrompt = answer[1];
-        if (answerWorks(answer[0], givenAnswer, answerlineIsFormatted))
-            return ['prompt', directedPrompt];
+        if (answerWorks(answer[0], givenAnswer, answerlineIsFormatted)) {
+            return { directive: 'prompt', directedPrompt: directedPrompt };
+        }
     }
 
     if (/prompt on (a )?partial/.test(answerline)) {
         for (const answer of parsedAnswerline.accept[0].split(' ')) {
-            if (answerWorks(answer, givenAnswer, answerlineIsFormatted))
-                return ['prompt', null];
+            if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
+                return { directive: 'prompt', directedPrompt: null };
+            }
         }
     }
 
-    return ['reject', null];
+    return { directive: 'reject', directedPrompt: null };
 }
 
 
-module.exports = { checkAnswer };
+export default checkAnswer;

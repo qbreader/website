@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+const router = Router();
 
 router.get('/', (_req, res) => {
     res.sendFile('backups.html', { root: './client' });
 });
 
-module.exports = router;
+export default router;

@@ -59,7 +59,7 @@
     </nav>
 
     <div class="container-xl mt-3 mb-4 row">
-        <div class="col-1"></div> <!-- empty column for some left margin -->
+        <div class="col-md-1"></div> <!-- empty column for some left margin -->
         <!-- docs sidebar -->
         <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
             <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
@@ -76,9 +76,6 @@
                 </li>
                 <li class="nav-item">
                     <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/random-question"><code>random-question (deprecated)</code></a>
                 </li>
                 <li class="nav-item">
                     <a href="/api-docs/random-tossup"><code>random-tossup</code></a>
@@ -115,7 +112,7 @@
             </ul>
         </div>
 
-        <div class="col-9">
+        <div class="col-12 col-md-9">
             <h3 class="md-4">
                 <div><code>GET</code> <code>qbreader.org/api/num-packets</code></div>
             </h3>
@@ -143,8 +140,20 @@
                 <h4 class="mt-4 md-2" id="returns">Returns</h4>
             </a>
             <div>
-                The <code>number</code> of packets in the set.
+                A JSON <code>object</code> with the following properties:
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>numPackets</code><code class="text-muted">: number</code>
+                    </div>
+                    <div>
+                        The <code>number</code> of packets in the set.
+                        If a set with the given name does not exist, this will be <code>0</code>,
+                        and a <code>404</code> error will be returned.
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 

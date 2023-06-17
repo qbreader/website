@@ -1,13 +1,14 @@
-const express = require('express');
-const router = express.Router();
+import { checkToken } from '../server/authentication.js';
 
-const authentication = require('../server/authentication');
+import { Router } from 'express';
 
+
+const router = Router();
 
 function getPageSecurely(htmlFile) {
     return async (req, res) => {
         // don't show page if you're not logged in
-        if (!req.session || !authentication.checkToken(req.session.username, req.session.token)) {
+        if (!req.session || !checkToken(req.session.username, req.session.token)) {
             res.redirect('/user/login');
             return;
         }
@@ -25,7 +26,7 @@ router.get('/forgot-password', async (req, res) => {
 
 router.get('/login', async (req, res) => {
     // don't show login page if you're already logged in
-    if (req.session && authentication.checkToken(req.session.username, req.session.token)) {
+    if (req.session && checkToken(req.session.username, req.session.token)) {
         res.redirect('/user/my-profile');
         return;
     }
@@ -53,4 +54,4 @@ router.get('/verify-failed', async (req, res) => {
 });
 
 
-module.exports = router;
+export default router;

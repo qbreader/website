@@ -68,7 +68,7 @@
     </nav>
 
     <div class="container-xl mt-3 mb-4 row">
-        <div class="col-1"></div> <!-- empty column for some left margin -->
+        <div class="col-md-1"></div> <!-- empty column for some left margin -->
         <!-- docs sidebar -->
         <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
             <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
@@ -85,9 +85,6 @@
                 </li>
                 <li class="nav-item">
                     <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/random-question"><code>random-question (deprecated)</code></a>
                 </li>
                 <li class="nav-item">
                     <a href="/api-docs/random-tossup"><code>random-tossup</code></a>
@@ -124,7 +121,7 @@
             </ul>
         </div>
 
-        <div class="col-9">
+        <div class="col-12 col-md-9">
             <h3 class="md-4">
                 <div><code>GET</code> <code>qbreader.org/api/query</code></div>
             </h3>
@@ -322,52 +319,44 @@
                 <li class="list-group-item">
                     <div>
                         <code>tossups</code><code class="text-muted">: object</code>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div>
-                                    <code>count</code><code class="text-muted">: number</code>
-                                </div>
-                                <div>The number of tossups that match the query.</div>
-                            </li>
-                            <li class="list-group-item">
-                                <div>
-                                    <code>questionArray</code><code
-                                        class="text-muted">: <a href="/api-docs/schemas#tossup" target="_blank" class="text-muted">Tossup</a>[]</code>
-                                </div>
-                                <div>
-                                    An array of
-                                    <a href="/api-docs/schemas#tossup" target="_blank" class="link-primary">
-                                        <code>Tossups</code>
-                                    </a> that match the query.
-                                </div>
-                            </li>
-                        </ul>
                     </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div>
+                                <code>count</code><code class="text-muted">: number</code>
+                            </div>
+                            <div>The number of tossups that match the query.</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>questionArray</code><code class="text-muted">: Tossup[]</code>
+                            </div>
+                            <div>
+                                An array of <a href="/api-docs/schemas#tossup"><code>Tossups</code></a> that match the query.
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="list-group-item">
                     <div>
                         <code>bonuses</code><code class="text-muted">: object</code>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div>
-                                    <code>count</code><code class="text-muted">: number</code>
-                                </div>
-                                <div>The number of bonuses that match the query.</div>
-                            </li>
-                            <li class="list-group-item">
-                                <div>
-                                    <code>questionArray</code><code
-                                        class="text-muted">: <a href="/api-docs/schemas#bonus" target="_blank" class="text-muted">Bonus</a>[]</code>
-                                </div>
-                                <div>
-                                    An array of
-                                    <a href="/api-docs/schemas#bonus" target="_blank" class="link-primary">
-                                        <code>Bonuses</code>
-                                    </a> that match the query.
-                                </div>
-                            </li>
-                        </ul>
                     </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div>
+                                <code>count</code><code class="text-muted">: number</code>
+                            </div>
+                            <div>The number of bonuses that match the query.</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>questionArray</code><code class="text-muted">: Bonus[]</code>
+                            </div>
+                            <div>
+                                An array of <a href="/api-docs/schemas#bonus"><code>Bonuses</code></a> that match the query.
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="list-group-item">
                     <div>
