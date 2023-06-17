@@ -97,7 +97,7 @@ function next() {
     document.getElementById('buzz').disabled = false;
     document.getElementById('start').disabled = true;
 
-    currentAudio = new Audio('/geoword/audio/' + new URLSearchParams({ packetName, division, currentQuestionNumber }));
+    currentAudio = new Audio('/geoword/audio?' + new URLSearchParams({ packetName, division, currentQuestionNumber }));
     startTime = performance.now();
     currentAudio.play();
 }
