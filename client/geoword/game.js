@@ -45,7 +45,6 @@ fetch('/geoword/api/get-progress?' + new URLSearchParams({ packetName }))
 const buzzAudio = new Audio('/geoword/audio/buzz.mp3');
 const correctAudio = new Audio('/geoword/audio/correct.mp3');
 const incorrectAudio = new Audio('/geoword/audio/incorrect.mp3');
-const promptAudio = new Audio('/geoword/audio/correct.mp3');
 const sampleAudio = new Audio('/geoword/audio/sample.mp3');
 
 async function checkGeowordAnswer(givenAnswer, questionNumber) {
@@ -71,7 +70,6 @@ async function giveAnswer(givenAnswer) {
         updateScore(true, givenAnswer, actualAnswer);
         break;
     case 'prompt':
-        promptAudio.play();
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
         document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
