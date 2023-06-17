@@ -10,11 +10,15 @@ let maxPacketNumber = 24;
 /**
  * @param {String} answerline
  * @param {String} givenAnswer
- * @returns {Promise<[ "accept" | "prompt" | "reject", String | null ]>} [directive, directedPrompt]
+ * @returns {Promise<{
+    * directive: "accept" | "prompt" | "reject",
+    * directedPrompt: String | null
+ * }>}
  */
 async function checkAnswer(answerline, givenAnswer) {
-    if (givenAnswer === '')
-        return ['reject', null];
+    if (givenAnswer === '') {
+        return { directive: 'reject', directedPrompt: null };
+    }
 
     return await fetch(`/api/check-answer?answerline=${encodeURIComponent(answerline)}&givenAnswer=${encodeURIComponent(givenAnswer)}`)
         .then(response => response.json());
@@ -91,9 +95,9 @@ document.getElementById('set-name').addEventListener('change', async function (e
         this.classList.add('is-invalid');
     }
     maxPacketNumber = await getNumPackets(this.value);
-    if (this.value === '' || maxPacketNumber > 0) {
-        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
-    } else {
+    if (this.value === '' || maxPacketNumber === 0) {
         document.getElementById('packet-number').placeholder = 'Packet Numbers';
+    } else {
+        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
     }
 });

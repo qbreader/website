@@ -1,13 +1,23 @@
-const bcolors = require('../bcolors');
-const database = require('../database/questions');
-const Player = require('./Player');
-const scorer = require('./scorer');
-const quizbowl = require('./quizbowl');
+import checkAnswer from './checkAnswer.js';
+import Player from './Player.js';
+import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
+import { getSet, getRandomTossups } from '../database/questions.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS } from '../constants.js';
 
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
+import createDOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
+
+
+/**
+ * @returns {Number} The number of points scored on a tossup.
+ */
+function scoreTossup({ isCorrect, inPower, endOfQuestion, isPace = false }) {
+    const powerValue = isPace ? 20 : 15;
+    const negValue = isPace ? 0 : -5;
+    return isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
+}
 
 const RateLimit = require('./RateLimit');
 const rateLimit1 = new RateLimit(50, 1000);
@@ -36,8 +46,8 @@ class TossupRoom {
 
         this.query = {
             difficulties: [4, 5],
-            minYear: quizbowl.DEFAULT_MIN_YEAR,
-            maxYear: quizbowl.DEFAULT_MAX_YEAR,
+            minYear: DEFAULT_MIN_YEAR,
+            maxYear: DEFAULT_MAX_YEAR,
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
             setName: '2022 PACE NSC',
             categories: [],
@@ -57,10 +67,10 @@ class TossupRoom {
     }
 
     connection(socket, userId, username) {
-        console.log(`Connection in room ${bcolors.HEADER}${this.name}${bcolors.ENDC} - userId: ${bcolors.OKBLUE}${userId}${bcolors.ENDC}, username: ${bcolors.OKBLUE}${username}${bcolors.ENDC} - with settings ${bcolors.OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${bcolors.ENDC}`);
+        console.log(`Connection in room ${HEADER}${this.name}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
         socket.on('message', message => {
             if (rateLimit1(socket) && !this.rateLimitExceeded.has(username)) {
-                console.log(`Rate limit exceeded for ${bcolors.OKBLUE}${username}${bcolors.ENDC} in room ${bcolors.HEADER}${this.name}${bcolors.ENDC}`);
+                console.log(`Rate limit exceeded for ${OKBLUE}${username}${ENDC} in room ${HEADER}${this.name}${ENDC}`);
                 this.rateLimitExceeded.add(username);
                 return;
             }
@@ -314,8 +324,8 @@ class TossupRoom {
             break;
 
         case 'year-range': {
-            const minYear = isNaN(message.minYear) ? quizbowl.DEFAULT_MIN_YEAR : parseInt(message.minYear);
-            const maxYear = isNaN(message.maxYear) ? quizbowl.DEFAULT_MAX_YEAR : parseInt(message.maxYear);
+            const minYear = isNaN(message.minYear) ? DEFAULT_MIN_YEAR : parseInt(message.minYear);
+            const maxYear = isNaN(message.maxYear) ? DEFAULT_MAX_YEAR : parseInt(message.maxYear);
             this.sendSocketMessage({
                 type: 'year-range',
                 minYear: minYear,
@@ -341,11 +351,11 @@ class TossupRoom {
 
         if (this.settings.selectBySetName) {
             this.questionNumber = 0;
-            database.getSet(this.query).then(set => {
+            getSet(this.query).then(set => {
                 this.setCache = set;
             });
         } else {
-            database.getRandomTossups(this.query).then(tossups => {
+            getRandomTossups(this.query).then(tossups => {
                 this.randomQuestionCache = tossups;
             });
         }
@@ -371,7 +381,7 @@ class TossupRoom {
             }
         } else {
             if (this.randomQuestionCache.length === 0) {
-                this.randomQuestionCache = await database.getRandomTossups(this.query);
+                this.randomQuestionCache = await getRandomTossups(this.query);
                 if (this.randomQuestionCache.length === 0) {
                     this.tossup = {};
                     this.sendSocketMessage({
@@ -442,8 +452,8 @@ class TossupRoom {
         const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-        const [directive, directedPrompt] = scorer.checkAnswer(this.tossup.answer, givenAnswer);
-        const points = quizbowl.scoreTossup({
+        const { directive, directedPrompt } = checkAnswer(this.tossup.answer, givenAnswer);
+        const points = scoreTossup({
             isCorrect: directive === 'accept',
             inPower,
             endOfQuestion,
@@ -587,4 +597,28 @@ class TossupRoom {
     }
 }
 
-module.exports = TossupRoom;
+const tossupRooms = {};
+
+for (const roomName of PERMANENT_ROOMS) {
+    tossupRooms[roomName] = new TossupRoom(roomName, true);
+}
+
+
+/**
+ * Returns the room with the given room name.
+ * If the room does not exist, it is created.
+ * @param {String} roomName
+ * @returns {TossupRoom}
+ */
+function createAndReturnRoom(roomName) {
+    roomName = DOMPurify.sanitize(roomName);
+
+    if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
+        tossupRooms[roomName] = new TossupRoom(roomName, false);
+    }
+
+    return tossupRooms[roomName];
+}
+
+
+export { createAndReturnRoom, tossupRooms };

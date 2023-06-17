@@ -12,25 +12,28 @@ document.getElementById('form').addEventListener('submit', (event) => {
 
 fetch('/api/multiplayer/room-list')
     .then(response => response.json())
-    .then(rooms => {
-        rooms = Object.entries(rooms);
-        rooms.sort((a, b) => {
-            if (a[1][1] === b[1][1]) {
-                return b[1][0] - a[1][0];
+    .then(data => {
+        const { roomList } = data;
+        roomList.sort((a, b) => {
+            if (a.onlineCount === b.onlineCount) {
+                return b.playerCount - a.playerCount;
             } else {
-                return b[1][1] - a[1][1];
+                return b.onlineCount - a.onlineCount;
             }
         });
-        return rooms;
+        return roomList;
     })
-    .then(rooms => {
-        rooms.forEach(room => {
-            const [roomName, [playerCount, onlineCount, isPermanent]] = room;
+    .then(roomList => {
+        roomList.forEach(room => {
+            const { roomName, playerCount, onlineCount, isPermanent } = room;
+
+            const a = document.createElement('a');
+            a.href = `/multiplayer/${encodeURIComponent(roomName)}`;
+            a.textContent = roomName;
+
             const li = document.createElement('li');
-            li.innerHTML = `
-                <a href="/multiplayer/${encodeURIComponent(roomName)}">${escapeHTML(roomName)}</a>
-                - ${playerCount} player${playerCount === 1 ? '' : 's'} - ${onlineCount} online
-            `;
+            li.appendChild(a);
+            li.appendChild(document.createTextNode(` - ${playerCount} player${playerCount === 1 ? '' : 's'} - ${onlineCount} online`));
             li.classList.add('list-group-item');
 
             if (isPermanent) {
@@ -42,9 +45,10 @@ fetch('/api/multiplayer/room-list')
     });
 
 fetch('/api/random-name')
-    .then(res => res.text())
-    .then(roomName => {
-        document.getElementById('new-room-name').placeholder = roomName;
+    .then(res => res.json())
+    .then(data => data.randomName)
+    .then(randomName => {
+        document.getElementById('new-room-name').placeholder = randomName;
     });
 
 function escapeHTML(unsafe) {

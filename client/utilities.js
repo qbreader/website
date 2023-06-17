@@ -172,14 +172,13 @@ function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = 
  * @returns {Promise<Number>} The number of packets in the set.
  */
 async function getNumPackets(setName) {
-    if (setName === undefined) return 0;
-    if (setName === '') return 0;
+    if (setName === undefined || setName === '') {
+        return 0;
+    }
 
     return fetch(`/api/num-packets?setName=${encodeURIComponent(setName)}`)
         .then(response => response.json())
-        .then(data => {
-            return parseInt(data);
-        });
+        .then(data => data.numPackets);
 }
 
 

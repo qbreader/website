@@ -59,7 +59,7 @@
     </nav>
 
     <div class="container-xl mt-3 mb-4 row">
-        <div class="col-1"></div> <!-- empty column for some left margin -->
+        <div class="col-md-1"></div> <!-- empty column for some left margin -->
         <!-- docs sidebar -->
         <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
             <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
@@ -76,9 +76,6 @@
                 </li>
                 <li class="nav-item">
                     <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/random-question"><code>random-question (deprecated)</code></a>
                 </li>
                 <li class="nav-item">
                     <a href="/api-docs/random-tossup"><code>random-tossup</code></a>
@@ -115,7 +112,7 @@
             </ul>
         </div>
 
-        <div class="col-9">
+        <div class="col-12 col-md-9">
             <p class="lead">The API documentation for QB Reader.</p>
             <p>
                 <b>Base URL:</b> <code>https://www.qbreader.org/api</code>
@@ -150,10 +147,16 @@
                     <div>Query the database.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/random-question">
-                        <div><code>POST</code> <code>/random-question</code></div>
+                    <a href="/api-docs/random-bonus">
+                        <div><code>GET</code> <code>/random-bonus</code></div>
                     </a>
-                    <div>Get random questions from the database.</div>
+                    <div>Get random bonuses from the database.</div>
+                </li>
+                <li class="list-group-item">
+                    <a href="/api-docs/random-tossup">
+                        <div><code>GET</code> <code>/random-tossup</code></div>
+                    </a>
+                    <div>Get random tossups from the database.</div>
                 </li>
                 <li class="list-group-item">
                     <a href="/api-docs/packet">
