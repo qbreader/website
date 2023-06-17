@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 router.get('/audio', (req, res) => {
     const { packetName, division, currentQuestionNumber } = req.query;
-    res.sendFile(`${packetName}/${division}/${currentQuestionNumber}`, { root: './geoword-audio' });
+    res.sendFile(`${packetName}/${division}/${currentQuestionNumber}.mp3`, { root: './geoword-audio' });
 });
 
 router.get('/division/:packetName', async (req, res) => {
