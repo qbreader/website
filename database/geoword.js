@@ -74,6 +74,7 @@ async function getProgress(packetName, username) {
         } },
     ]).toArray();
 
+    result[0] = result[0] || {};
     result[0].division = await getDivisionById(packetName, user_id);
     return result[0];
 }

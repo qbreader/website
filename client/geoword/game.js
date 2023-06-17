@@ -33,9 +33,8 @@ fetch('/geoword/api/get-progress?' + new URLSearchParams({ packetName }))
         if (tossupsHeard > 0) {
             currentQuestionNumber = tossupsHeard;
             document.getElementById('progress-info').textContent = `You have already read ${tossupsHeard} tossups and will start on question ${tossupsHeard + 1}.`;
+            updateStatline(numberCorrect, points, tossupsHeard, totalCorrectCelerity);
         }
-
-        updateStatline(numberCorrect, points, tossupsHeard, totalCorrectCelerity);
     });
 
 const buzzAudio = new Audio('/geoword/audio/buzz.mp3');
