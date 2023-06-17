@@ -34,6 +34,11 @@ fetch('/geoword/api/get-progress?' + new URLSearchParams({ packetName }))
             currentQuestionNumber = tossupsHeard;
             document.getElementById('progress-info').textContent = `You have already read ${tossupsHeard} tossups and will start on question ${tossupsHeard + 1}.`;
             updateStatline(numberCorrect, points, tossupsHeard, totalCorrectCelerity);
+        } else {
+            numberCorrect = 0;
+            points = 0;
+            totalCorrectCelerity = 0;
+            tossupsHeard = 0;
         }
     });
 
