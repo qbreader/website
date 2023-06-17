@@ -1,6 +1,10 @@
-const scorer = require('../server/scorer.js');
+import checkAnswer from '../server/checkAnswer.js';
+import * as bcolors from '../bcolors.js';
+
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 const tests = require('./scorer.test.json');
-const bcolors = require('../bcolors.js');
 
 function errorText(text) { // colors text red
     return `${bcolors.FAIL}${text}${bcolors.ENDC}`;
@@ -16,13 +20,13 @@ function testAnswerline(group) {
         const givenAnswer = test.given;
         const expectedDirectedPrompt = test.directedPrompt;
 
-        const [result, directedPrompt] = scorer.checkAnswer(answerline, givenAnswer);
+        const { directive, directedPrompt } = checkAnswer(answerline, givenAnswer);
 
-        const eqAnswer = expected === result;
+        const eqAnswer = expected === directive;
 
         total++;
 
-        console.assert(eqAnswer, errorText(`expected "${expected}" but got "${result}" for given answer "${givenAnswer}"`));
+        console.assert(eqAnswer, errorText(`expected "${expected}" but got "${directive}" for given answer "${givenAnswer}"`));
         if (!eqAnswer) return;
 
         if (expectedDirectedPrompt || directedPrompt) {

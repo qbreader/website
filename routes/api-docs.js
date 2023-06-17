@@ -1,6 +1,7 @@
-const express = require('express');
-const fs = require('fs');
-const router = express.Router();
+import { Router } from 'express';
+import { readdirSync } from 'fs';
+
+const router = Router();
 const docsDir = './client/api-docs';
 
 router.get('/', (req, res) => {
@@ -8,7 +9,7 @@ router.get('/', (req, res) => {
 });
 
 // routes every html doc in /client/api-docs
-fs.readdirSync(docsDir).forEach(file => {
+readdirSync(docsDir).forEach(file => {
     if (file.endsWith('.html') && file !== 'index.html') {
         const route = file.substring(0, file.length - 5);
         router.get(`/${route}`, (req, res) => {
@@ -17,7 +18,7 @@ fs.readdirSync(docsDir).forEach(file => {
     }
 });
 
-fs.readdirSync(`${docsDir}/multiplayer`).forEach(file => {
+readdirSync(`${docsDir}/multiplayer`).forEach(file => {
     if (file.endsWith('.html') && file !== 'index.html') {
         const route = file.substring(0, file.length - 5);
         router.get(`/multiplayer/${route}`, (req, res) => {
@@ -25,4 +26,5 @@ fs.readdirSync(`${docsDir}/multiplayer`).forEach(file => {
         });
     }
 });
-module.exports = router;
+
+export default router;

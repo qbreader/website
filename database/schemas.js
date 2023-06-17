@@ -1,6 +1,6 @@
 // database schemas
 
-const { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED_ALL } = require('../server/quizbowl');
+import { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED_ALL } from '../constants';
 
 const schemas = {
     tossup: {
@@ -225,4 +225,4 @@ const schemas = {
     }
 };
 
-module.exports = schemas;
+export default schemas;
