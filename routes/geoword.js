@@ -11,6 +11,11 @@ router.get('/', (req, res) => {
     res.sendFile('index.html', { root: './client/geoword' });
 });
 
+router.get('/audio/*.mp3', (req, res) => {
+    const url = req.url.substring(7);
+    res.sendFile(url, { root: './geoword-audio' });
+});
+
 router.get('/audio', (req, res) => {
     const { packetName, division, currentQuestionNumber } = req.query;
     res.sendFile(`${packetName}/${division}/${currentQuestionNumber}.mp3`, { root: './geoword-audio' });
