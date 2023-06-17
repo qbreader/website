@@ -11,6 +11,11 @@ router.get('/', (req, res) => {
     res.sendFile('index.html', { root: './client/geoword' });
 });
 
+router.get('/audio', (req, res) => {
+    const { packetName, division, currentQuestionNumber } = req.query;
+    res.sendFile(`${packetName}/${division}/${currentQuestionNumber}`, { root: './geoword-audio' });
+});
+
 router.get('/division/:packetName', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
@@ -185,11 +190,6 @@ router.get('/api/record-buzz', async (req, res) => {
     } else {
         res.sendStatus(500);
     }
-});
-
-router.get('/audio/*.mp3', (req, res) => {
-    const url = req.url.substring(7);
-    res.sendFile(url, { root: './geoword-audio' });
 });
 
 export default router;
