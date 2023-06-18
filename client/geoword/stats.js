@@ -27,7 +27,7 @@ fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
                 <div class="col-6">
                     <div><b>#${buzzArray[i].questionNumber}</b> ${pendingString}</div>
                     <div><b>Your rank:</b> ${leaderboard[i].rank}</div>
-                    <div><b>Celerity:</b> ${buzzArray[i].celerity.toFixed(3)}</div>
+                    <div><b>Celerity:</b> ${(buzzArray[i].celerity ?? 0.0).toFixed(3)}</div>
                     <div><b>Points:</b> ${buzzArray[i].points}</div>
                     <div><b>Given answer:</b> ${escapeHTML(buzzArray[i].givenAnswer)}</div>
                 </div>
@@ -35,7 +35,7 @@ fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
                     <div><b>Best buzz:</b> ${leaderboard[i].bestUsername}</div>
                     <div><b>Best celerity:</b> ${(leaderboard[i].bestCelerity ?? 0.0).toFixed(3)}</div>
                     <div><b>Average correct celerity:</b> ${(leaderboard[i].averageCorrectCelerity ?? 0).toFixed(3)}</div>
-                    <div><b>Average points:</b> ${leaderboard[i].averagePoints.toFixed(2)}</div>
+                    <div><b>Average points:</b> ${(leaderboard[i].averagePoints ?? 0.0).toFixed(2)}</div>
                     <div><b>Answer:</b> ${buzzArray[i].formatted_answer}</div>
                 </div>
             </div>
