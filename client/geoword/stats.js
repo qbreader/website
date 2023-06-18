@@ -46,6 +46,20 @@ fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
     });
 
 
+fetch('/geoword/api/get-divisions?' + new URLSearchParams({ packetName }))
+    .then(response => response.json())
+    .then(data => {
+        const { divisions } = data;
+        const leaderboardLinks = document.getElementById('leaderboard-links');
+        divisions.forEach(division => {
+            const a = document.createElement('a');
+            a.href = `/geoword/leaderboard/${packetName}/${encodeURIComponent(division)}`;
+            a.textContent = division;
+            leaderboardLinks.appendChild(a);
+            leaderboardLinks.appendChild(document.createTextNode(' '));
+        });
+    });
+
 function escapeHTML(unsafe) {
     return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
 }

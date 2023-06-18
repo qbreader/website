@@ -15,6 +15,7 @@ const bonusData = database.collection('bonus-data');
 
 
 const username_to_id = {};
+const id_to_username = {};
 
 
 async function createUser(username, password, email) {
@@ -273,8 +274,18 @@ async function getUser(username, showPassword = false) {
 
 
 async function getUsername(user_id) {
+    if (id_to_username[user_id]) {
+        return id_to_username[user_id];
+    }
+
     const user = await users.findOne({ _id: user_id });
-    return user ? user.username : null;
+
+    if (!user) {
+        return null;
+    }
+
+    id_to_username[user_id] = user.username;
+    return user.username;
 }
 
 
@@ -294,14 +305,14 @@ async function getUserId(username) {
         return username_to_id[username];
     }
 
-    return await users.findOne({ username: username }).then((user) => {
-        if (!user) {
-            return null;
-        }
+    const user = await users.findOne({ username: username });
 
-        username_to_id[username] = user._id;
-        return user._id;
-    });
+    if (!user) {
+        return null;
+    }
+
+    username_to_id[username] = user._id;
+    return user._id;
 }
 
 
@@ -380,10 +391,12 @@ async function updateUser(username, values) {
     }
 
     if (values.username) {
-        if (await getUserId(values.username))
+        if (await getUserId(values.username)) {
             return false;
+        }
 
         username_to_id[values.username] = user._id;
+        id_to_username[user._id] = values.username;
         delete username_to_id[username];
     }
 

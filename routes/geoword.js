@@ -67,6 +67,17 @@ router.get('/game/:packetName', async (req, res) => {
     res.sendFile('game.html', { root: './client/geoword' });
 });
 
+router.get('/leaderboard/:packetName/:division', (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.redirect('/geoword/login');
+        return;
+    }
+
+    res.sendFile('leaderboard.html', { root: './client/geoword' });
+});
+
 router.get('/index', (req, res) => {
     res.redirect('/geoword');
 });
@@ -110,6 +121,12 @@ router.get('/api/get-progress', async (req, res) => {
 router.get('/api/get-divisions', async (req, res) => {
     const divisions = await geoword.getDivisions(req.query.packetName);
     res.json({ divisions });
+});
+
+router.get('/api/leaderboard', async (req, res) => {
+    const { packetName, division } = req.query;
+    const leaderboard = await geoword.getLeaderboard(packetName, division);
+    res.json({ leaderboard });
 });
 
 router.get('/api/packet-list', async (req, res) => {
