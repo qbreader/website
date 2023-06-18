@@ -56,6 +56,28 @@ async function getDivisions(packetName) {
     return packet?.divisions;
 }
 
+async function getLeaderboard(packetName, division, limit=20) {
+    const result = await buzzes.aggregate([
+        { $match: { packetName, division } },
+        { $group: {
+            _id: '$user_id',
+            numberCorrect: { $sum: { $cond: [ { $gt: ['$points', 0] }, 1, 0 ] } },
+            points: { $sum: '$points' },
+            pointsPerTossup: { $avg: '$points' },
+            averageCorrectCelerity: { $avg: { $cond: [ { $gt: ['$points', 0] }, '$celerity', undefined ] } },
+        } },
+        { $sort: { points: -1, numberCorrect: -1 } },
+        { $limit: limit },
+    ]).toArray();
+
+    for (const index in result) {
+        const user_id = result[index]._id;
+        result[index].username = await getUsername(user_id);
+    }
+
+    return result;
+}
+
 async function getPacketList() {
     const list = await packets.find({}, { sort: { order: 1 } }).toArray();
     return list.map(packet => packet.name);
@@ -193,6 +215,7 @@ export {
     getBuzzCount,
     getDivisionChoice,
     getDivisions,
+    getLeaderboard,
     getPacketList,
     getProgress,
     getQuestionCount,
