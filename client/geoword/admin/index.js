@@ -25,7 +25,7 @@ fetch('/api/geoword/packet-list')
                 a1.textContent = 'Stats';
 
                 const a2 = document.createElement('a');
-                a2.href = `/geoword/admin/protests/${name}/${encodeURIComponent(division)}`;
+                // a2.href = `/geoword/admin/protests/${name}/${encodeURIComponent(division)}`;
                 a2.textContent = 'Protests';
 
                 li.appendChild(a1);
