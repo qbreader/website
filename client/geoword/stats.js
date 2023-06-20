@@ -12,10 +12,10 @@ fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
         const numberCorrect = buzzArray.filter(buzz => buzz.points > 0).length;
         const points = buzzArray.reduce((total, buzz) => total + buzz.points, 0);
         const tossupsHeard = buzzArray.length;
-        const totalCorrectCelerity = buzzArray.reduce((total, buzz) => total + buzz.celerity, 0);
-        const averageCelerity = (numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect).toFixed(3);
+        const totalCorrectCelerity = buzzArray.filter(buzz => buzz.points > 0).reduce((total, buzz) => total + buzz.celerity, 0);
+        const averageCorrectCelerity = (numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect).toFixed(3);
         const pointsPerTossup = (tossupsHeard === 0 ? 0 : points / tossupsHeard).toFixed(2);
-        document.getElementById('statline').textContent = `${pointsPerTossup} points per question (${points} points / ${tossupsHeard} TUH), celerity: ${averageCelerity}`;
+        document.getElementById('statline').textContent = `${pointsPerTossup} points per question (${points} points / ${tossupsHeard} TUH), celerity: ${averageCorrectCelerity}`;
 
         let innerHTML = '<hr>';
 
