@@ -115,11 +115,9 @@ function recordProtest(packetName, questionNumber) {
             packetName,
             questionNumber,
         }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('record-protest-confirmation').classList.remove('d-none');
-        });
+    }).then(() => {
+        document.getElementById('record-protest-confirmation').classList.remove('d-none');
+    });
 }
 
 function recordBuzz(packetName, questionNumber, celerity, points, givenAnswer) {
