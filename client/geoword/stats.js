@@ -20,7 +20,13 @@ fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
         let innerHTML = '<hr>';
 
         for (const i in buzzArray) {
-            const pendingString = buzzArray[i].pendingProtest ? ' (pending review)' : '';
+            let pendingString = '';
+
+            if (buzzArray[i].pendingProtest === true) {
+                pendingString = '(pending review)';
+            } else if (buzzArray[i].pendingProtest === false) {
+                pendingString = `(protest resolved: ${buzzArray[i].decision}) (reason: ${buzzArray[i].reason ?? 'none'})`;
+            }
 
             innerHTML += `
             <div class="row mb-3">
