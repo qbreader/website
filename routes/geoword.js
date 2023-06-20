@@ -28,6 +28,24 @@ router.get('/admin', async (req, res) => {
     res.sendFile('index.html', { root: './client/geoword/admin' });
 });
 
+router.get('/admin/stats/:packetName/:division', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.redirect('/geoword/login');
+        return;
+    }
+
+    const admin = await isAdmin(username);
+
+    if (!admin) {
+        res.redirect('/geoword');
+        return;
+    }
+
+    res.sendFile('stats.html', { root: './client/geoword/admin' });
+});
+
 router.get('/audio/*.mp3', (req, res) => {
     const url = req.url.substring(7);
     res.sendFile(url, { root: './geoword-audio' });
