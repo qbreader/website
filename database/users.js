@@ -316,6 +316,12 @@ async function getUserId(username) {
 }
 
 
+async function isAdmin(username) {
+    const user = await getUser(username);
+    return user?.admin ?? false;
+}
+
+
 async function recordBonusData(username, data) {
     const user_id = await getUserId(username);
     const newData = {};
@@ -428,6 +434,7 @@ export {
     getUsername,
     getUserField,
     getUserId,
+    isAdmin,
     recordBonusData,
     recordTossupData,
     updateUser,

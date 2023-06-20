@@ -3,7 +3,7 @@ const packetTitle = titleCase(packetName);
 
 document.getElementById('packet-name').textContent = packetTitle;
 
-fetch('/geoword/api/get-divisions?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
         const { divisions } = data;
@@ -18,7 +18,7 @@ fetch('/geoword/api/get-divisions?' + new URLSearchParams({ packetName }))
 
 document.getElementById('form').addEventListener('submit', async event => {
     const division = document.getElementById('division').value;
-    fetch('/geoword/api/record-division', {
+    fetch('/api/geoword/record-division', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

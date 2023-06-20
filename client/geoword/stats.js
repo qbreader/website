@@ -3,7 +3,7 @@ const packetTitle = titleCase(packetName);
 
 document.getElementById('packet-name').textContent = packetTitle;
 
-fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
         const { buzzArray, division, leaderboard } = data;
@@ -46,7 +46,7 @@ fetch('/geoword/api/stats?' + new URLSearchParams({ packetName }))
     });
 
 
-fetch('/geoword/api/get-divisions?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
         const { divisions } = data;
