@@ -16,14 +16,14 @@ let tossupsHeard = 0;
 
 document.getElementById('geoword-stats').href = '/geoword/stats/' + packetName;
 
-fetch('/geoword/api/get-question-count?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/get-question-count?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
         packetLength = data.questionCount;
         document.getElementById('packet-length').textContent = packetLength;
     });
 
-fetch('/geoword/api/get-progress?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/get-progress?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
         ({ division, numberCorrect, points, totalCorrectCelerity, tossupsHeard } = data);
@@ -48,7 +48,7 @@ const incorrectAudio = new Audio('/geoword/audio/incorrect.mp3');
 const sampleAudio = new Audio('/geoword/audio/sample.mp3');
 
 async function checkGeowordAnswer(givenAnswer, questionNumber) {
-    return await fetch('/geoword/api/check-answer?' + new URLSearchParams({
+    return await fetch('/api/geoword/check-answer?' + new URLSearchParams({
         givenAnswer,
         packetName,
         questionNumber,
@@ -106,7 +106,7 @@ function next() {
 }
 
 function recordProtest(packetName, questionNumber) {
-    fetch('/geoword/api/record-protest?', {
+    fetch('/api/geoword/record-protest?', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ function recordProtest(packetName, questionNumber) {
 }
 
 function recordBuzz(packetName, questionNumber, celerity, points, givenAnswer) {
-    fetch('/geoword/api/record-buzz?' + new URLSearchParams({
+    fetch('/api/geoword/record-buzz?' + new URLSearchParams({
         packetName,
         questionNumber,
         celerity,
