@@ -67,7 +67,7 @@ router.get('/get-profile', async (req, res) => {
     }
 
     const user = await userDB.getUser(username);
-    res.send(JSON.stringify({ user }));
+    res.json({ user });
 });
 
 
@@ -79,7 +79,7 @@ router.get('/get-username', async (req, res) => {
         return;
     }
 
-    res.send(JSON.stringify({ username, expires }));
+    res.json({ username, expires });
 });
 
 
@@ -122,7 +122,7 @@ router.post('/record-bonus', async (req, res) => {
     }
 
     const results = await userDB.recordBonusData(username, req.body);
-    res.send(JSON.stringify(results));
+    res.json(results);
 });
 
 
@@ -140,7 +140,7 @@ router.post('/record-tossup', async (req, res) => {
     }
 
     const results = await userDB.recordTossupData(username, req.body);
-    res.send(JSON.stringify(results));
+    res.json(results);
 });
 
 
@@ -250,7 +250,7 @@ router.get('/stats/single-bonus', async (req, res) => {
     }
 
     const stats = await userDB.getSingleBonusStats(new ObjectId(req.query.bonus_id));
-    res.send(JSON.stringify({ stats }));
+    res.json({ stats });
 });
 
 
@@ -268,7 +268,7 @@ router.get('/stats/single-tossup', async (req, res) => {
     }
 
     const stats = await userDB.getSingleTossupStats(new ObjectId(req.query.tossup_id));
-    res.send(JSON.stringify({ stats }));
+    res.json({ stats });
 });
 
 
@@ -307,7 +307,7 @@ router.get('/user-stats/bonus', async (req, res) => {
         await userDB.getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
         await userDB.getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
     ]);
-    res.send(JSON.stringify({ categoryStats, subcategoryStats }));
+    res.json({ categoryStats, subcategoryStats });
 });
 
 
@@ -347,7 +347,7 @@ router.get('/user-stats/tossup', async (req, res) => {
         await userDB.getCategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
         await userDB.getSubcategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
     ]);
-    res.send(JSON.stringify({ bestBuzz, categoryStats, subcategoryStats }));
+    res.json({ bestBuzz, categoryStats, subcategoryStats });
 });
 
 
