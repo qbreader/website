@@ -1,4 +1,5 @@
 import * as geoword from '../database/geoword.js';
+import { isAdmin } from '../database/users.js';
 import { checkToken } from '../server/authentication.js';
 
 import { Router } from 'express';
@@ -7,6 +8,24 @@ const router = Router();
 
 router.get('/', (req, res) => {
     res.sendFile('index.html', { root: './client/geoword' });
+});
+
+router.get('/admin', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.redirect('/geoword/login');
+        return;
+    }
+
+    const admin = await isAdmin(username);
+
+    if (!admin) {
+        res.redirect('/geoword');
+        return;
+    }
+
+    res.sendFile('index.html', { root: './client/geoword/admin' });
 });
 
 router.get('/audio/*.mp3', (req, res) => {

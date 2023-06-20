@@ -11,8 +11,8 @@ fetch('/api/geoword/packet-list')
         const gameListSelect = document.getElementById('packet-list');
         packetList.forEach(game => {
             const a = document.createElement('a');
-            a.href = '/geoword/division/' + game;
-            a.textContent = titleCase(game);
+            a.href = '/geoword/division/' + game.name;
+            a.textContent = titleCase(game.name);
 
             const li = document.createElement('li');
             li.appendChild(a);
