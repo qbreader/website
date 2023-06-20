@@ -64,7 +64,7 @@ router.get('/', async (req, res) => {
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
 
     const queryResult = await getQuery(req.query);
-    res.send(JSON.stringify(queryResult));
+    res.json(queryResult);
 });
 
 
