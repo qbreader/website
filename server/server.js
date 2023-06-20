@@ -4,7 +4,7 @@ import { ipFilterMiddleware, ipFilterError } from './ip-filter.js';
 import { createAndReturnRoom } from './TossupRoom.js';
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from '../constants.js';
 import aboutRouter from '../routes/about.js';
-import apiRouter from '../routes/api.js';
+import apiRouter from '../routes/api/index.js';
 import apiDocsRouter from '../routes/api-docs.js';
 import authRouter from '../routes/auth.js';
 import backupsRouter from '../routes/backups.js';

@@ -4,7 +4,7 @@ getAccountUsername().then(username => {
     }
 });
 
-fetch('/geoword/api/packet-list')
+fetch('/api/geoword/packet-list')
     .then(response => response.json())
     .then(data => {
         const { packetList } = data;
