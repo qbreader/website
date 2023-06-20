@@ -79,8 +79,12 @@ async function getLeaderboard(packetName, division, limit=20) {
 }
 
 async function getPacketList() {
-    const list = await packets.find({}, { sort: { order: 1 } }).toArray();
-    return list.map(packet => packet.name);
+    const list = await packets.find({}, {
+        sort: { order: 1 },
+        projection: { name: 1, divisions: 1, _id: 0 },
+    }).toArray();
+
+    return list;
 }
 
 async function getProgress(packetName, username) {
