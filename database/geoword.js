@@ -148,6 +148,25 @@ async function getProgress(packetName, username) {
     return result[0];
 }
 
+async function getProtests(packetName, division) {
+    const protests = await buzzes.find(
+        { packetName, division, pendingProtest: true },
+        { sort: { questionNumber: 1 } },
+    ).toArray();
+
+    const packet = await tossups.find(
+        { packetName, division },
+        { sort: { questionNumber: 1 } },
+    ).toArray();
+
+    for (const index in protests) {
+        const user_id = protests[index].user_id;
+        protests[index].username = await getUsername(user_id);
+    }
+
+    return { protests, packet };
+}
+
 async function getQuestionCount(packetName) {
     return await tossups.countDocuments({ packetName });
 }
@@ -266,6 +285,7 @@ export {
     getLeaderboard,
     getPacketList,
     getProgress,
+    getProtests,
     getQuestionCount,
     getUserStats,
     recordBuzz,

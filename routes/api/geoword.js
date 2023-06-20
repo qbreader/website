@@ -7,6 +7,27 @@ import { Router } from 'express';
 
 const router = Router();
 
+router.get('/admin/protests', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.redirect('/geoword/login');
+        return;
+    }
+
+    const admin = await isAdmin(username);
+    if (!admin) {
+        res.redirect('/geoword');
+        return;
+    }
+
+    const { packetName, division } = req.query;
+
+    const { protests, packet } = await geoword.getProtests(packetName, division);
+
+    res.json({ protests, packet });
+});
+
 router.get('/admin/stats', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
