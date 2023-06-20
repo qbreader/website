@@ -150,7 +150,7 @@ async function getProgress(packetName, username) {
 
 async function getProtests(packetName, division) {
     const protests = await buzzes.find(
-        { packetName, division, pendingProtest: true },
+        { packetName, division, pendingProtest: { $exists: true } },
         { sort: { questionNumber: 1 } },
     ).toArray();
 
@@ -203,6 +203,8 @@ async function getUserStats({ packetName, user_id }) {
             answer: '$tossup.answer',
             formatted_answer: '$tossup.formatted_answer',
             givenAnswer: 1,
+            decision: 1,
+            reason: 1,
         } }
     ]).toArray();
 
@@ -276,6 +278,22 @@ async function recordProtest({ packetName, questionNumber, username }) {
     );
 }
 
+async function resolveProtest({ id, decision, reason }) {
+    const updateDocument = { pendingProtest: false, decision, reason };
+
+    if (decision === 'accept') {
+        const buzz = await buzzes.findOne({ _id: id });
+        updateDocument.points = 10 + Math.round(10 * buzz.celerity);
+    }
+
+    const result = await buzzes.updateOne(
+        { _id: id },
+        { $set: updateDocument },
+    );
+
+    return result;
+}
+
 export {
     getAdminStats,
     getAnswer,
@@ -291,4 +309,5 @@ export {
     recordBuzz,
     recordDivision,
     recordProtest,
+    resolveProtest,
 };
