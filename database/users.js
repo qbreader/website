@@ -316,6 +316,11 @@ async function getUserId(username) {
 }
 
 
+/**
+ *
+ * @param {String} username
+ * @returns {Promise<Boolean>}
+ */
 async function isAdmin(username) {
     const user = await getUser(username);
     return user?.admin ?? false;
