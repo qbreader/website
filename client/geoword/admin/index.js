@@ -28,9 +28,15 @@ fetch('/api/geoword/packet-list')
                 // a2.href = `/geoword/admin/protests/${name}/${encodeURIComponent(division)}`;
                 a2.textContent = 'Protests';
 
+                const a3 = document.createElement('a');
+                a3.href = `/geoword/leaderboard/${name}/${encodeURIComponent(division)}`;
+                a3.textContent = 'Leaderboard';
+
                 li.appendChild(a1);
                 li.appendChild(document.createTextNode(' | '));
                 li.appendChild(a2);
+                li.appendChild(document.createTextNode(' | '));
+                li.appendChild(a3);
 
                 ul.appendChild(li);
             }
