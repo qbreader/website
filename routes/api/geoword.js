@@ -1,11 +1,32 @@
 import * as geoword from '../../database/geoword.js';
-import { getUserId } from '../../database/users.js';
+import { getUserId, isAdmin } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 import checkAnswer from '../../server/checkAnswer.js';
 
 import { Router } from 'express';
 
 const router = Router();
+
+router.get('/admin/stats', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.redirect('/geoword/login');
+        return;
+    }
+
+    const admin = await isAdmin(username);
+    if (!admin) {
+        res.redirect('/geoword');
+        return;
+    }
+
+    const { packetName, division } = req.query;
+
+    const stats = await geoword.getAdminStats(packetName, division);
+
+    res.json({ stats });
+});
 
 router.get('/check-answer', async (req, res) => {
     const { givenAnswer, questionNumber, packetName } = req.query;

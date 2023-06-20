@@ -14,6 +14,49 @@ const divisionChoices = geoword.collection('division-choices');
 const packets = geoword.collection('packets');
 const tossups = geoword.collection('tossups');
 
+
+
+async function getAdminStats(packetName, division) {
+    const stats = await buzzes.aggregate([
+        { $match: { packetName, division } },
+        { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
+        { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined ] } } },
+        { $sort: { correctCelerity: -1 } },
+        { $group: {
+            _id: '$questionNumber',
+            activeProtests: { $sum: { $cond: ['$pendingProtest', 1, 0] } },
+            averageCorrectCelerity: { $avg: '$correctCelerity' },
+            averagePoints: { $avg: '$points' },
+            bestCelerity: { $max: '$correctCelerity' },
+            bestUserId: { $first: '$user_id' },
+            numberCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+            questionNumber: { $first: '$questionNumber' },
+            timesHeard: { $sum: 1 },
+        } },
+        { $sort: { _id: 1 } },
+        { $lookup: {
+            from: 'tossups',
+            let: { questionNumber: '$questionNumber', packetName },
+            pipeline: [
+                { $match: { $expr: { $and: [
+                    { $eq: ['$questionNumber', '$$questionNumber'] },
+                    { $eq: ['$packetName', '$$packetName'] },
+                ] } } },
+            ],
+            as: 'tossup',
+        } },
+        { $unwind: '$tossup' },
+    ]).toArray();
+
+    for (const index in stats) {
+        const question = stats[index];
+        question.bestUsername = await getUsername(question.bestUserId);
+    }
+
+    return stats;
+}
+
+
 /**
  *
  * @param {String} packetName
@@ -215,6 +258,7 @@ async function recordProtest({ packetName, questionNumber, username }) {
 }
 
 export {
+    getAdminStats,
     getAnswer,
     getBuzzCount,
     getDivisionChoice,
