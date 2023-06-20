@@ -35,7 +35,7 @@ router.use((req, _res, next) => {
 router.get('/check-answer', (req, res) => {
     const { answerline, givenAnswer } = req.query;
     const { directive, directedPrompt } = checkAnswer(answerline, givenAnswer);
-    res.send(JSON.stringify({ directive: directive, directedPrompt: directedPrompt }));
+    res.json({ directive, directedPrompt });
 });
 
 router.use('/geoword', geowordRouter);
@@ -47,7 +47,7 @@ router.get('/num-packets', async (req, res) => {
     if (numPackets === 0) {
         res.statusCode = 404;
     }
-    res.send(JSON.stringify({ numPackets: numPackets }));
+    res.json({ numPackets });
 });
 
 router.get('/packet', async (req, res) => {
@@ -57,7 +57,7 @@ router.get('/packet', async (req, res) => {
     if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
-    res.send(JSON.stringify(packet));
+    res.json(packet);
 });
 
 router.get('/packet-bonuses', async (req, res) => {
@@ -67,7 +67,7 @@ router.get('/packet-bonuses', async (req, res) => {
     if (packet.bonuses.length === 0) {
         res.statusCode = 404;
     }
-    res.send(JSON.stringify(packet));
+    res.json(packet);
 });
 
 router.get('/packet-tossups', async (req, res) => {
@@ -77,14 +77,14 @@ router.get('/packet-tossups', async (req, res) => {
     if (packet.tossups.length === 0) {
         res.statusCode = 404;
     }
-    res.send(JSON.stringify(packet));
+    res.json(packet);
 });
 
 router.use('/query', queryRouter);
 
 router.get('/random-name', (req, res) => {
     const randomName = getRandomName();
-    res.send(JSON.stringify({ randomName: randomName }));
+    res.json({ randomName: randomName });
 });
 
 router.use('/random-bonus', randomBonusRouter);
@@ -105,7 +105,7 @@ router.post('/report-question', async (req, res) => {
 
 router.get('/set-list', (req, res) => {
     const setList = getSetList();
-    res.send(JSON.stringify({ setList }));
+    res.json({ setList });
 });
 
 export default router;

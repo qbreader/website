@@ -19,7 +19,7 @@ router.get('/room-list', (req, res) => {
         });
     }
 
-    res.send(JSON.stringify({ roomList: roomList }));
+    res.json({ roomList });
 });
 
 
