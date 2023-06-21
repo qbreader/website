@@ -98,6 +98,14 @@ app.get('/*.ico', (req, res) => {
     res.sendFile(req.url, { root: './client' });
 });
 
+app.get('/node_modules/*.scss', (req, res) => {
+    res.sendFile(req.url.substring(13), { root: './node_modules' });
+});
+
+app.get('/*.scss', (req, res) => {
+    res.sendFile(req.url.substring(5), { root: './scss' });
+});
+
 app.use('/about', aboutRouter);
 app.use('/api', apiRouter);
 app.use('/api-docs', apiDocsRouter);
