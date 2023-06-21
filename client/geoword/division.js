@@ -16,13 +16,16 @@ fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
         });
     });
 
-document.getElementById('form').addEventListener('submit', async event => {
+document.getElementById('form').addEventListener('submit', event => {
+    // Need event.preventDefault() for firefox only!!!
+    // See https://stackoverflow.com/a/70780452
+    event.preventDefault();
+    event.stopPropagation();
+
     const division = document.getElementById('division').value;
-    fetch('/api/geoword/record-division', {
+    fetch('/api/geoword/record-division?', {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ division, packetName }),
     }).then(response => {
         if (response.ok) {
