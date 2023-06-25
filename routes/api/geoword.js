@@ -4,9 +4,11 @@ import { checkToken } from '../../server/authentication.js';
 import checkAnswer from '../../server/checkAnswer.js';
 
 import { Router } from 'express';
+import stripeClass from 'stripe';
 import { ObjectId } from 'mongodb';
 
 const router = Router();
+const stripe = new stripeClass(process.env.STRIPE_SECRET_KEY);
 
 router.get('/admin/protests', async (req, res) => {
     const { username, token } = req.session;
@@ -74,6 +76,32 @@ router.get('/admin/stats', async (req, res) => {
     res.json({ stats });
 });
 
+router.post('/create-payment-intent', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.sendStatus(401);
+        return;
+    }
+
+    const user_id = await getUserId(username);
+    const packetName = req.body.packetName;
+
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: 200, // $2.00
+        currency: 'usd',
+        automatic_payment_methods: {
+            enabled: true,
+        },
+        metadata: { user_id: String(user_id), packetName: packetName },
+    });
+
+    res.send({
+        clientSecret: paymentIntent.client_secret,
+    });
+});
+
 router.get('/check-answer', async (req, res) => {
     const { givenAnswer, questionNumber, packetName } = req.query;
     const answer = await geoword.getAnswer(packetName, parseInt(questionNumber));
@@ -115,6 +143,29 @@ router.get('/get-question-count', async (req, res) => {
     const { packetName } = req.query;
     const questionCount = await geoword.getQuestionCount(packetName);
     res.json({ questionCount });
+});
+
+router.get('/record-buzz', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.sendStatus(401);
+        return;
+    }
+
+    req.query.celerity = parseFloat(req.query.celerity);
+    req.query.points = parseInt(req.query.points);
+    req.query.questionNumber = parseInt(req.query.questionNumber);
+
+    const user_id = await getUserId(username);
+    const { packetName, questionNumber, celerity, points, givenAnswer } = req.query;
+    const result = await geoword.recordBuzz({ celerity, points, packetName, questionNumber, givenAnswer, user_id });
+
+    if (result) {
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
+    }
 });
 
 router.put('/record-division', async (req, res) => {
@@ -166,29 +217,6 @@ router.get('/stats', async (req, res) => {
     const { packetName } = req.query;
     const { buzzArray, division, leaderboard } = await geoword.getUserStats({ packetName, user_id });
     res.json({ buzzArray, division, leaderboard });
-});
-
-router.get('/record-buzz', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.sendStatus(401);
-        return;
-    }
-
-    req.query.celerity = parseFloat(req.query.celerity);
-    req.query.points = parseInt(req.query.points);
-    req.query.questionNumber = parseInt(req.query.questionNumber);
-
-    const user_id = await getUserId(username);
-    const { packetName, questionNumber, celerity, points, givenAnswer } = req.query;
-    const result = await geoword.recordBuzz({ celerity, points, packetName, questionNumber, givenAnswer, user_id });
-
-    if (result) {
-        res.sendStatus(200);
-    } else {
-        res.sendStatus(500);
-    }
 });
 
 export default router;
