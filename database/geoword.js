@@ -12,9 +12,28 @@ const geoword = client.db('geoword');
 const buzzes = geoword.collection('buzzes');
 const divisionChoices = geoword.collection('division-choices');
 const packets = geoword.collection('packets');
+const payments = geoword.collection('payments');
 const tossups = geoword.collection('tossups');
 
+/**
+ * Returns true if the user has paid for the packet,
+ * or if the packet is free.
+ * @param {*} param0
+ * @returns {Promise<Boolean>}
+ */
+async function checkPayment({ packetName, username }) {
+    const packet = await packets.findOne({ name: packetName });
 
+    if (!packet) {
+        return false;
+    } else if (packet.costInCents === 0) {
+        return true;
+    }
+
+    const user_id = await getUserId(username);
+    const result = await payments.findOne({ packetName, user_id });
+    return !!result;
+}
 
 async function getAdminStats(packetName, division) {
     const stats = await buzzes.aggregate([
@@ -79,12 +98,22 @@ async function getBuzzCount(packetName, username) {
     return await buzzes.countDocuments({ packetName, user_id });
 }
 
-async function getDivisionChoice(packetName, username) {
-    const user_id = await getUserId(username);
-    return await getDivisionById(packetName, user_id);
+/**
+ *
+ * @param {*} packetName
+ * @returns {Integer} the cost to play the packet, in cents (USD)
+ */
+async function getCost(packetName) {
+    const packet = await packets.findOne({ name: packetName });
+    return packet?.costInCents;
 }
 
-async function getDivisionById(packetName, user_id) {
+async function getDivisionChoice(packetName, username) {
+    const user_id = await getUserId(username);
+    return await getDivisionChoiceById(packetName, user_id);
+}
+
+async function getDivisionChoiceById(packetName, user_id) {
     const result = await divisionChoices.findOne({ packetName, user_id });
     return result?.division;
 }
@@ -144,7 +173,7 @@ async function getProgress(packetName, username) {
     ]).toArray();
 
     result[0] = result[0] || {};
-    result[0].division = await getDivisionById(packetName, user_id);
+    result[0].division = await getDivisionChoiceById(packetName, user_id);
     return result[0];
 }
 
@@ -177,7 +206,7 @@ async function getQuestionCount(packetName) {
  * @param {ObjectId} user_id
  */
 async function getUserStats({ packetName, user_id }) {
-    const division = await getDivisionById(packetName, user_id);
+    const division = await getDivisionChoiceById(packetName, user_id);
 
     const buzzArray = await buzzes.aggregate([
         { $match: { packetName, user_id } },
@@ -250,7 +279,7 @@ async function getUserStats({ packetName, user_id }) {
  * @param {ObjectId} params.user_id
  */
 async function recordBuzz({ celerity, givenAnswer, points, packetName, questionNumber, user_id }) {
-    const division = await getDivisionById(packetName, user_id);
+    const division = await getDivisionChoiceById(packetName, user_id);
 
     await buzzes.replaceOne(
         { user_id, packetName, questionNumber },
@@ -266,6 +295,14 @@ async function recordDivision({ packetName, username, division }) {
     return divisionChoices.replaceOne(
         { user_id, packetName },
         { user_id, packetName, division },
+        { upsert: true },
+    );
+}
+
+async function recordPayment({ packetName, user_id }) {
+    return payments.replaceOne(
+        { user_id, packetName },
+        { user_id, packetName, createdAt: new Date() },
         { upsert: true },
     );
 }
@@ -295,9 +332,11 @@ async function resolveProtest({ id, decision, reason }) {
 }
 
 export {
+    checkPayment,
     getAdminStats,
     getAnswer,
     getBuzzCount,
+    getCost,
     getDivisionChoice,
     getDivisions,
     getLeaderboard,
@@ -308,6 +347,7 @@ export {
     getUserStats,
     recordBuzz,
     recordDivision,
+    recordPayment,
     recordProtest,
     resolveProtest,
 };

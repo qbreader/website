@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import { ipFilterMiddleware, ipFilterError } from './ip-filter.js';
 import { createAndReturnRoom } from './TossupRoom.js';
+
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from '../constants.js';
 import aboutRouter from '../routes/about.js';
 import apiRouter from '../routes/api/index.js';
@@ -10,14 +11,15 @@ import authRouter from '../routes/auth.js';
 import backupsRouter from '../routes/backups.js';
 import bonusesRouter from '../routes/bonuses.js';
 import databaseRouter from '../routes/database.js';
-import geowordRouter from '../routes/geoword.js';
+import geowordRouter from '../routes/geoword/index.js';
+import indexRouter from '../routes/index.js';
 import multiplayerRouter from '../routes/multiplayer.js';
 import tossupsRouter from '../routes/tossups.js';
 import userRouter from '../routes/user.js';
-import indexRouter from '../routes/index.js';
+import webhookRouter from '../routes/api/webhook.js';
 
 import cookieSession from 'cookie-session';
-import express, { json } from 'express';
+import express from 'express';
 import { createServer } from 'http';
 import { v4 } from 'uuid';
 import { WebSocketServer } from 'ws';
@@ -34,7 +36,8 @@ const wss = new WebSocketServer({
 // for why we use 'simple'
 app.set('query parser', 'simple');
 
-app.use(json());
+app.use('/api/webhook', express.raw({ type: '*/*' }), webhookRouter);
+app.use(express.json());
 
 app.use(cookieSession({
     name: 'session',
@@ -117,6 +120,7 @@ app.use('/geoword', geowordRouter);
 app.use('/multiplayer', multiplayerRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/user', userRouter);
+app.use('/webhook', webhookRouter);
 app.use('/', indexRouter);
 
 /**
