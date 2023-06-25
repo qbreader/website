@@ -122,7 +122,7 @@ async function getLeaderboard(packetName, division, limit=20) {
 }
 
 async function getPacketList() {
-    const list = await packets.find({}, {
+    const list = await packets.find({ test: { $exists: false } }, {
         sort: { order: 1 },
         projection: { name: 1, divisions: 1, _id: 0 },
     }).toArray();
