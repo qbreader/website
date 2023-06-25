@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { getUserField, getUserId, updateUser, verifyEmail } from '../database/users.js';
 
 import { createHash } from 'crypto';
