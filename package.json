@@ -14,6 +14,7 @@
     "dependencies": {
         "bootstrap": "5.2.3",
         "cookie-session": "^2.0.0",
+        "cors": "^2.8.5",
         "damerau-levenshtein-js": "^1.1.8",
         "dompurify": "^3.0.0",
         "dotenv": "^16.0.1",
@@ -29,6 +30,7 @@
         "react-dom": "^18.2.0",
         "roman-numerals": "^0.3.2",
         "stemmer": "^2.0.1",
+        "stripe": "^12.10.0",
         "uuid": "^8.3.2",
         "ws": "^8.8.0"
     },
