@@ -2,7 +2,7 @@ const packetName = window.location.pathname.split('/').pop();
 document.getElementById('packet-name').textContent = titleCase(packetName);
 
 // This is your test publishable API key.
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_51NManVKG9mAb0mOpXFfZQf7OW5szwT4uPjxyzQYETfd866Ht5EQEWT1BeXoIotloxdPxfpijP5lQRJtc2Xh6tEfL00OqWKGvM3';
+const STRIPE_PUBLISHABLE_KEY = 'pk_live_51NManVKG9mAb0mOpZxtFcYWRju7COWAwtirGyd01es3bEJhqSZd8SdSsOPgyj2LizN0QYjLumsWiOoB2nKadXrt100bTtyHh8m';
 const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
 let elements;
