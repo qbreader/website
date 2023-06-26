@@ -219,11 +219,12 @@ async function getUserStats({ packetName, user_id }) {
         { $sort: { questionNumber: 1 } },
         { $lookup: {
             from: 'tossups',
-            let: { questionNumber: '$questionNumber', packetName },
+            let: { questionNumber: '$questionNumber', packetName, division },
             pipeline: [
                 { $match: { $expr: { $and: [
                     { $eq: ['$questionNumber', '$$questionNumber'] },
                     { $eq: ['$packetName', '$$packetName'] },
+                    { $eq: ['$division', '$$division'] },
                 ] } } },
             ],
             as: 'tossup',
@@ -260,11 +261,6 @@ async function getUserStats({ packetName, user_id }) {
 
     for (const index in buzzArray) {
         const question = leaderboard[index];
-
-        if (!question) {
-            continue;
-        }
-
         question.bestUsername = await getUsername(question.bestUserId);
         question.rank = 1 + await buzzes.countDocuments({
             packetName,
