@@ -201,8 +201,8 @@ async function getProtests(packetName, division) {
     return { protests, packet };
 }
 
-async function getQuestionCount(packetName) {
-    return await tossups.countDocuments({ packetName });
+async function getQuestionCount(packetName, division) {
+    return await tossups.countDocuments({ packetName, division });
 }
 
 /**
