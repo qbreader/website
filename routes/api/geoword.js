@@ -103,8 +103,8 @@ router.post('/create-payment-intent', async (req, res) => {
 });
 
 router.get('/check-answer', async (req, res) => {
-    const { givenAnswer, questionNumber, packetName } = req.query;
-    const answer = await geoword.getAnswer(packetName, parseInt(questionNumber));
+    const { givenAnswer, questionNumber, packetName, division } = req.query;
+    const answer = await geoword.getAnswer(packetName, division, parseInt(questionNumber));
     const { directive, directedPrompt } = checkAnswer(answer, givenAnswer);
     res.json({ actualAnswer: answer, directive, directedPrompt });
 });
@@ -140,8 +140,8 @@ router.get('/packet-list', async (req, res) => {
 });
 
 router.get('/get-question-count', async (req, res) => {
-    const { packetName } = req.query;
-    const questionCount = await geoword.getQuestionCount(packetName);
+    const { packetName, division } = req.query;
+    const questionCount = await geoword.getQuestionCount(packetName, division);
     res.json({ questionCount });
 });
 
