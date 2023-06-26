@@ -6,88 +6,60 @@ const assert = require('chai').assert;
     It's inherited by the nested test suites, and can be overriden.
 */
 
-describe("Performance Tests", function() {
+function testTiming(count) {
+return describe(`Performance Tests with ${count} repetitions`, function() {
     const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 /*
 the "formula" for the timeing was done by replicating the request on the website, 
-and multiplying the execution time by 2 or 3 (usually.)
+and multiplying the execution time by 2 or 3 (usually), and the "count" parameter
 */
+    function testRequest(name, timeout, func, params = false) {
+            it(`${name} (under ${timeout * count}ms)`, async function() {
+                this.timeout(timeout * count);
+                for (let i = 0; i < count; i++) {
+                    await func(params);
+            }    
+        }
+    }
     describe("getQuery", function() {
-        
-        it("empty string (under 2000ms)", async function() {
-            this.timeout(2000);
-            for (let i = 0; i < count; i++) {
-                await getQuery({ questionType: 'all', verbose: false});
-            }
-        });       
-        it("'abc' (under 3000ms)", async function() {
-            this.timeout(3000); 
-            for (let i = 0; i < count; i++) {
-                await getQuery({ queryString: 'abc', questionType: 'all', verbose: false });
-            }
-        });        
-        it("'abc', max length 401 (under 5000ms)", async function() {
-            this.timeout(5000); 
-            for (let i = 0; i < count; i++) {
-                await getQuery({ queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
-            }
-        });        
-        it("'([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', with regex (under 10000ms)", async function() {
-            this.timeout(10000); 
-            for (let i = 0; i < count; i++) {
-                await getQuery({ queryString: 'abc', questionType: 'all', verbose: false });
-            }
-        });
-        it("'cesare', ignore diacritics (under 18000ms)", async function() {
-            this.timeout(18000); 
-            for (let i = 0; i < count; i++) {
-                await getQuery({ queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
-            }
-        });
-        
+        testRequest("empty string", 2000, getQuery, { questionType: 'all', verbose: false}); 
+        testRequest("'abc'", 3000, getQuery,  { queryString: 'abc', questionType: 'all', verbose: false });
+        testRequest("'abc', max length 401", 5000, getQuery, { queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
+        testRequest("'([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', regex", 10000, getQuery, { queryString: '([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', questionType: 'all', verbose: false, regex: true });
+        testRequest("'cesare', ignore diacritics", 170000, getQuery, { queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
     });
     describe("getPacket", function() {
-        it("2018 PACE NSC (under 2000", async function() {
-            
-        }); 
-        
+        testRequest("2018 PACE NSC", 1000, getPacket,  {setName: '2018 PACE NSC', packetNumber: 5 });   
     });
+    describe("getSet", function() {
+        testRequest('2018 PACE NSC', 1000, getSet, { setName: '2018 PACE NSC', packetNumbers, questionType: 'bonus' });
+        testRequest('Invalid set name', 2500, getSet, { setName: '(￣y▽￣)╭', packetNumbers, questionType: 'bonus' });
+    });
+    describe("Random Functions", function() {
+        this.timeout(2500)
+        testRequest("getRandomBonuses", 2500, getRandomBonuses); 
+        testRequest("getRandomTossups", 2500, getRandomTossups);
+    });
+    // The report function can't use tests requests because it requires more then one parameter :(
+    describe("reportQuestion", function() {
+        it("reportQuestion", async function() {
+            for (let i = 0; i < count; i++) {
+                await reportQuestion('630020e3cab8fa6d1490b8ea', 'other', 'test');
+            }
+        });
+    });
+    
 });
-
-    console.time('getPacket');
-    for (let i = 0; i < count; i++) {
-        await getPacket({ setName: '2018 PACE NSC', packetNumber: 5 });
-    }
-    console.timeEnd('getPacket');
-
-    console.time('getSet');
-    for (let i = 0; i < count; i++) {
-        await getSet({ setName: '2018 PACE NSC', packetNumbers, questionType: 'bonus' });
-    }
-    console.timeEnd('getSet');
-
-    console.time('getRandomBonuses');
-    for (let i = 0; i < count; i++) {
-        await getRandomBonuses();
-    }
-    console.timeEnd('getRandomBonuses');
-
-    console.time('getRandomTossups');
-    for (let i = 0; i < count; i++) {
-        await getRandomTossups();
-    }
-    console.timeEnd('getRandomTossups');
-
-    console.time('reportQuestion');
-    for (let i = 0; i < count; i++) {
-        await reportQuestion('630020e3cab8fa6d1490b8ea', 'other', 'test');
-    }
-    console.timeEnd('reportQuestion');
 }
 
 
-async function testCorrectness() {
+async function testCorrectness() 
     {
+        async function testQuery(tossups, bonuses) {
+            console.assert(tossups
+            
+        }
+        
         const { tossups, bonuses } = await getQuery({ queryString: 'qigong', setName: '2023 ACF Regionals', verbose: false, ignoreDiacritics: true });
         console.assert(tossups && bonuses);
         console.assert(tossups.count === 1, `${tossups.count} != ${1}`);
