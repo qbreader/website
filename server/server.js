@@ -66,6 +66,7 @@ wss.on('connection', (ws) => {
     });
 });
 
+app.use('/', indexRouter);
 app.use('/about', aboutRouter);
 app.use('/api', apiRouter);
 app.use('/api-docs', apiDocsRouter);
@@ -78,7 +79,7 @@ app.use('/multiplayer', multiplayerRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/user', userRouter);
 app.use('/webhook', webhookRouter);
-app.use('/', indexRouter);
+
 
 app.use((req, res) => {
     res.sendFile(req.url, { root: './client' });
