@@ -52,6 +52,7 @@ async function checkGeowordAnswer(givenAnswer, questionNumber) {
         givenAnswer,
         packetName,
         questionNumber,
+        division,
     }))
         .then(response => response.json())
         .then(data => {
