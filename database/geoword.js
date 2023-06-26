@@ -60,11 +60,12 @@ async function getAdminStats(packetName, division) {
         { $sort: { _id: 1 } },
         { $lookup: {
             from: 'tossups',
-            let: { questionNumber: '$questionNumber', packetName },
+            let: { questionNumber: '$questionNumber', packetName, division },
             pipeline: [
                 { $match: { $expr: { $and: [
                     { $eq: ['$questionNumber', '$$questionNumber'] },
                     { $eq: ['$packetName', '$$packetName'] },
+                    { $eq: ['$division', '$$division'] },
                 ] } } },
             ],
             as: 'tossup',
@@ -87,8 +88,8 @@ async function getAdminStats(packetName, division) {
  * @param {Number} questionNumber
  * @returns
  */
-async function getAnswer(packetName, questionNumber) {
-    const result = await tossups.findOne({ packetName, questionNumber });
+async function getAnswer(packetName, division, questionNumber) {
+    const result = await tossups.findOne({ packetName, division, questionNumber });
 
     if (!result) {
         return '';
