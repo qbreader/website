@@ -16,13 +16,6 @@ let tossupsHeard = 0;
 
 document.getElementById('geoword-stats').href = '/geoword/stats/' + packetName;
 
-fetch('/api/geoword/get-question-count?' + new URLSearchParams({ packetName }))
-    .then(response => response.json())
-    .then(data => {
-        packetLength = data.questionCount;
-        document.getElementById('packet-length').textContent = packetLength;
-    });
-
 fetch('/api/geoword/get-progress?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
@@ -40,6 +33,13 @@ fetch('/api/geoword/get-progress?' + new URLSearchParams({ packetName }))
             totalCorrectCelerity = 0;
             tossupsHeard = 0;
         }
+
+        fetch('/api/geoword/get-question-count?' + new URLSearchParams({ packetName, division }))
+            .then(response => response.json())
+            .then(data => {
+                packetLength = data.questionCount;
+                document.getElementById('packet-length').textContent = packetLength;
+            });
     });
 
 const buzzAudio = new Audio('/geoword/audio/buzz.mp3');

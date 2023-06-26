@@ -140,8 +140,8 @@ router.get('/packet-list', async (req, res) => {
 });
 
 router.get('/get-question-count', async (req, res) => {
-    const { packetName } = req.query;
-    const questionCount = await geoword.getQuestionCount(packetName);
+    const { packetName, division } = req.query;
+    const questionCount = await geoword.getQuestionCount(packetName, division);
     res.json({ questionCount });
 });
 
