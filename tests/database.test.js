@@ -1,25 +1,58 @@
 import { getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions';
+const assert = require('chai').assert;
 
-async function testTiming(count) {
+/* 
+    Note: this.timeout(n) asserts that each `it` block individually takes less then "n" millisecconds.
+    It's inherited by the nested test suites, and can be overriden.
+*/
+
+describe("Performance Tests", function() {
     const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
-
-    console.time('getQuery (empty string)');
-    for (let i = 0; i < count; i++) {
-        await getQuery({ questionType: 'all', verbose: false });
-    }
-    console.timeEnd('getQuery (empty string)');
-
-    console.time('getQuery (string = abc)');
-    for (let i = 0; i < count; i++) {
-        await getQuery({ queryString: 'abc', questionType: 'all', verbose: false });
-    }
-    console.timeEnd('getQuery (string = abc)');
-
-    console.time('getQuery (string = cesaire), ignore diacritics');
-    for (let i = 0; i < count; i++) {
-        await getQuery({ queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
-    }
-    console.timeEnd('getQuery (string = cesaire), ignore diacritics');
+/*
+the "formula" for the timeing was done by replicating the request on the website, 
+and multiplying the execution time by 2 or 3 (usually.)
+*/
+    describe("getQuery", function() {
+        
+        it("empty string (under 2000ms)", async function() {
+            this.timeout(2000);
+            for (let i = 0; i < count; i++) {
+                await getQuery({ questionType: 'all', verbose: false});
+            }
+        });       
+        it("'abc' (under 3000ms)", async function() {
+            this.timeout(3000); 
+            for (let i = 0; i < count; i++) {
+                await getQuery({ queryString: 'abc', questionType: 'all', verbose: false });
+            }
+        });        
+        it("'abc', max length 401 (under 5000ms)", async function() {
+            this.timeout(5000); 
+            for (let i = 0; i < count; i++) {
+                await getQuery({ queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
+            }
+        });        
+        it("'([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', with regex (under 10000ms)", async function() {
+            this.timeout(10000); 
+            for (let i = 0; i < count; i++) {
+                await getQuery({ queryString: 'abc', questionType: 'all', verbose: false });
+            }
+        });
+        it("'cesare', ignore diacritics (under 18000ms)", async function() {
+            this.timeout(18000); 
+            for (let i = 0; i < count; i++) {
+                await getQuery({ queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
+            }
+        });
+        
+    });
+    describe("getPacket", function() {
+        it("2018 PACE NSC (under 2000", async function() {
+            
+        }); 
+        
+    });
+});
 
     console.time('getPacket');
     for (let i = 0; i < count; i++) {
