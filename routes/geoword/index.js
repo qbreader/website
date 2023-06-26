@@ -61,9 +61,9 @@ router.get('/game/:packetName', async (req, res) => {
     }
 
     const packetName = req.params.packetName;
-    const divisionChoice = await geoword.getDivisionChoice(packetName, username);
+    const division = await geoword.getDivisionChoice(packetName, username);
 
-    if (!divisionChoice) {
+    if (!division) {
         res.redirect('/geoword/division/' + packetName);
         return;
     }
@@ -77,7 +77,7 @@ router.get('/game/:packetName', async (req, res) => {
 
     const [buzzCount, questionCount] = await Promise.all([
         geoword.getBuzzCount(packetName, username),
-        geoword.getQuestionCount(packetName),
+        geoword.getQuestionCount(packetName, division),
     ]);
 
     if (buzzCount >= questionCount) {
