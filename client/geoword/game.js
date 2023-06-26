@@ -161,6 +161,8 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('next').disabled = false;
+
+    document.getElementById('question-info').classList.remove('d-none');
 }
 
 function updateStatline(numberCorrect, points, tossupsHeard, totalCorrectCelerity) {
@@ -179,7 +181,6 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     document.getElementById('answer-input').blur();
     document.getElementById('answer-input').placeholder = 'Enter answer';
     document.getElementById('answer-input-group').classList.add('d-none');
-    document.getElementById('question-info').classList.remove('d-none');
 
     giveAnswer(answer);
 });
