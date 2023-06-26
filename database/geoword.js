@@ -1,4 +1,4 @@
-import { getUserId, getUsername } from './users.js';
+import { getUserId, getUsername, isAdmin } from './users.js';
 
 import { MongoClient } from 'mongodb';
 
@@ -17,7 +17,7 @@ const tossups = geoword.collection('tossups');
 
 /**
  * Returns true if the user has paid for the packet,
- * or if the packet is free.
+ * or if the packet is free, or if the user is an admin.
  * @param {*} param0
  * @returns {Promise<Boolean>}
  */
@@ -30,7 +30,12 @@ async function checkPayment({ packetName, username }) {
         return true;
     }
 
-    const user_id = await getUserId(username);
+    const [user_id, admin] = await Promise.all([getUserId(username), isAdmin(username)]);
+
+    if (admin) {
+        return true;
+    }
+
     const result = await payments.findOne({ packetName, user_id });
     return !!result;
 }
@@ -55,11 +60,12 @@ async function getAdminStats(packetName, division) {
         { $sort: { _id: 1 } },
         { $lookup: {
             from: 'tossups',
-            let: { questionNumber: '$questionNumber', packetName },
+            let: { questionNumber: '$questionNumber', packetName, division },
             pipeline: [
                 { $match: { $expr: { $and: [
                     { $eq: ['$questionNumber', '$$questionNumber'] },
                     { $eq: ['$packetName', '$$packetName'] },
+                    { $eq: ['$division', '$$division'] },
                 ] } } },
             ],
             as: 'tossup',
@@ -82,8 +88,8 @@ async function getAdminStats(packetName, division) {
  * @param {Number} questionNumber
  * @returns
  */
-async function getAnswer(packetName, questionNumber) {
-    const result = await tossups.findOne({ packetName, questionNumber });
+async function getAnswer(packetName, division, questionNumber) {
+    const result = await tossups.findOne({ packetName, division, questionNumber });
 
     if (!result) {
         return '';
@@ -196,8 +202,8 @@ async function getProtests(packetName, division) {
     return { protests, packet };
 }
 
-async function getQuestionCount(packetName) {
-    return await tossups.countDocuments({ packetName });
+async function getQuestionCount(packetName, division) {
+    return await tossups.countDocuments({ packetName, division });
 }
 
 /**
@@ -213,11 +219,12 @@ async function getUserStats({ packetName, user_id }) {
         { $sort: { questionNumber: 1 } },
         { $lookup: {
             from: 'tossups',
-            let: { questionNumber: '$questionNumber', packetName },
+            let: { questionNumber: '$questionNumber', packetName, division },
             pipeline: [
                 { $match: { $expr: { $and: [
                     { $eq: ['$questionNumber', '$$questionNumber'] },
                     { $eq: ['$packetName', '$$packetName'] },
+                    { $eq: ['$division', '$$division'] },
                 ] } } },
             ],
             as: 'tossup',

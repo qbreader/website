@@ -4,6 +4,7 @@ import { ipFilterMiddleware, ipFilterError } from './ip-filter.js';
 import { createAndReturnRoom } from './TossupRoom.js';
 
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from '../constants.js';
+
 import aboutRouter from '../routes/about.js';
 import apiRouter from '../routes/api/index.js';
 import apiDocsRouter from '../routes/api-docs.js';
@@ -21,16 +22,13 @@ import webhookRouter from '../routes/api/webhook.js';
 import cookieSession from 'cookie-session';
 import express from 'express';
 import { createServer } from 'http';
-import { v4 } from 'uuid';
+import * as uuid from 'uuid';
 import { WebSocketServer } from 'ws';
 
 const app = express();
 const server = createServer(app);
 const port = process.env.PORT || 3000;
-const wss = new WebSocketServer({
-    server,
-    maxPayload: WEBSOCKET_MAX_PAYLOAD,
-});
+const wss = new WebSocketServer({ server, maxPayload: WEBSOCKET_MAX_PAYLOAD });
 
 // See https://masteringjs.io/tutorials/express/query-parameters
 // for why we use 'simple'
@@ -53,7 +51,7 @@ wss.on('connection', (ws) => {
     roomName = decodeURIComponent(roomName);
     userId = decodeURIComponent(userId);
     username = decodeURIComponent(username);
-    userId = (userId === 'unknown') ? v4() : userId;
+    userId = (userId === 'unknown') ? uuid.v4() : userId;
 
     const room = createAndReturnRoom(roomName);
     room.connection(ws, userId, username);
@@ -68,47 +66,7 @@ wss.on('connection', (ws) => {
     });
 });
 
-
-app.get('/robots.txt', (_req, res) => {
-    res.sendFile('robots.txt', { root: './client' });
-});
-
-app.get('/react(-dom)?/umd/*.js', (req, res) => {
-    res.sendFile(req.url, { root: './node_modules' });
-});
-
-app.get('/*.js', (req, res) => {
-    res.sendFile(req.url, { root: './client' });
-});
-
-app.get('/*.jsx', (req, res) => {
-    res.sendFile(req.url, { root: './client' });
-});
-
-app.get('/*.css', (req, res) => {
-    res.sendFile(req.url, { root: './client' });
-});
-
-app.get('/*.map', (req, res) => {
-    res.sendFile(req.url, { root: './client' });
-});
-
-app.get('/*.png', (req, res) => {
-    res.sendFile(req.url, { root: './client' });
-});
-
-app.get('/*.ico', (req, res) => {
-    res.sendFile(req.url, { root: './client' });
-});
-
-app.get('/node_modules/*.scss', (req, res) => {
-    res.sendFile(req.url.substring(13), { root: './node_modules' });
-});
-
-app.get('/*.scss', (req, res) => {
-    res.sendFile(req.url.substring(5), { root: './scss' });
-});
-
+app.use('/', indexRouter);
 app.use('/about', aboutRouter);
 app.use('/api', apiRouter);
 app.use('/api-docs', apiDocsRouter);
@@ -121,22 +79,7 @@ app.use('/multiplayer', multiplayerRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/user', userRouter);
 app.use('/webhook', webhookRouter);
-app.use('/', indexRouter);
 
-/**
- * Redirects:
- */
-app.get('/*.html', (req, res) => {
-    res.redirect(req.url.substring(0, req.url.length - 5));
-});
-
-app.get('/database', (_req, res) => {
-    res.redirect('/db');
-});
-
-app.use('/users', (req, res) => {
-    res.redirect(`/user${req.url}`);
-});
 
 app.use((req, res) => {
     res.sendFile(req.url, { root: './client' });
