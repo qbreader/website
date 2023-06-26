@@ -1,4 +1,4 @@
-import { getUserId, getUsername } from './users.js';
+import { getUserId, getUsername, isAdmin } from './users.js';
 
 import { MongoClient } from 'mongodb';
 
@@ -17,7 +17,7 @@ const tossups = geoword.collection('tossups');
 
 /**
  * Returns true if the user has paid for the packet,
- * or if the packet is free.
+ * or if the packet is free, or if the user is an admin.
  * @param {*} param0
  * @returns {Promise<Boolean>}
  */
@@ -30,7 +30,12 @@ async function checkPayment({ packetName, username }) {
         return true;
     }
 
-    const user_id = await getUserId(username);
+    const [user_id, admin] = await Promise.all([getUserId(username), isAdmin(username)]);
+
+    if (admin) {
+        return true;
+    }
+
     const result = await payments.findOne({ packetName, user_id });
     return !!result;
 }
