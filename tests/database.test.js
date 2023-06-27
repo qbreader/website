@@ -27,7 +27,7 @@ and multiplying the execution time by 2 or 3 (usually), and the "count" paramete
         describe('getQuery', ()=> {
             testRequest('empty string', 2000, getQuery, { questionType: 'all', verbose: false});
             testRequest('"abc"', 3000, getQuery,  { queryString: 'abc', questionType: 'all', verbose: false });
-            testRequest('"abc"', maxLength 401", 5000, getQuery, { queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
+            testRequest('"abc", return length 401', 5000, getQuery, { queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
             testRequest('"([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}"', regex", 10000, getQuery, { queryString: '([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', questionType: 'all', verbose: false, regex: true });
             testRequest('"cesare", ignore diacritics"', 170000, getQuery, { queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
         });
