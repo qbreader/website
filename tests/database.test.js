@@ -1,6 +1,6 @@
 import { getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions';
 const assert = require('chai').assert;
-const { describe, it } = require("mocha");
+const { describe, it } = require('mocha');
 const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 
 /*
