@@ -265,6 +265,7 @@ async function getUserStats({ packetName, user_id }) {
         question.rank = 1 + await buzzes.countDocuments({
             packetName,
             questionNumber: question._id,
+            division,
             $or: [
                 { celerity: { $gt: buzzArray[index].celerity } },
                 { points: { $gt: buzzArray[index].points } },
