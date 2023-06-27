@@ -25,14 +25,14 @@ and multiplying the execution time by 2 or 3 (usually), and the "count" paramete
             });
         }
         describe('getQuery', ()=> {
-            testRequest('empty string', 2000, getQuery, { questionType: 'all', verbose: false});
+            testRequest('empty string', 2000, getQuery, { questionType: 'all', verbose: false });
             testRequest('"abc"', 3000, getQuery,  { queryString: 'abc', questionType: 'all', verbose: false });
             testRequest('"abc", return length 401', 5000, getQuery, { queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
-            testRequest('"([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}"', regex, 10000, getQuery, { queryString: '([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', questionType: 'all', verbose: false, regex: true });
+            testRequest('"([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}", regex', 10000, getQuery, { queryString: '([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', questionType: 'all', verbose: false, regex: true });
             testRequest('"cesare", ignore diacritics"', 170000, getQuery, { queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
         });
         describe('getPacket', ()=> {
-            testRequest('2018 PACE NSC', 1000, getPacket,  {setName: '2018 PACE NSC', packetNumber: 5 });
+            testRequest('2018 PACE NSC', 1000, getPacket, {setName: '2018 PACE NSC', packetNumber: 5 });
         });
         describe('getSet', ()=> {
             testRequest('2018 PACE NSC', 1000, getSet, { setName: '2018 PACE NSC', packetNumbers, questionType: 'bonus' });
@@ -40,8 +40,8 @@ and multiplying the execution time by 2 or 3 (usually), and the "count" paramete
         });
         describe('Random Functions', ()=> {
             this.timeout(2500);
-            testRequest("getRandomBonuses", 2500, getRandomBonuses);
-            testRequest("getRandomTossups", 2500, getRandomTossups);
+            testRequest('getRandomBonuses', 2500, getRandomBonuses);
+            testRequest('getRandomTossups', 2500, getRandomTossups);
         });
         // The report function can't use tests requests because it requires more then one parameter :(
         describe('reportQuestion', ()=> {
