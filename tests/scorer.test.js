@@ -1,6 +1,5 @@
 import checkAnswer from '../server/checkAnswer.js';
 import * as bcolors from '../bcolors.js';
-const { describe, it } = require("mocha");
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const tests = require('./scorer.test.json');
@@ -21,9 +20,9 @@ function answerlineTest(group) {
             const { directive, directedPrompt } = checkAnswer(answerline, givenAnswer);
             total++;
             // Assertions will *supposedly* auto return when this fails.
-            it("directive check", ()=> assert.strictEqual(expected, directive, errorText(`directive for ${givenAnswer}`)));
+            it('directive check', ()=> assert.strictEqual(expected, directive, errorText(`directive for ${givenAnswer}`)));
             if (expectedDirectedPrompt || directedPrompt) {
-                it("directive prompt check", ()=> assert.strictEqual(expectedDirectedPrompt, directedPrompt, errorText(`directive prompt for ${givenAnswer}`)));
+                it('directive prompt check', ()=> assert.strictEqual(expectedDirectedPrompt, directedPrompt, errorText(`directive prompt for ${givenAnswer}`)));
             }
             successful++;
         });
