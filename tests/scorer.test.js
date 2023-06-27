@@ -4,6 +4,8 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const tests = require('./scorer.test.json');
 const assert = require('chai').assert;
+const { describe, it } = require('mocha');
+
 function errorText(text) {
     // Colors text red
     return `${bcolors.FAIL}${text}${bcolors.ENDC}`;
