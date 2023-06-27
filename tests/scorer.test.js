@@ -1,46 +1,48 @@
 import checkAnswer from '../server/checkAnswer.js';
 import * as bcolors from '../bcolors.js';
-
+const { describe, it } = require("mocha");
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const tests = require('./scorer.test.json');
-const assert = require('chai').assert; 
-function errorText(text) { // colors text red
+const assert = require('chai').assert;
+function errorText(text) {
+    // Colors text red
     return `${bcolors.FAIL}${text}${bcolors.ENDC}`;
 }
 
-function answerlineTest(group) {  
+function answerlineTest(group) {
     let successful = 0, total = 0;
     const answerline = group.answerline;
-    describe(`Answerline Test: ${answerline}`, function() {   
-        group.tests.forEach(test => {
+    describe(`Answerline Test: ${answerline}`, ()=> {
+        group.tests.forEach((test) => {
             const expected = test.directive;
             const givenAnswer = test.given;
             const expectedDirectedPrompt = test.directedPrompt;
             const { directive, directedPrompt } = checkAnswer(answerline, givenAnswer);
             total++;
-            // assertions will *supposedly* auto return when this fails. 
-            it("directive check", ()=> assert.strictEqual(expected, directive, errorText(`directive for ${givenAnswer}`))); 
+            // Assertions will *supposedly* auto return when this fails.
+            it("directive check", ()=> assert.strictEqual(expected, directive, errorText(`directive for ${givenAnswer}`)));
             if (expectedDirectedPrompt || directedPrompt) {
                 it("directive prompt check", ()=> assert.strictEqual(expectedDirectedPrompt, directedPrompt, errorText(`directive prompt for ${givenAnswer}`)));
             }
             successful++;
         });
     });
-    return  { successful, total }; 
+    return  { successful, total };
 }
 
 
 function testAnswerType(type, count = -1) {
     let successful = 0, total = 0;
-    describe(`${type} Answer Testing`, function() {
-         if (count > 0) 
-             tests[type].splice(count);
-             tests[type].forEach((group) => {
-             const { successful: s, total: t } = answerlineTest(group);
-                successful += s;
-                total += t;
-             });
+    describe(`${type} Answer Testing`, ()=> {
+        if (count > 0) {
+            tests[type].splice(count);
+        }
+        tests[type].forEach((group) => {
+            const { successful: s, total: t } = answerlineTest(group);
+            successful += s;
+            total += t;
+        });
     });
     console.log(`${successful}/${total} tests successful\n`);
     return { successful, total };
