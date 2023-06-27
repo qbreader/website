@@ -1,5 +1,6 @@
 import { getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions';
 const assert = require('chai').assert;
+const { describe, it } = require("mocha");
 const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 
 /*
@@ -32,7 +33,7 @@ and multiplying the execution time by 2 or 3 (usually), and the "count" paramete
             testRequest('"cesare", ignore diacritics"', 170000, getQuery, { queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
         });
         describe('getPacket', ()=> {
-            testRequest('2018 PACE NSC', 1000, getPacket, {setName: '2018 PACE NSC', packetNumber: 5 });
+            testRequest('2018 PACE NSC', 1000, getPacket, { setName: '2018 PACE NSC', packetNumber: 5 });
         });
         describe('getSet', ()=> {
             testRequest('2018 PACE NSC', 1000, getSet, { setName: '2018 PACE NSC', packetNumbers, questionType: 'bonus' });
