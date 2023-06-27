@@ -134,7 +134,7 @@ async function getDivisions(packetName) {
     return packet?.divisions;
 }
 
-async function getLeaderboard(packetName, division, limit=20) {
+async function getLeaderboard(packetName, division, limit=100) {
     const result = await buzzes.aggregate([
         { $match: { packetName, division } },
         { $group: {
