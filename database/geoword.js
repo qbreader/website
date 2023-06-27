@@ -134,7 +134,7 @@ async function getDivisions(packetName) {
     return packet?.divisions;
 }
 
-async function getLeaderboard(packetName, division, limit=20) {
+async function getLeaderboard(packetName, division, limit=100) {
     const result = await buzzes.aggregate([
         { $match: { packetName, division } },
         { $group: {
@@ -265,6 +265,7 @@ async function getUserStats({ packetName, user_id }) {
         question.rank = 1 + await buzzes.countDocuments({
             packetName,
             questionNumber: question._id,
+            division,
             $or: [
                 { celerity: { $gt: buzzArray[index].celerity } },
                 { points: { $gt: buzzArray[index].points } },
