@@ -6,12 +6,15 @@ import { MongoClient, ObjectId } from 'mongodb';
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-async function connectToDatabase() {
+async function connectToDatabase(log=false) {
     await client.connect();
-    console.log('connected to mongodb');
+
+    if (log) {
+        console.log('connected to mongodb');
+    }
 }
 
-await connectToDatabase();
+await connectToDatabase(true);
 
 const database = client.db('qbreader');
 
