@@ -51,7 +51,8 @@ class TossupRoom {
             setName: '2022 PACE NSC',
             categories: [],
             subcategories: [],
-            reverse: true // used for `database.getSet`
+            reverse: true, // used for `database.getSet`
+            powermarkOnly: false,
         };
 
         this.settings = {
@@ -269,6 +270,16 @@ class TossupRoom {
                 value: message.value
             });
             this.adjustQuery(['setName', 'packetNumbers'], [message.value, message.packetNumbers]);
+            break;
+
+        case 'toggle-powermark-only':
+            this.query.powermarkOnly = message.powermarkOnly;
+            this.sendSocketMessage({
+                type: 'toggle-powermark-only',
+                powermarkOnly: message.powermarkOnly,
+                username: this.players[userId].username,
+            });
+            this.adjustQuery(['powermarkOnly'], [message.powermarkOnly]);
             break;
 
         case 'toggle-rebuzz':

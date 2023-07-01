@@ -202,6 +202,7 @@ async function getQuery({
     regex = false,
     exactPhrase = false,
     ignoreDiacritics = false,
+    powermarkOnly = false,
     tossupPagination = 1,
     bonusPagination = 1,
     minYear,
@@ -240,7 +241,7 @@ async function getQuery({
 
     let tossupQuery = null;
     if (['tossup', 'all'].includes(questionType))
-        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear });
+        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear, powermarkOnly });
 
     let bonusQuery = null;
     if (['bonus', 'all'].includes(questionType))
@@ -274,7 +275,7 @@ set name: ${OKGREEN}${setName}${ENDC}; \
 }
 
 
-async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear }) {
+async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear, powermarkOnly }) {
     const orQuery = [];
     if (['question', 'all'].includes(searchType))
         orQuery.push({ question: { $regex: queryString, $options: 'i' } });
@@ -283,7 +284,7 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
         orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
 
     const [aggregation, query] = buildQueryAggregation({
-        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear,
+        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, powermarkOnly,
         isEmpty: queryString === '',
     });
 
@@ -329,7 +330,7 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
 }
 
 
-function buildQueryAggregation({ orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty }) {
+function buildQueryAggregation({ orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty, powermarkOnly }) {
     const query = {
         $or: orQuery,
     };
@@ -357,8 +358,11 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
         query.setYear = { $lte: maxYear };
     }
 
+    if (powermarkOnly)
+        query.question = { $regex: '\\(\\*\\)' };
+
     const aggregation = [
-        { $match: query, },
+        { $match: query },
         { $sort: {
             setName: -1,
             packetNumber: 1,
@@ -392,6 +396,7 @@ function getRandomName() {
  * @param {Number} object.number
  * @param {Number} object.minYear
  * @param {Number} object.maxYear
+ * @param {Boolean} object.powermarkOnly
  * @param difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
  * @param categories - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
  * @param subcategories - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
@@ -406,7 +411,8 @@ async function getRandomTossups({
     subcategories = SUBCATEGORIES_FLATTENED,
     number = 1,
     minYear = DEFAULT_MIN_YEAR,
-    maxYear = DEFAULT_MAX_YEAR
+    maxYear = DEFAULT_MAX_YEAR,
+    powermarkOnly = false,
 } = {}) {
     const aggregation = [
         { $match: { setYear: { $gte: minYear, $lte: maxYear } } },
@@ -424,6 +430,10 @@ async function getRandomTossups({
 
     if (subcategories.length) {
         aggregation[0].$match.subcategory = { $in: subcategories };
+    }
+
+    if (powermarkOnly) {
+        aggregation[0].$match.question = { $regex: '\\(\\*\\)' };
     }
 
     return await tossups.aggregate(aggregation).toArray();
