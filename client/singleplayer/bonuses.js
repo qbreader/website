@@ -224,10 +224,19 @@ async function loadRandomBonuses(difficulties = [], categories = [], subcategori
 async function next() {
     if (questions[questionNumber] && currentBonusPart >= questions[questionNumber].parts.length) {
         const pointsPerPart = Array.from(document.getElementsByClassName('checkbox')).map((checkbox, index) => {
-            if (!checkbox.checked)
+            if (!checkbox.checked) {
                 return 0;
+            }
 
-            return questions[questionNumber]?.values ? questions[questionNumber].values[index] : 10;
+            if (questions[questionNumber].values === undefined || questions[questionNumber].values === null) {
+                return 10;
+            }
+
+            if (questions[questionNumber].values[index] === undefined || questions[questionNumber].values[index] === null) {
+                return 10;
+            }
+
+            return questions[questionNumber].values[index];
         });
 
         fetch('/auth/record-bonus', {
