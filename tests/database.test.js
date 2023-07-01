@@ -1,6 +1,7 @@
-import { getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions';
-const assert = require('chai').assert;
-const { describe, it } = require('mocha');
+import { getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions.js';
+import { assert } from 'chai';
+import mocha from 'mocha';
+
 const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 
 /*
@@ -9,13 +10,13 @@ const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
 */
 
 async function testTiming(count) {
-    return describe(`Performance Tests with ${count} repetitions`, ()=> {
+    return mocha.describe(`Performance Tests with ${count} repetitions`, ()=> {
         /*
-The "formula" for the timeing was done by replicating the request on the website,
-and multiplying the execution time by 2 or 3 (usually), and the "count" parameter
-*/
+        The "formula" for the timeing was done by replicating the request on the website,
+        and multiplying the execution time by 2 or 3 (usually), and the "count" parameter
+        */
         function testRequest(name, timeout, func, params = false) {
-            it(`${name} (under ${timeout * count}ms)`, async ()=> {
+            mocha.it(`${name} (under ${timeout * count}ms)`, async ()=> {
                 this.timeout(timeout * count);
                 const results = [];
                 // Cool trick that Eslint suggested.
@@ -25,28 +26,28 @@ and multiplying the execution time by 2 or 3 (usually), and the "count" paramete
                 await Promise.all(results);
             });
         }
-        describe('getQuery', ()=> {
+        mocha.describe('getQuery', ()=> {
             testRequest('empty string', 2000, getQuery, { questionType: 'all', verbose: false });
             testRequest('"abc"', 3000, getQuery,  { queryString: 'abc', questionType: 'all', verbose: false });
             testRequest('"abc", return length 401', 5000, getQuery, { queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
             testRequest('"([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}", regex', 10000, getQuery, { queryString: '([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', questionType: 'all', verbose: false, regex: true });
             testRequest('"cesare", ignore diacritics"', 170000, getQuery, { queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
         });
-        describe('getPacket', ()=> {
+        mocha.describe('getPacket', ()=> {
             testRequest('2018 PACE NSC', 1000, getPacket, { setName: '2018 PACE NSC', packetNumber: 5 });
         });
-        describe('getSet', ()=> {
+        mocha.describe('getSet', ()=> {
             testRequest('2018 PACE NSC', 1000, getSet, { setName: '2018 PACE NSC', packetNumbers, questionType: 'bonus' });
             testRequest('Invalid set name', 2500, getSet, { setName: '(￣y▽￣)╭', packetNumbers, questionType: 'bonus' });
         });
-        describe('Random Functions', ()=> {
+        mocha.describe('Random Functions', ()=> {
             this.timeout(2500);
             testRequest('getRandomBonuses', 2500, getRandomBonuses);
             testRequest('getRandomTossups', 2500, getRandomTossups);
         });
         // The report function can't use tests requests because it requires more then one parameter :(
-        describe('reportQuestion', ()=> {
-            it('reportQuestion', async ()=> {
+        mocha.describe('reportQuestion', ()=> {
+            mocha.it('reportQuestion', async ()=> {
                 const results = [];
                 for (let i = 0; i < count; i++) {
                     results.push(reportQuestion('630020e3cab8fa6d1490b8ea', 'other', 'test'));
@@ -58,9 +59,9 @@ and multiplying the execution time by 2 or 3 (usually), and the "count" paramete
 }
 
 async function testCorrectness() {
-    return describe('Correctness Tests', ()=> {
+    return mocha.describe('Correctness Tests', ()=> {
         function testQuery(testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer) {
-            it(testName, async ()=> {
+            mocha.it(testName, async ()=> {
                 const { tossups, bonuses } = await getQuery(params);
                 assert.isOk(tossups, 'tossups');
                 assert.isOk(bonuses, 'bonuses');
@@ -84,7 +85,7 @@ async function testCorrectness() {
                 5, 2, question, answer);
         }
         function testPacketorSet(testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer, expectedFirstLeadin) {
-            it(testName, async ()=> {
+            mocha.it(testName, async ()=> {
                 const tossups = await getSet({ ...params, questionType: 'tossup' });
                 const bonuses = await getSet({ ...params, questionType: 'bonus' });
 
@@ -111,8 +112,8 @@ async function testCorrectness() {
             testPacketorSet('getSet - 2016 NASAT', { setName: '2016 NASAT', packetNumbers: packetNumbers }, 336, 336, question, answer, leadin);
         }
 
-        it('getNumPackets - 2018 PACE NSC', async () => assert.equal(await getNumPackets('2018 PACE NSC'), 25));
-        it('getNumPackets - 2016 NASAT', async () => assert.equal(await getNumPackets('2016 NASAT'), 16));
+        mocha.it('getNumPackets - 2018 PACE NSC', async () => assert.equal(await getNumPackets('2018 PACE NSC'), 25));
+        mocha.it('getNumPackets - 2016 NASAT', async () => assert.equal(await getNumPackets('2016 NASAT'), 16));
     });
 }
 
