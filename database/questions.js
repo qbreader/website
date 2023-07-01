@@ -14,6 +14,10 @@ async function connectToDatabase(log=false) {
     }
 }
 
+async function closeDatabase() {
+    await client.close();
+}
+
 await connectToDatabase(true);
 
 const database = client.db('qbreader');
@@ -606,6 +610,7 @@ async function reportQuestion(_id, reason, description, verbose = true) {
 
 
 export {
+    closeDatabase,
     connectToDatabase,
     getBonusById,
     getNumPackets,
