@@ -160,7 +160,9 @@ function TossupCard({
     document.getElementById('report-question-id').value = _id;
   }
   function showTossupStats() {
-    fetch('/auth/stats/single-tossup?tossup_id=' + _id).then(response => {
+    fetch('/auth/stats/single-tossup?' + new URLSearchParams({
+      tossup_id: _id
+    })).then(response => {
       switch (response.status) {
         case 401:
           document.getElementById('tossup-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
@@ -294,7 +296,9 @@ function BonusCard({
     document.getElementById('report-question-id').value = _id;
   }
   function showBonusStats() {
-    fetch('/auth/stats/single-bonus?bonus_id=' + _id).then(response => {
+    fetch('/auth/stats/single-bonus?' + new URLSearchParams({
+      bonus_id: _id
+    })).then(response => {
       switch (response.status) {
         case 401:
           document.getElementById('bonus-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
@@ -577,25 +581,24 @@ function QueryForm() {
       setTossupPaginationNumber(tossupPaginationNumber);
       setBonusPaginationNumber(bonusPaginationNumber);
     }
-    const uri = `/api/query?
-            queryString=${encodeURIComponent(queryString)}&
-            categories=${encodeURIComponent(validCategories)}&
-            subcategories=${encodeURIComponent(validSubcategories)}&
-            difficulties=${encodeURIComponent(difficulties)}&
-            maxReturnLength=${encodeURIComponent(maxReturnLength)}&
-            questionType=${encodeURIComponent(questionType)}&
-            randomize=${encodeURIComponent(randomize)}&
-            exactPhrase=${encodeURIComponent(exactPhrase)}&
-            ignoreDiacritics=${encodeURIComponent(diacritics)}&
-            regex=${encodeURIComponent(regex)}&
-            searchType=${encodeURIComponent(searchType)}&
-            setName=${encodeURIComponent(document.getElementById('set-name').value)}&
-            tossupPagination=${encodeURIComponent(tossupPaginationNumber)}&
-            bonusPagination=${encodeURIComponent(bonusPaginationNumber)}&
-            minYear=${encodeURIComponent(minYear)}&
-            maxYear=${encodeURIComponent(maxYear)}&
-        `.replace(/\s/g, '');
-    fetch(uri).then(response => {
+    fetch('/api/query?' + new URLSearchParams({
+      queryString,
+      categories: validCategories,
+      subcategories: validSubcategories,
+      difficulties,
+      maxReturnLength,
+      questionType,
+      randomize,
+      exactPhrase,
+      ignoreDiacritics: diacritics,
+      regex,
+      searchType,
+      setName: document.getElementById('set-name').value,
+      tossupPagination: tossupPaginationNumber,
+      bonusPagination: bonusPaginationNumber,
+      minYear,
+      maxYear
+    })).then(response => {
       if (response.status === 400) {
         throw new Error('Invalid query');
       }

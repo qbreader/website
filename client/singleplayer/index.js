@@ -15,7 +15,7 @@ async function checkAnswer(answerline, givenAnswer) {
         return { directive: 'reject', directedPrompt: null };
     }
 
-    return await fetch(`/api/check-answer?answerline=${encodeURIComponent(answerline)}&givenAnswer=${encodeURIComponent(givenAnswer)}`)
+    return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer }))
         .then(response => response.json());
 }
 

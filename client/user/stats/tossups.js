@@ -1,5 +1,5 @@
 function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
-    fetch(`/auth/user-stats/tossup?difficulties=${encodeURIComponent(difficulties)}&setName=${encodeURIComponent(setName)}&includeMultiplayer=${encodeURIComponent(includeMultiplayer)}&includeSingleplayer=${encodeURIComponent(includeSingleplayer)}&startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`)
+    fetch('/auth/user-stats/tossup?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
         .then(response => {
             if (response.status === 401) {
                 throw new Error('Unauthenticated');

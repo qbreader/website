@@ -259,7 +259,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
     }
 
     function showTossupStats() {
-        fetch('/auth/stats/single-tossup?tossup_id=' + _id)
+        fetch('/auth/stats/single-tossup?' + new URLSearchParams({ tossup_id: _id }))
             .then(response => {
                 switch (response.status) {
                 case 401:
@@ -392,7 +392,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
     }
 
     function showBonusStats() {
-        fetch('/auth/stats/single-bonus?bonus_id=' + _id)
+        fetch('/auth/stats/single-bonus?' + new URLSearchParams({ bonus_id: _id }))
             .then(response => {
                 switch (response.status) {
                 case 401:
@@ -665,26 +665,24 @@ function QueryForm() {
             setBonusPaginationNumber(bonusPaginationNumber);
         }
 
-        const uri = `/api/query?
-            queryString=${encodeURIComponent(queryString)}&
-            categories=${encodeURIComponent(validCategories)}&
-            subcategories=${encodeURIComponent(validSubcategories)}&
-            difficulties=${encodeURIComponent(difficulties)}&
-            maxReturnLength=${encodeURIComponent(maxReturnLength)}&
-            questionType=${encodeURIComponent(questionType)}&
-            randomize=${encodeURIComponent(randomize)}&
-            exactPhrase=${encodeURIComponent(exactPhrase)}&
-            ignoreDiacritics=${encodeURIComponent(diacritics)}&
-            regex=${encodeURIComponent(regex)}&
-            searchType=${encodeURIComponent(searchType)}&
-            setName=${encodeURIComponent(document.getElementById('set-name').value)}&
-            tossupPagination=${encodeURIComponent(tossupPaginationNumber)}&
-            bonusPagination=${encodeURIComponent(bonusPaginationNumber)}&
-            minYear=${encodeURIComponent(minYear)}&
-            maxYear=${encodeURIComponent(maxYear)}&
-        `.replace(/\s/g, '');
-
-        fetch(uri)
+        fetch('/api/query?' + new URLSearchParams({
+            queryString,
+            categories: validCategories,
+            subcategories: validSubcategories,
+            difficulties,
+            maxReturnLength,
+            questionType,
+            randomize,
+            exactPhrase,
+            ignoreDiacritics: diacritics,
+            regex,
+            searchType,
+            setName: document.getElementById('set-name').value,
+            tossupPagination: tossupPaginationNumber,
+            bonusPagination: bonusPaginationNumber,
+            minYear,
+            maxYear,
+        }))
             .then(response => {
                 if (response.status === 400) {
                     throw new Error('Invalid query');
