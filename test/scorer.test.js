@@ -47,7 +47,6 @@ function testAnswerType(type, count = -1) {
             total += t;
         });
     });
-    console.log(`${successful}/${total} tests successful\n`);
     return successful === total;
 }
 
