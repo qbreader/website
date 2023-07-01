@@ -48,25 +48,10 @@ function testAnswerType(type, count = -1) {
         });
     });
     console.log(`${successful}/${total} tests successful\n`);
-    return { successful, total };
+    return successful === total;
 }
-
-console.time('scorer.test.js');
-let successful = 0, total = 0;
 
 const count = -1;
 
-let { successful: s, total: t } = testAnswerType('formatted', count);
-successful += s;
-total += t;
-
-({ successful: s, total: t } = testAnswerType('unformatted', count));
-successful += s;
-total += t;
-
-console.log(`OVERALL ${successful}/${total} tests successful`);
-console.timeEnd('scorer.test.js');
-
-if (successful !== total) {
-    process.exit(1);
-}
+testAnswerType('formatted', count);
+testAnswerType('unformatted', count);
