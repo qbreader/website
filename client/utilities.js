@@ -176,7 +176,7 @@ async function getNumPackets(setName) {
         return 0;
     }
 
-    return fetch(`/api/num-packets?setName=${encodeURIComponent(setName)}`)
+    return fetch('/api/num-packets?' + new URLSearchParams({ setName }))
         .then(response => response.json())
         .then(data => data.numPackets);
 }

@@ -13,6 +13,6 @@ form.addEventListener('submit', (event) => {
     document.getElementById('submission').textContent = 'Submitting...';
 
     const username = document.getElementById('username').value;
-    fetch('/auth/send-password-reset-email?username=' + encodeURIComponent(username));
+    fetch('/auth/send-password-reset-email?' + new URLSearchParams({ username }));
     window.location.href = '/';
 }, false);
