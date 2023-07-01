@@ -27,16 +27,20 @@ fetch('/api/geoword/admin/protests?' + new URLSearchParams({ packetName, divisio
             innerHTML += '<ul class="list-group mb-3">';
             for (const protest of protests.filter(protest => protest.questionNumber === questionNumber && protest.pendingProtest)) {
                 innerHTML += `<li class="list-group-item d-flex justify-content-between">
-                    <span><b>${escapeHTML(protest.username + ': ' ?? '')}</b><span id="given-answer-${protest._id}">${protest.givenAnswer}</span> - pending review</span>
+                    <span>
+                        <b>${escapeHTML(protest.username + ': ' || '')}</b>
+                        <span id="given-answer-${protest._id}">${protest.givenAnswer}</span>
+                        (celerity: ${protest.celerity.toFixed(3)}) - pending review
+                    </span>
                     <a id="${protest._id}" question="${questionNumber}" href="#" data-bs-toggle="modal" data-bs-target="#resolve-protest-modal">Resolve protest</a>
                 </li>`;
             }
 
             for (const protest of protests.filter(protest => protest.questionNumber === questionNumber && !protest.pendingProtest)) {
-                const resolution = `resolved: ${protest.decision} (reason: ${protest.reason ?? 'none'})`;
+                const resolution = `resolved: ${protest.decision} (reason: ${protest.reason || 'none'})`;
 
                 innerHTML += `<li class="list-group-item">
-                    <span><b>${escapeHTML(protest.username + ': ' ?? '')}</b><span>${protest.givenAnswer}</span> - ${resolution}</span>
+                    <span><b>${escapeHTML(protest.username + ': ' || '')}</b><span>${protest.givenAnswer}</span> - ${resolution}</span>
                 </li>`;
             }
 
