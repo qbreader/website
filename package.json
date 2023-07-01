@@ -9,8 +9,8 @@
         "start": "node server/server.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css",
         "lint": "eslint .",
-        "test:frontend": "mocha tests/scorer.test.js",
-        "test:backend": "mocha tests/database.test.js",
+        "test:frontend": "mocha test/scorer.test.js",
+        "test:backend": "mocha test/database.test.js",
         "test:all": "npm run test:frontend && npm run test:backend"
     },
     "dependencies": {
