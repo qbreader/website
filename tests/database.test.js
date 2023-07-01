@@ -20,32 +20,28 @@ async function testTiming(count) {
         function testRequest(name, timeout, func, params = false) {
             mocha.it(`${name} (under ${timeout * count}ms)`, async function () {
                 this.timeout(timeout * count);
-                const results = [];
-                // Cool trick that Eslint suggested.
                 for (let i = 0; i < count; i++) {
-                    results.push(func(params));
+                    await func(params);
                 }
-                await Promise.all(results);
             });
         }
         mocha.describe('getQuery', ()=> {
-            testRequest('empty string', 2000, getQuery, { questionType: 'all', verbose: false });
-            testRequest('"abc"', 3000, getQuery,  { queryString: 'abc', questionType: 'all', verbose: false });
-            testRequest('"abc", return length 401', 5000, getQuery, { queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
-            testRequest('"([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}", regex', 10000, getQuery, { queryString: '([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', questionType: 'all', verbose: false, regex: true });
-            testRequest('"cesare", ignore diacritics"', 170000, getQuery, { queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
+            testRequest('empty string', 800, getQuery, { questionType: 'all', verbose: false });
+            testRequest('"abc"', 2000, getQuery,  { queryString: 'abc', questionType: 'all', verbose: false });
+            testRequest('"abc", return length 401', 3000, getQuery, { queryString: 'abc', questionType: 'all', verbose: false, maxReturnLength: 401 });
+            testRequest('"([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}", regex', 5000, getQuery, { queryString: '([aàáâǎäãåāăạả](b*)[cçćčɔ́ĉƈ]+?.*){1,}', questionType: 'all', verbose: false, regex: true });
+            testRequest('"cesare", ignore diacritics"', 8000, getQuery, { queryString: 'cesaire', questionType: 'all', verbose: false, ignoreDiacritics: true });
         });
         mocha.describe('getPacket', ()=> {
-            testRequest('2018 PACE NSC', 1000, getPacket, { setName: '2018 PACE NSC', packetNumber: 5 });
+            testRequest('2018 PACE NSC', 400, getPacket, { setName: '2018 PACE NSC', packetNumber: 5 });
         });
         mocha.describe('getSet', ()=> {
             testRequest('2018 PACE NSC', 1000, getSet, { setName: '2018 PACE NSC', packetNumbers, questionType: 'bonus' });
-            testRequest('Invalid set name', 2500, getSet, { setName: '(￣y▽￣)╭', packetNumbers, questionType: 'bonus' });
+            testRequest('Invalid set name', 100, getSet, { setName: '(￣y▽￣)╭', packetNumbers, questionType: 'bonus' });
         });
-        mocha.describe('Random Functions', ()=> {
-            this.timeout(2500);
-            testRequest('getRandomBonuses', 2500, getRandomBonuses);
-            testRequest('getRandomTossups', 2500, getRandomTossups);
+        mocha.describe('Random Functions', () => {
+            testRequest('getRandomBonuses', 2000, getRandomBonuses);
+            testRequest('getRandomTossups', 2000, getRandomTossups);
         });
         // The report function can't use tests requests because it requires more then one parameter :(
         mocha.describe('reportQuestion', ()=> {
