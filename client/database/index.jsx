@@ -570,6 +570,7 @@ function QueryForm() {
     const [regex, setRegex] = React.useState(false);
     const [diacritics, setDiacritics] = React.useState(false);
     const [exactPhrase, setExactPhrase] = React.useState(false);
+    const [powermarkOnly, setPowermarkOnly] = React.useState(false);
     const [showCardFooters, setShowCardFooters] = React.useState(true);
 
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
@@ -675,6 +676,7 @@ function QueryForm() {
             randomize,
             exactPhrase,
             ignoreDiacritics: diacritics,
+            powermarkOnly,
             regex,
             searchType,
             setName: document.getElementById('set-name').value,
@@ -853,11 +855,15 @@ function QueryForm() {
                         </div>
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
-                            <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics when searching (Note: may slow down search)</label>
+                            <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics (May slow down search)</label>
                         </div>
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-exact-phrase" checked={!regex && exactPhrase} disabled={regex} onChange={() => {setExactPhrase(!exactPhrase);}} />
                             <label className="form-check-label" htmlFor="toggle-exact-phrase">Search for exact phrase</label>
+                        </div>
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-powermark-only" checked={powermarkOnly} onChange={() => {setPowermarkOnly(!powermarkOnly);}} />
+                            <label className="form-check-label" htmlFor="toggle-powermark-only">Powermarked tossups only</label>
                         </div>
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-show-card-footers" checked={showCardFooters} onChange={() => {setShowCardFooters(!showCardFooters);}} />

@@ -129,8 +129,8 @@
                         <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-rebuzz" type="checkbox" role="switch">
-                        <label class="form-check-label" for="toggle-rebuzz">Allow rebuzzes</label>
+                        <input class="form-check-input" id="toggle-powermark-only" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-powermark-only">Powermarked tossups only</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
@@ -143,6 +143,10 @@
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-visibility" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-visibility">Public room</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-rebuzz" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-rebuzz">Allow rebuzzes</label>
                     </div>
                     <p class="mb-1 text-muted" id="private-chat-warning"><i>chat is disabled in public rooms</i></p>
                 </div>
@@ -178,8 +182,8 @@
                     <span class="float-end ps-5 me-lg-2" id="question-metadata">
                         <b id="question-info">
                             <span id="set-name-info"></span>
-                            Packet <span id="packet-number-info"></span>
-                            Question <span id="question-number-info"></span>
+                            Packet <span id="packet-number-info">-</span>
+                            Question <span id="question-number-info">-</span>
                         </b>
                     </span>
                 </div>

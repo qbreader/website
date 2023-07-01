@@ -6,11 +6,6 @@ const router = Router();
 
 
 router.get('/', async (req, res) => {
-    req.query.randomize = (req.query.randomize === 'true');
-    req.query.regex = (req.query.regex === 'true');
-    req.query.exactPhrase = (req.query.exactPhrase === 'true');
-    req.query.ignoreDiacritics = (req.query.ignoreDiacritics === 'true');
-
     if (!['tossup', 'bonus', 'all'].includes(req.query.questionType)) {
         res.status(400).send('Invalid question type specified.');
         return;
@@ -20,6 +15,12 @@ router.get('/', async (req, res) => {
         res.status(400).send('Invalid search type specified.');
         return;
     }
+
+    req.query.exactPhrase = (req.query.exactPhrase === 'true');
+    req.query.ignoreDiacritics = (req.query.ignoreDiacritics === 'true');
+    req.query.powermarkOnly = (req.query.powermarkOnly === 'true');
+    req.query.randomize = (req.query.randomize === 'true');
+    req.query.regex = (req.query.regex === 'true');
 
     if (req.query.difficulties) {
         req.query.difficulties = req.query.difficulties

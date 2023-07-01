@@ -145,6 +145,11 @@ socket.onmessage = function (event) {
         socketOnStart(data);
         break;
 
+    case 'toggle-powermark-only':
+        logEvent(data.username, `${data.powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
+        document.getElementById('toggle-powermark-only').checked = data.powermarkOnly;
+        break;
+
     case 'toggle-rebuzz':
         logEvent(data.username, `${data.rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
         document.getElementById('toggle-rebuzz').checked = data.rebuzz;
@@ -169,6 +174,7 @@ socket.onmessage = function (event) {
             document.getElementById('difficulty-settings').classList.remove('d-none');
             document.getElementById('set-settings').classList.add('d-none');
         }
+        document.getElementById('toggle-powermark-only').disabled = data.selectBySetName;
         break;
 
     case 'toggle-visibility':
@@ -821,6 +827,11 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
         setName: document.getElementById('set-name').value,
         selectBySetName: this.checked
     }));
+});
+
+document.getElementById('toggle-powermark-only').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-powermark-only', powermarkOnly: this.checked }));
 });
 
 
