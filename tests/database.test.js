@@ -141,7 +141,7 @@ mocha.before(async () => {
 
 
 testCorrectness();
-testTiming(5);
+testTiming(1);
 
 // console.log('Begin timing tests');
 // console.log('End timing tests');
