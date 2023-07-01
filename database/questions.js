@@ -5,10 +5,13 @@ import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
-client.connect().then(async () => {
-    console.log('connected to mongodb');
-});
 
+async function connectToDatabase() {
+    await client.connect();
+    console.log('connected to mongodb');
+}
+
+await connectToDatabase();
 
 const database = client.db('qbreader');
 
@@ -590,6 +593,7 @@ async function reportQuestion(_id, reason, description, verbose = true) {
 
 
 export {
+    connectToDatabase,
     getNumPackets,
     getPacket,
     getQuery,
