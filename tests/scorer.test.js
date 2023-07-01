@@ -1,10 +1,12 @@
 import checkAnswer from '../server/checkAnswer.js';
 import * as bcolors from '../bcolors.js';
+
+import { assert } from 'chai';
+import mocha from 'mocha';
 import { createRequire } from 'module';
+
 const require = createRequire(import.meta.url);
 const tests = require('./scorer.test.json');
-const assert = require('chai').assert;
-const { describe, it } = require('mocha');
 
 function errorText(text) {
     // Colors text red
@@ -14,7 +16,7 @@ function errorText(text) {
 function answerlineTest(group) {
     let successful = 0, total = 0;
     const answerline = group.answerline;
-    describe(`Answerline Test: ${answerline}`, ()=> {
+    mocha.describe(`Answerline Test: ${answerline}`, ()=> {
         group.tests.forEach((test) => {
             const expected = test.directive;
             const givenAnswer = test.given;
@@ -22,9 +24,9 @@ function answerlineTest(group) {
             const { directive, directedPrompt } = checkAnswer(answerline, givenAnswer);
             total++;
             // Assertions will *supposedly* auto return when this fails.
-            it('directive check', ()=> assert.strictEqual(expected, directive, errorText(`directive for ${givenAnswer}`)));
+            mocha.it('directive check', () => assert.strictEqual(expected, directive, errorText(`directive for ${givenAnswer}`)));
             if (expectedDirectedPrompt || directedPrompt) {
-                it('directive prompt check', ()=> assert.strictEqual(expectedDirectedPrompt, directedPrompt, errorText(`directive prompt for ${givenAnswer}`)));
+                mocha.it('directive prompt check', () => assert.strictEqual(expectedDirectedPrompt, directedPrompt, errorText(`directive prompt for ${givenAnswer}`)));
             }
             successful++;
         });
@@ -35,7 +37,7 @@ function answerlineTest(group) {
 
 function testAnswerType(type, count = -1) {
     let successful = 0, total = 0;
-    describe(`${type} Answer Testing`, ()=> {
+    mocha.describe(`${type} Answer Testing`, () => {
         if (count > 0) {
             tests[type].splice(count);
         }
