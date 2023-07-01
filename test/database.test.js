@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { connectToDatabase, getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions.js';
+import { closeDatabase, connectToDatabase, getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions.js';
 import { assert } from 'chai';
 import mocha from 'mocha';
 
@@ -135,14 +135,12 @@ async function testCorrectness() {
 }
 
 mocha.before(async () => {
-    // Wait for the database to connect
     await connectToDatabase();
 });
-
 
 testCorrectness();
 testTiming(1);
 
-// console.log('Begin timing tests');
-// console.log('End timing tests');
-// console.log();
+mocha.after(async () => {
+    await closeDatabase();
+});
