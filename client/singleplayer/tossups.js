@@ -29,6 +29,12 @@ let questions = [{}];
 let questionText = '';
 let questionTextSplit = [];
 
+/**
+ * An array of random questions.
+ * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
+ */
+let randomQuestions = [];
+
 
 function queryLock() {
     document.getElementById('question').textContent = 'Fetching questions...';
