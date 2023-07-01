@@ -164,7 +164,8 @@ async function getTossups(setName, packetNumber) {
     if (setName === '') {
         return [];
     }
-    return await fetch(`/api/packet-tossups?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
+
+    return await fetch('/api/packet-tossups?' + new URLSearchParams({ setName, packetNumber }))
         .then(response => response.json())
         .then(data => data.tossups);
 }
@@ -222,7 +223,7 @@ async function loadRandomTossups(difficulties = [], categories = [], subcategori
             maxYear=${encodeURIComponent(maxYear)}&
         `.replace(/\s/g, '');
 
-    randomQuestions = await fetch(uri)
+    fetch('/api/random-tossup?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear }))
         .then(response => response.json())
         .then(response => response.tossups)
         .then(questions => {
@@ -231,7 +232,7 @@ async function loadRandomTossups(difficulties = [], categories = [], subcategori
                     questions[i].answer = questions[i].formatted_answer;
             }
 
-            return questions;
+            randomQuestions = questions;
         });
 }
 

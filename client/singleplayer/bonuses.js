@@ -143,7 +143,7 @@ async function getBonuses(setName, packetNumber) {
         return [];
     }
 
-    return await fetch(`/api/packet-bonuses?&setName=${encodeURIComponent(setName)}&packetNumber=${encodeURIComponent(packetNumber)}`)
+    return await fetch('/api/packet-bonuses?' + new URLSearchParams({ setName, packetNumber }))
         .then(response => response.json())
         .then(data => data.bonuses);
 }
@@ -202,16 +202,7 @@ async function loadRandomBonuses(difficulties = [], categories = [], subcategori
     const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
     const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
 
-    const uri = `/api/random-bonus?
-            difficulties=${encodeURIComponent(difficulties)}&
-            categories=${encodeURIComponent(categories)}&
-            subcategories=${encodeURIComponent(subcategories)}&
-            number=${encodeURIComponent(number)}&
-            minYear=${encodeURIComponent(minYear)}&
-            maxYear=${encodeURIComponent(maxYear)}&
-        `.replace(/\s/g, '');
-
-    randomQuestions = await fetch(uri)
+    fetch('/api/random-bonus?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear }))
         .then(response => response.json())
         .then(response => response.bonuses)
         .then(questions => {
@@ -220,7 +211,7 @@ async function loadRandomBonuses(difficulties = [], categories = [], subcategori
                     questions[i].answers = questions[i].formatted_answers;
             }
 
-            return questions;
+            randomQuestions = questions;
         });
 }
 
