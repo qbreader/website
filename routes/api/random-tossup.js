@@ -27,6 +27,8 @@ router.get('/', async (req, res) => {
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
     req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
 
+    req.query.powermarkOnly = (req.query.powermarkOnly === 'true');
+
     const tossups = await getRandomTossups(req.query);
 
     if (tossups.length === 0) {

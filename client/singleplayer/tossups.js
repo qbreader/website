@@ -213,17 +213,9 @@ function isPace(setName) {
 async function loadRandomTossups(difficulties = [], categories = [], subcategories = [], number = 1) {
     const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
     const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
+    const powermarkOnly = document.getElementById('powermark-only').checked;
 
-    const uri = `/api/random-tossup?
-            difficulties=${encodeURIComponent(difficulties)}&
-            categories=${encodeURIComponent(categories)}&
-            subcategories=${encodeURIComponent(subcategories)}&
-            number=${encodeURIComponent(number)}&
-            minYear=${encodeURIComponent(minYear)}&
-            maxYear=${encodeURIComponent(maxYear)}&
-        `.replace(/\s/g, '');
-
-    fetch('/api/random-tossup?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear }))
+    fetch('/api/random-tossup?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear, powermarkOnly }))
         .then(response => response.json())
         .then(response => response.tossups)
         .then(questions => {
@@ -570,6 +562,8 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
         document.getElementById('set-settings').classList.add('d-none');
         localStorage.setItem('selectBySetName', 'false');
     }
+
+    document.getElementById('toggle-powermark-only').disabled = this.checked;
 });
 
 
@@ -705,6 +699,7 @@ window.onload = async () => {
         document.getElementById('difficulty-settings').classList.remove('d-none');
         document.getElementById('set-settings').classList.add('d-none');
         document.getElementById('toggle-select-by-set-name').checked = false;
+        document.getElementById('toggle-powermark-only').disabled = false;
     }
 
     if (localStorage.getItem('setNameTossupSave')) {
