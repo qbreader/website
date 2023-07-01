@@ -1,4 +1,4 @@
-import { getSetId, getTossupById } from './questions.js';
+import { getSetId, getTossupById, getBonusById } from './questions.js';
 
 import { MongoClient, ObjectId } from 'mongodb';
 
@@ -97,8 +97,14 @@ async function getSubcategoryStats({ username, questionType, difficulties, setNa
  * @returns {Promise<Document>} the bonus stats
  */
 async function getSingleBonusStats(bonus_id) {
+    const bonus = await getBonusById(bonus_id);
+
+    if (!bonus) {
+        return null;
+    }
+
     const result = await bonusData.aggregate([
-        { $match: { bonus_id } },
+        { $match: { bonus_id, pointsPerPart: { $size: bonus.parts.length } } },
         { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
         { $addFields: {
             convertedPart1: { $ne: [ { $arrayElemAt: [ '$pointsPerPart', 0 ] }, 0] },

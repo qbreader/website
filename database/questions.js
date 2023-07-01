@@ -557,6 +557,16 @@ function getSetList() {
  * @param {ObjectId} _id
  * @returns Promise<Document>
  */
+async function getBonusById(_id) {
+    return await bonuses.findOne({ _id: _id });
+}
+
+
+/**
+ *
+ * @param {ObjectId} _id
+ * @returns Promise<Document>
+ */
 async function getTossupById(_id) {
     return await tossups.findOne({ _id: _id });
 }
@@ -590,6 +600,7 @@ async function reportQuestion(_id, reason, description, verbose = true) {
 
 
 export {
+    getBonusById,
     getNumPackets,
     getPacket,
     getQuery,
