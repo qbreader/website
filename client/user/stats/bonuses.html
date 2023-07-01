@@ -62,9 +62,9 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <form onsubmit="onSubmit(event)">
+        <form class="mb-3 mb-md-0" onsubmit="onSubmit(event)">
             <div class="row">
-                <div class="col-6 mb-2">
+                <div class="col-12 col-md-6 mb-2">
                     <div class="dropdown-checklist btn-group w-100">
                         <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
                             aria-expanded="true" aria-haspopup="true">
@@ -85,14 +85,14 @@
                         </ul>
                     </div>
                 </div>
-                <div class="input-group col-6 mb-2">
+                <div class="input-group col-12 col-md-6 mb-2">
                     <input type="text" class="form-control" id="set-name" placeholder="Set Name" list="set-list" />
                     <datalist id="set-list"></datalist>
                     <button type="submit" class="btn btn-info">Submit</button>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-md-6">
                     <!-- <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="include-multiplayer" checked />
                         <label class="form-check-label" for="include-multiplayer">Include multiplayer stats</label>
@@ -102,7 +102,7 @@
                         <label class="form-check-label" for="include-singleplayer">Include singleplayer stats</label>
                     </div> -->
                 </div>
-                <div class="col-12 col-lg-6 text-lg-end">
+                <div class="col-12 col-md-6 text-md-end">
                     <div>
                         <label for="start-date">Start Date (optional):</label>
                         <input type="date" id="start-date" name="start-date">
