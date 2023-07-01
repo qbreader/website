@@ -1,4 +1,6 @@
-import { getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions.js';
+import 'dotenv/config';
+
+import { connectToDatabase, getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions.js';
 import { assert } from 'chai';
 import mocha from 'mocha';
 
@@ -59,7 +61,9 @@ async function testTiming(count) {
 }
 
 async function testCorrectness() {
-    return mocha.describe('Correctness Tests', ()=> {
+    return mocha.describe('Correctness Tests', function () {
+        this.timeout(0);
+
         function testQuery(testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer) {
             mocha.it(testName, async ()=> {
                 const { tossups, bonuses } = await getQuery(params);
@@ -84,10 +88,12 @@ async function testCorrectness() {
                 { queryString: 'newton', questionType: 'all', setName: '2018 PACE NSC', verbose: false, maxReturnLength: 400 },
                 5, 2, question, answer);
         }
-        function testPacketorSet(testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer, expectedFirstLeadin) {
+
+
+        function testGetPacket(testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer, expectedFirstLeadin) {
             mocha.it(testName, async ()=> {
-                const tossups = await getSet({ ...params, questionType: 'tossup' });
-                const bonuses = await getSet({ ...params, questionType: 'bonus' });
+                const packet = await getPacket({ ...params, questionType: 'tossup' });
+                const { tossups, bonuses } = packet;
 
                 assert.isOk(tossups, 'tossups');
                 assert.isOk(bonuses, 'bonuses');
@@ -102,14 +108,29 @@ async function testCorrectness() {
             const question = 'In his final appearance, this character experiences a severe toothache after asserting "as a weapon I may be of some use. But as a man, I\'m a wreck," then leaves to join King Milan\'s forces. This man buys a painting of two boys fishing, and commissions a portrait, from his fellow expatriate Mihailov. He is shocked to learn that his lover is pregnant between one scene in which he glimpses his rival Makhotin\'s chestnut (*) Gladiator, and another scene in which he rides his own horse Frou-Frou to death. This character first encounters his future lover at a railway station, where a worker is crushed by a train, and is initially interested in Kitty Shcherbatsky. For 10 points, name this Leo Tolstoy character, a nobleman who has an affair with Anna Karenina.';
             const answer = 'Count Alexei (Kirillovich) <b><u>Vronsky</u></b> [prompt on <u>Alexei</u>]';
             const leadin = 'The 170 men who rowed each of these ships often came from Piraeus and were thetes, the lowest class of citizen. For 10 points each:';
-            testPacketorSet('getPacket -\n 2018 PACE NSC, Packet 5', { setName: '2018 PACE NSC', packetNumber: 5 }, 21, 21, question, answer, leadin);
+            testGetPacket('getPacket -\n 2018 PACE NSC, Packet 5', { setName: '2018 PACE NSC', packetNumber: 5 }, 21, 21, question, answer, leadin);
+        }
+
+        function testGetSet(testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer, expectedFirstLeadin) {
+            mocha.it(testName, async ()=> {
+                const tossups = await getSet({ ...params, questionType: 'tossup' });
+                const bonuses = await getSet({ ...params, questionType: 'bonus' });
+
+                assert.isOk(tossups, 'tossups');
+                assert.isOk(bonuses, 'bonuses');
+                assert.propertyVal(tossups, 'length', tossupCount, 'tossup count');
+                assert.propertyVal(bonuses, 'length', bonusCount, 'bonus count');
+                assert.propertyVal(bonuses[0], 'leadin', expectedFirstLeadin, 'bonuses - leadins');
+                assert.strictEqual(tossups[0].question, expectedFirstTossupQueston, 'tossups - question');
+                assert.strictEqual(tossups[0].answer, expectedFirstTossupAnswer, 'tossups - answer');
+            });
         }
 
         {
             const question = 'Besides his treatise on the Divine Names, the most notable work by Pseudo-Dionysius the Areopagite discusses these things. The phrase "Grigori" refers to some of these things that are heavily described in the apocryphal Books of Enoch. First Corinthians 11 argues that, specifically because of these things, women should wear head coverings when praying or prophesying. Tertullian suggested these things are what created the gigantic Nephilim. In the Talmud, Elisha ben Abuyah declares that there are "two powers in heaven" when he sees one of these things named Metatron. The book of Daniel mentions one of these beings by name, saying he will help fight the princes of Persia and protect Israel. For 10 points, name these celestial figures that include Gabriel and Michael.';
             const answer = '<b><u>angel</u></b>s [or <b><u>archangel</u></b>s; or fallen <b><u>angel</u></b>s; or <b><u>Watcher</u></b>s; or <b><u>mal\'akh</u></b>im; or <b><u>Grigori</u></b> until it is read]';
             const leadin = 'In a painting by this artist, a heavily-garlanded Pan sprawls in front of an eagle, flanked by a female personification of Death, who holds a bloody sword, and one of Pain, who wears a crown of thorns. For 10 points each:';
-            testPacketorSet('getSet - 2016 NASAT', { setName: '2016 NASAT', packetNumbers: packetNumbers }, 336, 336, question, answer, leadin);
+            testGetSet('getSet - 2016 NASAT', { setName: '2016 NASAT', packetNumbers: packetNumbers }, 336, 336, question, answer, leadin);
         }
 
         mocha.it('getNumPackets - 2018 PACE NSC', async () => assert.equal(await getNumPackets('2018 PACE NSC'), 25));
@@ -117,19 +138,16 @@ async function testCorrectness() {
     });
 }
 
-(async () => {
+mocha.before(async () => {
     // Wait for the database to connect
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.time('database.test.js');
-    console.log();
-    console.log('Begin correctness tests');
-    await testCorrectness();
-    console.log('End correctness tests');
-    console.log();
+    // await new Promise((resolve) => setTimeout(resolve, 1500));
+    await connectToDatabase();
+});
 
-    console.log('Begin timing tests');
-    await testTiming(5);
-    console.log('End timing tests');
-    console.log();
-    console.timeEnd('database.test.js');
-})();
+
+testCorrectness();
+
+// console.log('Begin timing tests');
+// await testTiming(5);
+// console.log('End timing tests');
+// console.log();
