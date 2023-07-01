@@ -1,10 +1,5 @@
 // Functions and variables used in both the tossup and bonus pages.
 
-/**
- * An array of random questions.
- * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
- */
-let randomQuestions = [];
 let maxPacketNumber = 24;
 
 /**
