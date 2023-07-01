@@ -12,13 +12,13 @@ const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
 */
 
 async function testTiming(count) {
-    return mocha.describe(`Performance Tests with ${count} repetitions`, ()=> {
+    return mocha.describe(`Performance Tests with ${count} repetitions`, function () {
         /*
         The "formula" for the timeing was done by replicating the request on the website,
         and multiplying the execution time by 2 or 3 (usually), and the "count" parameter
         */
         function testRequest(name, timeout, func, params = false) {
-            mocha.it(`${name} (under ${timeout * count}ms)`, async ()=> {
+            mocha.it(`${name} (under ${timeout * count}ms)`, async function () {
                 this.timeout(timeout * count);
                 const results = [];
                 // Cool trick that Eslint suggested.
@@ -140,14 +140,13 @@ async function testCorrectness() {
 
 mocha.before(async () => {
     // Wait for the database to connect
-    // await new Promise((resolve) => setTimeout(resolve, 1500));
     await connectToDatabase();
 });
 
 
 testCorrectness();
+testTiming(5);
 
 // console.log('Begin timing tests');
-// await testTiming(5);
 // console.log('End timing tests');
 // console.log();
