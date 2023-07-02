@@ -22,13 +22,11 @@ form.addEventListener('submit', (event) => {
     const username = document.getElementById('username').value;
     fetch('/auth/edit-profile', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             email: document.getElementById('email').value,
             username: username,
-        })
+        }),
     }).then(function (response) {
         if (response.status === 200) {
             deleteAccountUsername();

@@ -15,13 +15,11 @@ form.addEventListener('submit', (event) => {
     const username = document.getElementById('username').value;
     fetch('/auth/login', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             username: username,
-            password: document.getElementById('password').value
-        })
+            password: document.getElementById('password').value,
+        }),
     }).then(async function (response) {
         if (response.status === 200) {
             const { expires } = await response.json();

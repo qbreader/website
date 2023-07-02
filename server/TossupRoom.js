@@ -93,7 +93,7 @@ class TossupRoom {
             this.message(userId, {
                 type: 'leave',
                 userId: userId,
-                username: username
+                username: username,
             });
         });
 
@@ -136,14 +136,14 @@ class TossupRoom {
         if (this.questionProgress > 0 && this.tossup?.question) {
             socket.send(JSON.stringify({
                 type: 'update-question',
-                word: this.questionSplit.slice(0, this.wordIndex).join(' ')
+                word: this.questionSplit.slice(0, this.wordIndex).join(' '),
             }));
         }
 
         if (this.questionProgress === 2 && this.tossup?.answer) {
             socket.send(JSON.stringify({
                 type: 'reveal-answer',
-                answer: this.tossup.answer
+                answer: this.tossup.answer,
             }));
         }
 
@@ -168,7 +168,7 @@ class TossupRoom {
                 type: 'change-username',
                 userId: userId,
                 oldUsername: this.players[userId].username,
-                newUsername: message.username
+                newUsername: message.username,
             });
             this.players[userId].updateUsername(message.username);
             break;
@@ -195,7 +195,7 @@ class TossupRoom {
             this.players[userId].clearStats();
             this.sendSocketMessage({
                 type: 'clear-stats',
-                userId: userId
+                userId: userId,
             });
             break;
 
@@ -203,7 +203,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'difficulties',
                 username: this.players[userId].username,
-                value: message.value
+                value: message.value,
             });
             this.adjustQuery(['difficulties'], [message.value]);
             break;
@@ -216,7 +216,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'give-answer-live-update',
                 username: this.players[userId].username,
-                message: message.message
+                message: message.message,
             });
             break;
 
@@ -237,7 +237,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'packet-number',
                 username: this.players[userId].username,
-                value: this.query.packetNumbers
+                value: this.query.packetNumbers,
             });
             break;
 
@@ -250,7 +250,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'reading-speed',
                 username: this.players[userId].username,
-                value: this.settings.readingSpeed
+                value: this.settings.readingSpeed,
             });
             break;
 
@@ -258,7 +258,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'set-name',
                 username: this.players[userId].username,
-                value: message.value
+                value: message.value,
             });
             this.adjustQuery(['setName', 'packetNumbers'], [message.value, message.packetNumbers]);
             break;
@@ -278,7 +278,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'toggle-rebuzz',
                 rebuzz: this.settings.rebuzz,
-                username: this.players[userId].username
+                username: this.players[userId].username,
             });
             break;
 
@@ -287,7 +287,7 @@ class TossupRoom {
                 type: 'toggle-select-by-set-name',
                 selectBySetName: message.selectBySetName,
                 setName: this.query.setName,
-                username: this.players[userId].username
+                username: this.players[userId].username,
             });
             this.settings.selectBySetName = message.selectBySetName;
             this.adjustQuery(['setName'], [message.setName]);
@@ -298,7 +298,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'toggle-skip',
                 skip: this.settings.skip,
-                username: this.players[userId].username
+                username: this.players[userId].username,
             });
             break;
 
@@ -310,7 +310,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'toggle-visibility',
                 public: this.settings.public,
-                username: this.players[userId].username
+                username: this.players[userId].username,
             });
             break;
 
@@ -319,7 +319,7 @@ class TossupRoom {
                 type: 'update-categories',
                 categories: message.categories,
                 subcategories: message.subcategories,
-                username: this.players[userId].username
+                username: this.players[userId].username,
             });
             this.adjustQuery(['categories', 'subcategories'], [message.categories, message.subcategories]);
             break;
@@ -372,7 +372,7 @@ class TossupRoom {
         if (this.settings.selectBySetName) {
             if (this.setCache.length === 0) {
                 this.sendSocketMessage({
-                    type: 'end-of-set'
+                    type: 'end-of-set',
                 });
                 return false;
             } else {
@@ -386,7 +386,7 @@ class TossupRoom {
                 if (this.randomQuestionCache.length === 0) {
                     this.tossup = {};
                     this.sendSocketMessage({
-                        type: 'no-questions-found'
+                        type: 'no-questions-found',
                     });
                     return false;
                 }
@@ -413,7 +413,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'lost-buzzer-race',
                 userId: userId,
-                username: this.players[userId].username
+                username: this.players[userId].username,
             });
         } else {
             this.buzzedIn = userId;
@@ -422,12 +422,12 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'buzz',
                 userId: userId,
-                username: this.players[userId].username
+                username: this.players[userId].username,
             });
 
             this.sendSocketMessage({
                 type: 'update-question',
-                word: '(#)'
+                word: '(#)',
             });
         }
     }
@@ -440,7 +440,7 @@ class TossupRoom {
         this.sendSocketMessage({
             type: 'leave',
             userId: userId,
-            username: this.players[userId].username
+            username: this.players[userId].username,
         });
 
         delete this.players[userId];
@@ -513,7 +513,7 @@ class TossupRoom {
             type: type,
             userId: userId,
             username: this.players[userId].username,
-            tossup: this.tossup
+            tossup: this.tossup,
         });
         this.readQuestion(new Date().getTime());
     }
@@ -530,7 +530,7 @@ class TossupRoom {
         this.sendSocketMessage({
             type: 'pause',
             paused: this.paused,
-            username: this.players[userId].username
+            username: this.players[userId].username,
         });
     }
 
@@ -545,7 +545,7 @@ class TossupRoom {
 
         this.sendSocketMessage({
             type: 'update-question',
-            word: word
+            word: word,
         });
 
         // calculate time needed before reading next word
@@ -572,12 +572,12 @@ class TossupRoom {
         const remainingQuestion = this.questionSplit.slice(this.wordIndex).join(' ');
         this.sendSocketMessage({
             type: 'update-question',
-            word: remainingQuestion
+            word: remainingQuestion,
         });
 
         this.sendSocketMessage({
             type: 'reveal-answer',
-            answer: this.tossup.answer
+            answer: this.tossup.answer,
         });
 
         this.wordIndex = this.questionSplit.length;

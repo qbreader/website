@@ -170,7 +170,7 @@ const parseAnswerline = (() => {
                 'world war ii',
                 'world war 2',
                 'world war two',
-                'second world war'
+                'second world war',
             ];
         }
 
@@ -193,7 +193,7 @@ const parseAnswerline = (() => {
         const parsedAnswerline = {
             accept: [extractUnderlining(mainAnswer), extractKeyWords(mainAnswer), extractQuotes(mainAnswer)],
             prompt: [],
-            reject: []
+            reject: [],
         };
 
         parsedAnswerline.accept.push(getAbbreviation(mainAnswer), getAbbreviation(extractUnderlining(mainAnswer)));

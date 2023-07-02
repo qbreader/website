@@ -275,10 +275,8 @@ function reportQuestion() {
     document.getElementById('report-question-submit').disabled = true;
     fetch('/api/report-question', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ _id, reason, description })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _id, reason, description }),
     }).then(response => {
         if (response.status === 200) {
             document.getElementById('report-question-reason').value = 'wrong-category';

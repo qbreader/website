@@ -22,6 +22,10 @@
         }
     },
     "rules": {
+        "comma-dangle": [
+            "error",
+            "always-multiline"
+        ],
         "dot-notation": "error",
         "indent": [
             "error",

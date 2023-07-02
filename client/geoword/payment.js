@@ -24,7 +24,7 @@ async function initialize() {
 
     const isDarkTheme = (localStorage.getItem('color-theme') === 'dark') || (!localStorage.getItem('color-theme') && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
     const appearance = {
-        theme: isDarkTheme ? 'night' : 'stripe'
+        theme: isDarkTheme ? 'night' : 'stripe',
     };
     elements = stripe.elements({ appearance, clientSecret });
 
@@ -73,7 +73,7 @@ async function handleSubmit(e) {
 // Fetches the payment intent status after payment submission
 async function checkStatus() {
     const clientSecret = new URLSearchParams(window.location.search).get(
-        'payment_intent_client_secret'
+        'payment_intent_client_secret',
     );
 
     if (!clientSecret) {

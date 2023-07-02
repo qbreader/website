@@ -335,11 +335,11 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
             <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
                     <span dangerouslySetInnerHTML={{
-                        __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
+                        __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question,
                     }}></span>
                     <hr className="my-3"></hr>
                     <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{
-                        __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
+                        __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer,
                     }}></span></div>
                 </div>
                 <div className={`card-footer ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
@@ -476,7 +476,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
                                 <b>ANSWER: </b>
                                 <span dangerouslySetInnerHTML={{ __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i] }}></span>
                             </div>
-                        </div>
+                        </div>,
                     )}
                 </div>
                 <div className={`card-footer ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
@@ -909,7 +909,7 @@ function QueryForm() {
                         {
                             arrayBetween(
                                 Math.min(tossupPaginationShift),
-                                Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)
+                                Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength),
                             ).map((i) => {
                                 const isActive = tossupPaginationNumber === i + 1;
                                 return <li key={`tossup-pagination-${i + 1}`} className="page-item">
@@ -962,7 +962,7 @@ function QueryForm() {
                         {
                             arrayBetween(
                                 Math.min(bonusPaginationShift),
-                                Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength)
+                                Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength),
                             ).map((i) => {
                                 const isActive = bonusPaginationNumber === i + 1;
                                 return <li key={`bonus-pagination-${i + 1}`} className="page-item">
