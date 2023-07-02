@@ -20,13 +20,11 @@ form.addEventListener('submit', async (event) => {
     const username = await getAccountUsername();
     fetch('/auth/edit-password', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             oldPassword: document.getElementById('old-password').value,
             newPassword: document.getElementById('new-password').value,
-        })
+        }),
     }).then(async function (response) {
         if (response.status === 200) {
             const { expires } = await response.json();

@@ -11,12 +11,12 @@ class Player {
         this.celerity = {
             all: {
                 total: 0,
-                average: 0
+                average: 0,
             },
             correct: {
                 total: 0,
-                average: 0
-            }
+                average: 0,
+            },
         };
     }
 
@@ -30,12 +30,12 @@ class Player {
         this.celerity = {
             all: {
                 total: 0,
-                average: 0
+                average: 0,
             },
             correct: {
                 total: 0,
-                average: 0
-            }
+                average: 0,
+            },
         };
     }
 

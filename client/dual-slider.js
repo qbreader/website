@@ -22,7 +22,7 @@ $(document).ready(function() {
                     slidersToUpdate.push($(`span.sliderValue${i}`)[0]);
                 }
             }
-        }
+        },
     });
 
     document.getElementById('slider').classList.remove('ui-widget-content');

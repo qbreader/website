@@ -13,14 +13,12 @@ form.addEventListener('submit', (event) => {
     const username = document.getElementById('username').value;
     fetch('/auth/signup', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             email: document.getElementById('email').value,
             password: document.getElementById('password').value,
             username: username,
-        })
+        }),
     }).then(async function (response) {
         if (response.status === 200) {
             const { expires } = await response.json();

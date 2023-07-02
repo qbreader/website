@@ -366,7 +366,7 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
         { $sort: {
             setName: -1,
             packetNumber: 1,
-            questionNumber: 1
+            questionNumber: 1,
         } },
         // { $skip: (pagination - 1) * maxReturnLength },
         // { $limit: maxReturnLength },
@@ -466,7 +466,7 @@ async function getRandomBonuses({
     number = 1,
     minYear = DEFAULT_MIN_YEAR,
     maxYear = DEFAULT_MAX_YEAR,
-    bonusLength
+    bonusLength,
 } = {}) {
     const aggregation = [
         { $match: { setYear: { $gte: minYear, $lte: maxYear } } },
@@ -601,15 +601,15 @@ async function reportQuestion(_id, reason, description, verbose = true) {
     tossups.updateOne({ _id: new ObjectId(_id) }, {
         $push: { reports: {
             reason: reason,
-            description: description
-        } }
+            description: description,
+        } },
     });
 
     bonuses.updateOne({ _id: new ObjectId(_id) }, {
         $push: { reports: {
             reason: reason,
-            description: description
-        } }
+            description: description,
+        } },
     });
 
     if (verbose)

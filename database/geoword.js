@@ -241,7 +241,7 @@ async function getUserStats({ packetName, user_id }) {
             givenAnswer: 1,
             decision: 1,
             reason: 1,
-        } }
+        } },
     ]).toArray();
 
     const leaderboard = await buzzes.aggregate([
