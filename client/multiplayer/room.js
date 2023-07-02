@@ -220,6 +220,11 @@ const socketOnBuzz = (message) => {
     document.getElementById('pause').disabled = true;
     document.getElementById('next').disabled = true;
     document.getElementById('skip').disabled = true;
+
+    if (message.userId === USER_ID) {
+        document.getElementById('answer-input-group').classList.remove('d-none');
+        document.getElementById('answer-input').focus();
+    }
 };
 
 const socketOnChangeUsername = (message) => {
@@ -701,8 +706,6 @@ document.getElementById('answer-input').addEventListener('input', function () {
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
-    document.getElementById('answer-input-group').classList.remove('d-none');
-    document.getElementById('answer-input').focus();
     socket.send(JSON.stringify({ type: 'buzz' }));
     socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
