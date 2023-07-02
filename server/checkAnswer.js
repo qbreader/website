@@ -127,17 +127,33 @@ const parseAnswerline = (() => {
     const getEquivalentAnswers = (string) => {
         string = string.toLowerCase();
         switch (string) {
+        case 'atomic bombs':
+        case 'nuclear weapons':
+        case 'nukes':
+            return ['atomic bombs', 'atomic weapons', 'nuclear bombs', 'nuclear weapons', 'nukes', 'fission bombs', 'A-bombs'];
+        case 'house':
+            return ['home'];
+        case 'mouse':
+            return ['mice'];
+        case 'rail':
+        case 'railroad':
+            return ['rail', 'railroad'];
         case 'nineteen eighty-four':
         case 'nineteen eighty four':
             return ['1984'];
-        case 'mouse':
-            return ['mice'];
+        case 'oxidation number':
+        case 'oxidation state':
+            return ['oxidation number', 'oxidation state'];
+        case 'ralph vaughan-williams':
+            return ['rvw'];
         case 'spacewalk':
             return ['space walk'];
+        case 'sugar cane':
+        case 'sugarcane':
+            return ['sugar cane', 'sugarcane'];
         case 'wavefunction':
-            return ['wave function'];
         case 'wave function':
-            return ['wavefunction'];
+            return ['wave function', 'wavefunction'];
         case 'world war 1':
         case 'world war i':
         case 'world war one':
@@ -204,9 +220,18 @@ const parseAnswerline = (() => {
             if (phrase.length === 0)
                 return;
 
-            const index = phrase.indexOf('by asking');
-            const directedPrompt = (index >= 0) ? extractQuotes(phrase.slice(index + 9)) : null;
-            phrase = directedPrompt ? phrase.slice(0, index) : phrase;
+            let directedPrompt = null;
+
+            for (const key of ['by asking', 'with']) {
+                const index = phrase.indexOf(key);
+
+                if (index < 0)
+                    continue;
+
+                directedPrompt = extractQuotes(phrase.slice(index + key.length));
+                phrase = phrase.slice(0, index);
+                break;
+            }
 
             const { directive, answers } = splitIntoAnswers(phrase);
 
@@ -264,6 +289,10 @@ const stringMatchesReference = (() => {
         case 'dr.':
             return 'doctor';
 
+        case 'st':
+        case 'st.':
+            return 'saint';
+
         // ordinals
         case '1st':
             return 'first';
@@ -286,7 +315,7 @@ const stringMatchesReference = (() => {
         case '10th':
             return 'tenth';
 
-            // units
+        // units
         case 'cm':
             return 'centimeter';
         case 'mm':
@@ -425,7 +454,7 @@ function checkAnswer(answerline, givenAnswer) {
         return { directive: 'reject', directedPrompt: null };
     }
 
-    if (/[[(]accept either/i.test(answerline)) {
+    if (/[[(]accept either/i.test(answerline) || /[[(]accept any/i.test(answerline)) {
         for (const answer of parsedAnswerline.accept[0].split(' ')) {
             if (answerWorks(answer, givenAnswer, answerlineIsFormatted)) {
                 return { directive: 'accept', directedPrompt: null };

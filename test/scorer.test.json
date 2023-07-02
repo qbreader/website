@@ -1,6 +1,12 @@
 {
     "formatted": [
         {
+            "answerline": "<i><b><u>Adventure</u></b></i> [accept <i><b><u>Microsoft Adventure</u></b></i> or <i><b><u>Colossal Cave Adventure</u></b></i>; accept graphic <b><u>adventure</u></b>s; prompt on <u>graphic</u> with “what other word is in the name of that genre?”]",
+            "tests": [
+                { "directive": "prompt", "given": "graphic", "directedPrompt": "what other word is in the name of that genre?" }
+            ]
+        },
+        {
             "answerline": "<b><u>spacewalk</u></b>s",
             "tests": [
                 { "directive": "accept", "given": "space walk" },
