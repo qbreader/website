@@ -421,6 +421,7 @@ class TossupRoom {
             clearTimeout(this.timeoutID);
             this.sendSocketMessage({
                 type: 'buzz',
+                userId: userId,
                 username: this.players[userId].username
             });
 
