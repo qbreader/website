@@ -331,7 +331,7 @@ const socketOnEndOfSet = () => {
     window.alert('You have reached the end of the set');
 };
 
-const socketOnGiveAnswer = (message) => {
+const socketOnGiveAnswer = async (message) => {
     const { userId, username, givenAnswer, directive, directedPrompt, score, celerity } = message;
 
     logGiveAnswer(username, givenAnswer, false, directive);
@@ -378,7 +378,7 @@ const socketOnGiveAnswer = (message) => {
         sortPlayerAccordion();
     }
 
-    if (directive !== 'prompt' && userId === USER_ID) {
+    if (directive !== 'prompt' && userId === USER_ID && await getAccountUsername()) {
         fetch('/auth/record-tossup', {
             method: 'POST',
             headers: {
