@@ -213,9 +213,9 @@ function isPace(setName) {
 async function loadRandomTossups(difficulties = [], categories = [], subcategories = [], number = 1) {
     const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
     const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
-    const powermarkOnly = document.getElementById('powermark-only').checked;
+    const powermarkOnly = document.getElementById('toggle-powermark-only').checked;
 
-    fetch('/api/random-tossup?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear, powermarkOnly }))
+    await fetch('/api/random-tossup?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear, powermarkOnly }))
         .then(response => response.json())
         .then(response => response.tossups)
         .then(questions => {
@@ -547,6 +547,12 @@ document.getElementById('start').addEventListener('click', async function () {
 document.getElementById('toggle-correct').addEventListener('click', function () {
     this.blur();
     toggleCorrect();
+});
+
+document.getElementById('toggle-powermark-only').addEventListener('click', function () {
+    this.blur();
+    randomQuestions = [];
+    loadRandomTossups(difficulties, validCategories, validSubcategories);
 });
 
 
