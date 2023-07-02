@@ -381,16 +381,14 @@ const socketOnGiveAnswer = async (message) => {
     if (directive !== 'prompt' && userId === USER_ID && await getAccountUsername()) {
         fetch('/auth/record-tossup', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 tossup: message.tossup,
                 isCorrect: score > 0,
                 pointValue: score,
                 celerity: message.perQuestionCelerity,
                 multiplayer: true,
-            })
+            }),
         }).then(response => {
             if (response.status === 401) {
                 deleteAccountUsername();
@@ -832,7 +830,7 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
     socket.send(JSON.stringify({
         type: 'toggle-select-by-set-name',
         setName: document.getElementById('set-name').value,
-        selectBySetName: this.checked
+        selectBySetName: this.checked,
     }));
 });
 

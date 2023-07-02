@@ -239,13 +239,11 @@ async function next() {
 
         fetch('/auth/record-bonus', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 bonus: questions[questionNumber],
                 pointsPerPart: pointsPerPart,
-            })
+            }),
         }).then(response => {
             if (response.status === 401) {
                 deleteAccountUsername();

@@ -20,10 +20,8 @@ form.addEventListener('submit', (event) => {
 
     fetch('/auth/reset-password', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ password })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
     }).then(response => {
         if (response.status === 401) {
             window.alert('Unable to reset password. Try requesting a new password reset email.');
