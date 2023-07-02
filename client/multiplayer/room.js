@@ -315,6 +315,10 @@ const socketOnConnectionAcknowledged = async (message) => {
         createPlayerAccordionItem(message.players[userId]);
     });
 
+    if (!message.canBuzz) {
+        document.getElementById('buzz').disabled = true;
+    }
+
     sortPlayerAccordion();
 };
 

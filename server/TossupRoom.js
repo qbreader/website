@@ -86,18 +86,8 @@ class TossupRoom {
 
         socket.on('close', () => {
             if (this.buzzedIn === userId) {
+                this.giveAnswer(userId, '');
                 this.buzzedIn = null;
-                this.players[userId].updateStats(-5, 0);
-                this.readQuestion(new Date().getTime());
-                this.sendSocketMessage({
-                    type: 'give-answer',
-                    userId: userId,
-                    username: username,
-                    givenAnswer: '',
-                    directive: 'reject',
-                    score: -5,
-                    celerity: this.players[userId].celerity.correct.average
-                });
             }
 
             this.message(userId, {
@@ -123,6 +113,7 @@ class TossupRoom {
 
             players: this.players,
 
+            canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
             buzzedIn: this.buzzedIn,
             tossup: this.tossup,
             questionProgress: this.questionProgress,
