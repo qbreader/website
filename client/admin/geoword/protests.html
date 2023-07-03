@@ -61,18 +61,62 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p>
-            Welcome to the admin view of geoword.
-            Choose a game below:
+        <p class="text-center lead">
+            Viewing protests for <span id="packet-name"></span>:
         </p>
-        <ul class="list-group" id="packet-list"></ul>
+        <p class="d-flex justify-content-between">
+            <span><b>Division:</b> <span id="division"></span></span>
+            <a href="/geoword/admin">Back to admin page</a>
+        </p>
+        <div id="protests"></div>
+    </div>
+
+    <div class="modal" id="resolve-protest-modal" tabindex="-2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Resolve Protest</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" type="button" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="col-form-label" for="resolve-protest-id">Buzz ID:</label>
+                            <input class="form-control" id="resolve-protest-id" type="text" disabled>
+                        </div>
+                        <div class="mb-2">
+                            <label class="col-form-label" for="resolve-protest-given-answer">Given answer:</label>
+                            <input class="form-control" id="resolve-protest-given-answer" type="text" disabled>
+                        </div>
+                        <div class="mb-3">
+                            Actual answer: <span id="resolve-protest-actual-answer"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label" for="resolve-protest-decision">Decision:</label>
+                            <select class="form-select" id="resolve-protest-decision" aria-label="Default select example">
+                                <option value="accept">Accept</option>
+                                <option value="deny">Deny</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="col-form-label" for="resolve-protest-reason">Reason: (optional)</label>
+                            <textarea class="form-control" id="resolve-protest-reason" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="resolve-protest-close" data-bs-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" id="resolve-protest-submit" type="button">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
     <script src="/geoword/script.js"></script>
-    <script src="/geoword/admin/index.js"></script>
+    <script src="/admin/geoword/protests.js"></script>
 </body>
 
 </html>

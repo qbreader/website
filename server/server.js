@@ -6,13 +6,14 @@ import { createAndReturnRoom } from './TossupRoom.js';
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from '../constants.js';
 
 import aboutRouter from '../routes/about.js';
+import adminRouter from '../routes/admin/index.js';
 import apiRouter from '../routes/api/index.js';
 import apiDocsRouter from '../routes/api-docs.js';
 import authRouter from '../routes/auth.js';
 import backupsRouter from '../routes/backups.js';
 import bonusesRouter from '../routes/bonuses.js';
 import databaseRouter from '../routes/database.js';
-import geowordRouter from '../routes/geoword/index.js';
+import geowordRouter from '../routes/geoword.js';
 import indexRouter from '../routes/index.js';
 import multiplayerRouter from '../routes/multiplayer.js';
 import tossupsRouter from '../routes/tossups.js';
@@ -68,6 +69,7 @@ wss.on('connection', (ws) => {
 
 app.use('/', indexRouter);
 app.use('/about', aboutRouter);
+app.use('/admin', adminRouter);
 app.use('/api', apiRouter);
 app.use('/api-docs', apiDocsRouter);
 app.use('/auth', authRouter);

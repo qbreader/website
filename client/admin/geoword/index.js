@@ -21,11 +21,11 @@ fetch('/api/geoword/packet-list')
                 li.textContent = `${titleCase(division)}: `;
 
                 const a1 = document.createElement('a');
-                a1.href = `/geoword/admin/stats/${name}/${encodeURIComponent(division)}`;
+                a1.href = `/admin/geoword/stats/${name}/${encodeURIComponent(division)}`;
                 a1.textContent = 'Stats';
 
                 const a2 = document.createElement('a');
-                a2.href = `/geoword/admin/protests/${name}/${encodeURIComponent(division)}`;
+                a2.href = `/admin/geoword/protests/${name}/${encodeURIComponent(division)}`;
                 a2.textContent = 'Protests';
 
                 const a3 = document.createElement('a');
