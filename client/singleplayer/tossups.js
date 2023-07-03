@@ -492,6 +492,7 @@ document.getElementById('difficulties').addEventListener('change', function () {
     randomQuestions = [];
     difficulties = getDropdownValues('difficulties');
     loadRandomTossups(difficulties, validCategories, validSubcategories);
+    localStorage.setItem('difficultiesTossupSave', JSON.stringify(difficulties));
 });
 
 
@@ -643,6 +644,18 @@ window.onload = async () => {
     }
     updateStatDisplay();
 
+
+    if (localStorage.getItem('difficultiesTossupSave')) {
+        difficulties = JSON.parse(localStorage.getItem('difficultiesTossupSave'));
+        for (let element of document.getElementById('difficulties').children) {
+            const input = element.querySelector('input');
+            const difficulty = parseInt(input.value);
+            if (difficulties.includes(difficulty)) {
+                element.classList.add('active');
+                input.checked = true;
+            }
+        }
+    }
 
     if (localStorage.getItem('packetNumberTossupSave')) {
         document.getElementById('packet-number').value = localStorage.getItem('packetNumberTossupSave');
