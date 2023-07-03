@@ -538,11 +538,10 @@ window.onload = async () => {
     loadCategoryModal(validCategories, validSubcategories);
 
 
-    if (localStorage.getItem('selectBySetName') === 'false') {
-        document.getElementById('difficulty-settings').classList.remove('d-none');
-        document.getElementById('set-settings').classList.add('d-none');
-        document.getElementById('toggle-select-by-set-name').checked = false;
-    } else {
+    if (localStorage.getItem('selectBySetName') === 'true') {
+        document.getElementById('difficulty-settings').classList.add('d-none');
+        document.getElementById('set-settings').classList.remove('d-none');
+        document.getElementById('toggle-select-by-set-name').checked = true;
         document.getElementById('toggle-three-part-bonuses').disabled = true;
     }
 
