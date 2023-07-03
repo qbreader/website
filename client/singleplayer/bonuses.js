@@ -343,6 +343,7 @@ document.getElementById('difficulties').addEventListener('change', function () {
     randomQuestions = [];
     difficulties = getDropdownValues('difficulties');
     loadRandomBonuses(difficulties, validCategories, validSubcategories);
+    localStorage.setItem('difficultiesBonusSave', JSON.stringify(difficulties));
 });
 
 
@@ -490,6 +491,18 @@ window.onload = async () => {
     }
     updateStatDisplay();
 
+
+    if (localStorage.getItem('difficultiesBonusSave')) {
+        difficulties = JSON.parse(localStorage.getItem('difficultiesBonusSave'));
+        for (let element of document.getElementById('difficulties').children) {
+            const input = element.querySelector('input');
+            const difficulty = parseInt(input.value);
+            if (difficulties.includes(difficulty)) {
+                element.classList.add('active');
+                input.checked = true;
+            }
+        }
+    }
 
     if (localStorage.getItem('packetNumberBonusSave')) {
         document.getElementById('packet-number').value = localStorage.getItem('packetNumberBonusSave');
