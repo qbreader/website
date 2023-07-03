@@ -1,6 +1,5 @@
-import * as geoword from '../../database/geoword.js';
-import { checkToken } from '../../server/authentication.js';
-import adminRouter from './admin.js';
+import * as geoword from '../database/geoword.js';
+import { checkToken } from '../server/authentication.js';
 
 import { Router } from 'express';
 
@@ -10,7 +9,9 @@ router.get('/', (req, res) => {
     res.sendFile('index.html', { root: './client/geoword' });
 });
 
-router.use('/admin', adminRouter);
+router.use('/admin', (req, res) => {
+    res.redirect('/admin/geoword' + req.url);
+});
 
 router.get('/audio/*.mp3', (req, res) => {
     const url = req.url.substring(7);

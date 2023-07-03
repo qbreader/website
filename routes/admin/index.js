@@ -1,6 +1,8 @@
 import { isAdmin } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 
+import geowordRouter from './geoword.js';
+
 import { Router } from 'express';
 
 const router = Router();
@@ -10,30 +12,24 @@ router.use(async (req, res, next) => {
 
     if (!checkToken(username, token)) {
         delete req.session;
-        res.redirect('/geoword/login');
+        res.redirect('/user/login');
         return;
     }
 
     const admin = await isAdmin(username);
 
     if (!admin) {
-        res.redirect('/geoword');
+        res.redirect('/user/login');
         return;
     }
 
     next();
 });
 
-router.get('/', async (req, res) => {
-    res.sendFile('index.html', { root: './client/geoword/admin' });
-});
+router.use('/geoword', geowordRouter);
 
-router.get('/protests/:packetName/:division', async (req, res) => {
-    res.sendFile('protests.html', { root: './client/geoword/admin' });
-});
-
-router.get('/stats/:packetName/:division', async (req, res) => {
-    res.sendFile('stats.html', { root: './client/geoword/admin' });
+router.get('/', (req, res) => {
+    res.sendFile('index.html', { root: './client/admin' });
 });
 
 export default router;
