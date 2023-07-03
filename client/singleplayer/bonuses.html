@@ -69,13 +69,13 @@
     <div class="container-fluid mt-1 mt-lg-3 mb-5 pb-5 px-xxl-5">
         <div class="row" id="info">
             <div class="options d-lg-block col-12 col-lg-3 col-xxl-2 order-lg-1 mb-5" id="options">
-                <div id="set-settings">
+                <div class="d-none" id="set-settings">
                     <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
                     <datalist id="set-list"></datalist>
                     <input class="form-control my-1" id="packet-number" type="text" placeholder="Packet Numbers">
                     <input class="form-control" id="question-number" type="text" placeholder="Starting Question #">
                 </div>
-                <div class="d-none" id="difficulty-settings">
+                <div id="difficulty-settings">
                     <div class="dropdown-checklist btn-group w-100 mb-2">
                         <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
                             aria-expanded="true" aria-haspopup="true">
@@ -120,7 +120,7 @@
                         <label class="form-check-label" for="toggle-three-part-bonuses">Only use 3-part bonuses</label>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch" checked>
+                        <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
                         <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                     </div>
                     <div class="form-check form-switch">
