@@ -5,7 +5,7 @@ const packetTitle = titleCase(packetName);
 document.getElementById('packet-name').textContent = packetTitle;
 document.getElementById('division').textContent = division;
 
-fetch('/api/geoword/admin/protests?' + new URLSearchParams({ packetName, division }))
+fetch('/api/admin/geoword/protests?' + new URLSearchParams({ packetName, division }))
     .then(response => response.json())
     .then(data => {
         const { protests, packet } = data;
@@ -64,7 +64,7 @@ document.getElementById('resolve-protest-submit').addEventListener('click', () =
     const decision = document.getElementById('resolve-protest-decision').value;
     const reason = document.getElementById('resolve-protest-reason').value;
 
-    fetch('/api/geoword/admin/resolve-protest', {
+    fetch('/api/admin/geoword/resolve-protest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, decision, reason }),
