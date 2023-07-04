@@ -94,6 +94,19 @@ const regexIgnoreDiacritics = (() => {
 
 
 /**
+ *
+ * @param {"wrong-category" | "text-error"} reason
+ * @returns
+ */
+async function getReports(reason) {
+    const reports = {};
+    reports.tossups = await tossups.find({ 'reports.reason': reason }, { sort: { setYear: -1 } }).toArray();
+    reports.bonuses = await bonuses.find({ 'reports.reason': reason }, { sort: { setYear: -1 } }).toArray();
+    return reports;
+}
+
+
+/**
  * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
  * @returns {Promise<Number>} the number of packets in the set.
  */
@@ -629,6 +642,7 @@ export {
     getRandomName,
     getRandomTossups,
     getRandomBonuses,
+    getReports,
     getSet,
     getSetId,
     getSetList,
