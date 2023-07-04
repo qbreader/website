@@ -1,9 +1,10 @@
-function TossupCard({ tossup  }) {
+function TossupCard({ tossup }) {
     const _id = tossup._id;
     const packetName = tossup.packetName;
 
     function onClick() {
         document.getElementById('question-id').value = _id;
+        document.getElementById('question-type').textContent = 'tossup';
         document.getElementById('old-category').value = `${tossup.category} / ${tossup.subcategory}`;
     }
 
@@ -59,6 +60,7 @@ function BonusCard({ bonus }) {
 
     function onClick() {
         document.getElementById('question-id').value = _id;
+        document.getElementById('question-type').textContent = 'bonus';
         document.getElementById('old-category').value = `${bonus.category} / ${bonus.subcategory}`;
     }
 
@@ -100,19 +102,78 @@ function BonusCard({ bonus }) {
     );
 }
 
-function Reports({ tossups, bonuses }) {
+function Reports() {
+    let [tossups, setTossups] = React.useState([]);
+    let [bonuses, setBonuses] = React.useState([]);
+
+    React.useEffect(() => {
+        fetch('/api/admin/list-reports?' + new URLSearchParams({ reason: 'wrong-category' }))
+            .then(response => response.json())
+            .then(data => {
+                tossups = data.tossups;
+                bonuses = data.bonuses;
+                setTossups(tossups);
+                setBonuses(bonuses);
+            });
+
+        document.getElementById('fix-category-submit').addEventListener('click', function () {
+            const _id = document.getElementById('question-id').value;
+            const type = document.getElementById('question-type').textContent;
+
+            this.disabled = true;
+            this.textContent = 'Submitting...';
+
+            fetch('/api/admin/update-subcategory', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    _id,
+                    type,
+                    subcategory: document.getElementById('new-category').value,
+                }),
+            }).then(response => {
+                document.getElementById('fix-category-close').click();
+                this.disabled = false;
+                this.textContent = 'Submit';
+
+                if (!response.ok) {
+                    alert('Error updating subcategory');
+                    return;
+                }
+
+                switch (type) {
+                case 'tossup':
+                    tossups = tossups.filter(tossup => tossup._id !== _id);
+                    setTossups(tossups);
+                    break;
+                case 'bonus':
+                    bonuses = bonuses.filter(bonus => bonus._id !== _id);
+                    setBonuses(bonuses);
+                    break;
+                }
+            });
+        });
+    }, []);
+
     return (<>
-        <h3 className="text-center mb-3">Tossups</h3>
+        <div className="row text-center">
+            <h3 id="tossups">Tossups</h3>
+        </div>
+        <div className="float-row mb-3">
+            <span className="text-muted float-start">Showing {tossups.length} tossups</span>
+            <a className="float-end" href="#bonuses">Jump to bonuses</a>
+        </div>
         {tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup}/>)}
-        <h3 className="text-center mt-5 mb-3">Bonuses</h3>
+        <div className="row text-center mt-5">
+            <h3 id="bonuses">Bonuses</h3>
+        </div>
+        <div className="float-row mb-3">
+            <span className="text-muted float-start">Showing {bonuses.length} bonuses</span>
+            <a className="float-end" href="#tossups">Jump to tossups</a>
+        </div>
         {bonuses.map(bonus => <BonusCard key={bonus._id} bonus={bonus} />)}
     </>);
 }
 
-fetch('/api/admin/list-reports?' + new URLSearchParams({ reason: 'wrong-category' }))
-    .then(response => response.json())
-    .then(data => {
-        const { tossups, bonuses } = data;
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<Reports tossups={tossups} bonuses={bonuses} />);
-    });
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Reports />);

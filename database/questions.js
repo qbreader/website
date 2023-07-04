@@ -1,5 +1,5 @@
 import { OKCYAN, ENDC, OKGREEN } from '../bcolors.js';
-import { ADJECTIVES, ANIMALS, DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH, DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../constants.js';
+import { ADJECTIVES, ANIMALS, DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH, DIFFICULTIES, CATEGORIES, SUBCATEGORY_TO_CATEGORY, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../constants.js';
 
 import { MongoClient, ObjectId } from 'mongodb';
 
@@ -21,11 +21,13 @@ async function closeDatabase() {
 await connectToDatabase(true);
 
 const database = client.db('qbreader');
-
 const sets = database.collection('sets');
 const tossups = database.collection('tossups');
 const bonuses = database.collection('bonuses');
 
+const accountInfo = client.db('account-info');
+const tossupData = accountInfo.collection('tossup-data');
+const bonusData = accountInfo.collection('bonus-data');
 
 const SET_LIST = []; // initialized on server load
 sets.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(set => {
@@ -632,6 +634,37 @@ async function reportQuestion(_id, reason, description, verbose = true) {
 }
 
 
+/**
+ *
+ * @param {ObjectId} _id the id of the question to update
+ * @param {'tossup' | 'bonus'} type the type of question to update
+ * @param {String} subcategory the new subcategory to set
+ * @param {Boolean} clearReports whether to clear the reports field
+ * @returns {Promise<UpdateResult>}
+ */
+async function updateSubcategory(_id, type, subcategory, clearReports = true) {
+    if (!(subcategory in SUBCATEGORY_TO_CATEGORY)) {
+        console.log(`Subcategory ${subcategory} not found`);
+        return;
+    }
+
+    const category = SUBCATEGORY_TO_CATEGORY[subcategory];
+    const updateDoc = { $set: { category, subcategory, updatedAt: new Date() } };
+
+    if (clearReports)
+        updateDoc.$unset = { reports: 1 };
+
+    switch (type) {
+    case 'tossup':
+        tossupData.updateMany({ tossup_id: _id }, { $set: { category, subcategory } });
+        return await tossups.updateOne({ _id }, updateDoc);
+    case 'bonus':
+        bonusData.updateMany({ bonus_id: _id }, { $set: { category, subcategory } });
+        return await bonuses.updateOne({ _id }, updateDoc);
+    }
+}
+
+
 export {
     closeDatabase,
     connectToDatabase,
@@ -648,4 +681,5 @@ export {
     getSetList,
     getTossupById,
     reportQuestion,
+    updateSubcategory,
 };
