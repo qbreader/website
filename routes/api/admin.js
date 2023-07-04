@@ -1,5 +1,5 @@
 import * as geoword from '../../database/geoword.js';
-import { getReports } from '../../database/questions.js';
+import { getReports, updateSubcategory } from '../../database/questions.js';
 import { isAdmin } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 
@@ -51,6 +51,17 @@ router.get('/geoword/stats', async (req, res) => {
     const { packetName, division } = req.query;
     const stats = await geoword.getAdminStats(packetName, division);
     res.json({ stats });
+});
+
+router.put('/update-subcategory', async (req, res) => {
+    const { _id, type, subcategory } = req.body;
+    const result = await updateSubcategory(new ObjectId(_id), type, subcategory);
+
+    if (result) {
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
+    }
 });
 
 export default router;

@@ -61,9 +61,8 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="lead">
-            View questions reported to have the wrong category here.
-        </p>
+        <p class="lead">View questions reported to have the wrong category here.</p>
+        <p>Click on a card footer or the "fix category" link to fix a question's category.</p>
         <div id="root"></div>
     </div>
 
@@ -76,6 +75,9 @@
                 </div>
                 <div class="modal-body">
                     <form>
+                        <div class="mb-1">
+                            Question Type: <b id="question-type"></b>
+                        </div>
                         <div class="mb-3">
                             <label class="col-form-label" for="question-id">Question ID:</label>
                             <input class="form-control" id="question-id" type="text" disabled>
