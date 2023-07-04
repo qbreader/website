@@ -1,80 +1,13 @@
 import * as geoword from '../../database/geoword.js';
-import { getUserId, isAdmin } from '../../database/users.js';
+import { getUserId } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 import checkAnswer from '../../server/checkAnswer.js';
 
 import { Router } from 'express';
 import stripeClass from 'stripe';
-import { ObjectId } from 'mongodb';
 
 const router = Router();
 const stripe = new stripeClass(process.env.STRIPE_SECRET_KEY);
-
-router.get('/admin/protests', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
-
-    const admin = await isAdmin(username);
-    if (!admin) {
-        res.redirect('/geoword');
-        return;
-    }
-
-    const { packetName, division } = req.query;
-
-    const { protests, packet } = await geoword.getProtests(packetName, division);
-
-    res.json({ protests, packet });
-});
-
-router.post('/admin/resolve-protest', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
-
-    const admin = await isAdmin(username);
-    if (!admin) {
-        res.redirect('/geoword');
-        return;
-    }
-
-    const { id, decision, reason } = req.body;
-    const result = await geoword.resolveProtest({ id: new ObjectId(id), decision, reason });
-
-    if (result) {
-        res.sendStatus(200);
-    } else {
-        res.sendStatus(500);
-    }
-});
-
-router.get('/admin/stats', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
-
-    const admin = await isAdmin(username);
-    if (!admin) {
-        res.redirect('/geoword');
-        return;
-    }
-
-    const { packetName, division } = req.query;
-
-    const stats = await geoword.getAdminStats(packetName, division);
-
-    res.json({ stats });
-});
 
 router.post('/create-payment-intent', async (req, res) => {
     const { username, token } = req.session;
