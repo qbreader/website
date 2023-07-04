@@ -1,6 +1,7 @@
 import { getNumPackets, getPacket, getRandomName, reportQuestion, getSetList } from '../../database/questions.js';
 import checkAnswer from '../../server/checkAnswer.js';
 
+import adminRouter from './admin.js';
 import geowordRouter from './geoword.js';
 import multiplayerRouter from './multiplayer.js';
 import queryRouter from './query.js';
@@ -31,6 +32,8 @@ router.use((req, _res, next) => {
     }
     next();
 });
+
+router.use('/admin', adminRouter);
 
 router.get('/check-answer', (req, res) => {
     const { answerline, givenAnswer } = req.query;
