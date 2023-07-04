@@ -26,6 +26,10 @@ router.use(async (req, res, next) => {
     next();
 });
 
+router.get('/category-reports', (_req, res) => {
+    res.sendFile('category-reports.html', { root: './client/admin' });
+});
+
 router.use('/geoword', geowordRouter);
 
 router.get('/', (req, res) => {
