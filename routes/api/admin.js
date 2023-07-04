@@ -1,4 +1,5 @@
 import * as geoword from '../../database/geoword.js';
+import { getReports } from '../../database/questions.js';
 import { isAdmin } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 
@@ -24,6 +25,11 @@ router.use(async (req, res, next) => {
     next();
 });
 
+router.get('/list-reports', async (req, res) => {
+    const { reason } = req.query;
+    return res.json(await getReports(reason));
+});
+
 router.get('/geoword/protests', async (req, res) => {
     const { packetName, division } = req.query;
     const { protests, packet } = await geoword.getProtests(packetName, division);
@@ -46,3 +52,5 @@ router.get('/geoword/stats', async (req, res) => {
     const stats = await geoword.getAdminStats(packetName, division);
     res.json({ stats });
 });
+
+export default router;
