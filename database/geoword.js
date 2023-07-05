@@ -42,13 +42,12 @@ async function checkPayment({ packetName, username }) {
 
 async function getAdminStats(packetName, division) {
     const stats = await buzzes.aggregate([
-        { $match: { packetName, division } },
+        { $match: { packetName, division, active: true } },
         { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
         { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined ] } } },
         { $sort: { correctCelerity: -1 } },
         { $group: {
             _id: '$questionNumber',
-            activeProtests: { $sum: { $cond: ['$pendingProtest', 1, 0] } },
             averageCorrectCelerity: { $avg: '$correctCelerity' },
             averagePoints: { $avg: '$points' },
             bestCelerity: { $max: '$correctCelerity' },
@@ -136,7 +135,7 @@ async function getDivisions(packetName) {
 
 async function getLeaderboard(packetName, division, limit=100) {
     const result = await buzzes.aggregate([
-        { $match: { packetName, division } },
+        { $match: { packetName, division, active: true } },
         { $group: {
             _id: '$user_id',
             numberCorrect: { $sum: { $cond: [ { $gt: ['$points', 0] }, 1, 0 ] } },
@@ -245,7 +244,7 @@ async function getUserStats({ packetName, user_id }) {
     ]).toArray();
 
     const leaderboard = await buzzes.aggregate([
-        { $match: { packetName, division } },
+        { $match: { packetName, division, active: true } },
         { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
         { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined ] } } },
         { $sort: { correctCelerity: -1 } },
@@ -266,6 +265,7 @@ async function getUserStats({ packetName, user_id }) {
             packetName,
             questionNumber: question._id,
             division,
+            active: true,
             $or: [
                 { celerity: { $gt: buzzArray[index].celerity } },
                 { points: { $gt: buzzArray[index].points } },
@@ -287,11 +287,15 @@ async function getUserStats({ packetName, user_id }) {
  * @param {ObjectId} params.user_id
  */
 async function recordBuzz({ celerity, givenAnswer, points, packetName, questionNumber, user_id }) {
-    const division = await getDivisionChoiceById(packetName, user_id);
+    const [division, packet, admin] = await Promise.all([
+        getDivisionChoiceById(packetName, user_id),
+        packets.findOne({ name: packetName }),
+        isAdmin(user_id),
+    ]);
 
     await buzzes.replaceOne(
         { user_id, packetName, questionNumber },
-        { celerity, division, givenAnswer, points, packetName, questionNumber, user_id },
+        { celerity, division, givenAnswer, points, packetName, questionNumber, user_id, active: packet.active || admin },
         { upsert: true },
     );
 
