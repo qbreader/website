@@ -295,7 +295,7 @@ async function recordBuzz({ celerity, givenAnswer, points, packetName, questionN
 
     await buzzes.replaceOne(
         { user_id, packetName, questionNumber },
-        { celerity, division, givenAnswer, points, packetName, questionNumber, user_id, active: packet.active || admin },
+        { celerity, division, givenAnswer, points, packetName, questionNumber, user_id, active: packet.active && !admin },
         { upsert: true },
     );
 
