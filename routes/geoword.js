@@ -1,4 +1,5 @@
 import * as geoword from '../database/geoword.js';
+import { isAdmin } from '../database/users.js';
 import { checkToken } from '../server/authentication.js';
 
 import { Router } from 'express';
@@ -27,7 +28,16 @@ router.get('/confirmation', (req, res) => {
     res.sendFile('confirmation.html', { root: './client/geoword' });
 });
 
-router.get('/division/:packetName', async (req, res) => {
+router.get('/index', (req, res) => {
+    res.redirect('/geoword');
+});
+
+router.get('/login', (req, res) => {
+    res.sendFile('login.html', { root: './client/geoword' });
+});
+
+
+router.use('/*/:packetName', async (req, res, next) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
         delete req.session;
@@ -35,6 +45,25 @@ router.get('/division/:packetName', async (req, res) => {
         return;
     }
 
+    const packetName = req.params.packetName;
+    const status = await geoword.getPacketStatus(packetName);
+
+    if (status === null) {
+        res.redirect('/geoword');
+        return;
+    }
+
+    const admin = await isAdmin(username);
+    if (status === false && !admin) {
+        res.redirect('/geoword');
+        return;
+    }
+
+    next();
+});
+
+router.get('/division/:packetName', async (req, res) => {
+    const { username } = req.session;
     const packetName = req.params.packetName;
     const divisionChoice = await geoword.getDivisionChoice(packetName, username);
 
@@ -54,13 +83,7 @@ router.get('/division/:packetName', async (req, res) => {
 });
 
 router.get('/game/:packetName', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
-
+    const { username } = req.session;
     const packetName = req.params.packetName;
     const division = await geoword.getDivisionChoice(packetName, username);
 
@@ -89,33 +112,12 @@ router.get('/game/:packetName', async (req, res) => {
     res.sendFile('game.html', { root: './client/geoword' });
 });
 
-router.get('/index', (req, res) => {
-    res.redirect('/geoword');
-});
-
-router.get('/leaderboard/:packetName/:division', (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
-
+router.get('/leaderboard/:packetName', (req, res) => {
     res.sendFile('leaderboard.html', { root: './client/geoword' });
 });
 
-router.get('/login', (req, res) => {
-    res.sendFile('login.html', { root: './client/geoword' });
-});
-
 router.get('/payment/:packetName', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
-
+    const { username } = req.session;
     const packetName = req.params.packetName;
     const paid = await geoword.checkPayment({ packetName, username });
 
@@ -128,13 +130,7 @@ router.get('/payment/:packetName', async (req, res) => {
 });
 
 router.get('/stats/:packetName', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
-
+    const { username } = req.session;
     const packetName = req.params.packetName;
     const paid = await geoword.checkPayment({ packetName, username });
 
