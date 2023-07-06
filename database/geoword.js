@@ -287,10 +287,11 @@ async function getUserStats({ packetName, user_id }) {
  * @param {ObjectId} params.user_id
  */
 async function recordBuzz({ celerity, givenAnswer, points, packetName, questionNumber, user_id }) {
+    const username = await getUsername(user_id);
     const [division, packet, admin] = await Promise.all([
         getDivisionChoiceById(packetName, user_id),
         packets.findOne({ name: packetName }),
-        isAdmin(user_id),
+        isAdmin(username),
     ]);
 
     await buzzes.replaceOne(
