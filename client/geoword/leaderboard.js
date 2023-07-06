@@ -1,4 +1,4 @@
-const division = decodeURIComponent(window.location.pathname.split('/')[4]);
+const division = decodeURIComponent(window.location.search.slice(1));
 const packetName = window.location.pathname.split('/')[3];
 const packetTitle = titleCase(packetName);
 
