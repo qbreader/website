@@ -59,7 +59,7 @@ fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
         const leaderboardLinks = document.getElementById('leaderboard-links');
         divisions.forEach(division => {
             const a = document.createElement('a');
-            a.href = `/geoword/leaderboard/${packetName}/${encodeURIComponent(division)}`;
+            a.href = `/geoword/leaderboard/${packetName}?${encodeURIComponent(division)}`;
             a.textContent = division;
             leaderboardLinks.appendChild(a);
             leaderboardLinks.appendChild(document.createTextNode(' '));
