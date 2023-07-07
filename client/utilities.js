@@ -261,9 +261,7 @@ function rangeToArray(string, max = 0) {
 
 
 function removeParentheses(string) {
-    return string
-        .replace(/\([^)]*\)/g, '')
-        .replace(/\[[^\]]*\]/g, '');
+    return string.replace(/[([].*/, '');
 }
 
 
