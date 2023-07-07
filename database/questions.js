@@ -504,6 +504,7 @@ async function getRandomBonuses({
     if (bonusLength) {
         bonusLength = parseInt(bonusLength);
         aggregation[0].$match.parts = { $size: bonusLength };
+        aggregation[0].$match.answers = { $size: bonusLength };
     }
 
     return await bonuses.aggregate(aggregation).toArray();
