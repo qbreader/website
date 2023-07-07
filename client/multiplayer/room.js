@@ -727,6 +727,7 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
     const message = document.getElementById('chat-input').value;
     document.getElementById('chat-input').value = '';
     document.getElementById('chat-input-group').classList.add('d-none');
+    document.getElementById('chat-input').blur();
 
     socket.send(JSON.stringify({ type: 'chat', message: message }));
 });
@@ -879,6 +880,7 @@ document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
         document.getElementById('chat-input').value = '';
         document.getElementById('chat-input-group').classList.add('d-none');
+        document.getElementById('chat-input').blur();
         socket.send(JSON.stringify({ type: 'chat', message: '' }));
     }
 
