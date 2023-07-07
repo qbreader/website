@@ -27,7 +27,7 @@ router.use(rateLimit({
 router.use((req, _res, next) => {
     for (const key in req.query) {
         if (Array.isArray(req.query[key])) {
-            req.query[key] = req.query[key][0];
+            req.query[key] = req.query[key].reduce((a, b) => a + ',' + b);
         }
     }
     next();
