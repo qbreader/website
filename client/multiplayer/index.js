@@ -50,7 +50,3 @@ fetch('/api/random-name')
     .then(randomName => {
         document.getElementById('new-room-name').placeholder = randomName;
     });
-
-function escapeHTML(unsafe) {
-    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
-}

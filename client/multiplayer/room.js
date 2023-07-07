@@ -529,11 +529,6 @@ function createPlayerAccordionItem(player) {
 }
 
 
-function escapeHTML(unsafe) {
-    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
-}
-
-
 function logChat(username, message, isLive = false, userId = null) {
     if (!isLive && message === '') {
         document.getElementById('live-chat-' + userId).parentElement.remove();
