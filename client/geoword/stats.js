@@ -65,7 +65,3 @@ fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
             leaderboardLinks.appendChild(document.createTextNode(' '));
         });
     });
-
-function escapeHTML(unsafe) {
-    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
-}

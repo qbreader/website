@@ -27,7 +27,3 @@ fetch('/api/geoword/leaderboard?' + new URLSearchParams({ packetName, division }
         }
         document.getElementById('leaderboard-body').innerHTML = innerHTML;
     });
-
-function escapeHTML(unsafe) {
-    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
-}

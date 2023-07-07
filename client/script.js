@@ -76,3 +76,8 @@ getAccountUsername().then(username => {
         document.getElementById('login-link').href = '/user/my-profile';
     }
 });
+
+
+function escapeHTML(unsafe) {
+    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
+}
