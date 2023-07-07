@@ -75,7 +75,7 @@ const createBonusCard = (function () {
         for (let i = 0; i < bonusLength; i++) {
             cardBody += `<hr></hr>
             <p>
-                ${getBonusPartLabel(bonus, i)} ${parts[i]}
+                ${getBonusPartLabel(bonus, i)} ${escapeHTML(parts[i])}
                 ${i + 1 === bonusLength ? `<a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>` : ''}
             </p>
             <div>ANSWER: ${answers[i]}</div>`;
@@ -91,7 +91,7 @@ const createBonusCard = (function () {
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
-                    <p>${leadin}</p>
+                    <p>${escapeHTML(leadin)}</p>
                     ${cardBody}
                 </div>
                 <div class="card-footer">
@@ -130,7 +130,7 @@ const createTossupCard = (function () {
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
-                    ${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : question}
+                    ${powerParts.length > 1 ? '<b>' + escapeHTML(powerParts[0]) + '(*)</b>' + escapeHTML(powerParts[1]) : escapeHTML(question)}
                     <a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                     <hr></hr>
                     <div>ANSWER: ${answer}</div>
