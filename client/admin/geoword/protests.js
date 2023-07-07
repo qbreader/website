@@ -76,7 +76,3 @@ document.getElementById('resolve-protest-submit').addEventListener('click', () =
         }
     });
 });
-
-function escapeHTML(unsafe) {
-    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;');
-}
