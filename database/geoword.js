@@ -274,17 +274,29 @@ async function getUserStats({ packetName, user_id }) {
 
     for (const index in buzzArray) {
         const question = leaderboard[index];
-        question.bestUsername = await getUsername(question.bestUserId);
-        question.rank = 1 + await buzzes.countDocuments({
-            packetName,
-            questionNumber: question._id,
-            division,
-            active: true,
-            $or: [
-                { celerity: { $gt: buzzArray[index].celerity } },
-                { points: { $gt: buzzArray[index].points } },
-            ],
-        });
+
+        if (question) {
+            question.bestUsername = await getUsername(question.bestUserId);
+            question.rank = 1 + await buzzes.countDocuments({
+                packetName,
+                questionNumber: question._id,
+                division,
+                active: true,
+                $or: [
+                    { celerity: { $gt: buzzArray[index].celerity } },
+                    { points: { $gt: buzzArray[index].points } },
+                ],
+            });
+        } else {
+            leaderboard[index] = {
+                _id: index,
+                bestCelerity: 0,
+                bestUsername: '',
+                averageCorrectCelerity: 0,
+                averagePoints: 0,
+                rank: 1,
+            };
+        }
     }
 
     return { buzzArray, division, leaderboard };
