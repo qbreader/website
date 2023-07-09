@@ -13,7 +13,7 @@ import authRouter from '../routes/auth.js';
 import backupsRouter from '../routes/backups.js';
 import bonusesRouter from '../routes/bonuses.js';
 import databaseRouter from '../routes/database.js';
-import geowordRouter from '../routes/geoword.js';
+import geowordRouter from '../routes/geoword/index.js';
 import indexRouter from '../routes/index.js';
 import multiplayerRouter from '../routes/multiplayer.js';
 import tossupsRouter from '../routes/tossups.js';
