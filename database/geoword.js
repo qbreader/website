@@ -98,6 +98,50 @@ async function getAnswer(packetName, division, questionNumber) {
     }
 }
 
+/**
+ *
+ * @param {String} packetName
+ * @param {String} division
+ * @param {ObjectId} user_id
+ * @param {Boolean} protests - whether to include protests (default: false)
+ */
+async function getBuzzes(packetName, division, user_id, protests=false) {
+    const projection = {
+        _id: 0,
+        celerity: 1,
+        points: 1,
+        questionNumber: 1,
+        answer: '$tossup.answer',
+        formatted_answer: '$tossup.formatted_answer',
+        givenAnswer: 1,
+    };
+
+    if (protests) {
+        projection.pendingProtest = 1;
+        projection.decision = 1;
+        projection.reason = 1;
+    }
+
+    return await buzzes.aggregate([
+        { $match: { packetName, division, user_id } },
+        { $sort: { questionNumber: 1 } },
+        { $lookup: {
+            from: 'tossups',
+            let: { questionNumber: '$questionNumber', packetName, division },
+            pipeline: [
+                { $match: { $expr: { $and: [
+                    { $eq: ['$questionNumber', '$$questionNumber'] },
+                    { $eq: ['$packetName', '$$packetName'] },
+                    { $eq: ['$division', '$$division'] },
+                ] } } },
+            ],
+            as: 'tossup',
+        } },
+        { $unwind: '$tossup' },
+        { $project: projection },
+    ]).toArray();
+}
+
 async function getBuzzCount(packetName, username) {
     const user_id = await getUserId(username);
     return await buzzes.countDocuments({ packetName, user_id });
@@ -236,42 +280,12 @@ async function getQuestionCount(packetName, division) {
 }
 
 /**
- * @param {Object} params
- * @param {String} params.packetName
+ * @param {String} packetName
  * @param {ObjectId} user_id
  */
-async function getUserStats({ packetName, user_id }) {
+async function getUserStats(packetName, user_id) {
     const division = await getDivisionChoiceById(packetName, user_id);
-
-    const buzzArray = await buzzes.aggregate([
-        { $match: { packetName, user_id } },
-        { $sort: { questionNumber: 1 } },
-        { $lookup: {
-            from: 'tossups',
-            let: { questionNumber: '$questionNumber', packetName, division },
-            pipeline: [
-                { $match: { $expr: { $and: [
-                    { $eq: ['$questionNumber', '$$questionNumber'] },
-                    { $eq: ['$packetName', '$$packetName'] },
-                    { $eq: ['$division', '$$division'] },
-                ] } } },
-            ],
-            as: 'tossup',
-        } },
-        { $unwind: '$tossup' },
-        { $project: {
-            _id: 0,
-            celerity: 1,
-            pendingProtest: 1,
-            points: 1,
-            questionNumber: 1,
-            answer: '$tossup.answer',
-            formatted_answer: '$tossup.formatted_answer',
-            givenAnswer: 1,
-            decision: 1,
-            reason: 1,
-        } },
-    ]).toArray();
+    const buzzArray = await getBuzzes(packetName, division, user_id, true);
 
     const leaderboard = await buzzes.aggregate([
         { $match: { packetName, division, active: true } },
@@ -391,6 +405,7 @@ export {
     getAdminStats,
     getAnswer,
     getBuzzCount,
+    getBuzzes,
     getCost,
     getDivisionChoice,
     getDivisions,

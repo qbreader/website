@@ -62,6 +62,19 @@ router.use('/*/:packetName', async (req, res, next) => {
     next();
 });
 
+router.get('/compare/:packetName', async (req, res) => {
+    const { username } = req.session;
+    const packetName = req.params.packetName;
+    const paid = await geoword.checkPayment({ packetName, username });
+
+    if (!paid) {
+        res.redirect('/geoword/payment/' + packetName);
+        return;
+    }
+
+    res.sendFile('compare.html', { root: './client/geoword' });
+});
+
 router.get('/division/:packetName', async (req, res) => {
     const { username } = req.session;
     const packetName = req.params.packetName;
