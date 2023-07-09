@@ -1,5 +1,5 @@
-import * as userDB from '../../database/users.js';
-import * as authentication from '../../server/authentication.js';
+import { getUsername } from '../../database/users.js';
+import { updatePassword } from '../../server/authentication.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
@@ -13,9 +13,9 @@ router.post('/', async (req, res) => {
         return;
     }
 
-    const username = await userDB.getUsername(new ObjectId(user_id));
+    const username = await getUsername(new ObjectId(user_id));
     const password = req.body.password;
-    await authentication.updatePassword(username, password);
+    await updatePassword(username, password);
     req.session = null;
     res.redirect(200, '/user/login');
 

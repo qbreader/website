@@ -1,5 +1,5 @@
-import * as userDB from '../../database/users.js';
-import * as authentication from '../../server/authentication.js';
+import { getCategoryStats, getSubcategoryStats, getBestBuzz } from '../../database/users.js';
+import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';
 
@@ -7,13 +7,13 @@ const router = Router();
 
 router.use((req, res, next) => {
     const { username, token } = req.session;
-    if (!authentication.checkToken(username, token)) {
+    if (!checkToken(username, token)) {
         delete req.session;
         res.sendStatus(401);
         return;
     }
 
-    if (!authentication.checkToken(username, token, true)) {
+    if (!checkToken(username, token, true)) {
         res.sendStatus(403);
         return;
     }
@@ -42,8 +42,8 @@ router.get('/bonus', async (req, res) => {
     const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
 
     const [categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
-        await userDB.getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+        await getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+        await getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
     ]);
     res.json({ categoryStats, subcategoryStats });
 });
@@ -54,9 +54,9 @@ router.get('/tossup', async (req, res) => {
     const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
 
     const [bestBuzz, categoryStats, subcategoryStats] = await Promise.all([
-        await userDB.getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
-        await userDB.getCategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
-        await userDB.getSubcategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+        await getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+        await getCategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+        await getSubcategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
     ]);
     res.json({ bestBuzz, categoryStats, subcategoryStats });
 });
