@@ -1,28 +1,28 @@
 import { Router } from 'express';
-import { readdirSync } from 'fs';
+import * as fs from 'fs';
 
 const router = Router();
 const docsDir = './client/api-docs';
 
 router.get('/', (req, res) => {
-    res.sendFile('index.html', { root: './client/api-docs' });
+    res.sendFile('index.html', { root: docsDir });
 });
 
 // routes every html doc in /client/api-docs
-readdirSync(docsDir).forEach(file => {
+fs.readdirSync(docsDir).forEach(file => {
     if (file.endsWith('.html') && file !== 'index.html') {
         const route = file.substring(0, file.length - 5);
         router.get(`/${route}`, (req, res) => {
-            res.sendFile(file, { root: './client/api-docs' });
+            res.sendFile(file, { root: docsDir });
         });
     }
 });
 
-readdirSync(`${docsDir}/multiplayer`).forEach(file => {
+fs.readdirSync(`${docsDir}/multiplayer`).forEach(file => {
     if (file.endsWith('.html') && file !== 'index.html') {
         const route = file.substring(0, file.length - 5);
         router.get(`/multiplayer/${route}`, (req, res) => {
-            res.sendFile(file, { root: './client/api-docs/multiplayer' });
+            res.sendFile(file, { root: docsDir + '/multiplayer' });
         });
     }
 });
