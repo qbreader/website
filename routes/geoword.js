@@ -116,6 +116,20 @@ router.get('/leaderboard/:packetName', (req, res) => {
     res.sendFile('leaderboard.html', { root: './client/geoword' });
 });
 
+router.get('/packet/:packetName', async (req, res) => {
+    const { username } = req.session;
+    const packetName = req.params.packetName;
+
+    const paid = await geoword.checkPayment({ packetName, username });
+
+    if (paid) {
+        res.sendFile('packet.html', { root: './client/geoword' });
+        return;
+    }
+
+    res.redirect('/geoword/payment/' + packetName);
+});
+
 router.get('/payment/:packetName', async (req, res) => {
     const { username } = req.session;
     const packetName = req.params.packetName;
