@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Geoword stats.">
+    <meta name="description" content="Select a geoword division.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -62,28 +62,24 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">Stats for <span id="packet-name"></span>:</p>
-        <p class="d-flex justify-content-between">
-            <span id="statline"></span>
-            <span><b>Division:</b> <span id="division"></span></span>
-        </p>
         <p>
-            View the leaderboard for this packet: <span id="leaderboard-links"></span>
+            Compare your stats on <b id="packet-name"></b> (<span id="division"></span>) against another player.
         </p>
-        <p>
-            View the tossups from this packet: <span id="packet-links"></span>
-        </p>
-        <p>
-            Compare your stats against another player <a id="compare-link">by clicking here</a>.
-        </p>
-        <div id="stats"></div>
+        <form class="mb-3" id="form">
+            <div class="mb-3">
+                <label for="opponent" class="form-label">Enter a username here:</label>
+                <input type="text" class="form-control" id="opponent">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div id="root"></div>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
     <script src="/geoword/script.js"></script>
-    <script src="/geoword/stats.js"></script>
+    <script src="/geoword/compare.js"></script>
 </body>
 
 </html>
