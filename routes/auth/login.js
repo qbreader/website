@@ -1,6 +1,6 @@
 import { COOKIE_MAX_AGE } from '../../constants.js';
-import * as userDB from '../../database/users.js';
-import * as authentication from '../../server/authentication.js';
+import { getUserField } from '../../database/users.js';
+import { checkPassword, generateToken } from '../../server/authentication.js';
 
 import { Router } from 'express';
 
@@ -9,11 +9,11 @@ const router = Router();
 router.post('/', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    if (await authentication.checkPassword(username, password)) {
+    if (await checkPassword(username, password)) {
         const expires = Date.now() + COOKIE_MAX_AGE;
-        const verifiedEmail = await userDB.getUserField(username, 'verifiedEmail');
+        const verifiedEmail = await getUserField(username, 'verifiedEmail');
         req.session.username = username;
-        req.session.token = authentication.generateToken(username, verifiedEmail);
+        req.session.token = generateToken(username, verifiedEmail);
         req.session.expires = expires;
         console.log(`/api/auth: LOGIN: User ${username} successfully logged in.`);
         res.status(200).send(JSON.stringify({ expires }));
