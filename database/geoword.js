@@ -155,6 +155,15 @@ async function getLeaderboard(packetName, division, limit=100) {
     return result;
 }
 
+async function getPacket(packetName, division) {
+    const packet = await tossups.find(
+        { packetName, division },
+        { sort: { questionNumber: 1 } },
+    ).toArray();
+
+    return packet;
+}
+
 async function getPacketList() {
     const list = await packets.find({ test: { $exists: false } }, {
         sort: { order: 1 },
@@ -215,7 +224,14 @@ async function getProtests(packetName, division) {
     return { protests, packet };
 }
 
+
 async function getQuestionCount(packetName, division) {
+    if (division === undefined) {
+        const packet = await packets.findOne({ name: packetName });
+        const count = await tossups.countDocuments({ packetName });
+        return Math.round(count / packet.divisions.length);
+    }
+
     return await tossups.countDocuments({ packetName, division });
 }
 
@@ -379,8 +395,9 @@ export {
     getDivisionChoice,
     getDivisions,
     getLeaderboard,
-    getPacketStatus,
+    getPacket,
     getPacketList,
+    getPacketStatus,
     getProgress,
     getProtests,
     getQuestionCount,

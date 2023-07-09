@@ -1,5 +1,5 @@
 import * as geoword from '../../database/geoword.js';
-import { getUserId } from '../../database/users.js';
+import { getUserId, isAdmin } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 import checkAnswer from '../../server/checkAnswer.js';
 
@@ -65,6 +65,31 @@ router.get('/leaderboard', async (req, res) => {
     const { packetName, division } = req.query;
     const leaderboard = await geoword.getLeaderboard(packetName, division);
     res.json({ leaderboard });
+});
+
+router.get('/packet', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.redirect('/geoword/login');
+        return;
+    }
+
+    const { packetName, division } = req.query;
+
+    const [admin, buzzCount, questionCount] = await Promise.all([
+        isAdmin(username),
+        geoword.getBuzzCount(packetName, username),
+        geoword.getQuestionCount(packetName),
+    ]);
+
+    if (!admin && buzzCount < questionCount) {
+        res.sendStatus(403);
+        return;
+    }
+
+    const packet = await geoword.getPacket(packetName, division);
+    res.json({ packet });
 });
 
 router.get('/packet-list', async (req, res) => {

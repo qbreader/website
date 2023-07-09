@@ -57,11 +57,23 @@ fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
     .then(data => {
         const { divisions } = data;
         const leaderboardLinks = document.getElementById('leaderboard-links');
-        divisions.forEach(division => {
-            const a = document.createElement('a');
-            a.href = `/geoword/leaderboard/${packetName}?${encodeURIComponent(division)}`;
-            a.textContent = division;
-            leaderboardLinks.appendChild(a);
-            leaderboardLinks.appendChild(document.createTextNode(' '));
-        });
+        const packetLinks = document.getElementById('packet-links');
+        for (const index in divisions) {
+            const division = divisions[index];
+            const a1 = document.createElement('a');
+            a1.href = `/geoword/leaderboard/${packetName}?${encodeURIComponent(division)}`;
+            a1.textContent = division;
+
+            const a2 = document.createElement('a');
+            a2.href = `/geoword/packet/${packetName}?${encodeURIComponent(division)}`;
+            a2.textContent = division;
+
+            if (index > 0) {
+                leaderboardLinks.appendChild(document.createTextNode(' | '));
+                packetLinks.appendChild(document.createTextNode(' | '));
+            }
+
+            leaderboardLinks.appendChild(a1);
+            packetLinks.appendChild(a2);
+        }
     });
