@@ -9,6 +9,21 @@ import stripeClass from 'stripe';
 const router = Router();
 const stripe = new stripeClass(process.env.STRIPE_SECRET_KEY);
 
+router.get('/compare', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.redirect('/geoword/login');
+        return;
+    }
+
+    const { packetName, division, opponent } = req.query;
+    const myBuzzes = await geoword.getBuzzes(packetName, division, await getUserId(username));
+    const opponentBuzzes = (await geoword.getBuzzes(packetName, division, await getUserId(opponent))).slice(0, myBuzzes.length);
+
+    return res.json({ myBuzzes, opponentBuzzes });
+});
+
 router.post('/create-payment-intent', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
@@ -40,6 +55,20 @@ router.get('/check-answer', async (req, res) => {
     const answer = await geoword.getAnswer(packetName, division, parseInt(questionNumber));
     const { directive, directedPrompt } = checkAnswer(answer, givenAnswer);
     res.json({ actualAnswer: answer, directive, directedPrompt });
+});
+
+router.get('/division-choice', async (req, res) => {
+    const { username, token } = req.session;
+    if (!checkToken(username, token)) {
+        delete req.session;
+        res.redirect('/geoword/login');
+        return;
+    }
+
+    const { packetName } = req.query;
+    const division = await geoword.getDivisionChoice(packetName, username);
+
+    res.json({ division });
 });
 
 router.get('/get-progress', async (req, res) => {
@@ -173,7 +202,7 @@ router.get('/stats', async (req, res) => {
 
     const user_id = await getUserId(username);
     const { packetName } = req.query;
-    const { buzzArray, division, leaderboard } = await geoword.getUserStats({ packetName, user_id });
+    const { buzzArray, division, leaderboard } = await geoword.getUserStats(packetName, user_id);
     res.json({ buzzArray, division, leaderboard });
 });
 

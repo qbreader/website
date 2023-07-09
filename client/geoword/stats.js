@@ -1,6 +1,7 @@
 const packetName = window.location.pathname.split('/').pop();
 const packetTitle = titleCase(packetName);
 
+document.getElementById('compare-link').href = `/geoword/compare/${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
 
 fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
