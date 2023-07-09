@@ -9,7 +9,7 @@ import aboutRouter from '../routes/about.js';
 import adminRouter from '../routes/admin/index.js';
 import apiRouter from '../routes/api/index.js';
 import apiDocsRouter from '../routes/api-docs.js';
-import authRouter from '../routes/auth.js';
+import authRouter from '../routes/auth/index.js';
 import backupsRouter from '../routes/backups.js';
 import bonusesRouter from '../routes/bonuses.js';
 import databaseRouter from '../routes/database.js';
