@@ -69,20 +69,20 @@ router.use('/*/:packetName', async (req, res, next) => {
     next();
 });
 
-router.use('/compare/:packetName', compareRouter);
+router.use('/compare', compareRouter);
 
-router.use('/division/:packetName', divisionRouter);
+router.use('/division', divisionRouter);
 
-router.use('/game/:packetName', gameRouter);
+router.use('/game', gameRouter);
 
-router.use('/leaderboard/:packetName', (req, res) => {
+router.get('/leaderboard/:packetName', (req, res) => {
     res.sendFile('leaderboard.html', { root: './client/geoword' });
 });
 
-router.use('/packet/:packetName', packetRouter);
+router.use('/packet', packetRouter);
 
-router.use('/payment/:packetName', paymentRouter);
+router.use('/payment', paymentRouter);
 
-router.use('/stats/:packetName', statsRouter);
+router.use('/stats', statsRouter);
 
 export default router;

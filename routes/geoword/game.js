@@ -4,7 +4,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/:packetName', async (req, res) => {
     const { username } = req.session;
     const packetName = req.params.packetName;
     const division = await geoword.getDivisionChoice(packetName, username);
