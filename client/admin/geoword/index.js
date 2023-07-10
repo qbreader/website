@@ -32,11 +32,17 @@ fetch('/api/geoword/packet-list')
                 a3.href = `/geoword/leaderboard/${name}?${encodeURIComponent(division)}`;
                 a3.textContent = 'Leaderboard';
 
+                const a4 = document.createElement('a');
+                a4.href = `/geoword/packet/${name}?${encodeURIComponent(division)}`;
+                a4.textContent = 'Packet';
+
                 li.appendChild(a1);
                 li.appendChild(document.createTextNode(' | '));
                 li.appendChild(a2);
                 li.appendChild(document.createTextNode(' | '));
                 li.appendChild(a3);
+                li.appendChild(document.createTextNode(' | '));
+                li.appendChild(a4);
 
                 ul.appendChild(li);
             }
