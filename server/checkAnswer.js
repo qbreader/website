@@ -196,7 +196,13 @@ const parseAnswerline = (() => {
             reject: [],
         };
 
-        parsedAnswerline.accept.push(getAbbreviation(mainAnswer), getAbbreviation(extractUnderlining(mainAnswer)));
+        if (getAbbreviation(mainAnswer).length > 1) {
+            parsedAnswerline.accept.push(getAbbreviation(mainAnswer));
+        }
+
+        if (getAbbreviation(extractUnderlining(mainAnswer)).length > 1) {
+            parsedAnswerline.accept.push(getAbbreviation(extractUnderlining(mainAnswer)));
+        }
 
         if (mainAnswer.includes(' or ')) {
             const parts = mainAnswer.split(' or ');
