@@ -202,7 +202,7 @@ async function loadRandomBonuses(difficulties = [], categories = [], subcategori
     const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
     const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
 
-    fetch('/api/random-bonus?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear }))
+    await fetch('/api/random-bonus?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear }))
         .then(response => response.json())
         .then(response => response.bonuses)
         .then(questions => {
