@@ -524,7 +524,7 @@ function QueryForm() {
     return Array(end - start).fill().map((_, idx) => start + idx);
   }
   function getMaxPagination() {
-    return Math.floor(5000 / (maxReturnLength || 25));
+    return Math.floor(10000 / (maxReturnLength || 25));
   }
   function handleTossupPaginationClick(event, value) {
     event.preventDefault();

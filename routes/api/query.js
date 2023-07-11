@@ -1,4 +1,4 @@
-import { DEFAULT_QUERY_RETURN_LENGTH } from '../../constants.js';
+import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
 import { getQuery } from '../../database/questions.js';
 
 import { Router } from 'express';
@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
         req.query.maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
     }
 
-    const maxPagination = Math.floor(4000 / (req.query.maxReturnLength || 25));
+    const maxPagination = Math.floor(MAX_QUERY_RETURN_LENGTH / req.query.maxReturnLength);
 
     // bound pagination between 1 and maxPagination
     req.query.tossupPagination = Math.min(parseInt(req.query.tossupPagination), maxPagination);
