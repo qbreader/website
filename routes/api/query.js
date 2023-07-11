@@ -6,12 +6,20 @@ const router = Router();
 
 
 router.get('/', async (req, res) => {
+    if (!req.query.questionType) {
+        req.query.questionType = 'all';
+    }
+
     if (!['tossup', 'bonus', 'all'].includes(req.query.questionType)) {
         res.status(400).send('Invalid question type specified.');
         return;
     }
 
-    if (!['all', 'question', 'answer'].includes(req.query.searchType)) {
+    if (!req.query.searchType) {
+        req.query.searchType = 'all';
+    }
+
+    if (!['question', 'answer', 'all'].includes(req.query.searchType)) {
         res.status(400).send('Invalid search type specified.');
         return;
     }
