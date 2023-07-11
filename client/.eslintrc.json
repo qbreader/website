@@ -5,6 +5,7 @@
     },
     "ignorePatterns": [
         "database/index.js",
+        "admin/category-reports.js",
         "bootstrap/*.js"
     ],
     "rules": {
