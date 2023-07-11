@@ -598,7 +598,7 @@ function QueryForm() {
     }
 
     function getMaxPagination() {
-        return Math.floor(5000 / (maxReturnLength || 25));
+        return Math.floor(10000 / (maxReturnLength || 25));
     }
 
     function handleTossupPaginationClick(event, value) {

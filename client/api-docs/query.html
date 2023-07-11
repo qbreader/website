@@ -280,10 +280,7 @@
                     </div>
                     <div>
                         The maximum number of questions to return.
-                        <ul>
-                            <li>If <code>0</code> or negative, then the default is <code>50</code></li>
-                            <li>If greater than <code>200</code>, the query will return no more than 200 questions.</li>
-                        </ul>
+                        The most this can be is <code>10000</code>.
                     </div>
                 </li>
                 <li class="list-group-item">
@@ -294,7 +291,7 @@
                     <div>
                         The page of tossups to return.
                         <ul>
-                            <li>Limited to a max of <code>4000 / maxReturnLength</code>, rounded down.</li>
+                            <li>Limited to a max of <code>10000 / maxReturnLength</code>, rounded down.</li>
                         </ul>
                     </div>
                 </li>
@@ -306,7 +303,7 @@
                     <div>
                         The page of bonuses to return.
                         <ul>
-                            <li>Limited to a max of <code>4000 / maxReturnLength</code>, rounded down.</li>
+                            <li>Limited to a max of <code>10000 / maxReturnLength</code>, rounded down.</li>
                         </ul>
                     </div>
                 </li>
