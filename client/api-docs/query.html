@@ -139,8 +139,17 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
+                        <code>queryString</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: ""</code>
+                    </div>
+                    <div>
+                        The string to search for.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
                         <code>questionType</code><code class="text-muted">: "tossup" | "bonus" | "all"</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                        <code class="text-muted float-end fw-semibold">default: "all"</code>
                     </div>
                     <div>
                         The type of question to search for.
@@ -154,7 +163,7 @@
                 <li class="list-group-item">
                     <div>
                         <code>searchType</code><code class="text-muted">: "question" | "answer" | "all"</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                        <code class="text-muted float-end fw-semibold">default: "all"</code>
                     </div>
                     <div>
                         Where to search for the query string.
@@ -163,15 +172,6 @@
                             <li><code>"answer"</code> - only search answerlines</li>
                             <li><code>"all"</code> - search both question bodies and answerlines</li>
                         </ul>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>queryString</code><code class="text-muted">: string</code>
-                        <code class="text-muted float-end fw-semibold">default: ""</code>
-                    </div>
-                    <div>
-                        The string to search for.
                     </div>
                 </li>
                 <li class="list-group-item">
@@ -225,7 +225,7 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>difficulties</code><code class="text-muted">: number | string</code>
+                        <code>difficulties</code><code class="text-muted">: number | string | number[] | string[]</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
@@ -239,7 +239,7 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>categories</code><code class="text-muted">: string</code>
+                        <code>categories</code><code class="text-muted">: string | string[]</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
@@ -255,7 +255,7 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>subcategories</code><code class="text-muted">: string</code>
+                        <code>subcategories</code><code class="text-muted">: string | string[]</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
