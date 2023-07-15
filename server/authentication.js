@@ -1,3 +1,4 @@
+import { QBREADER_EMAIL_ADDRESS } from '../constants.js';
 import { getUserField, getUserId, updateUser, verifyEmail } from '../database/users.js';
 
 import { createHash } from 'crypto';
@@ -105,7 +106,7 @@ async function sendResetPasswordEmail(username) {
     const token = sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-reset-password?user_id=${user_id}&token=${token}`;
     const message = {
-        from: 'info@qbreader.org',
+        from: QBREADER_EMAIL_ADDRESS,
         to: email,
         subject: 'Reset your password',
         text: `Click this link to reset your password: ${url} This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it. Do not reply to this email; this inbox is unmonitored.`,
@@ -134,7 +135,7 @@ async function sendVerificationEmail(username) {
     const token = sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-email?user_id=${user_id}&token=${token}`;
     const message = {
-        from: 'info@qbreader.org',
+        from: QBREADER_EMAIL_ADDRESS,
         to: email,
         subject: 'Verify your email address',
         text: `Click this link to verify your email address: ${url} This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it. Do not reply to this email; this inbox is unmonitored.`,
