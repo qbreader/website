@@ -7,6 +7,13 @@ const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
 let elements;
 
+fetch('/api/geoword/cost?' + new URLSearchParams({ packetName }))
+    .then(response => response.json())
+    .then(data => {
+        const { cost } = data;
+        document.getElementById('cost').textContent = (cost / 100).toFixed(2);
+    });
+
 initialize();
 checkStatus();
 
