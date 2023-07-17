@@ -14,7 +14,7 @@ router.get('/:packetName', async (req, res) => {
         return;
     }
 
-    const paid = await geoword.checkPayment({ packetName, username });
+    const paid = await geoword.checkPayment(packetName, username);
 
     if (!paid) {
         res.redirect('/geoword/payment/' + packetName);
