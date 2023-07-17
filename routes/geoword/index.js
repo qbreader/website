@@ -2,6 +2,7 @@ import * as geoword from '../../database/geoword.js';
 import { isAdmin } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 
+import audioRouter from './audio.js';
 import compareRouter from './compare.js';
 import divisionRouter from './division.js';
 import gameRouter from './game.js';
@@ -21,15 +22,7 @@ router.use('/admin', (req, res) => {
     res.redirect('/admin/geoword' + req.url);
 });
 
-router.get('/audio/*.mp3', (req, res) => {
-    const url = req.url.substring(7);
-    res.sendFile(url, { root: './geoword-audio' });
-});
-
-router.get('/audio', (req, res) => {
-    const { packetName, division, currentQuestionNumber } = req.query;
-    res.sendFile(`${packetName}/${division}/${currentQuestionNumber}.mp3`, { root: './geoword-audio' });
-});
+router.use('/audio', audioRouter);
 
 router.get('/confirmation', (req, res) => {
     res.sendFile('confirmation.html', { root: './client/geoword' });
