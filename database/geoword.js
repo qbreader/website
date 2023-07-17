@@ -16,12 +16,11 @@ const payments = geoword.collection('payments');
 const tossups = geoword.collection('tossups');
 
 /**
- * Returns true if the user has paid for the packet,
- * or if the packet is free, or if the user is an admin.
- * @param {*} param0
- * @returns {Promise<Boolean>}
+ * @param {String} packetName
+ * @param {String} username
+ * @returns {Promise<Boolean>} true if the user has paid for the packet, if the packet is free, or if the user is an admin.
  */
-async function checkPayment({ packetName, username }) {
+async function checkPayment(packetName, username) {
     const packet = await packets.findOne({ name: packetName });
 
     if (!packet) {
