@@ -21,7 +21,7 @@ router.get('/compare', async (req, res) => {
     const myBuzzes = await geoword.getBuzzes(packetName, division, await getUserId(username));
     const opponentBuzzes = (await geoword.getBuzzes(packetName, division, await getUserId(opponent))).slice(0, myBuzzes.length);
 
-    return res.json({ myBuzzes, opponentBuzzes });
+    res.json({ myBuzzes, opponentBuzzes });
 });
 
 router.post('/create-payment-intent', async (req, res) => {
