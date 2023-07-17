@@ -5,14 +5,18 @@ if (location.pathname.endsWith('/') && location.pathname.length > 1) {
     location.pathname = location.pathname.substring(0, location.pathname.length - 1);
 }
 
-// Always use https and www
-if (['http://www.qbreader.org', 'http://qbreader.herokuapp.com', 'https://qbreader.herokuapp.com', 'http://qbreader.herokuapp.com', 'https://qbreader-production.herokuapp.com'].includes(location.origin)) {
-    location.href = 'https://www.qbreader.org' + location.pathname;
+// Always use www
+if (['qbreader.herokuapp.com', 'qbreader-production.herokuapp.com', 'qbreader.org'].includes(location.hostname)) {
+    location.hostname = 'www.qbreader.org';
 }
 
+if (['qbreader-test.herokuapp.com', 'qbreader-test.herokuapp.com'].includes(location.hostname)) {
+    location.hostname = 'test.qbreader.org';
+}
 
-if (['http://test.qbreader.org', 'http://qbreader-test.herokuapp.com', 'https://qbreader-test.herokuapp.com'].includes(location.origin)) {
-    location.href = 'https://test.qbreader.org' + location.pathname;
+// Use https if not on localhost
+if (location.hostname !== 'localhost' && location.protocol !== 'https:') {
+    location.protocol = 'https:';
 }
 
 
