@@ -9,6 +9,13 @@ import stripeClass from 'stripe';
 const router = Router();
 const stripe = new stripeClass(process.env.STRIPE_SECRET_KEY);
 
+router.get('/check-answer', async (req, res) => {
+    const { givenAnswer, questionNumber, packetName, division } = req.query;
+    const answer = await geoword.getAnswer(packetName, division, parseInt(questionNumber));
+    const { directive, directedPrompt } = checkAnswer(answer, givenAnswer);
+    res.json({ actualAnswer: answer, directive, directedPrompt });
+});
+
 router.get('/compare', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
@@ -24,6 +31,12 @@ router.get('/compare', async (req, res) => {
     res.json({ myBuzzes, opponentBuzzes });
 });
 
+router.get('/cost', async (req, res) => {
+    const { packetName } = req.query;
+    const cost = await geoword.getCost(packetName);
+    res.json({ cost });
+});
+
 router.post('/create-payment-intent', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
@@ -34,10 +47,11 @@ router.post('/create-payment-intent', async (req, res) => {
 
     const user_id = await getUserId(username);
     const packetName = req.body.packetName;
+    const cost = await geoword.getCost(packetName);
 
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: 250, // $2.50
+        amount: cost, // default $2.50
         currency: 'usd',
         automatic_payment_methods: {
             enabled: true,
@@ -45,17 +59,9 @@ router.post('/create-payment-intent', async (req, res) => {
         metadata: { user_id: String(user_id), packetName: packetName },
     });
 
-    res.send({
-        clientSecret: paymentIntent.client_secret,
-    });
+    res.json({ clientSecret: paymentIntent.client_secret });
 });
 
-router.get('/check-answer', async (req, res) => {
-    const { givenAnswer, questionNumber, packetName, division } = req.query;
-    const answer = await geoword.getAnswer(packetName, division, parseInt(questionNumber));
-    const { directive, directedPrompt } = checkAnswer(answer, givenAnswer);
-    res.json({ actualAnswer: answer, directive, directedPrompt });
-});
 
 router.get('/division-choice', async (req, res) => {
     const { username, token } = req.session;

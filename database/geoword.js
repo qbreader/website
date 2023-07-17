@@ -147,13 +147,12 @@ async function getBuzzCount(packetName, username) {
 }
 
 /**
- *
- * @param {*} packetName
+ * @param {String} packetName
  * @returns {Integer} the cost to play the packet, in cents (USD)
  */
 async function getCost(packetName) {
     const packet = await packets.findOne({ name: packetName });
-    return packet?.costInCents;
+    return packet?.costInCents ?? 0;
 }
 
 async function getDivisionChoice(packetName, username) {
