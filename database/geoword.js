@@ -9,6 +9,7 @@ client.connect().then(async () => {
 });
 
 const geoword = client.db('geoword');
+const audio = geoword.collection('audio');
 const buzzes = geoword.collection('buzzes');
 const divisionChoices = geoword.collection('division-choices');
 const packets = geoword.collection('packets');
@@ -94,6 +95,23 @@ async function getAnswer(packetName, division, questionNumber) {
     } else {
         const { answer, formatted_answer } = result;
         return formatted_answer ?? answer;
+    }
+}
+
+/**
+ *
+ * @param {String} packetName
+ * @param {String} division
+ * @param {Integer} questionNumber
+ * @returns {Promise<Buffer>}
+ */
+async function getAudio(packetName, division, questionNumber) {
+    const tossup = await tossups.findOne({ packetName, division, questionNumber });
+    if (tossup) {
+        const audioFile = await audio.findOne({ tossup_id: tossup._id });
+        return audioFile.audio.buffer;
+    } else {
+        return null;
     }
 }
 
@@ -402,6 +420,7 @@ export {
     checkPayment,
     getAdminStats,
     getAnswer,
+    getAudio,
     getBuzzCount,
     getBuzzes,
     getCost,

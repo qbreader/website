@@ -1,3 +1,5 @@
+import { getAudio } from '../../database/geoword.js';
+
 import { Router } from 'express';
 
 const router = Router();
@@ -6,9 +8,10 @@ router.get('/*.mp3', (req, res) => {
     res.sendFile(req.url, { root: './geoword-audio' });
 });
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const { packetName, division, currentQuestionNumber } = req.query;
-    res.sendFile(`${packetName}/${division}/${currentQuestionNumber}.mp3`, { root: './geoword-audio' });
+    const audio = await getAudio(packetName, division, parseInt(currentQuestionNumber));
+    res.send(audio);
 });
 
 export default router;
