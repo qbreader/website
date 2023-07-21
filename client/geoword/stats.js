@@ -26,7 +26,7 @@ fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
             if (buzzArray[i].pendingProtest === true) {
                 pendingString = '(pending review)';
             } else if (buzzArray[i].pendingProtest === false) {
-                pendingString = `(protest resolved: ${buzzArray[i].decision}) (reason: ${buzzArray[i].reason ?? 'none'})`;
+                pendingString = `(protest resolution: ${buzzArray[i].decision}) ${getProtestReasonString(buzzArray[i])}`;
             }
 
             innerHTML += `
@@ -36,7 +36,7 @@ fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
                     <div><b>Your rank:</b> ${leaderboard[i].rank}</div>
                     <div><b>Celerity:</b> ${(buzzArray[i].celerity ?? 0.0).toFixed(3)}</div>
                     <div><b>Points:</b> ${buzzArray[i].points}</div>
-                    <div><b>Given answer:</b> ${escapeHTML(buzzArray[i].givenAnswer)}</div>
+                    <div><b>Given answer:</b> ${escapeHTML(buzzArray[i].givenAnswer)} ${getPromptString(buzzArray[i])}</div>
                 </div>
                 <div class="col-6">
                     <div><b>Best buzz:</b> ${leaderboard[i].bestUsername}</div>
@@ -78,3 +78,25 @@ fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
             packetLinks.appendChild(a2);
         }
     });
+
+function getPromptString(buzz) {
+    if (!buzz?.prompts) {
+        return '';
+    }
+
+    let string = '(prompted on: ';
+    for (const answer of buzz.prompts) {
+        string += answer + ', ';
+    }
+    string = string.slice(0, -2);
+    string = string + ')';
+    return string;
+}
+
+function getProtestReasonString(buzz) {
+    if (!buzz?.reason || buzz.reason === '') {
+        return '';
+    }
+
+    return `(reason: ${buzz.reason})`;
+}
