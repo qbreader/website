@@ -11,6 +11,7 @@ let endTime = null;
 let division;
 let numberCorrect = 0;
 let points = 0;
+let prompts = [];
 let totalCorrectCelerity = 0;
 let tossupsHeard = 0;
 
@@ -68,15 +69,18 @@ async function giveAnswer(givenAnswer) {
 
     switch (directive) {
     case 'accept':
-        updateScore(true, givenAnswer, actualAnswer);
+        updateScore(true, givenAnswer, actualAnswer, prompts);
+        prompts = [];
         break;
     case 'prompt':
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
         document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
+        prompts.push(givenAnswer);
         break;
     case 'reject':
-        updateScore(false, givenAnswer, actualAnswer);
+        updateScore(false, givenAnswer, actualAnswer, prompts);
+        prompts = [];
         break;
     }
 }
@@ -119,17 +123,18 @@ function recordProtest(packetName, questionNumber) {
     });
 }
 
-function recordBuzz(packetName, questionNumber, celerity, points, givenAnswer) {
+function recordBuzz(packetName, questionNumber, celerity, points, givenAnswer, prompts=[]) {
     fetch('/api/geoword/record-buzz?' + new URLSearchParams({
         packetName,
         questionNumber,
         celerity,
         points,
         givenAnswer,
+        prompts,
     }));
 }
 
-function updateScore(isCorrect, givenAnswer, actualAnswer) {
+function updateScore(isCorrect, givenAnswer, actualAnswer, prompts=[]) {
     const delta = (endTime - startTime) / 1000;
     const isEndOfQuestion = delta > currentAudio.duration;
     const celerity = isEndOfQuestion ? 0 : 1 - delta / currentAudio.duration;
@@ -143,7 +148,7 @@ function updateScore(isCorrect, givenAnswer, actualAnswer) {
         document.getElementById('protest-text').classList.remove('d-none');
     }
 
-    recordBuzz(packetName, currentQuestionNumber, celerity, currentPoints, givenAnswer);
+    recordBuzz(packetName, currentQuestionNumber, celerity, currentPoints, givenAnswer, prompts);
 
     points += currentPoints;
     tossupsHeard++;

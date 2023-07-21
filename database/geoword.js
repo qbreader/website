@@ -131,6 +131,7 @@ async function getBuzzes(packetName, division, user_id, protests=false) {
         answer: '$tossup.answer',
         formatted_answer: '$tossup.formatted_answer',
         givenAnswer: 1,
+        prompts: 1,
     };
 
     if (protests) {
@@ -357,8 +358,9 @@ async function getUserStats(packetName, user_id) {
  * @param {String} params.packetName
  * @param {Number} params.questionNumber
  * @param {ObjectId} params.user_id
+ * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
-async function recordBuzz({ celerity, givenAnswer, points, packetName, questionNumber, user_id }) {
+async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, questionNumber, user_id }) {
     const username = await getUsername(user_id);
     const [division, packet, admin] = await Promise.all([
         getDivisionChoiceById(packetName, user_id),
@@ -366,11 +368,15 @@ async function recordBuzz({ celerity, givenAnswer, points, packetName, questionN
         isAdmin(username),
     ]);
 
-    await buzzes.replaceOne(
-        { user_id, packetName, questionNumber },
-        { celerity, division, givenAnswer, points, packetName, questionNumber, user_id, active: packet.active && !admin },
-        { upsert: true },
-    );
+    const insertDocument = {
+        celerity, division, givenAnswer, points, packetName, questionNumber, user_id, active: packet.active && !admin,
+    };
+
+    if (prompts && typeof prompts === 'object' && prompts.length > 0) {
+        insertDocument.prompts = prompts;
+    }
+
+    await buzzes.insertOne(insertDocument);
 
     return true;
 }
