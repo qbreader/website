@@ -226,7 +226,7 @@ async function getPacket(packetName, division) {
 }
 
 async function getPacketList() {
-    const list = await packets.find({ test: { $exists: false } }, {
+    const list = await packets.find({ test: { $ne: true } }, {
         sort: { order: 1 },
         projection: { name: 1, divisions: 1, _id: 0 },
     }).toArray();
