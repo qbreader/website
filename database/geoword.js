@@ -107,12 +107,16 @@ async function getAnswer(packetName, division, questionNumber) {
  */
 async function getAudio(packetName, division, questionNumber) {
     const tossup = await tossups.findOne({ packetName, division, questionNumber });
-    if (tossup) {
-        const audioFile = await audio.findOne({ tossup_id: tossup._id });
-        return audioFile.audio.buffer;
-    } else {
+    if (!tossup) {
         return null;
     }
+
+    const audioFile = await audio.findOne({ tossup_id: tossup._id });
+    if (!audioFile) {
+        return null;
+    }
+
+    return audioFile.audio.buffer;
 }
 
 /**
