@@ -149,7 +149,9 @@ router.get('/record-buzz', async (req, res) => {
     req.query.celerity = parseFloat(req.query.celerity);
     req.query.points = parseInt(req.query.points);
     req.query.questionNumber = parseInt(req.query.questionNumber);
-    req.query.prompts = req.query.prompts?.split(',');
+    if (req.query.prompts) {
+        req.query.prompts = req.query.prompts.split(',');
+    }
 
     const user_id = await getUserId(username);
     const { packetName, questionNumber, celerity, points, prompts, givenAnswer } = req.query;
