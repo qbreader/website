@@ -79,25 +79,21 @@ const parseAnswerline = (() => {
 
     const extractUnderlining = (string) => {
         const matches = string.match(/(?<=<u>)[^<]*(?=<\/u>)/g);
-        if (matches) {
-            return matches
-                .reduce((prev, curr) => prev + curr + ' ', '')
-                .trim();
-        } else {
-            return string;
+        if (!matches) {
+            return removeHTMLTags(string);
         }
+
+        return removeHTMLTags(matches.reduce((prev, curr) => prev + curr + ' ', '').trim());
     };
 
 
     const extractQuotes = (string) => {
         const matches = string.match(/(?<=["“‟❝])[^"”❞]*(?=["”❞])/g);
-        if (matches) {
-            return matches
-                .reduce((prev, curr) => prev + curr + ' ', '')
-                .trim();
-        } else {
-            return string;
+        if (!matches) {
+            return removeHTMLTags(string);
         }
+
+        return removeHTMLTags(matches.reduce((prev, curr) => prev + curr + ' ', '').trim());
     };
 
 
@@ -105,12 +101,13 @@ const parseAnswerline = (() => {
      * Get all words which are partially or wholly underlined.
      */
     const extractKeyWords = (string) => {
-        return string
+        string = string
             .split(' ')
             .filter(token => token.length > 0 && token.match(/<\/?u>/))
-            .map(token => removeHTMLTags(token))
             .reduce((prev, curr) => prev + curr + ' ', '')
             .trim();
+
+        return removeHTMLTags(string);
     };
 
 
@@ -126,6 +123,7 @@ const parseAnswerline = (() => {
 
     const getEquivalentAnswers = (string) => {
         string = string.toLowerCase();
+        string = removeHTMLTags(string);
         switch (string) {
         case 'atomic bombs':
         case 'nuclear weapons':
@@ -211,16 +209,18 @@ const parseAnswerline = (() => {
             }
         }
 
-        parsedAnswerline.accept.forEach(answer => {
+        for (const answer of parsedAnswerline.accept) {
             if (/-/.test(answer)) {
-                parsedAnswerline.accept.push(answer.replace(/-/g, ' '));
-                parsedAnswerline.accept.push(answer.replace(/-/g, ''));
+                const answer1 = answer.replace(/-/g, ' ');
+                const answer2 = answer.replace(/-/g, '');
+                parsedAnswerline.accept.push(extractUnderlining(answer1), extractKeyWords(answer1), extractQuotes(answer1));
+                parsedAnswerline.accept.push(extractUnderlining(answer2), extractKeyWords(answer2), extractQuotes(answer2));
             }
 
             const specialAnswers = getEquivalentAnswers(answer);
             if (specialAnswers !== null)
                 parsedAnswerline.accept = parsedAnswerline.accept.concat(specialAnswers);
-        });
+        }
 
         subPhrases.forEach(phrase => {
             if (phrase.length === 0)
@@ -241,14 +241,7 @@ const parseAnswerline = (() => {
 
             const { directive, answers } = splitIntoAnswers(phrase);
 
-            answers.forEach(answer => {
-                if (/-/.test(answer)) {
-                    parsedAnswerline.accept.push(answer.replace(/-/g, ' '));
-                    parsedAnswerline.accept.push(answer.replace(/-/g, ''));
-                }
-            });
-
-            answers.forEach(answer => {
+            for (const answer of answers) {
                 switch (directive) {
                 case 'accept':
                     parsedAnswerline[directive].push(extractUnderlining(answer), extractKeyWords(answer), extractQuotes(answer));
@@ -263,7 +256,13 @@ const parseAnswerline = (() => {
                     parsedAnswerline[directive].push(extractQuotes(answer));
                     break;
                 }
-            });
+
+                if (/-/.test(answer)) {
+                    // NOTE: the loop will eventually run again on this modified answer
+                    answers.push(answer.replace(/-/g, ' '));
+                    answers.push(answer.replace(/-/g, ''));
+                }
+            }
         });
 
         return parsedAnswerline;
