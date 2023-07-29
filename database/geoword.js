@@ -111,7 +111,7 @@ async function getAudio(packetName, division, questionNumber) {
         return null;
     }
 
-    const audioFile = await audio.findOne({ tossup_id: tossup._id });
+    const audioFile = await audio.findOne({ _id: tossup.audio_id });
     if (!audioFile) {
         return null;
     }
