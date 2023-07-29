@@ -5,9 +5,6 @@ import { stemmer } from 'stemmer';
 
 const { toWords } = numberToWords;
 
-// const METAWORDS = ['the', 'like', 'descriptions', 'description', 'of', 'do', 'not', 'as', 'accept', 'or', 'other', 'prompt', 'on', 'except', 'before', 'after', 'is', 'read', 'stated', 'mentioned', 'at', 'any', 'don\'t', 'more', 'specific', 'etc', 'eg', 'answers', 'word', 'forms'];
-const METAWORDS = [];
-
 
 /**
  * Parses the answerline, returning the acceptable, promptable, and rejectable answers.
@@ -348,7 +345,7 @@ const stringMatchesReference = (() => {
 
         const stringTokens = string
             .split(' ')
-            .filter(token => !METAWORDS.includes(token) && token.length > 0)
+            .filter(token => token.length > 0)
             .map(string => replaceSpecialPhrases(string));
 
         if (stringTokens.length === 0)
@@ -369,7 +366,7 @@ const stringMatchesReference = (() => {
 
         const referenceTokens = reference
             .split(' ')
-            .filter(token => !METAWORDS.includes(token) && token.length > 0)
+            .filter(token => token.length > 0)
             .map(string => replaceSpecialPhrases(string));
 
         if (referenceTokens.length === 0)
