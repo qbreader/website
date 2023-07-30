@@ -1,6 +1,27 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>95</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "95" },
+                { "directive": "reject", "given": "96" }
+            ]
+        },
+        {
+            "answerline": "<b><u>1921</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "1921" },
+                { "directive": "reject", "given": "1920" }
+            ]
+        },
+        {
+            "answerline": "<b><u>1920</u></b>",
+            "tests": [
+                { "directive": "accept", "given": "1920" },
+                { "directive": "reject", "given": "1921" }
+            ]
+        },
+        {
             "answerline": "<i><b><u>Adventure</u></b></i> [accept <i><b><u>Microsoft Adventure</u></b></i> or <i><b><u>Colossal Cave Adventure</u></b></i>; accept graphic <b><u>adventure</u></b>s; prompt on <u>graphic</u> with “what other word is in the name of that genre?”]",
             "tests": [
                 { "directive": "prompt", "given": "graphic", "directedPrompt": "what other word is in the name of that genre?" }

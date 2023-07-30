@@ -352,15 +352,28 @@ const stringMatchesReference = (() => {
             return false;
 
         for (let i = stringTokens.length - 1; i >= 0; i--) {
+            if (stringTokens[i].endsWith('s')) {
+                stringTokens[i] = stringTokens[i].slice(0, -1);
+            }
+
             try {
-                stringTokens[i] = toWords(toArabic(stringTokens[i]));
+                stringTokens[i] = toArabic(stringTokens[i]);
             } catch (e) {
-                if (e.message !== 'toArabic expects a valid roman number' && !(e instanceof TypeError))
+                if (e.message !== 'toArabic expects a valid roman number' && !(e instanceof TypeError)) {
                     throw e;
+                }
             }
 
             if (isFinite(stringTokens[i])) {
-                stringTokens[i] = toWords(parseInt(stringTokens[i]));
+                stringTokens[i] = parseInt(stringTokens[i]);
+            } else {
+                continue;
+            }
+
+            if (stringTokens[i] <= 100) {
+                stringTokens[i] = toWords(stringTokens[i]);
+            } else {
+                stringTokens[i] = stringTokens[i].toString();
             }
         }
 
@@ -373,17 +386,28 @@ const stringMatchesReference = (() => {
             return false;
 
         for (let i = referenceTokens.length - 1; i >= 0; i--) {
+            if (referenceTokens[i].endsWith('s')) {
+                referenceTokens[i] = referenceTokens[i].slice(0, -1);
+            }
+
             try {
-                const arabNumeral = toWords(toArabic(referenceTokens[i]));
-                referenceTokens.push(arabNumeral.toString());
-                referenceTokens.push(toWords(arabNumeral));
+                referenceTokens[i] = toArabic(referenceTokens[i]);
             } catch (e) {
-                if (e.message !== 'toArabic expects a valid roman number' && !(e instanceof TypeError))
+                if (e.message !== 'toArabic expects a valid roman number' && !(e instanceof TypeError)) {
                     throw e;
+                }
             }
 
             if (isFinite(referenceTokens[i])) {
-                referenceTokens.push(toWords(parseInt(referenceTokens[i])));
+                referenceTokens[i] = parseInt(referenceTokens[i]);
+            } else {
+                continue;
+            }
+
+            if (referenceTokens[i] <= 100) {
+                referenceTokens[i] = toWords(referenceTokens[i]);
+            } else {
+                referenceTokens[i] = referenceTokens[i].toString();
             }
         }
 
