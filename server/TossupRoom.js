@@ -473,7 +473,7 @@ class TossupRoom {
                 this.revealQuestion();
                 Object.values(this.players).forEach(player => { player.tuh++; });
             } else {
-                this.readQuestion(new Date().getTime());
+                this.readQuestion(Date.now());
             }
             break;
         }
@@ -515,7 +515,7 @@ class TossupRoom {
             username: this.players[userId].username,
             tossup: this.tossup,
         });
-        this.readQuestion(new Date().getTime());
+        this.readQuestion(Date.now());
     }
 
     pause(userId) {
@@ -524,7 +524,7 @@ class TossupRoom {
         if (this.paused) {
             clearTimeout(this.timeoutID);
         } else {
-            this.readQuestion(new Date().getTime());
+            this.readQuestion(Date.now());
         }
 
         this.sendSocketMessage({
@@ -551,15 +551,16 @@ class TossupRoom {
         // calculate time needed before reading next word
         let time = Math.log(word.length) + 1;
         if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123)
-            || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d')
+        || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d') {
             time += 2;
-        else if (word.endsWith(',') || word.slice(-2) === ',\u201d')
+        } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') {
             time += 0.75;
-        else if (word === '(*)')
+        } else if (word === '(*)') {
             time = 0;
+        }
 
         time = time * 0.9 * (125 - this.settings.readingSpeed);
-        const delay = time - new Date().getTime() + expectedReadTime;
+        const delay = time - Date.now() + expectedReadTime;
 
         this.timeoutID = setTimeout(() => {
             this.readQuestion(time + expectedReadTime);
@@ -585,14 +586,7 @@ class TossupRoom {
     }
 
     sendSocketMessage(message) {
-        for (const field of Object.keys(message)) {
-            if (typeof message[field] === 'string') {
-                message[field] = DOMPurify.sanitize(message[field]);
-            }
-        }
-
         message = JSON.stringify(message);
-
         for (const socket of Object.values(this.sockets)) {
             socket.send(message);
         }
