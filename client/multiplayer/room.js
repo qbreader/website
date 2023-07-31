@@ -29,9 +29,6 @@ function showSkipButton() {
 
 
 const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${encodeURIComponent(USER_ID)}%%%${encodeURIComponent(username)}`);
-socket.onopen = function () {
-    console.log('Connected to websocket');
-};
 
 socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
@@ -208,7 +205,6 @@ socket.onmessage = function (event) {
 };
 
 socket.onclose = function () {
-    console.log('Disconnected from websocket');
     clearInterval(PING_INTERVAL_ID);
     window.alert('Disconnected from server');
 };

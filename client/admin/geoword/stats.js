@@ -10,8 +10,6 @@ fetch('/api/admin/geoword/stats?' + new URLSearchParams({ packetName, division }
     .then(data => {
         const { stats } = data;
 
-        console.log(stats);
-
         let innerHTML = '<hr>';
 
         for (const i in stats) {
