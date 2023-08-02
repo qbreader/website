@@ -5,13 +5,14 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Select a geoword division.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
     <link href="/bootstrap/light.css" rel="stylesheet">
-    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
+    <link id="custom-css" href="/bootstrap/dark.css" rel="stylesheet">
     <script src="/apply-theme.js"></script>
 </head>
 
@@ -52,7 +53,7 @@
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/login" id="login-link">Log in</a>
+                            <a class="nav-link" id="login-link" href="/user/login">Log in</a>
                         </li>
                     </ul>
                 </div>
@@ -62,18 +63,40 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <p>
-            Welcome to the admin view of geoword.
-            Choose a game below:
+            <a href="/admin/geoword">Back to admin page</a>
         </p>
-        <p><b>Compare two players:</b> <a href="/admin/geoword/compare">Compare</a></p>
-        <ul class="list-group" id="packet-list"></ul>
+        <form class="mb-3" id="form">
+            <div class="mb-3">
+                <label class="form-label" for="packet">Choose a packet:</label>
+                <select class="form-select" id="packet"></select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="division">Choose a division:</label>
+                <select class="form-select" id="division"></select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="player-1">Enter player 1's username here:</label>
+                <input class="form-control" id="player-1" type="text" list="player-list-1">
+                <datalist id="player-list-1"></datalist>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="player-2">Enter player 2's username here:</label>
+                <input class="form-control" id="player-2" type="text" list="player-list-2">
+                <datalist id="player-list-2"></datalist>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <div class="d-block mx-auto mt-3 spinner-border d-none" id="spinner" role="status">
+                <span class="d-none">Loading...</span>
+            </div>
+        </form>
+        <div id="root"></div>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
 
     <script src="/geoword/script.js"></script>
-    <script src="/admin/geoword/index.js"></script>
+    <script src="/admin/geoword/compare.js"></script>
 </body>
 
 </html>
