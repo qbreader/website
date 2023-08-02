@@ -1,6 +1,6 @@
 import * as geoword from '../../database/geoword.js';
 import { getReports, updateSubcategory } from '../../database/questions.js';
-import { isAdmin } from '../../database/users.js';
+import { getUserId, isAdmin } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';
@@ -28,6 +28,19 @@ router.use(async (req, res, next) => {
 router.get('/list-reports', async (req, res) => {
     const { reason } = req.query;
     return res.json(await getReports(reason));
+});
+
+router.get('/geoword/compare', async (req, res) => {
+    const { packetName, division, player1, player2 } = req.query;
+    const player1Buzzes = await geoword.getBuzzes(packetName, division, await getUserId(player1));
+    const player2Buzzes = await geoword.getBuzzes(packetName, division, await getUserId(player2));
+    res.json({ player1Buzzes, player2Buzzes });
+});
+
+router.get('/geoword/player-list', async (req, res) => {
+    const { packetName, division } = req.query;
+    const players = await geoword.getPlayerList(packetName, division);
+    res.json({ players });
 });
 
 router.get('/geoword/protests', async (req, res) => {

@@ -252,6 +252,22 @@ async function getPacketStatus(packetName) {
     return packet.test !== true;
 }
 
+async function getPlayerList(packetName, division) {
+    const result = await buzzes.aggregate([
+        { $match: { packetName, division } },
+        { $group: { _id: '$user_id' } },
+    ]).toArray();
+
+    for (const index in result) {
+        const user_id = result[index]._id;
+        result[index].username = await getUsername(user_id);
+    }
+
+    result.sort((a, b) => a.username.localeCompare(b.username));
+
+    return result;
+}
+
 async function getProgress(packetName, username) {
     const user_id = await getUserId(username);
     const result = await buzzes.aggregate([
@@ -440,6 +456,7 @@ export {
     getPacket,
     getPacketList,
     getPacketStatus,
+    getPlayerList,
     getProgress,
     getProtests,
     getQuestionCount,
