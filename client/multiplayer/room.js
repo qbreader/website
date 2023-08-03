@@ -854,7 +854,7 @@ document.getElementById('year-range-a').onchange = function () {
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function () {
         this.blur();
-        [validCategories, validSubcategories] = updateCategory(input.id, validCategories, validSubcategories);
+        ({ categories: validCategories, subcategories: validSubcategories } = updateCategory(input.id, validCategories, validSubcategories));
         loadCategoryModal(validCategories, validSubcategories);
         changedCategories = true;
     });
