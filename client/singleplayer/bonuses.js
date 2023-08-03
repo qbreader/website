@@ -195,16 +195,16 @@ function getPointsForCurrentBonus() {
 }
 
 
-async function getRandomBonus({ categories, difficulties, minYear, maxYear, subcategories }) {
+async function getRandomBonus({ categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
     if (randomQuestions.length === 0) {
-        await loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories });
+        await loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
 
     const randomQuestion = randomQuestions.pop();
 
     // Begin loading the next batch of questions (asynchronously)
     if (randomQuestions.length === 0) {
-        loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories });
+        loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
 
     return randomQuestion;
@@ -230,9 +230,9 @@ async function giveAnswer(givenAnswer) {
 }
 
 
-async function loadRandomBonuses({ categories, difficulties, minYear, maxYear, number = 1, subcategories }) {
+async function loadRandomBonuses({ categories, difficulties, minYear, maxYear, number = 1, subcategories, threePartBonuses }) {
     randomQuestions = [];
-    await fetch('/api/random-bonus?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, subcategories }))
+    await fetch('/api/random-bonus?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
         .then(response => response.json())
         .then(response => response.bonuses)
         .then(questions => {
@@ -509,6 +509,7 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
 document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
     this.blur();
     query.threePartBonuses = this.checked;
+    loadRandomBonuses(query);
     localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
