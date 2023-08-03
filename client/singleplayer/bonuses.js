@@ -606,7 +606,7 @@ window.onload = async () => {
         document.getElementById('difficulty-settings').classList.add('d-none');
         document.getElementById('set-settings').classList.remove('d-none');
         document.getElementById('toggle-select-by-set-name').checked = true;
-        document.getElementById('toggle-powermark-only').disabled = true;
+        document.getElementById('toggle-three-part-bonuses').disabled = true;
     }
 
     if (!settings.showHistory) {
