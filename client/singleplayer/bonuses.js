@@ -1,17 +1,32 @@
 // Functions and variables specific to the bonuses page.
 
 // Room settings
-let difficulties = [];
-let packetNumbers = [];
-let setName = '';
-let validCategories;
-let validSubcategories;
+const query = localStorage.getItem('singleplayer-bonus-query')
+    ? JSON.parse(localStorage.getItem('singleplayer-bonus-query'))
+    : {
+        categories: [],
+        difficulties: [],
+        minYear: 2010,
+        maxYear: 2023,
+        packetNumbers: [],
+        setName: '',
+        subcategories: [],
+        threePartBonuses: true,
+    };
+
+const settings = localStorage.getItem('singleplayer-bonus-settings')
+    ? JSON.parse(localStorage.getItem('singleplayer-bonus-settings'))
+    : {
+        selectBySetName: false,
+        showHistory: true,
+        typeToAnswer: false,
+    };
 
 // Status variables
 let currentBonusPart = -1;
-let packetNumber = -1;
+let maxPacketNumber = 24;
+let questionNumber = 0; // WARNING: 1-indexed
 let questions = [{}];
-let questionNumber = 0;
 
 /**
  * An array of random questions.
@@ -37,42 +52,40 @@ function queryUnlock() {
 
 
 async function advanceQuestion() {
-    if (document.getElementById('toggle-select-by-set-name').checked) {
+    if (settings.selectBySetName) {
         do {  // Get the next question
             questionNumber++;
 
             // Go to the next packet if you reach the end of this packet
             if (questionNumber >= questions.length) {
-                packetNumbers.shift();
-                if (packetNumbers.length == 0) {
+                if (query.packetNumbers.length == 0) {
                     window.alert('No more questions left');
                     document.getElementById('reveal').disabled = true;
                     document.getElementById('next').disabled = true;
                     return false;
                 }
 
-                packetNumber = packetNumbers[0];
-
                 queryLock();
                 try {
-                    questions = await getBonuses(setName, packetNumber);
+                    questions = await getBonuses(query.setName, query.packetNumbers[0]);
                 } finally {
                     queryUnlock();
                 }
 
-                questionNumber = 0;
+                query.packetNumbers.shift();
+                questionNumber = 1;
             }
 
             // Get the next question if the current one is in the wrong category and subcategory
-        } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
+        } while (!isValidCategory(questions[questionNumber - 1], query.categories, query.subcategories));
 
         if (questions.length > 0) {
-            document.getElementById('question-number-info').textContent = questionNumber + 1;
+            document.getElementById('question-number-info').textContent = questionNumber;
         }
     } else {
         queryLock();
         try {
-            questions = await getRandomBonus(difficulties, validCategories, validSubcategories);
+            questions = await getRandomBonus(query);
             questions = [questions];
         } finally {
             queryUnlock();
@@ -83,16 +96,33 @@ async function advanceQuestion() {
             return false;
         }
 
-        ({ setName, packetNumber, questionNumber } = questions[0]);
-
-        if (questions.length > 0) {
-            document.getElementById('question-number-info').textContent = questionNumber;
-            questionNumber = 0;
-        }
+        query.setName = questions[0].setName;
+        query.packetNumbers = [questions[0].packetNumber];
+        document.getElementById('question-number-info').textContent = questions[0].questionNumber;
+        questionNumber = 1;
     }
 
     return true;
 }
+
+
+/**
+ * @param {String} answerline
+ * @param {String} givenAnswer
+ * @returns {Promise<{
+    * directive: "accept" | "prompt" | "reject",
+    * directedPrompt: String | null
+ * }>}
+ */
+async function checkAnswer(answerline, givenAnswer) {
+    if (givenAnswer === '') {
+        return { directive: 'reject', directedPrompt: null };
+    }
+
+    return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer }))
+        .then(response => response.json());
+}
+
 
 /**
  * Clears user stats.
@@ -165,22 +195,24 @@ function getPointsForCurrentBonus() {
 }
 
 
-async function getRandomBonus(difficulties = [], categories = [], subcategories = []) {
-    if (randomQuestions.length === 0)
-        await loadRandomBonuses(difficulties, categories, subcategories, 20);
+async function getRandomBonus({ categories, difficulties, minYear, maxYear, number, subcategories }) {
+    if (randomQuestions.length === 0) {
+        await loadRandomBonuses({ categories, difficulties, minYear, maxYear, number, subcategories });
+    }
 
     const randomQuestion = randomQuestions.pop();
 
     // Begin loading the next batch of questions (asynchronously)
-    if (randomQuestions.length === 0)
-        loadRandomBonuses(difficulties, categories, subcategories, 20);
+    if (randomQuestions.length === 0) {
+        loadRandomBonuses({ categories, difficulties, minYear, maxYear, number, subcategories });
+    }
 
     return randomQuestion;
 }
 
 
 async function giveAnswer(givenAnswer) {
-    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber].answers[currentBonusPart], givenAnswer);
+    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].answers[currentBonusPart], givenAnswer);
 
     switch (directive) {
     case 'accept':
@@ -198,11 +230,12 @@ async function giveAnswer(givenAnswer) {
 }
 
 
-async function loadRandomBonuses(difficulties = [], categories = [], subcategories = [], number = 1) {
-    const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
-    const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
+async function loadRandomBonuses({ categories, difficulties, minYear, maxYear, number, subcategories }) {
+    // const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
+    // const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
 
-    await fetch('/api/random-bonus?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear }))
+    randomQuestions = [];
+    await fetch('/api/random-bonus?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, subcategories }))
         .then(response => response.json())
         .then(response => response.bonuses)
         .then(questions => {
@@ -220,28 +253,28 @@ async function loadRandomBonuses(difficulties = [], categories = [], subcategori
  * Loads and reads the next question.
  */
 async function next() {
-    if (questions[questionNumber] && currentBonusPart >= questions[questionNumber].parts.length) {
+    if (questions[questionNumber - 1] && currentBonusPart >= questions[questionNumber - 1].parts.length) {
         const pointsPerPart = Array.from(document.getElementsByClassName('checkbox')).map((checkbox, index) => {
             if (!checkbox.checked) {
                 return 0;
             }
 
-            if (questions[questionNumber].values === undefined || questions[questionNumber].values === null) {
+            if (questions[questionNumber - 1].values === undefined || questions[questionNumber - 1].values === null) {
                 return 10;
             }
 
-            if (questions[questionNumber].values[index] === undefined || questions[questionNumber].values[index] === null) {
+            if (questions[questionNumber - 1].values[index] === undefined || questions[questionNumber - 1].values[index] === null) {
                 return 10;
             }
 
-            return questions[questionNumber].values[index];
+            return questions[questionNumber - 1].values[index];
         });
 
         fetch('/auth/record-bonus', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                bonus: questions[questionNumber],
+                bonus: questions[questionNumber - 1],
                 pointsPerPart: pointsPerPart,
             }),
         }).then(response => {
@@ -261,17 +294,17 @@ async function next() {
     if (!hasNextQuestion)
         return;
 
-    document.getElementById('set-name-info').textContent = setName;
-    document.getElementById('packet-number-info').textContent = packetNumber;
+    document.getElementById('set-name-info').textContent = query.setName;
+    document.getElementById('packet-number-info').textContent = query.packetNumbers[0];
 
     // Update the question text:
     const paragraph = document.createElement('p');
-    paragraph.appendChild(document.createTextNode(questions[questionNumber].leadin));
+    paragraph.appendChild(document.createTextNode(questions[questionNumber - 1].leadin));
     document.getElementById('question').textContent = '';
     document.getElementById('question').appendChild(paragraph);
 
     currentBonusPart = 0;
-    createBonusPart(currentBonusPart, questions[questionNumber].parts[currentBonusPart]);
+    createBonusPart(currentBonusPart, questions[questionNumber - 1].parts[currentBonusPart]);
 }
 
 
@@ -279,19 +312,19 @@ async function next() {
  * Called when the users wants to reveal the next bonus part.
  */
 function revealBonusPart() {
-    if (currentBonusPart >= questions[questionNumber].parts.length)
+    if (currentBonusPart >= questions[questionNumber - 1].parts.length)
         return;
 
     const paragraph = document.createElement('p');
-    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber].answers[currentBonusPart];
+    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answers[currentBonusPart];
     document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
     currentBonusPart++;
 
-    if (currentBonusPart >= questions[questionNumber].parts.length) {
+    if (currentBonusPart >= questions[questionNumber - 1].parts.length) {
         document.getElementById('reveal').disabled = true;
         document.getElementById('next').textContent = 'Next';
     } else {
-        createBonusPart(currentBonusPart, questions[questionNumber].parts[currentBonusPart]);
+        createBonusPart(currentBonusPart, questions[questionNumber - 1].parts[currentBonusPart]);
     }
 }
 
@@ -312,6 +345,26 @@ function updateStatDisplay() {
 }
 
 
+document.querySelectorAll('#categories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        ({ categories: query.categories, subcategories: query.subcategories } = updateCategory(input.id, query.categories, query.subcategories));
+        loadCategoryModal(query.categories, query.subcategories);
+        localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    });
+});
+
+
+document.querySelectorAll('#subcategories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        query.subcategories = updateSubcategory(input.id, query.subcategories);
+        loadCategoryModal(query.categories, query.subcategories);
+        localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    });
+});
+
+
 document.getElementById('answer-form').addEventListener('submit', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -328,8 +381,8 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-    randomQuestions = [];
-    loadRandomBonuses(difficulties, validCategories, validSubcategories);
+    loadRandomBonuses(query);
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 
@@ -340,16 +393,15 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 
 
 document.getElementById('difficulties').addEventListener('change', function () {
-    randomQuestions = [];
-    difficulties = getDropdownValues('difficulties');
-    loadRandomBonuses(difficulties, validCategories, validSubcategories);
-    localStorage.setItem('difficultiesBonusSave', JSON.stringify(difficulties));
+    query.difficulties = getDropdownValues('difficulties');
+    loadRandomBonuses(query);
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    createBonusCard(questions[questionNumber]);
+    createBonusCard(questions[questionNumber - 1]);
 
     if (this.innerHTML === 'Next') {
         getPointsForCurrentBonus();
@@ -361,11 +413,19 @@ document.getElementById('next').addEventListener('click', function () {
 
 
 document.getElementById('packet-number').addEventListener('change', function () {
-    localStorage.setItem('packetNumberBonusSave', this.value);
+    // if field is blank, store blank result in `query`
+    query.packetNumbers = rangeToArray(this.value.trim(), 0);
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    query.packetNumbers = rangeToArray(this.value.trim(), maxPacketNumber);
 });
 
 
 document.getElementById('question-number').addEventListener('change', function () {
+    questionNumber = document.getElementById('question-number').value;
+    if (questionNumber === '') {
+        questionNumber = '1';
+    }
+    questionNumber = parseInt(questionNumber) - 1;
     localStorage.setItem('questionNumberBonusSave', document.getElementById('question-number').value);
 });
 
@@ -382,18 +442,47 @@ document.getElementById('reveal').addEventListener('click', function () {
 });
 
 
-document.getElementById('set-name').addEventListener('change', function () {
-    localStorage.setItem('setNameBonusSave', this.value);
+document.getElementById('set-name').addEventListener('change', async function () {
+    query.setName = this.value.trim();
+
+    // make border red if set name is not in set list
+    if (SET_LIST.includes(this.value) || this.value.length === 0) {
+        this.classList.remove('is-invalid');
+    } else {
+        this.classList.add('is-invalid');
+    }
+
+    maxPacketNumber = await getNumPackets(this.value);
+
+    if (this.value === '' || maxPacketNumber === 0) {
+        document.getElementById('packet-number').placeholder = 'Packet Numbers';
+    } else {
+        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
+    }
+
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    start(document.getElementById('toggle-select-by-set-name').checked);
+    if (query.setName.length === 0 && settings.selectBySetName) {
+        alert('Please enter a set name.');
+        return false;
+    }
+
+    if (query.packetNumbers.length === 0 && settings.selectBySetName) {
+        query.packetNumbers = rangeToArray(document.getElementById('packet-number').value.trim(), maxPacketNumber);
+    }
+
+    document.getElementById('next').disabled = false;
+    document.getElementById('next').textContent = 'Skip';
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('toggle-options').disabled = false;
 
     queryLock();
     try {
-        questions = await getBonuses(setName, packetNumber);
+        questions = await getBonuses(query.setName, query.packetNumbers[0]);
     } finally {
         queryUnlock();
     }
@@ -403,44 +492,60 @@ document.getElementById('start').addEventListener('click', async function () {
 
 
 document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
+    this.blur();
+    settings.selectBySetName = this.checked;
+    document.getElementById('toggle-three-part-bonuses').disabled = this.checked;
+
     if (this.checked) {
         document.getElementById('difficulty-settings').classList.add('d-none');
         document.getElementById('set-settings').classList.remove('d-none');
-        localStorage.setItem('selectBySetName', 'true');
     } else {
         document.getElementById('difficulty-settings').classList.remove('d-none');
         document.getElementById('set-settings').classList.add('d-none');
-        localStorage.setItem('selectBySetName', 'false');
     }
 
-    document.getElementById('toggle-three-part-bonuses').disabled = this.checked;
+    localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
 });
 
-
+document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
+    this.blur();
+    query.threePartBonuses = this.checked;
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+});
 
 document.getElementById('toggle-show-history').addEventListener('click', function () {
+    this.blur();
+    settings.showHistory = this.checked;
+
     if (this.checked) {
         document.getElementById('room-history').classList.remove('d-none');
-        localStorage.setItem('showBonusHistory', 'true');
     } else {
         document.getElementById('room-history').classList.add('d-none');
-        localStorage.setItem('showBonusHistory', 'false');
     }
+
+    localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
 });
 
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
     this.blur();
-    localStorage.setItem('typeToAnswer', this.checked ? 'true' : 'false');
+    settings.typeToAnswer = this.checked;
+    localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
 });
 
 
 document.getElementById('year-range-a').onchange = function () {
-    randomQuestions = [];
-    loadRandomBonuses(difficulties, validCategories, validSubcategories);
+    query.minYear = $('#slider').slider('values', 0);
+    query.maxYear = $('#slider').slider('values', 1);
+    loadRandomBonuses(query);
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+};
 
-    localStorage.setItem('minYear', $('#slider').slider('values', 0));
-    localStorage.setItem('maxYear', $('#slider').slider('values', 1));
+document.getElementById('year-range-b').onchange = function () {
+    query.minYear = $('#slider').slider('values', 0);
+    query.maxYear = $('#slider').slider('values', 1);
+    loadRandomBonuses(query);
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 };
 
 
@@ -492,85 +597,69 @@ window.onload = async () => {
     updateStatDisplay();
 
 
-    if (localStorage.getItem('difficultiesBonusSave')) {
-        difficulties = JSON.parse(localStorage.getItem('difficultiesBonusSave'));
+    if (localStorage.getItem('questionNumberTossupSave')) {
+        document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
+        questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave')) - 1;
+    }
+
+    if (settings.selectBySetName) {
+        document.getElementById('difficulty-settings').classList.add('d-none');
+        document.getElementById('set-settings').classList.remove('d-none');
+        document.getElementById('toggle-select-by-set-name').checked = true;
+        document.getElementById('toggle-powermark-only').disabled = true;
+    }
+
+    if (!settings.showHistory) {
+        document.getElementById('toggle-show-history').checked = false;
+        document.getElementById('room-history').classList.add('d-none');
+    }
+
+    if (settings.typeToAnswer) {
+        document.getElementById('type-to-answer').checked = true;
+    }
+
+    if (query.categories.length > 0 && query.subcategories.length === 0) {
+        query.categories.forEach(category => {
+            SUBCATEGORIES[category].forEach(subcategory => {
+                query.subcategories.push(subcategory);
+            });
+        });
+    }
+
+    loadCategoryModal(query.categories, query.subcategories);
+
+    if (query.difficulties) {
         for (let element of document.getElementById('difficulties').children) {
             const input = element.querySelector('input');
             const difficulty = parseInt(input.value);
-            if (difficulties.includes(difficulty)) {
+            if (query.difficulties.includes(difficulty)) {
                 element.classList.add('active');
                 input.checked = true;
             }
         }
     }
 
-    if (localStorage.getItem('packetNumberBonusSave')) {
-        document.getElementById('packet-number').value = localStorage.getItem('packetNumberBonusSave');
+    $('#slider').slider('values', 0, query.minYear);
+    $('#slider').slider('values', 1, query.maxYear);
+    document.getElementById('year-range-a').textContent = query.minYear;
+    document.getElementById('year-range-b').textContent = query.maxYear;
+
+    if (query.packetNumbers) {
+        document.getElementById('packet-number').value = arrayToRange(query.packetNumbers);
     }
 
-    if (localStorage.getItem('questionNumberBonusSave')) {
-        document.getElementById('question-number').value = localStorage.getItem('questionNumberBonusSave');
-    }
-
-    if (localStorage.getItem('showBonusHistory') === 'false') {
-        document.getElementById('toggle-show-history').checked = false;
-        document.getElementById('room-history').classList.add('d-none');
-    }
-
-    if (localStorage.getItem('threePartBonuses') === 'false') {
-        document.getElementById('toggle-three-part-bonuses').checked = false;
-    }
-
-    if (localStorage.getItem('typeToAnswer') === 'true') {
-        document.getElementById('type-to-answer').checked = true;
-    }
-
-
-    if (localStorage.getItem('validCategories')) {
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    } else {
-        localStorage.setItem('validCategories', '[]');
-        validCategories = [];
-    }
-
-    if (localStorage.getItem('validSubcategories')) {
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-    } else {
-        localStorage.setItem('validSubcategories', '[]');
-        validSubcategories = [];
-    }
-
-    if (validCategories.length > 0 && validSubcategories.length === 0) {
-        validCategories.forEach(category => {
-            SUBCATEGORIES[category].forEach(subcategory => {
-                validSubcategories.push(subcategory);
-            });
-        });
-    }
-
-    loadCategoryModal(validCategories, validSubcategories);
-
-
-    if (localStorage.getItem('selectBySetName') === 'true') {
-        document.getElementById('difficulty-settings').classList.add('d-none');
-        document.getElementById('set-settings').classList.remove('d-none');
-        document.getElementById('toggle-select-by-set-name').checked = true;
-        document.getElementById('toggle-three-part-bonuses').disabled = true;
-    }
-
-    if (localStorage.getItem('setNameBonusSave')) {
-        setName = localStorage.getItem('setNameBonusSave');
-        document.getElementById('set-name').value = setName;
-        maxPacketNumber = await getNumPackets(setName);
-
-        if (setName === '') {
-            return;
-        }
+    if (query.setName) {
+        document.getElementById('set-name').value = query.setName;
+        maxPacketNumber = await getNumPackets(query.setName);
 
         if (maxPacketNumber === 0) {
             document.getElementById('set-name').classList.add('is-invalid');
         } else {
             document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
         }
+    }
+
+    if (!query.threePartBonuses) {
+        document.getElementById('toggle-three-part-bonuses').checked = false;
     }
 };

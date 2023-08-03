@@ -1,20 +1,34 @@
 // Functions and variables specific to the tossups page.
 
-// Room settings
-let difficulties = [];
-let packetNumbers = [];
-let setName = '';
-let validCategories;
-let validSubcategories;
+const query = localStorage.getItem('singleplayer-tossup-query')
+    ? JSON.parse(localStorage.getItem('singleplayer-tossup-query'))
+    : {
+        categories: [],
+        difficulties: [],
+        minYear: 2010,
+        maxYear: 2023,
+        packetNumbers: [],
+        powermarkOnly: false,
+        setName: '',
+        subcategories: [],
+    };
+
+const settings = localStorage.getItem('singleplayer-tossup-settings')
+    ? JSON.parse(localStorage.getItem('singleplayer-tossup-settings'))
+    : {
+        readingSpeed: 50,
+        rebuzz: false,
+        selectBySetName: false,
+        showHistory: true,
+        typeToAnswer: true,
+    };
 
 // Status variables
 let currentlyBuzzing = false;
-let packetNumber = -1;
+let maxPacketNumber = 24;
 let paused = false;
 let powermarkPosition = 0;
-
-// WARNING: 0-indexed (instead of 1-indexed, like in multiplayer)
-let questionNumber = 0;
+let questionNumber = 0; // WARNING: 1-indexed
 let timeoutID = -1;
 
 const previous = {
@@ -58,16 +72,14 @@ function queryUnlock() {
  * @returns {Promise<boolean>} Whether or not there is a next question
  */
 async function advanceQuestion() {
-    if (document.getElementById('toggle-select-by-set-name').checked) {
-        packetNumber = packetNumbers[0];
-
-        do {  // Get the next question
+    if (settings.selectBySetName) {
+        // Get the next question if the current one is in the wrong category and subcategory
+        do {
             questionNumber++;
 
             // Go to the next packet if you reach the end of this packet
             if (questionNumber >= questions.length) {
-                packetNumbers.shift();
-                if (packetNumbers.length === 0) {
+                if (query.packetNumbers.length === 0) {
                     window.alert('No more questions left');
                     document.getElementById('buzz').disabled = true;
                     document.getElementById('pause').disabled = true;
@@ -75,30 +87,27 @@ async function advanceQuestion() {
                     return false;  // alert the user if there are no more packets
                 }
 
-                packetNumber = packetNumbers[0];
-
                 queryLock();
                 try {
-                    questions = await getTossups(setName, packetNumber);
+                    questions = await getTossups(query.setName, query.packetNumbers[0]);
                 } finally {
                     queryUnlock();
                 }
 
-                questionNumber = 0;
+                query.packetNumbers.shift();
+                questionNumber = 1;
             }
-
-            // Get the next question if the current one is in the wrong category and subcategory
-        } while (!isValidCategory(questions[questionNumber], validCategories, validSubcategories));
+        } while (!isValidCategory(questions[questionNumber - 1], query.categories, query.subcategories));
 
         if (Object.keys(questions[0]).length > 0) {
-            questionText = questions[questionNumber].question;
+            questionText = questions[questionNumber - 1].question;
             questionTextSplit = questionText.split(' ').filter(word => word !== '');
-            document.getElementById('question-number-info').textContent = questionNumber + 1;
+            document.getElementById('question-number-info').textContent = questionNumber;
         }
     } else {
         queryLock();
         try {
-            questions = await getRandomTossup(difficulties, validCategories, validSubcategories);
+            questions = await getRandomTossup(query);
             questions = [questions];
         } finally {
             queryUnlock();
@@ -109,12 +118,13 @@ async function advanceQuestion() {
             return false;
         }
 
-        ({ setName, packetNumber, questionNumber } = questions[0]);
+        query.setName = questions[0].setName;
+        query.packetNumbers = [questions[0].packetNumber];
 
         questionText = questions[0].question;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');
-        document.getElementById('question-number-info').textContent = questionNumber;
-        questionNumber = 0;
+        document.getElementById('question-number-info').textContent = questions[0].questionNumber;
+        questionNumber = 1;
     }
 
     return true;
@@ -138,6 +148,24 @@ function buzz() {
     document.getElementById('next').disabled = true;
     document.getElementById('start').disabled = true;
     document.getElementById('pause').disabled = true;
+}
+
+
+/**
+ * @param {String} answerline
+ * @param {String} givenAnswer
+ * @returns {Promise<{
+    * directive: "accept" | "prompt" | "reject",
+    * directedPrompt: String | null
+ * }>}
+ */
+async function checkAnswer(answerline, givenAnswer) {
+    if (givenAnswer === '') {
+        return { directive: 'reject', directedPrompt: null };
+    }
+
+    return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer }))
+        .then(response => response.json());
 }
 
 
@@ -174,7 +202,7 @@ async function getTossups(setName, packetNumber) {
 async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
-    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber].answer, givenAnswer);
+    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].answer, givenAnswer);
 
     switch (directive) {
     case 'accept':
@@ -183,7 +211,7 @@ async function giveAnswer(givenAnswer) {
         break;
     case 'reject':
         updateScore(false);
-        if (document.getElementById('toggle-rebuzz').checked) {
+        if (settings.rebuzz) {
             document.getElementById('buzz').disabled = false;
             document.getElementById('buzz').textContent = 'Buzz';
             document.getElementById('next').disabled = false;
@@ -210,12 +238,12 @@ function isPace(setName) {
     return setName.includes('PACE');
 }
 
-async function loadRandomTossups(difficulties = [], categories = [], subcategories = [], number = 1) {
-    const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
-    const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
-    const powermarkOnly = document.getElementById('toggle-powermark-only').checked;
+async function loadRandomTossups({ categories, difficulties, minYear, maxYear, number, powermarkOnly, subcategories }) {
+    randomQuestions = [];
+    // const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
+    // const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
 
-    await fetch('/api/random-tossup?' + new URLSearchParams({ difficulties, categories, subcategories, number, minYear, maxYear, powermarkOnly }))
+    await fetch('/api/random-tossup?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories }))
         .then(response => response.json())
         .then(response => response.tossups)
         .then(questions => {
@@ -229,15 +257,21 @@ async function loadRandomTossups(difficulties = [], categories = [], subcategori
 }
 
 
-async function getRandomTossup(difficulties = [], categories = [], subcategories = []) {
-    if (randomQuestions.length === 0)
-        await loadRandomTossups(difficulties, categories, subcategories, 20);
+/**
+ * Get a random tossup using the settings already loaded in.
+ * @returns
+ */
+async function getRandomTossup({ categories, difficulties, minYear, maxYear, number, powermarkOnly, subcategories }) {
+    if (randomQuestions.length === 0) {
+        await loadRandomTossups({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories });
+    }
 
     const randomQuestion = randomQuestions.pop();
 
     // Begin loading the next batch of questions (asynchronously)
-    if (randomQuestions.length === 0)
-        loadRandomTossups(difficulties, categories, subcategories, 20);
+    if (randomQuestions.length === 0) {
+        loadRandomTossups({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories });
+    }
 
     return randomQuestion;
 }
@@ -254,7 +288,7 @@ async function next() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                tossup: questions[questionNumber],
+                tossup: questions[questionNumber - 1],
                 isCorrect: previous.isCorrect,
                 pointValue: pointValue,
                 celerity: previous.celerity,
@@ -281,11 +315,11 @@ async function next() {
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
     document.getElementById('next').textContent = 'Skip';
-    document.getElementById('packet-number-info').textContent = packetNumber;
+    document.getElementById('packet-number-info').textContent = query.packetNumbers[0];
     document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
     document.getElementById('question').textContent = '';
-    document.getElementById('set-name-info').textContent = setName;
+    document.getElementById('set-name-info').textContent = query.setName;
 
     paused = false;
     powermarkPosition = 0;
@@ -331,7 +365,7 @@ function readQuestion(expectedReadTime) {
         else if (word === '(*)')
             time = 0;
 
-        time = time * 0.9 * (125 - document.getElementById('reading-speed').value);
+        time = time * 0.9 * (125 - settings.readingSpeed);
         const delay = time - new Date().getTime() + expectedReadTime;
 
         timeoutID = window.setTimeout(() => {
@@ -344,7 +378,7 @@ function readQuestion(expectedReadTime) {
 
 
 function revealQuestion() {
-    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber].answer;
+    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answer;
     let question = (document.getElementById('question').innerHTML);
     if (powermarkPosition)
         question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
@@ -360,6 +394,16 @@ function revealQuestion() {
 
     document.getElementById('toggle-correct').classList.remove('d-none');
     document.getElementById('toggle-correct').textContent = previous.isCorrect ? 'I was wrong' : 'I was right';
+}
+
+
+/**
+ * Increases or decreases a session storage item by a certain amount.
+ * @param {String} item - The name of the sessionStorage item.
+ * @param {Number} x - The amount to increase/decrease the sessionStorage item.
+ */
+function shift(item, x) {
+    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
 }
 
 
@@ -392,8 +436,8 @@ function toggleCorrect() {
 function updateScore(isCorrect) {
     const endOfQuestion = (questionTextSplit.length === 0);
     const inPower = questionTextSplit.includes('(*)') && questionText.includes('(*)');
-    const powerValue = isPace(setName) ? 20 : 15;
-    const negValue = isPace(setName) ? 0 : -5;
+    const powerValue = isPace(query.setName) ? 20 : 15;
+    const negValue = isPace(query.setName) ? 0 : -5;
     const points = isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
 
     const characterCount = questionTextSplit.join(' ').length;
@@ -439,6 +483,26 @@ function updateStatDisplay() {
 }
 
 
+document.querySelectorAll('#categories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        ({ categories: query.categories, subcategories: query.subcategories } = updateCategory(input.id, query.categories, query.subcategories));
+        loadCategoryModal(query.categories, query.subcategories);
+        localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    });
+});
+
+
+document.querySelectorAll('#subcategories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        query.subcategories = updateSubcategory(input.id, query.subcategories);
+        loadCategoryModal(query.categories, query.subcategories);
+        localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    });
+});
+
+
 document.getElementById('answer-form').addEventListener('submit', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -468,7 +532,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
     buzz();
 
-    if (document.getElementById('type-to-answer').checked) {
+    if (settings.typeToAnswer) {
         document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
         this.disabled = true;
@@ -477,8 +541,8 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-    randomQuestions = [];
-    loadRandomTossups(difficulties, validCategories, validSubcategories);
+    loadRandomTossups(query);
+    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 
@@ -489,22 +553,24 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 
 
 document.getElementById('difficulties').addEventListener('change', function () {
-    randomQuestions = [];
-    difficulties = getDropdownValues('difficulties');
-    loadRandomTossups(difficulties, validCategories, validSubcategories);
-    localStorage.setItem('difficultiesTossupSave', JSON.stringify(difficulties));
+    query.difficulties = getDropdownValues('difficulties');
+    loadRandomTossups(query);
+    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    createTossupCard(questions[questionNumber], setName);
+    createTossupCard(questions[questionNumber - 1], query.setName);
     next();
 });
 
 
 document.getElementById('packet-number').addEventListener('change', function () {
-    localStorage.setItem('packetNumberTossupSave', this.value);
+    // if field is blank, store blank result in `query`
+    query.packetNumbers = rangeToArray(this.value.trim(), 0);
+    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    query.packetNumbers = rangeToArray(this.value.trim(), maxPacketNumber);
 });
 
 
@@ -515,28 +581,63 @@ document.getElementById('pause').addEventListener('click', function () {
 
 
 document.getElementById('question-number').addEventListener('change', function () {
+    questionNumber = document.getElementById('question-number').value;
+    if (questionNumber === '') {
+        questionNumber = '1';
+    }
+    questionNumber = parseInt(questionNumber) - 1;
     localStorage.setItem('questionNumberTossupSave', document.getElementById('question-number').value);
 });
 
 
 document.getElementById('reading-speed').addEventListener('input', function () {
-    localStorage.setItem('speed', this.value);
+    settings.readingSpeed = this.value;
     document.getElementById('reading-speed-display').textContent = this.value;
+    localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 
-document.getElementById('set-name').addEventListener('change', function () {
-    localStorage.setItem('setNameTossupSave', this.value);
+document.getElementById('set-name').addEventListener('change', async function () {
+    query.setName = this.value.trim();
+
+    // make border red if set name is not in set list
+    if (SET_LIST.includes(this.value) || this.value.length === 0) {
+        this.classList.remove('is-invalid');
+    } else {
+        this.classList.add('is-invalid');
+    }
+
+    maxPacketNumber = await getNumPackets(this.value);
+
+    if (this.value === '' || maxPacketNumber === 0) {
+        document.getElementById('packet-number').placeholder = 'Packet Numbers';
+    } else {
+        document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
+    }
+
+    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 
 document.getElementById('start').addEventListener('click', async function () {
     this.blur();
-    start(document.getElementById('toggle-select-by-set-name').checked);
+    if (query.setName.length === 0 && settings.selectBySetName) {
+        alert('Please enter a set name.');
+        return false;
+    }
+
+    if (query.packetNumbers.length === 0 && settings.selectBySetName) {
+        query.packetNumbers = rangeToArray(document.getElementById('packet-number').value.trim(), maxPacketNumber);
+    }
+
+    document.getElementById('next').disabled = false;
+    document.getElementById('next').textContent = 'Skip';
+    document.getElementById('options').classList.add('d-none');
+    document.getElementById('toggle-options').disabled = false;
 
     queryLock();
     try {
-        questions = await getTossups(setName, packetNumber);
+        questions = await getTossups(query.setName, query.packetNumbers[0]);
     } finally {
         queryUnlock();
     }
@@ -552,63 +653,64 @@ document.getElementById('toggle-correct').addEventListener('click', function () 
 
 document.getElementById('toggle-powermark-only').addEventListener('click', function () {
     this.blur();
-    randomQuestions = [];
-    loadRandomTossups(difficulties, validCategories, validSubcategories);
+    query.powermarkOnly = this.checked;
+    loadRandomTossups(query);
+    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 
 document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
+    this.blur();
+    settings.selectBySetName = this.checked;
+    document.getElementById('toggle-powermark-only').disabled = this.checked;
+
     if (this.checked) {
         document.getElementById('difficulty-settings').classList.add('d-none');
         document.getElementById('set-settings').classList.remove('d-none');
-        localStorage.setItem('selectBySetName', 'true');
     } else {
         document.getElementById('difficulty-settings').classList.remove('d-none');
         document.getElementById('set-settings').classList.add('d-none');
-        localStorage.setItem('selectBySetName', 'false');
     }
 
-    document.getElementById('toggle-powermark-only').disabled = this.checked;
+    localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 
 
 document.getElementById('toggle-show-history').addEventListener('click', function () {
     this.blur();
-    localStorage.setItem('showTossupHistory', this.checked ? 'true' : 'false');
+    settings.showHistory = this.checked;
 
     if (this.checked) {
         document.getElementById('room-history').classList.remove('d-none');
     } else {
         document.getElementById('room-history').classList.add('d-none');
     }
+
+    localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
     this.blur();
-    if (this.checked) {
-        localStorage.setItem('typeToAnswer', 'true');
-        document.getElementById('toggle-rebuzz').disabled = false;
-    } else {
-        localStorage.setItem('typeToAnswer', 'false');
-        document.getElementById('toggle-rebuzz').disabled = true;
-    }
+    settings.typeToAnswer = this.checked;
+    document.getElementById('toggle-rebuzz').disabled = !this.checked;
+    localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 
 document.getElementById('toggle-rebuzz').addEventListener('click', function () {
     this.blur();
-    localStorage.setItem('toggleRebuzz', this.checked ? 'true' : 'false');
+    settings.rebuzz = this.checked;
+    localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 
 document.getElementById('year-range-a').onchange = function () {
-    randomQuestions = [];
-    loadRandomTossups(difficulties, validCategories, validSubcategories);
-
-    localStorage.setItem('minYear', $('#slider').slider('values', 0));
-    localStorage.setItem('maxYear', $('#slider').slider('values', 1));
+    query.minYear = $('#slider').slider('values', 0);
+    query.maxYear = $('#slider').slider('values', 1);
+    loadRandomTossups(query);
+    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 };
 
 
@@ -644,89 +746,70 @@ window.onload = async () => {
     }
     updateStatDisplay();
 
-
-    if (localStorage.getItem('difficultiesTossupSave')) {
-        difficulties = JSON.parse(localStorage.getItem('difficultiesTossupSave'));
-        for (let element of document.getElementById('difficulties').children) {
-            const input = element.querySelector('input');
-            const difficulty = parseInt(input.value);
-            if (difficulties.includes(difficulty)) {
-                element.classList.add('active');
-                input.checked = true;
-            }
-        }
-    }
-
-    if (localStorage.getItem('packetNumberTossupSave')) {
-        document.getElementById('packet-number').value = localStorage.getItem('packetNumberTossupSave');
-    }
-
     if (localStorage.getItem('questionNumberTossupSave')) {
         document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
+        questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave')) - 1;
     }
 
-    if (localStorage.getItem('showTossupHistory') === 'false') {
-        document.getElementById('toggle-show-history').checked = false;
-        document.getElementById('room-history').classList.add('d-none');
-    }
-
-    if (localStorage.getItem('speed')) {
+    if (settings.readingSpeed) {
         document.getElementById('reading-speed-display').textContent = localStorage.speed;
         document.getElementById('reading-speed').value = localStorage.speed;
-    } else {
-        localStorage.setItem('speed', 50);
     }
 
-    if (localStorage.getItem('toggleRebuzz') === 'true') {
+    if (settings.rebuzz) {
         document.getElementById('toggle-rebuzz').checked = true;
     }
 
-    if (localStorage.getItem('typeToAnswer') === 'false') {
-        document.getElementById('type-to-answer').checked = false;
-        document.getElementById('toggle-rebuzz').disabled = true;
-    }
-
-
-    if (localStorage.getItem('validCategories')) {
-        validCategories = JSON.parse(localStorage.getItem('validCategories'));
-    } else {
-        localStorage.setItem('validCategories', '[]');
-        validCategories = [];
-    }
-
-    if (localStorage.getItem('validSubcategories')) {
-        validSubcategories = JSON.parse(localStorage.getItem('validSubcategories'));
-    } else {
-        localStorage.setItem('validSubcategories', '[]');
-        validSubcategories = [];
-    }
-
-    if (validCategories.length > 0 && validSubcategories.length === 0) {
-        validCategories.forEach(category => {
-            SUBCATEGORIES[category].forEach(subcategory => {
-                validSubcategories.push(subcategory);
-            });
-        });
-    }
-
-    loadCategoryModal(validCategories, validSubcategories);
-
-
-    if (localStorage.getItem('selectBySetName') === 'true') {
+    if (settings.selectBySetName) {
         document.getElementById('difficulty-settings').classList.add('d-none');
         document.getElementById('set-settings').classList.remove('d-none');
         document.getElementById('toggle-select-by-set-name').checked = true;
         document.getElementById('toggle-powermark-only').disabled = true;
     }
 
-    if (localStorage.getItem('setNameTossupSave')) {
-        setName = localStorage.getItem('setNameTossupSave');
-        document.getElementById('set-name').value = setName;
-        maxPacketNumber = await getNumPackets(setName);
+    if (!settings.showHistory) {
+        document.getElementById('toggle-show-history').checked = false;
+        document.getElementById('room-history').classList.add('d-none');
+    }
 
-        if (setName === '') {
-            return;
+    if (!settings.typeToAnswer) {
+        document.getElementById('type-to-answer').checked = false;
+        document.getElementById('toggle-rebuzz').disabled = true;
+    }
+
+    if (query.categories.length > 0 && query.subcategories.length === 0) {
+        query.categories.forEach(category => {
+            SUBCATEGORIES[category].forEach(subcategory => {
+                query.subcategories.push(subcategory);
+            });
+        });
+    }
+
+    loadCategoryModal(query.categories, query.subcategories);
+
+    if (query.difficulties) {
+        for (let element of document.getElementById('difficulties').children) {
+            const input = element.querySelector('input');
+            const difficulty = parseInt(input.value);
+            if (query.difficulties.includes(difficulty)) {
+                element.classList.add('active');
+                input.checked = true;
+            }
         }
+    }
+
+    $('#slider').slider('values', 0, query.minYear);
+    $('#slider').slider('values', 1, query.maxYear);
+    document.getElementById('year-range-a').textContent = query.minYear;
+    document.getElementById('year-range-b').textContent = query.maxYear;
+
+    if (query.packetNumbers) {
+        document.getElementById('packet-number').value = arrayToRange(query.packetNumbers);
+    }
+
+    if (query.setName) {
+        document.getElementById('set-name').value = query.setName;
+        maxPacketNumber = await getNumPackets(query.setName);
 
         if (maxPacketNumber === 0) {
             document.getElementById('set-name').classList.add('is-invalid');

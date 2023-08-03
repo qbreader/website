@@ -296,20 +296,19 @@ function reportQuestion() {
  * Adds the given category if it is not in the list of valid categories.
  * Otherwise, the category is removed.
  * @param {String} category
- * @param {Array<String>} validCategories
- * @param {Array<String>} validSubcategories
- * @returns `[validCategories, validSubcategories]`
+ * @param {Array<String>} categories
+ * @param {Array<String>} subcategories
  */
-function updateCategory(category, validCategories, validSubcategories) {
-    if (validCategories.includes(category)) {
-        validCategories = validCategories.filter(a => a !== category);
-        validSubcategories = validSubcategories.filter(a => !SUBCATEGORIES[category].includes(a));
+function updateCategory(category, categories, subcategories) {
+    if (categories.includes(category)) {
+        categories = categories.filter(a => a !== category);
+        subcategories = subcategories.filter(a => !SUBCATEGORIES[category].includes(a));
     } else {
-        validCategories.push(category);
-        validSubcategories = validSubcategories.concat(SUBCATEGORIES[category]);
+        categories.push(category);
+        subcategories = subcategories.concat(SUBCATEGORIES[category]);
     }
 
-    return [validCategories, validSubcategories];
+    return { categories, subcategories };
 }
 
 
