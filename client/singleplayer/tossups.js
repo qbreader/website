@@ -238,11 +238,8 @@ function isPace(setName) {
     return setName.includes('PACE');
 }
 
-async function loadRandomTossups({ categories, difficulties, minYear, maxYear, number, powermarkOnly, subcategories }) {
+async function loadRandomTossups({ categories, difficulties, minYear, maxYear, number = 1, powermarkOnly, subcategories }) {
     randomQuestions = [];
-    // const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
-    // const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
-
     await fetch('/api/random-tossup?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories }))
         .then(response => response.json())
         .then(response => response.tossups)
@@ -258,19 +255,19 @@ async function loadRandomTossups({ categories, difficulties, minYear, maxYear, n
 
 
 /**
- * Get a random tossup using the settings already loaded in.
+ * Get a random tossup.
  * @returns
  */
-async function getRandomTossup({ categories, difficulties, minYear, maxYear, number, powermarkOnly, subcategories }) {
+async function getRandomTossup({ categories, difficulties, minYear, maxYear, powermarkOnly, subcategories }) {
     if (randomQuestions.length === 0) {
-        await loadRandomTossups({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories });
+        await loadRandomTossups({ categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories });
     }
 
     const randomQuestion = randomQuestions.pop();
 
     // Begin loading the next batch of questions (asynchronously)
     if (randomQuestions.length === 0) {
-        loadRandomTossups({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories });
+        loadRandomTossups({ categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories });
     }
 
     return randomQuestion;

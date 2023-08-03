@@ -195,16 +195,16 @@ function getPointsForCurrentBonus() {
 }
 
 
-async function getRandomBonus({ categories, difficulties, minYear, maxYear, number, subcategories }) {
+async function getRandomBonus({ categories, difficulties, minYear, maxYear, subcategories }) {
     if (randomQuestions.length === 0) {
-        await loadRandomBonuses({ categories, difficulties, minYear, maxYear, number, subcategories });
+        await loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories });
     }
 
     const randomQuestion = randomQuestions.pop();
 
     // Begin loading the next batch of questions (asynchronously)
     if (randomQuestions.length === 0) {
-        loadRandomBonuses({ categories, difficulties, minYear, maxYear, number, subcategories });
+        loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories });
     }
 
     return randomQuestion;
@@ -230,10 +230,7 @@ async function giveAnswer(givenAnswer) {
 }
 
 
-async function loadRandomBonuses({ categories, difficulties, minYear, maxYear, number, subcategories }) {
-    // const minYear = parseInt(document.getElementsByClassName('sliderValue0')[0].innerHTML);
-    // const maxYear = parseInt(document.getElementsByClassName('sliderValue1')[0].innerHTML);
-
+async function loadRandomBonuses({ categories, difficulties, minYear, maxYear, number = 1, subcategories }) {
     randomQuestions = [];
     await fetch('/api/random-bonus?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, subcategories }))
         .then(response => response.json())
