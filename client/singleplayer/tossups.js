@@ -712,6 +712,13 @@ document.getElementById('year-range-a').onchange = function () {
     localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 };
 
+document.getElementById('year-range-b').onchange = function () {
+    query.minYear = $('#slider').slider('values', 0);
+    query.maxYear = $('#slider').slider('values', 1);
+    loadRandomTossups(query);
+    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+};
+
 
 document.addEventListener('keydown', (event) => {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
