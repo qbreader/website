@@ -480,11 +480,13 @@ document.getElementById('start').addEventListener('click', async function () {
     document.getElementById('options').classList.add('d-none');
     document.getElementById('toggle-options').disabled = false;
 
-    queryLock();
-    try {
-        questions = await getBonuses(query.setName, query.packetNumbers[0]);
-    } finally {
-        queryUnlock();
+    if (settings.selectBySetName) {
+        queryLock();
+        try {
+            questions = await getBonuses(query.setName, query.packetNumbers[0]);
+        } finally {
+            queryUnlock();
+        }
     }
 
     next();
