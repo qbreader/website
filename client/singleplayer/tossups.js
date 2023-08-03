@@ -806,6 +806,10 @@ window.onload = async () => {
         document.getElementById('packet-number').value = arrayToRange(query.packetNumbers);
     }
 
+    if (query.powermarkOnly) {
+        document.getElementById('toggle-powermark-only').checked = true;
+    }
+
     if (query.setName) {
         document.getElementById('set-name').value = query.setName;
         maxPacketNumber = await getNumPackets(query.setName);
