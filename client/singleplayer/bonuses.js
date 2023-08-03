@@ -267,19 +267,21 @@ async function next() {
             return questions[questionNumber - 1].values[index];
         });
 
-        fetch('/auth/record-bonus', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                bonus: questions[questionNumber - 1],
-                pointsPerPart: pointsPerPart,
-            }),
-        }).then(response => {
-            if (response.status === 401) {
-                deleteAccountUsername();
-                throw new Error('Unauthenticated');
-            }
-        });
+        if (await getAccountUsername()) {
+            fetch('/auth/record-bonus', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    bonus: questions[questionNumber - 1],
+                    pointsPerPart: pointsPerPart,
+                }),
+            }).then(response => {
+                if (response.status === 401) {
+                    deleteAccountUsername();
+                    throw new Error('Unauthenticated');
+                }
+            });
+        }
     }
 
     document.getElementById('question').textContent = '';
