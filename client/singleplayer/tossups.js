@@ -561,7 +561,7 @@ document.getElementById('difficulties').addEventListener('change', function () {
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    createTossupCard(questions[questionNumber - 1], query.setName);
+    createTossupCard(questions[questionNumber - 1]);
     next();
 });
 

@@ -113,12 +113,12 @@ const createBonusCard = (function () {
 const createTossupCard = (function () {
     let questionCounter = 0;
 
-    return function (tossup, setName) {
+    return function (tossup) {
         if (!tossup || Object.keys(tossup).length === 0) return;
 
         questionCounter++;
 
-        const { question, answer, category, subcategory, alternate_subcategory, packetNumber, questionNumber, _id } = tossup;
+        const { question, answer, category, subcategory, alternate_subcategory, setName, packetNumber, questionNumber, _id } = tossup;
         const powerParts = question.replace(/<\/?b>/g, '').split('(*)');
 
         // append a card containing the question to the history element
