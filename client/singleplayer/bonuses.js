@@ -57,7 +57,7 @@ async function advanceQuestion() {
             questionNumber++;
 
             // Go to the next packet if you reach the end of this packet
-            if (questionNumber >= questions.length) {
+            if (questionNumber > questions.length) {
                 if (query.packetNumbers.length == 0) {
                     window.alert('No more questions left');
                     document.getElementById('reveal').disabled = true;
