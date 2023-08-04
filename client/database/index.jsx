@@ -496,7 +496,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
 // eslint-disable-next-line no-undef
 function CategoryButton({ category, color }) {
     function handleClick() {
-        [validCategories, validSubcategories] = updateCategory(category, validCategories, validSubcategories);
+        ({ categories: validCategories, subcategories: validSubcategories } = updateCategory(category, validCategories, validSubcategories));
         loadCategoryModal(validCategories, validSubcategories);
     }
 
