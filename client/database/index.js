@@ -408,7 +408,10 @@ function CategoryButton({
   color
 }) {
   function handleClick() {
-    [validCategories, validSubcategories] = updateCategory(category, validCategories, validSubcategories);
+    ({
+      categories: validCategories,
+      subcategories: validSubcategories
+    } = updateCategory(category, validCategories, validSubcategories));
     loadCategoryModal(validCategories, validSubcategories);
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
