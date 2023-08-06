@@ -39,6 +39,19 @@ const previous = {
     endOfQuestion: false,
     celerity: 0,
 };
+
+const stats = sessionStorage.getItem('tossup-stats') ?
+    JSON.parse(sessionStorage.getItem('tossup-stats')) : {
+        powers: 0,
+        tens: 0,
+        negs: 0,
+        dead: 0,
+        points: 0,
+        totalCorrectCelerity: 0,
+    };
+
+updateStatDisplay();
+
 let questions = [{}];
 let questionText = '';
 let questionTextSplit = [];
@@ -173,13 +186,15 @@ async function checkAnswer(answerline, givenAnswer) {
  * Clears user stats.
  */
 function clearStats() {
-    sessionStorage.setItem('powers', 0);
-    sessionStorage.setItem('tens', 0);
-    sessionStorage.setItem('negs', 0);
-    sessionStorage.setItem('dead', 0);
-    sessionStorage.setItem('points', 0);
-    sessionStorage.setItem('totalCelerity', 0);
+    stats.powers = 0;
+    stats.tens = 0;
+    stats.negs = 0;
+    stats.dead = 0;
+    stats.points = 0;
+    stats.totalCorrectCelerity = 0;
+
     updateStatDisplay();
+    sessionStorage.removeItem('tossup-stats');
 }
 
 
@@ -394,39 +409,31 @@ function revealQuestion() {
 }
 
 
-/**
- * Increases or decreases a session storage item by a certain amount.
- * @param {String} item - The name of the sessionStorage item.
- * @param {Number} x - The amount to increase/decrease the sessionStorage item.
- */
-function shift(item, x) {
-    sessionStorage.setItem(item, parseFloat(sessionStorage.getItem(item)) + x);
-}
-
-
 function toggleCorrect() {
     const multiplier = previous.isCorrect ? -1 : 1;
 
     if (previous.inPower) {
-        shift('powers', multiplier * 1);
-        shift('points', multiplier * previous.powerValue);
+        stats.powers += multiplier * 1;
+        stats.points += multiplier * previous.powerValue;
     } else {
-        shift('tens', multiplier * 1);
-        shift('points', multiplier * 10);
+        stats.tens += multiplier * 1;
+        stats.points += multiplier * 10;
     }
 
     if (previous.endOfQuestion) {
-        shift('dead', multiplier * -1);
+        stats.dead += multiplier * -1;
     } else {
-        shift('negs', multiplier * -1);
-        shift('points', multiplier * -previous.negValue);
+        stats.negs += multiplier * -1;
+        stats.points += multiplier * -previous.negValue;
     }
 
-    shift('totalCelerity', multiplier * previous.celerity);
+    stats.totalCorrectCelerity += multiplier * previous.celerity;
 
     previous.isCorrect = !previous.isCorrect;
     document.getElementById('toggle-correct').textContent = previous.isCorrect ? 'I was wrong' : 'I was right';
+
     updateStatDisplay();
+    sessionStorage.setItem('tossup-stats', JSON.stringify(stats));
 }
 
 
@@ -444,15 +451,13 @@ function updateScore(isCorrect) {
 
     if (isCorrect) {
         result = inPower ? 'powers' : 'tens';
-        shift('totalCelerity', celerity);
+        stats.totalCorrectCelerity += celerity;
     } else {
         result = endOfQuestion ? 'dead' : 'negs';
     }
 
-    shift(result, 1);
-    shift('points', points);
-
-    updateStatDisplay();
+    stats[result] += 1;
+    stats.points += points;
 
     previous.celerity = celerity;
     previous.endOfQuestion = endOfQuestion;
@@ -460,6 +465,9 @@ function updateScore(isCorrect) {
     previous.negValue = negValue;
     previous.powerValue = powerValue;
     previous.isCorrect = isCorrect;
+
+    updateStatDisplay();
+    sessionStorage.setItem('tossup-stats', JSON.stringify(stats));
 }
 
 
@@ -467,13 +475,14 @@ function updateScore(isCorrect) {
  * Updates the displayed stat line.
  */
 function updateStatDisplay() {
-    const numTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens) + parseInt(sessionStorage.negs) + parseInt(sessionStorage.dead);
-    const numCorrectTossups = parseInt(sessionStorage.powers) + parseInt(sessionStorage.tens);
-    let celerity = numCorrectTossups != 0 ? parseFloat(sessionStorage.totalCelerity) / numCorrectTossups : 0;
+    const { powers, tens, negs, dead, points, totalCorrectCelerity } = stats;
+    const numTossups = powers + tens + negs + dead;
+    const numCorrectTossups = powers + tens;
+    let celerity = numCorrectTossups != 0 ? parseFloat(totalCorrectCelerity) / numCorrectTossups : 0;
     celerity = Math.round(1000 * celerity) / 1000;
     const includePlural = (numTossups === 1) ? '' : 's';
     document.getElementById('statline').innerHTML
-        = `${sessionStorage.powers}/${sessionStorage.tens}/${sessionStorage.negs} with ${numTossups} tossup${includePlural} seen (${sessionStorage.points} pts, celerity: ${celerity})`;
+        = `${powers}/${tens}/${negs} with ${numTossups} tossup${includePlural} seen (${points} pts, celerity: ${celerity})`;
 
     // disable clear stats button if no stats
     document.getElementById('clear-stats').disabled = (numTossups === 0);
@@ -746,12 +755,6 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = async () => {
-    for (const parameter of ['powers', 'tens', 'negs', 'dead', 'points', 'totalCelerity']) {
-        if (!sessionStorage.getItem(parameter))
-            sessionStorage.setItem(parameter, 0);
-    }
-    updateStatDisplay();
-
     if (localStorage.getItem('questionNumberTossupSave')) {
         document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
         questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave')) - 1;
