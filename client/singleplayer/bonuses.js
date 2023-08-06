@@ -58,6 +58,7 @@ async function advanceQuestion() {
 
             // Go to the next packet if you reach the end of this packet
             if (questionNumber > questions.length) {
+                query.packetNumbers.shift();
                 if (query.packetNumbers.length == 0) {
                     window.alert('No more questions left');
                     document.getElementById('reveal').disabled = true;
@@ -72,14 +73,13 @@ async function advanceQuestion() {
                     queryUnlock();
                 }
 
-                query.packetNumbers.shift();
                 questionNumber = 1;
             }
 
             // Get the next question if the current one is in the wrong category and subcategory
         } while (!isValidCategory(questions[questionNumber - 1], query.categories, query.subcategories));
 
-        if (questions.length > 0) {
+        if (Object.keys(questions[0]).length > 0) {
             document.getElementById('question-number-info').textContent = questionNumber;
         }
     } else {
