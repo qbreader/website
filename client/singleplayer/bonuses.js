@@ -28,6 +28,17 @@ let maxPacketNumber = 24;
 let questionNumber = 0; // WARNING: 1-indexed
 let questions = [{}];
 
+const stats = sessionStorage.getItem('bonus-stats')
+    ? JSON.parse(sessionStorage.getItem('bonus-stats'))
+    : {
+        0: 0,
+        10: 0,
+        20: 0,
+        30: 0,
+    };
+
+updateStatDisplay();
+
 /**
  * An array of random questions.
  * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
@@ -128,8 +139,13 @@ async function checkAnswer(answerline, givenAnswer) {
  * Clears user stats.
  */
 function clearStats() {
-    sessionStorage.setItem('stats', [0, 0, 0, 0]);
+    stats[0] = 0;
+    stats[10] = 0;
+    stats[20] = 0;
+    stats[30] = 0;
+
     updateStatDisplay();
+    sessionStorage.removeItem('bonus-stats');
 }
 
 
@@ -179,19 +195,17 @@ async function getBonuses(setName, packetNumber) {
 }
 
 
-function getPointsForCurrentBonus() {
-    const statsArray = sessionStorage.stats.split(',');
-
+function updateStatsForCurrentBonus() {
     let pointsOnBonus = 0;
-    Array.from(document.getElementsByClassName('checkbox')).forEach((checkbox) => {
-        if (checkbox.checked) pointsOnBonus += 10;
+
+    Array.from(document.getElementsByClassName('checkbox')).forEach(checkbox => {
+        if (checkbox.checked) {
+            pointsOnBonus += 10;
+        }
     });
 
-    const numberOfIncorrectParts = Math.max(3 - Math.round(pointsOnBonus / 10), 0);
-
-    statsArray[numberOfIncorrectParts]++;
-    sessionStorage.setItem('stats', statsArray);
-    return pointsOnBonus;
+    stats[pointsOnBonus] = isNaN(stats[pointsOnBonus]) ? 1 : stats[pointsOnBonus] + 1;
+    sessionStorage.setItem('bonus-stats', JSON.stringify(stats));
 }
 
 
@@ -329,18 +343,16 @@ function revealBonusPart() {
 
 
 /**
- * Calculates that points per bonus and updates the display.
+ * Calculates the points per bonus and updates the display.
  */
 function updateStatDisplay() {
-    const statsArray = sessionStorage.stats.split(',');
-
-    const numBonuses = parseInt(statsArray[0]) + parseInt(statsArray[1]) + parseInt(statsArray[2]) + parseInt(statsArray[3]);
-    const points = 30 * parseInt(statsArray[0]) + 20 * parseInt(statsArray[1]) + 10 * parseInt(statsArray[2]) || 0;
+    const numBonuses = stats[0] + stats[10] + stats[20] + stats[30];
+    const points = 30 * stats[30] + 20 * stats[20] + 10 * stats[10];
     const ppb = Math.round(100 * points / numBonuses) / 100 || 0;
 
     const includePlural = (numBonuses == 1) ? '' : 'es';
-    document.getElementById('statline').innerHTML
-        = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${statsArray[0]}/${statsArray[1]}/${statsArray[2]}/${statsArray[3]}, ${points} pts)`;
+    document.getElementById('statline').textContent
+        = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${stats[30]}/${stats[20]}/${stats[10]}/${stats[0]}, ${points} pts)`;
 }
 
 
@@ -403,7 +415,7 @@ document.getElementById('next').addEventListener('click', function () {
     createBonusCard(questions[questionNumber - 1]);
 
     if (this.innerHTML === 'Next') {
-        getPointsForCurrentBonus();
+        updateStatsForCurrentBonus();
         updateStatDisplay();
     }
 
@@ -593,12 +605,6 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = async () => {
-    if (!sessionStorage.getItem('stats')) {
-        sessionStorage.setItem('stats', [0, 0, 0, 0]);
-    }
-    updateStatDisplay();
-
-
     if (localStorage.getItem('questionNumberTossupSave')) {
         document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
         questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave')) - 1;
