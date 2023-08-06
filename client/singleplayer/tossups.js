@@ -79,6 +79,7 @@ async function advanceQuestion() {
 
             // Go to the next packet if you reach the end of this packet
             if (questionNumber > questions.length) {
+                query.packetNumbers.shift();
                 if (query.packetNumbers.length === 0) {
                     window.alert('No more questions left');
                     document.getElementById('buzz').disabled = true;
@@ -94,7 +95,6 @@ async function advanceQuestion() {
                     queryUnlock();
                 }
 
-                query.packetNumbers.shift();
                 questionNumber = 1;
             }
         } while (!isValidCategory(questions[questionNumber - 1], query.categories, query.subcategories));
