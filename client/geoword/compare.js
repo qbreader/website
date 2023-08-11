@@ -63,9 +63,9 @@ document.getElementById('form').addEventListener('submit', event => {
                         opponentTossupCount++;
                     } else {
                         myPoints += myBuzz.points / 2;
-                        myTossupCount++;
+                        myTossupCount += 0.5;
                         opponentPoints += opponentBuzz.points / 2;
-                        opponentTossupCount++;
+                        opponentTossupCount += 0.5;
                     }
                 }
 
