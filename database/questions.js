@@ -22,6 +22,7 @@ await connectToDatabase(true);
 
 const database = client.db('qbreader');
 const sets = database.collection('sets');
+const packets = database.collection('packets');
 const tossups = database.collection('tossups');
 const bonuses = database.collection('bonuses');
 
@@ -113,19 +114,11 @@ async function getReports(reason) {
  * @returns {Promise<Number>} the number of packets in the set.
  */
 async function getNumPackets(setName) {
-    if (!setName) return 0;
-
-    if (!SET_LIST.includes(setName)) {
-        console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
+    if (!setName) {
         return 0;
     }
 
-    return await sets.findOne({ name: setName }).then(set => {
-        return set ? (set.packets.length) : 0;
-    }).catch(error => {
-        console.log('[DATABASE] ERROR:', error);
-        return 0;
-    });
+    return await packets.countDocuments({ 'set.name': setName });
 }
 
 
@@ -147,22 +140,20 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
         return { 'tossups': [], 'bonuses': [] };
     }
 
-    const set = await sets.findOne({ name: setName });
+    const packet = await packets.findOne({ 'set.name': setName, number: packetNumber });
 
-    if (packetNumber > set.packets.length)
+    if (!packet)
         return { 'tossups': [], 'bonuses': [] };
 
-    const packetId = set.packets[packetNumber - 1]._id;
-
     const tossupResult = questionTypes.includes('tossups')
-        ? tossups.find({ packet: packetId }, {
+        ? tossups.find({ packet: packet._id }, {
             sort: { questionNumber: 1 },
             project: { reports: 0 },
         }).toArray()
         : null;
 
     const bonusResult  = questionTypes.includes('bonuses')
-        ? bonuses.find({ packet: packetId }, {
+        ? bonuses.find({ packet: packet._id }, {
             sort: { questionNumber: 1 },
             project: { reports: 0 },
         }).toArray() : null;
