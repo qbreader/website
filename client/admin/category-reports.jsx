@@ -1,6 +1,6 @@
 function TossupCard({ tossup }) {
     const _id = tossup._id;
-    const packetName = tossup.packetName;
+    const packetName = tossup.packet.name;
 
     function onClick() {
         document.getElementById('question-id').value = _id;
@@ -14,10 +14,10 @@ function TossupCard({ tossup }) {
         <div className="card my-2">
             <div className="card-header d-flex justify-content-between clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
                 <b>
-                    {tossup.setName} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
+                    {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
                 </b>
                 <b>
-                    Packet {tossup.packetNumber} | Question {tossup.questionNumber}
+                    Packet {tossup.packet.number} | Question {tossup.questionNumber}
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
@@ -44,7 +44,7 @@ function TossupCard({ tossup }) {
 
 function BonusCard({ bonus }) {
     const _id = bonus._id;
-    const packetName = bonus.packetName;
+    const packetName = bonus.packet.name;
     const bonusLength = bonus.parts.length;
     const indices = [];
 
@@ -68,10 +68,10 @@ function BonusCard({ bonus }) {
         <div className="card my-2">
             <div className="card-header d-flex justify-content-between clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
                 <b>
-                    {bonus.setName} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
+                    {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
                 </b>
                 <b>
-                    Packet {bonus.packetNumber} | Question {bonus.questionNumber}
+                    Packet {bonus.packet.number} | Question {bonus.questionNumber}
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>

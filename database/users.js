@@ -1,4 +1,4 @@
-import { getSetId, getTossupById, getBonusById } from './questions.js';
+import { getTossupById, getBonusById } from './questions.js';
 
 import { MongoClient, ObjectId } from 'mongodb';
 
@@ -50,8 +50,7 @@ async function getBestBuzz({ username, difficulties, setName, includeMultiplayer
     }
 
     if (setName) {
-        const set_id = await getSetId(setName);
-        matchDocument.set_id = set_id;
+        matchDocument['set.name'] = setName;
     }
 
     if (startDate) {
@@ -187,8 +186,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
     }
 
     if (setName) {
-        const set_id = await getSetId(setName);
-        matchDocument.set_id = set_id;
+        matchDocument['set.name'] = setName;
     }
 
     if (!includeMultiplayer && !includeSingleplayer) {
@@ -335,6 +333,7 @@ async function isAdmin(username) {
 
 async function recordBonusData(username, data) {
     const user_id = await getUserId(username);
+    const { bonus } = data;
     const newData = {};
     for (const field of ['pointsPerPart']) {
         if (!data[field]) {
@@ -349,13 +348,13 @@ async function recordBonusData(username, data) {
     }
 
     for (const field of ['category', 'subcategory', 'difficulty']) {
-        if (Object.prototype.hasOwnProperty.call(data.bonus, field)) {
-            newData[field] = data.bonus[field];
+        if (Object.prototype.hasOwnProperty.call(bonus, field)) {
+            newData[field] = bonus[field];
         }
     }
 
-    newData.bonus_id = new ObjectId(data.bonus._id);
-    newData.set_id = new ObjectId(data.bonus.set);
+    newData.bonus_id = new ObjectId(bonus._id);
+    newData.set_id = new ObjectId(bonus.set._id);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await bonusData.insertOne(newData);
@@ -364,6 +363,7 @@ async function recordBonusData(username, data) {
 
 async function recordTossupData(username, data) {
     const user_id = await getUserId(username);
+    const { tossup } = data;
     const newData = {};
     for (const field of ['celerity', 'isCorrect', 'pointValue', 'multiplayer']) {
         if (Object.prototype.hasOwnProperty.call(data, field)) {
@@ -378,13 +378,13 @@ async function recordTossupData(username, data) {
     }
 
     for (const field of ['category', 'subcategory', 'difficulty']) {
-        if (Object.prototype.hasOwnProperty.call(data.tossup, field)) {
-            newData[field] = data.tossup[field];
+        if (Object.prototype.hasOwnProperty.call(tossup, field)) {
+            newData[field] = tossup[field];
         }
     }
 
-    newData.tossup_id = new ObjectId(data.tossup._id);
-    newData.set_id = new ObjectId(data.tossup.set);
+    newData.tossup_id = new ObjectId(tossup._id);
+    newData.set_id = new ObjectId(tossup.set._id);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await tossupData.insertOne(newData);
