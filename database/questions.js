@@ -146,14 +146,14 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
         return { 'tossups': [], 'bonuses': [] };
 
     const tossupResult = questionTypes.includes('tossups')
-        ? tossups.find({ packet: packet._id }, {
+        ? tossups.find({ packet_id: packet._id }, {
             sort: { questionNumber: 1 },
             project: { reports: 0 },
         }).toArray()
         : null;
 
     const bonusResult  = questionTypes.includes('bonuses')
-        ? bonuses.find({ packet: packet._id }, {
+        ? bonuses.find({ packet_id: packet._id }, {
             sort: { questionNumber: 1 },
             project: { reports: 0 },
         }).toArray() : null;
