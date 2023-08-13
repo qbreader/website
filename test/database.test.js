@@ -132,6 +132,16 @@ async function testCorrectness() {
 
         mocha.it('getNumPackets - 2018 PACE NSC', async () => assert.equal(await getNumPackets('2018 PACE NSC'), 25));
         mocha.it('getNumPackets - 2016 NASAT', async () => assert.equal(await getNumPackets('2016 NASAT'), 16));
+
+        mocha.it('getRandomBonuses', async () => {
+            const bonuses = await getRandomBonuses();
+            assert.isOk(bonuses, 'bonuses');
+        });
+
+        mocha.it('getRandomTossups', async () => {
+            const tossups = await getRandomTossups();
+            assert.isOk(tossups, 'tossups');
+        });
     });
 }
 
