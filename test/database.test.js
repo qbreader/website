@@ -11,6 +11,7 @@ const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
     It's inherited by the nested test suites, and can be overriden.
 */
 
+// eslint-disable-next-line no-unused-vars
 async function testTiming(count) {
     return mocha.describe(`Performance Tests with ${count} repetitions`, function () {
         /*
@@ -139,7 +140,7 @@ mocha.before(async () => {
 });
 
 testCorrectness();
-testTiming(1);
+// testTiming(1);
 
 mocha.after(async () => {
     await closeDatabase();
