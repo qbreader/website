@@ -61,14 +61,14 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
 function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
   let textdata = '';
   for (let tossup of tossups) {
-    textdata += `${tossup.setName} Packet ${tossup.packetNumber}\n`;
+    textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
     textdata += `Question ID: ${tossup._id}\n`;
     textdata += `${tossup.questionNumber}. ${tossup.question}\n`;
     textdata += `ANSWER: ${tossup.answer}\n`;
     textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
   }
   for (let bonus of bonuses) {
-    textdata += `${bonus.setName} Packet ${bonus.packetNumber}\n`;
+    textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
     textdata += `Question ID: ${bonus._id}\n`;
     textdata += `${bonus.questionNumber}. ${bonus.leadin}\n`;
     for (let i = 0; i < bonus.parts.length; i++) {
@@ -142,7 +142,7 @@ function TossupCard({
   showCardFooter
 }) {
   const _id = tossup._id;
-  const packetName = tossup.packetName;
+  const packetName = tossup.packet.name;
   function clickToCopy() {
     let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
     if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
@@ -227,11 +227,11 @@ function TossupCard({
   }, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     onClick: clickToCopy
-  }, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
+  }, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, "Packet ", tossup.packetNumber, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, "Packet ", tossup.packet.number, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -269,7 +269,7 @@ function BonusCard({
   showCardFooter
 }) {
   const _id = bonus._id;
-  const packetName = bonus.packetName;
+  const packetName = bonus.packet.name;
   const bonusLength = bonus.parts.length;
   const indices = [];
   for (let i = 0; i < bonusLength; i++) {
@@ -361,11 +361,11 @@ function BonusCard({
   }, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     onClick: clickToCopy
-  }, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
+  }, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, "Packet ", bonus.packetNumber, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, "Packet ", bonus.packet.number, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {

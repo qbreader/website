@@ -152,7 +152,7 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
 function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
     let textdata = '';
     for (let tossup of tossups) {
-        textdata += `${tossup.setName} Packet ${tossup.packetNumber}\n`;
+        textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
         textdata += `Question ID: ${tossup._id}\n`;
         textdata += `${tossup.questionNumber}. ${tossup.question}\n`;
         textdata += `ANSWER: ${tossup.answer}\n`;
@@ -160,7 +160,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
     }
 
     for (let bonus of bonuses) {
-        textdata += `${bonus.setName} Packet ${bonus.packetNumber}\n`;
+        textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
         textdata += `Question ID: ${bonus._id}\n`;
         textdata += `${bonus.questionNumber}. ${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
@@ -235,7 +235,7 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all' }) {
 
 function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
     const _id = tossup._id;
-    const packetName = tossup.packetName;
+    const packetName = tossup.packet.name;
 
     function clickToCopy() {
         let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
@@ -326,10 +326,10 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
         <div className="card my-2">
             <div className="card-header d-flex justify-content-between">
                 <b className="clickable" onClick={clickToCopy}>
-                    {tossup.setName} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
+                    {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
                 </b>
                 <b className="clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
-                    Packet {tossup.packetNumber} | Question {tossup.questionNumber}
+                    Packet {tossup.packet.number} | Question {tossup.questionNumber}
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
@@ -358,7 +358,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
 
 function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
     const _id = bonus._id;
-    const packetName = bonus.packetName;
+    const packetName = bonus.packet.name;
     const bonusLength = bonus.parts.length;
     const indices = [];
 
@@ -456,10 +456,10 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
         <div className="card my-2">
             <div className="card-header d-flex justify-content-between">
                 <b className="clickable" onClick={clickToCopy}>
-                    {bonus.setName} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
+                    {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
                 </b>
                 <b className="clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
-                    Packet {bonus.packetNumber} | Question {bonus.questionNumber}
+                    Packet {bonus.packet.number} | Question {bonus.questionNumber}
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
