@@ -355,7 +355,7 @@ async function recordBonusData(username, data) {
     }
 
     newData.bonus_id = new ObjectId(data.bonus._id);
-    newData.set_id = new ObjectId(data.bonus.set);
+    newData.set_id = new ObjectId(data.bonus.set_id);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await bonusData.insertOne(newData);
@@ -384,7 +384,7 @@ async function recordTossupData(username, data) {
     }
 
     newData.tossup_id = new ObjectId(data.tossup._id);
-    newData.set_id = new ObjectId(data.tossup.set);
+    newData.set_id = new ObjectId(data.tossup.set_id);
     newData.user_id = user_id;
     newData.createdAt = new Date();
     return await tossupData.insertOne(newData);
