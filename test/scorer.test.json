@@ -1,6 +1,12 @@
 {
     "formatted": [
         {
+            "answerline": "<i><b><u>Corpus Juris Civilis</u></b></i> [accept <i><b><u>Body of Civil Law</u></b></i>; accept the <i><b><u>Code of Justinian</u></b></i> or <b><u>Justinian’s Code</u></b>]",
+            "tests": [
+                { "directive": "reject", "given": "corpus civilis" }
+            ]
+        },
+        {
             "answerline": "<b><u>95</u></b>",
             "tests": [
                 { "directive": "accept", "given": "95" },
