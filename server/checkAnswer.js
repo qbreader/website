@@ -325,6 +325,10 @@ const stringMatchesReference = (() => {
             return 'centimeter';
         case 'mm':
             return 'millimeter';
+
+        // typoes
+        case 'contentinal':
+            return 'continental';
         }
 
         return string;
