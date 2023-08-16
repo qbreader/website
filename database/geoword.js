@@ -1,4 +1,4 @@
-import { getUserId, getUsername, isAdmin } from './users.js';
+import { getUsername, isAdminById } from './users.js';
 
 import { MongoClient } from 'mongodb';
 
@@ -21,7 +21,7 @@ const tossups = geoword.collection('tossups');
  * @param {String} username
  * @returns {Promise<Boolean>} true if the user has paid for the packet, if the packet is free, or if the user is an admin.
  */
-async function checkPayment(packetName, username) {
+async function checkPayment(packetName, user_id) {
     const packet = await packets.findOne({ name: packetName });
 
     if (!packet) {
@@ -30,9 +30,7 @@ async function checkPayment(packetName, username) {
         return true;
     }
 
-    const [user_id, admin] = await Promise.all([getUserId(username), isAdmin(username)]);
-
-    if (admin) {
+    if (await isAdminById(user_id)) {
         return true;
     }
 
@@ -164,8 +162,7 @@ async function getBuzzes(packetName, division, user_id, protests=false) {
     ]).toArray();
 }
 
-async function getBuzzCount(packetName, username) {
-    const user_id = await getUserId(username);
+async function getBuzzCount(packetName, user_id) {
     return await buzzes.countDocuments({ 'packet.name': packetName, user_id });
 }
 
@@ -178,12 +175,7 @@ async function getCost(packetName) {
     return packet?.costInCents ?? 0;
 }
 
-async function getDivisionChoice(packetName, username) {
-    const user_id = await getUserId(username);
-    return await getDivisionChoiceById(packetName, user_id);
-}
-
-async function getDivisionChoiceById(packetName, user_id) {
+async function getDivisionChoice(packetName, user_id) {
     const result = await divisionChoices.findOne({ 'packet.name': packetName, user_id });
     return result?.division;
 }
@@ -271,8 +263,7 @@ async function getPlayerList(packetName, division) {
     return result;
 }
 
-async function getProgress(packetName, username) {
-    const user_id = await getUserId(username);
+async function getProgress(packetName, user_id) {
     const result = await buzzes.aggregate([
         { $match: { 'packet.name': packetName, user_id } },
         { $group: {
@@ -285,7 +276,7 @@ async function getProgress(packetName, username) {
     ]).toArray();
 
     result[0] = result[0] || {};
-    result[0].division = await getDivisionChoiceById(packetName, user_id);
+    result[0].division = await getDivisionChoice(packetName, user_id);
     return result[0];
 }
 
@@ -324,7 +315,7 @@ async function getQuestionCount(packetName, division) {
  * @param {ObjectId} user_id
  */
 async function getUserStats(packetName, user_id) {
-    const division = await getDivisionChoiceById(packetName, user_id);
+    const division = await getDivisionChoice(packetName, user_id);
     const buzzArray = await getBuzzes(packetName, division, user_id, true);
 
     const leaderboard = await buzzes.aggregate([
@@ -384,11 +375,10 @@ async function getUserStats(packetName, user_id) {
  * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
 async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, questionNumber, user_id }) {
-    const username = await getUsername(user_id);
     const [division, packet, admin] = await Promise.all([
-        getDivisionChoiceById(packetName, user_id),
+        getDivisionChoice(packetName, user_id),
         packets.findOne({ name: packetName }),
-        isAdmin(username),
+        isAdminById(user_id),
     ]);
 
     const insertDocument = {
@@ -398,7 +388,8 @@ async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, 
             _id: packet._id,
             name: packet.name,
         },
-        questionNumber, user_id,
+        questionNumber,
+        user_id,
     };
 
     if (prompts && typeof prompts === 'object' && prompts.length > 0) {
@@ -410,8 +401,7 @@ async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, 
     return true;
 }
 
-async function recordDivision(packetName, division, username) {
-    const user_id = await getUserId(username);
+async function recordDivision(packetName, division, user_id) {
     const packet = await packets.findOne({ name: packetName });
     return divisionChoices.replaceOne(
         { user_id, 'packet.name': packetName },
@@ -429,10 +419,9 @@ async function recordPayment(packetName, user_id) {
     );
 }
 
-async function recordProtest(packetName, questionNumber, username) {
-    const user_id = await getUserId(username);
+async function recordProtest(packetName, questionNumber, user_id) {
     return await buzzes.updateOne(
-        { user_id, 'packet.name': packetName, questionNumber },
+        { 'packet.name': packetName, questionNumber, user_id },
         { $set: { pendingProtest: true } },
     );
 }
