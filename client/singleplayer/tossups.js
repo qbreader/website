@@ -131,8 +131,8 @@ async function advanceQuestion() {
             return false;
         }
 
-        query.setName = questions[0].setName;
-        query.packetNumbers = [questions[0].packetNumber];
+        query.setName = questions[0].set.name;
+        query.packetNumbers = [questions[0].packet.number];
 
         questionText = questions[0].question;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');

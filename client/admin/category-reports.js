@@ -2,7 +2,7 @@ function TossupCard({
   tossup
 }) {
   const _id = tossup._id;
-  const packetName = tossup.packetName;
+  const packetName = tossup.packet.name;
   function onClick() {
     document.getElementById('question-id').value = _id;
     document.getElementById('question-type').textContent = 'tossup';
@@ -15,7 +15,7 @@ function TossupCard({
     className: "card-header d-flex justify-content-between clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, /*#__PURE__*/React.createElement("b", null, tossup.setName, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", tossup.packetNumber, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("b", null, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", tossup.packet.number, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -48,7 +48,7 @@ function BonusCard({
   bonus
 }) {
   const _id = bonus._id;
-  const packetName = bonus.packetName;
+  const packetName = bonus.packet.name;
   const bonusLength = bonus.parts.length;
   const indices = [];
   for (let i = 0; i < bonusLength; i++) {
@@ -70,7 +70,7 @@ function BonusCard({
     className: "card-header d-flex justify-content-between clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, /*#__PURE__*/React.createElement("b", null, bonus.setName, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", bonus.packetNumber, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("b", null, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", bonus.packet.number, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
