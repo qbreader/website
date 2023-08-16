@@ -190,11 +190,12 @@ async function getDivisions(packetName) {
     return packet?.divisions;
 }
 
-async function getLeaderboard(packetName, division, limit=100) {
-    const result = await buzzes.aggregate([
+async function getLeaderboard(packetName, division, includeInactive=false, limit=100) {
+    const aggregation = [
         { $match: { 'packet.name': packetName, division, active: true } },
         { $group: {
             _id: '$user_id',
+            active: { $first: '$active' },
             numberCorrect: { $sum: { $cond: [ { $gt: ['$points', 0] }, 1, 0 ] } },
             points: { $sum: '$points' },
             pointsPerTossup: { $avg: '$points' },
@@ -202,7 +203,13 @@ async function getLeaderboard(packetName, division, limit=100) {
         } },
         { $sort: { points: -1, numberCorrect: -1 } },
         { $limit: limit },
-    ]).toArray();
+    ];
+
+    if (!includeInactive) {
+        aggregation[0].$match.active = true;
+    }
+
+    const result = await buzzes.aggregate(aggregation).toArray();
 
     for (const index in result) {
         const user_id = result[index]._id;

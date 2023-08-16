@@ -29,7 +29,7 @@ fetch('/api/geoword/packet-list')
                 a2.textContent = 'Protests';
 
                 const a3 = document.createElement('a');
-                a3.href = `/geoword/leaderboard/${name}?${encodeURIComponent(division)}`;
+                a3.href = `/admin/geoword/leaderboard/${name}?${encodeURIComponent(division)}`;
                 a3.textContent = 'Leaderboard';
 
                 const a4 = document.createElement('a');

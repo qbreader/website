@@ -11,10 +11,11 @@ const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
     It's inherited by the nested test suites, and can be overriden.
 */
 
+// eslint-disable-next-line no-unused-vars
 async function testTiming(count) {
     return mocha.describe(`Performance Tests with ${count} repetitions`, function () {
         /*
-        The "formula" for the timeing was done by replicating the request on the website,
+        The "formula" for the timing was done by replicating the request on the website,
         and multiplying the execution time by 2 or 3 (usually), and the "count" parameter
         */
         function testRequest(name, timeout, func, params = false) {
@@ -104,7 +105,7 @@ async function testCorrectness() {
             const question = 'In his final appearance, this character experiences a severe toothache after asserting "as a weapon I may be of some use. But as a man, I\'m a wreck," then leaves to join King Milan\'s forces. This man buys a painting of two boys fishing, and commissions a portrait, from his fellow expatriate Mihailov. He is shocked to learn that his lover is pregnant between one scene in which he glimpses his rival Makhotin\'s chestnut (*) Gladiator, and another scene in which he rides his own horse Frou-Frou to death. This character first encounters his future lover at a railway station, where a worker is crushed by a train, and is initially interested in Kitty Shcherbatsky. For 10 points, name this Leo Tolstoy character, a nobleman who has an affair with Anna Karenina.';
             const answer = 'Count Alexei (Kirillovich) <b><u>Vronsky</u></b> [prompt on <u>Alexei</u>]';
             const leadin = 'The 170 men who rowed each of these ships often came from Piraeus and were thetes, the lowest class of citizen. For 10 points each:';
-            testGetPacket('getPacket -\n 2018 PACE NSC, Packet 5', { setName: '2018 PACE NSC', packetNumber: 5 }, 21, 21, question, answer, leadin);
+            testGetPacket('getPacket - 2018 PACE NSC, Packet 5', { setName: '2018 PACE NSC', packetNumber: 5 }, 21, 21, question, answer, leadin);
         }
 
         function testGetSet(testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer, expectedFirstLeadin) {
@@ -131,6 +132,16 @@ async function testCorrectness() {
 
         mocha.it('getNumPackets - 2018 PACE NSC', async () => assert.equal(await getNumPackets('2018 PACE NSC'), 25));
         mocha.it('getNumPackets - 2016 NASAT', async () => assert.equal(await getNumPackets('2016 NASAT'), 16));
+
+        mocha.it('getRandomBonuses', async () => {
+            const bonuses = await getRandomBonuses();
+            assert.isOk(bonuses, 'bonuses');
+        });
+
+        mocha.it('getRandomTossups', async () => {
+            const tossups = await getRandomTossups();
+            assert.isOk(tossups, 'tossups');
+        });
     });
 }
 
@@ -139,7 +150,7 @@ mocha.before(async () => {
 });
 
 testCorrectness();
-testTiming(1);
+// testTiming(1);
 
 mocha.after(async () => {
     await closeDatabase();
