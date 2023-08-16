@@ -36,13 +36,13 @@ async function checkPayment(packetName, username) {
         return true;
     }
 
-    const result = await payments.findOne({ packetName, user_id });
+    const result = await payments.findOne({ 'packet.name': packetName, user_id });
     return !!result;
 }
 
 async function getAdminStats(packetName, division) {
     const stats = await buzzes.aggregate([
-        { $match: { packetName, division, active: true } },
+        { $match: { 'packet.name': packetName, division, active: true } },
         { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
         { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined ] } } },
         { $sort: { correctCelerity: -1 } },
@@ -59,11 +59,11 @@ async function getAdminStats(packetName, division) {
         { $sort: { _id: 1 } },
         { $lookup: {
             from: 'tossups',
-            let: { questionNumber: '$questionNumber', packetName, division },
+            let: { questionNumber: '$questionNumber', packet: { name: packetName }, division },
             pipeline: [
                 { $match: { $expr: { $and: [
                     { $eq: ['$questionNumber', '$$questionNumber'] },
-                    { $eq: ['$packetName', '$$packetName'] },
+                    { $eq: ['$packet.name', '$$packet.name'] },
                     { $eq: ['$division', '$$division'] },
                 ] } } },
             ],
@@ -88,7 +88,7 @@ async function getAdminStats(packetName, division) {
  * @returns
  */
 async function getAnswer(packetName, division, questionNumber) {
-    const result = await tossups.findOne({ packetName, division, questionNumber });
+    const result = await tossups.findOne({ 'packet.name': packetName, division, questionNumber });
 
     if (!result) {
         return '';
@@ -106,7 +106,7 @@ async function getAnswer(packetName, division, questionNumber) {
  * @returns {Promise<Buffer>}
  */
 async function getAudio(packetName, division, questionNumber) {
-    const tossup = await tossups.findOne({ packetName, division, questionNumber });
+    const tossup = await tossups.findOne({ 'packet.name': packetName, division, questionNumber });
     if (!tossup) {
         return null;
     }
@@ -145,15 +145,15 @@ async function getBuzzes(packetName, division, user_id, protests=false) {
     }
 
     return await buzzes.aggregate([
-        { $match: { packetName, division, user_id } },
+        { $match: { 'packet.name': packetName, division, user_id } },
         { $sort: { questionNumber: 1 } },
         { $lookup: {
             from: 'tossups',
-            let: { questionNumber: '$questionNumber', packetName, division },
+            let: { questionNumber: '$questionNumber', packet: { name: packetName }, division },
             pipeline: [
                 { $match: { $expr: { $and: [
                     { $eq: ['$questionNumber', '$$questionNumber'] },
-                    { $eq: ['$packetName', '$$packetName'] },
+                    { $eq: ['$packet.name', '$$packet.name'] },
                     { $eq: ['$division', '$$division'] },
                 ] } } },
             ],
@@ -166,7 +166,7 @@ async function getBuzzes(packetName, division, user_id, protests=false) {
 
 async function getBuzzCount(packetName, username) {
     const user_id = await getUserId(username);
-    return await buzzes.countDocuments({ packetName, user_id });
+    return await buzzes.countDocuments({ 'packet.name': packetName, user_id });
 }
 
 /**
@@ -184,7 +184,7 @@ async function getDivisionChoice(packetName, username) {
 }
 
 async function getDivisionChoiceById(packetName, user_id) {
-    const result = await divisionChoices.findOne({ packetName, user_id });
+    const result = await divisionChoices.findOne({ 'packet.name': packetName, user_id });
     return result?.division;
 }
 
@@ -200,7 +200,7 @@ async function getDivisions(packetName) {
 
 async function getLeaderboard(packetName, division, limit=100) {
     const result = await buzzes.aggregate([
-        { $match: { packetName, division, active: true } },
+        { $match: { 'packet.name': packetName, division, active: true } },
         { $group: {
             _id: '$user_id',
             numberCorrect: { $sum: { $cond: [ { $gt: ['$points', 0] }, 1, 0 ] } },
@@ -222,7 +222,7 @@ async function getLeaderboard(packetName, division, limit=100) {
 
 async function getPacket(packetName, division) {
     const packet = await tossups.find(
-        { packetName, division },
+        { 'packet.name': packetName, division },
         { sort: { questionNumber: 1 } },
     ).toArray();
 
@@ -230,10 +230,13 @@ async function getPacket(packetName, division) {
 }
 
 async function getPacketList() {
-    const list = await packets.find({ test: { $ne: true } }, {
-        sort: { order: 1 },
-        projection: { name: 1, divisions: 1, _id: 0 },
-    }).toArray();
+    const list = await packets.find(
+        { test: { $ne: true } },
+        {
+            sort: { order: 1 },
+            projection: { name: 1, divisions: 1, _id: 0 },
+        },
+    ).toArray();
 
     return list;
 }
@@ -254,7 +257,7 @@ async function getPacketStatus(packetName) {
 
 async function getPlayerList(packetName, division) {
     const result = await buzzes.aggregate([
-        { $match: { packetName, division } },
+        { $match: { 'packet.name': packetName, division } },
         { $group: { _id: '$user_id' } },
     ]).toArray();
 
@@ -271,7 +274,7 @@ async function getPlayerList(packetName, division) {
 async function getProgress(packetName, username) {
     const user_id = await getUserId(username);
     const result = await buzzes.aggregate([
-        { $match: { packetName, user_id } },
+        { $match: { 'packet.name': packetName, user_id } },
         { $group: {
             _id: null,
             numberCorrect: { $sum: { $cond: [ { $gt: ['$points', 0] }, 1, 0 ] } },
@@ -288,12 +291,12 @@ async function getProgress(packetName, username) {
 
 async function getProtests(packetName, division) {
     const protests = await buzzes.find(
-        { packetName, division, pendingProtest: { $exists: true } },
+        { 'packet.name': packetName, division, pendingProtest: { $exists: true } },
         { sort: { questionNumber: 1 } },
     ).toArray();
 
     const packet = await tossups.find(
-        { packetName, division },
+        { 'packet.name': packetName, division },
         { sort: { questionNumber: 1 } },
     ).toArray();
 
@@ -309,7 +312,7 @@ async function getProtests(packetName, division) {
 async function getQuestionCount(packetName, division) {
     if (division === undefined) {
         const packet = await packets.findOne({ name: packetName });
-        const count = await tossups.countDocuments({ packetName });
+        const count = await tossups.countDocuments({ 'packet.name': packetName });
         return Math.round(count / packet.divisions.length);
     }
 
@@ -325,7 +328,7 @@ async function getUserStats(packetName, user_id) {
     const buzzArray = await getBuzzes(packetName, division, user_id, true);
 
     const leaderboard = await buzzes.aggregate([
-        { $match: { packetName, division, active: true } },
+        { $match: { 'packet.name': packetName, division, active: true } },
         { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
         { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined ] } } },
         { $sort: { correctCelerity: -1 } },
@@ -345,7 +348,7 @@ async function getUserStats(packetName, user_id) {
         if (question) {
             question.bestUsername = await getUsername(question.bestUserId);
             question.rank = 1 + await buzzes.countDocuments({
-                packetName,
+                'packet.name': packetName,
                 questionNumber: question._id,
                 division,
                 active: true,
@@ -389,7 +392,13 @@ async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, 
     ]);
 
     const insertDocument = {
-        celerity, division, givenAnswer, points, packetName, questionNumber, user_id, active: packet.active && !admin,
+        active: packet.active && !admin,
+        celerity, division, givenAnswer, points,
+        packet: {
+            _id: packet._id,
+            name: packet.name,
+        },
+        questionNumber, user_id,
     };
 
     if (prompts && typeof prompts === 'object' && prompts.length > 0) {
@@ -403,17 +412,19 @@ async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, 
 
 async function recordDivision({ packetName, username, division }) {
     const user_id = await getUserId(username);
+    const packet = await packets.findOne({ name: packetName });
     return divisionChoices.replaceOne(
-        { user_id, packetName },
-        { user_id, packetName, division },
+        { user_id, 'packet.name': packetName },
+        { user_id, packet: { _id: packet._id, name: packetName }, division },
         { upsert: true },
     );
 }
 
 async function recordPayment({ packetName, user_id }) {
+    const packet = await packets.findOne({ name: packetName });
     return payments.replaceOne(
-        { user_id, packetName },
-        { user_id, packetName, createdAt: new Date() },
+        { user_id, 'packet.name': packetName },
+        { user_id, packet: { _id: packet._id, name: packetName }, createdAt: new Date() },
         { upsert: true },
     );
 }
@@ -421,7 +432,7 @@ async function recordPayment({ packetName, user_id }) {
 async function recordProtest({ packetName, questionNumber, username }) {
     const user_id = await getUserId(username);
     return await buzzes.updateOne(
-        { user_id, packetName, questionNumber },
+        { user_id, 'packet.name': packetName, questionNumber },
         { $set: { pendingProtest: true } },
     );
 }
