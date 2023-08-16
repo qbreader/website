@@ -32,7 +32,7 @@ router.post('/', (req, res) => {
         const paymentIntentSucceeded = event.data.object;
         // Then define and call a function to handle the event payment_intent.succeeded
         const { user_id, packetName } = paymentIntentSucceeded.metadata;
-        geoword.recordPayment({ packetName, user_id: new ObjectId(user_id) });
+        geoword.recordPayment(packetName, new ObjectId(user_id));
         break;
     }
 

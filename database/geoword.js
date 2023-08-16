@@ -410,7 +410,7 @@ async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, 
     return true;
 }
 
-async function recordDivision({ packetName, username, division }) {
+async function recordDivision(packetName, division, username) {
     const user_id = await getUserId(username);
     const packet = await packets.findOne({ name: packetName });
     return divisionChoices.replaceOne(
@@ -420,7 +420,7 @@ async function recordDivision({ packetName, username, division }) {
     );
 }
 
-async function recordPayment({ packetName, user_id }) {
+async function recordPayment(packetName, user_id) {
     const packet = await packets.findOne({ name: packetName });
     return payments.replaceOne(
         { user_id, 'packet.name': packetName },
@@ -429,7 +429,7 @@ async function recordPayment({ packetName, user_id }) {
     );
 }
 
-async function recordProtest({ packetName, questionNumber, username }) {
+async function recordProtest(packetName, questionNumber, username) {
     const user_id = await getUserId(username);
     return await buzzes.updateOne(
         { user_id, 'packet.name': packetName, questionNumber },
@@ -437,7 +437,7 @@ async function recordProtest({ packetName, questionNumber, username }) {
     );
 }
 
-async function resolveProtest({ id, decision, reason }) {
+async function resolveProtest(id, decision, reason) {
     const updateDocument = { pendingProtest: false, decision, reason };
 
     if (decision === 'accept') {
