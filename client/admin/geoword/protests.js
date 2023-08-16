@@ -61,14 +61,14 @@ fetch('/api/admin/geoword/protests?' + new URLSearchParams({ packetName, divisio
     });
 
 document.getElementById('resolve-protest-submit').addEventListener('click', () => {
-    const id = document.getElementById('resolve-protest-id').value;
+    const _id = document.getElementById('resolve-protest-id').value;
     const decision = document.getElementById('resolve-protest-decision').value;
     const reason = document.getElementById('resolve-protest-reason').value;
 
     fetch('/api/admin/geoword/resolve-protest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, decision, reason }),
+        body: JSON.stringify({ buzz_id: _id, decision, reason }),
     }).then(response => {
         if (response.status === 200) {
             window.location.reload();

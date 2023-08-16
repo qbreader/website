@@ -50,8 +50,8 @@ router.get('/geoword/protests', async (req, res) => {
 });
 
 router.post('/geoword/resolve-protest', async (req, res) => {
-    const { id, decision, reason } = req.body;
-    const result = await geoword.resolveProtest(new ObjectId(id), decision, reason);
+    const { buzz_id, decision, reason } = req.body;
+    const result = await geoword.resolveProtest(new ObjectId(buzz_id), decision, reason);
 
     if (result) {
         res.sendStatus(200);

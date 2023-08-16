@@ -437,16 +437,16 @@ async function recordProtest(packetName, questionNumber, username) {
     );
 }
 
-async function resolveProtest(id, decision, reason) {
+async function resolveProtest(buzz_id, decision, reason) {
     const updateDocument = { pendingProtest: false, decision, reason };
 
     if (decision === 'accept') {
-        const buzz = await buzzes.findOne({ _id: id });
+        const buzz = await buzzes.findOne({ _id: buzz_id });
         updateDocument.points = 10 + Math.round(10 * buzz.celerity);
     }
 
     const result = await buzzes.updateOne(
-        { _id: id },
+        { _id: buzz_id },
         { $set: updateDocument },
     );
 
