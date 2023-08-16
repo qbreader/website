@@ -256,8 +256,8 @@ const socketOnConnectionAcknowledged = async (message) => {
     }
 
     tossup = message.tossup;
-    document.getElementById('set-name-info').textContent = message.tossup?.setName ?? '';
-    document.getElementById('packet-number-info').textContent = message.tossup?.packetNumber ?? '-';
+    document.getElementById('set-name-info').textContent = message.tossup?.set.name ?? '';
+    document.getElementById('packet-number-info').textContent = message.tossup?.packet.number ?? '-';
     document.getElementById('question-number-info').textContent = message.tossup?.questionNumber ?? '-';
 
     document.getElementById('chat').disabled = message.public;
@@ -435,9 +435,9 @@ const socketOnNext = (message) => {
 
     tossup = message.tossup;
 
-    document.getElementById('set-name-info').textContent = tossup?.setName ?? '';
+    document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
     document.getElementById('question-number-info').textContent = tossup?.questionNumber ?? '-';
-    document.getElementById('packet-number-info').textContent = tossup?.packetNumber ?? '-';
+    document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
 
     document.getElementById('options').classList.add('d-none');
     showSkipButton();
@@ -475,9 +475,9 @@ const socketOnStart = (message) => {
 
     tossup = message.tossup;
 
-    document.getElementById('set-name-info').textContent = tossup?.setName ?? '';
+    document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
     document.getElementById('question-number-info').textContent = tossup?.questionNumber ?? '-';
-    document.getElementById('packet-number-info').textContent = tossup?.packetNumber ?? '-';
+    document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
 };
 
 // Ping server every 45 seconds to prevent socket disconnection

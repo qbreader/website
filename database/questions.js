@@ -103,8 +103,8 @@ const regexIgnoreDiacritics = (() => {
  */
 async function getReports(reason) {
     const reports = {};
-    reports.tossups = await tossups.find({ 'reports.reason': reason }, { sort: { setYear: -1 } }).toArray();
-    reports.bonuses = await bonuses.find({ 'reports.reason': reason }, { sort: { setYear: -1 } }).toArray();
+    reports.tossups = await tossups.find({ 'reports.reason': reason }, { sort: { 'set.year': -1 } }).toArray();
+    reports.bonuses = await bonuses.find({ 'reports.reason': reason }, { sort: { 'set.year': -1 } }).toArray();
     return reports;
 }
 
@@ -146,14 +146,14 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
         return { 'tossups': [], 'bonuses': [] };
 
     const tossupResult = questionTypes.includes('tossups')
-        ? tossups.find({ packet_id: packet._id }, {
+        ? tossups.find({ 'packet._id': packet._id }, {
             sort: { questionNumber: 1 },
             project: { reports: 0 },
         }).toArray()
         : null;
 
     const bonusResult  = questionTypes.includes('bonuses')
-        ? bonuses.find({ packet_id: packet._id }, {
+        ? bonuses.find({ 'packet._id': packet._id }, {
             sort: { questionNumber: 1 },
             project: { reports: 0 },
         }).toArray() : null;
@@ -354,14 +354,14 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
         query.subcategory = { $in: subcategories };
 
     if (setName)
-        query.setName = setName;
+        query['set.name'] = setName;
 
     if (minYear && maxYear) {
-        query.setYear = { $gte: minYear, $lte: maxYear };
+        query['set.year'] = { $gte: minYear, $lte: maxYear };
     } else if (minYear)
-        query.setYear = { $gte: minYear };
+        query['set.year'] = { $gte: minYear };
     else if (maxYear) {
-        query.setYear = { $lte: maxYear };
+        query['set.year'] = { $lte: maxYear };
     }
 
     if (powermarkOnly)
@@ -370,8 +370,8 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
     const aggregation = [
         { $match: query },
         { $sort: {
-            setName: -1,
-            packetNumber: 1,
+            'set.name': -1,
+            'packet.number': 1,
             questionNumber: 1,
         } },
         // { $skip: (pagination - 1) * maxReturnLength },
@@ -421,7 +421,7 @@ async function getRandomTossups({
     powermarkOnly = false,
 } = {}) {
     const aggregation = [
-        { $match: { setYear: { $gte: minYear, $lte: maxYear } } },
+        { $match: { 'set.year': { $gte: minYear, $lte: maxYear } } },
         { $sample: { size: number } },
         { $project: { reports: 0 } },
     ];
@@ -475,7 +475,7 @@ async function getRandomBonuses({
     bonusLength,
 } = {}) {
     const aggregation = [
-        { $match: { setYear: { $gte: minYear, $lte: maxYear } } },
+        { $match: { 'set.year': { $gte: minYear, $lte: maxYear } } },
         { $sample: { size: number } },
         { $project: { reports: 0 } },
     ];
@@ -526,14 +526,14 @@ async function getSet({ setName, packetNumbers, categories, subcategories, quest
     if (!questionType) questionType = 'tossup';
 
     const filter = {
-        setName: setName,
+        'set.name': setName,
         category: { $in: categories },
         subcategory: { $in: subcategories },
-        packetNumber: { $in: packetNumbers },
+        'packet.number': { $in: packetNumbers },
     };
 
     const options = {
-        sort: { packetNumber: reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 },
+        sort: { 'packet.number': reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 },
         project: { reports: 0 },
     };
 

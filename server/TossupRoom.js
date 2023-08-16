@@ -378,7 +378,7 @@ class TossupRoom {
             } else {
                 this.tossup = this.setCache.pop();
                 this.questionNumber = this.tossup.questionNumber;
-                this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packetNumber);
+                this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packet.number);
             }
         } else {
             if (this.randomQuestionCache.length === 0) {
