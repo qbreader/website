@@ -107,8 +107,8 @@ async function advanceQuestion() {
             return false;
         }
 
-        query.setName = questions[0].setName;
-        query.packetNumbers = [questions[0].packetNumber];
+        query.setName = questions[0].set.name;
+        query.packetNumbers = [questions[0].packet.number];
         document.getElementById('question-number-info').textContent = questions[0].questionNumber;
         questionNumber = 1;
     }
