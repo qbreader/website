@@ -173,7 +173,7 @@ router.put('/record-division', async (req, res) => {
     }
 
     const { packetName, division } = req.body;
-    const result = await geoword.recordDivision({ packetName, username, division });
+    const result = await geoword.recordDivision(packetName, division, username);
 
     if (result) {
         res.sendStatus(200);
@@ -191,7 +191,7 @@ router.put('/record-protest', async (req, res) => {
     }
 
     const { packetName, questionNumber } = req.body;
-    const result = await geoword.recordProtest({ packetName, questionNumber, username });
+    const result = await geoword.recordProtest(packetName, questionNumber, username);
 
     if (result) {
         res.sendStatus(200);
