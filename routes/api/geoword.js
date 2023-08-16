@@ -1,5 +1,5 @@
 import * as geoword from '../../database/geoword.js';
-import { getUserId, isAdmin } from '../../database/users.js';
+import { getUser, getUserId } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 import checkAnswer from '../../server/checkAnswer.js';
 
@@ -72,7 +72,8 @@ router.get('/division-choice', async (req, res) => {
     }
 
     const { packetName } = req.query;
-    const division = await geoword.getDivisionChoice(packetName, username);
+    const user_id = await getUserId(username);
+    const division = await geoword.getDivisionChoice(packetName, user_id);
 
     res.json({ division });
 });
@@ -86,7 +87,8 @@ router.get('/get-progress', async (req, res) => {
     }
 
     const packetName = req.query.packetName;
-    const { division, numberCorrect, points, totalCorrectCelerity, tossupsHeard } = await geoword.getProgress(packetName, username);
+    const user_id = await getUserId(username);
+    const { division, numberCorrect, points, totalCorrectCelerity, tossupsHeard } = await geoword.getProgress(packetName, user_id);
 
     res.json({ division, numberCorrect, points, totalCorrectCelerity, tossupsHeard });
 });
@@ -111,14 +113,14 @@ router.get('/packet', async (req, res) => {
     }
 
     const { packetName, division } = req.query;
+    const user = await getUser(username);
 
-    const [admin, buzzCount, questionCount] = await Promise.all([
-        isAdmin(username),
-        geoword.getBuzzCount(packetName, username),
+    const [buzzCount, questionCount] = await Promise.all([
+        geoword.getBuzzCount(packetName, user._id),
         geoword.getQuestionCount(packetName),
     ]);
 
-    if (!admin && buzzCount < questionCount) {
+    if (!user.admin && buzzCount < questionCount) {
         res.sendStatus(403);
         return;
     }
@@ -173,7 +175,8 @@ router.put('/record-division', async (req, res) => {
     }
 
     const { packetName, division } = req.body;
-    const result = await geoword.recordDivision(packetName, division, username);
+    const user_id = await getUserId(username);
+    const result = await geoword.recordDivision(packetName, division, user_id);
 
     if (result) {
         res.sendStatus(200);
@@ -191,7 +194,8 @@ router.put('/record-protest', async (req, res) => {
     }
 
     const { packetName, questionNumber } = req.body;
-    const result = await geoword.recordProtest(packetName, questionNumber, username);
+    const user_id = await getUserId(username);
+    const result = await geoword.recordProtest(packetName, questionNumber, user_id);
 
     if (result) {
         res.sendStatus(200);
