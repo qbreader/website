@@ -351,7 +351,10 @@ async function getUserStats(packetName, user_id) {
                 division,
                 active: true,
                 $or: [
-                    { celerity: { $gt: buzzArray[index].celerity } },
+                    { $and: [
+                        { celerity: { $gt: buzzArray[index].celerity } },
+                        { points: { $eq: buzzArray[index].points } },
+                    ] },
                     { points: { $gt: buzzArray[index].points } },
                 ],
             });
