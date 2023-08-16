@@ -90,7 +90,7 @@ const parseAnswerline = (() => {
             return removeHTMLTags(string);
         }
 
-        return removeHTMLTags(matches.reduce((prev, curr) => prev + curr + ' ', '').trim());
+        return removeHTMLTags(matches.reduce((prev, curr) => prev + ' ' + curr, '').trim());
     };
 
 
@@ -98,9 +98,12 @@ const parseAnswerline = (() => {
      * Get all words which are partially or wholly underlined.
      */
     const extractKeyWords = (string) => {
+        const requiredWords = extractUnderlining(string).split(' ');
+
         string = string
             .split(' ')
-            .filter(token => token.length > 0 && token.match(/<\/?u>/))
+            .filter(token => token.length > 0)
+            .filter(token => token.match(/<\/?u>/) || requiredWords.includes(token))
             .reduce((prev, curr) => prev + curr + ' ', '')
             .trim();
 
@@ -322,6 +325,10 @@ const stringMatchesReference = (() => {
             return 'centimeter';
         case 'mm':
             return 'millimeter';
+
+        // typoes
+        case 'contentinal':
+            return 'continental';
         }
 
         return string;
