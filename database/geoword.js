@@ -220,24 +220,20 @@ async function getLeaderboard(packetName, division, includeInactive=false, limit
 }
 
 async function getPacket(packetName, division) {
-    const packet = await tossups.find(
+    return await tossups.find(
         { 'packet.name': packetName, division },
         { sort: { questionNumber: 1 } },
     ).toArray();
-
-    return packet;
 }
 
 async function getPacketList() {
-    const list = await packets.find(
+    return await packets.find(
         { test: { $ne: true } },
         {
             sort: { order: 1 },
             projection: { name: 1, divisions: 1, _id: 0 },
         },
     ).toArray();
-
-    return list;
 }
 
 /**
@@ -406,14 +402,12 @@ async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, 
         insertDocument.prompts = prompts;
     }
 
-    await buzzes.insertOne(insertDocument);
-
-    return true;
+    return await buzzes.insertOne(insertDocument);
 }
 
 async function recordDivision(packetName, division, user_id) {
     const packet = await packets.findOne({ name: packetName });
-    return divisionChoices.replaceOne(
+    return await divisionChoices.replaceOne(
         { user_id, 'packet.name': packetName },
         { user_id, packet: { _id: packet._id, name: packetName }, division },
         { upsert: true },
@@ -422,7 +416,7 @@ async function recordDivision(packetName, division, user_id) {
 
 async function recordPayment(packetName, user_id) {
     const packet = await packets.findOne({ name: packetName });
-    return payments.replaceOne(
+    return await payments.replaceOne(
         { user_id, 'packet.name': packetName },
         { user_id, packet: { _id: packet._id, name: packetName }, createdAt: new Date() },
         { upsert: true },
@@ -444,12 +438,10 @@ async function resolveProtest(buzz_id, decision, reason) {
         updateDocument.points = 10 + Math.round(10 * buzz.celerity);
     }
 
-    const result = await buzzes.updateOne(
+    return await buzzes.updateOne(
         { _id: buzz_id },
         { $set: updateDocument },
     );
-
-    return result;
 }
 
 export {
