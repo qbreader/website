@@ -37,6 +37,12 @@ router.get('/geoword/compare', async (req, res) => {
     res.json({ player1Buzzes, player2Buzzes });
 });
 
+router.get('/geoword/leaderboard', async (req, res) => {
+    const { packetName, division, includeInactive } = req.query;
+    const leaderboard = await geoword.getLeaderboard(packetName, division, includeInactive === 'true');
+    res.json({ leaderboard });
+});
+
 router.get('/geoword/player-list', async (req, res) => {
     const { packetName, division } = req.query;
     const players = await geoword.getPlayerList(packetName, division);
