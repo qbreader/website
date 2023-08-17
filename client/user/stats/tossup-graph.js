@@ -1,4 +1,4 @@
-function showTossupGraphStats({ cumulative = false, difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
+function showTossupGraphStats({ cumulative = false, difficulties = '', filterLowData = true, setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
     fetch('/auth/user-stats/tossup-graph?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
         .then(response => {
             if (response.status === 401) {
@@ -8,7 +8,10 @@ function showTossupGraphStats({ cumulative = false, difficulties = '', setName =
         })
         .then(response => response.json())
         .then(data => {
-            const { stats } = data;
+            let { stats } = data;
+            if (filterLowData) {
+                stats = stats.filter(stat => stat.count >= 5);
+            }
 
             if (cumulative) {
                 questionCountChart.data = {
@@ -83,10 +86,12 @@ function onSubmit(event = null) {
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
     const cumulative = document.getElementById('cumulative').checked;
-    showTossupGraphStats({ cumulative, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+    const filter = document.getElementById('filter').checked;
+    showTossupGraphStats({ cumulative, difficulties, filterLowData: filter, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 }
 
 document.getElementById('cumulative').addEventListener('change', onSubmit);
+document.getElementById('filter').addEventListener('change', onSubmit);
 
 const questionCountChart = new Chart('question-count', {
     type: 'line',
