@@ -1,4 +1,4 @@
-import { getTossupById, getBonusById } from './questions.js';
+import { getTossupById, getBonusById, getSetId } from './questions.js';
 
 import { MongoClient, ObjectId } from 'mongodb';
 
@@ -28,7 +28,7 @@ async function createUser(username, password, email) {
 }
 
 
-function generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+async function generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     const matchDocument = { user_id: user_id };
 
     if (!includeMultiplayer && !includeSingleplayer) {
@@ -49,7 +49,7 @@ function generateMatchDocument({ user_id, difficulties, setName, includeMultipla
     }
 
     if (setName) {
-        matchDocument['set.name'] = setName;
+        matchDocument.set_id = await getSetId(setName);
     }
 
     if (startDate) {
@@ -70,7 +70,7 @@ function generateMatchDocument({ user_id, difficulties, setName, includeMultipla
 
 async function getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     const user_id = await getUserId(username);
-    const matchDocument = generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+    const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
     matchDocument.isCorrect = true;
 
     const data = await tossupData.findOne(
@@ -188,7 +188,7 @@ async function getSingleTossupStats(tossup_id) {
 async function getStatsHelper({ user_id, questionType, groupByField, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     groupByField = '$' + groupByField;
 
-    const matchDocument = generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+    const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
     switch (questionType) {
     case 'tossup':
@@ -243,7 +243,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
 
 
 async function getTossupGraphStats({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-    const matchDocument = generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+    const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
     const stats = await tossupData.aggregate([
         { $match: matchDocument },
