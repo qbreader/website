@@ -1,0 +1,128 @@
+function showTossupGraphStats({ cumulative = false, difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
+    fetch('/auth/user-stats/tossup-graph?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
+        .then(response => {
+            if (response.status === 401) {
+                throw new Error('Unauthenticated');
+            }
+            return response;
+        })
+        .then(response => response.json())
+        .then(data => {
+            const { stats } = data;
+
+            if (cumulative) {
+                questionCountChart.data = {
+                    labels: stats.map(stat => stat._id),
+                    datasets: [
+                        { data: accumulate(stats.map(stat => stat.count)), label: 'Total', borderColor: '#3e95cd', fill: false },
+                        { data: accumulate(stats.map(stat => stat.powers)), label: 'Powers', borderColor: '#8e5ea2', fill: false },
+                        { data: accumulate(stats.map(stat => stat.tens)), label: 'Tens', borderColor: '#3cba9f', fill: false },
+                        { data: accumulate(stats.map(stat => stat.dead)), label: 'Dead', borderColor: '#e8c3b9', fill: false },
+                        { data: accumulate(stats.map(stat => stat.negs)), label: 'Negs', borderColor: '#c45850', fill: false },
+                    ],
+                };
+            } else {
+                questionCountChart.data = {
+                    labels: stats.map(stat => stat._id),
+                    datasets: [
+                        { data: stats.map(stat => stat.count), label: 'Total', borderColor: '#3e95cd', fill: false },
+                        { data: stats.map(stat => stat.powers), label: 'Powers', borderColor: '#8e5ea2', fill: false },
+                        { data: stats.map(stat => stat.tens), label: 'Tens', borderColor: '#3cba9f', fill: false },
+                        { data: stats.map(stat => stat.dead), label: 'Dead', borderColor: '#e8c3b9', fill: false },
+                        { data: stats.map(stat => stat.negs), label: 'Negs', borderColor: '#c45850', fill: false },
+                    ],
+                };
+            }
+
+            pptuChart.data = {
+                labels: stats.map(stat => stat._id),
+                datasets: [
+                    { data: stats.map(stat => stat.pptu), label: 'Points per TU', borderColor: '#3e95cd', fill: false },
+                ],
+            };
+
+            resultPerTossup.data = {
+                labels: stats.map(stat => stat._id),
+                datasets: [
+                    { data: stats.map(stat => 100 * stat.powers / stat.count), label: 'Power Percetage', borderColor: '#3e95cd', fill: false },
+                ],
+            };
+
+            questionCountChart.update();
+            pptuChart.update();
+            resultPerTossup.update();
+        });
+}
+
+function accumulate(array) {
+    for (let i = 1; i < array.length; i++) {
+        array[i] += array[i - 1];
+    }
+    return array;
+}
+
+function onSubmit(event = null) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    const setName = document.getElementById('set-name').value;
+    const difficulties = getDifficulties();
+    const includeMultiplayer = document.getElementById('include-multiplayer').checked;
+    const includeSingleplayer = document.getElementById('include-singleplayer').checked;
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
+    const cumulative = document.getElementById('cumulative').checked;
+    showTossupGraphStats({ cumulative, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+}
+
+document.getElementById('cumulative').addEventListener('change', onSubmit);
+
+const questionCountChart = new Chart('question-count', {
+    type: 'line',
+    data: { },
+    options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: { unit: 'month' },
+            },
+        },
+    },
+});
+
+const pptuChart = new Chart('pptu', {
+    type: 'line',
+    data: { },
+    options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: { unit: 'month' },
+            },
+            y: {
+                min: 0,
+                max: 15,
+            },
+        },
+    },
+});
+
+const resultPerTossup = new Chart('result-per-tossup', {
+    type: 'line',
+    data: { },
+    options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: { unit: 'month' },
+            },
+            y: {
+                min: 0,
+                max: 100,
+            },
+        },
+    },
+});
+
+showTossupGraphStats();
