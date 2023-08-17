@@ -266,6 +266,78 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
 }
 
 
+async function getTossupGraphStats({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+    const matchDocument = { user_id: user_id };
+    if (difficulties) {
+        matchDocument.difficulty = { $in: difficulties };
+    }
+
+    if (setName) {
+        matchDocument['set.name'] = setName;
+    }
+
+    if (!includeMultiplayer && !includeSingleplayer) {
+        return [];
+    }
+
+    if (!includeSingleplayer) {
+        matchDocument.multiplayer = true;
+    }
+
+    if (!includeMultiplayer) {
+        // if multiplayer field is missing, then it is singleplayer
+        matchDocument.multiplayer = { $ne: true };
+    }
+
+    if (startDate) {
+        matchDocument.createdAt = { $gte: startDate };
+    }
+
+    if (endDate) {
+        if (!matchDocument.createdAt) {
+            matchDocument.createdAt = {};
+        }
+
+        matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
+    }
+
+    const stats = await tossupData.aggregate([
+        { $match: matchDocument },
+        { $addFields: {
+            result: { $switch: {
+                branches: [
+                    { case: { $eq: ['$pointValue', 15] }, then: 'power' },
+                    { case: { $eq: ['$pointValue', 10] }, then: 'ten' },
+                    { case: { $eq: ['$pointValue', 0] }, then: 'dead' },
+                    { case: { $eq: ['$pointValue', -5] }, then: 'neg' } ,
+                ],
+                default: 'other',
+            } },
+            createdAt: { $dateTrunc: {
+                date: '$createdAt',
+                unit: 'day',
+                binSize: 1,
+                timezone: 'America/New_York',
+            } },
+        } },
+        { $group: {
+            _id: '$createdAt',
+            pptu: { $avg: '$pointValue' },
+            count: { $sum: 1 },
+            powers: { $sum: { $cond: [{ $eq: ['$result', 'power'] }, 1, 0] } },
+            tens: { $sum: { $cond: [{ $eq: ['$result', 'ten'] }, 1, 0] } },
+            deads: { $sum: { $cond: [{ $eq: ['$result', 'dead'] }, 1, 0] } },
+            negs: { $sum: { $cond: [{ $eq: ['$result', 'neg'] }, 1, 0] } },
+            totalPoints: { $sum: '$pointValue' },
+            totalCorrectCelerity: { $sum: { $cond: ['$isCorrect', '$celerity', 0] } },
+        } },
+        { $sort: { _id: 1 } },
+    ]).toArray();
+
+    return { stats };
+}
+
+
 /**
  * Get the user with the given username.
  */
@@ -444,6 +516,7 @@ export {
     getCategoryStats,
     getSingleBonusStats,
     getSingleTossupStats,
+    getTossupGraphStats,
     getSubcategoryStats,
     getUser,
     getUsername,
