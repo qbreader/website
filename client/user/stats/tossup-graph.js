@@ -47,8 +47,8 @@ function showTossupGraphStats({ cumulative = false, difficulties = '', filterLow
             resultPerTossup.data = {
                 labels: stats.map(stat => stat._id),
                 datasets: [
-                    { data: stats.map(stat => 100 * stat.powers / stat.count), label: 'Power Percetage', borderColor: '#3e95cd', fill: false },
-                    { data: stats.map(stat => 100 * (stat.deads + stat.negs) / stat.count), label: 'Neg or Dead Percetage', borderColor: '#8e5ea2', fill: false },
+                    { data: stats.map(stat => 100 * stat.powers / stat.count), label: 'Power Percentage', borderColor: '#3e95cd', fill: false },
+                    { data: stats.map(stat => 100 * (stat.deads + stat.negs) / stat.count), label: 'Neg or Dead Percentage', borderColor: '#8e5ea2', fill: false },
                 ],
             };
 
