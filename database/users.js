@@ -28,12 +28,11 @@ async function createUser(username, password, email) {
 }
 
 
-async function getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-    const user_id = await getUserId(username);
-    const matchDocument = { user_id: user_id, isCorrect: true };
+function generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+    const matchDocument = { user_id: user_id };
 
     if (!includeMultiplayer && !includeSingleplayer) {
-        return null;
+        return { _id: null };
     }
 
     if (!includeSingleplayer) {
@@ -64,6 +63,15 @@ async function getBestBuzz({ username, difficulties, setName, includeMultiplayer
 
         matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
     }
+
+    return matchDocument;
+}
+
+
+async function getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+    const user_id = await getUserId(username);
+    const matchDocument = generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+    matchDocument.isCorrect = true;
 
     const data = await tossupData.findOne(
         matchDocument,
@@ -180,39 +188,7 @@ async function getSingleTossupStats(tossup_id) {
 async function getStatsHelper({ user_id, questionType, groupByField, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     groupByField = '$' + groupByField;
 
-    const matchDocument = { user_id: user_id };
-    if (difficulties) {
-        matchDocument.difficulty = { $in: difficulties };
-    }
-
-    if (setName) {
-        matchDocument['set.name'] = setName;
-    }
-
-    if (!includeMultiplayer && !includeSingleplayer) {
-        return [];
-    }
-
-    if (!includeSingleplayer) {
-        matchDocument.multiplayer = true;
-    }
-
-    if (!includeMultiplayer) {
-        // if multiplayer field is missing, then it is singleplayer
-        matchDocument.multiplayer = { $ne: true };
-    }
-
-    if (startDate) {
-        matchDocument.createdAt = { $gte: startDate };
-    }
-
-    if (endDate) {
-        if (!matchDocument.createdAt) {
-            matchDocument.createdAt = {};
-        }
-
-        matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
-    }
+    const matchDocument = generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
     switch (questionType) {
     case 'tossup':
@@ -267,39 +243,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
 
 
 async function getTossupGraphStats({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-    const matchDocument = { user_id: user_id };
-    if (difficulties) {
-        matchDocument.difficulty = { $in: difficulties };
-    }
-
-    if (setName) {
-        matchDocument['set.name'] = setName;
-    }
-
-    if (!includeMultiplayer && !includeSingleplayer) {
-        return [];
-    }
-
-    if (!includeSingleplayer) {
-        matchDocument.multiplayer = true;
-    }
-
-    if (!includeMultiplayer) {
-        // if multiplayer field is missing, then it is singleplayer
-        matchDocument.multiplayer = { $ne: true };
-    }
-
-    if (startDate) {
-        matchDocument.createdAt = { $gte: startDate };
-    }
-
-    if (endDate) {
-        if (!matchDocument.createdAt) {
-            matchDocument.createdAt = {};
-        }
-
-        matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
-    }
+    const matchDocument = generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
     const stats = await tossupData.aggregate([
         { $match: matchDocument },
