@@ -1,4 +1,4 @@
-import { getCategoryStats, getSubcategoryStats, getBestBuzz, getUserId, getTossupGraphStats } from '../../database/users.js';
+import { getCategoryStats, getSubcategoryStats, getBestBuzz, getUserId, getBonusGraphStats, getTossupGraphStats } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';
@@ -59,6 +59,13 @@ router.get('/tossup', async (req, res) => {
         await getSubcategoryStats({ username, questionType: 'tossup', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
     ]);
     res.json({ bestBuzz, categoryStats, subcategoryStats });
+});
+
+router.get('/bonus-graph', async (req, res) => {
+    const { username } = req.session;
+    const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
+    const user_id = await getUserId(username);
+    res.json(await getBonusGraphStats({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }));
 });
 
 router.get('/tossup-graph', async (req, res) => {
