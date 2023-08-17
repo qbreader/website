@@ -47,7 +47,7 @@ router.get('/signup', async (req, res) => {
 
 router.get('/stats/bonuses', getPageSecurely('stats/bonuses.html'));
 router.get('/stats/tossups', getPageSecurely('stats/tossups.html'));
-
+router.get('/stats/tossup-graph', getPageSecurely('stats/tossup-graph.html'));
 
 router.get('/verify-failed', async (req, res) => {
     res.sendFile('verify-failed.html', { root: './client/user' });
