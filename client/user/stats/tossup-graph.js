@@ -17,7 +17,7 @@ function showTossupGraphStats({ cumulative = false, difficulties = '', setName =
                         { data: accumulate(stats.map(stat => stat.count)), label: 'Total', borderColor: '#3e95cd', fill: false },
                         { data: accumulate(stats.map(stat => stat.powers)), label: 'Powers', borderColor: '#8e5ea2', fill: false },
                         { data: accumulate(stats.map(stat => stat.tens)), label: 'Tens', borderColor: '#3cba9f', fill: false },
-                        { data: accumulate(stats.map(stat => stat.dead)), label: 'Dead', borderColor: '#e8c3b9', fill: false },
+                        { data: accumulate(stats.map(stat => stat.deads)), label: 'Dead', borderColor: '#e8c3b9', fill: false },
                         { data: accumulate(stats.map(stat => stat.negs)), label: 'Negs', borderColor: '#c45850', fill: false },
                     ],
                 };
@@ -28,7 +28,7 @@ function showTossupGraphStats({ cumulative = false, difficulties = '', setName =
                         { data: stats.map(stat => stat.count), label: 'Total', borderColor: '#3e95cd', fill: false },
                         { data: stats.map(stat => stat.powers), label: 'Powers', borderColor: '#8e5ea2', fill: false },
                         { data: stats.map(stat => stat.tens), label: 'Tens', borderColor: '#3cba9f', fill: false },
-                        { data: stats.map(stat => stat.dead), label: 'Dead', borderColor: '#e8c3b9', fill: false },
+                        { data: stats.map(stat => stat.deads), label: 'Dead', borderColor: '#e8c3b9', fill: false },
                         { data: stats.map(stat => stat.negs), label: 'Negs', borderColor: '#c45850', fill: false },
                     ],
                 };
@@ -45,12 +45,22 @@ function showTossupGraphStats({ cumulative = false, difficulties = '', setName =
                 labels: stats.map(stat => stat._id),
                 datasets: [
                     { data: stats.map(stat => 100 * stat.powers / stat.count), label: 'Power Percetage', borderColor: '#3e95cd', fill: false },
+                    { data: stats.map(stat => 100 * (stat.deads + stat.negs) / stat.count), label: 'Neg or Dead Percetage', borderColor: '#8e5ea2', fill: false },
+                ],
+            };
+
+            celerity.data = {
+                labels: stats.map(stat => stat._id),
+                datasets: [
+                    { data: stats.map(stat => stat.averageCorrectCelerity), label: 'Average Correct Celerity', borderColor: '#3e95cd', fill: false },
+                    { data: stats.map(stat => stat.averageCelerity), label: 'Average Buzzpoint', borderColor: '#8e5ea2', fill: false },
                 ],
             };
 
             questionCountChart.update();
             pptuChart.update();
             resultPerTossup.update();
+            celerity.update();
         });
 }
 
@@ -120,6 +130,23 @@ const resultPerTossup = new Chart('result-per-tossup', {
             y: {
                 min: 0,
                 max: 100,
+            },
+        },
+    },
+});
+
+const celerity = new Chart('celerity', {
+    type: 'line',
+    data: { },
+    options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: { unit: 'month' },
+            },
+            y: {
+                min: 0,
+                max: 1,
             },
         },
     },
