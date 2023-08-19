@@ -1,37 +1,15 @@
-import { QBREADER_EMAIL_ADDRESS } from '../constants.js';
+import { sendEmail } from './email.js';
+
 import { getUserField, getUserId, updateUser, verifyEmail } from '../database/users.js';
 
 import { createHash } from 'crypto';
 import jsonwebtoken from 'jsonwebtoken';
 const { sign, verify } = jsonwebtoken;
-import { createTransport } from 'nodemailer';
-
 
 const baseURL = process.env.BASE_URL ?? (process.env.NODE_ENV === 'production' ? 'https://www.qbreader.org' : 'http://localhost:3000');
 
-const transporter = createTransport({
-    host: 'smtp.sendgrid.net',
-    port: 465,
-    secure: true,
-    auth: {
-        user: 'apikey',
-        pass: process.env.SENDGRID_API_KEY ?? 'sendgrid_api_key',
-    },
-});
-
-if (process.env.SENDGRID_API_KEY) {
-    transporter.verify((error, _success) => {
-        if (error) {
-            console.log(error);
-            throw error;
-        }
-    });
-}
-
-
 const salt = process.env.SALT ? process.env.SALT : 'salt';
 const secret = process.env.SECRET ? process.env.SECRET : 'secret';
-
 
 /**
  * Stores the timestamp of the most recent email sent to a user.
@@ -106,21 +84,20 @@ async function sendResetPasswordEmail(username) {
     const timestamp = Date.parse((new Date()).toString());
     const token = sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-reset-password?user_id=${user_id}&token=${token}`;
-    const message = {
-        from: QBREADER_EMAIL_ADDRESS,
+
+    const info = await sendEmail({
         to: email,
         subject: 'Reset your password',
         text: `Click this link to reset your password: ${url} This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it. Do not reply to this email; this inbox is unmonitored.`,
         html: `<p>Click this link to reset your password: <a href="${url}">${url}</a></p> <p>This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it.</p> <i>Do not reply to this email; this inbox is unmonitored.</i>`,
-    };
-    transporter.sendMail(message, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(`Email sent: ${info.response}`);
-            activeResetPasswordTokens[user_id] = timestamp;
-        }
     });
+
+    if (!info) {
+        return false;
+    }
+
+    console.log(`Email sent: ${info.response}`);
+    activeResetPasswordTokens[user_id] = timestamp;
     return true;
 }
 
@@ -135,21 +112,20 @@ async function sendVerificationEmail(username) {
     const timestamp = Date.parse((new Date()).toString());
     const token = sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-email?user_id=${user_id}&token=${token}`;
-    const message = {
-        from: QBREADER_EMAIL_ADDRESS,
+
+    const info = await sendEmail({
         to: email,
         subject: 'Verify your email address',
         text: `Click this link to verify your email address: ${url} This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it. Do not reply to this email; this inbox is unmonitored.`,
         html: `<p>Click this link to verify your email address: <a href="${url}">${url}</a></p> <p>This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it.</p> <i>Do not reply to this email; this inbox is unmonitored.</i>`,
-    };
-    transporter.sendMail(message, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(`Email sent: ${info.response}`);
-            activeVerifyEmailTokens[user_id] = timestamp;
-        }
     });
+
+    if (!info) {
+        return false;
+    }
+
+    console.log(`Email sent: ${info.response}`);
+    activeVerifyEmailTokens[user_id] = timestamp;
     return true;
 }
 
