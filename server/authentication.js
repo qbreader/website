@@ -15,21 +15,22 @@ const transporter = createTransport({
     secure: true,
     auth: {
         user: 'apikey',
-        pass: process.env.SENDGRID_API_KEY,
+        pass: process.env.SENDGRID_API_KEY ?? 'sendgrid_api_key',
     },
 });
 
-transporter.verify((error, _success) => {
-    if (error) {
-        console.log(error);
-        throw error;
-    }
-});
+if (process.env.SENDGRID_API_KEY) {
+    transporter.verify((error, _success) => {
+        if (error) {
+            console.log(error);
+            throw error;
+        }
+    });
+}
 
 
 const salt = process.env.SALT ? process.env.SALT : 'salt';
 const secret = process.env.SECRET ? process.env.SECRET : 'secret';
-
 
 
 /**
