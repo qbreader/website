@@ -256,8 +256,8 @@ const socketOnConnectionAcknowledged = async (message) => {
     }
 
     tossup = message.tossup;
-    document.getElementById('set-name-info').textContent = message.tossup?.set.name ?? '';
-    document.getElementById('packet-number-info').textContent = message.tossup?.packet.number ?? '-';
+    document.getElementById('set-name-info').textContent = message.tossup?.set?.name ?? '';
+    document.getElementById('packet-number-info').textContent = message.tossup?.packet?.number ?? '-';
     document.getElementById('question-number-info').textContent = message.tossup?.questionNumber ?? '-';
 
     document.getElementById('chat').disabled = message.public;
