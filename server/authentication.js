@@ -81,7 +81,7 @@ async function sendResetPasswordEmail(username) {
         return false;
     }
 
-    const timestamp = Date.parse((new Date()).toString());
+    const timestamp = Date.now();
     const token = sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-reset-password?user_id=${user_id}&token=${token}`;
 
@@ -109,7 +109,7 @@ async function sendVerificationEmail(username) {
         return false;
     }
 
-    const timestamp = Date.parse((new Date()).toString());
+    const timestamp = Date.now();
     const token = sign({ user_id, timestamp }, secret);
     const url = `${baseURL}/auth/verify-email?user_id=${user_id}&token=${token}`;
 
@@ -157,7 +157,7 @@ function verifyEmailLink(user_id, token) {
 
         delete activeVerifyEmailTokens[user_id];
 
-        if (new Date() - timestamp > expirationTime) {
+        if (Date.now() - timestamp > expirationTime) {
             return false;
         }
 
@@ -189,7 +189,7 @@ function verifyResetPasswordLink(user_id, token) {
 
         delete activeResetPasswordTokens[user_id];
 
-        if (new Date() - timestamp > expirationTime) {
+        if (Date.now() - timestamp > expirationTime) {
             return false;
         }
 
