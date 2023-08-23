@@ -192,7 +192,7 @@ async function getDivisions(packetName) {
 
 async function getLeaderboard(packetName, division, includeInactive=false, limit=100) {
     const aggregation = [
-        { $match: { 'packet.name': packetName, division, active: true } },
+        { $match: { 'packet.name': packetName, division } },
         { $group: {
             _id: '$user_id',
             active: { $first: '$active' },
