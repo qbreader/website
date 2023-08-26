@@ -73,6 +73,7 @@ router.get('/', async (req, res) => {
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
 
     const queryResult = await getQuery(req.query);
+    res.header('Access-Control-Allow-Origin', '*');
     res.json(queryResult);
 });
 
