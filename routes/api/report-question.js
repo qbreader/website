@@ -10,8 +10,10 @@ router.post('/', async (req, res) => {
     const description = req.body.description ?? '';
     const successful = await reportQuestion(_id, reason, description);
     if (successful) {
+        res.header('Access-Control-Allow-Origin', '*');
         res.sendStatus(200);
     } else {
+        res.header('Access-Control-Allow-Origin', '*');
         res.sendStatus(500);
     }
 });
