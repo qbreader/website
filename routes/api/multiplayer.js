@@ -19,6 +19,7 @@ router.get('/room-list', (req, res) => {
         });
     }
 
+    res.header('Access-Control-Allow-Origin', '*');
     res.json({ roomList });
 });
 
