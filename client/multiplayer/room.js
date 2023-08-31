@@ -595,33 +595,48 @@ function logGiveAnswer(username, message, isLive = false, directive = null) {
         break;
     }
 
+    let secondBadge = null;
+    if (directive === 'accept' || directive === 'reject') {
+        secondBadge = document.createElement('span');
+        secondBadge.className = badge.className;  
+        secondBadge.style.marginLeft = '5px'; 
+
+        if (directive === 'accept') {
+            secondBadge.textContent = 'Correct';
+        } else if (directive === 'reject') {
+            secondBadge.textContent = 'Incorrect';
+        }
+    }
+
     const b = document.createElement('b');
     b.textContent = username;
 
     const span = document.createElement('span');
     span.textContent = message;
 
+    let li;
     if (document.getElementById('live-buzz')) {
-        const li = document.getElementById('live-buzz');
+        li = document.getElementById('live-buzz');
         li.textContent = '';
-        li.appendChild(badge);
-        li.appendChild(document.createTextNode(' '));
-        li.appendChild(b);
-        li.appendChild(document.createTextNode(' '));
-        li.appendChild(span);
     } else {
-        const li = document.createElement('li');
+        li = document.createElement('li');
         li.id = 'live-buzz';
-        li.appendChild(badge);
-        li.appendChild(document.createTextNode(' '));
-        li.appendChild(b);
-        li.appendChild(document.createTextNode(' '));
-        li.appendChild(span);
         document.getElementById('room-history').prepend(li);
     }
 
+    li.appendChild(badge);
+    li.appendChild(document.createTextNode(' '));
+    li.appendChild(b);
+    li.appendChild(document.createTextNode(' '));
+    li.appendChild(span);
+
+    if (secondBadge) {
+        li.appendChild(secondBadge);
+        li.appendChild(document.createTextNode(' '));
+    }
+
     if (!isLive) {
-        document.getElementById('live-buzz').id = '';
+        li.id = '';
     }
 }
 
