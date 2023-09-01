@@ -598,8 +598,7 @@ function logGiveAnswer(username, message, isLive = false, directive = null) {
     let secondBadge = null;
     if (directive === 'accept' || directive === 'reject') {
         secondBadge = document.createElement('span');
-        secondBadge.className = badge.className;  
-        secondBadge.style.marginLeft = '5px'; 
+        secondBadge.className = badge.className;
 
         if (directive === 'accept') {
             secondBadge.textContent = 'Correct';
@@ -631,8 +630,8 @@ function logGiveAnswer(username, message, isLive = false, directive = null) {
     li.appendChild(span);
 
     if (secondBadge) {
-        li.appendChild(secondBadge);
         li.appendChild(document.createTextNode(' '));
+        li.appendChild(secondBadge);
     }
 
     if (!isLive) {
