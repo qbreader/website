@@ -174,6 +174,27 @@ async function getSingleTossupStats(tossup_id) {
 }
 
 
+async function getStars(user_id) {
+    const [tossups, bonuses] = await Promise.all([
+        tossupStars.find({ user_id }).toArray(),
+        bonusStars.find({ user_id }).toArray(),
+    ]);
+
+    for (const tossup of tossups) {
+        tossup.tossup = await getTossupById(tossup.tossup_id);
+    }
+
+    for (const bonus of bonuses) {
+        bonus.bonus = await getBonusById(bonus.bonus_id);
+    }
+
+    return {
+        tossups: tossups.map(star => star.tossup),
+        bonuses: bonuses.map(star => star.bonus),
+    };
+}
+
+
 /**
  * @param {Object} params
  * @param {ObjectId} params.user_id
@@ -556,6 +577,7 @@ export {
     getCategoryStats,
     getSingleBonusStats,
     getSingleTossupStats,
+    getStars,
     getBonusGraphStats,
     getTossupGraphStats,
     getSubcategoryStats,
