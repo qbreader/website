@@ -21,7 +21,7 @@ fetch('/auth/stars/')
             bonusList.innerHTML += `
                 <div class="card my-2">
                     <div class="card-header d-flex justify-content-between">
-                        <b class="clickable">
+                        <b class="clickable" data-bs-toggle="collapse" data-bs-target="#question-${bonus._id}" aria-expanded="true">
                             ${bonus.set.name} | ${bonus.category} | ${bonus.subcategory} ${bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | ${bonus.difficulty}
                         </b>
                         <a href="#" class="selected" id="star-bonus-${index}">
