@@ -40,10 +40,10 @@
         "@babel/cli": "^7.19.3",
         "@babel/core": "^7.20.2",
         "@babel/preset-react": "^7.18.6",
+        "chai": "^4.3.7",
         "eslint": "^8.28.0",
         "eslint-plugin-react": "^7.31.11",
-        "sass": "^1.56.2",
         "mocha": "^10.2.0",
-        "chai": "^4.3.7"
+        "sass": "^1.56.2"
     }
 }
