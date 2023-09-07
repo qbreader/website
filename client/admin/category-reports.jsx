@@ -30,7 +30,7 @@ function TossupCard({ tossup }) {
                         __html: tossup?.formatted_answer ?? tossup.answer,
                     }}></span></div>
                 </div>
-                <div className="card-footer" onClick={onClick} id={`fix-category-${_id}`} data-bs-toggle="modal" data-bs-target="#fix-category-modal">
+                <div className="card-footer clickable" onClick={onClick} id={`fix-category-${_id}`} data-bs-toggle="modal" data-bs-target="#fix-category-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#">Fix Category</a>
@@ -91,7 +91,7 @@ function BonusCard({ bonus }) {
                         </div>,
                     )}
                 </div>
-                <div className="card-footer" onClick={onClick} data-bs-toggle="modal" data-bs-target="#fix-category-modal">
+                <div className="card-footer clickable" onClick={onClick} data-bs-toggle="modal" data-bs-target="#fix-category-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#">Fix Category</a>
