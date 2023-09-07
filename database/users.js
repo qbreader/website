@@ -9,9 +9,11 @@ client.connect().then(async () => {
 });
 
 const database = client.db('account-info');
-const users = database.collection('users');
-const tossupData = database.collection('tossup-data');
 const bonusData = database.collection('bonus-data');
+const bonusStars = database.collection('bonus-stars');
+const tossupData = database.collection('tossup-data');
+const tossupStars = database.collection('tossup-stars');
+const users = database.collection('users');
 
 
 const username_to_id = {};
@@ -451,6 +453,60 @@ async function recordTossupData(username, data) {
 }
 
 
+/**
+ *
+ * @param {ObjectId} user_id
+ * @param {ObjectId} bonus_id
+ * @returns
+ */
+async function starBonus(user_id, bonus_id) {
+    if (await bonusStars.findOne({ user_id, bonus_id })) {
+        return false;
+    }
+
+    await bonusStars.insertOne({ user_id, bonus_id });
+    return true;
+}
+
+
+/**
+ *
+ * @param {ObjectId} user_id
+ * @param {ObjectId} tossup_id
+ * @returns
+ */
+async function starTossup(user_id, tossup_id) {
+    if (await tossupStars.findOne({ user_id, tossup_id })) {
+        return false;
+    }
+
+    await tossupStars.insertOne({ user_id, tossup_id });
+    return true;
+}
+
+
+/**
+ *
+ * @param {ObjectId} user_id
+ * @param {ObjectId} bonus_id
+ * @returns
+ */
+async function unstarBonus(user_id, bonus_id) {
+    return (await bonusStars.deleteMany({ user_id, bonus_id })).deletedCount;
+}
+
+
+/**
+ *
+ * @param {ObjectId} user_id
+ * @param {ObjectId} tossup_id
+ * @returns
+ */
+async function unstarTossup(user_id, tossup_id) {
+    return (await tossupStars.deleteMany({ user_id, tossup_id })).deletedCount;
+}
+
+
 async function updateUser(username, values) {
     const user = await users.findOne({ username: username });
 
@@ -511,6 +567,10 @@ export {
     isAdminById,
     recordBonusData,
     recordTossupData,
+    starBonus,
+    starTossup,
+    unstarBonus,
+    unstarTossup,
     updateUser,
     verifyEmail,
 };
