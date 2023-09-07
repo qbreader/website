@@ -342,7 +342,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
                         __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer,
                     }}></span></div>
                 </div>
-                <div className={`card-footer ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
+                <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">
@@ -479,7 +479,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
                         </div>,
                     )}
                 </div>
-                <div className={`card-footer ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
+                <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
                     <small className="text-muted float-end">
                         <a href="#" onClick={onClick} id={`report-question-${_id}`} data-bs-toggle="modal" data-bs-target="#report-question-modal">

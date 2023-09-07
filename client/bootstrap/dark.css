@@ -9435,10 +9435,6 @@ progress {
   margin-bottom: 0.5em;
 }
 
-.card-footer {
-  cursor: pointer;
-}
-
 .clickable {
   cursor: pointer;
 }
