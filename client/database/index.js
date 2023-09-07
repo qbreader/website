@@ -247,7 +247,7 @@ function TossupCard({
       __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
-    className: `card-footer ${!showCardFooter && 'd-none'}`,
+    className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
     onClick: showTossupStats,
     "data-bs-toggle": "modal",
     "data-bs-target": "#tossup-stats-modal"
@@ -385,7 +385,7 @@ function BonusCard({
       __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
-    className: `card-footer ${!showCardFooter && 'd-none'}`,
+    className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
     onClick: showBonusStats,
     "data-bs-toggle": "modal",
     "data-bs-target": "#bonus-stats-modal"

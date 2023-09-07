@@ -31,7 +31,7 @@ function TossupCard({
       __html: tossup?.formatted_answer ?? tossup.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "card-footer",
+    className: "card-footer clickable",
     onClick: onClick,
     id: `fix-category-${_id}`,
     "data-bs-toggle": "modal",
@@ -82,7 +82,7 @@ function BonusCard({
       __html: (bonus?.formatted_answers ?? bonus.answers)[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
-    className: "card-footer",
+    className: "card-footer clickable",
     onClick: onClick,
     "data-bs-toggle": "modal",
     "data-bs-target": "#fix-category-modal"
