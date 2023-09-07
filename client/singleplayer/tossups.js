@@ -739,7 +739,7 @@ document.addEventListener('keydown', (event) => {
         if (event.target == document.body) event.preventDefault();
         break;
     case 'k':
-        document.getElementsByClassName('card-header')[0].click();
+        document.getElementsByClassName('card-header-clickable')[0].click();
         break;
     case 'n':
         document.getElementById('next').click();

@@ -577,7 +577,7 @@ document.addEventListener('keydown', (event) => {
 
         break;
     case 'k':
-        document.getElementsByClassName('card-header')[0].click();
+        document.getElementsByClassName('card-header-clickable')[0].click();
         break;
     case 'n':
         document.getElementById('next').click();
