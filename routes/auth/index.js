@@ -10,6 +10,7 @@ import resetPasswordRouter from './reset-password.js';
 import sendPasswordResetEmailRouter from './send-password-reset-email.js';
 import sendVerificationEmailRouter from './send-verification-email.js';
 import signupRouter from './signup.js';
+import starsRouter from './stars.js';
 import statsRouter from './stats.js';
 import userStatsRouter from './user-stats.js';
 import verifyEmailRouter from './verify-email.js';
@@ -50,6 +51,8 @@ router.use('/send-password-reset-email', sendPasswordResetEmailRouter);
 router.use('/send-verification-email', sendVerificationEmailRouter);
 
 router.use('/signup', signupRouter);
+
+router.use('/stars', starsRouter);
 
 router.use('/stats', statsRouter);
 
