@@ -1,29 +1,39 @@
-function starBonus(bonus_id) {
-    fetch('/auth/stars/star-bonus', {
+async function starBonus(bonus_id) {
+    return fetch('/auth/stars/star-bonus', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bonus_id }),
     }).then(response => {
-        if (!response.ok) {
+        if (response.status === 401) {
+            const toast = new bootstrap.Toast(document.getElementById('star-toast'));
+            toast.show();
+        } else if (!response.ok) {
             alert('There was an error starring the bonus.');
         }
+        return response.ok;
     }).catch(_error => {
         alert('There was an error starring the bonus.');
+        return false;
     });
 }
 
 
-function starTossup(tossup_id) {
-    fetch('/auth/stars/star-tossup', {
+async function starTossup(tossup_id) {
+    return fetch('/auth/stars/star-tossup', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tossup_id }),
     }).then(response => {
-        if (!response.ok) {
+        if (response.status === 401) {
+            const toast = new bootstrap.Toast(document.getElementById('star-toast'));
+            toast.show();
+        } else if (!response.ok) {
             alert('There was an error starring the bonus.');
         }
+        return response.ok;
     }).catch(_error => {
         alert('There was an error starring the bonus.');
+        return false;
     });
 }
 
@@ -34,7 +44,10 @@ function unstarBonus(bonus_id) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bonus_id }),
     }).then(response => {
-        if (!response.ok) {
+        if (response.status === 401) {
+            const toast = new bootstrap.Toast(document.getElementById('star-toast'));
+            toast.show();
+        } else if (!response.ok) {
             alert('There was an error unstarring the bonus.');
         }
     }).catch(_error => {
@@ -49,7 +62,10 @@ function unstarTossup(tossup_id) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tossup_id }),
     }).then(response => {
-        if (!response.ok) {
+        if (response.status === 401) {
+            const toast = new bootstrap.Toast(document.getElementById('star-toast'));
+            toast.show();
+        } else if (!response.ok) {
             alert('There was an error unstarring the bonus.');
         }
     }).catch(_error => {
