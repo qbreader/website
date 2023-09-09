@@ -72,3 +72,23 @@ function unstarTossup(tossup_id) {
         alert('There was an error unstarring the bonus.');
     });
 }
+
+async function isStarredBonus(bonus_id) {
+    if (!(await getAccountUsername())) {
+        return false;
+    }
+
+    return await fetch(`/auth/stars/is-starred-bonus?bonus_id=${bonus_id}`)
+        .then(response => response.json())
+        .then(response => response.isStarred);
+}
+
+async function isStarredTossup(tossup_id) {
+    if (!(await getAccountUsername())) {
+        return false;
+    }
+
+    return await fetch(`/auth/stars/is-starred-tossup?tossup_id=${tossup_id}`)
+        .then(response => response.json())
+        .then(response => response.isStarred);
+}

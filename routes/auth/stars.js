@@ -1,4 +1,4 @@
-import { getStars, getUserId, starBonus, starTossup, unstarBonus, unstarTossup } from '../../database/users.js';
+import { getStars, getUserId, isStarredBonus, isStarredTossup, starBonus, starTossup, unstarBonus, unstarTossup } from '../../database/users.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';
@@ -22,6 +22,20 @@ router.get('/', async (req, res) => {
     const user_id = await getUserId(username);
     const stars = await getStars(user_id);
     res.status(200).json(stars);
+});
+
+router.get('/is-starred-bonus', async (req, res) => {
+    const username = req.session.username;
+    const user_id = await getUserId(username);
+    const bonus_id = new ObjectId(req.query.bonus_id);
+    res.json({ isStarred: await isStarredBonus(user_id, bonus_id) });
+});
+
+router.get('/is-starred-tossup', async (req, res) => {
+    const username = req.session.username;
+    const user_id = await getUserId(username);
+    const tossup_id = new ObjectId(req.query.tossup_id);
+    res.json({ isStarred: await isStarredTossup(user_id, tossup_id) });
 });
 
 router.put('/star-bonus', async (req, res) => {
