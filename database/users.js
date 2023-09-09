@@ -414,6 +414,16 @@ async function isAdminById(user_id) {
     return user?.admin ?? false;
 }
 
+async function isStarredBonus(user_id, bonus_id) {
+    const count = await bonusStars.countDocuments({ user_id, bonus_id });
+    return count > 0;
+}
+
+async function isStarredTossup(user_id, tossup_id) {
+    const count = await tossupStars.countDocuments({ user_id, tossup_id });
+    return count > 0;
+}
+
 async function recordBonusData(username, data) {
     const user_id = await getUserId(username);
     const { bonus } = data;
@@ -587,6 +597,8 @@ export {
     getUserId,
     isAdmin,
     isAdminById,
+    isStarredBonus,
+    isStarredTossup,
     recordBonusData,
     recordTossupData,
     starBonus,
