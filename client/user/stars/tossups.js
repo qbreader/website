@@ -1,6 +1,5 @@
-fetch('/auth/stars/')
+fetch('/auth/stars/tossups')
     .then(response => response.json())
-    .then(response => response.tossups)
     .then(tossups => {
         const tossupList = document.getElementById('tossup-list');
 

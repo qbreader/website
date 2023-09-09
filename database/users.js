@@ -174,24 +174,30 @@ async function getSingleTossupStats(tossup_id) {
 }
 
 
-async function getStars(user_id) {
-    const [tossups, bonuses] = await Promise.all([
-        tossupStars.find({ user_id }).toArray(),
-        bonusStars.find({ user_id }).toArray(),
-    ]);
+async function getStars(user_id, questionType) {
+    const aggregation = [
+        { $match: { user_id } },
+        { $addFields: { 'insertTime': { '$toDate': '$_id' } } },
+        { $sort: { insertTime: -1 } },
+    ];
 
-    for (const tossup of tossups) {
-        tossup.tossup = await getTossupById(tossup.tossup_id);
+    if (questionType === 'tossup') {
+        const tossups = await tossupStars.aggregate(aggregation).toArray();
+        for (const tossup of tossups) {
+            tossup.tossup = await getTossupById(tossup.tossup_id);
+        }
+        return tossups.map(star => star.tossup);
     }
 
-    for (const bonus of bonuses) {
-        bonus.bonus = await getBonusById(bonus.bonus_id);
+    if (questionType === 'bonus') {
+        const bonuses = await bonusStars.aggregate(aggregation).toArray();
+        for (const bonus of bonuses) {
+            bonus.bonus = await getBonusById(bonus.bonus_id);
+        }
+        return bonuses.map(star => star.bonus);
     }
 
-    return {
-        tossups: tossups.map(star => star.tossup),
-        bonuses: bonuses.map(star => star.bonus),
-    };
+    return [];
 }
 
 
