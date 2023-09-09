@@ -17,10 +17,17 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get('/', async (req, res) => {
+router.get('/bonuses', async (req, res) => {
     const username = req.session.username;
     const user_id = await getUserId(username);
-    const stars = await getStars(user_id);
+    const stars = await getStars(user_id, 'bonus');
+    res.status(200).json(stars);
+});
+
+router.get('/tossups', async (req, res) => {
+    const username = req.session.username;
+    const user_id = await getUserId(username);
+    const stars = await getStars(user_id, 'tossup');
     res.status(200).json(stars);
 });
 

@@ -210,7 +210,6 @@ const createTossupCard = (function () {
         });
 
         isStarredTossup(_id).then(isStarred => {
-            console.log(isStarred, _id);
             if (isStarred) {
                 document.getElementById('star-tossup-' + questionCounter).click();
                 document.getElementById('star-tossup-' + questionCounter).blur();

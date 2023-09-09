@@ -1,6 +1,5 @@
-fetch('/auth/stars/')
+fetch('/auth/stars/bonuses')
     .then(response => response.json())
-    .then(response => response.bonuses)
     .then(bonuses => {
         const bonusList = document.getElementById('bonus-list');
 
