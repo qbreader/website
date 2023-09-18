@@ -310,7 +310,7 @@ async function getQuestionCount(packetName, division) {
         return Math.round(count / packet.divisions.length);
     }
 
-    return await tossups.countDocuments({ packetName, division });
+    return await tossups.countDocuments({ 'packet.name': packetName, division });
 }
 
 /**
