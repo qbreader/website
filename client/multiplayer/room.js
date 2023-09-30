@@ -448,6 +448,9 @@ const socketOnNext = (message) => {
     document.getElementById('buzz').disabled = false;
     document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
+
+    updateTimerDisplay(0);
+    if (timerInterval) clearInterval(timerInterval);
 };
 
 const socketOnNoQuestionsFound = () => {
@@ -690,6 +693,9 @@ document.getElementById('answer-form').addEventListener('submit', function (even
     event.preventDefault();
     event.stopPropagation();
 
+    // Stop the timer if it's running.
+    if (timerInterval) clearInterval(timerInterval);
+
     const answer = document.getElementById('answer-input').value;
     document.getElementById('answer-input').value = '';
     document.getElementById('answer-input-group').classList.add('d-none');
@@ -706,12 +712,59 @@ document.getElementById('answer-input').addEventListener('input', function () {
     socket.send(JSON.stringify({ type: 'give-answer-live-update', message: this.value }));
 });
 
+const TIME_LIMIT = 10; // For example, 10 seconds.
+
+let timerInterval;
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     socket.send(JSON.stringify({ type: 'buzz' }));
+
+    startTimer();
+
     socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
+
+function startTimer() {
+    // Multiply by 10 to account for tenths of a second.
+    let timeRemaining = TIME_LIMIT * 10;
+    
+    if (timerInterval) clearInterval(timerInterval);
+    
+    timerInterval = setInterval(() => {
+        updateTimerDisplay(timeRemaining);
+        
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            submitAnswer();
+        }
+        
+        timeRemaining--;
+    }, 100);
+}
+
+function updateTimerDisplay(time) {
+    const seconds = Math.floor(time / 10);
+    const tenths = time % 10;
+    
+    document.querySelector('.timer .face').innerText = seconds;
+    document.querySelector('.timer .fraction').innerText = '.' + tenths;
+}
+
+
+function submitAnswer() {
+    const answer = document.getElementById('answer-input').value;
+    
+    document.getElementById('answer-input').value = '';
+    document.getElementById('answer-input-group').classList.add('d-none');
+    document.getElementById('answer-input').blur();
+    
+    socket.send(JSON.stringify({
+        type: 'give-answer',
+        givenAnswer: answer,
+    }));
+}
+
 
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
