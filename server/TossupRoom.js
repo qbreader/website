@@ -64,6 +64,11 @@ class TossupRoom {
         };
 
         this.rateLimitExceeded = new Set();
+
+        this.timerInterval = null;
+        this.timeRemaining = 0; 
+
+        this.TIME_LIMIT = 5; 
     }
 
     connection(socket, userId, username) {
@@ -161,6 +166,7 @@ class TossupRoom {
         switch (type) {
         case 'buzz':
             this.buzz(userId);
+            clearInterval(this.timerInterval);
             break;
 
         case 'change-username':
@@ -518,6 +524,19 @@ class TossupRoom {
         this.readQuestion(Date.now());
     }
 
+    notifyClientsTimeUp() {
+        const payload = JSON.stringify({
+            type: 'time-up',
+            message: 'Time is up for the current question.',
+            answer: this.tossup.answer,
+        });
+
+        // Broadcast the message to all connected clients.
+        for (const userId in this.sockets) {
+            this.sockets[userId].send(payload);
+        }
+    }
+
     pause(userId) {
         this.paused = !this.paused;
 
@@ -537,6 +556,7 @@ class TossupRoom {
     async readQuestion(expectedReadTime) {
         if (Object.keys(this.tossup).length === 0) return;
         if (this.wordIndex >= this.questionSplit.length) {
+            this.startServerTimer();
             return;
         }
 
@@ -590,6 +610,34 @@ class TossupRoom {
         for (const socket of Object.values(this.sockets)) {
             socket.send(message);
         }
+    }
+
+    sendTimerUpdateToClients() {
+        const payload = JSON.stringify({
+            type: 'timer-update',
+            timeRemaining: this.timeRemaining,
+        });
+    
+        for (const userId in this.sockets) {
+            this.sockets[userId].send(payload);
+        }
+    }
+
+    startServerTimer() {
+        this.timeRemaining = this.TIME_LIMIT * 10;  // Assuming TIME_LIMIT is in seconds.
+        
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        
+        this.timerInterval = setInterval(() => {
+            if (this.timeRemaining <= 0) {
+                clearInterval(this.timerInterval);
+                this.notifyClientsTimeUp();
+                this.revealQuestion();
+            }
+            
+            this.sendTimerUpdateToClients();
+            this.timeRemaining--;
+        }, 100);
     }
 }
 
