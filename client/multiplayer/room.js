@@ -8,6 +8,8 @@ let powermarkPosition = 0;
 
 // Do not escape room name, as most browsers automatically do this
 const ROOM_NAME = location.pathname.substring(13);
+const TIME_LIMIT = 10; // For example, 10 seconds.
+let timerInterval;
 let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
 let username = localStorage.getItem('multiplayer-username') || randomUsername();
@@ -118,6 +120,17 @@ socket.onmessage = function (event) {
         logEvent(data.username, `changed the reading speed to ${data.value}`);
         document.getElementById('reading-speed').value = data.value;
         document.getElementById('reading-speed-display').textContent = data.value;
+        break;
+
+    case 'time-up':
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
+        document.getElementById('pause').disabled = true;
+        document.getElementById('buzz').disabled = true;
+        showNextButton();
+        break;
+
+    case 'timer-update':
+        updateTimerDisplay(data.timeRemaining);
         break;
 
     case 'reveal-answer': {
@@ -449,7 +462,7 @@ const socketOnNext = (message) => {
     document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
 
-    updateTimerDisplay(0);
+    updateTimerDisplay(50);
     if (timerInterval) clearInterval(timerInterval);
 };
 
@@ -712,9 +725,6 @@ document.getElementById('answer-input').addEventListener('input', function () {
     socket.send(JSON.stringify({ type: 'give-answer-live-update', message: this.value }));
 });
 
-const TIME_LIMIT = 10; // For example, 10 seconds.
-
-let timerInterval;
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
@@ -743,14 +753,6 @@ function startTimer() {
     }, 100);
 }
 
-function updateTimerDisplay(time) {
-    const seconds = Math.floor(time / 10);
-    const tenths = time % 10;
-    
-    document.querySelector('.timer .face').innerText = seconds;
-    document.querySelector('.timer .fraction').innerText = '.' + tenths;
-}
-
 
 function submitAnswer() {
     const answer = document.getElementById('answer-input').value;
@@ -763,6 +765,15 @@ function submitAnswer() {
         type: 'give-answer',
         givenAnswer: answer,
     }));
+}
+
+
+function updateTimerDisplay(time) {
+    const seconds = Math.floor(time / 10);
+    const tenths = time % 10;
+    
+    document.querySelector('.timer .face').innerText = seconds;
+    document.querySelector('.timer .fraction').innerText = '.' + tenths;
 }
 
 
