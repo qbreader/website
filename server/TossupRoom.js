@@ -68,7 +68,7 @@ class TossupRoom {
         this.timerInterval = null;
         this.timeRemaining = 0; 
 
-        this.TIME_LIMIT = 5; 
+        this.TIME_LIMIT = 5; // time to buzz after question is read
     }
 
     connection(socket, userId, username) {
@@ -248,7 +248,7 @@ class TossupRoom {
             break;
 
         case 'pause':
-            this.pause(userId);
+            this.pause(userId, message.pausedTime);
             break;
 
         case 'reading-speed':
@@ -537,13 +537,17 @@ class TossupRoom {
         }
     }
 
-    pause(userId) {
+    pause(userId, pausedTime) {
         this.paused = !this.paused;
-
+        
         if (this.paused) {
             clearTimeout(this.timeoutID);
+            clearInterval(this.timerInterval);  
         } else {
             this.readQuestion(Date.now());
+            if (this.wordIndex >= this.questionSplit.length) {
+                this.startServerTimer(pausedTime);
+            }
         }
 
         this.sendSocketMessage({
@@ -556,7 +560,7 @@ class TossupRoom {
     async readQuestion(expectedReadTime) {
         if (Object.keys(this.tossup).length === 0) return;
         if (this.wordIndex >= this.questionSplit.length) {
-            this.startServerTimer();
+            this.startServerTimer(this.TIME_LIMIT * 10);
             return;
         }
 
@@ -623,8 +627,8 @@ class TossupRoom {
         }
     }
 
-    startServerTimer() {
-        this.timeRemaining = this.TIME_LIMIT * 10;  // Assuming TIME_LIMIT is in seconds.
+    startServerTimer(time) {
+        this.timeRemaining = time;
         
         if (this.timerInterval) clearInterval(this.timerInterval);
         
