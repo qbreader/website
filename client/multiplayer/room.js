@@ -852,7 +852,10 @@ document.getElementById('packet-number').addEventListener('change', function () 
 
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'pause' }));
+    let seconds = parseFloat(document.querySelector('.timer .face').innerText);
+    let tenths = parseFloat(document.querySelector('.timer .fraction').innerText);
+    let pausedTime = (seconds + tenths) * 10;
+    socket.send(JSON.stringify({ type: 'pause', pausedTime: pausedTime }));
 });
 
 
