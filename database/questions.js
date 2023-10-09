@@ -1,5 +1,7 @@
 import { OKCYAN, ENDC, OKGREEN } from '../bcolors.js';
 import { ADJECTIVES, ANIMALS, DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH, DIFFICULTIES, CATEGORIES, SUBCATEGORY_TO_CATEGORY, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../constants.js';
+// eslint-disable-next-line no-unused-vars
+import * as Types from '../types.js';
 
 import { MongoClient, ObjectId } from 'mongodb';
 
@@ -99,7 +101,7 @@ const regexIgnoreDiacritics = (() => {
 /**
  *
  * @param {"wrong-category" | "text-error"} reason
- * @returns
+ * @returns {Promise<{tossups: Types.Tossup[], bonuses: Types.Bonus[]}>}
  */
 async function getReports(reason) {
     const reports = {};
@@ -110,7 +112,7 @@ async function getReports(reason) {
 
 
 /**
- * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
+ * @param {string} setName - the name of the set (e.g. "2021 ACF Fall").
  * @returns {Promise<Number>} the number of packets in the set.
  */
 async function getNumPackets(setName) {
@@ -123,12 +125,15 @@ async function getNumPackets(setName) {
 
 
 /**
- * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
- * @param {Number} packetNumber - **one-indexed** packet number
- * @param {Array<String>} questionTypes - Default: `['tossups', 'bonuses]`
+ * Retrieves a packet of questions from the database.
+ * @param {object} options - The options for the packet retrieval.
+ * @param {string} options.setName - The name of the set (e.g. "2021 ACF Fall").
+ * @param {number} options.packetNumber - **one-indexed** packet number.
+ * @param {Array<String>} [options.questionTypes=['tossups', 'bonuses']] - The types of questions to retrieve.
  * If only one allowed type is specified, only that type will be searched for (increasing query speed).
  * The other type will be returned as an empty array.
- * @returns {Promise<{tossups: Array<JSON>, bonuses: Array<JSON>}>}
+ * @param {boolean} [options.replaceUnformattedAnswer=true] - Whether to replace unformatted answers.
+ * @returns {Promise<{tossups: Types.Tossup[], bonuses: Types.Bonus[]}>} The retrieved packet of questions.
  */
 async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], replaceUnformattedAnswer = true }) {
     if (!setName || isNaN(packetNumber) || packetNumber < 1) {
@@ -185,15 +190,23 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
 
 
 /**
- *
- * @param {String} queryString - the query to search for
- * @param {Array<Number>} difficulties - an array of difficulties
- * @param {String} setName
- * @param {'question' | 'answer' | 'all'} searchType
- * @param {'tossup' | 'bonus' | 'all'} questionType
- * @param {Array<String>} categories
- * @param {Array<String>} subcategories
- * @returns {Promise<{tossups: {count: Number, questionArray: Array<JSON>}, bonuses: {count: Number, questionArray: Array<JSON>}}>}
+ * Retrieves questions from the database based on a search query.
+ * @param {object} options - The options for the question retrieval.
+ * @param {string} options.queryString - The search query string.
+ * @param {number[]} options.difficulties - An array of difficulties to filter by.
+ * @param {string} options.setName - The name of the set to search in.
+ * @param {'question' | 'answer' | 'all'} [options.searchType='all'] - The type of search to perform.
+ * @param {'tossup' | 'bonus' | 'all'} [options.questionType='all'] - The type of question to search for.
+ * @param {string[]} [options.categories] - An array of categories to filter by.
+ * @param {string[]} [options.subcategories] - An array of subcategories to filter by.
+ * @param {number} [options.maxReturnLength] - The maximum number of questions to return.
+ * @param {boolean} [options.randomize=false] - Whether to randomize the order of the returned questions.
+ * @param {boolean} [options.regex=false] - Whether to treat the search query as a regular expression.
+ * @param {boolean} [options.exactPhrase=false] - Whether to search for an exact phrase match.
+ * @param {boolean} [options.ignoreDiacritics=false] - Whether to ignore diacritics in the search query.
+ * @param {boolean} [options.powermarkOnly=false] - Whether to only search for powermarked questions.
+ * @param {number} [options.tossupPagination=1] - The page number of the tossup pagination.
+ * @returns {Promise<{tossups: {count: Number, questionArray: Types.Tossup[]}, bonuses: {count: Number, questionArray: Types.Bonus[]}}>} The retrieved questions.
  */
 async function getQuery({
     queryString,
@@ -386,6 +399,9 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
 }
 
 
+/**
+ * @returns {string} a random name
+ */
 function getRandomName() {
     const ADJECTIVE_INDEX = Math.floor(Math.random() * ADJECTIVES.length);
     const ANIMAL_INDEX = Math.floor(Math.random() * ANIMALS.length);
@@ -396,20 +412,14 @@ function getRandomName() {
 /**
  * Get an array of random tossups. This method is 3-4x faster than using the randomize option in getQuery.
  * @param {Object} object - an object containing the parameters
- * @param {Array<Number>} object.difficulties
- * @param {Array<String>} object.categories
- * @param {Array<String>} object.subcategories
- * @param {Number} object.number
- * @param {Number} object.minYear
- * @param {Number} object.maxYear
- * @param {Boolean} object.powermarkOnly
- * @param difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
- * @param categories - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
- * @param subcategories - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
- * @param number - how many random tossups to return. Default: 1.
- * @param minYear - the minimum year to select from. Default: 2010.
- * @param maxYear - the maximum year to select from. Default: 2023.
- * @returns {Promise<Array<JSON>>}
+ * @param {number[]} [object.difficulties] - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
+ * @param {string[]} [object.categories] - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
+ * @param {string[]} [object.subcategories] - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
+ * @param {number} [object.number=1] - how many random tossups to return. Default: 1.
+ * @param {number} [object.minYear=2010]
+ * @param {number} [object.maxYear=2023]
+ * @param {boolean} [object.powermarkOnly=false]
+ * @returns {Promise<Types.Tossup[]>}
  */
 async function getRandomTossups({
     difficulties = DIFFICULTIES,
@@ -449,21 +459,14 @@ async function getRandomTossups({
 /**
  * Get an array of random bonuses. This method is 3-4x faster than using the randomize option in getQuery.
  * @param {Object} object - an object containing the parameters
- * @param {Array<Number>} object.difficulties
- * @param {Array<String>} object.categories
- * @param {Array<String>} object.subcategories
- * @param {Number} object.number
- * @param {Number} object.minYear
- * @param {Number} object.maxYear
- * @param {Number | null | undefined} object.bonusLength
- * @param difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
- * @param categories - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
- * @param subcategories - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
- * @param number - how many random bonuses to return. Default: 1.
- * @param minYear - the minimum year to select from. Default: 2010.
- * @param maxYear - the maximum year to select from. Default: 2023.
- * @param bonusLength - if not null or undefined, only return bonuses with number of parts equal to `bonusLength`.
- * @returns {Promise<Array<JSON>>}
+ * @param {Array<Number>} object.difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
+ * @param {Array<String>} object.categories - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
+ * @param {Array<String>} object.subcategories - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
+ * @param {number} [object.number=1] - how many random bonuses to return. Default: 1.
+ * @param {number} [object.minYear=2010] - the minimum year to select from. Default: 2010.
+ * @param {number} [object.maxYear=2023] - the maximum year to select from. Default: 2023.
+ * @param {number} [object.bonusLength] - if not null or undefined, only return bonuses with number of parts equal to `bonusLength`.
+ * @returns {Promise<Types.Bonus[]>}
  */
 async function getRandomBonuses({
     difficulties = DIFFICULTIES,
@@ -504,14 +507,15 @@ async function getRandomBonuses({
 
 /**
  * Gets all questions in a set that satisfy the given parameters.
- * @param {String} setName - the name of the set (e.g. "2021 ACF Fall").
- * @param {Array<Number>} packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
- * @param {Array<String>} categories
- * @param {Array<String>} subcategories
- * @param {'tossup' | 'bonus'} questionType - Type of question you want to get. Default: `'tossup'`.
- * @param {Boolean} replaceUnformattedAnswer - whether to replace the 'answer(s)' key on each question with the value corresponding to 'formatted_answer(s)' (if it exists). Default: `true`
- * @param {Boolean} reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
- * @returns {Promise<Array<JSON>>}
+ * @param object - an object containing the parameters
+ * @param {string} object.setName - the name of the set (e.g. "2021 ACF Fall").
+ * @param {number[]} object.packetNumbers - an array of packet numbers to search. Each packet number is 1-indexed.
+ * @param {string[]} object.categories
+ * @param {string[]} object.subcategories
+ * @param {'tossup' | 'bonus'} [object.questionType='tossup'] - Type of question you want to get. Default: `'tossup'`.
+ * @param {boolean} object.replaceUnformattedAnswer - whether to replace the 'answer(s)' key on each question with the value corresponding to 'formatted_answer(s)' (if it exists). Default: `true`
+ * @param {boolean} object.reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
+ * @returns {Promise<Types.Tossup[] | Types.Bonus[]>}
  */
 async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', replaceUnformattedAnswer = true, reverse = false }) {
     if (!setName) return [];
@@ -565,6 +569,10 @@ async function getSet({ setName, packetNumbers, categories, subcategories, quest
 }
 
 
+/**
+ * @param {string} name - the name of the set
+ * @returns {ObjectId | null}
+ */
 async function getSetId(name) {
     const set = await sets.findOne({ name });
     return set ? set._id : null;
@@ -572,7 +580,7 @@ async function getSetId(name) {
 
 
 /**
- * @returns {Array<String>} an array of all the set names.
+ * @returns {string[]} an array of all the set names.
  */
 function getSetList() {
     return SET_LIST;
@@ -580,9 +588,8 @@ function getSetList() {
 
 
 /**
- *
- * @param {ObjectId} _id
- * @returns Promise<Document>
+ * @param {ObjectId} _id - the id of the bonus
+ * @returns {Promise<Types.Bonus>}
  */
 async function getBonusById(_id) {
     return await bonuses.findOne({ _id: _id });
@@ -590,9 +597,8 @@ async function getBonusById(_id) {
 
 
 /**
- *
- * @param {ObjectId} _id
- * @returns Promise<Document>
+ * @param {ObjectId} _id - the id of the tossup
+ * @returns {Promise<Types.Tossup>}
  */
 async function getTossupById(_id) {
     return await tossups.findOne({ _id: _id });
@@ -601,26 +607,30 @@ async function getTossupById(_id) {
 
 /**
  * Report question with given id to the database.
- * @param {String} _id
- * @returns {Promise<Boolean>} true if successful, false otherwise.
+ * @param {string} _id - the id of the question to report
+ * @param {'wrong-category' | 'text-error' | 'answer-checking' | 'other'} reason - the reason for reporting
+ * @param {string} description - a description of the problem
+ * @param {boolean} [verbose=true] - whether to log the result to the console
+ * @returns {Promise<boolean>} true if successful, false otherwise.
  */
 async function reportQuestion(_id, reason, description, verbose = true) {
-    tossups.updateOne({ _id: new ObjectId(_id) }, {
+    await tossups.updateOne({ _id: new ObjectId(_id) }, {
         $push: { reports: {
             reason: reason,
             description: description,
         } },
     });
 
-    bonuses.updateOne({ _id: new ObjectId(_id) }, {
+    await bonuses.updateOne({ _id: new ObjectId(_id) }, {
         $push: { reports: {
             reason: reason,
             description: description,
         } },
     });
 
-    if (verbose)
+    if (verbose) {
         console.log('Reported question with id ' + _id);
+    }
 
     return true;
 }
@@ -630,8 +640,8 @@ async function reportQuestion(_id, reason, description, verbose = true) {
  *
  * @param {ObjectId} _id the id of the question to update
  * @param {'tossup' | 'bonus'} type the type of question to update
- * @param {String} subcategory the new subcategory to set
- * @param {Boolean} clearReports whether to clear the reports field
+ * @param {string} subcategory the new subcategory to set
+ * @param {boolean} [clearReports=true] whether to clear the reports field
  * @returns {Promise<UpdateResult>}
  */
 async function updateSubcategory(_id, type, subcategory, clearReports = true) {
