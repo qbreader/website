@@ -142,6 +142,10 @@ socket.onmessage = function (event) {
         socketOnStart(data);
         break;
 
+    case 'timer-update':
+        updateTimerDisplay(data.timeRemaining);
+        break;
+
     case 'toggle-powermark-only':
         logEvent(data.username, `${data.powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
         document.getElementById('toggle-powermark-only').checked = data.powermarkOnly;
@@ -174,10 +178,18 @@ socket.onmessage = function (event) {
         document.getElementById('toggle-powermark-only').disabled = data.selectBySetName;
         break;
 
+    case 'toggle-timer':
+        logEvent(data.username, `${data.timer ? 'enabled' : 'disabled'} the timer`);
+        document.getElementById('toggle-timer').checked = data.timer;
+        document.getElementById('timer').classList.toggle('d-none');
+        break;
+
     case 'toggle-visibility':
         logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
         document.getElementById('toggle-visibility').checked = data.public;
         document.getElementById('chat').disabled = data.public;
+        document.getElementById('toggle-timer').disabled = data.public;
+        document.getElementById('toggle-timer').checked = true;
         break;
 
     case 'update-categories':
@@ -263,6 +275,11 @@ const socketOnConnectionAcknowledged = async (message) => {
     document.getElementById('chat').disabled = message.public;
     document.getElementById('toggle-rebuzz').checked = message.rebuzz;
     document.getElementById('toggle-skip').checked = message.skip;
+    document.getElementById('toggle-timer').checked = message.timer;
+    document.getElementById('toggle-timer').disabled = message.public;
+    if (!message.timer) {
+        document.getElementById('timer').classList.add('d-none');
+    }
     document.getElementById('toggle-visibility').checked = message.public;
     document.getElementById('reading-speed').value = message.readingSpeed;
     document.getElementById('reading-speed-display').textContent = message.readingSpeed;
@@ -328,6 +345,10 @@ const socketOnEndOfSet = () => {
 };
 
 const socketOnGiveAnswer = async (message) => {
+    document.getElementById('answer-input').value = '';
+    document.getElementById('answer-input-group').classList.add('d-none');
+    document.getElementById('answer-input').blur();
+
     const { userId, username, givenAnswer, directive, directedPrompt, score, celerity } = message;
 
     logGiveAnswer(username, givenAnswer, false, directive);
@@ -448,6 +469,8 @@ const socketOnNext = (message) => {
     document.getElementById('buzz').disabled = false;
     document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
+
+    updateTimerDisplay(100);
 };
 
 const socketOnNoQuestionsFound = () => {
@@ -686,14 +709,34 @@ function updateDifficulties(difficulties) {
 }
 
 
+function submitAnswer() {
+    const answer = document.getElementById('answer-input').value;
+
+    document.getElementById('answer-input').value = '';
+    document.getElementById('answer-input-group').classList.add('d-none');
+    document.getElementById('answer-input').blur();
+
+    socket.send(JSON.stringify({
+        type: 'give-answer',
+        givenAnswer: answer,
+    }));
+}
+
+
+function updateTimerDisplay(time) {
+    const seconds = Math.floor(time / 10);
+    const tenths = time % 10;
+
+    document.querySelector('.timer .face').innerText = seconds;
+    document.querySelector('.timer .fraction').innerText = '.' + tenths;
+}
+
+
 document.getElementById('answer-form').addEventListener('submit', function (event) {
     event.preventDefault();
     event.stopPropagation();
 
     const answer = document.getElementById('answer-input').value;
-    document.getElementById('answer-input').value = '';
-    document.getElementById('answer-input-group').classList.add('d-none');
-    document.getElementById('answer-input').blur();
 
     socket.send(JSON.stringify({
         type: 'give-answer',
@@ -712,7 +755,6 @@ document.getElementById('buzz').addEventListener('click', function () {
     socket.send(JSON.stringify({ type: 'buzz' }));
     socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
-
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     if (changedCategories) {
@@ -788,7 +830,10 @@ document.getElementById('packet-number').addEventListener('change', function () 
 
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'pause' }));
+    let seconds = parseFloat(document.querySelector('.timer .face').innerText);
+    let tenths = parseFloat(document.querySelector('.timer .fraction').innerText);
+    let pausedTime = (seconds + tenths) * 10;
+    socket.send(JSON.stringify({ type: 'pause', pausedTime: pausedTime }));
 });
 
 
@@ -845,6 +890,10 @@ document.getElementById('toggle-powermark-only').addEventListener('click', funct
     socket.send(JSON.stringify({ type: 'toggle-powermark-only', powermarkOnly: this.checked }));
 });
 
+document.getElementById('toggle-timer').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-timer', timer: this.checked }));
+});
 
 document.getElementById('toggle-visibility').addEventListener('click', function () {
     this.blur();
