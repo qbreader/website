@@ -61,12 +61,13 @@ class TossupRoom {
             readingSpeed: 50,
             selectBySetName: false,
             skip: false,
+            timer: true,
         };
 
         this.rateLimitExceeded = new Set();
 
         this.timerInterval = null;
-        this.timeRemaining = 0; 
+        this.timeRemaining = 0;
 
         this.TIME_LIMIT = 5; // time to buzz after question is read
     }
@@ -136,6 +137,7 @@ class TossupRoom {
             rebuzz: this.settings.rebuzz,
             selectBySetName: this.settings.selectBySetName,
             skip: this.settings.skip,
+            timer: this.settings.timer,
         }));
 
         if (this.questionProgress > 0 && this.tossup?.question) {
@@ -308,11 +310,25 @@ class TossupRoom {
             });
             break;
 
+        case 'toggle-timer':
+            if (this.settings.public) {
+                return;
+            }
+
+            this.settings.timer = message.timer;
+            this.sendSocketMessage({
+                type: 'toggle-timer',
+                timer: this.settings.timer,
+                username: this.players[userId].username,
+            });
+            break;
+
         case 'toggle-visibility':
             if (this.isPermanent)
                 break;
 
             this.settings.public = message.public;
+            this.settings.timer = true;
             this.sendSocketMessage({
                 type: 'toggle-visibility',
                 public: this.settings.public,
@@ -524,25 +540,12 @@ class TossupRoom {
         this.readQuestion(Date.now());
     }
 
-    notifyClientsTimeUp() {
-        const payload = JSON.stringify({
-            type: 'time-up',
-            message: 'Time is up for the current question.',
-            answer: this.tossup.answer,
-        });
-
-        // Broadcast the message to all connected clients.
-        for (const userId in this.sockets) {
-            this.sockets[userId].send(payload);
-        }
-    }
-
     pause(userId, pausedTime) {
         this.paused = !this.paused;
-        
+
         if (this.paused) {
             clearTimeout(this.timeoutID);
-            clearInterval(this.timerInterval);  
+            clearInterval(this.timerInterval);
         } else {
             this.readQuestion(Date.now());
             if (this.wordIndex >= this.questionSplit.length) {
@@ -616,30 +619,28 @@ class TossupRoom {
         }
     }
 
-    sendTimerUpdateToClients() {
-        const payload = JSON.stringify({
-            type: 'timer-update',
-            timeRemaining: this.timeRemaining,
-        });
-    
-        for (const userId in this.sockets) {
-            this.sockets[userId].send(payload);
-        }
-    }
-
     startServerTimer(time) {
+        if (this.settings.timer === false) return;
+
         this.timeRemaining = time;
-        
+
         if (this.timerInterval) clearInterval(this.timerInterval);
-        
+
         this.timerInterval = setInterval(() => {
             if (this.timeRemaining <= 0) {
                 clearInterval(this.timerInterval);
-                this.notifyClientsTimeUp();
+                this.sendSocketMessage({
+                    type: 'time-up',
+                    message: 'Time is up for the current question.',
+                    answer: this.tossup.answer,
+                });
                 this.revealQuestion();
             }
-            
-            this.sendTimerUpdateToClients();
+
+            this.sendSocketMessage({
+                type: 'timer-update',
+                timeRemaining: this.timeRemaining,
+            });
             this.timeRemaining--;
         }, 100);
     }

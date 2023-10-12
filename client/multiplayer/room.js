@@ -122,17 +122,6 @@ socket.onmessage = function (event) {
         document.getElementById('reading-speed-display').textContent = data.value;
         break;
 
-    case 'time-up':
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
-        document.getElementById('pause').disabled = true;
-        document.getElementById('buzz').disabled = true;
-        showNextButton();
-        break;
-
-    case 'timer-update':
-        updateTimerDisplay(data.timeRemaining);
-        break;
-
     case 'reveal-answer': {
         document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
         document.getElementById('pause').disabled = true;
@@ -153,6 +142,17 @@ socket.onmessage = function (event) {
 
     case 'start':
         socketOnStart(data);
+        break;
+
+    case 'time-up':
+        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
+        document.getElementById('pause').disabled = true;
+        document.getElementById('buzz').disabled = true;
+        showNextButton();
+        break;
+
+    case 'timer-update':
+        updateTimerDisplay(data.timeRemaining);
         break;
 
     case 'toggle-powermark-only':
@@ -187,10 +187,18 @@ socket.onmessage = function (event) {
         document.getElementById('toggle-powermark-only').disabled = data.selectBySetName;
         break;
 
+    case 'toggle-timer':
+        logEvent(data.username, `${data.timer ? 'enabled' : 'disabled'} the timer`);
+        document.getElementById('toggle-timer').checked = data.timer;
+        document.getElementById('timer').classList.toggle('d-none');
+        break;
+
     case 'toggle-visibility':
         logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
         document.getElementById('toggle-visibility').checked = data.public;
         document.getElementById('chat').disabled = data.public;
+        document.getElementById('toggle-timer').disabled = data.public;
+        document.getElementById('toggle-timer').checked = true;
         break;
 
     case 'update-categories':
@@ -276,6 +284,11 @@ const socketOnConnectionAcknowledged = async (message) => {
     document.getElementById('chat').disabled = message.public;
     document.getElementById('toggle-rebuzz').checked = message.rebuzz;
     document.getElementById('toggle-skip').checked = message.skip;
+    document.getElementById('toggle-timer').checked = message.timer;
+    document.getElementById('toggle-timer').disabled = message.public;
+    if (!message.timer) {
+        document.getElementById('timer').classList.add('d-none');
+    }
     document.getElementById('toggle-visibility').checked = message.public;
     document.getElementById('reading-speed').value = message.readingSpeed;
     document.getElementById('reading-speed-display').textContent = message.readingSpeed;
@@ -738,17 +751,17 @@ document.getElementById('buzz').addEventListener('click', function () {
 function startTimer() {
     // Multiply by 10 to account for tenths of a second.
     let timeRemaining = TIME_LIMIT * 10;
-    
+
     if (timerInterval) clearInterval(timerInterval);
-    
+
     timerInterval = setInterval(() => {
         updateTimerDisplay(timeRemaining);
-        
+
         if (timeRemaining <= 0) {
             clearInterval(timerInterval);
             submitAnswer();
         }
-        
+
         timeRemaining--;
     }, 100);
 }
@@ -756,11 +769,11 @@ function startTimer() {
 
 function submitAnswer() {
     const answer = document.getElementById('answer-input').value;
-    
+
     document.getElementById('answer-input').value = '';
     document.getElementById('answer-input-group').classList.add('d-none');
     document.getElementById('answer-input').blur();
-    
+
     socket.send(JSON.stringify({
         type: 'give-answer',
         givenAnswer: answer,
@@ -771,7 +784,7 @@ function submitAnswer() {
 function updateTimerDisplay(time) {
     const seconds = Math.floor(time / 10);
     const tenths = time % 10;
-    
+
     document.querySelector('.timer .face').innerText = seconds;
     document.querySelector('.timer .fraction').innerText = '.' + tenths;
 }
@@ -912,6 +925,10 @@ document.getElementById('toggle-powermark-only').addEventListener('click', funct
     socket.send(JSON.stringify({ type: 'toggle-powermark-only', powermarkOnly: this.checked }));
 });
 
+document.getElementById('toggle-timer').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-timer', timer: this.checked }));
+});
 
 document.getElementById('toggle-visibility').addEventListener('click', function () {
     this.blur();
