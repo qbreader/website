@@ -8,8 +8,6 @@ let powermarkPosition = 0;
 
 // Do not escape room name, as most browsers automatically do this
 const ROOM_NAME = location.pathname.substring(13);
-const TIME_LIMIT = 10; // For example, 10 seconds.
-let timerInterval;
 let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
 let username = localStorage.getItem('multiplayer-username') || randomUsername();
@@ -142,13 +140,6 @@ socket.onmessage = function (event) {
 
     case 'start':
         socketOnStart(data);
-        break;
-
-    case 'time-up':
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
-        document.getElementById('pause').disabled = true;
-        document.getElementById('buzz').disabled = true;
-        showNextButton();
         break;
 
     case 'timer-update':
@@ -354,6 +345,10 @@ const socketOnEndOfSet = () => {
 };
 
 const socketOnGiveAnswer = async (message) => {
+    document.getElementById('answer-input').value = '';
+    document.getElementById('answer-input-group').classList.add('d-none');
+    document.getElementById('answer-input').blur();
+
     const { userId, username, givenAnswer, directive, directedPrompt, score, celerity } = message;
 
     logGiveAnswer(username, givenAnswer, false, directive);
@@ -475,8 +470,7 @@ const socketOnNext = (message) => {
     document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
 
-    updateTimerDisplay(50);
-    if (timerInterval) clearInterval(timerInterval);
+    updateTimerDisplay(100);
 };
 
 const socketOnNoQuestionsFound = () => {
@@ -715,58 +709,6 @@ function updateDifficulties(difficulties) {
 }
 
 
-document.getElementById('answer-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    // Stop the timer if it's running.
-    if (timerInterval) clearInterval(timerInterval);
-
-    const answer = document.getElementById('answer-input').value;
-    document.getElementById('answer-input').value = '';
-    document.getElementById('answer-input-group').classList.add('d-none');
-    document.getElementById('answer-input').blur();
-
-    socket.send(JSON.stringify({
-        type: 'give-answer',
-        givenAnswer: answer,
-    }));
-});
-
-
-document.getElementById('answer-input').addEventListener('input', function () {
-    socket.send(JSON.stringify({ type: 'give-answer-live-update', message: this.value }));
-});
-
-
-document.getElementById('buzz').addEventListener('click', function () {
-    this.blur();
-    socket.send(JSON.stringify({ type: 'buzz' }));
-
-    startTimer();
-
-    socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
-});
-
-function startTimer() {
-    // Multiply by 10 to account for tenths of a second.
-    let timeRemaining = TIME_LIMIT * 10;
-
-    if (timerInterval) clearInterval(timerInterval);
-
-    timerInterval = setInterval(() => {
-        updateTimerDisplay(timeRemaining);
-
-        if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            submitAnswer();
-        }
-
-        timeRemaining--;
-    }, 100);
-}
-
-
 function submitAnswer() {
     const answer = document.getElementById('answer-input').value;
 
@@ -790,6 +732,29 @@ function updateTimerDisplay(time) {
 }
 
 
+document.getElementById('answer-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const answer = document.getElementById('answer-input').value;
+
+    socket.send(JSON.stringify({
+        type: 'give-answer',
+        givenAnswer: answer,
+    }));
+});
+
+
+document.getElementById('answer-input').addEventListener('input', function () {
+    socket.send(JSON.stringify({ type: 'give-answer-live-update', message: this.value }));
+});
+
+
+document.getElementById('buzz').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'buzz' }));
+    socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
+});
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     if (changedCategories) {
