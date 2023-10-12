@@ -11,7 +11,7 @@ router.get('/game/:packetName/:division/:questionNumber.mp3', async (req, res) =
 });
 
 router.get('/*.mp3', (req, res) => {
-    res.sendFile(req.url, { root: './geoword-audio' });
+    res.sendFile(req.url, { root: './client/geoword-audio' });
 });
 
 export default router;
