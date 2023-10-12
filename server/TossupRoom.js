@@ -32,6 +32,7 @@ class TossupRoom {
         this.timeoutID = null;
         this.buzzedIn = null;
         this.buzzes = [];
+        this.liveAnswer = '';
         this.paused = false;
         this.queryingQuestion = false;
         this.questionNumber = 0;
@@ -61,9 +62,16 @@ class TossupRoom {
             readingSpeed: 50,
             selectBySetName: false,
             skip: false,
+            timer: true,
         };
 
         this.rateLimitExceeded = new Set();
+
+        this.timerInterval = null;
+        this.timeRemaining = 0;
+
+        this.DEAD_TIME_LIMIT = 5; // time to buzz after question is read
+        this.ANSWER_TIME_LIMIT = 10; // time to give answer after buzzing
     }
 
     connection(socket, userId, username) {
@@ -131,6 +139,7 @@ class TossupRoom {
             rebuzz: this.settings.rebuzz,
             selectBySetName: this.settings.selectBySetName,
             skip: this.settings.skip,
+            timer: this.settings.timer,
         }));
 
         if (this.questionProgress > 0 && this.tossup?.question) {
@@ -213,6 +222,7 @@ class TossupRoom {
             break;
 
         case 'give-answer-live-update':
+            this.liveAnswer = message.message;
             this.sendSocketMessage({
                 type: 'give-answer-live-update',
                 username: this.players[userId].username,
@@ -242,7 +252,7 @@ class TossupRoom {
             break;
 
         case 'pause':
-            this.pause(userId);
+            this.pause(userId, message.pausedTime);
             break;
 
         case 'reading-speed':
@@ -302,11 +312,25 @@ class TossupRoom {
             });
             break;
 
+        case 'toggle-timer':
+            if (this.settings.public) {
+                return;
+            }
+
+            this.settings.timer = message.timer;
+            this.sendSocketMessage({
+                type: 'toggle-timer',
+                timer: this.settings.timer,
+                username: this.players[userId].username,
+            });
+            break;
+
         case 'toggle-visibility':
             if (this.isPermanent)
                 break;
 
             this.settings.public = message.public;
+            this.settings.timer = true;
             this.sendSocketMessage({
                 type: 'toggle-visibility',
                 public: this.settings.public,
@@ -415,21 +439,26 @@ class TossupRoom {
                 userId: userId,
                 username: this.players[userId].username,
             });
-        } else {
-            this.buzzedIn = userId;
-            this.buzzes.push(userId);
-            clearTimeout(this.timeoutID);
-            this.sendSocketMessage({
-                type: 'buzz',
-                userId: userId,
-                username: this.players[userId].username,
-            });
-
-            this.sendSocketMessage({
-                type: 'update-question',
-                word: '(#)',
-            });
+            return;
         }
+
+        this.buzzedIn = userId;
+        this.buzzes.push(userId);
+        clearTimeout(this.timeoutID);
+        this.sendSocketMessage({
+            type: 'buzz',
+            userId: userId,
+            username: this.players[userId].username,
+        });
+
+        this.sendSocketMessage({
+            type: 'update-question',
+            word: '(#)',
+        });
+
+        this.startServerTimer(this.ANSWER_TIME_LIMIT * 10, () => {
+            this.giveAnswer(userId, this.liveAnswer);
+        });
     }
 
     createPlayer(userId) {
@@ -447,6 +476,13 @@ class TossupRoom {
     }
 
     giveAnswer(userId, givenAnswer) {
+        this.liveAnswer = '';
+        clearInterval(this.timerInterval);
+        this.sendSocketMessage({
+            type: 'timer-update',
+            timeRemaining: this.ANSWER_TIME_LIMIT * 10,
+        });
+
         if (Object.keys(this.tossup).length === 0)
             return;
 
@@ -476,6 +512,10 @@ class TossupRoom {
                 this.readQuestion(Date.now());
             }
             break;
+        case 'prompt':
+            this.startServerTimer(this.ANSWER_TIME_LIMIT * 10, () => {
+                this.giveAnswer(userId, this.liveAnswer);
+            });
         }
 
         this.sendSocketMessage({
@@ -523,6 +563,9 @@ class TossupRoom {
 
         if (this.paused) {
             clearTimeout(this.timeoutID);
+            clearInterval(this.timerInterval);
+        } else if (this.wordIndex >= this.questionSplit.length) {
+            this.startServerTimer(this.timeRemaining, this.revealQuestion.bind(this));
         } else {
             this.readQuestion(Date.now());
         }
@@ -537,6 +580,7 @@ class TossupRoom {
     async readQuestion(expectedReadTime) {
         if (Object.keys(this.tossup).length === 0) return;
         if (this.wordIndex >= this.questionSplit.length) {
+            this.startServerTimer(this.DEAD_TIME_LIMIT * 10, this.revealQuestion.bind(this));
             return;
         }
 
@@ -590,6 +634,37 @@ class TossupRoom {
         for (const socket of Object.values(this.sockets)) {
             socket.send(message);
         }
+    }
+
+    /**
+     *
+     * @param {number} time
+     * @param {Function} callback - called when timer is up
+     * @returns
+     */
+    startServerTimer(time, callback) {
+        if (this.settings.timer === false) {
+            return;
+        }
+
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+        }
+
+        this.timeRemaining = time;
+
+        this.timerInterval = setInterval(() => {
+            if (this.timeRemaining <= 0) {
+                clearInterval(this.timerInterval);
+                callback();
+            }
+
+            this.sendSocketMessage({
+                type: 'timer-update',
+                timeRemaining: this.timeRemaining,
+            });
+            this.timeRemaining--;
+        }, 100);
     }
 }
 

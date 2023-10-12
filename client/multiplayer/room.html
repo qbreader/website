@@ -18,6 +18,21 @@
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
     <script src="/apply-theme.js"></script>
+
+    <style>
+        .timer {
+            background: linear-gradient(#444444, #333333);
+            display: block;
+            padding: 4px;
+            text-align: center;
+            font-size: 250%;
+            margin: 0;
+        }
+
+        .timer .fraction {
+            font-size: 50%;
+        }
+    </style>
 </head>
 
 <body>
@@ -76,6 +91,10 @@
         </div>
         <div class="row" id="info">
             <div class="options col-12 col-lg-3 col-xxl-2 d-lg-block order-lg-1 mb-5" id="options">
+                <div class="timer" id="timer">
+                    <span class="face">10</span><span class="fraction">.0</span>
+                </div>
+                <hr>
                 <div class="accordion" id="player-accordion"></div>
                 <hr>
                 <div class="form-floating mb-1">
@@ -155,6 +174,10 @@
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-rebuzz" type="checkbox" role="switch">
                         <label class="form-check-label" for="toggle-rebuzz">Allow rebuzzes</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked disabled>
+                        <label class="form-check-label" for="toggle-timer">Enable timer</label>
                     </div>
                     <p class="mb-1 text-muted" id="private-chat-warning"><i>chat is disabled in public rooms</i></p>
                 </div>
