@@ -32,6 +32,7 @@ class TossupRoom {
         this.timeoutID = null;
         this.buzzedIn = null;
         this.buzzes = [];
+        this.liveAnswer = '';
         this.paused = false;
         this.queryingQuestion = false;
         this.questionNumber = 0;
@@ -69,7 +70,8 @@ class TossupRoom {
         this.timerInterval = null;
         this.timeRemaining = 0;
 
-        this.TIME_LIMIT = 5; // time to buzz after question is read
+        this.DEAD_TIME_LIMIT = 5; // time to buzz after question is read
+        this.ANSWER_TIME_LIMIT = 10; // time to give answer after buzzing
     }
 
     connection(socket, userId, username) {
@@ -168,7 +170,6 @@ class TossupRoom {
         switch (type) {
         case 'buzz':
             this.buzz(userId);
-            clearInterval(this.timerInterval);
             break;
 
         case 'change-username':
@@ -221,6 +222,7 @@ class TossupRoom {
             break;
 
         case 'give-answer-live-update':
+            this.liveAnswer = message.message;
             this.sendSocketMessage({
                 type: 'give-answer-live-update',
                 username: this.players[userId].username,
@@ -437,21 +439,26 @@ class TossupRoom {
                 userId: userId,
                 username: this.players[userId].username,
             });
-        } else {
-            this.buzzedIn = userId;
-            this.buzzes.push(userId);
-            clearTimeout(this.timeoutID);
-            this.sendSocketMessage({
-                type: 'buzz',
-                userId: userId,
-                username: this.players[userId].username,
-            });
-
-            this.sendSocketMessage({
-                type: 'update-question',
-                word: '(#)',
-            });
+            return;
         }
+
+        this.buzzedIn = userId;
+        this.buzzes.push(userId);
+        clearTimeout(this.timeoutID);
+        this.sendSocketMessage({
+            type: 'buzz',
+            userId: userId,
+            username: this.players[userId].username,
+        });
+
+        this.sendSocketMessage({
+            type: 'update-question',
+            word: '(#)',
+        });
+
+        this.startServerTimer(this.ANSWER_TIME_LIMIT * 10, () => {
+            this.giveAnswer(userId, this.liveAnswer);
+        });
     }
 
     createPlayer(userId) {
@@ -469,6 +476,13 @@ class TossupRoom {
     }
 
     giveAnswer(userId, givenAnswer) {
+        this.liveAnswer = '';
+        clearInterval(this.timerInterval);
+        this.sendSocketMessage({
+            type: 'timer-update',
+            timeRemaining: this.ANSWER_TIME_LIMIT * 10,
+        });
+
         if (Object.keys(this.tossup).length === 0)
             return;
 
@@ -498,6 +512,10 @@ class TossupRoom {
                 this.readQuestion(Date.now());
             }
             break;
+        case 'prompt':
+            this.startServerTimer(this.ANSWER_TIME_LIMIT * 10, () => {
+                this.giveAnswer(userId, this.liveAnswer);
+            });
         }
 
         this.sendSocketMessage({
@@ -540,17 +558,16 @@ class TossupRoom {
         this.readQuestion(Date.now());
     }
 
-    pause(userId, pausedTime) {
+    pause(userId) {
         this.paused = !this.paused;
 
         if (this.paused) {
             clearTimeout(this.timeoutID);
             clearInterval(this.timerInterval);
+        } else if (this.wordIndex >= this.questionSplit.length) {
+            this.startServerTimer(this.timeRemaining, this.revealQuestion.bind(this));
         } else {
             this.readQuestion(Date.now());
-            if (this.wordIndex >= this.questionSplit.length) {
-                this.startServerTimer(pausedTime);
-            }
         }
 
         this.sendSocketMessage({
@@ -563,7 +580,7 @@ class TossupRoom {
     async readQuestion(expectedReadTime) {
         if (Object.keys(this.tossup).length === 0) return;
         if (this.wordIndex >= this.questionSplit.length) {
-            this.startServerTimer(this.TIME_LIMIT * 10);
+            this.startServerTimer(this.DEAD_TIME_LIMIT * 10, this.revealQuestion.bind(this));
             return;
         }
 
@@ -619,22 +636,27 @@ class TossupRoom {
         }
     }
 
-    startServerTimer(time) {
-        if (this.settings.timer === false) return;
+    /**
+     *
+     * @param {number} time
+     * @param {Function} callback - called when timer is up
+     * @returns
+     */
+    startServerTimer(time, callback) {
+        if (this.settings.timer === false) {
+            return;
+        }
+
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+        }
 
         this.timeRemaining = time;
-
-        if (this.timerInterval) clearInterval(this.timerInterval);
 
         this.timerInterval = setInterval(() => {
             if (this.timeRemaining <= 0) {
                 clearInterval(this.timerInterval);
-                this.sendSocketMessage({
-                    type: 'time-up',
-                    message: 'Time is up for the current question.',
-                    answer: this.tossup.answer,
-                });
-                this.revealQuestion();
+                callback();
             }
 
             this.sendSocketMessage({
