@@ -38,31 +38,18 @@ router.use((req, _res, next) => {
 });
 
 router.use('/admin', adminRouter);
-
 router.use('/check-answer', checkAnswerRouter);
-
 router.use('/geoword', geowordRouter);
-
 router.use('/multiplayer', multiplayerRouter);
-
 router.use('/num-packets', numPacketsRouter);
-
 router.use('/packet-bonuses', packetBonusesRouter);
-
 router.use('/packet-tossups', packetTossupsRouter);
-
 router.use('/packet', packetRouter);
-
 router.use('/query', queryRouter);
-
 router.use('/random-bonus', randomBonusRouter);
-
 router.use('/random-name', randomNameRouter);
-
 router.use('/random-tossup', randomTossupRouter);
-
 router.use('/report-question', reportQuestionRouter);
-
 router.use('/set-list', setListRouter);
 
 export default router;

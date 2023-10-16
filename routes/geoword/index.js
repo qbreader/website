@@ -63,9 +63,7 @@ router.use('/*/:packetName', async (req, res, next) => {
 });
 
 router.use('/compare', compareRouter);
-
 router.use('/division', divisionRouter);
-
 router.use('/game', gameRouter);
 
 router.get('/leaderboard/:packetName', (req, res) => {
@@ -73,9 +71,7 @@ router.get('/leaderboard/:packetName', (req, res) => {
 });
 
 router.use('/packet', packetRouter);
-
 router.use('/payment', paymentRouter);
-
 router.use('/stats', statsRouter);
 
 export default router;
