@@ -1,6 +1,6 @@
 import adminRouter from './admin.js';
 import checkAnswerRouter from './check-answer.js';
-import geowordRouter from './geoword.js';
+import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
 import numPacketsRouter from './num-packets.js';
 import packetBonusesRouter from './packet-bonuses.js';
