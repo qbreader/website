@@ -1,7 +1,7 @@
 import { OKCYAN, ENDC, OKGREEN } from '../bcolors.js';
 import { ADJECTIVES, ANIMALS, DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH, DIFFICULTIES, CATEGORIES, SUBCATEGORY_TO_CATEGORY, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../constants.js';
 // eslint-disable-next-line no-unused-vars
-import * as Types from '../types.js';
+import { Tossup, Bonus } from '../types.js';
 
 import { MongoClient, ObjectId } from 'mongodb';
 
@@ -101,7 +101,7 @@ const regexIgnoreDiacritics = (() => {
 /**
  *
  * @param {"wrong-category" | "text-error"} reason
- * @returns {Promise<{tossups: Types.Tossup[], bonuses: Types.Bonus[]}>}
+ * @returns {Promise<{tossups: Tossup[], bonuses: Bonus[]}>}
  */
 async function getReports(reason) {
     const reports = {};
@@ -133,7 +133,7 @@ async function getNumPackets(setName) {
  * If only one allowed type is specified, only that type will be searched for (increasing query speed).
  * The other type will be returned as an empty array.
  * @param {boolean} [options.replaceUnformattedAnswer=true] - Whether to replace unformatted answers.
- * @returns {Promise<{tossups: Types.Tossup[], bonuses: Types.Bonus[]}>} The retrieved packet of questions.
+ * @returns {Promise<{tossups: Tossup[], bonuses: Bonus[]}>} The retrieved packet of questions.
  */
 async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], replaceUnformattedAnswer = true }) {
     if (!setName || isNaN(packetNumber) || packetNumber < 1) {
@@ -206,7 +206,7 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
  * @param {boolean} [options.ignoreDiacritics=false] - Whether to ignore diacritics in the search query.
  * @param {boolean} [options.powermarkOnly=false] - Whether to only search for powermarked questions.
  * @param {number} [options.tossupPagination=1] - The page number of the tossup pagination.
- * @returns {Promise<{tossups: {count: Number, questionArray: Types.Tossup[]}, bonuses: {count: Number, questionArray: Types.Bonus[]}}>} The retrieved questions.
+ * @returns {Promise<{tossups: {count: Number, questionArray: Tossup[]}, bonuses: {count: Number, questionArray: Bonus[]}}>} The retrieved questions.
  */
 async function getQuery({
     queryString,
@@ -419,7 +419,7 @@ function getRandomName() {
  * @param {number} [object.minYear=2010]
  * @param {number} [object.maxYear=2023]
  * @param {boolean} [object.powermarkOnly=false]
- * @returns {Promise<Types.Tossup[]>}
+ * @returns {Promise<Tossup[]>}
  */
 async function getRandomTossups({
     difficulties = DIFFICULTIES,
@@ -466,7 +466,7 @@ async function getRandomTossups({
  * @param {number} [object.minYear=2010] - the minimum year to select from. Default: 2010.
  * @param {number} [object.maxYear=2023] - the maximum year to select from. Default: 2023.
  * @param {number} [object.bonusLength] - if not null or undefined, only return bonuses with number of parts equal to `bonusLength`.
- * @returns {Promise<Types.Bonus[]>}
+ * @returns {Promise<Bonus[]>}
  */
 async function getRandomBonuses({
     difficulties = DIFFICULTIES,
@@ -515,7 +515,7 @@ async function getRandomBonuses({
  * @param {'tossup' | 'bonus'} [object.questionType='tossup'] - Type of question you want to get. Default: `'tossup'`.
  * @param {boolean} object.replaceUnformattedAnswer - whether to replace the 'answer(s)' key on each question with the value corresponding to 'formatted_answer(s)' (if it exists). Default: `true`
  * @param {boolean} object.reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
- * @returns {Promise<Types.Tossup[] | Types.Bonus[]>}
+ * @returns {Promise<Tossup[] | Bonus[]>}
  */
 async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', replaceUnformattedAnswer = true, reverse = false }) {
     if (!setName) return [];
@@ -589,7 +589,7 @@ function getSetList() {
 
 /**
  * @param {ObjectId} _id - the id of the bonus
- * @returns {Promise<Types.Bonus>}
+ * @returns {Promise<Bonus>}
  */
 async function getBonusById(_id) {
     return await bonuses.findOne({ _id: _id });
@@ -598,7 +598,7 @@ async function getBonusById(_id) {
 
 /**
  * @param {ObjectId} _id - the id of the tossup
- * @returns {Promise<Types.Tossup>}
+ * @returns {Promise<Tossup>}
  */
 async function getTossupById(_id) {
     return await tossups.findOne({ _id: _id });
