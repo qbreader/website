@@ -1,7 +1,7 @@
 import { getTossupById, getBonusById, getSetId } from './questions.js';
 
 // eslint-disable-next-line no-unused-vars
-import { Bonus, Tossup } from '../types.js';
+import * as types from '../types.js';
 
 import { MongoClient, ObjectId } from 'mongodb';
 
@@ -211,7 +211,7 @@ async function getSingleTossupStats(tossup_id) {
 /**
  *
  * @param {ObjectId} user_id
- * @returns {Promise<Bonus[]>}
+ * @returns {Promise<types.Bonus[]>}
  */
 async function getBonusStars(user_id) {
     const aggregation = [
@@ -231,7 +231,7 @@ async function getBonusStars(user_id) {
 /**
  *
  * @param {ObjectId} user_id
- * @returns {Promise<Tossup[]>}
+ * @returns {Promise<types.Tossup[]>}
  */
 async function getTossupStars(user_id) {
     const aggregation = [
