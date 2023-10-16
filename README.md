@@ -11,7 +11,8 @@ If you're interested in running the server locally or deploying a clone, please 
 1. Clone the repository and navigate to its root directory.
    e.g. `git clone https://github.com/qbreader/website && cd website`
 2. Run `npm install`.
-3. Run `npm start`.
+3. Create a `.env` file in the root of the directory, and insert values for `MONGODB_USERNAME` and `MONGODB_PASSWORD` (will need to ask me for credentials).
+4. Run `npm start`.
    The website is at localhost:3000
 
 The website is built by default, but if you make any changes, you can rebuild using `npm run build`.
