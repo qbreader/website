@@ -4,6 +4,11 @@
 // 2. Include any default variable overrides here
 @import "./light-variables.scss";
 
+.timer {
+    background: linear-gradient(#ddd, #eee);
+    font-size: 250%;
+}
+
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../node_modules/bootstrap/scss/variables";
 

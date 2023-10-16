@@ -1,5 +1,10 @@
 @charset "UTF-8";
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
+.timer {
+  background: linear-gradient(#ddd, #eee);
+  font-size: 250%;
+}
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -9478,6 +9483,10 @@ code {
 .text-highlight {
   background-color: #f8ff00;
   color: #212529;
+}
+
+.timer .fraction {
+  font-size: 50%;
 }
 
 .ui-slider {
