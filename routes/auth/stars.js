@@ -34,15 +34,23 @@ router.get('/tossups', async (req, res) => {
 router.get('/is-starred-bonus', async (req, res) => {
     const username = req.session.username;
     const user_id = await getUserId(username);
-    const bonus_id = new ObjectId(req.query.bonus_id);
-    res.json({ isStarred: await isStarredBonus(user_id, bonus_id) });
+    try {
+        const bonus_id = new ObjectId(req.query.bonus_id);
+        res.json({ isStarred: await isStarredBonus(user_id, bonus_id) });
+    } catch { // Invalid ObjectID
+        res.json({ isStarred: false });
+    }
 });
 
 router.get('/is-starred-tossup', async (req, res) => {
     const username = req.session.username;
     const user_id = await getUserId(username);
-    const tossup_id = new ObjectId(req.query.tossup_id);
-    res.json({ isStarred: await isStarredTossup(user_id, tossup_id) });
+    try {
+        const tossup_id = new ObjectId(req.query.tossup_id);
+        res.json({ isStarred: await isStarredTossup(user_id, tossup_id) });
+    } catch { // Invalid ObjectID
+        res.json({ isStarred: false });
+    }
 });
 
 router.put('/star-bonus', async (req, res) => {
