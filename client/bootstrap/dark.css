@@ -10,6 +10,11 @@ kbd {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%28108, 117, 125, 1%29'/%3e%3c/svg%3e") !important;
 }
 
+.timer {
+  background: linear-gradient(#444, #333);
+  font-size: 250%;
+}
+
 :root {
   --bs-blue: #375a7f;
   --bs-indigo: #673ab7;
@@ -9488,6 +9493,10 @@ code {
 .text-highlight {
   background-color: #f8ff00;
   color: #343a40;
+}
+
+.timer .fraction {
+  font-size: 50%;
 }
 
 .ui-slider {
