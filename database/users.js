@@ -1,5 +1,8 @@
 import { getTossupById, getBonusById, getSetId } from './questions.js';
 
+// eslint-disable-next-line no-unused-vars
+import { Bonus, Tossup } from '../types.js';
+
 import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME || 'geoffreywu42'}:${process.env.MONGODB_PASSWORD || 'password'}@qbreader.0i7oej9.mongodb.net/?retryWrites=true&w=majority`;
@@ -20,6 +23,13 @@ const username_to_id = {};
 const id_to_username = {};
 
 
+/**
+ * Creates a new user in the database.
+ * @param {string} username - The username of the new user.
+ * @param {string} password - The password of the new user.
+ * @param {string} email - The email of the new user.
+ * @returns {Promise<Object>} The inserted user object.
+ */
 async function createUser(username, password, email) {
     return await users.insertOne({
         username,
@@ -30,6 +40,18 @@ async function createUser(username, password, email) {
 }
 
 
+/**
+ * Generates a match document for a given user and set of match options.
+ * @param {Object} options - The options for the match generation.
+ * @param {string} options.user_id - The ID of the user generating the match.
+ * @param {number[]} options.difficulties - An array of difficulties to filter by.
+ * @param {string} options.setName - The name of the set to search in.
+ * @param {boolean} options.includeMultiplayer - Whether to include multiplayer questions.
+ * @param {boolean} options.includeSingleplayer - Whether to include singleplayer questions.
+ * @param {Date} [options.startDate] - The start date of the match.
+ * @param {Date} [options.endDate] - The end date of the match.
+ * @returns {Object} The generated match document.
+ */
 async function generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     const matchDocument = { user_id: user_id };
 
@@ -70,6 +92,18 @@ async function generateMatchDocument({ user_id, difficulties, setName, includeMu
 }
 
 
+/**
+ * Generates a match document for a given set of match options.
+ * @param {Object} options - The options for the match generation.
+ * @param {string} options.user_id - The ID of the user generating the match.
+ * @param {Array<Number>} options.difficulties - An array of difficulties to filter by.
+ * @param {string} options.setName - The name of the set to search in.
+ * @param {boolean} options.includeMultiplayer - Whether to include multiplayer questions.
+ * @param {boolean} options.includeSingleplayer - Whether to include singleplayer questions.
+ * @param {Date} [options.startDate] - The start date of the match.
+ * @param {Date} [options.endDate] - The end date of the match.
+ * @returns {Promise<Object>} The generated match document.
+ */
 async function getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
     const user_id = await getUserId(username);
     const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
@@ -174,32 +208,44 @@ async function getSingleTossupStats(tossup_id) {
 }
 
 
-async function getStars(user_id, questionType) {
+/**
+ *
+ * @param {ObjectId} user_id
+ * @returns {Promise<Bonus[]>}
+ */
+async function getBonusStars(user_id) {
     const aggregation = [
         { $match: { user_id } },
         { $addFields: { 'insertTime': { '$toDate': '$_id' } } },
         { $sort: { insertTime: -1 } },
     ];
 
-    if (questionType === 'tossup') {
-        const tossups = await tossupStars.aggregate(aggregation).toArray();
-        for (const tossup of tossups) {
-            tossup.tossup = await getTossupById(tossup.tossup_id);
-        }
-        return tossups.map(star => star.tossup);
+    const bonuses = await bonusStars.aggregate(aggregation).toArray();
+    for (const bonus of bonuses) {
+        bonus.bonus = await getBonusById(bonus.bonus_id);
     }
-
-    if (questionType === 'bonus') {
-        const bonuses = await bonusStars.aggregate(aggregation).toArray();
-        for (const bonus of bonuses) {
-            bonus.bonus = await getBonusById(bonus.bonus_id);
-        }
-        return bonuses.map(star => star.bonus);
-    }
-
-    return [];
+    return bonuses.map(star => star.bonus);
 }
 
+
+/**
+ *
+ * @param {ObjectId} user_id
+ * @returns {Promise<Tossup[]>}
+ */
+async function getTossupStars(user_id) {
+    const aggregation = [
+        { $match: { user_id } },
+        { $addFields: { 'insertTime': { '$toDate': '$_id' } } },
+        { $sort: { insertTime: -1 } },
+    ];
+
+    const tossups = await tossupStars.aggregate(aggregation).toArray();
+    for (const tossup of tossups) {
+        tossup.tossup = await getTossupById(tossup.tossup_id);
+    }
+    return tossups.map(star => star.tossup);
+}
 
 /**
  * @param {Object} params
@@ -353,6 +399,8 @@ async function getTossupGraphStats({ user_id, difficulties, setName, includeMult
 
 /**
  * Get the user with the given username.
+ * @param {String} username
+ * @param {Boolean} [showPassword=false] Whether to show the password field.
  */
 async function getUser(username, showPassword = false) {
     return await users.findOne(
@@ -362,6 +410,11 @@ async function getUser(username, showPassword = false) {
 }
 
 
+/**
+ *
+ * @param {ObjectId} user_id
+ * @returns {Promise<String>}
+ */
 async function getUsername(user_id) {
     if (id_to_username[user_id]) {
         return id_to_username[user_id];
@@ -378,6 +431,12 @@ async function getUsername(user_id) {
 }
 
 
+/**
+ *
+ * @param {string} username
+ * @param {string} field
+ * @returns {Promise<any | null>}
+ */
 async function getUserField(username, field) {
     const user = await users.findOne({ username });
     return user ? user[field] : null;
@@ -387,7 +446,7 @@ async function getUserField(username, field) {
 /**
  * Get the user ID of the user with the given username.
  * @param {String} username
- * @returns {Promise<ObjectId>} The user ID of the user with the given username, or null if it doesn't exist.
+ * @returns {Promise<ObjectId | null>} The user ID of the user with the given username, or null if it doesn't exist.
  */
 async function getUserId(username) {
     if (username_to_id[username]) {
@@ -494,7 +553,7 @@ async function recordTossupData(username, data) {
  *
  * @param {ObjectId} user_id
  * @param {ObjectId} bonus_id
- * @returns
+ * @returns {Promise<boolean>} true if the bonus was not starred before
  */
 async function starBonus(user_id, bonus_id) {
     if (await bonusStars.findOne({ user_id, bonus_id })) {
@@ -510,7 +569,7 @@ async function starBonus(user_id, bonus_id) {
  *
  * @param {ObjectId} user_id
  * @param {ObjectId} tossup_id
- * @returns
+ * @returns {Promise<boolean>} true if the tossup was not starred before
  */
 async function starTossup(user_id, tossup_id) {
     if (await tossupStars.findOne({ user_id, tossup_id })) {
@@ -526,7 +585,7 @@ async function starTossup(user_id, tossup_id) {
  *
  * @param {ObjectId} user_id
  * @param {ObjectId} bonus_id
- * @returns
+ * @returns {Promise<number>} - the number of bonus star documents deleted
  */
 async function unstarBonus(user_id, bonus_id) {
     return (await bonusStars.deleteMany({ user_id, bonus_id })).deletedCount;
@@ -537,13 +596,19 @@ async function unstarBonus(user_id, bonus_id) {
  *
  * @param {ObjectId} user_id
  * @param {ObjectId} tossup_id
- * @returns
+ * @returns {Promise<number>} - the number of tossup star documents deleted
  */
 async function unstarTossup(user_id, tossup_id) {
     return (await tossupStars.deleteMany({ user_id, tossup_id })).deletedCount;
 }
 
 
+/**
+ *
+ * @param {string} username
+ * @param {Object} values -
+ * @returns {Promise<boolean>}
+ */
 async function updateUser(username, values) {
     const user = await users.findOne({ username: username });
 
@@ -593,8 +658,9 @@ export {
     getCategoryStats,
     getSingleBonusStats,
     getSingleTossupStats,
-    getStars,
+    getBonusStars,
     getBonusGraphStats,
+    getTossupStars,
     getTossupGraphStats,
     getSubcategoryStats,
     getUser,
