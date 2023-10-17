@@ -32,11 +32,6 @@ const accountInfo = client.db('account-info');
 const tossupData = accountInfo.collection('tossup-data');
 const bonusData = accountInfo.collection('bonus-data');
 
-const SET_LIST = []; // initialized on server load
-sets.find({}, { projection: { _id: 0, name: 1 }, sort: { name: -1 } }).forEach(set => {
-    SET_LIST.push(set.name);
-});
-
 
 /**
  * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
@@ -140,15 +135,12 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
         return { 'tossups': [], 'bonuses': [] };
     }
 
-    if (!SET_LIST.includes(setName)) {
-        console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
-        return { 'tossups': [], 'bonuses': [] };
-    }
-
     const packet = await packets.findOne({ 'set.name': setName, number: packetNumber });
 
-    if (!packet)
+    if (!packet) {
+        console.log(`[DATABASE] WARNING: set "${setName}" does not exist`);
         return { 'tossups': [], 'bonuses': [] };
+    }
 
     const tossupResult = questionTypes.includes('tossups')
         ? tossups.find({ 'packet._id': packet._id }, {
@@ -520,11 +512,6 @@ async function getRandomBonuses({
 async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', replaceUnformattedAnswer = true, reverse = false }) {
     if (!setName) return [];
 
-    if (!SET_LIST.includes(setName)) {
-        console.log(`[DATABASE] WARNING: "${setName}" not found in SET_LIST`);
-        return [];
-    }
-
     if (!categories || categories.length === 0) categories = CATEGORIES;
     if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
     if (!questionType) questionType = 'tossup';
@@ -580,10 +567,12 @@ async function getSetId(name) {
 
 
 /**
- * @returns {string[]} an array of all the set names.
+ * @returns {Promise<string[]>} an array of all the set names.
  */
-function getSetList() {
-    return SET_LIST;
+async function getSetList() {
+    let  setList = await sets.find({}, { projection: { _id: 0, year: 1, name: 1 }, sort: { year: -1, name: 1 } }).toArray();
+    setList = setList.map(set => set.name);
+    return setList;
 }
 
 
