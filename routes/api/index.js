@@ -1,4 +1,4 @@
-import adminRouter from './admin.js';
+import adminRouter from './admin/index.js';
 import checkAnswerRouter from './check-answer.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
