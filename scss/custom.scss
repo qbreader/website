@@ -106,5 +106,9 @@ code { font-family: 'Fira Code', monospace; }
     font-size: 50%;
 }
 
+.user-score {
+    background-color: $user-score-background;
+}
+
 @import "./dual-slider";
 @import "./dropdown-checklist";
