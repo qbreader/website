@@ -65,13 +65,21 @@
             <div class="col-12">
                 <p class="lead">Play quizbowl real-time against other players.</p>
                 <p>You can invite friends to join you by sharing the URL to your room.</p>
-                <p>Create/Join a Room:</p>
-                <form id="form">
-                    <div class="input-group">
-                        <input class="form-control" id="new-room-name" type="text">
-                        <button class="btn btn-success" type="submit">Go</button>
-                    </div>
-                </form>
+                <div class="border rounded px-2 py-2 mx-auto align-middle">
+                    <p class="mb-0 pb-2">Create/Join a Room:</p>
+                    <form id="form">
+                        <div class="input-group justify-content-center pb-2">
+                            <input class="form-control" id="new-room-name" type="text">
+                            <button class="btn btn-success" type="submit">Go</button>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="private-room-checkbox" type="checkbox">
+                            <label class="form-check-label" for="private-room-checkbox">
+                                Make room private
+                            </label>
+                        </div>
+                    </form>
+                </div>
                 <hr>
                 <p>Try one of these rooms:</p>
                 <ul class="list-group mb-3" id="permanent-room-list"></ul>
