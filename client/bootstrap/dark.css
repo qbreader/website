@@ -9490,6 +9490,10 @@ code {
   color: #343a40;
 }
 
+.user-score {
+  background-color: #4A90E2;
+}
+
 .ui-slider {
   background-color: #6c757d;
   height: 8px;
@@ -9543,10 +9547,6 @@ code {
 .checkbox-menu li.active label:hover,
 .checkbox-menu li.active label:focus {
   background-color: #b8b8ff;
-}
-
-.user-score {
-  background-color: #4A90E2;
 }
 
 /*# sourceMappingURL=dark.css.map */
