@@ -523,7 +523,7 @@ function createPlayerAccordionItem(player) {
     accordionItem.id = `accordion-${userId}`;
     accordionItem.innerHTML = `
         <h2 class="accordion-header" id="heading-${userId}">
-            <button class="accordion-button collapsed" type="button" data-bs-target="#accordion-body-${userId}" data-bs-toggle="collapse">
+            <button class="accordion-button collapsed ${userId == USER_ID ? 'user-score' : ''}" type="button" data-bs-target="#accordion-body-${userId}" data-bs-toggle="collapse">
                 <span id="accordion-button-username-${userId}">
                     ${escapeHTML(username)}
                 </span>&nbsp;(<span class="stats-${userId}" id="accordion-button-points-${userId}">

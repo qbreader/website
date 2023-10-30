@@ -9499,6 +9499,10 @@ code {
   font-size: 50%;
 }
 
+.user-score {
+  background-color: #4A90E2;
+}
+
 .ui-slider {
   background-color: #6c757d;
   height: 8px;
