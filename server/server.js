@@ -25,6 +25,7 @@ import express from 'express';
 import { createServer } from 'http';
 import * as uuid from 'uuid';
 import { WebSocketServer } from 'ws';
+import url from 'url';
 
 const app = express();
 const server = createServer(app);
@@ -47,14 +48,19 @@ app.use(cookieSession({
 app.use(ipFilterMiddleware);
 app.use(ipFilterError);
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws, req) => {
+    // Parse the URL of the incoming request
+    const parsedUrl = url.parse(req.url, true);
+    
+    // Extract the 'isPrivate' query parameter
+    const isPrivate = parsedUrl.query.private === 'true';
     let [roomName, userId, username] = ws.protocol.split('%%%');
     roomName = decodeURIComponent(roomName);
     userId = decodeURIComponent(userId);
     username = decodeURIComponent(username);
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
-    const room = createAndReturnRoom(roomName);
+    const room = createAndReturnRoom(roomName, isPrivate);
     room.connection(ws, userId, username);
 
     ws.on('error', (err) => {
