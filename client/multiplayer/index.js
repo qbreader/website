@@ -1,12 +1,20 @@
 document.getElementById('form').addEventListener('submit', (event) => {
     event.preventDefault();
+
     let roomName = document.getElementById('new-room-name').value;
     if (roomName.length === 0) {
         roomName = document.getElementById('new-room-name').placeholder;
     } else {
         roomName = roomName.replaceAll(' ', '-');
     }
-    window.location.href = '/multiplayer/' + encodeURIComponent(roomName);
+
+    const isPrivate = document.getElementById('private-room-checkbox').checked;
+    if (isPrivate) {
+        window.location.href = `/multiplayer/${encodeURIComponent(roomName)}?private=${isPrivate}`;
+    } else {
+        window.location.href = '/multiplayer/' + encodeURIComponent(roomName);
+    }
+    
 });
 
 
