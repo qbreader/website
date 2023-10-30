@@ -800,7 +800,7 @@ function QueryForm() {
                                 type="button" aria-expanded="true" aria-haspopup="true">
                             Difficulties
                             </button>
-                            <button className="btn btn-default dropdown-toggle dropdown-toggle-split" type="button"></button>
+                            <button className="btn btn-default dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" type="button"></button>
                             <ul className="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
                                 <li><label><input type="checkbox" value="1" /> 1: Middle School</label></li>
                                 <li><label><input type="checkbox" value="2" /> 2: Easy High School</label></li>
