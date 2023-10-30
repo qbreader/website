@@ -753,6 +753,7 @@ function QueryForm() {
     "aria-haspopup": "true"
   }, "Difficulties"), /*#__PURE__*/React.createElement("button", {
     className: "btn btn-default dropdown-toggle dropdown-toggle-split",
+    "data-bs-toggle": "dropdown",
     type: "button"
   }), /*#__PURE__*/React.createElement("ul", {
     className: "dropdown-menu checkbox-menu allow-focus",
