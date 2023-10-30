@@ -681,11 +681,13 @@ for (const roomName of PERMANENT_ROOMS) {
  * @param {String} roomName
  * @returns {TossupRoom}
  */
-function createAndReturnRoom(roomName) {
+function createAndReturnRoom(roomName, isPrivate = false) {
     roomName = DOMPurify.sanitize(roomName);
 
     if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
-        tossupRooms[roomName] = new TossupRoom(roomName, false);
+        const newRoom = new TossupRoom(roomName, false);
+        newRoom.settings.public = !isPrivate;
+        tossupRooms[roomName] = newRoom;
     }
 
     return tossupRooms[roomName];
