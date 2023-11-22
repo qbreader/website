@@ -12,7 +12,7 @@ import randomNameRouter from './random-name.js';
 import randomTossupRouter from './random-tossup.js';
 import reportQuestionRouter from './report-question.js';
 import setListRouter from './set-list.js';
-import tossupByIdRouter from './tossup-by-id.js'
+import tossupByIdRouter from './tossup-by-id.js';
 
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
