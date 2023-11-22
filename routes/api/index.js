@@ -12,6 +12,7 @@ import randomNameRouter from './random-name.js';
 import randomTossupRouter from './random-tossup.js';
 import reportQuestionRouter from './report-question.js';
 import setListRouter from './set-list.js';
+import tossupByIdRouter from './tossup-by-id.js'
 
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
@@ -51,5 +52,6 @@ router.use('/random-name', randomNameRouter);
 router.use('/random-tossup', randomTossupRouter);
 router.use('/report-question', reportQuestionRouter);
 router.use('/set-list', setListRouter);
+router.use('/tossup-by-id', tossupByIdRouter);
 
 export default router;
