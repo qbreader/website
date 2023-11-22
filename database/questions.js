@@ -118,7 +118,6 @@ async function getNumPackets(setName) {
     return await packets.countDocuments({ 'set.name': setName });
 }
 
-
 /**
  * Retrieves a packet of questions from the database.
  * @param {object} options - The options for the packet retrieval.
