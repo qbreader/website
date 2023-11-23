@@ -1,3 +1,16 @@
+if (localStorage.getItem('font-size')) {
+    document.getElementById('font-size').value = localStorage.getItem('font-size');
+    document.getElementById('font-size-display').textContent = localStorage.getItem('font-size');
+}
+
+if (localStorage.getItem('high-contrast-question-text') === 'true') {
+    document.getElementById('toggle-high-contrast-question-text').checked = true;
+}
+
+if (localStorage.getItem('sound-effects') === 'true') {
+    document.getElementById('toggle-sound-effects').checked = true;
+}
+
 const stylesheet = document.querySelector('#custom-css');
 document.getElementById('toggle-color-theme').addEventListener('click', function () {
     if (stylesheet.getAttribute('href') === '/bootstrap/light.css') {
@@ -33,11 +46,11 @@ document.getElementById('toggle-high-contrast-question-text').addEventListener('
     }
 });
 
-if (localStorage.getItem('font-size')) {
-    document.getElementById('font-size').value = localStorage.getItem('font-size');
-    document.getElementById('font-size-display').textContent = localStorage.getItem('font-size');
-}
-
-if (localStorage.getItem('high-contrast-question-text') === 'true') {
-    document.getElementById('toggle-high-contrast-question-text').checked = true;
-}
+document.getElementById('toggle-sound-effects').addEventListener('click', function () {
+    this.blur();
+    if (this.checked) {
+        localStorage.setItem('sound-effects', 'true');
+    } else {
+        localStorage.removeItem('sound-effects');
+    }
+});
