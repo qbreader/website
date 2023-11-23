@@ -12,7 +12,7 @@ router.use(async (req, res, next) => {
 
     if (!checkToken(username, token)) {
         delete req.session;
-        res.redirect('/user/login');
+        res.redirect('/user/login?' + encodeURIComponent(req.originalUrl));
         return;
     }
 

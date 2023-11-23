@@ -24,7 +24,11 @@ form.addEventListener('submit', (event) => {
         if (response.status === 200) {
             const { expires } = await response.json();
             sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
-            window.location.href = '/user/my-profile';
+            if (window.location.search.length > 1) {
+                window.location.href = decodeURIComponent(window.location.search.slice(1));
+            } else {
+                window.location.href = '/user/my-profile';
+            }
         } else {
             document.getElementById('submission').textContent = 'Login';
             document.getElementById('password').value = '';

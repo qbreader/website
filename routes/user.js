@@ -9,7 +9,7 @@ function getPageSecurely(htmlFile) {
     return async (req, res) => {
         // don't show page if you're not logged in
         if (!req.session || !checkToken(req.session.username, req.session.token)) {
-            res.redirect('/user/login');
+            res.redirect('/user/login?' + encodeURIComponent(req.originalUrl));
             return;
         }
 
