@@ -1,4 +1,20 @@
 // Functions and variables specific to the tossups page.
+// Status variables
+let currentlyBuzzing = false;
+let maxPacketNumber = 24;
+let paused = false;
+let powermarkPosition = 0;
+let questionNumber = 0; // WARNING: 1-indexed
+let timeoutID = -1;
+
+const previous = {
+    isCorrect: true,
+    inPower: false,
+    negValue: -5,
+    powerValue: 15,
+    endOfQuestion: false,
+    celerity: 0,
+};
 
 const query = localStorage.getItem('singleplayer-tossup-query')
     ? JSON.parse(localStorage.getItem('singleplayer-tossup-query'))
@@ -23,22 +39,76 @@ const settings = localStorage.getItem('singleplayer-tossup-settings')
         typeToAnswer: true,
     };
 
-// Status variables
-let currentlyBuzzing = false;
-let maxPacketNumber = 24;
-let paused = false;
-let powermarkPosition = 0;
-let questionNumber = 0; // WARNING: 1-indexed
-let timeoutID = -1;
+if (localStorage.getItem('questionNumberTossupSave')) {
+    document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
+    questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave')) - 1;
+}
 
-const previous = {
-    isCorrect: true,
-    inPower: false,
-    negValue: -5,
-    powerValue: 15,
-    endOfQuestion: false,
-    celerity: 0,
-};
+// Load query and settings first so user doesn't see the default settings
+if (settings.readingSpeed) {
+    document.getElementById('reading-speed-display').textContent = localStorage.speed;
+    document.getElementById('reading-speed').value = localStorage.speed;
+}
+
+if (settings.rebuzz) {
+    document.getElementById('toggle-rebuzz').checked = true;
+}
+
+if (settings.selectBySetName) {
+    document.getElementById('difficulty-settings').classList.add('d-none');
+    document.getElementById('set-settings').classList.remove('d-none');
+    document.getElementById('toggle-select-by-set-name').checked = true;
+    document.getElementById('toggle-powermark-only').disabled = true;
+}
+
+if (!settings.showHistory) {
+    document.getElementById('toggle-show-history').checked = false;
+    document.getElementById('room-history').classList.add('d-none');
+}
+
+if (!settings.typeToAnswer) {
+    document.getElementById('type-to-answer').checked = false;
+    document.getElementById('toggle-rebuzz').disabled = true;
+}
+
+if (query.categories.length > 0 && query.subcategories.length === 0) {
+    query.categories.forEach(category => {
+        SUBCATEGORIES[category].forEach(subcategory => {
+            query.subcategories.push(subcategory);
+        });
+    });
+}
+
+if (query.difficulties) {
+    for (let element of document.getElementById('difficulties').children) {
+        const input = element.querySelector('input');
+        const difficulty = parseInt(input.value);
+        if (query.difficulties.includes(difficulty)) {
+            element.classList.add('active');
+            input.checked = true;
+        }
+    }
+}
+
+if (query.packetNumbers) {
+    document.getElementById('packet-number').value = arrayToRange(query.packetNumbers);
+}
+
+if (query.powermarkOnly) {
+    document.getElementById('toggle-powermark-only').checked = true;
+}
+
+if (query.setName) {
+    document.getElementById('set-name').value = query.setName;
+    getNumPackets(query.setName).then(numPackets => {
+        maxPacketNumber = numPackets;
+        if (maxPacketNumber === 0) {
+            document.getElementById('set-name').classList.add('is-invalid');
+        } else {
+            document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
+        }
+    });
+}
 
 const stats = sessionStorage.getItem('tossup-stats') ?
     JSON.parse(sessionStorage.getItem('tossup-stats')) : {
@@ -758,79 +828,10 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = async () => {
-    if (localStorage.getItem('questionNumberTossupSave')) {
-        document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
-        questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave')) - 1;
-    }
-
-    if (settings.readingSpeed) {
-        document.getElementById('reading-speed-display').textContent = localStorage.speed;
-        document.getElementById('reading-speed').value = localStorage.speed;
-    }
-
-    if (settings.rebuzz) {
-        document.getElementById('toggle-rebuzz').checked = true;
-    }
-
-    if (settings.selectBySetName) {
-        document.getElementById('difficulty-settings').classList.add('d-none');
-        document.getElementById('set-settings').classList.remove('d-none');
-        document.getElementById('toggle-select-by-set-name').checked = true;
-        document.getElementById('toggle-powermark-only').disabled = true;
-    }
-
-    if (!settings.showHistory) {
-        document.getElementById('toggle-show-history').checked = false;
-        document.getElementById('room-history').classList.add('d-none');
-    }
-
-    if (!settings.typeToAnswer) {
-        document.getElementById('type-to-answer').checked = false;
-        document.getElementById('toggle-rebuzz').disabled = true;
-    }
-
-    if (query.categories.length > 0 && query.subcategories.length === 0) {
-        query.categories.forEach(category => {
-            SUBCATEGORIES[category].forEach(subcategory => {
-                query.subcategories.push(subcategory);
-            });
-        });
-    }
-
-    loadCategoryModal(query.categories, query.subcategories);
-
-    if (query.difficulties) {
-        for (let element of document.getElementById('difficulties').children) {
-            const input = element.querySelector('input');
-            const difficulty = parseInt(input.value);
-            if (query.difficulties.includes(difficulty)) {
-                element.classList.add('active');
-                input.checked = true;
-            }
-        }
-    }
-
     $('#slider').slider('values', 0, query.minYear);
     $('#slider').slider('values', 1, query.maxYear);
     document.getElementById('year-range-a').textContent = query.minYear;
     document.getElementById('year-range-b').textContent = query.maxYear;
 
-    if (query.packetNumbers) {
-        document.getElementById('packet-number').value = arrayToRange(query.packetNumbers);
-    }
-
-    if (query.powermarkOnly) {
-        document.getElementById('toggle-powermark-only').checked = true;
-    }
-
-    if (query.setName) {
-        document.getElementById('set-name').value = query.setName;
-        maxPacketNumber = await getNumPackets(query.setName);
-
-        if (maxPacketNumber === 0) {
-            document.getElementById('set-name').classList.add('is-invalid');
-        } else {
-            document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
-        }
-    }
+    loadCategoryModal(query.categories, query.subcategories);
 };
