@@ -16,6 +16,7 @@ import databaseRouter from '../routes/database.js';
 import geowordRouter from '../routes/geoword/index.js';
 import indexRouter from '../routes/index.js';
 import multiplayerRouter from '../routes/multiplayer.js';
+import settingsRouter from '../routes/settings.js';
 import tossupsRouter from '../routes/tossups.js';
 import userRouter from '../routes/user.js';
 import webhookRouter from '../routes/api/webhook.js';
@@ -51,7 +52,7 @@ app.use(ipFilterError);
 wss.on('connection', (ws, req) => {
     // Parse the URL of the incoming request
     const parsedUrl = url.parse(req.url, true);
-    
+
     // Extract the 'isPrivate' query parameter
     const isPrivate = parsedUrl.query.private === 'true';
     let [roomName, userId, username] = ws.protocol.split('%%%');
@@ -84,6 +85,7 @@ app.use('/bonuses', bonusesRouter);
 app.use('/db', databaseRouter);
 app.use('/geoword', geowordRouter);
 app.use('/multiplayer', multiplayerRouter);
+app.use('/settings', settingsRouter);
 app.use('/tossups', tossupsRouter);
 app.use('/user', userRouter);
 app.use('/webhook', webhookRouter);

@@ -54,6 +54,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/about">About</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/settings">Settings</a>
+                    </li>
                 </ul>
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
@@ -113,16 +116,10 @@
                     </section>
                 </div>
                 <div class="mt-2" id="general-settings">
-                    <label for="font-size">Font size: <span id="font-size-display">16</span>px</label>
-                    <input class="form-range" id="font-size" type="range" value="16" min="10" max="30" step="1">
                     <div class="text-center mb-2">
                         <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal"
                             data-bs-toggle="modal" type="button">Categories</button>
                         <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-high-contrast-question-text" type="checkbox" role="switch">
-                        <label class="form-check-label" for="toggle-high-contrast-question-text">High contrast text</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-three-part-bonuses" type="checkbox" role="switch" checked>
@@ -139,6 +136,9 @@
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="type-to-answer" type="checkbox" role="switch">
                         <label class="form-check-label" for="type-to-answer">Type to answer</label>
+                    </div>
+                    <div>
+                        View more settings <a href="/settings">here</a>.
                     </div>
                     <div class="d-none d-lg-block">
                         <hr>
