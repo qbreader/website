@@ -413,6 +413,14 @@ const socketOnGiveAnswer = async (message) => {
             }
         });
     }
+
+    if (soundEffects && userId === USER_ID) {
+        if (directive === 'accept') {
+            correctAudio.play();
+        } else if (directive === 'reject') {
+            incorrectAudio.play();
+        }
+    }
 };
 
 const socketOnJoin = (message) => {
@@ -752,6 +760,7 @@ document.getElementById('answer-input').addEventListener('input', function () {
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
+    if (soundEffects) buzzAudio.play();
     socket.send(JSON.stringify({ type: 'buzz' }));
     socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
