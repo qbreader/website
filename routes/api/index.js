@@ -1,4 +1,5 @@
 import adminRouter from './admin/index.js';
+import bonusByIdRouter from './bonus-by-id.js';
 import checkAnswerRouter from './check-answer.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
@@ -39,6 +40,7 @@ router.use((req, _res, next) => {
 });
 
 router.use('/admin', adminRouter);
+router.use('/bonus-by-id', bonusByIdRouter);
 router.use('/check-answer', checkAnswerRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);
