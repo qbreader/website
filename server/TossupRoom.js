@@ -12,6 +12,12 @@ const DOMPurify = createDOMPurify(window);
 
 const rateLimiter = new RateLimit(50, 1000);
 
+const QuestionProgressEnum = Object.freeze({
+    NOT_STARTED: 0,
+    READING: 1,
+    ANSWER_REVEALED: 2,
+});
+
 /**
  * @returns {Number} The number of points scored on a tossup.
  */
@@ -36,7 +42,7 @@ class TossupRoom {
         this.paused = false;
         this.queryingQuestion = false;
         this.questionNumber = 0;
-        this.questionProgress = 0; // 0 = not started, 1 = reading, 2 = answer revealed
+        this.questionProgress = QuestionProgressEnum.NOT_STARTED;
         this.questionSplit = [];
         this.tossup = {};
         this.wordIndex = 0;
@@ -142,14 +148,14 @@ class TossupRoom {
             timer: this.settings.timer,
         }));
 
-        if (this.questionProgress > 0 && this.tossup?.question) {
+        if (this.questionProgress !== QuestionProgressEnum.NOT_STARTED && this.tossup?.question) {
             socket.send(JSON.stringify({
                 type: 'update-question',
                 word: this.questionSplit.slice(0, this.wordIndex).join(' '),
             }));
         }
 
-        if (this.questionProgress === 2 && this.tossup?.answer) {
+        if (this.questionProgress === QuestionProgressEnum.ANSWER_REVEALED && this.tossup?.answer) {
             socket.send(JSON.stringify({
                 type: 'reveal-answer',
                 answer: this.tossup.answer,
@@ -423,7 +429,7 @@ class TossupRoom {
             this.tossup.answer = this.tossup.formatted_answer;
         }
 
-        this.questionProgress = 1;
+        this.questionProgress = QuestionProgressEnum.READING;
         this.questionSplit = this.tossup.question.split(' ').filter(word => word !== '');
         return true;
     }
@@ -535,11 +541,11 @@ class TossupRoom {
 
     async next(userId, type) {
         if (this.queryingQuestion) return;
-        if (this.questionProgress === 1 && !this.settings.skip) return;
+        if (this.questionProgress === QuestionProgressEnum.READING && !this.settings.skip) return;
 
         clearTimeout(this.timeoutID);
 
-        if (this.questionProgress !== 2) {
+        if (this.questionProgress !== QuestionProgressEnum.ANSWER_REVEALED) {
             this.revealQuestion();
         }
 
@@ -626,7 +632,7 @@ class TossupRoom {
         });
 
         this.wordIndex = this.questionSplit.length;
-        this.questionProgress = 2;
+        this.questionProgress = QuestionProgressEnum.ANSWER_REVEALED;
     }
 
     sendSocketMessage(message) {
