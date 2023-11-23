@@ -19,7 +19,7 @@ const settings = localStorage.getItem('singleplayer-bonus-settings')
     : {
         selectBySetName: false,
         showHistory: true,
-        typeToAnswer: false,
+        typeToAnswer: true,
     };
 
 // Status variables
