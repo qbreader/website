@@ -1,4 +1,5 @@
 import adminRouter from './admin/index.js';
+import bonusByIdRouter from './bonus-by-id.js';
 import checkAnswerRouter from './check-answer.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
@@ -12,6 +13,7 @@ import randomNameRouter from './random-name.js';
 import randomTossupRouter from './random-tossup.js';
 import reportQuestionRouter from './report-question.js';
 import setListRouter from './set-list.js';
+import tossupByIdRouter from './tossup-by-id.js';
 
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
@@ -38,6 +40,7 @@ router.use((req, _res, next) => {
 });
 
 router.use('/admin', adminRouter);
+router.use('/bonus-by-id', bonusByIdRouter);
 router.use('/check-answer', checkAnswerRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);
@@ -51,5 +54,6 @@ router.use('/random-name', randomNameRouter);
 router.use('/random-tossup', randomTossupRouter);
 router.use('/report-question', reportQuestionRouter);
 router.use('/set-list', setListRouter);
+router.use('/tossup-by-id', tossupByIdRouter);
 
 export default router;
