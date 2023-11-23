@@ -231,10 +231,14 @@ async function giveAnswer(givenAnswer) {
     switch (directive) {
     case 'accept':
         document.getElementById(`checkbox-${currentBonusPart + 1}`).checked = true;
-    // eslint-disable-next-line no-fallthrough
+        document.getElementById('reveal').disabled = false;
+        revealBonusPart();
+        if (soundEffects) correctAudio.play();
+        break;
     case 'reject':
         document.getElementById('reveal').disabled = false;
         revealBonusPart();
+        if (soundEffects) incorrectAudio.play();
         break;
     case 'prompt':
         document.getElementById('answer-input-group').classList.remove('d-none');

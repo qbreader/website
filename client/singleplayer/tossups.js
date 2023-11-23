@@ -153,6 +153,7 @@ function buzz() {
     // Stop the question reading
     clearTimeout(timeoutID);
     currentlyBuzzing = true;
+    if (soundEffects) buzzAudio.play();
 
     // Include buzzpoint
     document.getElementById('question').textContent += '(#) ';
@@ -222,10 +223,12 @@ async function giveAnswer(givenAnswer) {
     switch (directive) {
     case 'accept':
         updateScore(true);
+        if (soundEffects) correctAudio.play();
         revealQuestion();
         break;
     case 'reject':
         updateScore(false);
+        if (soundEffects) incorrectAudio.play();
         if (settings.rebuzz) {
             document.getElementById('buzz').disabled = false;
             document.getElementById('buzz').textContent = 'Buzz';
