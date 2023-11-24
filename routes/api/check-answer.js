@@ -1,4 +1,4 @@
-import checkAnswer from '../../qb-answer-checker/check-answer';
+import checkAnswer from '../../qb-answer-checker/check-answer.js';
 
 import { Router } from 'express';
 
