@@ -24,9 +24,9 @@ function answerlineTest(group) {
             const { directive, directedPrompt } = checkAnswer(answerline, givenAnswer);
             total++;
             // Assertions will *supposedly* auto return when this fails.
-            mocha.it('directive check', () => assert.strictEqual(expected, directive, errorText(`directive for ${givenAnswer}`)));
+            mocha.it('directive check', () => assert.strictEqual(directive, expected, errorText(`directive for ${givenAnswer}`)));
             if (expectedDirectedPrompt || directedPrompt) {
-                mocha.it('directive prompt check', () => assert.strictEqual(expectedDirectedPrompt, directedPrompt, errorText(`directive prompt for ${givenAnswer}`)));
+                mocha.it('directive prompt check', () => assert.strictEqual(directedPrompt, expectedDirectedPrompt, errorText(`directive prompt for ${givenAnswer}`)));
             }
             successful++;
         });
