@@ -1,6 +1,12 @@
 {
     "formatted": [
         {
+            "answerline": "<b><u>Major Major Major</u></b>",
+            "tests": [
+                { "directive": "reject", "given": "major tom" }
+            ]
+        },
+        {
             "answerline": "<i><b><u>Corpus Juris Civilis</u></b></i> [accept <i><b><u>Body of Civil Law</u></b></i>; accept the <i><b><u>Code of Justinian</u></b></i> or <b><u>Justinian’s Code</u></b>]",
             "tests": [
                 { "directive": "reject", "given": "corpus civilis" }
@@ -580,7 +586,7 @@
             ]
         },
         {
-            "answerline": "Lenski's longterm E. coli evolution experiment [accept anything mentioning the long term evolution of E. Coli]",
+            "answerline": "Lenski's long-term E. coli evolution experiment [accept anything mentioning the long term evolution of E. Coli]",
             "tests": [
                 { "directive": "accept", "given": "lenski long term e coli experiment" }
             ]

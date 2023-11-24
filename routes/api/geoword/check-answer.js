@@ -1,4 +1,4 @@
-import checkAnswer from '../../../server/checkAnswer.js';
+import checkAnswer from '../../../qb-answer-checker/check-answer.js';
 
 import { getAnswer } from '../../../database/geoword.js';
 
