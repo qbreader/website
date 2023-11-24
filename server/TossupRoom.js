@@ -1,4 +1,4 @@
-import checkAnswer from './checkAnswer.js';
+import checkAnswer from '../qb-answer-checker/check-answer.js';
 import Player from './Player.js';
 import RateLimit from './RateLimit.js';
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
