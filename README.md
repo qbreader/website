@@ -24,6 +24,12 @@ I also appreciate feedback and feature suggestions through email, discord, or is
 Make sure to format your code using the provided eslint rules and check by running `npm run lint`.
 I recommend sorting your HTML attributes using [this vscode extension](https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-attrs-sorter), which I have configured to follow https://codeguide.co/#attribute-order.
 
+### Answer Checking
+
+Feel free to check out the answer-checking code in the `qb-answer-checker` folder.
+The `check-answer.js` file does most of the heavy lifting.
+While pull requests are always welcome, they are especially welcome on the `equivalent-answers.js` and `standardize-tokens.js` files.
+
 ### Code Structure
 
 All code that is sent to the **client** is located in `client/`.
