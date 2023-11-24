@@ -4,21 +4,7 @@ import { ipFilterMiddleware, ipFilterError } from './ip-filter.js';
 import { createAndReturnRoom } from './TossupRoom.js';
 
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from '../constants.js';
-
-import aboutRouter from '../routes/about.js';
-import adminRouter from '../routes/admin/index.js';
-import apiRouter from '../routes/api/index.js';
-import apiDocsRouter from '../routes/api-docs.js';
-import authRouter from '../routes/auth/index.js';
-import backupsRouter from '../routes/backups.js';
-import bonusesRouter from '../routes/bonuses.js';
-import databaseRouter from '../routes/database.js';
-import geowordRouter from '../routes/geoword/index.js';
 import indexRouter from '../routes/index.js';
-import multiplayerRouter from '../routes/multiplayer.js';
-import settingsRouter from '../routes/settings.js';
-import tossupsRouter from '../routes/tossups.js';
-import userRouter from '../routes/user.js';
 import webhookRouter from '../routes/api/webhook.js';
 
 import cookieSession from 'cookie-session';
@@ -74,26 +60,7 @@ wss.on('connection', (ws, req) => {
     });
 });
 
-app.use('/', indexRouter);
-app.use('/about', aboutRouter);
-app.use('/admin', adminRouter);
-app.use('/api', apiRouter);
-app.use('/api-docs', apiDocsRouter);
-app.use('/auth', authRouter);
-app.use('/backups', backupsRouter);
-app.use('/bonuses', bonusesRouter);
-app.use('/db', databaseRouter);
-app.use('/geoword', geowordRouter);
-app.use('/multiplayer', multiplayerRouter);
-app.use('/settings', settingsRouter);
-app.use('/tossups', tossupsRouter);
-app.use('/user', userRouter);
-app.use('/webhook', webhookRouter);
-
-
-app.use((req, res) => {
-    res.sendFile(req.url, { root: './client' });
-});
+app.use(indexRouter);
 
 // listen on ipv4 instead of ipv6
 server.listen({ port, host: '0.0.0.0' }, () => {
