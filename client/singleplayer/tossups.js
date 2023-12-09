@@ -834,4 +834,9 @@ window.onload = async () => {
     document.getElementById('year-range-b').textContent = query.maxYear;
 
     loadCategoryModal(query.categories, query.subcategories);
+
+    const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
+    if (await getAccountUsername() === 'forrestw') {
+        toast.show();
+    }
 };
