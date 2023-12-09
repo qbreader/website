@@ -41,9 +41,9 @@ fetch('/api/geoword/get-progress?' + new URLSearchParams({ packetName }))
             });
     });
 
-const buzzAudio = new Audio('/buzz.mp3');
-const correctAudio = new Audio('/correct.mp3');
-const incorrectAudio = new Audio('/incorrect.mp3');
+const buzzAudio = new Audio('/audio/buzz.mp3');
+const correctAudio = new Audio('/audio/correct.mp3');
+const incorrectAudio = new Audio('/audio/incorrect.mp3');
 const sampleAudio = new Audio(`/geoword/audio/${packetName}/sample.mp3`);
 
 async function checkGeowordAnswer(givenAnswer, questionNumber) {
