@@ -3,8 +3,8 @@
  * @param {string} token
  * @returns {string}
  */
-function standardizeTokens(string) {
-    switch (string) {
+function standardizeTokens(token) {
+    switch (token) {
     case 'dr':
     case 'dr.':
         return 'doctor';
@@ -46,7 +46,7 @@ function standardizeTokens(string) {
         return 'continental';
     }
 
-    return string;
+    return token;
 }
 
 export default standardizeTokens;
