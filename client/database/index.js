@@ -691,7 +691,7 @@ function QueryForm() {
       showCardFooter: showCardFooters
     }));
   }
-  React.useEffect(() => {
+  React.useEffect(async () => {
     Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
       input.addEventListener('change', function () {
         if (input.checked) input.closest('li').classList.add('active');else input.closest('li').classList.remove('active');
@@ -712,6 +712,10 @@ function QueryForm() {
       });
       setDifficulties(tempDifficulties);
     });
+    const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
+    if ((await getAccountUsername()) === 'forrestw') {
+      toast.show();
+    }
   }, []);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
     className: "mt-3",
