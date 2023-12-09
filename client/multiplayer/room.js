@@ -989,3 +989,10 @@ document.addEventListener('keypress', function (event) {
 });
 
 document.getElementById('username').value = username;
+
+window.onload = async () => {
+    const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
+    if (await getAccountUsername() === 'forrestw') {
+        toast.show();
+    }
+};

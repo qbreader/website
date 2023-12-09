@@ -756,7 +756,7 @@ function QueryForm() {
         bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} showCardFooter={showCardFooters}/>);
     }
 
-    React.useEffect(() => {
+    React.useEffect(async () => {
         Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
             input.addEventListener('change', function () {
                 if (input.checked)
@@ -782,6 +782,11 @@ function QueryForm() {
             });
             setDifficulties(tempDifficulties);
         });
+
+        const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
+        if (await getAccountUsername() === 'forrestw') {
+            toast.show();
+        }
     }, []);
 
     return (

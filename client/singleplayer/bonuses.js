@@ -668,11 +668,16 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-window.onload = () => {
+window.onload = async () => {
     $('#slider').slider('values', 0, query.minYear);
     $('#slider').slider('values', 1, query.maxYear);
     document.getElementById('year-range-a').textContent = query.minYear;
     document.getElementById('year-range-b').textContent = query.maxYear;
 
     loadCategoryModal(query.categories, query.subcategories);
+
+    const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
+    if (await getAccountUsername() === 'forrestw') {
+        toast.show();
+    }
 };
