@@ -5,14 +5,14 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="A text-based quizbowl packet reader to read questions to yourself.">
 
     <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/images/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
     <link href="/bootstrap/light.css" rel="stylesheet">
-    <link id="custom-css" href="/bootstrap/dark.css" rel="stylesheet">
+    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
     <script src="/apply-theme.js"></script>
 </head>
 
@@ -29,7 +29,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/singleplayer">Singleplayer</a>
+                        <a class="nav-link active" href="/singleplayer" aria-current="page">Singleplayer</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/multiplayer">Multiplayer</a>
@@ -62,48 +62,20 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <h1>
-            <p>Welcome, <span id="username"></span>!</p>
-        </h1>
-        <p>
-            Email: <b><span id="email"></span></b>
+        <p class="lead">
+            Play quizbowl questions by yourself.
         </p>
         <p>
-            Email verified: <b><span id="email-verified"></span></b>
-        </p>
-        <p class="d-none" id="email-verification-span">
-            Check your inbox for a verification email.
-            If you did not receive one, click this link to send a new verification email:
-            <a href="#" id="email-verification-link">Verify my email</a>.
-            <br>
-            <i>Without a verified email, your stats will not be tracked.</i>
-        </p>
-        <div class="alert alert-success d-none" id="email-verification-confirmation">
-            Email verification sent!
-        </div>
-        <p>
-            <a class="btn btn-primary" href="/user/edit-profile">Edit profile</a>
-            <a class="btn btn-primary" href="/user/edit-password">Edit password</a>
-            <button class="btn btn-primary" id="logout" type="button">Logout</button>
-        </p>
-        <p>
-            Here are links to your <a href="/user/stats/tossups">tossup stats</a> and <a href="/user/stats/bonuses">bonus stats</a>.
-            Or, check out your
-            <a href="/user/stats/tossup-graph">tossup stats</a>
-            and
-            <a href="/user/stats/bonus-graph">bonus stats</a>
-            plotted against time.
-        </p>
-        <p>
-            Use these links to view your starred <a href="/user/stars/tossups">tossups</a>
-            and <a href="/user/stars/bonuses">bonuses</a>.
+        <ul>
+            <li><a href="/singleplayer/tossups">Tossups</a></li>
+            <li><a href="/singleplayer/bonuses">Bonuses</a></li>
+            <li>Coming soon: <a href="https://github.com/qbreader/website/issues/10">play against an AI</a>!</li>
+        </ul>
         </p>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/script.js"></script>
-
-    <script src="/user/my-profile.js"></script>
 </body>
 
 </html>
