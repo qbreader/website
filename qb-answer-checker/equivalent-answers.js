@@ -5,10 +5,10 @@ import { removeHTMLTags } from './utils.js';
  * @param {string} answer
  * @returns {string[]} An array of equivalent answers.
  */
-function getEquivalentAnswers(string) {
-    string = string.toLowerCase();
-    string = removeHTMLTags(string);
-    switch (string) {
+function getEquivalentAnswers(answer) {
+    answer = answer.toLowerCase();
+    answer = removeHTMLTags(answer);
+    switch (answer) {
     case 'atomic bombs':
     case 'nuclear weapons':
     case 'nukes':
