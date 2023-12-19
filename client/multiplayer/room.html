@@ -18,6 +18,12 @@
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
     <script src="/apply-theme.js"></script>
+
+    <style type="text/css">
+        .popover {
+            max-width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -88,7 +94,7 @@
                     <span class="face">10</span><span class="fraction">.0</span>
                 </div>
                 <hr>
-                <div class="accordion" id="player-accordion"></div>
+                <ul class="list-group" id="player-list-group"></ul>
                 <hr>
                 <div class="form-floating mb-1">
                     <input class="form-control" id="username" type="text" placeholder="Username">

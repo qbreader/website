@@ -237,8 +237,8 @@ const socketOnBuzz = (message) => {
 
 const socketOnChangeUsername = (message) => {
     logEvent(message.oldUsername, `changed their username to ${message.newUsername}`);
-    document.getElementById('accordion-button-username-' + message.userId).textContent = message.newUsername;
-    sortPlayerAccordion();
+    document.getElementById('username-' + message.userId).textContent = message.newUsername;
+    sortPlayerListGroup();
 };
 
 
@@ -247,7 +247,7 @@ const socketOnClearStats = (message) => {
         element.textContent = '0';
     });
 
-    sortPlayerAccordion();
+    sortPlayerListGroup();
 };
 
 const socketOnConnectionAcknowledged = async (message) => {
@@ -330,14 +330,14 @@ const socketOnConnectionAcknowledged = async (message) => {
 
     Object.keys(message.players).forEach(userId => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
-        createPlayerAccordionItem(message.players[userId]);
+        createPlayerItem(message.players[userId]);
     });
 
     if (!message.canBuzz) {
         document.getElementById('buzz').disabled = true;
     }
 
-    sortPlayerAccordion();
+    sortPlayerListGroup();
 };
 
 const socketOnEndOfSet = () => {
@@ -389,10 +389,10 @@ const socketOnGiveAnswer = async (message) => {
         }
 
         document.getElementById('points-' + userId).textContent = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
-        document.getElementById('celerity-' + userId).textContent = Math.round(1000 * celerity) / 1000;
-        document.getElementById('accordion-button-points-' + userId).textContent = parseInt(document.getElementById('accordion-button-points-' + userId).innerHTML) + score;
+        document.getElementById('celerity-' + userId).textContent = celerity.toFixed(3);
+        document.getElementById('points-' + userId).textContent = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
 
-        sortPlayerAccordion();
+        sortPlayerListGroup();
     }
 
     if (directive !== 'prompt' && userId === USER_ID && await getAccountUsername()) {
@@ -431,16 +431,14 @@ const socketOnJoin = (message) => {
     }
 
     if (message.isNew) {
-        createPlayerAccordionItem(message);
-        sortPlayerAccordion();
+        createPlayerItem(message);
+        sortPlayerListGroup();
     } else {
-        document.getElementById('accordion-button-username-' + userId).textContent = username;
     }
 };
 
 const socketOnLeave = (message) => {
     logEvent(message.username, 'left the game');
-    // document.getElementById('accordion-' + message.userId).remove();
 };
 
 const socketOnLostBuzzerRace = (message) => {
@@ -517,42 +515,55 @@ const PING_INTERVAL_ID = setInterval(() => {
 }, 45000);
 
 
-function createPlayerAccordionItem(player) {
+function createPlayerItem(player) {
     const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
 
-    // 0/0/0 with 0 tossups seen (0 pts, celerity: 0)
-
-    const powerSpan = `<span id="powers-${userId}" class="stats stats-${userId}">${powers}</span>`;
-    const tenSpan = `<span id="tens-${userId}" class="stats stats-${userId}">${tens}</span>`;
-    const negSpan = `<span id="negs-${userId}" class="stats stats-${userId}">${negs}</span>`;
-
-    const accordionItem = document.createElement('div');
-    accordionItem.className = 'accordion-item';
-    accordionItem.id = `accordion-${userId}`;
-    accordionItem.innerHTML = `
-        <h2 class="accordion-header" id="heading-${userId}">
-            <button class="accordion-button collapsed ${userId == USER_ID ? 'user-score' : ''}" type="button" data-bs-target="#accordion-body-${userId}" data-bs-toggle="collapse">
-                <span id="accordion-button-username-${userId}">
-                    ${escapeHTML(username)}
-                </span>&nbsp;(<span class="stats-${userId}" id="accordion-button-points-${userId}">
-                    ${points}
-                </span>&nbsp;pts)
-            </button>
-        </h2>
-        <div class="accordion-collapse collapse" id="accordion-body-${userId}">
-            <div class="accordion-body">
-                ${powerSpan}/${tenSpan}/${negSpan},
-                <span id="tuh-${userId}" class="tuh stats stats-${userId}">
-                    ${tuh}
-                </span> tossups seen (<span id="points-${userId}" class="points stats-${userId}">${points}</span>
-                pts, celerity:
-                <span id="celerity-${userId}" class="stats stats-${userId}">
-                    ${Math.round(1000 * celerity) / 1000}
-                </span>)
-        </div>
+    const playerItem = document.createElement('a');
+    playerItem.className = `list-group-item ${userId == USER_ID ? 'user-score' : ''} clickable`;
+    playerItem.id = `list-group-${userId}`;
+    playerItem.innerHTML = `
+    <div class="d-flex justify-content-between">
+        <span id="username-${userId}">${escapeHTML(username)}</span>
+        <span><span id="points-${userId}" class="badge rounded-pill bg-success">${points}</span></span>
+    </div>
     `;
 
-    document.getElementById('player-accordion').appendChild(accordionItem);
+    playerItem.setAttribute('data-bs-container', 'body');
+    playerItem.setAttribute('data-bs-custom-class', 'w-25');
+    playerItem.setAttribute('data-bs-html', 'true');
+    playerItem.setAttribute('data-bs-placement', 'left');
+    playerItem.setAttribute('data-bs-toggle', 'popover');
+    playerItem.setAttribute('data-bs-trigger', 'focus');
+    playerItem.setAttribute('tabindex', '0');
+
+    playerItem.setAttribute('data-bs-title', username);
+    playerItem.setAttribute('data-bs-content', `
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <span>Powers</span>
+            <span id="powers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${powers}</span>
+        </li>
+        <li class="list-group-item">
+            <span>Tens</span>
+            <span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span>
+        </li>
+        <li class="list-group-item">
+            <span>Negs</span>
+            <span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span>
+        </li>
+        <li class="list-group-item">
+            <span>TUH</span>
+            <span id="tuh-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tuh}</span>
+        </li>
+        <li class="list-group-item">
+            <span>Celerity</span>
+            <span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span>
+        </li>
+    </ul>
+    `);
+
+    document.getElementById('player-list-group').appendChild(playerItem);
+    new bootstrap.Popover(playerItem);
 }
 
 
@@ -683,21 +694,22 @@ function randomUsername() {
 }
 
 
-function sortPlayerAccordion(descending = true) {
-    const accordion = document.getElementById('player-accordion');
-    const items = Array.from(accordion.children);
+function sortPlayerListGroup(descending = true) {
+    const listGroup = document.getElementById('player-list-group');
+    const items = Array.from(listGroup.children);
+    const offset = 'list-group-'.length;
     items.sort((a, b) => {
-        const aPoints = parseInt(document.getElementById('points-' + a.id.substring(10)).innerHTML);
-        const bPoints = parseInt(document.getElementById('points-' + b.id.substring(10)).innerHTML);
+        const aPoints = parseInt(document.getElementById('points-' + a.id.substring(offset)).innerHTML);
+        const bPoints = parseInt(document.getElementById('points-' + b.id.substring(offset)).innerHTML);
         // if points are equal, sort alphabetically by username
         if (aPoints === bPoints) {
-            const aUsername = document.getElementById('accordion-button-username-' + a.id.substring(10)).innerHTML;
-            const bUsername = document.getElementById('accordion-button-username-' + b.id.substring(10)).innerHTML;
+            const aUsername = document.getElementById('username-' + a.id.substring(offset)).innerHTML;
+            const bUsername = document.getElementById('username-' + b.id.substring(offset)).innerHTML;
             return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
         }
         return descending ? bPoints - aPoints : aPoints - bPoints;
     }).forEach(item => {
-        accordion.appendChild(item);
+        listGroup.appendChild(item);
     });
 }
 

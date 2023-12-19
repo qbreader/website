@@ -6,10 +6,13 @@
 $font-family-sans-serif: Helvetica, sans-serif;
 $link-decoration: none;
 
+$popover-body-padding-y:            0;
+$popover-body-padding-x:            0;
+$popover-max-width:                 100%;
+
 // 6. Optionally include any other parts as needed
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css); // Fira Code font
 
-@import "../node_modules/bootstrap/scss/accordion";
 @import "../node_modules/bootstrap/scss/alert";
 @import "../node_modules/bootstrap/scss/badge";
 @import "../node_modules/bootstrap/scss/buttons";
@@ -25,6 +28,7 @@ $link-decoration: none;
 @import "../node_modules/bootstrap/scss/nav";
 @import "../node_modules/bootstrap/scss/navbar";
 @import "../node_modules/bootstrap/scss/pagination";
+@import "../node_modules/bootstrap/scss/popover";
 @import "../node_modules/bootstrap/scss/reboot";
 @import "../node_modules/bootstrap/scss/spinners";
 @import "../node_modules/bootstrap/scss/tables";
@@ -108,6 +112,10 @@ code { font-family: 'Fira Code', monospace; }
 
 .user-score {
     background-color: $user-score-background;
+}
+
+a.list-group-item:hover {
+    color: inherit;
 }
 
 @import "./dual-slider";
