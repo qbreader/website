@@ -62,9 +62,6 @@ $theme-colors: (
     "dark": $dark,
 );
 
-// Accordions:
-$accordion-border-color:    rgba($white, .125);
-
 // Cards:
 $card-border-color:         rgba($white, .125);
 $card-cap-bg:               rgba($white, .03);
@@ -134,6 +131,10 @@ $custom-select-border-color:        $input-border-color;
 $form-range-track-bg:               $gray-600;
 $form-check-input-bg:               $input-bg;
 $form-check-input-border:           1px solid rgba($white, .25);
+
+// Popovers
+$popover-bg:                        $body-bg;
+$popover-header-bg:                 tint-color($popover-bg, 6%);
 
 // $component-active-color:            $primary;
 // $component-active-bg:               $primary;
