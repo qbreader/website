@@ -48,7 +48,14 @@ wss.on('connection', (ws, req) => {
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
     const room = createAndReturnRoom(roomName, isPrivate);
-    room.connection(ws, userId, username);
+    if (room.settings.lock === false) {
+        room.connection(ws, userId, username);
+    } else {
+        ws.send(JSON.stringify({
+            type: 'error',
+            error: 'The room is locked',
+        }));
+    }
 
     ws.on('error', (err) => {
         if (err instanceof RangeError) {
