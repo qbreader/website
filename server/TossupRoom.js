@@ -63,6 +63,7 @@ class TossupRoom {
         };
 
         this.settings = {
+            lock: false,
             public: true,
             rebuzz: false,
             readingSpeed: 50,
@@ -278,6 +279,20 @@ class TossupRoom {
             });
             this.adjustQuery(['setName', 'packetNumbers'], [message.value, message.packetNumbers]);
             break;
+
+        case 'toggle-lock':
+            if (this.settings.public) {
+                return;
+            }
+
+            this.settings.lock = message.lock;
+            this.sendSocketMessage({
+                type: 'toggle-lock',
+                lock: this.settings.lock,
+                username: this.players[userId].username,
+            });
+            break;
+
 
         case 'toggle-powermark-only':
             this.query.powermarkOnly = message.powermarkOnly;
