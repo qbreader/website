@@ -374,6 +374,7 @@ const socketOnGiveAnswer = async (message) => {
     } else if (directive !== 'prompt') {
         document.getElementById('answer-input').placeholder = 'Enter answer';
         document.getElementById('next').disabled = false;
+        document.getElementById('pause').disabled = false;
 
         if (directive === 'accept') {
             document.getElementById('buzz').disabled = true;
