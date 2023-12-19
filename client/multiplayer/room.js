@@ -434,11 +434,15 @@ const socketOnJoin = (message) => {
         createPlayerItem(message);
         sortPlayerListGroup();
     } else {
+        document.getElementById('points-' + message.userId).classList.add('bg-success');
+        document.getElementById('points-' + message.userId).classList.remove('bg-secondary');
     }
 };
 
 const socketOnLeave = (message) => {
     logEvent(message.username, 'left the game');
+    document.getElementById('points-' + message.userId).classList.remove('bg-success');
+    document.getElementById('points-' + message.userId).classList.remove('bg-secondary');
 };
 
 const socketOnLostBuzzerRace = (message) => {
