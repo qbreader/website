@@ -38,6 +38,11 @@ const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%
 socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
+    case 'error':
+        socket.close(3000);
+        window.location.href = '/multiplayer';
+        break;
+
     case 'buzz':
         socketOnBuzz(data);
         break;
@@ -151,6 +156,11 @@ socket.onmessage = function (event) {
         updateTimerDisplay(data.timeRemaining);
         break;
 
+    case 'toggle-lock':
+        logEvent(data.username, `${data.lock ? 'locked' : 'unlocked'} the room`);
+        document.getElementById('toggle-lock').checked = data.lock;
+        break;
+
     case 'toggle-powermark-only':
         logEvent(data.username, `${data.powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
         document.getElementById('toggle-powermark-only').checked = data.powermarkOnly;
@@ -193,6 +203,7 @@ socket.onmessage = function (event) {
         logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
         document.getElementById('toggle-visibility').checked = data.public;
         document.getElementById('chat').disabled = data.public;
+        document.getElementById('toggle-lock').disabled = data.public;
         document.getElementById('toggle-timer').disabled = data.public;
         document.getElementById('toggle-timer').checked = true;
         break;
@@ -221,9 +232,12 @@ socket.onmessage = function (event) {
     }
 };
 
-socket.onclose = function () {
+socket.onclose = function (event) {
+    const { code } = event;
     clearInterval(PING_INTERVAL_ID);
-    window.alert('Disconnected from server');
+    if (code !== 3000) {
+        window.alert('Disconnected from server');
+    }
 };
 
 const socketOnBuzz = (message) => {
@@ -898,6 +912,12 @@ document.getElementById('set-name').addEventListener('change', async function ()
     }
 
     socket.send(JSON.stringify({ type: 'set-name', value: this.value, packetNumbers: rangeToArray(document.getElementById('packet-number').value) }));
+});
+
+
+document.getElementById('toggle-lock').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-lock', lock: this.checked }));
 });
 
 
