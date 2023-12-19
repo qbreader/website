@@ -6,6 +6,11 @@ let validSubcategories = [];
 let maxPacketNumber = 24;
 let powermarkPosition = 0;
 
+/**
+ * userId to player object
+ */
+const players = {};
+
 // Do not escape room name, as most browsers automatically do this
 const ROOM_NAME = location.pathname.substring(13);
 let tossup = {};
@@ -330,7 +335,8 @@ const socketOnConnectionAcknowledged = async (message) => {
 
     Object.keys(message.players).forEach(userId => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
-        createPlayerItem(message.players[userId]);
+        players[userId] = message.players[userId];
+        upsertPlayerItem(players[userId]);
     });
 
     if (!message.canBuzz) {
@@ -381,17 +387,18 @@ const socketOnGiveAnswer = async (message) => {
         }
 
         if (score > 10) {
-            document.getElementById('powers-' + userId).textContent = parseInt(document.getElementById('powers-' + userId).innerHTML) + 1;
+            players[userId].powers++;
         } else if (score === 10) {
-            document.getElementById('tens-' + userId).textContent = parseInt(document.getElementById('tens-' + userId).innerHTML) + 1;
+            players[userId].tens++;
         } else if (score < 0) {
-            document.getElementById('negs-' + userId).textContent = parseInt(document.getElementById('negs-' + userId).innerHTML) + 1;
+            players[userId].negs++;
         }
 
-        document.getElementById('points-' + userId).textContent = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
-        document.getElementById('celerity-' + userId).textContent = celerity.toFixed(3);
-        document.getElementById('points-' + userId).textContent = parseInt(document.getElementById('points-' + userId).innerHTML) + score;
+        players[userId].points += score;
+        players[userId].tuh++;
+        players[userId].celerity = celerity;
 
+        upsertPlayerItem(players[userId]);
         sortPlayerListGroup();
     }
 
@@ -431,7 +438,7 @@ const socketOnJoin = (message) => {
     }
 
     if (message.isNew) {
-        createPlayerItem(message);
+        upsertPlayerItem(message);
         sortPlayerListGroup();
     } else {
         document.getElementById('points-' + message.userId).classList.add('bg-success');
@@ -517,58 +524,6 @@ const socketOnStart = (message) => {
 const PING_INTERVAL_ID = setInterval(() => {
     socket.send(JSON.stringify({ type: 'ping' }));
 }, 45000);
-
-
-function createPlayerItem(player) {
-    const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
-
-    const playerItem = document.createElement('a');
-    playerItem.className = `list-group-item ${userId == USER_ID ? 'user-score' : ''} clickable`;
-    playerItem.id = `list-group-${userId}`;
-    playerItem.innerHTML = `
-    <div class="d-flex justify-content-between">
-        <span id="username-${userId}">${escapeHTML(username)}</span>
-        <span><span id="points-${userId}" class="badge rounded-pill bg-success">${points}</span></span>
-    </div>
-    `;
-
-    playerItem.setAttribute('data-bs-container', 'body');
-    playerItem.setAttribute('data-bs-custom-class', 'w-25');
-    playerItem.setAttribute('data-bs-html', 'true');
-    playerItem.setAttribute('data-bs-placement', 'left');
-    playerItem.setAttribute('data-bs-toggle', 'popover');
-    playerItem.setAttribute('data-bs-trigger', 'focus');
-    playerItem.setAttribute('tabindex', '0');
-
-    playerItem.setAttribute('data-bs-title', username);
-    playerItem.setAttribute('data-bs-content', `
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-            <span>Powers</span>
-            <span id="powers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${powers}</span>
-        </li>
-        <li class="list-group-item">
-            <span>Tens</span>
-            <span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span>
-        </li>
-        <li class="list-group-item">
-            <span>Negs</span>
-            <span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span>
-        </li>
-        <li class="list-group-item">
-            <span>TUH</span>
-            <span id="tuh-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tuh}</span>
-        </li>
-        <li class="list-group-item">
-            <span>Celerity</span>
-            <span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span>
-        </li>
-    </ul>
-    `);
-
-    document.getElementById('player-list-group').appendChild(playerItem);
-    new bootstrap.Popover(playerItem);
-}
 
 
 function logChat(username, message, isLive = false, userId = null) {
@@ -718,6 +673,20 @@ function sortPlayerListGroup(descending = true) {
 }
 
 
+function submitAnswer() {
+    const answer = document.getElementById('answer-input').value;
+
+    document.getElementById('answer-input').value = '';
+    document.getElementById('answer-input-group').classList.add('d-none');
+    document.getElementById('answer-input').blur();
+
+    socket.send(JSON.stringify({
+        type: 'give-answer',
+        givenAnswer: answer,
+    }));
+}
+
+
 function updateDifficulties(difficulties) {
     Array.from(document.getElementById('difficulties').children).forEach(li => {
         const input = li.querySelector('input');
@@ -733,26 +702,68 @@ function updateDifficulties(difficulties) {
 }
 
 
-function submitAnswer() {
-    const answer = document.getElementById('answer-input').value;
-
-    document.getElementById('answer-input').value = '';
-    document.getElementById('answer-input-group').classList.add('d-none');
-    document.getElementById('answer-input').blur();
-
-    socket.send(JSON.stringify({
-        type: 'give-answer',
-        givenAnswer: answer,
-    }));
-}
-
-
 function updateTimerDisplay(time) {
     const seconds = Math.floor(time / 10);
     const tenths = time % 10;
 
     document.querySelector('.timer .face').innerText = seconds;
     document.querySelector('.timer .fraction').innerText = '.' + tenths;
+}
+
+
+function upsertPlayerItem(player) {
+    const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
+
+    if (document.getElementById('list-group-' + userId)) {
+        document.getElementById('list-group-' + userId).remove();
+    }
+
+    const playerItem = document.createElement('a');
+    playerItem.className = `list-group-item ${userId == USER_ID ? 'user-score' : ''} clickable`;
+    playerItem.id = `list-group-${userId}`;
+    playerItem.innerHTML = `
+    <div class="d-flex justify-content-between">
+        <span id="username-${userId}">${escapeHTML(username)}</span>
+        <span><span id="points-${userId}" class="badge rounded-pill bg-success">${points}</span></span>
+    </div>
+    `;
+
+    playerItem.setAttribute('data-bs-container', 'body');
+    playerItem.setAttribute('data-bs-custom-class', 'w-25');
+    playerItem.setAttribute('data-bs-html', 'true');
+    playerItem.setAttribute('data-bs-placement', 'left');
+    playerItem.setAttribute('data-bs-toggle', 'popover');
+    playerItem.setAttribute('data-bs-trigger', 'focus');
+    playerItem.setAttribute('tabindex', '0');
+
+    playerItem.setAttribute('data-bs-title', username);
+    playerItem.setAttribute('data-bs-content', `
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <span>Powers</span>
+            <span id="powers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${powers}</span>
+        </li>
+        <li class="list-group-item">
+            <span>Tens</span>
+            <span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span>
+        </li>
+        <li class="list-group-item">
+            <span>Negs</span>
+            <span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span>
+        </li>
+        <li class="list-group-item">
+            <span>TUH</span>
+            <span id="tuh-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tuh}</span>
+        </li>
+        <li class="list-group-item">
+            <span>Celerity</span>
+            <span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span>
+        </li>
+    </ul>
+    `);
+
+    document.getElementById('player-list-group').appendChild(playerItem);
+    new bootstrap.Popover(playerItem);
 }
 
 
