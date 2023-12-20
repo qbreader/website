@@ -1,4 +1,4 @@
-import { getRandomTossups } from '../../database/questions.js';
+import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
 
 import { Router } from 'express';
 const router = Router();

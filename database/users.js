@@ -1,4 +1,6 @@
-import { getTossupById, getBonusById, getSetId } from './questions.js';
+import getBonus from './qbreader/get-bonus.js';
+import getSetId from './qbreader/get-set-id.js';
+import getTossup from './qbreader/get-tossup.js';
 
 // eslint-disable-next-line no-unused-vars
 import * as types from '../types.js';
@@ -117,7 +119,7 @@ async function getBestBuzz({ username, difficulties, setName, includeMultiplayer
     if (!data)
         return null;
 
-    data.tossup = await getTossupById(data.tossup_id);
+    data.tossup = await getTossup(data.tossup_id);
     return data;
 }
 
@@ -140,7 +142,7 @@ async function getSubcategoryStats({ username, questionType, difficulties, setNa
  * @returns {Promise<Document>} the bonus stats
  */
 async function getSingleBonusStats(bonus_id) {
-    const bonus = await getBonusById(bonus_id);
+    const bonus = await getBonus(bonus_id);
 
     if (!bonus) {
         return null;
@@ -222,7 +224,7 @@ async function getBonusStars(user_id) {
 
     const bonuses = await bonusStars.aggregate(aggregation).toArray();
     for (const bonus of bonuses) {
-        bonus.bonus = await getBonusById(bonus.bonus_id);
+        bonus.bonus = await getBonus(bonus.bonus_id);
     }
     return bonuses.map(star => star.bonus);
 }
@@ -242,7 +244,7 @@ async function getTossupStars(user_id) {
 
     const tossups = await tossupStars.aggregate(aggregation).toArray();
     for (const tossup of tossups) {
-        tossup.tossup = await getTossupById(tossup.tossup_id);
+        tossup.tossup = await getTossup(tossup.tossup_id);
     }
     return tossups.map(star => star.tossup);
 }

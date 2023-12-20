@@ -1,4 +1,4 @@
-import { updateSubcategory } from '../../../database/questions.js';
+import updateSubcategory from '../../../database/qbreader/update-subcategory.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
