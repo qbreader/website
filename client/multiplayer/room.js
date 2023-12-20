@@ -466,6 +466,7 @@ const socketOnJoin = (message) => {
         upsertPlayerItem(message);
         sortPlayerListGroup();
     } else {
+        players[message.userId].isOnline = true;
         document.getElementById('points-' + message.userId).classList.add('bg-success');
         document.getElementById('points-' + message.userId).classList.remove('bg-secondary');
     }
@@ -473,8 +474,9 @@ const socketOnJoin = (message) => {
 
 const socketOnLeave = (message) => {
     logEvent(message.username, 'left the game');
+    players[message.userId].isOnline = false;
     document.getElementById('points-' + message.userId).classList.remove('bg-success');
-    document.getElementById('points-' + message.userId).classList.remove('bg-secondary');
+    document.getElementById('points-' + message.userId).classList.add('bg-secondary');
 };
 
 const socketOnLostBuzzerRace = (message) => {
@@ -737,7 +739,7 @@ function updateTimerDisplay(time) {
 
 
 function upsertPlayerItem(player) {
-    const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0 } = player;
+    const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0, isOnline } = player;
 
     if (document.getElementById('list-group-' + userId)) {
         document.getElementById('list-group-' + userId).remove();
@@ -749,7 +751,7 @@ function upsertPlayerItem(player) {
     playerItem.innerHTML = `
     <div class="d-flex justify-content-between">
         <span id="username-${userId}">${escapeHTML(username)}</span>
-        <span><span id="points-${userId}" class="badge rounded-pill bg-success">${points}</span></span>
+        <span><span id="points-${userId}" class="badge rounded-pill ${isOnline ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
     </div>
     `;
 
