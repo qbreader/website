@@ -26,6 +26,9 @@ const query = localStorage.getItem('singleplayer-bonus-query')
         threePartBonuses: true,
     };
 
+query.subcategories = query.subcategories.filter(subcategory => subcategory !== 'Math');
+localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+
 const settings = localStorage.getItem('singleplayer-bonus-settings')
     ? JSON.parse(localStorage.getItem('singleplayer-bonus-settings'))
     : {
