@@ -29,6 +29,9 @@ const query = localStorage.getItem('singleplayer-tossup-query')
         subcategories: [],
     };
 
+query.subcategories = query.subcategories.filter(subcategory => subcategory !== 'Math');
+localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+
 const settings = localStorage.getItem('singleplayer-tossup-settings')
     ? JSON.parse(localStorage.getItem('singleplayer-tossup-settings'))
     : {
