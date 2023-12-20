@@ -33,7 +33,15 @@ function showSkipButton() {
 }
 
 
-const socket = new WebSocket(location.href.replace('http', 'ws'), `${ROOM_NAME}%%%${encodeURIComponent(USER_ID)}%%%${encodeURIComponent(username)}`);
+const socket = new WebSocket(
+    location.href.replace('http', 'ws')
+    + (location.href.endsWith('?private=true') ? '&' : '?')
+    + new URLSearchParams({
+        roomName: ROOM_NAME,
+        userId: USER_ID,
+        username,
+    }).toString(),
+);
 
 socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
