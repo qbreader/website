@@ -3,7 +3,7 @@
 const SUBCATEGORIES = {
     'Literature': ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
     'History': ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
-    'Science': ['Biology', 'Chemistry', 'Physics', 'Math', 'Other Science'],
+    'Science': ['Biology', 'Chemistry', 'Physics', 'Other Science'],
     'Fine Arts': ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
     'Religion': ['Religion'],
     'Mythology': ['Mythology'],
