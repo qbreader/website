@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getBonusById } from '../../database/questions.js';
+import getBonus from '../../database/qbreader/get-bonus.js';
 import { ObjectId } from 'mongodb';
 
 const router = Router();
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
         res.status(400).send('Invalid Bonus ID');
         return;
     }
-    const bonus = await getBonusById(oid);
+    const bonus = await getBonus(oid);
     if (bonus === null) {
         res.status(404).send(`Bonus with ID ${req.query.id} was not found`);
         return;

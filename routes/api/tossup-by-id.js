@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getTossupById } from '../../database/questions.js';
+import getTossup from '../../database/qbreader/get-tossup.js';
 import { ObjectId } from 'mongodb';
 
 const router = Router();
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
         res.status(400).send('Invalid Tossup ID');
         return;
     }
-    const tossup = await getTossupById(oid);
+    const tossup = await getTossup(oid);
     if (tossup === null) {
         res.status(404).send(`Tossup with ID ${req.query.id} was not found`);
         return;
