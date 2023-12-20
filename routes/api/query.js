@@ -10,18 +10,8 @@ router.get('/', async (req, res) => {
         req.query.questionType = 'all';
     }
 
-    if (!['tossup', 'bonus', 'all'].includes(req.query.questionType)) {
-        res.status(400).send('Invalid question type specified.');
-        return;
-    }
-
     if (!req.query.searchType) {
         req.query.searchType = 'all';
-    }
-
-    if (!['question', 'answer', 'all'].includes(req.query.searchType)) {
-        res.status(400).send('Invalid search type specified.');
-        return;
     }
 
     req.query.exactPhrase = (req.query.exactPhrase === 'true');
@@ -73,9 +63,24 @@ router.get('/', async (req, res) => {
     req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
 
-    const queryResult = await getQuery(req.query);
-    res.header('Access-Control-Allow-Origin', '*');
-    res.json(queryResult);
+    try {
+        const queryResult = await getQuery(req.query);
+        res.header('Access-Control-Allow-Origin', '*');
+        res.json(queryResult);
+    } catch (error) {
+        switch (error.message) {
+        case 'Invalid question type specified.':
+            res.status(400).send('Invalid question type specified.');
+            return;
+        case 'Invalid search type specified.':
+            res.status(400).send('Invalid search type specified.');
+            return;
+        default:
+            console.log(error);
+            res.sendStatus(500);
+            return;
+        }
+    }
 });
 
 
