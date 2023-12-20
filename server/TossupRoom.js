@@ -28,7 +28,7 @@ function scoreTossup({ isCorrect, inPower, endOfQuestion, isPace = false }) {
 }
 
 class TossupRoom {
-    constructor(name, isPermanent = false) {
+    constructor(name, isPermanent = false, categories = [], subcategories = []) {
         this.name = name;
         this.isPermanent = isPermanent;
 
@@ -56,8 +56,8 @@ class TossupRoom {
             maxYear: DEFAULT_MAX_YEAR,
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
             setName: '2022 PACE NSC',
-            categories: [],
-            subcategories: [],
+            categories: categories,
+            subcategories: subcategories,
             reverse: true, // used for `database.getSet`
             powermarkOnly: false,
         };
@@ -314,6 +314,10 @@ class TossupRoom {
             break;
 
         case 'toggle-select-by-set-name':
+            if (this.isPermanent) {
+                break;
+            }
+
             this.sendSocketMessage({
                 type: 'toggle-select-by-set-name',
                 selectBySetName: message.selectBySetName,
@@ -360,6 +364,10 @@ class TossupRoom {
             break;
 
         case 'update-categories':
+            if (this.isPermanent) {
+                break;
+            }
+
             this.sendSocketMessage({
                 type: 'update-categories',
                 categories: message.categories,
@@ -691,8 +699,9 @@ class TossupRoom {
 
 const tossupRooms = {};
 
-for (const roomName of PERMANENT_ROOMS) {
-    tossupRooms[roomName] = new TossupRoom(roomName, true);
+for (const room of PERMANENT_ROOMS) {
+    const { name, categories, subcategories } = room;
+    tossupRooms[name] = new TossupRoom(name, true, categories, subcategories);
 }
 
 

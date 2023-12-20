@@ -346,8 +346,10 @@ const socketOnConnectionAcknowledged = async (message) => {
     }
 
     if (message.isPermanent) {
+        document.getElementById('category-select-button').disabled = true;
         document.getElementById('toggle-visibility').disabled = true;
-        document.getElementById('private-chat-warning').classList.add('d-none');
+        document.getElementById('toggle-select-by-set-name').disabled = true;
+        document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
     }
 
     $('#slider').slider('values', 0, message.minYear);
