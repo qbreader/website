@@ -100,14 +100,21 @@ function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = 
 function highlightTossupQuery({
   tossup,
   regExp,
-  searchType = 'all'
+  searchType = 'all',
+  ignoreWordOrder,
+  queryString
 }) {
-  if (searchType === 'question' || searchType === 'all') tossup.question = tossup.question.replace(regExp, '<span class="text-highlight">$&</span>');
-  if (searchType === 'answer' || searchType === 'all') {
-    if (tossup.formatted_answer) {
-      tossup.formatted_answer = tossup.formatted_answer.replace(regExp, '<span class="text-highlight">$&</span>');
-    } else {
-      tossup.answer = tossup.answer.replace(regExp, '<span class="text-highlight">$&</span>');
+  const words = ignoreWordOrder ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig')) : [regExp];
+  for (const word of words) {
+    if (searchType === 'question' || searchType === 'all') {
+      tossup.question = tossup.question.replace(word, '<span class="text-highlight">$&</span>');
+    }
+    if (searchType === 'answer' || searchType === 'all') {
+      if (tossup.formatted_answer) {
+        tossup.formatted_answer = tossup.formatted_answer.replace(word, '<span class="text-highlight">$&</span>');
+      } else {
+        tossup.answer = tossup.answer.replace(word, '<span class="text-highlight">$&</span>');
+      }
     }
   }
   return tossup;
@@ -115,22 +122,27 @@ function highlightTossupQuery({
 function highlightBonusQuery({
   bonus,
   regExp,
-  searchType = 'all'
+  searchType = 'all',
+  ignoreWordOrder,
+  queryString
 }) {
-  if (searchType === 'question' || searchType === 'all') {
-    bonus.leadin = bonus.leadin.replace(regExp, '<span class="text-highlight">$&</span>');
-    for (let i = 0; i < bonus.parts.length; i++) {
-      bonus.parts[i] = bonus.parts[i].replace(regExp, '<span class="text-highlight">$&</span>');
-    }
-  }
-  if (searchType === 'answer' || searchType === 'all') {
-    if (bonus.formatted_answers) {
-      for (let i = 0; i < bonus.answers.length; i++) {
-        bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(regExp, '<span class="text-highlight">$&</span>');
+  const words = ignoreWordOrder ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig')) : [regExp];
+  for (const word of words) {
+    if (searchType === 'question' || searchType === 'all') {
+      bonus.leadin = bonus.leadin.replace(word, '<span class="text-highlight">$&</span>');
+      for (let i = 0; i < bonus.parts.length; i++) {
+        bonus.parts[i] = bonus.parts[i].replace(word, '<span class="text-highlight">$&</span>');
       }
-    } else {
-      for (let i = 0; i < bonus.answers.length; i++) {
-        bonus.answers[i] = bonus.answers[i].replace(regExp, '<span class="text-highlight">$&</span>');
+    }
+    if (searchType === 'answer' || searchType === 'all') {
+      if (bonus.formatted_answers) {
+        for (let i = 0; i < bonus.answers.length; i++) {
+          bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(word, '<span class="text-highlight">$&</span>');
+        }
+      } else {
+        for (let i = 0; i < bonus.answers.length; i++) {
+          bonus.answers[i] = bonus.answers[i].replace(word, '<span class="text-highlight">$&</span>');
+        }
       }
     }
   }
@@ -506,6 +518,7 @@ function QueryForm() {
   const [minYear, setMinYear] = React.useState('');
   const [maxYear, setMaxYear] = React.useState('');
   const [regex, setRegex] = React.useState(false);
+  const [ignoreWordOrder, setIgnoreWordOrder] = React.useState(false);
   const [diacritics, setDiacritics] = React.useState(false);
   const [exactPhrase, setExactPhrase] = React.useState(false);
   const [powermarkOnly, setPowermarkOnly] = React.useState(false);
@@ -597,6 +610,7 @@ function QueryForm() {
       ignoreDiacritics: diacritics,
       powermarkOnly,
       regex,
+      ignoreWordOrder,
       searchType,
       setName: document.getElementById('set-name').value,
       tossupPagination: tossupPaginationNumber,
@@ -631,7 +645,8 @@ function QueryForm() {
             tossup: highlightedTossupArray[i],
             regExp,
             searchType,
-            regex
+            ignoreWordOrder,
+            queryString
           });
         }
       }
@@ -649,7 +664,8 @@ function QueryForm() {
             bonus: highlightedBonusArray[i],
             regExp,
             searchType,
-            regex
+            ignoreWordOrder,
+            queryString
           });
         }
       }
@@ -895,6 +911,21 @@ function QueryForm() {
   }, "Search using regular expression"), /*#__PURE__*/React.createElement("a", {
     href: "https://www.sitepoint.com/learn-regex/"
   }, " What's this?")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-ignore-word-order",
+    checked: !regex && ignoreWordOrder,
+    disabled: regex,
+    onChange: () => {
+      setIgnoreWordOrder(!ignoreWordOrder);
+    }
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-ignore-word-order"
+  }, "Ignore word order")), /*#__PURE__*/React.createElement("div", {
     className: "form-check form-switch"
   }, /*#__PURE__*/React.createElement("input", {
     className: "form-check-input",

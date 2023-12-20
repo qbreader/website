@@ -49,6 +49,7 @@ function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
     hiddenElement.click();
 }
 
+
 function escapeCSVString(string) {
     if (string === undefined || string === null)
         return '';
@@ -58,6 +59,7 @@ function escapeCSVString(string) {
 
     return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
 }
+
 
 function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
     const header = [
@@ -192,15 +194,22 @@ function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = 
 }
 
 
-function highlightTossupQuery({ tossup, regExp, searchType = 'all' }) {
-    if (searchType === 'question' || searchType === 'all')
-        tossup.question = tossup.question.replace(regExp, '<span class="text-highlight">$&</span>');
+function highlightTossupQuery({ tossup, regExp, searchType = 'all', ignoreWordOrder, queryString }) {
+    const words = ignoreWordOrder
+        ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig'))
+        : [regExp];
 
-    if (searchType === 'answer' || searchType === 'all') {
-        if (tossup.formatted_answer) {
-            tossup.formatted_answer = tossup.formatted_answer.replace(regExp, '<span class="text-highlight">$&</span>');
-        } else {
-            tossup.answer = tossup.answer.replace(regExp, '<span class="text-highlight">$&</span>');
+    for (const word of words) {
+        if (searchType === 'question' || searchType === 'all') {
+            tossup.question = tossup.question.replace(word, '<span class="text-highlight">$&</span>');
+        }
+
+        if (searchType === 'answer' || searchType === 'all') {
+            if (tossup.formatted_answer) {
+                tossup.formatted_answer = tossup.formatted_answer.replace(word, '<span class="text-highlight">$&</span>');
+            } else {
+                tossup.answer = tossup.answer.replace(word, '<span class="text-highlight">$&</span>');
+            }
         }
     }
 
@@ -208,22 +217,28 @@ function highlightTossupQuery({ tossup, regExp, searchType = 'all' }) {
 }
 
 
-function highlightBonusQuery({ bonus, regExp, searchType = 'all' }) {
-    if (searchType === 'question' || searchType === 'all') {
-        bonus.leadin = bonus.leadin.replace(regExp, '<span class="text-highlight">$&</span>');
-        for (let i = 0; i < bonus.parts.length; i++) {
-            bonus.parts[i] = bonus.parts[i].replace(regExp, '<span class="text-highlight">$&</span>');
-        }
-    }
+function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrder, queryString }) {
+    const words = ignoreWordOrder
+        ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig'))
+        : [regExp];
 
-    if (searchType === 'answer' || searchType === 'all') {
-        if (bonus.formatted_answers) {
-            for (let i = 0; i < bonus.answers.length; i++) {
-                bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(regExp, '<span class="text-highlight">$&</span>');
+    for (const word of words) {
+        if (searchType === 'question' || searchType === 'all') {
+            bonus.leadin = bonus.leadin.replace(word, '<span class="text-highlight">$&</span>');
+            for (let i = 0; i < bonus.parts.length; i++) {
+                bonus.parts[i] = bonus.parts[i].replace(word, '<span class="text-highlight">$&</span>');
             }
-        } else {
-            for (let i = 0; i < bonus.answers.length; i++) {
-                bonus.answers[i] = bonus.answers[i].replace(regExp, '<span class="text-highlight">$&</span>');
+        }
+
+        if (searchType === 'answer' || searchType === 'all') {
+            if (bonus.formatted_answers) {
+                for (let i = 0; i < bonus.answers.length; i++) {
+                    bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(word, '<span class="text-highlight">$&</span>');
+                }
+            } else {
+                for (let i = 0; i < bonus.answers.length; i++) {
+                    bonus.answers[i] = bonus.answers[i].replace(word, '<span class="text-highlight">$&</span>');
+                }
             }
         }
     }
@@ -567,6 +582,7 @@ function QueryForm() {
     const [maxYear, setMaxYear] = React.useState('');
 
     const [regex, setRegex] = React.useState(false);
+    const [ignoreWordOrder, setIgnoreWordOrder] = React.useState(false);
     const [diacritics, setDiacritics] = React.useState(false);
     const [exactPhrase, setExactPhrase] = React.useState(false);
     const [powermarkOnly, setPowermarkOnly] = React.useState(false);
@@ -677,6 +693,7 @@ function QueryForm() {
             ignoreDiacritics: diacritics,
             powermarkOnly,
             regex,
+            ignoreWordOrder,
             searchType,
             setName: document.getElementById('set-name').value,
             tossupPagination: tossupPaginationNumber,
@@ -704,7 +721,7 @@ function QueryForm() {
                 const highlightedTossupArray = JSON.parse(JSON.stringify(tossupArray));
                 if (queryString !== '') {
                     for (let i = 0; i < highlightedTossupArray.length; i++) {
-                        highlightedTossupArray[i] = highlightTossupQuery({ tossup: highlightedTossupArray[i], regExp, searchType, regex } );
+                        highlightedTossupArray[i] = highlightTossupQuery({ tossup: highlightedTossupArray[i], regExp, searchType, ignoreWordOrder, queryString } );
                     }
                 }
                 setHighlightedTossups(highlightedTossupArray);
@@ -716,7 +733,7 @@ function QueryForm() {
                 const highlightedBonusArray = JSON.parse(JSON.stringify(bonusArray));
                 if (queryString !== '') {
                     for (let i = 0; i < highlightedBonusArray.length; i++) {
-                        highlightedBonusArray[i] = highlightBonusQuery({ bonus: highlightedBonusArray[i], regExp, searchType, regex });
+                        highlightedBonusArray[i] = highlightBonusQuery({ bonus: highlightedBonusArray[i], regExp, searchType, ignoreWordOrder, queryString });
                     }
                 }
                 setHighlightedBonuses(highlightedBonusArray);
@@ -856,6 +873,10 @@ function QueryForm() {
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-regex" checked={regex} onChange={() => {setRegex(!regex);}} />
                             <label className="form-check-label" htmlFor="toggle-regex">Search using regular expression</label>
                             <a href="https://www.sitepoint.com/learn-regex/"> What&apos;s this?</a>
+                        </div>
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-word-order" checked={!regex && ignoreWordOrder} disabled={regex} onChange={() => {setIgnoreWordOrder(!ignoreWordOrder);}} />
+                            <label className="form-check-label" htmlFor="toggle-ignore-word-order">Ignore word order</label>
                         </div>
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
