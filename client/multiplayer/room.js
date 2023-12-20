@@ -270,10 +270,11 @@ const socketOnChangeUsername = (message) => {
 
 
 const socketOnClearStats = (message) => {
-    Array.from(document.getElementsByClassName('stats-' + message.userId)).forEach(element => {
-        element.textContent = '0';
-    });
+    for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
+        players[message.userId][field] = 0;
+    }
 
+    upsertPlayerItem(players[message.userId]);
     sortPlayerListGroup();
 };
 
