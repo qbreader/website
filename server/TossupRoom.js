@@ -119,6 +119,7 @@ class TossupRoom {
             this.createPlayer(userId);
         }
         this.players[userId].updateUsername(username);
+        this.players[userId].isOnline = true;
 
         socket.send(JSON.stringify({
             type: 'connection-acknowledged',
@@ -239,6 +240,7 @@ class TossupRoom {
 
         case 'leave':
             // this.deletePlayer(userId);
+            this.players[userId].isOnline = false;
             delete this.sockets[userId];
             this.sendSocketMessage(message);
             break;
