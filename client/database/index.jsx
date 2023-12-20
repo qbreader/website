@@ -30,7 +30,6 @@ const SUBCATEGORY_BUTTONS = [
     ['Biology', 'danger'],
     ['Chemistry', 'danger'],
     ['Physics', 'danger'],
-    ['Math', 'danger'],
     ['Other Science', 'danger'],
     ['Visual Fine Arts', 'warning'],
     ['Auditory Fine Arts', 'warning'],
