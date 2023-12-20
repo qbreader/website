@@ -45,7 +45,38 @@ const SUBCATEGORY_TO_CATEGORY = {
 /**
  * List of multiplayer permanent room names.
  */
-const PERMANENT_ROOMS = ['hsquizbowl', 'collegequizbowl', 'literature', 'history', 'science', 'fine-arts'];
+const PERMANENT_ROOMS = [
+    {
+        name: 'hsquizbowl',
+        categories: CATEGORIES,
+        subcategories: SUBCATEGORIES_FLATTENED,
+    },
+    {
+        name: 'collegequizbowl',
+        categories: CATEGORIES,
+        subcategories: SUBCATEGORIES_FLATTENED,
+    },
+    {
+        name: 'literature',
+        categories: ['Literature'],
+        subcategories: ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
+    },
+    {
+        name: 'history',
+        categories: ['History'],
+        subcategories: ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
+    },
+    {
+        name: 'science',
+        categories: ['Science'],
+        subcategories: ['Biology', 'Chemistry', 'Physics', 'Math', 'Other Science'],
+    },
+    {
+        name: 'fine-arts',
+        categories: ['Fine Arts'],
+        subcategories: ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
+    },
+];
 
 const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7; // 7 days
 
