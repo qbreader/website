@@ -82,66 +82,76 @@ function getQuerySummary(options) {
 }
 
 
-function validateOptions(options) {
-    // queryString,
-    // difficulties,
-    // setName,
-    // searchType = 'all',
-    // questionType = 'all',
-    // categories,
-    // subcategories,
-    // maxReturnLength,
-    // randomize = false,
-    // regex = false,
-    // exactPhrase = false,
-    // ignoreDiacritics = false,
-    // powermarkOnly = false,
-    // tossupPagination = 1,
-    // bonusPagination = 1,
-    // minYear,
-    // maxYear,
-    // verbose = false,
+function validateOptions({
+    queryString,
+    difficulties,
+    setName,
+    searchType = 'all',
+    questionType = 'all',
+    categories,
+    subcategories,
+    maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH,
+    randomize = false,
+    regex = false,
+    ignoreWordOrder = false,
+    exactPhrase = false,
+    ignoreDiacritics = false,
+    powermarkOnly = false,
+    tossupPagination = 1,
+    bonusPagination = 1,
+    minYear,
+    maxYear,
+    verbose = false,
+}) {
+    let words;
 
-    if (!options.queryString) {
-        options.queryString = '';
+    maxReturnLength = Math.min(maxReturnLength, MAX_QUERY_RETURN_LENGTH);
+
+    if (maxReturnLength <= 0) {
+        maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
     }
 
-    if (!options.maxReturnLength) {
-        options.maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+    if (!queryString) {
+        queryString = '';
     }
 
-    options.maxReturnLength = parseInt(options.maxReturnLength);
-    options.maxReturnLength = Math.min(options.maxReturnLength, MAX_QUERY_RETURN_LENGTH);
-
-    if (options.maxReturnLength <= 0) {
-        options.maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+    if (!questionType) {
+        questionType = 'all';
+    } else if (!['tossup', 'bonus', 'all'].includes(questionType)) {
+        throw new Error('Invalid question type specified.');
     }
 
-    if (options.regex) {
-        options.exactPhrase = false;
-        options.ignoreDiacritics = false;
-        options.ignoreWordOrder = false;
+    if (regex) {
+        exactPhrase = false;
+        ignoreDiacritics = false;
+        ignoreWordOrder = false;
     } else {
-        options.queryString = options.queryString.trim();
-        options.queryString = escapeRegExp(options.queryString);
-
-        if (options.ignoreDiacritics) {
-            options.queryString = regexIgnoreDiacritics(options.queryString);
-        }
+        queryString = queryString.trim();
+        queryString = escapeRegExp(queryString);
     }
 
-    if (options.ignoreWordOrder) {
-        options.words = options.queryString.split(' ').filter(word => word !== '');
+    if (ignoreDiacritics && !regex) {
+        queryString = regexIgnoreDiacritics(queryString);
+    }
+
+    if (ignoreWordOrder) {
+        words = queryString.split(' ').filter(word => word !== '');
     } else {
-        options.words = [options.queryString];
+        words = [queryString];
     }
 
-    if (options.exactPhrase && !options.regex) {
-        options.queryString = `\\b${options.queryString}\\b`;
-        options.words = options.words.map(word => `\\b${word}\\b`);
+    if (exactPhrase && !regex) {
+        queryString = `\\b${queryString}\\b`;
+        words = words.map(word => `\\b${word}\\b`);
     }
 
-    return options;
+    if (!searchType) {
+        searchType = 'all';
+    } else if (!['question', 'answer', 'all'].includes(searchType)) {
+        throw new Error('Invalid search type specified.');
+    }
+
+    return { queryString, difficulties, setName, searchType, questionType, categories, subcategories, maxReturnLength, randomize, regex, exactPhrase, ignoreDiacritics, powermarkOnly, tossupPagination, bonusPagination, minYear, maxYear, verbose, words };
 }
 
 /**
@@ -170,6 +180,7 @@ async function getQuery(options = {}) {
         console.time('getQuery');
     }
 
+    // throws error if invalid options
     options = validateOptions(options);
 
     let tossupQuery = null;
