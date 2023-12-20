@@ -2,6 +2,8 @@ class Player {
     constructor(userId) {
         this.userId = userId;
         this.username = '';
+        this.isOnline = true;
+
         this.powers = 0;
         this.tens = 0;
         this.zeroes = 0;
