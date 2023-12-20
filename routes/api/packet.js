@@ -1,4 +1,4 @@
-import { getPacket } from '../../database/questions.js';
+import getPacket from '../../database/qbreader/get-packet.js';
 
 import { Router } from 'express';
 

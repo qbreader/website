@@ -1,9 +1,11 @@
-import checkAnswer from '../qb-answer-checker/check-answer.js';
 import Player from './Player.js';
 import RateLimit from './RateLimit.js';
+
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
-import { getSet, getRandomTossups } from '../database/questions.js';
 import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS } from '../constants.js';
+import getRandomTossups from '../database/qbreader/get-random-tossups.js';
+import getSet from '../database/qbreader/get-set.js';
+import checkAnswer from '../qb-answer-checker/check-answer.js';
 
 import createDOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';

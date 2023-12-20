@@ -1,4 +1,4 @@
-import { reportQuestion } from '../../database/questions.js';
+import reportQuestion from '../../database/qbreader/report-question.js';
 
 import { Router } from 'express';
 

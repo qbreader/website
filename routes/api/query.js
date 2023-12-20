@@ -1,5 +1,5 @@
 import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
-import { getQuery } from '../../database/questions.js';
+import getQuery from '../../database/qbreader/get-query.js';
 
 import { Router } from 'express';
 const router = Router();

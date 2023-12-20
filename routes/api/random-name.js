@@ -1,4 +1,4 @@
-import { getRandomName } from '../../database/questions.js';
+import getRandomName from '../../get-random-name.js';
 
 import { Router } from 'express';
 

@@ -1,6 +1,14 @@
 import 'dotenv/config';
 
-import { closeDatabase, connectToDatabase, getQuery, getPacket, getSet, getRandomBonuses, getRandomTossups, getNumPackets, reportQuestion } from '../database/questions.js';
+import { closeDatabase, connectToDatabase } from '../database/databases.js';
+import getNumPackets from '../database/qbreader/get-num-packets.js';
+import getPacket from '../database/qbreader/get-packet.js';
+import getQuery from '../database/qbreader/get-query.js';
+import getRandomBonuses from '../database/qbreader/get-random-bonuses.js';
+import getRandomTossups from '../database/qbreader/get-random-tossups.js';
+import getSet from '../database/qbreader/get-set.js';
+import reportQuestion from '../database/qbreader/report-question.js';
+
 import { assert } from 'chai';
 import mocha from 'mocha';
 
