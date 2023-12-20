@@ -65,8 +65,88 @@ const regexIgnoreDiacritics = (() => {
 })();
 
 
+function getQuerySummary(options) {
+    const { queryString, difficulties, maxReturnLength, questionType, ignoreDiacritics, randomize, regex, searchType, setName } = options;
+
+    return `\
+    [DATABASE] QUERY: string: ${OKCYAN}${queryString}${ENDC}; \
+    difficulties: ${OKGREEN}${difficulties}${ENDC}; \
+    max length: ${OKGREEN}${maxReturnLength}${ENDC}; \
+    question type: ${OKGREEN}${questionType}${ENDC}; \
+    ignore diacritics: ${OKGREEN}${ignoreDiacritics}${ENDC}; \
+    randomize: ${OKGREEN}${randomize}${ENDC}; \
+    regex: ${OKGREEN}${regex}${ENDC}; \
+    search type: ${OKGREEN}${searchType}${ENDC}; \
+    set name: ${OKGREEN}${setName}${ENDC}; \
+    `;
+}
+
+
+function validateOptions(options) {
+    // queryString,
+    // difficulties,
+    // setName,
+    // searchType = 'all',
+    // questionType = 'all',
+    // categories,
+    // subcategories,
+    // maxReturnLength,
+    // randomize = false,
+    // regex = false,
+    // exactPhrase = false,
+    // ignoreDiacritics = false,
+    // powermarkOnly = false,
+    // tossupPagination = 1,
+    // bonusPagination = 1,
+    // minYear,
+    // maxYear,
+    // verbose = false,
+
+    if (!options.queryString) {
+        options.queryString = '';
+    }
+
+    if (!options.maxReturnLength) {
+        options.maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+    }
+
+    options.maxReturnLength = parseInt(options.maxReturnLength);
+    options.maxReturnLength = Math.min(options.maxReturnLength, MAX_QUERY_RETURN_LENGTH);
+
+    if (options.maxReturnLength <= 0) {
+        options.maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
+    }
+
+    if (options.regex) {
+        options.exactPhrase = false;
+        options.ignoreDiacritics = false;
+        options.ignoreWordOrder = false;
+    } else {
+        options.queryString = options.queryString.trim();
+        options.queryString = escapeRegExp(options.queryString);
+
+        if (options.ignoreDiacritics) {
+            options.queryString = regexIgnoreDiacritics(options.queryString);
+        }
+    }
+
+    if (options.ignoreWordOrder) {
+        options.words = options.queryString.split(' ').filter(word => word !== '');
+    } else {
+        options.words = [options.queryString];
+    }
+
+    if (options.exactPhrase && !options.regex) {
+        options.queryString = `\\b${options.queryString}\\b`;
+        options.words = options.words.map(word => `\\b${word}\\b`);
+    }
+
+    return options;
+}
+
 /**
  * Retrieves questions from the database based on a search query.
+ * Also validates option _values_ and sets _default values_, but does not validate option _types_.
  * @param {object} options - The options for the question retrieval.
  * @param {string} options.queryString - The search query string.
  * @param {number[]} options.difficulties - An array of difficulties to filter by.
@@ -78,91 +158,41 @@ const regexIgnoreDiacritics = (() => {
  * @param {number} [options.maxReturnLength] - The maximum number of questions to return.
  * @param {boolean} [options.randomize=false] - Whether to randomize the order of the returned questions.
  * @param {boolean} [options.regex=false] - Whether to treat the search query as a regular expression.
+ * @param {boolean} [options.ignoreWordOrder=false] - Whether to ignore the word order in the search query. This allows the words to appear anywhere in the text, not necessarily next to each other.
  * @param {boolean} [options.exactPhrase=false] - Whether to search for an exact phrase match.
  * @param {boolean} [options.ignoreDiacritics=false] - Whether to ignore diacritics in the search query.
  * @param {boolean} [options.powermarkOnly=false] - Whether to only search for powermarked questions.
  * @param {number} [options.tossupPagination=1] - The page number of the tossup pagination.
  * @returns {Promise<{tossups: {count: Number, questionArray: types.Tossup[]}, bonuses: {count: Number, questionArray: types.Bonus[]}}>} The retrieved questions.
  */
-async function getQuery({
-    queryString,
-    difficulties,
-    setName,
-    searchType = 'all',
-    questionType = 'all',
-    categories,
-    subcategories,
-    maxReturnLength,
-    randomize = false,
-    regex = false,
-    exactPhrase = false,
-    ignoreDiacritics = false,
-    powermarkOnly = false,
-    tossupPagination = 1,
-    bonusPagination = 1,
-    minYear,
-    maxYear,
-    verbose = false,
-} = {}) {
-    if (verbose)
+async function getQuery(options = {}) {
+    if (options.verbose) {
         console.time('getQuery');
-
-    if (!queryString)
-        queryString = '';
-
-    if (!maxReturnLength)
-        maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
-
-    maxReturnLength = parseInt(maxReturnLength);
-    maxReturnLength = Math.min(maxReturnLength, MAX_QUERY_RETURN_LENGTH);
-
-    if (maxReturnLength <= 0)
-        maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
-
-    if (!regex) {
-        queryString = queryString.trim();
-        queryString = escapeRegExp(queryString);
-
-        if (ignoreDiacritics) {
-            queryString = regexIgnoreDiacritics(queryString);
-        }
-
-        if (exactPhrase) {
-            queryString = `\\b${queryString}\\b`;
-        }
     }
 
-    const returnValue = { tossups: { count: 0, questionArray: [] }, bonuses: { count: 0, questionArray: [] }, queryString };
+    options = validateOptions(options);
 
     let tossupQuery = null;
-    if (['tossup', 'all'].includes(questionType))
-        tossupQuery = queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear, powermarkOnly });
+    if (['tossup', 'all'].includes(options.questionType)) {
+        tossupQuery = getTossupQuery(options);
+    }
 
     let bonusQuery = null;
-    if (['bonus', 'all'].includes(questionType))
-        bonusQuery = queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination, minYear, maxYear });
+    if (['bonus', 'all'].includes(options.questionType)) {
+        bonusQuery = getBonusQuery(options);
+    }
 
-
+    // fetching both tossup and bonus queries in parallel is twice as fast as fetching them sequentially
     const values = await Promise.all([tossupQuery, bonusQuery]);
 
-    if (values[0])
-        returnValue.tossups = values[0];
+    const returnValue = {
+        tossups: values[0] ?? { count: 0, questionArray: [] },
+        bonuses: values[1] ?? { count: 0, questionArray: [] },
+        queryString: options.queryString,
+    };
 
-    if (values[1])
-        returnValue.bonuses = values[1];
-
-    if (verbose) {
-        console.log(`\
-[DATABASE] QUERY: string: ${OKCYAN}${queryString}${ENDC}; \
-difficulties: ${OKGREEN}${difficulties}${ENDC}; \
-max length: ${OKGREEN}${maxReturnLength}${ENDC}; \
-question type: ${OKGREEN}${questionType}${ENDC}; \
-ignore diacritics: ${OKGREEN}${ignoreDiacritics}${ENDC}; \
-randomize: ${OKGREEN}${randomize}${ENDC}; \
-regex: ${OKGREEN}${regex}${ENDC}; \
-search type: ${OKGREEN}${searchType}${ENDC}; \
-set name: ${OKGREEN}${setName}${ENDC}; \
-`);
+    if (options.verbose) {
+        console.log(getQuerySummary(options));
         console.timeEnd('getQuery');
     }
 
@@ -170,18 +200,32 @@ set name: ${OKGREEN}${setName}${ENDC}; \
 }
 
 
-async function queryHelperTossup({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, tossupPagination, minYear, maxYear, powermarkOnly }) {
-    const orQuery = [];
-    if (['question', 'all'].includes(searchType))
-        orQuery.push({ question: { $regex: queryString, $options: 'i' } });
+async function getTossupQuery(options) {
+    const { maxReturnLength, searchType, tossupPagination, words } = options;
 
-    if (['answer', 'all'].includes(searchType))
-        orQuery.push({ answer: { $regex: queryString, $options: 'i' } });
+    const andQuery = [];
+    for (const word of words) {
+        const orQuery = [];
 
-    const [aggregation, query] = buildQueryAggregation({
-        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, powermarkOnly,
-        isEmpty: queryString === '',
-    });
+        if (['question', 'all'].includes(searchType)) {
+            orQuery.push({ question: { $regex: word, $options: 'i' } });
+        }
+
+        if (['answer', 'all'].includes(searchType)) {
+            orQuery.push({ answer: { $regex: word, $options: 'i' } });
+        }
+        andQuery.push({ $or: orQuery });
+    }
+
+    if (options.queryString === '') {
+        options.query = {};
+    } else {
+        options.query = {
+            $and: andQuery,
+        };
+    }
+
+    const { aggregation, query } = buildQueryAggregation(options);
 
     try {
         const [questionArray, count] = await Promise.all([
@@ -196,21 +240,34 @@ async function queryHelperTossup({ queryString, difficulties, setName, searchTyp
 }
 
 
-async function queryHelperBonus({ queryString, difficulties, setName, searchType, categories, subcategories, maxReturnLength, randomize, bonusPagination, minYear, maxYear }) {
-    const orQuery = [];
-    if (['question', 'all'].includes(searchType)) {
-        orQuery.push({ parts: { $regex: queryString, $options: 'i' } });
-        orQuery.push({ leadin: { $regex: queryString, $options: 'i' } });
+async function getBonusQuery(options) {
+    const { bonusPagination, maxReturnLength, searchType, words } = options;
+
+    const andQuery = [];
+    for (const word of words) {
+        const orQuery = [];
+
+        if (['question', 'all'].includes(searchType)) {
+            orQuery.push({ leadin: { $regex: word, $options: 'i' } });
+            orQuery.push({ parts: { $regex: word, $options: 'i' } });
+        }
+
+        if (['answer', 'all'].includes(searchType)) {
+            orQuery.push({ answer: { $regex: word, $options: 'i' } });
+        }
+
+        andQuery.push({ $or: orQuery });
     }
 
-    if (['answer', 'all'].includes(searchType)) {
-        orQuery.push({ answers: { $regex: queryString, $options: 'i' } });
+    if (options.queryString === '') {
+        options.query = {};
+    } else {
+        options.query = {
+            $and: andQuery,
+        };
     }
 
-    const [aggregation, query] = buildQueryAggregation({
-        orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear,
-        isEmpty: queryString === '',
-    });
+    const { aggregation, query } = buildQueryAggregation(options);
 
     try {
         const [questionArray, count] = await Promise.all([
@@ -225,25 +282,26 @@ async function queryHelperBonus({ queryString, difficulties, setName, searchType
 }
 
 
-function buildQueryAggregation({ orQuery, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty, powermarkOnly }) {
-    const query = {
-        $or: orQuery,
-    };
-
-    if (isEmpty)
+function buildQueryAggregation({ query, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty, powermarkOnly }) {
+    if (isEmpty) {
         delete query.$or;
+    }
 
-    if (difficulties)
+    if (difficulties) {
         query.difficulty = { $in: difficulties };
+    }
 
-    if (categories)
+    if (categories) {
         query.category = { $in: categories };
+    }
 
-    if (subcategories)
+    if (subcategories) {
         query.subcategory = { $in: subcategories };
+    }
 
-    if (setName)
+    if (setName) {
         query['set.name'] = setName;
+    }
 
     if (minYear && maxYear) {
         query['set.year'] = { $gte: minYear, $lte: maxYear };
@@ -253,8 +311,9 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
         query['set.year'] = { $lte: maxYear };
     }
 
-    if (powermarkOnly)
+    if (powermarkOnly) {
         query.question = { $regex: '\\(\\*\\)' };
+    }
 
     const aggregation = [
         { $match: query },
@@ -268,10 +327,11 @@ function buildQueryAggregation({ orQuery, difficulties, categories, subcategorie
         { $project: { reports: 0 } },
     ];
 
-    if (randomize)
+    if (randomize) {
         aggregation[1] = { $sample: { size: maxReturnLength } };
+    }
 
-    return [aggregation, query];
+    return { aggregation, query };
 }
 
 export default getQuery;
