@@ -36,15 +36,9 @@ app.use(ipFilterMiddleware);
 app.use(ipFilterError);
 
 wss.on('connection', (ws, req) => {
-    // Parse the URL of the incoming request
     const parsedUrl = url.parse(req.url, true);
-
-    // Extract the 'isPrivate' query parameter
-    const isPrivate = parsedUrl.query.private === 'true';
-    let [roomName, userId, username] = ws.protocol.split('%%%');
-    roomName = decodeURIComponent(roomName);
-    userId = decodeURIComponent(userId);
-    username = decodeURIComponent(username);
+    let { private: isPrivate, roomName, userId, username } = parsedUrl.query;
+    isPrivate = (isPrivate === 'true');
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
     const room = createAndReturnRoom(roomName, isPrivate);
