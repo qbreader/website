@@ -26,9 +26,7 @@ I recommend sorting your HTML attributes using [this vscode extension](https://m
 
 ### Answer Checking
 
-Feel free to check out the answer-checking code in the `qb-answer-checker` folder.
-The `check-answer.js` file does most of the heavy lifting.
-While pull requests are always welcome, they are especially welcome on the `equivalent-answers.js` and `standardize-tokens.js` files.
+Feel free to contribute to the answer checking code located at [this repository](https://github.com/qbreader/qb-answer-checker) which is published as an [npm package](https://www.npmjs.com/package/qb-answer-checker).
 
 ### Code Structure
 

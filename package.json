@@ -9,7 +9,7 @@
         "start": "node server/server.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css",
         "lint": "eslint .",
-        "test:frontend": "mocha test/scorer.test.js",
+        "test:frontend": "",
         "test:backend": "mocha test/database.test.js",
         "test:all": "npm run test:frontend && npm run test:backend"
     },
@@ -28,6 +28,7 @@
         "mongodb": "^4.8.0",
         "nodemailer": "^6.9.2",
         "number-to-words": "^1.2.4",
+        "qb-answer-checker": "^1.0.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "roman-numerals": "^0.3.2",
