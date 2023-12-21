@@ -817,6 +817,9 @@ document.addEventListener('keydown', (event) => {
     case 'k':
         document.getElementsByClassName('card-header-clickable')[0].click();
         break;
+    case 't':
+        document.getElementsByClassName('star-tossup')[0].click();
+        break;
     case 'n':
         document.getElementById('next').click();
         break;

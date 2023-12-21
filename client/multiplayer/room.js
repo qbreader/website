@@ -1026,6 +1026,10 @@ document.addEventListener('keydown', function (event) {
         document.getElementsByClassName('card-header-clickable')[0].click();
         break;
 
+    case 't':
+        document.getElementsByClassName('star-tossup')[0].click();
+        break;
+
     case 'n':
     case 's':
         document.getElementById('next').click();
