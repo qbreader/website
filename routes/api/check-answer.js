@@ -1,6 +1,5 @@
-import checkAnswer from '../../qb-answer-checker/check-answer.js';
-
 import { Router } from 'express';
+import checkAnswer from 'qb-answer-checker';
 
 const router = Router();
 
