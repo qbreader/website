@@ -4,6 +4,50 @@ import { bonuses, packets, tossups } from './collections.js';
 import * as types from '../../types.js';
 
 /**
+ * Modaqifies a tossup without modifying the original tossup.
+ * @param {types.Tossup} tossup - The tossup to modaqify.
+ * @returns The modaqified tossup.
+ */
+function modaqifyTossup(tossup) {
+    const result = {
+        question: tossup.question,
+        answer: tossup.answer,
+        metadata: `${tossup.category} - ${tossup.subcategory}`,
+    };
+
+    if (tossup?.question && tossup.question.includes('(*)')) {
+        result.question = '<b>' + tossup.question.replace('(*)', '(*)</b>');
+    }
+
+    if (tossup.formatted_answer) {
+        result.answer = tossup.formatted_answer.replace('<i>', '<em>').replace('</i>', '</em>');
+    }
+
+    return result;
+}
+
+
+function modaqifyBonus(bonus) {
+    const result = {
+        values: bonus.values ?? bonus.parts.map(() => 10),
+        leadin: bonus.leadin,
+        parts: bonus.parts,
+        answers: bonus.answers,
+        metadata: `${bonus.category} - ${bonus.subcategory}`,
+    };
+
+    if (bonus.difficulties) {
+        result.difficultyModifiers = bonus.difficulties;
+    }
+
+    if (bonus.formatted_answers) {
+        result.answers = bonus.formatted_answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>'));
+    }
+
+    return result;
+}
+
+/**
  * Retrieves a packet of questions from the database.
  * @param {object} options - The options for the packet retrieval.
  * @param {string} options.setName - The name of the set (e.g. "2021 ACF Fall").
@@ -12,9 +56,10 @@ import * as types from '../../types.js';
  * If only one allowed type is specified, only that type will be searched for (increasing query speed).
  * The other type will be returned as an empty array.
  * @param {boolean} [options.replaceUnformattedAnswer=true] - Whether to replace unformatted answers.
+ * @param {boolean} [options.modaq=false] - Whether to output in a result compatible with MODAQ.
  * @returns {Promise<{tossups: types.Tossup[], bonuses: types.Bonus[]}>} The retrieved packet of questions.
  */
-async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], replaceUnformattedAnswer = true }) {
+async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], replaceUnformattedAnswer = true, modaq = false }) {
     if (!setName || isNaN(packetNumber) || packetNumber < 1) {
         return { 'tossups': [], 'bonuses': [] };
     }
@@ -41,24 +86,34 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
 
     const values = await Promise.all([tossupResult, bonusResult]);
 
-    const result = {};
+    const result = {
+        tossups: [],
+        bonuses: [],
+    };
 
-    if (questionTypes.includes('tossups'))
+    if (questionTypes.includes('tossups')) {
         result.tossups = values[0];
+    }
 
-    if (questionTypes.includes('bonuses'))
+    if (questionTypes.includes('bonuses')) {
         result.bonuses = values[1];
+    }
 
-    if (replaceUnformattedAnswer) {
-        for (const question of result.tossups || []) {
-            if (Object.prototype.hasOwnProperty.call(question, 'formatted_answer'))
-                question.answer = question.formatted_answer;
+    if (replaceUnformattedAnswer && !modaq) {
+        for (const tossup of result.tossups) {
+            if (Object.prototype.hasOwnProperty.call(tossup, 'formatted_answer'))
+                tossup.answer = tossup.formatted_answer;
         }
 
-        for (const question of result.bonuses || []) {
-            if (Object.prototype.hasOwnProperty.call(question, 'formatted_answers'))
-                question.answers = question.formatted_answers;
+        for (const bonus of result.bonuses) {
+            if (Object.prototype.hasOwnProperty.call(bonus, 'formatted_answers'))
+                bonus.answers = bonus.formatted_answers;
         }
+    }
+
+    if (modaq) {
+        result.tossups = result.tossups.map(tossup => modaqifyTossup(tossup));
+        result.bonuses = result.bonuses.map(bonus => modaqifyBonus(bonus));
     }
 
     return result;
