@@ -16,6 +16,7 @@ import * as types from '../../types.js';
  * @param {number} [object.minYear=2010] - the minimum year to select from. Default: 2010.
  * @param {number} [object.maxYear=2023] - the maximum year to select from. Default: 2023.
  * @param {number} [object.bonusLength] - if not null or undefined, only return bonuses with number of parts equal to `bonusLength`.
+ * @param {boolean} [object.standardOnly=false]
  * @returns {Promise<types.Bonus[]>}
  */
 async function getRandomBonuses({
@@ -26,6 +27,7 @@ async function getRandomBonuses({
     minYear = DEFAULT_MIN_YEAR,
     maxYear = DEFAULT_MAX_YEAR,
     bonusLength,
+    standardOnly = false,
 } = {}) {
     const aggregation = [
         { $match: { 'set.year': { $gte: minYear, $lte: maxYear } } },
@@ -49,6 +51,10 @@ async function getRandomBonuses({
         bonusLength = parseInt(bonusLength);
         aggregation[0].$match.parts = { $size: bonusLength };
         aggregation[0].$match.answers = { $size: bonusLength };
+    }
+
+    if (standardOnly) {
+        aggregation[0].$match['set.standard'] = true;
     }
 
     return await bonuses.aggregate(aggregation).toArray();
