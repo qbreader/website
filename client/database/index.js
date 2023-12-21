@@ -151,7 +151,8 @@ function highlightBonusQuery({
 function TossupCard({
   tossup,
   highlightedTossup,
-  showCardFooter
+  showCardFooter,
+  fontSize = 16
 }) {
   const _id = tossup._id;
   const packetName = tossup.packet.name;
@@ -247,7 +248,10 @@ function TossupCard({
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
-    className: "card-body"
+    className: "card-body",
+    style: {
+      'font-size': `${fontSize}px`
+    }
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
@@ -278,7 +282,8 @@ function TossupCard({
 function BonusCard({
   bonus,
   highlightedBonus,
-  showCardFooter
+  showCardFooter,
+  fontSize = 16
 }) {
   const _id = bonus._id;
   const packetName = bonus.packet.name;
@@ -381,7 +386,10 @@ function BonusCard({
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
-    className: "card-body"
+    className: "card-body",
+    style: {
+      'font-size': `${fontSize}px`
+    }
   }, /*#__PURE__*/React.createElement("p", {
     dangerouslySetInnerHTML: {
       __html: highlightedBonus.leadin
@@ -531,6 +539,7 @@ function QueryForm() {
   const [tossupPaginationShift, setTossupPaginationShift] = React.useState(0);
   const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
   const [queryTime, setQueryTime] = React.useState(0);
+  const fontSize = localStorage.getItem('database-font-size') === 'true' ? localStorage.getItem('font-size') ?? 16 : 16;
   React.useEffect(() => {
     fetch('/api/set-list').then(response => response.json()).then(data => data.setList).then(data => {
       document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
@@ -695,7 +704,8 @@ function QueryForm() {
       key: i,
       tossup: tossups[i],
       highlightedTossup: highlightedTossups[i],
-      showCardFooter: showCardFooters
+      showCardFooter: showCardFooters,
+      fontSize: fontSize
     }));
   }
   const bonusCards = [];
@@ -704,7 +714,8 @@ function QueryForm() {
       key: i,
       bonus: bonuses[i],
       highlightedBonus: highlightedBonuses[i],
-      showCardFooter: showCardFooters
+      showCardFooter: showCardFooters,
+      fontSize: fontSize
     }));
   }
   React.useEffect(async () => {

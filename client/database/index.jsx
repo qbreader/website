@@ -247,7 +247,7 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
 }
 
 
-function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
+function TossupCard({ tossup, highlightedTossup, showCardFooter, fontSize = 16 }) {
     const _id = tossup._id;
     const packetName = tossup.packet.name;
 
@@ -347,14 +347,16 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
-                <div className="card-body">
+                <div className="card-body" style={{ 'font-size': `${fontSize}px` }}>
                     <span dangerouslySetInnerHTML={{
                         __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question,
                     }}></span>
                     <hr className="my-3"></hr>
-                    <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{
-                        __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer,
-                    }}></span></div>
+                    <div>
+                        <b>ANSWER:</b> <span dangerouslySetInnerHTML={{
+                            __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer,
+                        }}></span>
+                    </div>
                 </div>
                 <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
@@ -370,7 +372,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter }) {
 }
 
 
-function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
+function BonusCard({ bonus, highlightedBonus, showCardFooter, fontSize = 16 }) {
     const _id = bonus._id;
     const packetName = bonus.packet.name;
     const bonusLength = bonus.parts.length;
@@ -477,7 +479,7 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter }) {
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
-                <div className="card-body">
+                <div className="card-body" style={{ 'font-size': `${fontSize}px` }}>
                     <p dangerouslySetInnerHTML={{ __html: highlightedBonus.leadin }}></p>
                     {indices.map((i) =>
                         <div key={`${bonus._id}-${i}`}>
@@ -598,6 +600,8 @@ function QueryForm() {
     const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
 
     const [queryTime, setQueryTime] = React.useState(0);
+
+    const fontSize = localStorage.getItem('database-font-size') === 'true' ? (localStorage.getItem('font-size') ?? 16) : 16;
 
     React.useEffect(() => {
         fetch('/api/set-list')
@@ -764,12 +768,12 @@ function QueryForm() {
 
     const tossupCards = [];
     for (let i = 0; i < highlightedTossups.length; i++) {
-        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} showCardFooter={showCardFooters}/>);
+        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} showCardFooter={showCardFooters} fontSize={fontSize}/>);
     }
 
     const bonusCards = [];
     for (let i = 0; i < highlightedBonuses.length; i++) {
-        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} showCardFooter={showCardFooters}/>);
+        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} showCardFooter={showCardFooters} fontSize={fontSize}/>);
     }
 
     React.useEffect(async () => {
