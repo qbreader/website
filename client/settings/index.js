@@ -3,6 +3,10 @@ if (localStorage.getItem('font-size')) {
     document.getElementById('font-size-display').textContent = localStorage.getItem('font-size');
 }
 
+if (localStorage.getItem('database-font-size') === 'true') {
+    document.getElementById('toggle-database-font-size').checked = true;
+}
+
 if (localStorage.getItem('high-contrast-question-text') === 'true') {
     document.getElementById('toggle-high-contrast-question-text').checked = true;
 }
@@ -35,6 +39,15 @@ document.getElementById('reset-color-theme').addEventListener('click', function 
 document.getElementById('font-size').addEventListener('input', function () {
     localStorage.setItem('font-size', this.value);
     document.getElementById('font-size-display').textContent = this.value;
+});
+
+document.getElementById('toggle-database-font-size').addEventListener('click', function () {
+    this.blur();
+    if (this.checked) {
+        localStorage.setItem('database-font-size', 'true');
+    } else {
+        localStorage.removeItem('database-font-size');
+    }
 });
 
 document.getElementById('toggle-high-contrast-question-text').addEventListener('click', function () {
