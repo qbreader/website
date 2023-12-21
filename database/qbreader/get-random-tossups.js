@@ -15,6 +15,7 @@ import * as types from '../../types.js';
  * @param {number} [object.minYear=2010]
  * @param {number} [object.maxYear=2023]
  * @param {boolean} [object.powermarkOnly=false]
+ * @param {boolean} [object.standardOnly=false]
  * @returns {Promise<types.Tossup[]>}
  */
 async function getRandomTossups({
@@ -25,6 +26,7 @@ async function getRandomTossups({
     minYear = DEFAULT_MIN_YEAR,
     maxYear = DEFAULT_MAX_YEAR,
     powermarkOnly = false,
+    standardOnly = false,
 } = {}) {
     const aggregation = [
         { $match: { 'set.year': { $gte: minYear, $lte: maxYear } } },
@@ -46,6 +48,10 @@ async function getRandomTossups({
 
     if (powermarkOnly) {
         aggregation[0].$match.question = { $regex: '\\(\\*\\)' };
+    }
+
+    if (standardOnly) {
+        aggregation[0].$match['set.standard'] = true;
     }
 
     return await tossups.aggregate(aggregation).toArray();

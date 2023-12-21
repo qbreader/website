@@ -12,22 +12,29 @@ let questions = [{}];
  */
 let randomQuestions = [];
 
-// Room settings
-const query = localStorage.getItem('singleplayer-bonus-query')
-    ? JSON.parse(localStorage.getItem('singleplayer-bonus-query'))
-    : {
-        categories: [],
-        difficulties: [],
-        minYear: 2010,
-        maxYear: 2023,
-        packetNumbers: [],
-        setName: '',
-        subcategories: [],
-        threePartBonuses: true,
-    };
+const defaults = {
+    categories: [],
+    difficulties: [],
+    minYear: 2010,
+    maxYear: 2023,
+    packetNumbers: [],
+    setName: '',
+    subcategories: [],
+    threePartBonuses: true,
+    version: '12-21-2023',
+};
 
-query.subcategories = query.subcategories.filter(subcategory => subcategory !== 'Math');
-localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+// Room settings
+let query;
+if (!localStorage.getItem('singleplayer-bonus-query')) {
+    query = defaults;
+} else {
+    query = JSON.parse(localStorage.getItem('singleplayer-bonus-query'));
+    if (query.version !== '12-21-2023') {
+        query = defaults;
+        localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    }
+}
 
 const settings = localStorage.getItem('singleplayer-bonus-settings')
     ? JSON.parse(localStorage.getItem('singleplayer-bonus-settings'))
@@ -47,6 +54,7 @@ if (settings.selectBySetName) {
     document.getElementById('difficulty-settings').classList.add('d-none');
     document.getElementById('set-settings').classList.remove('d-none');
     document.getElementById('toggle-select-by-set-name').checked = true;
+    document.getElementById('toggle-standard-only').disabled = true;
     document.getElementById('toggle-three-part-bonuses').disabled = true;
 }
 
@@ -575,6 +583,7 @@ document.getElementById('start').addEventListener('click', async function () {
 document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
     this.blur();
     settings.selectBySetName = this.checked;
+    document.getElementById('toggle-standard-only').disabled = this.checked;
     document.getElementById('toggle-three-part-bonuses').disabled = this.checked;
 
     if (this.checked) {
@@ -588,12 +597,6 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
     localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
 });
 
-document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
-    this.blur();
-    query.threePartBonuses = this.checked;
-    loadRandomBonuses(query);
-    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
-});
 
 document.getElementById('toggle-show-history').addEventListener('click', function () {
     this.blur();
@@ -606,6 +609,22 @@ document.getElementById('toggle-show-history').addEventListener('click', functio
     }
 
     localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
+});
+
+
+document.getElementById('toggle-standard-only').addEventListener('click', function () {
+    this.blur();
+    query.standardOnly = this.checked;
+    loadRandomBonuses(query);
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+});
+
+
+document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
+    this.blur();
+    query.threePartBonuses = this.checked;
+    loadRandomBonuses(query);
+    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 

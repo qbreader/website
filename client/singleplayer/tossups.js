@@ -16,21 +16,29 @@ const previous = {
     celerity: 0,
 };
 
-const query = localStorage.getItem('singleplayer-tossup-query')
-    ? JSON.parse(localStorage.getItem('singleplayer-tossup-query'))
-    : {
-        categories: [],
-        difficulties: [],
-        minYear: 2010,
-        maxYear: 2023,
-        packetNumbers: [],
-        powermarkOnly: false,
-        setName: '',
-        subcategories: [],
-    };
+const defaults = {
+    categories: [],
+    difficulties: [],
+    minYear: 2010,
+    maxYear: 2023,
+    packetNumbers: [],
+    powermarkOnly: false,
+    setName: '',
+    standardOnly: false,
+    subcategories: [],
+    version: '12-21-2023',
+};
 
-query.subcategories = query.subcategories.filter(subcategory => subcategory !== 'Math');
-localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+let query;
+if (!localStorage.getItem('singleplayer-tossup-query')) {
+    query = defaults;
+} else {
+    query = JSON.parse(localStorage.getItem('singleplayer-tossup-query'));
+    if (query.version !== '12-21-2023') {
+        query = defaults;
+        localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    }
+}
 
 const settings = localStorage.getItem('singleplayer-tossup-settings')
     ? JSON.parse(localStorage.getItem('singleplayer-tossup-settings'))
@@ -62,6 +70,7 @@ if (settings.selectBySetName) {
     document.getElementById('set-settings').classList.remove('d-none');
     document.getElementById('toggle-select-by-set-name').checked = true;
     document.getElementById('toggle-powermark-only').disabled = true;
+    document.getElementById('toggle-standard-only').disabled = true;
 }
 
 if (!settings.showHistory) {
@@ -329,9 +338,9 @@ function isPace(setName) {
     return setName.includes('PACE');
 }
 
-async function loadRandomTossups({ categories, difficulties, minYear, maxYear, number = 1, powermarkOnly, subcategories }) {
+async function loadRandomTossups({ categories, difficulties, minYear, maxYear, number = 1, powermarkOnly, subcategories, standardOnly }) {
     randomQuestions = [];
-    await fetch('/api/random-tossup?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories }))
+    await fetch('/api/random-tossup?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories, standardOnly }))
         .then(response => response.json())
         .then(response => response.tossups)
         .then(questions => {
@@ -349,16 +358,16 @@ async function loadRandomTossups({ categories, difficulties, minYear, maxYear, n
  * Get a random tossup.
  * @returns
  */
-async function getRandomTossup({ categories, difficulties, minYear, maxYear, powermarkOnly, subcategories }) {
+async function getRandomTossup({ categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly }) {
     if (randomQuestions.length === 0) {
-        await loadRandomTossups({ categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories });
+        await loadRandomTossups({ categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
     }
 
     const randomQuestion = randomQuestions.pop();
 
     // Begin loading the next batch of questions (asynchronously)
     if (randomQuestions.length === 0) {
-        loadRandomTossups({ categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories });
+        loadRandomTossups({ categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
     }
 
     return randomQuestion;
@@ -747,6 +756,7 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
     this.blur();
     settings.selectBySetName = this.checked;
     document.getElementById('toggle-powermark-only').disabled = this.checked;
+    document.getElementById('toggle-standard-only').disabled = this.checked;
 
     if (this.checked) {
         document.getElementById('difficulty-settings').classList.add('d-none');
@@ -772,6 +782,14 @@ document.getElementById('toggle-show-history').addEventListener('click', functio
     }
 
     localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
+});
+
+
+document.getElementById('toggle-standard-only').addEventListener('click', function () {
+    this.blur();
+    query.standardOnly = this.checked;
+    loadRandomTossups(query);
+    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 

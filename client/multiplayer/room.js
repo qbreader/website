@@ -199,6 +199,12 @@ socket.onmessage = function (event) {
             document.getElementById('set-settings').classList.add('d-none');
         }
         document.getElementById('toggle-powermark-only').disabled = data.selectBySetName;
+        document.getElementById('toggle-standard-only').disabled = data.selectBySetName;
+        break;
+
+    case 'toggle-standard-only':
+        logEvent(data.username, `${data.standardOnly ? 'enabled' : 'disabled'} standard format only`);
+        document.getElementById('toggle-standard-only').checked = data.standardOnly;
         break;
 
     case 'toggle-timer':
@@ -321,6 +327,12 @@ const socketOnConnectionAcknowledged = async (message) => {
         document.getElementById('difficulty-settings').classList.remove('d-none');
         document.getElementById('set-settings').classList.add('d-none');
     }
+
+    document.getElementById('toggle-powermark-only').disabled = message.selectBySetName;
+    document.getElementById('toggle-standard-only').disabled = message.selectBySetName;
+
+    document.getElementById('toggle-powermark-only').checked = message.powermarkOnly;
+    document.getElementById('toggle-standard-only').checked = message.standardOnly;
 
     switch (message.questionProgress) {
     case 0:
@@ -934,6 +946,12 @@ document.getElementById('toggle-lock').addEventListener('click', function () {
 });
 
 
+document.getElementById('toggle-powermark-only').addEventListener('click', function () {
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-powermark-only', powermarkOnly: this.checked }));
+});
+
+
 document.getElementById('toggle-rebuzz').addEventListener('click', function () {
     this.blur();
     socket.send(JSON.stringify({ type: 'toggle-rebuzz', rebuzz: this.checked }));
@@ -955,9 +973,10 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
     }));
 });
 
-document.getElementById('toggle-powermark-only').addEventListener('click', function () {
+
+document.getElementById('toggle-standard-only').addEventListener('click', function () {
     this.blur();
-    socket.send(JSON.stringify({ type: 'toggle-powermark-only', powermarkOnly: this.checked }));
+    socket.send(JSON.stringify({ type: 'toggle-standard-only', standardOnly: this.checked }));
 });
 
 document.getElementById('toggle-timer').addEventListener('click', function () {

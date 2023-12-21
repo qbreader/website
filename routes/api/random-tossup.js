@@ -28,6 +28,7 @@ router.get('/', async (req, res) => {
     req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
 
     req.query.powermarkOnly = (req.query.powermarkOnly === 'true');
+    req.query.standardOnly = (req.query.standardOnly === 'true');
 
     const tossups = await getRandomTossups(req.query);
 
