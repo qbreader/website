@@ -63,6 +63,7 @@ class TossupRoom {
             subcategories: subcategories,
             reverse: true, // used for `database.getSet`
             powermarkOnly: false,
+            standardOnly: false,
         };
 
         this.settings = {
@@ -144,6 +145,8 @@ class TossupRoom {
             setName: this.query.setName,
             validCategories: this.query.categories,
             validSubcategories: this.query.subcategories,
+            powermarkOnly: this.query.powermarkOnly,
+            standardOnly: this.query.standardOnly,
 
             public: this.settings.public,
             readingSpeed: this.settings.readingSpeed,
@@ -340,6 +343,16 @@ class TossupRoom {
                 skip: this.settings.skip,
                 username: this.players[userId].username,
             });
+            break;
+
+        case 'toggle-standard-only':
+            this.query.standardOnly = message.standardOnly;
+            this.sendSocketMessage({
+                type: 'toggle-standard-only',
+                standardOnly: message.standardOnly,
+                username: this.players[userId].username,
+            });
+            this.adjustQuery(['standardOnly'], [message.standardOnly]);
             break;
 
         case 'toggle-timer':

@@ -29,6 +29,8 @@ router.get('/', async (req, res) => {
     req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
     req.query.number = isNaN(req.query.number) ? undefined : parseInt(req.query.number);
 
+    req.query.standardOnly = (req.query.standardOnly === 'true');
+
     const bonuses = await getRandomBonuses(req.query);
 
     if (bonuses.length === 0) {
