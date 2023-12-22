@@ -1,3 +1,4 @@
+import banList from './banned-usernames.js';
 import { sendEmail } from './email.js';
 
 import getUserField from '../database/account-info/get-user-field.js';
@@ -138,6 +139,30 @@ function updatePassword(username, newPassword) {
 }
 
 
+/**
+ *
+ * @param {string} username
+ * @returns {boolean} True if the username is valid, and false otherwise.
+ */
+function validateUsername(username) {
+    if (!username) {
+        return false;
+    }
+
+    if (banList.includes(username)) {
+        return false;
+    }
+
+    if (username.length < 1 || username.length > 20) {
+        return false;
+    }
+
+    // TODO: put more validation here
+
+    return true;
+}
+
+
 function verifyEmailLink(user_id, token) {
     const expirationTime = 1000 * 60 * 15; // 15 minutes
     return verify(token, secret, (err, decoded) => {
@@ -209,6 +234,7 @@ export {
     sendResetPasswordEmail,
     sendVerificationEmail,
     updatePassword,
+    validateUsername,
     verifyEmailLink,
     verifyResetPasswordLink,
 };
