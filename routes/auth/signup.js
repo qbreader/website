@@ -1,7 +1,7 @@
 import { COOKIE_MAX_AGE } from '../../constants.js';
 import getUser from '../../database/account-info/get-user.js';
 import createUser from '../../database/account-info/create-user.js';
-import { generateToken, saltAndHashPassword, sendVerificationEmail } from '../../server/authentication.js';
+import { generateToken, saltAndHashPassword, sendVerificationEmail, validateUsername } from '../../server/authentication.js';
 
 import { Router } from 'express';
 
@@ -15,6 +15,12 @@ router.post('/', async (req, res) => {
     if (results) {
         console.log(`/api/auth: SIGNUP: User ${username} failed to sign up. That username is taken.`);
         res.sendStatus(409);
+        return;
+    }
+
+    if (!validateUsername(username)) {
+        console.log(`/api/auth: SIGNUP: User ${username} failed to sign up. That username is invalid.`);
+        res.sendStatus(400);
         return;
     }
 
