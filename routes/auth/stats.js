@@ -1,4 +1,5 @@
-import { getSingleBonusStats, getSingleTossupStats } from '../../database/users.js';
+import getSingleBonusStats from '../../database/account-info/stats/get-single-bonus-stats.js';
+import getSingleTossupStats from '../../database/account-info/stats/get-single-tossup-stats.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';

@@ -1,5 +1,5 @@
 import { COOKIE_MAX_AGE } from '../../constants.js';
-import { getUserField } from '../../database/users.js';
+import getUserField from '../../database/account-info/get-user-field.js';
 import { checkToken, checkPassword, updatePassword, generateToken } from '../../server/authentication.js';
 
 import { Router } from 'express';

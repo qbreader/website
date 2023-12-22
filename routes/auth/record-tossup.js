@@ -1,4 +1,4 @@
-import { recordTossupData } from '../../database/users.js';
+import recordTossupData from '../../database/account-info/stats/record-tossup-data.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';

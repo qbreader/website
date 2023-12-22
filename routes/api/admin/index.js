@@ -2,7 +2,7 @@ import geowordRouter from './geoword.js';
 import listReportsRouter from './list-reports.js';
 import updateSubcategoryRouter from './update-subcategory.js';
 
-import { isAdmin } from '../../../database/users.js';
+import isAdmin from '../../../database/account-info/is-admin.js';
 import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';

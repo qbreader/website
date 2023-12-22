@@ -1,4 +1,4 @@
-import { getUser } from '../../database/users.js';
+import getUser from '../../database/account-info/get-user.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';

@@ -1,4 +1,9 @@
-import { getCategoryStats, getSubcategoryStats, getBestBuzz, getUserId, getBonusGraphStats, getTossupGraphStats } from '../../database/users.js';
+import getUserId from '../../database/account-info/get-user-id.js';
+import getBestBuzz from '../../database/account-info/stats/get-best-buzz.js';
+import getBonusGraphStats from '../../database/account-info/stats/get-bonus-graph-stats.js';
+import getCategoryStats from '../../database/account-info/stats/get-category-stats.js';
+import getSubcategoryStats from '../../database/account-info/stats/get-subcategory-stats.js';
+import getTossupGraphStats from '../../database/account-info/stats/get-tossup-graph-stats.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';

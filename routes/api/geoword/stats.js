@@ -1,5 +1,5 @@
 import { getUserStats } from '../../../database/geoword.js';
-import { getUserId } from '../../../database/users.js';
+import getUserId from '../../../database/account-info/get-user-id.js';
 import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';
