@@ -1,5 +1,5 @@
 import * as geoword from '../../database/geoword.js';
-import { isAdmin } from '../../database/users.js';
+import isAdmin from '../../database/account-info/is-admin.js';
 import { checkToken } from '../../server/authentication.js';
 
 import audioRouter from './audio.js';

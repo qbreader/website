@@ -1,5 +1,5 @@
 import { getAdminStats, getBuzzes, getLeaderboard, getPlayerList, getProtests, resolveProtest } from '../../../database/geoword.js';
-import { getUserId } from '../../../database/users.js';
+import getUserId from '../../../database/account-info/get-user-id.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';

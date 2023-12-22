@@ -1,6 +1,9 @@
 import { sendEmail } from './email.js';
 
-import { getUserField, getUserId, updateUser, verifyEmail } from '../database/users.js';
+import getUserField from '../database/account-info/get-user-field.js';
+import getUserId from '../database/account-info/get-user-id.js';
+import updateUser from '../database/account-info/update-user.js';
+import verifyEmail from '../database/account-info/verify-email.js';
 
 import { createHash } from 'crypto';
 import jsonwebtoken from 'jsonwebtoken';
