@@ -24,7 +24,11 @@ form.addEventListener('submit', (event) => {
             const { expires } = await response.json();
             sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
             window.location.href = '/user/my-profile';
-        } else {
+        } else if (response.status === 400) {
+            document.getElementById('submission').textContent = 'Submit';
+            document.getElementById('password').value = '';
+            alert('Username is invalid.');
+        } else if (response.status === 409) {
             document.getElementById('submission').textContent = 'Submit';
             document.getElementById('password').value = '';
             alert('Username already exists.');

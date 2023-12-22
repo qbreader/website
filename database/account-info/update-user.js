@@ -1,3 +1,4 @@
+import { validateUsername } from '../../server/authentication.js';
 import { users, username_to_id, id_to_username } from './collections.js';
 import getUserId from './get-user-id.js';
 
@@ -10,8 +11,9 @@ import getUserId from './get-user-id.js';
 async function updateUser(username, values) {
     const user = await users.findOne({ username: username });
 
-    if (!user)
+    if (!user) {
         return false;
+    }
 
     if (values.email && values.email !== user.email) {
         values.verifiedEmail = false;
@@ -25,6 +27,10 @@ async function updateUser(username, values) {
 
     if (values.username) {
         if (await getUserId(values.username)) {
+            return false;
+        }
+
+        if (!validateUsername(values.username)) {
             return false;
         }
 
