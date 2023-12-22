@@ -10,7 +10,7 @@ import resetPasswordRouter from './reset-password.js';
 import sendPasswordResetEmailRouter from './send-password-reset-email.js';
 import sendVerificationEmailRouter from './send-verification-email.js';
 import signupRouter from './signup.js';
-import starsRouter from './stars.js';
+import starsRouter from './stars/index.js';
 import statsRouter from './stats.js';
 import userStatsRouter from './user-stats.js';
 import verifyEmailRouter from './verify-email.js';
@@ -29,37 +29,21 @@ router.use(rateLimit({
 
 
 router.use('/edit-password', editPasswordRouter);
-
 router.use('/edit-profile', editProfileRouter);
-
 router.use('/get-profile', getProfileRouter);
-
 router.use('/get-username', getUsernameRouter);
-
 router.use('/login', loginRouter);
-
 router.use('/logout', logoutRouter);
-
 router.use('/record-bonus', recordBonusRouter);
-
 router.use('/record-tossup', recordTossupRouter);
-
 router.use('/reset-password', resetPasswordRouter);
-
 router.use('/send-password-reset-email', sendPasswordResetEmailRouter);
-
 router.use('/send-verification-email', sendVerificationEmailRouter);
-
 router.use('/signup', signupRouter);
-
 router.use('/stars', starsRouter);
-
 router.use('/stats', statsRouter);
-
 router.use('/user-stats', userStatsRouter);
-
 router.use('/verify-email', verifyEmailRouter);
-
 router.use('/verify-reset-password', verifyResetPasswordRouter);
 
 export default router;
