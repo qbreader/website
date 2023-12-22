@@ -12,7 +12,7 @@ import sendVerificationEmailRouter from './send-verification-email.js';
 import signupRouter from './signup.js';
 import starsRouter from './stars/index.js';
 import statsRouter from './stats/index.js';
-import userStatsRouter from './user-stats.js';
+import userStatsRouter from './user-stats/index.js';
 import verifyEmailRouter from './verify-email.js';
 import verifyResetPasswordRouter from './verify-reset-password.js';
 
