@@ -1,4 +1,4 @@
-import { updateUser } from '../../database/users.js';
+import updateUser from '../../database/account-info/update-user.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';

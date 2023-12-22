@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 
 /**
  * @param {string} name - the name of the set
- * @returns {ObjectId | null}
+ * @returns {Promise<ObjectId | null>}
  */
 async function getSetId(name) {
     const set = await sets.findOne({ name });

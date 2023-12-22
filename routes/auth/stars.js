@@ -1,4 +1,12 @@
-import { getBonusStars, getTossupStars, getUserId, isStarredBonus, isStarredTossup, starBonus, starTossup, unstarBonus, unstarTossup } from '../../database/users.js';
+import getUserId from '../../database/account-info/get-user-id.js';
+import getBonusStars from '../../database/account-info/stars/get-bonus-stars.js';
+import getTossupStars from '../../database/account-info/stars/get-tossup-stars.js';
+import isStarredBonus from '../../database/account-info/stars/is-starred-bonus.js';
+import isStarredTossup from '../../database/account-info/stars/is-starred-tossup.js';
+import starBonus from '../../database/account-info/stars/star-bonus.js';
+import starTossup from '../../database/account-info/stars/star-tossup.js';
+import unstarBonus from '../../database/account-info/stars/unstar-bonus.js';
+import unstarTossup from '../../database/account-info/stars/unstar-tossup.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';

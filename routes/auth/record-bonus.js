@@ -1,4 +1,4 @@
-import { recordBonusData } from '../../database/users.js';
+import recordBonusData from '../../database/account-info/stats/record-bonus-data.js';
 import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';

@@ -1,4 +1,5 @@
-import { getUsername, isAdminById } from './users.js';
+import getUsername from './account-info/get-username.js';
+import isAdminById from './account-info/is-admin-by-id.js';
 
 import { MongoClient } from 'mongodb';
 
