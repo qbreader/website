@@ -1,4 +1,4 @@
-import * as geoword from '../../database/geoword.js';
+import checkPayment from '../../database/geoword/check-payment.js';
 import getUserId from '../../database/account-info/get-user-id.js';
 
 import { Router } from 'express';
@@ -10,7 +10,7 @@ router.get('/:packetName', async (req, res) => {
     const packetName = req.params.packetName;
     const user_id = await getUserId(username);
 
-    const paid = await geoword.checkPayment(packetName, user_id);
+    const paid = await checkPayment(packetName, user_id);
 
     if (paid) {
         res.sendFile('compare.html', { root: './client/geoword' });

@@ -1,5 +1,5 @@
-import { recordProtest } from '../../../database/geoword.js';
 import getUserId from '../../../database/account-info/get-user-id.js';
+import recordProtest from '../../../database/geoword/record-protest.js';
 import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';
