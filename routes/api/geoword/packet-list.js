@@ -1,4 +1,4 @@
-import { getPacketList } from '../../../database/geoword.js';
+import getPacketList from '../../../database/geoword/get-packet-list.js';
 
 import { Router } from 'express';
 

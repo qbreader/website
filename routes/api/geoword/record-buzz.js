@@ -1,5 +1,5 @@
-import { recordBuzz } from '../../../database/geoword.js';
 import getUserId from '../../../database/account-info/get-user-id.js';
+import recordBuzz from '../../../database/geoword/record-buzz.js';
 import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';

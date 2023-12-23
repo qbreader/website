@@ -1,4 +1,4 @@
-import { getDivisions } from '../../../database/geoword.js';
+import getDivisions from '../../../database/geoword/get-divisions.js';
 
 import { Router } from 'express';
 

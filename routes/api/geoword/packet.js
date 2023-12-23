@@ -1,6 +1,9 @@
-import { getBuzzCount, getQuestionCount, getPacket } from '../../../database/geoword.js';
 import getUser from '../../../database/account-info/get-user.js';
+import getBuzzCount from '../../../database/geoword/get-buzz-count.js';
+import getPacket from '../../../database/geoword/get-packet.js';
+import getQuestionCount from '../../../database/geoword/get-question-count.js';
 import { checkToken } from '../../../server/authentication.js';
+
 import { Router } from 'express';
 
 const router = Router();

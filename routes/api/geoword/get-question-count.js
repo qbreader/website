@@ -1,4 +1,4 @@
-import { getQuestionCount } from '../../../database/geoword.js';
+import getQuestionCount from '../../../database/geoword/get-question-count.js';
 
 import { Router } from 'express';
 

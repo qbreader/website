@@ -1,4 +1,4 @@
-import * as geoword from '../../database/geoword.js';
+import recordPayment from '../../database/geoword/record-payment.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
@@ -32,7 +32,7 @@ router.post('/', (req, res) => {
         const paymentIntentSucceeded = event.data.object;
         // Then define and call a function to handle the event payment_intent.succeeded
         const { user_id, packetName } = paymentIntentSucceeded.metadata;
-        geoword.recordPayment(packetName, new ObjectId(user_id));
+        recordPayment(packetName, new ObjectId(user_id));
         break;
     }
 

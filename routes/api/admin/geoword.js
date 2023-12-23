@@ -1,5 +1,10 @@
-import { getAdminStats, getBuzzes, getLeaderboard, getPlayerList, getProtests, resolveProtest } from '../../../database/geoword.js';
 import getUserId from '../../../database/account-info/get-user-id.js';
+import getAdminStats from '../../../database/geoword/get-admin-stats.js';
+import getBuzzes from '../../../database/geoword/get-buzzes.js';
+import getLeaderboard from '../../../database/geoword/get-leaderboard.js';
+import getPlayerList from '../../../database/geoword/get-player-list.js';
+import getProtests from '../../../database/geoword/get-protests.js';
+import resolveProtest from '../../../database/geoword/resolve-protest.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
