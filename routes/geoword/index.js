@@ -1,7 +1,3 @@
-import * as geoword from '../../database/geoword.js';
-import isAdmin from '../../database/account-info/is-admin.js';
-import { checkToken } from '../../server/authentication.js';
-
 import audioRouter from './audio.js';
 import compareRouter from './compare.js';
 import divisionRouter from './division.js';
@@ -9,6 +5,10 @@ import gameRouter from './game.js';
 import packetRouter from './packet.js';
 import paymentRouter from './payment.js';
 import statsRouter from './stats.js';
+
+import isAdmin from '../../database/account-info/is-admin.js';
+import getPacketStatus from '../../database/geoword/get-packet-status.js';
+import { checkToken } from '../../server/authentication.js';
 
 import { Router } from 'express';
 
@@ -46,7 +46,7 @@ router.use('/*/:packetName', async (req, res, next) => {
     }
 
     const packetName = req.params.packetName;
-    const status = await geoword.getPacketStatus(packetName);
+    const status = await getPacketStatus(packetName);
 
     if (status === null) {
         res.redirect('/geoword');

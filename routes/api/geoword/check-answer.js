@@ -1,4 +1,4 @@
-import { getAnswer } from '../../../database/geoword.js';
+import getAnswer from '../../../database/geoword/get-answer.js';
 
 import { Router } from 'express';
 import checkAnswer from 'qb-answer-checker';

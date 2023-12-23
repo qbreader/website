@@ -1,4 +1,4 @@
-import { getLeaderboard } from '../../../database/geoword.js';
+import getLeaderboard from '../../../database/geoword/get-leaderboard.js';
 
 import { Router } from 'express';
 

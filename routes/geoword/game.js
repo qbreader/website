@@ -1,5 +1,8 @@
-import * as geoword from '../../database/geoword.js';
 import getUserId from '../../database/account-info/get-user-id.js';
+import checkPayment from '../../database/geoword/check-payment.js';
+import getBuzzCount from '../../database/geoword/get-buzz-count.js';
+import getDivisionChoice from '../../database/geoword/get-division-choice.js';
+import getQuestionCount from '../../database/geoword/get-question-count.js';
 
 import { Router } from 'express';
 
@@ -10,14 +13,14 @@ router.get('/:packetName', async (req, res) => {
     const packetName = req.params.packetName;
     const user_id = await getUserId(username);
 
-    const division = await geoword.getDivisionChoice(packetName, user_id);
+    const division = await getDivisionChoice(packetName, user_id);
 
     if (!division) {
         res.redirect('/geoword/division/' + packetName);
         return;
     }
 
-    const paid = await geoword.checkPayment(packetName, user_id);
+    const paid = await checkPayment(packetName, user_id);
 
     if (!paid) {
         res.redirect('/geoword/payment/' + packetName);
@@ -25,8 +28,8 @@ router.get('/:packetName', async (req, res) => {
     }
 
     const [buzzCount, questionCount] = await Promise.all([
-        geoword.getBuzzCount(packetName, user_id),
-        geoword.getQuestionCount(packetName, division),
+        getBuzzCount(packetName, user_id),
+        getQuestionCount(packetName, division),
     ]);
 
     if (buzzCount >= questionCount) {

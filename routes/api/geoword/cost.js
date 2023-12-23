@@ -1,4 +1,4 @@
-import { getCost } from '../../../database/geoword.js';
+import getCost from '../../../database/geoword/get-cost.js';
 
 import { Router } from 'express';
 const router = Router();

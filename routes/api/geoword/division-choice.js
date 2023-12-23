@@ -1,5 +1,5 @@
-import { getDivisionChoice } from '../../../database/geoword.js';
 import getUserId from '../../../database/account-info/get-user-id.js';
+import getDivisionChoice from '../../../database/geoword/get-division-choice.js';
 import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';
