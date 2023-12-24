@@ -1,4 +1,5 @@
 import audioRouter from './audio.js';
+import categoryStatsRouter from './category-stats.js';
 import compareRouter from './compare.js';
 import divisionRouter from './division.js';
 import gameRouter from './game.js';
@@ -62,6 +63,7 @@ router.use('/*/:packetName', async (req, res, next) => {
     next();
 });
 
+router.use('/category-stats', categoryStatsRouter);
 router.use('/compare', compareRouter);
 router.use('/division', divisionRouter);
 router.use('/game', gameRouter);
