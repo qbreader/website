@@ -20,22 +20,22 @@ fetch('/api/geoword/packet-list')
                 const li = document.createElement('li');
                 li.textContent = `${titleCase(division)}: `;
 
-                let isFirst = true;
-                const fields = ['stats', 'category-stats', 'protests', 'leaderboard', 'packet'];
+                const fields = ['stats', 'category-stats', 'protests', 'leaderboard'];
 
                 for (const field of fields) {
                     const a = document.createElement('a');
                     a.href = `/admin/geoword/${field}/${name}/${encodeURIComponent(division)}`;
                     a.textContent = titleCase(field);
 
-                    if (isFirst) {
-                        isFirst = false;
-                    } else {
-                        li.appendChild(document.createTextNode(' | '));
-                    }
-
                     li.appendChild(a);
+                    li.appendChild(document.createTextNode(' | '));
                 }
+
+                const a = document.createElement('a');
+                a.href = `/geoword/packet/${name}?${encodeURIComponent(division)}`;
+                a.textContent = 'Packet';
+
+                li.appendChild(a);
 
                 ul.appendChild(li);
             }
