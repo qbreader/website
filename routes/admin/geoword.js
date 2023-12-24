@@ -6,6 +6,10 @@ router.get('/', async (req, res) => {
     res.sendFile('index.html', { root: './client/admin/geoword' });
 });
 
+router.get('/category-stats/:packetName/:division', async (req, res) => {
+    res.sendFile('category-stats.html', { root: './client/admin/geoword' });
+});
+
 router.get('/compare', async (req, res) => {
     res.sendFile('compare.html', { root: './client/admin/geoword' });
 });
