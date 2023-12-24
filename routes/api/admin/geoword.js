@@ -1,7 +1,7 @@
 import getUserId from '../../../database/account-info/get-user-id.js';
 import getAdminStats from '../../../database/geoword/get-admin-stats.js';
 import getBuzzes from '../../../database/geoword/get-buzzes.js';
-import getCategoryStats from '../../../database/geoword/get-category-stats.js';
+import getCategoryLeaderboard from '../../../database/geoword/get-category-stats.js';
 import getLeaderboard from '../../../database/geoword/get-leaderboard.js';
 import getPlayerList from '../../../database/geoword/get-player-list.js';
 import getProtests from '../../../database/geoword/get-protests.js';
@@ -14,7 +14,7 @@ const router = Router();
 
 router.get('/category-stats', async (req, res) => {
     const { packetName, division } = req.query;
-    const leaderboard = await getCategoryStats(packetName, division);
+    const leaderboard = await getCategoryLeaderboard(packetName, division, true);
     res.json({ leaderboard });
 });
 

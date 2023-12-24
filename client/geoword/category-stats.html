@@ -67,7 +67,26 @@
             <span id="statline"></span>
             <span><b>Division:</b> <span id="division"></span></span>
         </p>
-        <div id="stats"></div>
+        <form class="mb-3" id="form">
+            <div class="mb-3">
+                <label class="form-label" for="category">Choose a category:</label>
+                <select class="form-select" id="category"></select>
+            </div>
+        </form>
+        <table class="table table-hover" id="leaderboard">
+            <thead>
+                <tr>
+                    <th scope="col" onclick="sortTable(0, true, 'leaderboard')">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col" onclick="sortTable(2, true, 'leaderboard')">Celerity</th>
+                    <th scope="col" onclick="sortTable(3, true, 'leaderboard')">Correct</th>
+                    <th scope="col" onclick="sortTable(4, true, 'leaderboard')">Points</th>
+                    <th scope="col" onclick="sortTable(5, true, 'leaderboard')">PPTU</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="leaderboard-body"></tbody>
+            <tfoot class="table-group-divider" id="leaderboard-foot"></tfoot>
+        </table>
     </div>
 
     <script src="/bootstrap/bootstrap.bundle.min.js"></script>

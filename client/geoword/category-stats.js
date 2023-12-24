@@ -3,32 +3,62 @@ const packetTitle = titleCase(packetName);
 
 document.getElementById('packet-name').textContent = packetTitle;
 
+let leaderboard;
+let myUsername;
+
 fetch('/api/geoword/category-stats?' + new URLSearchParams({ packetName }))
     .then(response => response.json())
     .then(data => {
-        const { division, leaderboard, userStats } = data;
-        document.getElementById('division').textContent = division;
+        document.getElementById('division').textContent = data.division;
+        leaderboard = data.leaderboard;
+        myUsername = data.username;
 
-        let innerHTML = '<hr>';
-
-        for (const i in leaderboard) {
-            innerHTML += `
-            <div class="row mb-3">
-                <div class="col-6">
-                    <div><b>Category:</b> ${leaderboard[i].category}</div>
-                    <div><b>Average Celerity:</b> ${(userStats[i]?.averageCelerity?.toFixed(3) ?? 'N/A')}</div>
-                    <div><b>Average Points:</b> ${(userStats[i]?.averagePoints?.toFixed(3) ?? 'N/A')}</div>
-                    <div><b># of Questions:</b> ${leaderboard[i].number}</div>
-                </div>
-                <div class="col-6">
-                    <div><b>Best player:</b> ${leaderboard[i].bestUsername}</div>
-                    <div><b>Best average points:</b> ${(leaderboard[i].bestPoints ?? 0.0).toFixed(3)}</div>
-                    <div><b>Average correct celerity:</b> ${(leaderboard[i].averageCorrectCelerity ?? 0).toFixed(3)}</div>
-                    <div><b>Average points:</b> ${(leaderboard[i].averagePoints ?? 0.0).toFixed(2)}</div>
-                </div>
-            </div>
-            <hr>
-            `;
+        for (const index in leaderboard) {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = leaderboard[index].category;
+            document.getElementById('category').appendChild(option);
         }
-        document.getElementById('stats').innerHTML = innerHTML;
+
+        updateLeaderboardDisplay(0);
     });
+
+
+function updateLeaderboardDisplay(index) {
+    const users = leaderboard[index].users;
+
+    let innerHTML = '';
+    for (const index in users) {
+        const user = users[index].user;
+        const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity } = user;
+
+        innerHTML += `
+            <tr ${username === myUsername && 'class="table-info"'}>
+                <td>${parseInt(index) + 1}</td>
+                <th scope="row">${escapeHTML(username)}</th>
+                <td>${(averageCorrectCelerity ?? 0.0).toFixed(3)}</td>
+                <td>${numberCorrect}</td>
+                <td>${points}</td>
+                <td>${(pointsPerTossup ?? 0.0).toFixed(2)}</td>
+            </tr>
+        `;
+    }
+
+    document.getElementById('leaderboard-body').innerHTML = innerHTML;
+
+    document.getElementById('leaderboard-foot').innerHTML = `
+        <tr>
+            <td></td>
+            <th scope="row">Average</th>
+            <td>${(leaderboard[index].averageCorrectCelerity ?? 0.0).toFixed(3)}</td>
+            <td></td>
+            <td></td>
+            <td>${(leaderboard[index].averagePoints ?? 0.0).toFixed(2)}</td>
+        </tr>
+    `;
+}
+
+
+document.getElementById('category').addEventListener('change', event => {
+    updateLeaderboardDisplay(event.target.value);
+});

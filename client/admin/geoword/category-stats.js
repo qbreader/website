@@ -5,30 +5,64 @@ const packetTitle = titleCase(packetName);
 document.getElementById('packet-name').textContent = packetTitle;
 document.getElementById('division').textContent = division;
 
+let leaderboard;
+
 fetch('/api/admin/geoword/category-stats?' + new URLSearchParams({ packetName, division }))
     .then(response => response.json())
     .then(data => {
-        const { leaderboard } = data;
+        leaderboard = data.leaderboard;
 
-        let innerHTML = '<hr>';
-
-        for (const row of leaderboard) {
-            innerHTML += `
-            <div class="row mb-3">
-                <div class="col-6">
-                    <div><b>Category:</b> ${row.category}</div>
-                    <div><b># of Questions:</b> ${row.number}</div>
-                </div>
-                <div class="col-6">
-                    <div><b>Best player:</b> ${row.bestUsername}</div>
-                    <div><b>Best average points:</b> ${(row.bestPoints ?? 0.0).toFixed(3)}</div>
-                    <div><b>Average correct celerity:</b> ${(row.averageCorrectCelerity ?? 0).toFixed(3)}</div>
-                    <div><b>Average points:</b> ${(row.averagePoints ?? 0.0).toFixed(2)}</div>
-                </div>
-            </div>
-            <hr>
-            `;
+        for (const index in leaderboard) {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = leaderboard[index].category;
+            document.getElementById('category').appendChild(option);
         }
 
-        document.getElementById('stats').innerHTML = innerHTML;
+        updateLeaderboardDisplay(0);
     });
+
+
+function updateLeaderboardDisplay(index) {
+    const users = leaderboard[index].users;
+
+    let numberSkipped = 0;
+    let innerHTML = '';
+    for (const index in users) {
+        const user = users[index].user;
+        const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity, active } = user;
+
+        innerHTML += `
+            <tr ${!active && 'class="table-info"'}>
+                <td>${active ? parseInt(index) + 1 - numberSkipped : ''}</td>
+                <th scope="row">${escapeHTML(username)}</th>
+                <td>${(averageCorrectCelerity ?? 0.0).toFixed(3)}</td>
+                <td>${numberCorrect}</td>
+                <td>${points}</td>
+                <td>${(pointsPerTossup ?? 0.0).toFixed(2)}</td>
+            </tr>
+        `;
+
+        if (!active) {
+            numberSkipped++;
+        }
+    }
+
+    document.getElementById('leaderboard-body').innerHTML = innerHTML;
+
+    document.getElementById('leaderboard-foot').innerHTML = `
+        <tr>
+            <td></td>
+            <th scope="row">Average</th>
+            <td>${(leaderboard[index].averageCorrectCelerity ?? 0.0).toFixed(3)}</td>
+            <td></td>
+            <td></td>
+            <td>${(leaderboard[index].averagePoints ?? 0.0).toFixed(2)}</td>
+        </tr>
+    `;
+}
+
+
+document.getElementById('category').addEventListener('change', event => {
+    updateLeaderboardDisplay(event.target.value);
+});
