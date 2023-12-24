@@ -20,29 +20,22 @@ fetch('/api/geoword/packet-list')
                 const li = document.createElement('li');
                 li.textContent = `${titleCase(division)}: `;
 
-                const a1 = document.createElement('a');
-                a1.href = `/admin/geoword/stats/${name}/${encodeURIComponent(division)}`;
-                a1.textContent = 'Stats';
+                let isFirst = true;
+                const fields = ['stats', 'category-stats', 'protests', 'leaderboard', 'packet'];
 
-                const a2 = document.createElement('a');
-                a2.href = `/admin/geoword/protests/${name}/${encodeURIComponent(division)}`;
-                a2.textContent = 'Protests';
+                for (const field of fields) {
+                    const a = document.createElement('a');
+                    a.href = `/admin/geoword/${field}/${name}/${encodeURIComponent(division)}`;
+                    a.textContent = titleCase(field);
 
-                const a3 = document.createElement('a');
-                a3.href = `/admin/geoword/leaderboard/${name}?${encodeURIComponent(division)}`;
-                a3.textContent = 'Leaderboard';
+                    if (isFirst) {
+                        isFirst = false;
+                    } else {
+                        li.appendChild(document.createTextNode(' | '));
+                    }
 
-                const a4 = document.createElement('a');
-                a4.href = `/geoword/packet/${name}?${encodeURIComponent(division)}`;
-                a4.textContent = 'Packet';
-
-                li.appendChild(a1);
-                li.appendChild(document.createTextNode(' | '));
-                li.appendChild(a2);
-                li.appendChild(document.createTextNode(' | '));
-                li.appendChild(a3);
-                li.appendChild(document.createTextNode(' | '));
-                li.appendChild(a4);
+                    li.appendChild(a);
+                }
 
                 ul.appendChild(li);
             }
