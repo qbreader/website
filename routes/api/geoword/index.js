@@ -1,3 +1,4 @@
+import categoryStatsRouter from './category-stats.js';
 import checkAnswerRouter from './check-answer.js';
 import compareRouter from './compare.js';
 import costRouter from './cost.js';
@@ -18,6 +19,7 @@ import { Router } from 'express';
 
 const router = Router();
 
+router.use('/category-stats', categoryStatsRouter);
 router.use('/check-answer', checkAnswerRouter);
 router.use('/compare', compareRouter);
 router.use('/cost', costRouter);
