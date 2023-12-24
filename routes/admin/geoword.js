@@ -14,7 +14,7 @@ router.get('/compare', async (req, res) => {
     res.sendFile('compare.html', { root: './client/admin/geoword' });
 });
 
-router.get('/leaderboard/:packetName', async (req, res) => {
+router.get('/leaderboard/:packetName/:division', async (req, res) => {
     res.sendFile('leaderboard.html', { root: './client/admin/geoword' });
 });
 
