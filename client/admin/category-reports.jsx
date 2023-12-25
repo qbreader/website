@@ -3,9 +3,12 @@ function TossupCard({ tossup }) {
     const packetName = tossup.packet.name;
 
     function onClick() {
+        document.getElementById('old-category').value = `${tossup.category} / ${tossup.subcategory}`;
         document.getElementById('question-id').value = _id;
         document.getElementById('question-type').textContent = 'tossup';
-        document.getElementById('old-category').value = `${tossup.category} / ${tossup.subcategory}`;
+
+        const reason = tossup.reports.map(report => report.description).join('; ') || 'None given';
+        document.getElementById('report-reason').value = reason;
     }
 
     const powerParts = tossup.question.split('(*)');
@@ -59,9 +62,12 @@ function BonusCard({ bonus }) {
     }
 
     function onClick() {
+        document.getElementById('old-category').value = `${bonus.category} / ${bonus.subcategory}`;
         document.getElementById('question-id').value = _id;
         document.getElementById('question-type').textContent = 'bonus';
-        document.getElementById('old-category').value = `${bonus.category} / ${bonus.subcategory}`;
+
+        const reason = bonus.reports.map(report => report.description).join('; ') || 'None given';
+        document.getElementById('report-reason').value = reason;
     }
 
     return (
