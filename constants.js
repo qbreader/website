@@ -27,7 +27,6 @@ const SUBCATEGORY_TO_CATEGORY = {
     'Biology': 'Science',
     'Chemistry': 'Science',
     'Physics': 'Science',
-    'Math': 'Science',
     'Other Science': 'Science',
     'Visual Fine Arts': 'Fine Arts',
     'Auditory Fine Arts': 'Fine Arts',
