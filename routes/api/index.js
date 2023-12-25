@@ -1,6 +1,7 @@
 import adminRouter from './admin/index.js';
 import bonusByIdRouter from './bonus-by-id.js';
 import checkAnswerRouter from './check-answer.js';
+import frequencyListRouter from './frequency-list.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
 import numPacketsRouter from './num-packets.js';
@@ -42,6 +43,7 @@ router.use((req, _res, next) => {
 router.use('/admin', adminRouter);
 router.use('/bonus-by-id', bonusByIdRouter);
 router.use('/check-answer', checkAnswerRouter);
+router.use('/frequency-list', frequencyListRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);
 router.use('/num-packets', numPacketsRouter);
