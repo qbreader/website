@@ -102,10 +102,10 @@
                     <a href="/api-docs/bonus-by-id"><code>bonus-by-id</code></a>
                 </li>
                 <li class="nav-item">
-                    <a href="/api-docs/tossup-by-id" class="active fw-semibold" aria-current="page"><code>tossup-by-id</code></a>
+                    <a href="/api-docs/tossup-by-id"><code>tossup-by-id</code></a>
                 </li>
                 <li class="nav-item">
-                    <a href="/api-docs/frequency-list"><code>frequency-list</code></a>
+                    <a href="/api-docs/frequency-list" class="active fw-semibold" aria-current="page"><code>frequency-list</code></a>
                 </li>
                 <h5 class="mt-4 mb-2">Multiplayer</h5>
                 <li class="nav-item">
@@ -126,11 +126,11 @@
 
         <div class="col-12 col-md-9">
             <h3 class="md-4">
-                <div><code>GET</code> <code>qbreader.org/api/tossup-by-id</code></div>
+                <div><code>GET</code> <code>qbreader.org/api/frequency-list</code></div>
             </h3>
 
             <p>
-                Get a tossup by its ID.
+                Get the most frequent tossup and bonus answers for the given subcategory.
             </p>
 
             <a href="#parameters" class="text-body">
@@ -139,13 +139,21 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
-                        <code>id</code><code class="text-muted">: string</code>
+                        <code>subcategory</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
                     </div>
                     <div>
-                        The ID of the tossup.
+                        The subcategory to get the list for.
                     </div>
                 </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>limit</code><code class="text-muted">: number</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">default: 100</code>
+                    </div>
+                    <div>
+                        The maximum number of answers to return.
+                    </div>
                 </li>
             </ul>
 
@@ -158,11 +166,19 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
-                        <code>tossup</code><code class="text-muted">: Tossup</code>
+                        <code>frequencyList</code><code class="text-muted">: object[]</code>
                     </div>
                     <div>
-                        A singular <a href="/api-docs/schemas#tossup"><code>Tossup</code></a> with the given ID.
+                        An <code>array</code> of <code>objects</code> with the following properties, sorted by decreasing frequency:
                     </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <code>answer</code><code class="text-muted">: string</code>
+                        </li>
+                        <li class="list-group-item">
+                            <code>frequency</code><code class="text-muted">: number</code>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
