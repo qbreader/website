@@ -573,6 +573,10 @@ function QueryForm() {
     setTossupPaginationNumber(tossupPaginationNumber);
     setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
     handleSubmit(event, false, true);
+    window.scrollTo({
+      top: document.getElementById('tossups').offsetTop - 100,
+      behavior: 'smooth'
+    });
   }
   function handleBonusPaginationClick(event, value) {
     event.preventDefault();
@@ -596,6 +600,10 @@ function QueryForm() {
     setBonusPaginationNumber(bonusPaginationNumber);
     setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
     handleSubmit(event, false, true);
+    window.scrollTo({
+      top: document.getElementById('bonuses').offsetTop - 100,
+      behavior: 'smooth'
+    });
   }
   function handleSubmit(event, randomize = false, paginationUpdate = false) {
     const startTime = performance.now();
