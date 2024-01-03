@@ -13,6 +13,7 @@ let questions = [{}];
 let randomQuestions = [];
 
 const defaults = {
+    alternateSubcategories: [],
     categories: [],
     difficulties: [],
     minYear: 2010,
@@ -21,7 +22,7 @@ const defaults = {
     setName: '',
     subcategories: [],
     threePartBonuses: true,
-    version: '12-21-2023',
+    version: '01-02-2023',
 };
 
 // Room settings
@@ -30,7 +31,7 @@ if (!localStorage.getItem('singleplayer-bonus-query')) {
     query = defaults;
 } else {
     query = JSON.parse(localStorage.getItem('singleplayer-bonus-query'));
-    if (query.version !== '12-21-2023') {
+    if (query.version !== defaults.version) {
         query = defaults;
         localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
     }
@@ -709,7 +710,7 @@ window.onload = async () => {
     document.getElementById('year-range-a').textContent = query.minYear;
     document.getElementById('year-range-b').textContent = query.maxYear;
 
-    loadCategoryModal(query.categories, query.subcategories);
+    loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
 
     const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
     if (await getAccountUsername() === 'forrestw') {
