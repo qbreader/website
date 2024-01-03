@@ -31,7 +31,7 @@ function scoreTossup({ isCorrect, inPower, endOfQuestion, isPace = false }) {
 }
 
 class TossupRoom {
-    constructor(name, isPermanent = false, categories = [], subcategories = []) {
+    constructor(name, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
         this.name = name;
         this.isPermanent = isPermanent;
 
@@ -59,6 +59,7 @@ class TossupRoom {
             maxYear: DEFAULT_MAX_YEAR,
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
             setName: '2022 PACE NSC',
+            alternateSubcategories: alternateSubcategories,
             categories: categories,
             subcategories: subcategories,
             reverse: true, // used for `database.getSet`
@@ -145,6 +146,7 @@ class TossupRoom {
             setName: this.query.setName,
             validCategories: this.query.categories,
             validSubcategories: this.query.subcategories,
+            validAlternateSubcategories: this.query.alternateSubcategories,
             powermarkOnly: this.query.powermarkOnly,
             standardOnly: this.query.standardOnly,
 
@@ -390,9 +392,10 @@ class TossupRoom {
                 type: 'update-categories',
                 categories: message.categories,
                 subcategories: message.subcategories,
+                alternateSubcategories: message.alternateSubcategories,
                 username: this.players[userId].username,
             });
-            this.adjustQuery(['categories', 'subcategories'], [message.categories, message.subcategories]);
+            this.adjustQuery(['categories', 'subcategories', 'alternateSubcategories'], [message.categories, message.subcategories, message.alternateSubcategories]);
             break;
 
         case 'year-range': {
