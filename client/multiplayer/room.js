@@ -479,6 +479,7 @@ const socketOnJoin = (message) => {
     }
 
     if (message.isNew) {
+        message.user.celerity = message.user.celerity.correct.average;
         upsertPlayerItem(message.user);
         sortPlayerListGroup();
         players[userId] = message.user;
