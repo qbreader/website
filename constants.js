@@ -7,7 +7,6 @@ const DEFAULT_MAX_YEAR = 2023;
 const DIFFICULTIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
-const SUBCATEGORIES_FLATTENED = ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature', 'American History', 'Ancient History', 'European History', 'World History', 'Other History', 'Biology', 'Chemistry', 'Physics', 'Other Science', 'Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 const SUBCATEGORY_TO_CATEGORY = {
     'American Literature': 'Literature',
     'British Literature': 'Literature',
@@ -15,10 +14,6 @@ const SUBCATEGORY_TO_CATEGORY = {
     'European Literature': 'Literature',
     'World Literature': 'Literature',
     'Other Literature': 'Literature',
-    'Drama': 'Literature',
-    'Poetry': 'Literature',
-    'Long Fiction': 'Literature',
-    'Short Fiction': 'Literature',
     'American History': 'History',
     'Ancient History': 'History',
     'European History': 'History',
@@ -40,6 +35,21 @@ const SUBCATEGORY_TO_CATEGORY = {
     'Other Academic': 'Other Academic',
     'Trash': 'Trash',
 };
+const SUBCATEGORIES_FLATTENED = Object.keys(SUBCATEGORY_TO_CATEGORY);
+
+const ALTERNATE_SUBCATEGORY_TO_CATEGORY = {
+    'Drama': 'Literature',
+    'Poetry': 'Literature',
+    'Long Fiction': 'Literature',
+    'Short Fiction': 'Literature',
+    'Math': 'Science',
+    'Astronomy': 'Science',
+    'Computer Science': 'Science',
+    'Earth Science': 'Science',
+    'Engineering': 'Science',
+    'Jazz': 'Fine Arts',
+};
+const ALTERNATE_SUBCATEGORIES_FLATTENED = Object.keys(ALTERNATE_SUBCATEGORY_TO_CATEGORY);
 
 /**
  * List of multiplayer permanent room names.
@@ -94,6 +104,8 @@ export {
     DIFFICULTIES,
     CATEGORIES,
     SUBCATEGORY_TO_CATEGORY,
+    ALTERNATE_SUBCATEGORY_TO_CATEGORY,
+    ALTERNATE_SUBCATEGORIES_FLATTENED,
     SUBCATEGORIES_FLATTENED,
     PERMANENT_ROOMS,
     COOKIE_MAX_AGE,
