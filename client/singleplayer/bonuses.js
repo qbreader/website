@@ -13,6 +13,7 @@ let questions = [{}];
 let randomQuestions = [];
 
 const defaults = {
+    alternateSubcategories: [],
     categories: [],
     difficulties: [],
     minYear: 2010,
@@ -21,7 +22,7 @@ const defaults = {
     setName: '',
     subcategories: [],
     threePartBonuses: true,
-    version: '12-21-2023',
+    version: '01-02-2023',
 };
 
 // Room settings
@@ -30,7 +31,7 @@ if (!localStorage.getItem('singleplayer-bonus-query')) {
     query = defaults;
 } else {
     query = JSON.parse(localStorage.getItem('singleplayer-bonus-query'));
-    if (query.version !== '12-21-2023') {
+    if (query.version !== defaults.version) {
         query = defaults;
         localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
     }
@@ -281,7 +282,7 @@ function updateStatsForCurrentBonus() {
 }
 
 
-async function getRandomBonus({ categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
+async function getRandomBonus({ alternateSubcategories, categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
     if (randomQuestions.length === 0) {
         await loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
@@ -290,7 +291,7 @@ async function getRandomBonus({ categories, difficulties, minYear, maxYear, subc
 
     // Begin loading the next batch of questions (asynchronously)
     if (randomQuestions.length === 0) {
-        loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
+        loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
 
     return randomQuestion;
@@ -320,9 +321,9 @@ async function giveAnswer(givenAnswer) {
 }
 
 
-async function loadRandomBonuses({ categories, difficulties, minYear, maxYear, number = 1, subcategories, threePartBonuses }) {
+async function loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number = 1, subcategories, threePartBonuses }) {
     randomQuestions = [];
-    await fetch('/api/random-bonus?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
+    await fetch('/api/random-bonus?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
         .then(response => response.json())
         .then(response => response.bonuses)
         .then(questions => {
@@ -435,8 +436,8 @@ function updateStatDisplay() {
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
-        ({ categories: query.categories, subcategories: query.subcategories } = updateCategory(input.id, query.categories, query.subcategories));
-        loadCategoryModal(query.categories, query.subcategories);
+        ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = updateCategory(input.id, query.categories, query.subcategories, query.alternateSubcategories));
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
         localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
     });
 });
@@ -446,7 +447,17 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         query.subcategories = updateSubcategory(input.id, query.subcategories);
-        loadCategoryModal(query.categories, query.subcategories);
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
+        localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    });
+});
+
+
+document.querySelectorAll('#alternate-subcategories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        query.alternateSubcategories = updateAlternateSubcategory(input.id, query.alternateSubcategories);
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
         localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
     });
 });
@@ -699,7 +710,7 @@ window.onload = async () => {
     document.getElementById('year-range-a').textContent = query.minYear;
     document.getElementById('year-range-b').textContent = query.maxYear;
 
-    loadCategoryModal(query.categories, query.subcategories);
+    loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
 
     const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
     if (await getAccountUsername() === 'forrestw') {
