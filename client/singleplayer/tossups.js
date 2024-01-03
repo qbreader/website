@@ -339,9 +339,9 @@ function isPace(setName) {
     return setName.includes('PACE');
 }
 
-async function loadRandomTossups({ categories, difficulties, minYear, maxYear, number = 1, powermarkOnly, subcategories, standardOnly }) {
+async function loadRandomTossups({ alternateSubcategories, categories, difficulties, minYear, maxYear, number = 1, powermarkOnly, subcategories, standardOnly }) {
     randomQuestions = [];
-    await fetch('/api/random-tossup?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories, standardOnly }))
+    await fetch('/api/random-tossup?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories, standardOnly }))
         .then(response => response.json())
         .then(response => response.tossups)
         .then(questions => {
@@ -359,16 +359,16 @@ async function loadRandomTossups({ categories, difficulties, minYear, maxYear, n
  * Get a random tossup.
  * @returns
  */
-async function getRandomTossup({ categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly }) {
+async function getRandomTossup({ alternateSubcategories, categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly }) {
     if (randomQuestions.length === 0) {
-        await loadRandomTossups({ categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
+        await loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
     }
 
     const randomQuestion = randomQuestions.pop();
 
     // Begin loading the next batch of questions (asynchronously)
     if (randomQuestions.length === 0) {
-        loadRandomTossups({ categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
+        loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
     }
 
     return randomQuestion;
@@ -593,6 +593,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
         localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
     });
 });
+
 
 document.querySelectorAll('#alternate-subcategories input').forEach(input => {
     input.addEventListener('click', function (event) {

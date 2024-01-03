@@ -13,6 +13,11 @@ router.get('/', async (req, res) => {
         req.query.difficulties = req.query.difficulties.length ? req.query.difficulties : undefined;
     }
 
+    if (req.query.alternateSubcategories) {
+        req.query.alternateSubcategories = req.query.alternateSubcategories.split(',');
+        req.query.alternateSubcategories = req.query.alternateSubcategories.length ? req.query.alternateSubcategories : undefined;
+    }
+
     if (req.query.categories) {
         req.query.categories = req.query.categories.split(',');
         req.query.categories = req.query.categories.length ? req.query.categories : undefined;
