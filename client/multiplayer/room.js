@@ -479,8 +479,9 @@ const socketOnJoin = (message) => {
     }
 
     if (message.isNew) {
-        upsertPlayerItem(message);
+        upsertPlayerItem(message.user);
         sortPlayerListGroup();
+        players[userId] = message.user;
     } else {
         players[message.userId].isOnline = true;
         document.getElementById('points-' + message.userId).classList.add('bg-success');
