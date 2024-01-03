@@ -177,6 +177,7 @@ class TossupRoom {
             isNew: isNew,
             userId: userId,
             username: username,
+            user: this.players[userId],
         });
     }
 
