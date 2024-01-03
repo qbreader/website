@@ -90,6 +90,7 @@ function validateOptions({
     questionType = 'all',
     categories,
     subcategories,
+    alternate_subcategories,
     maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH,
     randomize = false,
     regex = false,
@@ -151,7 +152,11 @@ function validateOptions({
         throw new Error('Invalid search type specified.');
     }
 
-    return { queryString, difficulties, setName, searchType, questionType, categories, subcategories, maxReturnLength, randomize, regex, exactPhrase, ignoreDiacritics, powermarkOnly, tossupPagination, bonusPagination, minYear, maxYear, verbose, words };
+    if (alternate_subcategories) {
+        alternate_subcategories.push(null);
+    }
+
+    return { queryString, difficulties, setName, searchType, questionType, categories, subcategories, alternate_subcategories, maxReturnLength, randomize, regex, exactPhrase, ignoreDiacritics, powermarkOnly, tossupPagination, bonusPagination, minYear, maxYear, verbose, words };
 }
 
 /**
@@ -165,6 +170,7 @@ function validateOptions({
  * @param {'tossup' | 'bonus' | 'all'} [options.questionType='all'] - The type of question to search for.
  * @param {string[]} [options.categories] - An array of categories to filter by.
  * @param {string[]} [options.subcategories] - An array of subcategories to filter by.
+ * @param {string[]} [options.alternate_subcategories] - An array of alternate subcategories to filter by.
  * @param {number} [options.maxReturnLength] - The maximum number of questions to return.
  * @param {boolean} [options.randomize=false] - Whether to randomize the order of the returned questions.
  * @param {boolean} [options.regex=false] - Whether to treat the search query as a regular expression.
@@ -293,7 +299,7 @@ async function getBonusQuery(options) {
 }
 
 
-function buildQueryAggregation({ query, difficulties, categories, subcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty, powermarkOnly }) {
+function buildQueryAggregation({ query, difficulties, categories, subcategories, alternate_subcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty, powermarkOnly }) {
     if (isEmpty) {
         delete query.$or;
     }
@@ -308,6 +314,10 @@ function buildQueryAggregation({ query, difficulties, categories, subcategories,
 
     if (subcategories) {
         query.subcategory = { $in: subcategories };
+    }
+
+    if (alternate_subcategories) {
+        query.alternate_subcategory = { $in: alternate_subcategories };
     }
 
     if (setName) {
