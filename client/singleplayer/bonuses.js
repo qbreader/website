@@ -435,8 +435,8 @@ function updateStatDisplay() {
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
-        ({ categories: query.categories, subcategories: query.subcategories } = updateCategory(input.id, query.categories, query.subcategories));
-        loadCategoryModal(query.categories, query.subcategories);
+        ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = updateCategory(input.id, query.categories, query.subcategories, query.alternateSubcategories));
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
         localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
     });
 });
@@ -446,7 +446,17 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         query.subcategories = updateSubcategory(input.id, query.subcategories);
-        loadCategoryModal(query.categories, query.subcategories);
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
+        localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    });
+});
+
+
+document.querySelectorAll('#alternate-subcategories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        query.alternateSubcategories = updateAlternateSubcategory(input.id, query.alternateSubcategories);
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
         localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
     });
 });

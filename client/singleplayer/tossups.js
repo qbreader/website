@@ -17,6 +17,7 @@ const previous = {
 };
 
 const defaults = {
+    alternateSubcategories: [],
     categories: [],
     difficulties: [],
     minYear: 2010,
@@ -26,7 +27,7 @@ const defaults = {
     setName: '',
     standardOnly: false,
     subcategories: [],
-    version: '12-21-2023',
+    version: '01-02-2023',
 };
 
 let query;
@@ -34,7 +35,7 @@ if (!localStorage.getItem('singleplayer-tossup-query')) {
     query = defaults;
 } else {
     query = JSON.parse(localStorage.getItem('singleplayer-tossup-query'));
-    if (query.version !== '12-21-2023') {
+    if (query.version !== defaults.version) {
         query = defaults;
         localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
     }
@@ -577,8 +578,8 @@ function updateStatDisplay() {
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
-        ({ categories: query.categories, subcategories: query.subcategories } = updateCategory(input.id, query.categories, query.subcategories));
-        loadCategoryModal(query.categories, query.subcategories);
+        ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = updateCategory(input.id, query.categories, query.subcategories, query.alternateSubcategories));
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
         localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
     });
 });
@@ -588,7 +589,16 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function (event) {
         this.blur();
         query.subcategories = updateSubcategory(input.id, query.subcategories);
-        loadCategoryModal(query.categories, query.subcategories);
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
+        localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    });
+});
+
+document.querySelectorAll('#alternate-subcategories input').forEach(input => {
+    input.addEventListener('click', function (event) {
+        this.blur();
+        query.alternateSubcategories = updateAlternateSubcategory(input.id, query.alternateSubcategories);
+        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
         localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
     });
 });
@@ -857,7 +867,7 @@ window.onload = async () => {
     document.getElementById('year-range-a').textContent = query.minYear;
     document.getElementById('year-range-b').textContent = query.maxYear;
 
-    loadCategoryModal(query.categories, query.subcategories);
+    loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
 
     const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
     if (await getAccountUsername() === 'forrestw') {
