@@ -15,6 +15,21 @@ const SUBCATEGORIES = {
     'Trash': ['Trash'],
 };
 
+const ALTERNATE_SUBCATEGORIES = {
+    'Literature': ['Drama', 'Poetry', 'Long Fiction', 'Short Fiction'],
+    'History': [],
+    'Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering'],
+    'Fine Arts': ['Jazz'],
+    'Religion': [],
+    'Mythology': [],
+    'Philosophy': [],
+    'Social Science': [],
+    'Current Events': [],
+    'Geography': [],
+    'Other Academic': [],
+    'Trash': [],
+};
+
 
 function arrayToRange(array) {
     if (array.length === 0) return '';
@@ -265,16 +280,19 @@ function isValidCategory(question, validCategories, validSubcategories) {
 
 /**
  * Updates the category modal to show the given categories and subcategories.
- * @param {Array<String>} validCategories
- * @param {Array<String>} validSubcategories
+ * @param {string[]} validCategories
+ * @param {string[]} validSubcategories
+ * @param {string[]} validAlternateSubcategories
  * @returns {void}
  */
-function loadCategoryModal(validCategories, validSubcategories) {
+function loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories) {
     document.querySelectorAll('#categories input').forEach(element => element.checked = false);
     document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
     document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
+    document.querySelectorAll('#alternate-subcategories input').forEach(element => element.checked = false);
+    document.querySelectorAll('#alternate-subcategories label').forEach(element => element.classList.add('d-none'));
 
-    if (validSubcategories.length === 0) {
+    if (validCategories.length === 0 && validSubcategories.length === 0) {
         const subcategoryInfoText = document.createElement('div');
         subcategoryInfoText.className = 'text-muted text-center';
         subcategoryInfoText.textContent = 'You must select categories before you can select subcategories.';
@@ -289,9 +307,17 @@ function loadCategoryModal(validCategories, validSubcategories) {
         SUBCATEGORIES[category].forEach(subcategory => {
             document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
         });
+
+        ALTERNATE_SUBCATEGORIES[category].forEach(subcategory => {
+            document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
+        });
     });
 
     validSubcategories.forEach(subcategory => {
+        document.getElementById(subcategory).checked = true;
+    });
+
+    validAlternateSubcategories.forEach(subcategory => {
         document.getElementById(subcategory).checked = true;
     });
 }
@@ -363,20 +389,23 @@ function reportQuestion() {
 /**
  * Adds the given category if it is not in the list of valid categories.
  * Otherwise, the category is removed.
- * @param {String} category
- * @param {Array<String>} categories
- * @param {Array<String>} subcategories
+ * @param {string} category
+ * @param {string[]} categories
+ * @param {string[]} subcategories
+ * @param {string[]} alternateSubcategories
  */
-function updateCategory(category, categories, subcategories) {
+function updateCategory(category, categories, subcategories, alternateSubcategories) {
     if (categories.includes(category)) {
         categories = categories.filter(a => a !== category);
         subcategories = subcategories.filter(a => !SUBCATEGORIES[category].includes(a));
+        alternateSubcategories = alternateSubcategories.filter(a => !ALTERNATE_SUBCATEGORIES[category].includes(a));
     } else {
         categories.push(category);
         subcategories = subcategories.concat(SUBCATEGORIES[category]);
+        alternateSubcategories = alternateSubcategories.concat(ALTERNATE_SUBCATEGORIES[category]);
     }
 
-    return { categories, subcategories };
+    return { categories, subcategories, alternateSubcategories };
 }
 
 
@@ -395,6 +424,24 @@ function updateSubcategory(subcategory, validSubcategories) {
     }
 
     return validSubcategories;
+}
+
+
+/**
+ * Adds the given subcategory if it is not in the list of valid subcategories.
+ * Otherwise, the subcategory is removed.
+ * @param {String} subcategory
+ * @param {Array<String>} validAlternateSubcategories
+ * @returns `validSubcategories`
+ */
+function updateAlternateSubcategory(subcategory, validAlternateSubcategories) {
+    if (validAlternateSubcategories.includes(subcategory)) {
+        validAlternateSubcategories = validAlternateSubcategories.filter(a => a !== subcategory);
+    } else {
+        validAlternateSubcategories.push(subcategory);
+    }
+
+    return validAlternateSubcategories;
 }
 
 
