@@ -93,6 +93,13 @@ async function testCorrectness() {
                 { queryString: 'newton', questionType: 'all', setName: '2018 PACE NSC', verbose: false, maxReturnLength: 400 },
                 5, 2, question, answer);
         }
+        {
+            const question =  'A theorem introduced by this man gives a formula to find the radii of four mutually tangent circles. The second book of a work by this mathematician consists of a classification of algebraic curves, including his namesake "folium." This man is the inventor, and sometimes the namesake, of the field of analytic geometry. This man\'s three (*) "laws of nature" were a major influence on Isaac Newton\'s laws of motion. An upper limit on the number of positive roots of a polynomial can be found using this mathematician\'s "rule of signs." In two dimensions, ordered pairs are used to represent the x- and y-coordinates of numbers in his namesake coordinate system. For 10 points, name this French mathematician, who, in a famous work of philosophy, stated "Cogito ergo sum."';
+            const answer = 'René Descartes (day-CART)';
+            testQuery('getQuery - "newton", math alternate_subcategory, 2018 PACE NSC, return length = 400',
+                { queryString: 'newton', questionType: 'all', setName: '2018 PACE NSC', verbose: false, maxReturnLength: 400, subcategories: ['Other Science'], alternate_subcategories: ['Math'] },
+                2, 0, question, answer);
+        }
 
 
         function testGetPacket(testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer, expectedFirstLeadin) {
