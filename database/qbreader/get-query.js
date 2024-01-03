@@ -153,7 +153,7 @@ function validateOptions({
     }
 
     if (alternateSubcategories) {
-        alternateSubcategories.push(null);
+        alternateSubcategories = alternateSubcategories.concat([null]);
     }
 
     return { queryString, difficulties, setName, searchType, questionType, categories, subcategories, alternateSubcategories, maxReturnLength, randomize, regex, exactPhrase, ignoreDiacritics, powermarkOnly, tossupPagination, bonusPagination, minYear, maxYear, verbose, words };
