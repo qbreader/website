@@ -42,8 +42,7 @@ async function getRandomBonuses({
     }
 
     if (alternateSubcategories.length) {
-        alternateSubcategories.push(null);
-        aggregation[0].$match.alternate_subcategory = { $in: alternateSubcategories };
+        aggregation[0].$match.alternate_subcategory = { $in: alternateSubcategories.concat([null]) };
     }
 
     if (categories.length) {
