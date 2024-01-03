@@ -281,7 +281,7 @@ function updateStatsForCurrentBonus() {
 }
 
 
-async function getRandomBonus({ categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
+async function getRandomBonus({ alternateSubcategories, categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
     if (randomQuestions.length === 0) {
         await loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
@@ -290,7 +290,7 @@ async function getRandomBonus({ categories, difficulties, minYear, maxYear, subc
 
     // Begin loading the next batch of questions (asynchronously)
     if (randomQuestions.length === 0) {
-        loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
+        loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
 
     return randomQuestion;
@@ -320,9 +320,9 @@ async function giveAnswer(givenAnswer) {
 }
 
 
-async function loadRandomBonuses({ categories, difficulties, minYear, maxYear, number = 1, subcategories, threePartBonuses }) {
+async function loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number = 1, subcategories, threePartBonuses }) {
     randomQuestions = [];
-    await fetch('/api/random-bonus?' + new URLSearchParams({ categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
+    await fetch('/api/random-bonus?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
         .then(response => response.json())
         .then(response => response.bonuses)
         .then(questions => {

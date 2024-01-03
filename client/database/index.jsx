@@ -728,6 +728,7 @@ function QueryForm() {
 
         fetch('/api/query?' + new URLSearchParams({
             queryString,
+            alternateSubcategories: validAlternateSubcategories,
             categories: validCategories,
             subcategories: validSubcategories,
             difficulties,

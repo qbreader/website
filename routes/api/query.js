@@ -27,6 +27,10 @@ router.get('/', async (req, res) => {
             .map((difficulty) => parseInt(difficulty));
     }
 
+    if (req.query.alternateSubcategories) {
+        req.query.alternateSubcategories = req.query.alternateSubcategories.split(',');
+    }
+
     if (req.query.categories) {
         req.query.categories = req.query.categories.split(',');
     }
