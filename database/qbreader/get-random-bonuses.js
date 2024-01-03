@@ -9,9 +9,10 @@ import * as types from '../../types.js';
 /**
  * Get an array of random bonuses. This method is 3-4x faster than using the randomize option in getQuery.
  * @param {Object} object - an object containing the parameters
- * @param {Array<Number>} object.difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
- * @param {Array<String>} object.categories - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
- * @param {Array<String>} object.subcategories - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
+ * @param {number[]} object.difficulties - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
+ * @param {string[]} object.categories - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
+ * @param {string[]} object.subcategories - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
+ * @param {string[]} object.alternateSubcategories - an array of allowed alternate subcategories. Pass a 0-length array, null, or undefined to select any alternate subcategory.
  * @param {number} [object.number=1] - how many random bonuses to return. Default: 1.
  * @param {number} [object.minYear=2010] - the minimum year to select from. Default: 2010.
  * @param {number} [object.maxYear=2023] - the maximum year to select from. Default: 2023.
@@ -23,6 +24,7 @@ async function getRandomBonuses({
     difficulties = DIFFICULTIES,
     categories = CATEGORIES,
     subcategories = SUBCATEGORIES_FLATTENED,
+    alternateSubcategories = [],
     number = 1,
     minYear = DEFAULT_MIN_YEAR,
     maxYear = DEFAULT_MAX_YEAR,
@@ -37,6 +39,11 @@ async function getRandomBonuses({
 
     if (difficulties.length) {
         aggregation[0].$match.difficulty = { $in: difficulties };
+    }
+
+    if (alternateSubcategories.length) {
+        alternateSubcategories.push(null);
+        aggregation[0].$match.alternate_subcategory = { $in: alternateSubcategories };
     }
 
     if (categories.length) {

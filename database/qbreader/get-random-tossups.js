@@ -11,6 +11,7 @@ import * as types from '../../types.js';
  * @param {number[]} [object.difficulties] - an array of allowed difficulty levels (1-10). Pass a 0-length array, null, or undefined to select any difficulty.
  * @param {string[]} [object.categories] - an array of allowed categories. Pass a 0-length array, null, or undefined to select any category.
  * @param {string[]} [object.subcategories] - an array of allowed subcategories. Pass a 0-length array, null, or undefined to select any subcategory.
+ * @param {string[]} [object.alternateSubcategories] - an array of allowed alternate subcategories. Pass a 0-length array, null, or undefined to select any alternate subcategory.
  * @param {number} [object.number=1] - how many random tossups to return. Default: 1.
  * @param {number} [object.minYear=2010]
  * @param {number} [object.maxYear=2023]
@@ -22,6 +23,7 @@ async function getRandomTossups({
     difficulties = DIFFICULTIES,
     categories = CATEGORIES,
     subcategories = SUBCATEGORIES_FLATTENED,
+    alternateSubcategories = [],
     number = 1,
     minYear = DEFAULT_MIN_YEAR,
     maxYear = DEFAULT_MAX_YEAR,
@@ -36,6 +38,11 @@ async function getRandomTossups({
 
     if (difficulties.length) {
         aggregation[0].$match.difficulty = { $in: difficulties };
+    }
+
+    if (alternateSubcategories.length) {
+        alternateSubcategories.push(null);
+        aggregation[0].$match.alternate_subcategory = { $in: alternateSubcategories };
     }
 
     if (categories.length) {

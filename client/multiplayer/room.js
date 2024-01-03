@@ -2,6 +2,7 @@
 let changedCategories = false;
 let validCategories = [];
 let validSubcategories = [];
+let validAlternateSubcategories = [];
 
 let maxPacketNumber = 24;
 let powermarkPosition = 0;
@@ -226,7 +227,8 @@ socket.onmessage = function (event) {
         logEvent(data.username, 'updated the categories');
         validCategories = data.categories;
         validSubcategories = data.subcategories;
-        loadCategoryModal(validCategories, validSubcategories);
+        validAlternateSubcategories = data.alternateSubcategories;
+        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
         break;
 
     case 'update-question':
@@ -290,7 +292,8 @@ const socketOnConnectionAcknowledged = async (message) => {
 
     validCategories = message.validCategories || [];
     validSubcategories = message.validSubcategories || [];
-    loadCategoryModal(validCategories, validSubcategories);
+    validAlternateSubcategories = message.validAlternateSubcategories || [];
+    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
 
     updateDifficulties(message.difficulties || []);
     document.getElementById('set-name').value = message.setName || '';
@@ -834,7 +837,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     if (changedCategories) {
-        socket.send(JSON.stringify({ type: 'update-categories', categories: validCategories, subcategories: validSubcategories }));
+        socket.send(JSON.stringify({ type: 'update-categories', categories: validCategories, subcategories: validSubcategories, alternateSubcategories: validAlternateSubcategories }));
     }
     changedCategories = false;
 });
@@ -1006,8 +1009,8 @@ document.getElementById('year-range-a').onchange = function () {
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function () {
         this.blur();
-        ({ categories: validCategories, subcategories: validSubcategories } = updateCategory(input.id, validCategories, validSubcategories));
-        loadCategoryModal(validCategories, validSubcategories);
+        ({ categories: validCategories, subcategories: validSubcategories, alternateSubcategories: validAlternateSubcategories } = updateCategory(input.id, validCategories, validSubcategories, validAlternateSubcategories));
+        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
         changedCategories = true;
     });
 });
@@ -1017,7 +1020,17 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function () {
         this.blur();
         validSubcategories = updateSubcategory(input.id, validSubcategories);
-        loadCategoryModal(validCategories, validSubcategories);
+        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+        changedCategories = true;
+    });
+});
+
+
+document.querySelectorAll('#alternate-subcategories input').forEach(input => {
+    input.addEventListener('click', function () {
+        this.blur();
+        validAlternateSubcategories = updateAlternateSubcategory(input.id, validAlternateSubcategories);
+        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
         changedCategories = true;
     });
 });
