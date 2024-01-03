@@ -1,8 +1,13 @@
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
+const ALTERNATE_SUBCATEGORY_BUTTONS = [['Drama', 'primary'], ['Poetry', 'primary'], ['Long Fiction', 'primary'], ['Short Fiction', 'primary'], ['Math', 'danger'], ['Astronomy', 'danger'], ['Computer Science', 'danger'], ['Earth Science', 'danger'], ['Engineering', 'danger']
+// ['Jazz', 'warning'],
+];
+
 let validCategories = [];
 let validSubcategories = [];
+let validAlternateSubcategories = [];
 function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
   const JSONdata = {
     tossups,
@@ -430,9 +435,10 @@ function CategoryButton({
   function handleClick() {
     ({
       categories: validCategories,
-      subcategories: validSubcategories
-    } = updateCategory(category, validCategories, validSubcategories));
-    loadCategoryModal(validCategories, validSubcategories);
+      subcategories: validSubcategories,
+      alternateSubcategories: validAlternateSubcategories
+    } = updateCategory(category, validCategories, validSubcategories, validAlternateSubcategories));
+    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
@@ -452,7 +458,27 @@ function SubcategoryButton({
 }) {
   function handleClick() {
     validSubcategories = updateSubcategory(subcategory, validSubcategories);
-    loadCategoryModal(validCategories, validSubcategories);
+    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+  }
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    className: "btn-check",
+    autoComplete: "off",
+    id: subcategory,
+    onClick: handleClick
+  }), /*#__PURE__*/React.createElement("label", {
+    className: `btn btn-outline-${color} w-100 rounded-0 my-1 ${hidden && 'd-none'}`,
+    htmlFor: subcategory
+  }, subcategory, /*#__PURE__*/React.createElement("br", null)));
+}
+function AlternateSubcategoryButton({
+  subcategory,
+  color,
+  hidden = false
+}) {
+  function handleClick() {
+    validAlternateSubcategories = updateAlternateSubcategory(subcategory, validAlternateSubcategories);
+    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
@@ -467,7 +493,7 @@ function SubcategoryButton({
 }
 function CategoryModal() {
   return /*#__PURE__*/React.createElement("div", {
-    className: "modal",
+    className: "modal modal-lg",
     id: "category-modal",
     tabIndex: "-1"
   }, /*#__PURE__*/React.createElement("div", {
@@ -488,23 +514,35 @@ function CategoryModal() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "row"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "col-6",
+    className: "col-4",
     id: "categories"
   }, /*#__PURE__*/React.createElement("h5", {
     className: "text-center"
-  }, "Categories"), CATEGORY_BUTTONS.map(element => /*#__PURE__*/React.createElement(CategoryButton, {
+  }, "Category"), CATEGORY_BUTTONS.map(element => /*#__PURE__*/React.createElement(CategoryButton, {
     key: element[0],
     category: element[0],
     color: element[1]
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "col-6",
+    className: "col-4",
     id: "subcategories"
   }, /*#__PURE__*/React.createElement("h5", {
     className: "text-center"
-  }, "Subcategories"), /*#__PURE__*/React.createElement("div", {
+  }, "Subcategory"), /*#__PURE__*/React.createElement("div", {
     className: "text-muted text-center",
     id: "subcategory-info-text"
   }, "You must select categories before you can select subcategories."), SUBCATEGORY_BUTTONS.map(element => /*#__PURE__*/React.createElement(SubcategoryButton, {
+    key: element[0],
+    subcategory: element[0],
+    color: element[1],
+    hidden: true
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "col-4",
+    id: "alternate-subcategories"
+  }, /*#__PURE__*/React.createElement("h5", {
+    className: "text-center"
+  }, "Alternate ", /*#__PURE__*/React.createElement("span", {
+    className: "d-none d-lg-inline"
+  }, "Subcategory")), ALTERNATE_SUBCATEGORY_BUTTONS.map(element => /*#__PURE__*/React.createElement(AlternateSubcategoryButton, {
     key: element[0],
     subcategory: element[0],
     color: element[1],
@@ -617,6 +655,7 @@ function QueryForm() {
     }
     fetch('/api/query?' + new URLSearchParams({
       queryString,
+      alternateSubcategories: validAlternateSubcategories,
       categories: validCategories,
       subcategories: validSubcategories,
       difficulties,

@@ -36,8 +36,22 @@ const SUBCATEGORY_BUTTONS = [
     ['Other Fine Arts', 'warning'],
 ];
 
+const ALTERNATE_SUBCATEGORY_BUTTONS = [
+    ['Drama', 'primary'],
+    ['Poetry', 'primary'],
+    ['Long Fiction', 'primary'],
+    ['Short Fiction', 'primary'],
+    ['Math', 'danger'],
+    ['Astronomy', 'danger'],
+    ['Computer Science', 'danger'],
+    ['Earth Science', 'danger'],
+    ['Engineering', 'danger'],
+    // ['Jazz', 'warning'],
+];
+
 let validCategories = [];
 let validSubcategories = [];
+let validAlternateSubcategories = [];
 
 
 function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
@@ -512,8 +526,8 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter, fontSize = 16 }) {
 // eslint-disable-next-line no-undef
 function CategoryButton({ category, color }) {
     function handleClick() {
-        ({ categories: validCategories, subcategories: validSubcategories } = updateCategory(category, validCategories, validSubcategories));
-        loadCategoryModal(validCategories, validSubcategories);
+        ({ categories: validCategories, subcategories: validSubcategories, alternateSubcategories: validAlternateSubcategories } = updateCategory(category, validCategories, validSubcategories, validAlternateSubcategories));
+        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
     }
 
     return (<div>
@@ -526,7 +540,20 @@ function CategoryButton({ category, color }) {
 function SubcategoryButton({ subcategory, color, hidden = false }) {
     function handleClick() {
         validSubcategories = updateSubcategory(subcategory, validSubcategories);
-        loadCategoryModal(validCategories, validSubcategories);
+        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    }
+
+    return (<div>
+        <input type="checkbox" className="btn-check" autoComplete="off" id={subcategory} onClick={handleClick}/>
+        <label className={`btn btn-outline-${color} w-100 rounded-0 my-1 ${hidden && 'd-none'}`} htmlFor={subcategory}>{subcategory}<br /></label>
+    </div>);
+}
+
+
+function AlternateSubcategoryButton({ subcategory, color, hidden = false }) {
+    function handleClick() {
+        validAlternateSubcategories = updateAlternateSubcategory(subcategory, validAlternateSubcategories);
+        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
     }
 
     return (<div>
@@ -538,7 +565,7 @@ function SubcategoryButton({ subcategory, color, hidden = false }) {
 
 function CategoryModal() {
     return (
-        <div className="modal" id="category-modal" tabIndex="-1">
+        <div className="modal modal-lg" id="category-modal" tabIndex="-1">
             <div className="modal-dialog modal-dialog-scrollable">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -547,16 +574,20 @@ function CategoryModal() {
                     </div>
                     <div className="modal-body">
                         <div className="row">
-                            <div className="col-6" id="categories">
-                                <h5 className="text-center">Categories</h5>
+                            <div className="col-4" id="categories">
+                                <h5 className="text-center">Category</h5>
                                 {CATEGORY_BUTTONS.map((element) => <CategoryButton key={element[0]} category={element[0]} color={element[1]} />)}
                             </div>
-                            <div className="col-6" id="subcategories">
-                                <h5 className="text-center">Subcategories</h5>
+                            <div className="col-4" id="subcategories">
+                                <h5 className="text-center">Subcategory</h5>
                                 <div className="text-muted text-center" id="subcategory-info-text">
                                     You must select categories before you can select subcategories.
                                 </div>
                                 {SUBCATEGORY_BUTTONS.map((element) => <SubcategoryButton key={element[0]} subcategory={element[0]} color={element[1]} hidden={true}/>)}
+                            </div>
+                            <div className="col-4" id="alternate-subcategories">
+                                <h5 className="text-center">Alternate <span className="d-none d-lg-inline">Subcategory</span></h5>
+                                {ALTERNATE_SUBCATEGORY_BUTTONS.map((element) => <AlternateSubcategoryButton key={element[0]} subcategory={element[0]} color={element[1]} hidden={true}/>)}
                             </div>
                         </div>
                     </div>
@@ -697,6 +728,7 @@ function QueryForm() {
 
         fetch('/api/query?' + new URLSearchParams({
             queryString,
+            alternateSubcategories: validAlternateSubcategories,
             categories: validCategories,
             subcategories: validSubcategories,
             difficulties,
