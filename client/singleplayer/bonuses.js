@@ -284,7 +284,7 @@ function updateStatsForCurrentBonus() {
 
 async function getRandomBonus({ alternateSubcategories, categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
     if (randomQuestions.length === 0) {
-        await loadRandomBonuses({ categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
+        await loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
 
     const randomQuestion = randomQuestions.pop();
