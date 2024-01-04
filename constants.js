@@ -47,6 +47,7 @@ const ALTERNATE_SUBCATEGORY_TO_CATEGORY = {
     'Computer Science': 'Science',
     'Earth Science': 'Science',
     'Engineering': 'Science',
+    'Misc Science': 'Science',
     // 'Jazz': 'Fine Arts',
 };
 const ALTERNATE_SUBCATEGORIES_FLATTENED = Object.keys(ALTERNATE_SUBCATEGORY_TO_CATEGORY);
