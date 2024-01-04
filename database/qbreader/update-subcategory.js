@@ -17,10 +17,20 @@ async function updateSubcategory(_id, type, subcategory, clearReports = true) {
     }
 
     const category = SUBCATEGORY_TO_CATEGORY[subcategory];
-    const updateDoc = { $set: { category, subcategory, updatedAt: new Date() } };
+    const updateDoc = {
+        $set: {
+            category,
+            subcategory,
+            updatedAt: new Date(),
+        },
+        $unset: {
+            alternate_subcategory: 1,
+        },
+    };
 
-    if (clearReports)
-        updateDoc.$unset = { reports: 1 };
+    if (clearReports) {
+        updateDoc.$unset.reports = 1;
+    }
 
     switch (type) {
     case 'tossup':
