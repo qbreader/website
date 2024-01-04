@@ -22,7 +22,7 @@ const defaults = {
     setName: '',
     subcategories: [],
     threePartBonuses: true,
-    version: '01-02-2023',
+    version: '01-03-2023',
 };
 
 // Room settings

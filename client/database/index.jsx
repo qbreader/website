@@ -46,6 +46,7 @@ const ALTERNATE_SUBCATEGORY_BUTTONS = [
     ['Computer Science', 'danger'],
     ['Earth Science', 'danger'],
     ['Engineering', 'danger'],
+    ['Misc Science', 'danger'],
     // ['Jazz', 'warning'],
 ];
 

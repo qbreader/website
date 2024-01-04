@@ -18,7 +18,7 @@ const SUBCATEGORIES = {
 const ALTERNATE_SUBCATEGORIES = {
     'Literature': ['Drama', 'Poetry', 'Long Fiction', 'Short Fiction'],
     'History': [],
-    'Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering'],
+    'Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
     'Fine Arts': [],
     // 'Fine Arts': ['Jazz'],
     'Religion': [],
