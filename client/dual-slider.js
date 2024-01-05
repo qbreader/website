@@ -12,9 +12,9 @@ document.body.onmouseup = function() {
 $(document).ready(function() {
     $('#slider').slider({
         min: 2000,
-        max: 2023,
+        max: 2024,
         step: 1,
-        values: [2010, 2023],
+        values: [2010, 2024],
         slide: function(event, ui) {
             for (let i = 0; i < ui.values.length; ++i) {
                 $(`span.sliderValue${i}`)[0].textContent = ui.values[i];
