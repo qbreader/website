@@ -14,7 +14,7 @@ import * as types from '../../types.js';
  * @param {string[]} [object.alternateSubcategories] - an array of allowed alternate subcategories. Pass a 0-length array, null, or undefined to select any alternate subcategory.
  * @param {number} [object.number=1] - how many random tossups to return. Default: 1.
  * @param {number} [object.minYear=2010]
- * @param {number} [object.maxYear=2023]
+ * @param {number} [object.maxYear=2024]
  * @param {boolean} [object.powermarkOnly=false]
  * @param {boolean} [object.standardOnly=false]
  * @returns {Promise<types.Tossup[]>}
