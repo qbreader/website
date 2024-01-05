@@ -1,4 +1,6 @@
 import { tossups, tossupData, bonuses, bonusData } from './collections.js';
+import getBonus from './get-bonus.js';
+import getTossup from './get-tossup.js';
 
 import { SUBCATEGORY_TO_CATEGORY } from '../../constants.js';
 
@@ -23,9 +25,7 @@ async function updateSubcategory(_id, type, subcategory, clearReports = true) {
             subcategory,
             updatedAt: new Date(),
         },
-        $unset: {
-            alternate_subcategory: 1,
-        },
+        $unset: {},
     };
 
     if (clearReports) {
@@ -33,12 +33,26 @@ async function updateSubcategory(_id, type, subcategory, clearReports = true) {
     }
 
     switch (type) {
-    case 'tossup':
+    case 'tossup': {
+        const tossup = await getTossup(_id);
+
+        if (tossup.subcategory !== subcategory) {
+            updateDoc.$unset.alternate_subcategory = 1;
+        }
+
         tossupData.updateMany({ tossup_id: _id }, { $set: { category, subcategory } });
         return await tossups.updateOne({ _id }, updateDoc);
-    case 'bonus':
+    }
+    case 'bonus': {
+        const bonus = await getBonus(_id);
+
+        if (bonus.subcategory !== subcategory) {
+            updateDoc.$unset.alternate_subcategory = 1;
+        }
+
         bonusData.updateMany({ bonus_id: _id }, { $set: { category, subcategory } });
         return await bonuses.updateOne({ _id }, updateDoc);
+    }
     }
 }
 
