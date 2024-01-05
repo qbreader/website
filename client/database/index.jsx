@@ -47,7 +47,13 @@ const ALTERNATE_SUBCATEGORY_BUTTONS = [
     ['Earth Science', 'danger'],
     ['Engineering', 'danger'],
     ['Misc Science', 'danger'],
-    // ['Jazz', 'warning'],
+    ['Architecture', 'warning'],
+    ['Dance', 'warning'],
+    ['Film', 'warning'],
+    ['Jazz', 'warning'],
+    ['Opera', 'warning'],
+    ['Photography', 'warning'],
+    ['Misc Arts', 'warning'],
 ];
 
 let validCategories = [];
