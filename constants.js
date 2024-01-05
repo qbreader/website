@@ -48,7 +48,13 @@ const ALTERNATE_SUBCATEGORY_TO_CATEGORY = {
     'Earth Science': 'Science',
     'Engineering': 'Science',
     'Misc Science': 'Science',
-    // 'Jazz': 'Fine Arts',
+    'Architecture': 'Fine Arts',
+    'Dance': 'Fine Arts',
+    'Film': 'Fine Arts',
+    'Jazz': 'Fine Arts',
+    'Opera': 'Fine Arts',
+    'Photography': 'Fine Arts',
+    'Misc Arts': 'Fine Arts',
 };
 const ALTERNATE_SUBCATEGORIES_FLATTENED = Object.keys(ALTERNATE_SUBCATEGORY_TO_CATEGORY);
 
