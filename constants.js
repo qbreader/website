@@ -55,6 +55,12 @@ const ALTERNATE_SUBCATEGORY_TO_CATEGORY = {
     'Opera': 'Fine Arts',
     'Photography': 'Fine Arts',
     'Misc Arts': 'Fine Arts',
+    'Anthropology': 'Social Science',
+    'Economics': 'Social Science',
+    'Linguistics': 'Social Science',
+    'Psychology': 'Social Science',
+    'Sociology': 'Social Science',
+    'Other Social Science': 'Social Science',
 };
 const ALTERNATE_SUBCATEGORIES_FLATTENED = Object.keys(ALTERNATE_SUBCATEGORY_TO_CATEGORY);
 

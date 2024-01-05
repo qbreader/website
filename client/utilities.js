@@ -23,7 +23,7 @@ const ALTERNATE_SUBCATEGORIES = {
     'Religion': [],
     'Mythology': [],
     'Philosophy': [],
-    'Social Science': [],
+    'Social Science': ['Anthropology', 'Economics', 'Linguistics', 'Psychology', 'Sociology', 'Other Social Science'],
     'Current Events': [],
     'Geography': [],
     'Other Academic': [],

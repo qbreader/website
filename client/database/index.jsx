@@ -54,6 +54,12 @@ const ALTERNATE_SUBCATEGORY_BUTTONS = [
     ['Opera', 'warning'],
     ['Photography', 'warning'],
     ['Misc Arts', 'warning'],
+    ['Anthropology', 'secondary'],
+    ['Economics', 'secondary'],
+    ['Linguistics', 'secondary'],
+    ['Psychology', 'secondary'],
+    ['Sociology', 'secondary'],
+    ['Other Social Science', 'secondary'],
 ];
 
 let validCategories = [];

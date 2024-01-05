@@ -27,7 +27,7 @@ const defaults = {
     setName: '',
     standardOnly: false,
     subcategories: [],
-    version: '01-04-2024',
+    version: '01-05-2024',
 };
 
 let query;
