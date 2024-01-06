@@ -858,11 +858,6 @@ function QueryForm() {
             });
             setDifficulties(tempDifficulties);
         });
-
-        const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
-        if (await getAccountUsername() === 'forrestw') {
-            toast.show();
-        }
     }, []);
 
     return (
