@@ -38,9 +38,10 @@ const SUBCATEGORY_BUTTONS = [
 
 const ALTERNATE_SUBCATEGORY_BUTTONS = [
     ['Drama', 'primary'],
-    ['Poetry', 'primary'],
     ['Long Fiction', 'primary'],
+    ['Poetry', 'primary'],
     ['Short Fiction', 'primary'],
+    ['Misc Literature', 'primary'],
     ['Math', 'danger'],
     ['Astronomy', 'danger'],
     ['Computer Science', 'danger'],
