@@ -16,7 +16,7 @@ const SUBCATEGORIES = {
 };
 
 const ALTERNATE_SUBCATEGORIES = {
-    'Literature': ['Drama', 'Poetry', 'Long Fiction', 'Short Fiction'],
+    'Literature': ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
     'History': [],
     'Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
     'Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts'],

@@ -39,9 +39,10 @@ const SUBCATEGORIES_FLATTENED = Object.keys(SUBCATEGORY_TO_CATEGORY);
 
 const ALTERNATE_SUBCATEGORY_TO_CATEGORY = {
     'Drama': 'Literature',
-    'Poetry': 'Literature',
     'Long Fiction': 'Literature',
+    'Poetry': 'Literature',
     'Short Fiction': 'Literature',
+    'Misc Literature': 'Literature',
     'Math': 'Science',
     'Astronomy': 'Science',
     'Computer Science': 'Science',
