@@ -448,3 +448,18 @@ function updateAlternateSubcategory(subcategory, validAlternateSubcategories) {
 document.getElementById('report-question-submit').addEventListener('click', function () {
     reportQuestion();
 });
+
+
+const banners = {
+    'forrestw': 'DO YOUR GRAD SCHOOL APPS',
+};
+
+getAccountUsername().then(username => {
+    const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
+    const toastText = document.getElementById('funny-toast-text');
+
+    if (username in banners) {
+        toastText.textContent = banners[username];
+        toast.show();
+    }
+});
