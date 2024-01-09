@@ -1,3 +1,48 @@
+const ALTERNATE_SUBCATEGORIES = {
+    'Literature': ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
+    'History': [],
+    'Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
+    'Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts'],
+    'Religion': [],
+    'Mythology': [],
+    'Philosophy': [],
+    'Social Science': ['Anthropology', 'Economics', 'Linguistics', 'Psychology', 'Sociology', 'Other Social Science'],
+    'Current Events': [],
+    'Geography': [],
+    'Other Academic': [],
+    'Trash': [],
+};
+
+const SUBCATEGORY_TO_CATEGORY = {
+    'American Literature': 'Literature',
+    'British Literature': 'Literature',
+    'Classical Literature': 'Literature',
+    'European Literature': 'Literature',
+    'World Literature': 'Literature',
+    'Other Literature': 'Literature',
+    'American History': 'History',
+    'Ancient History': 'History',
+    'European History': 'History',
+    'World History': 'History',
+    'Other History': 'History',
+    'Biology': 'Science',
+    'Chemistry': 'Science',
+    'Physics': 'Science',
+    'Other Science': 'Science',
+    'Visual Fine Arts': 'Fine Arts',
+    'Auditory Fine Arts': 'Fine Arts',
+    'Other Fine Arts': 'Fine Arts',
+    'Religion': 'Religion',
+    'Mythology': 'Mythology',
+    'Philosophy': 'Philosophy',
+    'Social Science': 'Social Science',
+    'Current Events': 'Current Events',
+    'Geography': 'Geography',
+    'Other Academic': 'Other Academic',
+    'Trash': 'Trash',
+};
+
+
 function TossupCard({ tossup }) {
     const _id = tossup._id;
     const packetName = tossup.packet.name;
@@ -136,6 +181,7 @@ function Reports() {
                     _id,
                     type,
                     subcategory: document.getElementById('new-category').value,
+                    alternate_subcategory: document.getElementById('new-alternate-subcategory').value,
                 }),
             }).then(response => {
                 document.getElementById('fix-category-close').click();
@@ -180,6 +226,29 @@ function Reports() {
         {bonuses.map(bonus => <BonusCard key={bonus._id} bonus={bonus} />)}
     </>);
 }
+
+document.getElementById('new-category').addEventListener('input', function () {
+    const subcategory = this.value;
+    const category = SUBCATEGORY_TO_CATEGORY[subcategory];
+    const alternateCategories = ALTERNATE_SUBCATEGORIES[category];
+
+    const select = document.getElementById('new-alternate-subcategory');
+    select.innerHTML = '';
+
+    for (const alternateCategory of alternateCategories) {
+        const option = document.createElement('option');
+        option.value = alternateCategory;
+        option.textContent = alternateCategory;
+        select.appendChild(option);
+    }
+
+    if (alternateCategories.length === 0) {
+        document.getElementById('alternate-subcategory-selection').classList.add('d-none');
+    } else {
+        document.getElementById('alternate-subcategory-selection').classList.remove('d-none');
+        select.value = alternateCategories.at(-1);
+    }
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Reports />);
