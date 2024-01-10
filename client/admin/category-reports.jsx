@@ -1,8 +1,8 @@
 const ALTERNATE_SUBCATEGORIES = {
     'Literature': ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
     'History': [],
-    'Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
-    'Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts'],
+    'Science': [],
+    'Fine Arts': [],
     'Religion': [],
     'Mythology': [],
     'Philosophy': [],
@@ -11,6 +11,9 @@ const ALTERNATE_SUBCATEGORIES = {
     'Geography': [],
     'Other Academic': [],
     'Trash': [],
+
+    'Other Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
+    'Other Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts'],
 };
 
 const SUBCATEGORY_TO_CATEGORY = {
@@ -28,10 +31,10 @@ const SUBCATEGORY_TO_CATEGORY = {
     'Biology': 'Science',
     'Chemistry': 'Science',
     'Physics': 'Science',
-    'Other Science': 'Science',
+    'Other Science': 'Other Science',
     'Visual Fine Arts': 'Fine Arts',
     'Auditory Fine Arts': 'Fine Arts',
-    'Other Fine Arts': 'Fine Arts',
+    'Other Fine Arts': 'Other Fine Arts',
     'Religion': 'Religion',
     'Mythology': 'Mythology',
     'Philosophy': 'Philosophy',
