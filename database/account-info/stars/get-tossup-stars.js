@@ -1,6 +1,6 @@
 import { tossupStars } from '../collections.js';
 
-import getTossup from '../../qbreader/get-tossup.js';
+import { tossups } from '../../qbreader/collections.js';
 
 /**
  *
@@ -14,11 +14,15 @@ async function getTossupStars(user_id) {
         { $sort: { insertTime: -1 } },
     ];
 
-    const tossups = await tossupStars.aggregate(aggregation).toArray();
-    for (const tossup of tossups) {
-        tossup.tossup = await getTossup(tossup.tossup_id);
-    }
-    return tossups.map(star => star.tossup);
+    const tossup_ids = await tossupStars.aggregate(aggregation).toArray();
+    return await tossups.find(
+        { _id: { $in: tossup_ids.map(tossup => tossup.tossup_id) } },
+        { sort: {
+            'set.name': -1,
+            'packet.number': 1,
+            questionNumber: 1,
+        } },
+    ).toArray();
 }
 
 export default getTossupStars;
