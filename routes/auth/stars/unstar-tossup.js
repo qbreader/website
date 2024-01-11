@@ -6,7 +6,7 @@ import { ObjectId } from 'mongodb';
 
 const router = Router();
 
-router.put('/unstar-tossup', async (req, res) => {
+router.put('/', async (req, res) => {
     const username = req.session.username;
     const user_id = await getUserId(username);
     const tossup_id = new ObjectId(req.body.tossup_id);
