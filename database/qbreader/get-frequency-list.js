@@ -1,5 +1,6 @@
 import { bonuses, tossups } from './collections.js';
 
+import { DIFFICULTIES } from '../../constants.js';
 
 function mergeTwoSortedArrays(array1, array2, keyFunction, combineFunction) {
     const mergedArray = [];
@@ -35,9 +36,16 @@ function mergeTwoSortedArrays(array1, array2, keyFunction, combineFunction) {
     return mergedArray;
 }
 
-async function getFrequencyList(subcategory, limit=100) {
+/**
+ * Get a frequency list of answers for a given subcategory and difficulty.
+ * @param {string} subcategory
+ * @param {number[]} [difficulties] An array of difficulties to include. Defaults to all difficulties.
+ * @param {numer} [limit=100] The maximum number of answers to return. Defaults to 100.
+ * @returns
+ */
+async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=100) {
     const aggregation = [
-        { $match: { subcategory } },
+        { $match: { subcategory, difficulty: { $in: difficulties } } },
         { $addFields: {
             // This is a regex that matches everything before the first open parenthesis or bracket.
             regex: { $regexFind: { input: '$answer', regex: /^[^[(]*/ } },
