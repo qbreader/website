@@ -1,6 +1,6 @@
 import { bonusStars } from '../collections.js';
 
-import getBonus from '../../qbreader/get-bonus.js';
+import { bonuses } from '../../qbreader/collections.js';
 
 /**
  *
@@ -14,11 +14,15 @@ async function getBonusStars(user_id) {
         { $sort: { insertTime: -1 } },
     ];
 
-    const bonuses = await bonusStars.aggregate(aggregation).toArray();
-    for (const bonus of bonuses) {
-        bonus.bonus = await getBonus(bonus.bonus_id);
-    }
-    return bonuses.map(star => star.bonus);
+    const bonus_ids = await bonusStars.aggregate(aggregation).toArray();
+    return await bonuses.find(
+        { _id: { $in: bonus_ids.map(bonus => bonus.bonus_id) } },
+        { sort: {
+            'set.name': -1,
+            'packet.number': 1,
+            questionNumber: 1,
+        } },
+    ).toArray();
 }
 
 export default getBonusStars;
