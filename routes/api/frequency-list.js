@@ -11,8 +11,29 @@ router.use('/', async (req, res) => {
         req.query.limit = undefined;
     }
 
-    const { limit, subcategory } = req.query;
-    const frequencyList = await getFrequencyList(subcategory, limit);
+    const { level } = req.query;
+    switch (level) {
+    case 'middle-school':
+        req.query.difficulties = [1];
+        break;
+    case 'high-school':
+        req.query.difficulties = [2, 3, 4, 5];
+        break;
+    case 'college':
+        req.query.difficulties = [6, 7, 8, 9];
+        break;
+    case 'open':
+        req.query.difficulties = [10];
+        break;
+    case 'all':
+    default:
+        req.query.difficulties = undefined;
+        break;
+    }
+
+    const { limit, subcategory, difficulties } = req.query;
+
+    const frequencyList = await getFrequencyList(subcategory, difficulties, limit);
     res.json({ frequencyList });
 });
 
