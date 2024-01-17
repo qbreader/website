@@ -681,7 +681,7 @@ document.addEventListener('keydown', (event) => {
         document.getElementsByClassName('star-bonus')[0].click();
         break;
     case 'y':
-        navigator.clipboard.writeText(questions[0]._id);
+        navigator.clipboard.writeText(questions[0]?._id ?? '');
         break;
     case 'n':
         document.getElementById('next').click();
