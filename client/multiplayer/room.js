@@ -519,7 +519,7 @@ const socketOnNext = (message) => {
     tossup = message.tossup;
 
     document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
-    document.getElementById('question-number-info').textContent = tossup?.questionNumber ?? '-';
+    document.getElementById('question-number-info').textContent = 1?.questionNumber ?? '-';
     document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
 
     document.getElementById('options').classList.add('d-none');
@@ -1062,6 +1062,10 @@ document.addEventListener('keydown', function (event) {
 
     case 't':
         document.getElementsByClassName('star-tossup')[0].click();
+        break;
+
+    case 'y':
+        navigator.clipboard.writeText(tossup._id ?? '');
         break;
 
     case 'n':
