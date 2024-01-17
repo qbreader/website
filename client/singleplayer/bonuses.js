@@ -680,6 +680,9 @@ document.addEventListener('keydown', (event) => {
     case 't':
         document.getElementsByClassName('star-bonus')[0].click();
         break;
+    case 'y':
+        navigator.clipboard.writeText(questions[0]?._id ?? '');
+        break;
     case 'n':
         document.getElementById('next').click();
         break;
