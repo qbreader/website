@@ -260,7 +260,7 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
 
         if (searchType === 'answer' || searchType === 'all') {
             if (bonus.formatted_answers) {
-                for (let i = 0; i < bonus.answers.length; i++) {
+                for (let i = 0; i < bonus.formatted_answers.length; i++) {
                     bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(word, '<span class="text-highlight">$&</span>');
                 }
             } else {
