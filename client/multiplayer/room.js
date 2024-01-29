@@ -273,6 +273,7 @@ const socketOnBuzz = (message) => {
 const socketOnChangeUsername = (message) => {
     logEvent(message.oldUsername, `changed their username to ${message.newUsername}`);
     document.getElementById('username-' + message.userId).textContent = message.newUsername;
+    players[message.userId].username = message.newUsername;
     sortPlayerListGroup();
 };
 
