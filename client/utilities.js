@@ -450,9 +450,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 
-const banners = {
-    'forrestw': 'DO YOUR GRAD SCHOOL APPS',
-};
+const banners = {};
 
 getAccountUsername().then(username => {
     const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
