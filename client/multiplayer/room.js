@@ -18,6 +18,14 @@ let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
 let username = localStorage.getItem('multiplayer-username') || randomUsername();
 
+function removeBotFromLeaderboard(botUserId) {
+    const botElementId = 'list-group-' + botUserId;
+    const botElement = document.getElementById(botElementId);
+    if (botElement) {
+        botElement.remove();
+    }
+}
+
 function showNextButton() {
     document.getElementById('next').classList.remove('d-none');
     document.getElementById('next').disabled = false;
@@ -769,7 +777,7 @@ function upsertPlayerItem(player) {
     playerItem.id = `list-group-${userId}`;
     playerItem.innerHTML = `
     <div class="d-flex justify-content-between">
-        <span id="username-${userId}">${escapeHTML(username)}</span>
+        <span id="username-${userId}">${player.userId == 'QuizBotId' ? '<i class="fa-solid fa-robot"></i> ' : ''}${escapeHTML(username)}</span>
         <span><span id="points-${userId}" class="badge rounded-pill ${isOnline ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
     </div>
     `;
@@ -943,6 +951,30 @@ document.getElementById('set-name').addEventListener('change', async function ()
     }
 
     socket.send(JSON.stringify({ type: 'set-name', value: this.value, packetNumbers: rangeToArray(document.getElementById('packet-number').value) }));
+});
+
+document.getElementById('toggle-bot').addEventListener('click', function () {
+    logEvent(username, `${this.checked ? 'enabled' : 'disabled'} the bot`);
+    if (this.checked) {
+        const quizBotPlayer = {
+            userId: 'QuizBotId', // Ensure this is unique and does not conflict with real user IDs
+            username: 'QuizBot',
+            powers: 0, // Adjust these values as needed
+            tens: 0,
+            negs: 0,
+            tuh: 0,
+            points: 0,
+            celerity: 0,
+            isOnline: true // You might want to always consider the bot as online
+        };
+        
+        upsertPlayerItem(quizBotPlayer);
+    } else {
+        removeBotFromLeaderboard('QuizBotId');
+    }
+    this.blur();
+    socket.send(JSON.stringify({ type: 'toggle-bot', bot: this.checked }));
+    console.log("socket.send was attempted");
 });
 
 
