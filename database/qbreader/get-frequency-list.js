@@ -4,6 +4,7 @@ import { DIFFICULTIES } from '../../constants.js';
 
 /**
  * Merge two sorted arrays into a single sorted array.
+ * The two arrays should be sorted by the key function.
  * @template T
  * @param {T[]} array1
  * @param {T[]} array2
@@ -49,11 +50,11 @@ function mergeTwoSortedArrays(array1, array2, keyFunction, combineFunction) {
  * Get a frequency list of answers for a given subcategory and difficulty.
  * @param {string} subcategory
  * @param {number[]} [difficulties] An array of difficulties to include. Defaults to all difficulties.
- * @param {number} [limit=100] The maximum number of answers to return. Defaults to 100.
+ * @param {number} [limit=50] The maximum number of answers to return. Defaults to 50.
  * @returns {Promise<{ answer: string, count: number }[]>} The frequency list.
  */
-async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=100) {
-    const aggregation = [
+async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=50, questionType='all') {
+    const tossupAggregation = [
         { $match: { subcategory, difficulty: { $in: difficulties } } },
         { $addFields: {
             // This is a regex that matches everything before the first open parenthesis or bracket.
@@ -72,12 +73,38 @@ async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=10
         { $sort: { answer: 1 } },
     ];
 
-    const tossupList = await tossups.aggregate(aggregation).toArray();
-
-    const bonusList = await bonuses.aggregate([
+    const bonusAggregation = [
         { $unwind: { path: '$answers' } },
         { $addFields: { answer: '$answers' } },
-    ].concat(aggregation)).toArray();
+    ].concat(tossupAggregation);
+
+    switch (questionType) {
+    case 'tossup': {
+        const tossupList = await tossups.aggregate(tossupAggregation).toArray();
+        tossupList.sort((a, b) => b.count - a.count);
+        if (limit) {
+            tossupList.length = limit;
+        }
+        return tossupList;
+    }
+    case 'bonus': {
+        const bonusList = await bonuses.aggregate(bonusAggregation).toArray();
+        bonusList.sort((a, b) => b.count - a.count);
+        if (limit) {
+            bonusList.length = limit;
+        }
+        return bonusList;
+    }
+    case 'all':
+        break;
+    default:
+        throw new Error('Invalid question type');
+    }
+
+    const [tossupList, bonusList] = await Promise.all([
+        tossups.aggregate(tossupAggregation).toArray(),
+        bonuses.aggregate(bonusAggregation).toArray(),
+    ]);
 
     const frequencyList = mergeTwoSortedArrays(
         tossupList,
