@@ -2,6 +2,15 @@ import { bonuses, tossups } from './collections.js';
 
 import { DIFFICULTIES } from '../../constants.js';
 
+/**
+ * Merge two sorted arrays into a single sorted array.
+ * @template T
+ * @param {T[]} array1
+ * @param {T[]} array2
+ * @param {(arg: T) => number} keyFunction - the function to extract the key from each element.
+ * @param {(arg1: T, arg2: T) => T} combineFunction - the function to combine two elements with the same key.
+ * @returns {T[]} The merged array.
+ */
 function mergeTwoSortedArrays(array1, array2, keyFunction, combineFunction) {
     const mergedArray = [];
     let i = 0;
@@ -40,8 +49,8 @@ function mergeTwoSortedArrays(array1, array2, keyFunction, combineFunction) {
  * Get a frequency list of answers for a given subcategory and difficulty.
  * @param {string} subcategory
  * @param {number[]} [difficulties] An array of difficulties to include. Defaults to all difficulties.
- * @param {numer} [limit=100] The maximum number of answers to return. Defaults to 100.
- * @returns
+ * @param {number} [limit=100] The maximum number of answers to return. Defaults to 100.
+ * @returns {Promise<{ answer: string, count: number }[]>} The frequency list.
  */
 async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=100) {
     const aggregation = [
