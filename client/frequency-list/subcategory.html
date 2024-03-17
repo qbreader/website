@@ -67,21 +67,32 @@
     <div class="container-xl mt-3 mb-5 pb-5">
         <p class="">
             <span class="lead" id="numbering-info">
-                The 100 most frequent answers in <span id="subcategory-name"></span> questions:
+                The <span id="limit">100</span> most frequent answers in <span id="subcategory-name"></span> questions:
             </span>
             <span class="float-end" id="numbering-info">
                 <a href="/frequency-list">Back to all frequency lists</a>
             </span>
         </p>
-        <form class="mb-3" id="form">
-            <div class="mb-3">
+        <form class="row mb-3" id="form">
+            <div class="col-12 col-md-6 mb-3">
                 <label class="form-label" for="level-select">Choose a difficulty level:</label>
                 <select class="form-select" id="level-select">
-                    <option value="all" default>All</option>
+                    <option value="all" selected>All</option>
                     <option value="middle-school">Middle School</option>
                     <option value="high-school">High School</option>
                     <option value="college">College</option>
                     <option value="open">Open</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label class="form-label" for="limit-select">Choose a limit:</label>
+                <select class="form-control" id="limit-select">
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100" selected>100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
                 </select>
             </div>
         </form>
