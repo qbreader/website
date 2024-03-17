@@ -31,9 +31,18 @@ router.use('/', async (req, res) => {
         break;
     }
 
-    const { limit, subcategory, difficulties } = req.query;
+    if (!req.query.questionType) {
+        req.query.questionType = 'all';
+    }
 
-    const frequencyList = await getFrequencyList(subcategory, difficulties, limit);
+    if (!['tossup', 'bonus', 'all'].includes(req.query.questionType)) {
+        res.sendStatus(400);
+        return;
+    }
+
+    const { difficulties, limit, questionType, subcategory } = req.query;
+
+    const frequencyList = await getFrequencyList(subcategory, difficulties, limit, questionType);
     res.json({ frequencyList });
 });
 
