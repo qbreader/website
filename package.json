@@ -1,6 +1,6 @@
 {
     "name": "qbreader",
-    "version": "4.4.4",
+    "version": "5.0.2",
     "type": "module",
     "scripts": {
         "test": "mocha",
