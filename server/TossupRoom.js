@@ -58,7 +58,7 @@ class TossupRoom {
             minYear: DEFAULT_MIN_YEAR,
             maxYear: DEFAULT_MAX_YEAR,
             packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-            setName: '2022 PACE NSC',
+            setName: '2023 PACE NSC',
             alternateSubcategories: alternateSubcategories,
             categories: categories,
             subcategories: subcategories,
