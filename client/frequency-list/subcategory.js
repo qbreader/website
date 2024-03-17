@@ -1,16 +1,19 @@
+let level = 'all';
+let limit = 100;
+const subcategory = titleCase(window.location.pathname.split('/').at(-1));
+
 function titleCase(name) {
     return name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
-const subcategory = titleCase(window.location.pathname.split('/').at(-1));
-document.getElementById('subcategory-name').textContent = subcategory;
-
-function updateFrequencyListDisplay(level) {
+function updateFrequencyListDisplay(level, limit) {
     const table = document.getElementById('frequency-list');
     table.innerHTML = '';
+
+    document.getElementById('limit').textContent = limit;
     document.getElementsByClassName('spinner-border')[0].classList.remove('d-none');
 
-    fetch('/api/frequency-list?' + new URLSearchParams({ subcategory, level }))
+    fetch('/api/frequency-list?' + new URLSearchParams({ subcategory, level, limit }))
         .then(response => response.json())
         .then(response => {
             const { frequencyList } = response;
@@ -27,8 +30,15 @@ function updateFrequencyListDisplay(level) {
         });
 }
 
-updateFrequencyListDisplay('all');
-
 document.getElementById('level-select').addEventListener('change', event => {
-    updateFrequencyListDisplay(event.target.value);
+    level = event.target.value;
+    updateFrequencyListDisplay(level, limit);
 });
+
+document.getElementById('limit-select').addEventListener('change', event => {
+    limit = event.target.value;
+    updateFrequencyListDisplay(level, limit);
+});
+
+document.getElementById('subcategory-name').textContent = subcategory;
+updateFrequencyListDisplay(level, limit);
