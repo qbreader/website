@@ -275,20 +275,27 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
 }
 
 
-function TossupCard({ tossup, highlightedTossup, showCardFooter, fontSize = 16 }) {
+function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter, fontSize = 16 }) {
     const _id = tossup._id;
     const packetName = tossup.packet.name;
 
     function clickToCopy() {
         let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
 
+        let tag = '';
         if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
-            textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
+            tag += `${tossup.category} / ${tossup.subcategory}`;
         } else if (tossup.category) {
-            textdata += `\n<${tossup.category}>`;
+            tag += `${tossup.category}`;
         } else if (tossup.subcategory) {
-            textdata += `\n<${tossup.subcategory}>`;
+            tag += `${tossup.subcategory}`;
         }
+
+        if (tossup.alternate_subcategory) {
+            tag += ` (${tossup.alternate_subcategory})`;
+        }
+
+        textdata += `\n<${tag}>`;
 
         navigator.clipboard.writeText(textdata);
 
@@ -382,7 +389,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter, fontSize = 16 }
                     <hr className="my-3"></hr>
                     <div>
                         <b>ANSWER:</b> <span dangerouslySetInnerHTML={{
-                            __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer,
+                            __html: hideAnswerline ? '' : (highlightedTossup?.formatted_answer ?? highlightedTossup.answer),
                         }}></span>
                     </div>
                 </div>
@@ -400,7 +407,7 @@ function TossupCard({ tossup, highlightedTossup, showCardFooter, fontSize = 16 }
 }
 
 
-function BonusCard({ bonus, highlightedBonus, showCardFooter, fontSize = 16 }) {
+function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, fontSize = 16 }) {
     const _id = bonus._id;
     const packetName = bonus.packet.name;
     const bonusLength = bonus.parts.length;
@@ -417,13 +424,21 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter, fontSize = 16 }) {
             textdata += `ANSWER: ${bonus.answers[i]}\n`;
         }
 
+        let tag = '';
+
         if (bonus.category && bonus.subcategory && bonus.category !== bonus.subcategory) {
-            textdata += `<${bonus.category} / ${bonus.subcategory}>`;
+            tag += `${bonus.category} / ${bonus.subcategory}`;
         } else if (bonus.category) {
-            textdata += `<${bonus.category}>`;
+            tag += `${bonus.category}`;
         } else if (bonus.subcategory) {
-            textdata += `<${bonus.subcategory}>`;
+            tag += `${bonus.subcategory}`;
         }
+
+        if (bonus.alternate_subcategory) {
+            tag += ` (${bonus.alternate_subcategory})`;
+        }
+
+        textdata += `<${tag}>`;
 
         navigator.clipboard.writeText(textdata);
 
@@ -518,7 +533,9 @@ function BonusCard({ bonus, highlightedBonus, showCardFooter, fontSize = 16 }) {
                             </p>
                             <div>
                                 <b>ANSWER: </b>
-                                <span dangerouslySetInnerHTML={{ __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i] }}></span>
+                                <span dangerouslySetInnerHTML={{
+                                    __html: hideAnswerlines ? '' : (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i],
+                                }}></span>
                             </div>
                         </div>,
                     )}
@@ -633,6 +650,7 @@ function QueryForm() {
     const [diacritics, setDiacritics] = React.useState(false);
     const [exactPhrase, setExactPhrase] = React.useState(false);
     const [powermarkOnly, setPowermarkOnly] = React.useState(false);
+    const [hideAnswerlines, setHideAnswerlines] = React.useState(false);
     const [showCardFooters, setShowCardFooters] = React.useState(true);
 
     const [currentlySearching, setCurrentlySearching] = React.useState(false);
@@ -824,12 +842,12 @@ function QueryForm() {
 
     const tossupCards = [];
     for (let i = 0; i < highlightedTossups.length; i++) {
-        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} showCardFooter={showCardFooters} fontSize={fontSize}/>);
+        tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} hideAnswerline={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize}/>);
     }
 
     const bonusCards = [];
     for (let i = 0; i < highlightedBonuses.length; i++) {
-        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} showCardFooter={showCardFooters} fontSize={fontSize}/>);
+        bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} hideAnswerlines={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize}/>);
     }
 
     React.useEffect(async () => {
@@ -944,6 +962,10 @@ function QueryForm() {
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-powermark-only" checked={powermarkOnly} onChange={() => {setPowermarkOnly(!powermarkOnly);}} />
                             <label className="form-check-label" htmlFor="toggle-powermark-only">Powermarked tossups only</label>
+                        </div>
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-hide-answerlines" checked={hideAnswerlines} onChange={() => {setHideAnswerlines(!hideAnswerlines);}} />
+                            <label className="form-check-label" htmlFor="toggle-hide-answerlines">Hide answerlines</label>
                         </div>
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-show-card-footers" checked={showCardFooters} onChange={() => {setShowCardFooters(!showCardFooters);}} />
