@@ -8,14 +8,14 @@ function fetchBonusStats({ difficulties = '', setName = '', includeMultiplayer =
         })
         .then(response => response.json())
         .then(data => {
-            for (const type of ['category', 'subcategory']) {
-                if (!data[`${type}Stats`]) {
+            for (const type of ['category', 'subcategory', 'alternate-subcategory']) {
+                if (!data[`${type}-stats`]) {
                     continue;
                 }
 
                 let innerHTML = '';
                 const totalStats = {};
-                data[`${type}Stats`].forEach(stat => {
+                data[`${type}-stats`].forEach(stat => {
                     innerHTML += `
                         <tr>
                             <th scope="row">${stat._id}</th>

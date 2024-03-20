@@ -15,14 +15,13 @@ import generateMatchDocument from './generate-match-document.js';
  * @returns
  */
 async function getStatsHelper({ user_id, questionType, groupByField, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-    groupByField = '$' + groupByField;
-
     const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
     switch (questionType) {
     case 'tossup':
         return await tossupData.aggregate([
             { $match: matchDocument },
+            { $match: { [groupByField]: { $exists: true } } },
             { $addFields: {
                 is15: { $gt: ['$pointValue', 10] },
                 is10: { $eq: ['$pointValue', 10] },
@@ -30,7 +29,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
             } },
             { $group: {
                 numCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
-                _id: groupByField,
+                _id: '$' + groupByField,
                 count: { $sum: 1 },
                 '15s': { $sum: { $cond: ['$is15', 1, 0] } },
                 '10s': { $sum: { $cond: ['$is10', 1, 0] } },
@@ -48,6 +47,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
     case 'bonus':
         return await bonusData.aggregate([
             { $match: matchDocument },
+            { $match: { [groupByField]: { $exists: true } } },
             { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
             { $addFields: {
                 is30: { $eq: ['$pointValue', 30] },
@@ -56,7 +56,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
                 is0:  { $eq: ['$pointValue',  0] },
             } },
             { $group: {
-                _id: groupByField,
+                _id: '$' + groupByField,
                 count: { $sum: 1 },
                 '30s': { $sum: { $cond: ['$is30', 1, 0] } },
                 '20s': { $sum: { $cond: ['$is20', 1, 0] } },

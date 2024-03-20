@@ -134,7 +134,7 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="alternate-subcategory-tab" data-bs-toggle="tab"
                     data-bs-target="#alternate-subcategory-tab-pane" type="button" role="tab"
-                    aria-controls="alternate-subcategory-tab-pane" aria-selected="false" disabled>
+                    aria-controls="alternate-subcategory-tab-pane" aria-selected="false">
                     Alternate Subcategory <span class="d-none d-md-inline">Stats</span>
                 </button>
             </li>
@@ -178,8 +178,24 @@
                     <tfoot class="table-group-divider" id="subcategory-stats-foot"></tfoot>
                 </table>
             </div>
-            <div class="tab-pane" id="alternate-subcategory-tab-pane" role="tabpanel" aria-labelledby="alternate-subcategory-tab"
-                tabindex="0">
+            <div class="tab-pane table-responsive" id="alternate-subcategory-tab-pane" role="tabpanel"
+                aria-labelledby="alternate-subcategory-tab" tabindex="0">
+                <table class="table table-hover" id="alternate-subcategory-stats">
+                    <thead>
+                        <tr>
+                            <th scope="col" onclick="sortTable(0, false, 'alternate-subcategory-stats')">Subcategory</th>
+                            <th scope="col" onclick="sortTable(1, true, 'alternate-subcategory-stats')">BH</th>
+                            <th scope="col" onclick="sortTable(2, true, 'alternate-subcategory-stats')">30</th>
+                            <th scope="col" onclick="sortTable(3, true, 'alternate-subcategory-stats')">20</th>
+                            <th scope="col" onclick="sortTable(4, true, 'alternate-subcategory-stats')">10</th>
+                            <th scope="col" onclick="sortTable(5, true, 'alternate-subcategory-stats')">0</th>
+                            <th scope="col" onclick="sortTable(6, true, 'alternate-subcategory-stats')">Points</th>
+                            <th scope="col" onclick="sortTable(7, true, 'alternate-subcategory-stats')">PPB</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="alternate-subcategory-stats-body"></tbody>
+                    <tfoot class="table-group-divider" id="alternate-subcategory-stats-foot"></tfoot>
+                </table>
             </div>
         </div>
     </div>
