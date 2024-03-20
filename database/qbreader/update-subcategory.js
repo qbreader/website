@@ -18,6 +18,7 @@ async function updateSubcategory(_id, type, subcategory, alternate_subcategory, 
     }
 
     const category = SUBCATEGORY_TO_CATEGORY[subcategory];
+    const fields = { category, subcategory };
     const updateDoc = {
         $set: {
             category,
@@ -33,17 +34,18 @@ async function updateSubcategory(_id, type, subcategory, alternate_subcategory, 
 
     if (alternate_subcategory) {
         updateDoc.$set.alternate_subcategory = alternate_subcategory;
+        fields.alternate_subcategory = alternate_subcategory;
     } else {
         updateDoc.$unset.alternate_subcategory = 1;
     }
 
     switch (type) {
     case 'tossup': {
-        tossupData.updateMany({ tossup_id: _id }, { $set: { category, subcategory } });
+        tossupData.updateMany({ tossup_id: _id }, { $set: fields });
         return await tossups.updateOne({ _id }, updateDoc);
     }
     case 'bonus': {
-        bonusData.updateMany({ bonus_id: _id }, { $set: { category, subcategory } });
+        bonusData.updateMany({ bonus_id: _id }, { $set: fields });
         return await bonuses.updateOne({ _id }, updateDoc);
     }
     }
