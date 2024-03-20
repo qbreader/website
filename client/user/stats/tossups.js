@@ -8,12 +8,13 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
         })
         .then(response => response.json())
         .then(data => {
-            if (data.bestBuzz && data.bestBuzz.tossup) {
-                const tossup = data.bestBuzz.tossup;
-                const buzzPoint = Math.floor((1 - data.bestBuzz.celerity) * tossup.question.length);
+            const bestBuzz = data['best-buzz'];
+            if (bestBuzz && bestBuzz.tossup) {
+                const tossup = bestBuzz.tossup;
+                const buzzPoint = Math.floor((1 - bestBuzz.celerity) * tossup.question.length);
                 tossup.question = `${tossup.question.slice(0, buzzPoint)} <span class="text-highlight">(#)</span> ${tossup.question.slice(buzzPoint)}`;
                 document.getElementById('best-buzz').innerHTML = `
-                    <p>Celerity: ${data.bestBuzz.celerity}</p>
+                    <p>Celerity: ${bestBuzz.celerity}</p>
                     <div class="card mb-2">
                         <div class="card-header">
                             <b>${tossup.set.name} | ${tossup.category} | ${tossup.subcategory} ${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | ${tossup.difficulty}</b>
@@ -40,14 +41,14 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                 document.getElementById('best-buzz').textContent = '';
             }
 
-            for (const type of ['category', 'subcategory']) {
-                if (!data[`${type}Stats`]) {
+            for (const type of ['category', 'subcategory', 'alternate-subcategory']) {
+                if (!data[`${type}-stats`]) {
                     continue;
                 }
 
                 let innerHTML = '';
                 const totalStats = {};
-                data[`${type}Stats`].forEach(stat => {
+                data[`${type}-stats`].forEach(stat => {
                     const averageCelerity = stat.numCorrect > 0 ? (stat.totalCorrectCelerity / stat.numCorrect) : 0;
                     innerHTML += `
                         <tr>
