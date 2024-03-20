@@ -118,9 +118,36 @@
                 </div>
             </div>
         </form>
-        <div class="row">
-            <div class="col-12 table-responsive">
-                <h3 class="text-center">Category Stats:</h3>
+        <ul class="nav nav-tabs mb-3" id="stats-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="category-tab" data-bs-toggle="tab" data-bs-target="#category-tab-pane"
+                    type="button" role="tab" aria-controls="category-tab-pane" aria-selected="true">
+                    Category <span class="d-none d-md-inline">Stats</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="subcategory-tab" data-bs-toggle="tab" data-bs-target="#subcategory-tab-pane" type="button"
+                    role="tab" aria-controls="subcategory-tab-pane" aria-selected="false">
+                    Subcategory <span class="d-none d-md-inline">Stats</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="alternate-subcategory-tab" data-bs-toggle="tab"
+                    data-bs-target="#alternate-subcategory-tab-pane" type="button" role="tab"
+                    aria-controls="alternate-subcategory-tab-pane" aria-selected="false" disabled>
+                    Alternate Subcategory <span class="d-none d-md-inline">Stats</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="best-buzz-tab" data-bs-toggle="tab" data-bs-target="#best-buzz-tab-pane" type="button"
+                    role="tab" aria-controls="best-buzz-tab-pane" aria-selected="false">
+                    Best Buzz
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane table-responsive show active" id="category-tab-pane" role="tabpanel" aria-labelledby="category-tab"
+                tabindex="0">
                 <table class="table table-hover" id="category-stats">
                     <thead>
                         <tr>
@@ -138,10 +165,8 @@
                     <tfoot class="table-group-divider" id="category-stats-foot"></tfoot>
                 </table>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12 table-responsive">
-                <h3 class="text-center">Subcategory Stats:</h3>
+            <div class="tab-pane table-responsive" id="subcategory-tab-pane" role="tabpanel" aria-labelledby="subcategory-tab"
+                tabindex="0">
                 <table class="table table-hover" id="subcategory-stats">
                     <thead>
                         <tr>
@@ -159,12 +184,10 @@
                     <tfoot class="table-group-divider" id="subcategory-stats-foot"></tfoot>
                 </table>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <h3>
-                    <p>Best buzz:</p>
-                </h3>
+            <div class="tab-pane" id="alternate-subcategory-tab-pane" role="tabpanel" aria-labelledby="alternate-subcategory-tab"
+                tabindex="0">
+            </div>
+            <div class="tab-pane" id="best-buzz-tab-pane" role="tabpanel" aria-labelledby="best-buzz-tab" tabindex="0">
                 <div id="best-buzz"></div>
             </div>
         </div>
