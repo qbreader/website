@@ -1,4 +1,4 @@
-import getSingleBonusStats from '../../../database/account-info/stats/get-single-bonus-stats.js';
+import getSingleBonusStats from '../../../database/account-info/question-stats/get-single-bonus-stats.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';

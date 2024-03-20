@@ -359,7 +359,7 @@ async function next() {
         });
 
         if (await getAccountUsername()) {
-            fetch('/auth/record-bonus', {
+            fetch('/auth/question-stats/record-bonus', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

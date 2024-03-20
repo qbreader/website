@@ -181,7 +181,7 @@ function TossupCard({
     document.getElementById('report-question-id').value = _id;
   }
   function showTossupStats() {
-    fetch('/auth/stats/single-tossup?' + new URLSearchParams({
+    fetch('/auth/question-stats/single-tossup?' + new URLSearchParams({
       tossup_id: _id
     })).then(response => {
       switch (response.status) {
@@ -327,7 +327,7 @@ function BonusCard({
     document.getElementById('report-question-id').value = _id;
   }
   function showBonusStats() {
-    fetch('/auth/stats/single-bonus?' + new URLSearchParams({
+    fetch('/auth/question-stats/single-bonus?' + new URLSearchParams({
       bonus_id: _id
     })).then(response => {
       switch (response.status) {

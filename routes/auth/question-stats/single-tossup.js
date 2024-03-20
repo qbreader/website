@@ -1,4 +1,4 @@
-import getSingleTossupStats from '../../../database/account-info/stats/get-single-tossup-stats.js';
+import getSingleTossupStats from '../../../database/account-info/question-stats/get-single-tossup-stats.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';

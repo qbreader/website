@@ -382,7 +382,7 @@ async function next() {
 
     if (await getAccountUsername() && document.getElementById('answer').innerHTML) {
         const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
-        fetch('/auth/record-tossup', {
+        fetch('/auth/question-stats/record-tossup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

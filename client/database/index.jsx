@@ -308,7 +308,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
     }
 
     function showTossupStats() {
-        fetch('/auth/stats/single-tossup?' + new URLSearchParams({ tossup_id: _id }))
+        fetch('/auth/question-stats/single-tossup?' + new URLSearchParams({ tossup_id: _id }))
             .then(response => {
                 switch (response.status) {
                 case 401:
@@ -451,7 +451,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
     }
 
     function showBonusStats() {
-        fetch('/auth/stats/single-bonus?' + new URLSearchParams({ bonus_id: _id }))
+        fetch('/auth/question-stats/single-bonus?' + new URLSearchParams({ bonus_id: _id }))
             .then(response => {
                 switch (response.status) {
                 case 401:
