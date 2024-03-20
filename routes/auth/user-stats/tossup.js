@@ -1,6 +1,6 @@
-import getBestBuzz from '../../../database/account-info/stats/get-best-buzz.js';
-import getCategoryStats from '../../../database/account-info/stats/get-category-stats.js';
-import getSubcategoryStats from '../../../database/account-info/stats/get-subcategory-stats.js';
+import getBestBuzz from '../../../database/account-info/user-stats/get-best-buzz.js';
+import getCategoryStats from '../../../database/account-info/user-stats/get-category-stats.js';
+import getSubcategoryStats from '../../../database/account-info/user-stats/get-subcategory-stats.js';
 
 import { Router } from 'express';
 

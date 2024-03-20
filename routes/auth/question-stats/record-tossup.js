@@ -1,5 +1,5 @@
-import recordBonusData from '../../database/account-info/stats/record-bonus-data.js';
-import { checkToken } from '../../server/authentication.js';
+import recordTossupData from '../../../database/account-info/question-stats/record-tossup-data.js';
+import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';
 
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
         return;
     }
 
-    const results = await recordBonusData(username, req.body);
+    const results = await recordTossupData(username, req.body);
     res.json(results);
 });
 

@@ -445,7 +445,7 @@ const socketOnGiveAnswer = async (message) => {
     }
 
     if (directive !== 'prompt' && userId === USER_ID && await getAccountUsername()) {
-        fetch('/auth/record-tossup', {
+        fetch('/auth/question-stats/record-tossup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
