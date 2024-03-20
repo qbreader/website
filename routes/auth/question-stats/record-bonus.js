@@ -1,13 +1,11 @@
-import singleBonusRouter from './single-bonus.js';
-import singleTossupRouter from './single-tossup.js';
-
+import recordBonusData from '../../../database/account-info/question-stats/record-bonus-data.js';
 import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';
 
 const router = Router();
 
-router.use((req, res, next) => {
+router.post('/', async (req, res) => {
     const { username, token } = req.session;
     if (!checkToken(username, token)) {
         delete req.session;
@@ -20,10 +18,8 @@ router.use((req, res, next) => {
         return;
     }
 
-    next();
+    const results = await recordBonusData(username, req.body);
+    res.json(results);
 });
-
-router.use('/single-bonus', singleBonusRouter);
-router.use('/single-tossup', singleTossupRouter);
 
 export default router;

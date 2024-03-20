@@ -1,5 +1,5 @@
 import getUserId from '../../../database/account-info/get-user-id.js';
-import getTossupGraphStats from '../../../database/account-info/stats/get-tossup-graph-stats.js';
+import getTossupGraphStats from '../../../database/account-info/user-stats/get-tossup-graph-stats.js';
 
 import { Router } from 'express';
 
