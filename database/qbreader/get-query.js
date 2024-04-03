@@ -341,7 +341,7 @@ function buildQueryAggregation({ query, difficulties, categories, subcategories,
         { $sort: {
             'set.name': -1,
             'packet.number': 1,
-            questionNumber: 1,
+            number: 1,
         } },
         // { $skip: (pagination - 1) * maxReturnLength },
         // { $limit: maxReturnLength },

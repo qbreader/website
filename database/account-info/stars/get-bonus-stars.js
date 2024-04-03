@@ -20,7 +20,7 @@ async function getBonusStars(user_id) {
         { sort: {
             'set.name': -1,
             'packet.number': 1,
-            questionNumber: 1,
+            number: 1,
         } },
     ).toArray();
 }

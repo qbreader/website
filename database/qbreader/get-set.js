@@ -31,7 +31,7 @@ async function getSet({ setName, packetNumbers, categories, subcategories, quest
     };
 
     const options = {
-        sort: { 'packet.number': reverse ? -1 : 1, questionNumber: reverse ? -1 : 1 },
+        sort: { 'packet.number': reverse ? -1 : 1, number: reverse ? -1 : 1 },
         project: { reports: 0 },
     };
 

@@ -10,7 +10,7 @@ import { ObjectId } from 'mongodb';
  * @property {string} category
  * @property {number} difficulty
  * @property {string} subcategory
- * @property {number} questionNumber
+ * @property {number} number
  *
  * @property {object} packet
  * @property {ObjectId} packet._id
@@ -29,6 +29,7 @@ import { ObjectId } from 'mongodb';
  * @property {string} [packetName] Deprecated
  * @property {number} [packetNumber] Deprecated
  * @property {ObjectId} [packet_id] Deprecated
+ * @property {number} questionNumber Deprecated
  * @property {string} [setName] Deprecated
  * @property {number} [setYear] Deprecated
  * @property {ObjectId} [set_id] Deprecated
