@@ -5,6 +5,7 @@ async function getTossupGraphStats({ user_id, difficulties, setName, includeMult
     const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
     const stats = await tossupData.aggregate([
+        { $addFields: { 'createdAt': { '$toDate': '$_id' } } },
         { $match: matchDocument },
         { $addFields: {
             result: { $switch: {

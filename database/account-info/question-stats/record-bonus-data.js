@@ -28,7 +28,6 @@ async function recordBonusData(username, data) {
     newData.bonus_id = new ObjectId(bonus._id);
     newData.set_id = new ObjectId(bonus.set._id);
     newData.user_id = user_id;
-    newData.createdAt = new Date();
     return await bonusData.insertOne(newData);
 }
 
