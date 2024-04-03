@@ -28,7 +28,6 @@ async function recordTossupData(username, data) {
     newData.tossup_id = new ObjectId(tossup._id);
     newData.set_id = new ObjectId(tossup.set._id);
     newData.user_id = user_id;
-    newData.createdAt = new Date();
     return await tossupData.insertOne(newData);
 }
 

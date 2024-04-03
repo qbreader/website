@@ -5,6 +5,7 @@ async function getBonusGraphStats({ user_id, difficulties, setName, includeMulti
     const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
     const stats = await bonusData.aggregate([
+        { $addFields: { 'createdAt': { '$toDate': '$_id' } } },
         { $match: matchDocument },
         { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
         { $addFields: {
