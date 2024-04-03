@@ -452,7 +452,7 @@ class TossupRoom {
                 return false;
             } else {
                 this.tossup = this.setCache.pop();
-                this.questionNumber = this.tossup.questionNumber;
+                this.questionNumber = this.tossup.number;
                 this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packet.number);
             }
         } else {
