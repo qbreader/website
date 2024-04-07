@@ -574,7 +574,6 @@ function QueryForm() {
   const [maxYear, setMaxYear] = React.useState('');
   const [regex, setRegex] = React.useState(false);
   const [ignoreWordOrder, setIgnoreWordOrder] = React.useState(false);
-  const [diacritics, setDiacritics] = React.useState(false);
   const [exactPhrase, setExactPhrase] = React.useState(false);
   const [powermarkOnly, setPowermarkOnly] = React.useState(false);
   const [hideAnswerlines, setHideAnswerlines] = React.useState(false);
@@ -673,7 +672,6 @@ function QueryForm() {
       questionType,
       randomize,
       exactPhrase,
-      ignoreDiacritics: diacritics,
       powermarkOnly,
       regex,
       ignoreWordOrder,
@@ -992,21 +990,6 @@ function QueryForm() {
     className: "form-check-label",
     htmlFor: "toggle-ignore-word-order"
   }, "Ignore word order")), /*#__PURE__*/React.createElement("div", {
-    className: "form-check form-switch"
-  }, /*#__PURE__*/React.createElement("input", {
-    className: "form-check-input",
-    type: "checkbox",
-    role: "switch",
-    id: "toggle-ignore-diacritics",
-    checked: !regex && diacritics,
-    disabled: regex,
-    onChange: () => {
-      setDiacritics(!diacritics);
-    }
-  }), /*#__PURE__*/React.createElement("label", {
-    className: "form-check-label",
-    htmlFor: "toggle-ignore-diacritics"
-  }, "Ignore diacritics (May slow down search)")), /*#__PURE__*/React.createElement("div", {
     className: "form-check form-switch"
   }, /*#__PURE__*/React.createElement("input", {
     className: "form-check-input",
