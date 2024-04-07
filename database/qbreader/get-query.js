@@ -12,68 +12,25 @@ function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-
-const regexIgnoreDiacritics = (() => {
-    const baseCharacterGroups = [
-        ['[aàáâǎäãåāăạả]'],
-        ['[cçćčɔ́ĉƈ]'],
-        ['[eèéêëēėęĕẹẻếềể]'],
-        ['[iîïíīįìĩỉĭịỉ]'],
-        ['[nñńŉňŋňņṅñ]'],
-        ['[oôöòóøōõơồổỗộơớờở]'],
-        ['[sśşšșṡŝ]'],
-        ['[uûüùúūưũŭůųủǖǘǚ]'],
-        ['[yÿŷýỳỷ]'],
-        ['[zžźż]'],
-    ];
-
-    const extendedCharacterGroups = [
-        ['[bḃḅ]'],
-        ['[dďḋḍđδð]'],
-        ['[fḟƒ]'],
-        ['[gğģǧġĝǥ]'],
-        ['[hḣĥħḫ"]'],
-        ['[jĵȷǰ]'],
-        ['[kķǩƙ]'],
-        ['[lļľłĺļľł₺]'],
-        ['[mṁṃ]'],
-        ['[pṗ]'],
-        ['[rŕřṙ]'],
-        ['[tţťțṫŧťṯ]'],
-        ['[wẇŵ]'],
-        ['[xẋ]'],
-    ].concat(baseCharacterGroups);
-
-    const allCharacters = new RegExp('[' + extendedCharacterGroups.map(group => group[0].slice(1, -1)).join('') + ']', 'gi');
-    const baseCharacters = new RegExp('[' + baseCharacterGroups.map(group => group[0].slice(1, -1)).join('') + ']', 'gi');
-
-    return (string) => {
-        const matchingCharacters = string.match(allCharacters)?.length ?? 0;
-        if (matchingCharacters > 10) {
-            if (string.length > matchingCharacters + 3) {
-                return string.replace(baseCharacters, '.');
-            } else {
-                return string;
-            }
-        }
-
-        for (const group of extendedCharacterGroups) {
-            string = string.replace(new RegExp(group[0], 'gi'), group[0]);
-        }
-        return string;
-    };
-})();
-
+function unformatString(string) {
+    return string
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[\u2010-\u2015]/g, '-')
+        .replace(/[\u2018-\u201B]/g, '\'')
+        .replace(/[\u201C-\u201F]/g, '"')
+        .replace(/[\u2026]/g, '...')
+        .replace(/[\u2032-\u2037]/g, '\'');
+}
 
 function getQuerySummary(options) {
-    const { queryString, difficulties, maxReturnLength, questionType, ignoreDiacritics, randomize, regex, searchType, setName } = options;
+    const { queryString, difficulties, maxReturnLength, questionType, randomize, regex, searchType, setName } = options;
 
     return `\
     [DATABASE] QUERY: string: ${OKCYAN}${queryString}${ENDC}; \
     difficulties: ${OKGREEN}${difficulties}${ENDC}; \
     max length: ${OKGREEN}${maxReturnLength}${ENDC}; \
     question type: ${OKGREEN}${questionType}${ENDC}; \
-    ignore diacritics: ${OKGREEN}${ignoreDiacritics}${ENDC}; \
     randomize: ${OKGREEN}${randomize}${ENDC}; \
     regex: ${OKGREEN}${regex}${ENDC}; \
     search type: ${OKGREEN}${searchType}${ENDC}; \
@@ -96,7 +53,6 @@ function validateOptions({
     regex = false,
     ignoreWordOrder = false,
     exactPhrase = false,
-    ignoreDiacritics = false,
     powermarkOnly = false,
     tossupPagination = 1,
     bonusPagination = 1,
@@ -124,15 +80,11 @@ function validateOptions({
 
     if (regex) {
         exactPhrase = false;
-        ignoreDiacritics = false;
         ignoreWordOrder = false;
     } else {
         queryString = queryString.trim();
+        queryString = unformatString(queryString);
         queryString = escapeRegExp(queryString);
-    }
-
-    if (ignoreDiacritics && !regex) {
-        queryString = regexIgnoreDiacritics(queryString);
     }
 
     if (ignoreWordOrder) {
@@ -156,7 +108,7 @@ function validateOptions({
         alternateSubcategories = alternateSubcategories.concat([null]);
     }
 
-    return { queryString, difficulties, setName, searchType, questionType, categories, subcategories, alternateSubcategories, maxReturnLength, randomize, regex, exactPhrase, ignoreDiacritics, powermarkOnly, tossupPagination, bonusPagination, minYear, maxYear, verbose, words };
+    return { queryString, difficulties, setName, searchType, questionType, categories, subcategories, alternateSubcategories, maxReturnLength, randomize, regex, exactPhrase, powermarkOnly, tossupPagination, bonusPagination, minYear, maxYear, verbose, words };
 }
 
 /**
@@ -176,7 +128,6 @@ function validateOptions({
  * @param {boolean} [options.regex=false] - Whether to treat the search query as a regular expression.
  * @param {boolean} [options.ignoreWordOrder=false] - Whether to ignore the word order in the search query. This allows the words to appear anywhere in the text, not necessarily next to each other.
  * @param {boolean} [options.exactPhrase=false] - Whether to search for an exact phrase match.
- * @param {boolean} [options.ignoreDiacritics=false] - Whether to ignore diacritics in the search query.
  * @param {boolean} [options.powermarkOnly=false] - Whether to only search for powermarked questions.
  * @param {number} [options.tossupPagination=1] - The page number of the tossup pagination.
  * @returns {Promise<{tossups: {count: Number, questionArray: types.Tossup[]}, bonuses: {count: Number, questionArray: types.Bonus[]}}>} The retrieved questions.
@@ -225,12 +176,13 @@ async function getTossupQuery(options) {
         const orQuery = [];
 
         if (['question', 'all'].includes(searchType)) {
-            orQuery.push({ question: { $regex: word, $options: 'i' } });
+            orQuery.push({ unformatted_question: { $regex: word, $options: 'i' } });
         }
 
         if (['answer', 'all'].includes(searchType)) {
-            orQuery.push({ answer: { $regex: word, $options: 'i' } });
+            orQuery.push({ unformatted_answer: { $regex: word, $options: 'i' } });
         }
+
         andQuery.push({ $or: orQuery });
     }
 
@@ -265,12 +217,12 @@ async function getBonusQuery(options) {
         const orQuery = [];
 
         if (['question', 'all'].includes(searchType)) {
-            orQuery.push({ leadin: { $regex: word, $options: 'i' } });
-            orQuery.push({ parts: { $regex: word, $options: 'i' } });
+            orQuery.push({ unformatted_leadin: { $regex: word, $options: 'i' } });
+            orQuery.push({ unformatted_parts: { $regex: word, $options: 'i' } });
         }
 
         if (['answer', 'all'].includes(searchType)) {
-            orQuery.push({ answers: { $regex: word, $options: 'i' } });
+            orQuery.push({ unformatted_answers: { $regex: word, $options: 'i' } });
         }
 
         andQuery.push({ $or: orQuery });
@@ -333,7 +285,7 @@ function buildQueryAggregation({ query, difficulties, categories, subcategories,
     }
 
     if (powermarkOnly) {
-        query.question = { $regex: '\\(\\*\\)' };
+        query.unformatted_question = { $regex: '\\(\\*\\)' };
     }
 
     const aggregation = [

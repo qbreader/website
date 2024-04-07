@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
     }
 
     req.query.exactPhrase = (req.query.exactPhrase === 'true');
-    req.query.ignoreDiacritics = (req.query.ignoreDiacritics === 'true');
     req.query.ignoreWordOrder = (req.query.ignoreWordOrder === 'true');
     req.query.powermarkOnly = (req.query.powermarkOnly === 'true');
     req.query.randomize = (req.query.randomize === 'true');
