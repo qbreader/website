@@ -308,7 +308,7 @@ const socketOnConnectionAcknowledged = async (message) => {
     tossup = message.tossup;
     document.getElementById('set-name-info').textContent = message.tossup?.set?.name ?? '';
     document.getElementById('packet-number-info').textContent = message.tossup?.packet?.number ?? '-';
-    document.getElementById('question-number-info').textContent = message.tossup?.questionNumber ?? '-';
+    document.getElementById('question-number-info').textContent = message.tossup?.number ?? '-';
 
     document.getElementById('chat').disabled = message.public;
     document.getElementById('toggle-rebuzz').checked = message.rebuzz;
@@ -520,7 +520,7 @@ const socketOnNext = (message) => {
     tossup = message.tossup;
 
     document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
-    document.getElementById('question-number-info').textContent = 1?.questionNumber ?? '-';
+    document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
     document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
 
     document.getElementById('options').classList.add('d-none');
@@ -562,7 +562,7 @@ const socketOnStart = (message) => {
     tossup = message.tossup;
 
     document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
-    document.getElementById('question-number-info').textContent = tossup?.questionNumber ?? '-';
+    document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
     document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
 };
 

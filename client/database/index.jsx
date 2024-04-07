@@ -183,7 +183,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
     for (let tossup of tossups) {
         textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
         textdata += `Question ID: ${tossup._id}\n`;
-        textdata += `${tossup.questionNumber}. ${tossup.question}\n`;
+        textdata += `${tossup.number}. ${tossup.question}\n`;
         textdata += `ANSWER: ${tossup.answer}\n`;
         textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
     }
@@ -191,7 +191,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
     for (let bonus of bonuses) {
         textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
         textdata += `Question ID: ${bonus._id}\n`;
-        textdata += `${bonus.questionNumber}. ${bonus.leadin}\n`;
+        textdata += `${bonus.number}. ${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
             textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
         }
@@ -378,7 +378,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
                     {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
                 </b>
                 <b className="clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
-                    Packet {tossup.packet.number} | Question {tossup.questionNumber}
+                    Packet {tossup.packet.number} | Question {tossup.number}
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
@@ -518,7 +518,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
                     {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
                 </b>
                 <b className="clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
-                    Packet {bonus.packet.number} | Question {bonus.questionNumber}
+                    Packet {bonus.packet.number} | Question {bonus.number}
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>

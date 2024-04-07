@@ -182,7 +182,7 @@ async function advanceQuestion() {
 
         query.setName = questions[0].set.name;
         query.packetNumbers = [questions[0].packet.number];
-        document.getElementById('question-number-info').textContent = questions[0].questionNumber;
+        document.getElementById('question-number-info').textContent = questions[0].number;
         questionNumber = 1;
     }
 
