@@ -647,7 +647,6 @@ function QueryForm() {
 
     const [regex, setRegex] = React.useState(false);
     const [ignoreWordOrder, setIgnoreWordOrder] = React.useState(false);
-    const [diacritics, setDiacritics] = React.useState(false);
     const [exactPhrase, setExactPhrase] = React.useState(false);
     const [powermarkOnly, setPowermarkOnly] = React.useState(false);
     const [hideAnswerlines, setHideAnswerlines] = React.useState(false);
@@ -768,7 +767,6 @@ function QueryForm() {
             questionType,
             randomize,
             exactPhrase,
-            ignoreDiacritics: diacritics,
             powermarkOnly,
             regex,
             ignoreWordOrder,
@@ -950,10 +948,6 @@ function QueryForm() {
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-word-order" checked={!regex && ignoreWordOrder} disabled={regex} onChange={() => {setIgnoreWordOrder(!ignoreWordOrder);}} />
                             <label className="form-check-label" htmlFor="toggle-ignore-word-order">Ignore word order</label>
-                        </div>
-                        <div className="form-check form-switch">
-                            <input className="form-check-input" type="checkbox" role="switch" id="toggle-ignore-diacritics" checked={!regex && diacritics} disabled={regex} onChange={() => {setDiacritics(!diacritics);}} />
-                            <label className="form-check-label" htmlFor="toggle-ignore-diacritics">Ignore diacritics (May slow down search)</label>
                         </div>
                         <div className="form-check form-switch">
                             <input className="form-check-input" type="checkbox" role="switch" id="toggle-exact-phrase" checked={!regex && exactPhrase} disabled={regex} onChange={() => {setExactPhrase(!exactPhrase);}} />
