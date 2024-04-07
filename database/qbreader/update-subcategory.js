@@ -18,8 +18,16 @@ async function updateSubcategory(_id, type, subcategory, alternate_subcategory, 
     }
 
     const category = SUBCATEGORY_TO_CATEGORY[subcategory];
-    const fields = { category, subcategory };
-    const updateDoc = {
+
+    const dataUpdate = {
+        $set: {
+            category,
+            subcategory,
+        },
+        $unset: {},
+    };
+
+    const questionUpdate = {
         $set: {
             category,
             subcategory,
@@ -29,24 +37,25 @@ async function updateSubcategory(_id, type, subcategory, alternate_subcategory, 
     };
 
     if (clearReports) {
-        updateDoc.$unset.reports = 1;
+        questionUpdate.$unset.reports = 1;
     }
 
     if (alternate_subcategory) {
-        updateDoc.$set.alternate_subcategory = alternate_subcategory;
-        fields.alternate_subcategory = alternate_subcategory;
+        questionUpdate.$set.alternate_subcategory = alternate_subcategory;
+        dataUpdate.$set.alternate_subcategory = alternate_subcategory;
     } else {
-        updateDoc.$unset.alternate_subcategory = 1;
+        questionUpdate.$unset.alternate_subcategory = 1;
+        dataUpdate.$unset.alternate_subcategory = 1;
     }
 
     switch (type) {
     case 'tossup': {
-        tossupData.updateMany({ tossup_id: _id }, { $set: fields });
-        return await tossups.updateOne({ _id }, updateDoc);
+        tossupData.updateMany({ tossup_id: _id }, dataUpdate);
+        return await tossups.updateOne({ _id }, questionUpdate);
     }
     case 'bonus': {
-        bonusData.updateMany({ bonus_id: _id }, { $set: fields });
-        return await bonuses.updateOne({ _id }, updateDoc);
+        bonusData.updateMany({ bonus_id: _id }, dataUpdate);
+        return await bonuses.updateOne({ _id }, questionUpdate);
     }
     }
 }
