@@ -24,6 +24,10 @@ router.get('/react(-dom)?/umd/*.js', (req, res) => {
     res.sendFile(req.url, { root: './node_modules' });
 });
 
+router.get('/react-highlight-words/build/static/*.js', (req, res) => {
+    res.sendFile(req.url, { root: './node_modules' });
+});
+
 router.get('/node_modules/*.scss', (req, res) => {
     res.sendFile(req.url.substring(13), { root: './node_modules' });
 });

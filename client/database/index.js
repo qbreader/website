@@ -99,6 +99,60 @@ function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = 
   const difficulty = bonus.difficulties ? bonus.difficulties[index] ?? defaultDifficulty : defaultDifficulty;
   return `[${value}${difficulty}]`;
 }
+function getMatchIndices(clean, regex) {
+  const iterator = clean.matchAll(regex);
+  const starts = [];
+  const ends = [];
+  let data = iterator.next();
+  while (data.done === false) {
+    starts.push(data.value.index);
+    ends.push(data.value.index + data.value[0].length);
+    data = iterator.next();
+  }
+  return {
+    starts,
+    ends
+  };
+}
+function insertMatches(dirty, clean, regex, start = '<span class="text-highlight">', end = '</span>') {
+  dirty = dirty.replace(/…/g, '...');
+  const result = [];
+  const {
+    starts,
+    ends
+  } = getMatchIndices(clean, regex);
+  let startIndex = 0;
+  let endIndex = 0;
+  let cleanPosition = 0;
+  let dirtyPosition = 0;
+  let lastDirtyPosition = 0;
+  while (cleanPosition <= clean.length) {
+    if (starts[startIndex] === cleanPosition) {
+      result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
+      result.push(start);
+      startIndex++;
+      lastDirtyPosition = dirtyPosition;
+    }
+    while (dirty.charAt(dirtyPosition) === '<') {
+      while (dirty.charAt(dirtyPosition) !== '>') {
+        dirtyPosition++;
+      }
+      dirtyPosition++;
+      result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
+      lastDirtyPosition = dirtyPosition;
+    }
+    if (ends[endIndex] === cleanPosition) {
+      result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
+      result.push(end);
+      endIndex++;
+      lastDirtyPosition = dirtyPosition;
+    }
+    cleanPosition++;
+    dirtyPosition++;
+  }
+  result.push(dirty.substring(lastDirtyPosition, dirty.length));
+  return result.join('');
+}
 function highlightTossupQuery({
   tossup,
   regExp,
@@ -109,13 +163,13 @@ function highlightTossupQuery({
   const words = ignoreWordOrder ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig')) : [regExp];
   for (const word of words) {
     if (searchType === 'question' || searchType === 'all') {
-      tossup.question = tossup.question.replace(word, '<span class="text-highlight">$&</span>');
+      tossup.question = insertMatches(tossup.question, tossup.unformatted_question, word);
     }
     if (searchType === 'answer' || searchType === 'all') {
       if (tossup.formatted_answer) {
-        tossup.formatted_answer = tossup.formatted_answer.replace(word, '<span class="text-highlight">$&</span>');
+        tossup.formatted_answer = insertMatches(tossup.formatted_answer, tossup.unformatted_answer, word);
       } else {
-        tossup.answer = tossup.answer.replace(word, '<span class="text-highlight">$&</span>');
+        tossup.answer = insertMatches(tossup.answer, tossup.unformatted_answer, word);
       }
     }
   }
