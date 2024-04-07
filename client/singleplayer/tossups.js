@@ -219,7 +219,7 @@ async function advanceQuestion() {
 
         questionText = questions[0].question;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');
-        document.getElementById('question-number-info').textContent = questions[0].questionNumber;
+        document.getElementById('question-number-info').textContent = questions[0].number;
         questionNumber = 1;
     }
 

@@ -68,7 +68,7 @@ function TossupCard({ tossup }) {
                     {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
                 </b>
                 <b>
-                    Packet {tossup.packet.number} | Question {tossup.questionNumber}
+                    Packet {tossup.packet.number} | Question {tossup.number}
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
@@ -125,7 +125,7 @@ function BonusCard({ bonus }) {
                     {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
                 </b>
                 <b>
-                    Packet {bonus.packet.number} | Question {bonus.questionNumber}
+                    Packet {bonus.packet.number} | Question {bonus.number}
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>

@@ -65,14 +65,14 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
   for (let tossup of tossups) {
     textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
     textdata += `Question ID: ${tossup._id}\n`;
-    textdata += `${tossup.questionNumber}. ${tossup.question}\n`;
+    textdata += `${tossup.number}. ${tossup.question}\n`;
     textdata += `ANSWER: ${tossup.answer}\n`;
     textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
   }
   for (let bonus of bonuses) {
     textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
     textdata += `Question ID: ${bonus._id}\n`;
-    textdata += `${bonus.questionNumber}. ${bonus.leadin}\n`;
+    textdata += `${bonus.number}. ${bonus.leadin}\n`;
     for (let i = 0; i < bonus.parts.length; i++) {
       textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
     }
@@ -252,7 +252,7 @@ function TossupCard({
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, "Packet ", tossup.packet.number, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, "Packet ", tossup.packet.number, " | Question ", tossup.number)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -396,7 +396,7 @@ function BonusCard({
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, "Packet ", bonus.packet.number, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, "Packet ", bonus.packet.number, " | Question ", bonus.number)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {

@@ -25,7 +25,7 @@ fetch('/auth/stars/tossups')
                         <div class="card-footer">
                             <small class="text-muted">${tossup.packet.name ? 'Packet ' + tossup.packet.name : '&nbsp;'}</small>
                             <small class="text-muted float-end">
-                                Packet ${tossup.packet.number} / Question ${tossup.questionNumber}
+                                Packet ${tossup.packet.number} / Question ${tossup.number}
                             </small>
                         </div>
                     </div>

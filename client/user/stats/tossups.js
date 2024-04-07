@@ -18,7 +18,7 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                     <div class="card mb-2">
                         <div class="card-header">
                             <b>${tossup.set.name} | ${tossup.category} | ${tossup.subcategory} ${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | ${tossup.difficulty}</b>
-                            <b class="float-end">Packet ${tossup.packet.number} | Question ${tossup.questionNumber}</b>
+                            <b class="float-end">Packet ${tossup.packet.number} | Question ${tossup.number}</b>
                         </div>
                         <div class="card-container" id="question-${tossup._id}">
                             <div class="card-body">

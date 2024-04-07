@@ -35,7 +35,7 @@ fetch('/auth/stars/bonuses')
                         <div class="card-footer clickable" data-bs-toggle="modal" data-bs-target="#bonus-stats-modal">
                             <small class="text-muted">${bonus.packet.name ? 'Packet ' + bonus.packet.name : '&nbsp;'}</small>
                             <small class="text-muted float-end">
-                                Packet ${bonus.packet.number} / Question ${bonus.questionNumber}
+                                Packet ${bonus.packet.number} / Question ${bonus.number}
                             </small>
                         </div>
                     </div>
