@@ -21,10 +21,12 @@ async function getBestBuzz({ username, difficulties, setName, includeMultiplayer
     const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
     matchDocument.isCorrect = true;
 
-    const data = await tossupData.findOne(
-        matchDocument,
-        { sort: { celerity: -1 } },
-    );
+    const data = (await tossupData.aggregate([
+        { $addFields: { 'createdAt': { '$toDate': '$_id' } } },
+        { $match: matchDocument },
+        { $sort: { celerity: -1 } },
+        { $limit: 1 },
+    ]).toArray())[0];
 
     if (!data)
         return null;

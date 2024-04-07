@@ -20,6 +20,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
     switch (questionType) {
     case 'tossup':
         return await tossupData.aggregate([
+            { $addFields: { 'createdAt': { '$toDate': '$_id' } } },
             { $match: matchDocument },
             { $match: { [groupByField]: { $exists: true } } },
             { $addFields: {
@@ -46,6 +47,7 @@ async function getStatsHelper({ user_id, questionType, groupByField, difficultie
         ]).toArray();
     case 'bonus':
         return await bonusData.aggregate([
+            { $addFields: { 'createdAt': { '$toDate': '$_id' } } },
             { $match: matchDocument },
             { $match: { [groupByField]: { $exists: true } } },
             { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
