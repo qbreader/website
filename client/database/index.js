@@ -716,7 +716,7 @@ function QueryForm() {
       setTossupPaginationNumber(tossupPaginationNumber);
       setBonusPaginationNumber(bonusPaginationNumber);
     }
-    fetch('/api/query?' + new URLSearchParams({
+    const params = new URLSearchParams({
       queryString,
       alternateSubcategories: validAlternateSubcategories,
       categories: validCategories,
@@ -735,7 +735,8 @@ function QueryForm() {
       bonusPagination: bonusPaginationNumber,
       minYear,
       maxYear
-    })).then(response => {
+    }).toString();
+    fetch(`/api/query?${params}`).then(response => {
       if (response.status === 400) {
         throw new Error('Invalid query');
       }
@@ -752,11 +753,14 @@ function QueryForm() {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
-      setTossupCount(tossupCount);
-      setTossups(tossupArray);
+      const {
+        count: bonusCount,
+        questionArray: bonusArray
+      } = bonuses;
+      const highlightedTossupArray = JSON.parse(JSON.stringify(tossupArray));
+      const highlightedBonusArray = JSON.parse(JSON.stringify(bonusArray));
 
       // create deep copy to highlight
-      const highlightedTossupArray = JSON.parse(JSON.stringify(tossupArray));
       if (queryString !== '') {
         for (let i = 0; i < highlightedTossupArray.length; i++) {
           highlightedTossupArray[i] = highlightTossupQuery({
@@ -767,16 +771,6 @@ function QueryForm() {
             queryString
           });
         }
-      }
-      setHighlightedTossups(highlightedTossupArray);
-      const {
-        count: bonusCount,
-        questionArray: bonusArray
-      } = bonuses;
-      setBonusCount(bonusCount);
-      setBonuses(bonusArray);
-      const highlightedBonusArray = JSON.parse(JSON.stringify(bonusArray));
-      if (queryString !== '') {
         for (let i = 0; i < highlightedBonusArray.length; i++) {
           highlightedBonusArray[i] = highlightBonusQuery({
             bonus: highlightedBonusArray[i],
@@ -787,6 +781,11 @@ function QueryForm() {
           });
         }
       }
+      setTossupCount(tossupCount);
+      setTossups(tossupArray);
+      setHighlightedTossups(highlightedTossupArray);
+      setBonusCount(bonusCount);
+      setBonuses(bonusArray);
       setHighlightedBonuses(highlightedBonusArray);
       if (randomize) {
         setTossupPaginationLength(1);
@@ -800,6 +799,15 @@ function QueryForm() {
       const endTime = performance.now();
       const timeElapsed = ((endTime - startTime) / 1000).toFixed(2);
       setQueryTime(timeElapsed);
+      history.pushState({
+        tossups,
+        highlightedTossupArray,
+        bonuses,
+        highlightedBonusArray,
+        timeElapsed,
+        workingMaxReturnLength,
+        randomize
+      }, '', '?' + params);
     }).catch(error => {
       console.error('Error:', error);
       alert('Invalid query. Please check your search parameters and try again.');
@@ -849,6 +857,54 @@ function QueryForm() {
         }
       });
       setDifficulties(tempDifficulties);
+    });
+    window.addEventListener('popstate', event => {
+      if (event.state === null) {
+        setTossupCount(0);
+        setTossups([]);
+        setHighlightedTossups([]);
+        setBonusCount(0);
+        setBonuses([]);
+        setHighlightedBonuses([]);
+        setTossupPaginationLength(1);
+        setBonusPaginationLength(1);
+        setTossupPaginationShift(0);
+        setBonusPaginationShift(0);
+        return;
+      }
+      const {
+        tossups,
+        highlightedTossupArray,
+        bonuses,
+        highlightedBonusArray,
+        timeElapsed,
+        workingMaxReturnLength,
+        randomize
+      } = event.state;
+      const {
+        count: tossupCount,
+        questionArray: tossupArray
+      } = tossups;
+      const {
+        count: bonusCount,
+        questionArray: bonusArray
+      } = bonuses;
+      setTossupCount(tossupCount);
+      setTossups(tossupArray);
+      setHighlightedTossups(highlightedTossupArray);
+      setBonusCount(bonusCount);
+      setBonuses(bonusArray);
+      setHighlightedBonuses(highlightedBonusArray);
+      if (randomize) {
+        setTossupPaginationLength(1);
+        setBonusPaginationLength(1);
+      } else {
+        setTossupPaginationLength(Math.ceil(tossupCount / workingMaxReturnLength));
+        setBonusPaginationLength(Math.ceil(bonusCount / workingMaxReturnLength));
+      }
+      setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
+      setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
+      setQueryTime(timeElapsed);
     });
   }, []);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
