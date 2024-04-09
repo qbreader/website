@@ -465,7 +465,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
-                <div className="card-body" style={{ 'font-size': `${fontSize}px` }}>
+                <div className="card-body" style={{ 'fontSize': `${fontSize}px` }}>
                     <span dangerouslySetInnerHTML={{
                         __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question,
                     }}></span>
@@ -605,7 +605,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
                 </b>
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
-                <div className="card-body" style={{ 'font-size': `${fontSize}px` }}>
+                <div className="card-body" style={{ 'fontSize': `${fontSize}px` }}>
                     <p dangerouslySetInnerHTML={{ __html: highlightedBonus.leadin }}></p>
                     {indices.map((i) =>
                         <div key={`${bonus._id}-${i}`}>
