@@ -127,18 +127,36 @@ function insertMatches(dirty, clean, regex, start = '<span class="text-highlight
   let dirtyPosition = 0;
   let lastDirtyPosition = 0;
   while (cleanPosition <= clean.length) {
+    while (dirty.charAt(dirtyPosition) === '<' && clean.charAt(cleanPosition) !== '<') {
+      while (dirty.charAt(dirtyPosition) !== '>' && dirtyPosition < dirty.length - 1) {
+        dirtyPosition++;
+      }
+      dirtyPosition++;
+    }
+
+    // at this point, dirty[dirtyPosition] === clean[cleanPosition]
+    // or dirtyPosition === dirty.length
+    if (clean[cleanPosition] === '<') {
+      // replace it with a special single character
+      clean = clean.slice(0, cleanPosition) + '〈' + clean.slice(cleanPosition + 1);
+      dirty = dirty.slice(0, dirtyPosition) + '〈' + dirty.slice(dirtyPosition + 1);
+    }
+    if (clean[cleanPosition] === '>') {
+      // replace it with a special single character
+      clean = clean.slice(0, cleanPosition) + '〉' + clean.slice(cleanPosition + 1);
+      dirty = dirty.slice(0, dirtyPosition) + '〉' + dirty.slice(dirtyPosition + 1);
+    }
+    if (clean[cleanPosition] === '&') {
+      // replace it with a special single character
+      clean = clean.slice(0, cleanPosition) + '\u0267' + clean.slice(cleanPosition + 1);
+      dirty = dirty.slice(0, dirtyPosition) + '\u0267' + dirty.slice(dirtyPosition + 1);
+    }
+    result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
+    lastDirtyPosition = dirtyPosition;
     if (starts[startIndex] === cleanPosition) {
       result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
       result.push(start);
       startIndex++;
-      lastDirtyPosition = dirtyPosition;
-    }
-    while (dirty.charAt(dirtyPosition) === '<') {
-      while (dirty.charAt(dirtyPosition) !== '>') {
-        dirtyPosition++;
-      }
-      dirtyPosition++;
-      result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
       lastDirtyPosition = dirtyPosition;
     }
     if (ends[endIndex] === cleanPosition) {
@@ -151,7 +169,7 @@ function insertMatches(dirty, clean, regex, start = '<span class="text-highlight
     dirtyPosition++;
   }
   result.push(dirty.substring(lastDirtyPosition, dirty.length));
-  return result.join('');
+  return result.join('').replace(/〈/g, '&lt;').replace(/〉/g, '&gt;').replace(/\u0267/g, '&amp;');
 }
 function highlightTossupQuery({
   tossup,
