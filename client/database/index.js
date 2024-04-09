@@ -330,7 +330,7 @@ function TossupCard({
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body",
     style: {
-      'font-size': `${fontSize}px`
+      'fontSize': `${fontSize}px`
     }
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
@@ -474,7 +474,7 @@ function BonusCard({
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body",
     style: {
-      'font-size': `${fontSize}px`
+      'fontSize': `${fontSize}px`
     }
   }, /*#__PURE__*/React.createElement("p", {
     dangerouslySetInnerHTML: {
