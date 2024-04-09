@@ -337,18 +337,18 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
         if (searchType === 'question' || searchType === 'all') {
             bonus.leadin = bonus.leadin.replace(word, '<span class="text-highlight">$&</span>');
             for (let i = 0; i < bonus.parts.length; i++) {
-                bonus.parts[i] = bonus.parts[i].replace(word, '<span class="text-highlight">$&</span>');
+                bonus.parts[i] = insertMatches(bonus.parts[i], bonus.unformatted_parts[i], word);
             }
         }
 
         if (searchType === 'answer' || searchType === 'all') {
             if (bonus.formatted_answers) {
                 for (let i = 0; i < bonus.formatted_answers.length; i++) {
-                    bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(word, '<span class="text-highlight">$&</span>');
+                    bonus.formatted_answers[i] = insertMatches(bonus.formatted_answers[i], bonus.unformatted_answers[i], word);
                 }
             } else {
                 for (let i = 0; i < bonus.answers.length; i++) {
-                    bonus.answers[i] = bonus.answers[i].replace(word, '<span class="text-highlight">$&</span>');
+                    bonus.answers[i] = insertMatches(bonus.answers[i], bonus.unformatted_answers[i], word);
                 }
             }
         }
