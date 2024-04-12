@@ -133,6 +133,9 @@ function insertMatches(dirty, clean, regex, start = '<span class="text-highlight
       }
       dirtyPosition++;
     }
+    while (['\u00B7', '\u22C5', '\u2027'].includes(dirty.charAt(dirtyPosition)) && !['\u00B7', '\u22C5', '\u2027'].includes(clean.charAt(cleanPosition)) && dirtyPosition < dirty.length - 1) {
+      dirtyPosition++;
+    }
 
     // at this point, dirty[dirtyPosition] === clean[cleanPosition]
     // or dirtyPosition === dirty.length
