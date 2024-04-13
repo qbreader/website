@@ -206,7 +206,7 @@ function highlightBonusQuery({
   const words = ignoreWordOrder ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig')) : [regExp];
   for (const word of words) {
     if (searchType === 'question' || searchType === 'all') {
-      bonus.leadin = bonus.leadin.replace(word, '<span class="text-highlight">$&</span>');
+      bonus.leadin = insertMatches(bonus.leadin, bonus.unformatted_leadin, word);
       for (let i = 0; i < bonus.parts.length; i++) {
         bonus.parts[i] = insertMatches(bonus.parts[i], bonus.unformatted_parts[i], word);
       }

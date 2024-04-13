@@ -343,7 +343,7 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
 
     for (const word of words) {
         if (searchType === 'question' || searchType === 'all') {
-            bonus.leadin = bonus.leadin.replace(word, '<span class="text-highlight">$&</span>');
+            bonus.leadin = insertMatches(bonus.leadin, bonus.unformatted_leadin, word);
             for (let i = 0; i < bonus.parts.length; i++) {
                 bonus.parts[i] = insertMatches(bonus.parts[i], bonus.unformatted_parts[i], word);
             }
