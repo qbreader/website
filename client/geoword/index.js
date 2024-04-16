@@ -1,4 +1,6 @@
-getAccountUsername().then(username => {
+import account from '../accounts.js';
+
+account.getUsername().then(username => {
     if (username) {
         document.getElementById('login-warning').classList.add('d-none');
     }

@@ -1,3 +1,5 @@
+import account from '../accounts.js';
+
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 
 const CATEGORY_BUTTONS = [
@@ -404,7 +406,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
                 switch (response.status) {
                 case 401:
                     document.getElementById('tossup-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
-                    deleteAccountUsername();
+                    account.deleteUsername();
                     throw new Error('Unauthenticated');
                 case 403:
                     document.getElementById('tossup-stats-body').textContent = 'You need verify your account email to view question stats.';
@@ -547,7 +549,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
                 switch (response.status) {
                 case 401:
                     document.getElementById('bonus-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
-                    deleteAccountUsername();
+                    account.deleteUsername();
                     throw new Error('Unauthenticated');
                 case 403:
                     document.getElementById('bonus-stats-body').textContent = 'You need verify your account email to view question stats.';

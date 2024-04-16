@@ -1,3 +1,4 @@
+import account from '../accounts.js';
 import API from '../api.js';
 
 // Functions and variables specific to the tossups page.
@@ -382,7 +383,7 @@ async function next() {
     clearTimeout(timeoutID);
     currentlyBuzzing = false;
 
-    if (await getAccountUsername() && document.getElementById('answer').innerHTML) {
+    if (await account.getUsername() && document.getElementById('answer').innerHTML) {
         const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
         fetch('/auth/question-stats/record-tossup', {
             method: 'POST',
@@ -396,7 +397,7 @@ async function next() {
             }),
         }).then(response => {
             if (response.status === 401) {
-                deleteAccountUsername();
+                account.deleteUsername();
                 throw new Error('Unauthenticated');
             }
         });
@@ -868,7 +869,9 @@ document.addEventListener('keydown', (event) => {
 
 
 window.onload = async () => {
+    // eslint-disable-next-line no-undef
     $('#slider').slider('values', 0, query.minYear);
+    // eslint-disable-next-line no-undef
     $('#slider').slider('values', 1, query.maxYear);
     document.getElementById('year-range-a').textContent = query.minYear;
     document.getElementById('year-range-b').textContent = query.maxYear;

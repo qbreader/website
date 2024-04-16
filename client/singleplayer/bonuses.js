@@ -1,3 +1,4 @@
+import account from '../accounts.js';
 import API from '../api.js';
 
 // Functions and variables specific to the bonuses page.
@@ -360,7 +361,7 @@ async function next() {
             return questions[questionNumber - 1].values[index];
         });
 
-        if (await getAccountUsername()) {
+        if (await account.getUsername()) {
             fetch('/auth/question-stats/record-bonus', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -370,7 +371,7 @@ async function next() {
                 }),
             }).then(response => {
                 if (response.status === 401) {
-                    deleteAccountUsername();
+                    account.deleteUsername();
                     throw new Error('Unauthenticated');
                 }
             });
