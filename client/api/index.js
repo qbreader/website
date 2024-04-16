@@ -8,9 +8,15 @@ export default class API {
             return 0;
         }
 
-        return fetch('/api/num-packets?' + new URLSearchParams({ setName }))
+        return await fetch('/api/num-packets?' + new URLSearchParams({ setName }))
             .then(response => response.json())
             .then(data => data.numPackets);
+    }
+
+    static async getSetList() {
+        return await fetch('/api/set-list')
+            .then(response => response.json())
+            .then(data => data.setList);
     }
 
     static reportQuestion(_id, reason, description) {

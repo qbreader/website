@@ -4,7 +4,8 @@
         "node": false
     },
     "globals": {
-        "bootstrap": "readonly"
+        "bootstrap": "readonly",
+        "React": "readonly"
     },
     "ignorePatterns": [
         "database/index.js",

@@ -1,4 +1,5 @@
 import account from '../accounts.js';
+import API from '../api/index.js';
 
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 
@@ -758,13 +759,9 @@ function QueryForm() {
 
     const fontSize = localStorage.getItem('database-font-size') === 'true' ? (localStorage.getItem('font-size') ?? 16) : 16;
 
-    React.useEffect(() => {
-        fetch('/api/set-list')
-            .then(response => response.json())
-            .then(data => data.setList)
-            .then(data => {
-                document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
-            });
+    React.useEffect(async () => {
+        const SET_LIST = await API.getSetList();
+        document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
     }, []);
 
     function arrayBetween(start, end) {
