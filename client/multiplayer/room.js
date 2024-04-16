@@ -1,5 +1,5 @@
 import account from '../accounts.js';
-import API from '../api/index.js';
+import api from '../api/index.js';
 
 /* eslint-disable no-undef */
 let changedCategories = false;
@@ -303,7 +303,7 @@ const socketOnConnectionAcknowledged = async (message) => {
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
-    maxPacketNumber = await API.getNumPackets(document.getElementById('set-name').value);
+    maxPacketNumber = await api.getNumPackets(document.getElementById('set-name').value);
     if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
         document.getElementById('set-name').classList.add('is-invalid');
     }
@@ -938,7 +938,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
     } else {
         this.classList.add('is-invalid');
     }
-    maxPacketNumber = await API.getNumPackets(this.value);
+    maxPacketNumber = await api.getNumPackets(this.value);
     if (this.value === '' || maxPacketNumber === 0) {
         document.getElementById('packet-number').value = '';
     } else {

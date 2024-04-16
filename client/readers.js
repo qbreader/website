@@ -1,5 +1,5 @@
 import account from './accounts.js';
-import API from './api/index.js';
+import api from './api/index.js';
 
 /**
  * Event listeners for pages that read questions to the user,
@@ -19,7 +19,7 @@ if (localStorage.getItem('high-contrast-question-text') === 'true') {
     document.getElementById('question').classList.add('high-contrast-question-text');
 }
 
-const SET_LIST = await API.getSetList();
+const SET_LIST = await api.getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
 function fillSetName(event) {
