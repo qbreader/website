@@ -1,5 +1,6 @@
 import account from '../accounts.js';
-import API from '../api.js';
+import API from '../api/index.js';
+import { SUBCATEGORIES, arrayToRange, createTossupCard, isValidCategory, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities.js';
 
 // Functions and variables specific to the tossups page.
 // Status variables
