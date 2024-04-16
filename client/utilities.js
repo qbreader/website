@@ -1,4 +1,4 @@
-import API from './api/index.js';
+import api from './api/index.js';
 import star from './api/auth/star.js';
 
 // Constants and functions useful for quizbowl.
@@ -407,7 +407,7 @@ function updateAlternateSubcategory(subcategory, validAlternateSubcategories) {
 
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
-    API.reportQuestion(
+    api.reportQuestion(
         document.getElementById('report-question-id').value,
         document.getElementById('report-question-reason').value,
         document.getElementById('report-question-description').value,

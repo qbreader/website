@@ -1,5 +1,5 @@
 import account from '../accounts.js';
-import API from '../api/index.js';
+import api from '../api/index.js';
 import { SUBCATEGORIES, arrayToRange, createTossupCard, isValidCategory, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities.js';
 
 // Functions and variables specific to the tossups page.
@@ -117,7 +117,7 @@ if (query.powermarkOnly) {
 
 if (query.setName) {
     document.getElementById('set-name').value = query.setName;
-    API.getNumPackets(query.setName).then(numPackets => {
+    api.getNumPackets(query.setName).then(numPackets => {
         maxPacketNumber = numPackets;
         if (maxPacketNumber === 0) {
             document.getElementById('set-name').classList.add('is-invalid');
@@ -713,7 +713,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
         this.classList.add('is-invalid');
     }
 
-    maxPacketNumber = await API.getNumPackets(this.value);
+    maxPacketNumber = await api.getNumPackets(this.value);
 
     if (this.value === '' || maxPacketNumber === 0) {
         document.getElementById('packet-number').placeholder = 'Packet Numbers';
