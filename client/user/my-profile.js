@@ -1,3 +1,5 @@
+import account from '../accounts.js';
+
 fetch('/auth/get-profile')
     .then(response => response.json())
     .then(data => {
@@ -23,7 +25,7 @@ document.getElementById('logout').addEventListener('click', () => {
     fetch('/auth/logout', {
         method: 'POST',
     }).then(() => {
-        deleteAccountUsername();
+        account.deleteUsername();
         window.location.href = '/user/login';
     });
 });

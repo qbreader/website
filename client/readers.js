@@ -1,3 +1,5 @@
+import account from './accounts.js';
+
 /**
  * Event listeners for pages that read questions to the user,
  * and retrieval of `SET_LIST`.
@@ -62,3 +64,15 @@ const soundEffects = localStorage.getItem('sound-effects') === 'true';
 const buzzAudio = new Audio('/audio/buzz.mp3');
 const correctAudio = new Audio('/audio/correct.mp3');
 const incorrectAudio = new Audio('/audio/incorrect.mp3');
+
+const banners = {};
+
+account.getUsername().then(username => {
+    const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
+    const toastText = document.getElementById('funny-toast-text');
+
+    if (username in banners) {
+        toastText.textContent = banners[username];
+        toast.show();
+    }
+});

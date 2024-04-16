@@ -1,4 +1,6 @@
-deleteAccountUsername();
+import account from '../accounts.js';
+
+account.deleteUsername();
 
 const form = document.getElementById('login-form');
 form.addEventListener('submit', (event) => {
@@ -23,7 +25,7 @@ form.addEventListener('submit', (event) => {
     }).then(async function (response) {
         if (response.status === 200) {
             const { expires } = await response.json();
-            sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
+            account.setUsername(username, expires);
             if (window.location.search.length > 1) {
                 window.location.href = decodeURIComponent(window.location.search.slice(1));
             } else {

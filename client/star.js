@@ -1,3 +1,5 @@
+import account from './accounts.js';
+
 async function starBonus(bonus_id) {
     return fetch('/auth/stars/star-bonus', {
         method: 'PUT',
@@ -74,7 +76,7 @@ function unstarTossup(tossup_id) {
 }
 
 async function isStarredBonus(bonus_id) {
-    if (!(await getAccountUsername())) {
+    if (!(await account.getUsername())) {
         return false;
     }
 
@@ -84,7 +86,7 @@ async function isStarredBonus(bonus_id) {
 }
 
 async function isStarredTossup(tossup_id) {
-    if (!(await getAccountUsername())) {
+    if (!(await account.getUsername())) {
         return false;
     }
 

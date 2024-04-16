@@ -1,3 +1,4 @@
+import account from '../accounts.js';
 import API from '../api.js';
 
 /* eslint-disable no-undef */
@@ -446,7 +447,7 @@ const socketOnGiveAnswer = async (message) => {
         sortPlayerListGroup();
     }
 
-    if (directive !== 'prompt' && userId === USER_ID && await getAccountUsername()) {
+    if (directive !== 'prompt' && userId === USER_ID && await account.getUsername()) {
         fetch('/auth/question-stats/record-tossup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -459,7 +460,7 @@ const socketOnGiveAnswer = async (message) => {
             }),
         }).then(response => {
             if (response.status === 401) {
-                deleteAccountUsername();
+                account.deleteUsername();
                 throw new Error('Unauthenticated');
             }
         });
