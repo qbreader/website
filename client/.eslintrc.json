@@ -3,6 +3,9 @@
         "browser": true,
         "node": false
     },
+    "globals": {
+        "bootstrap": "readonly"
+    },
     "ignorePatterns": [
         "database/index.js",
         "admin/category-reports.js",
