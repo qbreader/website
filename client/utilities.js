@@ -1,3 +1,5 @@
+import API from './api.js';
+
 // Constants and functions useful for quizbowl.
 
 const SUBCATEGORIES = {
@@ -251,21 +253,6 @@ function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = 
 
 
 /**
- * @param {String} setName
- * @returns {Promise<Number>} The number of packets in the set.
- */
-async function getNumPackets(setName) {
-    if (setName === undefined || setName === '') {
-        return 0;
-    }
-
-    return fetch('/api/num-packets?' + new URLSearchParams({ setName }))
-        .then(response => response.json())
-        .then(data => data.numPackets);
-}
-
-
-/**
  * @param {JSON} question
  * @param {Array<String>} validCategories
  * @param {Array<String>} validSubcategories
@@ -359,33 +346,6 @@ function removeParentheses(string) {
 }
 
 
-function reportQuestion() {
-    const _id = document.getElementById('report-question-id').value;
-    const reason = document.getElementById('report-question-reason').value;
-    const description = document.getElementById('report-question-description').value;
-
-    document.getElementById('report-question-submit').disabled = true;
-    fetch('/api/report-question', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ _id, reason, description }),
-    }).then(response => {
-        if (response.status === 200) {
-            document.getElementById('report-question-reason').value = 'wrong-category';
-            document.getElementById('report-question-description').value = '';
-            alert('Question has been reported.');
-        } else {
-            alert('There was an error reporting the question.');
-        }
-    }).catch(_error => {
-        alert('There was an error reporting the question.');
-    }).finally(() => {
-        document.getElementById('report-question-close').click();
-        document.getElementById('report-question-submit').disabled = false;
-    });
-}
-
-
 /**
  * Adds the given category if it is not in the list of valid categories.
  * Otherwise, the category is removed.
@@ -446,18 +406,25 @@ function updateAlternateSubcategory(subcategory, validAlternateSubcategories) {
 
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
-    reportQuestion();
+    API.reportQuestion(
+        document.getElementById('report-question-id').value,
+        document.getElementById('report-question-reason').value,
+        document.getElementById('report-question-description').value,
+    );
 });
 
 
-const banners = {};
-
-getAccountUsername().then(username => {
-    const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
-    const toastText = document.getElementById('funny-toast-text');
-
-    if (username in banners) {
-        toastText.textContent = banners[username];
-        toast.show();
-    }
-});
+export {
+    SUBCATEGORIES,
+    ALTERNATE_SUBCATEGORIES,
+    arrayToRange,
+    createBonusCard,
+    createTossupCard,
+    isValidCategory,
+    loadCategoryModal,
+    rangeToArray,
+    removeParentheses,
+    updateCategory,
+    updateSubcategory,
+    updateAlternateSubcategory,
+};

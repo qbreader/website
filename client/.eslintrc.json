@@ -9,7 +9,7 @@
         "bootstrap/*.js"
     ],
     "rules": {
-        "no-undef": "off",
+        "no-undef": "warn",
         "no-unused-vars": "off",
         "prefer-const": "off",
         "react/react-in-jsx-scope": "off",

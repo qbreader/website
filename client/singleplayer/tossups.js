@@ -1,3 +1,5 @@
+import API from '../api.js';
+
 // Functions and variables specific to the tossups page.
 // Status variables
 let currentlyBuzzing = false;
@@ -113,7 +115,7 @@ if (query.powermarkOnly) {
 
 if (query.setName) {
     document.getElementById('set-name').value = query.setName;
-    getNumPackets(query.setName).then(numPackets => {
+    API.getNumPackets(query.setName).then(numPackets => {
         maxPacketNumber = numPackets;
         if (maxPacketNumber === 0) {
             document.getElementById('set-name').classList.add('is-invalid');
@@ -709,7 +711,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
         this.classList.add('is-invalid');
     }
 
-    maxPacketNumber = await getNumPackets(this.value);
+    maxPacketNumber = await API.getNumPackets(this.value);
 
     if (this.value === '' || maxPacketNumber === 0) {
         document.getElementById('packet-number').placeholder = 'Packet Numbers';
