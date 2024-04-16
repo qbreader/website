@@ -1,15 +1,7 @@
-const SET_LIST = [];
+import API from '../../api/index.js';
 
-fetch('/api/set-list')
-    .then(response => response.json())
-    .then(data => data.setList)
-    .then(data => {
-        document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
-        data.forEach(setName => {
-            SET_LIST.push(setName);
-        });
-    });
-
+const SET_LIST = await API.getSetList();
+document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
 function fillSetName(event) {
     const setNameInput = document.getElementById('set-name');
