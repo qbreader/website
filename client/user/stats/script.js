@@ -1,6 +1,6 @@
-import API from '../../api/index.js';
+import api from '../../api/index.js';
 
-const SET_LIST = await API.getSetList();
+const SET_LIST = await api.getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
 function fillSetName(event) {

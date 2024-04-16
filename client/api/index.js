@@ -1,4 +1,4 @@
-export default class API {
+export default class api {
     /**
      * @param {String} setName
      * @returns {Promise<Number>} The number of packets in the set.
