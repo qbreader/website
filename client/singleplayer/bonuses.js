@@ -1,5 +1,5 @@
 import account from '../accounts.js';
-import API from '../api.js';
+import API from '../api/index.js';
 
 // Functions and variables specific to the bonuses page.
 
