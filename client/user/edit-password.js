@@ -1,3 +1,5 @@
+import account from '../accounts.js';
+
 const form = document.getElementById('signup-form');
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -17,7 +19,7 @@ form.addEventListener('submit', async (event) => {
 
     document.getElementById('submission').textContent = 'Submitting...';
 
-    const username = await getAccountUsername();
+    const username = await account.getUsername();
     fetch('/auth/edit-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

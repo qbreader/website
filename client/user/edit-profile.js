@@ -1,3 +1,5 @@
+import account from '../accounts.js';
+
 window.onload = () => {
     fetch('/auth/get-profile')
         .then(response => response.json())
@@ -29,7 +31,7 @@ form.addEventListener('submit', (event) => {
         }),
     }).then(function (response) {
         if (response.status === 200) {
-            deleteAccountUsername();
+            account.deleteUsername();
             window.location.href = '/user/login';
         } else {
             document.getElementById('submission').textContent = 'Submit';

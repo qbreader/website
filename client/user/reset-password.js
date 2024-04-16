@@ -1,4 +1,6 @@
-deleteAccountUsername();
+import account from '../accounts.js';
+
+account.deleteUsername();
 
 const form = document.getElementById('forgot-password-form');
 form.addEventListener('submit', (event) => {
