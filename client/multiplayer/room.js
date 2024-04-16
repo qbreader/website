@@ -1,3 +1,5 @@
+import API from '../api.js';
+
 /* eslint-disable no-undef */
 let changedCategories = false;
 let validCategories = [];
@@ -300,7 +302,7 @@ const socketOnConnectionAcknowledged = async (message) => {
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
-    maxPacketNumber = await getNumPackets(document.getElementById('set-name').value);
+    maxPacketNumber = await API.getNumPackets(document.getElementById('set-name').value);
     if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
         document.getElementById('set-name').classList.add('is-invalid');
     }
@@ -935,7 +937,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
     } else {
         this.classList.add('is-invalid');
     }
-    maxPacketNumber = await getNumPackets(this.value);
+    maxPacketNumber = await API.getNumPackets(this.value);
     if (this.value === '' || maxPacketNumber === 0) {
         document.getElementById('packet-number').value = '';
     } else {
