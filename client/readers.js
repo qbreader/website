@@ -19,7 +19,7 @@ if (localStorage.getItem('high-contrast-question-text') === 'true') {
     document.getElementById('question').classList.add('high-contrast-question-text');
 }
 
-const SET_LIST = await api.getSetList();
+const SET_LIST = api.getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
 function fillSetName(event) {

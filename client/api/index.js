@@ -1,4 +1,6 @@
 export default class api {
+    static SET_LIST = [];
+
     /**
      * @param {String} setName
      * @returns {Promise<Number>} The number of packets in the set.
@@ -13,10 +15,8 @@ export default class api {
             .then(data => data.numPackets);
     }
 
-    static async getSetList() {
-        return await fetch('/api/set-list')
-            .then(response => response.json())
-            .then(data => data.setList);
+    static getSetList() {
+        return api.SET_LIST;
     }
 
     static reportQuestion(_id, reason, description) {
@@ -41,3 +41,7 @@ export default class api {
         });
     }
 }
+
+api.SET_LIST = await fetch('/api/set-list')
+    .then(response => response.json())
+    .then(data => data.setList);

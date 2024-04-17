@@ -708,7 +708,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
     query.setName = this.value.trim();
 
     // make border red if set name is not in set list
-    if (SET_LIST.includes(this.value) || this.value.length === 0) {
+    if (api.getSetList().includes(this.value) || this.value.length === 0) {
         this.classList.remove('is-invalid');
     } else {
         this.classList.add('is-invalid');

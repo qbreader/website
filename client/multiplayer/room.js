@@ -934,7 +934,7 @@ document.getElementById('reading-speed').addEventListener('input', function () {
 
 
 document.getElementById('set-name').addEventListener('change', async function () {
-    if (SET_LIST.includes(this.value) || this.value.length === 0) {
+    if (api.getSetList().includes(this.value) || this.value.length === 0) {
         this.classList.remove('is-invalid');
     } else {
         this.classList.add('is-invalid');
