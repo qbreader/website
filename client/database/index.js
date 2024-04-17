@@ -665,7 +665,7 @@ function QueryForm() {
   const [queryTime, setQueryTime] = React.useState(0);
   const fontSize = localStorage.getItem('database-font-size') === 'true' ? localStorage.getItem('font-size') ?? 16 : 16;
   React.useEffect(async () => {
-    const SET_LIST = await api.getSetList();
+    const SET_LIST = api.getSetList();
     document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
   }, []);
   function arrayBetween(start, end) {
