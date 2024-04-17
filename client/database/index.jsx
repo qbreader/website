@@ -1,5 +1,6 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
+import { loadCategoryModal, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities.js';
 
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 
@@ -967,6 +968,14 @@ function QueryForm() {
                 }
             });
             setDifficulties(tempDifficulties);
+        });
+
+        document.getElementById('report-question-submit').addEventListener('click', function () {
+            api.reportQuestion(
+                document.getElementById('report-question-id').value,
+                document.getElementById('report-question-reason').value,
+                document.getElementById('report-question-description').value,
+            );
         });
 
         window.addEventListener('popstate', event => {
