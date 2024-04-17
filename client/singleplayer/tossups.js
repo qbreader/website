@@ -1,7 +1,7 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
-import { SUBCATEGORIES, arrayToRange, createTossupCard, isValidCategory, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities.js';
+import { SUBCATEGORIES, arrayToRange, createTossupCard, isValidCategory, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities/index.js';
 
 // Functions and variables specific to the tossups page.
 // Status variables
@@ -879,13 +879,11 @@ document.addEventListener('keydown', (event) => {
 });
 
 
+loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
+
 window.onload = async () => {
-    // eslint-disable-next-line no-undef
     $('#slider').slider('values', 0, query.minYear);
-    // eslint-disable-next-line no-undef
     $('#slider').slider('values', 1, query.maxYear);
     document.getElementById('year-range-a').textContent = query.minYear;
     document.getElementById('year-range-b').textContent = query.maxYear;
-
-    loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
 };

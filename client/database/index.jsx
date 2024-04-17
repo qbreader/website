@@ -1,6 +1,6 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
-import { loadCategoryModal, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities.js';
+import { loadCategoryModal, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities/index.js';
 
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 
