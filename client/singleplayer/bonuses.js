@@ -1,6 +1,7 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
+import { SUBCATEGORIES, arrayToRange, createBonusCard, isValidCategory, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities.js';
 
 // Functions and variables specific to the bonuses page.
 
@@ -533,6 +534,15 @@ document.getElementById('question-number').addEventListener('change', function (
     }
     questionNumber = parseInt(questionNumber) - 1;
     localStorage.setItem('questionNumberBonusSave', document.getElementById('question-number').value);
+});
+
+
+document.getElementById('report-question-submit').addEventListener('click', function () {
+    api.reportQuestion(
+        document.getElementById('report-question-id').value,
+        document.getElementById('report-question-reason').value,
+        document.getElementById('report-question-description').value,
+    );
 });
 
 
