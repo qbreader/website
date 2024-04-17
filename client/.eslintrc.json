@@ -5,7 +5,8 @@
     },
     "globals": {
         "bootstrap": "readonly",
-        "React": "readonly"
+        "React": "readonly",
+        "$": "readonly"
     },
     "ignorePatterns": [
         "database/index.js",
