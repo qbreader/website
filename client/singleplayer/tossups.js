@@ -704,6 +704,15 @@ document.getElementById('reading-speed').addEventListener('input', function () {
 });
 
 
+document.getElementById('report-question-submit').addEventListener('click', function () {
+    api.reportQuestion(
+        document.getElementById('report-question-id').value,
+        document.getElementById('report-question-reason').value,
+        document.getElementById('report-question-description').value,
+    );
+});
+
+
 document.getElementById('set-name').addEventListener('change', async function () {
     query.setName = this.value.trim();
 

@@ -1,8 +1,8 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
+import { arrayToRange, createTossupCard, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities.js';
 
-/* eslint-disable no-undef */
 let changedCategories = false;
 let validCategories = [];
 let validSubcategories = [];
@@ -148,7 +148,7 @@ socket.onmessage = function (event) {
         document.getElementById('pause').disabled = true;
         showNextButton();
 
-        question = document.getElementById('question').innerHTML;
+        let question = document.getElementById('question').innerHTML;
         if (powermarkPosition) {
             question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
         }
@@ -930,6 +930,15 @@ document.getElementById('reading-speed').addEventListener('change', function () 
 
 document.getElementById('reading-speed').addEventListener('input', function () {
     document.getElementById('reading-speed-display').textContent = this.value;
+});
+
+
+document.getElementById('report-question-submit').addEventListener('click', function () {
+    api.reportQuestion(
+        document.getElementById('report-question-id').value,
+        document.getElementById('report-question-reason').value,
+        document.getElementById('report-question-description').value,
+    );
 });
 
 
