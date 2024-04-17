@@ -1,5 +1,6 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
+import audio from '../audio/index.js';
 
 /* eslint-disable no-undef */
 let changedCategories = false;
@@ -466,11 +467,11 @@ const socketOnGiveAnswer = async (message) => {
         });
     }
 
-    if (soundEffects && userId === USER_ID) {
+    if (audio.soundEffects && userId === USER_ID) {
         if (directive === 'accept') {
-            correctAudio.play();
+            audio.correct.play();
         } else if (directive === 'reject') {
-            incorrectAudio.play();
+            audio.incorrect.play();
         }
     }
 };
@@ -836,7 +837,7 @@ document.getElementById('answer-input').addEventListener('input', function () {
 
 document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
-    if (soundEffects) buzzAudio.play();
+    if (audio.soundEffects) audio.buzz.play();
     socket.send(JSON.stringify({ type: 'buzz' }));
     socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
