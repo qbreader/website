@@ -1,5 +1,6 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
+import audio from '../audio/index.js';
 
 // Functions and variables specific to the bonuses page.
 
@@ -309,12 +310,16 @@ async function giveAnswer(givenAnswer) {
         document.getElementById(`checkbox-${currentBonusPart + 1}`).checked = true;
         document.getElementById('reveal').disabled = false;
         revealBonusPart();
-        if (soundEffects) correctAudio.play();
+        if (audio.soundEffects) {
+            audio.correct.play();
+        }
         break;
     case 'reject':
         document.getElementById('reveal').disabled = false;
         revealBonusPart();
-        if (soundEffects) incorrectAudio.play();
+        if (audio.soundEffects) {
+            audio.incorrect.play();
+        }
         break;
     case 'prompt':
         document.getElementById('answer-input-group').classList.remove('d-none');
