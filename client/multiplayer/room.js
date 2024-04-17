@@ -1,7 +1,7 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
-import { arrayToRange, createTossupCard, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities.js';
+import { arrayToRange, createTossupCard, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities/index.js';
 
 let changedCategories = false;
 let validCategories = [];
