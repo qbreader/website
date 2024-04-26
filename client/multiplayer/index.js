@@ -1,3 +1,5 @@
+const ROOM_NAME_MAX_LENGTH = 32;
+
 document.getElementById('form').addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -8,13 +10,14 @@ document.getElementById('form').addEventListener('submit', (event) => {
         roomName = roomName.replaceAll(' ', '-');
     }
 
+    roomName = roomName.substring(0, ROOM_NAME_MAX_LENGTH);
+
     const isPrivate = document.getElementById('private-room-checkbox').checked;
     if (isPrivate) {
         window.location.href = `/multiplayer/${encodeURIComponent(roomName)}?private=${isPrivate}`;
     } else {
         window.location.href = '/multiplayer/' + encodeURIComponent(roomName);
     }
-    
 });
 
 
