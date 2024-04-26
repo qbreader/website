@@ -92,26 +92,36 @@ function escapeCSVString(string) {
 function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
     const header = [
         '_id',
+        'set.name',
+        'packet.number',
+        'number',
         'question',
         'answer',
         'formatted_answer',
         'category',
         'subcategory',
-        'setName',
-        'packetNumber',
-        'questionNumber',
+        'alternate_subcategory',
         'difficulty',
-        'setYear',
-        'set',
-        'packet',
+        'set._id',
+        'packet._id',
         'createdAt',
         'updatedAt',
     ];
 
     let csvdata = header.join(',') + '\n';
     for (const tossup of tossups) {
-        for (const key of header)
-            csvdata += escapeCSVString(tossup[key]) + ',';
+        for (const key of header) {
+            const parts = key.split('.');
+            let value = tossup;
+            for (const part of parts) {
+                if (value === undefined) {
+                    break;
+                } else {
+                    value = value[part];
+                }
+            }
+            csvdata += escapeCSVString(value) + ',';
+        }
 
         csvdata = csvdata.slice(0, -1);
         csvdata += '\n';
@@ -128,6 +138,9 @@ function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
 function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
     const header = [
         '_id',
+        'set.name',
+        'packet.number',
+        'number',
         'leadin',
         'parts.0',
         'parts.1',
@@ -140,13 +153,10 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
         'formatted_answers.2',
         'category',
         'subcategory',
-        'setName',
-        'packetNumber',
-        'questionNumber',
+        'alternate_subcategory',
         'difficulty',
-        'setYear',
-        'set',
-        'packet',
+        'set._id',
+        'packet._id',
         'createdAt',
         'updatedAt',
     ];
@@ -154,16 +164,17 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
     let csvdata = header.join(',') + '\n';
     for (const bonus of bonuses) {
         for (const key of header) {
-            if (key.includes('parts') || key.includes('answers') || key.includes('formatted_answers')) {
-                const [mainKey, index] = key.split('.');
-                if (mainKey in bonus) {
-                    csvdata += escapeCSVString(bonus[mainKey][index]) + ',';
+            const parts = key.split('.');
+            let value = bonus;
+            for (const part of parts) {
+                if (value === undefined) {
+                    break;
                 } else {
-                    csvdata += ',';
+                    value = value[part];
                 }
-            } else {
-                csvdata += escapeCSVString(bonus[key]) + ',';
             }
+
+            csvdata += escapeCSVString(value) + ',';
         }
 
         csvdata = csvdata.slice(0, -1);
@@ -180,22 +191,22 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
 
 function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
     let textdata = '';
-    for (let tossup of tossups) {
+    for (const tossup of tossups) {
         textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
         textdata += `Question ID: ${tossup._id}\n`;
         textdata += `${tossup.number}. ${tossup.question}\n`;
         textdata += `ANSWER: ${tossup.answer}\n`;
-        textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
+        textdata += `<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''}>\n\n`;
     }
 
-    for (let bonus of bonuses) {
-        textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
+    for (const bonus of bonuses) {
         textdata += `Question ID: ${bonus._id}\n`;
+        textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
         textdata += `${bonus.number}. ${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
             textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
         }
-        textdata += `<${bonus.category} / ${bonus.subcategory}>\n\n`;
+        textdata += `<${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''}>\n\n`;
     }
 
     const hiddenElement = document.createElement('a');
