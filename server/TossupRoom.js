@@ -35,6 +35,9 @@ class TossupRoom {
         this.name = name;
         this.isPermanent = isPermanent;
 
+        /**
+         * @type {Object.<string, Player>}
+         */
         this.players = {};
         this.sockets = {};
 
@@ -87,6 +90,13 @@ class TossupRoom {
     }
 
     connection(socket, userId, username) {
+        const isNew = !(userId in this.players);
+        if (isNew) {
+            this.createPlayer(userId);
+        }
+        username = this.players[userId].updateUsername(username);
+        this.players[userId].isOnline = true;
+
         console.log(`Connection in room ${HEADER}${this.name}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
         socket.on('message', message => {
             if (rateLimiter(socket) && !this.rateLimitExceeded.has(username)) {
@@ -118,13 +128,6 @@ class TossupRoom {
         });
 
         this.sockets[userId] = socket;
-
-        const isNew = !(userId in this.players);
-        if (isNew) {
-            this.createPlayer(userId);
-        }
-        this.players[userId].updateUsername(username);
-        this.players[userId].isOnline = true;
 
         socket.send(JSON.stringify({
             type: 'connection-acknowledged',
@@ -189,15 +192,17 @@ class TossupRoom {
             this.buzz(userId);
             break;
 
-        case 'change-username':
+        case 'change-username': {
+            const oldUsername = this.players[userId].username;
+            const newUsername = this.players[userId].updateUsername(message.username);
             this.sendSocketMessage({
                 type: 'change-username',
                 userId: userId,
-                oldUsername: this.players[userId].username,
-                newUsername: message.username,
+                oldUsername: oldUsername,
+                newUsername: newUsername,
             });
-            this.players[userId].updateUsername(message.username);
             break;
+        }
 
         case 'chat':
             this.sendSocketMessage({
