@@ -75,6 +75,14 @@ socket.onmessage = function (event) {
         socketOnConnectionAcknowledged(data);
         break;
 
+    case 'connection-acknowledged-query':
+        socketOnConnectionAcknowledgedQuery(data);
+        break;
+
+    case 'connection-acknowledged-tossup':
+        socketOnConnectionAcknowledgedTossup(data);
+        break;
+
     case 'end-of-set':
         socketOnEndOfSet(data);
         break;
@@ -292,28 +300,9 @@ const socketOnClearStats = (message) => {
     sortPlayerListGroup();
 };
 
-const socketOnConnectionAcknowledged = async (message) => {
+const socketOnConnectionAcknowledged = (message) => {
     USER_ID = message.userId;
     localStorage.setItem('USER_ID', USER_ID);
-
-    validCategories = message.validCategories || [];
-    validSubcategories = message.validSubcategories || [];
-    validAlternateSubcategories = message.validAlternateSubcategories || [];
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
-
-    updateDifficulties(message.difficulties || []);
-    document.getElementById('set-name').value = message.setName || '';
-    document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
-
-    maxPacketNumber = await getNumPackets(document.getElementById('set-name').value);
-    if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
-        document.getElementById('set-name').classList.add('is-invalid');
-    }
-
-    tossup = message.tossup;
-    document.getElementById('set-name-info').textContent = message.tossup?.set?.name ?? '';
-    document.getElementById('packet-number-info').textContent = message.tossup?.packet?.number ?? '-';
-    document.getElementById('question-number-info').textContent = message.tossup?.number ?? '-';
 
     document.getElementById('chat').disabled = message.public;
     document.getElementById('toggle-rebuzz').checked = message.rebuzz;
@@ -336,12 +325,6 @@ const socketOnConnectionAcknowledged = async (message) => {
         document.getElementById('difficulty-settings').classList.remove('d-none');
         document.getElementById('set-settings').classList.add('d-none');
     }
-
-    document.getElementById('toggle-powermark-only').disabled = message.selectBySetName;
-    document.getElementById('toggle-standard-only').disabled = message.selectBySetName;
-
-    document.getElementById('toggle-powermark-only').checked = message.powermarkOnly;
-    document.getElementById('toggle-standard-only').checked = message.standardOnly;
 
     switch (message.questionProgress) {
     case 0:
@@ -374,11 +357,6 @@ const socketOnConnectionAcknowledged = async (message) => {
         document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
     }
 
-    $('#slider').slider('values', 0, message.minYear);
-    $('#slider').slider('values', 1, message.maxYear);
-    document.getElementById('year-range-a').textContent = message.minYear;
-    document.getElementById('year-range-b').textContent = message.maxYear;
-
     Object.keys(message.players).forEach(userId => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
         players[userId] = message.players[userId];
@@ -390,6 +368,40 @@ const socketOnConnectionAcknowledged = async (message) => {
     }
 
     sortPlayerListGroup();
+};
+
+const socketOnConnectionAcknowledgedTossup = (message) => {
+    tossup = message.tossup;
+    document.getElementById('set-name-info').textContent = tossup?.set?.name ?? '';
+    document.getElementById('packet-number-info').textContent = tossup?.packet?.number ?? '-';
+    document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
+};
+
+const socketOnConnectionAcknowledgedQuery = async (message) => {
+    validCategories = message.validCategories || [];
+    validSubcategories = message.validSubcategories || [];
+    validAlternateSubcategories = message.validAlternateSubcategories || [];
+    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+
+    updateDifficulties(message.difficulties || []);
+    document.getElementById('set-name').value = message.setName || '';
+    document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
+
+    maxPacketNumber = await getNumPackets(document.getElementById('set-name').value);
+    if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
+        document.getElementById('set-name').classList.add('is-invalid');
+    }
+
+    document.getElementById('toggle-powermark-only').disabled = message.selectBySetName;
+    document.getElementById('toggle-standard-only').disabled = message.selectBySetName;
+
+    document.getElementById('toggle-powermark-only').checked = message.powermarkOnly;
+    document.getElementById('toggle-standard-only').checked = message.standardOnly;
+
+    $('#slider').slider('values', 0, message.minYear);
+    $('#slider').slider('values', 1, message.maxYear);
+    document.getElementById('year-range-a').textContent = message.minYear;
+    document.getElementById('year-range-b').textContent = message.maxYear;
 };
 
 const socketOnEndOfSet = () => {
