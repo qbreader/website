@@ -275,6 +275,12 @@ const socketOnChangeUsername = (message) => {
     document.getElementById('username-' + message.userId).textContent = message.newUsername;
     players[message.userId].username = message.newUsername;
     sortPlayerListGroup();
+
+    if (message.userId === USER_ID) {
+        username = message.newUsername;
+        localStorage.setItem('multiplayer-username', username);
+        document.getElementById('username').value = username;
+    }
 };
 
 
