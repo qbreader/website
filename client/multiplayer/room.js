@@ -12,8 +12,7 @@ let powermarkPosition = 0;
  */
 const players = {};
 
-// Do not escape room name, as most browsers automatically do this
-const ROOM_NAME = location.pathname.substring(13);
+const ROOM_NAME = decodeURIComponent(location.pathname.substring(13));
 let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
 let username = localStorage.getItem('multiplayer-username') || randomUsername();
