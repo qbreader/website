@@ -139,19 +139,7 @@ class TossupRoom {
 
             canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
             buzzedIn: this.buzzedIn,
-            tossup: this.tossup,
             questionProgress: this.questionProgress,
-
-            difficulties: this.query.difficulties,
-            minYear: this.query.minYear,
-            maxYear: this.query.maxYear,
-            packetNumbers: this.query.packetNumbers,
-            setName: this.query.setName,
-            validCategories: this.query.categories,
-            validSubcategories: this.query.subcategories,
-            validAlternateSubcategories: this.query.alternateSubcategories,
-            powermarkOnly: this.query.powermarkOnly,
-            standardOnly: this.query.standardOnly,
 
             public: this.settings.public,
             readingSpeed: this.settings.readingSpeed,
@@ -159,6 +147,16 @@ class TossupRoom {
             selectBySetName: this.settings.selectBySetName,
             skip: this.settings.skip,
             timer: this.settings.timer,
+        }));
+
+        socket.send(JSON.stringify({
+            type: 'connection-acknowledged-query',
+            ...this.query,
+        }));
+
+        socket.send(JSON.stringify({
+            type: 'connection-acknowledged-tossup',
+            tossup: this.tossup,
         }));
 
         if (this.questionProgress !== QuestionProgressEnum.NOT_STARTED && this.tossup?.question) {
