@@ -2,7 +2,7 @@ import Player from './Player.js';
 import RateLimit from './RateLimit.js';
 
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS } from '../constants.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from '../constants.js';
 import getRandomTossups from '../database/qbreader/get-random-tossups.js';
 import getSet from '../database/qbreader/get-set.js';
 
@@ -740,6 +740,7 @@ for (const room of PERMANENT_ROOMS) {
  */
 function createAndReturnRoom(roomName, isPrivate = false) {
     roomName = DOMPurify.sanitize(roomName);
+    roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
 
     if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
         const newRoom = new TossupRoom(roomName, false);
