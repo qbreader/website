@@ -19,7 +19,7 @@ fetch('/api/admin/geoword/stats?' + new URLSearchParams({ packetName, division }
                     <div><b>#${stats[i].tossup.questionNumber}</b></div>
                     <div><b>Times heard:</b> ${stats[i].timesHeard}</div>
                     <div><b>Number correct:</b> ${stats[i].numberCorrect}</div>
-                    <div><b>Answer:</b> ${stats[i].tossup.formatted_answer}</div>
+                    <div><b>Answer:</b> ${stats[i].tossup.answer}</div>
                 </div>
                 <div class="col-6">
                     <div><b>Best buzz:</b> ${stats[i].bestUsername}</div>

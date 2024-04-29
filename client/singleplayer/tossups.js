@@ -301,7 +301,7 @@ async function getTossups(setName, packetNumber) {
 async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
-    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].formatted_answer, givenAnswer);
+    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].answer, givenAnswer);
 
     switch (directive) {
     case 'accept':
@@ -469,7 +469,7 @@ function readQuestion(expectedReadTime) {
 
 
 function revealQuestion() {
-    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber - 1].formatted_answer;
+    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answer;
     let question = (document.getElementById('question').innerHTML);
     if (powermarkPosition)
         question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);

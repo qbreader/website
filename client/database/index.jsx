@@ -97,7 +97,7 @@ function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
         'number',
         'question',
         'answer',
-        'formatted_answer',
+        'answer',
         'category',
         'subcategory',
         'alternate_subcategory',
@@ -335,7 +335,7 @@ function highlightTossupQuery({ tossup, regExp, searchType = 'all', ignoreWordOr
         }
 
         if (searchType === 'answer' || searchType === 'all') {
-            tossup.formatted_answer = insertMatches(tossup.formatted_answer, tossup.answer_sanitized, word);
+            tossup.answer = insertMatches(tossup.answer, tossup.answer_sanitized, word);
         }
     }
 
@@ -480,7 +480,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
                     }}></span>
                     <hr className="my-3"></hr>
                     <div>
-                        <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.formatted_answer }}></span>
+                        <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.answer }}></span>
                     </div>
                 </div>
                 <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
