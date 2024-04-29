@@ -28,7 +28,7 @@ function modaqifyBonus(bonus) {
         values: bonus.values ?? bonus.parts.map(() => 10),
         leadin: bonus.leadin,
         parts: bonus.parts,
-        answers: bonus.formatted_answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>')),
+        answers: bonus.answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>')),
         metadata: `${bonus.category} - ${bonus.subcategory}`,
     };
 

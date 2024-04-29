@@ -11,7 +11,7 @@ fetch('/auth/stars/bonuses')
                     <p>
                         ${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}
                     </p>
-                    <div>ANSWER: ${bonus?.formatted_answers[i]}</div>
+                    <div>ANSWER: ${bonus?.answers[i]}</div>
                 `;
             }
 
