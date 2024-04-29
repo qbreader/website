@@ -22,17 +22,8 @@ import { ObjectId } from 'mongodb';
  * @property {string} set.name
  * @property {number} set.year
  *
- * @property {"tossup" | "bonus"} type
  * @property {Date} createdAt
  * @property {Date} updatedAt
- *
- * @property {string} [packetName] Deprecated
- * @property {number} [packetNumber] Deprecated
- * @property {ObjectId} [packet_id] Deprecated
- * @property {number} questionNumber Deprecated
- * @property {string} [setName] Deprecated
- * @property {number} [setYear] Deprecated
- * @property {ObjectId} [set_id] Deprecated
  */
 
 /**
@@ -40,7 +31,6 @@ import { ObjectId } from 'mongodb';
  * @property {string} question
  * @property {string} answer_sanitized
  * @property {string} answer
- * @property {"tossup"} type
  *
  * @typedef {Question & TossupProperties} Tossup
  */
@@ -54,7 +44,6 @@ import { ObjectId } from 'mongodb';
  * @property {string[]} answers
  * @property {number[]} [values]
  * @property {("e" | "m" | "h")[]} [difficultyModifiers]
- * @property {"bonus"} type
  *
  * @typedef {Question & BonusProperties} Bonus
  */
