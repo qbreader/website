@@ -15,7 +15,7 @@ fetch('/api/admin/geoword/protests?' + new URLSearchParams({ packetName, divisio
             const { questionNumber } = tossup;
             innerHTML += `<div>${tossup.questionNumber}. ${tossup.question}</div>`;
             // innerHTML += '<hr class="my-3"></hr>';
-            innerHTML += `<div>ANSWER: ${tossup.formatted_answer ?? tossup.answer}</div>`;
+            innerHTML += `<div>ANSWER: ${tossup.answer}</div>`;
             innerHTML += `<p>&lt;${tossup.category} / ${tossup.subcategory}&gt;</p>`;
 
             if (protests.filter(protest => protest.questionNumber === questionNumber).length === 0) {
@@ -55,7 +55,7 @@ fetch('/api/admin/geoword/protests?' + new URLSearchParams({ packetName, divisio
             a.addEventListener('click', () => {
                 document.getElementById('resolve-protest-id').value = a.id;
                 document.getElementById('resolve-protest-given-answer').value = document.getElementById(`given-answer-${a.id}`).textContent;
-                document.getElementById('resolve-protest-actual-answer').innerHTML = packet[parseInt(a.attributes.question.value) - 1].formatted_answer;
+                document.getElementById('resolve-protest-actual-answer').innerHTML = packet[parseInt(a.attributes.question.value) - 1].answer;
             });
         });
     });

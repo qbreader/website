@@ -473,12 +473,8 @@ class TossupRoom {
             this.tossup = this.randomQuestionCache.pop();
         }
 
-        if (Object.prototype.hasOwnProperty.call(this.tossup, 'formatted_answer')) {
-            this.tossup.answer = this.tossup.formatted_answer;
-        }
-
         this.questionProgress = QuestionProgressEnum.READING;
-        this.questionSplit = this.tossup.question.split(' ').filter(word => word !== '');
+        this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
         return true;
     }
 
