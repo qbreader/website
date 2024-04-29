@@ -77,7 +77,7 @@ async function testCorrectness() {
                 assert.propertyVal(tossups, 'count', tossupCount, 'tossup count');
                 assert.propertyVal(bonuses, 'count', bonusCount, 'bonus count');
                 assert.strictEqual(tossups.questionArray[0].question, expectedFirstTossupQueston, 'tossup array - question');
-                assert.strictEqual(tossups.questionArray[0].unformatted_answer, expectedFirstTossupAnswer, 'tossup array - answer');
+                assert.strictEqual(tossups.questionArray[0].answer_sanitized, expectedFirstTossupAnswer, 'tossup array - answer');
             });
         }
         {

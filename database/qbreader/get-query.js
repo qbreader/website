@@ -182,7 +182,7 @@ async function getTossupQuery(options) {
         }
 
         if (['answer', 'all'].includes(searchType)) {
-            orQuery.push({ unformatted_answer: { $regex: word, $options: 'i' } });
+            orQuery.push({ answer_sanitized: { $regex: word, $options: 'i' } });
         }
 
         andQuery.push({ $or: orQuery });
