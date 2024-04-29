@@ -461,8 +461,6 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
             });
     }
 
-    const powerParts = highlightedTossup.question.split('(*)');
-
     return (
         <div className="card my-2">
             <div className="card-header d-flex justify-content-between">
@@ -475,9 +473,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body" style={{ 'fontSize': `${fontSize}px` }}>
-                    <span dangerouslySetInnerHTML={{
-                        __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question,
-                    }}></span>
+                    <span dangerouslySetInnerHTML={{ __html: highlightedTossup.question }}></span>
                     <hr className="my-3"></hr>
                     <div>
                         <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.answer }}></span>

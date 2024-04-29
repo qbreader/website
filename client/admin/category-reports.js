@@ -54,7 +54,6 @@ function TossupCard({
     const reason = tossup.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
-  const powerParts = tossup.question.split('(*)');
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
@@ -68,7 +67,7 @@ function TossupCard({
     className: "card-body"
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question
+      __html: tossup.question
     }
   }), /*#__PURE__*/React.createElement("hr", {
     className: "my-3"
