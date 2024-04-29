@@ -11,16 +11,12 @@ import * as types from '../../types.js';
 function modaqifyTossup(tossup) {
     const result = {
         question: tossup.question,
-        answer: tossup.answer,
+        answer: tossup.formatted_answer.replace('<i>', '<em>').replace('</i>', '</em>'),
         metadata: `${tossup.category} - ${tossup.subcategory}`,
     };
 
     if (tossup?.question && tossup.question.includes('(*)')) {
         result.question = '<b>' + tossup.question.replace('(*)', '(*)</b>');
-    }
-
-    if (tossup.formatted_answer) {
-        result.answer = tossup.formatted_answer.replace('<i>', '<em>').replace('</i>', '</em>');
     }
 
     return result;

@@ -195,7 +195,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
         textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
         textdata += `Question ID: ${tossup._id}\n`;
         textdata += `${tossup.number}. ${tossup.question}\n`;
-        textdata += `ANSWER: ${tossup.answer}\n`;
+        textdata += `ANSWER: ${tossup.unformatted_answer}\n`;
         textdata += `<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''}>\n\n`;
     }
 
@@ -335,11 +335,7 @@ function highlightTossupQuery({ tossup, regExp, searchType = 'all', ignoreWordOr
         }
 
         if (searchType === 'answer' || searchType === 'all') {
-            if (tossup.formatted_answer) {
-                tossup.formatted_answer = insertMatches(tossup.formatted_answer, tossup.unformatted_answer, word);
-            } else {
-                tossup.answer = insertMatches(tossup.answer, tossup.unformatted_answer, word);
-            }
+            tossup.formatted_answer = insertMatches(tossup.formatted_answer, tossup.unformatted_answer, word);
         }
     }
 
@@ -376,7 +372,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
     const packetName = tossup.packet.name;
 
     function clickToCopy() {
-        let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
+        let textdata = `${tossup.question}\nANSWER: ${tossup.unformatted_answer}`;
 
         let tag = '';
         if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
@@ -484,9 +480,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
                     }}></span>
                     <hr className="my-3"></hr>
                     <div>
-                        <b>ANSWER:</b> <span dangerouslySetInnerHTML={{
-                            __html: hideAnswerline ? '' : (highlightedTossup?.formatted_answer ?? highlightedTossup.answer),
-                        }}></span>
+                        <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.formatted_answer }}></span>
                     </div>
                 </div>
                 <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">

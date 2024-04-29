@@ -530,7 +530,7 @@ const socketOnNext = (message) => {
     }
 
     tossup.question = document.getElementById('question').innerHTML;
-    tossup.answer = document.getElementById('answer').innerHTML.replace('ANSWER: ', '');
+    tossup.formatted_answer = document.getElementById('answer').innerHTML.replace('ANSWER: ', '');
 
     createTossupCard(tossup);
 

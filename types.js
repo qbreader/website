@@ -38,8 +38,8 @@ import { ObjectId } from 'mongodb';
 /**
  * @typedef {object} TossupProperties
  * @property {string} question
- * @property {string} answer
- * @property {string} [formatted_answer]
+ * @property {string} unformatted_answer
+ * @property {string} formatted_answer
  * @property {"tossup"} type
  *
  * @typedef {Question & TossupProperties} Tossup
