@@ -17,11 +17,11 @@ const schemas = {
                 'description': 'The question text',
                 'type': 'string',
             },
-            'formatted_answer': {
+            'answer': {
                 'description': 'The answerline, formatted with HTML',
                 'type': 'string',
             },
-            'answer': {
+            'answer_sanitized': {
                 'description': 'The answerline, unformatted',
                 'type': 'string',
             },
@@ -87,8 +87,8 @@ const schemas = {
         'required': [
             '_id',
             'question',
-            'formatted_answer',
             'answer',
+            'answer_sanitized',
             'subcategory',
             'category',
             'packet',

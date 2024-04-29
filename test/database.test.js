@@ -113,7 +113,7 @@ async function testCorrectness() {
                 assert.propertyVal(bonuses, 'length', bonusCount, 'bonus count');
                 assert.propertyVal(bonuses[0], 'leadin', expectedFirstLeadin, 'bonuses - leadins');
                 assert.strictEqual(tossups[0].question, expectedFirstTossupQueston, 'tossups - question');
-                assert.strictEqual(tossups[0].formatted_answer, expectedFirstTossupAnswer, 'tossups - answer');
+                assert.strictEqual(tossups[0].answer, expectedFirstTossupAnswer, 'tossups - answer');
             });
         }
         {
@@ -134,7 +134,7 @@ async function testCorrectness() {
                 assert.propertyVal(bonuses, 'length', bonusCount, 'bonus count');
                 assert.propertyVal(bonuses[0], 'leadin', expectedFirstLeadin, 'bonuses - leadins');
                 assert.strictEqual(tossups[0].question, expectedFirstTossupQueston, 'tossups - question');
-                assert.strictEqual(tossups[0].formatted_answer, expectedFirstTossupAnswer, 'tossups - answer');
+                assert.strictEqual(tossups[0].answer, expectedFirstTossupAnswer, 'tossups - answer');
             });
         }
 

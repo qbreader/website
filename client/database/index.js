@@ -22,7 +22,7 @@ function escapeCSVString(string) {
   return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
 }
 function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
-  const header = ['_id', 'set.name', 'packet.number', 'number', 'question', 'answer', 'formatted_answer', 'category', 'subcategory', 'alternate_subcategory', 'difficulty', 'set._id', 'packet._id', 'createdAt', 'updatedAt'];
+  const header = ['_id', 'set.name', 'packet.number', 'number', 'question', 'answer', 'answer', 'category', 'subcategory', 'alternate_subcategory', 'difficulty', 'set._id', 'packet._id', 'createdAt', 'updatedAt'];
   let csvdata = header.join(',') + '\n';
   for (const tossup of tossups) {
     for (const key of header) {
@@ -198,7 +198,7 @@ function highlightTossupQuery({
       tossup.question = insertMatches(tossup.question, tossup.unformatted_question, word);
     }
     if (searchType === 'answer' || searchType === 'all') {
-      tossup.formatted_answer = insertMatches(tossup.formatted_answer, tossup.answer_sanitized, word);
+      tossup.answer = insertMatches(tossup.answer, tossup.answer_sanitized, word);
     }
   }
   return tossup;
@@ -344,7 +344,7 @@ function TossupCard({
     className: "my-3"
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: hideAnswerline ? '' : highlightedTossup?.formatted_answer
+      __html: hideAnswerline ? '' : highlightedTossup?.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer clickable ${!showCardFooter && 'd-none'}`,

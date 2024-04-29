@@ -39,7 +39,7 @@ import { ObjectId } from 'mongodb';
  * @typedef {object} TossupProperties
  * @property {string} question
  * @property {string} answer_sanitized
- * @property {string} formatted_answer
+ * @property {string} answer
  * @property {"tossup"} type
  *
  * @typedef {Question & TossupProperties} Tossup
