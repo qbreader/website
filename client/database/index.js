@@ -77,7 +77,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
     textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
     textdata += `Question ID: ${tossup._id}\n`;
     textdata += `${tossup.number}. ${tossup.question}\n`;
-    textdata += `ANSWER: ${tossup.unformatted_answer}\n`;
+    textdata += `ANSWER: ${tossup.answer_sanitized}\n`;
     textdata += `<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''}>\n\n`;
   }
   for (const bonus of bonuses) {
@@ -198,7 +198,7 @@ function highlightTossupQuery({
       tossup.question = insertMatches(tossup.question, tossup.unformatted_question, word);
     }
     if (searchType === 'answer' || searchType === 'all') {
-      tossup.formatted_answer = insertMatches(tossup.formatted_answer, tossup.unformatted_answer, word);
+      tossup.formatted_answer = insertMatches(tossup.formatted_answer, tossup.answer_sanitized, word);
     }
   }
   return tossup;
@@ -236,7 +236,7 @@ function TossupCard({
   const _id = tossup._id;
   const packetName = tossup.packet.name;
   function clickToCopy() {
-    let textdata = `${tossup.question}\nANSWER: ${tossup.unformatted_answer}`;
+    let textdata = `${tossup.question}\nANSWER: ${tossup.answer_sanitized}`;
     let tag = '';
     if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
       tag += `${tossup.category} / ${tossup.subcategory}`;
