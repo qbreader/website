@@ -145,9 +145,9 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
         'parts.0',
         'parts.1',
         'parts.2',
-        'unformatted_answers.0',
-        'unformatted_answers.1',
-        'unformatted_answers.2',
+        'answers_sanitized.0',
+        'answers_sanitized.1',
+        'answers_sanitized.2',
         'formatted_answers.0',
         'formatted_answers.1',
         'formatted_answers.2',
@@ -204,7 +204,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
         textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
         textdata += `${bonus.number}. ${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
-            textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.unformatted_answers[i]}\n`;
+            textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers_sanitized[i]}\n`;
         }
         textdata += `<${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''}>\n\n`;
     }
@@ -358,7 +358,7 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
 
         if (searchType === 'answer' || searchType === 'all') {
             for (let i = 0; i < bonus.formatted_answers.length; i++) {
-                bonus.formatted_answers[i] = insertMatches(bonus.formatted_answers[i], bonus.unformatted_answers[i], word);
+                bonus.formatted_answers[i] = insertMatches(bonus.formatted_answers[i], bonus.answers_sanitized[i], word);
             }
         }
     }
@@ -511,7 +511,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
         let textdata = `${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
             textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\n`;
-            textdata += `ANSWER: ${bonus.unformatted_answers[i]}\n`;
+            textdata += `ANSWER: ${bonus.answers_sanitized[i]}\n`;
         }
 
         let tag = '';
