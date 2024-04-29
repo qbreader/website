@@ -166,10 +166,10 @@ class TossupRoom {
             }));
         }
 
-        if (this.questionProgress === QuestionProgressEnum.ANSWER_REVEALED && this.tossup?.answer) {
+        if (this.questionProgress === QuestionProgressEnum.ANSWER_REVEALED && this.tossup?.formatted_answer) {
             socket.send(JSON.stringify({
                 type: 'reveal-answer',
-                answer: this.tossup.answer,
+                answer: this.tossup.formatted_answer,
             }));
         }
 
@@ -473,10 +473,6 @@ class TossupRoom {
             this.tossup = this.randomQuestionCache.pop();
         }
 
-        if (Object.prototype.hasOwnProperty.call(this.tossup, 'formatted_answer')) {
-            this.tossup.answer = this.tossup.formatted_answer;
-        }
-
         this.questionProgress = QuestionProgressEnum.READING;
         this.questionSplit = this.tossup.question.split(' ').filter(word => word !== '');
         return true;
@@ -544,7 +540,7 @@ class TossupRoom {
         const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-        const { directive, directedPrompt } = checkAnswer(this.tossup.answer, givenAnswer);
+        const { directive, directedPrompt } = checkAnswer(this.tossup.formatted_answer, givenAnswer);
         const points = scoreTossup({
             isCorrect: directive === 'accept',
             inPower,
@@ -676,7 +672,7 @@ class TossupRoom {
 
         this.sendSocketMessage({
             type: 'reveal-answer',
-            answer: this.tossup.answer,
+            answer: this.tossup.formatted_answer,
         });
 
         this.wordIndex = this.questionSplit.length;

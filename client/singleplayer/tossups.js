@@ -301,7 +301,7 @@ async function getTossups(setName, packetNumber) {
 async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
-    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].answer, givenAnswer);
+    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].formatted_answer, givenAnswer);
 
     switch (directive) {
     case 'accept':
@@ -344,14 +344,7 @@ async function loadRandomTossups({ alternateSubcategories, categories, difficult
     await fetch('/api/random-tossup?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories, standardOnly }))
         .then(response => response.json())
         .then(response => response.tossups)
-        .then(questions => {
-            for (let i = 0; i < questions.length; i++) {
-                if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer'))
-                    questions[i].answer = questions[i].formatted_answer;
-            }
-
-            randomQuestions = questions;
-        });
+        .then(questions => { randomQuestions = questions; });
 }
 
 
@@ -476,7 +469,7 @@ function readQuestion(expectedReadTime) {
 
 
 function revealQuestion() {
-    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answer;
+    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber - 1].formatted_answer;
     let question = (document.getElementById('question').innerHTML);
     if (powermarkPosition)
         question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
