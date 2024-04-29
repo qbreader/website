@@ -224,7 +224,7 @@ async function getBonusQuery(options) {
         }
 
         if (['answer', 'all'].includes(searchType)) {
-            orQuery.push({ unformatted_answers: { $regex: word, $options: 'i' } });
+            orQuery.push({ answers_sanitized: { $regex: word, $options: 'i' } });
         }
 
         andQuery.push({ $or: orQuery });
