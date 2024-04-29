@@ -44,7 +44,7 @@ fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
                     <div><b>Best celerity:</b> ${(leaderboard[i].bestCelerity ?? 0.0).toFixed(3)}</div>
                     <div><b>Average correct celerity:</b> ${(leaderboard[i].averageCorrectCelerity ?? 0).toFixed(3)}</div>
                     <div><b>Average points:</b> ${(leaderboard[i].averagePoints ?? 0.0).toFixed(2)}</div>
-                    <div><b>Answer:</b> ${buzzArray[i].formatted_answer}</div>
+                    <div><b>Answer:</b> ${buzzArray[i].answer}</div>
                 </div>
             </div>
             <hr>

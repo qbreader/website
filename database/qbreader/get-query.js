@@ -178,11 +178,11 @@ async function getTossupQuery(options) {
         const orQuery = [];
 
         if (['question', 'all'].includes(searchType)) {
-            orQuery.push({ unformatted_question: { $regex: word, $options: 'i' } });
+            orQuery.push({ question_sanitized: { $regex: word, $options: 'i' } });
         }
 
         if (['answer', 'all'].includes(searchType)) {
-            orQuery.push({ unformatted_answer: { $regex: word, $options: 'i' } });
+            orQuery.push({ answer_sanitized: { $regex: word, $options: 'i' } });
         }
 
         andQuery.push({ $or: orQuery });
@@ -219,12 +219,12 @@ async function getBonusQuery(options) {
         const orQuery = [];
 
         if (['question', 'all'].includes(searchType)) {
-            orQuery.push({ unformatted_leadin: { $regex: word, $options: 'i' } });
-            orQuery.push({ unformatted_parts: { $regex: word, $options: 'i' } });
+            orQuery.push({ leadin_sanitized: { $regex: word, $options: 'i' } });
+            orQuery.push({ parts_sanitized: { $regex: word, $options: 'i' } });
         }
 
         if (['answer', 'all'].includes(searchType)) {
-            orQuery.push({ unformatted_answers: { $regex: word, $options: 'i' } });
+            orQuery.push({ answers_sanitized: { $regex: word, $options: 'i' } });
         }
 
         andQuery.push({ $or: orQuery });
@@ -287,7 +287,7 @@ function buildQueryAggregation({ query, difficulties, categories, subcategories,
     }
 
     if (powermarkOnly) {
-        query.unformatted_question = { $regex: '\\(\\*\\)' };
+        query.question_sanitized = { $regex: '\\(\\*\\)' };
     }
 
     const aggregation = [

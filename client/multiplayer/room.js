@@ -147,20 +147,10 @@ socket.onmessage = function (event) {
         break;
 
     case 'reveal-answer': {
+        document.getElementById('question').innerHTML = tossup.question;
         document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
         document.getElementById('pause').disabled = true;
         showNextButton();
-
-        question = document.getElementById('question').innerHTML;
-        if (powermarkPosition) {
-            question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
-        }
-        const powerParts = question.split('(*)');
-        if (powerParts.length > 1) {
-            document.getElementById('question').innerHTML = `<b>${powerParts[0]}(*)</b>${powerParts[1]}`;
-        } else {
-            document.getElementById('question').textContent = question;
-        }
         break;
     }
 

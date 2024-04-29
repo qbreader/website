@@ -59,8 +59,6 @@ function TossupCard({ tossup }) {
         document.getElementById('report-reason').value = reason;
     }
 
-    const powerParts = tossup.question.split('(*)');
-
     return (
         <div className="card my-2">
             <div className="card-header d-flex justify-content-between clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
@@ -73,13 +71,9 @@ function TossupCard({ tossup }) {
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
-                    <span dangerouslySetInnerHTML={{
-                        __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question,
-                    }}></span>
+                    <span dangerouslySetInnerHTML={{ __html: tossup.question }}></span>
                     <hr className="my-3"></hr>
-                    <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{
-                        __html: tossup?.formatted_answer ?? tossup.answer,
-                    }}></span></div>
+                    <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.answer }}></span></div>
                 </div>
                 <div className="card-footer clickable" onClick={onClick} id={`fix-category-${_id}`} data-bs-toggle="modal" data-bs-target="#fix-category-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
@@ -105,7 +99,7 @@ function BonusCard({ bonus }) {
 
     function getBonusPartLabel(index, defaultValue = 10, defaultDifficulty = '') {
         const value = bonus.values ? (bonus.values[index] ?? defaultValue) : defaultValue;
-        const difficulty = bonus.difficulties ? (bonus.difficulties[index] ?? defaultDifficulty) : defaultDifficulty;
+        const difficulty = bonus.difficultyModifiers ? (bonus.difficultyModifiers[index] ?? defaultDifficulty) : defaultDifficulty;
         return `[${value}${difficulty}]`;
     }
 
@@ -140,7 +134,7 @@ function BonusCard({ bonus }) {
                             </p>
                             <div>
                                 <b>ANSWER: </b>
-                                <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i] }}></span>
+                                <span dangerouslySetInnerHTML={{ __html: bonus?.answers[i] }}></span>
                             </div>
                         </div>,
                     )}
