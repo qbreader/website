@@ -331,7 +331,7 @@ function highlightTossupQuery({ tossup, regExp, searchType = 'all', ignoreWordOr
 
     for (const word of words) {
         if (searchType === 'question' || searchType === 'all') {
-            tossup.question = insertMatches(tossup.question, tossup.unformatted_question, word);
+            tossup.question = insertMatches(tossup.question, tossup.question_sanitized, word);
         }
 
         if (searchType === 'answer' || searchType === 'all') {
@@ -350,9 +350,9 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
 
     for (const word of words) {
         if (searchType === 'question' || searchType === 'all') {
-            bonus.leadin = insertMatches(bonus.leadin, bonus.unformatted_leadin, word);
+            bonus.leadin = insertMatches(bonus.leadin, bonus.leadin_sanitized, word);
             for (let i = 0; i < bonus.parts.length; i++) {
-                bonus.parts[i] = insertMatches(bonus.parts[i], bonus.unformatted_parts[i], word);
+                bonus.parts[i] = insertMatches(bonus.parts[i], bonus.parts_sanitized[i], word);
             }
         }
 
