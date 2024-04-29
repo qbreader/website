@@ -316,7 +316,6 @@ function TossupCard({
       console.error('Error:', error);
     });
   }
-  const powerParts = highlightedTossup.question.split('(*)');
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
@@ -338,7 +337,7 @@ function TossupCard({
     }
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
+      __html: highlightedTossup.question
     }
   }), /*#__PURE__*/React.createElement("hr", {
     className: "my-3"

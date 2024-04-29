@@ -196,7 +196,7 @@ async function advanceQuestion() {
         } while (!isValidCategory(questions[questionNumber - 1], query.categories, query.subcategories));
 
         if (Object.keys(questions[0]).length > 0) {
-            questionText = questions[questionNumber - 1].question;
+            questionText = questions[questionNumber - 1].question_sanitized;
             questionTextSplit = questionText.split(' ').filter(word => word !== '');
             document.getElementById('question-number-info').textContent = questionNumber;
         }
@@ -469,13 +469,8 @@ function readQuestion(expectedReadTime) {
 
 
 function revealQuestion() {
+    document.getElementById('question').innerHTML = questions[questionNumber - 1].question;
     document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answer;
-    let question = (document.getElementById('question').innerHTML);
-    if (powermarkPosition)
-        question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
-
-    const powerParts = (question + questionTextSplit.join(' ')).split('(*)');
-    document.getElementById('question').innerHTML = `${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : powerParts[0]}`;
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('buzz').textContent = 'Buzz';
