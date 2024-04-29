@@ -12,8 +12,7 @@ async function getAnswer(packetName, division, questionNumber) {
     if (!result) {
         return '';
     } else {
-        const { answer, formatted_answer } = result;
-        return formatted_answer ?? answer;
+        return result.answer;
     }
 }
 

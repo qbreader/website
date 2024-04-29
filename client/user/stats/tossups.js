@@ -24,7 +24,7 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                             <div class="card-body">
                                 <span>${tossup.question}</span>&nbsp;
                                 <hr></hr>
-                                <div><b>ANSWER:</b> ${tossup.formatted_answer ?? tossup.answer}</div>
+                                <div><b>ANSWER:</b> ${tossup.answer}</div>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">${tossup.packet.name ? 'Packet ' + tossup.packet.name : '&nbsp;'}</small>
