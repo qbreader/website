@@ -102,7 +102,7 @@ function BonusCard({
   }
   function getBonusPartLabel(index, defaultValue = 10, defaultDifficulty = '') {
     const value = bonus.values ? bonus.values[index] ?? defaultValue : defaultValue;
-    const difficulty = bonus.difficulties ? bonus.difficulties[index] ?? defaultDifficulty : defaultDifficulty;
+    const difficulty = bonus.difficultyModifiers ? bonus.difficultyModifiers[index] ?? defaultDifficulty : defaultDifficulty;
     return `[${value}${difficulty}]`;
   }
   function onClick() {
