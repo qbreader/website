@@ -474,7 +474,7 @@ class TossupRoom {
         }
 
         this.questionProgress = QuestionProgressEnum.READING;
-        this.questionSplit = this.tossup.question.split(' ').filter(word => word !== '');
+        this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
         return true;
     }
 

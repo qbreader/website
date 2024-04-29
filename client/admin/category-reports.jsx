@@ -59,8 +59,6 @@ function TossupCard({ tossup }) {
         document.getElementById('report-reason').value = reason;
     }
 
-    const powerParts = tossup.question.split('(*)');
-
     return (
         <div className="card my-2">
             <div className="card-header d-flex justify-content-between clickable" data-bs-toggle="collapse" data-bs-target={`#question-${_id}`}>
@@ -73,9 +71,7 @@ function TossupCard({ tossup }) {
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body">
-                    <span dangerouslySetInnerHTML={{
-                        __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question,
-                    }}></span>
+                    <span dangerouslySetInnerHTML={{ __html: tossup.question }}></span>
                     <hr className="my-3"></hr>
                     <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.answer }}></span></div>
                 </div>
