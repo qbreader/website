@@ -74,13 +74,13 @@ const createBonusCard = (function () {
 
         questionCounter++;
 
-        const { leadin, parts, answers, category, subcategory, alternate_subcategory, set, packet, number, _id } = bonus;
+        const { leadin, parts, formatted_answers, category, subcategory, alternate_subcategory, set, packet, number, _id } = bonus;
 
         const bonusLength = bonus.parts.length;
 
         let cardHeader = '';
         for (let i = 0; i < bonusLength; i++) {
-            cardHeader += removeParentheses(answers[i]);
+            cardHeader += removeParentheses(formatted_answers[i]);
 
             if (i !== bonusLength - 1)
                 cardHeader += ' / ';
@@ -93,7 +93,7 @@ const createBonusCard = (function () {
                 ${getBonusPartLabel(bonus, i)} ${escapeHTML(parts[i])}
                 ${i + 1 === bonusLength ? `<a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>` : ''}
             </p>
-            <div>ANSWER: ${answers[i]}</div>`;
+            <div>ANSWER: ${formatted_answers[i]}</div>`;
         }
 
 
@@ -167,7 +167,7 @@ const createTossupCard = (function () {
 
         questionCounter++;
 
-        const { question, answer, category, subcategory, alternate_subcategory, set, packet, number, _id } = tossup;
+        const { question, formatted_answer, category, subcategory, alternate_subcategory, set, packet, number, _id } = tossup;
         const powerParts = question.replace(/<\/?b>/g, '').split('(*)');
 
         // append a card containing the question to the history element

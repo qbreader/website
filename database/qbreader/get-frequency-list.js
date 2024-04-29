@@ -74,8 +74,8 @@ async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=50
     ];
 
     const bonusAggregation = [
-        { $unwind: { path: '$answers' } },
-        { $addFields: { answer: '$answers' } },
+        { $unwind: { path: '$unformatted_answers' } },
+        { $addFields: { answer: '$unformatted_answers' } },
     ].concat(tossupAggregation);
 
     switch (questionType) {

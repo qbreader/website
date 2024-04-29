@@ -299,7 +299,7 @@ async function getRandomBonus({ alternateSubcategories, categories, difficulties
 
 
 async function giveAnswer(givenAnswer) {
-    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].answers[currentBonusPart], givenAnswer);
+    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].formatted_answers[currentBonusPart], givenAnswer);
 
     switch (directive) {
     case 'accept':
@@ -326,14 +326,7 @@ async function loadRandomBonuses({ alternateSubcategories, categories, difficult
     await fetch('/api/random-bonus?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
         .then(response => response.json())
         .then(response => response.bonuses)
-        .then(questions => {
-            for (let i = 0; i < questions.length; i++) {
-                if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answers'))
-                    questions[i].answers = questions[i].formatted_answers;
-            }
-
-            randomQuestions = questions;
-        });
+        .then(questions => { randomQuestions = questions; });
 }
 
 
@@ -406,7 +399,7 @@ function revealBonusPart() {
         return;
 
     const paragraph = document.createElement('p');
-    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answers[currentBonusPart];
+    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber - 1].formatted_answers[currentBonusPart];
     document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
     currentBonusPart++;
 
