@@ -140,7 +140,7 @@ function BonusCard({ bonus }) {
                             </p>
                             <div>
                                 <b>ANSWER: </b>
-                                <span dangerouslySetInnerHTML={{ __html: (bonus?.formatted_answers ?? bonus.answers)[i] }}></span>
+                                <span dangerouslySetInnerHTML={{ __html: bonus?.formatted_answers[i] }}></span>
                             </div>
                         </div>,
                     )}

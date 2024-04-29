@@ -127,7 +127,7 @@ function BonusCard({
     key: `${bonus._id}-${i}`
   }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", null, getBonusPartLabel(i), " "), /*#__PURE__*/React.createElement("span", null, bonus.parts[i])), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: (bonus?.formatted_answers ?? bonus.answers)[i]
+      __html: bonus?.formatted_answers[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
     className: "card-footer clickable",
