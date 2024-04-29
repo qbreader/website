@@ -50,8 +50,8 @@ import { ObjectId } from 'mongodb';
  * @typedef {object} BonusProperties
  * @property {string} leadin
  * @property {string[]} parts
- * @property {string[]} answers
- * @property {string[]} [formatted_answers]
+ * @property {string[]} unformatted_answers
+ * @property {string[]} formatted_answers
  * @property {number[]} [values]
  * @property {("e" | "m" | "h")[]} [difficulties]
  * @property {"bonus"} type

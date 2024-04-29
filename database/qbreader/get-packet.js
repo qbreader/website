@@ -32,16 +32,12 @@ function modaqifyBonus(bonus) {
         values: bonus.values ?? bonus.parts.map(() => 10),
         leadin: bonus.leadin,
         parts: bonus.parts,
-        answers: bonus.answers,
+        answers: bonus.formatted_answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>')),
         metadata: `${bonus.category} - ${bonus.subcategory}`,
     };
 
     if (bonus.difficulties) {
         result.difficultyModifiers = bonus.difficulties;
-    }
-
-    if (bonus.formatted_answers) {
-        result.answers = bonus.formatted_answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>'));
     }
 
     return result;
@@ -55,11 +51,10 @@ function modaqifyBonus(bonus) {
  * @param {Array<String>} [options.questionTypes=['tossups', 'bonuses']] - The types of questions to retrieve.
  * If only one allowed type is specified, only that type will be searched for (increasing query speed).
  * The other type will be returned as an empty array.
- * @param {boolean} [options.replaceUnformattedAnswer=true] - Whether to replace unformatted answers.
  * @param {boolean} [options.modaq=false] - Whether to output in a result compatible with MODAQ.
  * @returns {Promise<{tossups: types.Tossup[], bonuses: types.Bonus[]}>} The retrieved packet of questions.
  */
-async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], replaceUnformattedAnswer = true, modaq = false }) {
+async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], modaq = false }) {
     if (!setName || isNaN(packetNumber) || packetNumber < 1) {
         return { 'tossups': [], 'bonuses': [] };
     }
@@ -97,18 +92,6 @@ async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'b
 
     if (questionTypes.includes('bonuses')) {
         result.bonuses = values[1];
-    }
-
-    if (replaceUnformattedAnswer && !modaq) {
-        for (const tossup of result.tossups) {
-            if (Object.prototype.hasOwnProperty.call(tossup, 'formatted_answer'))
-                tossup.answer = tossup.formatted_answer;
-        }
-
-        for (const bonus of result.bonuses) {
-            if (Object.prototype.hasOwnProperty.call(bonus, 'formatted_answers'))
-                bonus.answers = bonus.formatted_answers;
-        }
     }
 
     if (modaq) {

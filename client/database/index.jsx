@@ -145,9 +145,9 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
         'parts.0',
         'parts.1',
         'parts.2',
-        'answers.0',
-        'answers.1',
-        'answers.2',
+        'unformatted_answers.0',
+        'unformatted_answers.1',
+        'unformatted_answers.2',
         'formatted_answers.0',
         'formatted_answers.1',
         'formatted_answers.2',
@@ -204,7 +204,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
         textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
         textdata += `${bonus.number}. ${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
-            textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+            textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.unformatted_answers[i]}\n`;
         }
         textdata += `<${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''}>\n\n`;
     }
@@ -361,14 +361,8 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
         }
 
         if (searchType === 'answer' || searchType === 'all') {
-            if (bonus.formatted_answers) {
-                for (let i = 0; i < bonus.formatted_answers.length; i++) {
-                    bonus.formatted_answers[i] = insertMatches(bonus.formatted_answers[i], bonus.unformatted_answers[i], word);
-                }
-            } else {
-                for (let i = 0; i < bonus.answers.length; i++) {
-                    bonus.answers[i] = insertMatches(bonus.answers[i], bonus.unformatted_answers[i], word);
-                }
+            for (let i = 0; i < bonus.formatted_answers.length; i++) {
+                bonus.formatted_answers[i] = insertMatches(bonus.formatted_answers[i], bonus.unformatted_answers[i], word);
             }
         }
     }
@@ -523,7 +517,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
         let textdata = `${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
             textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\n`;
-            textdata += `ANSWER: ${bonus.answers[i]}\n`;
+            textdata += `ANSWER: ${bonus.unformatted_answers[i]}\n`;
         }
 
         let tag = '';
@@ -636,7 +630,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
                             <div>
                                 <b>ANSWER: </b>
                                 <span dangerouslySetInnerHTML={{
-                                    __html: hideAnswerlines ? '' : (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i],
+                                    __html: hideAnswerlines ? '' : highlightedBonus?.formatted_answers[i],
                                 }}></span>
                             </div>
                         </div>,
