@@ -148,9 +148,9 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
         'answers_sanitized.0',
         'answers_sanitized.1',
         'answers_sanitized.2',
-        'formatted_answers.0',
-        'formatted_answers.1',
-        'formatted_answers.2',
+        'answers.0',
+        'answers.1',
+        'answers.2',
         'category',
         'subcategory',
         'alternate_subcategory',
@@ -357,8 +357,8 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
         }
 
         if (searchType === 'answer' || searchType === 'all') {
-            for (let i = 0; i < bonus.formatted_answers.length; i++) {
-                bonus.formatted_answers[i] = insertMatches(bonus.formatted_answers[i], bonus.answers_sanitized[i], word);
+            for (let i = 0; i < bonus.answers.length; i++) {
+                bonus.answers[i] = insertMatches(bonus.answers[i], bonus.answers_sanitized[i], word);
             }
         }
     }
@@ -624,7 +624,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
                             <div>
                                 <b>ANSWER: </b>
                                 <span dangerouslySetInnerHTML={{
-                                    __html: hideAnswerlines ? '' : highlightedBonus?.formatted_answers[i],
+                                    __html: hideAnswerlines ? '' : highlightedBonus?.answers[i],
                                 }}></span>
                             </div>
                         </div>,

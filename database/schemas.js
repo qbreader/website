@@ -126,7 +126,7 @@ const schemas = {
                 'minItems': 3,
                 'maxItems': 3,
             },
-            'formatted_answers': {
+            'answers': {
                 'description': 'The answerlines, formatted with HTML',
                 'type': 'array',
                 'items': {
@@ -135,7 +135,7 @@ const schemas = {
                 'minItems': 3,
                 'maxItems': 3,
             },
-            'answers': {
+            'answers_sanitized': {
                 'description': 'The answerlines, unformatted',
                 'type': 'array',
                 'items': {
@@ -207,8 +207,8 @@ const schemas = {
             '_id',
             'leadin',
             'parts',
-            'formatted_answers',
             'answers',
+            'answers_sanitized',
             'subcategory',
             'category',
             'packet',
