@@ -79,7 +79,7 @@ document.getElementById('form').addEventListener('submit', event => {
                         <div><b>Given answer:</b> ${escapeHTML(myBuzz.givenAnswer)}</div>
                     </div>
                     <div class="col-6">
-                        <div><b>Answer:</b> ${removeParentheses(myBuzz.formatted_answer ?? myBuzz.answer)}</div>
+                        <div><b>Answer:</b> ${removeParentheses(myBuzz.formatted_answer)}</div>
                         <div><b>Celerity:</b> ${(opponentBuzz.celerity ?? 0.0).toFixed(3)}</div>
                         <div><b>Points:</b> ${opponentBuzz.points}</div>
                         <div><b>Given answer:</b> ${escapeHTML(opponentBuzz.givenAnswer)}</div>
