@@ -14,7 +14,7 @@ async function getBuzzes(packetName, division, user_id, protests=false) {
         points: 1,
         questionNumber: 1,
         answer_sanitized: '$tossup.answer_sanitized',
-        formatted_answer: '$tossup.formatted_answer',
+        answer: '$tossup.answer',
         givenAnswer: 1,
         prompts: 1,
     };

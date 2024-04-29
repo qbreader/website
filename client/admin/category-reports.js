@@ -74,7 +74,7 @@ function TossupCard({
     className: "my-3"
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: tossup?.formatted_answer
+      __html: tossup?.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
     className: "card-footer clickable",

@@ -77,7 +77,7 @@ function TossupCard({ tossup }) {
                         __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question,
                     }}></span>
                     <hr className="my-3"></hr>
-                    <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.formatted_answer }}></span></div>
+                    <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.answer }}></span></div>
                 </div>
                 <div className="card-footer clickable" onClick={onClick} id={`fix-category-${_id}`} data-bs-toggle="modal" data-bs-target="#fix-category-modal">
                     <small className="text-muted">{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>

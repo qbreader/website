@@ -11,7 +11,7 @@ import * as types from '../../types.js';
 function modaqifyTossup(tossup) {
     const result = {
         question: tossup.question,
-        answer: tossup.formatted_answer.replace('<i>', '<em>').replace('</i>', '</em>'),
+        answer: tossup.answer.replace('<i>', '<em>').replace('</i>', '</em>'),
         metadata: `${tossup.category} - ${tossup.subcategory}`,
     };
 
