@@ -107,7 +107,7 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
  */
 function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = '') {
   const value = bonus.values ? bonus.values[index] ?? defaultValue : defaultValue;
-  const difficulty = bonus.difficulties ? bonus.difficulties[index] ?? defaultDifficulty : defaultDifficulty;
+  const difficulty = bonus.difficultyModifiers ? bonus.difficultyModifiers[index] ?? defaultDifficulty : defaultDifficulty;
   return `[${value}${difficulty}]`;
 }
 function getMatchIndices(clean, regex) {

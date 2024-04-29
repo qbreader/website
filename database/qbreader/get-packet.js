@@ -32,8 +32,8 @@ function modaqifyBonus(bonus) {
         metadata: `${bonus.category} - ${bonus.subcategory}`,
     };
 
-    if (bonus.difficulties) {
-        result.difficultyModifiers = bonus.difficulties;
+    if (bonus.difficultyModifiers) {
+        result.difficultyModifiers = bonus.difficultyModifiers;
     }
 
     return result;

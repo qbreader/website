@@ -53,7 +53,7 @@ import { ObjectId } from 'mongodb';
  * @property {string[]} answers_sanitized
  * @property {string[]} answers
  * @property {number[]} [values]
- * @property {("e" | "m" | "h")[]} [difficulties]
+ * @property {("e" | "m" | "h")[]} [difficultyModifiers]
  * @property {"bonus"} type
  *
  * @typedef {Question & BonusProperties} Bonus
