@@ -299,7 +299,7 @@ async function getRandomBonus({ alternateSubcategories, categories, difficulties
 
 
 async function giveAnswer(givenAnswer) {
-    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].formatted_answers[currentBonusPart], givenAnswer);
+    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].answers[currentBonusPart], givenAnswer);
 
     switch (directive) {
     case 'accept':
@@ -399,7 +399,7 @@ function revealBonusPart() {
         return;
 
     const paragraph = document.createElement('p');
-    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber - 1].formatted_answers[currentBonusPart];
+    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answers[currentBonusPart];
     document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
     currentBonusPart++;
 

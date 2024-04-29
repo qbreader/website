@@ -74,13 +74,13 @@ const createBonusCard = (function () {
 
         questionCounter++;
 
-        const { leadin, parts, formatted_answers, category, subcategory, alternate_subcategory, set, packet, number, _id } = bonus;
+        const { leadin, parts, answers, category, subcategory, alternate_subcategory, set, packet, number, _id } = bonus;
 
         const bonusLength = bonus.parts.length;
 
         let cardHeader = '';
         for (let i = 0; i < bonusLength; i++) {
-            cardHeader += removeParentheses(formatted_answers[i]);
+            cardHeader += removeParentheses(answers[i]);
 
             if (i !== bonusLength - 1)
                 cardHeader += ' / ';
@@ -93,7 +93,7 @@ const createBonusCard = (function () {
                 ${getBonusPartLabel(bonus, i)} ${escapeHTML(parts[i])}
                 ${i + 1 === bonusLength ? `<a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>` : ''}
             </p>
-            <div>ANSWER: ${formatted_answers[i]}</div>`;
+            <div>ANSWER: ${answers[i]}</div>`;
         }
 
 

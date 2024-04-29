@@ -51,7 +51,7 @@ import { ObjectId } from 'mongodb';
  * @property {string} leadin
  * @property {string[]} parts
  * @property {string[]} answers_sanitized
- * @property {string[]} formatted_answers
+ * @property {string[]} answers
  * @property {number[]} [values]
  * @property {("e" | "m" | "h")[]} [difficulties]
  * @property {"bonus"} type
