@@ -217,7 +217,7 @@ async function advanceQuestion() {
         query.setName = questions[0].set.name;
         query.packetNumbers = [questions[0].packet.number];
 
-        questionText = questions[0].question;
+        questionText = questions[0].question_sanitized;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');
         document.getElementById('question-number-info').textContent = questions[0].number;
         questionNumber = 1;
