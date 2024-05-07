@@ -78,7 +78,7 @@ class TossupRoom {
             selectBySetName: false,
             skip: false,
             timer: true,
-            includeBot: false
+            includeBot: false,
         };
 
         this.rateLimitExceeded = new Set();
@@ -304,8 +304,8 @@ class TossupRoom {
                     type: 'join',
                     isNew: true,
                     userId: 'QuizBotId',
-                    username: "QuizBot",
-                    user: this.players['QuizBotId'],
+                    username: 'QuizBot',
+                    user: this.players.QuizBotId,
                 });
             } else {
                 this.quizBot = null;
@@ -505,7 +505,7 @@ class TossupRoom {
         return true;
     }
 
-    buzz(userId) {
+    async buzz(userId) {
         if (!this.settings.rebuzz && this.buzzes.includes(userId)) {
             return;
         }
@@ -529,23 +529,18 @@ class TossupRoom {
             // otherwise, remove the <b> and <u> tags. this might be redundant and useless.
             const regex = /<u>(.*?)<\/u>/g;
             const matchedText = this.tossup.answer.match(regex);
-            var parsedText = "";
+            let parsedAnswer = '';
             if (matchedText != null) {
-                parsedText = matchedText[0].slice(3, -4);
+                parsedAnswer = matchedText[0].slice(3, -4);
             } else {
-                parsedText = this.tossup.answer.replace("<b>", "").replace("</b>", "").replace("<u>", "").replace("</u>", "");
+                parsedAnswer = this.tossup.answer.replace('<b>', '').replace('</b>', '').replace('<u>', '').replace('</u>', '');
             }
 
-            this.sendSocketMessage({
-                type: 'give-answer-live-update',
-                username: 'QuizBot',
-                message: parsedText,
-            });
+            await wait(1000);
+            await this.simulateTyping(parsedAnswer, 100);
+            await wait(1000);
 
-            // i don't think this actually works
-            waitTwoSeconds();
-
-            this.giveAnswer("QuizBotId", parsedText);
+            this.giveAnswer('QuizBotId', parsedAnswer);
             return;
         }        
 
@@ -581,8 +576,8 @@ class TossupRoom {
         this.players[userId] = new Player(userId);
 
         // without this code, the log just says "correctly answered for 10 points"
-        if (userId == "QuizBotId") {
-            this.players["QuizBotId"].username = "QuizBot";
+        if (userId == 'QuizBotId') {
+            this.players.QuizBotId.username = 'QuizBot';
         }
     }
 
@@ -762,6 +757,19 @@ class TossupRoom {
         }
     }
 
+    async simulateTyping(text, delay) {
+        let botAnswer = '';
+        for (let char of text) {
+            botAnswer += char;
+            await new Promise(resolve => setTimeout(resolve, delay));
+            this.sendSocketMessage({
+                type: 'give-answer-live-update',
+                username: 'QuizBot',
+                message: botAnswer,
+            });
+        }
+    }
+
     /**
      *
      * @param {number} time
@@ -820,10 +828,9 @@ function createAndReturnRoom(roomName, isPrivate = false) {
     return tossupRooms[roomName];
 }
 
-async function waitTwoSeconds() {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    console.log("Waited for 2 seconds!");
-  }
+async function wait(time) {
+    await new Promise(resolve => setTimeout(resolve, time));
+}
 
 
 export { createAndReturnRoom, tossupRooms };

@@ -965,7 +965,7 @@ document.getElementById('toggle-bot').addEventListener('click', function () {
             tuh: 0,
             points: 0,
             celerity: 0,
-            isOnline: true // You might want to always consider the bot as online
+            isOnline: true, // You might want to always consider the bot as online
         };
         
         upsertPlayerItem(quizBotPlayer);
@@ -974,7 +974,7 @@ document.getElementById('toggle-bot').addEventListener('click', function () {
     }
     this.blur();
     socket.send(JSON.stringify({ type: 'toggle-bot', bot: this.checked }));
-    console.log("socket.send was attempted");
+    console.log('socket.send was attempted');
 });
 
 
