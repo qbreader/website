@@ -277,6 +277,10 @@ class TossupRoom {
             break;
 
         case 'reading-speed':
+            if (isNaN(message.value)) {
+                return;
+            }
+
             this.settings.readingSpeed = message.value;
             this.sendSocketMessage({
                 type: 'reading-speed',
