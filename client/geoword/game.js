@@ -1,3 +1,5 @@
+import { titleCase } from '../utilities/strings.js';
+
 const packetName = window.location.pathname.split('/').pop();
 const packetTitle = titleCase(packetName);
 
@@ -61,8 +63,6 @@ async function checkGeowordAnswer(givenAnswer, questionNumber) {
 }
 
 async function giveAnswer(givenAnswer) {
-    currentlyBuzzing = false;
-
     const { actualAnswer, directive, directedPrompt } = await checkGeowordAnswer(givenAnswer, currentQuestionNumber);
 
     switch (directive) {

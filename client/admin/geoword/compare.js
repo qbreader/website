@@ -1,3 +1,5 @@
+import { escapeHTML } from '../../utilities/strings.js';
+
 function removeParentheses(answer) {
     return answer.replace(/[([].*/g, '');
 }
@@ -156,6 +158,7 @@ document.getElementById('form').addEventListener('submit', event => {
 
 
 document.getElementById('division').addEventListener('change', event => {
+    const packetName = document.getElementById('packet').value;
     const division = event.target.value;
     updatePlayerLists(packetName, division);
 });
