@@ -6,6 +6,7 @@
     "globals": {
         "bootstrap": "readonly",
         "React": "readonly",
+        "ReactDOM": "readonly",
         "$": "readonly"
     },
     "ignorePatterns": [
