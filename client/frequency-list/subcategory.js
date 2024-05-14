@@ -32,10 +32,10 @@ function updateFrequencyListDisplay(level, limit, questionType) {
             const { frequencyList } = response;
 
             for (const index in frequencyList) {
-                const { answer, count } = frequencyList[index];
+                const { answer_sanitized, count } = frequencyList[index];
                 const row = table.insertRow();
                 row.insertCell().textContent = parseInt(index) + 1;
-                row.insertCell().textContent = answer;
+                row.insertCell().textContent = answer_sanitized;
                 row.insertCell().textContent = count;
             }
 

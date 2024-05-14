@@ -139,7 +139,6 @@ const createTossupCard = (function () {
         questionCounter++;
 
         const { question, answer, category, subcategory, alternate_subcategory, set, packet, number, _id } = tossup;
-        const powerParts = question.replace(/<\/?b>/g, '').split('(*)');
 
         // append a card containing the question to the history element
         const card = document.createElement('div');
@@ -157,7 +156,7 @@ const createTossupCard = (function () {
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
-                    ${powerParts.length > 1 ? '<b>' + escapeHTML(powerParts[0]) + '(*)</b>' + escapeHTML(powerParts[1]) : escapeHTML(question)}
+                    ${question}
                     <a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                     <hr></hr>
                     <div>ANSWER: ${answer}</div>
@@ -216,7 +215,7 @@ const createTossupCard = (function () {
  */
 function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = '') {
     const value = bonus.values ? (bonus.values[index] ?? defaultValue) : defaultValue;
-    const difficulty = bonus.difficulties ? (bonus.difficulties[index] ?? defaultDifficulty) : defaultDifficulty;
+    const difficulty = bonus.difficultyModifiers ? (bonus.difficultyModifiers[index] ?? defaultDifficulty) : defaultDifficulty;
     return `[${value}${difficulty}]`;
 }
 

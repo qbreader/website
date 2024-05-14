@@ -94,26 +94,36 @@ function escapeCSVString(string) {
 function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
     const header = [
         '_id',
+        'set.name',
+        'packet.number',
+        'number',
         'question',
         'answer',
-        'formatted_answer',
+        'answer',
         'category',
         'subcategory',
-        'setName',
-        'packetNumber',
-        'questionNumber',
+        'alternate_subcategory',
         'difficulty',
-        'setYear',
-        'set',
-        'packet',
+        'set._id',
+        'packet._id',
         'createdAt',
         'updatedAt',
     ];
 
     let csvdata = header.join(',') + '\n';
     for (const tossup of tossups) {
-        for (const key of header)
-            csvdata += escapeCSVString(tossup[key]) + ',';
+        for (const key of header) {
+            const parts = key.split('.');
+            let value = tossup;
+            for (const part of parts) {
+                if (value === undefined) {
+                    break;
+                } else {
+                    value = value[part];
+                }
+            }
+            csvdata += escapeCSVString(value) + ',';
+        }
 
         csvdata = csvdata.slice(0, -1);
         csvdata += '\n';
@@ -130,25 +140,25 @@ function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
 function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
     const header = [
         '_id',
+        'set.name',
+        'packet.number',
+        'number',
         'leadin',
         'parts.0',
         'parts.1',
         'parts.2',
+        'answers_sanitized.0',
+        'answers_sanitized.1',
+        'answers_sanitized.2',
         'answers.0',
         'answers.1',
         'answers.2',
-        'formatted_answers.0',
-        'formatted_answers.1',
-        'formatted_answers.2',
         'category',
         'subcategory',
-        'setName',
-        'packetNumber',
-        'questionNumber',
+        'alternate_subcategory',
         'difficulty',
-        'setYear',
-        'set',
-        'packet',
+        'set._id',
+        'packet._id',
         'createdAt',
         'updatedAt',
     ];
@@ -156,16 +166,17 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
     let csvdata = header.join(',') + '\n';
     for (const bonus of bonuses) {
         for (const key of header) {
-            if (key.includes('parts') || key.includes('answers') || key.includes('formatted_answers')) {
-                const [mainKey, index] = key.split('.');
-                if (mainKey in bonus) {
-                    csvdata += escapeCSVString(bonus[mainKey][index]) + ',';
+            const parts = key.split('.');
+            let value = bonus;
+            for (const part of parts) {
+                if (value === undefined) {
+                    break;
                 } else {
-                    csvdata += ',';
+                    value = value[part];
                 }
-            } else {
-                csvdata += escapeCSVString(bonus[key]) + ',';
             }
+
+            csvdata += escapeCSVString(value) + ',';
         }
 
         csvdata = csvdata.slice(0, -1);
@@ -182,22 +193,22 @@ function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
 
 function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
     let textdata = '';
-    for (let tossup of tossups) {
+    for (const tossup of tossups) {
         textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
         textdata += `Question ID: ${tossup._id}\n`;
         textdata += `${tossup.number}. ${tossup.question}\n`;
-        textdata += `ANSWER: ${tossup.answer}\n`;
-        textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
+        textdata += `ANSWER: ${tossup.answer_sanitized}\n`;
+        textdata += `<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''}>\n\n`;
     }
 
-    for (let bonus of bonuses) {
-        textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
+    for (const bonus of bonuses) {
         textdata += `Question ID: ${bonus._id}\n`;
+        textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
         textdata += `${bonus.number}. ${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
-            textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
+            textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers_sanitized[i]}\n`;
         }
-        textdata += `<${bonus.category} / ${bonus.subcategory}>\n\n`;
+        textdata += `<${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''}>\n\n`;
     }
 
     const hiddenElement = document.createElement('a');
@@ -306,15 +317,11 @@ function highlightTossupQuery({ tossup, regExp, searchType = 'all', ignoreWordOr
 
     for (const word of words) {
         if (searchType === 'question' || searchType === 'all') {
-            tossup.question = insertMatches(tossup.question, tossup.unformatted_question, word);
+            tossup.question = insertMatches(tossup.question, tossup.question_sanitized, word);
         }
 
         if (searchType === 'answer' || searchType === 'all') {
-            if (tossup.formatted_answer) {
-                tossup.formatted_answer = insertMatches(tossup.formatted_answer, tossup.unformatted_answer, word);
-            } else {
-                tossup.answer = insertMatches(tossup.answer, tossup.unformatted_answer, word);
-            }
+            tossup.answer = insertMatches(tossup.answer, tossup.answer_sanitized, word);
         }
     }
 
@@ -329,21 +336,15 @@ function highlightBonusQuery({ bonus, regExp, searchType = 'all', ignoreWordOrde
 
     for (const word of words) {
         if (searchType === 'question' || searchType === 'all') {
-            bonus.leadin = insertMatches(bonus.leadin, bonus.unformatted_leadin, word);
+            bonus.leadin = insertMatches(bonus.leadin, bonus.leadin_sanitized, word);
             for (let i = 0; i < bonus.parts.length; i++) {
-                bonus.parts[i] = insertMatches(bonus.parts[i], bonus.unformatted_parts[i], word);
+                bonus.parts[i] = insertMatches(bonus.parts[i], bonus.parts_sanitized[i], word);
             }
         }
 
         if (searchType === 'answer' || searchType === 'all') {
-            if (bonus.formatted_answers) {
-                for (let i = 0; i < bonus.formatted_answers.length; i++) {
-                    bonus.formatted_answers[i] = insertMatches(bonus.formatted_answers[i], bonus.unformatted_answers[i], word);
-                }
-            } else {
-                for (let i = 0; i < bonus.answers.length; i++) {
-                    bonus.answers[i] = insertMatches(bonus.answers[i], bonus.unformatted_answers[i], word);
-                }
+            for (let i = 0; i < bonus.answers.length; i++) {
+                bonus.answers[i] = insertMatches(bonus.answers[i], bonus.answers_sanitized[i], word);
             }
         }
     }
@@ -357,7 +358,7 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
     const packetName = tossup.packet.name;
 
     function clickToCopy() {
-        let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
+        let textdata = `${tossup.question}\nANSWER: ${tossup.answer_sanitized}`;
 
         let tag = '';
         if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
@@ -446,8 +447,6 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
             });
     }
 
-    const powerParts = highlightedTossup.question.split('(*)');
-
     return (
         <div className="card my-2">
             <div className="card-header d-flex justify-content-between">
@@ -460,14 +459,10 @@ function TossupCard({ tossup, highlightedTossup, hideAnswerline, showCardFooter,
             </div>
             <div className="card-container collapse show" id={`question-${_id}`}>
                 <div className="card-body" style={{ 'fontSize': `${fontSize}px` }}>
-                    <span dangerouslySetInnerHTML={{
-                        __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question,
-                    }}></span>
+                    <span dangerouslySetInnerHTML={{ __html: highlightedTossup.question }}></span>
                     <hr className="my-3"></hr>
                     <div>
-                        <b>ANSWER:</b> <span dangerouslySetInnerHTML={{
-                            __html: hideAnswerline ? '' : (highlightedTossup?.formatted_answer ?? highlightedTossup.answer),
-                        }}></span>
+                        <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.answer }}></span>
                     </div>
                 </div>
                 <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle="modal" data-bs-target="#tossup-stats-modal">
@@ -498,7 +493,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
         let textdata = `${bonus.leadin}\n`;
         for (let i = 0; i < bonus.parts.length; i++) {
             textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\n`;
-            textdata += `ANSWER: ${bonus.answers[i]}\n`;
+            textdata += `ANSWER: ${bonus.answers_sanitized[i]}\n`;
         }
 
         let tag = '';
@@ -611,7 +606,7 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
                             <div>
                                 <b>ANSWER: </b>
                                 <span dangerouslySetInnerHTML={{
-                                    __html: hideAnswerlines ? '' : (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i],
+                                    __html: hideAnswerlines ? '' : highlightedBonus?.answers[i],
                                 }}></span>
                             </div>
                         </div>,

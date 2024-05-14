@@ -197,7 +197,7 @@ async function advanceQuestion() {
         } while (!categoryManager.isValidCategory(questions[questionNumber - 1]));
 
         if (Object.keys(questions[0]).length > 0) {
-            questionText = questions[questionNumber - 1].question;
+            questionText = questions[questionNumber - 1].question_sanitized;
             questionTextSplit = questionText.split(' ').filter(word => word !== '');
             document.getElementById('question-number-info').textContent = questionNumber;
         }
@@ -218,7 +218,7 @@ async function advanceQuestion() {
         query.setName = questions[0].set.name;
         query.packetNumbers = [questions[0].packet.number];
 
-        questionText = questions[0].question;
+        questionText = questions[0].question_sanitized;
         questionTextSplit = questionText.split(' ').filter(word => word !== '');
         document.getElementById('question-number-info').textContent = questions[0].number;
         questionNumber = 1;
@@ -345,14 +345,7 @@ async function loadRandomTossups({ alternateSubcategories, categories, difficult
     await fetch('/api/random-tossup?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories, standardOnly }))
         .then(response => response.json())
         .then(response => response.tossups)
-        .then(questions => {
-            for (let i = 0; i < questions.length; i++) {
-                if (Object.prototype.hasOwnProperty.call(questions[i], 'formatted_answer'))
-                    questions[i].answer = questions[i].formatted_answer;
-            }
-
-            randomQuestions = questions;
-        });
+        .then(questions => { randomQuestions = questions; });
 }
 
 
@@ -477,13 +470,8 @@ function readQuestion(expectedReadTime) {
 
 
 function revealQuestion() {
+    document.getElementById('question').innerHTML = questions[questionNumber - 1].question;
     document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answer;
-    let question = (document.getElementById('question').innerHTML);
-    if (powermarkPosition)
-        question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
-
-    const powerParts = (question + questionTextSplit.join(' ')).split('(*)');
-    document.getElementById('question').innerHTML = `${powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : powerParts[0]}`;
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('buzz').textContent = 'Buzz';
