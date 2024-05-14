@@ -1,3 +1,5 @@
+import { attachDropdownChecklist, getDropdownValues } from '../../utilities/dropdown-checklist.js';
+
 function showBonusGraphStats({ cumulative = false, difficulties = '', filterLowData = true, setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
     fetch('/auth/user-stats/bonus-graph?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
         .then(response => {
@@ -73,7 +75,7 @@ function onSubmit(event = null) {
     }
 
     const setName = document.getElementById('set-name').value;
-    const difficulties = getDifficulties();
+    const difficulties = getDropdownValues('difficulties');
     const includeMultiplayer = document.getElementById('include-multiplayer').checked;
     const includeSingleplayer = document.getElementById('include-singleplayer').checked;
     const startDate = document.getElementById('start-date').value;
@@ -85,6 +87,7 @@ function onSubmit(event = null) {
 
 document.getElementById('cumulative').addEventListener('change', onSubmit);
 document.getElementById('filter').addEventListener('change', onSubmit);
+document.getElementById('form').addEventListener('submit', onSubmit);
 
 const questionCountChart = new Chart('question-count', {
     type: 'line',
@@ -133,4 +136,5 @@ const resultPerBonus = new Chart('result-per-bonus', {
     },
 });
 
+attachDropdownChecklist();
 showBonusGraphStats();
