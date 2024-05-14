@@ -10,7 +10,6 @@ const categoryManager = new CategoryManager();
 let changedCategories = false;
 
 let maxPacketNumber = 24;
-let powermarkPosition = 0;
 
 /**
  * userId to player object
@@ -156,17 +155,6 @@ socket.onmessage = function (event) {
         document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
         document.getElementById('pause').disabled = true;
         showNextButton();
-
-        let question = document.getElementById('question').innerHTML;
-        if (powermarkPosition) {
-            question = question.slice(0, powermarkPosition) + '(*) ' + question.slice(powermarkPosition);
-        }
-        const powerParts = question.split('(*)');
-        if (powerParts.length > 1) {
-            document.getElementById('question').innerHTML = `<b>${powerParts[0]}(*)</b>${powerParts[1]}`;
-        } else {
-            document.getElementById('question').textContent = question;
-        }
         break;
     }
 
@@ -243,9 +231,7 @@ socket.onmessage = function (event) {
         break;
 
     case 'update-question':
-        if (data.word === '(*)') {
-            powermarkPosition = document.getElementById('question').innerHTML.length;
-        } else {
+        if (data.word !== '(*)') {
             document.getElementById('question').innerHTML += data.word + ' ';
         }
         break;
@@ -307,23 +293,6 @@ const socketOnClearStats = (message) => {
 const socketOnConnectionAcknowledged = async (message) => {
     USER_ID = message.userId;
     localStorage.setItem('USER_ID', USER_ID);
-
-    categoryManager.import(message.validCategories, message.validSubcategories, message.validAlternateSubcategories);
-    categoryManager.loadCategoryModal();
-
-    updateDifficulties(message.difficulties || []);
-    document.getElementById('set-name').value = message.setName || '';
-    document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
-
-    maxPacketNumber = await api.getNumPackets(document.getElementById('set-name').value);
-    if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
-        document.getElementById('set-name').classList.add('is-invalid');
-    }
-
-    tossup = message.tossup;
-    document.getElementById('set-name-info').textContent = message.tossup?.set?.name ?? '';
-    document.getElementById('packet-number-info').textContent = message.tossup?.packet?.number ?? '-';
-    document.getElementById('question-number-info').textContent = message.tossup?.number ?? '-';
 
     document.getElementById('chat').disabled = message.public;
     document.getElementById('toggle-rebuzz').checked = message.rebuzz;
@@ -547,7 +516,6 @@ const socketOnNext = (message) => {
     document.getElementById('options').classList.add('d-none');
     showSkipButton();
     document.getElementById('question').textContent = '';
-    powermarkPosition = 0;
     document.getElementById('answer').textContent = '';
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
@@ -569,7 +537,6 @@ const socketOnStart = (message) => {
     logEvent(message.username, 'started the game');
 
     document.getElementById('question').textContent = '';
-    powermarkPosition = 0;
     document.getElementById('answer').textContent = '';
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
