@@ -62,7 +62,7 @@ const createBonusCard = (function () {
         for (let i = 0; i < bonusLength; i++) {
             cardBody += `<hr></hr>
             <p>
-                ${getBonusPartLabel(bonus, i)} ${escapeHTML(parts[i])}
+                ${getBonusPartLabel(bonus, i)} ${parts[i]}
                 ${i + 1 === bonusLength ? `<a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>` : ''}
             </p>
             <div>ANSWER: ${answers[i]}</div>`;
@@ -85,7 +85,7 @@ const createBonusCard = (function () {
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
-                    <p>${escapeHTML(leadin)}</p>
+                    <p>${leadin}</p>
                     ${cardBody}
                 </div>
                 <div class="card-footer">
