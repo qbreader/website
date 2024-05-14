@@ -15,8 +15,7 @@ let powermarkPosition = 0;
  */
 const players = {};
 
-// Do not escape room name, as most browsers automatically do this
-const ROOM_NAME = location.pathname.substring(13);
+const ROOM_NAME = decodeURIComponent(location.pathname.substring(13));
 let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
 let username = localStorage.getItem('multiplayer-username') || randomUsername();
@@ -77,6 +76,14 @@ socket.onmessage = function (event) {
 
     case 'connection-acknowledged':
         socketOnConnectionAcknowledged(data);
+        break;
+
+    case 'connection-acknowledged-query':
+        socketOnConnectionAcknowledgedQuery(data);
+        break;
+
+    case 'connection-acknowledged-tossup':
+        socketOnConnectionAcknowledgedTossup(data);
         break;
 
     case 'end-of-set':
@@ -143,6 +150,7 @@ socket.onmessage = function (event) {
         break;
 
     case 'reveal-answer': {
+        document.getElementById('question').innerHTML = tossup.question;
         document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
         document.getElementById('pause').disabled = true;
         showNextButton();
@@ -276,6 +284,12 @@ const socketOnChangeUsername = (message) => {
     document.getElementById('username-' + message.userId).textContent = message.newUsername;
     players[message.userId].username = message.newUsername;
     sortPlayerListGroup();
+
+    if (message.userId === USER_ID) {
+        username = message.newUsername;
+        localStorage.setItem('multiplayer-username', username);
+        document.getElementById('username').value = username;
+    }
 };
 
 
@@ -331,12 +345,6 @@ const socketOnConnectionAcknowledged = async (message) => {
         document.getElementById('set-settings').classList.add('d-none');
     }
 
-    document.getElementById('toggle-powermark-only').disabled = message.selectBySetName;
-    document.getElementById('toggle-standard-only').disabled = message.selectBySetName;
-
-    document.getElementById('toggle-powermark-only').checked = message.powermarkOnly;
-    document.getElementById('toggle-standard-only').checked = message.standardOnly;
-
     switch (message.questionProgress) {
     case 0:
         document.getElementById('next').textContent = 'Start';
@@ -368,11 +376,6 @@ const socketOnConnectionAcknowledged = async (message) => {
         document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
     }
 
-    $('#slider').slider('values', 0, message.minYear);
-    $('#slider').slider('values', 1, message.maxYear);
-    document.getElementById('year-range-a').textContent = message.minYear;
-    document.getElementById('year-range-b').textContent = message.maxYear;
-
     Object.keys(message.players).forEach(userId => {
         message.players[userId].celerity = message.players[userId].celerity.correct.average;
         players[userId] = message.players[userId];
@@ -384,6 +387,40 @@ const socketOnConnectionAcknowledged = async (message) => {
     }
 
     sortPlayerListGroup();
+};
+
+const socketOnConnectionAcknowledgedTossup = (message) => {
+    tossup = message.tossup;
+    document.getElementById('set-name-info').textContent = tossup?.set?.name ?? '';
+    document.getElementById('packet-number-info').textContent = tossup?.packet?.number ?? '-';
+    document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
+};
+
+const socketOnConnectionAcknowledgedQuery = async (message) => {
+    validCategories = message.validCategories || [];
+    validSubcategories = message.validSubcategories || [];
+    validAlternateSubcategories = message.validAlternateSubcategories || [];
+    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+
+    updateDifficulties(message.difficulties || []);
+    document.getElementById('set-name').value = message.setName || '';
+    document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
+
+    maxPacketNumber = await getNumPackets(document.getElementById('set-name').value);
+    if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
+        document.getElementById('set-name').classList.add('is-invalid');
+    }
+
+    document.getElementById('toggle-powermark-only').disabled = message.selectBySetName;
+    document.getElementById('toggle-standard-only').disabled = message.selectBySetName;
+
+    document.getElementById('toggle-powermark-only').checked = message.powermarkOnly;
+    document.getElementById('toggle-standard-only').checked = message.standardOnly;
+
+    $('#slider').slider('values', 0, message.minYear);
+    $('#slider').slider('values', 1, message.maxYear);
+    document.getElementById('year-range-a').textContent = message.minYear;
+    document.getElementById('year-range-b').textContent = message.maxYear;
 };
 
 const socketOnEndOfSet = () => {

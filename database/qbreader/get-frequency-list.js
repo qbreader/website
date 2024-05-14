@@ -58,7 +58,7 @@ async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=50
         { $match: { subcategory, difficulty: { $in: difficulties } } },
         { $addFields: {
             // This is a regex that matches everything before the first open parenthesis or bracket.
-            regex: { $regexFind: { input: '$answer', regex: /^[^[(]*/ } },
+            regex: { $regexFind: { input: '$answer_sanitized', regex: /^[^[(]*/ } },
         } },
         { $addFields: {
             // This is a regex that matches everything outside of parentheses ()
@@ -69,13 +69,13 @@ async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=50
         } },
         { $group: { _id: '$sanitized_answer', count: { $sum: 1 } } },
         { $match: { _id: { $ne: null } } },
-        { $addFields: { answer: '$_id' } },
-        { $sort: { answer: 1 } },
+        { $addFields: { answer_sanitized: '$_id' } },
+        { $sort: { answer_sanitized: 1 } },
     ];
 
     const bonusAggregation = [
-        { $unwind: { path: '$answers' } },
-        { $addFields: { answer: '$answers' } },
+        { $unwind: { path: '$answers_sanitized' } },
+        { $addFields: { answer_sanitized: '$answers_sanitized' } },
     ].concat(tossupAggregation);
 
     switch (questionType) {
@@ -109,8 +109,8 @@ async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=50
     const frequencyList = mergeTwoSortedArrays(
         tossupList,
         bonusList,
-        (a) => a.answer,
-        (a, b) => ({ answer: a.answer, count: a.count + b.count }),
+        (a) => a.answer_sanitized,
+        (a, b) => ({ answer_sanitized: a.answer_sanitized, count: a.count + b.count }),
     );
 
     frequencyList.sort((a, b) => b.count - a.count);

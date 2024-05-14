@@ -2,7 +2,7 @@ import Player from './Player.js';
 import RateLimit from './RateLimit.js';
 
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS } from '../constants.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from '../constants.js';
 import getRandomTossups from '../database/qbreader/get-random-tossups.js';
 import getSet from '../database/qbreader/get-set.js';
 
@@ -35,6 +35,9 @@ class TossupRoom {
         this.name = name;
         this.isPermanent = isPermanent;
 
+        /**
+         * @type {Object.<string, Player>}
+         */
         this.players = {};
         this.sockets = {};
 
@@ -87,6 +90,13 @@ class TossupRoom {
     }
 
     connection(socket, userId, username) {
+        const isNew = !(userId in this.players);
+        if (isNew) {
+            this.createPlayer(userId);
+        }
+        username = this.players[userId].updateUsername(username);
+        this.players[userId].isOnline = true;
+
         console.log(`Connection in room ${HEADER}${this.name}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
         socket.on('message', message => {
             if (rateLimiter(socket) && !this.rateLimitExceeded.has(username)) {
@@ -119,13 +129,6 @@ class TossupRoom {
 
         this.sockets[userId] = socket;
 
-        const isNew = !(userId in this.players);
-        if (isNew) {
-            this.createPlayer(userId);
-        }
-        this.players[userId].updateUsername(username);
-        this.players[userId].isOnline = true;
-
         socket.send(JSON.stringify({
             type: 'connection-acknowledged',
             userId: userId,
@@ -136,19 +139,7 @@ class TossupRoom {
 
             canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
             buzzedIn: this.buzzedIn,
-            tossup: this.tossup,
             questionProgress: this.questionProgress,
-
-            difficulties: this.query.difficulties,
-            minYear: this.query.minYear,
-            maxYear: this.query.maxYear,
-            packetNumbers: this.query.packetNumbers,
-            setName: this.query.setName,
-            validCategories: this.query.categories,
-            validSubcategories: this.query.subcategories,
-            validAlternateSubcategories: this.query.alternateSubcategories,
-            powermarkOnly: this.query.powermarkOnly,
-            standardOnly: this.query.standardOnly,
 
             public: this.settings.public,
             readingSpeed: this.settings.readingSpeed,
@@ -156,6 +147,16 @@ class TossupRoom {
             selectBySetName: this.settings.selectBySetName,
             skip: this.settings.skip,
             timer: this.settings.timer,
+        }));
+
+        socket.send(JSON.stringify({
+            type: 'connection-acknowledged-query',
+            ...this.query,
+        }));
+
+        socket.send(JSON.stringify({
+            type: 'connection-acknowledged-tossup',
+            tossup: this.tossup,
         }));
 
         if (this.questionProgress !== QuestionProgressEnum.NOT_STARTED && this.tossup?.question) {
@@ -189,15 +190,17 @@ class TossupRoom {
             this.buzz(userId);
             break;
 
-        case 'change-username':
+        case 'change-username': {
+            const oldUsername = this.players[userId].username;
+            const newUsername = this.players[userId].updateUsername(message.username);
             this.sendSocketMessage({
                 type: 'change-username',
                 userId: userId,
-                oldUsername: this.players[userId].username,
-                newUsername: message.username,
+                oldUsername: oldUsername,
+                newUsername: newUsername,
             });
-            this.players[userId].updateUsername(message.username);
             break;
+        }
 
         case 'chat':
             this.sendSocketMessage({
@@ -274,6 +277,10 @@ class TossupRoom {
             break;
 
         case 'reading-speed':
+            if (isNaN(message.value)) {
+                return;
+            }
+
             this.settings.readingSpeed = message.value;
             this.sendSocketMessage({
                 type: 'reading-speed',
@@ -470,12 +477,8 @@ class TossupRoom {
             this.tossup = this.randomQuestionCache.pop();
         }
 
-        if (Object.prototype.hasOwnProperty.call(this.tossup, 'formatted_answer')) {
-            this.tossup.answer = this.tossup.formatted_answer;
-        }
-
         this.questionProgress = QuestionProgressEnum.READING;
-        this.questionSplit = this.tossup.question.split(' ').filter(word => word !== '');
+        this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
         return true;
     }
 
@@ -735,6 +738,7 @@ for (const room of PERMANENT_ROOMS) {
  */
 function createAndReturnRoom(roomName, isPrivate = false) {
     roomName = DOMPurify.sanitize(roomName);
+    roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
 
     if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
         const newRoom = new TossupRoom(roomName, false);
