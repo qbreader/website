@@ -1,4 +1,5 @@
 import star from '../../api/auth/star.js';
+import { getBonusPartLabel } from '../../utilities/index.js';
 
 const bonuses = await star.getStarredBonuses();
 const bonusList = document.getElementById('bonus-list');
@@ -58,10 +59,4 @@ for (const bonus of bonuses) {
             this.classList.toggle('selected');
         }
     });
-}
-
-function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = '') {
-    const value = bonus.values ? (bonus.values[index] ?? defaultValue) : defaultValue;
-    const difficulty = bonus.difficulties ? (bonus.difficulties[index] ?? defaultDifficulty) : defaultDifficulty;
-    return `[${value}${difficulty}]`;
 }

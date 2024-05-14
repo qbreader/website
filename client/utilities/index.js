@@ -261,6 +261,7 @@ export {
     arrayToRange,
     createBonusCard,
     createTossupCard,
+    getBonusPartLabel,
     rangeToArray,
     removeParentheses,
 };
