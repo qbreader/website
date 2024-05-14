@@ -1,7 +1,7 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import CategoryManager from '../utilities/category-manager.js';
-import { getDropdownValues } from '../utilities/dropdown-checklist.js';
+import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
 import { getBonusPartLabel } from '../utilities/index.js';
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
@@ -838,6 +838,7 @@ function QueryForm() {
     }));
   }
   React.useEffect(async () => {
+    attachDropdownChecklist();
     document.getElementById('difficulties').addEventListener('change', function () {
       setDifficulties(getDropdownValues('difficulties'));
     });
