@@ -307,12 +307,9 @@ async function giveAnswer(givenAnswer) {
 }
 
 
-async function loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number = 1, subcategories, threePartBonuses }) {
+async function loadRandomBonuses({ alternateSubcategories, categories, difficulties, maxYear, minYear, number = 1, subcategories, threePartBonuses }) {
     randomQuestions = [];
-    await fetch('/api/random-bonus?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
-        .then(response => response.json())
-        .then(response => response.bonuses)
-        .then(questions => { randomQuestions = questions; });
+    randomQuestions = await api.getRandomBonus({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses });
 }
 
 

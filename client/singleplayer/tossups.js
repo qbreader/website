@@ -322,12 +322,9 @@ function isPace(setName) {
     return setName.includes('PACE');
 }
 
-async function loadRandomTossups({ alternateSubcategories, categories, difficulties, minYear, maxYear, number = 1, powermarkOnly, subcategories, standardOnly }) {
+async function loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number = 1, powermarkOnly, standardOnly, subcategories } = {}) {
     randomQuestions = [];
-    await fetch('/api/random-tossup?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, subcategories, standardOnly }))
-        .then(response => response.json())
-        .then(response => response.tossups)
-        .then(questions => { randomQuestions = questions; });
+    randomQuestions = await api.getRandomTossup({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories });
 }
 
 
@@ -335,7 +332,7 @@ async function loadRandomTossups({ alternateSubcategories, categories, difficult
  * Get a random tossup.
  * @returns
  */
-async function getRandomTossup({ alternateSubcategories, categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly }) {
+async function getRandomTossup({ alternateSubcategories, categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly } = {}) {
     if (randomQuestions.length === 0) {
         await loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
     }
