@@ -1,3 +1,5 @@
+import api from '../api.js';
+
 const ROOM_NAME_MAX_LENGTH = 32;
 
 document.getElementById('form').addEventListener('submit', (event) => {
@@ -55,9 +57,4 @@ fetch('/api/multiplayer/room-list')
         });
     });
 
-fetch('/api/random-name')
-    .then(res => res.json())
-    .then(data => data.randomName)
-    .then(randomName => {
-        document.getElementById('new-room-name').placeholder = randomName;
-    });
+document.getElementById('new-room-name').placeholder = await api.getRandomName();

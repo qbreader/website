@@ -2,6 +2,23 @@ export default class api {
     static SET_LIST = [];
 
     /**
+     * @param {string} answerline
+     * @param {string} givenAnswer
+     * @returns {Promise<{
+        * directive: "accept" | "prompt" | "reject",
+        * directedPrompt: String | null
+    * }>}
+    */
+    static async checkAnswer(answerline, givenAnswer) {
+        if (givenAnswer === '') {
+            return { directive: 'reject', directedPrompt: null };
+        }
+
+        return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer }))
+            .then(response => response.json());
+    }
+
+    /**
      * @param {String} setName
      * @returns {Promise<Number>} The number of packets in the set.
      */
@@ -13,6 +30,16 @@ export default class api {
         return await fetch('/api/num-packets?' + new URLSearchParams({ setName }))
             .then(response => response.json())
             .then(data => data.numPackets);
+    }
+
+    /**
+     *
+     * @returns {Promise<string>} A random adjective-noun pair that can be used as a name.
+     */
+    static async getRandomName() {
+        return await fetch('/api/random-name')
+            .then(res => res.json())
+            .then(data => data.randomName);
     }
 
     static getSetList() {

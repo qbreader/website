@@ -250,24 +250,6 @@ function buzz() {
 
 
 /**
- * @param {String} answerline
- * @param {String} givenAnswer
- * @returns {Promise<{
-    * directive: "accept" | "prompt" | "reject",
-    * directedPrompt: String | null
- * }>}
- */
-async function checkAnswer(answerline, givenAnswer) {
-    if (givenAnswer === '') {
-        return { directive: 'reject', directedPrompt: null };
-    }
-
-    return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer }))
-        .then(response => response.json());
-}
-
-
-/**
  * Clears user stats.
  */
 function clearStats() {
@@ -302,7 +284,7 @@ async function getTossups(setName, packetNumber) {
 async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
-    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].answer, givenAnswer);
+    const { directive, directedPrompt } = await api.checkAnswer(questions[questionNumber - 1].answer, givenAnswer);
 
     switch (directive) {
     case 'accept':
