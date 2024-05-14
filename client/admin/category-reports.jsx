@@ -1,3 +1,5 @@
+import { getBonusPartLabel } from '../utilities.js';
+
 const ALTERNATE_SUBCATEGORIES = {
     'Literature': ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
     'History': [],
@@ -101,12 +103,6 @@ function BonusCard({ bonus }) {
 
     for (let i = 0; i < bonusLength; i++) {
         indices.push(i);
-    }
-
-    function getBonusPartLabel(index, defaultValue = 10, defaultDifficulty = '') {
-        const value = bonus.values ? (bonus.values[index] ?? defaultValue) : defaultValue;
-        const difficulty = bonus.difficulties ? (bonus.difficulties[index] ?? defaultDifficulty) : defaultDifficulty;
-        return `[${value}${difficulty}]`;
     }
 
     function onClick() {

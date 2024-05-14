@@ -1,6 +1,7 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import CategoryManager from '../utilities/category-manager.js';
+import { getBonusPartLabel } from '../utilities/index.js';
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
@@ -84,21 +85,6 @@ function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
   hiddenElement.target = '_blank';
   hiddenElement.download = filename;
   hiddenElement.click();
-}
-
-/**
- * Return a string that represents the bonus part label for the given bonus and index.
- * For example, '[10m]' or '[10]'.
- * @param {*} bonus
- * @param {*} index
- * @param {*} defaultValue
- * @param {*} defaultDifficulty
- * @returns {String}
- */
-function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = '') {
-  const value = bonus.values ? bonus.values[index] ?? defaultValue : defaultValue;
-  const difficulty = bonus.difficulties ? bonus.difficulties[index] ?? defaultDifficulty : defaultDifficulty;
-  return `[${value}${difficulty}]`;
 }
 function getMatchIndices(clean, regex) {
   const iterator = clean.matchAll(regex);
