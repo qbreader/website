@@ -206,7 +206,7 @@ function clearStats() {
 }
 
 
-function createBonusPart(bonusPartNumber, bonusText) {
+function createBonusPart(bonusPartNumber, bonusText, value = 10) {
     const input = document.createElement('input');
     input.id = `checkbox-${bonusPartNumber + 1}`;
     input.className = 'checkbox form-check-input rounded-0 me-1';
@@ -221,7 +221,7 @@ function createBonusPart(bonusPartNumber, bonusText) {
     inputWrapper.appendChild(input);
 
     const p = document.createElement('p');
-    p.appendChild(document.createTextNode('[10] ' + bonusText));
+    p.innerHTML = `[${value}] ${bonusText}`;
 
     const bonusPart = document.createElement('div');
     bonusPart.id = `bonus-part-${bonusPartNumber + 1}`;
@@ -233,6 +233,14 @@ function createBonusPart(bonusPartNumber, bonusText) {
     row.appendChild(bonusPart);
 
     document.getElementById('question').appendChild(row);
+}
+
+
+function createLeadin(leadinText) {
+    const paragraph = document.createElement('p');
+    paragraph.id = 'leadin';
+    paragraph.innerHTML = leadinText;
+    document.getElementById('question').appendChild(paragraph);
 }
 
 
@@ -337,14 +345,9 @@ async function next() {
     document.getElementById('set-name-info').textContent = query.setName;
     document.getElementById('packet-number-info').textContent = query.packetNumbers[0];
 
-    // Update the question text:
-    const paragraph = document.createElement('p');
-    paragraph.appendChild(document.createTextNode(questions[questionNumber - 1].leadin));
-    document.getElementById('question').textContent = '';
-    document.getElementById('question').appendChild(paragraph);
-
     currentBonusPart = 0;
-    createBonusPart(currentBonusPart, questions[questionNumber - 1].parts[currentBonusPart]);
+    createLeadin(questions[questionNumber - 1].leadin);
+    createBonusPart(currentBonusPart, questions[questionNumber - 1].parts[currentBonusPart], questions[questionNumber - 1]?.values[currentBonusPart]);
 }
 
 
@@ -352,8 +355,9 @@ async function next() {
  * Called when the users wants to reveal the next bonus part.
  */
 function revealBonusPart() {
-    if (currentBonusPart >= questions[questionNumber - 1].parts.length)
+    if (currentBonusPart >= questions[questionNumber - 1].parts.length) {
         return;
+    }
 
     const paragraph = document.createElement('p');
     paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answers[currentBonusPart];
@@ -363,9 +367,10 @@ function revealBonusPart() {
     if (currentBonusPart >= questions[questionNumber - 1].parts.length) {
         document.getElementById('reveal').disabled = true;
         document.getElementById('next').textContent = 'Next';
-    } else {
-        createBonusPart(currentBonusPart, questions[questionNumber - 1].parts[currentBonusPart]);
+        return;
     }
+
+    createBonusPart(currentBonusPart, questions[questionNumber - 1].parts[currentBonusPart], questions[questionNumber - 1]?.values[currentBonusPart]);
 }
 
 
