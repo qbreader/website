@@ -10,14 +10,10 @@ import * as types from '../../types.js';
  */
 function modaqifyTossup(tossup) {
     const result = {
-        question: tossup.question,
+        question: tossup.question.replace('<i>', '<em>').replace('</i>', '</em>'),
         answer: tossup.answer.replace('<i>', '<em>').replace('</i>', '</em>'),
         metadata: `${tossup.category} - ${tossup.subcategory}`,
     };
-
-    if (tossup?.question && tossup.question.includes('(*)')) {
-        result.question = '<b>' + tossup.question.replace('(*)', '(*)</b>');
-    }
 
     return result;
 }
@@ -26,8 +22,8 @@ function modaqifyTossup(tossup) {
 function modaqifyBonus(bonus) {
     const result = {
         values: bonus.values ?? bonus.parts.map(() => 10),
-        leadin: bonus.leadin,
-        parts: bonus.parts,
+        leadin: bonus.leadin.replace('<i>', '<em>').replace('</i>', '</em>'),
+        parts: bonus.parts.replace('<i>', '<em>').replace('</i>', '</em>'),
         answers: bonus.answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>')),
         metadata: `${bonus.category} - ${bonus.subcategory}`,
     };
