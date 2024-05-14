@@ -1,3 +1,5 @@
+import { attachDropdownChecklist, getDropdownValues } from '../../utilities/dropdown-checklist.js';
+
 function fetchBonusStats({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
     fetch('/auth/user-stats/bonus?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
         .then(response => {
@@ -64,15 +66,18 @@ function fetchBonusStats({ difficulties = '', setName = '', includeMultiplayer =
         });
 }
 
-fetchBonusStats();
-
 function onSubmit(event) {
     event.preventDefault();
     const setName = document.getElementById('set-name').value;
-    const difficulties = getDifficulties();
+    const difficulties = getDropdownValues('difficulties');
     // const includeMultiplayer = document.getElementById('include-multiplayer').checked;
     // const includeSingleplayer = document.getElementById('include-singleplayer').checked;
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
     fetchBonusStats({ difficulties, setName, startDate, endDate });
 }
+
+document.getElementById('form').addEventListener('submit', onSubmit);
+
+attachDropdownChecklist();
+fetchBonusStats();

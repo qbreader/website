@@ -10,19 +10,6 @@ function fillSetName(event) {
     setNameInput.focus();
 }
 
-
-function getDifficulties() {
-    const difficulties = [];
-    Array.from(document.getElementById('difficulties').children).forEach(li => {
-        const input = li.querySelector('input');
-        if (input.checked) {
-            difficulties.push(parseInt(input.value));
-        }
-    });
-    return difficulties;
-}
-
-
 function removeDropdown() {
     document.getElementById('set-dropdown')?.remove();
 }
