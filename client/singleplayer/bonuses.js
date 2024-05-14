@@ -191,24 +191,6 @@ async function advanceQuestion() {
 
 
 /**
- * @param {String} answerline
- * @param {String} givenAnswer
- * @returns {Promise<{
-    * directive: "accept" | "prompt" | "reject",
-    * directedPrompt: String | null
- * }>}
- */
-async function checkAnswer(answerline, givenAnswer) {
-    if (givenAnswer === '') {
-        return { directive: 'reject', directedPrompt: null };
-    }
-
-    return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer }))
-        .then(response => response.json());
-}
-
-
-/**
  * Clears user stats.
  */
 function clearStats() {
@@ -299,7 +281,7 @@ async function getRandomBonus({ alternateSubcategories, categories, difficulties
 
 
 async function giveAnswer(givenAnswer) {
-    const { directive, directedPrompt } = await checkAnswer(questions[questionNumber - 1].answers[currentBonusPart], givenAnswer);
+    const { directive, directedPrompt } = await api.checkAnswer(questions[questionNumber - 1].answers[currentBonusPart], givenAnswer);
 
     switch (directive) {
     case 'accept':
