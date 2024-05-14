@@ -1,4 +1,4 @@
-import star from '../../api/auth/star.js';
+import star from '../../auth/star.js';
 import { getBonusPartLabel } from '../../utilities/index.js';
 
 const bonuses = await star.getStarredBonuses();
