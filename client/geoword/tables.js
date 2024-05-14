@@ -1,9 +1,10 @@
 /**
- *
+ * Sorts a table by the values in a specified column.
  * @param {Number} n a zero-indexed column number to sort
  * @param {Boolean} isFloat whether the column values represent numeric values
  * @param {*} tableId
  */
+// eslint-disable-next-line no-unused-vars
 function sortTable(n, isFloat=false, tableId='table') {
     let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById(tableId);

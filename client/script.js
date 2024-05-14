@@ -29,7 +29,7 @@ function isTouchDevice() {
 
 
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+tooltipTriggerList.map(function (tooltipTriggerEl) {
     if (isTouchDevice()) return;
 
     // eslint-disable-next-line no-undef
