@@ -55,7 +55,6 @@ function TossupCard({
     const reason = tossup.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
-  const powerParts = tossup.question.split('(*)');
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
@@ -69,13 +68,13 @@ function TossupCard({
     className: "card-body"
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question
+      __html: tossup.question
     }
   }), /*#__PURE__*/React.createElement("hr", {
     className: "my-3"
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: tossup?.formatted_answer ?? tossup.answer
+      __html: tossup?.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
     className: "card-footer clickable",
@@ -123,7 +122,7 @@ function BonusCard({
     key: `${bonus._id}-${i}`
   }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", null, getBonusPartLabel(i), " "), /*#__PURE__*/React.createElement("span", null, bonus.parts[i])), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: (bonus?.formatted_answers ?? bonus.answers)[i]
+      __html: bonus?.answers[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
     className: "card-footer clickable",

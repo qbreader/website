@@ -12,11 +12,10 @@ import * as types from '../../types.js';
  * @param {string[]} object.categories
  * @param {string[]} object.subcategories
  * @param {'tossup' | 'bonus'} [object.questionType='tossup'] - Type of question you want to get. Default: `'tossup'`.
- * @param {boolean} object.replaceUnformattedAnswer - whether to replace the 'answer(s)' key on each question with the value corresponding to 'formatted_answer(s)' (if it exists). Default: `true`
  * @param {boolean} object.reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
  * @returns {Promise<types.Tossup[] | types.Bonus[]>}
  */
-async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', replaceUnformattedAnswer = true, reverse = false }) {
+async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', reverse = false }) {
     if (!setName) return [];
 
     if (!categories || categories.length === 0) categories = CATEGORIES;
@@ -37,27 +36,9 @@ async function getSet({ setName, packetNumbers, categories, subcategories, quest
 
     if (questionType === 'tossup') {
         const questionArray = await tossups.find(filter, options).toArray();
-
-        if (replaceUnformattedAnswer) {
-            for (let i = 0; i < questionArray.length; i++) {
-                if (questionArray[i].formatted_answer) {
-                    questionArray[i].answer = questionArray[i].formatted_answer;
-                }
-            }
-        }
-
         return questionArray || [];
     } else if (questionType === 'bonus') {
         const questionArray = await bonuses.find(filter, options).toArray();
-
-        if (replaceUnformattedAnswer) {
-            for (let i = 0; i < questionArray.length; i++) {
-                if (questionArray[i].formatted_answers) {
-                    questionArray[i].answers = questionArray[i].formatted_answers;
-                }
-            }
-        }
-
         return questionArray || [];
     }
 }

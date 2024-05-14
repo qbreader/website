@@ -10,7 +10,7 @@ for (const bonus of bonuses) {
         cardBody += `
             <hr></hr>
             <p>${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}</p>
-            <div>ANSWER: ${(bonus?.formatted_answers ?? bonus.answers)[i]}</div>
+            <div>ANSWER: ${bonus.answers[i]}</div>
         `;
     }
 
