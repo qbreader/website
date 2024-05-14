@@ -2,7 +2,7 @@ import account from '../accounts.js';
 import questionStats from '../auth/question-stats.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
-import { arrayToRange, createTossupCard, rangeToArray } from '../utilities/index.js';
+import { arrayToRange, createTossupCard, escapeHTML, rangeToArray } from '../utilities/index.js';
 import CategoryManager from '../utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
 
