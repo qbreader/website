@@ -187,7 +187,7 @@ async function advanceQuestion() {
 
                 queryLock();
                 try {
-                    questions = await getTossups(query.setName, query.packetNumbers[0]);
+                    questions = await api.getPacketTossups(query.setName, query.packetNumbers[0]);
                 } finally {
                     queryUnlock();
                 }
@@ -262,22 +262,6 @@ function clearStats() {
 
     updateStatDisplay();
     sessionStorage.removeItem('tossup-stats');
-}
-
-
-/**
- * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
- * @param {String} packetNumber - The packet number of the set.
- * @return {Promise<Array<JSON>>} An array containing the tossups.
- */
-async function getTossups(setName, packetNumber) {
-    if (setName === '') {
-        return [];
-    }
-
-    return await fetch('/api/packet-tossups?' + new URLSearchParams({ setName, packetNumber }))
-        .then(response => response.json())
-        .then(data => data.tossups);
 }
 
 
@@ -720,7 +704,7 @@ document.getElementById('start').addEventListener('click', async function () {
     if (settings.selectBySetName) {
         queryLock();
         try {
-            questions = await getTossups(query.setName, query.packetNumbers[0]);
+            questions = await api.getPacketTossups(query.setName, query.packetNumbers[0]);
         } finally {
             queryUnlock();
         }

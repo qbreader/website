@@ -152,7 +152,7 @@ async function advanceQuestion() {
 
                 queryLock();
                 try {
-                    questions = await getBonuses(query.setName, query.packetNumbers[0]);
+                    questions = await api.getPacketBonuses(query.setName, query.packetNumbers[0]);
                 } finally {
                     queryUnlock();
                 }
@@ -231,22 +231,6 @@ function createBonusPart(bonusPartNumber, bonusText) {
     row.appendChild(bonusPart);
 
     document.getElementById('question').appendChild(row);
-}
-
-
-/**
- * @param {String} setName - The name of the set (e.g. "2021 ACF Fall").
- * @param {String} packetNumber - The packet number of the set.
- * @return {Promise<Array<JSON>>} An array containing the bonuses.
- */
-async function getBonuses(setName, packetNumber) {
-    if (setName === '') {
-        return [];
-    }
-
-    return await fetch('/api/packet-bonuses?' + new URLSearchParams({ setName, packetNumber }))
-        .then(response => response.json())
-        .then(data => data.bonuses);
 }
 
 
@@ -569,7 +553,7 @@ document.getElementById('start').addEventListener('click', async function () {
     if (settings.selectBySetName) {
         queryLock();
         try {
-            questions = await getBonuses(query.setName, query.packetNumbers[0]);
+            questions = await api.getPacketBonuses(query.setName, query.packetNumbers[0]);
         } finally {
             queryUnlock();
         }
