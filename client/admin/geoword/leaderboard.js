@@ -1,3 +1,5 @@
+import { escapeHTML, titleCase } from '../../utilities/strings.js';
+
 const division = decodeURIComponent(window.location.pathname.split('/')[5]);
 const packetName = window.location.pathname.split('/')[4];
 const packetTitle = titleCase(packetName);

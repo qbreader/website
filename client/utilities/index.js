@@ -1,4 +1,5 @@
 import star from '../auth/star.js';
+import { escapeHTML, removeParentheses } from './strings.js';
 
 // Constants and functions useful for quizbowl.
 
@@ -204,11 +205,6 @@ const createTossupCard = (function () {
 })();
 
 
-function escapeHTML(unsafe) {
-    return unsafe?.replaceAll('&', '&amp;')?.replaceAll('<', '&lt;')?.replaceAll('>', '&gt;')?.replaceAll('"', '&quot;')?.replaceAll('\'', '&#039;');
-}
-
-
 /**
  * Return a string that represents the bonus part label for the given bonus and index.
  * For example, '[10m]' or '[10]'.
@@ -256,17 +252,10 @@ function rangeToArray(string, max = 0) {
 }
 
 
-function removeParentheses(string) {
-    return string.replace(/[[].*/, '').replace(/\(.*\)/, '').trim();
-}
-
-
 export {
     arrayToRange,
     createBonusCard,
     createTossupCard,
     getBonusPartLabel,
-    escapeHTML,
     rangeToArray,
-    removeParentheses,
 };
