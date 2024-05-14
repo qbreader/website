@@ -16,7 +16,6 @@
     ],
     "rules": {
         "no-unused-vars": "warn",
-        "prefer-const": "off",
         "react/react-in-jsx-scope": "off",
         "react/prop-types": "off"
     }

@@ -875,9 +875,9 @@ document.getElementById('packet-number').addEventListener('change', function () 
 
 document.getElementById('pause').addEventListener('click', function () {
     this.blur();
-    let seconds = parseFloat(document.querySelector('.timer .face').innerText);
-    let tenths = parseFloat(document.querySelector('.timer .fraction').innerText);
-    let pausedTime = (seconds + tenths) * 10;
+    const seconds = parseFloat(document.querySelector('.timer .face').innerText);
+    const tenths = parseFloat(document.querySelector('.timer .fraction').innerText);
+    const pausedTime = (seconds + tenths) * 10;
     socket.send(JSON.stringify({ type: 'pause', pausedTime: pausedTime }));
 });
 
