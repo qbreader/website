@@ -1,3 +1,5 @@
+import { escapeHTML, titleCase } from '../utilities/strings.js';
+
 const packetName = window.location.pathname.split('/').pop();
 const packetTitle = titleCase(packetName);
 document.getElementById('packet-name').textContent = packetTitle;

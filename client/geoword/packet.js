@@ -1,3 +1,5 @@
+import { titleCase } from '../utilities/strings.js';
+
 const division = decodeURIComponent(window.location.search.slice(1));
 const packetName = window.location.pathname.split('/').pop();
 const packetTitle = titleCase(packetName);
