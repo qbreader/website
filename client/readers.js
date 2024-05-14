@@ -22,6 +22,7 @@ if (localStorage.getItem('high-contrast-question-text') === 'true') {
 const SET_LIST = api.getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
+// eslint-disable-next-line no-unused-vars
 function fillSetName(event) {
     const setNameInput = document.getElementById('set-name');
     const name = event.target.innerHTML;

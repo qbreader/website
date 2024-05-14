@@ -696,20 +696,6 @@ function sortPlayerListGroup(descending = true) {
 }
 
 
-function submitAnswer() {
-    const answer = document.getElementById('answer-input').value;
-
-    document.getElementById('answer-input').value = '';
-    document.getElementById('answer-input-group').classList.add('d-none');
-    document.getElementById('answer-input').blur();
-
-    socket.send(JSON.stringify({
-        type: 'give-answer',
-        givenAnswer: answer,
-    }));
-}
-
-
 function updateDifficulties(difficulties) {
     Array.from(document.getElementById('difficulties').children).forEach(li => {
         const input = li.querySelector('input');
