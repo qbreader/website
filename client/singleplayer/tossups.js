@@ -1,7 +1,8 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
-import { SUBCATEGORIES, arrayToRange, createTossupCard, isValidCategory, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities/index.js';
+import { arrayToRange, createTossupCard, rangeToArray } from '../utilities/index.js';
+import CategoryManager from '../utilities/category-manager.js';
 
 // Functions and variables specific to the tossups page.
 // Status variables
@@ -46,6 +47,8 @@ if (!localStorage.getItem('singleplayer-tossup-query')) {
     }
 }
 
+const categoryManager = new CategoryManager(query.categories, query.subcategories, query.alternateSubcategories);
+
 const settings = localStorage.getItem('singleplayer-tossup-settings')
     ? JSON.parse(localStorage.getItem('singleplayer-tossup-settings'))
     : {
@@ -89,13 +92,6 @@ if (!settings.typeToAnswer) {
     document.getElementById('toggle-rebuzz').disabled = true;
 }
 
-if (query.categories.length > 0 && query.subcategories.length === 0) {
-    query.categories.forEach(category => {
-        SUBCATEGORIES[category].forEach(subcategory => {
-            query.subcategories.push(subcategory);
-        });
-    });
-}
 
 if (query.difficulties) {
     for (let element of document.getElementById('difficulties').children) {
@@ -198,7 +194,7 @@ async function advanceQuestion() {
 
                 questionNumber = 1;
             }
-        } while (!isValidCategory(questions[questionNumber - 1], query.categories, query.subcategories));
+        } while (!categoryManager.isValidCategory(questions[questionNumber - 1]));
 
         if (Object.keys(questions[0]).length > 0) {
             questionText = questions[questionNumber - 1].question;
@@ -581,30 +577,33 @@ function updateStatDisplay() {
 
 
 document.querySelectorAll('#categories input').forEach(input => {
-    input.addEventListener('click', function (event) {
+    input.addEventListener('click', function () {
         this.blur();
-        ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = updateCategory(input.id, query.categories, query.subcategories, query.alternateSubcategories));
-        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
+        categoryManager.updateCategory(input.id);
+        categoryManager.loadCategoryModal();
+        ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
         localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
     });
 });
 
 
 document.querySelectorAll('#subcategories input').forEach(input => {
-    input.addEventListener('click', function (event) {
+    input.addEventListener('click', function () {
         this.blur();
-        query.subcategories = updateSubcategory(input.id, query.subcategories);
-        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
+        categoryManager.updateSubcategory(input.id);
+        categoryManager.loadCategoryModal();
+        ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
         localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
     });
 });
 
 
 document.querySelectorAll('#alternate-subcategories input').forEach(input => {
-    input.addEventListener('click', function (event) {
+    input.addEventListener('click', function () {
         this.blur();
-        query.alternateSubcategories = updateAlternateSubcategory(input.id, query.alternateSubcategories);
-        loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
+        categoryManager.updateAlternateSubcategory(input.id);
+        categoryManager.loadCategoryModal();
+        ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
         localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
     });
 });
@@ -879,7 +878,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 
-loadCategoryModal(query.categories, query.subcategories, query.alternateSubcategories);
+categoryManager.loadCategoryModal();
 
 window.onload = async () => {
     $('#slider').slider('values', 0, query.minYear);

@@ -1,13 +1,11 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
-import { loadCategoryModal, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities/index.js';
+import CategoryManager from '../utilities/category-manager.js';
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
 const ALTERNATE_SUBCATEGORY_BUTTONS = [['Drama', 'primary'], ['Long Fiction', 'primary'], ['Poetry', 'primary'], ['Short Fiction', 'primary'], ['Misc Literature', 'primary'], ['Math', 'danger'], ['Astronomy', 'danger'], ['Computer Science', 'danger'], ['Earth Science', 'danger'], ['Engineering', 'danger'], ['Misc Science', 'danger'], ['Architecture', 'warning'], ['Dance', 'warning'], ['Film', 'warning'], ['Jazz', 'warning'], ['Opera', 'warning'], ['Photography', 'warning'], ['Misc Arts', 'warning'], ['Anthropology', 'secondary'], ['Economics', 'secondary'], ['Linguistics', 'secondary'], ['Psychology', 'secondary'], ['Sociology', 'secondary'], ['Other Social Science', 'secondary']];
-let validCategories = [];
-let validSubcategories = [];
-let validAlternateSubcategories = [];
+const categoryManager = new CategoryManager();
 function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
   const JSONdata = {
     tossups,
@@ -513,19 +511,13 @@ function BonusCard({
     "data-bs-target": "#report-question-modal"
   }, "Report Question")))));
 }
-
-// eslint-disable-next-line no-undef
 function CategoryButton({
   category,
   color
 }) {
   function handleClick() {
-    ({
-      categories: validCategories,
-      subcategories: validSubcategories,
-      alternateSubcategories: validAlternateSubcategories
-    } = updateCategory(category, validCategories, validSubcategories, validAlternateSubcategories));
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    categoryManager.updateCategory(category);
+    categoryManager.loadCategoryModal();
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
@@ -544,8 +536,8 @@ function SubcategoryButton({
   hidden = false
 }) {
   function handleClick() {
-    validSubcategories = updateSubcategory(subcategory, validSubcategories);
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    categoryManager.updateSubcategory(subcategory);
+    categoryManager.loadCategoryModal();
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
@@ -564,8 +556,8 @@ function AlternateSubcategoryButton({
   hidden = false
 }) {
   function handleClick() {
-    validAlternateSubcategories = updateAlternateSubcategory(subcategory, validAlternateSubcategories);
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    categoryManager.updateAlternateSubcategory(subcategory);
+    categoryManager.loadCategoryModal();
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
@@ -741,9 +733,7 @@ function QueryForm() {
     }
     const params = new URLSearchParams({
       queryString,
-      alternateSubcategories: validAlternateSubcategories,
-      categories: validCategories,
-      subcategories: validSubcategories,
+      ...categoryManager.export(),
       difficulties,
       maxReturnLength,
       questionType,
