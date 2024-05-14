@@ -5,6 +5,10 @@ document.getElementById('packet-name').textContent = titleCase(packetName);
 
 // This is your test publishable API key.
 const STRIPE_PUBLISHABLE_KEY = 'pk_live_51NManVKG9mAb0mOpZxtFcYWRju7COWAwtirGyd01es3bEJhqSZd8SdSsOPgyj2LizN0QYjLumsWiOoB2nKadXrt100bTtyHh8m';
+// Note: as per https://www.npmjs.com/package/@stripe/stripe-js:
+// To be PCI compliant, you must load Stripe.js directly from https://js.stripe.com.
+// You cannot include it in a bundle or host it yourself.
+// eslint-disable-next-line no-undef
 const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
 let elements;
