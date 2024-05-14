@@ -95,7 +95,7 @@ if (!settings.typeToAnswer) {
 
 
 if (query.difficulties) {
-    for (let element of document.getElementById('difficulties').children) {
+    for (const element of document.getElementById('difficulties').children) {
         const input = element.querySelector('input');
         const difficulty = parseInt(input.value);
         if (query.difficulties.includes(difficulty)) {

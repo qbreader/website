@@ -6,8 +6,8 @@
  */
 // eslint-disable-next-line no-unused-vars
 function sortTable(n, isFloat=false, tableId='table') {
-    let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById(tableId);
+    let rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    const table = document.getElementById(tableId);
     switching = true;
     // Set the sorting direction to ascending for text;
     // Numerals are always sorted in the opposite order from text

@@ -39,7 +39,7 @@ $(document).ready(function() {
     // }
 
     $('input.sliderValue').change(function() {
-        let $this = $(this);
+        const $this = $(this);
         $('#slider').slider('values', $this.data('index'), $this.val());
     });
 });
