@@ -287,7 +287,7 @@ async function giveAnswer(givenAnswer) {
             document.getElementById('next').disabled = false;
             document.getElementById('pause').disabled = false;
             document.getElementById('start').disabled = false;
-            readQuestion(new Date().getTime());
+            readQuestion(Date.now());
         } else {
             revealQuestion();
         }
@@ -365,7 +365,7 @@ async function next() {
 
     paused = false;
     powermarkPosition = 0;
-    readQuestion(new Date().getTime());
+    readQuestion(Date.now());
 }
 
 
@@ -376,7 +376,7 @@ function pause() {
     if (paused) {
         document.getElementById('buzz').removeAttribute('disabled');
         document.getElementById('pause').textContent = 'Pause';
-        readQuestion(new Date().getTime());
+        readQuestion(Date.now());
     } else {
         document.getElementById('buzz').setAttribute('disabled', 'disabled');
         document.getElementById('pause').textContent = 'Resume';
@@ -408,7 +408,7 @@ function readQuestion(expectedReadTime) {
             time = 0;
 
         time = time * 0.9 * (125 - settings.readingSpeed);
-        const delay = time - new Date().getTime() + expectedReadTime;
+        const delay = time - Date.now() + expectedReadTime;
 
         timeoutID = window.setTimeout(() => {
             readQuestion(time + expectedReadTime);
