@@ -1,6 +1,7 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import CategoryManager from '../utilities/category-manager.js';
+import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
 import { getBonusPartLabel } from '../utilities/index.js';
 
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
@@ -918,30 +919,10 @@ function QueryForm() {
     }
 
     React.useEffect(async () => {
-        Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
-            input.addEventListener('change', function () {
-                if (input.checked)
-                    input.closest('li').classList.add('active');
-                else
-                    input.closest('li').classList.remove('active');
-            });
-        });
-
-        Array.from(document.querySelectorAll('.allow-focus')).forEach(dropdown => {
-            dropdown.addEventListener('click', function (e) {
-                e.stopPropagation();
-            });
-        });
+        attachDropdownChecklist();
 
         document.getElementById('difficulties').addEventListener('change', function () {
-            const tempDifficulties = [];
-            Array.from(document.getElementById('difficulties').children).forEach(li => {
-                const input = li.querySelector('input');
-                if (input.checked) {
-                    tempDifficulties.push(parseInt(input.value));
-                }
-            });
-            setDifficulties(tempDifficulties);
+            setDifficulties(getDropdownValues('difficulties'));
         });
 
         document.getElementById('report-question-submit').addEventListener('click', function () {

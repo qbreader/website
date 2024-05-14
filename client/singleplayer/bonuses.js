@@ -4,6 +4,7 @@ import api from '../api/index.js';
 import audio from '../audio/index.js';
 import { arrayToRange, createBonusCard, rangeToArray } from '../utilities/index.js';
 import CategoryManager from '../utilities/category-manager.js';
+import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
 
 // Functions and variables specific to the bonuses page.
 
@@ -668,6 +669,7 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
+attachDropdownChecklist();
 categoryManager.loadCategoryModal();
 
 window.onload = async () => {
