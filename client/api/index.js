@@ -32,6 +32,36 @@ export default class api {
             .then(data => data.numPackets);
     }
 
+    /**
+     * @param {string} setName - The name of the set (e.g. "2021 ACF Fall").
+     * @param {string | number} packetNumber - The packet number of the set.
+     * @return {Promise<JSON[]>} An array containing the bonuses.
+     */
+    static async getPacketBonuses(setName, packetNumber) {
+        if (setName === '') {
+            return [];
+        }
+
+        return await fetch('/api/packet-bonuses?' + new URLSearchParams({ setName, packetNumber }))
+            .then(response => response.json())
+            .then(data => data.bonuses);
+    }
+
+    /**
+     * @param {string} setName - The name of the set (e.g. "2021 ACF Fall").
+     * @param {string} packetNumber - The packet number of the set.
+     * @return {Promise<JSON[]>} An array containing the tossups.
+     */
+    static async getPacketTossups(setName, packetNumber) {
+        if (setName === '') {
+            return [];
+        }
+
+        return await fetch('/api/packet-tossups?' + new URLSearchParams({ setName, packetNumber }))
+            .then(response => response.json())
+            .then(data => data.tossups);
+    }
+
     static async getRandomBonus({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }) {
         return await fetch('/api/random-bonus?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
             .then(response => response.json())
