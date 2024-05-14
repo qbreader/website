@@ -1,6 +1,6 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
-import { loadCategoryModal, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities/index.js';
+import CategoryManager from '../utilities/category-manager.js';
 
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 
@@ -67,10 +67,7 @@ const ALTERNATE_SUBCATEGORY_BUTTONS = [
     ['Other Social Science', 'secondary'],
 ];
 
-let validCategories = [];
-let validSubcategories = [];
-let validAlternateSubcategories = [];
-
+const categoryManager = new CategoryManager();
 
 function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
     const JSONdata = { tossups, bonuses };
@@ -649,11 +646,10 @@ function BonusCard({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, f
 }
 
 
-// eslint-disable-next-line no-undef
 function CategoryButton({ category, color }) {
     function handleClick() {
-        ({ categories: validCategories, subcategories: validSubcategories, alternateSubcategories: validAlternateSubcategories } = updateCategory(category, validCategories, validSubcategories, validAlternateSubcategories));
-        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+        categoryManager.updateCategory(category);
+        categoryManager.loadCategoryModal();
     }
 
     return (<div>
@@ -665,8 +661,8 @@ function CategoryButton({ category, color }) {
 
 function SubcategoryButton({ subcategory, color, hidden = false }) {
     function handleClick() {
-        validSubcategories = updateSubcategory(subcategory, validSubcategories);
-        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+        categoryManager.updateSubcategory(subcategory);
+        categoryManager.loadCategoryModal();
     }
 
     return (<div>
@@ -678,8 +674,8 @@ function SubcategoryButton({ subcategory, color, hidden = false }) {
 
 function AlternateSubcategoryButton({ subcategory, color, hidden = false }) {
     function handleClick() {
-        validAlternateSubcategories = updateAlternateSubcategory(subcategory, validAlternateSubcategories);
-        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+        categoryManager.updateAlternateSubcategory(subcategory);
+        categoryManager.loadCategoryModal();
     }
 
     return (<div>
@@ -850,9 +846,7 @@ function QueryForm() {
 
         const params = new URLSearchParams({
             queryString,
-            alternateSubcategories: validAlternateSubcategories,
-            categories: validCategories,
-            subcategories: validSubcategories,
+            ...categoryManager.export(),
             difficulties,
             maxReturnLength,
             questionType,

@@ -1,12 +1,11 @@
 import account from '../accounts.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
-import { arrayToRange, createTossupCard, loadCategoryModal, rangeToArray, updateCategory, updateSubcategory, updateAlternateSubcategory } from '../utilities/index.js';
+import { arrayToRange, createTossupCard, rangeToArray } from '../utilities/index.js';
+import CategoryManager from '../utilities/category-manager.js';
 
+const categoryManager = new CategoryManager();
 let changedCategories = false;
-let validCategories = [];
-let validSubcategories = [];
-let validAlternateSubcategories = [];
 
 let maxPacketNumber = 24;
 let powermarkPosition = 0;
@@ -229,10 +228,8 @@ socket.onmessage = function (event) {
 
     case 'update-categories':
         logEvent(data.username, 'updated the categories');
-        validCategories = data.categories;
-        validSubcategories = data.subcategories;
-        validAlternateSubcategories = data.alternateSubcategories;
-        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+        categoryManager.import(data.categories, data.subcategories, data.alternateSubcategories);
+        categoryManager.loadCategoryModal();
         break;
 
     case 'update-question':
@@ -295,10 +292,8 @@ const socketOnConnectionAcknowledged = async (message) => {
     USER_ID = message.userId;
     localStorage.setItem('USER_ID', USER_ID);
 
-    validCategories = message.validCategories || [];
-    validSubcategories = message.validSubcategories || [];
-    validAlternateSubcategories = message.validAlternateSubcategories || [];
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    categoryManager.import(message.validCategories, message.validSubcategories, message.validAlternateSubcategories);
+    categoryManager.loadCategoryModal();
 
     updateDifficulties(message.difficulties || []);
     document.getElementById('set-name').value = message.setName || '';
@@ -844,7 +839,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
     if (changedCategories) {
-        socket.send(JSON.stringify({ type: 'update-categories', categories: validCategories, subcategories: validSubcategories, alternateSubcategories: validAlternateSubcategories }));
+        socket.send(JSON.stringify({ type: 'update-categories', ...categoryManager.export() }));
     }
     changedCategories = false;
 });
@@ -1025,8 +1020,8 @@ document.getElementById('year-range-a').onchange = function () {
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function () {
         this.blur();
-        ({ categories: validCategories, subcategories: validSubcategories, alternateSubcategories: validAlternateSubcategories } = updateCategory(input.id, validCategories, validSubcategories, validAlternateSubcategories));
-        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+        categoryManager.updateCategory(input.id);
+        categoryManager.loadCategoryModal();
         changedCategories = true;
     });
 });
@@ -1035,8 +1030,8 @@ document.querySelectorAll('#categories input').forEach(input => {
 document.querySelectorAll('#subcategories input').forEach(input => {
     input.addEventListener('click', function () {
         this.blur();
-        validSubcategories = updateSubcategory(input.id, validSubcategories);
-        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+        categoryManager.updateSubcategory(input.id);
+        categoryManager.loadCategoryModal();
         changedCategories = true;
     });
 });
@@ -1045,8 +1040,8 @@ document.querySelectorAll('#subcategories input').forEach(input => {
 document.querySelectorAll('#alternate-subcategories input').forEach(input => {
     input.addEventListener('click', function () {
         this.blur();
-        validAlternateSubcategories = updateAlternateSubcategory(input.id, validAlternateSubcategories);
-        loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+        categoryManager.updateAlternateSubcategory(input.id);
+        categoryManager.loadCategoryModal();
         changedCategories = true;
     });
 });

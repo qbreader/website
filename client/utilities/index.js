@@ -2,37 +2,6 @@ import star from '../api/auth/star.js';
 
 // Constants and functions useful for quizbowl.
 
-const SUBCATEGORIES = {
-    'Literature': ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
-    'History': ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
-    'Science': ['Biology', 'Chemistry', 'Physics', 'Other Science'],
-    'Fine Arts': ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
-    'Religion': ['Religion'],
-    'Mythology': ['Mythology'],
-    'Philosophy': ['Philosophy'],
-    'Social Science': ['Social Science'],
-    'Current Events': ['Current Events'],
-    'Geography': ['Geography'],
-    'Other Academic': ['Other Academic'],
-    'Trash': ['Trash'],
-};
-
-const ALTERNATE_SUBCATEGORIES = {
-    'Literature': ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
-    'History': [],
-    'Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
-    'Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts'],
-    'Religion': [],
-    'Mythology': [],
-    'Philosophy': [],
-    'Social Science': ['Anthropology', 'Economics', 'Linguistics', 'Psychology', 'Sociology', 'Other Social Science'],
-    'Current Events': [],
-    'Geography': [],
-    'Other Academic': [],
-    'Trash': [],
-};
-
-
 function arrayToRange(array) {
     if (array.length === 0) return '';
 
@@ -252,64 +221,6 @@ function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = 
 }
 
 
-/**
- * @param {JSON} question
- * @param {Array<String>} validCategories
- * @param {Array<String>} validSubcategories
- * @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
- */
-function isValidCategory(question, validCategories, validSubcategories) {
-    if (validCategories.length === 0 && validSubcategories.length === 0) return true;
-
-    return validCategories.includes(question.category) && validSubcategories.includes(question.subcategory);
-}
-
-
-/**
- * Updates the category modal to show the given categories and subcategories.
- * @param {string[]} validCategories
- * @param {string[]} validSubcategories
- * @param {string[]} validAlternateSubcategories
- * @returns {void}
- */
-function loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories) {
-    document.querySelectorAll('#categories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
-    document.querySelectorAll('#alternate-subcategories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#alternate-subcategories label').forEach(element => element.classList.add('d-none'));
-
-    if (validCategories.length === 0 && validSubcategories.length === 0) {
-        const subcategoryInfoText = document.createElement('div');
-        subcategoryInfoText.className = 'text-muted text-center';
-        subcategoryInfoText.textContent = 'You must select categories before you can select subcategories.';
-        subcategoryInfoText.id = 'subcategory-info-text';
-        document.getElementById('subcategories').appendChild(subcategoryInfoText);
-    } else if (document.getElementById('subcategory-info-text')) {
-        document.getElementById('subcategory-info-text').remove();
-    }
-
-    validCategories.forEach(category => {
-        document.getElementById(category).checked = true;
-        SUBCATEGORIES[category].forEach(subcategory => {
-            document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
-        });
-
-        ALTERNATE_SUBCATEGORIES[category].forEach(subcategory => {
-            document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
-        });
-    });
-
-    validSubcategories.forEach(subcategory => {
-        document.getElementById(subcategory).checked = true;
-    });
-
-    validAlternateSubcategories.forEach(subcategory => {
-        document.getElementById(subcategory).checked = true;
-    });
-}
-
-
 function rangeToArray(string, max = 0) {
     if (string.length === 0) {
         string = `1-${max}`;
@@ -346,76 +257,10 @@ function removeParentheses(string) {
 }
 
 
-/**
- * Adds the given category if it is not in the list of valid categories.
- * Otherwise, the category is removed.
- * @param {string} category
- * @param {string[]} categories
- * @param {string[]} subcategories
- * @param {string[]} alternateSubcategories
- */
-function updateCategory(category, categories, subcategories, alternateSubcategories) {
-    if (categories.includes(category)) {
-        categories = categories.filter(a => a !== category);
-        subcategories = subcategories.filter(a => !SUBCATEGORIES[category].includes(a));
-        alternateSubcategories = alternateSubcategories.filter(a => !ALTERNATE_SUBCATEGORIES[category].includes(a));
-    } else {
-        categories.push(category);
-        subcategories = subcategories.concat(SUBCATEGORIES[category]);
-        alternateSubcategories = alternateSubcategories.concat(ALTERNATE_SUBCATEGORIES[category]);
-    }
-
-    return { categories, subcategories, alternateSubcategories };
-}
-
-
-/**
- * Adds the given subcategory if it is not in the list of valid subcategories.
- * Otherwise, the subcategory is removed.
- * @param {String} subcategory
- * @param {Array<String>} validSubcategories
- * @returns `validSubcategories`
- */
-function updateSubcategory(subcategory, validSubcategories) {
-    if (validSubcategories.includes(subcategory)) {
-        validSubcategories = validSubcategories.filter(a => a !== subcategory);
-    } else {
-        validSubcategories.push(subcategory);
-    }
-
-    return validSubcategories;
-}
-
-
-/**
- * Adds the given subcategory if it is not in the list of valid subcategories.
- * Otherwise, the subcategory is removed.
- * @param {String} subcategory
- * @param {Array<String>} validAlternateSubcategories
- * @returns `validSubcategories`
- */
-function updateAlternateSubcategory(subcategory, validAlternateSubcategories) {
-    if (validAlternateSubcategories.includes(subcategory)) {
-        validAlternateSubcategories = validAlternateSubcategories.filter(a => a !== subcategory);
-    } else {
-        validAlternateSubcategories.push(subcategory);
-    }
-
-    return validAlternateSubcategories;
-}
-
-
 export {
-    SUBCATEGORIES,
-    ALTERNATE_SUBCATEGORIES,
     arrayToRange,
     createBonusCard,
     createTossupCard,
-    isValidCategory,
-    loadCategoryModal,
     rangeToArray,
     removeParentheses,
-    updateCategory,
-    updateSubcategory,
-    updateAlternateSubcategory,
 };
