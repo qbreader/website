@@ -204,6 +204,11 @@ const createTossupCard = (function () {
 })();
 
 
+function escapeHTML(unsafe) {
+    return unsafe?.replaceAll('&', '&amp;')?.replaceAll('<', '&lt;')?.replaceAll('>', '&gt;')?.replaceAll('"', '&quot;')?.replaceAll('\'', '&#039;');
+}
+
+
 /**
  * Return a string that represents the bonus part label for the given bonus and index.
  * For example, '[10m]' or '[10]'.
@@ -261,6 +266,7 @@ export {
     createBonusCard,
     createTossupCard,
     getBonusPartLabel,
+    escapeHTML,
     rangeToArray,
     removeParentheses,
 };
