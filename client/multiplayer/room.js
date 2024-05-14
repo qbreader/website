@@ -1,4 +1,5 @@
 import account from '../accounts.js';
+import questionStats from '../auth/question-stats.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../utilities/index.js';
@@ -481,22 +482,7 @@ const socketOnGiveAnswer = async (message) => {
     }
 
     if (directive !== 'prompt' && userId === USER_ID && await account.getUsername()) {
-        fetch('/auth/question-stats/record-tossup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                tossup: message.tossup,
-                isCorrect: score > 0,
-                pointValue: score,
-                celerity: message.perQuestionCelerity,
-                multiplayer: true,
-            }),
-        }).then(response => {
-            if (response.status === 401) {
-                account.deleteUsername();
-                throw new Error('Unauthenticated');
-            }
-        });
+        questionStats.recordTossup(message.tossup, score > 0, score, message.perQuestionCelerity, true);
     }
 
     if (audio.soundEffects && userId === USER_ID) {
