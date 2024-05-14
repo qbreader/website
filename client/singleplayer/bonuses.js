@@ -1,4 +1,5 @@
 import account from '../accounts.js';
+import questionStats from '../auth/question-stats.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
 import { arrayToRange, createBonusCard, rangeToArray } from '../utilities/index.js';
@@ -319,19 +320,7 @@ async function next() {
         });
 
         if (await account.getUsername()) {
-            fetch('/auth/question-stats/record-bonus', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    bonus: questions[questionNumber - 1],
-                    pointsPerPart: pointsPerPart,
-                }),
-            }).then(response => {
-                if (response.status === 401) {
-                    account.deleteUsername();
-                    throw new Error('Unauthenticated');
-                }
-            });
+            questionStats.recordBonus(questions[questionNumber - 1], pointsPerPart);
         }
     }
 
