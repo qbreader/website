@@ -1,4 +1,5 @@
 import account from '../accounts.js';
+import questionStats from '../auth/question-stats.js';
 import api from '../api/index.js';
 import audio from '../audio/index.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../utilities/index.js';
@@ -339,22 +340,7 @@ async function next() {
 
     if (await account.getUsername() && document.getElementById('answer').innerHTML) {
         const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
-        fetch('/auth/question-stats/record-tossup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                tossup: questions[questionNumber - 1],
-                isCorrect: previous.isCorrect,
-                pointValue: pointValue,
-                celerity: previous.celerity,
-                multiplayer: false,
-            }),
-        }).then(response => {
-            if (response.status === 401) {
-                account.deleteUsername();
-                throw new Error('Unauthenticated');
-            }
-        });
+        questionStats.recordTossup(questions[questionNumber - 1], previous.isCorrect, pointValue, previous.celerity, false);
     }
 
     document.getElementById('answer').textContent = '';
