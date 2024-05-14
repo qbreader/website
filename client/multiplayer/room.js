@@ -4,6 +4,7 @@ import api from '../api/index.js';
 import audio from '../audio/index.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../utilities/index.js';
 import CategoryManager from '../utilities/category-manager.js';
+import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
 
 const categoryManager = new CategoryManager();
 let changedCategories = false;
@@ -1109,4 +1110,5 @@ document.addEventListener('keypress', function (event) {
     }
 });
 
+attachDropdownChecklist();
 document.getElementById('username').value = username;
