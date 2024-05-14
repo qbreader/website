@@ -1,4 +1,4 @@
-import account from '../../accounts.js';
+import account from '../accounts.js';
 
 export default class star {
     static async starBonus(bonus_id) {

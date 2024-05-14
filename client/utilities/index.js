@@ -1,4 +1,4 @@
-import star from '../api/auth/star.js';
+import star from '../auth/star.js';
 
 // Constants and functions useful for quizbowl.
 
