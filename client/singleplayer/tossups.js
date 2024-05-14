@@ -11,7 +11,6 @@ import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdow
 let currentlyBuzzing = false;
 let maxPacketNumber = 24;
 let paused = false;
-let powermarkPosition = 0;
 let questionNumber = 0; // WARNING: 1-indexed
 let timeoutID = -1;
 
@@ -364,7 +363,6 @@ async function next() {
     document.getElementById('set-name-info').textContent = query.setName;
 
     paused = false;
-    powermarkPosition = 0;
     readQuestion(Date.now());
 }
 
@@ -392,10 +390,9 @@ function pause() {
 function readQuestion(expectedReadTime) {
     if (!currentlyBuzzing && questionTextSplit.length > 0) {
         const word = questionTextSplit.shift();
-        if (word === '(*)')
-            powermarkPosition = document.getElementById('question').innerHTML.length;
-        else
+        if (word !== '(*)') {
             document.getElementById('question').textContent += word + ' ';
+        }
 
         // calculate time needed before reading next word
         let time = Math.log(word.length) + 1;
