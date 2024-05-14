@@ -89,6 +89,7 @@ document.getElementById('cumulative').addEventListener('change', onSubmit);
 document.getElementById('filter').addEventListener('change', onSubmit);
 document.getElementById('form').addEventListener('submit', onSubmit);
 
+// eslint-disable-next-line no-undef
 const questionCountChart = new Chart('question-count', {
     type: 'line',
     data: { },
@@ -102,6 +103,7 @@ const questionCountChart = new Chart('question-count', {
     },
 });
 
+// eslint-disable-next-line no-undef
 const ppbChart = new Chart('ppb', {
     type: 'line',
     data: { },
@@ -119,6 +121,7 @@ const ppbChart = new Chart('ppb', {
     },
 });
 
+// eslint-disable-next-line no-undef
 const resultPerBonus = new Chart('result-per-bonus', {
     type: 'line',
     data: { },

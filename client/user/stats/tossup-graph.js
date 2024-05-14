@@ -96,6 +96,7 @@ document.getElementById('cumulative').addEventListener('change', onSubmit);
 document.getElementById('filter').addEventListener('change', onSubmit);
 document.getElementById('form').addEventListener('submit', onSubmit);
 
+// eslint-disable-next-line no-undef
 const questionCountChart = new Chart('question-count', {
     type: 'line',
     data: { },
@@ -109,6 +110,7 @@ const questionCountChart = new Chart('question-count', {
     },
 });
 
+// eslint-disable-next-line no-undef
 const pptuChart = new Chart('pptu', {
     type: 'line',
     data: { },
@@ -126,6 +128,7 @@ const pptuChart = new Chart('pptu', {
     },
 });
 
+// eslint-disable-next-line no-undef
 const resultPerTossup = new Chart('result-per-tossup', {
     type: 'line',
     data: { },
@@ -143,6 +146,7 @@ const resultPerTossup = new Chart('result-per-tossup', {
     },
 });
 
+// eslint-disable-next-line no-undef
 const celerity = new Chart('celerity', {
     type: 'line',
     data: { },

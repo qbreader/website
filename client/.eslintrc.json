@@ -15,8 +15,7 @@
         "bootstrap/*.js"
     ],
     "rules": {
-        "no-undef": "warn",
-        "no-unused-vars": "off",
+        "no-unused-vars": "warn",
         "prefer-const": "off",
         "react/react-in-jsx-scope": "off",
         "react/prop-types": "off"

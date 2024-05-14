@@ -171,7 +171,7 @@ const createTossupCard = (function () {
 
         document.getElementById('room-history').prepend(card);
 
-        document.getElementById('report-question-' + _id).addEventListener('click', function (e) {
+        document.getElementById('report-question-' + _id).addEventListener('click', function () {
             document.getElementById('report-question-id').value = _id;
         });
 
