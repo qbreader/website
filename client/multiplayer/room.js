@@ -398,16 +398,14 @@ const socketOnConnectionAcknowledgedTossup = (message) => {
 };
 
 const socketOnConnectionAcknowledgedQuery = async (message) => {
-    validCategories = message.validCategories || [];
-    validSubcategories = message.validSubcategories || [];
-    validAlternateSubcategories = message.validAlternateSubcategories || [];
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    categoryManager.import(message.validCategories, message.validSubcategories, message.validAlternateSubcategories);
+    categoryManager.loadCategoryModal();
 
     updateDifficulties(message.difficulties || []);
     document.getElementById('set-name').value = message.setName || '';
     document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
-    maxPacketNumber = await getNumPackets(document.getElementById('set-name').value);
+    maxPacketNumber = await api.getNumPackets(document.getElementById('set-name').value);
     if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
         document.getElementById('set-name').classList.add('is-invalid');
     }
