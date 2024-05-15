@@ -644,10 +644,6 @@ function QueryForm() {
   const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
   const [queryTime, setQueryTime] = React.useState(0);
   const fontSize = localStorage.getItem('database-font-size') === 'true' ? localStorage.getItem('font-size') ?? 16 : 16;
-  React.useEffect(async () => {
-    const SET_LIST = api.getSetList();
-    document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
-  }, []);
   function arrayBetween(start, end) {
     return Array(end - start).fill().map((_, idx) => start + idx);
   }
@@ -839,7 +835,7 @@ function QueryForm() {
       fontSize: fontSize
     }));
   }
-  React.useEffect(async () => {
+  React.useEffect(() => {
     attachDropdownChecklist();
     document.getElementById('difficulties').addEventListener('change', function () {
       setDifficulties(getDropdownValues('difficulties'));
@@ -895,6 +891,7 @@ function QueryForm() {
       setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
       setQueryTime(timeElapsed);
     });
+    document.getElementById('set-list').innerHTML = api.getSetList().map(setName => `<option>${setName}</option>`).join('');
   }, []);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
     className: "mt-3",
