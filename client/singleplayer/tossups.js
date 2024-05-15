@@ -7,12 +7,22 @@ import CategoryManager from '../utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
 
 // Functions and variables specific to the tossups page.
+
 // Status variables
 let currentlyBuzzing = false;
 let maxPacketNumber = 24;
 let paused = false;
 let questionNumber = 0; // WARNING: 1-indexed
+/**
+ * An array of random questions.
+ * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
+ */
+let randomTossups = [];
 let timeoutID = -1;
+
+let tossups = [{}];
+let tossupText = '';
+let tossupTextSplit = [];
 
 const previous = {
     isCorrect: true,
@@ -22,6 +32,16 @@ const previous = {
     endOfQuestion: false,
     celerity: 0,
 };
+
+const stats = sessionStorage.getItem('tossup-stats') ?
+    JSON.parse(sessionStorage.getItem('tossup-stats')) : {
+        powers: 0,
+        tens: 0,
+        negs: 0,
+        dead: 0,
+        points: 0,
+        totalCorrectCelerity: 0,
+    };
 
 const defaults = {
     alternateSubcategories: [],
@@ -61,8 +81,8 @@ const settings = localStorage.getItem('singleplayer-tossup-settings')
     };
 
 if (localStorage.getItem('questionNumberTossupSave')) {
-    document.getElementById('question-number').value = localStorage.getItem('questionNumberTossupSave');
-    questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave')) - 1;
+    questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave'));
+    document.getElementById('question-number').value = questionNumber;
 }
 
 // Load query and settings first so user doesn't see the default settings
@@ -125,28 +145,7 @@ if (query.setName) {
     });
 }
 
-const stats = sessionStorage.getItem('tossup-stats') ?
-    JSON.parse(sessionStorage.getItem('tossup-stats')) : {
-        powers: 0,
-        tens: 0,
-        negs: 0,
-        dead: 0,
-        points: 0,
-        totalCorrectCelerity: 0,
-    };
-
 updateStatDisplay();
-
-let questions = [{}];
-let questionText = '';
-let questionTextSplit = [];
-
-/**
- * An array of random questions.
- * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
- */
-let randomQuestions = [];
-
 
 function queryLock() {
     document.getElementById('question').textContent = 'Fetching questions...';
@@ -176,7 +175,7 @@ async function advanceQuestion() {
             questionNumber++;
 
             // Go to the next packet if you reach the end of this packet
-            if (questionNumber > questions.length) {
+            if (questionNumber > tossups.length) {
                 query.packetNumbers.shift();
                 if (query.packetNumbers.length === 0) {
                     window.alert('No more questions left');
@@ -188,40 +187,40 @@ async function advanceQuestion() {
 
                 queryLock();
                 try {
-                    questions = await api.getPacketTossups(query.setName, query.packetNumbers[0]);
+                    tossups = await api.getPacketTossups(query.setName, query.packetNumbers[0]);
                 } finally {
                     queryUnlock();
                 }
 
                 questionNumber = 1;
             }
-        } while (!categoryManager.isValidCategory(questions[questionNumber - 1]));
+        } while (!categoryManager.isValidCategory(tossups[questionNumber - 1]));
 
-        if (Object.keys(questions[0]).length > 0) {
-            questionText = questions[questionNumber - 1].question_sanitized;
-            questionTextSplit = questionText.split(' ').filter(word => word !== '');
+        if (Object.keys(tossups[0]).length > 0) {
+            tossupText = tossups[questionNumber - 1].question_sanitized;
+            tossupTextSplit = tossupText.split(' ').filter(word => word !== '');
             document.getElementById('question-number-info').textContent = questionNumber;
         }
     } else {
         queryLock();
         try {
-            questions = await getRandomTossup(query);
-            questions = [questions];
+            tossups = await getRandomTossup(query);
+            tossups = [tossups];
         } finally {
             queryUnlock();
         }
 
-        if (!questions[0]) {
+        if (!tossups[0]) {
             alert('No questions found');
             return false;
         }
 
-        query.setName = questions[0].set.name;
-        query.packetNumbers = [questions[0].packet.number];
+        query.setName = tossups[0].set.name;
+        query.packetNumbers = [tossups[0].packet.number];
 
-        questionText = questions[0].question_sanitized;
-        questionTextSplit = questionText.split(' ').filter(word => word !== '');
-        document.getElementById('question-number-info').textContent = questions[0].number;
+        tossupText = tossups[0].question_sanitized;
+        tossupTextSplit = tossupText.split(' ').filter(word => word !== '');
+        document.getElementById('question-number-info').textContent = tossups[0].number;
         questionNumber = 1;
     }
 
@@ -269,7 +268,7 @@ function clearStats() {
 async function giveAnswer(givenAnswer) {
     currentlyBuzzing = false;
 
-    const { directive, directedPrompt } = await api.checkAnswer(questions[questionNumber - 1].answer, givenAnswer);
+    const { directive, directedPrompt } = await api.checkAnswer(tossups[questionNumber - 1].answer, givenAnswer);
 
     switch (directive) {
     case 'accept':
@@ -308,8 +307,8 @@ function isPace(setName) {
 }
 
 async function loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number = 1, powermarkOnly, standardOnly, subcategories } = {}) {
-    randomQuestions = [];
-    randomQuestions = await api.getRandomTossup({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories });
+    randomTossups = [];
+    randomTossups = await api.getRandomTossup({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories });
 }
 
 
@@ -318,14 +317,14 @@ async function loadRandomTossups({ alternateSubcategories, categories, difficult
  * @returns
  */
 async function getRandomTossup({ alternateSubcategories, categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly } = {}) {
-    if (randomQuestions.length === 0) {
+    if (randomTossups.length === 0) {
         await loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
     }
 
-    const randomQuestion = randomQuestions.pop();
+    const randomQuestion = randomTossups.pop();
 
     // Begin loading the next batch of questions (asynchronously)
-    if (randomQuestions.length === 0) {
+    if (randomTossups.length === 0) {
         loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
     }
 
@@ -340,7 +339,7 @@ async function next() {
 
     if (await account.getUsername() && document.getElementById('answer').innerHTML) {
         const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
-        questionStats.recordTossup(questions[questionNumber - 1], previous.isCorrect, pointValue, previous.celerity, false);
+        questionStats.recordTossup(tossups[questionNumber - 1], previous.isCorrect, pointValue, previous.celerity, false);
     }
 
     document.getElementById('answer').textContent = '';
@@ -350,8 +349,9 @@ async function next() {
 
     const hasNextQuestion = await advanceQuestion();
 
-    if (!hasNextQuestion)
+    if (!hasNextQuestion) {
         return;
+    }
 
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
@@ -388,8 +388,8 @@ function pause() {
  * Recursively reads the question based on the reading speed.
  */
 function readQuestion(expectedReadTime) {
-    if (!currentlyBuzzing && questionTextSplit.length > 0) {
-        const word = questionTextSplit.shift();
+    if (!currentlyBuzzing && tossupTextSplit.length > 0) {
+        const word = tossupTextSplit.shift();
         if (word !== '(*)') {
             document.getElementById('question').textContent += word + ' ';
         }
@@ -417,8 +417,8 @@ function readQuestion(expectedReadTime) {
 
 
 function revealQuestion() {
-    document.getElementById('question').innerHTML = questions[questionNumber - 1].question;
-    document.getElementById('answer').innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answer;
+    document.getElementById('question').innerHTML = tossups[questionNumber - 1].question;
+    document.getElementById('answer').innerHTML = 'ANSWER: ' + tossups[questionNumber - 1].answer;
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('buzz').textContent = 'Buzz';
@@ -460,14 +460,14 @@ function toggleCorrect() {
 
 
 function updateScore(isCorrect) {
-    const endOfQuestion = (questionTextSplit.length === 0);
-    const inPower = questionTextSplit.includes('(*)') && questionText.includes('(*)');
+    const endOfQuestion = (tossupTextSplit.length === 0);
+    const inPower = tossupTextSplit.includes('(*)') && tossupText.includes('(*)');
     const powerValue = isPace(query.setName) ? 20 : 15;
     const negValue = isPace(query.setName) ? 0 : -5;
     const points = isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
 
-    const characterCount = questionTextSplit.join(' ').length;
-    const celerity = characterCount / questionText.length;
+    const characterCount = tossupTextSplit.join(' ').length;
+    const celerity = characterCount / tossupText.length;
 
     let result;
 
@@ -602,7 +602,7 @@ document.getElementById('difficulties').addEventListener('change', function () {
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    createTossupCard(questions[questionNumber - 1]);
+    createTossupCard(tossups[questionNumber - 1]);
     next();
 });
 
@@ -688,7 +688,7 @@ document.getElementById('start').addEventListener('click', async function () {
     if (settings.selectBySetName) {
         queryLock();
         try {
-            questions = await api.getPacketTossups(query.setName, query.packetNumbers[0]);
+            tossups = await api.getPacketTossups(query.setName, query.packetNumbers[0]);
         } finally {
             queryUnlock();
         }
@@ -798,7 +798,7 @@ document.addEventListener('keydown', (event) => {
         document.getElementsByClassName('star-tossup')[0].click();
         break;
     case 'y':
-        navigator.clipboard.writeText(questions[0]?._id ?? '');
+        navigator.clipboard.writeText(tossups[0]?._id ?? '');
         break;
     case 'n':
         document.getElementById('next').click();
