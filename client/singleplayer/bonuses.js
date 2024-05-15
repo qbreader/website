@@ -334,7 +334,7 @@ async function next(revealedAllParts) {
 
     currentBonusPart = 0;
     createLeadin(bonuses[questionNumber - 1].leadin);
-    createBonusPart(currentBonusPart, bonuses[questionNumber - 1].parts[currentBonusPart], bonuses[questionNumber - 1]?.values[currentBonusPart]);
+    createBonusPart(currentBonusPart, bonuses[questionNumber - 1].parts[currentBonusPart], bonuses[questionNumber - 1].values?.at(currentBonusPart));
 }
 
 
@@ -357,7 +357,7 @@ function revealBonusPart() {
         return;
     }
 
-    createBonusPart(currentBonusPart, bonuses[questionNumber - 1].parts[currentBonusPart], bonuses[questionNumber - 1]?.values[currentBonusPart]);
+    createBonusPart(currentBonusPart, bonuses[questionNumber - 1].parts[currentBonusPart], bonuses[questionNumber - 1].values?.at(currentBonusPart));
 }
 
 
