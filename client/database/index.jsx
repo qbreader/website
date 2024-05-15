@@ -1086,7 +1086,11 @@ function QueryForm() {
                 tossupCount > 0
                     ? <div className="float-row mb-3">
                         <span className="text-muted float-start">Showing {tossups.length} of {tossupCount} results ({queryTime} seconds)</span>&nbsp;
-                        <span className="text-muted float-end"><a href="#bonuses">Jump to bonuses</a></span>
+                        <span className="text-muted float-end">
+                            <a className="clickable" onClick={() => window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' })}>
+                                Jump to bonuses
+                            </a>
+                        </span>
                     </div>
                     : <div className="text-muted">No tossups found</div>
             }
@@ -1139,7 +1143,11 @@ function QueryForm() {
                 bonusCount > 0
                     ? <div className="float-row mb-3">
                         <span className="text-muted float-start">Showing {bonuses.length} of {bonusCount} results ({queryTime} seconds)</span>&nbsp;
-                        <span className="text-muted float-end"><a href="#tossups">Jump to tossups</a></span>
+                        <span className="text-muted float-end">
+                            <a className="clickable" onClick={() => window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' })}>
+                                Jump to tossups
+                            </a>
+                        </span>
                     </div>
                     : <div className="text-muted">No bonuses found</div>
             }
