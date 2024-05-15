@@ -1001,7 +1001,7 @@ function QueryForm() {
                             <label className="form-check-label" htmlFor="toggle-show-card-footers">Show card footers</label>
                         </div>
                         <div className="float-end">
-                            <b>Download:</b>
+                            <b>Download this page:</b>
                             <a className="ms-2 clickable" onClick={() => {downloadQuestionsAsText(tossups, bonuses);}}>TXT</a>
                             <a className="ms-2 clickable" onClick={() => {downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses);}}>CSV</a>
                             <a className="ms-2 clickable" onClick={() => {downloadQuestionsAsJSON(tossups, bonuses);}}>JSON</a>
