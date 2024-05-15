@@ -357,6 +357,7 @@ async function next() {
     document.getElementById('buzz').disabled = false;
     document.getElementById('next').textContent = 'Skip';
     document.getElementById('packet-number-info').textContent = query.packetNumbers[0];
+    document.getElementById('packet-length-info').textContent = settings.selectBySetName ? tossups.length : '-';
     document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
     document.getElementById('question').textContent = '';
