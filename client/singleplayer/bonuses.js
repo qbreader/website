@@ -244,6 +244,21 @@ function createLeadin(leadinText) {
 }
 
 
+function getPointsPerPart(bonus) {
+    return Array.from(document.getElementsByClassName('checkbox')).map((checkbox, index) => {
+        if (!checkbox.checked) {
+            return 0;
+        }
+
+        if (bonus?.values === undefined || bonus?.values === null || bonus?.values[index] === undefined || bonus?.values[index] === null) {
+            return 10;
+        }
+
+        return bonus.values[index];
+    });
+}
+
+
 async function getRandomBonus({ alternateSubcategories, categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
     if (randomBonuses.length === 0) {
         await loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
@@ -295,28 +310,12 @@ async function loadRandomBonuses({ alternateSubcategories, categories, difficult
 
 /**
  * Loads and reads the next question.
+ * @param {boolean} revealedAllParts - Whether all parts of the bonus have been revealed.
  */
-async function next() {
-    if (bonuses[questionNumber - 1] && currentBonusPart >= bonuses[questionNumber - 1].parts.length) {
-        const pointsPerPart = Array.from(document.getElementsByClassName('checkbox')).map((checkbox, index) => {
-            if (!checkbox.checked) {
-                return 0;
-            }
-
-            if (bonuses[questionNumber - 1].values === undefined || bonuses[questionNumber - 1].values === null) {
-                return 10;
-            }
-
-            if (bonuses[questionNumber - 1].values[index] === undefined || bonuses[questionNumber - 1].values[index] === null) {
-                return 10;
-            }
-
-            return bonuses[questionNumber - 1].values[index];
-        });
-
-        if (await account.getUsername()) {
-            questionStats.recordBonus(bonuses[questionNumber - 1], pointsPerPart);
-        }
+async function next(revealedAllParts) {
+    if (revealedAllParts && await account.getUsername()) {
+        const pointsPerPart = getPointsPerPart(bonuses[questionNumber - 1]);
+        questionStats.recordBonus(bonuses[questionNumber - 1], pointsPerPart);
     }
 
     document.getElementById('question').textContent = '';
@@ -377,17 +376,11 @@ function updateStatDisplay() {
 
 
 function updateStatsForCurrentBonus() {
-    let pointsOnBonus = 0;
-
-    Array.from(document.getElementsByClassName('checkbox')).forEach(checkbox => {
-        if (checkbox.checked) {
-            pointsOnBonus += 10;
-        }
-    });
-
+    const pointsOnBonus = getPointsPerPart(bonuses[questionNumber - 1]).reduce((a, b) => a + b, 0);
     stats[pointsOnBonus] = isNaN(stats[pointsOnBonus]) ? 1 : stats[pointsOnBonus] + 1;
     sessionStorage.setItem('bonus-stats', JSON.stringify(stats));
 }
+
 
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function () {
@@ -460,12 +453,14 @@ document.getElementById('next').addEventListener('click', function () {
     this.blur();
     createBonusCard(bonuses[questionNumber - 1]);
 
-    if (this.innerHTML === 'Next') {
+    const revealedAllParts = this.innerHTML === 'Next';
+
+    if (revealedAllParts) {
         updateStatsForCurrentBonus();
         updateStatDisplay();
     }
 
-    next();
+    next(revealedAllParts);
 });
 
 
