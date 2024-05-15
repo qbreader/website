@@ -1,3 +1,5 @@
+import { stringifyBonus, stringifyTossup } from './stringify.js';
+import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
 import account from '../accounts.js';
 import api from '../api/index.js';
 import CategoryManager from '../utilities/category-manager.js';
@@ -9,96 +11,6 @@ const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['S
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
 const ALTERNATE_SUBCATEGORY_BUTTONS = [['Drama', 'primary'], ['Long Fiction', 'primary'], ['Poetry', 'primary'], ['Short Fiction', 'primary'], ['Misc Literature', 'primary'], ['Math', 'danger'], ['Astronomy', 'danger'], ['Computer Science', 'danger'], ['Earth Science', 'danger'], ['Engineering', 'danger'], ['Misc Science', 'danger'], ['Architecture', 'warning'], ['Dance', 'warning'], ['Film', 'warning'], ['Jazz', 'warning'], ['Opera', 'warning'], ['Photography', 'warning'], ['Misc Arts', 'warning'], ['Anthropology', 'secondary'], ['Economics', 'secondary'], ['Linguistics', 'secondary'], ['Psychology', 'secondary'], ['Sociology', 'secondary'], ['Other Social Science', 'secondary']];
 const categoryManager = new CategoryManager();
-function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
-  const JSONdata = {
-    tossups,
-    bonuses
-  };
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(JSONdata, null, 4));
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
-function escapeCSVString(string) {
-  if (string === undefined || string === null) return '';
-  if (typeof string !== 'string') string = string.toString();
-  return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
-}
-function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
-  const header = ['_id', 'set.name', 'packet.number', 'number', 'question', 'answer', 'answer', 'category', 'subcategory', 'alternate_subcategory', 'difficulty', 'set._id', 'packet._id', 'createdAt', 'updatedAt'];
-  let csvdata = header.join(',') + '\n';
-  for (const tossup of tossups) {
-    for (const key of header) {
-      const parts = key.split('.');
-      let value = tossup;
-      for (const part of parts) {
-        if (value === undefined) {
-          break;
-        } else {
-          value = value[part];
-        }
-      }
-      csvdata += escapeCSVString(value) + ',';
-    }
-    csvdata = csvdata.slice(0, -1);
-    csvdata += '\n';
-  }
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(csvdata);
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
-function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
-  const header = ['_id', 'set.name', 'packet.number', 'number', 'leadin', 'parts.0', 'parts.1', 'parts.2', 'answers_sanitized.0', 'answers_sanitized.1', 'answers_sanitized.2', 'answers.0', 'answers.1', 'answers.2', 'category', 'subcategory', 'alternate_subcategory', 'difficulty', 'set._id', 'packet._id', 'createdAt', 'updatedAt'];
-  let csvdata = header.join(',') + '\n';
-  for (const bonus of bonuses) {
-    for (const key of header) {
-      const parts = key.split('.');
-      let value = bonus;
-      for (const part of parts) {
-        if (value === undefined) {
-          break;
-        } else {
-          value = value[part];
-        }
-      }
-      csvdata += escapeCSVString(value) + ',';
-    }
-    csvdata = csvdata.slice(0, -1);
-    csvdata += '\n';
-  }
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(csvdata);
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
-function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
-  let textdata = '';
-  for (const tossup of tossups) {
-    textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
-    textdata += `Question ID: ${tossup._id}\n`;
-    textdata += `${tossup.number}. ${tossup.question}\n`;
-    textdata += `ANSWER: ${tossup.answer_sanitized}\n`;
-    textdata += `<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''}>\n\n`;
-  }
-  for (const bonus of bonuses) {
-    textdata += `Question ID: ${bonus._id}\n`;
-    textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
-    textdata += `${bonus.number}. ${bonus.leadin}\n`;
-    for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers_sanitized[i]}\n`;
-    }
-    textdata += `<${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''}>\n\n`;
-  }
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/text;charset=utf-8,' + encodeURIComponent(textdata);
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
 function getMatchIndices(clean, regex) {
   const iterator = clean.matchAll(regex);
   const starts = [];
@@ -187,19 +99,7 @@ function TossupCard({
   const _id = tossup._id;
   const packetName = tossup.packet.name;
   function clickToCopy() {
-    let textdata = `${tossup.question}\nANSWER: ${tossup.answer_sanitized}`;
-    let tag = '';
-    if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
-      tag += `${tossup.category} / ${tossup.subcategory}`;
-    } else if (tossup.category) {
-      tag += `${tossup.category}`;
-    } else if (tossup.subcategory) {
-      tag += `${tossup.subcategory}`;
-    }
-    if (tossup.alternate_subcategory) {
-      tag += ` (${tossup.alternate_subcategory})`;
-    }
-    textdata += `\n<${tag}>`;
+    const textdata = stringifyTossup(tossup);
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
@@ -328,23 +228,7 @@ function BonusCard({
     indices.push(i);
   }
   function clickToCopy() {
-    let textdata = `${bonus.leadin}\n`;
-    for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\n`;
-      textdata += `ANSWER: ${bonus.answers_sanitized[i]}\n`;
-    }
-    let tag = '';
-    if (bonus.category && bonus.subcategory && bonus.category !== bonus.subcategory) {
-      tag += `${bonus.category} / ${bonus.subcategory}`;
-    } else if (bonus.category) {
-      tag += `${bonus.category}`;
-    } else if (bonus.subcategory) {
-      tag += `${bonus.subcategory}`;
-    }
-    if (bonus.alternate_subcategory) {
-      tag += ` (${bonus.alternate_subcategory})`;
-    }
-    textdata += `<${tag}>`;
+    const textdata = stringifyBonus(bonus);
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
