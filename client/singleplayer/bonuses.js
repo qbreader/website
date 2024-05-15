@@ -331,6 +331,7 @@ async function next() {
 
     document.getElementById('set-name-info').textContent = query.setName;
     document.getElementById('packet-number-info').textContent = query.packetNumbers[0];
+    document.getElementById('packet-length-info').textContent = settings.selectBySetName ? bonuses.length : '-';
 
     currentBonusPart = 0;
     createLeadin(bonuses[questionNumber - 1].leadin);
