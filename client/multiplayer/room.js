@@ -22,21 +22,6 @@ let tossup = {};
 let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
 let username = localStorage.getItem('multiplayer-username') || await api.getRandomName();
 
-function showNextButton() {
-    document.getElementById('next').classList.remove('d-none');
-    document.getElementById('next').disabled = false;
-    document.getElementById('skip').classList.add('d-none');
-    document.getElementById('skip').disabled = true;
-}
-
-
-function showSkipButton() {
-    document.getElementById('skip').classList.remove('d-none');
-    document.getElementById('skip').disabled = !document.getElementById('toggle-skip').checked;
-    document.getElementById('next').classList.add('d-none');
-    document.getElementById('next').disabled = true;
-}
-
 
 const socket = new WebSocket(
     location.href.replace('http', 'ws')
@@ -673,6 +658,22 @@ function logGiveAnswer(username, message, isLive = false, directive = null) {
     if (!isLive) {
         li.id = '';
     }
+}
+
+
+function showNextButton() {
+    document.getElementById('next').classList.remove('d-none');
+    document.getElementById('next').disabled = false;
+    document.getElementById('skip').classList.add('d-none');
+    document.getElementById('skip').disabled = true;
+}
+
+
+function showSkipButton() {
+    document.getElementById('skip').classList.remove('d-none');
+    document.getElementById('skip').disabled = !document.getElementById('toggle-skip').checked;
+    document.getElementById('next').classList.add('d-none');
+    document.getElementById('next').disabled = true;
 }
 
 
