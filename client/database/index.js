@@ -1177,7 +1177,11 @@ function QueryForm() {
   }, "Showing ", tossups.length, " of ", tossupCount, " results (", queryTime, " seconds)"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#bonuses"
+    className: "clickable",
+    onClick: () => window.scrollTo({
+      top: document.getElementById('bonuses').offsetTop,
+      behavior: 'smooth'
+    })
   }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("div", {
     className: "text-muted"
   }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
@@ -1247,7 +1251,11 @@ function QueryForm() {
   }, "Showing ", bonuses.length, " of ", bonusCount, " results (", queryTime, " seconds)"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#tossups"
+    className: "clickable",
+    onClick: () => window.scrollTo({
+      top: document.getElementById('tossups').offsetTop,
+      behavior: 'smooth'
+    })
   }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("div", {
     className: "text-muted"
   }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
