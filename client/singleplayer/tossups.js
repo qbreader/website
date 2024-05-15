@@ -5,10 +5,12 @@ import audio from '../audio/index.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../utilities/index.js';
 import CategoryManager from '../utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
+import { insertTokensIntoHTML } from '../utilities/insert-tokens-into-html.js';
 
 // Functions and variables specific to the tossups page.
 
 // Status variables
+let buzzpointIndex = -1;
 let currentlyBuzzing = false;
 let maxPacketNumber = 24;
 let paused = false;
@@ -239,6 +241,11 @@ function buzz() {
     currentlyBuzzing = true;
     if (audio.soundEffects) audio.buzz.play();
 
+    buzzpointIndex = document.getElementById('question').textContent.length;
+    if (!tossupTextSplit.includes('(*)') && tossupText.includes('(*)')) {
+        buzzpointIndex += 3;
+    }
+
     // Include buzzpoint
     document.getElementById('question').textContent += '(#) ';
 
@@ -425,7 +432,7 @@ function readQuestion(expectedReadTime) {
 
 
 function revealQuestion() {
-    document.getElementById('question').innerHTML = tossups[questionNumber - 1].question;
+    document.getElementById('question').innerHTML = insertTokensIntoHTML(tossups[questionNumber - 1].question, tossups[questionNumber - 1].question_sanitized, [[buzzpointIndex]], [' (#) ']);
     document.getElementById('answer').innerHTML = 'ANSWER: ' + tossups[questionNumber - 1].answer;
 
     document.getElementById('buzz').disabled = true;
