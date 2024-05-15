@@ -1107,7 +1107,7 @@ function QueryForm() {
     htmlFor: "toggle-show-card-footers"
   }, "Show card footers")), /*#__PURE__*/React.createElement("div", {
     className: "float-end"
-  }, /*#__PURE__*/React.createElement("b", null, "Download:"), /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("b", null, "Download this page:"), /*#__PURE__*/React.createElement("a", {
     className: "ms-2 clickable",
     onClick: () => {
       downloadQuestionsAsText(tossups, bonuses);
