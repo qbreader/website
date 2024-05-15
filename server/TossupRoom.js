@@ -6,6 +6,8 @@ import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENG
 import getRandomTossups from '../database/qbreader/get-random-tossups.js';
 import getSet from '../database/qbreader/get-set.js';
 
+import { insertTokensIntoHTML } from '../client/utilities/insert-tokens-into-html.js';
+
 import checkAnswer from 'qb-answer-checker';
 
 import createDOMPurify from 'dompurify';
@@ -44,6 +46,7 @@ class TossupRoom {
         this.timeoutID = null;
         this.buzzedIn = null;
         this.buzzes = [];
+        this.buzzpointIndices = [];
         this.liveAnswer = '';
         this.paused = false;
         this.queryingQuestion = false;
@@ -159,7 +162,7 @@ class TossupRoom {
             tossup: this.tossup,
         }));
 
-        if (this.questionProgress !== QuestionProgressEnum.NOT_STARTED && this.tossup?.question) {
+        if (this.questionProgress === QuestionProgressEnum.READING) {
             socket.send(JSON.stringify({
                 type: 'update-question',
                 word: this.questionSplit.slice(0, this.wordIndex).join(' '),
@@ -169,6 +172,7 @@ class TossupRoom {
         if (this.questionProgress === QuestionProgressEnum.ANSWER_REVEALED && this.tossup?.answer) {
             socket.send(JSON.stringify({
                 type: 'reveal-answer',
+                question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),
                 answer: this.tossup.answer,
             }));
         }
@@ -466,6 +470,7 @@ class TossupRoom {
     async advanceQuestion() {
         this.buzzedIn = null;
         this.buzzes = [];
+        this.buzzpointIndices = [];
         this.paused = false;
         this.queryingQuestion = true;
         this.wordIndex = 0;
@@ -506,6 +511,8 @@ class TossupRoom {
             return;
         }
 
+        clearTimeout(this.timeoutID);
+
         if (this.buzzedIn) {
             this.sendSocketMessage({
                 type: 'lost-buzzer-race',
@@ -517,7 +524,7 @@ class TossupRoom {
 
         this.buzzedIn = userId;
         this.buzzes.push(userId);
-        clearTimeout(this.timeoutID);
+        this.buzzpointIndices.push(this.questionSplit.slice(0, this.wordIndex).join(' ').length);
         this.sendSocketMessage({
             type: 'buzz',
             userId: userId,
@@ -688,19 +695,12 @@ class TossupRoom {
     revealQuestion() {
         if (Object.keys(this.tossup).length === 0) return;
 
-        const remainingQuestion = this.questionSplit.slice(this.wordIndex).join(' ');
-        this.sendSocketMessage({
-            type: 'update-question',
-            word: remainingQuestion,
-        });
-
+        this.questionProgress = QuestionProgressEnum.ANSWER_REVEALED;
         this.sendSocketMessage({
             type: 'reveal-answer',
+            question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),
             answer: this.tossup.answer,
         });
-
-        this.wordIndex = this.questionSplit.length;
-        this.questionProgress = QuestionProgressEnum.ANSWER_REVEALED;
     }
 
     sendSocketMessage(message) {
