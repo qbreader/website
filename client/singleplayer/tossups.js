@@ -271,11 +271,18 @@ async function giveAnswer(givenAnswer) {
     const { directive, directedPrompt } = await api.checkAnswer(tossups[questionNumber - 1].answer, givenAnswer);
 
     switch (directive) {
-    case 'accept':
-        updateScore(true);
-        if (audio.soundEffects) audio.correct.play();
+    case 'accept': {
+        const points = updateScore(true);
+        if (audio.soundEffects) {
+            if (points > 10) {
+                audio.power.play();
+            } else {
+                audio.correct.play();
+            }
+        }
         revealQuestion();
         break;
+    }
     case 'reject':
         updateScore(false);
         if (audio.soundEffects) audio.incorrect.play();
@@ -491,6 +498,8 @@ function updateScore(isCorrect) {
 
     updateStatDisplay();
     sessionStorage.setItem('tossup-stats', JSON.stringify(stats));
+
+    return points;
 }
 
 
