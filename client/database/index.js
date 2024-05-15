@@ -3,6 +3,7 @@ import api from '../api/index.js';
 import CategoryManager from '../utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
 import { getBonusPartLabel } from '../utilities/index.js';
+import { insertTokensIntoHTML } from '../utilities/insert-tokens-into-html.js';
 const paginationShiftLength = screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
@@ -113,66 +114,6 @@ function getMatchIndices(clean, regex) {
     ends
   };
 }
-function insertMatches(dirty, clean, regex, start = '<span class="text-highlight">', end = '</span>') {
-  dirty = dirty.replace(/…/g, '...');
-  const result = [];
-  const {
-    starts,
-    ends
-  } = getMatchIndices(clean, regex);
-  let startIndex = 0;
-  let endIndex = 0;
-  let cleanPosition = 0;
-  let dirtyPosition = 0;
-  let lastDirtyPosition = 0;
-  while (cleanPosition <= clean.length) {
-    while (dirty.charAt(dirtyPosition) === '<' && clean.charAt(cleanPosition) !== '<') {
-      while (dirty.charAt(dirtyPosition) !== '>' && dirtyPosition < dirty.length - 1) {
-        dirtyPosition++;
-      }
-      dirtyPosition++;
-    }
-    while (['\u00B7', '\u22C5', '\u2027'].includes(dirty.charAt(dirtyPosition)) && !['\u00B7', '\u22C5', '\u2027'].includes(clean.charAt(cleanPosition)) && dirtyPosition < dirty.length - 1) {
-      dirtyPosition++;
-    }
-
-    // at this point, dirty[dirtyPosition] === clean[cleanPosition]
-    // or dirtyPosition === dirty.length
-    if (clean[cleanPosition] === '<') {
-      // replace it with a special single character
-      clean = clean.slice(0, cleanPosition) + '〈' + clean.slice(cleanPosition + 1);
-      dirty = dirty.slice(0, dirtyPosition) + '〈' + dirty.slice(dirtyPosition + 1);
-    }
-    if (clean[cleanPosition] === '>') {
-      // replace it with a special single character
-      clean = clean.slice(0, cleanPosition) + '〉' + clean.slice(cleanPosition + 1);
-      dirty = dirty.slice(0, dirtyPosition) + '〉' + dirty.slice(dirtyPosition + 1);
-    }
-    if (clean[cleanPosition] === '&') {
-      // replace it with a special single character
-      clean = clean.slice(0, cleanPosition) + '\u0267' + clean.slice(cleanPosition + 1);
-      dirty = dirty.slice(0, dirtyPosition) + '\u0267' + dirty.slice(dirtyPosition + 1);
-    }
-    result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
-    lastDirtyPosition = dirtyPosition;
-    if (starts[startIndex] === cleanPosition) {
-      result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
-      result.push(start);
-      startIndex++;
-      lastDirtyPosition = dirtyPosition;
-    }
-    if (ends[endIndex] === cleanPosition) {
-      result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
-      result.push(end);
-      endIndex++;
-      lastDirtyPosition = dirtyPosition;
-    }
-    cleanPosition++;
-    dirtyPosition++;
-  }
-  result.push(dirty.substring(lastDirtyPosition, dirty.length));
-  return result.join('').replace(/〈/g, '&lt;').replace(/〉/g, '&gt;').replace(/\u0267/g, '&amp;');
-}
 function highlightTossupQuery({
   tossup,
   regExp,
@@ -183,10 +124,18 @@ function highlightTossupQuery({
   const words = ignoreWordOrder ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig')) : [regExp];
   for (const word of words) {
     if (searchType === 'question' || searchType === 'all') {
-      tossup.question = insertMatches(tossup.question, tossup.question_sanitized, word);
+      const {
+        starts,
+        ends
+      } = getMatchIndices(tossup.question_sanitized, word);
+      tossup.question = insertTokensIntoHTML(tossup.question, tossup.question_sanitized, [starts, ends]);
     }
     if (searchType === 'answer' || searchType === 'all') {
-      tossup.answer = insertMatches(tossup.answer, tossup.answer_sanitized, word);
+      const {
+        starts,
+        ends
+      } = getMatchIndices(tossup.answer_sanitized, word);
+      tossup.answer = insertTokensIntoHTML(tossup.answer, tossup.answer_sanitized, [starts, ends]);
     }
   }
   return tossup;
@@ -201,14 +150,28 @@ function highlightBonusQuery({
   const words = ignoreWordOrder ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig')) : [regExp];
   for (const word of words) {
     if (searchType === 'question' || searchType === 'all') {
-      bonus.leadin = insertMatches(bonus.leadin, bonus.leadin_sanitized, word);
+      {
+        const {
+          starts,
+          ends
+        } = getMatchIndices(bonus.leadin_sanitized, word);
+        bonus.leadin = insertTokensIntoHTML(bonus.leadin, bonus.leadin_sanitized, [starts, ends]);
+      }
       for (let i = 0; i < bonus.parts.length; i++) {
-        bonus.parts[i] = insertMatches(bonus.parts[i], bonus.parts_sanitized[i], word);
+        const {
+          starts,
+          ends
+        } = getMatchIndices(bonus.parts_sanitized[i], word);
+        bonus.parts[i] = insertTokensIntoHTML(bonus.parts[i], bonus.parts_sanitized[i], [starts, ends]);
       }
     }
     if (searchType === 'answer' || searchType === 'all') {
       for (let i = 0; i < bonus.answers.length; i++) {
-        bonus.answers[i] = insertMatches(bonus.answers[i], bonus.answers_sanitized[i], word);
+        const {
+          starts,
+          ends
+        } = getMatchIndices(bonus.answers_sanitized[i], word);
+        bonus.answers[i] = insertTokensIntoHTML(bonus.answers[i], bonus.answers_sanitized[i], [starts, ends]);
       }
     }
   }
