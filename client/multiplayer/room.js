@@ -137,7 +137,7 @@ socket.onmessage = function (event) {
         break;
 
     case 'reveal-answer': {
-        document.getElementById('question').innerHTML = tossup.question;
+        document.getElementById('question').innerHTML = data.question;
         document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
         document.getElementById('pause').disabled = true;
         showNextButton();
