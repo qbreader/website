@@ -12,13 +12,22 @@ import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdow
 let currentBonusPart = -1;
 let maxPacketNumber = 24;
 let questionNumber = 0; // WARNING: 1-indexed
-let questions = [{}];
-
 /**
  * An array of random questions.
  * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
  */
-let randomQuestions = [];
+let randomBonuses = [];
+
+let bonuses = [{}];
+
+const stats = sessionStorage.getItem('bonus-stats')
+    ? JSON.parse(sessionStorage.getItem('bonus-stats'))
+    : {
+        0: 0,
+        10: 0,
+        20: 0,
+        30: 0,
+    };
 
 const defaults = {
     alternateSubcategories: [],
@@ -109,15 +118,6 @@ if (!query.threePartBonuses) {
     document.getElementById('toggle-three-part-bonuses').checked = false;
 }
 
-const stats = sessionStorage.getItem('bonus-stats')
-    ? JSON.parse(sessionStorage.getItem('bonus-stats'))
-    : {
-        0: 0,
-        10: 0,
-        20: 0,
-        30: 0,
-    };
-
 updateStatDisplay();
 
 
@@ -143,7 +143,7 @@ async function advanceQuestion() {
             questionNumber++;
 
             // Go to the next packet if you reach the end of this packet
-            if (questionNumber > questions.length) {
+            if (questionNumber > bonuses.length) {
                 query.packetNumbers.shift();
                 if (query.packetNumbers.length == 0) {
                     window.alert('No more questions left');
@@ -154,7 +154,7 @@ async function advanceQuestion() {
 
                 queryLock();
                 try {
-                    questions = await api.getPacketBonuses(query.setName, query.packetNumbers[0]);
+                    bonuses = await api.getPacketBonuses(query.setName, query.packetNumbers[0]);
                 } finally {
                     queryUnlock();
                 }
@@ -163,28 +163,28 @@ async function advanceQuestion() {
             }
 
             // Get the next question if the current one is in the wrong category and subcategory
-        } while (!categoryManager.isValidCategory(questions[questionNumber - 1]));
+        } while (!categoryManager.isValidCategory(bonuses[questionNumber - 1]));
 
-        if (Object.keys(questions[0]).length > 0) {
+        if (Object.keys(bonuses[0]).length > 0) {
             document.getElementById('question-number-info').textContent = questionNumber;
         }
     } else {
         queryLock();
         try {
-            questions = await getRandomBonus(query);
-            questions = [questions];
+            bonuses = await getRandomBonus(query);
+            bonuses = [bonuses];
         } finally {
             queryUnlock();
         }
 
-        if (!questions[0]) {
+        if (!bonuses[0]) {
             alert('No questions found');
             return false;
         }
 
-        query.setName = questions[0].set.name;
-        query.packetNumbers = [questions[0].packet.number];
-        document.getElementById('question-number-info').textContent = questions[0].number;
+        query.setName = bonuses[0].set.name;
+        query.packetNumbers = [bonuses[0].packet.number];
+        document.getElementById('question-number-info').textContent = bonuses[0].number;
         questionNumber = 1;
     }
 
@@ -244,29 +244,15 @@ function createLeadin(leadinText) {
 }
 
 
-function updateStatsForCurrentBonus() {
-    let pointsOnBonus = 0;
-
-    Array.from(document.getElementsByClassName('checkbox')).forEach(checkbox => {
-        if (checkbox.checked) {
-            pointsOnBonus += 10;
-        }
-    });
-
-    stats[pointsOnBonus] = isNaN(stats[pointsOnBonus]) ? 1 : stats[pointsOnBonus] + 1;
-    sessionStorage.setItem('bonus-stats', JSON.stringify(stats));
-}
-
-
 async function getRandomBonus({ alternateSubcategories, categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
-    if (randomQuestions.length === 0) {
+    if (randomBonuses.length === 0) {
         await loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
 
-    const randomQuestion = randomQuestions.pop();
+    const randomQuestion = randomBonuses.pop();
 
     // Begin loading the next batch of questions (asynchronously)
-    if (randomQuestions.length === 0) {
+    if (randomBonuses.length === 0) {
         loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
     }
 
@@ -275,7 +261,7 @@ async function getRandomBonus({ alternateSubcategories, categories, difficulties
 
 
 async function giveAnswer(givenAnswer) {
-    const { directive, directedPrompt } = await api.checkAnswer(questions[questionNumber - 1].answers[currentBonusPart], givenAnswer);
+    const { directive, directedPrompt } = await api.checkAnswer(bonuses[questionNumber - 1].answers[currentBonusPart], givenAnswer);
 
     switch (directive) {
     case 'accept':
@@ -302,8 +288,8 @@ async function giveAnswer(givenAnswer) {
 
 
 async function loadRandomBonuses({ alternateSubcategories, categories, difficulties, maxYear, minYear, number = 1, subcategories, threePartBonuses }) {
-    randomQuestions = [];
-    randomQuestions = await api.getRandomBonus({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses });
+    randomBonuses = [];
+    randomBonuses = await api.getRandomBonus({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses });
 }
 
 
@@ -311,25 +297,25 @@ async function loadRandomBonuses({ alternateSubcategories, categories, difficult
  * Loads and reads the next question.
  */
 async function next() {
-    if (questions[questionNumber - 1] && currentBonusPart >= questions[questionNumber - 1].parts.length) {
+    if (bonuses[questionNumber - 1] && currentBonusPart >= bonuses[questionNumber - 1].parts.length) {
         const pointsPerPart = Array.from(document.getElementsByClassName('checkbox')).map((checkbox, index) => {
             if (!checkbox.checked) {
                 return 0;
             }
 
-            if (questions[questionNumber - 1].values === undefined || questions[questionNumber - 1].values === null) {
+            if (bonuses[questionNumber - 1].values === undefined || bonuses[questionNumber - 1].values === null) {
                 return 10;
             }
 
-            if (questions[questionNumber - 1].values[index] === undefined || questions[questionNumber - 1].values[index] === null) {
+            if (bonuses[questionNumber - 1].values[index] === undefined || bonuses[questionNumber - 1].values[index] === null) {
                 return 10;
             }
 
-            return questions[questionNumber - 1].values[index];
+            return bonuses[questionNumber - 1].values[index];
         });
 
         if (await account.getUsername()) {
-            questionStats.recordBonus(questions[questionNumber - 1], pointsPerPart);
+            questionStats.recordBonus(bonuses[questionNumber - 1], pointsPerPart);
         }
     }
 
@@ -339,15 +325,16 @@ async function next() {
 
     const hasNextQuestion = await advanceQuestion();
 
-    if (!hasNextQuestion)
+    if (!hasNextQuestion) {
         return;
+    }
 
     document.getElementById('set-name-info').textContent = query.setName;
     document.getElementById('packet-number-info').textContent = query.packetNumbers[0];
 
     currentBonusPart = 0;
-    createLeadin(questions[questionNumber - 1].leadin);
-    createBonusPart(currentBonusPart, questions[questionNumber - 1].parts[currentBonusPart], questions[questionNumber - 1]?.values[currentBonusPart]);
+    createLeadin(bonuses[questionNumber - 1].leadin);
+    createBonusPart(currentBonusPart, bonuses[questionNumber - 1].parts[currentBonusPart], bonuses[questionNumber - 1]?.values[currentBonusPart]);
 }
 
 
@@ -355,22 +342,22 @@ async function next() {
  * Called when the users wants to reveal the next bonus part.
  */
 function revealBonusPart() {
-    if (currentBonusPart >= questions[questionNumber - 1].parts.length) {
+    if (currentBonusPart >= bonuses[questionNumber - 1].parts.length) {
         return;
     }
 
     const paragraph = document.createElement('p');
-    paragraph.innerHTML = 'ANSWER: ' + questions[questionNumber - 1].answers[currentBonusPart];
+    paragraph.innerHTML = 'ANSWER: ' + bonuses[questionNumber - 1].answers[currentBonusPart];
     document.getElementById(`bonus-part-${currentBonusPart + 1}`).appendChild(paragraph);
     currentBonusPart++;
 
-    if (currentBonusPart >= questions[questionNumber - 1].parts.length) {
+    if (currentBonusPart >= bonuses[questionNumber - 1].parts.length) {
         document.getElementById('reveal').disabled = true;
         document.getElementById('next').textContent = 'Next';
         return;
     }
 
-    createBonusPart(currentBonusPart, questions[questionNumber - 1].parts[currentBonusPart], questions[questionNumber - 1]?.values[currentBonusPart]);
+    createBonusPart(currentBonusPart, bonuses[questionNumber - 1].parts[currentBonusPart], bonuses[questionNumber - 1]?.values[currentBonusPart]);
 }
 
 
@@ -387,6 +374,19 @@ function updateStatDisplay() {
         = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${stats[30]}/${stats[20]}/${stats[10]}/${stats[0]}, ${points} pts)`;
 }
 
+
+function updateStatsForCurrentBonus() {
+    let pointsOnBonus = 0;
+
+    Array.from(document.getElementsByClassName('checkbox')).forEach(checkbox => {
+        if (checkbox.checked) {
+            pointsOnBonus += 10;
+        }
+    });
+
+    stats[pointsOnBonus] = isNaN(stats[pointsOnBonus]) ? 1 : stats[pointsOnBonus] + 1;
+    sessionStorage.setItem('bonus-stats', JSON.stringify(stats));
+}
 
 document.querySelectorAll('#categories input').forEach(input => {
     input.addEventListener('click', function () {
@@ -457,7 +457,7 @@ document.getElementById('difficulties').addEventListener('change', function () {
 
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    createBonusCard(questions[questionNumber - 1]);
+    createBonusCard(bonuses[questionNumber - 1]);
 
     if (this.innerHTML === 'Next') {
         updateStatsForCurrentBonus();
@@ -548,7 +548,7 @@ document.getElementById('start').addEventListener('click', async function () {
     if (settings.selectBySetName) {
         queryLock();
         try {
-            questions = await api.getPacketBonuses(query.setName, query.packetNumbers[0]);
+            bonuses = await api.getPacketBonuses(query.setName, query.packetNumbers[0]);
         } finally {
             queryUnlock();
         }
@@ -648,7 +648,7 @@ document.addEventListener('keydown', (event) => {
         document.getElementsByClassName('star-bonus')[0].click();
         break;
     case 'y':
-        navigator.clipboard.writeText(questions[0]?._id ?? '');
+        navigator.clipboard.writeText(bonuses[0]?._id ?? '');
         break;
     case 'n':
         document.getElementById('next').click();
