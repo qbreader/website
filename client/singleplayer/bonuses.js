@@ -310,7 +310,7 @@ async function loadRandomBonuses({ alternateSubcategories, categories, difficult
 
 /**
  * Loads and reads the next question.
- * @param {boolean} revealedAllParts - Whether all parts of the bonus have been revealed.
+ * @param {boolean} revealedAllParts - Whether all parts of the bonus have been revealed. if true, then question stats are uploaded to the server.
  */
 async function next(revealedAllParts) {
     if (revealedAllParts && await account.getUsername()) {
@@ -550,7 +550,7 @@ document.getElementById('start').addEventListener('click', async function () {
         }
     }
 
-    next();
+    next(false);
 });
 
 
