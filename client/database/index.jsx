@@ -904,6 +904,8 @@ function QueryForm() {
                 alert('Invalid query. Please check your search parameters and try again.');
             })
             .finally(() => {
+                document.querySelectorAll('b.collapsed[data-bs-toggle="collapse"]').forEach(element => element.classList.remove('collapsed'));
+                document.querySelectorAll('div.card-container.collapse:not(.show)').forEach(element => element.classList.add('show'));
                 setCurrentlySearching(false);
             });
     }
