@@ -203,6 +203,11 @@ class TossupRoom {
         }
 
         case 'chat':
+            // prevent chat messages if room is public, since they can still be sent with API
+            // also done in next event
+            if (this.settings.public)
+                return;
+
             this.sendSocketMessage({
                 type: 'chat',
                 username: this.players[userId].username,
@@ -212,6 +217,9 @@ class TossupRoom {
             break;
 
         case 'chat-live-update':
+            if (this.settings.public)
+                return;
+
             this.sendSocketMessage({
                 type: 'chat-live-update',
                 username: this.players[userId].username,
@@ -229,6 +237,10 @@ class TossupRoom {
             break;
 
         case 'difficulties':
+            if (message.value.some((value) => typeof value !== 'number' || isNaN(value) || value < 1 || value > 10)) {
+                return;
+            }
+
             this.sendSocketMessage({
                 type: 'difficulties',
                 username: this.players[userId].username,
@@ -277,9 +289,8 @@ class TossupRoom {
             break;
 
         case 'reading-speed':
-            if (isNaN(message.value)) {
+            if (isNaN(message.value) || message.value > 100 || message.value < 0)
                 return;
-            }
 
             this.settings.readingSpeed = message.value;
             this.sendSocketMessage({
@@ -409,6 +420,14 @@ class TossupRoom {
         case 'year-range': {
             const minYear = isNaN(message.minYear) ? DEFAULT_MIN_YEAR : parseInt(message.minYear);
             const maxYear = isNaN(message.maxYear) ? DEFAULT_MAX_YEAR : parseInt(message.maxYear);
+
+            if (maxYear < minYear)
+                return this.sendSocketMessage({
+                    type: 'year-range',
+                    minYear: this.query.minYear,
+                    maxYear: this.query.maxYear,
+                });
+
             this.sendSocketMessage({
                 type: 'year-range',
                 minYear: minYear,
@@ -590,6 +609,7 @@ class TossupRoom {
     async next(userId, type) {
         if (this.queryingQuestion) return;
         if (this.questionProgress === QuestionProgressEnum.READING && !this.settings.skip) return;
+        if (type === 'skip' && this.wordIndex < 5) return; // prevents spam-skipping bots
 
         clearTimeout(this.timeoutID);
 
