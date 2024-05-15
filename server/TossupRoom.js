@@ -609,7 +609,7 @@ class TossupRoom {
     async next(userId, type) {
         if (this.queryingQuestion) return;
         if (this.questionProgress === QuestionProgressEnum.READING && !this.settings.skip) return;
-        if (type === "skip" && this.wordIndex < 5) return; // prevents spam-skipping bots
+        if (type === 'skip' && this.wordIndex < 5) return; // prevents spam-skipping bots
 
         clearTimeout(this.timeoutID);
 
