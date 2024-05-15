@@ -1,4 +1,5 @@
 import { titleCase } from '../utilities/strings.js';
+import audio from '../audio/index.js';
 
 const packetName = window.location.pathname.split('/').pop();
 const packetTitle = titleCase(packetName);
@@ -7,6 +8,7 @@ let packetLength = 20;
 
 let currentAudio;
 let currentQuestionNumber = 0;
+const sampleAudio = new Audio(`/geoword/audio/${packetName}/sample.mp3`);
 
 let division;
 let numberCorrect = 0;
@@ -42,11 +44,6 @@ fetch('/api/geoword/get-progress?' + new URLSearchParams({ packetName }))
                 document.getElementById('packet-length').textContent = packetLength;
             });
     });
-
-const buzzAudio = new Audio('/audio/buzz.mp3');
-const correctAudio = new Audio('/audio/correct.mp3');
-const incorrectAudio = new Audio('/audio/incorrect.mp3');
-const sampleAudio = new Audio(`/geoword/audio/${packetName}/sample.mp3`);
 
 async function checkGeowordAnswer(givenAnswer, questionNumber) {
     return await fetch('/api/geoword/check-answer?' + new URLSearchParams({
@@ -136,10 +133,10 @@ function updateScore(isCorrect, givenAnswer, actualAnswer, prompts=[]) {
     const currentPoints = isCorrect ? 10 + Math.round(10 * celerity) : 0;
 
     if (isCorrect) {
-        correctAudio.play();
+        audio.correct.play();
         numberCorrect++;
     } else {
-        incorrectAudio.play();
+        audio.incorrectAudio.play();
         document.getElementById('protest-text').classList.remove('d-none');
     }
 
@@ -186,7 +183,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
 document.getElementById('buzz').addEventListener('click', function () {
     currentAudio.pause();
-    buzzAudio.play();
+    audio.buzz.play();
 
     document.getElementById('answer-input-group').classList.remove('d-none');
     document.getElementById('answer-input').focus();
