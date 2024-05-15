@@ -440,7 +440,9 @@ const socketOnGiveAnswer = async (message) => {
     }
 
     if (audio.soundEffects && userId === USER_ID) {
-        if (directive === 'accept') {
+        if (directive === 'accept' && score > 10) {
+            audio.power.play();
+        } else if (directive === 'accept' && score == 10) {
             audio.correct.play();
         } else if (directive === 'reject') {
             audio.incorrect.play();
