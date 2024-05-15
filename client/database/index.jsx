@@ -737,11 +737,6 @@ function QueryForm() {
 
     const fontSize = localStorage.getItem('database-font-size') === 'true' ? (localStorage.getItem('font-size') ?? 16) : 16;
 
-    React.useEffect(async () => {
-        const SET_LIST = api.getSetList();
-        document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
-    }, []);
-
     function arrayBetween(start, end) {
         return Array(end - start).fill().map((_, idx) => start + idx);
     }
@@ -920,7 +915,7 @@ function QueryForm() {
         bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} hideAnswerlines={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize}/>);
     }
 
-    React.useEffect(async () => {
+    React.useEffect(() => {
         attachDropdownChecklist();
 
         document.getElementById('difficulties').addEventListener('change', function () {
@@ -979,6 +974,8 @@ function QueryForm() {
 
             setQueryTime(timeElapsed);
         });
+
+        document.getElementById('set-list').innerHTML = api.getSetList().map(setName => `<option>${setName}</option>`).join('');
     }, []);
 
     return (
