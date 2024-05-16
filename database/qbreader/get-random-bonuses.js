@@ -37,23 +37,23 @@ async function getRandomBonuses({
         { $project: { reports: 0 } },
     ];
 
-    if (difficulties.length) {
+    if (difficulties?.length) {
         aggregation[0].$match.difficulty = { $in: difficulties };
     }
 
-    if (alternateSubcategories.length) {
+    if (alternateSubcategories?.length) {
         aggregation[0].$match.alternate_subcategory = { $in: alternateSubcategories.concat([null]) };
     }
 
-    if (categories.length) {
+    if (categories?.length) {
         aggregation[0].$match.category = { $in: categories };
     }
 
-    if (subcategories.length) {
+    if (subcategories?.length) {
         aggregation[0].$match.subcategory = { $in: subcategories };
     }
 
-    if (bonusLength) {
+    if (bonusLength && !isNaN(bonusLength)) {
         bonusLength = parseInt(bonusLength);
         aggregation[0].$match.parts = { $size: bonusLength };
         aggregation[0].$match.answers_sanitized = { $size: bonusLength };
