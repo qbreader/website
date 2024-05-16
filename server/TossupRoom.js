@@ -2,7 +2,7 @@ import Player from './Player.js';
 import RateLimit from './RateLimit.js';
 
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from '../constants.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH, CATEGORIES, SUBCATEGORIES_FLATTENED, ALTERNATE_SUBCATEGORIES_FLATTENED } from '../constants.js';
 import getRandomTossups from '../database/qbreader/get-random-tossups.js';
 import getSet from '../database/qbreader/get-set.js';
 
@@ -414,6 +414,10 @@ class TossupRoom {
             if (!Array.isArray(message.categories) || !Array.isArray(message.subcategories) || !Array.isArray(message.alternateSubcategories)) {
                 break;
             }
+
+            message.categories = message.categories.filter(category => CATEGORIES.includes(category));
+            message.subcategories = message.subcategories.filter(subcategory => SUBCATEGORIES_FLATTENED.includes(subcategory));
+            message.alternateSubcategories = message.alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES_FLATTENED.includes(subcategory));
 
             this.sendSocketMessage({
                 type: 'update-categories',
