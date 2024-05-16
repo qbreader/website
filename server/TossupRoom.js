@@ -411,6 +411,10 @@ class TossupRoom {
                 break;
             }
 
+            if (!Array.isArray(message.categories) || !Array.isArray(message.subcategories) || !Array.isArray(message.alternateSubcategories)) {
+                break;
+            }
+
             this.sendSocketMessage({
                 type: 'update-categories',
                 categories: message.categories,
