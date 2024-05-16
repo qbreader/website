@@ -60,6 +60,12 @@ socket.onmessage = function (event) {
         window.location.href = '/multiplayer';
         break;
 
+    case 'bot-difficulty':
+        logEvent(data.username, `changed the bot difficulty to ${data.value}`);
+        document.getElementById('bot-difficulty').value = data.value;
+        document.getElementById('bot-difficulty-display').textContent = data.value;
+        break;
+
     case 'buzz':
         socketOnBuzz(data);
         break;
@@ -329,6 +335,8 @@ const socketOnConnectionAcknowledged = async (message) => {
     document.getElementById('toggle-visibility').checked = message.public;
     document.getElementById('reading-speed').value = message.readingSpeed;
     document.getElementById('reading-speed-display').textContent = message.readingSpeed;
+    document.getElementById('bot-difficulty').value = message.botDifficulty;
+    document.getElementById('bot-difficulty-display').textContent = message.botDifficulty;
 
     if (message.selectBySetName) {
         document.getElementById('toggle-select-by-set-name').checked = true;
@@ -836,6 +844,15 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
 document.getElementById('answer-input').addEventListener('input', function () {
     socket.send(JSON.stringify({ type: 'give-answer-live-update', message: this.value }));
+});
+
+document.getElementById('bot-difficulty').addEventListener('change', function () {
+    socket.send(JSON.stringify({ type: 'bot-difficulty', value: this.value }));
+});
+
+
+document.getElementById('bot-difficulty').addEventListener('input', function () {
+    document.getElementById('bot-difficulty').textContent = this.value;
 });
 
 

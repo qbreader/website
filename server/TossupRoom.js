@@ -52,6 +52,7 @@ class TossupRoom {
         this.wordIndex = 0;
 
         this.quizBot = null;
+        this.botDifficulty = null;
 
         this.randomQuestionCache = [];
         this.setCache = [];
@@ -71,6 +72,7 @@ class TossupRoom {
         };
 
         this.settings = {
+            botDifficulty: 50,
             lock: false,
             public: true,
             rebuzz: false,
@@ -154,6 +156,7 @@ class TossupRoom {
             powermarkOnly: this.query.powermarkOnly,
             standardOnly: this.query.standardOnly,
 
+            botDifficulty: this.settings.botDifficulty,
             public: this.settings.public,
             readingSpeed: this.settings.readingSpeed,
             rebuzz: this.settings.rebuzz,
@@ -189,6 +192,15 @@ class TossupRoom {
         const type = message.type || '';
 
         switch (type) {
+        case 'bot-difficulty':
+            this.settings.botDifficulty = message.value;
+            this.sendSocketMessage({
+                type: 'bot-difficulty',
+                username: this.players[userId].username,
+                value: this.settings.botDifficulty,
+            });
+            break;
+
         case 'buzz':
             this.buzz(userId);
             break;
@@ -304,7 +316,7 @@ class TossupRoom {
                     type: 'join',
                     isNew: true,
                     userId: 'QuizBotId',
-                    username: 'QuizBot',
+                    username: '🤖QuizBot🤖',
                     user: this.players.QuizBotId,
                 });
             } else {
@@ -499,7 +511,7 @@ class TossupRoom {
         this.questionSplit = this.tossup.question.split(' ').filter(word => word !== '');
 
         if (this.quizBot != null) {
-            this.botBuzzPoint = this.quizBot.decideBuzzPoint(this.questionSplit.length);
+            this.botBuzzPoint = this.quizBot.decideBuzzPoint(this.questionSplit.length, this.settings.botDifficulty);
         }
         
         return true;
@@ -517,7 +529,7 @@ class TossupRoom {
             this.sendSocketMessage({
                 type: 'buzz',
                 userId: userId,
-                username: 'QuizBot',
+                username: '🤖QuizBot🤖',
             });
 
             this.sendSocketMessage({
@@ -577,7 +589,7 @@ class TossupRoom {
 
         // without this code, the log just says "correctly answered for 10 points"
         if (userId == 'QuizBotId') {
-            this.players.QuizBotId.username = 'QuizBot';
+            this.players.QuizBotId.username = '🤖QuizBot🤖';
         }
     }
 
@@ -759,12 +771,12 @@ class TossupRoom {
 
     async simulateTyping(text, delay) {
         let botAnswer = '';
-        for (let char of text) {
+        for (const char of text) {
             botAnswer += char;
             await new Promise(resolve => setTimeout(resolve, delay));
             this.sendSocketMessage({
                 type: 'give-answer-live-update',
-                username: 'QuizBot',
+                username: '🤖QuizBot🤖',
                 message: botAnswer,
             });
         }

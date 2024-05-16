@@ -21,15 +21,15 @@ class QuizBot {
         };
     }
 
-    decideBuzzPoint(questionLength) {
-        // Calculate the minimum index for buzzing, ensuring it's at least 40% into the question
-        const minIndex = Math.floor(questionLength * 0.4);
+    decideBuzzPoint(questionLength, botDifficulty) {
+        // Ensure botDifficulty is within the range 0-100
+        botDifficulty = Math.max(0, Math.min(100, botDifficulty));
 
-        // Calculate a random index between the minimum index and the end of the question
-        // The "+ 1" ensures that the end of the question is inclusive in the range
-        const buzzIndex = Math.floor(Math.random() * (questionLength - minIndex + 1)) + minIndex;
-
-        return buzzIndex;
+        // Calculate the buzz point based on the difficulty
+        // If difficulty is 90, buzz in when 90% of the question is left (i.e., at 10% of the length)
+        const buzzPoint = Math.ceil(questionLength * (1 - botDifficulty / 100));
+        
+        return buzzPoint;
     }
 }
 
