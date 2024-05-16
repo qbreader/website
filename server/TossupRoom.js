@@ -44,6 +44,11 @@ class TossupRoom {
         this.sockets = {};
 
         this.timeoutID = null;
+        /**
+         * @type {string | null}
+         * The userId of the player who buzzed in.
+         * We should ensure that buzzedIn is null before calling any readQuestion.
+         */
         this.buzzedIn = null;
         this.buzzes = [];
         this.buzzpointIndices = [];
@@ -476,12 +481,7 @@ class TossupRoom {
     }
 
     async advanceQuestion() {
-        this.buzzedIn = null;
-        this.buzzes = [];
-        this.buzzpointIndices = [];
-        this.paused = false;
         this.queryingQuestion = true;
-        this.wordIndex = 0;
 
         if (this.settings.selectBySetName) {
             if (this.setCache.length === 0) {
@@ -509,30 +509,27 @@ class TossupRoom {
             this.tossup = this.randomQuestionCache.pop();
         }
 
-        this.questionProgress = QuestionProgressEnum.READING;
         this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
         return true;
     }
 
     buzz(userId) {
-        if (!this.settings.rebuzz && this.buzzes.includes(userId)) {
-            return;
-        }
-
-        clearTimeout(this.timeoutID);
+        if (!this.settings.rebuzz && this.buzzes.includes(userId)) return;
 
         if (this.buzzedIn) {
-            this.sendSocketMessage({
+            return this.sendSocketMessage({
                 type: 'lost-buzzer-race',
                 userId: userId,
                 username: this.players[userId].username,
             });
-            return;
         }
 
+        clearTimeout(this.timeoutID);
         this.buzzedIn = userId;
         this.buzzes.push(userId);
         this.buzzpointIndices.push(this.questionSplit.slice(0, this.wordIndex).join(' ').length);
+        this.paused = false;
+
         this.sendSocketMessage({
             type: 'buzz',
             userId: userId,
@@ -564,6 +561,8 @@ class TossupRoom {
     }
 
     giveAnswer(userId, givenAnswer) {
+        if (this.buzzedIn !== userId) return;
+
         this.liveAnswer = '';
         clearInterval(this.timerInterval);
         this.sendSocketMessage({
@@ -574,7 +573,6 @@ class TossupRoom {
         if (Object.keys(this.tossup).length === 0)
             return;
 
-        this.buzzedIn = null;
         const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
         const endOfQuestion = (this.wordIndex === this.questionSplit.length);
         const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
@@ -587,11 +585,13 @@ class TossupRoom {
 
         switch (directive) {
         case 'accept':
+            this.buzzedIn = null;
             this.revealQuestion();
             this.players[userId].updateStats(points, celerity);
             Object.values(this.players).forEach(player => { player.tuh++; });
             break;
         case 'reject':
+            this.buzzedIn = null;
             this.players[userId].updateStats(points, celerity);
             if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
                 this.revealQuestion();
@@ -621,21 +621,32 @@ class TossupRoom {
         });
     }
 
+    /**
+     * Logic for when the user presses the next button.
+     * @param {string} userId - The userId of the user who pressed the next button.
+     * @param {'next' | 'skip' | 'start'} type - The type of next button pressed.
+     * @returns
+     */
     async next(userId, type) {
         if (this.queryingQuestion) return;
+        if (this.buzzedIn) return; // prevents skipping when someone has buzzed in
+
         if (this.questionProgress === QuestionProgressEnum.READING && !this.settings.skip) return;
         if (type === 'skip' && this.wordIndex < 5) return; // prevents spam-skipping bots
 
         clearTimeout(this.timeoutID);
+
+        this.buzzedIn = null;
+        this.buzzes = [];
+        this.buzzpointIndices = [];
+        this.paused = false;
 
         if (this.questionProgress !== QuestionProgressEnum.ANSWER_REVEALED) {
             this.revealQuestion();
         }
 
         const hasNextQuestion = await this.advanceQuestion();
-
         this.queryingQuestion = false;
-
         if (!hasNextQuestion) return;
 
         this.sendSocketMessage({
@@ -644,10 +655,15 @@ class TossupRoom {
             username: this.players[userId].username,
             tossup: this.tossup,
         });
+
+        this.wordIndex = 0;
+        this.questionProgress = QuestionProgressEnum.READING;
         this.readQuestion(Date.now());
     }
 
     pause(userId) {
+        if (this.buzzedIn) return;
+
         this.paused = !this.paused;
 
         if (this.paused) {
