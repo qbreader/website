@@ -87,7 +87,7 @@ socket.onmessage = function (event) {
         break;
     case 'packet-number':
         data.value = arrayToRange(data.value);
-    // eslint-disable-next-line no-fallthrough
+        // eslint-disable-next-line no-fallthrough
     case 'set-name':
         if (data.value.length > 0) {
             logEvent(data.username, `changed the ${data.type} to ${data.value}`);
@@ -872,7 +872,11 @@ document.getElementById('skip').addEventListener('click', function () {
 
 
 document.getElementById('packet-number').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'packet-number', value: rangeToArray(this.value, maxPacketNumber) }));
+    const range = rangeToArray(this.value, maxPacketNumber);
+    if (range.some((num) => num < 1 || num > maxPacketNumber))
+        return document.getElementById('packet-number').classList.add('is-invalid');
+    else document.getElementById('packet-number').classList.remove('is-invalid');
+    socket.send(JSON.stringify({ type: 'packet-number', value: range }));
 });
 
 
@@ -980,6 +984,8 @@ document.getElementById('username').addEventListener('change', function () {
 
 document.getElementById('year-range-a').onchange = function () {
     const [minYear, maxYear] = $('#slider').slider('values');
+    if (maxYear < minYear) return document.querySelector('#yearRangeAlert').style.display = '';
+    else document.querySelector('#yearRangeAlert').style.display = 'none';
     socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
 };
 
