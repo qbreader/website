@@ -28,20 +28,20 @@ router.post('/', (req, res) => {
 
     // Handle the event
     switch (event.type) {
-    case 'payment_intent.succeeded': {
-        const paymentIntentSucceeded = event.data.object;
-        // Then define and call a function to handle the event payment_intent.succeeded
-        const { user_id, packetName } = paymentIntentSucceeded.metadata;
-        recordPayment(packetName, new ObjectId(user_id));
-        break;
-    }
+        case 'payment_intent.succeeded': {
+            const paymentIntentSucceeded = event.data.object;
+            // Then define and call a function to handle the event payment_intent.succeeded
+            const { user_id, packetName } = paymentIntentSucceeded.metadata;
+            recordPayment(packetName, new ObjectId(user_id));
+            break;
+        }
 
-    case 'charge.succeeded':
-        // We can safely ignore this
-        res.send();
-        return;
+        case 'charge.succeeded':
+            // We can safely ignore this
+            res.send();
+            return;
 
-    default:
+        default:
         // ... handle other event types
         // console.log(`Unhandled event type ${event.type}`);
     }
