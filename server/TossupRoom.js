@@ -123,7 +123,7 @@ class TossupRoom {
                 console.log(`Error parsing message: ${message}`);
                 return;
             }
-            this.message(userId, message, socket);
+            this.message(userId, message);
         });
 
         socket.on('close', () => {
@@ -195,7 +195,7 @@ class TossupRoom {
         });
     }
 
-    async message(userId, message, userSocket) {
+    async message(userId, message) {
         const type = message.type || '';
         let allowedPacketNumbers;
 
@@ -467,7 +467,7 @@ class TossupRoom {
             const maxYear = isNaN(message.maxYear) ? DEFAULT_MAX_YEAR : parseInt(message.maxYear);
 
             if (maxYear < minYear)
-                return this.sendPrivateMessage(userSocket, {
+                return this.sendPrivateMessage(userId, {
                     type: 'year-range',
                     minYear: this.query.minYear,
                     maxYear: this.query.maxYear,
@@ -762,9 +762,9 @@ class TossupRoom {
         }
     }
 
-    sendPrivateMessage(userSocket, message) {
+    sendPrivateMessage(userId, message) {
         message = JSON.stringify(message);
-        userSocket.send(message);
+        this.sockets[userId].send(message);
     }
 
     /**
