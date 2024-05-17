@@ -1,5 +1,5 @@
 import star from '../auth/star.js';
-import { escapeHTML, removeParentheses } from './strings.js';
+import { removeParentheses } from './strings.js';
 
 // Constants and functions useful for quizbowl.
 
