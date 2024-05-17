@@ -278,37 +278,37 @@ async function giveAnswer(givenAnswer) {
     const { directive, directedPrompt } = await api.checkAnswer(tossups[questionNumber - 1].answer, givenAnswer);
 
     switch (directive) {
-    case 'accept': {
-        const points = updateScore(true);
-        if (audio.soundEffects) {
-            if (points > 10) {
-                audio.power.play();
-            } else {
-                audio.correct.play();
+        case 'accept': {
+            const points = updateScore(true);
+            if (audio.soundEffects) {
+                if (points > 10) {
+                    audio.power.play();
+                } else {
+                    audio.correct.play();
+                }
             }
-        }
-        revealQuestion();
-        break;
-    }
-    case 'reject':
-        updateScore(false);
-        if (audio.soundEffects) audio.incorrect.play();
-        if (settings.rebuzz) {
-            document.getElementById('buzz').disabled = false;
-            document.getElementById('buzz').textContent = 'Buzz';
-            document.getElementById('next').disabled = false;
-            document.getElementById('pause').disabled = false;
-            document.getElementById('start').disabled = false;
-            readQuestion(Date.now());
-        } else {
             revealQuestion();
+            break;
         }
-        break;
-    case 'prompt':
-        document.getElementById('answer-input-group').classList.remove('d-none');
-        document.getElementById('answer-input').focus();
-        document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
-        break;
+        case 'reject':
+            updateScore(false);
+            if (audio.soundEffects) audio.incorrect.play();
+            if (settings.rebuzz) {
+                document.getElementById('buzz').disabled = false;
+                document.getElementById('buzz').textContent = 'Buzz';
+                document.getElementById('next').disabled = false;
+                document.getElementById('pause').disabled = false;
+                document.getElementById('start').disabled = false;
+                readQuestion(Date.now());
+            } else {
+                revealQuestion();
+            }
+            break;
+        case 'prompt':
+            document.getElementById('answer-input-group').classList.remove('d-none');
+            document.getElementById('answer-input').focus();
+            document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
+            break;
     }
 }
 
@@ -803,29 +803,29 @@ document.addEventListener('keydown', (event) => {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     switch (event.key) {
-    case ' ':
-        document.getElementById('buzz').click();
-        // Prevent spacebar from scrolling the page:
-        if (event.target == document.body) event.preventDefault();
-        break;
-    case 'k':
-        document.getElementsByClassName('card-header-clickable')[0].click();
-        break;
-    case 't':
-        document.getElementsByClassName('star-tossup')[0].click();
-        break;
-    case 'y':
-        navigator.clipboard.writeText(tossups[0]?._id ?? '');
-        break;
-    case 'n':
-        document.getElementById('next').click();
-        break;
-    case 'p':
-        document.getElementById('pause').click();
-        break;
-    case 's':
-        document.getElementById('start').click();
-        break;
+        case ' ':
+            document.getElementById('buzz').click();
+            // Prevent spacebar from scrolling the page:
+            if (event.target == document.body) event.preventDefault();
+            break;
+        case 'k':
+            document.getElementsByClassName('card-header-clickable')[0].click();
+            break;
+        case 't':
+            document.getElementsByClassName('star-tossup')[0].click();
+            break;
+        case 'y':
+            navigator.clipboard.writeText(tossups[0]?._id ?? '');
+            break;
+        case 'n':
+            document.getElementById('next').click();
+            break;
+        case 'p':
+            document.getElementById('pause').click();
+            break;
+        case 's':
+            document.getElementById('start').click();
+            break;
     }
 });
 

@@ -49,14 +49,14 @@ async function updateSubcategory(_id, type, subcategory, alternate_subcategory, 
     }
 
     switch (type) {
-    case 'tossup': {
-        tossupData.updateMany({ tossup_id: _id }, dataUpdate);
-        return await tossups.updateOne({ _id }, questionUpdate);
-    }
-    case 'bonus': {
-        bonusData.updateMany({ bonus_id: _id }, dataUpdate);
-        return await bonuses.updateOne({ _id }, questionUpdate);
-    }
+        case 'tossup': {
+            tossupData.updateMany({ tossup_id: _id }, dataUpdate);
+            return await tossups.updateOne({ _id }, questionUpdate);
+        }
+        case 'bonus': {
+            bonusData.updateMany({ bonus_id: _id }, dataUpdate);
+            return await bonuses.updateOne({ _id }, questionUpdate);
+        }
     }
 }
 

@@ -197,6 +197,7 @@ class TossupRoom {
 
     async message(userId, message, userSocket) {
         const type = message.type || '';
+        let allowedPacketNumbers;
 
         switch (type) {
             case 'buzz':
@@ -297,7 +298,7 @@ class TossupRoom {
                 break;
 
             case 'packet-number':
-                let allowedPacketNumbers = await getNumPackets(this.query.setName);
+                allowedPacketNumbers = await getNumPackets(this.query.setName);
                 if (message.value.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) return;
 
                 this.adjustQuery(['packetNumbers'], [message.value]);
@@ -328,8 +329,8 @@ class TossupRoom {
                 if (typeof message.value !== 'string' || !this.setList || !this.setList.includes(message.value))
                     return;
 
-                let packetNumbers = await getNumPackets(message.value);
-                if (message.packetNumbers.some((num) => num > packetNumbers || num < 1)) return;
+                allowedPacketNumbers = await getNumPackets(message.value);
+                if (message.packetNumbers.some((num) => num > allowedPacketNumbers || num < 1)) return;
 
                 this.sendSocketMessage({
                     type: 'set-name',
@@ -443,10 +444,10 @@ class TossupRoom {
                 message.alternateSubcategories = message.alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES_FLATTENED.includes(subcategory));
 
                 if (message.subcategories.some(sub => {
-                    let parent = SUBCATEGORY_TO_CATEGORY[sub];
+                    const parent = SUBCATEGORY_TO_CATEGORY[sub];
                     return !message.categories.includes(parent);
                 }) || message.alternateSubcategories.some(sub => {
-                    let parent = ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub];
+                    const parent = ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub];
                     return !message.categories.includes(parent);
                 }))
                     break;
