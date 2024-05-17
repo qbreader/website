@@ -53,20 +53,26 @@ function mergeTwoSortedArrays(array1, array2, keyFunction, combineFunction) {
  * @param {number} [limit=50] The maximum number of answers to return. Defaults to 50.
  * @returns {Promise<{ answer: string, count: number }[]>} The frequency list.
  */
-async function getFrequencyList(subcategory, difficulties=DIFFICULTIES, limit=50, questionType='all') {
+async function getFrequencyList(subcategory, difficulties = DIFFICULTIES, limit = 50, questionType = 'all') {
     const tossupAggregation = [
         { $match: { subcategory, difficulty: { $in: difficulties } } },
-        { $addFields: {
-            // This is a regex that matches everything before the first open parenthesis or bracket.
-            regex: { $regexFind: { input: '$answer_sanitized', regex: /^[^[(]*/ } },
-        } },
-        { $addFields: {
-            // This is a regex that matches everything outside of parentheses ()
-            regex: { $regexFind: { input: '$regex.match', regex: /[^()]+(?![^(]*\))/ } },
-        } },
-        { $addFields: {
-            sanitized_answer: { $trim: { input: '$regex.match' } },
-        } },
+        {
+            $addFields: {
+                // This is a regex that matches everything before the first open parenthesis or bracket.
+                regex: { $regexFind: { input: '$answer_sanitized', regex: /^[^[(]*/ } },
+            },
+        },
+        {
+            $addFields: {
+                // This is a regex that matches everything outside of parentheses ()
+                regex: { $regexFind: { input: '$regex.match', regex: /[^()]+(?![^(]*\))/ } },
+            },
+        },
+        {
+            $addFields: {
+                sanitized_answer: { $trim: { input: '$regex.match' } },
+            },
+        },
         { $group: { _id: '$sanitized_answer', count: { $sum: 1 } } },
         { $match: { _id: { $ne: null } } },
         { $addFields: { answer_sanitized: '$_id' } },

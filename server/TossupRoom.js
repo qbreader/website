@@ -2,9 +2,11 @@ import Player from './Player.js';
 import RateLimit from './RateLimit.js';
 
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH, CATEGORIES, SUBCATEGORIES_FLATTENED, ALTERNATE_SUBCATEGORIES_FLATTENED } from '../constants.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH, CATEGORIES, SUBCATEGORIES_FLATTENED, ALTERNATE_SUBCATEGORIES_FLATTENED, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../constants.js';
 import getRandomTossups from '../database/qbreader/get-random-tossups.js';
 import getSet from '../database/qbreader/get-set.js';
+import getSetList from '../database/qbreader/get-set-list.js';
+import getNumPackets from '../database/qbreader/get-num-packets.js';
 
 import { insertTokensIntoHTML } from '../client/utilities/insert-tokens-into-html.js';
 
@@ -95,6 +97,8 @@ class TossupRoom {
 
         this.DEAD_TIME_LIMIT = 5; // time to buzz after question is read
         this.ANSWER_TIME_LIMIT = 10; // time to give answer after buzzing
+
+        (async () => this.setList = await getSetList())();
     }
 
     connection(socket, userId, username) {
@@ -193,6 +197,7 @@ class TossupRoom {
 
     async message(userId, message) {
         const type = message.type || '';
+        let allowedPacketNumbers;
 
         switch (type) {
         case 'buzz':
@@ -200,8 +205,12 @@ class TossupRoom {
             break;
 
         case 'change-username': {
+            if (typeof message.username !== 'string')
+                break;
+
             const oldUsername = this.players[userId].username;
             const newUsername = this.players[userId].updateUsername(message.username);
+
             this.sendSocketMessage({
                 type: 'change-username',
                 userId: userId,
@@ -213,8 +222,7 @@ class TossupRoom {
 
         case 'chat':
             // prevent chat messages if room is public, since they can still be sent with API
-            // also done in next event
-            if (this.settings.public)
+            if (this.settings.public || typeof message.message !== 'string')
                 return;
 
             this.sendSocketMessage({
@@ -226,7 +234,7 @@ class TossupRoom {
             break;
 
         case 'chat-live-update':
-            if (this.settings.public)
+            if (this.settings.public || typeof message.message !== 'string')
                 return;
 
             this.sendSocketMessage({
@@ -246,9 +254,8 @@ class TossupRoom {
             break;
 
         case 'difficulties':
-            if (message.value.some((value) => typeof value !== 'number' || isNaN(value) || value < 1 || value > 10)) {
+            if (message.value.some((value) => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10))
                 return;
-            }
 
             this.sendSocketMessage({
                 type: 'difficulties',
@@ -259,10 +266,16 @@ class TossupRoom {
             break;
 
         case 'give-answer':
+            if (userId !== this.buzzedIn || typeof message.givenAnswer !== 'string')
+                return;
+
             this.giveAnswer(userId, message.givenAnswer);
             break;
 
         case 'give-answer-live-update':
+            if (userId !== this.buzzedIn || typeof message.message !== 'string')
+                return;
+
             this.liveAnswer = message.message;
             this.sendSocketMessage({
                 type: 'give-answer-live-update',
@@ -285,6 +298,9 @@ class TossupRoom {
             break;
 
         case 'packet-number':
+            allowedPacketNumbers = await getNumPackets(this.query.setName);
+            if (message.value.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) return;
+
             this.adjustQuery(['packetNumbers'], [message.value]);
             this.sendSocketMessage({
                 type: 'packet-number',
@@ -310,6 +326,12 @@ class TossupRoom {
             break;
 
         case 'set-name':
+            if (typeof message.value !== 'string' || !this.setList || !this.setList.includes(message.value))
+                return;
+
+            allowedPacketNumbers = await getNumPackets(message.value);
+            if (message.packetNumbers.some((num) => num > allowedPacketNumbers || num < 1)) return;
+
             this.sendSocketMessage({
                 type: 'set-name',
                 username: this.players[userId].username,
@@ -352,9 +374,8 @@ class TossupRoom {
             break;
 
         case 'toggle-select-by-set-name':
-            if (this.isPermanent) {
+            if (this.isPermanent || !this.setList.includes(message.setName))
                 break;
-            }
 
             this.sendSocketMessage({
                 type: 'toggle-select-by-set-name',
@@ -412,17 +433,24 @@ class TossupRoom {
             break;
 
         case 'update-categories':
-            if (this.isPermanent) {
+            if (this.isPermanent)
                 break;
-            }
 
-            if (!Array.isArray(message.categories) || !Array.isArray(message.subcategories) || !Array.isArray(message.alternateSubcategories)) {
+            if ([message.categories, message.subcategories, message.alternateSubcategories].some((array) => !Array.isArray(array)))
                 break;
-            }
 
             message.categories = message.categories.filter(category => CATEGORIES.includes(category));
             message.subcategories = message.subcategories.filter(subcategory => SUBCATEGORIES_FLATTENED.includes(subcategory));
             message.alternateSubcategories = message.alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES_FLATTENED.includes(subcategory));
+
+            if (message.subcategories.some(sub => {
+                const parent = SUBCATEGORY_TO_CATEGORY[sub];
+                return !message.categories.includes(parent);
+            }) || message.alternateSubcategories.some(sub => {
+                const parent = ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub];
+                return !message.categories.includes(parent);
+            }))
+                break;
 
             this.sendSocketMessage({
                 type: 'update-categories',
@@ -439,7 +467,7 @@ class TossupRoom {
             const maxYear = isNaN(message.maxYear) ? DEFAULT_MAX_YEAR : parseInt(message.maxYear);
 
             if (maxYear < minYear)
-                return this.sendSocketMessage({
+                return this.sendPrivateMessage(userId, {
                     type: 'year-range',
                     minYear: this.query.minYear,
                     maxYear: this.query.maxYear,
@@ -700,7 +728,7 @@ class TossupRoom {
         // calculate time needed before reading next word
         let time = Math.log(word.length) + 1;
         if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123)
-        || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d') {
+            || word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d') {
             time += 2;
         } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') {
             time += 0.75;
@@ -732,6 +760,11 @@ class TossupRoom {
         for (const socket of Object.values(this.sockets)) {
             socket.send(message);
         }
+    }
+
+    sendPrivateMessage(userId, message) {
+        message = JSON.stringify(message);
+        this.sockets[userId].send(message);
     }
 
     /**
