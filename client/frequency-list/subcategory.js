@@ -12,15 +12,15 @@ function updateFrequencyListDisplay(level, limit, questionType) {
     table.innerHTML = '';
 
     switch (questionType) {
-        case 'tossup':
-            document.getElementById('question-type').textContent = 'tossups';
-            break;
-        case 'bonus':
-            document.getElementById('question-type').textContent = 'bonuses';
-            break;
-        case 'all':
-            document.getElementById('question-type').textContent = 'questions';
-            break;
+    case 'tossup':
+        document.getElementById('question-type').textContent = 'tossups';
+        break;
+    case 'bonus':
+        document.getElementById('question-type').textContent = 'bonuses';
+        break;
+    case 'all':
+        document.getElementById('question-type').textContent = 'questions';
+        break;
     }
 
     document.getElementById('limit').textContent = limit;

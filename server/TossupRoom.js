@@ -200,287 +200,287 @@ class TossupRoom {
         let allowedPacketNumbers;
 
         switch (type) {
-            case 'buzz':
-                this.buzz(userId);
+        case 'buzz':
+            this.buzz(userId);
+            break;
+
+        case 'change-username': {
+            if (typeof message.username !== 'string')
                 break;
 
-            case 'change-username': {
-                if (typeof message.username !== 'string')
-                    break;
+            const oldUsername = this.players[userId].username;
+            const newUsername = this.players[userId].updateUsername(message.username);
 
-                const oldUsername = this.players[userId].username;
-                const newUsername = this.players[userId].updateUsername(message.username);
+            this.sendSocketMessage({
+                type: 'change-username',
+                userId: userId,
+                oldUsername: oldUsername,
+                newUsername: newUsername,
+            });
+            break;
+        }
 
-                this.sendSocketMessage({
-                    type: 'change-username',
-                    userId: userId,
-                    oldUsername: oldUsername,
-                    newUsername: newUsername,
-                });
-                break;
+        case 'chat':
+            // prevent chat messages if room is public, since they can still be sent with API
+            if (this.settings.public || typeof message.message !== 'string')
+                return;
+
+            this.sendSocketMessage({
+                type: 'chat',
+                username: this.players[userId].username,
+                message: message.message,
+                userId: userId,
+            });
+            break;
+
+        case 'chat-live-update':
+            if (this.settings.public || typeof message.message !== 'string')
+                return;
+
+            this.sendSocketMessage({
+                type: 'chat-live-update',
+                username: this.players[userId].username,
+                message: message.message,
+                userId: userId,
+            });
+            break;
+
+        case 'clear-stats':
+            this.players[userId].clearStats();
+            this.sendSocketMessage({
+                type: 'clear-stats',
+                userId: userId,
+            });
+            break;
+
+        case 'difficulties':
+            if (message.value.some((value) => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10))
+                return;
+
+            this.sendSocketMessage({
+                type: 'difficulties',
+                username: this.players[userId].username,
+                value: message.value,
+            });
+            this.adjustQuery(['difficulties'], [message.value]);
+            break;
+
+        case 'give-answer':
+            if (userId !== this.buzzedIn || typeof message.givenAnswer !== 'string')
+                return;
+
+            this.giveAnswer(userId, message.givenAnswer);
+            break;
+
+        case 'give-answer-live-update':
+            if (userId !== this.buzzedIn || typeof message.message !== 'string')
+                return;
+
+            this.liveAnswer = message.message;
+            this.sendSocketMessage({
+                type: 'give-answer-live-update',
+                username: this.players[userId].username,
+                message: message.message,
+            });
+            break;
+
+        case 'leave':
+            // this.deletePlayer(userId);
+            this.players[userId].isOnline = false;
+            delete this.sockets[userId];
+            this.sendSocketMessage(message);
+            break;
+
+        case 'next':
+        case 'skip':
+        case 'start':
+            this.next(userId, type);
+            break;
+
+        case 'packet-number':
+            allowedPacketNumbers = await getNumPackets(this.query.setName);
+            if (message.value.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) return;
+
+            this.adjustQuery(['packetNumbers'], [message.value]);
+            this.sendSocketMessage({
+                type: 'packet-number',
+                username: this.players[userId].username,
+                value: this.query.packetNumbers,
+            });
+            break;
+
+        case 'pause':
+            this.pause(userId, message.pausedTime);
+            break;
+
+        case 'reading-speed':
+            if (isNaN(message.value) || message.value > 100 || message.value < 0)
+                return;
+
+            this.settings.readingSpeed = message.value;
+            this.sendSocketMessage({
+                type: 'reading-speed',
+                username: this.players[userId].username,
+                value: this.settings.readingSpeed,
+            });
+            break;
+
+        case 'set-name':
+            if (typeof message.value !== 'string' || !this.setList || !this.setList.includes(message.value))
+                return;
+
+            allowedPacketNumbers = await getNumPackets(message.value);
+            if (message.packetNumbers.some((num) => num > allowedPacketNumbers || num < 1)) return;
+
+            this.sendSocketMessage({
+                type: 'set-name',
+                username: this.players[userId].username,
+                value: message.value,
+            });
+            this.adjustQuery(['setName', 'packetNumbers'], [message.value, message.packetNumbers]);
+            break;
+
+        case 'toggle-lock':
+            if (this.settings.public) {
+                return;
             }
 
-            case 'chat':
-                // prevent chat messages if room is public, since they can still be sent with API
-                if (this.settings.public || typeof message.message !== 'string')
-                    return;
+            this.settings.lock = message.lock;
+            this.sendSocketMessage({
+                type: 'toggle-lock',
+                lock: this.settings.lock,
+                username: this.players[userId].username,
+            });
+            break;
 
-                this.sendSocketMessage({
-                    type: 'chat',
-                    username: this.players[userId].username,
-                    message: message.message,
-                    userId: userId,
-                });
+
+        case 'toggle-powermark-only':
+            this.query.powermarkOnly = message.powermarkOnly;
+            this.sendSocketMessage({
+                type: 'toggle-powermark-only',
+                powermarkOnly: message.powermarkOnly,
+                username: this.players[userId].username,
+            });
+            this.adjustQuery(['powermarkOnly'], [message.powermarkOnly]);
+            break;
+
+        case 'toggle-rebuzz':
+            this.settings.rebuzz = message.rebuzz;
+            this.sendSocketMessage({
+                type: 'toggle-rebuzz',
+                rebuzz: this.settings.rebuzz,
+                username: this.players[userId].username,
+            });
+            break;
+
+        case 'toggle-select-by-set-name':
+            if (this.isPermanent || !this.setList.includes(message.setName))
                 break;
 
-            case 'chat-live-update':
-                if (this.settings.public || typeof message.message !== 'string')
-                    return;
+            this.sendSocketMessage({
+                type: 'toggle-select-by-set-name',
+                selectBySetName: message.selectBySetName,
+                setName: this.query.setName,
+                username: this.players[userId].username,
+            });
+            this.settings.selectBySetName = message.selectBySetName;
+            this.adjustQuery(['setName'], [message.setName]);
+            break;
 
-                this.sendSocketMessage({
-                    type: 'chat-live-update',
-                    username: this.players[userId].username,
-                    message: message.message,
-                    userId: userId,
-                });
+        case 'toggle-skip':
+            this.settings.skip = message.skip;
+            this.sendSocketMessage({
+                type: 'toggle-skip',
+                skip: this.settings.skip,
+                username: this.players[userId].username,
+            });
+            break;
+
+        case 'toggle-standard-only':
+            this.query.standardOnly = message.standardOnly;
+            this.sendSocketMessage({
+                type: 'toggle-standard-only',
+                standardOnly: message.standardOnly,
+                username: this.players[userId].username,
+            });
+            this.adjustQuery(['standardOnly'], [message.standardOnly]);
+            break;
+
+        case 'toggle-timer':
+            if (this.settings.public) {
+                return;
+            }
+
+            this.settings.timer = message.timer;
+            this.sendSocketMessage({
+                type: 'toggle-timer',
+                timer: this.settings.timer,
+                username: this.players[userId].username,
+            });
+            break;
+
+        case 'toggle-visibility':
+            if (this.isPermanent)
                 break;
 
-            case 'clear-stats':
-                this.players[userId].clearStats();
-                this.sendSocketMessage({
-                    type: 'clear-stats',
-                    userId: userId,
-                });
+            this.settings.public = message.public;
+            this.settings.timer = true;
+            this.sendSocketMessage({
+                type: 'toggle-visibility',
+                public: this.settings.public,
+                username: this.players[userId].username,
+            });
+            break;
+
+        case 'update-categories':
+            if (this.isPermanent)
                 break;
 
-            case 'difficulties':
-                if (message.value.some((value) => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10))
-                    return;
-
-                this.sendSocketMessage({
-                    type: 'difficulties',
-                    username: this.players[userId].username,
-                    value: message.value,
-                });
-                this.adjustQuery(['difficulties'], [message.value]);
+            if ([message.categories, message.subcategories, message.alternateSubcategories].some((array) => !Array.isArray(array)))
                 break;
 
-            case 'give-answer':
-                if (userId !== this.buzzedIn || typeof message.givenAnswer !== 'string')
-                    return;
+            message.categories = message.categories.filter(category => CATEGORIES.includes(category));
+            message.subcategories = message.subcategories.filter(subcategory => SUBCATEGORIES_FLATTENED.includes(subcategory));
+            message.alternateSubcategories = message.alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES_FLATTENED.includes(subcategory));
 
-                this.giveAnswer(userId, message.givenAnswer);
+            if (message.subcategories.some(sub => {
+                const parent = SUBCATEGORY_TO_CATEGORY[sub];
+                return !message.categories.includes(parent);
+            }) || message.alternateSubcategories.some(sub => {
+                const parent = ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub];
+                return !message.categories.includes(parent);
+            }))
                 break;
 
-            case 'give-answer-live-update':
-                if (userId !== this.buzzedIn || typeof message.message !== 'string')
-                    return;
+            this.sendSocketMessage({
+                type: 'update-categories',
+                categories: message.categories,
+                subcategories: message.subcategories,
+                alternateSubcategories: message.alternateSubcategories,
+                username: this.players[userId].username,
+            });
+            this.adjustQuery(['categories', 'subcategories', 'alternateSubcategories'], [message.categories, message.subcategories, message.alternateSubcategories]);
+            break;
 
-                this.liveAnswer = message.message;
-                this.sendSocketMessage({
-                    type: 'give-answer-live-update',
-                    username: this.players[userId].username,
-                    message: message.message,
-                });
-                break;
+        case 'year-range': {
+            const minYear = isNaN(message.minYear) ? DEFAULT_MIN_YEAR : parseInt(message.minYear);
+            const maxYear = isNaN(message.maxYear) ? DEFAULT_MAX_YEAR : parseInt(message.maxYear);
 
-            case 'leave':
-                // this.deletePlayer(userId);
-                this.players[userId].isOnline = false;
-                delete this.sockets[userId];
-                this.sendSocketMessage(message);
-                break;
-
-            case 'next':
-            case 'skip':
-            case 'start':
-                this.next(userId, type);
-                break;
-
-            case 'packet-number':
-                allowedPacketNumbers = await getNumPackets(this.query.setName);
-                if (message.value.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) return;
-
-                this.adjustQuery(['packetNumbers'], [message.value]);
-                this.sendSocketMessage({
-                    type: 'packet-number',
-                    username: this.players[userId].username,
-                    value: this.query.packetNumbers,
-                });
-                break;
-
-            case 'pause':
-                this.pause(userId, message.pausedTime);
-                break;
-
-            case 'reading-speed':
-                if (isNaN(message.value) || message.value > 100 || message.value < 0)
-                    return;
-
-                this.settings.readingSpeed = message.value;
-                this.sendSocketMessage({
-                    type: 'reading-speed',
-                    username: this.players[userId].username,
-                    value: this.settings.readingSpeed,
-                });
-                break;
-
-            case 'set-name':
-                if (typeof message.value !== 'string' || !this.setList || !this.setList.includes(message.value))
-                    return;
-
-                allowedPacketNumbers = await getNumPackets(message.value);
-                if (message.packetNumbers.some((num) => num > allowedPacketNumbers || num < 1)) return;
-
-                this.sendSocketMessage({
-                    type: 'set-name',
-                    username: this.players[userId].username,
-                    value: message.value,
-                });
-                this.adjustQuery(['setName', 'packetNumbers'], [message.value, message.packetNumbers]);
-                break;
-
-            case 'toggle-lock':
-                if (this.settings.public) {
-                    return;
-                }
-
-                this.settings.lock = message.lock;
-                this.sendSocketMessage({
-                    type: 'toggle-lock',
-                    lock: this.settings.lock,
-                    username: this.players[userId].username,
-                });
-                break;
-
-
-            case 'toggle-powermark-only':
-                this.query.powermarkOnly = message.powermarkOnly;
-                this.sendSocketMessage({
-                    type: 'toggle-powermark-only',
-                    powermarkOnly: message.powermarkOnly,
-                    username: this.players[userId].username,
-                });
-                this.adjustQuery(['powermarkOnly'], [message.powermarkOnly]);
-                break;
-
-            case 'toggle-rebuzz':
-                this.settings.rebuzz = message.rebuzz;
-                this.sendSocketMessage({
-                    type: 'toggle-rebuzz',
-                    rebuzz: this.settings.rebuzz,
-                    username: this.players[userId].username,
-                });
-                break;
-
-            case 'toggle-select-by-set-name':
-                if (this.isPermanent || !this.setList.includes(message.setName))
-                    break;
-
-                this.sendSocketMessage({
-                    type: 'toggle-select-by-set-name',
-                    selectBySetName: message.selectBySetName,
-                    setName: this.query.setName,
-                    username: this.players[userId].username,
-                });
-                this.settings.selectBySetName = message.selectBySetName;
-                this.adjustQuery(['setName'], [message.setName]);
-                break;
-
-            case 'toggle-skip':
-                this.settings.skip = message.skip;
-                this.sendSocketMessage({
-                    type: 'toggle-skip',
-                    skip: this.settings.skip,
-                    username: this.players[userId].username,
-                });
-                break;
-
-            case 'toggle-standard-only':
-                this.query.standardOnly = message.standardOnly;
-                this.sendSocketMessage({
-                    type: 'toggle-standard-only',
-                    standardOnly: message.standardOnly,
-                    username: this.players[userId].username,
-                });
-                this.adjustQuery(['standardOnly'], [message.standardOnly]);
-                break;
-
-            case 'toggle-timer':
-                if (this.settings.public) {
-                    return;
-                }
-
-                this.settings.timer = message.timer;
-                this.sendSocketMessage({
-                    type: 'toggle-timer',
-                    timer: this.settings.timer,
-                    username: this.players[userId].username,
-                });
-                break;
-
-            case 'toggle-visibility':
-                if (this.isPermanent)
-                    break;
-
-                this.settings.public = message.public;
-                this.settings.timer = true;
-                this.sendSocketMessage({
-                    type: 'toggle-visibility',
-                    public: this.settings.public,
-                    username: this.players[userId].username,
-                });
-                break;
-
-            case 'update-categories':
-                if (this.isPermanent)
-                    break;
-
-                if ([message.categories, message.subcategories, message.alternateSubcategories].some((array) => !Array.isArray(array)))
-                    break;
-
-                message.categories = message.categories.filter(category => CATEGORIES.includes(category));
-                message.subcategories = message.subcategories.filter(subcategory => SUBCATEGORIES_FLATTENED.includes(subcategory));
-                message.alternateSubcategories = message.alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES_FLATTENED.includes(subcategory));
-
-                if (message.subcategories.some(sub => {
-                    const parent = SUBCATEGORY_TO_CATEGORY[sub];
-                    return !message.categories.includes(parent);
-                }) || message.alternateSubcategories.some(sub => {
-                    const parent = ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub];
-                    return !message.categories.includes(parent);
-                }))
-                    break;
-
-                this.sendSocketMessage({
-                    type: 'update-categories',
-                    categories: message.categories,
-                    subcategories: message.subcategories,
-                    alternateSubcategories: message.alternateSubcategories,
-                    username: this.players[userId].username,
-                });
-                this.adjustQuery(['categories', 'subcategories', 'alternateSubcategories'], [message.categories, message.subcategories, message.alternateSubcategories]);
-                break;
-
-            case 'year-range': {
-                const minYear = isNaN(message.minYear) ? DEFAULT_MIN_YEAR : parseInt(message.minYear);
-                const maxYear = isNaN(message.maxYear) ? DEFAULT_MAX_YEAR : parseInt(message.maxYear);
-
-                if (maxYear < minYear)
-                    return this.sendPrivateMessage(userSocket, {
-                        type: 'year-range',
-                        minYear: this.query.minYear,
-                        maxYear: this.query.maxYear,
-                    });
-
-                this.sendSocketMessage({
+            if (maxYear < minYear)
+                return this.sendPrivateMessage(userSocket, {
                     type: 'year-range',
-                    minYear: minYear,
-                    maxYear: maxYear,
+                    minYear: this.query.minYear,
+                    maxYear: this.query.maxYear,
                 });
-                this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
-                break;
-            }
+
+            this.sendSocketMessage({
+                type: 'year-range',
+                minYear: minYear,
+                maxYear: maxYear,
+            });
+            this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
+            break;
+        }
         }
     }
 
@@ -612,26 +612,26 @@ class TossupRoom {
         });
 
         switch (directive) {
-            case 'accept':
-                this.buzzedIn = null;
+        case 'accept':
+            this.buzzedIn = null;
+            this.revealQuestion();
+            this.players[userId].updateStats(points, celerity);
+            Object.values(this.players).forEach(player => { player.tuh++; });
+            break;
+        case 'reject':
+            this.buzzedIn = null;
+            this.players[userId].updateStats(points, celerity);
+            if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
                 this.revealQuestion();
-                this.players[userId].updateStats(points, celerity);
                 Object.values(this.players).forEach(player => { player.tuh++; });
-                break;
-            case 'reject':
-                this.buzzedIn = null;
-                this.players[userId].updateStats(points, celerity);
-                if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
-                    this.revealQuestion();
-                    Object.values(this.players).forEach(player => { player.tuh++; });
-                } else {
-                    this.readQuestion(Date.now());
-                }
-                break;
-            case 'prompt':
-                this.startServerTimer(this.ANSWER_TIME_LIMIT * 10, () => {
-                    this.giveAnswer(userId, this.liveAnswer);
-                });
+            } else {
+                this.readQuestion(Date.now());
+            }
+            break;
+        case 'prompt':
+            this.startServerTimer(this.ANSWER_TIME_LIMIT * 10, () => {
+                this.giveAnswer(userId, this.liveAnswer);
+            });
         }
 
         this.sendSocketMessage({
