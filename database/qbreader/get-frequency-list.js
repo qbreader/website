@@ -85,26 +85,26 @@ async function getFrequencyList(subcategory, difficulties = DIFFICULTIES, limit 
     ].concat(tossupAggregation);
 
     switch (questionType) {
-        case 'tossup': {
-            const tossupList = await tossups.aggregate(tossupAggregation).toArray();
-            tossupList.sort((a, b) => b.count - a.count);
-            if (limit) {
-                tossupList.length = limit;
-            }
-            return tossupList;
+    case 'tossup': {
+        const tossupList = await tossups.aggregate(tossupAggregation).toArray();
+        tossupList.sort((a, b) => b.count - a.count);
+        if (limit) {
+            tossupList.length = limit;
         }
-        case 'bonus': {
-            const bonusList = await bonuses.aggregate(bonusAggregation).toArray();
-            bonusList.sort((a, b) => b.count - a.count);
-            if (limit) {
-                bonusList.length = limit;
-            }
-            return bonusList;
+        return tossupList;
+    }
+    case 'bonus': {
+        const bonusList = await bonuses.aggregate(bonusAggregation).toArray();
+        bonusList.sort((a, b) => b.count - a.count);
+        if (limit) {
+            bonusList.length = limit;
         }
-        case 'all':
-            break;
-        default:
-            throw new Error('Invalid question type');
+        return bonusList;
+    }
+    case 'all':
+        break;
+    default:
+        throw new Error('Invalid question type');
     }
 
     const [tossupList, bonusList] = await Promise.all([
