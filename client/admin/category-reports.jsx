@@ -1,4 +1,4 @@
-import { getBonusPartLabel } from '../utilities.js';
+import { getBonusPartLabel } from '../utilities/index.js';
 
 const ALTERNATE_SUBCATEGORIES = {
     'Literature': ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
