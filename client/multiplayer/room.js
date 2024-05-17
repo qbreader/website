@@ -36,198 +36,198 @@ const socket = new WebSocket(
 socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
-    case 'error':
-        socket.close(3000);
-        window.location.href = '/multiplayer';
-        break;
+        case 'error':
+            socket.close(3000);
+            window.location.href = '/multiplayer';
+            break;
 
-    case 'buzz':
-        socketOnBuzz(data);
-        break;
+        case 'buzz':
+            socketOnBuzz(data);
+            break;
 
-    case 'change-username':
-        socketOnChangeUsername(data);
-        break;
+        case 'change-username':
+            socketOnChangeUsername(data);
+            break;
 
-    case 'chat':
-        logChat(data.username, data.message, false, data.userId);
-        break;
+        case 'chat':
+            logChat(data.username, data.message, false, data.userId);
+            break;
 
-    case 'chat-live-update':
-        logChat(data.username, data.message, true, data.userId);
-        break;
+        case 'chat-live-update':
+            logChat(data.username, data.message, true, data.userId);
+            break;
 
-    case 'clear-stats':
-        socketOnClearStats(data);
-        break;
+        case 'clear-stats':
+            socketOnClearStats(data);
+            break;
 
-    case 'connection-acknowledged':
-        socketOnConnectionAcknowledged(data);
-        break;
+        case 'connection-acknowledged':
+            socketOnConnectionAcknowledged(data);
+            break;
 
-    case 'connection-acknowledged-query':
-        socketOnConnectionAcknowledgedQuery(data);
-        break;
+        case 'connection-acknowledged-query':
+            socketOnConnectionAcknowledgedQuery(data);
+            break;
 
-    case 'connection-acknowledged-tossup':
-        socketOnConnectionAcknowledgedTossup(data);
-        break;
+        case 'connection-acknowledged-tossup':
+            socketOnConnectionAcknowledgedTossup(data);
+            break;
 
-    case 'end-of-set':
-        socketOnEndOfSet(data);
-        break;
+        case 'end-of-set':
+            socketOnEndOfSet(data);
+            break;
 
-    case 'difficulties':
-        if (data.value.length > 0) {
-            logEvent(data.username, `changed the difficulties to ${data.value}`);
-        } else {
-            logEvent(data.username, 'cleared the difficulties');
+        case 'difficulties':
+            if (data.value.length > 0) {
+                logEvent(data.username, `changed the difficulties to ${data.value}`);
+            } else {
+                logEvent(data.username, 'cleared the difficulties');
+            }
+            updateDifficulties(data.value);
+            break;
+        case 'packet-number':
+            data.value = arrayToRange(data.value);
+        // eslint-disable-next-line no-fallthrough
+        case 'set-name':
+            if (data.value.length > 0) {
+                logEvent(data.username, `changed the ${data.type} to ${data.value}`);
+            } else {
+                logEvent(data.username, `cleared the ${data.type}`);
+            }
+            document.getElementById(data.type).value = data.value;
+            break;
+
+        case 'give-answer':
+            socketOnGiveAnswer(data);
+            break;
+
+        case 'give-answer-live-update':
+            logGiveAnswer(data.username, data.message, true);
+            break;
+
+        case 'join':
+            socketOnJoin(data);
+            break;
+
+        case 'leave':
+            socketOnLeave(data);
+            break;
+
+        case 'lost-buzzer-race':
+            socketOnLostBuzzerRace(data);
+            break;
+
+        case 'next':
+        case 'skip':
+            socketOnNext(data);
+            break;
+
+        case 'no-questions-found':
+            socketOnNoQuestionsFound(data);
+            break;
+
+        case 'pause':
+            socketOnPause(data);
+            break;
+
+        case 'reading-speed':
+            logEvent(data.username, `changed the reading speed to ${data.value}`);
+            document.getElementById('reading-speed').value = data.value;
+            document.getElementById('reading-speed-display').textContent = data.value;
+            break;
+
+        case 'reveal-answer': {
+            document.getElementById('question').innerHTML = data.question;
+            document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
+            document.getElementById('pause').disabled = true;
+            showNextButton();
+            break;
         }
-        updateDifficulties(data.value);
-        break;
-    case 'packet-number':
-        data.value = arrayToRange(data.value);
-    // eslint-disable-next-line no-fallthrough
-    case 'set-name':
-        if (data.value.length > 0) {
-            logEvent(data.username, `changed the ${data.type} to ${data.value}`);
-        } else {
-            logEvent(data.username, `cleared the ${data.type}`);
-        }
-        document.getElementById(data.type).value = data.value;
-        break;
 
-    case 'give-answer':
-        socketOnGiveAnswer(data);
-        break;
+        case 'start':
+            socketOnStart(data);
+            break;
 
-    case 'give-answer-live-update':
-        logGiveAnswer(data.username, data.message, true);
-        break;
+        case 'timer-update':
+            updateTimerDisplay(data.timeRemaining);
+            break;
 
-    case 'join':
-        socketOnJoin(data);
-        break;
+        case 'toggle-lock':
+            logEvent(data.username, `${data.lock ? 'locked' : 'unlocked'} the room`);
+            document.getElementById('toggle-lock').checked = data.lock;
+            break;
 
-    case 'leave':
-        socketOnLeave(data);
-        break;
+        case 'toggle-powermark-only':
+            logEvent(data.username, `${data.powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
+            document.getElementById('toggle-powermark-only').checked = data.powermarkOnly;
+            break;
 
-    case 'lost-buzzer-race':
-        socketOnLostBuzzerRace(data);
-        break;
+        case 'toggle-rebuzz':
+            logEvent(data.username, `${data.rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
+            document.getElementById('toggle-rebuzz').checked = data.rebuzz;
+            break;
 
-    case 'next':
-    case 'skip':
-        socketOnNext(data);
-        break;
+        case 'toggle-skip':
+            logEvent(data.username, `${data.skip ? 'enabled' : 'disabled'} skipping`);
+            document.getElementById('toggle-skip').checked = data.skip;
+            document.getElementById('skip').disabled = !data.skip || document.getElementById('skip').classList.contains('d-none');
+            break;
 
-    case 'no-questions-found':
-        socketOnNoQuestionsFound(data);
-        break;
+        case 'toggle-select-by-set-name':
+            if (data.selectBySetName) {
+                logEvent(data.username, 'enabled select by set name');
+                document.getElementById('toggle-select-by-set-name').checked = true;
+                document.getElementById('difficulty-settings').classList.add('d-none');
+                document.getElementById('set-settings').classList.remove('d-none');
+                document.getElementById('set-name').textContent = data.setName;
+            } else {
+                logEvent(data.username, 'enabled select by difficulty');
+                document.getElementById('toggle-select-by-set-name').checked = false;
+                document.getElementById('difficulty-settings').classList.remove('d-none');
+                document.getElementById('set-settings').classList.add('d-none');
+            }
+            document.getElementById('toggle-powermark-only').disabled = data.selectBySetName;
+            document.getElementById('toggle-standard-only').disabled = data.selectBySetName;
+            break;
 
-    case 'pause':
-        socketOnPause(data);
-        break;
+        case 'toggle-standard-only':
+            logEvent(data.username, `${data.standardOnly ? 'enabled' : 'disabled'} standard format only`);
+            document.getElementById('toggle-standard-only').checked = data.standardOnly;
+            break;
 
-    case 'reading-speed':
-        logEvent(data.username, `changed the reading speed to ${data.value}`);
-        document.getElementById('reading-speed').value = data.value;
-        document.getElementById('reading-speed-display').textContent = data.value;
-        break;
+        case 'toggle-timer':
+            logEvent(data.username, `${data.timer ? 'enabled' : 'disabled'} the timer`);
+            document.getElementById('toggle-timer').checked = data.timer;
+            document.getElementById('timer').classList.toggle('d-none');
+            break;
 
-    case 'reveal-answer': {
-        document.getElementById('question').innerHTML = data.question;
-        document.getElementById('answer').innerHTML = 'ANSWER: ' + data.answer;
-        document.getElementById('pause').disabled = true;
-        showNextButton();
-        break;
-    }
+        case 'toggle-visibility':
+            logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
+            document.getElementById('toggle-visibility').checked = data.public;
+            document.getElementById('chat').disabled = data.public;
+            document.getElementById('toggle-lock').disabled = data.public;
+            document.getElementById('toggle-timer').disabled = data.public;
+            document.getElementById('toggle-timer').checked = true;
+            break;
 
-    case 'start':
-        socketOnStart(data);
-        break;
+        case 'update-categories':
+            logEvent(data.username, 'updated the categories');
+            categoryManager.import(data.categories, data.subcategories, data.alternateSubcategories);
+            categoryManager.loadCategoryModal();
+            break;
 
-    case 'timer-update':
-        updateTimerDisplay(data.timeRemaining);
-        break;
+        case 'update-question':
+            if (data.word !== '(*)') {
+                document.getElementById('question').innerHTML += data.word + ' ';
+            }
+            break;
 
-    case 'toggle-lock':
-        logEvent(data.username, `${data.lock ? 'locked' : 'unlocked'} the room`);
-        document.getElementById('toggle-lock').checked = data.lock;
-        break;
-
-    case 'toggle-powermark-only':
-        logEvent(data.username, `${data.powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
-        document.getElementById('toggle-powermark-only').checked = data.powermarkOnly;
-        break;
-
-    case 'toggle-rebuzz':
-        logEvent(data.username, `${data.rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
-        document.getElementById('toggle-rebuzz').checked = data.rebuzz;
-        break;
-
-    case 'toggle-skip':
-        logEvent(data.username, `${data.skip ? 'enabled' : 'disabled'} skipping`);
-        document.getElementById('toggle-skip').checked = data.skip;
-        document.getElementById('skip').disabled = !data.skip || document.getElementById('skip').classList.contains('d-none');
-        break;
-
-    case 'toggle-select-by-set-name':
-        if (data.selectBySetName) {
-            logEvent(data.username, 'enabled select by set name');
-            document.getElementById('toggle-select-by-set-name').checked = true;
-            document.getElementById('difficulty-settings').classList.add('d-none');
-            document.getElementById('set-settings').classList.remove('d-none');
-            document.getElementById('set-name').textContent = data.setName;
-        } else {
-            logEvent(data.username, 'enabled select by difficulty');
-            document.getElementById('toggle-select-by-set-name').checked = false;
-            document.getElementById('difficulty-settings').classList.remove('d-none');
-            document.getElementById('set-settings').classList.add('d-none');
-        }
-        document.getElementById('toggle-powermark-only').disabled = data.selectBySetName;
-        document.getElementById('toggle-standard-only').disabled = data.selectBySetName;
-        break;
-
-    case 'toggle-standard-only':
-        logEvent(data.username, `${data.standardOnly ? 'enabled' : 'disabled'} standard format only`);
-        document.getElementById('toggle-standard-only').checked = data.standardOnly;
-        break;
-
-    case 'toggle-timer':
-        logEvent(data.username, `${data.timer ? 'enabled' : 'disabled'} the timer`);
-        document.getElementById('toggle-timer').checked = data.timer;
-        document.getElementById('timer').classList.toggle('d-none');
-        break;
-
-    case 'toggle-visibility':
-        logEvent(data.username, `made the room ${data.public ? 'public' : 'private'}`);
-        document.getElementById('toggle-visibility').checked = data.public;
-        document.getElementById('chat').disabled = data.public;
-        document.getElementById('toggle-lock').disabled = data.public;
-        document.getElementById('toggle-timer').disabled = data.public;
-        document.getElementById('toggle-timer').checked = true;
-        break;
-
-    case 'update-categories':
-        logEvent(data.username, 'updated the categories');
-        categoryManager.import(data.categories, data.subcategories, data.alternateSubcategories);
-        categoryManager.loadCategoryModal();
-        break;
-
-    case 'update-question':
-        if (data.word !== '(*)') {
-            document.getElementById('question').innerHTML += data.word + ' ';
-        }
-        break;
-
-    case 'year-range':
-        $('#slider').slider('values', 0, data.minYear);
-        $('#slider').slider('values', 1, data.maxYear);
-        document.getElementById('year-range-a').textContent = data.minYear;
-        document.getElementById('year-range-b').textContent = data.maxYear;
-        break;
+        case 'year-range':
+            $('#slider').slider('values', 0, data.minYear);
+            $('#slider').slider('values', 1, data.maxYear);
+            document.getElementById('year-range-a').textContent = data.minYear;
+            document.getElementById('year-range-b').textContent = data.maxYear;
+            break;
     }
 };
 
@@ -303,27 +303,27 @@ const socketOnConnectionAcknowledged = async (message) => {
     }
 
     switch (message.questionProgress) {
-    case 0:
-        document.getElementById('next').textContent = 'Start';
-        document.getElementById('next').classList.remove('btn-primary');
-        document.getElementById('next').classList.add('btn-success');
-        break;
-    case 1:
-        showSkipButton();
-        document.getElementById('options').classList.add('d-none');
-        if (message.buzzedIn) {
-            document.getElementById('buzz').disabled = true;
-            document.getElementById('next').disabled = true;
-            document.getElementById('pause').disabled = true;
-        } else {
-            document.getElementById('buzz').disabled = false;
-            document.getElementById('pause').disabled = false;
-        }
-        break;
-    case 2:
-        showNextButton();
-        document.getElementById('options').classList.add('d-none');
-        break;
+        case 0:
+            document.getElementById('next').textContent = 'Start';
+            document.getElementById('next').classList.remove('btn-primary');
+            document.getElementById('next').classList.add('btn-success');
+            break;
+        case 1:
+            showSkipButton();
+            document.getElementById('options').classList.add('d-none');
+            if (message.buzzedIn) {
+                document.getElementById('buzz').disabled = true;
+                document.getElementById('next').disabled = true;
+                document.getElementById('pause').disabled = true;
+            } else {
+                document.getElementById('buzz').disabled = false;
+                document.getElementById('pause').disabled = false;
+            }
+            break;
+        case 2:
+            showNextButton();
+            document.getElementById('options').classList.add('d-none');
+            break;
     }
 
     if (message.isPermanent) {
@@ -604,18 +604,18 @@ function logGiveAnswer(username, message, isLive = false, directive = null) {
     const badge = document.createElement('span');
     badge.textContent = 'Buzz';
     switch (directive) {
-    case 'accept':
-        badge.className = 'badge text-dark bg-success';
-        break;
-    case 'reject':
-        badge.className = 'badge text-light bg-danger';
-        break;
-    case 'prompt':
-        badge.className = 'badge text-dark bg-warning';
-        break;
-    default:
-        badge.className = 'badge text-light bg-primary';
-        break;
+        case 'accept':
+            badge.className = 'badge text-dark bg-success';
+            break;
+        case 'reject':
+            badge.className = 'badge text-light bg-danger';
+            break;
+        case 'prompt':
+            badge.className = 'badge text-dark bg-warning';
+            break;
+        default:
+            badge.className = 'badge text-light bg-primary';
+            break;
     }
 
     let secondBadge = null;
@@ -855,12 +855,12 @@ document.getElementById('difficulties').addEventListener('change', function () {
 document.getElementById('next').addEventListener('click', function () {
     this.blur();
     switch (this.innerHTML) {
-    case 'Start':
-        socket.send(JSON.stringify({ type: 'start' }));
-        break;
-    case 'Next':
-        socket.send(JSON.stringify({ type: 'next' }));
-        break;
+        case 'Start':
+            socket.send(JSON.stringify({ type: 'start' }));
+            break;
+        case 'Next':
+            socket.send(JSON.stringify({ type: 'next' }));
+            break;
     }
 });
 
@@ -872,7 +872,11 @@ document.getElementById('skip').addEventListener('click', function () {
 
 
 document.getElementById('packet-number').addEventListener('change', function () {
-    socket.send(JSON.stringify({ type: 'packet-number', value: rangeToArray(this.value, maxPacketNumber) }));
+    const range = rangeToArray(this.value, maxPacketNumber);
+    if (range.some((num) => num < 1 || num > maxPacketNumber))
+        return document.getElementById('packet-number').classList.add('is-invalid');
+    else document.getElementById('packet-number').classList.remove('is-invalid');
+    socket.send(JSON.stringify({ type: 'packet-number', value: range }));
 });
 
 
@@ -980,6 +984,8 @@ document.getElementById('username').addEventListener('change', function () {
 
 document.getElementById('year-range-a').onchange = function () {
     const [minYear, maxYear] = $('#slider').slider('values');
+    if (maxYear < minYear) return document.querySelector('#yearRangeAlert').style.display = '';
+    else document.querySelector('#yearRangeAlert').style.display = 'none';
     socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
 };
 
@@ -1026,33 +1032,33 @@ document.addEventListener('keydown', function (event) {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     switch (event.key) {
-    case ' ':
-        // Prevent spacebar from scrolling the page
-        document.getElementById('buzz').click();
-        if (event.target == document.body) event.preventDefault();
-        break;
+        case ' ':
+            // Prevent spacebar from scrolling the page
+            document.getElementById('buzz').click();
+            if (event.target == document.body) event.preventDefault();
+            break;
 
-    case 'k':
-        document.getElementsByClassName('card-header-clickable')[0].click();
-        break;
+        case 'k':
+            document.getElementsByClassName('card-header-clickable')[0].click();
+            break;
 
-    case 't':
-        document.getElementsByClassName('star-tossup')[0].click();
-        break;
+        case 't':
+            document.getElementsByClassName('star-tossup')[0].click();
+            break;
 
-    case 'y':
-        navigator.clipboard.writeText(tossup._id ?? '');
-        break;
+        case 'y':
+            navigator.clipboard.writeText(tossup._id ?? '');
+            break;
 
-    case 'n':
-    case 's':
-        document.getElementById('next').click();
-        document.getElementById('skip').click();
-        break;
+        case 'n':
+        case 's':
+            document.getElementById('next').click();
+            document.getElementById('skip').click();
+            break;
 
-    case 'p':
-        document.getElementById('pause').click();
-        break;
+        case 'p':
+            document.getElementById('pause').click();
+            break;
 
     }
 });
