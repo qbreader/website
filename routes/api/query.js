@@ -72,16 +72,16 @@ router.get('/', async (req, res) => {
         res.json(queryResult);
     } catch (error) {
         switch (error.message) {
-            case 'Invalid question type specified.':
-                res.status(400).send('Invalid question type specified.');
-                return;
-            case 'Invalid search type specified.':
-                res.status(400).send('Invalid search type specified.');
-                return;
-            default:
-                console.log(error);
-                res.sendStatus(500);
-                return;
+        case 'Invalid question type specified.':
+            res.status(400).send('Invalid question type specified.');
+            return;
+        case 'Invalid search type specified.':
+            res.status(400).send('Invalid search type specified.');
+            return;
+        default:
+            console.log(error);
+            res.sendStatus(500);
+            return;
         }
     }
 });

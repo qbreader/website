@@ -63,20 +63,20 @@ async function giveAnswer(givenAnswer) {
     const { actualAnswer, directive, directedPrompt } = await checkGeowordAnswer(givenAnswer, currentQuestionNumber);
 
     switch (directive) {
-        case 'accept':
-            updateScore(true, givenAnswer, actualAnswer, prompts);
-            prompts = [];
-            break;
-        case 'prompt':
-            document.getElementById('answer-input-group').classList.remove('d-none');
-            document.getElementById('answer-input').focus();
-            document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
-            prompts.push(givenAnswer);
-            break;
-        case 'reject':
-            updateScore(false, givenAnswer, actualAnswer, prompts);
-            prompts = [];
-            break;
+    case 'accept':
+        updateScore(true, givenAnswer, actualAnswer, prompts);
+        prompts = [];
+        break;
+    case 'prompt':
+        document.getElementById('answer-input-group').classList.remove('d-none');
+        document.getElementById('answer-input').focus();
+        document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
+        prompts.push(givenAnswer);
+        break;
+    case 'reject':
+        updateScore(false, givenAnswer, actualAnswer, prompts);
+        prompts = [];
+        break;
     }
 }
 
@@ -223,18 +223,18 @@ document.addEventListener('keydown', (event) => {
     }
 
     switch (event.key) {
-        case ' ':
-            document.getElementById('buzz').click();
-            // Prevent spacebar from scrolling the page:
-            if (event.target == document.body) {
-                event.preventDefault();
-            }
-            break;
-        case 'n':
-            document.getElementById('next').click();
-            break;
-        case 's':
-            document.getElementById('start').click();
-            break;
+    case ' ':
+        document.getElementById('buzz').click();
+        // Prevent spacebar from scrolling the page:
+        if (event.target == document.body) {
+            event.preventDefault();
+        }
+        break;
+    case 'n':
+        document.getElementById('next').click();
+        break;
+    case 's':
+        document.getElementById('start').click();
+        break;
     }
 });

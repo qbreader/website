@@ -279,25 +279,25 @@ async function giveAnswer(givenAnswer) {
     const { directive, directedPrompt } = await api.checkAnswer(bonuses[questionNumber - 1].answers[currentBonusPart], givenAnswer);
 
     switch (directive) {
-        case 'accept':
-            document.getElementById(`checkbox-${currentBonusPart + 1}`).checked = true;
-            document.getElementById('reveal').disabled = false;
-            revealBonusPart();
-            if (audio.soundEffects) {
-                audio.correct.play();
-            }
-            break;
-        case 'reject':
-            document.getElementById('reveal').disabled = false;
-            revealBonusPart();
-            if (audio.soundEffects) {
-                audio.incorrect.play();
-            }
-            break;
-        case 'prompt':
-            document.getElementById('answer-input-group').classList.remove('d-none');
-            document.getElementById('answer-input').focus();
-            document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
+    case 'accept':
+        document.getElementById(`checkbox-${currentBonusPart + 1}`).checked = true;
+        document.getElementById('reveal').disabled = false;
+        revealBonusPart();
+        if (audio.soundEffects) {
+            audio.correct.play();
+        }
+        break;
+    case 'reject':
+        document.getElementById('reveal').disabled = false;
+        revealBonusPart();
+        if (audio.soundEffects) {
+            audio.incorrect.play();
+        }
+        break;
+    case 'prompt':
+        document.getElementById('answer-input-group').classList.remove('d-none');
+        document.getElementById('answer-input').focus();
+        document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
     }
 }
 
@@ -629,44 +629,44 @@ document.addEventListener('keydown', (event) => {
         return;
 
     switch (event.key) {
-        case ' ':
-            document.getElementById('reveal').click();
+    case ' ':
+        document.getElementById('reveal').click();
 
-            // Prevent spacebar from scrolling the page
-            if (event.target == document.body)
-                event.preventDefault();
+        // Prevent spacebar from scrolling the page
+        if (event.target == document.body)
+            event.preventDefault();
 
-            break;
-        case 'k':
-            document.getElementsByClassName('card-header-clickable')[0].click();
-            break;
-        case 't':
-            document.getElementsByClassName('star-bonus')[0].click();
-            break;
-        case 'y':
-            navigator.clipboard.writeText(bonuses[0]?._id ?? '');
-            break;
-        case 'n':
-            document.getElementById('next').click();
-            break;
-        case 's':
-            document.getElementById('start').click();
-            break;
-        case '0':
-            document.getElementById(`checkbox-${currentBonusPart}`).click();
-            break;
-        case '1':
-            document.getElementById('checkbox-1').click();
-            break;
-        case '2':
-            document.getElementById('checkbox-2').click();
-            break;
-        case '3':
-            document.getElementById('checkbox-3').click();
-            break;
-        case '4':
-            document.getElementById('checkbox-4').click();
-            break;
+        break;
+    case 'k':
+        document.getElementsByClassName('card-header-clickable')[0].click();
+        break;
+    case 't':
+        document.getElementsByClassName('star-bonus')[0].click();
+        break;
+    case 'y':
+        navigator.clipboard.writeText(bonuses[0]?._id ?? '');
+        break;
+    case 'n':
+        document.getElementById('next').click();
+        break;
+    case 's':
+        document.getElementById('start').click();
+        break;
+    case '0':
+        document.getElementById(`checkbox-${currentBonusPart}`).click();
+        break;
+    case '1':
+        document.getElementById('checkbox-1').click();
+        break;
+    case '2':
+        document.getElementById('checkbox-2').click();
+        break;
+    case '3':
+        document.getElementById('checkbox-3').click();
+        break;
+    case '4':
+        document.getElementById('checkbox-4').click();
+        break;
     }
 });
 
