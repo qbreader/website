@@ -6,7 +6,7 @@ import CategoryManager from '../utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
 import { getBonusPartLabel } from '../utilities/index.js';
 import { insertTokensIntoHTML } from '../utilities/insert-tokens-into-html.js';
-const paginationShiftLength = screen.width > 992 ? 10 : 5;
+const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
 const ALTERNATE_SUBCATEGORY_BUTTONS = [['Drama', 'primary'], ['Long Fiction', 'primary'], ['Poetry', 'primary'], ['Short Fiction', 'primary'], ['Misc Literature', 'primary'], ['Math', 'danger'], ['Astronomy', 'danger'], ['Computer Science', 'danger'], ['Earth Science', 'danger'], ['Engineering', 'danger'], ['Misc Science', 'danger'], ['Architecture', 'warning'], ['Dance', 'warning'], ['Film', 'warning'], ['Jazz', 'warning'], ['Opera', 'warning'], ['Photography', 'warning'], ['Misc Arts', 'warning'], ['Anthropology', 'secondary'], ['Economics', 'secondary'], ['Linguistics', 'secondary'], ['Psychology', 'secondary'], ['Sociology', 'secondary'], ['Other Social Science', 'secondary']];
@@ -642,7 +642,7 @@ function QueryForm() {
       const endTime = performance.now();
       const timeElapsed = ((endTime - startTime) / 1000).toFixed(2);
       setQueryTime(timeElapsed);
-      history.pushState({
+      window.history.pushState({
         tossups,
         highlightedTossupArray,
         bonuses,
