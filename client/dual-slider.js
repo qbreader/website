@@ -28,14 +28,14 @@ $(document).ready(function () {
   document.getElementById('slider').classList.remove('ui-widget-content');
   document.getElementById('slider').classList.remove('ui-widget');
 
-  // if (localStorage.getItem('minYear') && !location.pathname.startsWith('multiplayer')) {
-  //     $('#slider').slider('values', 0, localStorage.getItem('minYear'));
-  //     document.getElementById('year-range-a').textContent = localStorage.getItem('minYear');
+  // if (window.localStorage.getItem('minYear') && !location.pathname.startsWith('multiplayer')) {
+  //     $('#slider').slider('values', 0, window.localStorage.getItem('minYear'));
+  //     document.getElementById('year-range-a').textContent = window.localStorage.getItem('minYear');
   // }
 
-  // if (localStorage.getItem('maxYear') && !location.pathname.startsWith('multiplayer')) {
-  //     $('#slider').slider('values', 1, localStorage.getItem('maxYear'));
-  //     document.getElementById('year-range-b').textContent = localStorage.getItem('maxYear');
+  // if (window.localStorage.getItem('maxYear') && !location.pathname.startsWith('multiplayer')) {
+  //     $('#slider').slider('values', 1, window.localStorage.getItem('maxYear'));
+  //     document.getElementById('year-range-b').textContent = window.localStorage.getItem('maxYear');
   // }
 
   $('input.sliderValue').change(function () {
