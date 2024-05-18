@@ -38,6 +38,7 @@ socket.onmessage = function (event) {
     switch (data.type) {
     case 'error':
         socket.close(3000);
+        alert(data.error);
         window.location.href = '/multiplayer';
         break;
 
