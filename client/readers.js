@@ -11,11 +11,11 @@ document.getElementById('toggle-options').addEventListener('click', function () 
   document.getElementById('options').classList.toggle('d-none');
 });
 
-if (localStorage.getItem('font-size')) {
-  document.getElementById('question').style.setProperty('font-size', `${localStorage.getItem('font-size')}px`);
+if (window.localStorage.getItem('font-size')) {
+  document.getElementById('question').style.setProperty('font-size', `${window.localStorage.getItem('font-size')}px`);
 }
 
-if (localStorage.getItem('high-contrast-question-text') === 'true') {
+if (window.localStorage.getItem('high-contrast-question-text') === 'true') {
   document.getElementById('question').classList.add('high-contrast-question-text');
 }
 

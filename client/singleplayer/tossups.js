@@ -61,20 +61,20 @@ const defaults = {
 };
 
 let query;
-if (!localStorage.getItem('singleplayer-tossup-query')) {
+if (!window.localStorage.getItem('singleplayer-tossup-query')) {
   query = defaults;
 } else {
-  query = JSON.parse(localStorage.getItem('singleplayer-tossup-query'));
+  query = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
   if (query.version !== defaults.version) {
     query = defaults;
-    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
   }
 }
 
 const categoryManager = new CategoryManager(query.categories, query.subcategories, query.alternateSubcategories);
 
-const settings = localStorage.getItem('singleplayer-tossup-settings')
-  ? JSON.parse(localStorage.getItem('singleplayer-tossup-settings'))
+const settings = window.localStorage.getItem('singleplayer-tossup-settings')
+  ? JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'))
   : {
       readingSpeed: 50,
       rebuzz: false,
@@ -83,15 +83,15 @@ const settings = localStorage.getItem('singleplayer-tossup-settings')
       typeToAnswer: true
     };
 
-if (localStorage.getItem('questionNumberTossupSave')) {
-  questionNumber = parseInt(localStorage.getItem('questionNumberTossupSave'));
+if (window.localStorage.getItem('questionNumberTossupSave')) {
+  questionNumber = parseInt(window.localStorage.getItem('questionNumberTossupSave'));
   document.getElementById('question-number').value = questionNumber;
 }
 
 // Load query and settings first so user doesn't see the default settings
 if (settings.readingSpeed) {
-  document.getElementById('reading-speed-display').textContent = localStorage.speed;
-  document.getElementById('reading-speed').value = localStorage.speed;
+  document.getElementById('reading-speed-display').textContent = window.localStorage.speed;
+  document.getElementById('reading-speed').value = window.localStorage.speed;
 }
 
 if (settings.rebuzz) {
@@ -513,7 +513,7 @@ document.querySelectorAll('#categories input').forEach(input => {
     categoryManager.updateCategory(input.id);
     categoryManager.loadCategoryModal();
     ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
   });
 });
 
@@ -523,7 +523,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     categoryManager.updateSubcategory(input.id);
     categoryManager.loadCategoryModal();
     ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
   });
 });
 
@@ -533,7 +533,7 @@ document.querySelectorAll('#alternate-subcategories input').forEach(input => {
     categoryManager.updateAlternateSubcategory(input.id);
     categoryManager.loadCategoryModal();
     ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
   });
 });
 
@@ -574,7 +574,7 @@ document.getElementById('buzz').addEventListener('click', function () {
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
   loadRandomTossups(query);
-  localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 document.getElementById('clear-stats').addEventListener('click', function () {
@@ -585,7 +585,7 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 document.getElementById('difficulties').addEventListener('change', function () {
   query.difficulties = getDropdownValues('difficulties');
   loadRandomTossups(query);
-  localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 document.getElementById('next').addEventListener('click', function () {
@@ -597,7 +597,7 @@ document.getElementById('next').addEventListener('click', function () {
 document.getElementById('packet-number').addEventListener('change', function () {
   // if field is blank, store blank result in `query`
   query.packetNumbers = rangeToArray(this.value.trim(), 0);
-  localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
   query.packetNumbers = rangeToArray(this.value.trim(), maxPacketNumber);
 });
 
@@ -612,13 +612,13 @@ document.getElementById('question-number').addEventListener('change', function (
     questionNumber = '1';
   }
   questionNumber = parseInt(questionNumber) - 1;
-  localStorage.setItem('questionNumberTossupSave', document.getElementById('question-number').value);
+  window.localStorage.setItem('questionNumberTossupSave', document.getElementById('question-number').value);
 });
 
 document.getElementById('reading-speed').addEventListener('input', function () {
   settings.readingSpeed = this.value;
   document.getElementById('reading-speed-display').textContent = this.value;
-  localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
@@ -647,7 +647,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
     document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
   }
 
-  localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 document.getElementById('start').addEventListener('click', async function () {
@@ -687,7 +687,7 @@ document.getElementById('toggle-powermark-only').addEventListener('click', funct
   this.blur();
   query.powermarkOnly = this.checked;
   loadRandomTossups(query);
-  localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
@@ -704,7 +704,7 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
     document.getElementById('set-settings').classList.add('d-none');
   }
 
-  localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 document.getElementById('toggle-show-history').addEventListener('click', function () {
@@ -717,41 +717,41 @@ document.getElementById('toggle-show-history').addEventListener('click', functio
     document.getElementById('room-history').classList.add('d-none');
   }
 
-  localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 document.getElementById('toggle-standard-only').addEventListener('click', function () {
   this.blur();
   query.standardOnly = this.checked;
   loadRandomTossups(query);
-  localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
   this.blur();
   settings.typeToAnswer = this.checked;
   document.getElementById('toggle-rebuzz').disabled = !this.checked;
-  localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 document.getElementById('toggle-rebuzz').addEventListener('click', function () {
   this.blur();
   settings.rebuzz = this.checked;
-  localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 document.getElementById('year-range-a').onchange = function () {
   query.minYear = $('#slider').slider('values', 0);
   query.maxYear = $('#slider').slider('values', 1);
   loadRandomTossups(query);
-  localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 };
 
 document.getElementById('year-range-b').onchange = function () {
   query.minYear = $('#slider').slider('values', 0);
   query.maxYear = $('#slider').slider('values', 1);
   loadRandomTossups(query);
-  localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 };
 
 document.addEventListener('keydown', (event) => {

@@ -44,29 +44,29 @@ const defaults = {
 
 // Room settings
 let query;
-if (!localStorage.getItem('singleplayer-bonus-query')) {
+if (!window.localStorage.getItem('singleplayer-bonus-query')) {
   query = defaults;
 } else {
-  query = JSON.parse(localStorage.getItem('singleplayer-bonus-query'));
+  query = JSON.parse(window.localStorage.getItem('singleplayer-bonus-query'));
   if (query.version !== defaults.version) {
     query = defaults;
-    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
   }
 }
 
 const categoryManager = new CategoryManager(query.categories, query.subcategories, query.alternateSubcategories);
 
-const settings = localStorage.getItem('singleplayer-bonus-settings')
-  ? JSON.parse(localStorage.getItem('singleplayer-bonus-settings'))
+const settings = window.localStorage.getItem('singleplayer-bonus-settings')
+  ? JSON.parse(window.localStorage.getItem('singleplayer-bonus-settings'))
   : {
       selectBySetName: false,
       showHistory: true,
       typeToAnswer: true
     };
 
-if (localStorage.getItem('questionNumberBonusSave')) {
-  document.getElementById('question-number').value = localStorage.getItem('questionNumberBonusSave');
-  questionNumber = parseInt(localStorage.getItem('questionNumberBonusSave')) - 1;
+if (window.localStorage.getItem('questionNumberBonusSave')) {
+  document.getElementById('question-number').value = window.localStorage.getItem('questionNumberBonusSave');
+  questionNumber = parseInt(window.localStorage.getItem('questionNumberBonusSave')) - 1;
 }
 
 // Load query and settings first so user doesn't see the default settings
@@ -373,7 +373,7 @@ document.querySelectorAll('#categories input').forEach(input => {
     categoryManager.updateCategory(input.id);
     categoryManager.loadCategoryModal();
     ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
   });
 });
 
@@ -383,7 +383,7 @@ document.querySelectorAll('#subcategories input').forEach(input => {
     categoryManager.updateSubcategory(input.id);
     categoryManager.loadCategoryModal();
     ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
   });
 });
 
@@ -393,7 +393,7 @@ document.querySelectorAll('#alternate-subcategories input').forEach(input => {
     categoryManager.updateAlternateSubcategory(input.id);
     categoryManager.loadCategoryModal();
     ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
   });
 });
 
@@ -413,7 +413,7 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
 document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
   loadRandomBonuses(query);
-  localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 document.getElementById('clear-stats').addEventListener('click', function () {
@@ -424,7 +424,7 @@ document.getElementById('clear-stats').addEventListener('click', function () {
 document.getElementById('difficulties').addEventListener('change', function () {
   query.difficulties = getDropdownValues('difficulties');
   loadRandomBonuses(query);
-  localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 document.getElementById('next').addEventListener('click', function () {
@@ -444,7 +444,7 @@ document.getElementById('next').addEventListener('click', function () {
 document.getElementById('packet-number').addEventListener('change', function () {
   // if field is blank, store blank result in `query`
   query.packetNumbers = rangeToArray(this.value.trim(), 0);
-  localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
   query.packetNumbers = rangeToArray(this.value.trim(), maxPacketNumber);
 });
 
@@ -454,7 +454,7 @@ document.getElementById('question-number').addEventListener('change', function (
     questionNumber = '1';
   }
   questionNumber = parseInt(questionNumber) - 1;
-  localStorage.setItem('questionNumberBonusSave', document.getElementById('question-number').value);
+  window.localStorage.setItem('questionNumberBonusSave', document.getElementById('question-number').value);
 });
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
@@ -494,7 +494,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
     document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
   }
 
-  localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 document.getElementById('start').addEventListener('click', async function () {
@@ -539,7 +539,7 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
     document.getElementById('set-settings').classList.add('d-none');
   }
 
-  localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
+  window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
 });
 
 document.getElementById('toggle-show-history').addEventListener('click', function () {
@@ -552,41 +552,41 @@ document.getElementById('toggle-show-history').addEventListener('click', functio
     document.getElementById('room-history').classList.add('d-none');
   }
 
-  localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
+  window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
 });
 
 document.getElementById('toggle-standard-only').addEventListener('click', function () {
   this.blur();
   query.standardOnly = this.checked;
   loadRandomBonuses(query);
-  localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
   this.blur();
   query.threePartBonuses = this.checked;
   loadRandomBonuses(query);
-  localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
   this.blur();
   settings.typeToAnswer = this.checked;
-  localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
+  window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
 });
 
 document.getElementById('year-range-a').onchange = function () {
   query.minYear = $('#slider').slider('values', 0);
   query.maxYear = $('#slider').slider('values', 1);
   loadRandomBonuses(query);
-  localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 };
 
 document.getElementById('year-range-b').onchange = function () {
   query.minYear = $('#slider').slider('values', 0);
   query.maxYear = $('#slider').slider('values', 1);
   loadRandomBonuses(query);
-  localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 };
 
 document.addEventListener('keydown', (event) => {

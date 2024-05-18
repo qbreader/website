@@ -483,7 +483,7 @@ function QueryForm () {
 
   const [queryTime, setQueryTime] = React.useState(0);
 
-  const fontSize = localStorage.getItem('database-font-size') === 'true' ? (localStorage.getItem('font-size') ?? 16) : 16;
+  const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;
 
   function arrayBetween (start, end) {
     return Array(end - start).fill().map((_, idx) => start + idx);

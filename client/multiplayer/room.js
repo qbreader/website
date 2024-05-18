@@ -19,8 +19,8 @@ const players = {};
 
 const ROOM_NAME = decodeURIComponent(location.pathname.substring(13));
 let tossup = {};
-let USER_ID = localStorage.getItem('USER_ID') || 'unknown';
-let username = localStorage.getItem('multiplayer-username') || await api.getRandomName();
+let USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
+let username = window.localStorage.getItem('multiplayer-username') || await api.getRandomName();
 
 const socket = new WebSocket(
   location.href.replace('http', 'ws') +
@@ -260,7 +260,7 @@ const socketOnChangeUsername = (message) => {
 
   if (message.userId === USER_ID) {
     username = message.newUsername;
-    localStorage.setItem('multiplayer-username', username);
+    window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
 };
@@ -276,7 +276,7 @@ const socketOnClearStats = (message) => {
 
 const socketOnConnectionAcknowledged = async (message) => {
   USER_ID = message.userId;
-  localStorage.setItem('USER_ID', USER_ID);
+  window.localStorage.setItem('USER_ID', USER_ID);
 
   document.getElementById('chat').disabled = message.public;
   document.getElementById('toggle-rebuzz').checked = message.rebuzz;
@@ -942,7 +942,7 @@ document.getElementById('toggle-visibility').addEventListener('click', function 
 document.getElementById('username').addEventListener('change', function () {
   socket.send(JSON.stringify({ type: 'change-username', userId: USER_ID, oldUsername: username, username: this.value }));
   username = this.value;
-  localStorage.setItem('multiplayer-username', username);
+  window.localStorage.setItem('multiplayer-username', username);
 });
 
 document.getElementById('year-range-a').onchange = function () {
