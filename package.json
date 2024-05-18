@@ -47,5 +47,12 @@
         "mocha": "^10.2.0",
         "sass": "^1.56.2",
         "semistandard": "^17.0.0"
+    },
+    "semistandard": {
+        "ignore": [
+            "client/bootstrap/*",
+            "client/admin/category-reports.js",
+            "client/database/index.js"
+        ]
     }
 }
