@@ -8,7 +8,7 @@ import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdow
 import { getBonusPartLabel } from '../utilities/index.js';
 import { insertTokensIntoHTML } from '../utilities/insert-tokens-into-html.js';
 
-const paginationShiftLength = screen.width > 992 ? 10 : 5;
+const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
 
 const CATEGORY_BUTTONS = [
   ['Literature', 'primary'],
@@ -640,7 +640,7 @@ function QueryForm () {
         const timeElapsed = ((endTime - startTime) / 1000).toFixed(2);
         setQueryTime(timeElapsed);
 
-        history.pushState({ tossups, highlightedTossupArray, bonuses, highlightedBonusArray, timeElapsed, workingMaxReturnLength, randomize }, '', '?' + params);
+        window.history.pushState({ tossups, highlightedTossupArray, bonuses, highlightedBonusArray, timeElapsed, workingMaxReturnLength, randomize }, '', '?' + params);
       })
       .catch(error => {
         console.error('Error:', error);
