@@ -42,8 +42,7 @@ wss.on('connection', (ws, req) => {
     isPrivate = (isPrivate === 'true');
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
-    console.log('isbad', inappropriateNames.some((name) => roomName.includes(name)));
-    if (inappropriateNames.some((name) => roomName.includes(name))) return ws.send(JSON.stringify({
+    if (inappropriateNames.some((name) => roomName.toLowerCase().includes(name.toLowerCase()))) return ws.send(JSON.stringify({
         type: 'error',
         error: 'The room name contains an inappropriate word',
     }));
