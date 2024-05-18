@@ -440,7 +440,7 @@ const socketOnGiveAnswer = async (message) => {
   if (audio.soundEffects && userId === USER_ID) {
     if (directive === 'accept' && score > 10) {
       audio.power.play();
-    } else if (directive === 'accept' && score == 10) {
+    } else if (directive === 'accept' && score === 10) {
       audio.correct.play();
     } else if (directive === 'reject') {
       audio.incorrect.play();
@@ -720,7 +720,7 @@ function upsertPlayerItem (player) {
   }
 
   const playerItem = document.createElement('a');
-  playerItem.className = `list-group-item ${userId == USER_ID ? 'user-score' : ''} clickable`;
+  playerItem.className = `list-group-item ${userId === USER_ID ? 'user-score' : ''} clickable`;
   playerItem.id = `list-group-${userId}`;
   playerItem.innerHTML = `
     <div class="d-flex justify-content-between">
@@ -994,7 +994,7 @@ document.addEventListener('keydown', function (event) {
     case ' ':
       // Prevent spacebar from scrolling the page
       document.getElementById('buzz').click();
-      if (event.target == document.body) event.preventDefault();
+      if (event.target === document.body) event.preventDefault();
       break;
 
     case 'k':
@@ -1025,7 +1025,7 @@ document.addEventListener('keypress', function (event) {
   // needs to be keypress
   // keydown immediately hides the input group
   // keyup shows the input group again after submission
-  if (event.key === 'Enter' && event.target == document.body) {
+  if (event.key === 'Enter' && event.target === document.body) {
     document.getElementById('chat').click();
   }
 });

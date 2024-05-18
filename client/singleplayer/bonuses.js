@@ -142,7 +142,7 @@ async function advanceQuestion () {
       // Go to the next packet if you reach the end of this packet
       if (questionNumber > bonuses.length) {
         query.packetNumbers.shift();
-        if (query.packetNumbers.length == 0) {
+        if (query.packetNumbers.length === 0) {
           window.alert('No more questions left');
           document.getElementById('reveal').disabled = true;
           document.getElementById('next').disabled = true;
@@ -356,7 +356,7 @@ function updateStatDisplay () {
   const points = 30 * stats[30] + 20 * stats[20] + 10 * stats[10];
   const ppb = Math.round(100 * points / numBonuses) / 100 || 0;
 
-  const includePlural = (numBonuses == 1) ? '' : 'es';
+  const includePlural = (numBonuses === 1) ? '' : 'es';
   document.getElementById('statline').textContent =
         `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${stats[30]}/${stats[20]}/${stats[10]}/${stats[0]}, ${points} pts)`;
 }
@@ -597,7 +597,7 @@ document.addEventListener('keydown', (event) => {
       document.getElementById('reveal').click();
 
       // Prevent spacebar from scrolling the page
-      if (event.target == document.body) { event.preventDefault(); }
+      if (event.target === document.body) { event.preventDefault(); }
 
       break;
     case 'k':
