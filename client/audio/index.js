@@ -1,3 +1,5 @@
+/* globals Audio */
+
 export default class audio {
   static soundEffects = window.localStorage.getItem('sound-effects') === 'true';
   static buzz = new Audio('/audio/buzz.mp3');
