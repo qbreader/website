@@ -30,7 +30,7 @@ function sortTable (n, isFloat = false, tableId = 'table') {
       y = rows[i + 1].children[n];
       /* Check if the two rows should switch place,
             based on the direction, asc or desc: */
-      if (dir == 'asc') {
+      if (dir === 'asc') {
         if (isFloat) {
           if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
             // If so, mark as a switch and break the loop:
@@ -44,7 +44,7 @@ function sortTable (n, isFloat = false, tableId = 'table') {
             break;
           }
         }
-      } else if (dir == 'desc') {
+      } else if (dir === 'desc') {
         if (isFloat) {
           if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
             // If so, mark as a switch and break the loop:
@@ -70,7 +70,7 @@ function sortTable (n, isFloat = false, tableId = 'table') {
     } else {
       /* If no switching has been done AND the direction is "asc",
             set the direction to "desc" and run the while loop again. */
-      if (switchcount == 0 && dir == 'asc') {
+      if (switchcount === 0 && dir === 'asc') {
         dir = 'desc';
         switching = true;
       }

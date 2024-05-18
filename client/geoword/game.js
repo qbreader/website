@@ -228,7 +228,7 @@ document.addEventListener('keydown', (event) => {
     case ' ':
       document.getElementById('buzz').click();
       // Prevent spacebar from scrolling the page:
-      if (event.target == document.body) {
+      if (event.target === document.body) {
         event.preventDefault();
       }
       break;
