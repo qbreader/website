@@ -27,7 +27,6 @@ form.addEventListener('submit', (event) => {
   }).then(response => {
     if (response.status === 401) {
       window.alert('Unable to reset password. Try requesting a new password reset email.');
-      document.getElementById('confirm-password').value;
       throw new Error('Unable to reset password.');
     }
     return response;
