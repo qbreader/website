@@ -766,7 +766,7 @@ function upsertPlayerItem (player) {
     `);
 
   document.getElementById('player-list-group').appendChild(playerItem);
-  new bootstrap.Popover(playerItem);
+  bootstrap.Popover(playerItem);
 }
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
@@ -949,8 +949,12 @@ document.getElementById('username').addEventListener('change', function () {
 
 document.getElementById('year-range-a').onchange = function () {
   const [minYear, maxYear] = $('#slider').slider('values');
-  if (maxYear < minYear) return document.querySelector('#yearRangeAlert').style.display = '';
-  else document.querySelector('#yearRangeAlert').style.display = 'none';
+  if (maxYear < minYear) {
+    document.querySelector('#yearRangeAlert').style.display = '';
+    return;
+  } else {
+    document.querySelector('#yearRangeAlert').style.display = 'none';
+  }
   socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
 };
 
