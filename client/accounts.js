@@ -1,6 +1,6 @@
 export default class account {
   static deleteUsername () {
-    sessionStorage.setItem('account-username', JSON.stringify({ username: null, expires: null }));
+    window.sessionStorage.setItem('account-username', JSON.stringify({ username: null, expires: null }));
     document.getElementById('login-link').textContent = 'Log in';
     document.getElementById('login-link').href = '/user/login';
   }
@@ -8,12 +8,12 @@ export default class account {
   static async getUsername () {
     let data;
     try {
-      data = sessionStorage.getItem('account-username');
+      data = window.sessionStorage.getItem('account-username');
       data = data ? JSON.parse(data) : {};
       data = data || {};
     } catch (e) {
       data = {};
-      sessionStorage.setItem('account-username', JSON.stringify(data));
+      window.sessionStorage.setItem('account-username', JSON.stringify(data));
     }
 
     let { username, expires } = data;
@@ -29,16 +29,16 @@ export default class account {
           return response.json();
         });
       username = data.username;
-      sessionStorage.setItem('account-username', JSON.stringify(data));
+      window.sessionStorage.setItem('account-username', JSON.stringify(data));
     } else if (expires === null || expires < Date.now()) {
       username = null;
-      sessionStorage.setItem('account-username', JSON.stringify({ username: null, expires: null }));
+      window.sessionStorage.setItem('account-username', JSON.stringify({ username: null, expires: null }));
     }
 
     return username;
   }
 
   static setUsername (username, expires) {
-    sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
+    window.sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
   }
 }

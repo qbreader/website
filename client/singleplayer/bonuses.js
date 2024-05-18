@@ -20,8 +20,8 @@ let randomBonuses = [];
 
 let bonuses = [{}];
 
-const stats = sessionStorage.getItem('bonus-stats')
-  ? JSON.parse(sessionStorage.getItem('bonus-stats'))
+const stats = window.sessionStorage.getItem('bonus-stats')
+  ? JSON.parse(window.sessionStorage.getItem('bonus-stats'))
   : {
       0: 0,
       10: 0,
@@ -198,7 +198,7 @@ function clearStats () {
   stats[30] = 0;
 
   updateStatDisplay();
-  sessionStorage.removeItem('bonus-stats');
+  window.sessionStorage.removeItem('bonus-stats');
 }
 
 function createBonusPart (bonusPartNumber, bonusText, value = 10) {
@@ -364,7 +364,7 @@ function updateStatDisplay () {
 function updateStatsForCurrentBonus () {
   const pointsOnBonus = getPointsPerPart(bonuses[questionNumber - 1]).reduce((a, b) => a + b, 0);
   stats[pointsOnBonus] = isNaN(stats[pointsOnBonus]) ? 1 : stats[pointsOnBonus] + 1;
-  sessionStorage.setItem('bonus-stats', JSON.stringify(stats));
+  window.sessionStorage.setItem('bonus-stats', JSON.stringify(stats));
 }
 
 document.querySelectorAll('#categories input').forEach(input => {
