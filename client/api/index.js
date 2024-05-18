@@ -98,12 +98,12 @@ export default class api {
       if (response.status === 200) {
         document.getElementById('report-question-reason').value = 'wrong-category';
         document.getElementById('report-question-description').value = '';
-        alert('Question has been reported.');
+        window.alert('Question has been reported.');
       } else {
-        alert('There was an error reporting the question.');
+        window.alert('There was an error reporting the question.');
       }
     }).catch(_error => {
-      alert('There was an error reporting the question.');
+      window.alert('There was an error reporting the question.');
     }).finally(() => {
       document.getElementById('report-question-close').click();
       document.getElementById('report-question-submit').disabled = false;

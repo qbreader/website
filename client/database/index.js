@@ -11,7 +11,7 @@ const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['S
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
 const ALTERNATE_SUBCATEGORY_BUTTONS = [['Drama', 'primary'], ['Long Fiction', 'primary'], ['Poetry', 'primary'], ['Short Fiction', 'primary'], ['Misc Literature', 'primary'], ['Math', 'danger'], ['Astronomy', 'danger'], ['Computer Science', 'danger'], ['Earth Science', 'danger'], ['Engineering', 'danger'], ['Misc Science', 'danger'], ['Architecture', 'warning'], ['Dance', 'warning'], ['Film', 'warning'], ['Jazz', 'warning'], ['Opera', 'warning'], ['Photography', 'warning'], ['Misc Arts', 'warning'], ['Anthropology', 'secondary'], ['Economics', 'secondary'], ['Linguistics', 'secondary'], ['Psychology', 'secondary'], ['Sociology', 'secondary'], ['Other Social Science', 'secondary']];
 const categoryManager = new CategoryManager();
-function getMatchIndices (clean, regex) {
+function getMatchIndices(clean, regex) {
   const iterator = clean.matchAll(regex);
   const starts = [];
   const ends = [];
@@ -26,7 +26,7 @@ function getMatchIndices (clean, regex) {
     ends
   };
 }
-function highlightTossupQuery ({
+function highlightTossupQuery({
   tossup,
   regExp,
   searchType = 'all',
@@ -52,7 +52,7 @@ function highlightTossupQuery ({
   }
   return tossup;
 }
-function highlightBonusQuery ({
+function highlightBonusQuery({
   bonus,
   regExp,
   searchType = 'all',
@@ -89,7 +89,7 @@ function highlightBonusQuery ({
   }
   return bonus;
 }
-function TossupCard ({
+function TossupCard({
   tossup,
   highlightedTossup,
   hideAnswerline,
@@ -98,16 +98,16 @@ function TossupCard ({
 }) {
   const _id = tossup._id;
   const packetName = tossup.packet.name;
-  function clickToCopy () {
+  function clickToCopy() {
     const textdata = stringifyTossup(tossup);
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
-  function onClick () {
+  function onClick() {
     document.getElementById('report-question-id').value = _id;
   }
-  function showTossupStats () {
+  function showTossupStats() {
     fetch('/auth/question-stats/single-tossup?' + new URLSearchParams({
       tossup_id: _id
     })).then(response => {
@@ -167,53 +167,53 @@ function TossupCard ({
       console.error('Error:', error);
     });
   }
-  return /* #__PURE__ */React.createElement('div', {
-    className: 'card my-2'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'card-header d-flex justify-content-between'
-  }, /* #__PURE__ */React.createElement('b', {
-    className: 'clickable',
+  return /*#__PURE__*/React.createElement("div", {
+    className: "card my-2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "card-header d-flex justify-content-between"
+  }, /*#__PURE__*/React.createElement("b", {
+    className: "clickable",
     onClick: clickToCopy
-  }, tossup.set.name, ' | ', tossup.category, ' | ', tossup.subcategory, ' ', tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', ' | ', tossup.difficulty), /* #__PURE__ */React.createElement('b', {
-    className: 'clickable',
-    'data-bs-toggle': 'collapse',
-    'data-bs-target': `#question-${_id}`
-  }, 'Packet ', tossup.packet.number, ' | Question ', tossup.number)), /* #__PURE__ */React.createElement('div', {
-    className: 'card-container collapse show',
+  }, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
+    className: "clickable",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": `#question-${_id}`
+  }, "Packet ", tossup.packet.number, " | Question ", tossup.number)), /*#__PURE__*/React.createElement("div", {
+    className: "card-container collapse show",
     id: `question-${_id}`
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'card-body',
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "card-body",
     style: {
       fontSize: `${fontSize}px`
     }
-  }, /* #__PURE__ */React.createElement('span', {
+  }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedTossup.question
     }
-  }), /* #__PURE__ */React.createElement('hr', {
-    className: 'my-3'
-  }), /* #__PURE__ */React.createElement('div', null, /* #__PURE__ */React.createElement('b', null, 'ANSWER:'), ' ', /* #__PURE__ */React.createElement('span', {
+  }), /*#__PURE__*/React.createElement("hr", {
+    className: "my-3"
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: hideAnswerline ? '' : highlightedTossup?.answer
     }
-  }))), /* #__PURE__ */React.createElement('div', {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
     onClick: showTossupStats,
-    'data-bs-toggle': 'modal',
-    'data-bs-target': '#tossup-stats-modal'
-  }, /* #__PURE__ */React.createElement('small', {
-    className: 'text-muted'
-  }, packetName ? 'Packet ' + packetName : /* #__PURE__ */React.createElement('span', null, '\xA0')), /* #__PURE__ */React.createElement('small', {
-    className: 'text-muted float-end'
-  }, /* #__PURE__ */React.createElement('a', {
-    href: '#',
-    onClick,
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#tossup-stats-modal"
+  }, /*#__PURE__*/React.createElement("small", {
+    className: "text-muted"
+  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
+    className: "text-muted float-end"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    onClick: onClick,
     id: `report-question-${_id}`,
-    'data-bs-toggle': 'modal',
-    'data-bs-target': '#report-question-modal'
-  }, 'Report Question')))));
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#report-question-modal"
+  }, "Report Question")))));
 }
-function BonusCard ({
+function BonusCard({
   bonus,
   highlightedBonus,
   hideAnswerlines,
@@ -227,16 +227,16 @@ function BonusCard ({
   for (let i = 0; i < bonusLength; i++) {
     indices.push(i);
   }
-  function clickToCopy () {
+  function clickToCopy() {
     const textdata = stringifyBonus(bonus);
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
-  function onClick () {
+  function onClick() {
     document.getElementById('report-question-id').value = _id;
   }
-  function showBonusStats () {
+  function showBonusStats() {
     fetch('/auth/question-stats/single-bonus?' + new URLSearchParams({
       bonus_id: _id
     })).then(response => {
@@ -295,174 +295,174 @@ function BonusCard ({
       console.error('Error:', error);
     });
   }
-  return /* #__PURE__ */React.createElement('div', {
-    className: 'card my-2'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'card-header d-flex justify-content-between'
-  }, /* #__PURE__ */React.createElement('b', {
-    className: 'clickable',
+  return /*#__PURE__*/React.createElement("div", {
+    className: "card my-2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "card-header d-flex justify-content-between"
+  }, /*#__PURE__*/React.createElement("b", {
+    className: "clickable",
     onClick: clickToCopy
-  }, bonus.set.name, ' | ', bonus.category, ' | ', bonus.subcategory, ' ', bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', ' | ', bonus.difficulty), /* #__PURE__ */React.createElement('b', {
-    className: 'clickable',
-    'data-bs-toggle': 'collapse',
-    'data-bs-target': `#question-${_id}`
-  }, 'Packet ', bonus.packet.number, ' | Question ', bonus.number)), /* #__PURE__ */React.createElement('div', {
-    className: 'card-container collapse show',
+  }, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
+    className: "clickable",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": `#question-${_id}`
+  }, "Packet ", bonus.packet.number, " | Question ", bonus.number)), /*#__PURE__*/React.createElement("div", {
+    className: "card-container collapse show",
     id: `question-${_id}`
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'card-body',
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "card-body",
     style: {
       fontSize: `${fontSize}px`
     }
-  }, /* #__PURE__ */React.createElement('p', {
+  }, /*#__PURE__*/React.createElement("p", {
     dangerouslySetInnerHTML: {
       __html: highlightedBonus.leadin
     }
-  }), indices.map(i => /* #__PURE__ */React.createElement('div', {
+  }), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
-  }, /* #__PURE__ */React.createElement('hr', null), /* #__PURE__ */React.createElement('p', null, /* #__PURE__ */React.createElement('span', null, getBonusPartLabel(bonus, i), ' '), /* #__PURE__ */React.createElement('span', {
+  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", null, getBonusPartLabel(bonus, i), " "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedBonus.parts[i]
     }
-  })), /* #__PURE__ */React.createElement('div', null, /* #__PURE__ */React.createElement('b', null, 'ANSWER: '), /* #__PURE__ */React.createElement('span', {
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: hideAnswerlines ? '' : highlightedBonus?.answers[i]
     }
-  }))))), /* #__PURE__ */React.createElement('div', {
+  }))))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
     onClick: showBonusStats,
-    'data-bs-toggle': 'modal',
-    'data-bs-target': '#bonus-stats-modal'
-  }, /* #__PURE__ */React.createElement('small', {
-    className: 'text-muted'
-  }, packetName ? 'Packet ' + packetName : /* #__PURE__ */React.createElement('span', null, '\xA0')), /* #__PURE__ */React.createElement('small', {
-    className: 'text-muted float-end'
-  }, /* #__PURE__ */React.createElement('a', {
-    href: '#',
-    onClick,
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#bonus-stats-modal"
+  }, /*#__PURE__*/React.createElement("small", {
+    className: "text-muted"
+  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
+    className: "text-muted float-end"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    onClick: onClick,
     id: `report-question-${_id}`,
-    'data-bs-toggle': 'modal',
-    'data-bs-target': '#report-question-modal'
-  }, 'Report Question')))));
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#report-question-modal"
+  }, "Report Question")))));
 }
-function CategoryButton ({
+function CategoryButton({
   category,
   color
 }) {
-  function handleClick () {
+  function handleClick() {
     categoryManager.updateCategory(category);
     categoryManager.loadCategoryModal();
   }
-  return /* #__PURE__ */React.createElement('div', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    className: 'btn-check',
-    autoComplete: 'off',
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    className: "btn-check",
+    autoComplete: "off",
     id: category,
     onClick: handleClick
-  }), /* #__PURE__ */React.createElement('label', {
+  }), /*#__PURE__*/React.createElement("label", {
     className: `btn btn-outline-${color} w-100 rounded-0 my-1`,
     htmlFor: category
-  }, category, /* #__PURE__ */React.createElement('br', null)));
+  }, category, /*#__PURE__*/React.createElement("br", null)));
 }
-function SubcategoryButton ({
+function SubcategoryButton({
   subcategory,
   color,
   hidden = false
 }) {
-  function handleClick () {
+  function handleClick() {
     categoryManager.updateSubcategory(subcategory);
     categoryManager.loadCategoryModal();
   }
-  return /* #__PURE__ */React.createElement('div', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    className: 'btn-check',
-    autoComplete: 'off',
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    className: "btn-check",
+    autoComplete: "off",
     id: subcategory,
     onClick: handleClick
-  }), /* #__PURE__ */React.createElement('label', {
+  }), /*#__PURE__*/React.createElement("label", {
     className: `btn btn-outline-${color} w-100 rounded-0 my-1 ${hidden && 'd-none'}`,
     htmlFor: subcategory
-  }, subcategory, /* #__PURE__ */React.createElement('br', null)));
+  }, subcategory, /*#__PURE__*/React.createElement("br", null)));
 }
-function AlternateSubcategoryButton ({
+function AlternateSubcategoryButton({
   subcategory,
   color,
   hidden = false
 }) {
-  function handleClick () {
+  function handleClick() {
     categoryManager.updateAlternateSubcategory(subcategory);
     categoryManager.loadCategoryModal();
   }
-  return /* #__PURE__ */React.createElement('div', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    className: 'btn-check',
-    autoComplete: 'off',
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    className: "btn-check",
+    autoComplete: "off",
     id: subcategory,
     onClick: handleClick
-  }), /* #__PURE__ */React.createElement('label', {
+  }), /*#__PURE__*/React.createElement("label", {
     className: `btn btn-outline-${color} w-100 rounded-0 my-1 ${hidden && 'd-none'}`,
     htmlFor: subcategory
-  }, subcategory, /* #__PURE__ */React.createElement('br', null)));
+  }, subcategory, /*#__PURE__*/React.createElement("br", null)));
 }
-function CategoryModal () {
-  return /* #__PURE__ */React.createElement('div', {
-    className: 'modal modal-lg',
-    id: 'category-modal',
-    tabIndex: '-1'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'modal-dialog modal-dialog-scrollable'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'modal-content'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'modal-header'
-  }, /* #__PURE__ */React.createElement('h5', {
-    className: 'modal-title'
-  }, 'Select Categories and Subcategories'), /* #__PURE__ */React.createElement('button', {
-    type: 'button',
-    className: 'btn-close',
-    'data-bs-dismiss': 'modal',
-    'aria-label': 'Close'
-  })), /* #__PURE__ */React.createElement('div', {
-    className: 'modal-body'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'row'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'col-4',
-    id: 'categories'
-  }, /* #__PURE__ */React.createElement('h5', {
-    className: 'text-center'
-  }, 'Category'), CATEGORY_BUTTONS.map(element => /* #__PURE__ */React.createElement(CategoryButton, {
+function CategoryModal() {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "modal modal-lg",
+    id: "category-modal",
+    tabIndex: "-1"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "modal-dialog modal-dialog-scrollable"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "modal-content"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "modal-header"
+  }, /*#__PURE__*/React.createElement("h5", {
+    className: "modal-title"
+  }, "Select Categories and Subcategories"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "btn-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "modal-body"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "col-4",
+    id: "categories"
+  }, /*#__PURE__*/React.createElement("h5", {
+    className: "text-center"
+  }, "Category"), CATEGORY_BUTTONS.map(element => /*#__PURE__*/React.createElement(CategoryButton, {
     key: element[0],
     category: element[0],
     color: element[1]
-  }))), /* #__PURE__ */React.createElement('div', {
-    className: 'col-4',
-    id: 'subcategories'
-  }, /* #__PURE__ */React.createElement('h5', {
-    className: 'text-center'
-  }, 'Subcategory'), /* #__PURE__ */React.createElement('div', {
-    className: 'text-muted text-center',
-    id: 'subcategory-info-text'
-  }, 'You must select categories before you can select subcategories.'), SUBCATEGORY_BUTTONS.map(element => /* #__PURE__ */React.createElement(SubcategoryButton, {
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "col-4",
+    id: "subcategories"
+  }, /*#__PURE__*/React.createElement("h5", {
+    className: "text-center"
+  }, "Subcategory"), /*#__PURE__*/React.createElement("div", {
+    className: "text-muted text-center",
+    id: "subcategory-info-text"
+  }, "You must select categories before you can select subcategories."), SUBCATEGORY_BUTTONS.map(element => /*#__PURE__*/React.createElement(SubcategoryButton, {
     key: element[0],
     subcategory: element[0],
     color: element[1],
     hidden: true
-  }))), /* #__PURE__ */React.createElement('div', {
-    className: 'col-4',
-    id: 'alternate-subcategories'
-  }, /* #__PURE__ */React.createElement('h5', {
-    className: 'text-center'
-  }, 'Alternate ', /* #__PURE__ */React.createElement('span', {
-    className: 'd-none d-lg-inline'
-  }, 'Subcategory')), ALTERNATE_SUBCATEGORY_BUTTONS.map(element => /* #__PURE__ */React.createElement(AlternateSubcategoryButton, {
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "col-4",
+    id: "alternate-subcategories"
+  }, /*#__PURE__*/React.createElement("h5", {
+    className: "text-center"
+  }, "Alternate ", /*#__PURE__*/React.createElement("span", {
+    className: "d-none d-lg-inline"
+  }, "Subcategory")), ALTERNATE_SUBCATEGORY_BUTTONS.map(element => /*#__PURE__*/React.createElement(AlternateSubcategoryButton, {
     key: element[0],
     subcategory: element[0],
     color: element[1],
     hidden: true
   }))))))));
 }
-function QueryForm () {
+function QueryForm() {
   const [tossups, setTossups] = React.useState([]);
   const [bonuses, setBonuses] = React.useState([]);
   const [highlightedTossups, setHighlightedTossups] = React.useState([]);
@@ -491,13 +491,13 @@ function QueryForm () {
   const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
   const [queryTime, setQueryTime] = React.useState(0);
   const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? window.localStorage.getItem('font-size') ?? 16 : 16;
-  function arrayBetween (start, end) {
+  function arrayBetween(start, end) {
     return Array(end - start).fill().map((_, idx) => start + idx);
   }
-  function getMaxPagination () {
+  function getMaxPagination() {
     return Math.floor(10000 / (maxReturnLength || 25));
   }
-  function handleTossupPaginationClick (event, value) {
+  function handleTossupPaginationClick(event, value) {
     event.preventDefault();
     switch (value) {
       case 'first':
@@ -524,7 +524,7 @@ function QueryForm () {
       behavior: 'smooth'
     });
   }
-  function handleBonusPaginationClick (event, value) {
+  function handleBonusPaginationClick(event, value) {
     event.preventDefault();
     switch (value) {
       case 'first':
@@ -551,7 +551,7 @@ function QueryForm () {
       behavior: 'smooth'
     });
   }
-  function handleSubmit (event, randomize = false, paginationUpdate = false) {
+  function handleSubmit(event, randomize = false, paginationUpdate = false) {
     const startTime = performance.now();
     event.preventDefault();
     setCurrentlySearching(true);
@@ -653,7 +653,7 @@ function QueryForm () {
       }, '', '?' + params);
     }).catch(error => {
       console.error('Error:', error);
-      alert('Invalid query. Please check your search parameters and try again.');
+      window.alert('Invalid query. Please check your search parameters and try again.');
     }).finally(() => {
       document.querySelectorAll('b.collapsed[data-bs-toggle="collapse"]').forEach(element => element.classList.remove('collapsed'));
       document.querySelectorAll('div.card-container.collapse:not(.show)').forEach(element => element.classList.add('show'));
@@ -662,24 +662,24 @@ function QueryForm () {
   }
   const tossupCards = [];
   for (let i = 0; i < highlightedTossups.length; i++) {
-    tossupCards.push(/* #__PURE__ */React.createElement(TossupCard, {
+    tossupCards.push( /*#__PURE__*/React.createElement(TossupCard, {
       key: i,
       tossup: tossups[i],
       highlightedTossup: highlightedTossups[i],
       hideAnswerline: hideAnswerlines,
       showCardFooter: showCardFooters,
-      fontSize
+      fontSize: fontSize
     }));
   }
   const bonusCards = [];
   for (let i = 0; i < highlightedBonuses.length; i++) {
-    bonusCards.push(/* #__PURE__ */React.createElement(BonusCard, {
+    bonusCards.push( /*#__PURE__*/React.createElement(BonusCard, {
       key: i,
       bonus: bonuses[i],
       highlightedBonus: highlightedBonuses[i],
-      hideAnswerlines,
+      hideAnswerlines: hideAnswerlines,
       showCardFooter: showCardFooters,
-      fontSize
+      fontSize: fontSize
     }));
   }
   React.useEffect(() => {
@@ -740,427 +740,427 @@ function QueryForm () {
     });
     document.getElementById('set-list').innerHTML = api.getSetList().map(setName => `<option>${setName}</option>`).join('');
   }, []);
-  return /* #__PURE__ */React.createElement('div', null, /* #__PURE__ */React.createElement(CategoryModal, null), /* #__PURE__ */React.createElement('form', {
-    className: 'mt-3',
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
+    className: "mt-3",
     onSubmit: event => {
       handleSubmit(event);
     }
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'input-group mb-2'
-  }, /* #__PURE__ */React.createElement('input', {
-    type: 'text',
-    className: 'form-control',
-    id: 'query',
-    placeholder: 'Query',
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "input-group mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "query",
+    placeholder: "Query",
     value: queryString,
     onChange: event => {
       setQueryString(event.target.value);
     }
-  }), /* #__PURE__ */React.createElement('button', {
-    type: 'submit',
-    className: 'btn btn-info'
-  }, 'Search'), /* #__PURE__ */React.createElement('button', {
-    id: 'randomize',
-    className: 'btn btn-success',
+  }), /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    className: "btn btn-info"
+  }, "Search"), /*#__PURE__*/React.createElement("button", {
+    id: "randomize",
+    className: "btn btn-success",
     onClick: event => {
       handleSubmit(event, true);
     }
-  }, 'Random')), /* #__PURE__ */React.createElement('div', {
-    className: 'row'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'col-6 col-xl-3 mb-2'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'dropdown-checklist btn-group w-100'
-  }, /* #__PURE__ */React.createElement('button', {
-    className: 'btn btn-default text-start w-100',
-    id: 'dropdownMenu1',
-    'data-bs-toggle': 'dropdown',
-    type: 'button',
-    'aria-expanded': 'true',
-    'aria-haspopup': 'true'
-  }, 'Difficulties'), /* #__PURE__ */React.createElement('button', {
-    className: 'btn btn-default dropdown-toggle dropdown-toggle-split',
-    'data-bs-toggle': 'dropdown',
-    type: 'button'
-  }), /* #__PURE__ */React.createElement('ul', {
-    className: 'dropdown-menu checkbox-menu allow-focus',
-    id: 'difficulties',
-    'aria-labelledby': 'dropdownMenu1'
-  }, /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '1'
-  }), ' 1: Middle School')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '2'
-  }), ' 2: Easy High School')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '3'
-  }), ' 3: Regular High School')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '4'
-  }), ' 4: Hard High School')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '5'
-  }), ' 5: National High School')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '6'
-  }), ' 6: \u25CF / Easy College')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '7'
-  }), ' 7: \u25CF\u25CF / Medium College')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '8'
-  }), ' 8: \u25CF\u25CF\u25CF / Regionals College')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '9'
-  }), ' 9: \u25CF\u25CF\u25CF\u25CF / Nationals College')), /* #__PURE__ */React.createElement('li', null, /* #__PURE__ */React.createElement('label', null, /* #__PURE__ */React.createElement('input', {
-    type: 'checkbox',
-    value: '10'
-  }), ' 10: Open'))))), /* #__PURE__ */React.createElement('div', {
-    className: 'col-6 col-xl-3 mb-2'
-  }, /* #__PURE__ */React.createElement('input', {
-    type: 'number',
-    className: 'form-control',
-    id: 'max-return-length',
-    placeholder: '# to Display',
+  }, "Random")), /*#__PURE__*/React.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-xl-3 mb-2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "dropdown-checklist btn-group w-100"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-default text-start w-100",
+    id: "dropdownMenu1",
+    "data-bs-toggle": "dropdown",
+    type: "button",
+    "aria-expanded": "true",
+    "aria-haspopup": "true"
+  }, "Difficulties"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-default dropdown-toggle dropdown-toggle-split",
+    "data-bs-toggle": "dropdown",
+    type: "button"
+  }), /*#__PURE__*/React.createElement("ul", {
+    className: "dropdown-menu checkbox-menu allow-focus",
+    id: "difficulties",
+    "aria-labelledby": "dropdownMenu1"
+  }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "1"
+  }), " 1: Middle School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "2"
+  }), " 2: Easy High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "3"
+  }), " 3: Regular High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "4"
+  }), " 4: Hard High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "5"
+  }), " 5: National High School")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "6"
+  }), " 6: \u25CF / Easy College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "7"
+  }), " 7: \u25CF\u25CF / Medium College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "8"
+  }), " 8: \u25CF\u25CF\u25CF / Regionals College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "9"
+  }), " 9: \u25CF\u25CF\u25CF\u25CF / Nationals College")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    value: "10"
+  }), " 10: Open"))))), /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-xl-3 mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    className: "form-control",
+    id: "max-return-length",
+    placeholder: "# to Display",
     value: maxReturnLength,
     onChange: event => {
       setMaxReturnLength(event.target.value);
     }
-  })), /* #__PURE__ */React.createElement('div', {
-    className: 'input-group col-12 col-xl-6 mb-2'
-  }, /* #__PURE__ */React.createElement('input', {
-    type: 'text',
-    className: 'form-control',
-    id: 'set-name',
-    placeholder: 'Set Name',
-    list: 'set-list'
-  }), /* #__PURE__ */React.createElement('datalist', {
-    id: 'set-list'
-  }), /* #__PURE__ */React.createElement('button', {
-    type: 'button',
-    className: 'btn btn-danger',
-    id: 'category-select-button',
-    'data-bs-toggle': 'modal',
-    'data-bs-target': '#category-modal'
-  }, 'Categories'))), /* #__PURE__ */React.createElement('div', {
-    className: 'row'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'col-6 col-md-3 mb-2'
-  }, /* #__PURE__ */React.createElement('select', {
-    className: 'form-select',
-    id: 'search-type',
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "input-group col-12 col-xl-6 mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "set-name",
+    placeholder: "Set Name",
+    list: "set-list"
+  }), /*#__PURE__*/React.createElement("datalist", {
+    id: "set-list"
+  }), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "btn btn-danger",
+    id: "category-select-button",
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#category-modal"
+  }, "Categories"))), /*#__PURE__*/React.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-md-3 mb-2"
+  }, /*#__PURE__*/React.createElement("select", {
+    className: "form-select",
+    id: "search-type",
     value: searchType,
     onChange: event => {
       setSearchType(event.target.value);
     }
-  }, /* #__PURE__ */React.createElement('option', {
-    value: 'all'
-  }, 'All text'), /* #__PURE__ */React.createElement('option', {
-    value: 'question'
-  }, 'Question'), /* #__PURE__ */React.createElement('option', {
-    value: 'answer'
-  }, 'Answer'))), /* #__PURE__ */React.createElement('div', {
-    className: 'col-6 col-md-3 mb-2'
-  }, /* #__PURE__ */React.createElement('select', {
-    className: 'form-select',
-    id: 'question-type',
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "all"
+  }, "All text"), /*#__PURE__*/React.createElement("option", {
+    value: "question"
+  }, "Question"), /*#__PURE__*/React.createElement("option", {
+    value: "answer"
+  }, "Answer"))), /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-md-3 mb-2"
+  }, /*#__PURE__*/React.createElement("select", {
+    className: "form-select",
+    id: "question-type",
     value: questionType,
     onChange: event => {
       setQuestionType(event.target.value);
     }
-  }, /* #__PURE__ */React.createElement('option', {
-    value: 'all'
-  }, 'All questions'), /* #__PURE__ */React.createElement('option', {
-    value: 'tossup'
-  }, 'Tossups'), /* #__PURE__ */React.createElement('option', {
-    value: 'bonus'
-  }, 'Bonuses'))), /* #__PURE__ */React.createElement('div', {
-    className: 'col-6 col-md-3 mb-2'
-  }, /* #__PURE__ */React.createElement('input', {
-    type: 'number',
-    className: 'form-control',
-    id: 'min-year',
-    placeholder: 'Min Year',
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "all"
+  }, "All questions"), /*#__PURE__*/React.createElement("option", {
+    value: "tossup"
+  }, "Tossups"), /*#__PURE__*/React.createElement("option", {
+    value: "bonus"
+  }, "Bonuses"))), /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-md-3 mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    className: "form-control",
+    id: "min-year",
+    placeholder: "Min Year",
     value: minYear,
     onChange: event => {
       setMinYear(event.target.value);
     }
-  })), /* #__PURE__ */React.createElement('div', {
-    className: 'col-6 col-md-3 mb-2'
-  }, /* #__PURE__ */React.createElement('input', {
-    type: 'number',
-    className: 'form-control',
-    id: 'max-year',
-    placeholder: 'Max Year',
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "col-6 col-md-3 mb-2"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    className: "form-control",
+    id: "max-year",
+    placeholder: "Max Year",
     value: maxYear,
     onChange: event => {
       setMaxYear(event.target.value);
     }
-  }))), /* #__PURE__ */React.createElement('div', {
-    className: 'row'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'col-12'
-  }, /* #__PURE__ */React.createElement('div', {
-    className: 'form-check form-switch'
-  }, /* #__PURE__ */React.createElement('input', {
-    className: 'form-check-input',
-    type: 'checkbox',
-    role: 'switch',
-    id: 'toggle-regex',
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "col-12"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-regex",
     checked: regex,
     onChange: () => {
       setRegex(!regex);
     }
-  }), /* #__PURE__ */React.createElement('label', {
-    className: 'form-check-label',
-    htmlFor: 'toggle-regex'
-  }, 'Search using regular expression'), /* #__PURE__ */React.createElement('a', {
-    href: 'https://www.sitepoint.com/learn-regex/'
-  }, " What's this?")), /* #__PURE__ */React.createElement('div', {
-    className: 'form-check form-switch'
-  }, /* #__PURE__ */React.createElement('input', {
-    className: 'form-check-input',
-    type: 'checkbox',
-    role: 'switch',
-    id: 'toggle-ignore-word-order',
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-regex"
+  }, "Search using regular expression"), /*#__PURE__*/React.createElement("a", {
+    href: "https://www.sitepoint.com/learn-regex/"
+  }, " What's this?")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-ignore-word-order",
     checked: !regex && ignoreWordOrder,
     disabled: regex,
     onChange: () => {
       setIgnoreWordOrder(!ignoreWordOrder);
     }
-  }), /* #__PURE__ */React.createElement('label', {
-    className: 'form-check-label',
-    htmlFor: 'toggle-ignore-word-order'
-  }, 'Ignore word order')), /* #__PURE__ */React.createElement('div', {
-    className: 'form-check form-switch'
-  }, /* #__PURE__ */React.createElement('input', {
-    className: 'form-check-input',
-    type: 'checkbox',
-    role: 'switch',
-    id: 'toggle-exact-phrase',
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-ignore-word-order"
+  }, "Ignore word order")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-exact-phrase",
     checked: !regex && exactPhrase,
     disabled: regex,
     onChange: () => {
       setExactPhrase(!exactPhrase);
     }
-  }), /* #__PURE__ */React.createElement('label', {
-    className: 'form-check-label',
-    htmlFor: 'toggle-exact-phrase'
-  }, 'Search for exact phrase')), /* #__PURE__ */React.createElement('div', {
-    className: 'form-check form-switch'
-  }, /* #__PURE__ */React.createElement('input', {
-    className: 'form-check-input',
-    type: 'checkbox',
-    role: 'switch',
-    id: 'toggle-powermark-only',
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-exact-phrase"
+  }, "Search for exact phrase")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-powermark-only",
     checked: powermarkOnly,
     onChange: () => {
       setPowermarkOnly(!powermarkOnly);
     }
-  }), /* #__PURE__ */React.createElement('label', {
-    className: 'form-check-label',
-    htmlFor: 'toggle-powermark-only'
-  }, 'Powermarked tossups only')), /* #__PURE__ */React.createElement('div', {
-    className: 'form-check form-switch'
-  }, /* #__PURE__ */React.createElement('input', {
-    className: 'form-check-input',
-    type: 'checkbox',
-    role: 'switch',
-    id: 'toggle-hide-answerlines',
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-powermark-only"
+  }, "Powermarked tossups only")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-hide-answerlines",
     checked: hideAnswerlines,
     onChange: () => {
       setHideAnswerlines(!hideAnswerlines);
     }
-  }), /* #__PURE__ */React.createElement('label', {
-    className: 'form-check-label',
-    htmlFor: 'toggle-hide-answerlines'
-  }, 'Hide answerlines')), /* #__PURE__ */React.createElement('div', {
-    className: 'form-check form-switch'
-  }, /* #__PURE__ */React.createElement('input', {
-    className: 'form-check-input',
-    type: 'checkbox',
-    role: 'switch',
-    id: 'toggle-show-card-footers',
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-hide-answerlines"
+  }, "Hide answerlines")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
+    id: "toggle-show-card-footers",
     checked: showCardFooters,
     onChange: () => {
       setShowCardFooters(!showCardFooters);
     }
-  }), /* #__PURE__ */React.createElement('label', {
-    className: 'form-check-label',
-    htmlFor: 'toggle-show-card-footers'
-  }, 'Show card footers')), /* #__PURE__ */React.createElement('div', {
-    className: 'float-end'
-  }, /* #__PURE__ */React.createElement('b', null, 'Download this page:'), /* #__PURE__ */React.createElement('a', {
-    className: 'ms-2 clickable',
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-show-card-footers"
+  }, "Show card footers")), /*#__PURE__*/React.createElement("div", {
+    className: "float-end"
+  }, /*#__PURE__*/React.createElement("b", null, "Download this page:"), /*#__PURE__*/React.createElement("a", {
+    className: "ms-2 clickable",
     onClick: () => {
       downloadQuestionsAsText(tossups, bonuses);
     }
-  }, 'TXT'), /* #__PURE__ */React.createElement('a', {
-    className: 'ms-2 clickable',
+  }, "TXT"), /*#__PURE__*/React.createElement("a", {
+    className: "ms-2 clickable",
     onClick: () => {
       downloadTossupsAsCSV(tossups);
       downloadBonusesAsCSV(bonuses);
     }
-  }, 'CSV'), /* #__PURE__ */React.createElement('a', {
-    className: 'ms-2 clickable',
+  }, "CSV"), /*#__PURE__*/React.createElement("a", {
+    className: "ms-2 clickable",
     onClick: () => {
       downloadQuestionsAsJSON(tossups, bonuses);
     }
-  }, 'JSON'))))), currentlySearching && /* #__PURE__ */React.createElement('div', {
-    className: 'd-block mx-auto mt-3 spinner-border',
-    role: 'status'
-  }, /* #__PURE__ */React.createElement('span', {
-    className: 'd-none'
-  }, 'Loading...')), /* #__PURE__ */React.createElement('div', {
-    className: 'row text-center mt-2 mt-sm-0'
-  }, /* #__PURE__ */React.createElement('h3', {
-    id: 'tossups'
-  }, 'Tossups')), tossupCount > 0 ? /* #__PURE__ */React.createElement('div', {
-    className: 'float-row mb-3'
-  }, /* #__PURE__ */React.createElement('span', {
-    className: 'text-muted float-start'
-  }, 'Showing ', tossups.length, ' of ', tossupCount, ' results (', queryTime, ' seconds)'), '\xA0', /* #__PURE__ */React.createElement('span', {
-    className: 'text-muted float-end'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'clickable',
+  }, "JSON"))))), currentlySearching && /*#__PURE__*/React.createElement("div", {
+    className: "d-block mx-auto mt-3 spinner-border",
+    role: "status"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "d-none"
+  }, "Loading...")), /*#__PURE__*/React.createElement("div", {
+    className: "row text-center mt-2 mt-sm-0"
+  }, /*#__PURE__*/React.createElement("h3", {
+    id: "tossups"
+  }, "Tossups")), tossupCount > 0 ? /*#__PURE__*/React.createElement("div", {
+    className: "float-row mb-3"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-muted float-start"
+  }, "Showing ", tossups.length, " of ", tossupCount, " results (", queryTime, " seconds)"), "\xA0", /*#__PURE__*/React.createElement("span", {
+    className: "text-muted float-end"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "clickable",
     onClick: () => window.scrollTo({
       top: document.getElementById('bonuses').offsetTop,
       behavior: 'smooth'
     })
-  }, 'Jump to bonuses'))) : /* #__PURE__ */React.createElement('div', {
-    className: 'text-muted'
-  }, 'No tossups found'), /* #__PURE__ */React.createElement('div', null, tossupCards), tossupPaginationLength > 1 && /* #__PURE__ */React.createElement('nav', {
-    'aria-label': 'tossup nagivation'
-  }, /* #__PURE__ */React.createElement('ul', {
-    className: 'pagination justify-content-center'
-  }, /* #__PURE__ */React.createElement('li', {
-    className: 'page-item'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'page-link',
-    href: '#',
-    'aria-label': 'First',
+  }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("div", {
+    className: "text-muted"
+  }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
+    "aria-label": "tossup nagivation"
+  }, /*#__PURE__*/React.createElement("ul", {
+    className: "pagination justify-content-center"
+  }, /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "First",
     onClick: event => {
       handleTossupPaginationClick(event, 'first');
     }
-  }, '\xAB')), /* #__PURE__ */React.createElement('li', {
-    className: 'page-item'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'page-link',
-    href: '#',
-    'aria-label': 'Previous',
+  }, "\xAB")), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Previous",
     onClick: event => {
       handleTossupPaginationClick(event, 'previous');
     }
-  }, '\u2039')), arrayBetween(Math.min(tossupPaginationShift), Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)).map(i => {
+  }, "\u2039")), arrayBetween(Math.min(tossupPaginationShift), Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)).map(i => {
     const isActive = tossupPaginationNumber === i + 1;
-    return /* #__PURE__ */React.createElement('li', {
+    return /*#__PURE__*/React.createElement("li", {
       key: `tossup-pagination-${i + 1}`,
-      className: 'page-item'
-    }, /* #__PURE__ */React.createElement('a', {
+      className: "page-item"
+    }, /*#__PURE__*/React.createElement("a", {
       className: `page-link ${isActive && 'active'}`,
-      href: '#',
+      href: "#",
       onClick: event => {
         handleTossupPaginationClick(event, i + 1);
       }
     }, i + 1));
-  }), /* #__PURE__ */React.createElement('li', {
-    className: 'page-item'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'page-link',
-    href: '#',
-    'aria-label': 'Next',
+  }), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Next",
     onClick: event => {
       handleTossupPaginationClick(event, 'next');
     }
-  }, '\u203A')), /* #__PURE__ */React.createElement('li', {
-    className: 'page-item'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'page-link',
-    href: '#',
-    'aria-label': 'Last',
+  }, "\u203A")), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Last",
     onClick: event => {
       handleTossupPaginationClick(event, 'last');
     }
-  }, /* #__PURE__ */React.createElement('span', {
-    'aria-hidden': 'true'
-  }, '\xBB'))))), /* #__PURE__ */React.createElement('div', {
-    className: 'mb-5'
-  }), /* #__PURE__ */React.createElement('div', {
-    className: 'row text-center'
-  }, /* #__PURE__ */React.createElement('h3', {
-    id: 'bonuses'
-  }, 'Bonuses')), bonusCount > 0 ? /* #__PURE__ */React.createElement('div', {
-    className: 'float-row mb-3'
-  }, /* #__PURE__ */React.createElement('span', {
-    className: 'text-muted float-start'
-  }, 'Showing ', bonuses.length, ' of ', bonusCount, ' results (', queryTime, ' seconds)'), '\xA0', /* #__PURE__ */React.createElement('span', {
-    className: 'text-muted float-end'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'clickable',
+  }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xBB"))))), /*#__PURE__*/React.createElement("div", {
+    className: "mb-5"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "row text-center"
+  }, /*#__PURE__*/React.createElement("h3", {
+    id: "bonuses"
+  }, "Bonuses")), bonusCount > 0 ? /*#__PURE__*/React.createElement("div", {
+    className: "float-row mb-3"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-muted float-start"
+  }, "Showing ", bonuses.length, " of ", bonusCount, " results (", queryTime, " seconds)"), "\xA0", /*#__PURE__*/React.createElement("span", {
+    className: "text-muted float-end"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "clickable",
     onClick: () => window.scrollTo({
       top: document.getElementById('tossups').offsetTop,
       behavior: 'smooth'
     })
-  }, 'Jump to tossups'))) : /* #__PURE__ */React.createElement('div', {
-    className: 'text-muted'
-  }, 'No bonuses found'), /* #__PURE__ */React.createElement('div', null, bonusCards), bonusPaginationLength > 1 && /* #__PURE__ */React.createElement('nav', {
-    'aria-label': 'bonus nagivation'
-  }, /* #__PURE__ */React.createElement('ul', {
-    className: 'pagination justify-content-center'
-  }, /* #__PURE__ */React.createElement('li', {
-    className: 'page-item'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'page-link',
-    href: '#',
-    'aria-label': 'First',
+  }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("div", {
+    className: "text-muted"
+  }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
+    "aria-label": "bonus nagivation"
+  }, /*#__PURE__*/React.createElement("ul", {
+    className: "pagination justify-content-center"
+  }, /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "First",
     onClick: event => {
       handleBonusPaginationClick(event, 'first');
     }
-  }, '\xAB')), /* #__PURE__ */React.createElement('li', {
-    className: 'page-item'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'page-link',
-    href: '#',
-    'aria-label': 'Previous',
+  }, "\xAB")), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Previous",
     onClick: event => {
       handleBonusPaginationClick(event, 'previous');
     }
-  }, '\u2039')), arrayBetween(Math.min(bonusPaginationShift), Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength)).map(i => {
+  }, "\u2039")), arrayBetween(Math.min(bonusPaginationShift), Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength)).map(i => {
     const isActive = bonusPaginationNumber === i + 1;
-    return /* #__PURE__ */React.createElement('li', {
+    return /*#__PURE__*/React.createElement("li", {
       key: `bonus-pagination-${i + 1}`,
-      className: 'page-item'
-    }, /* #__PURE__ */React.createElement('a', {
+      className: "page-item"
+    }, /*#__PURE__*/React.createElement("a", {
       className: `page-link ${isActive && 'active'}`,
-      href: '#',
+      href: "#",
       onClick: event => {
         handleBonusPaginationClick(event, i + 1);
       }
     }, i + 1));
-  }), /* #__PURE__ */React.createElement('li', {
-    className: 'page-item'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'page-link',
-    href: '#',
-    'aria-label': 'Next',
+  }), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Next",
     onClick: event => {
       handleBonusPaginationClick(event, 'next');
     }
-  }, '\u203A')), /* #__PURE__ */React.createElement('li', {
-    className: 'page-item'
-  }, /* #__PURE__ */React.createElement('a', {
-    className: 'page-link',
-    href: '#',
-    'aria-label': 'Last',
+  }, "\u203A")), /*#__PURE__*/React.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "page-link",
+    href: "#",
+    "aria-label": "Last",
     onClick: event => {
       handleBonusPaginationClick(event, 'last');
     }
-  }, /* #__PURE__ */React.createElement('span', {
-    'aria-hidden': 'true'
-  }, '\xBB'))))), /* #__PURE__ */React.createElement('div', {
-    className: 'mb-5'
+  }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xBB"))))), /*#__PURE__*/React.createElement("div", {
+    className: "mb-5"
   }));
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(/* #__PURE__ */React.createElement(QueryForm, null));
+root.render( /*#__PURE__*/React.createElement(QueryForm, null));

@@ -75,7 +75,7 @@ document.getElementById('resolve-protest-submit').addEventListener('click', () =
     if (response.status === 200) {
       window.location.reload();
     } else {
-      alert('Error resolving protest');
+      window.alert('Error resolving protest');
     }
   });
 });
