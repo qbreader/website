@@ -2,10 +2,10 @@ import recordPayment from '../../database/geoword/record-payment.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
-import stripeClass from 'stripe';
+import StripeClass from 'stripe';
 
 const router = Router();
-const stripe = new stripeClass(process.env.STRIPE_SECRET_KEY);
+const stripe = new StripeClass(process.env.STRIPE_SECRET_KEY);
 
 // This is your test secret API key.
 // Replace this endpoint secret with your endpoint's unique secret
