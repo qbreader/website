@@ -22,8 +22,10 @@ if (window.location.hostname !== 'localhost' && window.location.protocol !== 'ht
 }
 
 function isTouchDevice () {
+  if ('ontouchstart' in window) return true;
+
   // eslint-disable-next-line no-undef
-  return ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch) == true;
+  return window.DocumentTouch && document instanceof DocumentTouch;
 }
 
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));

@@ -497,7 +497,7 @@ function updateStatDisplay () {
   const { powers, tens, negs, dead, points, totalCorrectCelerity } = stats;
   const numTossups = powers + tens + negs + dead;
   const numCorrectTossups = powers + tens;
-  let celerity = numCorrectTossups != 0 ? parseFloat(totalCorrectCelerity) / numCorrectTossups : 0;
+  let celerity = numCorrectTossups === 0 ? 0 : parseFloat(totalCorrectCelerity) / numCorrectTossups;
   celerity = Math.round(1000 * celerity) / 1000;
   const includePlural = (numTossups === 1) ? '' : 's';
   document.getElementById('statline').innerHTML =
@@ -761,7 +761,7 @@ document.addEventListener('keydown', (event) => {
     case ' ':
       document.getElementById('buzz').click();
       // Prevent spacebar from scrolling the page:
-      if (event.target == document.body) event.preventDefault();
+      if (event.target === document.body) event.preventDefault();
       break;
     case 'k':
       document.getElementsByClassName('card-header-clickable')[0].click();
