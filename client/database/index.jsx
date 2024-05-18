@@ -355,7 +355,7 @@ function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, 
                 <span dangerouslySetInnerHTML={{
                   __html: hideAnswerlines ? '' : highlightedBonus?.answers[i]
                 }}
-                 />
+                />
               </div>
             </div>
           )}
