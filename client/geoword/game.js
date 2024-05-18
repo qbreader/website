@@ -1,3 +1,5 @@
+/* globals Audio */
+
 import { titleCase } from '../utilities/strings.js';
 import audio from '../audio/index.js';
 
