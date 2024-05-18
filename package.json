@@ -45,6 +45,7 @@
         "eslint": "^8.28.0",
         "eslint-plugin-react": "^7.31.11",
         "mocha": "^10.2.0",
-        "sass": "^1.56.2"
+        "sass": "^1.56.2",
+        "semistandard": "^17.0.0"
     }
 }
