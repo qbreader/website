@@ -15,32 +15,32 @@ import * as types from '../../types.js';
  * @param {boolean} object.reverse - whether to reverse the order of the questions in the array. Useful for functions that pop at the end of the array, Default: `false`
  * @returns {Promise<types.Tossup[] | types.Bonus[]>}
  */
-async function getSet({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', reverse = false }) {
-    if (!setName) return [];
+async function getSet ({ setName, packetNumbers, categories, subcategories, questionType = 'tossup', reverse = false }) {
+  if (!setName) return [];
 
-    if (!categories || categories.length === 0) categories = CATEGORIES;
-    if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
-    if (!questionType) questionType = 'tossup';
+  if (!categories || categories.length === 0) categories = CATEGORIES;
+  if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+  if (!questionType) questionType = 'tossup';
 
-    const filter = {
-        'set.name': setName,
-        category: { $in: categories },
-        subcategory: { $in: subcategories },
-        'packet.number': { $in: packetNumbers },
-    };
+  const filter = {
+    'set.name': setName,
+    category: { $in: categories },
+    subcategory: { $in: subcategories },
+    'packet.number': { $in: packetNumbers }
+  };
 
-    const options = {
-        sort: { 'packet.number': reverse ? -1 : 1, number: reverse ? -1 : 1 },
-        project: { reports: 0 },
-    };
+  const options = {
+    sort: { 'packet.number': reverse ? -1 : 1, number: reverse ? -1 : 1 },
+    project: { reports: 0 }
+  };
 
-    if (questionType === 'tossup') {
-        const questionArray = await tossups.find(filter, options).toArray();
-        return questionArray || [];
-    } else if (questionType === 'bonus') {
-        const questionArray = await bonuses.find(filter, options).toArray();
-        return questionArray || [];
-    }
+  if (questionType === 'tossup') {
+    const questionArray = await tossups.find(filter, options).toArray();
+    return questionArray || [];
+  } else if (questionType === 'bonus') {
+    const questionArray = await bonuses.find(filter, options).toArray();
+    return questionArray || [];
+  }
 }
 
 export default getSet;

@@ -10,11 +10,11 @@ const username_to_id = {};
 const id_to_username = {};
 
 export {
-    bonusData,
-    bonusStars,
-    tossupData,
-    tossupStars,
-    users,
-    username_to_id,
-    id_to_username,
+  bonusData,
+  bonusStars,
+  tossupData,
+  tossupStars,
+  users,
+  username_to_id,
+  id_to_username
 };

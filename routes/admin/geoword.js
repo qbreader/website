@@ -3,27 +3,27 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    res.sendFile('index.html', { root: './client/admin/geoword' });
+  res.sendFile('index.html', { root: './client/admin/geoword' });
 });
 
 router.get('/category-stats/:packetName/:division', async (req, res) => {
-    res.sendFile('category-stats.html', { root: './client/admin/geoword' });
+  res.sendFile('category-stats.html', { root: './client/admin/geoword' });
 });
 
 router.get('/compare', async (req, res) => {
-    res.sendFile('compare.html', { root: './client/admin/geoword' });
+  res.sendFile('compare.html', { root: './client/admin/geoword' });
 });
 
 router.get('/leaderboard/:packetName/:division', async (req, res) => {
-    res.sendFile('leaderboard.html', { root: './client/admin/geoword' });
+  res.sendFile('leaderboard.html', { root: './client/admin/geoword' });
 });
 
 router.get('/protests/:packetName/:division', async (req, res) => {
-    res.sendFile('protests.html', { root: './client/admin/geoword' });
+  res.sendFile('protests.html', { root: './client/admin/geoword' });
 });
 
 router.get('/stats/:packetName/:division', async (req, res) => {
-    res.sendFile('stats.html', { root: './client/admin/geoword' });
+  res.sendFile('stats.html', { root: './client/admin/geoword' });
 });
 
 export default router;

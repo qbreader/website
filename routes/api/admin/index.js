@@ -10,20 +10,20 @@ import { Router } from 'express';
 const router = Router();
 
 router.use(async (req, res, next) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
+  const { username, token } = req.session;
+  if (!checkToken(username, token)) {
+    delete req.session;
+    res.redirect('/geoword/login');
+    return;
+  }
 
-    const admin = await isAdmin(username);
-    if (!admin) {
-        res.status(403).redirect('/user/my-profile');
-        return;
-    }
+  const admin = await isAdmin(username);
+  if (!admin) {
+    res.status(403).redirect('/user/my-profile');
+    return;
+  }
 
-    next();
+  next();
 });
 
 router.use('/geoword', geowordRouter);

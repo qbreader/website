@@ -7,11 +7,11 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 
 router.put('/', async (req, res) => {
-    const username = req.session.username;
-    const user_id = await getUserId(username);
-    const bonus_id = new ObjectId(req.body.bonus_id);
-    await unstarBonus(user_id, bonus_id);
-    res.sendStatus(200);
+  const username = req.session.username;
+  const user_id = await getUserId(username);
+  const bonus_id = new ObjectId(req.body.bonus_id);
+  await unstarBonus(user_id, bonus_id);
+  res.sendStatus(200);
 });
 
 export default router;

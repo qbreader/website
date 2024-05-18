@@ -8,10 +8,10 @@ const payments = geoword.collection('payments');
 const tossups = geoword.collection('tossups');
 
 export {
-    audio,
-    buzzes,
-    divisionChoices,
-    packets,
-    payments,
-    tossups,
+  audio,
+  buzzes,
+  divisionChoices,
+  packets,
+  payments,
+  tossups
 };

@@ -7,20 +7,20 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const { username } = req.session;
-    const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
+  const { username } = req.session;
+  const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
 
-    const [categoryStats, subcategoryStats, alternateSubcategoryStats] = await Promise.all([
-        await getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
-        await getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
-        await getAlternateSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
-    ]);
+  const [categoryStats, subcategoryStats, alternateSubcategoryStats] = await Promise.all([
+    await getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+    await getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
+    await getAlternateSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate })
+  ]);
 
-    res.json({
-        'category-stats': categoryStats,
-        'subcategory-stats': subcategoryStats,
-        'alternate-subcategory-stats': alternateSubcategoryStats,
-    });
+  res.json({
+    'category-stats': categoryStats,
+    'subcategory-stats': subcategoryStats,
+    'alternate-subcategory-stats': alternateSubcategoryStats
+  });
 });
 
 export default router;

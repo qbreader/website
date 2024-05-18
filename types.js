@@ -3,7 +3,6 @@
 // eslint-disable-next-line no-unused-vars
 import { ObjectId } from 'mongodb';
 
-
 /**
  * @typedef {object} Question
  * @property {ObjectId} _id
@@ -35,7 +34,6 @@ import { ObjectId } from 'mongodb';
  * @typedef {Question & TossupProperties} Tossup
  */
 
-
 /**
  * @typedef {object} BonusProperties
  * @property {string} leadin
@@ -47,8 +45,6 @@ import { ObjectId } from 'mongodb';
  *
  * @typedef {Question & BonusProperties} Bonus
  */
-
-
 
 /**
  * @typedef {object} Packet

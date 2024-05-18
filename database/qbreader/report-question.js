@@ -10,26 +10,30 @@ import { ObjectId } from 'mongodb';
  * @param {boolean} [verbose=true] - whether to log the result to the console
  * @returns {Promise<boolean>} true if successful, false otherwise.
  */
-async function reportQuestion(_id, reason, description, verbose = true) {
-    await tossups.updateOne({ _id: new ObjectId(_id) }, {
-        $push: { reports: {
-            reason: reason,
-            description: description,
-        } },
-    });
-
-    await bonuses.updateOne({ _id: new ObjectId(_id) }, {
-        $push: { reports: {
-            reason: reason,
-            description: description,
-        } },
-    });
-
-    if (verbose) {
-        console.log('Reported question with id ' + _id);
+async function reportQuestion (_id, reason, description, verbose = true) {
+  await tossups.updateOne({ _id: new ObjectId(_id) }, {
+    $push: {
+      reports: {
+        reason,
+        description
+      }
     }
+  });
 
-    return true;
+  await bonuses.updateOne({ _id: new ObjectId(_id) }, {
+    $push: {
+      reports: {
+        reason,
+        description
+      }
+    }
+  });
+
+  if (verbose) {
+    console.log('Reported question with id ' + _id);
+  }
+
+  return true;
 }
 
 export default reportQuestion;
