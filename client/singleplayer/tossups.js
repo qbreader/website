@@ -35,8 +35,8 @@ const previous = {
   celerity: 0
 };
 
-const stats = sessionStorage.getItem('tossup-stats')
-  ? JSON.parse(sessionStorage.getItem('tossup-stats'))
+const stats = window.sessionStorage.getItem('tossup-stats')
+  ? JSON.parse(window.sessionStorage.getItem('tossup-stats'))
   : {
       powers: 0,
       tens: 0,
@@ -264,7 +264,7 @@ function clearStats () {
   stats.totalCorrectCelerity = 0;
 
   updateStatDisplay();
-  sessionStorage.removeItem('tossup-stats');
+  window.sessionStorage.removeItem('tossup-stats');
 }
 
 async function giveAnswer (givenAnswer) {
@@ -452,7 +452,7 @@ function toggleCorrect () {
   document.getElementById('toggle-correct').textContent = previous.isCorrect ? 'I was wrong' : 'I was right';
 
   updateStatDisplay();
-  sessionStorage.setItem('tossup-stats', JSON.stringify(stats));
+  window.sessionStorage.setItem('tossup-stats', JSON.stringify(stats));
 }
 
 function updateScore (isCorrect) {
@@ -485,7 +485,7 @@ function updateScore (isCorrect) {
   previous.isCorrect = isCorrect;
 
   updateStatDisplay();
-  sessionStorage.setItem('tossup-stats', JSON.stringify(stats));
+  window.sessionStorage.setItem('tossup-stats', JSON.stringify(stats));
 
   return points;
 }
