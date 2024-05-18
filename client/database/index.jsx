@@ -840,7 +840,7 @@ function QueryForm () {
                         Jump to bonuses
                       </a>
                     </span>
-                    </div>
+                </div>
                   : <div className='text-muted'>No tossups found</div>
             }
       <div>{tossupCards}</div>

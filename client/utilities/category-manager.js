@@ -77,11 +77,11 @@ export default class CategoryManager {
      * @returns {void}
      */
   loadCategoryModal () {
-    document.querySelectorAll('#categories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#subcategories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#subcategories label').forEach(element => element.classList.add('d-none'));
-    document.querySelectorAll('#alternate-subcategories input').forEach(element => element.checked = false);
-    document.querySelectorAll('#alternate-subcategories label').forEach(element => element.classList.add('d-none'));
+    document.querySelectorAll('#categories input').forEach(element => { element.checked = false; });
+    document.querySelectorAll('#subcategories input').forEach(element => { element.checked = false; });
+    document.querySelectorAll('#subcategories label').forEach(element => { element.classList.add('d-none'); });
+    document.querySelectorAll('#alternate-subcategories input').forEach(element => { element.checked = false; });
+    document.querySelectorAll('#alternate-subcategories label').forEach(element => { element.classList.add('d-none'); });
 
     if (this.categories.length === 0 && this.subcategories.length === 0) {
       const subcategoryInfoText = document.createElement('div');

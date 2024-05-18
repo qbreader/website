@@ -29,12 +29,11 @@ function isTouchDevice () {
 }
 
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-tooltipTriggerList.map(function (tooltipTriggerEl) {
-  if (isTouchDevice()) return;
+for (const tooltipTriggerEl of tooltipTriggerList) {
+  if (isTouchDevice()) continue;
 
-  // eslint-disable-next-line no-undef
-  return new bootstrap.Tooltip(tooltipTriggerEl);
-});
+  bootstrap.Tooltip(tooltipTriggerEl);
+}
 
 account.getUsername().then(username => {
   if (username) {
