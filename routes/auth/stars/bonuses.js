@@ -6,10 +6,10 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const username = req.session.username;
-    const user_id = await getUserId(username);
-    const stars = await getBonusStars(user_id);
-    res.status(200).json(stars);
+  const username = req.session.username;
+  const user_id = await getUserId(username);
+  const stars = await getBonusStars(user_id);
+  res.status(200).json(stars);
 });
 
 export default router;

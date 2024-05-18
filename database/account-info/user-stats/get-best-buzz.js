@@ -16,23 +16,22 @@ import getTossup from '../../qbreader/get-tossup.js';
  * @param {Date} [options.endDate] - The end date of the match.
  * @returns {Promise<Object>} The generated match document.
  */
-async function getBestBuzz({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-    const user_id = await getUserId(username);
-    const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
-    matchDocument.isCorrect = true;
+async function getBestBuzz ({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+  const user_id = await getUserId(username);
+  const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+  matchDocument.isCorrect = true;
 
-    const data = (await tossupData.aggregate([
-        { $addFields: { 'createdAt': { '$toDate': '$_id' } } },
-        { $match: matchDocument },
-        { $sort: { celerity: -1 } },
-        { $limit: 1 },
-    ]).toArray())[0];
+  const data = (await tossupData.aggregate([
+    { $addFields: { createdAt: { $toDate: '$_id' } } },
+    { $match: matchDocument },
+    { $sort: { celerity: -1 } },
+    { $limit: 1 }
+  ]).toArray())[0];
 
-    if (!data)
-        return null;
+  if (!data) { return null; }
 
-    data.tossup = await getTossup(data.tossup_id);
-    return data;
+  data.tossup = await getTossup(data.tossup_id);
+  return data;
 }
 
 export default getBestBuzz;

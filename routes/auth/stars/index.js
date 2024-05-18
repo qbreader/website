@@ -14,14 +14,14 @@ import { Router } from 'express';
 const router = Router();
 
 router.use((req, res, next) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.sendStatus(401);
-        return;
-    }
+  const { username, token } = req.session;
+  if (!checkToken(username, token)) {
+    delete req.session;
+    res.sendStatus(401);
+    return;
+  }
 
-    next();
+  next();
 });
 
 router.use('/bonuses', bonusesRouter);

@@ -12,43 +12,43 @@ import getSetId from '../../qbreader/get-set-id.js';
  * @param {Date} [options.endDate] - The end date of the match.
  * @returns {Object} The generated match document.
  */
-async function generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-    const matchDocument = { user_id: user_id };
+async function generateMatchDocument ({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+  const matchDocument = { user_id };
 
-    if (!includeMultiplayer && !includeSingleplayer) {
-        return { _id: null };
+  if (!includeMultiplayer && !includeSingleplayer) {
+    return { _id: null };
+  }
+
+  if (!includeSingleplayer) {
+    matchDocument.multiplayer = true;
+  }
+
+  if (!includeMultiplayer) {
+    // if multiplayer field is missing, then it is singleplayer
+    matchDocument.multiplayer = { $ne: true };
+  }
+
+  if (difficulties) {
+    matchDocument.difficulty = { $in: difficulties };
+  }
+
+  if (setName) {
+    matchDocument.set_id = await getSetId(setName);
+  }
+
+  if (startDate) {
+    matchDocument.createdAt = { $gte: startDate };
+  }
+
+  if (endDate) {
+    if (!matchDocument.createdAt) {
+      matchDocument.createdAt = {};
     }
 
-    if (!includeSingleplayer) {
-        matchDocument.multiplayer = true;
-    }
+    matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
+  }
 
-    if (!includeMultiplayer) {
-        // if multiplayer field is missing, then it is singleplayer
-        matchDocument.multiplayer = { $ne: true };
-    }
-
-    if (difficulties) {
-        matchDocument.difficulty = { $in: difficulties };
-    }
-
-    if (setName) {
-        matchDocument.set_id = await getSetId(setName);
-    }
-
-    if (startDate) {
-        matchDocument.createdAt = { $gte: startDate };
-    }
-
-    if (endDate) {
-        if (!matchDocument.createdAt) {
-            matchDocument.createdAt = {};
-        }
-
-        matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
-    }
-
-    return matchDocument;
+  return matchDocument;
 }
 
 export default generateMatchDocument;
