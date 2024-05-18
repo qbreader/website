@@ -36,8 +36,8 @@ app.use(ipFilterMiddleware);
 app.use(ipFilterError);
 
 wss.on('connection', (ws, req) => {
-  const parsedUrl = url.parse(req.url, true);
-  let { private: isPrivate, roomName, userId, username } = parsedUrl.query;
+  const parsedUrl = new url.URL(req.url, process.env.BASE_URL ?? 'http://localhost');
+  let { private: isPrivate, roomName, userId, username } = Object.fromEntries(parsedUrl.searchParams);
   isPrivate = (isPrivate === 'true');
   userId = (userId === 'unknown') ? uuid.v4() : userId;
 
