@@ -22,7 +22,7 @@ form.addEventListener('submit', (event) => {
   }).then(async function (response) {
     if (response.status === 200) {
       const { expires } = await response.json();
-      sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
+      window.sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
       window.location.href = '/user/my-profile';
     } else if (response.status === 400) {
       document.getElementById('submission').textContent = 'Submit';
