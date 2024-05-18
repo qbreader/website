@@ -35,7 +35,7 @@ async function initialize () {
   });
   const { clientSecret } = await response.json();
 
-  const isDarkTheme = (localStorage.getItem('color-theme') === 'dark') || (!localStorage.getItem('color-theme') && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const isDarkTheme = (window.localStorage.getItem('color-theme') === 'dark') || (!window.localStorage.getItem('color-theme') && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
   const appearance = {
     theme: isDarkTheme ? 'night' : 'stripe'
   };
