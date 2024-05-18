@@ -1,3 +1,5 @@
+/* globals Stripe */
+
 import { titleCase } from '../utilities/strings.js';
 
 const packetName = window.location.pathname.split('/').pop();
@@ -8,7 +10,6 @@ const STRIPE_PUBLISHABLE_KEY = 'pk_live_51NManVKG9mAb0mOpZxtFcYWRju7COWAwtirGyd0
 // Note: as per https://www.npmjs.com/package/@stripe/stripe-js:
 // To be PCI compliant, you must load Stripe.js directly from https://js.stripe.com.
 // You cannot include it in a bundle or host it yourself.
-// eslint-disable-next-line no-undef
 const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
 let elements;
