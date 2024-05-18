@@ -1,7 +1,7 @@
 // source: https://gist.github.com/theskumar/54be20713e53d418bf02
 // can add to this list in the future
 
-const banList1 = [
+export const reservedNames = [
     'about', 'access', 'account', 'accounts', 'add', 'address', 'adm', 'admin', 'administration', 'adult', 'advertising', 'affiliate', 'affiliates', 'ajax', 'analytics', 'android', 'anon', 'anonymous', 'api', 'app', 'apps', 'archive', 'atom', 'auth', 'authentication', 'avatar',
     'backup', 'banner', 'banners', 'bin', 'billing', 'blog', 'blogs', 'board', 'bot', 'bots', 'business',
     'chat', 'cache', 'cadastro', 'calendar', 'campaign', 'careers', 'cgi', 'client', 'cliente', 'code', 'comercial', 'compare', 'config', 'connect', 'contact', 'contest', 'create', 'code', 'compras', 'css',
@@ -28,10 +28,29 @@ const banList1 = [
     'yourusername', 'yoursite', 'yourdomain',
 ];
 
-const banList2 = [
-    'anal', 'anus', 'arse', 'ass', 'ballsack', 'balls', 'bastard', 'bitch', 'biatch', 'bloody', 'blowjob', 'bollock', 'bollok', 'boner', 'boob', 'bugger', 'bum', 'butt', 'buttplug', 'clitoris', 'cock', 'coon', 'crap', 'cunt', 'damn', 'dick', 'dildo', 'dyke', 'fag', 'feck', 'fellate', 'fellatio', 'felching', 'fuck', 'fudgepacker', 'fudge', 'packer', 'flange', 'Goddamn', 'God', 'damn', 'hell', 'homo', 'jerk', 'jizz', 'knobend', 'knob', 'end', 'labia', 'lmao', 'lmfao', 'muff', 'nigger', 'nigga', 'omg', 'penis', 'piss', 'poop', 'prick', 'pube', 'pussy', 'queer', 'scrotum', 'sex', 'shit', 'sh1t', 'slut', 'smegma', 'spunk', 'tit', 'tosser', 'turd', 'twat', 'vagina', 'wank', 'whore', 'wtf', '',
+export const inappropriateNames = [
+    'alpha', 'anal', 'anus', 'arse', 'ass',
+    'ballsack', 'balls', 'bastard', 'bbc',
+    'bitch', 'biatch', 'bloody', 'blowjob',
+    'bollock', 'bollok', 'boner', 'boob',
+    'bugger', 'bum', 'butt', 'buttplug',
+    'clitoris', 'cock', 'coon', 'crap', 'cum',
+    'cunt', 'damn', 'dick', 'dildo', 'dyke',
+    'edge', 'fag', 'feck', 'fellate', 'fellatio',
+    'felching', 'fuck', 'fudgepacker', 'fudge',
+    'packer', 'flange', 'Goddamn', 'God', 'gyat',
+    'hell', 'homo', 'horn', 'jerk', 'jizz',
+    'knobend', 'knob', 'end', 'labia', 'lmao',
+    'lmfao', 'mew', 'muff', 'nigg', 'niqq', 'omg',
+    'penis', 'piss', 'poop', 'prick', 'pube',
+    'pussy', 'queer', 'rizz', 'scrotum', 'sex',
+    'sigma', 'shit', 'sh1t', 'slut', 'smegma',
+    'spunk', 'tiktok', 'tit', 'toilet', 'tosser',
+    'turd', 'twat', 'vagina', 'wank', 'whore',
+    'wtf',
 ];
 
-const banList = banList1.concat(banList2);
+const banList = reservedNames.concat(inappropriateNames);
+banList.push('');
 
 export default banList;

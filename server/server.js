@@ -1,5 +1,6 @@
 import 'dotenv/config';
 
+import { inappropriateNames } from './banned-usernames.js';
 import { ipFilterMiddleware, ipFilterError } from './ip-filter.js';
 import { createAndReturnRoom } from './TossupRoom.js';
 
@@ -40,6 +41,12 @@ wss.on('connection', (ws, req) => {
     let { private: isPrivate, roomName, userId, username } = parsedUrl.query;
     isPrivate = (isPrivate === 'true');
     userId = (userId === 'unknown') ? uuid.v4() : userId;
+
+    console.log('isbad', inappropriateNames.some((name) => roomName.includes(name)));
+    if (inappropriateNames.some((name) => roomName.includes(name))) return ws.send(JSON.stringify({
+        type: 'error',
+        error: 'The room name contains an inappropriate word',
+    }));
 
     const room = createAndReturnRoom(roomName, isPrivate);
     if (room.settings.lock === false) {
