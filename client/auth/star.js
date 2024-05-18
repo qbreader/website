@@ -11,11 +11,11 @@ export default class star {
         const toast = new bootstrap.Toast(document.getElementById('star-toast'));
         toast.show();
       } else if (!response.ok) {
-        alert('There was an error starring the bonus.');
+        window.alert('There was an error starring the bonus.');
       }
       return response.ok;
     }).catch(_error => {
-      alert('There was an error starring the bonus.');
+      window.alert('There was an error starring the bonus.');
       return false;
     });
   }
@@ -30,11 +30,11 @@ export default class star {
         const toast = new bootstrap.Toast(document.getElementById('star-toast'));
         toast.show();
       } else if (!response.ok) {
-        alert('There was an error starring the bonus.');
+        window.alert('There was an error starring the bonus.');
       }
       return response.ok;
     }).catch(_error => {
-      alert('There was an error starring the bonus.');
+      window.alert('There was an error starring the bonus.');
       return false;
     });
   }
@@ -49,10 +49,10 @@ export default class star {
         const toast = new bootstrap.Toast(document.getElementById('star-toast'));
         toast.show();
       } else if (!response.ok) {
-        alert('There was an error unstarring the bonus.');
+        window.alert('There was an error unstarring the bonus.');
       }
     }).catch(_error => {
-      alert('There was an error unstarring the bonus.');
+      window.alert('There was an error unstarring the bonus.');
     });
   }
 
@@ -66,10 +66,10 @@ export default class star {
         const toast = new bootstrap.Toast(document.getElementById('star-toast'));
         toast.show();
       } else if (!response.ok) {
-        alert('There was an error unstarring the bonus.');
+        window.alert('There was an error unstarring the bonus.');
       }
     }).catch(_error => {
-      alert('There was an error unstarring the bonus.');
+      window.alert('There was an error unstarring the bonus.');
     });
   }
 

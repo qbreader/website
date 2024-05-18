@@ -644,7 +644,7 @@ function QueryForm () {
       })
       .catch(error => {
         console.error('Error:', error);
-        alert('Invalid query. Please check your search parameters and try again.');
+        window.alert('Invalid query. Please check your search parameters and try again.');
       })
       .finally(() => {
         document.querySelectorAll('b.collapsed[data-bs-toggle="collapse"]').forEach(element => element.classList.remove('collapsed'));

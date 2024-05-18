@@ -33,7 +33,7 @@ document.getElementById('form').addEventListener('submit', event => {
     if (response.ok) {
       window.location.href = '/geoword/game/' + packetName;
     } else {
-      alert('Something went wrong. Please try again.');
+      window.alert('Something went wrong. Please try again.');
     }
   });
 });

@@ -211,7 +211,7 @@ async function advanceQuestion () {
     }
 
     if (!tossups[0]) {
-      alert('No questions found');
+      window.alert('No questions found');
       return false;
     }
 
@@ -653,7 +653,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
 document.getElementById('start').addEventListener('click', async function () {
   this.blur();
   if (query.setName.length === 0 && settings.selectBySetName) {
-    alert('Please enter a set name.');
+    window.alert('Please enter a set name.');
     return false;
   }
 
