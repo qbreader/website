@@ -8,24 +8,23 @@ import { QBREADER_EMAIL_ADDRESS } from '../constants.js';
 import { createTransport } from 'nodemailer';
 
 const transporter = createTransport({
-    host: 'smtp.sendgrid.net',
-    port: 465,
-    secure: true,
-    auth: {
-        user: 'apikey',
-        pass: process.env.SENDGRID_API_KEY ?? 'sendgrid_api_key',
-    },
+  host: 'smtp.sendgrid.net',
+  port: 465,
+  secure: true,
+  auth: {
+    user: 'apikey',
+    pass: process.env.SENDGRID_API_KEY ?? 'sendgrid_api_key'
+  }
 });
 
 if (process.env.SENDGRID_API_KEY) {
-    transporter.verify((error, _success) => {
-        if (error) {
-            console.log(error);
-            throw error;
-        }
-    });
+  transporter.verify((error, _success) => {
+    if (error) {
+      console.log(error);
+      throw error;
+    }
+  });
 }
-
 
 /**
  *
@@ -36,21 +35,21 @@ if (process.env.SENDGRID_API_KEY) {
  * @param {String} param0.html
  * @returns
  */
-async function sendEmail({ to, subject = '', text, html }) {
-    const message = {
-        from: QBREADER_EMAIL_ADDRESS,
-        to,
-        subject,
-        text,
-        html,
-    };
+async function sendEmail ({ to, subject = '', text, html }) {
+  const message = {
+    from: QBREADER_EMAIL_ADDRESS,
+    to,
+    subject,
+    text,
+    html
+  };
 
-    try {
-        return transporter.sendMail(message);
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
+  try {
+    return transporter.sendMail(message);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
 
 export { sendEmail };

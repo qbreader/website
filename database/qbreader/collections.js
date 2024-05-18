@@ -9,10 +9,10 @@ const tossupData = accountInfo.collection('tossup-data');
 const bonusData = accountInfo.collection('bonus-data');
 
 export {
-    sets,
-    packets,
-    tossups,
-    bonuses,
-    tossupData,
-    bonusData,
+  sets,
+  packets,
+  tossups,
+  bonuses,
+  tossupData,
+  bonusData
 };

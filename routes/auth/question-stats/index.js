@@ -10,19 +10,19 @@ import { Router } from 'express';
 const router = Router();
 
 router.use((req, res, next) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.sendStatus(401);
-        return;
-    }
+  const { username, token } = req.session;
+  if (!checkToken(username, token)) {
+    delete req.session;
+    res.sendStatus(401);
+    return;
+  }
 
-    if (!checkToken(username, token, true)) {
-        res.sendStatus(403);
-        return;
-    }
+  if (!checkToken(username, token, true)) {
+    res.sendStatus(403);
+    return;
+  }
 
-    next();
+  next();
 });
 
 router.use('/record-bonus', recordBonusRouter);

@@ -11,53 +11,53 @@ import { SUBCATEGORY_TO_CATEGORY } from '../../constants.js';
  * @param {boolean} [clearReports=true] whether to clear the reports field
  * @returns {Promise<UpdateResult>}
  */
-async function updateSubcategory(_id, type, subcategory, alternate_subcategory, clearReports = true) {
-    if (!(subcategory in SUBCATEGORY_TO_CATEGORY)) {
-        console.log(`Subcategory ${subcategory} not found`);
-        return;
-    }
+async function updateSubcategory (_id, type, subcategory, alternate_subcategory, clearReports = true) {
+  if (!(subcategory in SUBCATEGORY_TO_CATEGORY)) {
+    console.log(`Subcategory ${subcategory} not found`);
+    return;
+  }
 
-    const category = SUBCATEGORY_TO_CATEGORY[subcategory];
+  const category = SUBCATEGORY_TO_CATEGORY[subcategory];
 
-    const dataUpdate = {
-        $set: {
-            category,
-            subcategory,
-        },
-        $unset: {},
-    };
+  const dataUpdate = {
+    $set: {
+      category,
+      subcategory
+    },
+    $unset: {}
+  };
 
-    const questionUpdate = {
-        $set: {
-            category,
-            subcategory,
-            updatedAt: new Date(),
-        },
-        $unset: {},
-    };
+  const questionUpdate = {
+    $set: {
+      category,
+      subcategory,
+      updatedAt: new Date()
+    },
+    $unset: {}
+  };
 
-    if (clearReports) {
-        questionUpdate.$unset.reports = 1;
-    }
+  if (clearReports) {
+    questionUpdate.$unset.reports = 1;
+  }
 
-    if (alternate_subcategory) {
-        questionUpdate.$set.alternate_subcategory = alternate_subcategory;
-        dataUpdate.$set.alternate_subcategory = alternate_subcategory;
-    } else {
-        questionUpdate.$unset.alternate_subcategory = 1;
-        dataUpdate.$unset.alternate_subcategory = 1;
-    }
+  if (alternate_subcategory) {
+    questionUpdate.$set.alternate_subcategory = alternate_subcategory;
+    dataUpdate.$set.alternate_subcategory = alternate_subcategory;
+  } else {
+    questionUpdate.$unset.alternate_subcategory = 1;
+    dataUpdate.$unset.alternate_subcategory = 1;
+  }
 
-    switch (type) {
+  switch (type) {
     case 'tossup': {
-        tossupData.updateMany({ tossup_id: _id }, dataUpdate);
-        return await tossups.updateOne({ _id }, questionUpdate);
+      tossupData.updateMany({ tossup_id: _id }, dataUpdate);
+      return await tossups.updateOne({ _id }, questionUpdate);
     }
     case 'bonus': {
-        bonusData.updateMany({ bonus_id: _id }, dataUpdate);
-        return await bonuses.updateOne({ _id }, questionUpdate);
+      bonusData.updateMany({ bonus_id: _id }, dataUpdate);
+      return await bonuses.updateOne({ _id }, questionUpdate);
     }
-    }
+  }
 }
 
 export default updateSubcategory;

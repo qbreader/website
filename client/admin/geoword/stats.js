@@ -8,14 +8,14 @@ document.getElementById('packet-name').textContent = packetTitle;
 document.getElementById('division').textContent = division;
 
 fetch('/api/admin/geoword/stats?' + new URLSearchParams({ packetName, division }))
-    .then(response => response.json())
-    .then(data => {
-        const { stats } = data;
+  .then(response => response.json())
+  .then(data => {
+    const { stats } = data;
 
-        let innerHTML = '<hr>';
+    let innerHTML = '<hr>';
 
-        for (const i in stats) {
-            innerHTML += `
+    for (const i in stats) {
+      innerHTML += `
             <div class="row mb-3">
                 <div class="col-6">
                     <div><b>#${stats[i].tossup.questionNumber}</b></div>
@@ -32,7 +32,7 @@ fetch('/api/admin/geoword/stats?' + new URLSearchParams({ packetName, division }
             </div>
             <hr>
             `;
-        }
+    }
 
-        document.getElementById('stats').innerHTML = innerHTML;
-    });
+    document.getElementById('stats').innerHTML = innerHTML;
+  });

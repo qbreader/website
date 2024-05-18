@@ -9,35 +9,35 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/:packetName', async (req, res) => {
-    const { username } = req.session;
-    const packetName = req.params.packetName;
-    const user_id = await getUserId(username);
+  const { username } = req.session;
+  const packetName = req.params.packetName;
+  const user_id = await getUserId(username);
 
-    const division = await getDivisionChoice(packetName, user_id);
+  const division = await getDivisionChoice(packetName, user_id);
 
-    if (!division) {
-        res.redirect('/geoword/division/' + packetName);
-        return;
-    }
+  if (!division) {
+    res.redirect('/geoword/division/' + packetName);
+    return;
+  }
 
-    const paid = await checkPayment(packetName, user_id);
+  const paid = await checkPayment(packetName, user_id);
 
-    if (!paid) {
-        res.redirect('/geoword/payment/' + packetName);
-        return;
-    }
+  if (!paid) {
+    res.redirect('/geoword/payment/' + packetName);
+    return;
+  }
 
-    const [buzzCount, questionCount] = await Promise.all([
-        getBuzzCount(packetName, user_id),
-        getQuestionCount(packetName, division),
-    ]);
+  const [buzzCount, questionCount] = await Promise.all([
+    getBuzzCount(packetName, user_id),
+    getQuestionCount(packetName, division)
+  ]);
 
-    if (buzzCount >= questionCount) {
-        res.redirect('/geoword/stats/' + packetName);
-        return;
-    }
+  if (buzzCount >= questionCount) {
+    res.redirect('/geoword/stats/' + packetName);
+    return;
+  }
 
-    res.sendFile('game.html', { root: './client/geoword' });
+  res.sendFile('game.html', { root: './client/geoword' });
 });
 
 export default router;
