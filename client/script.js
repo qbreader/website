@@ -3,22 +3,22 @@ import account from './accounts.js';
 // Javascript code common to *all* pages of the site.
 
 // Never use trailing slash, except for the root directory
-if (location.pathname.endsWith('/') && location.pathname.length > 1) {
-  location.pathname = location.pathname.substring(0, location.pathname.length - 1);
+if (window.location.pathname.endsWith('/') && window.location.pathname.length > 1) {
+  window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length - 1);
 }
 
 // Always use www
-if (['qbreader.herokuapp.com', 'qbreader-production.herokuapp.com', 'qbreader.org'].includes(location.hostname)) {
-  location.hostname = 'www.qbreader.org';
+if (['qbreader.herokuapp.com', 'qbreader-production.herokuapp.com', 'qbreader.org'].includes(window.location.hostname)) {
+  window.location.hostname = 'www.qbreader.org';
 }
 
-if (['qbreader-test.herokuapp.com', 'qbreader-test.herokuapp.com'].includes(location.hostname)) {
-  location.hostname = 'test.qbreader.org';
+if (['qbreader-test.herokuapp.com', 'qbreader-test.herokuapp.com'].includes(window.location.hostname)) {
+  window.location.hostname = 'test.qbreader.org';
 }
 
 // Use https if not on localhost
-if (location.hostname !== 'localhost' && location.protocol !== 'https:') {
-  location.protocol = 'https:';
+if (window.location.hostname !== 'localhost' && window.location.protocol !== 'https:') {
+  window.location.protocol = 'https:';
 }
 
 function isTouchDevice () {

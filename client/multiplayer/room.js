@@ -17,14 +17,14 @@ let maxPacketNumber = 24;
  */
 const players = {};
 
-const ROOM_NAME = decodeURIComponent(location.pathname.substring(13));
+const ROOM_NAME = decodeURIComponent(window.location.pathname.substring(13));
 let tossup = {};
 let USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
 let username = window.localStorage.getItem('multiplayer-username') || await api.getRandomName();
 
 const socket = new WebSocket(
-  location.href.replace('http', 'ws') +
-    (location.href.endsWith('?private=true') ? '&' : '?') +
+  window.location.href.replace('http', 'ws') +
+    (window.location.href.endsWith('?private=true') ? '&' : '?') +
     new URLSearchParams({
       roomName: ROOM_NAME,
       userId: USER_ID,
