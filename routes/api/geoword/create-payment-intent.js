@@ -3,10 +3,10 @@ import getCost from '../../../database/geoword/get-cost.js';
 import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';
-import stripeClass from 'stripe';
+import StripeClass from 'stripe';
 
 const router = Router();
-const stripe = new stripeClass(process.env.STRIPE_SECRET_KEY);
+const stripe = new StripeClass(process.env.STRIPE_SECRET_KEY);
 
 router.post('/', async (req, res) => {
   const { username, token } = req.session;
