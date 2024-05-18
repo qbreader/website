@@ -34,7 +34,7 @@ form.addEventListener('submit', (event) => {
     } else {
       document.getElementById('submission').textContent = 'Login';
       document.getElementById('password').value = '';
-      alert('Invalid username or password.');
+      window.alert('Invalid username or password.');
     }
   });
 }, false);

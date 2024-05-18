@@ -27,11 +27,11 @@ form.addEventListener('submit', (event) => {
     } else if (response.status === 400) {
       document.getElementById('submission').textContent = 'Submit';
       document.getElementById('password').value = '';
-      alert('Username is invalid.');
+      window.alert('Username is invalid.');
     } else if (response.status === 409) {
       document.getElementById('submission').textContent = 'Submit';
       document.getElementById('password').value = '';
-      alert('Username already exists.');
+      window.alert('Username already exists.');
     }
   });
 }, false);

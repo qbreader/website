@@ -180,7 +180,7 @@ function Reports () {
         this.textContent = 'Submit';
 
         if (!response.ok) {
-          alert('Error updating subcategory');
+          window.alert('Error updating subcategory');
           return;
         }
 

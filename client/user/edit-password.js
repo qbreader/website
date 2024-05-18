@@ -37,7 +37,7 @@ form.addEventListener('submit', async (event) => {
       document.getElementById('old-password').value = '';
       document.getElementById('new-password').value = '';
       document.getElementById('confirm-password').value = '';
-      alert('Make sure your password is correct.');
+      window.alert('Make sure your password is correct.');
     }
   });
 }, false);
