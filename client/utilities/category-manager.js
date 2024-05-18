@@ -34,7 +34,7 @@ export default class CategoryManager {
      * @param {string[]} subcategories
      * @param {string[]} alternateSubcategories
      */
-    constructor(categories = Object.keys(SUBCATEGORIES), subcategories = [], alternateSubcategories = []) {
+    constructor(categories = [], subcategories = [], alternateSubcategories = []) {
         this.import(categories, subcategories, alternateSubcategories);
     }
 
@@ -46,7 +46,7 @@ export default class CategoryManager {
         };
     }
 
-    import(categories = Object.keys(SUBCATEGORIES), subcategories = [], alternateSubcategories = []) {
+    import(categories = [], subcategories = [], alternateSubcategories = []) {
         if (categories.length > 0 && subcategories.length === 0) {
             categories.forEach(category => {
                 SUBCATEGORIES[category].forEach(subcategory => {
