@@ -1,3 +1,5 @@
+/* globals WebSocket */
+
 import account from '../accounts.js';
 import questionStats from '../auth/question-stats.js';
 import api from '../api/index.js';
