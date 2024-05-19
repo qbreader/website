@@ -29,7 +29,7 @@ export const reservedNames = [
 ];
 
 export const inappropriateNames = [
-    'alpha', 'anal', 'anus', 'arse', 'ass',
+    'anal', 'anus', 'arse', 'ass',
     'ballsack', 'balls', 'bastard', 'bbc',
     'bitch', 'biatch', 'bloody', 'blowjob',
     'bollock', 'bollok', 'boner', 'boob',
@@ -40,8 +40,8 @@ export const inappropriateNames = [
     'felching', 'fuck', 'fudgepacker', 'fudge',
     'packer', 'flange', 'Goddamn', 'God', 'gyat',
     'hell', 'homo', 'horn', 'jerk', 'jizz',
-    'knobend', 'knob', 'end', 'labia', 'lmao',
-    'lmfao', 'mew', 'muff', 'nigg', 'niqq', 'omg',
+    'knobend', 'knob', 'labia', 'lmao',
+    'lmfao', 'muff', 'nigg', 'niqq', 'omg',
     'penis', 'piss', 'poop', 'prick', 'pube',
     'pussy', 'queer', 'rizz', 'scrotum', 'sex',
     'sigma', 'shit', 'sh1t', 'slut', 'smegma',
