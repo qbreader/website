@@ -4,7 +4,7 @@ import getUserId from '../get-user-id.js';
 import { ObjectId } from 'mongodb';
 
 async function recordTossupData (username, data) {
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
   const { tossup } = data;
   const newData = {};
   for (const field of ['celerity', 'isCorrect', 'pointValue', 'multiplayer']) {
@@ -27,7 +27,7 @@ async function recordTossupData (username, data) {
 
   newData.tossup_id = new ObjectId(tossup._id);
   newData.set_id = new ObjectId(tossup.set._id);
-  newData.user_id = user_id;
+  newData.user_id = userId;
   return await tossupData.insertOne(newData);
 }
 

@@ -1,9 +1,9 @@
 import { buzzes } from './collections.js';
 import getDivisionChoice from './get-division-choice.js';
 
-async function getProgress (packetName, user_id) {
+async function getProgress (packetName, userId) {
   const result = await buzzes.aggregate([
-    { $match: { 'packet.name': packetName, user_id } },
+    { $match: { 'packet.name': packetName, user_id: userId } },
     {
       $group: {
         _id: null,
@@ -16,7 +16,7 @@ async function getProgress (packetName, user_id) {
   ]).toArray();
 
   result[0] = result[0] || {};
-  result[0].division = await getDivisionChoice(packetName, user_id);
+  result[0].division = await getDivisionChoice(packetName, userId);
   return result[0];
 }
 

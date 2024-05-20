@@ -7,11 +7,11 @@ import { SUBCATEGORY_TO_CATEGORY } from '../../constants.js';
  * @param {ObjectId} _id the id of the question to update
  * @param {'tossup' | 'bonus'} type the type of question to update
  * @param {string} subcategory the new subcategory to set
- * @param {string} [alternate_subcategory] the alternate subcategory to set
+ * @param {string} [alternateSubcategory] the alternate subcategory to set
  * @param {boolean} [clearReports=true] whether to clear the reports field
  * @returns {Promise<UpdateResult>}
  */
-async function updateSubcategory (_id, type, subcategory, alternate_subcategory, clearReports = true) {
+async function updateSubcategory (_id, type, subcategory, alternateSubcategory, clearReports = true) {
   if (!(subcategory in SUBCATEGORY_TO_CATEGORY)) {
     console.log(`Subcategory ${subcategory} not found`);
     return;
@@ -40,9 +40,9 @@ async function updateSubcategory (_id, type, subcategory, alternate_subcategory,
     questionUpdate.$unset.reports = 1;
   }
 
-  if (alternate_subcategory) {
-    questionUpdate.$set.alternate_subcategory = alternate_subcategory;
-    dataUpdate.$set.alternate_subcategory = alternate_subcategory;
+  if (alternateSubcategory) {
+    questionUpdate.$set.alternate_subcategory = alternateSubcategory;
+    dataUpdate.$set.alternate_subcategory = alternateSubcategory;
   } else {
     questionUpdate.$unset.alternate_subcategory = 1;
     dataUpdate.$unset.alternate_subcategory = 1;

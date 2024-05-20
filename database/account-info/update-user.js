@@ -1,5 +1,5 @@
 import { validateUsername } from '../../server/authentication.js';
-import { users, username_to_id, id_to_username } from './collections.js';
+import { users, usernameToId, idToUsername } from './collections.js';
 import getUserId from './get-user-id.js';
 
 /**
@@ -34,9 +34,9 @@ async function updateUser (username, values) {
       return false;
     }
 
-    username_to_id[values.username] = user._id;
-    id_to_username[user._id] = values.username;
-    delete username_to_id[username];
+    usernameToId[values.username] = user._id;
+    idToUsername[user._id] = values.username;
+    delete usernameToId[username];
   }
 
   await users.updateOne({ username }, { $set: user });

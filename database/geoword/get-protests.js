@@ -14,8 +14,8 @@ async function getProtests (packetName, division) {
   ).toArray();
 
   for (const index in protests) {
-    const user_id = protests[index].user_id;
-    protests[index].username = await getUsername(user_id);
+    const userId = protests[index].user_id;
+    protests[index].username = await getUsername(userId);
   }
 
   return { protests, packet };

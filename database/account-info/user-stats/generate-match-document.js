@@ -3,7 +3,7 @@ import getSetId from '../../qbreader/get-set-id.js';
 /**
  * Generates a match document for a given user and set of match options.
  * @param {Object} options - The options for the match generation.
- * @param {string} options.user_id - The ID of the user generating the match.
+ * @param {string} options.userId - The ID of the user generating the match.
  * @param {number[]} options.difficulties - An array of difficulties to filter by.
  * @param {string} options.setName - The name of the set to search in.
  * @param {boolean} options.includeMultiplayer - Whether to include multiplayer questions.
@@ -12,8 +12,8 @@ import getSetId from '../../qbreader/get-set-id.js';
  * @param {Date} [options.endDate] - The end date of the match.
  * @returns {Object} The generated match document.
  */
-async function generateMatchDocument ({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-  const matchDocument = { user_id };
+async function generateMatchDocument ({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+  const matchDocument = { user_id: userId };
 
   if (!includeMultiplayer && !includeSingleplayer) {
     return { _id: null };

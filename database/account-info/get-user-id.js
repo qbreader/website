@@ -1,4 +1,4 @@
-import { username_to_id, users } from './collections.js';
+import { usernameToId, users } from './collections.js';
 
 /**
  * Get the user ID of the user with the given username.
@@ -6,8 +6,8 @@ import { username_to_id, users } from './collections.js';
  * @returns {Promise<ObjectId | null>} The user ID of the user with the given username, or null if it doesn't exist.
  */
 async function getUserId (username) {
-  if (username_to_id[username]) {
-    return username_to_id[username];
+  if (usernameToId[username]) {
+    return usernameToId[username];
   }
 
   const user = await users.findOne({ username });
@@ -16,7 +16,7 @@ async function getUserId (username) {
     return null;
   }
 
-  username_to_id[username] = user._id;
+  usernameToId[username] = user._id;
   return user._id;
 }
 

@@ -6,11 +6,11 @@ import getUsername from '../account-info/get-username.js';
 
 /**
  * @param {String} packetName
- * @param {ObjectId} user_id
+ * @param {ObjectId} userId
  */
-async function getUserStats (packetName, user_id) {
-  const division = await getDivisionChoice(packetName, user_id);
-  const buzzArray = await getBuzzes(packetName, division, user_id, true);
+async function getUserStats (packetName, userId) {
+  const division = await getDivisionChoice(packetName, userId);
+  const buzzArray = await getBuzzes(packetName, division, userId, true);
 
   const leaderboard = await buzzes.aggregate([
     { $match: { 'packet.name': packetName, division, active: true } },

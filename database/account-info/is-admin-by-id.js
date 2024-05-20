@@ -1,7 +1,7 @@
 import { users } from './collections.js';
 
-async function isAdminById (user_id) {
-  const user = await users.findOne({ _id: user_id });
+async function isAdminById (userId) {
+  const user = await users.findOne({ _id: userId });
   return user?.admin ?? false;
 }
 

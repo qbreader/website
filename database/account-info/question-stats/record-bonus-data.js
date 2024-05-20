@@ -4,7 +4,7 @@ import getUserId from '../get-user-id.js';
 import { ObjectId } from 'mongodb';
 
 async function recordBonusData (username, data) {
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
   const { bonus } = data;
   const newData = {};
   for (const field of ['pointsPerPart']) {
@@ -27,7 +27,7 @@ async function recordBonusData (username, data) {
 
   newData.bonus_id = new ObjectId(bonus._id);
   newData.set_id = new ObjectId(bonus.set._id);
-  newData.user_id = user_id;
+  newData.user_id = userId;
   return await bonusData.insertOne(newData);
 }
 
