@@ -8,9 +8,9 @@ const router = Router();
 
 router.put('/', async (req, res) => {
   const username = req.session.username;
-  const user_id = await getUserId(username);
-  const bonus_id = new ObjectId(req.body.bonus_id);
-  await unstarBonus(user_id, bonus_id);
+  const userId = await getUserId(username);
+  const bonusId = new ObjectId(req.body.bonus_id);
+  await unstarBonus(userId, bonusId);
   res.sendStatus(200);
 });
 

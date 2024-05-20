@@ -7,13 +7,13 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 
 router.post('/', async (req, res) => {
-  const { user_id, verifyResetPassword } = req.session;
+  const { user_id: userId, verifyResetPassword } = req.session;
   if (!verifyResetPassword) {
     res.sendStatus(401);
     return;
   }
 
-  const username = await getUsername(new ObjectId(user_id));
+  const username = await getUsername(new ObjectId(userId));
   const password = req.body.password;
   await updatePassword(username, password);
   req.session = null;

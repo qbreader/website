@@ -15,8 +15,8 @@ router.put('/', async (req, res) => {
   }
 
   const { packetName, questionNumber } = req.body;
-  const user_id = await getUserId(username);
-  const result = await recordProtest(packetName, questionNumber, user_id);
+  const userId = await getUserId(username);
+  const result = await recordProtest(packetName, questionNumber, userId);
 
   if (result) {
     res.sendStatus(200);

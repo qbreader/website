@@ -5,8 +5,8 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const { user_id, token } = req.query;
-  const verified = verifyEmailLink(user_id, token);
+  const { user_id: userId, token } = req.query;
+  const verified = verifyEmailLink(userId, token);
 
   if (verified) {
     req.session = null;

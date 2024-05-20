@@ -44,8 +44,8 @@ router.get('/protests', async (req, res) => {
 });
 
 router.post('/resolve-protest', async (req, res) => {
-  const { buzz_id, decision, reason } = req.body;
-  const result = await resolveProtest(new ObjectId(buzz_id), decision, reason);
+  const { buzz_id: buzzId, decision, reason } = req.body;
+  const result = await resolveProtest(new ObjectId(buzzId), decision, reason);
 
   if (result) {
     res.sendStatus(200);

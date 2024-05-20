@@ -8,9 +8,9 @@ const router = Router();
 router.get('/:packetName', async (req, res) => {
   const { username } = req.session;
   const packetName = req.params.packetName;
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
 
-  const paid = await checkPayment(packetName, user_id);
+  const paid = await checkPayment(packetName, userId);
 
   if (paid) {
     res.redirect('/geoword/division/' + packetName);

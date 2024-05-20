@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     return;
   }
 
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
   const packetName = req.body.packetName;
   const cost = await getCost(packetName);
 
@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
     automatic_payment_methods: {
       enabled: true
     },
-    metadata: { user_id: String(user_id), packetName }
+    metadata: { user_id: String(userId), packetName }
   });
 
   res.json({ clientSecret: paymentIntent.client_secret });
