@@ -76,14 +76,14 @@ function saltAndHashPassword (password) {
 
 async function sendResetPasswordEmail (username) {
   const email = await getUserField(username, 'email');
-  const user_id = await getUserId(username);
-  if (!user_id || !email) {
+  const userId = await getUserId(username);
+  if (!userId || !email) {
     return false;
   }
 
   const timestamp = Date.now();
-  const token = sign({ user_id, timestamp }, secret);
-  const url = `${baseURL}/auth/verify-reset-password?user_id=${user_id}&token=${token}`;
+  const token = sign({ user_id: userId, timestamp }, secret);
+  const url = `${baseURL}/auth/verify-reset-password?user_id=${userId}&token=${token}`;
 
   const info = await sendEmail({
     to: email,
@@ -97,20 +97,20 @@ async function sendResetPasswordEmail (username) {
   }
 
   console.log(`Email sent: ${info.response}`);
-  activeResetPasswordTokens[user_id] = timestamp;
+  activeResetPasswordTokens[userId] = timestamp;
   return true;
 }
 
 async function sendVerificationEmail (username) {
   const email = await getUserField(username, 'email');
-  const user_id = await getUserId(username);
-  if (!user_id || !email) {
+  const userId = await getUserId(username);
+  if (!userId || !email) {
     return false;
   }
 
   const timestamp = Date.now();
-  const token = sign({ user_id, timestamp }, secret);
-  const url = `${baseURL}/auth/verify-email?user_id=${user_id}&token=${token}`;
+  const token = sign({ user_id: userId, timestamp }, secret);
+  const url = `${baseURL}/auth/verify-email?user_id=${userId}&token=${token}`;
 
   const info = await sendEmail({
     to: email,
@@ -124,7 +124,7 @@ async function sendVerificationEmail (username) {
   }
 
   console.log(`Email sent: ${info.response}`);
-  activeVerifyEmailTokens[user_id] = timestamp;
+  activeVerifyEmailTokens[userId] = timestamp;
   return true;
 }
 
@@ -155,7 +155,7 @@ function validateUsername (username) {
   return true;
 }
 
-function verifyEmailLink (user_id, token) {
+function verifyEmailLink (userId, token) {
   const expirationTime = 1000 * 60 * 15; // 15 minutes
   return verify(token, secret, (err, decoded) => {
     if (err) {
@@ -167,26 +167,26 @@ function verifyEmailLink (user_id, token) {
       return false;
     }
 
-    if (decoded.user_id !== user_id) {
+    if (decoded.user_id !== userId) {
       return false;
     }
 
-    if (activeVerifyEmailTokens[user_id] !== timestamp) {
+    if (activeVerifyEmailTokens[userId] !== timestamp) {
       return false;
     }
 
-    delete activeVerifyEmailTokens[user_id];
+    delete activeVerifyEmailTokens[userId];
 
     if (Date.now() - timestamp > expirationTime) {
       return false;
     }
 
-    verifyEmail(user_id);
+    verifyEmail(userId);
     return true;
   });
 }
 
-function verifyResetPasswordLink (user_id, token) {
+function verifyResetPasswordLink (userId, token) {
   const expirationTime = 1000 * 60 * 15; // 15 minutes
   return verify(token, secret, (err, decoded) => {
     if (err) {
@@ -198,15 +198,15 @@ function verifyResetPasswordLink (user_id, token) {
       return false;
     }
 
-    if (decoded.user_id !== user_id) {
+    if (decoded.user_id !== userId) {
       return false;
     }
 
-    if (activeResetPasswordTokens[user_id] !== timestamp) {
+    if (activeResetPasswordTokens[userId] !== timestamp) {
       return false;
     }
 
-    delete activeResetPasswordTokens[user_id];
+    delete activeResetPasswordTokens[userId];
 
     if (Date.now() - timestamp > expirationTime) {
       return false;
