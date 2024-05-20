@@ -4,19 +4,19 @@ import { tossups } from '../../qbreader/collections.js';
 
 /**
  *
- * @param {ObjectId} user_id
+ * @param {ObjectId} userId
  * @returns {Promise<types.Tossup[]>}
  */
-async function getTossupStars (user_id) {
+async function getTossupStars (userId) {
   const aggregation = [
-    { $match: { user_id } },
+    { $match: { user_id: userId } },
     { $addFields: { insertTime: { $toDate: '$_id' } } },
     { $sort: { insertTime: -1 } }
   ];
 
-  const tossup_ids = await tossupStars.aggregate(aggregation).toArray();
+  const tossupIds = await tossupStars.aggregate(aggregation).toArray();
   return await tossups.find(
-    { _id: { $in: tossup_ids.map(tossup => tossup.tossup_id) } },
+    { _id: { $in: tossupIds.map(tossup => tossup.tossup_id) } },
     {
       sort: {
         'set.name': -1,

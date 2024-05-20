@@ -4,18 +4,18 @@ import getBonus from '../../qbreader/get-bonus.js';
 
 /**
  * Get the stats for a single bonus.
- * @param {ObjectId} bonus_id the bonus id
+ * @param {ObjectId} bonusId the bonus id
  * @returns {Promise<Document>} the bonus stats
  */
-async function getSingleBonusStats (bonus_id) {
-  const bonus = await getBonus(bonus_id);
+async function getSingleBonusStats (bonusId) {
+  const bonus = await getBonus(bonusId);
 
   if (!bonus) {
     return null;
   }
 
   const result = await bonusData.aggregate([
-    { $match: { bonus_id, pointsPerPart: { $size: bonus.parts.length } } },
+    { $match: { bonus_id: bonusId, pointsPerPart: { $size: bonus.parts.length } } },
     { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
     {
       $addFields: {
@@ -30,7 +30,7 @@ async function getSingleBonusStats (bonus_id) {
     },
     {
       $group: {
-        _id: bonus_id,
+        _id: bonusId,
         count: { $sum: 1 },
         '30s': { $sum: { $cond: ['$is30', 1, 0] } },
         '20s': { $sum: { $cond: ['$is20', 1, 0] } },

@@ -6,8 +6,8 @@ const tossupData = accountInfo.collection('tossup-data');
 const tossupStars = accountInfo.collection('tossup-stars');
 const users = accountInfo.collection('users');
 
-const username_to_id = {};
-const id_to_username = {};
+const usernameToId = {};
+const idToUsername = {};
 
 export {
   bonusData,
@@ -15,6 +15,6 @@ export {
   tossupData,
   tossupStars,
   users,
-  username_to_id,
-  id_to_username
+  usernameToId,
+  idToUsername
 };

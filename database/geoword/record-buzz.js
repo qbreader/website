@@ -13,11 +13,11 @@ import isAdminById from '../account-info/is-admin-by-id.js';
  * @param {ObjectId} params.user_id
  * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
-async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts, questionNumber, user_id }) {
+async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts, questionNumber, user_id: userId }) {
   const [division, packet, admin] = await Promise.all([
-    getDivisionChoice(packetName, user_id),
+    getDivisionChoice(packetName, userId),
     packets.findOne({ name: packetName }),
-    isAdminById(user_id)
+    isAdminById(userId)
   ]);
 
   const insertDocument = {
@@ -31,7 +31,7 @@ async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts,
       name: packet.name
     },
     questionNumber,
-    user_id
+    user_id: userId
   };
 
   if (prompts && typeof prompts === 'object' && prompts.length > 0) {

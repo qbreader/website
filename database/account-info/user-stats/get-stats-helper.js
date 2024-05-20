@@ -3,7 +3,7 @@ import generateMatchDocument from './generate-match-document.js';
 
 /**
  * @param {Object} params
- * @param {ObjectId} params.user_id
+ * @param {ObjectId} params.userId
  * @param {'tossup' | 'bonus'} params.questionType
  * @param {'category' | 'subcategory'} params.groupByField
  * @param {Number[]} params.difficulties
@@ -14,8 +14,8 @@ import generateMatchDocument from './generate-match-document.js';
  * @param {Date} params.endDate
  * @returns
  */
-async function getStatsHelper ({ user_id, questionType, groupByField, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-  const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+async function getStatsHelper ({ userId, questionType, groupByField, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+  const matchDocument = await generateMatchDocument({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
   switch (questionType) {
     case 'tossup':
