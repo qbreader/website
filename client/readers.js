@@ -35,24 +35,24 @@ function removeDropdown () {
 }
 
 if (window.navigator.userAgent.match(/Mobile.*Firefox/)) {
-  const set_name_input = document.getElementById('set-name');
-  set_name_input.addEventListener('input', function () {
+  const setNameInput = document.getElementById('set-name');
+  setNameInput.addEventListener('input', function () {
     document.getElementById('set-dropdown')?.remove();
     const set = this.value.toLowerCase();
-    const dropdown_items = SET_LIST.filter(setName =>
-      setName.toLowerCase().includes(set))
+    const dropdownItems = SET_LIST
+      .filter(setName => setName.toLowerCase().includes(set))
       .map(setName => `<a class="dropdown-item" onclick="fillSetName(event)">${setName}</a>`)
       .join('');
-    const dropdown_html = dropdown_items === ''
+    const dropdownHtml = dropdownItems === ''
       ? ''
       : `
         <div id="set-dropdown" class="dropdown-menu" style="display: inline" aria-labelledby="set-name">
-            ${dropdown_items}
+            ${dropdownItems}
         </div>
         `;
-    set_name_input.insertAdjacentHTML('afterend', dropdown_html);
+    setNameInput.insertAdjacentHTML('afterend', dropdownHtml);
   });
-  set_name_input.addEventListener('blur', removeDropdown);
+  setNameInput.addEventListener('blur', removeDropdown);
 }
 
 const banners = {};

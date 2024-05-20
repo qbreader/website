@@ -44,7 +44,7 @@ const createBonusCard = (function () {
 
     questionCounter++;
 
-    const { leadin, parts, answers, category, subcategory, alternate_subcategory, set, packet, number, _id } = bonus;
+    const { leadin, parts, answers, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id } = bonus;
 
     const bonusLength = bonus.parts.length;
 
@@ -85,7 +85,7 @@ const createBonusCard = (function () {
                     ${cardBody}
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">${set.name} / ${category} / ${subcategory} ${alternate_subcategory ? '(' + alternate_subcategory + ')' : ''}</small>
+                    <small class="text-muted">${set.name} / ${category} / ${subcategory} ${alternateSubcategory ? '(' + alternateSubcategory + ')' : ''}</small>
                     <small class="text-muted float-end">Packet ${packet.number} / Question ${number}</small>
                 </div>
             </div>
@@ -134,7 +134,7 @@ const createTossupCard = (function () {
 
     questionCounter++;
 
-    const { question, answer, category, subcategory, alternate_subcategory, set, packet, number, _id } = tossup;
+    const { question, answer, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id } = tossup;
 
     // append a card containing the question to the history element
     const card = document.createElement('div');
@@ -158,7 +158,7 @@ const createTossupCard = (function () {
                     <div>ANSWER: ${answer}</div>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">${set.name} / ${category} / ${subcategory} ${alternate_subcategory ? '(' + alternate_subcategory + ')' : ''}</small>
+                    <small class="text-muted">${set.name} / ${category} / ${subcategory} ${alternateSubcategory ? '(' + alternateSubcategory + ')' : ''}</small>
                     <small class="text-muted float-end">Packet ${packet.number} / Question ${number}</small>
                 </div>
             </div>
