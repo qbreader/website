@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
   }
 
   const { packetName } = req.query;
-  const user_id = await getUserId(username);
-  const division = await getDivisionChoice(packetName, user_id);
+  const userId = await getUserId(username);
+  const division = await getDivisionChoice(packetName, userId);
 
   res.json({ division });
 });

@@ -11,16 +11,16 @@ const router = Router();
 router.get('/:packetName', async (req, res) => {
   const { username } = req.session;
   const packetName = req.params.packetName;
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
 
-  const division = await getDivisionChoice(packetName, user_id);
+  const division = await getDivisionChoice(packetName, userId);
 
   if (!division) {
     res.redirect('/geoword/division/' + packetName);
     return;
   }
 
-  const paid = await checkPayment(packetName, user_id);
+  const paid = await checkPayment(packetName, userId);
 
   if (!paid) {
     res.redirect('/geoword/payment/' + packetName);
@@ -28,7 +28,7 @@ router.get('/:packetName', async (req, res) => {
   }
 
   const [buzzCount, questionCount] = await Promise.all([
-    getBuzzCount(packetName, user_id),
+    getBuzzCount(packetName, userId),
     getQuestionCount(packetName, division)
   ]);
 

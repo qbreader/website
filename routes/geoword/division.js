@@ -9,16 +9,16 @@ const router = Router();
 router.get('/:packetName', async (req, res) => {
   const { username } = req.session;
   const packetName = req.params.packetName;
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
 
-  const divisionChoice = await getDivisionChoice(packetName, user_id);
+  const divisionChoice = await getDivisionChoice(packetName, userId);
 
   if (divisionChoice) {
     res.redirect('/geoword/game/' + packetName);
     return;
   }
 
-  const paid = await checkPayment(packetName, user_id);
+  const paid = await checkPayment(packetName, userId);
 
   if (paid) {
     res.sendFile('division.html', { root: './client/geoword' });

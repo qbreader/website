@@ -5,10 +5,10 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const { user_id, token } = req.query;
-  const verified = verifyResetPasswordLink(user_id, token);
+  const { user_id: userId, token } = req.query;
+  const verified = verifyResetPasswordLink(userId, token);
   if (verified) {
-    req.session.user_id = user_id;
+    req.session.user_id = userId;
     req.session.verifyResetPassword = true;
     res.redirect('/user/reset-password');
   } else {
