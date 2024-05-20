@@ -15,9 +15,9 @@ router.get('/', async (req, res) => {
     return;
   }
 
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
   const { packetName } = req.query;
-  const division = await getDivisionChoice(packetName, user_id);
+  const division = await getDivisionChoice(packetName, userId);
   const leaderboard = await getCategoryLeaderboard(packetName, division);
   res.json({ division, leaderboard, username });
 });

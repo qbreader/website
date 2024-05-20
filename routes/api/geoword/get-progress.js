@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
   }
 
   const packetName = req.query.packetName;
-  const user_id = await getUserId(username);
-  const { division, numberCorrect, points, totalCorrectCelerity, tossupsHeard } = await getProgress(packetName, user_id);
+  const userId = await getUserId(username);
+  const { division, numberCorrect, points, totalCorrectCelerity, tossupsHeard } = await getProgress(packetName, userId);
 
   res.json({ division, numberCorrect, points, totalCorrectCelerity, tossupsHeard });
 });

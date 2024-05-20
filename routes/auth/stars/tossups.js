@@ -7,8 +7,8 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const username = req.session.username;
-  const user_id = await getUserId(username);
-  const stars = await getTossupStars(user_id);
+  const userId = await getUserId(username);
+  const stars = await getTossupStars(userId);
   res.status(200).json(stars);
 });
 

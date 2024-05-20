@@ -15,8 +15,8 @@ router.put('/', async (req, res) => {
   }
 
   const { packetName, division } = req.body;
-  const user_id = await getUserId(username);
-  const result = await recordDivision(packetName, division, user_id);
+  const userId = await getUserId(username);
+  const result = await recordDivision(packetName, division, userId);
 
   if (result) {
     res.sendStatus(200);

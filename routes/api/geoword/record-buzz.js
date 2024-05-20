@@ -21,9 +21,9 @@ router.get('/', async (req, res) => {
     req.query.prompts = req.query.prompts.split(',');
   }
 
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
   const { packetName, questionNumber, celerity, points, prompts, givenAnswer } = req.query;
-  const result = await recordBuzz({ celerity, points, prompts, packetName, questionNumber, givenAnswer, user_id });
+  const result = await recordBuzz({ celerity, points, prompts, packetName, questionNumber, givenAnswer, user_id: userId });
 
   if (result) {
     res.sendStatus(200);

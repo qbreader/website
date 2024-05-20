@@ -8,10 +8,10 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const username = req.session.username;
-  const user_id = await getUserId(username);
+  const userId = await getUserId(username);
   try {
-    const bonus_id = new ObjectId(req.query.bonus_id);
-    res.json({ isStarred: await isStarredBonus(user_id, bonus_id) });
+    const bonusId = new ObjectId(req.query.bonus_id);
+    res.json({ isStarred: await isStarredBonus(userId, bonusId) });
   } catch { // Invalid ObjectID
     res.json({ isStarred: false });
   }
