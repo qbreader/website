@@ -4,12 +4,12 @@ import { ObjectId } from 'mongodb';
 
 /**
  *
- * @param {String} user_id
+ * @param {String} userId
  * @returns {Promise<Result>}
  */
-async function verifyEmail (user_id) {
+async function verifyEmail (userId) {
   return await users.updateOne(
-    { _id: new ObjectId(user_id) },
+    { _id: new ObjectId(userId) },
     { $set: { verifiedEmail: true } }
   );
 }

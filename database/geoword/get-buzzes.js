@@ -4,10 +4,10 @@ import { buzzes } from './collections.js';
  *
  * @param {String} packetName
  * @param {String} division
- * @param {ObjectId} user_id
+ * @param {ObjectId} userId
  * @param {Boolean} protests - whether to include protests (default: false)
  */
-async function getBuzzes (packetName, division, user_id, protests = false) {
+async function getBuzzes (packetName, division, userId, protests = false) {
   const projection = {
     _id: 0,
     celerity: 1,
@@ -26,7 +26,7 @@ async function getBuzzes (packetName, division, user_id, protests = false) {
   }
 
   return await buzzes.aggregate([
-    { $match: { 'packet.name': packetName, division, user_id } },
+    { $match: { 'packet.name': packetName, division, user_id: userId } },
     { $sort: { questionNumber: 1 } },
     {
       $lookup: {

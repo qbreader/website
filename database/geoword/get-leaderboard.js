@@ -26,8 +26,8 @@ async function getLeaderboard (packetName, division, includeInactive = false, li
   const result = await buzzes.aggregate(aggregation).toArray();
 
   for (const index in result) {
-    const user_id = result[index]._id;
-    result[index].username = await getUsername(user_id);
+    const userId = result[index]._id;
+    result[index].username = await getUsername(userId);
   }
 
   return result;

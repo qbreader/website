@@ -17,8 +17,8 @@ import getTossup from '../../qbreader/get-tossup.js';
  * @returns {Promise<Object>} The generated match document.
  */
 async function getBestBuzz ({ username, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-  const user_id = await getUserId(username);
-  const matchDocument = await generateMatchDocument({ user_id, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+  const userId = await getUserId(username);
+  const matchDocument = await generateMatchDocument({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
   matchDocument.isCorrect = true;
 
   const data = (await tossupData.aggregate([

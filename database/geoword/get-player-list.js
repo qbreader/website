@@ -9,8 +9,8 @@ async function getPlayerList (packetName, division) {
   ]).toArray();
 
   for (const index in result) {
-    const user_id = result[index]._id;
-    result[index].username = await getUsername(user_id);
+    const userId = result[index]._id;
+    result[index].username = await getUsername(userId);
   }
 
   result.sort((a, b) => a.username.localeCompare(b.username));

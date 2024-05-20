@@ -2,12 +2,12 @@ import { tossupData } from '../collections.js';
 
 /**
  * Get the stats for a single tossup.
- * @param {ObjectId} tossup_id the tossup id
+ * @param {ObjectId} tossupId the tossup id
  * @returns {Promise<Document>} the tossup stats
  */
-async function getSingleTossupStats (tossup_id) {
+async function getSingleTossupStats (tossupId) {
   const result = await tossupData.aggregate([
-    { $match: { tossup_id } },
+    { $match: { tossup_id: tossupId } },
     {
       $addFields: {
         is15: { $gt: ['$pointValue', 10] },
@@ -18,7 +18,7 @@ async function getSingleTossupStats (tossup_id) {
     {
       $group: {
         numCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
-        _id: tossup_id,
+        _id: tossupId,
         count: { $sum: 1 },
         '15s': { $sum: { $cond: ['$is15', 1, 0] } },
         '10s': { $sum: { $cond: ['$is10', 1, 0] } },
