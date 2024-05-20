@@ -1,11 +1,11 @@
 import account from '../accounts.js';
 
 export default class star {
-  static async starBonus (bonus_id) {
+  static async starBonus (bonusId) {
     return fetch('/auth/stars/star-bonus', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ bonus_id })
+      body: JSON.stringify({ bonus_id: bonusId })
     }).then(response => {
       if (response.status === 401) {
         const toast = new bootstrap.Toast(document.getElementById('star-toast'));
@@ -20,11 +20,11 @@ export default class star {
     });
   }
 
-  static async starTossup (tossup_id) {
+  static async starTossup (tossupId) {
     return fetch('/auth/stars/star-tossup', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tossup_id })
+      body: JSON.stringify({ tossup_id: tossupId })
     }).then(response => {
       if (response.status === 401) {
         const toast = new bootstrap.Toast(document.getElementById('star-toast'));
@@ -39,11 +39,11 @@ export default class star {
     });
   }
 
-  static unstarBonus (bonus_id) {
+  static unstarBonus (bonusId) {
     fetch('/auth/stars/unstar-bonus', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ bonus_id })
+      body: JSON.stringify({ bonus_id: bonusId })
     }).then(response => {
       if (response.status === 401) {
         const toast = new bootstrap.Toast(document.getElementById('star-toast'));
@@ -56,11 +56,11 @@ export default class star {
     });
   }
 
-  static unstarTossup (tossup_id) {
+  static unstarTossup (tossupId) {
     fetch('/auth/stars/unstar-tossup', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tossup_id })
+      body: JSON.stringify({ tossup_id: tossupId })
     }).then(response => {
       if (response.status === 401) {
         const toast = new bootstrap.Toast(document.getElementById('star-toast'));
@@ -73,22 +73,22 @@ export default class star {
     });
   }
 
-  static async isStarredBonus (bonus_id) {
+  static async isStarredBonus (bonusId) {
     if (!(await account.getUsername())) {
       return false;
     }
 
-    return await fetch(`/auth/stars/is-starred-bonus?bonus_id=${bonus_id}`)
+    return await fetch(`/auth/stars/is-starred-bonus?bonus_id=${bonusId}`)
       .then(response => response.json())
       .then(response => response.isStarred);
   }
 
-  static async isStarredTossup (tossup_id) {
+  static async isStarredTossup (tossupId) {
     if (!(await account.getUsername())) {
       return false;
     }
 
-    return await fetch(`/auth/stars/is-starred-tossup?tossup_id=${tossup_id}`)
+    return await fetch(`/auth/stars/is-starred-tossup?tossup_id=${tossupId}`)
       .then(response => response.json())
       .then(response => response.isStarred);
   }
