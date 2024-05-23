@@ -5,6 +5,7 @@ import { ipFilterMiddleware, ipFilterError } from './ip-filter.js';
 import { createAndReturnRoom } from './TossupRoom.js';
 
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from '../constants.js';
+import getRandomName from '../get-random-name.js';
 import indexRouter from '../routes/index.js';
 import webhookRouter from '../routes/api/webhook.js';
 
@@ -42,10 +43,25 @@ wss.on('connection', (ws, req) => {
     isPrivate = (isPrivate === 'true');
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
-    if (inappropriateNames.some((name) => roomName.toLowerCase().includes(name.toLowerCase()))) return ws.send(JSON.stringify({
+    if (!/([a-zA-Z]|-|_)/.test(roomName)) return ws.send(JSON.stringify({
         type: 'error',
-        error: 'The room name contains an inappropriate word',
+        error: 'The room name contains an invalid character. Only A-Z, a-z, - and _ are allowed.'
     }));
+
+    if (inappropriateNames.some((name) => roomName.replace(/(\-|_)/g, '').toLowerCase().includes(name.toLowerCase()))) return ws.send(JSON.stringify({
+        type: 'error',
+        error: 'The room name contains an inappropriate word. We are not able to take the time to moderate rooms or room names, so please do not clog our service that we provide for free with inappropriate names.',
+    }));
+
+    if (inappropriateNames.some((name) => username.replace(/(\-|_)/g, '').toLowerCase().includes(name.toLowerCase()))) {
+        username = getRandomName();
+
+        ws.send(JSON.stringify({
+            type: 'force-username',
+            username,
+            message: 'Your username contains an inappropriate word, so it has been reset. We are not able to take the time to moderate users, so please do not clog our service that we provide for free with inappropriate names.',
+        }));
+    };
 
     const room = createAndReturnRoom(roomName, isPrivate);
     if (room.settings.lock === false) {
