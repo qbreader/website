@@ -50,6 +50,12 @@ socket.onmessage = function (event) {
         socketOnChangeUsername(data);
         break;
 
+    case 'force-username':
+        alert(data.message);
+        localStorage.setItem('multiplayer-username', data.username);
+        document.querySelector('#username').value = data.username;
+        break;
+
     case 'chat':
         logChat(data.username, data.message, false, data.userId);
         break;

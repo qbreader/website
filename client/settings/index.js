@@ -67,3 +67,9 @@ document.getElementById('toggle-sound-effects').addEventListener('click', functi
         localStorage.removeItem('sound-effects');
     }
 });
+
+document.getElementById('multiplayer-name').addEventListener('input', function () {
+    localStorage.setItem('multiplayer-username', this.value);
+});
+
+document.getElementById('multiplayer-name').value = localStorage.getItem('multiplayer-username') || '';
