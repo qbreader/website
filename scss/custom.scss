@@ -126,5 +126,9 @@ a.list-group-item:hover {
     --bs-alert-padding-y: 0.5rem;
 }
 
+#multiplayer-name {
+    margin-top: 3px
+}
+
 @import "./dual-slider";
 @import "./dropdown-checklist";

@@ -1,6 +1,7 @@
 import Player from './Player.js';
 import RateLimit from './RateLimit.js';
 
+import { inappropriateNames } from './banned-usernames.js';
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
 import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH, CATEGORIES, SUBCATEGORIES_FLATTENED, ALTERNATE_SUBCATEGORIES_FLATTENED, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../constants.js';
 import getRandomTossups from '../database/qbreader/get-random-tossups.js';
@@ -207,6 +208,12 @@ class TossupRoom {
         case 'change-username': {
             if (typeof message.username !== 'string')
                 break;
+
+            if (inappropriateNames.some((name) => message.username.replace(/(\-|_)/g, '').toLowerCase().includes(name.toLowerCase()))) return this.sendPrivateMessage(userId, {
+                type: 'force-username',
+                username: this.players[userId].username,
+                message: 'Your username contains an inappropriate word, so it has been reverted. We are not able to take the time to moderate users, so please do not clog our service that we provide for free with inappropriate names.',
+            });
 
             const oldUsername = this.players[userId].username;
             const newUsername = this.players[userId].updateUsername(message.username);
