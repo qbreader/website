@@ -8,7 +8,7 @@
         "compile-react": "babel client --extensions .jsx --out-dir client",
         "start": "node server/server.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css",
-        "lint": "eslint .",
+        "lint": "npx semistandard --fix",
         "test:frontend": "",
         "test:backend": "mocha test/database.test.js",
         "test:all": "npm run test:frontend && npm run test:backend"

@@ -22,5 +22,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run eslint
+      - name: Run semistandard
         run: npm run lint
