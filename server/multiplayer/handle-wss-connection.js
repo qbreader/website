@@ -14,8 +14,11 @@ import * as uuid from 'uuid';
  */
 export default function handleWssConnection (ws, req) {
   const parsedUrl = new url.URL(req.url, process.env.BASE_URL ?? 'http://localhost');
-  let { private: isPrivate, roomName, userId, username } = parsedUrl.query;
-  isPrivate = (isPrivate === 'true');
+  const isPrivate = parsedUrl.searchParams.get('private') === 'true';
+  const roomName = parsedUrl.searchParams.get('roomName');
+  let userId = parsedUrl.searchParams.get('userId') ?? 'unknown';
+  let username = parsedUrl.searchParams.get('username') ?? getRandomName();
+
   userId = (userId === 'unknown') ? uuid.v4() : userId;
 
   if (!hasValidCharacters(roomName)) {
