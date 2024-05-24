@@ -217,7 +217,7 @@ class TossupRoom {
             type: 'force-username',
             username: this.players[userId].username,
             message: 'Your username contains an inappropriate word, so it has been reverted.'
-                });
+          });
           break;
         }
 

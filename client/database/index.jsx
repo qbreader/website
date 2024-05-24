@@ -840,7 +840,7 @@ function QueryForm () {
                         Jump to bonuses
                       </a>
                     </span>
-                </div>
+                    </div> // eslint-disable-line
                   : <div className='text-muted'>No tossups found</div>
             }
       <div>{tossupCards}</div>
@@ -899,7 +899,7 @@ function QueryForm () {
                         Jump to tossups
                       </a>
                     </span>
-                    </div>
+                    </div> // eslint-disable-line
                   : <div className='text-muted'>No bonuses found</div>
             }
       <div>{bonusCards}</div>

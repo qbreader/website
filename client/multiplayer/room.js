@@ -39,7 +39,7 @@ socket.onmessage = function (event) {
   switch (data.type) {
     case 'error':
       socket.close(3000);
-      alert(data.error);
+      window.alert(data.error);
       window.location.href = '/multiplayer';
       break;
 
@@ -52,8 +52,8 @@ socket.onmessage = function (event) {
       break;
 
     case 'force-username':
-      alert(data.message);
-      localStorage.setItem('multiplayer-username', data.username);
+      window.alert(data.message);
+      window.localStorage.setItem('multiplayer-username', data.username);
       document.querySelector('#username').value = data.username;
       break;
 
