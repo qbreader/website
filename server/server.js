@@ -53,7 +53,7 @@ wss.on('connection', (ws, req) => {
 
     if (inappropriateNames.some((name) => roomName.replace(/(-|_)/g, '').toLowerCase().includes(name.toLowerCase()))) return ws.send(JSON.stringify({
         type: 'error',
-        error: 'The room name contains an inappropriate word. We are not able to take the time to moderate rooms or room names, so please do not clog our service that we provide for free with inappropriate names.',
+        error: 'The room name contains an inappropriate word.',
     }));
 
     if (inappropriateNames.some((name) => username.replace(/(-|_)/g, '').toLowerCase().includes(name.toLowerCase()))) {
@@ -62,7 +62,7 @@ wss.on('connection', (ws, req) => {
         ws.send(JSON.stringify({
             type: 'force-username',
             username,
-            message: 'Your username contains an inappropriate word, so it has been reset. We are not able to take the time to moderate users, so please do not clog our service that we provide for free with inappropriate names.',
+            message: 'Your username contains an inappropriate word, so it has been reset.',
         }));
     }
 
