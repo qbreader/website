@@ -69,7 +69,7 @@ document.getElementById('toggle-sound-effects').addEventListener('click', functi
 });
 
 document.getElementById('multiplayer-name').addEventListener('input', function () {
-    localStorage.setItem('multiplayer-username', this.value);
+  window.localStorage.setItem('multiplayer-username', this.value);
 });
 
-document.getElementById('multiplayer-name').value = localStorage.getItem('multiplayer-username') || '';
+document.getElementById('multiplayer-name').value = window.localStorage.getItem('multiplayer-username') || '';
