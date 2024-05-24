@@ -24,9 +24,9 @@ app.use('/api/webhook', express.raw({ type: '*/*' }), webhookRouter);
 app.use(express.json());
 
 app.use(cookieSession({
-    name: 'session',
-    keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
-    maxAge: COOKIE_MAX_AGE,
+  name: 'session',
+  keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
+  maxAge: COOKIE_MAX_AGE
 }));
 
 app.use(ipFilterMiddleware);
@@ -38,5 +38,5 @@ app.use(indexRouter);
 
 // listen on ipv4 instead of ipv6
 server.listen({ port, host: '0.0.0.0' }, () => {
-    console.log(`listening at port=${port}`);
+  console.log(`listening at port=${port}`);
 });
