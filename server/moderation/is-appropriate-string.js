@@ -11,8 +11,9 @@ export default function isAppropriateString(string) {
     }
 
     string = string.replace(/(-|_)/g, ' ').toLowerCase();
+    const tokens = string.split(' ');
 
-    if (inappropriateNames.some(name => string === name)) {
+    if (inappropriateNames.some(name => tokens.includes(name))) {
         return false;
     }
 
