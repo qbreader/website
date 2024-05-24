@@ -1,4 +1,4 @@
-import { USERNAME_MAX_LENGTH } from '../constants.js';
+import { USERNAME_MAX_LENGTH } from '../../constants.js';
 
 class Player {
     constructor(userId) {
