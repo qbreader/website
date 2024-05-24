@@ -1,4 +1,4 @@
-import banList from './banned-usernames.js';
+import banList from './moderation/banned-usernames.js';
 import { sendEmail } from './email.js';
 
 import getUserField from '../database/account-info/get-user-field.js';
