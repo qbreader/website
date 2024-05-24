@@ -23,21 +23,21 @@ const router = Router();
 
 // Apply the rate limiting middleware to API calls only
 router.use(rateLimit({
-    windowMs: 1000, // 4 seconds
-    max: 20, // Limit each IP to 20 requests per `window`
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  windowMs: 1000, // 4 seconds
+  max: 20, // Limit each IP to 20 requests per `window`
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false // Disable the `X-RateLimit-*` headers
 }));
 
 // express encodes same parameter passed multiple times as an array
 // this middleware converts it to a single value
 router.use((req, _res, next) => {
-    for (const key in req.query) {
-        if (Array.isArray(req.query[key])) {
-            req.query[key] = req.query[key].reduce((a, b) => a + ',' + b);
-        }
+  for (const key in req.query) {
+    if (Array.isArray(req.query[key])) {
+      req.query[key] = req.query[key].reduce((a, b) => a + ',' + b);
     }
-    next();
+  }
+  next();
 });
 
 router.use('/admin', adminRouter);

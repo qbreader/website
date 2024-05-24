@@ -9,28 +9,28 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const { username, token } = req.session;
-    if (!checkToken(username, token)) {
-        delete req.session;
-        res.redirect('/geoword/login');
-        return;
-    }
+  const { username, token } = req.session;
+  if (!checkToken(username, token)) {
+    delete req.session;
+    res.redirect('/geoword/login');
+    return;
+  }
 
-    const { packetName, division } = req.query;
-    const user = await getUser(username);
+  const { packetName, division } = req.query;
+  const user = await getUser(username);
 
-    const [buzzCount, questionCount] = await Promise.all([
-        getBuzzCount(packetName, user._id),
-        getQuestionCount(packetName),
-    ]);
+  const [buzzCount, questionCount] = await Promise.all([
+    getBuzzCount(packetName, user._id),
+    getQuestionCount(packetName)
+  ]);
 
-    if (!user.admin && buzzCount < questionCount) {
-        res.sendStatus(403);
-        return;
-    }
+  if (!user.admin && buzzCount < questionCount) {
+    res.sendStatus(403);
+    return;
+  }
 
-    const packet = await getPacket(packetName, division);
-    res.json({ packet });
+  const packet = await getPacket(packetName, division);
+  res.json({ packet });
 });
 
 export default router;

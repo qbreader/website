@@ -8,31 +8,30 @@ import * as types from '../../types.js';
  * @param {types.Tossup} tossup - The tossup to modaqify.
  * @returns The modaqified tossup.
  */
-function modaqifyTossup(tossup) {
-    const result = {
-        question: tossup.question.replace('<i>', '<em>').replace('</i>', '</em>'),
-        answer: tossup.answer.replace('<i>', '<em>').replace('</i>', '</em>'),
-        metadata: `${tossup.category} - ${tossup.subcategory}`,
-    };
+function modaqifyTossup (tossup) {
+  const result = {
+    question: tossup.question.replace('<i>', '<em>').replace('</i>', '</em>'),
+    answer: tossup.answer.replace('<i>', '<em>').replace('</i>', '</em>'),
+    metadata: `${tossup.category} - ${tossup.subcategory}`
+  };
 
-    return result;
+  return result;
 }
 
+function modaqifyBonus (bonus) {
+  const result = {
+    values: bonus.values ?? bonus.parts.map(() => 10),
+    leadin: bonus.leadin.replace('<i>', '<em>').replace('</i>', '</em>'),
+    parts: bonus.parts.replace('<i>', '<em>').replace('</i>', '</em>'),
+    answers: bonus.answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>')),
+    metadata: `${bonus.category} - ${bonus.subcategory}`
+  };
 
-function modaqifyBonus(bonus) {
-    const result = {
-        values: bonus.values ?? bonus.parts.map(() => 10),
-        leadin: bonus.leadin.replace('<i>', '<em>').replace('</i>', '</em>'),
-        parts: bonus.parts.replace('<i>', '<em>').replace('</i>', '</em>'),
-        answers: bonus.answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>')),
-        metadata: `${bonus.category} - ${bonus.subcategory}`,
-    };
+  if (bonus.difficultyModifiers) {
+    result.difficultyModifiers = bonus.difficultyModifiers;
+  }
 
-    if (bonus.difficultyModifiers) {
-        result.difficultyModifiers = bonus.difficultyModifiers;
-    }
-
-    return result;
+  return result;
 }
 
 /**
@@ -46,52 +45,53 @@ function modaqifyBonus(bonus) {
  * @param {boolean} [options.modaq=false] - Whether to output in a result compatible with MODAQ.
  * @returns {Promise<{tossups: types.Tossup[], bonuses: types.Bonus[]}>} The retrieved packet of questions.
  */
-async function getPacket({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], modaq = false }) {
-    if (!setName || isNaN(packetNumber) || packetNumber < 1) {
-        return { 'tossups': [], 'bonuses': [] };
-    }
+async function getPacket ({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], modaq = false }) {
+  if (!setName || isNaN(packetNumber) || packetNumber < 1) {
+    return { tossups: [], bonuses: [] };
+  }
 
-    const packet = await packets.findOne({ 'set.name': setName, number: packetNumber });
+  const packet = await packets.findOne({ 'set.name': setName, number: packetNumber });
 
-    if (!packet) {
-        console.log(`[DATABASE] WARNING: set "${setName}" does not exist`);
-        return { 'tossups': [], 'bonuses': [] };
-    }
+  if (!packet) {
+    console.log(`[DATABASE] WARNING: set "${setName}" does not exist`);
+    return { tossups: [], bonuses: [] };
+  }
 
-    const tossupResult = questionTypes.includes('tossups')
-        ? tossups.find({ 'packet._id': packet._id }, {
-            sort: { number: 1 },
-            project: { reports: 0 },
-        }).toArray()
-        : null;
+  const tossupResult = questionTypes.includes('tossups')
+    ? tossups.find({ 'packet._id': packet._id }, {
+      sort: { number: 1 },
+      project: { reports: 0 }
+    }).toArray()
+    : null;
 
-    const bonusResult  = questionTypes.includes('bonuses')
-        ? bonuses.find({ 'packet._id': packet._id }, {
-            sort: { number: 1 },
-            project: { reports: 0 },
-        }).toArray() : null;
+  const bonusResult = questionTypes.includes('bonuses')
+    ? bonuses.find({ 'packet._id': packet._id }, {
+      sort: { number: 1 },
+      project: { reports: 0 }
+    }).toArray()
+    : null;
 
-    const values = await Promise.all([tossupResult, bonusResult]);
+  const values = await Promise.all([tossupResult, bonusResult]);
 
-    const result = {
-        tossups: [],
-        bonuses: [],
-    };
+  const result = {
+    tossups: [],
+    bonuses: []
+  };
 
-    if (questionTypes.includes('tossups')) {
-        result.tossups = values[0];
-    }
+  if (questionTypes.includes('tossups')) {
+    result.tossups = values[0];
+  }
 
-    if (questionTypes.includes('bonuses')) {
-        result.bonuses = values[1];
-    }
+  if (questionTypes.includes('bonuses')) {
+    result.bonuses = values[1];
+  }
 
-    if (modaq) {
-        result.tossups = result.tossups.map(tossup => modaqifyTossup(tossup));
-        result.bonuses = result.bonuses.map(bonus => modaqifyBonus(bonus));
-    }
+  if (modaq) {
+    result.tossups = result.tossups.map(tossup => modaqifyTossup(tossup));
+    result.bonuses = result.bonuses.map(bonus => modaqifyBonus(bonus));
+  }
 
-    return result;
+  return result;
 }
 
 export default getPacket;

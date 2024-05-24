@@ -2,12 +2,12 @@ import { bonusStars } from '../collections.js';
 
 /**
  *
- * @param {ObjectId} user_id
- * @param {ObjectId} bonus_id
+ * @param {ObjectId} userId
+ * @param {ObjectId} bonusId
  * @returns {Promise<number>} - the number of bonus star documents deleted
  */
-async function unstarBonus(user_id, bonus_id) {
-    return (await bonusStars.deleteMany({ user_id, bonus_id })).deletedCount;
+async function unstarBonus (userId, bonusId) {
+  return (await bonusStars.deleteMany({ user_id: userId, bonus_id: bonusId })).deletedCount;
 }
 
 export default unstarBonus;
