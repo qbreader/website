@@ -1,7 +1,6 @@
 import Player from './Player.js';
 import RateLimit from './RateLimit.js';
 
-import { inappropriateNames } from './banned-usernames.js';
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
 import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH, CATEGORIES, SUBCATEGORIES_FLATTENED, ALTERNATE_SUBCATEGORIES_FLATTENED, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../constants.js';
 import getRandomTossups from '../database/qbreader/get-random-tossups.js';
@@ -15,6 +14,7 @@ import checkAnswer from 'qb-answer-checker';
 
 import createDOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
+import isAppropriateString from './moderation/is-appropriate-string.js';
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
@@ -209,11 +209,14 @@ class TossupRoom {
             if (typeof message.username !== 'string')
                 break;
 
-            if (inappropriateNames.some((name) => message.username.replace(/(-|_)/g, '').toLowerCase().includes(name.toLowerCase()))) return this.sendPrivateMessage(userId, {
-                type: 'force-username',
-                username: this.players[userId].username,
-                message: 'Your username contains an inappropriate word, so it has been reverted.',
-            });
+            if (!isAppropriateString(message.username)) {
+                this.sendPrivateMessage(userId, {
+                    type: 'force-username',
+                    username: this.players[userId].username,
+                    message: 'Your username contains an inappropriate word, so it has been reverted.',
+                });
+                break;
+            }
 
             const oldUsername = this.players[userId].username;
             const newUsername = this.players[userId].updateUsername(message.username);
