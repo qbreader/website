@@ -1,8 +1,8 @@
 # qbreader/website
 
-- A [QuizBug](https://quizbug2.karangurazada.com/)/[Protobowl](https://protobowl.com/) where you pick a packet and it reads tossups or bonuses to you.
-- Supports both singleplayer and multiplayer.
-- Contains a searchable database.
+A website for practicing quizbowl online, including singleplayer, multiplayer, and a searchable database of questions.
+Inspired by [QuizBug](https://quizbug2.karangurazada.com/) and [Protobowl](https://protobowl.com/).
+See [qbwiki](https://www.qbwiki.com/wiki/QBReader) and the official [about page](https://www.qbreader.org/about) for more information.
 
 ## Running the Server
 
