@@ -212,7 +212,7 @@ class TossupRoom {
             if (inappropriateNames.some((name) => message.username.replace(/(-|_)/g, '').toLowerCase().includes(name.toLowerCase()))) return this.sendPrivateMessage(userId, {
                 type: 'force-username',
                 username: this.players[userId].username,
-                message: 'Your username contains an inappropriate word, so it has been reverted. We are not able to take the time to moderate users, so please do not clog our service that we provide for free with inappropriate names.',
+                message: 'Your username contains an inappropriate word, so it has been reverted.',
             });
 
             const oldUsername = this.players[userId].username;
