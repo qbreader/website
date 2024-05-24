@@ -6,7 +6,7 @@
         "test": "mocha",
         "build": "npm run compile-react && npm run sass && npm test",
         "compile-react": "babel client --extensions .jsx --out-dir client",
-        "start": "node server/server.js",
+        "start": "node index.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css",
         "lint": "eslint .",
         "test:frontend": "",
