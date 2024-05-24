@@ -10,9 +10,9 @@ export default function isAppropriateString(string) {
         return false;
     }
 
-    string = string.replace(/(-|_)/g, '').toLowerCase();
+    string = string.replace(/(-|_)/g, ' ').toLowerCase();
 
-    if (inappropriateNames.some(name => string.includes(name))) {
+    if (inappropriateNames.some(name => string === name)) {
         return false;
     }
 
