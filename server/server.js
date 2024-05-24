@@ -43,10 +43,13 @@ wss.on('connection', (ws, req) => {
     isPrivate = (isPrivate === 'true');
     userId = (userId === 'unknown') ? uuid.v4() : userId;
 
-    if (!/([a-zA-Z]|-|_)/.test(roomName)) return ws.send(JSON.stringify({
-        type: 'error',
-        error: 'The room name contains an invalid character. Only A-Z, a-z, - and _ are allowed.',
-    }));
+    if (/[^a-zA-Z\-_]/.test(roomName)) {
+        ws.send(JSON.stringify({
+            type: 'error',
+            error: 'The room name contains an invalid character. Only A-Z, a-z, - and _ are allowed.',
+        }));
+        return;
+    }
 
     if (inappropriateNames.some((name) => roomName.replace(/(-|_)/g, '').toLowerCase().includes(name.toLowerCase()))) return ws.send(JSON.stringify({
         type: 'error',
