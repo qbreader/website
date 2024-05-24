@@ -1,17 +1,17 @@
 import { getBonusPartLabel } from '../utilities/index.js';
 const ALTERNATE_SUBCATEGORIES = {
-  'Literature': ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
-  'History': [],
-  'Science': [],
+  Literature: ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
+  History: [],
+  Science: [],
   'Fine Arts': [],
-  'Religion': [],
-  'Mythology': [],
-  'Philosophy': [],
+  Religion: [],
+  Mythology: [],
+  Philosophy: [],
   'Social Science': ['Anthropology', 'Economics', 'Linguistics', 'Psychology', 'Sociology', 'Other Social Science'],
   'Current Events': [],
-  'Geography': [],
+  Geography: [],
   'Other Academic': [],
-  'Trash': [],
+  Trash: [],
   'Other Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
   'Other Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts']
 };
@@ -27,21 +27,21 @@ const SUBCATEGORY_TO_CATEGORY = {
   'European History': 'History',
   'World History': 'History',
   'Other History': 'History',
-  'Biology': 'Science',
-  'Chemistry': 'Science',
-  'Physics': 'Science',
+  Biology: 'Science',
+  Chemistry: 'Science',
+  Physics: 'Science',
   'Other Science': 'Other Science',
   'Visual Fine Arts': 'Fine Arts',
   'Auditory Fine Arts': 'Fine Arts',
   'Other Fine Arts': 'Other Fine Arts',
-  'Religion': 'Religion',
-  'Mythology': 'Mythology',
-  'Philosophy': 'Philosophy',
+  Religion: 'Religion',
+  Mythology: 'Mythology',
+  Philosophy: 'Philosophy',
   'Social Science': 'Social Science',
   'Current Events': 'Current Events',
-  'Geography': 'Geography',
+  Geography: 'Geography',
   'Other Academic': 'Other Academic',
-  'Trash': 'Trash'
+  Trash: 'Trash'
 };
 function TossupCard({
   tossup
@@ -170,7 +170,7 @@ function Reports() {
         this.disabled = false;
         this.textContent = 'Submit';
         if (!response.ok) {
-          alert('Error updating subcategory');
+          window.alert('Error updating subcategory');
           return;
         }
         switch (type) {

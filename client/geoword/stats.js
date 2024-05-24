@@ -8,31 +8,31 @@ document.getElementById('category-stats-link').href = `/geoword/category-stats/$
 document.getElementById('packet-name').textContent = packetTitle;
 
 fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
-    .then(response => response.json())
-    .then(data => {
-        const { buzzArray, division, leaderboard } = data;
-        document.getElementById('division').textContent = division;
+  .then(response => response.json())
+  .then(data => {
+    const { buzzArray, division, leaderboard } = data;
+    document.getElementById('division').textContent = division;
 
-        const numberCorrect = buzzArray.filter(buzz => buzz.points > 0).length;
-        const points = buzzArray.reduce((total, buzz) => total + buzz.points, 0);
-        const tossupsHeard = buzzArray.length;
-        const totalCorrectCelerity = buzzArray.filter(buzz => buzz.points > 0).reduce((total, buzz) => total + buzz.celerity, 0);
-        const averageCorrectCelerity = (numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect).toFixed(3);
-        const pointsPerTossup = (tossupsHeard === 0 ? 0 : points / tossupsHeard).toFixed(2);
-        document.getElementById('statline').textContent = `${pointsPerTossup} points per question (${points} points / ${tossupsHeard} TUH), celerity: ${averageCorrectCelerity}`;
+    const numberCorrect = buzzArray.filter(buzz => buzz.points > 0).length;
+    const points = buzzArray.reduce((total, buzz) => total + buzz.points, 0);
+    const tossupsHeard = buzzArray.length;
+    const totalCorrectCelerity = buzzArray.filter(buzz => buzz.points > 0).reduce((total, buzz) => total + buzz.celerity, 0);
+    const averageCorrectCelerity = (numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect).toFixed(3);
+    const pointsPerTossup = (tossupsHeard === 0 ? 0 : points / tossupsHeard).toFixed(2);
+    document.getElementById('statline').textContent = `${pointsPerTossup} points per question (${points} points / ${tossupsHeard} TUH), celerity: ${averageCorrectCelerity}`;
 
-        let innerHTML = '<hr>';
+    let innerHTML = '<hr>';
 
-        for (const i in buzzArray) {
-            let pendingString = '';
+    for (const i in buzzArray) {
+      let pendingString = '';
 
-            if (buzzArray[i].pendingProtest === true) {
-                pendingString = '(pending review)';
-            } else if (buzzArray[i].pendingProtest === false) {
-                pendingString = `(protest resolution: ${buzzArray[i].decision}) ${getProtestReasonString(buzzArray[i])}`;
-            }
+      if (buzzArray[i].pendingProtest === true) {
+        pendingString = '(pending review)';
+      } else if (buzzArray[i].pendingProtest === false) {
+        pendingString = `(protest resolution: ${buzzArray[i].decision}) ${getProtestReasonString(buzzArray[i])}`;
+      }
 
-            innerHTML += `
+      innerHTML += `
             <div class="row mb-3">
                 <div class="col-6">
                     <div><b>#${buzzArray[i].questionNumber}</b> ${pendingString}</div>
@@ -51,55 +51,54 @@ fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
             </div>
             <hr>
             `;
-        }
-        document.getElementById('stats').innerHTML = innerHTML;
-    });
-
+    }
+    document.getElementById('stats').innerHTML = innerHTML;
+  });
 
 fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
-    .then(response => response.json())
-    .then(data => {
-        const { divisions } = data;
-        const leaderboardLinks = document.getElementById('leaderboard-links');
-        const packetLinks = document.getElementById('packet-links');
-        for (const index in divisions) {
-            const division = divisions[index];
-            const a1 = document.createElement('a');
-            a1.href = `/geoword/leaderboard/${packetName}?${encodeURIComponent(division)}`;
-            a1.textContent = division;
+  .then(response => response.json())
+  .then(data => {
+    const { divisions } = data;
+    const leaderboardLinks = document.getElementById('leaderboard-links');
+    const packetLinks = document.getElementById('packet-links');
+    for (const index in divisions) {
+      const division = divisions[index];
+      const a1 = document.createElement('a');
+      a1.href = `/geoword/leaderboard/${packetName}?${encodeURIComponent(division)}`;
+      a1.textContent = division;
 
-            const a2 = document.createElement('a');
-            a2.href = `/geoword/packet/${packetName}?${encodeURIComponent(division)}`;
-            a2.textContent = division;
+      const a2 = document.createElement('a');
+      a2.href = `/geoword/packet/${packetName}?${encodeURIComponent(division)}`;
+      a2.textContent = division;
 
-            if (index > 0) {
-                leaderboardLinks.appendChild(document.createTextNode(' | '));
-                packetLinks.appendChild(document.createTextNode(' | '));
-            }
+      if (index > 0) {
+        leaderboardLinks.appendChild(document.createTextNode(' | '));
+        packetLinks.appendChild(document.createTextNode(' | '));
+      }
 
-            leaderboardLinks.appendChild(a1);
-            packetLinks.appendChild(a2);
-        }
-    });
-
-function getPromptString(buzz) {
-    if (!buzz?.prompts) {
-        return '';
+      leaderboardLinks.appendChild(a1);
+      packetLinks.appendChild(a2);
     }
+  });
 
-    let string = '(prompted on: ';
-    for (const answer of buzz.prompts) {
-        string += answer + ', ';
-    }
-    string = string.slice(0, -2);
-    string = string + ')';
-    return string;
+function getPromptString (buzz) {
+  if (!buzz?.prompts) {
+    return '';
+  }
+
+  let string = '(prompted on: ';
+  for (const answer of buzz.prompts) {
+    string += answer + ', ';
+  }
+  string = string.slice(0, -2);
+  string = string + ')';
+  return string;
 }
 
-function getProtestReasonString(buzz) {
-    if (!buzz?.reason || buzz.reason === '') {
-        return '';
-    }
+function getProtestReasonString (buzz) {
+  if (!buzz?.reason || buzz.reason === '') {
+    return '';
+  }
 
-    return `(reason: ${buzz.reason})`;
+  return `(reason: ${buzz.reason})`;
 }

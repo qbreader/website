@@ -10,8 +10,8 @@ import { ObjectId } from 'mongodb';
  * @param {ObjectId} _id - the id of the bonus
  * @returns {Promise<types.Bonus>}
  */
-async function getBonus(_id) {
-    return await bonuses.findOne({ _id: _id });
+async function getBonus (_id) {
+  return await bonuses.findOne({ _id });
 }
 
 export default getBonus;

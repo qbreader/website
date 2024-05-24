@@ -2,17 +2,17 @@ import { tossupStars } from '../collections.js';
 
 /**
  *
- * @param {ObjectId} user_id
- * @param {ObjectId} tossup_id
+ * @param {ObjectId} userId
+ * @param {ObjectId} tossupId
  * @returns {Promise<boolean>} true if the tossup was not starred before
  */
-async function starTossup(user_id, tossup_id) {
-    if (await tossupStars.findOne({ user_id, tossup_id })) {
-        return false;
-    }
+async function starTossup (userId, tossupId) {
+  if (await tossupStars.findOne({ user_id: userId, tossup_id: tossupId })) {
+    return false;
+  }
 
-    await tossupStars.insertOne({ user_id, tossup_id });
-    return true;
+  await tossupStars.insertOne({ user_id: userId, tossup_id: tossupId });
+  return true;
 }
 
 export default starTossup;
