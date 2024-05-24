@@ -4,7 +4,7 @@ import { ipFilterMiddleware, ipFilterError } from './server/moderation/ip-filter
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from './constants.js';
 import indexRouter from './routes/index.js';
 import webhookRouter from './routes/api/webhook.js';
-import handleWssConnection from './server/handle-wss-connection.js';
+import handleWssConnection from './server/multiplayer/handle-wss-connection.js';
 
 import cookieSession from 'cookie-session';
 import express from 'express';

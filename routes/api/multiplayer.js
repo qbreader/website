@@ -1,4 +1,4 @@
-import { tossupRooms } from '../../server/TossupRoom.js';
+import { tossupRooms } from '../../server/multiplayer/TossupRoom.js';
 
 import { Router } from 'express';
 const router = Router();
