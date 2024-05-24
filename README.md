@@ -21,7 +21,8 @@ The website is built by default, but if you make any changes, you can rebuild us
 
 Pull requests are welcome!
 I also appreciate feedback and feature suggestions through email, discord, or issues.
-Make sure to format your code using the provided eslint rules and check by running `npm run lint`.
+Make sure to format your code using [semistandard](https://github.com/standard/semistandard) by running `npm run lint`.
+You can optionally install [this VS Code extension](https://marketplace.visualstudio.com/items?itemName=standard.vscode-standard).
 I recommend sorting your HTML attributes using [this vscode extension](https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-attrs-sorter), which I have configured to follow https://codeguide.co/#attribute-order.
 
 ### Answer Checking
