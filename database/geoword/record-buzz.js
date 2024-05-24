@@ -13,29 +13,32 @@ import isAdminById from '../account-info/is-admin-by-id.js';
  * @param {ObjectId} params.user_id
  * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
-async function recordBuzz({ celerity, givenAnswer, packetName, points, prompts, questionNumber, user_id }) {
-    const [division, packet, admin] = await Promise.all([
-        getDivisionChoice(packetName, user_id),
-        packets.findOne({ name: packetName }),
-        isAdminById(user_id),
-    ]);
+async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts, questionNumber, user_id: userId }) {
+  const [division, packet, admin] = await Promise.all([
+    getDivisionChoice(packetName, userId),
+    packets.findOne({ name: packetName }),
+    isAdminById(userId)
+  ]);
 
-    const insertDocument = {
-        active: packet.active && !admin,
-        celerity, division, givenAnswer, points,
-        packet: {
-            _id: packet._id,
-            name: packet.name,
-        },
-        questionNumber,
-        user_id,
-    };
+  const insertDocument = {
+    active: packet.active && !admin,
+    celerity,
+    division,
+    givenAnswer,
+    points,
+    packet: {
+      _id: packet._id,
+      name: packet.name
+    },
+    questionNumber,
+    user_id: userId
+  };
 
-    if (prompts && typeof prompts === 'object' && prompts.length > 0) {
-        insertDocument.prompts = prompts;
-    }
+  if (prompts && typeof prompts === 'object' && prompts.length > 0) {
+    insertDocument.prompts = prompts;
+  }
 
-    return await buzzes.insertOne(insertDocument);
+  return await buzzes.insertOne(insertDocument);
 }
 
 export default recordBuzz;

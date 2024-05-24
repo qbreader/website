@@ -1,21 +1,21 @@
 import { attachDropdownChecklist, getDropdownValues } from '../../utilities/dropdown-checklist.js';
 
-function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
-    fetch('/auth/user-stats/tossup?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
-        .then(response => {
-            if (response.status === 401) {
-                throw new Error('Unauthenticated');
-            }
-            return response;
-        })
-        .then(response => response.json())
-        .then(data => {
-            const bestBuzz = data['best-buzz'];
-            if (bestBuzz && bestBuzz.tossup) {
-                const tossup = bestBuzz.tossup;
-                const buzzPoint = Math.floor((1 - bestBuzz.celerity) * tossup.question.length);
-                tossup.question = `${tossup.question.slice(0, buzzPoint)} <span class="text-highlight">(#)</span> ${tossup.question.slice(buzzPoint)}`;
-                document.getElementById('best-buzz').innerHTML = `
+function fetchTossupStats ({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
+  fetch('/auth/user-stats/tossup?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
+    .then(response => {
+      if (response.status === 401) {
+        throw new Error('Unauthenticated');
+      }
+      return response;
+    })
+    .then(response => response.json())
+    .then(data => {
+      const bestBuzz = data['best-buzz'];
+      if (bestBuzz && bestBuzz.tossup) {
+        const tossup = bestBuzz.tossup;
+        const buzzPoint = Math.floor((1 - bestBuzz.celerity) * tossup.question.length);
+        tossup.question = `${tossup.question.slice(0, buzzPoint)} <span class="text-highlight">(#)</span> ${tossup.question.slice(buzzPoint)}`;
+        document.getElementById('best-buzz').innerHTML = `
                     <p>Celerity: ${bestBuzz.celerity}</p>
                     <div class="card mb-2">
                         <div class="card-header">
@@ -39,20 +39,20 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                         </div>
                     </div>
                 `;
-            } else {
-                document.getElementById('best-buzz').textContent = '';
-            }
+      } else {
+        document.getElementById('best-buzz').textContent = '';
+      }
 
-            for (const type of ['category', 'subcategory', 'alternate-subcategory']) {
-                if (!data[`${type}-stats`]) {
-                    continue;
-                }
+      for (const type of ['category', 'subcategory', 'alternate-subcategory']) {
+        if (!data[`${type}-stats`]) {
+          continue;
+        }
 
-                let innerHTML = '';
-                const totalStats = {};
-                data[`${type}-stats`].forEach(stat => {
-                    const averageCelerity = stat.numCorrect > 0 ? (stat.totalCorrectCelerity / stat.numCorrect) : 0;
-                    innerHTML += `
+        let innerHTML = '';
+        const totalStats = {};
+        data[`${type}-stats`].forEach(stat => {
+          const averageCelerity = stat.numCorrect > 0 ? (stat.totalCorrectCelerity / stat.numCorrect) : 0;
+          innerHTML += `
                         <tr>
                             <th scope="row">${stat._id}</th>
                             <td>${stat.count}</td>
@@ -65,23 +65,23 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                         </tr>
                         `;
 
-                    Object.keys(stat).forEach(key => {
-                        if (['_id', 'pptu'].includes(key)) {
-                            return;
-                        }
+          Object.keys(stat).forEach(key => {
+            if (['_id', 'pptu'].includes(key)) {
+              return;
+            }
 
-                        if (totalStats[key]) {
-                            totalStats[key] += stat[key];
-                        } else {
-                            totalStats[key] = stat[key];
-                        }
-                    });
-                });
-                document.getElementById(`${type}-stats-body`).innerHTML = innerHTML;
+            if (totalStats[key]) {
+              totalStats[key] += stat[key];
+            } else {
+              totalStats[key] = stat[key];
+            }
+          });
+        });
+        document.getElementById(`${type}-stats-body`).innerHTML = innerHTML;
 
-                totalStats.pptu = totalStats.count > 0 ? totalStats.totalPoints / totalStats.count : 0;
-                totalStats.averageCelerity = totalStats.numCorrect > 0 ? (totalStats.totalCorrectCelerity / totalStats.numCorrect) : 0;
-                document.getElementById(`${type}-stats-foot`).innerHTML = `
+        totalStats.pptu = totalStats.count > 0 ? totalStats.totalPoints / totalStats.count : 0;
+        totalStats.averageCelerity = totalStats.numCorrect > 0 ? (totalStats.totalCorrectCelerity / totalStats.numCorrect) : 0;
+        document.getElementById(`${type}-stats-foot`).innerHTML = `
                 <tr>
                     <th scope="col">Total</th>
                     <th scope="col">${totalStats.count ?? 0}</th>
@@ -93,22 +93,22 @@ function fetchTossupStats({ difficulties = '', setName = '', includeMultiplayer 
                     <th scope="col">${totalStats.pptu.toFixed(2)}</th>
                 </tr>
                 `;
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
 
-function onSubmit(event) {
-    event.preventDefault();
-    const setName = document.getElementById('set-name').value;
-    const difficulties = getDropdownValues('difficulties');
-    const includeMultiplayer = document.getElementById('include-multiplayer').checked;
-    const includeSingleplayer = document.getElementById('include-singleplayer').checked;
-    const startDate = document.getElementById('start-date').value;
-    const endDate = document.getElementById('end-date').value;
-    fetchTossupStats({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+function onSubmit (event) {
+  event.preventDefault();
+  const setName = document.getElementById('set-name').value;
+  const difficulties = getDropdownValues('difficulties');
+  const includeMultiplayer = document.getElementById('include-multiplayer').checked;
+  const includeSingleplayer = document.getElementById('include-singleplayer').checked;
+  const startDate = document.getElementById('start-date').value;
+  const endDate = document.getElementById('end-date').value;
+  fetchTossupStats({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 }
 
 document.getElementById('form').addEventListener('submit', onSubmit);

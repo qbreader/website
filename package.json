@@ -8,7 +8,7 @@
         "compile-react": "babel client --extensions .jsx --out-dir client",
         "start": "node index.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css",
-        "lint": "eslint .",
+        "lint": "npx semistandard --fix",
         "test:frontend": "",
         "test:backend": "mocha test/database.test.js",
         "test:all": "npm run test:frontend && npm run test:backend"
@@ -45,6 +45,20 @@
         "eslint": "^8.28.0",
         "eslint-plugin-react": "^7.31.11",
         "mocha": "^10.2.0",
-        "sass": "^1.56.2"
+        "sass": "^1.56.2",
+        "semistandard": "^17.0.0"
+    },
+    "semistandard": {
+        "globals": [
+            "$",
+            "bootstrap",
+            "React",
+            "ReactDOM"
+        ],
+        "ignore": [
+            "client/bootstrap/*",
+            "client/admin/category-reports.js",
+            "client/database/index.js"
+        ]
     }
 }

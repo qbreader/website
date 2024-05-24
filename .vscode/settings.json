@@ -1,8 +1,4 @@
 {
-    "eslint.format.enable": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
-    },
     "[json]": {
         "editor.formatOnSave": false
     },

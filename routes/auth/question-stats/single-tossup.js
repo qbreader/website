@@ -6,8 +6,8 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const stats = await getSingleTossupStats(new ObjectId(req.query.tossup_id));
-    res.json({ stats });
+  const stats = await getSingleTossupStats(new ObjectId(req.query.tossup_id));
+  res.json({ stats });
 });
 
 export default router;
