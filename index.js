@@ -1,13 +1,13 @@
 import 'dotenv/config';
 
-import { inappropriateNames } from './banned-usernames.js';
-import { ipFilterMiddleware, ipFilterError } from './ip-filter.js';
-import { createAndReturnRoom } from './TossupRoom.js';
+import { inappropriateNames } from './server/banned-usernames.js';
+import { ipFilterMiddleware, ipFilterError } from './server/ip-filter.js';
+import { createAndReturnRoom } from './server/TossupRoom.js';
 
-import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from '../constants.js';
-import getRandomName from '../get-random-name.js';
-import indexRouter from '../routes/index.js';
-import webhookRouter from '../routes/api/webhook.js';
+import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from './constants.js';
+import getRandomName from './get-random-name.js';
+import indexRouter from './routes/index.js';
+import webhookRouter from './routes/api/webhook.js';
 
 import cookieSession from 'cookie-session';
 import express from 'express';
