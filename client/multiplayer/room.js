@@ -773,7 +773,9 @@ function upsertPlayerItem (player) {
     `);
 
   document.getElementById('player-list-group').appendChild(playerItem);
-  bootstrap.Popover(playerItem);
+  // bootstrap requires "new" to be called on each popover
+  // eslint-disable-next-line no-new
+  new bootstrap.Popover(playerItem);
 }
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
