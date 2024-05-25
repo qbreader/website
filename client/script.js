@@ -32,7 +32,8 @@ const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-tog
 for (const tooltipTriggerEl of tooltipTriggerList) {
   if (isTouchDevice()) continue;
 
-  bootstrap.Tooltip(tooltipTriggerEl);
+  // eslint-disable-next-line no-new
+  new bootstrap.Tooltip(tooltipTriggerEl);
 }
 
 account.getUsername().then(username => {
