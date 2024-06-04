@@ -379,7 +379,7 @@ class TossupRoom {
         break;
 
       case 'toggle-select-by-set-name':
-        if (this.isPermanent || this.setList || !this.setList.includes(message.setName)) { break; }
+        if (this.isPermanent || !this.setList || !this.setList.includes(message.setName)) { break; }
 
         this.sendSocketMessage({
           type: 'toggle-select-by-set-name',
