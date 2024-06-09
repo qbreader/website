@@ -83,11 +83,6 @@ const settings = window.localStorage.getItem('singleplayer-tossup-settings')
       typeToAnswer: true
     };
 
-if (window.localStorage.getItem('questionNumberTossupSave')) {
-  questionNumber = parseInt(window.localStorage.getItem('questionNumberTossupSave'));
-  document.getElementById('question-number').value = questionNumber;
-}
-
 // Load query and settings first so user doesn't see the default settings
 if (settings.readingSpeed) {
   document.getElementById('reading-speed-display').textContent = window.localStorage.speed;
@@ -606,15 +601,6 @@ document.getElementById('pause').addEventListener('click', function () {
   pause();
 });
 
-document.getElementById('question-number').addEventListener('change', function () {
-  questionNumber = document.getElementById('question-number').value;
-  if (questionNumber === '') {
-    questionNumber = '1';
-  }
-  questionNumber = parseInt(questionNumber) - 1;
-  window.localStorage.setItem('questionNumberTossupSave', document.getElementById('question-number').value);
-});
-
 document.getElementById('reading-speed').addEventListener('input', function () {
   settings.readingSpeed = this.value;
   document.getElementById('reading-speed-display').textContent = this.value;
@@ -668,6 +654,7 @@ document.getElementById('start').addEventListener('click', async function () {
 
   if (settings.selectBySetName) {
     queryLock();
+    questionNumber = 0;
     try {
       tossups = await api.getPacketTossups(query.setName, query.packetNumbers[0]);
     } finally {
