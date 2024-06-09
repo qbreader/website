@@ -1,4 +1,4 @@
-import star from '../../auth/star.js';
+import star from '../../scripts/auth/star.js';
 
 const tossups = await star.getStarredTossups();
 const tossupList = document.getElementById('tossup-list');

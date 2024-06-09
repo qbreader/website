@@ -10,7 +10,7 @@ import getSet from '../../database/qbreader/get-set.js';
 import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
-import { insertTokensIntoHTML } from '../../client/utilities/insert-tokens-into-html.js';
+import { insertTokensIntoHTML } from '../../client/scripts/utilities/insert-tokens-into-html.js';
 
 import checkAnswer from 'qb-answer-checker';
 

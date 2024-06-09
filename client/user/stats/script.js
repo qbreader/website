@@ -1,4 +1,4 @@
-import api from '../../api/index.js';
+import api from '../../scripts/api/index.js';
 
 const SET_LIST = api.getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
