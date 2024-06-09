@@ -1,10 +1,10 @@
-import account from '../accounts.js';
-import questionStats from '../auth/question-stats.js';
-import api from '../api/index.js';
+import account from '../scripts/accounts.js';
+import questionStats from '../scripts/auth/question-stats.js';
+import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
-import { arrayToRange, createBonusCard, rangeToArray } from '../utilities/index.js';
-import CategoryManager from '../utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
+import { arrayToRange, createBonusCard, rangeToArray } from '../scripts/utilities/index.js';
+import CategoryManager from '../scripts/utilities/category-manager.js';
+import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 
 // Functions and variables specific to the bonuses page.
 

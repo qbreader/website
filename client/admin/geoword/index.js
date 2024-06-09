@@ -1,4 +1,4 @@
-import { titleCase } from '../../utilities/strings.js';
+import { titleCase } from '../../scripts/utilities/strings.js';
 
 fetch('/api/geoword/packet-list')
   .then(response => response.json())
