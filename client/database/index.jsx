@@ -1,12 +1,12 @@
 import { stringifyBonus, stringifyTossup } from './stringify.js';
 import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
 
-import account from '../accounts.js';
-import api from '../api/index.js';
-import CategoryManager from '../utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
-import { getBonusPartLabel } from '../utilities/index.js';
-import { insertTokensIntoHTML } from '../utilities/insert-tokens-into-html.js';
+import account from '../scripts/accounts.js';
+import api from '../scripts/api/index.js';
+import CategoryManager from '../scripts/utilities/category-manager.js';
+import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { getBonusPartLabel } from '../scripts/utilities/index.js';
+import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';
 
 const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
 

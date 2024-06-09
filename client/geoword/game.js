@@ -1,6 +1,6 @@
 /* globals Audio */
 
-import { titleCase } from '../utilities/strings.js';
+import { titleCase } from '../scripts/utilities/strings.js';
 import audio from '../audio/index.js';
 
 const packetName = window.location.pathname.split('/').pop();

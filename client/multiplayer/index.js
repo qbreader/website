@@ -1,4 +1,4 @@
-import api from '../api/index.js';
+import api from '../scripts/api/index.js';
 
 const ROOM_NAME_MAX_LENGTH = 32;
 

@@ -1,4 +1,4 @@
-import account from '../accounts.js';
+import account from '../scripts/accounts.js';
 
 window.onload = () => {
   fetch('/auth/get-profile')
