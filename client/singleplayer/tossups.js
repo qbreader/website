@@ -2,6 +2,7 @@ import account from '../scripts/accounts.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
+import Timer from '../scripts/Timer.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../scripts/utilities/index.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
@@ -9,12 +10,17 @@ import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-ht
 
 // Functions and variables specific to the tossups page.
 
+const ANSWER_TIME_LIMIT = 10;
+const DEAD_TIME_LIMIT = 5;
+
 // Status variables
 let buzzpointIndex = -1;
 let currentlyBuzzing = false;
 let maxPacketNumber = 24;
 let paused = false;
 let questionNumber = 0; // WARNING: 1-indexed
+const timer = new Timer();
+
 /**
  * An array of random questions.
  * We get 20 random questions at a time so we don't have to make an HTTP request between every question.
@@ -80,6 +86,7 @@ const settings = window.localStorage.getItem('singleplayer-tossup-settings')
       rebuzz: false,
       selectBySetName: false,
       showHistory: true,
+      timer: true,
       typeToAnswer: true
     };
 
@@ -104,6 +111,11 @@ if (settings.selectBySetName) {
 if (!settings.showHistory) {
   document.getElementById('toggle-show-history').checked = false;
   document.getElementById('room-history').classList.add('d-none');
+}
+
+if (!settings.timer) {
+  document.getElementById('toggle-timer').checked = false;
+  document.getElementById('timer').classList.add('d-none');
 }
 
 if (!settings.typeToAnswer) {
@@ -245,6 +257,10 @@ function buzz () {
   document.getElementById('next').disabled = true;
   document.getElementById('start').disabled = true;
   document.getElementById('pause').disabled = true;
+
+  if (settings.timer) {
+    timer.startTimer(ANSWER_TIME_LIMIT, () => document.getElementById('answer-submit').click());
+  }
 }
 
 /**
@@ -406,6 +422,9 @@ function readQuestion (expectedReadTime) {
     }, delay);
   } else {
     document.getElementById('pause').disabled = true;
+    if (settings.timer) {
+      timer.startTimer(DEAD_TIME_LIMIT, revealQuestion);
+    }
   }
 }
 
@@ -712,6 +731,13 @@ document.getElementById('toggle-standard-only').addEventListener('click', functi
   query.standardOnly = this.checked;
   loadRandomTossups(query);
   window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+});
+
+document.getElementById('toggle-timer').addEventListener('click', function () {
+  this.blur();
+  settings.timer = this.checked;
+  document.getElementById('timer').classList.toggle('d-none');
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
