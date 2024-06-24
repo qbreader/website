@@ -92,8 +92,8 @@ const settings = window.localStorage.getItem('singleplayer-tossup-settings')
 
 // Load query and settings first so user doesn't see the default settings
 if (settings.readingSpeed) {
-  document.getElementById('reading-speed-display').textContent = window.localStorage.speed;
-  document.getElementById('reading-speed').value = window.localStorage.speed;
+  document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
+  document.getElementById('reading-speed').value = settings.readingSpeed;
 }
 
 if (settings.rebuzz) {
