@@ -1,10 +1,10 @@
-import account from '../accounts.js';
-import questionStats from '../auth/question-stats.js';
-import api from '../api/index.js';
+import account from '../scripts/accounts.js';
+import questionStats from '../scripts/auth/question-stats.js';
+import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
-import { arrayToRange, createBonusCard, rangeToArray } from '../utilities/index.js';
-import CategoryManager from '../utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
+import { arrayToRange, createBonusCard, rangeToArray } from '../scripts/utilities/index.js';
+import CategoryManager from '../scripts/utilities/category-manager.js';
+import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 
 // Functions and variables specific to the bonuses page.
 
@@ -63,11 +63,6 @@ const settings = window.localStorage.getItem('singleplayer-bonus-settings')
       showHistory: true,
       typeToAnswer: true
     };
-
-if (window.localStorage.getItem('questionNumberBonusSave')) {
-  document.getElementById('question-number').value = window.localStorage.getItem('questionNumberBonusSave');
-  questionNumber = parseInt(window.localStorage.getItem('questionNumberBonusSave')) - 1;
-}
 
 // Load query and settings first so user doesn't see the default settings
 if (settings.selectBySetName) {
@@ -448,15 +443,6 @@ document.getElementById('packet-number').addEventListener('change', function () 
   query.packetNumbers = rangeToArray(this.value.trim(), maxPacketNumber);
 });
 
-document.getElementById('question-number').addEventListener('change', function () {
-  questionNumber = document.getElementById('question-number').value;
-  if (questionNumber === '') {
-    questionNumber = '1';
-  }
-  questionNumber = parseInt(questionNumber) - 1;
-  window.localStorage.setItem('questionNumberBonusSave', document.getElementById('question-number').value);
-});
-
 document.getElementById('report-question-submit').addEventListener('click', function () {
   api.reportQuestion(
     document.getElementById('report-question-id').value,
@@ -515,6 +501,7 @@ document.getElementById('start').addEventListener('click', async function () {
 
   if (settings.selectBySetName) {
     queryLock();
+    questionNumber = 0;
     try {
       bonuses = await api.getPacketBonuses(query.setName, query.packetNumbers[0]);
     } finally {

@@ -1,4 +1,4 @@
-import account from '../accounts.js';
+import account from '../scripts/accounts.js';
 
 const form = document.getElementById('signup-form');
 form.addEventListener('submit', async (event) => {

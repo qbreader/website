@@ -1,6 +1,6 @@
 /* globals Stripe */
 
-import { titleCase } from '../utilities/strings.js';
+import { titleCase } from '../scripts/utilities/strings.js';
 
 const packetName = window.location.pathname.split('/').pop();
 document.getElementById('packet-name').textContent = titleCase(packetName);

@@ -1,13 +1,13 @@
 /* globals WebSocket */
 
-import account from '../accounts.js';
-import questionStats from '../auth/question-stats.js';
-import api from '../api/index.js';
+import account from '../scripts/accounts.js';
+import questionStats from '../scripts/auth/question-stats.js';
+import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
-import CategoryManager from '../utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../utilities/dropdown-checklist.js';
-import { arrayToRange, createTossupCard, rangeToArray } from '../utilities/index.js';
-import { escapeHTML } from '../utilities/strings.js';
+import CategoryManager from '../scripts/utilities/category-manager.js';
+import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { arrayToRange, createTossupCard, rangeToArray } from '../scripts/utilities/index.js';
+import { escapeHTML } from '../scripts/utilities/strings.js';
 
 const categoryManager = new CategoryManager();
 let changedCategories = false;
