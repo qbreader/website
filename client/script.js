@@ -1,4 +1,4 @@
-import account from './accounts.js';
+import account from './scripts/accounts.js';
 
 // Javascript code common to *all* pages of the site.
 

@@ -1,4 +1,4 @@
-import { escapeHTML, titleCase } from '../../../../../../../utilities/index.js';
+import { escapeHTML, titleCase } from '../../../../../../../scripts/utilities/index.js';
 
 const packetName = window.location.pathname.split('/').pop();
 const packetTitle = titleCase(packetName);
