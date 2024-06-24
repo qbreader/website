@@ -18,7 +18,7 @@
         integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link id="custom-css" href="/bootstrap/dark.css" rel="stylesheet">
-    <script type="module" src="/apply-theme.js"></script>
+    <script type="module" src="/scripts/apply-theme.js"></script>
 </head>
 
 <body>
@@ -88,11 +88,14 @@
         </div>
         <div class="row" id="info">
             <div class="options d-lg-block col-12 col-lg-3 order-lg-1 mb-5" id="options">
+                <div class="timer d-block p-1 text-center" id="timer">
+                    <span class="face">0</span><span class="fraction">.0</span>
+                </div>
+                <hr>
                 <div class="d-none" id="set-settings">
                     <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
                     <datalist id="set-list"></datalist>
                     <input class="form-control my-1" id="packet-number" type="text" placeholder="Packet Numbers">
-                    <input class="form-control" id="question-number" type="text" placeholder="Starting Question #">
                 </div>
                 <div id="difficulty-settings">
                     <div class="dropdown-checklist btn-group w-100 mb-2">
@@ -146,6 +149,10 @@
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-show-history" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-show-history">Show question history</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-timer">Use timer</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="type-to-answer" type="checkbox" role="switch" checked>
@@ -455,10 +462,10 @@
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/readers.js"></script>
+    <script type="module" src="/scripts/readers.js"></script>
     <script type="module" src="/singleplayer/tossups.js"></script>
 
-    <script type="module" src="/dual-slider.js"></script>
+    <script type="module" src="/scripts/dual-slider.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-import account from './accounts.js';
+import account from './scripts/accounts.js';
 
 const username = await account.getUsername();
 if (username) {
