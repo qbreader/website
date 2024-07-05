@@ -259,6 +259,7 @@ function buzz () {
   document.getElementById('pause').disabled = true;
 
   if (settings.timer) {
+    timer.stopTimer();
     timer.startTimer(ANSWER_TIME_LIMIT, () => document.getElementById('answer-submit').click());
   }
 }
@@ -352,6 +353,11 @@ async function next () {
   // Stop reading the current question:
   clearTimeout(timeoutID);
   currentlyBuzzing = false;
+  if (settings.timer) {
+    timer.stopTimer();
+    timer.tenthsRemaining = 0;
+    timer.updateDisplay();
+  }
 
   if (await account.getUsername() && document.getElementById('answer').innerHTML) {
     const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
@@ -554,6 +560,12 @@ document.querySelectorAll('#alternate-subcategories input').forEach(input => {
 document.getElementById('answer-form').addEventListener('submit', function (event) {
   event.preventDefault();
   event.stopPropagation();
+
+  if (settings.timer) {
+    timer.stopTimer();
+    timer.tenthsRemaining = 0;
+    timer.updateDisplay();
+  }
 
   const answer = document.getElementById('answer-input').value;
 
