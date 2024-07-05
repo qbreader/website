@@ -11,7 +11,7 @@ export default class Timer {
     return this.tenthsRemaining % 10;
   }
 
-  pauseTimer () {
+  stopTimer () {
     clearInterval(this.timerInterval);
   }
 
