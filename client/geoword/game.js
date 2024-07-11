@@ -138,7 +138,7 @@ function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
     audio.correct.play();
     numberCorrect++;
   } else {
-    audio.incorrectAudio.play();
+    audio.incorrect.play();
     document.getElementById('protest-text').classList.remove('d-none');
   }
 
