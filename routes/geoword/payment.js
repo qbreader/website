@@ -6,18 +6,18 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/:packetName', async (req, res) => {
-    const { username } = req.session;
-    const packetName = req.params.packetName;
-    const user_id = await getUserId(username);
+  const { username } = req.session;
+  const packetName = req.params.packetName;
+  const userId = await getUserId(username);
 
-    const paid = await checkPayment(packetName, user_id);
+  const paid = await checkPayment(packetName, userId);
 
-    if (paid) {
-        res.redirect('/geoword/division/' + packetName);
-        return;
-    }
+  if (paid) {
+    res.redirect('/geoword/division/' + packetName);
+    return;
+  }
 
-    res.sendFile('payment.html', { root: './client/geoword' });
+  res.sendFile('payment.html', { root: './client/geoword' });
 });
 
 export default router;

@@ -1,3 +1,5 @@
+import { escapeHTML, titleCase } from '../scripts/utilities/strings.js';
+
 const division = decodeURIComponent(window.location.search.slice(1));
 const packetName = window.location.pathname.split('/')[3];
 const packetTitle = titleCase(packetName);
@@ -6,15 +8,15 @@ document.getElementById('packet-name').textContent = packetTitle;
 document.getElementById('division').textContent = division;
 
 fetch('/api/geoword/leaderboard?' + new URLSearchParams({ packetName, division }))
-    .then(response => response.json())
-    .then(data => {
-        const { leaderboard } = data;
+  .then(response => response.json())
+  .then(data => {
+    const { leaderboard } = data;
 
-        let innerHTML = '';
-        for (const index in leaderboard) {
-            const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity } = leaderboard[index];
+    let innerHTML = '';
+    for (const index in leaderboard) {
+      const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity } = leaderboard[index];
 
-            innerHTML += `
+      innerHTML += `
                 <tr>
                     <td>${parseInt(index) + 1}</td>
                     <th scope="row">${escapeHTML(username)}</th>
@@ -24,6 +26,6 @@ fetch('/api/geoword/leaderboard?' + new URLSearchParams({ packetName, division }
                     <td>${(pointsPerTossup ?? 0.0).toFixed(2)}</td>
                 </tr>
             `;
-        }
-        document.getElementById('leaderboard-body').innerHTML = innerHTML;
-    });
+    }
+    document.getElementById('leaderboard-body').innerHTML = innerHTML;
+  });

@@ -7,14 +7,14 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const username = req.session.username;
-    const user_id = await getUserId(username);
-    try {
-        const bonus_id = new ObjectId(req.query.bonus_id);
-        res.json({ isStarred: await isStarredBonus(user_id, bonus_id) });
-    } catch { // Invalid ObjectID
-        res.json({ isStarred: false });
-    }
+  const username = req.session.username;
+  const userId = await getUserId(username);
+  try {
+    const bonusId = new ObjectId(req.query.bonus_id);
+    res.json({ isStarred: await isStarredBonus(userId, bonusId) });
+  } catch { // Invalid ObjectID
+    res.json({ isStarred: false });
+  }
 });
 
 export default router;

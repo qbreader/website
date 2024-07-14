@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The API documentation for QB Reader.">
 
-    <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="/images/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
     <link href="/bootstrap/dark.css" rel="stylesheet">
     <script>
-        if (localStorage.getItem('color-theme') === 'dark') {
+        if (window.localStorage.getItem('color-theme') === 'dark') {
             document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
-        } else if (localStorage.getItem('color-theme') === 'light') {
+        } else if (window.localStorage.getItem('color-theme') === 'light') {
             document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
         } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             // Get OS preferred color scheme
@@ -194,15 +194,6 @@
                     <div>
                         Ensure that <code>queryString</code> is not part of another word.
                         Using string interpolation, this is equivalent to the regular expression <code>/\b${queryString}\b/</code>.
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>ignoreDiacritics</code><code class="text-muted">: boolean</code>
-                        <code class="text-muted float-end fw-semibold">default: false</code>
-                    </div>
-                    <div>
-                        Ignore or transliterate diacritical marks in <code>queryString</code>.
                     </div>
                 </li>
                 <li class="list-group-item">
@@ -391,7 +382,6 @@
                         This may differ from the queryString passed in as a parameter:
                         <ul>
                             <li>If <code>regex</code> is <code>false</code>, then regex characters are escaped.</li>
-                            <li>If <code>ignoreDiacritics</code> is <code>true</code>, then diacritic substitutions are made.</li>
                         </ul>
                     </div>
                 </li>
@@ -399,8 +389,8 @@
         </div>
     </div>
 
-    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="/script.js"></script>
+    <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/script.js"></script>
 </body>
 
 </html>

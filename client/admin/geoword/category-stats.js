@@ -1,3 +1,5 @@
+import { escapeHTML, titleCase } from '../../scripts/utilities/strings.js';
+
 const division = decodeURIComponent(window.location.pathname.split('/')[5]);
 const packetName = window.location.pathname.split('/')[4];
 const packetTitle = titleCase(packetName);
@@ -8,31 +10,30 @@ document.getElementById('division').textContent = division;
 let leaderboard;
 
 fetch('/api/admin/geoword/category-stats?' + new URLSearchParams({ packetName, division }))
-    .then(response => response.json())
-    .then(data => {
-        leaderboard = data.leaderboard;
+  .then(response => response.json())
+  .then(data => {
+    leaderboard = data.leaderboard;
 
-        for (const index in leaderboard) {
-            const option = document.createElement('option');
-            option.value = index;
-            option.textContent = leaderboard[index].category;
-            document.getElementById('category').appendChild(option);
-        }
+    for (const index in leaderboard) {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = leaderboard[index].category;
+      document.getElementById('category').appendChild(option);
+    }
 
-        updateLeaderboardDisplay(0);
-    });
+    updateLeaderboardDisplay(0);
+  });
 
+function updateLeaderboardDisplay (index) {
+  const users = leaderboard[index].users;
 
-function updateLeaderboardDisplay(index) {
-    const users = leaderboard[index].users;
+  let numberSkipped = 0;
+  let innerHTML = '';
+  for (const index in users) {
+    const user = users[index].user;
+    const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity, active } = user;
 
-    let numberSkipped = 0;
-    let innerHTML = '';
-    for (const index in users) {
-        const user = users[index].user;
-        const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity, active } = user;
-
-        innerHTML += `
+    innerHTML += `
             <tr ${!active && 'class="table-info"'}>
                 <td>${active ? parseInt(index) + 1 - numberSkipped : ''}</td>
                 <th scope="row">${escapeHTML(username)}</th>
@@ -43,14 +44,14 @@ function updateLeaderboardDisplay(index) {
             </tr>
         `;
 
-        if (!active) {
-            numberSkipped++;
-        }
+    if (!active) {
+      numberSkipped++;
     }
+  }
 
-    document.getElementById('leaderboard-body').innerHTML = innerHTML;
+  document.getElementById('leaderboard-body').innerHTML = innerHTML;
 
-    document.getElementById('leaderboard-foot').innerHTML = `
+  document.getElementById('leaderboard-foot').innerHTML = `
         <tr>
             <td></td>
             <th scope="row">Average</th>
@@ -62,7 +63,6 @@ function updateLeaderboardDisplay(index) {
     `;
 }
 
-
 document.getElementById('category').addEventListener('change', event => {
-    updateLeaderboardDisplay(event.target.value);
+  updateLeaderboardDisplay(event.target.value);
 });

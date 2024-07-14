@@ -1,3 +1,5 @@
+import { titleCase } from '../../scripts/utilities/strings.js';
+
 const division = decodeURIComponent(window.location.pathname.split('/')[5]);
 const packetName = window.location.pathname.split('/')[4];
 const packetTitle = titleCase(packetName);
@@ -6,20 +8,20 @@ document.getElementById('packet-name').textContent = packetTitle;
 document.getElementById('division').textContent = division;
 
 fetch('/api/admin/geoword/stats?' + new URLSearchParams({ packetName, division }))
-    .then(response => response.json())
-    .then(data => {
-        const { stats } = data;
+  .then(response => response.json())
+  .then(data => {
+    const { stats } = data;
 
-        let innerHTML = '<hr>';
+    let innerHTML = '<hr>';
 
-        for (const i in stats) {
-            innerHTML += `
+    for (const i in stats) {
+      innerHTML += `
             <div class="row mb-3">
                 <div class="col-6">
                     <div><b>#${stats[i].tossup.questionNumber}</b></div>
                     <div><b>Times heard:</b> ${stats[i].timesHeard}</div>
                     <div><b>Number correct:</b> ${stats[i].numberCorrect}</div>
-                    <div><b>Answer:</b> ${stats[i].tossup.formatted_answer}</div>
+                    <div><b>Answer:</b> ${stats[i].tossup.answer}</div>
                 </div>
                 <div class="col-6">
                     <div><b>Best buzz:</b> ${stats[i].bestUsername}</div>
@@ -30,7 +32,7 @@ fetch('/api/admin/geoword/stats?' + new URLSearchParams({ packetName, division }
             </div>
             <hr>
             `;
-        }
+    }
 
-        document.getElementById('stats').innerHTML = innerHTML;
-    });
+    document.getElementById('stats').innerHTML = innerHTML;
+  });

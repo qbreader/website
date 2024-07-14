@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Search through the database that powers QB Reader.">
 
-    <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="/images/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script src="/apply-theme.js"></script>
+    <script type="module" src="/scripts/apply-theme.js"></script>
 </head>
 
 <body>
@@ -178,18 +178,17 @@
         </div>
     </div>
 
-    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="/script.js"></script>
-    <script src="/utilities.js"></script>
+    <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/script.js"></script>
 
-    <!-- <script src="/react/umd/react.development.js"></script>
-    <script src="/react-dom/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="/database/index.jsx" type="text/babel"></script> -->
+    <!-- <script type="module" src="/react/umd/react.development.js"></script>
+    <script type="module" src="/react-dom/umd/react-dom.development.js"></script>
+    <script type="module" src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script data-type="module" src="/database/index.jsx" type="text/babel"></script> -->
 
-    <script src="/react/umd/react.production.min.js"></script>
-    <script src="/react-dom/umd/react-dom.production.min.js"></script>
-    <script src="/database/index.js"></script>
+    <script type="module" src="/react/umd/react.production.min.js"></script>
+    <script type="module" src="/react-dom/umd/react-dom.production.min.js"></script>
+    <script type="module" src="/database/index.js"></script>
 </body>
 
 </html>

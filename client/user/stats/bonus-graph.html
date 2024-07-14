@@ -7,16 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="View personalized stats in a graphical format.">
 
-    <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="/images/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link id="custom-css" href="/bootstrap/dark.css" rel="stylesheet">
-    <script src="/apply-theme.js"></script>
+    <script type="module" src="/scripts/apply-theme.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 </head>
 
 <body>
@@ -68,7 +69,7 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <form class="mb-3 mb-md-0" onsubmit="onSubmit(event)">
+        <form class="mb-3 mb-md-0" id="form">
             <div class="row">
                 <div class="col-12 col-md-6 mb-2">
                     <div class="dropdown-checklist btn-group w-100">
@@ -146,12 +147,11 @@
         </div>
     </div>
 
-    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="/script.js"></script>
+    <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/script.js"></script>
 
-    <script src="/user/stats/bonus-graph.js"></script>
-    <script src="/user/stats/script.js"></script>
-    <script src="/dropdown-checklist.js"></script>
+    <script type="module" src="/user/stats/script.js"></script>
+    <script type="module" src="/user/stats/bonus-graph.js"></script>
 </body>
 
 </html>

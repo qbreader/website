@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Frequency lists generated on qbreader.">
 
-    <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="/images/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script src="/apply-theme.js"></script>
+    <script type="module" src="/scripts/apply-theme.js"></script>
 </head>
 
 <body>
@@ -38,7 +38,7 @@
                         <a class="nav-link" href="/db">Database</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/frequency-list" aria-current="page">Frequency List</a>
+                        <a class="nav-link active" href="/frequency-list" aria-current="page">Frequency List</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/geoword">Geoword</a>
@@ -67,21 +67,41 @@
     <div class="container-xl mt-3 mb-5 pb-5">
         <p class="">
             <span class="lead" id="numbering-info">
-                The 100 most frequent answers in <span id="subcategory-name"></span> questions:
+                The <span id="limit">50</span> most frequent answers in <span id="subcategory-name"></span> <span
+                    id="question-type">questions</span>:
             </span>
             <span class="float-end" id="numbering-info">
                 <a href="/frequency-list">Back to all frequency lists</a>
             </span>
         </p>
-        <form class="mb-3" id="form">
-            <div class="mb-3">
+        <form class="row mb-3" id="form">
+            <div class="col-6 col-md-4 mb-3">
                 <label class="form-label" for="level-select">Choose a difficulty level:</label>
                 <select class="form-select" id="level-select">
-                    <option value="all" default>All</option>
+                    <option value="all" selected>All</option>
                     <option value="middle-school">Middle School</option>
                     <option value="high-school">High School</option>
                     <option value="college">College</option>
                     <option value="open">Open</option>
+                </select>
+            </div>
+            <div class="col-6 col-md-4 mb-3">
+                <label class="form-label" for="limit-select">Choose a limit:</label>
+                <select class="form-control" id="limit-select">
+                    <option value="25">25</option>
+                    <option value="50" selected>50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <label class="form-label" for="question-type-select">Choose a question type:</label>
+                <select class="form-control" id="question-type-select">
+                    <option value="tossup">Tossups only</option>
+                    <option value="bonus">Bonuses only</option>
+                    <option value="all" selected>All questions</option>
                 </select>
             </div>
         </form>
@@ -98,9 +118,9 @@
         <div class="d-block mx-auto mt-3 spinner-border" role="status"><span class="d-none">Loading...</span></div>
     </div>
 
-    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="/frequency-list/subcategory.js"></script>
-    <script src="/script.js"></script>
+    <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/frequency-list/subcategory.js"></script>
+    <script type="module" src="/script.js"></script>
 </body>
 
 </html>

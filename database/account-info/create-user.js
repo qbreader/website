@@ -7,13 +7,13 @@ import { users } from './collections.js';
  * @param {string} email - The email of the new user.
  * @returns {Promise<Object>} The inserted user object.
  */
-async function createUser(username, password, email) {
-    return await users.insertOne({
-        username,
-        password,
-        email,
-        verifiedEmail: false,
-    });
+async function createUser (username, password, email) {
+  return await users.insertOne({
+    username,
+    password,
+    email,
+    verifiedEmail: false
+  });
 }
 
 export default createUser;

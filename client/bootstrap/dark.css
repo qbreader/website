@@ -9528,6 +9528,14 @@ a.list-group-item:hover {
   color: inherit;
 }
 
+.small-alert {
+  --bs-alert-padding-y: 0.5rem;
+}
+
+#multiplayer-name {
+  margin-top: 3px;
+}
+
 .ui-slider {
   background-color: #6c757d;
   height: 8px;

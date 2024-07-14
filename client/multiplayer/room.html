@@ -8,17 +8,18 @@
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
     <link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script type="module" src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script type="module" src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
         integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script type="module" src="/apply-theme.js"></script>
+    <script type="module" src="/scripts/apply-theme.js"></script>
 
     <style type="text/css">
         .popover {
@@ -144,6 +145,9 @@
                         -
                         <span class="sliderValue1" id="year-range-b">2024</span>
                         <div id="slider"></div>
+                        <div class="alert small-alert alert-danger" role="alert" id="yearRangeAlert" style="display: none">
+                            Invalid input. Years must be after or during each other to update.
+                        </div>
                     </section>
                 </div>
                 <div class="mt-2" id="general-settings">
@@ -214,13 +218,13 @@
                     <form id="answer-form">
                         <!-- User enters answer here -->
                         <div class="input-group d-none my-2" id="answer-input-group">
-                            <input class="form-control" id="answer-input" type="text" placeholder="Enter answer">
+                            <input class="form-control" id="answer-input" type="text" placeholder="Enter answer" maxlength="256">
                             <button class="btn btn-success" id="answer-submit" type="submit">Submit</button>
                         </div>
                     </form>
                     <form id="chat-form">
                         <div class="input-group d-none my-2" id="chat-input-group">
-                            <input class="form-control" id="chat-input" type="text" placeholder="Chat">
+                            <input class="form-control" id="chat-input" type="text" placeholder="Chat" maxlength="256">
                             <button class="btn btn-success" id="chat-submit" type="submit">Submit</button>
                         </div>
                     </form>
@@ -488,16 +492,13 @@
         </div>
     </div>
 
-    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="/script.js"></script>
+    <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/script.js"></script>
 
-    <script src="/star.js"></script>
-    <script src="/utilities.js"></script>
-    <script src="/readers.js"></script>
-    <script src="/multiplayer/room.js"></script>
+    <script type="module" src="/scripts/readers.js"></script>
+    <script type="module" src="/multiplayer/room.js"></script>
 
-    <script src="/dual-slider.js"></script>
-    <script src="/dropdown-checklist.js"></script>
+    <script type="module" src="/scripts/dual-slider.js"></script>
 </body>
 
 </html>

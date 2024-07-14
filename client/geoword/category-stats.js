@@ -1,3 +1,5 @@
+import { escapeHTML, titleCase } from '../../../../../../../scripts/utilities/index.js';
+
 const packetName = window.location.pathname.split('/').pop();
 const packetTitle = titleCase(packetName);
 
@@ -7,32 +9,31 @@ let leaderboard;
 let myUsername;
 
 fetch('/api/geoword/category-stats?' + new URLSearchParams({ packetName }))
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('division').textContent = data.division;
-        leaderboard = data.leaderboard;
-        myUsername = data.username;
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('division').textContent = data.division;
+    leaderboard = data.leaderboard;
+    myUsername = data.username;
 
-        for (const index in leaderboard) {
-            const option = document.createElement('option');
-            option.value = index;
-            option.textContent = leaderboard[index].category;
-            document.getElementById('category').appendChild(option);
-        }
+    for (const index in leaderboard) {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = leaderboard[index].category;
+      document.getElementById('category').appendChild(option);
+    }
 
-        updateLeaderboardDisplay(0);
-    });
+    updateLeaderboardDisplay(0);
+  });
 
+function updateLeaderboardDisplay (index) {
+  const users = leaderboard[index].users;
 
-function updateLeaderboardDisplay(index) {
-    const users = leaderboard[index].users;
+  let innerHTML = '';
+  for (const index in users) {
+    const user = users[index].user;
+    const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity } = user;
 
-    let innerHTML = '';
-    for (const index in users) {
-        const user = users[index].user;
-        const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity } = user;
-
-        innerHTML += `
+    innerHTML += `
             <tr ${username === myUsername && 'class="table-info"'}>
                 <td>${parseInt(index) + 1}</td>
                 <th scope="row">${escapeHTML(username)}</th>
@@ -42,11 +43,11 @@ function updateLeaderboardDisplay(index) {
                 <td>${(pointsPerTossup ?? 0.0).toFixed(2)}</td>
             </tr>
         `;
-    }
+  }
 
-    document.getElementById('leaderboard-body').innerHTML = innerHTML;
+  document.getElementById('leaderboard-body').innerHTML = innerHTML;
 
-    document.getElementById('leaderboard-foot').innerHTML = `
+  document.getElementById('leaderboard-foot').innerHTML = `
         <tr>
             <td></td>
             <th scope="row">Average</th>
@@ -58,7 +59,6 @@ function updateLeaderboardDisplay(index) {
     `;
 }
 
-
 document.getElementById('category').addEventListener('change', event => {
-    updateLeaderboardDisplay(event.target.value);
+  updateLeaderboardDisplay(event.target.value);
 });

@@ -1,3 +1,5 @@
+import { escapeHTML, titleCase } from '../../scripts/utilities/strings.js';
+
 const division = decodeURIComponent(window.location.pathname.split('/')[5]);
 const packetName = window.location.pathname.split('/')[4];
 const packetTitle = titleCase(packetName);
@@ -6,16 +8,16 @@ document.getElementById('packet-name').textContent = packetTitle;
 document.getElementById('division').textContent = division;
 
 fetch('/api/admin/geoword/leaderboard?' + new URLSearchParams({ packetName, division, includeInactive: true }))
-    .then(response => response.json())
-    .then(data => {
-        const { leaderboard } = data;
+  .then(response => response.json())
+  .then(data => {
+    const { leaderboard } = data;
 
-        let numberSkipped = 0;
-        let innerHTML = '';
-        for (const index in leaderboard) {
-            const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity, active } = leaderboard[index];
+    let numberSkipped = 0;
+    let innerHTML = '';
+    for (const index in leaderboard) {
+      const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity, active } = leaderboard[index];
 
-            innerHTML += `
+      innerHTML += `
                 <tr ${!active && 'class="table-info"'}>
                     <td>${active ? parseInt(index) + 1 - numberSkipped : ''}</td>
                     <th scope="row">${escapeHTML(username)}</th>
@@ -26,9 +28,9 @@ fetch('/api/admin/geoword/leaderboard?' + new URLSearchParams({ packetName, divi
                 </tr>
             `;
 
-            if (!active) {
-                numberSkipped++;
-            }
-        }
-        document.getElementById('leaderboard-body').innerHTML = innerHTML;
-    });
+      if (!active) {
+        numberSkipped++;
+      }
+    }
+    document.getElementById('leaderboard-body').innerHTML = innerHTML;
+  });

@@ -1,103 +1,30 @@
-const paginationShiftLength = screen.width > 992 ? 10 : 5;
+import { stringifyBonus, stringifyTossup } from './stringify.js';
+import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
+import account from '../scripts/accounts.js';
+import api from '../scripts/api/index.js';
+import CategoryManager from '../scripts/utilities/category-manager.js';
+import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { getBonusPartLabel } from '../scripts/utilities/index.js';
+import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';
+const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
 const ALTERNATE_SUBCATEGORY_BUTTONS = [['Drama', 'primary'], ['Long Fiction', 'primary'], ['Poetry', 'primary'], ['Short Fiction', 'primary'], ['Misc Literature', 'primary'], ['Math', 'danger'], ['Astronomy', 'danger'], ['Computer Science', 'danger'], ['Earth Science', 'danger'], ['Engineering', 'danger'], ['Misc Science', 'danger'], ['Architecture', 'warning'], ['Dance', 'warning'], ['Film', 'warning'], ['Jazz', 'warning'], ['Opera', 'warning'], ['Photography', 'warning'], ['Misc Arts', 'warning'], ['Anthropology', 'secondary'], ['Economics', 'secondary'], ['Linguistics', 'secondary'], ['Psychology', 'secondary'], ['Sociology', 'secondary'], ['Other Social Science', 'secondary']];
-let validCategories = [];
-let validSubcategories = [];
-let validAlternateSubcategories = [];
-function downloadQuestionsAsJSON(tossups, bonuses, filename = 'data.json') {
-  const JSONdata = {
-    tossups,
-    bonuses
+const categoryManager = new CategoryManager();
+function getMatchIndices(clean, regex) {
+  const iterator = clean.matchAll(regex);
+  const starts = [];
+  const ends = [];
+  let data = iterator.next();
+  while (data.done === false) {
+    starts.push(data.value.index);
+    ends.push(data.value.index + data.value[0].length);
+    data = iterator.next();
+  }
+  return {
+    starts,
+    ends
   };
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(JSONdata, null, 4));
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
-function escapeCSVString(string) {
-  if (string === undefined || string === null) return '';
-  if (typeof string !== 'string') string = string.toString();
-  return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
-}
-function downloadTossupsAsCSV(tossups, filename = 'tossups.csv') {
-  const header = ['_id', 'question', 'answer', 'formatted_answer', 'category', 'subcategory', 'setName', 'packetNumber', 'questionNumber', 'difficulty', 'setYear', 'set', 'packet', 'createdAt', 'updatedAt'];
-  let csvdata = header.join(',') + '\n';
-  for (const tossup of tossups) {
-    for (const key of header) csvdata += escapeCSVString(tossup[key]) + ',';
-    csvdata = csvdata.slice(0, -1);
-    csvdata += '\n';
-  }
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(csvdata);
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
-function downloadBonusesAsCSV(bonuses, filename = 'bonuses.csv') {
-  const header = ['_id', 'leadin', 'parts.0', 'parts.1', 'parts.2', 'answers.0', 'answers.1', 'answers.2', 'formatted_answers.0', 'formatted_answers.1', 'formatted_answers.2', 'category', 'subcategory', 'setName', 'packetNumber', 'questionNumber', 'difficulty', 'setYear', 'set', 'packet', 'createdAt', 'updatedAt'];
-  let csvdata = header.join(',') + '\n';
-  for (const bonus of bonuses) {
-    for (const key of header) {
-      if (key.includes('parts') || key.includes('answers') || key.includes('formatted_answers')) {
-        const [mainKey, index] = key.split('.');
-        if (mainKey in bonus) {
-          csvdata += escapeCSVString(bonus[mainKey][index]) + ',';
-        } else {
-          csvdata += ',';
-        }
-      } else {
-        csvdata += escapeCSVString(bonus[key]) + ',';
-      }
-    }
-    csvdata = csvdata.slice(0, -1);
-    csvdata += '\n';
-  }
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(csvdata);
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
-function downloadQuestionsAsText(tossups, bonuses, filename = 'data.txt') {
-  let textdata = '';
-  for (let tossup of tossups) {
-    textdata += `${tossup.set.name} Packet ${tossup.packet.number}\n`;
-    textdata += `Question ID: ${tossup._id}\n`;
-    textdata += `${tossup.questionNumber}. ${tossup.question}\n`;
-    textdata += `ANSWER: ${tossup.answer}\n`;
-    textdata += `<${tossup.category} / ${tossup.subcategory}>\n\n`;
-  }
-  for (let bonus of bonuses) {
-    textdata += `${bonus.set.name} Packet ${bonus.packet.number}\n`;
-    textdata += `Question ID: ${bonus._id}\n`;
-    textdata += `${bonus.questionNumber}. ${bonus.leadin}\n`;
-    for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\nANSWER: ${bonus.answers[i]}\n`;
-    }
-    textdata += `<${bonus.category} / ${bonus.subcategory}>\n\n`;
-  }
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/text;charset=utf-8,' + encodeURIComponent(textdata);
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
-
-/**
- * Return a string that represents the bonus part label for the given bonus and index.
- * For example, '[10m]' or '[10]'.
- * @param {*} bonus
- * @param {*} index
- * @param {*} defaultValue
- * @param {*} defaultDifficulty
- * @returns {String}
- */
-function getBonusPartLabel(bonus, index, defaultValue = 10, defaultDifficulty = '') {
-  const value = bonus.values ? bonus.values[index] ?? defaultValue : defaultValue;
-  const difficulty = bonus.difficulties ? bonus.difficulties[index] ?? defaultDifficulty : defaultDifficulty;
-  return `[${value}${difficulty}]`;
 }
 function highlightTossupQuery({
   tossup,
@@ -109,14 +36,18 @@ function highlightTossupQuery({
   const words = ignoreWordOrder ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig')) : [regExp];
   for (const word of words) {
     if (searchType === 'question' || searchType === 'all') {
-      tossup.question = tossup.question.replace(word, '<span class="text-highlight">$&</span>');
+      const {
+        starts,
+        ends
+      } = getMatchIndices(tossup.question_sanitized, word);
+      tossup.question = insertTokensIntoHTML(tossup.question, tossup.question_sanitized, [starts, ends]);
     }
     if (searchType === 'answer' || searchType === 'all') {
-      if (tossup.formatted_answer) {
-        tossup.formatted_answer = tossup.formatted_answer.replace(word, '<span class="text-highlight">$&</span>');
-      } else {
-        tossup.answer = tossup.answer.replace(word, '<span class="text-highlight">$&</span>');
-      }
+      const {
+        starts,
+        ends
+      } = getMatchIndices(tossup.answer_sanitized, word);
+      tossup.answer = insertTokensIntoHTML(tossup.answer, tossup.answer_sanitized, [starts, ends]);
     }
   }
   return tossup;
@@ -131,20 +62,28 @@ function highlightBonusQuery({
   const words = ignoreWordOrder ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig')) : [regExp];
   for (const word of words) {
     if (searchType === 'question' || searchType === 'all') {
-      bonus.leadin = bonus.leadin.replace(word, '<span class="text-highlight">$&</span>');
+      {
+        const {
+          starts,
+          ends
+        } = getMatchIndices(bonus.leadin_sanitized, word);
+        bonus.leadin = insertTokensIntoHTML(bonus.leadin, bonus.leadin_sanitized, [starts, ends]);
+      }
       for (let i = 0; i < bonus.parts.length; i++) {
-        bonus.parts[i] = bonus.parts[i].replace(word, '<span class="text-highlight">$&</span>');
+        const {
+          starts,
+          ends
+        } = getMatchIndices(bonus.parts_sanitized[i], word);
+        bonus.parts[i] = insertTokensIntoHTML(bonus.parts[i], bonus.parts_sanitized[i], [starts, ends]);
       }
     }
     if (searchType === 'answer' || searchType === 'all') {
-      if (bonus.formatted_answers) {
-        for (let i = 0; i < bonus.formatted_answers.length; i++) {
-          bonus.formatted_answers[i] = bonus.formatted_answers[i].replace(word, '<span class="text-highlight">$&</span>');
-        }
-      } else {
-        for (let i = 0; i < bonus.answers.length; i++) {
-          bonus.answers[i] = bonus.answers[i].replace(word, '<span class="text-highlight">$&</span>');
-        }
+      for (let i = 0; i < bonus.answers.length; i++) {
+        const {
+          starts,
+          ends
+        } = getMatchIndices(bonus.answers_sanitized[i], word);
+        bonus.answers[i] = insertTokensIntoHTML(bonus.answers[i], bonus.answers_sanitized[i], [starts, ends]);
       }
     }
   }
@@ -153,20 +92,14 @@ function highlightBonusQuery({
 function TossupCard({
   tossup,
   highlightedTossup,
+  hideAnswerline,
   showCardFooter,
   fontSize = 16
 }) {
   const _id = tossup._id;
   const packetName = tossup.packet.name;
   function clickToCopy() {
-    let textdata = `${tossup.question}\nANSWER: ${tossup.answer}`;
-    if (tossup.category && tossup.subcategory && tossup.category !== tossup.subcategory) {
-      textdata += `\n<${tossup.category} / ${tossup.subcategory}>`;
-    } else if (tossup.category) {
-      textdata += `\n<${tossup.category}>`;
-    } else if (tossup.subcategory) {
-      textdata += `\n<${tossup.subcategory}>`;
-    }
+    const textdata = stringifyTossup(tossup);
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
@@ -175,13 +108,13 @@ function TossupCard({
     document.getElementById('report-question-id').value = _id;
   }
   function showTossupStats() {
-    fetch('/auth/stats/single-tossup?' + new URLSearchParams({
+    fetch('/auth/question-stats/single-tossup?' + new URLSearchParams({
       tossup_id: _id
     })).then(response => {
       switch (response.status) {
         case 401:
           document.getElementById('tossup-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
-          deleteAccountUsername();
+          account.deleteUsername();
           throw new Error('Unauthenticated');
         case 403:
           document.getElementById('tossup-stats-body').textContent = 'You need verify your account email to view question stats.';
@@ -234,7 +167,6 @@ function TossupCard({
       console.error('Error:', error);
     });
   }
-  const powerParts = highlightedTossup.question.split('(*)');
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
@@ -246,23 +178,23 @@ function TossupCard({
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, "Packet ", tossup.packet.number, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, "Packet ", tossup.packet.number, " | Question ", tossup.number)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body",
     style: {
-      'font-size': `${fontSize}px`
+      fontSize: `${fontSize}px`
     }
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : highlightedTossup.question
+      __html: highlightedTossup.question
     }
   }), /*#__PURE__*/React.createElement("hr", {
     className: "my-3"
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: highlightedTossup?.formatted_answer ?? highlightedTossup.answer
+      __html: hideAnswerline ? '' : highlightedTossup?.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
@@ -284,6 +216,7 @@ function TossupCard({
 function BonusCard({
   bonus,
   highlightedBonus,
+  hideAnswerlines,
   showCardFooter,
   fontSize = 16
 }) {
@@ -295,18 +228,7 @@ function BonusCard({
     indices.push(i);
   }
   function clickToCopy() {
-    let textdata = `${bonus.leadin}\n`;
-    for (let i = 0; i < bonus.parts.length; i++) {
-      textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts[i]}\n`;
-      textdata += `ANSWER: ${bonus.answers[i]}\n`;
-    }
-    if (bonus.category && bonus.subcategory && bonus.category !== bonus.subcategory) {
-      textdata += `<${bonus.category} / ${bonus.subcategory}>`;
-    } else if (bonus.category) {
-      textdata += `<${bonus.category}>`;
-    } else if (bonus.subcategory) {
-      textdata += `<${bonus.subcategory}>`;
-    }
+    const textdata = stringifyBonus(bonus);
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
@@ -315,13 +237,13 @@ function BonusCard({
     document.getElementById('report-question-id').value = _id;
   }
   function showBonusStats() {
-    fetch('/auth/stats/single-bonus?' + new URLSearchParams({
+    fetch('/auth/question-stats/single-bonus?' + new URLSearchParams({
       bonus_id: _id
     })).then(response => {
       switch (response.status) {
         case 401:
           document.getElementById('bonus-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
-          deleteAccountUsername();
+          account.deleteUsername();
           throw new Error('Unauthenticated');
         case 403:
           document.getElementById('bonus-stats-body').textContent = 'You need verify your account email to view question stats.';
@@ -384,13 +306,13 @@ function BonusCard({
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, "Packet ", bonus.packet.number, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, "Packet ", bonus.packet.number, " | Question ", bonus.number)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body",
     style: {
-      'font-size': `${fontSize}px`
+      fontSize: `${fontSize}px`
     }
   }, /*#__PURE__*/React.createElement("p", {
     dangerouslySetInnerHTML: {
@@ -404,7 +326,7 @@ function BonusCard({
     }
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: (highlightedBonus?.formatted_answers ?? highlightedBonus.answers)[i]
+      __html: hideAnswerlines ? '' : highlightedBonus?.answers[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
@@ -423,19 +345,13 @@ function BonusCard({
     "data-bs-target": "#report-question-modal"
   }, "Report Question")))));
 }
-
-// eslint-disable-next-line no-undef
 function CategoryButton({
   category,
   color
 }) {
   function handleClick() {
-    ({
-      categories: validCategories,
-      subcategories: validSubcategories,
-      alternateSubcategories: validAlternateSubcategories
-    } = updateCategory(category, validCategories, validSubcategories, validAlternateSubcategories));
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    categoryManager.updateCategory(category);
+    categoryManager.loadCategoryModal();
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
@@ -454,8 +370,8 @@ function SubcategoryButton({
   hidden = false
 }) {
   function handleClick() {
-    validSubcategories = updateSubcategory(subcategory, validSubcategories);
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    categoryManager.updateSubcategory(subcategory);
+    categoryManager.loadCategoryModal();
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
@@ -474,8 +390,8 @@ function AlternateSubcategoryButton({
   hidden = false
 }) {
   function handleClick() {
-    validAlternateSubcategories = updateAlternateSubcategory(subcategory, validAlternateSubcategories);
-    loadCategoryModal(validCategories, validSubcategories, validAlternateSubcategories);
+    categoryManager.updateAlternateSubcategory(subcategory);
+    categoryManager.loadCategoryModal();
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
@@ -562,9 +478,9 @@ function QueryForm() {
   const [maxYear, setMaxYear] = React.useState('');
   const [regex, setRegex] = React.useState(false);
   const [ignoreWordOrder, setIgnoreWordOrder] = React.useState(false);
-  const [diacritics, setDiacritics] = React.useState(false);
   const [exactPhrase, setExactPhrase] = React.useState(false);
   const [powermarkOnly, setPowermarkOnly] = React.useState(false);
+  const [hideAnswerlines, setHideAnswerlines] = React.useState(false);
   const [showCardFooters, setShowCardFooters] = React.useState(true);
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
   let [tossupPaginationNumber, setTossupPaginationNumber] = React.useState(1);
@@ -574,12 +490,7 @@ function QueryForm() {
   const [tossupPaginationShift, setTossupPaginationShift] = React.useState(0);
   const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
   const [queryTime, setQueryTime] = React.useState(0);
-  const fontSize = localStorage.getItem('database-font-size') === 'true' ? localStorage.getItem('font-size') ?? 16 : 16;
-  React.useEffect(() => {
-    fetch('/api/set-list').then(response => response.json()).then(data => data.setList).then(data => {
-      document.getElementById('set-list').innerHTML = data.map(setName => `<option>${setName}</option>`).join('');
-    });
-  }, []);
+  const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? window.localStorage.getItem('font-size') ?? 16 : 16;
   function arrayBetween(start, end) {
     return Array(end - start).fill().map((_, idx) => start + idx);
   }
@@ -650,17 +561,14 @@ function QueryForm() {
       setTossupPaginationNumber(tossupPaginationNumber);
       setBonusPaginationNumber(bonusPaginationNumber);
     }
-    fetch('/api/query?' + new URLSearchParams({
+    const params = new URLSearchParams({
       queryString,
-      alternateSubcategories: validAlternateSubcategories,
-      categories: validCategories,
-      subcategories: validSubcategories,
+      ...categoryManager.export(),
       difficulties,
       maxReturnLength,
       questionType,
       randomize,
       exactPhrase,
-      ignoreDiacritics: diacritics,
       powermarkOnly,
       regex,
       ignoreWordOrder,
@@ -670,7 +578,8 @@ function QueryForm() {
       bonusPagination: bonusPaginationNumber,
       minYear,
       maxYear
-    })).then(response => {
+    }).toString();
+    fetch(`/api/query?${params}`).then(response => {
       if (response.status === 400) {
         throw new Error('Invalid query');
       }
@@ -687,11 +596,14 @@ function QueryForm() {
         count: tossupCount,
         questionArray: tossupArray
       } = tossups;
-      setTossupCount(tossupCount);
-      setTossups(tossupArray);
+      const {
+        count: bonusCount,
+        questionArray: bonusArray
+      } = bonuses;
+      const highlightedTossupArray = JSON.parse(JSON.stringify(tossupArray));
+      const highlightedBonusArray = JSON.parse(JSON.stringify(bonusArray));
 
       // create deep copy to highlight
-      const highlightedTossupArray = JSON.parse(JSON.stringify(tossupArray));
       if (queryString !== '') {
         for (let i = 0; i < highlightedTossupArray.length; i++) {
           highlightedTossupArray[i] = highlightTossupQuery({
@@ -702,16 +614,6 @@ function QueryForm() {
             queryString
           });
         }
-      }
-      setHighlightedTossups(highlightedTossupArray);
-      const {
-        count: bonusCount,
-        questionArray: bonusArray
-      } = bonuses;
-      setBonusCount(bonusCount);
-      setBonuses(bonusArray);
-      const highlightedBonusArray = JSON.parse(JSON.stringify(bonusArray));
-      if (queryString !== '') {
         for (let i = 0; i < highlightedBonusArray.length; i++) {
           highlightedBonusArray[i] = highlightBonusQuery({
             bonus: highlightedBonusArray[i],
@@ -722,6 +624,11 @@ function QueryForm() {
           });
         }
       }
+      setTossupCount(tossupCount);
+      setTossups(tossupArray);
+      setHighlightedTossups(highlightedTossupArray);
+      setBonusCount(bonusCount);
+      setBonuses(bonusArray);
       setHighlightedBonuses(highlightedBonusArray);
       if (randomize) {
         setTossupPaginationLength(1);
@@ -735,10 +642,21 @@ function QueryForm() {
       const endTime = performance.now();
       const timeElapsed = ((endTime - startTime) / 1000).toFixed(2);
       setQueryTime(timeElapsed);
+      window.history.pushState({
+        tossups,
+        highlightedTossupArray,
+        bonuses,
+        highlightedBonusArray,
+        timeElapsed,
+        workingMaxReturnLength,
+        randomize
+      }, '', '?' + params);
     }).catch(error => {
       console.error('Error:', error);
-      alert('Invalid query. Please check your search parameters and try again.');
+      window.alert('Invalid query. Please check your search parameters and try again.');
     }).finally(() => {
+      document.querySelectorAll('b.collapsed[data-bs-toggle="collapse"]').forEach(element => element.classList.remove('collapsed'));
+      document.querySelectorAll('div.card-container.collapse:not(.show)').forEach(element => element.classList.add('show'));
       setCurrentlySearching(false);
     });
   }
@@ -748,6 +666,7 @@ function QueryForm() {
       key: i,
       tossup: tossups[i],
       highlightedTossup: highlightedTossups[i],
+      hideAnswerline: hideAnswerlines,
       showCardFooter: showCardFooters,
       fontSize: fontSize
     }));
@@ -758,31 +677,68 @@ function QueryForm() {
       key: i,
       bonus: bonuses[i],
       highlightedBonus: highlightedBonuses[i],
+      hideAnswerlines: hideAnswerlines,
       showCardFooter: showCardFooters,
       fontSize: fontSize
     }));
   }
-  React.useEffect(async () => {
-    Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
-      input.addEventListener('change', function () {
-        if (input.checked) input.closest('li').classList.add('active');else input.closest('li').classList.remove('active');
-      });
-    });
-    Array.from(document.querySelectorAll('.allow-focus')).forEach(dropdown => {
-      dropdown.addEventListener('click', function (e) {
-        e.stopPropagation();
-      });
-    });
+  React.useEffect(() => {
+    attachDropdownChecklist();
     document.getElementById('difficulties').addEventListener('change', function () {
-      const tempDifficulties = [];
-      Array.from(document.getElementById('difficulties').children).forEach(li => {
-        const input = li.querySelector('input');
-        if (input.checked) {
-          tempDifficulties.push(parseInt(input.value));
-        }
-      });
-      setDifficulties(tempDifficulties);
+      setDifficulties(getDropdownValues('difficulties'));
     });
+    document.getElementById('report-question-submit').addEventListener('click', function () {
+      api.reportQuestion(document.getElementById('report-question-id').value, document.getElementById('report-question-reason').value, document.getElementById('report-question-description').value);
+    });
+    window.addEventListener('popstate', event => {
+      if (event.state === null) {
+        setTossupCount(0);
+        setTossups([]);
+        setHighlightedTossups([]);
+        setBonusCount(0);
+        setBonuses([]);
+        setHighlightedBonuses([]);
+        setTossupPaginationLength(1);
+        setBonusPaginationLength(1);
+        setTossupPaginationShift(0);
+        setBonusPaginationShift(0);
+        return;
+      }
+      const {
+        tossups,
+        highlightedTossupArray,
+        bonuses,
+        highlightedBonusArray,
+        timeElapsed,
+        workingMaxReturnLength,
+        randomize
+      } = event.state;
+      const {
+        count: tossupCount,
+        questionArray: tossupArray
+      } = tossups;
+      const {
+        count: bonusCount,
+        questionArray: bonusArray
+      } = bonuses;
+      setTossupCount(tossupCount);
+      setTossups(tossupArray);
+      setHighlightedTossups(highlightedTossupArray);
+      setBonusCount(bonusCount);
+      setBonuses(bonusArray);
+      setHighlightedBonuses(highlightedBonusArray);
+      if (randomize) {
+        setTossupPaginationLength(1);
+        setBonusPaginationLength(1);
+      } else {
+        setTossupPaginationLength(Math.ceil(tossupCount / workingMaxReturnLength));
+        setBonusPaginationLength(Math.ceil(bonusCount / workingMaxReturnLength));
+      }
+      setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
+      setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
+      setQueryTime(timeElapsed);
+    });
+    document.getElementById('set-list').innerHTML = api.getSetList().map(setName => `<option>${setName}</option>`).join('');
   }, []);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CategoryModal, null), /*#__PURE__*/React.createElement("form", {
     className: "mt-3",
@@ -982,21 +938,6 @@ function QueryForm() {
     className: "form-check-input",
     type: "checkbox",
     role: "switch",
-    id: "toggle-ignore-diacritics",
-    checked: !regex && diacritics,
-    disabled: regex,
-    onChange: () => {
-      setDiacritics(!diacritics);
-    }
-  }), /*#__PURE__*/React.createElement("label", {
-    className: "form-check-label",
-    htmlFor: "toggle-ignore-diacritics"
-  }, "Ignore diacritics (May slow down search)")), /*#__PURE__*/React.createElement("div", {
-    className: "form-check form-switch"
-  }, /*#__PURE__*/React.createElement("input", {
-    className: "form-check-input",
-    type: "checkbox",
-    role: "switch",
     id: "toggle-exact-phrase",
     checked: !regex && exactPhrase,
     disabled: regex,
@@ -1026,6 +967,20 @@ function QueryForm() {
     className: "form-check-input",
     type: "checkbox",
     role: "switch",
+    id: "toggle-hide-answerlines",
+    checked: hideAnswerlines,
+    onChange: () => {
+      setHideAnswerlines(!hideAnswerlines);
+    }
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "toggle-hide-answerlines"
+  }, "Hide answerlines")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-switch"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "checkbox",
+    role: "switch",
     id: "toggle-show-card-footers",
     checked: showCardFooters,
     onChange: () => {
@@ -1036,7 +991,7 @@ function QueryForm() {
     htmlFor: "toggle-show-card-footers"
   }, "Show card footers")), /*#__PURE__*/React.createElement("div", {
     className: "float-end"
-  }, /*#__PURE__*/React.createElement("b", null, "Download:"), /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("b", null, "Download this page:"), /*#__PURE__*/React.createElement("a", {
     className: "ms-2 clickable",
     onClick: () => {
       downloadQuestionsAsText(tossups, bonuses);
@@ -1068,7 +1023,11 @@ function QueryForm() {
   }, "Showing ", tossups.length, " of ", tossupCount, " results (", queryTime, " seconds)"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#bonuses"
+    className: "clickable",
+    onClick: () => window.scrollTo({
+      top: document.getElementById('bonuses').offsetTop,
+      behavior: 'smooth'
+    })
   }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("div", {
     className: "text-muted"
   }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
@@ -1138,7 +1097,11 @@ function QueryForm() {
   }, "Showing ", bonuses.length, " of ", bonusCount, " results (", queryTime, " seconds)"), "\xA0", /*#__PURE__*/React.createElement("span", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#tossups"
+    className: "clickable",
+    onClick: () => window.scrollTo({
+      top: document.getElementById('tossups').offsetTop,
+      behavior: 'smooth'
+    })
   }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("div", {
     className: "text-muted"
   }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {

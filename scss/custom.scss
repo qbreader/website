@@ -6,9 +6,9 @@
 $font-family-sans-serif: Helvetica, sans-serif;
 $link-decoration: none;
 
-$popover-body-padding-y:            0;
-$popover-body-padding-x:            0;
-$popover-max-width:                 100%;
+$popover-body-padding-y: 0;
+$popover-body-padding-x: 0;
+$popover-max-width: 100%;
 
 // 6. Optionally include any other parts as needed
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css); // Fira Code font
@@ -79,10 +79,14 @@ $popover-max-width:                 100%;
     font-weight: bold;
 }
 
-code { font-family: 'Fira Code', monospace; }
+code {
+    font-family: 'Fira Code', monospace;
+}
 
 @supports (font-variation-settings: normal) {
-  code { font-family: 'Fira Code VF', monospace; }
+    code {
+        font-family: 'Fira Code VF', monospace;
+    }
 }
 
 .logo-prefix {
@@ -116,6 +120,14 @@ code { font-family: 'Fira Code', monospace; }
 
 a.list-group-item:hover {
     color: inherit;
+}
+
+.small-alert {
+    --bs-alert-padding-y: 0.5rem;
+}
+
+#multiplayer-name {
+    margin-top: 3px
 }
 
 @import "./dual-slider";

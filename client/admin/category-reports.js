@@ -1,16 +1,17 @@
+import { getBonusPartLabel } from '../scripts/utilities/index.js';
 const ALTERNATE_SUBCATEGORIES = {
-  'Literature': ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
-  'History': [],
-  'Science': [],
+  Literature: ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
+  History: [],
+  Science: [],
   'Fine Arts': [],
-  'Religion': [],
-  'Mythology': [],
-  'Philosophy': [],
+  Religion: [],
+  Mythology: [],
+  Philosophy: [],
   'Social Science': ['Anthropology', 'Economics', 'Linguistics', 'Psychology', 'Sociology', 'Other Social Science'],
   'Current Events': [],
-  'Geography': [],
+  Geography: [],
   'Other Academic': [],
-  'Trash': [],
+  Trash: [],
   'Other Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
   'Other Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts']
 };
@@ -26,21 +27,21 @@ const SUBCATEGORY_TO_CATEGORY = {
   'European History': 'History',
   'World History': 'History',
   'Other History': 'History',
-  'Biology': 'Science',
-  'Chemistry': 'Science',
-  'Physics': 'Science',
+  Biology: 'Science',
+  Chemistry: 'Science',
+  Physics: 'Science',
   'Other Science': 'Other Science',
   'Visual Fine Arts': 'Fine Arts',
   'Auditory Fine Arts': 'Fine Arts',
   'Other Fine Arts': 'Other Fine Arts',
-  'Religion': 'Religion',
-  'Mythology': 'Mythology',
-  'Philosophy': 'Philosophy',
+  Religion: 'Religion',
+  Mythology: 'Mythology',
+  Philosophy: 'Philosophy',
   'Social Science': 'Social Science',
   'Current Events': 'Current Events',
-  'Geography': 'Geography',
+  Geography: 'Geography',
   'Other Academic': 'Other Academic',
-  'Trash': 'Trash'
+  Trash: 'Trash'
 };
 function TossupCard({
   tossup
@@ -54,27 +55,26 @@ function TossupCard({
     const reason = tossup.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
-  const powerParts = tossup.question.split('(*)');
   return /*#__PURE__*/React.createElement("div", {
     className: "card my-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-header d-flex justify-content-between clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, /*#__PURE__*/React.createElement("b", null, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", tossup.packet.number, " | Question ", tossup.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("b", null, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", tossup.packet.number, " | Question ", tossup.number)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: powerParts.length > 1 ? '<b>' + powerParts[0] + '(*)</b>' + powerParts[1] : tossup.question
+      __html: tossup.question
     }
   }), /*#__PURE__*/React.createElement("hr", {
     className: "my-3"
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: tossup?.formatted_answer ?? tossup.answer
+      __html: tossup?.answer
     }
   }))), /*#__PURE__*/React.createElement("div", {
     className: "card-footer clickable",
@@ -100,11 +100,6 @@ function BonusCard({
   for (let i = 0; i < bonusLength; i++) {
     indices.push(i);
   }
-  function getBonusPartLabel(index, defaultValue = 10, defaultDifficulty = '') {
-    const value = bonus.values ? bonus.values[index] ?? defaultValue : defaultValue;
-    const difficulty = bonus.difficulties ? bonus.difficulties[index] ?? defaultDifficulty : defaultDifficulty;
-    return `[${value}${difficulty}]`;
-  }
   function onClick() {
     document.getElementById('old-category').value = `${bonus.category} / ${bonus.subcategory}`;
     document.getElementById('question-id').value = _id;
@@ -118,7 +113,7 @@ function BonusCard({
     className: "card-header d-flex justify-content-between clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, /*#__PURE__*/React.createElement("b", null, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", bonus.packet.number, " | Question ", bonus.questionNumber)), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("b", null, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", bonus.packet.number, " | Question ", bonus.number)), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -127,7 +122,7 @@ function BonusCard({
     key: `${bonus._id}-${i}`
   }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", null, getBonusPartLabel(i), " "), /*#__PURE__*/React.createElement("span", null, bonus.parts[i])), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
-      __html: (bonus?.formatted_answers ?? bonus.answers)[i]
+      __html: bonus?.answers[i]
     }
   }))))), /*#__PURE__*/React.createElement("div", {
     className: "card-footer clickable",
@@ -175,7 +170,7 @@ function Reports() {
         this.disabled = false;
         this.textContent = 'Submit';
         if (!response.ok) {
-          alert('Error updating subcategory');
+          window.alert('Error updating subcategory');
           return;
         }
         switch (type) {
