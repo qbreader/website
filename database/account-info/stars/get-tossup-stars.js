@@ -1,5 +1,4 @@
-import { tossupStars } from '../collections.js';
-
+import getTossupIds from './get-ids-tossup.js';
 import { tossups } from '../../qbreader/collections.js';
 
 /**
@@ -7,16 +6,10 @@ import { tossups } from '../../qbreader/collections.js';
  * @param {ObjectId} userId
  * @returns {Promise<types.Tossup[]>}
  */
-async function getTossupStars (userId) {
-  const aggregation = [
-    { $match: { user_id: userId } },
-    { $addFields: { insertTime: { $toDate: '$_id' } } },
-    { $sort: { insertTime: -1 } }
-  ];
-
-  const tossupIds = await tossupStars.aggregate(aggregation).toArray();
+export default async function getTossupStars (userId) {
+  const tossupIds = await getTossupIds(userId);
   return await tossups.find(
-    { _id: { $in: tossupIds.map(tossup => tossup.tossup_id) } },
+    { _id: { $in: tossupIds } },
     {
       sort: {
         'set.name': -1,
@@ -26,5 +19,3 @@ async function getTossupStars (userId) {
     }
   ).toArray();
 }
-
-export default getTossupStars;

@@ -104,4 +104,16 @@ export default class star {
       .then(response => response.json())
       .then(bonuses => bonuses);
   }
+
+  static async getStarredTossupIds () {
+    return await fetch('/auth/stars/tossup-ids')
+      .then(response => response.json())
+      .then(ids => ids);
+  }
+
+  static async getStarredBonusIds () {
+    return await fetch('/auth/stars/bonus-ids')
+      .then(response => response.json())
+      .then(ids => ids);
+  }
 }
