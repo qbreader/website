@@ -93,7 +93,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
     <div className='card my-2'>
       <div className='card-header d-flex justify-content-between'>
         <b className='clickable' onClick={clickToCopy}>
-          {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
+          {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' | ' + bonus.alternate_subcategory : ''} | {bonus.difficulty}
         </b>
         <span>
           <b className='clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>

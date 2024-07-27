@@ -93,7 +93,7 @@ export default function BonusCard({
   }, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     onClick: clickToCopy
-  }, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
+  }, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' | ' + bonus.alternate_subcategory : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
