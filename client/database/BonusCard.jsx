@@ -1,6 +1,7 @@
 import account from '../scripts/accounts.js';
 import { stringifyBonus } from './stringify.js';
 import { getBonusPartLabel } from '../scripts/utilities/index.js';
+import Star from './Star.js';
 
 export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, fontSize = 16 }) {
   const _id = bonus._id;
@@ -91,13 +92,18 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
         <b className='clickable' onClick={clickToCopy}>
           {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
         </b>
-        <b className='clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
-          Packet {bonus.packet.number} | Question {bonus.number}
-        </b>
+        <span>
+          <b className='clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
+            Packet {bonus.packet.number} |
+          </b>
+          <span> </span>
+          <Star _id={_id} questionType='bonus' initiallyStarred={false} />
+        </span>
       </div>
       <div className='card-container collapse show' id={`question-${_id}`}>
         <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
-          <p dangerouslySetInnerHTML={{ __html: highlightedBonus.leadin }} />
+          <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>
+          <span dangerouslySetInnerHTML={{ __html: highlightedBonus.leadin }} />
           {indices.map((i) =>
             <div key={`${bonus._id}-${i}`}>
               <hr />
@@ -116,7 +122,9 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
           )}
         </div>
         <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle='modal' data-bs-target='#bonus-stats-modal'>
-          <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
+          <small className='text-muted'>
+            {packetName ? 'Packet ' + packetName + '' : <span>&nbsp;</span>}
+          </small>
           <small className='text-muted float-end'>
             <a href='#' onClick={onClick} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
               Report Question

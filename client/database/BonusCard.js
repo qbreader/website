@@ -1,6 +1,7 @@
 import account from '../scripts/accounts.js';
 import { stringifyBonus } from './stringify.js';
 import { getBonusPartLabel } from '../scripts/utilities/index.js';
+import Star from './Star.js';
 export default function BonusCard({
   bonus,
   highlightedBonus,
@@ -90,11 +91,15 @@ export default function BonusCard({
   }, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     onClick: clickToCopy
-  }, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
+  }, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, "Packet ", bonus.packet.number, " | Question ", bonus.number)), /*#__PURE__*/React.createElement("div", {
+  }, "Packet ", bonus.packet.number, " |"), /*#__PURE__*/React.createElement("span", null, " "), /*#__PURE__*/React.createElement(Star, {
+    _id: _id,
+    questionType: "bonus",
+    initiallyStarred: false
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -102,7 +107,11 @@ export default function BonusCard({
     style: {
       fontSize: `${fontSize}px`
     }
-  }, /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal'
+    }
+  }, bonus.number, ". "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedBonus.leadin
     }
@@ -123,7 +132,7 @@ export default function BonusCard({
     "data-bs-target": "#bonus-stats-modal"
   }, /*#__PURE__*/React.createElement("small", {
     className: "text-muted"
-  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
+  }, packetName ? 'Packet ' + packetName + '' : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",

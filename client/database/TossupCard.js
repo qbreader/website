@@ -1,5 +1,6 @@
 import account from '../scripts/accounts.js';
 import { stringifyTossup } from './stringify.js';
+import Star from './Star.js';
 export default function TossupCard({
   tossup,
   highlightedTossup,
@@ -85,11 +86,15 @@ export default function TossupCard({
   }, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     onClick: clickToCopy
-  }, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
+  }, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
-  }, "Packet ", tossup.packet.number, " | Question ", tossup.number)), /*#__PURE__*/React.createElement("div", {
+  }, "Packet ", tossup.packet.number, " |"), /*#__PURE__*/React.createElement("span", null, " "), /*#__PURE__*/React.createElement(Star, {
+    _id: _id,
+    questionType: "tossup",
+    initiallyStarred: false
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -98,6 +103,10 @@ export default function TossupCard({
       fontSize: `${fontSize}px`
     }
   }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal'
+    }
+  }, tossup.number, ". "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedTossup.question
     }
@@ -114,7 +123,7 @@ export default function TossupCard({
     "data-bs-target": "#tossup-stats-modal"
   }, /*#__PURE__*/React.createElement("small", {
     className: "text-muted"
-  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
+  }, packetName ? 'Packet ' + packetName + '' : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",
