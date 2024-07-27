@@ -85,7 +85,7 @@ const createBonusCard = (function () {
                     ${cardBody}
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">${set.name} / ${category} / ${subcategory} ${alternateSubcategory ? '(' + alternateSubcategory + ')' : ''}</small>
+                    <small class="text-muted">${set.name} / ${category} / ${subcategory}${alternateSubcategory ? ' / ' + alternateSubcategory : ''}</small>
                     <small class="text-muted float-end">Packet ${packet.number} / Question ${number}</small>
                 </div>
             </div>
@@ -158,7 +158,7 @@ const createTossupCard = (function () {
                     <div>ANSWER: ${answer}</div>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">${set.name} / ${category} / ${subcategory} ${alternateSubcategory ? '(' + alternateSubcategory + ')' : ''}</small>
+                    <small class="text-muted">${set.name} / ${category} / ${subcategory}${alternateSubcategory ? ' / ' + alternateSubcategory : ''}</small>
                     <small class="text-muted float-end">Packet ${packet.number} / Question ${number}</small>
                 </div>
             </div>

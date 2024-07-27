@@ -88,7 +88,7 @@ export default function TossupCard({
   }, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     onClick: clickToCopy
-  }, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
+  }, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' | ' + tossup.alternate_subcategory : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`

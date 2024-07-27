@@ -87,7 +87,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
     <div className='card my-2'>
       <div className='card-header d-flex justify-content-between'>
         <b className='clickable' onClick={clickToCopy}>
-          {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
+          {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' | ' + tossup.alternate_subcategory : ''} | {tossup.difficulty}
         </b>
         <span>
           <b className='clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
