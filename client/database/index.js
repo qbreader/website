@@ -1,10 +1,9 @@
-import { stringifyBonus, stringifyTossup } from './stringify.js';
 import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
-import account from '../scripts/accounts.js';
 import api from '../scripts/api/index.js';
+import TossupCard from './TossupCard.js';
+import BonusCard from './BonusCard.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
-import { getBonusPartLabel } from '../scripts/utilities/index.js';
 import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';
 const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
@@ -88,262 +87,6 @@ function highlightBonusQuery({
     }
   }
   return bonus;
-}
-function TossupCard({
-  tossup,
-  highlightedTossup,
-  hideAnswerline,
-  showCardFooter,
-  fontSize = 16
-}) {
-  const _id = tossup._id;
-  const packetName = tossup.packet.name;
-  function clickToCopy() {
-    const textdata = stringifyTossup(tossup);
-    navigator.clipboard.writeText(textdata);
-    const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
-    toast.show();
-  }
-  function onClick() {
-    document.getElementById('report-question-id').value = _id;
-  }
-  function showTossupStats() {
-    fetch('/auth/question-stats/single-tossup?' + new URLSearchParams({
-      tossup_id: _id
-    })).then(response => {
-      switch (response.status) {
-        case 401:
-          document.getElementById('tossup-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
-          account.deleteUsername();
-          throw new Error('Unauthenticated');
-        case 403:
-          document.getElementById('tossup-stats-body').textContent = 'You need verify your account email to view question stats.';
-          throw new Error('Forbidden');
-      }
-      return response;
-    }).then(response => response.json()).then(response => {
-      document.getElementById('tossup-stats-question-id').value = _id;
-      const {
-        stats
-      } = response;
-      if (!stats) {
-        document.getElementById('tossup-stats-body').textContent = 'No stats found for this question.';
-        return;
-      }
-      const averageCelerity = stats.numCorrect > 0 ? stats.totalCorrectCelerity / stats.numCorrect : 0;
-      document.getElementById('tossup-stats-body').innerHTML = `
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        TUH
-                        <span>${stats.count}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        15s
-                        <span>${stats['15s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        10s
-                        <span>${stats['10s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        -5s
-                        <span>${stats['-5s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Average celerity
-                        <span>${averageCelerity.toFixed(3)}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Total points
-                        <span>${stats.totalPoints}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        PPTU
-                        <span>${stats.pptu.toFixed(2)}</span>
-                    </li>
-                </ul>
-                `;
-    }).catch(error => {
-      console.error('Error:', error);
-    });
-  }
-  return /*#__PURE__*/React.createElement("div", {
-    className: "card my-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header d-flex justify-content-between"
-  }, /*#__PURE__*/React.createElement("b", {
-    className: "clickable",
-    onClick: clickToCopy
-  }, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", {
-    className: "clickable",
-    "data-bs-toggle": "collapse",
-    "data-bs-target": `#question-${_id}`
-  }, "Packet ", tossup.packet.number, " | Question ", tossup.number)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container collapse show",
-    id: `question-${_id}`
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-body",
-    style: {
-      fontSize: `${fontSize}px`
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: highlightedTossup.question
-    }
-  }), /*#__PURE__*/React.createElement("hr", {
-    className: "my-3"
-  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: hideAnswerline ? '' : highlightedTossup?.answer
-    }
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
-    onClick: showTossupStats,
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#tossup-stats-modal"
-  }, /*#__PURE__*/React.createElement("small", {
-    className: "text-muted"
-  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
-    className: "text-muted float-end"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "#",
-    onClick: onClick,
-    id: `report-question-${_id}`,
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#report-question-modal"
-  }, "Report Question")))));
-}
-function BonusCard({
-  bonus,
-  highlightedBonus,
-  hideAnswerlines,
-  showCardFooter,
-  fontSize = 16
-}) {
-  const _id = bonus._id;
-  const packetName = bonus.packet.name;
-  const bonusLength = bonus.parts.length;
-  const indices = [];
-  for (let i = 0; i < bonusLength; i++) {
-    indices.push(i);
-  }
-  function clickToCopy() {
-    const textdata = stringifyBonus(bonus);
-    navigator.clipboard.writeText(textdata);
-    const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
-    toast.show();
-  }
-  function onClick() {
-    document.getElementById('report-question-id').value = _id;
-  }
-  function showBonusStats() {
-    fetch('/auth/question-stats/single-bonus?' + new URLSearchParams({
-      bonus_id: _id
-    })).then(response => {
-      switch (response.status) {
-        case 401:
-          document.getElementById('bonus-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
-          account.deleteUsername();
-          throw new Error('Unauthenticated');
-        case 403:
-          document.getElementById('bonus-stats-body').textContent = 'You need verify your account email to view question stats.';
-          throw new Error('Forbidden');
-      }
-      return response;
-    }).then(response => response.json()).then(response => {
-      document.getElementById('bonus-stats-question-id').value = _id;
-      const {
-        stats
-      } = response;
-      if (!stats) {
-        document.getElementById('bonus-stats-body').textContent = 'No stats found for this question.';
-        return;
-      }
-      document.getElementById('bonus-stats-body').innerHTML = `
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        BH
-                        <span>${stats.count}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        1st part
-                        <span>${(10 * stats.part1).toFixed(2)} pts</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        2nd part
-                        <span>${(10 * stats.part2).toFixed(2)} pts</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        3rd part
-                        <span>${(10 * stats.part3).toFixed(2)} pts</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        30s/20s/10s/0s
-                        <span>${stats['30s']}/${stats['20s']}/${stats['10s']}/${stats['0s']}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Total points
-                        <span>${stats.totalPoints}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        PPB
-                        <span>${stats.ppb.toFixed(2)}</span>
-                    </li>
-                </ul>
-                `;
-    }).catch(error => {
-      console.error('Error:', error);
-    });
-  }
-  return /*#__PURE__*/React.createElement("div", {
-    className: "card my-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header d-flex justify-content-between"
-  }, /*#__PURE__*/React.createElement("b", {
-    className: "clickable",
-    onClick: clickToCopy
-  }, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", {
-    className: "clickable",
-    "data-bs-toggle": "collapse",
-    "data-bs-target": `#question-${_id}`
-  }, "Packet ", bonus.packet.number, " | Question ", bonus.number)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container collapse show",
-    id: `question-${_id}`
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-body",
-    style: {
-      fontSize: `${fontSize}px`
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    dangerouslySetInnerHTML: {
-      __html: highlightedBonus.leadin
-    }
-  }), indices.map(i => /*#__PURE__*/React.createElement("div", {
-    key: `${bonus._id}-${i}`
-  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", null, getBonusPartLabel(bonus, i), " "), /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: highlightedBonus.parts[i]
-    }
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: hideAnswerlines ? '' : highlightedBonus?.answers[i]
-    }
-  }))))), /*#__PURE__*/React.createElement("div", {
-    className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
-    onClick: showBonusStats,
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#bonus-stats-modal"
-  }, /*#__PURE__*/React.createElement("small", {
-    className: "text-muted"
-  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
-    className: "text-muted float-end"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "#",
-    onClick: onClick,
-    id: `report-question-${_id}`,
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#report-question-modal"
-  }, "Report Question")))));
 }
 function CategoryButton({
   category,
@@ -1028,7 +771,8 @@ function QueryForm() {
       top: document.getElementById('bonuses').offsetTop,
       behavior: 'smooth'
     })
-  }, "Jump to bonuses"))) : /*#__PURE__*/React.createElement("div", {
+  }, "Jump to bonuses"))) // eslint-disable-line
+  : /*#__PURE__*/React.createElement("div", {
     className: "text-muted"
   }, "No tossups found"), /*#__PURE__*/React.createElement("div", null, tossupCards), tossupPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
     "aria-label": "tossup nagivation"
@@ -1102,7 +846,8 @@ function QueryForm() {
       top: document.getElementById('tossups').offsetTop,
       behavior: 'smooth'
     })
-  }, "Jump to tossups"))) : /*#__PURE__*/React.createElement("div", {
+  }, "Jump to tossups"))) // eslint-disable-line
+  : /*#__PURE__*/React.createElement("div", {
     className: "text-muted"
   }, "No bonuses found"), /*#__PURE__*/React.createElement("div", null, bonusCards), bonusPaginationLength > 1 && /*#__PURE__*/React.createElement("nav", {
     "aria-label": "bonus nagivation"
