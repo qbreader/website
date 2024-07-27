@@ -13,7 +13,7 @@ function stringifyBonus (bonus, includeMetadata = false) {
     textdata += `${getBonusPartLabel(bonus, i)} ${bonus.parts_sanitized[i]}\n`;
     textdata += `ANSWER: ${bonus.answers_sanitized[i]}\n`;
   }
-  textdata += `<${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''}>\n`;
+  textdata += `<${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' / ' + bonus.alternate_subcategory : ''}>\n`;
   return textdata;
 }
 
@@ -27,7 +27,7 @@ function stringifyTossup (tossup, includeMetadata = false) {
 
   textdata += `${tossup.number}. ${tossup.question_sanitized}\n`;
   textdata += `ANSWER: ${tossup.answer_sanitized}\n`;
-  textdata += `<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''}>\n`;
+  textdata += `<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' / ' + tossup.alternate_subcategory : ''}>\n`;
   return textdata;
 }
 
