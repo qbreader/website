@@ -2,6 +2,8 @@ import account from '../scripts/accounts.js';
 import { stringifyBonus } from './stringify.js';
 import { getBonusPartLabel } from '../scripts/utilities/index.js';
 import Star from './Star.js';
+import star from '../scripts/auth/star.js';
+const starredBonusIds = new Set(await star.getStarredBonusIds());
 export default function BonusCard({
   bonus,
   highlightedBonus,
@@ -96,9 +98,10 @@ export default function BonusCard({
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
   }, "Packet ", bonus.packet.number, " |"), /*#__PURE__*/React.createElement("span", null, " "), /*#__PURE__*/React.createElement(Star, {
+    key: _id,
     _id: _id,
     questionType: "bonus",
-    initiallyStarred: false
+    initiallyStarred: starredBonusIds.has(_id)
   }))), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`

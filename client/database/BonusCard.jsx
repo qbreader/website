@@ -2,6 +2,9 @@ import account from '../scripts/accounts.js';
 import { stringifyBonus } from './stringify.js';
 import { getBonusPartLabel } from '../scripts/utilities/index.js';
 import Star from './Star.js';
+import star from '../scripts/auth/star.js';
+
+const starredBonusIds = new Set(await star.getStarredBonusIds());
 
 export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, fontSize = 16 }) {
   const _id = bonus._id;
@@ -97,7 +100,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
             Packet {bonus.packet.number} |
           </b>
           <span> </span>
-          <Star _id={_id} questionType='bonus' initiallyStarred={false} />
+          <Star key={_id} _id={_id} questionType='bonus' initiallyStarred={starredBonusIds.has(_id)} />
         </span>
       </div>
       <div className='card-container collapse show' id={`question-${_id}`}>
