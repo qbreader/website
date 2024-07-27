@@ -58,7 +58,9 @@
         "ignore": [
             "client/bootstrap/*",
             "client/admin/category-reports.js",
-            "client/database/index.js"
+            "client/database/index.js",
+            "client/database/BonusCard.js",
+            "client/database/TossupCard.js"
         ]
     }
 }

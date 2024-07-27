@@ -39,8 +39,8 @@ export default class star {
     });
   }
 
-  static unstarBonus (bonusId) {
-    fetch('/auth/stars/unstar-bonus', {
+  static async unstarBonus (bonusId) {
+    return fetch('/auth/stars/unstar-bonus', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ bonus_id: bonusId })
@@ -51,13 +51,15 @@ export default class star {
       } else if (!response.ok) {
         window.alert('There was an error unstarring the bonus.');
       }
+      return response.ok;
     }).catch(_error => {
       window.alert('There was an error unstarring the bonus.');
+      return false;
     });
   }
 
-  static unstarTossup (tossupId) {
-    fetch('/auth/stars/unstar-tossup', {
+  static async unstarTossup (tossupId) {
+    return fetch('/auth/stars/unstar-tossup', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tossup_id: tossupId })
@@ -68,8 +70,10 @@ export default class star {
       } else if (!response.ok) {
         window.alert('There was an error unstarring the bonus.');
       }
+      return response.ok;
     }).catch(_error => {
       window.alert('There was an error unstarring the bonus.');
+      return false;
     });
   }
 

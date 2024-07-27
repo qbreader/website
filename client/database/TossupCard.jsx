@@ -1,5 +1,6 @@
 import account from '../scripts/accounts.js';
 import { stringifyTossup } from './stringify.js';
+import Star from './Star.js';
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, showCardFooter, fontSize = 16 }) {
   const _id = tossup._id;
@@ -85,12 +86,17 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
         <b className='clickable' onClick={clickToCopy}>
           {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
         </b>
-        <b className='clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
-          Packet {tossup.packet.number} | Question {tossup.number}
-        </b>
+        <span>
+          <b className='clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
+            Packet {tossup.packet.number} |
+          </b>
+          <span> </span>
+          <Star _id={_id} questionType='tossup' initiallyStarred={false} />
+        </span>
       </div>
       <div className='card-container collapse show' id={`question-${_id}`}>
         <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
+          <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
           <span dangerouslySetInnerHTML={{ __html: highlightedTossup.question }} />
           <hr className='my-3' />
           <div>
@@ -98,7 +104,9 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
           </div>
         </div>
         <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle='modal' data-bs-target='#tossup-stats-modal'>
-          <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
+          <small className='text-muted'>
+            {packetName ? 'Packet ' + packetName + '' : <span>&nbsp;</span>}
+          </small>
           <small className='text-muted float-end'>
             <a href='#' onClick={onClick} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
               Report Question
