@@ -1,6 +1,9 @@
 import account from '../scripts/accounts.js';
 import { stringifyTossup } from './stringify.js';
 import Star from './Star.js';
+import star from '../scripts/auth/star.js';
+
+const starredTossupIds = new Set(await star.getStarredTossupIds());
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, showCardFooter, fontSize = 16 }) {
   const _id = tossup._id;
@@ -91,7 +94,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
             Packet {tossup.packet.number} |
           </b>
           <span> </span>
-          <Star _id={_id} questionType='tossup' initiallyStarred={false} />
+          <Star key={_id} _id={_id} questionType='tossup' initiallyStarred={starredTossupIds.has(_id)} />
         </span>
       </div>
       <div className='card-container collapse show' id={`question-${_id}`}>

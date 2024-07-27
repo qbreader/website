@@ -1,6 +1,8 @@
 import account from '../scripts/accounts.js';
 import { stringifyTossup } from './stringify.js';
 import Star from './Star.js';
+import star from '../scripts/auth/star.js';
+const starredTossupIds = new Set(await star.getStarredTossupIds());
 export default function TossupCard({
   tossup,
   highlightedTossup,
@@ -91,9 +93,10 @@ export default function TossupCard({
     "data-bs-toggle": "collapse",
     "data-bs-target": `#question-${_id}`
   }, "Packet ", tossup.packet.number, " |"), /*#__PURE__*/React.createElement("span", null, " "), /*#__PURE__*/React.createElement(Star, {
+    key: _id,
     _id: _id,
     questionType: "tossup",
-    initiallyStarred: false
+    initiallyStarred: starredTossupIds.has(_id)
   }))), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
