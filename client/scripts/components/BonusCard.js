@@ -1,18 +1,16 @@
-import account from '../scripts/accounts.js';
-import { stringifyBonus } from './stringify.js';
-import { getBonusPartLabel } from '../scripts/utilities/index.js';
-import Star from './Star.js';
-import star from '../scripts/auth/star.js';
-const starredBonusIds = new Set(await star.getStarredBonusIds());
+import account from '../accounts.js';
+import { stringifyBonus } from '../../database/stringify.js';
+import { getBonusPartLabel } from '../utilities/index.js';
+import QuestionCard from './QuestionCard.js';
 export default function BonusCard({
   bonus,
   highlightedBonus,
   hideAnswerlines,
   showCardFooter,
+  topRightComponent,
   fontSize = 16
 }) {
   const _id = bonus._id;
-  const packetName = bonus.packet.name;
   const bonusLength = bonus.parts.length;
   const indices = [];
   for (let i = 0; i < bonusLength; i++) {
@@ -24,7 +22,7 @@ export default function BonusCard({
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
-  function onClick() {
+  function onClickFooter() {
     document.getElementById('report-question-id').value = _id;
   }
   function showBonusStats() {
@@ -86,23 +84,12 @@ export default function BonusCard({
       console.error('Error:', error);
     });
   }
-  return /*#__PURE__*/React.createElement("div", {
-    className: "card my-2"
+  return /*#__PURE__*/React.createElement(QuestionCard, {
+    fontSize: fontSize,
+    onClickHeader: clickToCopy,
+    question: bonus,
+    topRightComponent: topRightComponent
   }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header d-flex justify-content-between"
-  }, /*#__PURE__*/React.createElement("b", {
-    className: "clickable",
-    onClick: clickToCopy
-  }, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' | ' + bonus.alternate_subcategory : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
-    className: "clickable",
-    "data-bs-toggle": "collapse",
-    "data-bs-target": `#question-${_id}`
-  }, "Packet ", bonus.packet.number, " |"), /*#__PURE__*/React.createElement("span", null, " "), /*#__PURE__*/React.createElement(Star, {
-    key: _id,
-    _id: _id,
-    questionType: "bonus",
-    initiallyStarred: starredBonusIds.has(_id)
-  }))), /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -135,11 +122,11 @@ export default function BonusCard({
     "data-bs-target": "#bonus-stats-modal"
   }, /*#__PURE__*/React.createElement("small", {
     className: "text-muted"
-  }, packetName ? 'Packet ' + packetName + '' : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
+  }, bonus.packet.name ? 'Packet ' + bonus.packet.name : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",
-    onClick: onClick,
+    onClick: onClickFooter,
     id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"

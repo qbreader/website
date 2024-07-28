@@ -1,4 +1,4 @@
-import star from '../scripts/auth/star.js';
+import star from '../auth/star.js';
 
 const starredHTML = (
   <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='bi bi-star-fill' viewBox='0 0 20 20'>

@@ -1,23 +1,18 @@
-import account from '../scripts/accounts.js';
-import { stringifyTossup } from './stringify.js';
-import Star from './Star.js';
-import star from '../scripts/auth/star.js';
+import account from '../accounts.js';
+import { stringifyTossup } from '../../database/stringify.js';
+import QuestionCard from './QuestionCard.js';
 
-const starredTossupIds = new Set(await star.getStarredTossupIds());
-
-export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, showCardFooter, fontSize = 16 }) {
+export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, showCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = tossup._id;
-  const packetName = tossup.packet.name;
 
   function clickToCopy () {
     const textdata = stringifyTossup(tossup);
     navigator.clipboard.writeText(textdata);
-
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
 
-  function onClick () {
+  function onClickFooter () {
     document.getElementById('report-question-id').value = _id;
   }
 
@@ -84,19 +79,13 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
   }
 
   return (
-    <div className='card my-2'>
-      <div className='card-header d-flex justify-content-between'>
-        <b className='clickable' onClick={clickToCopy}>
-          {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' | ' + tossup.alternate_subcategory : ''} | {tossup.difficulty}
-        </b>
-        <span>
-          <b className='clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
-            Packet {tossup.packet.number} |
-          </b>
-          <span> </span>
-          <Star key={_id} _id={_id} questionType='tossup' initiallyStarred={starredTossupIds.has(_id)} />
-        </span>
-      </div>
+    <QuestionCard
+      key={_id}
+      fontSize={fontSize}
+      onClickHeader={clickToCopy}
+      question={tossup}
+      topRightComponent={topRightComponent}
+    >
       <div className='card-container collapse show' id={`question-${_id}`}>
         <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
           <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
@@ -108,15 +97,15 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
         </div>
         <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle='modal' data-bs-target='#tossup-stats-modal'>
           <small className='text-muted'>
-            {packetName ? 'Packet ' + packetName + '' : <span>&nbsp;</span>}
+            {tossup.packet.name ? 'Packet ' + tossup.packet.name : <span>&nbsp;</span>}
           </small>
           <small className='text-muted float-end'>
-            <a href='#' onClick={onClick} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
+            <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
               Report Question
             </a>
           </small>
         </div>
       </div>
-    </div>
+    </QuestionCard>
   );
 }
