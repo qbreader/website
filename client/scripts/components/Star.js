@@ -1,4 +1,4 @@
-import star from '../scripts/auth/star.js';
+import star from '../auth/star.js';
 const starredHTML = /*#__PURE__*/React.createElement("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   width: "20",
