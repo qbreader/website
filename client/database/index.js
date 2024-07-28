@@ -1,10 +1,14 @@
 import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
 import api from '../scripts/api/index.js';
-import TossupCard from './TossupCard.js';
-import BonusCard from './BonusCard.js';
+import star from '../scripts/auth/star.js';
+import TossupCard from '../scripts/components/TossupCard.js';
+import BonusCard from '../scripts/components/BonusCard.js';
+import Star from '../scripts/components/Star.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';
+const starredTossupIds = new Set(await star.getStarredTossupIds());
+const starredBonusIds = new Set(await star.getStarredBonusIds());
 const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
 const CATEGORY_BUTTONS = [['Literature', 'primary'], ['History', 'success'], ['Science', 'danger'], ['Fine Arts', 'warning'], ['Religion', 'secondary'], ['Mythology', 'secondary'], ['Philosophy', 'secondary'], ['Social Science', 'secondary'], ['Current Events', 'secondary'], ['Geography', 'secondary'], ['Other Academic', 'secondary'], ['Trash', 'secondary']];
 const SUBCATEGORY_BUTTONS = [['American Literature', 'primary'], ['British Literature', 'primary'], ['Classical Literature', 'primary'], ['European Literature', 'primary'], ['World Literature', 'primary'], ['Other Literature', 'primary'], ['American History', 'success'], ['Ancient History', 'success'], ['European History', 'success'], ['World History', 'success'], ['Other History', 'success'], ['Biology', 'danger'], ['Chemistry', 'danger'], ['Physics', 'danger'], ['Other Science', 'danger'], ['Visual Fine Arts', 'warning'], ['Auditory Fine Arts', 'warning'], ['Other Fine Arts', 'warning']];
@@ -405,24 +409,40 @@ function QueryForm() {
   }
   const tossupCards = [];
   for (let i = 0; i < highlightedTossups.length; i++) {
+    const _id = tossups[i]._id;
+    const starComponent = /*#__PURE__*/React.createElement(Star, {
+      key: _id,
+      _id: _id,
+      questionType: "tossup",
+      initiallyStarred: starredTossupIds.has(_id)
+    });
     tossupCards.push( /*#__PURE__*/React.createElement(TossupCard, {
       key: i,
       tossup: tossups[i],
       highlightedTossup: highlightedTossups[i],
       hideAnswerline: hideAnswerlines,
       showCardFooter: showCardFooters,
-      fontSize: fontSize
+      fontSize: fontSize,
+      topRightComponent: starComponent
     }));
   }
   const bonusCards = [];
   for (let i = 0; i < highlightedBonuses.length; i++) {
+    const _id = bonuses[i]._id;
+    const starComponent = /*#__PURE__*/React.createElement(Star, {
+      key: _id,
+      _id: _id,
+      questionType: "bonus",
+      initiallyStarred: starredBonusIds.has(_id)
+    });
     bonusCards.push( /*#__PURE__*/React.createElement(BonusCard, {
       key: i,
       bonus: bonuses[i],
       highlightedBonus: highlightedBonuses[i],
       hideAnswerlines: hideAnswerlines,
       showCardFooter: showCardFooters,
-      fontSize: fontSize
+      fontSize: fontSize,
+      topRightComponent: starComponent
     }));
   }
   React.useEffect(() => {

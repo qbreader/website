@@ -1,24 +1,22 @@
-import account from '../scripts/accounts.js';
-import { stringifyTossup } from './stringify.js';
-import Star from './Star.js';
-import star from '../scripts/auth/star.js';
-const starredTossupIds = new Set(await star.getStarredTossupIds());
+import account from '../accounts.js';
+import { stringifyTossup } from '../../database/stringify.js';
+import QuestionCard from './QuestionCard.js';
 export default function TossupCard({
   tossup,
   highlightedTossup,
   hideAnswerline,
   showCardFooter,
+  topRightComponent,
   fontSize = 16
 }) {
   const _id = tossup._id;
-  const packetName = tossup.packet.name;
   function clickToCopy() {
     const textdata = stringifyTossup(tossup);
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
-  function onClick() {
+  function onClickFooter() {
     document.getElementById('report-question-id').value = _id;
   }
   function showTossupStats() {
@@ -81,23 +79,13 @@ export default function TossupCard({
       console.error('Error:', error);
     });
   }
-  return /*#__PURE__*/React.createElement("div", {
-    className: "card my-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header d-flex justify-content-between"
-  }, /*#__PURE__*/React.createElement("b", {
-    className: "clickable",
-    onClick: clickToCopy
-  }, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' | ' + tossup.alternate_subcategory : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
-    className: "clickable",
-    "data-bs-toggle": "collapse",
-    "data-bs-target": `#question-${_id}`
-  }, "Packet ", tossup.packet.number, " |"), /*#__PURE__*/React.createElement("span", null, " "), /*#__PURE__*/React.createElement(Star, {
+  return /*#__PURE__*/React.createElement(QuestionCard, {
     key: _id,
-    _id: _id,
-    questionType: "tossup",
-    initiallyStarred: starredTossupIds.has(_id)
-  }))), /*#__PURE__*/React.createElement("div", {
+    fontSize: fontSize,
+    onClickHeader: clickToCopy,
+    question: tossup,
+    topRightComponent: topRightComponent
+  }, /*#__PURE__*/React.createElement("div", {
     className: "card-container collapse show",
     id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -126,11 +114,11 @@ export default function TossupCard({
     "data-bs-target": "#tossup-stats-modal"
   }, /*#__PURE__*/React.createElement("small", {
     className: "text-muted"
-  }, packetName ? 'Packet ' + packetName + '' : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
+  }, tossup.packet.name ? 'Packet ' + tossup.packet.name : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",
-    onClick: onClick,
+    onClick: onClickFooter,
     id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"

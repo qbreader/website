@@ -1,14 +1,10 @@
-import account from '../scripts/accounts.js';
-import { stringifyBonus } from './stringify.js';
-import { getBonusPartLabel } from '../scripts/utilities/index.js';
-import Star from './Star.js';
-import star from '../scripts/auth/star.js';
+import account from '../accounts.js';
+import { stringifyBonus } from '../../database/stringify.js';
+import { getBonusPartLabel } from '../utilities/index.js';
+import QuestionCard from './QuestionCard.js';
 
-const starredBonusIds = new Set(await star.getStarredBonusIds());
-
-export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, fontSize = 16 }) {
+export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = bonus._id;
-  const packetName = bonus.packet.name;
   const bonusLength = bonus.parts.length;
   const indices = [];
 
@@ -19,12 +15,11 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
   function clickToCopy () {
     const textdata = stringifyBonus(bonus);
     navigator.clipboard.writeText(textdata);
-
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
 
-  function onClick () {
+  function onClickFooter () {
     document.getElementById('report-question-id').value = _id;
   }
 
@@ -90,19 +85,12 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
   }
 
   return (
-    <div className='card my-2'>
-      <div className='card-header d-flex justify-content-between'>
-        <b className='clickable' onClick={clickToCopy}>
-          {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' | ' + bonus.alternate_subcategory : ''} | {bonus.difficulty}
-        </b>
-        <span>
-          <b className='clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
-            Packet {bonus.packet.number} |
-          </b>
-          <span> </span>
-          <Star key={_id} _id={_id} questionType='bonus' initiallyStarred={starredBonusIds.has(_id)} />
-        </span>
-      </div>
+    <QuestionCard
+      fontSize={fontSize}
+      onClickHeader={clickToCopy}
+      question={bonus}
+      topRightComponent={topRightComponent}
+    >
       <div className='card-container collapse show' id={`question-${_id}`}>
         <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
           <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>
@@ -126,15 +114,15 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
         </div>
         <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle='modal' data-bs-target='#bonus-stats-modal'>
           <small className='text-muted'>
-            {packetName ? 'Packet ' + packetName + '' : <span>&nbsp;</span>}
+            {bonus.packet.name ? 'Packet ' + bonus.packet.name : <span>&nbsp;</span>}
           </small>
           <small className='text-muted float-end'>
-            <a href='#' onClick={onClick} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
+            <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
               Report Question
             </a>
           </small>
         </div>
       </div>
-    </div>
+    </QuestionCard>
   );
 }

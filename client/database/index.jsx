@@ -1,11 +1,16 @@
 import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
 
 import api from '../scripts/api/index.js';
-import TossupCard from './TossupCard.js';
-import BonusCard from './BonusCard.js';
+import star from '../scripts/auth/star.js';
+import TossupCard from '../scripts/components/TossupCard.js';
+import BonusCard from '../scripts/components/BonusCard.js';
+import Star from '../scripts/components/Star.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';
+
+const starredTossupIds = new Set(await star.getStarredTossupIds());
+const starredBonusIds = new Set(await star.getStarredBonusIds());
 
 const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
 
@@ -419,12 +424,16 @@ function QueryForm () {
 
   const tossupCards = [];
   for (let i = 0; i < highlightedTossups.length; i++) {
-    tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} hideAnswerline={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize} />);
+    const _id = tossups[i]._id;
+    const starComponent = <Star key={_id} _id={_id} questionType='tossup' initiallyStarred={starredTossupIds.has(_id)} />;
+    tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} hideAnswerline={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize} topRightComponent={starComponent} />);
   }
 
   const bonusCards = [];
   for (let i = 0; i < highlightedBonuses.length; i++) {
-    bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} hideAnswerlines={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize} />);
+    const _id = bonuses[i]._id;
+    const starComponent = <Star key={_id} _id={_id} questionType='bonus' initiallyStarred={starredBonusIds.has(_id)} />;
+    bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} hideAnswerlines={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize} topRightComponent={starComponent} />);
   }
 
   React.useEffect(() => {
