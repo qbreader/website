@@ -110,12 +110,20 @@ export default class star {
   }
 
   static async getStarredTossupIds () {
+    if (!(await account.getUsername())) {
+      return [];
+    }
+
     return await fetch('/auth/stars/tossup-ids')
       .then(response => response.json())
       .then(ids => ids);
   }
 
   static async getStarredBonusIds () {
+    if (!(await account.getUsername())) {
+      return [];
+    }
+
     return await fetch('/auth/stars/bonus-ids')
       .then(response => response.json())
       .then(ids => ids);
