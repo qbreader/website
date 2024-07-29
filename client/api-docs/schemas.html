@@ -151,18 +151,23 @@
                     <div>
                         <code>question</code><code class="text-muted">: string</code>
                     </div>
-                    <div>The question text.</div>
+                    <div>The question text, formatted with HTML.</div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>question_sanitized</code><code class="text-muted">: string</code>
+                    </div>
+                    <div>The question text, unformatted.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
                         <code>answer</code><code class="text-muted">: string</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">optional</code>
                     </div>
                     <div>The answerline, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>answer</code><code class="text-muted">: string</code>
+                        <code>answer_sanitized</code><code class="text-muted">: string</code>
                     </div>
                     <div>The answerline, unformatted.</div>
                 </li>
@@ -266,24 +271,35 @@
                     <div>
                         <code>leadin</code><code class="text-muted">: string</code>
                     </div>
-                    <div>The leadin of the bonus.</div>
+                    <div>The leadin of the bonus, formatted with HTML.</div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>leadin_sanitized</code><code class="text-muted">: string</code>
+                    </div>
+                    <div>The leadin of the bonus, unformatted.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
                         <code>parts</code><code class="text-muted">: [string, string, string]</code>
                     </div>
-                    <div>The parts of the bonus.</div>
+                    <div>The parts of the bonus, formatted with HTML.</div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>parts_sanitized</code><code class="text-muted">: [string, string, string]</code>
+                    </div>
+                    <div>The parts of the bonus, unformatted.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
                         <code>answers</code><code class="text-muted">: [string, string, string]</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">optional</code>
                     </div>
                     <div>The answerlines, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>answers</code><code class="text-muted">: [string, string, string]</code>
+                        <code>answers_sanitized</code><code class="text-muted">: [string, string, string]</code>
                     </div>
                     <div>The answerlines, unformatted.</div>
                 </li>
