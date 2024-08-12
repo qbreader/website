@@ -86,42 +86,31 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
 
   return (
     <QuestionCard
-      fontSize={fontSize}
       onClickHeader={clickToCopy}
       question={bonus}
       topRightComponent={topRightComponent}
     >
-      <div className='card-container collapse show' id={`question-${_id}`}>
-        <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
-          <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>
-          <span dangerouslySetInnerHTML={{ __html: highlightedBonus.leadin }} />
-          {indices.map((i) =>
-            <div key={`${bonus._id}-${i}`}>
-              <hr />
-              <p>
-                <span>{getBonusPartLabel(bonus, i)} </span>
-                <span dangerouslySetInnerHTML={{ __html: highlightedBonus.parts[i] }} />
-              </p>
-              <div>
-                <b>ANSWER: </b>
-                <span dangerouslySetInnerHTML={{
-                  __html: hideAnswerlines ? '' : highlightedBonus?.answers[i]
-                }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-        <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle='modal' data-bs-target='#bonus-stats-modal'>
-          <small className='text-muted'>
-            {bonus.packet.name ? 'Packet ' + bonus.packet.name : <span>&nbsp;</span>}
-          </small>
-          <small className='text-muted float-end'>
-            <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
-              Report Question
-            </a>
-          </small>
-        </div>
+      <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
+        <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>
+        <span dangerouslySetInnerHTML={{ __html: highlightedBonus.leadin }} />
+        {indices.map((i) =>
+          <div key={`${bonus._id}-${i}`}>
+            <hr />
+            <p>{getBonusPartLabel(bonus, i)} <span dangerouslySetInnerHTML={{ __html: highlightedBonus.parts[i] }} /></p>
+            <b>ANSWER: </b>
+            <span dangerouslySetInnerHTML={{ __html: hideAnswerlines ? '' : highlightedBonus?.answers[i] }} />
+          </div>
+        )}
+      </div>
+      <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle='modal' data-bs-target='#bonus-stats-modal'>
+        <small className='text-muted'>
+          {bonus.packet.name ? 'Packet ' + bonus.packet.name : <span>&nbsp;</span>}
+        </small>
+        <small className='text-muted float-end'>
+          <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
+            Report Question
+          </a>
+        </small>
       </div>
     </QuestionCard>
   );
