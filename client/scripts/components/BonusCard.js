@@ -85,13 +85,9 @@ export default function BonusCard({
     });
   }
   return /*#__PURE__*/React.createElement(QuestionCard, {
-    fontSize: fontSize,
     onClickHeader: clickToCopy,
     question: bonus,
     topRightComponent: topRightComponent
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-container collapse show",
-    id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body",
     style: {
@@ -107,15 +103,15 @@ export default function BonusCard({
     }
   }), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
-  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", null, getBonusPartLabel(bonus, i), " "), /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, getBonusPartLabel(bonus, i), " ", /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: highlightedBonus.parts[i]
     }
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
+  })), /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: hideAnswerlines ? '' : highlightedBonus?.answers[i]
     }
-  }))))), /*#__PURE__*/React.createElement("div", {
+  })))), /*#__PURE__*/React.createElement("div", {
     className: `card-footer clickable ${!showCardFooter && 'd-none'}`,
     onClick: showBonusStats,
     "data-bs-toggle": "modal",
@@ -130,5 +126,5 @@ export default function BonusCard({
     id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"
-  }, "Report Question")))));
+  }, "Report Question"))));
 }

@@ -80,31 +80,27 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
 
   return (
     <QuestionCard
-      key={_id}
-      fontSize={fontSize}
       onClickHeader={clickToCopy}
       question={tossup}
       topRightComponent={topRightComponent}
     >
-      <div className='card-container collapse show' id={`question-${_id}`}>
-        <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
-          <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
-          <span dangerouslySetInnerHTML={{ __html: highlightedTossup.question }} />
-          <hr className='my-3' />
-          <div>
-            <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.answer }} />
-          </div>
+      <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
+        <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
+        <span dangerouslySetInnerHTML={{ __html: highlightedTossup.question }} />
+        <hr className='my-3' />
+        <div>
+          <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.answer }} />
         </div>
-        <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle='modal' data-bs-target='#tossup-stats-modal'>
-          <small className='text-muted'>
-            {tossup.packet.name ? 'Packet ' + tossup.packet.name : <span>&nbsp;</span>}
-          </small>
-          <small className='text-muted float-end'>
-            <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
-              Report Question
-            </a>
-          </small>
-        </div>
+      </div>
+      <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle='modal' data-bs-target='#tossup-stats-modal'>
+        <small className='text-muted'>
+          {tossup.packet.name ? 'Packet ' + tossup.packet.name : <span>&nbsp;</span>}
+        </small>
+        <small className='text-muted float-end'>
+          <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
+            Report Question
+          </a>
+        </small>
       </div>
     </QuestionCard>
   );
