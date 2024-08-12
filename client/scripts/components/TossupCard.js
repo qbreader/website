@@ -80,14 +80,9 @@ export default function TossupCard({
     });
   }
   return /*#__PURE__*/React.createElement(QuestionCard, {
-    key: _id,
-    fontSize: fontSize,
     onClickHeader: clickToCopy,
     question: tossup,
     topRightComponent: topRightComponent
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-container collapse show",
-    id: `question-${_id}`
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body",
     style: {
@@ -122,5 +117,5 @@ export default function TossupCard({
     id: `report-question-${_id}`,
     "data-bs-toggle": "modal",
     "data-bs-target": "#report-question-modal"
-  }, "Report Question")))));
+  }, "Report Question"))));
 }
