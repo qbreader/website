@@ -1,4 +1,6 @@
 import { getBonusPartLabel } from '../scripts/utilities/index.js';
+import QuestionCard from '../scripts/components/QuestionCard.js';
+const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? window.localStorage.getItem('font-size') ?? 16 : 16;
 const ALTERNATE_SUBCATEGORIES = {
   Literature: ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
   History: [],
@@ -55,17 +57,14 @@ function TossupCard({
     const reason = tossup.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
-  return /*#__PURE__*/React.createElement("div", {
-    className: "card my-2"
+  return /*#__PURE__*/React.createElement(QuestionCard, {
+    onClickHeader: "collapse",
+    question: tossup
   }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header d-flex justify-content-between clickable",
-    "data-bs-toggle": "collapse",
-    "data-bs-target": `#question-${_id}`
-  }, /*#__PURE__*/React.createElement("b", null, tossup.set.name, " | ", tossup.category, " | ", tossup.subcategory, " ", tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : '', " | ", tossup.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", tossup.packet.number, " | Question ", tossup.number)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container collapse show",
-    id: `question-${_id}`
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-body"
+    className: "card-body",
+    style: {
+      fontSize: `${fontSize}px`
+    }
   }, /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: tossup.question
@@ -87,8 +86,8 @@ function TossupCard({
   }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#"
-  }, "Fix Category")))));
+    href: "javascript:void(0);"
+  }, "Fix Category"))));
 }
 function BonusCard({
   bonus
@@ -107,24 +106,18 @@ function BonusCard({
     const reason = bonus.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
-  return /*#__PURE__*/React.createElement("div", {
-    className: "card my-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-header d-flex justify-content-between clickable",
-    "data-bs-toggle": "collapse",
-    "data-bs-target": `#question-${_id}`
-  }, /*#__PURE__*/React.createElement("b", null, bonus.set.name, " | ", bonus.category, " | ", bonus.subcategory, " ", bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : '', " | ", bonus.difficulty), /*#__PURE__*/React.createElement("b", null, "Packet ", bonus.packet.number, " | Question ", bonus.number)), /*#__PURE__*/React.createElement("div", {
-    className: "card-container collapse show",
-    id: `question-${_id}`
+  return /*#__PURE__*/React.createElement(QuestionCard, {
+    onClickHeader: "collapse",
+    question: bonus
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/React.createElement("p", null, bonus.leadin), indices.map(i => /*#__PURE__*/React.createElement("div", {
     key: `${bonus._id}-${i}`
-  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", null, getBonusPartLabel(i), " "), /*#__PURE__*/React.createElement("span", null, bonus.parts[i])), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, getBonusPartLabel(i), " ", bonus.parts[i]), /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
     dangerouslySetInnerHTML: {
       __html: bonus?.answers[i]
     }
-  }))))), /*#__PURE__*/React.createElement("div", {
+  })))), /*#__PURE__*/React.createElement("div", {
     className: "card-footer clickable",
     onClick: onClick,
     "data-bs-toggle": "modal",
@@ -134,8 +127,8 @@ function BonusCard({
   }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
     className: "text-muted float-end"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#"
-  }, "Fix Category")))));
+    href: "javascript:void(0);"
+  }, "Fix Category"))));
 }
 function Reports() {
   let [tossups, setTossups] = React.useState([]);

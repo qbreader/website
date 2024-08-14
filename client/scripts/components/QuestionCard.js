@@ -1,3 +1,12 @@
+/**
+ *
+ * @param {*} param0
+ * @param {*} children
+ * @param {*} onClickHeader - 'collapse' or a function
+ * @param {*} question
+ * @param {*} topRightComponent
+ * @returns
+ */
 export default function QuestionCard({
   children,
   onClickHeader,
@@ -13,7 +22,9 @@ export default function QuestionCard({
     className: "card-header d-flex justify-content-between"
   }, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
-    onClick: onClickHeader
+    onClick: onClickHeader === 'collapse' ? null : onClickHeader,
+    "data-bs-toggle": onClickHeader === 'collapse' ? 'collapse' : null,
+    "data-bs-target": onClickHeader === 'collapse' ? `#question-${_id}` : null
   }, question.set.name, " | ", question.category, " | ", question.subcategory, " ", question.alternate_subcategory ? ' | ' + question.alternate_subcategory : '', " | ", question.difficulty), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
     className: "clickable",
     "data-bs-toggle": "collapse",
