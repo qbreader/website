@@ -1,4 +1,7 @@
 import { getBonusPartLabel } from '../scripts/utilities/index.js';
+import QuestionCard from '../scripts/components/QuestionCard.js';
+
+const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;
 
 const ALTERNATE_SUBCATEGORIES = {
   Literature: ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
@@ -55,35 +58,27 @@ function TossupCard ({ tossup }) {
     document.getElementById('old-category').value = `${tossup.category} / ${tossup.subcategory}`;
     document.getElementById('question-id').value = _id;
     document.getElementById('question-type').textContent = 'tossup';
-
     const reason = tossup.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
 
   return (
-    <div className='card my-2'>
-      <div className='card-header d-flex justify-content-between clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
-        <b>
-          {tossup.set.name} | {tossup.category} | {tossup.subcategory} {tossup.alternate_subcategory ? ' (' + tossup.alternate_subcategory + ')' : ''} | {tossup.difficulty}
-        </b>
-        <b>
-          Packet {tossup.packet.number} | Question {tossup.number}
-        </b>
+    <QuestionCard
+      onClickHeader='collapse'
+      question={tossup}
+    >
+      <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
+        <span dangerouslySetInnerHTML={{ __html: tossup.question }} />
+        <hr className='my-3' />
+        <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.answer }} /></div>
       </div>
-      <div className='card-container collapse show' id={`question-${_id}`}>
-        <div className='card-body'>
-          <span dangerouslySetInnerHTML={{ __html: tossup.question }} />
-          <hr className='my-3' />
-          <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.answer }} /></div>
-        </div>
-        <div className='card-footer clickable' onClick={onClick} id={`fix-category-${_id}`} data-bs-toggle='modal' data-bs-target='#fix-category-modal'>
-          <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
-          <small className='text-muted float-end'>
-            <a href='#'>Fix Category</a>
-          </small>
-        </div>
+      <div className='card-footer clickable' onClick={onClick} id={`fix-category-${_id}`} data-bs-toggle='modal' data-bs-target='#fix-category-modal'>
+        <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
+        <small className='text-muted float-end'>
+          <a href='javascript:void(0);'>Fix Category</a>
+        </small>
       </div>
-    </div>
+    </QuestionCard>
   );
 }
 
@@ -101,46 +96,33 @@ function BonusCard ({ bonus }) {
     document.getElementById('old-category').value = `${bonus.category} / ${bonus.subcategory}`;
     document.getElementById('question-id').value = _id;
     document.getElementById('question-type').textContent = 'bonus';
-
     const reason = bonus.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
 
   return (
-    <div className='card my-2'>
-      <div className='card-header d-flex justify-content-between clickable' data-bs-toggle='collapse' data-bs-target={`#question-${_id}`}>
-        <b>
-          {bonus.set.name} | {bonus.category} | {bonus.subcategory} {bonus.alternate_subcategory ? ' (' + bonus.alternate_subcategory + ')' : ''} | {bonus.difficulty}
-        </b>
-        <b>
-          Packet {bonus.packet.number} | Question {bonus.number}
-        </b>
+    <QuestionCard
+      onClickHeader='collapse'
+      question={bonus}
+    >
+      <div className='card-body'>
+        <p>{bonus.leadin}</p>
+        {indices.map((i) =>
+          <div key={`${bonus._id}-${i}`}>
+            <hr />
+            <p>{getBonusPartLabel(i)} {bonus.parts[i]}</p>
+            <b>ANSWER: </b>
+            <span dangerouslySetInnerHTML={{ __html: bonus?.answers[i] }} />
+          </div>
+        )}
       </div>
-      <div className='card-container collapse show' id={`question-${_id}`}>
-        <div className='card-body'>
-          <p>{bonus.leadin}</p>
-          {indices.map((i) =>
-            <div key={`${bonus._id}-${i}`}>
-              <hr />
-              <p>
-                <span>{getBonusPartLabel(i)} </span>
-                <span>{bonus.parts[i]}</span>
-              </p>
-              <div>
-                <b>ANSWER: </b>
-                <span dangerouslySetInnerHTML={{ __html: bonus?.answers[i] }} />
-              </div>
-            </div>
-          )}
-        </div>
-        <div className='card-footer clickable' onClick={onClick} data-bs-toggle='modal' data-bs-target='#fix-category-modal'>
-          <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
-          <small className='text-muted float-end'>
-            <a href='#'>Fix Category</a>
-          </small>
-        </div>
+      <div className='card-footer clickable' onClick={onClick} data-bs-toggle='modal' data-bs-target='#fix-category-modal'>
+        <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
+        <small className='text-muted float-end'>
+          <a href='javascript:void(0);'>Fix Category</a>
+        </small>
       </div>
-    </div>
+    </QuestionCard>
   );
 }
 
