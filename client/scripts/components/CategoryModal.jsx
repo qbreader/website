@@ -67,6 +67,24 @@ function CategoryModal ({ categoryManager, onClose = () => {} }) {
     document.getElementById('category-modal').addEventListener('hidden.bs.modal', onClose);
   }, [onClose]);
 
+  function ToggleAllButton () {
+    function handleClick () {
+      if (categoryManager.categories.length === 0) {
+        categoryManager.import(
+          CATEGORY_BUTTONS.map(element => element[0]),
+          SUBCATEGORY_BUTTONS.map(element => element[0]),
+          ALTERNATE_SUBCATEGORY_BUTTONS.map(element => element[0])
+        );
+      } else {
+        categoryManager.import([], [], []);
+      }
+      categoryManager.loadCategoryModal();
+    }
+    return (
+      <button className='btn btn-primary' onClick={handleClick}>Toggle all</button>
+    );
+  }
+
   function CategoryButton ({ category, color }) {
     function handleClick () {
       categoryManager.updateCategory(category);
@@ -114,7 +132,8 @@ function CategoryModal ({ categoryManager, onClose = () => {} }) {
       <div className='modal-dialog modal-dialog-scrollable'>
         <div className='modal-content'>
           <div className='modal-header'>
-            <h5 className='modal-title'>Select Categories and Subcategories</h5>
+            <h5 className='modal-title me-2'>Select Categories</h5>
+            <ToggleAllButton />
             <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' />
           </div>
           <div className='modal-body'>
