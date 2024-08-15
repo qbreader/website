@@ -2,10 +2,10 @@ import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, do
 
 import api from '../scripts/api/index.js';
 import star from '../scripts/auth/star.js';
-import TossupCard from '../scripts/components/TossupCard.js';
-import BonusCard from '../scripts/components/BonusCard.js';
-import CategoryModal from '../scripts/components/CategoryModal.js';
-import Star from '../scripts/components/Star.js';
+import TossupCard from '../scripts/components/TossupCard.min.js';
+import BonusCard from '../scripts/components/BonusCard.min.js';
+import CategoryModal from '../scripts/components/CategoryModal.min.js';
+import Star from '../scripts/components/Star.min.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';

@@ -1,5 +1,5 @@
 import { getBonusPartLabel } from '../scripts/utilities/index.js';
-import QuestionCard from '../scripts/components/QuestionCard.js';
+import QuestionCard from '../scripts/components/QuestionCard.min.js';
 
 const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;
 
