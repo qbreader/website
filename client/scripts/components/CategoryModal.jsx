@@ -61,7 +61,12 @@ const ALTERNATE_SUBCATEGORY_BUTTONS = [
   ['Other Social Science', 'secondary']
 ];
 
-function CategoryModal ({ categoryManager }) {
+function CategoryModal ({ categoryManager, onClose = () => {} }) {
+  React.useEffect(() => {
+    categoryManager.loadCategoryModal();
+    document.getElementById('category-modal').addEventListener('hidden.bs.modal', onClose);
+  }, [onClose]);
+
   function CategoryButton ({ category, color }) {
     function handleClick () {
       categoryManager.updateCategory(category);
