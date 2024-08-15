@@ -84,13 +84,9 @@ export default class CategoryManager {
     document.querySelectorAll('#alternate-subcategories label').forEach(element => { element.classList.add('d-none'); });
 
     if (this.categories.length === 0 && this.subcategories.length === 0) {
-      const subcategoryInfoText = document.createElement('div');
-      subcategoryInfoText.className = 'text-muted text-center';
-      subcategoryInfoText.textContent = 'You must select categories before you can select subcategories.';
-      subcategoryInfoText.id = 'subcategory-info-text';
-      document.getElementById('subcategories').appendChild(subcategoryInfoText);
-    } else if (document.getElementById('subcategory-info-text')) {
-      document.getElementById('subcategory-info-text').remove();
+      document.getElementById('subcategory-info-text').classList.remove('d-none');
+    } else {
+      document.getElementById('subcategory-info-text').classList.add('d-none');
     }
 
     for (const category of this.categories) {

@@ -8,9 +8,10 @@ import CategoryManager from '../scripts/utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../scripts/utilities/index.js';
 import { escapeHTML } from '../scripts/utilities/strings.js';
+import CategoryModal from '../scripts/components/CategoryModal.min.js';
 
 const categoryManager = new CategoryManager();
-let changedCategories = false;
+let oldCategories = JSON.stringify(categoryManager.export());
 
 let maxPacketNumber = 24;
 
@@ -801,13 +802,6 @@ document.getElementById('buzz').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
 
-document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-  if (changedCategories) {
-    socket.send(JSON.stringify({ type: 'update-categories', ...categoryManager.export() }));
-  }
-  changedCategories = false;
-});
-
 document.getElementById('chat').addEventListener('click', function () {
   this.blur();
   document.getElementById('chat-input-group').classList.remove('d-none');
@@ -967,33 +961,6 @@ document.getElementById('year-range-a').onchange = function () {
   socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
 };
 
-document.querySelectorAll('#categories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateCategory(input.id);
-    categoryManager.loadCategoryModal();
-    changedCategories = true;
-  });
-});
-
-document.querySelectorAll('#subcategories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateSubcategory(input.id);
-    categoryManager.loadCategoryModal();
-    changedCategories = true;
-  });
-});
-
-document.querySelectorAll('#alternate-subcategories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateAlternateSubcategory(input.id);
-    categoryManager.loadCategoryModal();
-    changedCategories = true;
-  });
-});
-
 document.addEventListener('keydown', function (event) {
   // press escape to close chat
   if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
@@ -1047,3 +1014,16 @@ document.addEventListener('keypress', function (event) {
 
 attachDropdownChecklist();
 document.getElementById('username').value = username;
+
+const root = ReactDOM.createRoot(document.getElementById('category-modal-root'));
+root.render(
+  <CategoryModal
+    categoryManager={categoryManager}
+    onClose={() => {
+      if (oldCategories !== JSON.stringify(categoryManager.export())) {
+        socket.send(JSON.stringify({ type: 'update-categories', ...categoryManager.export() }));
+      }
+      oldCategories = JSON.stringify(categoryManager.export());
+    }}
+  />
+);
