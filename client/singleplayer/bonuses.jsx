@@ -5,6 +5,7 @@ import audio from '../audio/index.js';
 import { arrayToRange, createBonusCard, rangeToArray } from '../scripts/utilities/index.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
 import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import CategoryModal from '../scripts/components/CategoryModal.min.js';
 
 // Functions and variables specific to the bonuses page.
 
@@ -362,36 +363,6 @@ function updateStatsForCurrentBonus () {
   window.sessionStorage.setItem('bonus-stats', JSON.stringify(stats));
 }
 
-document.querySelectorAll('#categories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateCategory(input.id);
-    categoryManager.loadCategoryModal();
-    ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
-  });
-});
-
-document.querySelectorAll('#subcategories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateSubcategory(input.id);
-    categoryManager.loadCategoryModal();
-    ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
-  });
-});
-
-document.querySelectorAll('#alternate-subcategories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateAlternateSubcategory(input.id);
-    categoryManager.loadCategoryModal();
-    ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
-  });
-});
-
 document.getElementById('answer-form').addEventListener('submit', function (event) {
   event.preventDefault();
   event.stopPropagation();
@@ -404,11 +375,6 @@ document.getElementById('answer-form').addEventListener('submit', function (even
   document.getElementById('answer-input-group').classList.add('d-none');
 
   giveAnswer(answer);
-});
-
-document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-  loadRandomBonuses(query);
-  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
 });
 
 document.getElementById('clear-stats').addEventListener('click', function () {
@@ -621,11 +587,20 @@ document.addEventListener('keydown', (event) => {
 });
 
 attachDropdownChecklist();
-categoryManager.loadCategoryModal();
 
-window.onload = async () => {
-  $('#slider').slider('values', 0, query.minYear);
-  $('#slider').slider('values', 1, query.maxYear);
-  document.getElementById('year-range-a').textContent = query.minYear;
-  document.getElementById('year-range-b').textContent = query.maxYear;
-};
+$('#slider').slider('values', 0, query.minYear);
+$('#slider').slider('values', 1, query.maxYear);
+document.getElementById('year-range-a').textContent = query.minYear;
+document.getElementById('year-range-b').textContent = query.maxYear;
+
+const root = ReactDOM.createRoot(document.getElementById('category-modal-root'));
+root.render(
+  <CategoryModal
+    categoryManager={categoryManager}
+    onClose={() => {
+      ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
+      loadRandomBonuses(query);
+      window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    }}
+  />
+);
