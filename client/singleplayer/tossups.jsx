@@ -5,8 +5,10 @@ import audio from '../audio/index.js';
 import Timer from '../scripts/Timer.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../scripts/utilities/index.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';
+import CategoryModal from '../scripts/components/CategoryModal.min.js';
+import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 
 // Functions and variables specific to the tossups page.
 
@@ -123,17 +125,6 @@ if (!settings.typeToAnswer) {
   document.getElementById('toggle-rebuzz').disabled = true;
 }
 
-if (query.difficulties) {
-  for (const element of document.getElementById('difficulties').children) {
-    const input = element.querySelector('input');
-    const difficulty = parseInt(input.value);
-    if (query.difficulties.includes(difficulty)) {
-      element.classList.add('active');
-      input.checked = true;
-    }
-  }
-}
-
 if (query.packetNumbers) {
   document.getElementById('packet-number').value = arrayToRange(query.packetNumbers);
 }
@@ -211,7 +202,7 @@ async function advanceQuestion () {
   } else {
     queryLock();
     try {
-      tossups = await getRandomTossup(query);
+      tossups = await getRandomTossup(query, categoryManager);
       tossups = [tossups];
     } finally {
       queryUnlock();
@@ -334,7 +325,15 @@ async function loadRandomTossups ({ alternateSubcategories, categories, difficul
  * Get a random tossup.
  * @returns
  */
-async function getRandomTossup ({ alternateSubcategories, categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly } = {}) {
+async function getRandomTossup ({ alternateSubcategories, categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly } = {}, categoryManager = null) {
+  if (categoryManager?.percentView) {
+    categories = [categoryManager.getRandomCategory()];
+    subcategories = [];
+    alternateSubcategories = [];
+    await loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, powermarkOnly, subcategories, standardOnly });
+    return randomTossups.pop();
+  }
+
   if (randomTossups.length === 0) {
     await loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
   }
@@ -527,36 +526,6 @@ function updateStatDisplay () {
   document.getElementById('clear-stats').disabled = (numTossups === 0);
 }
 
-document.querySelectorAll('#categories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateCategory(input.id);
-    categoryManager.loadCategoryModal();
-    ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
-  });
-});
-
-document.querySelectorAll('#subcategories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateSubcategory(input.id);
-    categoryManager.loadCategoryModal();
-    ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
-  });
-});
-
-document.querySelectorAll('#alternate-subcategories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateAlternateSubcategory(input.id);
-    categoryManager.loadCategoryModal();
-    ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
-    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
-  });
-});
-
 document.getElementById('answer-form').addEventListener('submit', function (event) {
   event.preventDefault();
   event.stopPropagation();
@@ -598,20 +567,9 @@ document.getElementById('buzz').addEventListener('click', function () {
   }
 });
 
-document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-  loadRandomTossups(query);
-  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
-});
-
 document.getElementById('clear-stats').addEventListener('click', function () {
   this.blur();
   clearStats();
-});
-
-document.getElementById('difficulties').addEventListener('change', function () {
-  query.difficulties = getDropdownValues('difficulties');
-  loadRandomTossups(query);
-  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
 });
 
 document.getElementById('next').addEventListener('click', function () {
@@ -809,12 +767,29 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-attachDropdownChecklist();
-categoryManager.loadCategoryModal();
+$('#slider').slider('values', 0, query.minYear);
+$('#slider').slider('values', 1, query.maxYear);
+document.getElementById('year-range-a').textContent = query.minYear;
+document.getElementById('year-range-b').textContent = query.maxYear;
 
-window.onload = async () => {
-  $('#slider').slider('values', 0, query.minYear);
-  $('#slider').slider('values', 1, query.maxYear);
-  document.getElementById('year-range-a').textContent = query.minYear;
-  document.getElementById('year-range-b').textContent = query.maxYear;
-};
+ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
+  <CategoryModal
+    categoryManager={categoryManager}
+    onClose={() => {
+      ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
+      loadRandomTossups(query);
+      window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    }}
+  />
+);
+
+ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
+  <DifficultyDropdown
+    startingDifficulties={query.difficulties}
+    onChange={() => {
+      query.difficulties = getDropdownValues('difficulties');
+      loadRandomTossups(query);
+      window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
+    }}
+  />
+);
