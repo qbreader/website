@@ -5,12 +5,14 @@ import questionStats from '../scripts/auth/question-stats.js';
 import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../scripts/utilities/index.js';
 import { escapeHTML } from '../scripts/utilities/strings.js';
+import CategoryModal from '../scripts/components/CategoryModal.min.js';
+import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 
 const categoryManager = new CategoryManager();
-let changedCategories = false;
+let oldCategories = JSON.stringify(categoryManager.export());
 
 let maxPacketNumber = 24;
 
@@ -801,13 +803,6 @@ document.getElementById('buzz').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
 });
 
-document.getElementById('category-modal').addEventListener('hidden.bs.modal', function () {
-  if (changedCategories) {
-    socket.send(JSON.stringify({ type: 'update-categories', ...categoryManager.export() }));
-  }
-  changedCategories = false;
-});
-
 document.getElementById('chat').addEventListener('click', function () {
   this.blur();
   document.getElementById('chat-input-group').classList.remove('d-none');
@@ -834,13 +829,6 @@ document.getElementById('chat-input').addEventListener('input', function () {
 document.getElementById('clear-stats').addEventListener('click', function () {
   this.blur();
   socket.send(JSON.stringify({ type: 'clear-stats' }));
-});
-
-document.getElementById('difficulties').addEventListener('change', function () {
-  socket.send(JSON.stringify({
-    type: 'difficulties',
-    value: getDropdownValues('difficulties')
-  }));
 });
 
 document.getElementById('next').addEventListener('click', function () {
@@ -967,33 +955,6 @@ document.getElementById('year-range-a').onchange = function () {
   socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
 };
 
-document.querySelectorAll('#categories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateCategory(input.id);
-    categoryManager.loadCategoryModal();
-    changedCategories = true;
-  });
-});
-
-document.querySelectorAll('#subcategories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateSubcategory(input.id);
-    categoryManager.loadCategoryModal();
-    changedCategories = true;
-  });
-});
-
-document.querySelectorAll('#alternate-subcategories input').forEach(input => {
-  input.addEventListener('click', function () {
-    this.blur();
-    categoryManager.updateAlternateSubcategory(input.id);
-    categoryManager.loadCategoryModal();
-    changedCategories = true;
-  });
-});
-
 document.addEventListener('keydown', function (event) {
   // press escape to close chat
   if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
@@ -1045,5 +1006,28 @@ document.addEventListener('keypress', function (event) {
   }
 });
 
-attachDropdownChecklist();
 document.getElementById('username').value = username;
+
+ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
+  <CategoryModal
+    categoryManager={categoryManager}
+    disablePercentView
+    onClose={() => {
+      if (oldCategories !== JSON.stringify(categoryManager.export())) {
+        socket.send(JSON.stringify({ type: 'update-categories', ...categoryManager.export() }));
+      }
+      oldCategories = JSON.stringify(categoryManager.export());
+    }}
+  />
+);
+
+ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
+  <DifficultyDropdown
+    onChange={() => {
+      socket.send(JSON.stringify({
+        type: 'difficulties',
+        value: getDropdownValues('difficulties')
+      }));
+    }}
+  />
+);
