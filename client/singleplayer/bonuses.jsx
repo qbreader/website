@@ -578,8 +578,10 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-$('#slider').slider('values', 0, query.minYear);
-$('#slider').slider('values', 1, query.maxYear);
+$(document).ready(function () {
+  $('#slider').slider('values', 0, query.minYear);
+  $('#slider').slider('values', 1, query.maxYear);
+});
 document.getElementById('year-range-a').textContent = query.minYear;
 document.getElementById('year-range-b').textContent = query.maxYear;
 
