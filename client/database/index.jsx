@@ -5,9 +5,10 @@ import star from '../scripts/auth/star.js';
 import TossupCard from '../scripts/components/TossupCard.min.js';
 import BonusCard from '../scripts/components/BonusCard.min.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
+import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import Star from '../scripts/components/Star.min.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';
 
 const starredTossupIds = new Set(await star.getStarredTossupIds());
@@ -88,7 +89,6 @@ function QueryForm () {
   const [tossupCount, setTossupCount] = React.useState(0);
   const [bonusCount, setBonusCount] = React.useState(0);
 
-  const [difficulties, setDifficulties] = React.useState([]);
   const [maxReturnLength, setMaxReturnLength] = React.useState('');
   const [queryString, setQueryString] = React.useState('');
   const [questionType, setQuestionType] = React.useState('all');
@@ -202,7 +202,7 @@ function QueryForm () {
     const params = new URLSearchParams({
       queryString,
       ...categoryManager.export(),
-      difficulties,
+      difficulties: getDropdownValues('difficulties'),
       maxReturnLength,
       questionType,
       randomize,
@@ -299,12 +299,6 @@ function QueryForm () {
   }
 
   React.useEffect(() => {
-    attachDropdownChecklist();
-
-    document.getElementById('difficulties').addEventListener('change', function () {
-      setDifficulties(getDropdownValues('difficulties'));
-    });
-
     document.getElementById('report-question-submit').addEventListener('click', function () {
       api.reportQuestion(
         document.getElementById('report-question-id').value,
@@ -372,27 +366,7 @@ function QueryForm () {
         </div>
         <div className='row'>
           <div className='col-6 col-xl-3 mb-2'>
-            <div className='dropdown-checklist btn-group w-100'>
-              <button
-                className='btn btn-default text-start w-100' id='dropdownMenu1' data-bs-toggle='dropdown'
-                type='button' aria-expanded='true' aria-haspopup='true'
-              >
-                Difficulties
-              </button>
-              <button className='btn btn-default dropdown-toggle dropdown-toggle-split' data-bs-toggle='dropdown' type='button' />
-              <ul className='dropdown-menu checkbox-menu allow-focus' id='difficulties' aria-labelledby='dropdownMenu1'>
-                <li><label><input type='checkbox' value='1' /> 1: Middle School</label></li>
-                <li><label><input type='checkbox' value='2' /> 2: Easy High School</label></li>
-                <li><label><input type='checkbox' value='3' /> 3: Regular High School</label></li>
-                <li><label><input type='checkbox' value='4' /> 4: Hard High School</label></li>
-                <li><label><input type='checkbox' value='5' /> 5: National High School</label></li>
-                <li><label><input type='checkbox' value='6' /> 6: ● / Easy College</label></li>
-                <li><label><input type='checkbox' value='7' /> 7: ●● / Medium College</label></li>
-                <li><label><input type='checkbox' value='8' /> 8: ●●● / Regionals College</label></li>
-                <li><label><input type='checkbox' value='9' /> 9: ●●●● / Nationals College</label></li>
-                <li><label><input type='checkbox' value='10' /> 10: Open</label></li>
-              </ul>
-            </div>
+            <DifficultyDropdown />
           </div>
           <div className='col-6 col-xl-3 mb-2'>
             <input type='number' className='form-control' id='max-return-length' placeholder='# to Display' value={maxReturnLength} onChange={event => { setMaxReturnLength(event.target.value); }} />
