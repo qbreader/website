@@ -1,4 +1,5 @@
 const DIFFICULTIES = [
+  [0, 'Trash'],
   [1, 'Middle School'],
   [2, 'Easy High School'],
   [3, 'Regular High School'],
