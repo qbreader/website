@@ -1019,6 +1019,7 @@ const root = ReactDOM.createRoot(document.getElementById('category-modal-root'))
 root.render(
   <CategoryModal
     categoryManager={categoryManager}
+    disablePercentView
     onClose={() => {
       if (oldCategories !== JSON.stringify(categoryManager.export())) {
         socket.send(JSON.stringify({ type: 'update-categories', ...categoryManager.export() }));

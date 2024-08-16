@@ -248,6 +248,14 @@ function getPointsPerPart (bonus) {
 }
 
 async function getRandomBonus ({ alternateSubcategories, categories, difficulties, minYear, maxYear, subcategories, threePartBonuses }) {
+  if (categoryManager?.percentView) {
+    categories = [categoryManager.getRandomCategory()];
+    subcategories = [];
+    alternateSubcategories = [];
+    await loadRandomBonuses({ alternateSubcategories, categories, difficulties, maxYear, minYear, subcategories, threePartBonuses });
+    return randomBonuses.pop();
+  }
+
   if (randomBonuses.length === 0) {
     await loadRandomBonuses({ alternateSubcategories, categories, difficulties, minYear, maxYear, number: 20, subcategories, threePartBonuses });
   }

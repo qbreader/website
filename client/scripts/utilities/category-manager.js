@@ -35,6 +35,12 @@ export default class CategoryManager {
      * @param {string[]} alternateSubcategories
      */
   constructor (categories = [], subcategories = [], alternateSubcategories = []) {
+    // Should sum to 100
+    this.categoryPercents = [];
+    for (let i = 0; i < Object.keys(SUBCATEGORIES).length; i++) {
+      this.categoryPercents.push(0);
+    }
+    this.percentView = false;
     this.import(categories, subcategories, alternateSubcategories);
   }
 
@@ -58,6 +64,22 @@ export default class CategoryManager {
     this.categories = categories;
     this.subcategories = subcategories;
     this.alternateSubcategories = alternateSubcategories;
+  }
+
+  getRandomCategory () {
+    const total = this.categoryPercents.reduce((a, b) => a + b, 0);
+    if (total === 0) {
+      // uniformly return a random category
+      return Object.keys(SUBCATEGORIES)[Math.floor(Math.random() * Object.keys(SUBCATEGORIES).length)];
+    } else {
+      let random = Math.random() * total;
+      for (let i = 0; i < this.categoryPercents.length; i++) {
+        random -= this.categoryPercents[i];
+        if (random <= 0) {
+          return Object.keys(SUBCATEGORIES)[i];
+        }
+      }
+    }
   }
 
   /**
