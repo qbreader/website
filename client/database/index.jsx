@@ -357,7 +357,7 @@ function QueryForm () {
 
   return (
     <div>
-      <CategoryModal categoryManager={categoryManager} />
+      <CategoryModal categoryManager={categoryManager} disablePercentView />
       <form className='mt-3' onSubmit={event => { handleSubmit(event); }}>
         <div className='input-group mb-2'>
           <input type='text' className='form-control' id='query' placeholder='Query' value={queryString} onChange={event => { setQueryString(event.target.value); }} />
