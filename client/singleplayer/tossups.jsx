@@ -212,7 +212,7 @@ async function advanceQuestion () {
   } else {
     queryLock();
     try {
-      tossups = await getRandomTossup(query);
+      tossups = await getRandomTossup(query, categoryManager);
       tossups = [tossups];
     } finally {
       queryUnlock();
@@ -335,7 +335,15 @@ async function loadRandomTossups ({ alternateSubcategories, categories, difficul
  * Get a random tossup.
  * @returns
  */
-async function getRandomTossup ({ alternateSubcategories, categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly } = {}) {
+async function getRandomTossup ({ alternateSubcategories, categories, difficulties, minYear, maxYear, powermarkOnly, subcategories, standardOnly } = {}, categoryManager = null) {
+  if (categoryManager?.percentView) {
+    categories = [categoryManager.getRandomCategory()];
+    subcategories = [];
+    alternateSubcategories = [];
+    await loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, powermarkOnly, subcategories, standardOnly });
+    return randomTossups.pop();
+  }
+
   if (randomTossups.length === 0) {
     await loadRandomTossups({ alternateSubcategories, categories, difficulties, maxYear, minYear, number: 20, powermarkOnly, subcategories, standardOnly });
   }
