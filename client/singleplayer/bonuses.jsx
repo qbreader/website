@@ -4,8 +4,9 @@ import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
 import { arrayToRange, createBonusCard, rangeToArray } from '../scripts/utilities/index.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
+import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 
 // Functions and variables specific to the bonuses page.
 
@@ -81,17 +82,6 @@ if (!settings.showHistory) {
 
 if (!settings.typeToAnswer) {
   document.getElementById('type-to-answer').checked = false;
-}
-
-if (query.difficulties) {
-  for (const element of document.getElementById('difficulties').children) {
-    const input = element.querySelector('input');
-    const difficulty = parseInt(input.value);
-    if (query.difficulties.includes(difficulty)) {
-      element.classList.add('active');
-      input.checked = true;
-    }
-  }
 }
 
 if (query.packetNumbers) {
@@ -390,12 +380,6 @@ document.getElementById('clear-stats').addEventListener('click', function () {
   clearStats();
 });
 
-document.getElementById('difficulties').addEventListener('change', function () {
-  query.difficulties = getDropdownValues('difficulties');
-  loadRandomBonuses(query);
-  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
-});
-
 document.getElementById('next').addEventListener('click', function () {
   this.blur();
   createBonusCard(bonuses[questionNumber - 1]);
@@ -594,21 +578,29 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-attachDropdownChecklist();
-
 $('#slider').slider('values', 0, query.minYear);
 $('#slider').slider('values', 1, query.maxYear);
 document.getElementById('year-range-a').textContent = query.minYear;
 document.getElementById('year-range-b').textContent = query.maxYear;
 
-const root = ReactDOM.createRoot(document.getElementById('category-modal-root'));
-root.render(
+ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
   <CategoryModal
     categoryManager={categoryManager}
     onClose={() => {
       ({ categories: query.categories, subcategories: query.subcategories, alternateSubcategories: query.alternateSubcategories } = categoryManager.export());
       loadRandomBonuses(query);
       window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify(query));
+    }}
+  />
+);
+
+ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
+  <DifficultyDropdown
+    startingDifficulties={query.difficulties}
+    onChange={() => {
+      query.difficulties = getDropdownValues('difficulties');
+      loadRandomBonuses(query);
+      window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify(query));
     }}
   />
 );
