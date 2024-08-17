@@ -10,7 +10,7 @@ let packetLength = 20;
 
 let currentAudio;
 let currentQuestionNumber = 0;
-const sampleAudio = new Audio(`/geoword/audio/${packetName}/sample.mp3`);
+const sampleAudio = new Audio(`/api/geoword/audio/${packetName}/sample.mp3`);
 
 let division;
 let numberCorrect = 0;
@@ -102,7 +102,7 @@ function next () {
   document.getElementById('buzz').disabled = false;
   document.getElementById('start').disabled = true;
 
-  currentAudio = new Audio(encodeURI(`/geoword/audio/game/${packetName}/${division}/${currentQuestionNumber}.mp3`));
+  currentAudio = new Audio(encodeURI(`/api/geoword/audio/${packetName}/${division}/${currentQuestionNumber}.mp3`));
   currentAudio.play();
 }
 

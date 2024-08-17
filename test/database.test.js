@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { closeDatabase, connectToDatabase } from '../database/databases.js';
+import { mongoClient } from '../database/databases.js';
 import getNumPackets from '../database/qbreader/get-num-packets.js';
 import getPacket from '../database/qbreader/get-packet.js';
 import getQuery from '../database/qbreader/get-query.js';
@@ -160,12 +160,12 @@ async function testCorrectness () {
 }
 
 mocha.before(async () => {
-  await connectToDatabase();
+  await mongoClient.connect();
 });
 
 testCorrectness();
 // testTiming(1);
 
 mocha.after(async () => {
-  await closeDatabase();
+  await mongoClient.close();
 });
