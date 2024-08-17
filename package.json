@@ -15,6 +15,7 @@
         "watch-jsx": "babel client --extensions .jsx --out-file-extension .min.js --out-dir client --watch"
     },
     "dependencies": {
+        "@aws-sdk/client-s3": "^3.633.0",
         "bootstrap": "5.2.3",
         "cookie-session": "^2.0.0",
         "cors": "^2.8.5",
