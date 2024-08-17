@@ -1,3 +1,4 @@
+import audioRouter from './audio.js';
 import categoryStatsRouter from './category-stats.js';
 import checkAnswerRouter from './check-answer.js';
 import compareRouter from './compare.js';
@@ -19,6 +20,7 @@ import { Router } from 'express';
 
 const router = Router();
 
+router.use('/audio', audioRouter);
 router.use('/category-stats', categoryStatsRouter);
 router.use('/check-answer', checkAnswerRouter);
 router.use('/compare', compareRouter);
