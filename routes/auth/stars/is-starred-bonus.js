@@ -9,12 +9,9 @@ const router = Router();
 router.get('/', async (req, res) => {
   const username = req.session.username;
   const userId = await getUserId(username);
-  try {
-    const bonusId = new ObjectId(req.query.bonus_id);
-    res.json({ isStarred: await isStarredBonus(userId, bonusId) });
-  } catch { // Invalid ObjectID
-    res.json({ isStarred: false });
-  }
+  let bonusId;
+  try { bonusId = new ObjectId(req.query.bonus_id); } catch { return res.status(400).send('Invalid Bonus ID'); }
+  res.json({ isStarred: await isStarredBonus(userId, bonusId) });
 });
 
 export default router;

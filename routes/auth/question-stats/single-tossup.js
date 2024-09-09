@@ -6,7 +6,9 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const stats = await getSingleTossupStats(new ObjectId(req.query.tossup_id));
+  let _id;
+  try { _id = new ObjectId(req.query.tossup_id); } catch (e) { return res.status(400).send('Invalid Tossup ID'); }
+  const stats = await getSingleTossupStats(_id);
   res.json({ stats });
 });
 
