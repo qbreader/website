@@ -25,8 +25,13 @@ async function recordBonusData (username, data) {
     }
   }
 
-  newData.bonus_id = new ObjectId(bonus._id);
-  newData.set_id = new ObjectId(bonus.set._id);
+  try {
+    newData.bonus_id = new ObjectId(bonus._id);
+    newData.set_id = new ObjectId(bonus.set._id);
+  } catch (e) {
+    return false;
+  }
+
   newData.user_id = userId;
   return await bonusData.insertOne(newData);
 }

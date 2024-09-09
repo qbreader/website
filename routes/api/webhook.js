@@ -31,8 +31,9 @@ router.post('/', (req, res) => {
     case 'payment_intent.succeeded': {
       const paymentIntentSucceeded = event.data.object;
       // Then define and call a function to handle the event payment_intent.succeeded
-      const { user_id: userId, packetName } = paymentIntentSucceeded.metadata;
-      recordPayment(packetName, new ObjectId(userId));
+      let { user_id: userId, packetName } = paymentIntentSucceeded.metadata;
+      try { userId = new ObjectId(userId); } catch (e) { return res.status(400).send('Invalid user ID'); }
+      recordPayment(packetName, userId);
       break;
     }
 

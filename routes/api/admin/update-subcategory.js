@@ -6,8 +6,9 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 
 router.put('/', async (req, res) => {
-  const { _id, type, subcategory, alternate_subcategory: alternateSubcategory } = req.body;
-  const result = await updateSubcategory(new ObjectId(_id), type, subcategory, alternateSubcategory);
+  let { _id, type, subcategory, alternate_subcategory: alternateSubcategory } = req.body;
+  try { _id = new ObjectId(_id); } catch (e) { return res.status(400).send('Invalid ID'); }
+  const result = await updateSubcategory(_id, type, subcategory, alternateSubcategory);
 
   if (result) {
     res.sendStatus(200);
