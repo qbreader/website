@@ -1,6 +1,7 @@
 import isAdmin from '../../database/account-info/is-admin.js';
 import { checkToken } from '../../server/authentication.js';
 
+import categoryReportsRouter from './category-reports.js';
 import geowordRouter from './geoword.js';
 
 import { Router } from 'express';
@@ -26,10 +27,7 @@ router.use(async (req, res, next) => {
   next();
 });
 
-router.get('/category-reports', (_req, res) => {
-  res.sendFile('category-reports.html', { root: './client/admin' });
-});
-
+router.use('/category-reports', categoryReportsRouter);
 router.use('/geoword', geowordRouter);
 
 router.get('/', (req, res) => {
