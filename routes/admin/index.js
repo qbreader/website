@@ -3,6 +3,7 @@ import { checkToken } from '../../server/authentication.js';
 
 import categoryReportsRouter from './category-reports.js';
 import geowordRouter from './geoword.js';
+import leaderboardRouter from './leaderboard.js';
 
 import { Router } from 'express';
 
@@ -29,6 +30,7 @@ router.use(async (req, res, next) => {
 
 router.use('/category-reports', categoryReportsRouter);
 router.use('/geoword', geowordRouter);
+router.use('/leaderboard', leaderboardRouter);
 
 router.get('/', (req, res) => {
   res.sendFile('index.html', { root: './client/admin' });
