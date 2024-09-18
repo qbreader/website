@@ -1,5 +1,5 @@
 import { tossupData, bonusData } from '../../database/qbreader/collections.js';
-import mergeTwoSortedArrays from '../../merge-two-sorted-arrays.js';
+import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
 
 export default async function leaderboard (limit) {
   const tossupLeaderboard = await helper('tossup');
