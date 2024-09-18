@@ -5,7 +5,8 @@ router.get('/', (req, res) => {
   res.sendFile('index.html', { root: './client/multiplayer' });
 });
 
-router.get('/*', (req, res) => {
+// only match paths that don't have a file extension
+router.get(/^\/[^.]*$/, (req, res) => {
   res.sendFile('room.html', { root: './client/multiplayer' });
 });
 
