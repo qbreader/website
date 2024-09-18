@@ -2,11 +2,6 @@ import account from './scripts/accounts.js';
 
 // Javascript code common to *all* pages of the site.
 
-// Never use trailing slash, except for the root directory
-if (window.location.pathname.endsWith('/') && window.location.pathname.length > 1) {
-  window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length - 1);
-}
-
 // Always use www
 if (['qbreader.herokuapp.com', 'qbreader-production.herokuapp.com', 'qbreader.org'].includes(window.location.hostname)) {
   window.location.hostname = 'www.qbreader.org';
