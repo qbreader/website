@@ -2,7 +2,7 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', (req, res) => {
-  res.sendFile('about.html', { root: './client' });
+  res.sendFile('index.html', { root: './client/about' });
 });
 
 export default router;
