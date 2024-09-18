@@ -1,6 +1,6 @@
 import { bonuses, tossups } from './collections.js';
 
-import { OKCYAN, ENDC, OKGREEN } from '../../bcolors.js';
+import { OKCYAN, ENDC, OKGREEN } from '../../server/bcolors.js';
 import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
 // eslint-disable-next-line no-unused-vars
 import * as types from '../../types.js';
