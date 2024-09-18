@@ -1,6 +1,6 @@
 import { bonuses, tossups } from './collections.js';
 import { DIFFICULTIES } from '../../constants.js';
-import mergeTwoSortedArrays from '../../merge-two-sorted-arrays.js';
+import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
 
 /**
  * Get a frequency list of answers for a given subcategory and difficulty.
