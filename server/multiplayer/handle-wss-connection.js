@@ -2,7 +2,7 @@ import hasValidCharacters from '../moderation/has-valid-characters.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 import { createAndReturnRoom } from './TossupRoom.js';
 
-import getRandomName from '../../get-random-name.js';
+import getRandomName from '../get-random-name.js';
 
 import url from 'url';
 import * as uuid from 'uuid';
