@@ -1,4 +1,4 @@
-import aboutRouter from './about.js';
+import aboutRouter from './about/index.js';
 import adminRouter from './admin/index.js';
 import apiRouter from './api/index.js';
 import apiDocsRouter from './api-docs.js';
