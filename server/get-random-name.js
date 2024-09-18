@@ -1,4 +1,4 @@
-import { ADJECTIVES, ANIMALS } from './constants.js';
+import { ADJECTIVES, ANIMALS } from '../constants.js';
 
 /**
  * @returns {string} a random name
