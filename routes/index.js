@@ -1,7 +1,6 @@
 import adminRouter from './admin/index.js';
 import apiRouter from './api/index.js';
 import authRouter from './auth/index.js';
-import frequencyListRouter from './frequency-list.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
 import userRouter from './user.js';
@@ -29,7 +28,6 @@ router.get('/user', (req, res) => res.redirect('/user/login'));
 router.use('/admin', adminRouter);
 router.use('/api', apiRouter);
 router.use('/auth', authRouter);
-router.use('/frequency-list', frequencyListRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);
 router.use('/user', userRouter);
