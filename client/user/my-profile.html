@@ -65,15 +65,14 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <h1>
-            <p>Welcome, <span id="username"></span>!</p>
-        </h1>
-        <p>
-            Email: <b><span id="email"></span></b>
-        </p>
-        <p>
-            Email verified: <b><span id="email-verified"></span></b>
-        </p>
+        <p class="display-5">Welcome, <span id="username-1"></span>!</p>
+        <ul>
+            <li>Username: <code id="username-2"></code></li>
+            <li>Email: <code id="email"></code></li>
+            <ul>
+                <li>Verified? <span id="email-verified"></span></li>
+            </ul>
+        </ul>
         <p class="d-none" id="email-verification-span">
             Check your inbox for a verification email.
             If you did not receive one, click this link to send a new verification email:
@@ -89,18 +88,44 @@
             <a class="btn btn-primary" href="/user/edit-password">Edit password</a>
             <button class="btn btn-primary" id="logout" type="button">Logout</button>
         </p>
-        <p>
-            Here are links to your <a href="/user/stats/tossups">tossup stats</a> and <a href="/user/stats/bonuses">bonus stats</a>.
-            Or, check out your
-            <a href="/user/stats/tossup-graph">tossup stats</a>
-            and
-            <a href="/user/stats/bonus-graph">bonus stats</a>
-            plotted against time.
-        </p>
-        <p>
-            Use these links to view your starred <a href="/user/stars/tossups">tossups</a>
-            and <a href="/user/stars/bonuses">bonuses</a>.
-        </p>
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header">Stats</div>
+                    <div class="card-body">
+                        <p>Here are links to your tossup stats and bonus stats:</p>
+                        <div class="text-center">
+                            <a class="btn btn-primary" href="/user/stats/tossups">Tossup Stats</a>
+                            <a class="btn btn-primary" href="/user/stats/bonuses">Bonus Stats</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header">Graphs</div>
+                    <div class="card-body">
+                        <p>Check out your tossup and bonus stats plotted over time:</p>
+                        <div class="text-center">
+                            <a class="btn btn-primary" href="/user/stats/tossup-graph">Tossup Graphs</a>
+                            <a class="btn btn-primary" href="/user/stats/bonus-graph">Bonus Graphs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header">Stars</div>
+                    <div class="card-body">
+                        <p>Use these links to view your starred tossups and bonuses:</p>
+                        <div class="text-center">
+                            <a class="btn btn-primary" href="/user/stars/tossups">Starred Tossups</a>
+                            <a class="btn btn-primary" href="/user/stars/bonuses">Starred Bonuses</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
