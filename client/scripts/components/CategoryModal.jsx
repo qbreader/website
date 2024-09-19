@@ -121,12 +121,7 @@ function CategoryModal ({ categoryManager, disablePercentView = false, onClose =
             <button
               type='button'
               className='btn btn-outline-secondary'
-              onClick={() => {
-                const total = percents.reduce((a, b) => a + b, 0);
-                percents[index] = 100 - total + percents[index];
-                categoryManager.categoryPercents[index] = percents[index];
-                setPercents([...percents]);
-              }}
+              onClick={() => adjustPercent(100 - percents.reduce((a, b) => a + b))}
             >
               Max
             </button>
