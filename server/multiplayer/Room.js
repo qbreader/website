@@ -24,7 +24,7 @@ export default class Room {
 
     const isNew = !(userId in this.players);
     if (isNew) { this.players[userId] = new Player(userId); }
-    this.players[userId].isOnline = true;
+    this.players[userId].online = true;
     this.sockets[userId] = socket;
     username = this.players[userId].updateUsername(username);
 

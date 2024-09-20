@@ -369,7 +369,7 @@ class TossupRoom extends Room {
 
   leave (userId) {
     // this.deletePlayer(userId);
-    this.players[userId].isOnline = false;
+    this.players[userId].online = false;
     delete this.sockets[userId];
     const username = this.players[userId].username;
     this.emitMessage({ type: 'leave', userId, username });
