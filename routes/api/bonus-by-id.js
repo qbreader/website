@@ -6,20 +6,13 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   if (!req.query.id) {
-    res.status(400).send('Bonus ID not specified');
-    return;
+    return res.status(400).send('Bonus ID not specified');
   }
-  let oid;
-  try {
-    oid = ObjectId(req.query.id);
-  } catch (b) {
-    res.status(400).send('Invalid Bonus ID');
-    return;
-  }
-  const bonus = await getBonus(oid);
+  let _id;
+  try { _id = new ObjectId(req.query.id); } catch (b) { return res.status(400).send('Invalid Bonus ID'); }
+  const bonus = await getBonus(_id);
   if (bonus === null) {
-    res.status(404).send(`Bonus with ID ${req.query.id} was not found`);
-    return;
+    return res.status(404).send(`Bonus with ID ${req.query.id} was not found`);
   }
 
   res.header('Access-Control-Allow-Origin', '*');

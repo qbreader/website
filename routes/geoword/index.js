@@ -1,4 +1,3 @@
-import audioRouter from './audio.js';
 import categoryStatsRouter from './category-stats.js';
 import compareRouter from './compare.js';
 import divisionRouter from './division.js';
@@ -22,8 +21,6 @@ router.get('/', (req, res) => {
 router.use('/admin', (req, res) => {
   res.redirect('/admin/geoword' + req.url);
 });
-
-router.use('/audio', audioRouter);
 
 router.get('/confirmation', (req, res) => {
   res.sendFile('confirmation.html', { root: './client/geoword' });

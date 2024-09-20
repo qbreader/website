@@ -2,80 +2,19 @@ import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, do
 
 import api from '../scripts/api/index.js';
 import star from '../scripts/auth/star.js';
-import TossupCard from '../scripts/components/TossupCard.js';
-import BonusCard from '../scripts/components/BonusCard.js';
-import Star from '../scripts/components/Star.js';
+import TossupCard from '../scripts/components/TossupCard.min.js';
+import BonusCard from '../scripts/components/BonusCard.min.js';
+import CategoryModal from '../scripts/components/CategoryModal.min.js';
+import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
+import Star from '../scripts/components/Star.min.js';
 import CategoryManager from '../scripts/utilities/category-manager.js';
-import { attachDropdownChecklist, getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { insertTokensIntoHTML } from '../scripts/utilities/insert-tokens-into-html.js';
 
 const starredTossupIds = new Set(await star.getStarredTossupIds());
 const starredBonusIds = new Set(await star.getStarredBonusIds());
 
 const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
-
-const CATEGORY_BUTTONS = [
-  ['Literature', 'primary'],
-  ['History', 'success'],
-  ['Science', 'danger'],
-  ['Fine Arts', 'warning'],
-  ['Religion', 'secondary'],
-  ['Mythology', 'secondary'],
-  ['Philosophy', 'secondary'],
-  ['Social Science', 'secondary'],
-  ['Current Events', 'secondary'],
-  ['Geography', 'secondary'],
-  ['Other Academic', 'secondary'],
-  ['Trash', 'secondary']
-];
-
-const SUBCATEGORY_BUTTONS = [
-  ['American Literature', 'primary'],
-  ['British Literature', 'primary'],
-  ['Classical Literature', 'primary'],
-  ['European Literature', 'primary'],
-  ['World Literature', 'primary'],
-  ['Other Literature', 'primary'],
-  ['American History', 'success'],
-  ['Ancient History', 'success'],
-  ['European History', 'success'],
-  ['World History', 'success'],
-  ['Other History', 'success'],
-  ['Biology', 'danger'],
-  ['Chemistry', 'danger'],
-  ['Physics', 'danger'],
-  ['Other Science', 'danger'],
-  ['Visual Fine Arts', 'warning'],
-  ['Auditory Fine Arts', 'warning'],
-  ['Other Fine Arts', 'warning']
-];
-
-const ALTERNATE_SUBCATEGORY_BUTTONS = [
-  ['Drama', 'primary'],
-  ['Long Fiction', 'primary'],
-  ['Poetry', 'primary'],
-  ['Short Fiction', 'primary'],
-  ['Misc Literature', 'primary'],
-  ['Math', 'danger'],
-  ['Astronomy', 'danger'],
-  ['Computer Science', 'danger'],
-  ['Earth Science', 'danger'],
-  ['Engineering', 'danger'],
-  ['Misc Science', 'danger'],
-  ['Architecture', 'warning'],
-  ['Dance', 'warning'],
-  ['Film', 'warning'],
-  ['Jazz', 'warning'],
-  ['Opera', 'warning'],
-  ['Photography', 'warning'],
-  ['Misc Arts', 'warning'],
-  ['Anthropology', 'secondary'],
-  ['Economics', 'secondary'],
-  ['Linguistics', 'secondary'],
-  ['Psychology', 'secondary'],
-  ['Sociology', 'secondary'],
-  ['Other Social Science', 'secondary']
-];
 
 const categoryManager = new CategoryManager();
 
@@ -142,82 +81,6 @@ function highlightBonusQuery ({ bonus, regExp, searchType = 'all', ignoreWordOrd
   return bonus;
 }
 
-function CategoryButton ({ category, color }) {
-  function handleClick () {
-    categoryManager.updateCategory(category);
-    categoryManager.loadCategoryModal();
-  }
-
-  return (
-    <div>
-      <input type='checkbox' className='btn-check' autoComplete='off' id={category} onClick={handleClick} />
-      <label className={`btn btn-outline-${color} w-100 rounded-0 my-1`} htmlFor={category}>{category}<br /></label>
-    </div>
-  );
-}
-
-function SubcategoryButton ({ subcategory, color, hidden = false }) {
-  function handleClick () {
-    categoryManager.updateSubcategory(subcategory);
-    categoryManager.loadCategoryModal();
-  }
-
-  return (
-    <div>
-      <input type='checkbox' className='btn-check' autoComplete='off' id={subcategory} onClick={handleClick} />
-      <label className={`btn btn-outline-${color} w-100 rounded-0 my-1 ${hidden && 'd-none'}`} htmlFor={subcategory}>{subcategory}<br /></label>
-    </div>
-  );
-}
-
-function AlternateSubcategoryButton ({ subcategory, color, hidden = false }) {
-  function handleClick () {
-    categoryManager.updateAlternateSubcategory(subcategory);
-    categoryManager.loadCategoryModal();
-  }
-
-  return (
-    <div>
-      <input type='checkbox' className='btn-check' autoComplete='off' id={subcategory} onClick={handleClick} />
-      <label className={`btn btn-outline-${color} w-100 rounded-0 my-1 ${hidden && 'd-none'}`} htmlFor={subcategory}>{subcategory}<br /></label>
-    </div>
-  );
-}
-
-function CategoryModal () {
-  return (
-    <div className='modal modal-lg' id='category-modal' tabIndex='-1'>
-      <div className='modal-dialog modal-dialog-scrollable'>
-        <div className='modal-content'>
-          <div className='modal-header'>
-            <h5 className='modal-title'>Select Categories and Subcategories</h5>
-            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' />
-          </div>
-          <div className='modal-body'>
-            <div className='row'>
-              <div className='col-4' id='categories'>
-                <h5 className='text-center'>Category</h5>
-                {CATEGORY_BUTTONS.map((element) => <CategoryButton key={element[0]} category={element[0]} color={element[1]} />)}
-              </div>
-              <div className='col-4' id='subcategories'>
-                <h5 className='text-center'>Subcategory</h5>
-                <div className='text-muted text-center' id='subcategory-info-text'>
-                  You must select categories before you can select subcategories.
-                </div>
-                {SUBCATEGORY_BUTTONS.map((element) => <SubcategoryButton key={element[0]} subcategory={element[0]} color={element[1]} hidden />)}
-              </div>
-              <div className='col-4' id='alternate-subcategories'>
-                <h5 className='text-center'>Alternate <span className='d-none d-lg-inline'>Subcategory</span></h5>
-                {ALTERNATE_SUBCATEGORY_BUTTONS.map((element) => <AlternateSubcategoryButton key={element[0]} subcategory={element[0]} color={element[1]} hidden />)}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function QueryForm () {
   const [tossups, setTossups] = React.useState([]);
   const [bonuses, setBonuses] = React.useState([]);
@@ -226,7 +89,6 @@ function QueryForm () {
   const [tossupCount, setTossupCount] = React.useState(0);
   const [bonusCount, setBonusCount] = React.useState(0);
 
-  const [difficulties, setDifficulties] = React.useState([]);
   const [maxReturnLength, setMaxReturnLength] = React.useState('');
   const [queryString, setQueryString] = React.useState('');
   const [questionType, setQuestionType] = React.useState('all');
@@ -340,7 +202,7 @@ function QueryForm () {
     const params = new URLSearchParams({
       queryString,
       ...categoryManager.export(),
-      difficulties,
+      difficulties: getDropdownValues('difficulties'),
       maxReturnLength,
       questionType,
       randomize,
@@ -437,12 +299,6 @@ function QueryForm () {
   }
 
   React.useEffect(() => {
-    attachDropdownChecklist();
-
-    document.getElementById('difficulties').addEventListener('change', function () {
-      setDifficulties(getDropdownValues('difficulties'));
-    });
-
     document.getElementById('report-question-submit').addEventListener('click', function () {
       api.reportQuestion(
         document.getElementById('report-question-id').value,
@@ -501,7 +357,7 @@ function QueryForm () {
 
   return (
     <div>
-      <CategoryModal />
+      <CategoryModal categoryManager={categoryManager} disablePercentView />
       <form className='mt-3' onSubmit={event => { handleSubmit(event); }}>
         <div className='input-group mb-2'>
           <input type='text' className='form-control' id='query' placeholder='Query' value={queryString} onChange={event => { setQueryString(event.target.value); }} />
@@ -510,27 +366,7 @@ function QueryForm () {
         </div>
         <div className='row'>
           <div className='col-6 col-xl-3 mb-2'>
-            <div className='dropdown-checklist btn-group w-100'>
-              <button
-                className='btn btn-default text-start w-100' id='dropdownMenu1' data-bs-toggle='dropdown'
-                type='button' aria-expanded='true' aria-haspopup='true'
-              >
-                Difficulties
-              </button>
-              <button className='btn btn-default dropdown-toggle dropdown-toggle-split' data-bs-toggle='dropdown' type='button' />
-              <ul className='dropdown-menu checkbox-menu allow-focus' id='difficulties' aria-labelledby='dropdownMenu1'>
-                <li><label><input type='checkbox' value='1' /> 1: Middle School</label></li>
-                <li><label><input type='checkbox' value='2' /> 2: Easy High School</label></li>
-                <li><label><input type='checkbox' value='3' /> 3: Regular High School</label></li>
-                <li><label><input type='checkbox' value='4' /> 4: Hard High School</label></li>
-                <li><label><input type='checkbox' value='5' /> 5: National High School</label></li>
-                <li><label><input type='checkbox' value='6' /> 6: ● / Easy College</label></li>
-                <li><label><input type='checkbox' value='7' /> 7: ●● / Medium College</label></li>
-                <li><label><input type='checkbox' value='8' /> 8: ●●● / Regionals College</label></li>
-                <li><label><input type='checkbox' value='9' /> 9: ●●●● / Nationals College</label></li>
-                <li><label><input type='checkbox' value='10' /> 10: Open</label></li>
-              </ul>
-            </div>
+            <DifficultyDropdown />
           </div>
           <div className='col-6 col-xl-3 mb-2'>
             <input type='number' className='form-control' id='max-return-length' placeholder='# to Display' value={maxReturnLength} onChange={event => { setMaxReturnLength(event.target.value); }} />

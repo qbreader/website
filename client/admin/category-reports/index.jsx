@@ -1,6 +1,8 @@
-import { getBonusPartLabel } from '../scripts/utilities/index.js';
-import QuestionCard from '../scripts/components/QuestionCard.js';
-const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? window.localStorage.getItem('font-size') ?? 16 : 16;
+import { getBonusPartLabel } from '../../scripts/utilities/index.js';
+import QuestionCard from '../../scripts/components/QuestionCard.min.js';
+
+const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;
+
 const ALTERNATE_SUBCATEGORIES = {
   Literature: ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
   History: [],
@@ -14,9 +16,11 @@ const ALTERNATE_SUBCATEGORIES = {
   Geography: [],
   'Other Academic': [],
   Trash: [],
+
   'Other Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
   'Other Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts']
 };
+
 const SUBCATEGORY_TO_CATEGORY = {
   'American Literature': 'Literature',
   'British Literature': 'Literature',
@@ -45,113 +49,107 @@ const SUBCATEGORY_TO_CATEGORY = {
   'Other Academic': 'Other Academic',
   Trash: 'Trash'
 };
-function TossupCard({
-  tossup
-}) {
+
+function TossupCard ({ tossup }) {
   const _id = tossup._id;
   const packetName = tossup.packet.name;
-  function onClick() {
+
+  function onClick () {
     document.getElementById('old-category').value = `${tossup.category} / ${tossup.subcategory}`;
     document.getElementById('question-id').value = _id;
     document.getElementById('question-type').textContent = 'tossup';
     const reason = tossup.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
-  return /*#__PURE__*/React.createElement(QuestionCard, {
-    onClickHeader: "collapse",
-    question: tossup
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-body",
-    style: {
-      fontSize: `${fontSize}px`
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: tossup.question
-    }
-  }), /*#__PURE__*/React.createElement("hr", {
-    className: "my-3"
-  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "ANSWER:"), " ", /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: tossup?.answer
-    }
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "card-footer clickable",
-    onClick: onClick,
-    id: `fix-category-${_id}`,
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#fix-category-modal"
-  }, /*#__PURE__*/React.createElement("small", {
-    className: "text-muted"
-  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
-    className: "text-muted float-end"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "javascript:void(0);"
-  }, "Fix Category"))));
+
+  return (
+    <QuestionCard
+      onClickHeader='collapse'
+      question={tossup}
+    >
+      <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
+        <span dangerouslySetInnerHTML={{ __html: tossup.question }} />
+        <hr className='my-3' />
+        <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.answer }} /></div>
+      </div>
+      <div className='card-footer clickable' onClick={onClick} id={`fix-category-${_id}`} data-bs-toggle='modal' data-bs-target='#fix-category-modal'>
+        <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
+        <small className='text-muted float-end'>
+          <a href='javascript:void(0);'>Fix Category</a>
+        </small>
+      </div>
+    </QuestionCard>
+  );
 }
-function BonusCard({
-  bonus
-}) {
+
+function BonusCard ({ bonus }) {
   const _id = bonus._id;
   const packetName = bonus.packet.name;
   const bonusLength = bonus.parts.length;
   const indices = [];
+
   for (let i = 0; i < bonusLength; i++) {
     indices.push(i);
   }
-  function onClick() {
+
+  function onClick () {
     document.getElementById('old-category').value = `${bonus.category} / ${bonus.subcategory}`;
     document.getElementById('question-id').value = _id;
     document.getElementById('question-type').textContent = 'bonus';
     const reason = bonus.reports.map(report => report.description).join('; ') || 'None given';
     document.getElementById('report-reason').value = reason;
   }
-  return /*#__PURE__*/React.createElement(QuestionCard, {
-    onClickHeader: "collapse",
-    question: bonus
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "card-body"
-  }, /*#__PURE__*/React.createElement("p", null, bonus.leadin), indices.map(i => /*#__PURE__*/React.createElement("div", {
-    key: `${bonus._id}-${i}`
-  }, /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("p", null, getBonusPartLabel(i), " ", bonus.parts[i]), /*#__PURE__*/React.createElement("b", null, "ANSWER: "), /*#__PURE__*/React.createElement("span", {
-    dangerouslySetInnerHTML: {
-      __html: bonus?.answers[i]
-    }
-  })))), /*#__PURE__*/React.createElement("div", {
-    className: "card-footer clickable",
-    onClick: onClick,
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#fix-category-modal"
-  }, /*#__PURE__*/React.createElement("small", {
-    className: "text-muted"
-  }, packetName ? 'Packet ' + packetName : /*#__PURE__*/React.createElement("span", null, "\xA0")), /*#__PURE__*/React.createElement("small", {
-    className: "text-muted float-end"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "javascript:void(0);"
-  }, "Fix Category"))));
+
+  return (
+    <QuestionCard
+      onClickHeader='collapse'
+      question={bonus}
+    >
+      <div className='card-body'>
+        <p>{bonus.leadin}</p>
+        {indices.map((i) =>
+          <div key={`${bonus._id}-${i}`}>
+            <hr />
+            <p>{getBonusPartLabel(i)} {bonus.parts[i]}</p>
+            <b>ANSWER: </b>
+            <span dangerouslySetInnerHTML={{ __html: bonus?.answers[i] }} />
+          </div>
+        )}
+      </div>
+      <div className='card-footer clickable' onClick={onClick} data-bs-toggle='modal' data-bs-target='#fix-category-modal'>
+        <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
+        <small className='text-muted float-end'>
+          <a href='javascript:void(0);'>Fix Category</a>
+        </small>
+      </div>
+    </QuestionCard>
+  );
 }
-function Reports() {
+
+function Reports () {
   let [tossups, setTossups] = React.useState([]);
   let [bonuses, setBonuses] = React.useState([]);
+
   React.useEffect(() => {
-    fetch('/api/admin/list-reports?' + new URLSearchParams({
-      reason: 'wrong-category'
-    })).then(response => response.json()).then(data => {
-      tossups = data.tossups;
-      bonuses = data.bonuses;
-      setTossups(tossups);
-      setBonuses(bonuses);
-    });
+    fetch('/api/admin/list-reports?' + new URLSearchParams({ reason: 'wrong-category' }))
+      .then(response => response.json())
+      .then(data => {
+        tossups = data.tossups;
+        bonuses = data.bonuses;
+        setTossups(tossups);
+        setBonuses(bonuses);
+      });
+
     document.getElementById('fix-category-submit').addEventListener('click', function () {
       const _id = document.getElementById('question-id').value;
       const type = document.getElementById('question-type').textContent;
+
       this.disabled = true;
       this.textContent = 'Submitting...';
+
       fetch('/api/admin/update-subcategory', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           _id,
           type,
@@ -162,10 +160,12 @@ function Reports() {
         document.getElementById('fix-category-close').click();
         this.disabled = false;
         this.textContent = 'Submit';
+
         if (!response.ok) {
           window.alert('Error updating subcategory');
           return;
         }
+
         switch (type) {
           case 'tossup':
             tossups = tossups.filter(tossup => tossup._id !== _id);
@@ -179,48 +179,44 @@ function Reports() {
       });
     });
   }, []);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "row text-center"
-  }, /*#__PURE__*/React.createElement("h3", {
-    id: "tossups"
-  }, "Tossups")), /*#__PURE__*/React.createElement("div", {
-    className: "float-row mb-3"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-muted float-start"
-  }, "Showing ", tossups.length, " tossups"), /*#__PURE__*/React.createElement("a", {
-    className: "float-end",
-    href: "#bonuses"
-  }, "Jump to bonuses")), tossups.map(tossup => /*#__PURE__*/React.createElement(TossupCard, {
-    key: tossup._id,
-    tossup: tossup
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "row text-center mt-5"
-  }, /*#__PURE__*/React.createElement("h3", {
-    id: "bonuses"
-  }, "Bonuses")), /*#__PURE__*/React.createElement("div", {
-    className: "float-row mb-3"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-muted float-start"
-  }, "Showing ", bonuses.length, " bonuses"), /*#__PURE__*/React.createElement("a", {
-    className: "float-end",
-    href: "#tossups"
-  }, "Jump to tossups")), bonuses.map(bonus => /*#__PURE__*/React.createElement(BonusCard, {
-    key: bonus._id,
-    bonus: bonus
-  })));
+
+  return (
+    <>
+      <div className='row text-center'>
+        <h3 id='tossups'>Tossups</h3>
+      </div>
+      <div className='float-row mb-3'>
+        <span className='text-muted float-start'>Showing {tossups.length} tossups</span>
+        <a className='float-end' href='#bonuses'>Jump to bonuses</a>
+      </div>
+      {tossups.map(tossup => <TossupCard key={tossup._id} tossup={tossup} />)}
+      <div className='row text-center mt-5'>
+        <h3 id='bonuses'>Bonuses</h3>
+      </div>
+      <div className='float-row mb-3'>
+        <span className='text-muted float-start'>Showing {bonuses.length} bonuses</span>
+        <a className='float-end' href='#tossups'>Jump to tossups</a>
+      </div>
+      {bonuses.map(bonus => <BonusCard key={bonus._id} bonus={bonus} />)}
+    </>
+  );
 }
+
 document.getElementById('new-category').addEventListener('input', function () {
   const subcategory = this.value;
   const category = SUBCATEGORY_TO_CATEGORY[subcategory];
   const alternateCategories = ALTERNATE_SUBCATEGORIES[category];
+
   const select = document.getElementById('new-alternate-subcategory');
   select.innerHTML = '';
+
   for (const alternateCategory of alternateCategories) {
     const option = document.createElement('option');
     option.value = alternateCategory;
     option.textContent = alternateCategory;
     select.appendChild(option);
   }
+
   if (alternateCategories.length === 0) {
     document.getElementById('alternate-subcategory-selection').classList.add('d-none');
   } else {
@@ -228,5 +224,6 @@ document.getElementById('new-category').addEventListener('input', function () {
     select.value = alternateCategories.at(-1);
   }
 });
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render( /*#__PURE__*/React.createElement(Reports, null));
+root.render(<Reports />);

@@ -98,26 +98,7 @@
                     <input class="form-control my-1" id="packet-number" type="text" placeholder="Packet Numbers">
                 </div>
                 <div id="difficulty-settings">
-                    <div class="dropdown-checklist btn-group w-100 mb-2">
-                        <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
-                            aria-expanded="true" aria-haspopup="true">
-                            Difficulties
-                        </button>
-                        <button class="btn btn-default dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
-                            type="button"></button>
-                        <ul class="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
-                            <li><label><input type="checkbox" value="1"> 1: Middle School</label></li>
-                            <li><label><input type="checkbox" value="2"> 2: Easy High School</label></li>
-                            <li><label><input type="checkbox" value="3"> 3: Regular High School</label></li>
-                            <li><label><input type="checkbox" value="4"> 4: Hard High School</label></li>
-                            <li><label><input type="checkbox" value="5"> 5: National High School</label></li>
-                            <li><label><input type="checkbox" value="6"> 6: ● / Easy College</label></li>
-                            <li><label><input type="checkbox" value="7"> 7: ●● / Medium College</label></li>
-                            <li><label><input type="checkbox" value="8"> 8: ●●● / Regionals College</label></li>
-                            <li><label><input type="checkbox" value="9"> 9: ●●●● / Nationals College</label></li>
-                            <li><label><input type="checkbox" value="10"> 10: Open</label></li>
-                        </ul>
-                    </div>
+                    <div class="mb-2" id="difficulty-dropdown-root"></div>
                     <section>
                         Year range:
                         <span class="sliderValue0" id="year-range-a">2010</span>
@@ -213,211 +194,7 @@
         </div>
     </div>
 
-    <div class="modal modal-lg" id="category-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Category / Subcategory Selection</h5>
-                    <button class="btn-close" data-bs-dismiss="modal" type="button" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-4" id="categories">
-                            <h5 class="text-center">Category</h5>
-                            <input class="btn-check" id="Literature" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Literature">Literature<br></label>
-
-                            <input class="btn-check" id="History" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="History">History<br></label>
-
-                            <input class="btn-check" id="Science" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Science">Science<br></label>
-
-                            <input class="btn-check" id="Fine Arts" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Fine Arts">Fine
-                                Arts<br></label>
-
-                            <input class="btn-check" id="Religion" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Religion">Religion<br></label>
-
-                            <input class="btn-check" id="Mythology" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Mythology">Mythology<br></label>
-
-                            <input class="btn-check" id="Philosophy" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Philosophy">Philosophy<br></label>
-
-                            <input class="btn-check" id="Social Science" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Social Science">Social
-                                Science<br></label>
-
-                            <input class="btn-check" id="Current Events" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Current Events">Current
-                                Events<br></label>
-
-                            <input class="btn-check" id="Geography" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Geography">Geography<br></label>
-
-                            <input class="btn-check" id="Other Academic" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Other Academic">Other
-                                Academic<br></label>
-
-                            <input class="btn-check" id="Trash" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Trash">Trash<br></label>
-                        </div>
-                        <div class="col-4" id="subcategories">
-                            <h5 class="text-center">Subcategory</h5>
-                            <input class="btn-check" id="American Literature" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="American Literature">American
-                                Literature<br></label>
-
-                            <input class="btn-check" id="British Literature" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="British Literature">British
-                                Literature<br></label>
-
-                            <input class="btn-check" id="Classical Literature" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Classical Literature">Classical
-                                Literature<br></label>
-
-                            <input class="btn-check" id="European Literature" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="European Literature">European
-                                Literature<br></label>
-
-                            <input class="btn-check" id="World Literature" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="World Literature">World
-                                Literature<br></label>
-
-                            <input class="btn-check" id="Other Literature" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Other Literature">Other
-                                Literature<br></label>
-
-                            <input class="btn-check" id="American History" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="American History">American
-                                History <br></label>
-
-                            <input class="btn-check" id="Ancient History" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Ancient History">Ancient
-                                History<br></label>
-
-                            <input class="btn-check" id="European History" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="European History">European
-                                History<br></label>
-
-                            <input class="btn-check" id="World History" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="World History">World
-                                History<br></label>
-
-                            <input class="btn-check" id="Other History" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-success w-100 rounded-0 my-1" for="Other History">Other
-                                History<br></label>
-
-                            <input class="btn-check" id="Biology" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Biology">Biology<br></label>
-
-                            <input class="btn-check" id="Chemistry" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Chemistry">Chemistry<br></label>
-
-                            <input class="btn-check" id="Physics" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Physics">Physics<br></label>
-
-                            <input class="btn-check" id="Other Science" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Other Science">Other
-                                Science<br></label>
-
-                            <input class="btn-check" id="Visual Fine Arts" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Visual Fine Arts">Visual
-                                Fine Arts<br></label>
-
-                            <input class="btn-check" id="Auditory Fine Arts" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Auditory Fine Arts">Auditory Fine
-                                Arts<br></label>
-
-                            <input class="btn-check" id="Other Fine Arts" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Other Fine Arts">Other Fine
-                                Arts<br></label>
-                        </div>
-                        <div class="col-4" id="alternate-subcategories">
-                            <h5 class="text-center">Alternate <span class="d-none d-lg-inline">Subcategory</span></h5>
-
-                            <input class="btn-check" id="Drama" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Drama">Drama<br></label>
-
-                            <input class="btn-check" id="Long Fiction" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Long Fiction">Long Fiction<br></label>
-
-                            <input class="btn-check" id="Poetry" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Poetry">Poetry<br></label>
-
-                            <input class="btn-check" id="Short Fiction" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Short Fiction">Short Fiction<br></label>
-
-                            <input class="btn-check" id="Misc Literature" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-primary w-100 rounded-0 my-1" for="Misc Literature">Misc
-                                Literature<br></label>
-
-                            <input class="btn-check" id="Math" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Math">Math<br></label>
-
-                            <input class="btn-check" id="Astronomy" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Astronomy">Astronomy<br></label>
-
-                            <input class="btn-check" id="Computer Science" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Computer Science">Computer
-                                Science<br></label>
-
-                            <input class="btn-check" id="Earth Science" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Earth Science">Earth Science<br></label>
-
-                            <input class="btn-check" id="Engineering" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Engineering">Engineering<br></label>
-
-                            <input class="btn-check" id="Misc Science" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-danger w-100 rounded-0 my-1" for="Misc Science">Misc Science<br></label>
-
-                            <input class="btn-check" id="Architecture" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Architecture">Architecture<br></label>
-
-                            <input class="btn-check" id="Dance" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Dance">Dance<br></label>
-
-                            <input class="btn-check" id="Film" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Film">Film<br></label>
-
-                            <input class="btn-check" id="Jazz" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Jazz">Jazz<br></label>
-
-                            <input class="btn-check" id="Opera" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Opera">Opera<br></label>
-
-                            <input class="btn-check" id="Photography" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Photography">Photography<br></label>
-
-                            <input class="btn-check" id="Misc Arts" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-warning w-100 rounded-0 my-1" for="Misc Arts">Misc Arts<br></label>
-
-                            <input class="btn-check" id="Anthropology" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Anthropology">Anthropology<br></label>
-
-                            <input class="btn-check" id="Economics" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Economics">Economics<br></label>
-
-                            <input class="btn-check" id="Linguistics" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Linguistics">Linguistics<br></label>
-
-                            <input class="btn-check" id="Psychology" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Psychology">Psychology<br></label>
-
-                            <input class="btn-check" id="Sociology" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Sociology">Sociology<br></label>
-
-                            <input class="btn-check" id="Other Social Science" type="checkbox" autocomplete="off">
-                            <label class="btn btn-outline-secondary w-100 rounded-0 my-1" for="Other Social Science">Other Social
-                                Science<br></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="category-modal-root"></div>
 
     <div class="modal" id="report-question-modal" tabindex="-2">
         <div class="modal-dialog">
@@ -463,7 +240,10 @@
     <script type="module" src="/script.js"></script>
 
     <script type="module" src="/scripts/readers.js"></script>
-    <script type="module" src="/singleplayer/tossups.js"></script>
+
+    <script type="module" src="/react/umd/react.production.min.js"></script>
+    <script type="module" src="/react-dom/umd/react-dom.production.min.js"></script>
+    <script type="module" src="/singleplayer/tossups.min.js"></script>
 
     <script type="module" src="/scripts/dual-slider.js"></script>
 </body>

@@ -3,7 +3,8 @@ import account from '../scripts/accounts.js';
 fetch('/auth/get-profile')
   .then(response => response.json())
   .then(data => {
-    document.getElementById('username').textContent = data.user.username;
+    document.getElementById('username-1').textContent = data.user.username;
+    document.getElementById('username-2').textContent = data.user.username;
     document.getElementById('email').textContent = data.user.email;
     if (data.user.verifiedEmail) {
       document.getElementById('email-verified').textContent = 'Yes';

@@ -8,6 +8,7 @@ import verifyEmail from '../database/account-info/verify-email.js';
 
 import { createHash } from 'crypto';
 import jsonwebtoken from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
 const { sign, verify } = jsonwebtoken;
 
 const baseURL = process.env.BASE_URL ?? (process.env.NODE_ENV === 'production' ? 'https://www.qbreader.org' : 'http://localhost:3000');
@@ -180,6 +181,8 @@ function verifyEmailLink (userId, token) {
     if (Date.now() - timestamp > expirationTime) {
       return false;
     }
+
+    try { userId = new ObjectId(userId); } catch (e) { return false; }
 
     verifyEmail(userId);
     return true;
