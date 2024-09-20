@@ -6,7 +6,9 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const stats = await getSingleBonusStats(new ObjectId(req.query.bonus_id));
+  let _id;
+  try { _id = new ObjectId(req.query.bonus_id); } catch (e) { return res.status(400).send('Invalid Bonus ID'); }
+  const stats = await getSingleBonusStats(_id);
   res.json({ stats });
 });
 

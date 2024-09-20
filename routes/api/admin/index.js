@@ -1,5 +1,6 @@
 import geowordRouter from './geoword.js';
 import listReportsRouter from './list-reports.js';
+import leaderboardRouter from './leaderboard.js';
 import updateSubcategoryRouter from './update-subcategory.js';
 
 import isAdmin from '../../../database/account-info/is-admin.js';
@@ -28,6 +29,7 @@ router.use(async (req, res, next) => {
 
 router.use('/geoword', geowordRouter);
 router.use('/list-reports', listReportsRouter);
+router.use('/leaderboard', leaderboardRouter);
 router.use('/update-subcategory', updateSubcategoryRouter);
 
 export default router;

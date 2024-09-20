@@ -9,12 +9,9 @@ const router = Router();
 router.get('/', async (req, res) => {
   const username = req.session.username;
   const userId = await getUserId(username);
-  try {
-    const tossupId = new ObjectId(req.query.tossup_id);
-    res.json({ isStarred: await isStarredTossup(userId, tossupId) });
-  } catch { // Invalid ObjectID
-    res.json({ isStarred: false });
-  }
+  let tossupId;
+  try { tossupId = new ObjectId(req.query.tossup_id); } catch { return res.status(400).send('Invalid Tossup ID'); }
+  res.json({ isStarred: await isStarredTossup(userId, tossupId) });
 });
 
 export default router;

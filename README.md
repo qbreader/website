@@ -22,7 +22,8 @@ Feel free to contribute to the answer checking code located at [this repository]
 qbreader.org uses:
 
 - Heroku to host its backend
-- MongoDB to store the question data and geoword audio[^1]
+- MongoDB to store the question data[^1]
+  - [Bucketeer](https://elements.heroku.com/addons/bucketeer) to store geoword audio files (see [#213](https://github.com/qbreader/website/issues/213))
 - [Sendgrid](https://sendgrid.com/en-us) to send emails
 - [Namecheap](https://www.namecheap.com/) to manage the domain
 - [BetterStack/Logtail](https://elements.heroku.com/addons/logtail) for logging integration with Heroku
@@ -30,5 +31,3 @@ qbreader.org uses:
   - 8:00 AM UTC (3 AM EST / 4 AM EDT) every day
   - Based on [protobowl always restarting at 4 am](https://github.com/neotenic/protobowl?tab=readme-ov-file), since supposedly that's when it's the least busy
   - See https://stackoverflow.com/questions/43926740/schedule-heroku-to-restart-dynos-every-10-or-so-minutes for more information
-
-[^1]: This may change; see [this Github issue](https://github.com/qbreader/website/issues/213).

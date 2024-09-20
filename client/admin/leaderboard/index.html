@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+
+    <link href="/bootstrap/light.css" rel="stylesheet">
+    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
+    <script type="module" src="/scripts/apply-theme.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/">
+                <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
+            </a>
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/singleplayer">Singleplayer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/multiplayer">Multiplayer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/db">Database</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/frequency-list">Frequency List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/geoword">Geoword</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api-docs">API</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/settings">Settings</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/login" id="login-link">Log in</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <p class="lead">Most active QB Reader players:</p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Tossups Read</th>
+                    <th scope="col">Bonuses Read</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="leaderboard"></tbody>
+        </table>
+        <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
+    </div>
+
+    <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/script.js"></script>
+
+    <script type="module" src="/admin/leaderboard/index.js"></script>
+</body>
+
+</html>

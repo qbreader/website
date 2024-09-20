@@ -9,7 +9,8 @@ const router = Router();
 router.put('/', async (req, res) => {
   const username = req.session.username;
   const userId = await getUserId(username);
-  const bonusId = new ObjectId(req.body.bonus_id);
+  let bonusId;
+  try { bonusId = new ObjectId(req.body.bonus_id); } catch { return res.status(400).send('Invalid Bonus ID'); }
   await starBonus(userId, bonusId);
   res.sendStatus(200);
 });
