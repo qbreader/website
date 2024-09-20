@@ -3,8 +3,9 @@ import { USERNAME_MAX_LENGTH } from './constants.js';
 class Player {
   constructor (userId) {
     this.userId = userId;
+
     this.username = '';
-    this.isOnline = true;
+    this.online = true;
 
     this.powers = 0;
     this.tens = 0;
@@ -65,19 +66,15 @@ class Player {
   }
 
   /**
-     * Safely update the player's username, and return the new username.
-     * @param {string} username
-     * @param {number} [maxLength=USERNAME_MAX_LENGTH]
-     * @returns {string} newUsername
-     */
+   * Safely update the player's username, and return the new username.
+   * @param {string} username
+   * @param {number} [maxLength=USERNAME_MAX_LENGTH]
+   * @returns {string} newUsername
+   */
   updateUsername (username, maxLength = USERNAME_MAX_LENGTH) {
-    if (!username) {
-      username = '';
-    }
-
+    if (!username) { username = ''; }
     username = username.substring(0, maxLength);
     this.username = username;
-
     return this.username;
   }
 }

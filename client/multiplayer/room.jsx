@@ -472,7 +472,7 @@ const socketOnJoin = (message) => {
     sortPlayerListGroup();
     players[userId] = message.user;
   } else {
-    players[message.userId].isOnline = true;
+    players[message.userId].online = true;
     document.getElementById('points-' + message.userId).classList.add('bg-success');
     document.getElementById('points-' + message.userId).classList.remove('bg-secondary');
   }
@@ -480,7 +480,7 @@ const socketOnJoin = (message) => {
 
 const socketOnLeave = (message) => {
   logEvent(message.username, 'left the game');
-  players[message.userId].isOnline = false;
+  players[message.userId].online = false;
   document.getElementById('points-' + message.userId).classList.remove('bg-success');
   document.getElementById('points-' + message.userId).classList.add('bg-secondary');
 };
@@ -724,7 +724,7 @@ function updateTimerDisplay (time) {
 }
 
 function upsertPlayerItem (player) {
-  const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0, isOnline } = player;
+  const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0, online } = player;
 
   if (document.getElementById('list-group-' + userId)) {
     document.getElementById('list-group-' + userId).remove();
@@ -736,7 +736,7 @@ function upsertPlayerItem (player) {
   playerItem.innerHTML = `
     <div class="d-flex justify-content-between">
         <span id="username-${userId}">${escapeHTML(username)}</span>
-        <span><span id="points-${userId}" class="badge rounded-pill ${isOnline ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
+        <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
     </div>
     `;
 
