@@ -1,6 +1,6 @@
 import account from '../accounts.js';
 import { stringifyTossup } from '../../database/stringify.js';
-import QuestionCard from './QuestionCard.js';
+import QuestionCard from './QuestionCard.min.js';
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, showCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = tossup._id;

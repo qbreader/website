@@ -1,4 +1,4 @@
-import getRandomName from '../../get-random-name.js';
+import getRandomName from '../../server/get-random-name.js';
 
 import { Router } from 'express';
 

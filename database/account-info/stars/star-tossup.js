@@ -7,12 +7,13 @@ import { tossupStars } from '../collections.js';
  * @returns {Promise<boolean>} true if the tossup was not starred before
  */
 async function starTossup (userId, tossupId) {
-  if (await tossupStars.findOne({ user_id: userId, tossup_id: tossupId })) {
-    return false;
-  }
-
-  await tossupStars.insertOne({ user_id: userId, tossup_id: tossupId });
-  return true;
+  // get whether a document was inserted
+  const result = await tossupStars.updateOne(
+    { user_id: userId, tossup_id: tossupId },
+    { $set: { user_id: userId, tossup_id: tossupId } },
+    { upsert: true }
+  );
+  return result.upsertedCount > 0;
 }
 
 export default starTossup;

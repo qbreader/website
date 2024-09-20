@@ -1,7 +1,7 @@
 let level = 'all';
 let limit = 50;
 let questionType = 'all';
-const subcategory = titleCase(window.location.pathname.split('/').at(-1));
+const subcategory = titleCase(window.location.search.substring(1));
 
 function titleCase (name) {
   return name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());

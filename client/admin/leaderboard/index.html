@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Backups for qbreader.">
+    <meta name="description" content="">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -65,23 +65,26 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="lead">
-            Welcome to the admin portal of QB Reader, <span id="welcome-username"></span>!
-        </p>
-        <p>
-            Here's a list of useful links:
-        </p>
-        <ul>
-            <li><a href="/admin/category-reports">Fix question categories</a></li>
-            <li><a href="/admin/geoword">Geoword</a></li>
-            <li><a href="/admin/leaderboard">Leaderboard</a></li>
-        </ul>
+        <p class="lead">Most active QB Reader players:</p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Tossups Read</th>
+                    <th scope="col">Bonuses Read</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="leaderboard"></tbody>
+        </table>
+        <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/admin/index.js"></script>
+    <script type="module" src="/admin/leaderboard/index.js"></script>
 </body>
 
 </html>

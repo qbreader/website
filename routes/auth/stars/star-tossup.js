@@ -9,7 +9,8 @@ const router = Router();
 router.put('/', async (req, res) => {
   const username = req.session.username;
   const userId = await getUserId(username);
-  const tossupId = new ObjectId(req.body.tossup_id);
+  let tossupId;
+  try { tossupId = new ObjectId(req.body.tossup_id); } catch { return res.status(400).send('Invalid Tossup ID'); }
   await starTossup(userId, tossupId);
   res.sendStatus(200);
 });

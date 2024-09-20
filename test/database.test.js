@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { closeDatabase, connectToDatabase } from '../database/databases.js';
+import { mongoClient } from '../database/databases.js';
 import getNumPackets from '../database/qbreader/get-num-packets.js';
 import getPacket from '../database/qbreader/get-packet.js';
 import getQuery from '../database/qbreader/get-query.js';
@@ -11,6 +11,7 @@ import reportQuestion from '../database/qbreader/report-question.js';
 
 import { assert } from 'chai';
 import mocha from 'mocha';
+import { ObjectId } from 'mongodb';
 
 const packetNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 
@@ -57,7 +58,7 @@ async function testTiming (count) {
       mocha.it('reportQuestion', async () => {
         const results = [];
         for (let i = 0; i < count; i++) {
-          results.push(reportQuestion('630020e3cab8fa6d1490b8ea', 'other', 'test'));
+          results.push(reportQuestion(new ObjectId('630020e3cab8fa6d1490b8ea'), 'other', 'test'));
         }
         await Promise.all(results);
       });
@@ -160,12 +161,12 @@ async function testCorrectness () {
 }
 
 mocha.before(async () => {
-  await connectToDatabase();
+  await mongoClient.connect();
 });
 
 testCorrectness();
 // testTiming(1);
 
 mocha.after(async () => {
-  await closeDatabase();
+  await mongoClient.close();
 });

@@ -25,8 +25,12 @@ async function recordTossupData (username, data) {
     }
   }
 
-  newData.tossup_id = new ObjectId(tossup._id);
-  newData.set_id = new ObjectId(tossup.set._id);
+  try {
+    newData.tossup_id = new ObjectId(tossup._id);
+    newData.set_id = new ObjectId(tossup.set._id);
+  } catch (e) {
+    return false;
+  }
   newData.user_id = userId;
   return await tossupData.insertOne(newData);
 }
