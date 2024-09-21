@@ -109,24 +109,22 @@
                     <input class="form-control" id="username" type="text" placeholder="Username">
                 </div>
                 <div class="d-none" id="set-settings">
-                    <div class="form-floating">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">Set Name</span>
                         <input class="form-control" id="set-name" type="text" list="set-list">
-                        <label for="set-name">Set Name</label>
                         <datalist id="set-list"></datalist>
                     </div>
-                    <div class="my-1"></div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Packet #</span>
+                        <input class="form-control" id="packet-number" type="text" placeholder="Packet Numbers">
+                    </div>
                     <div class="form-floating">
-                        <input class="form-control" id="packet-number" type="text">
-                        <label for="packet-number">Packet Numbers</label>
                     </div>
                 </div>
                 <div id="difficulty-settings">
                     <div class="mb-2" id="difficulty-dropdown-root"></div>
                     <section>
-                        Year range:
-                        <span class="sliderValue0" id="year-range-a">2010</span>
-                        -
-                        <span class="sliderValue1" id="year-range-b">2024</span>
+                        Year range: <span id="year-range-a">2010</span> - <span id="year-range-b">2024</span>
                         <div id="slider"></div>
                         <div class="alert small-alert alert-danger" role="alert" id="yearRangeAlert" style="display: none">
                             Invalid input. Years must be after or during each other to update.
@@ -134,12 +132,14 @@
                     </section>
                 </div>
                 <div class="mt-2" id="general-settings">
-                    <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
-                    <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
                     <div class="text-center mb-2">
                         <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal"
                             data-bs-toggle="modal" type="button">Categories</button>
                         <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-powermark-only" type="checkbox" role="switch">
@@ -149,14 +149,7 @@
                         <input class="form-check-input" id="toggle-standard-only" type="checkbox" role="switch">
                         <label class="form-check-label" for="toggle-standard-only">Standard format only</label>
                     </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
-                        <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-skip" type="checkbox" role="switch">
-                        <label class="form-check-label" for="toggle-skip">Allow skips</label>
-                    </div>
+                    <hr>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-visibility" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-visibility">Public room</label>
@@ -166,6 +159,10 @@
                         <label class="form-check-label" for="toggle-rebuzz">Allow rebuzzes</label>
                     </div>
                     <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-skip" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-skip">Allow skips</label>
+                    </div>
+                    <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked disabled>
                         <label class="form-check-label" for="toggle-timer">Enable timer</label>
                     </div>
@@ -173,6 +170,9 @@
                         <input class="form-check-input" id="toggle-lock" type="checkbox" role="switch" disabled>
                         <label class="form-check-label" for="toggle-lock">Lock room from new players</label>
                     </div>
+                    <div class="mb-2"></div>
+                    <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                    <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
                     <div>
                         View more settings <a href="/settings">here</a>.
                     </div>
