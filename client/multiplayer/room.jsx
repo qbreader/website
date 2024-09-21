@@ -588,7 +588,7 @@ function toggleRebuzz ({ rebuzz, username }) {
 }
 
 function toggleSelectBySetName ({ selectBySetName, setName, username }) {
-  logEvent(username, 'enabled select by ' + selectBySetName ? 'set name' : 'difficulty');
+  logEvent(username, 'enabled select by ' + (selectBySetName ? 'set name' : 'difficulty'));
   document.getElementById('toggle-select-by-set-name').checked = selectBySetName;
   document.getElementById('toggle-powermark-only').disabled = selectBySetName;
   document.getElementById('toggle-standard-only').disabled = selectBySetName;
