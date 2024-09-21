@@ -52,7 +52,6 @@ socket.onmessage = function (event) {
   const data = JSON.parse(event.data);
   switch (data.type) {
     case 'buzz': return buzz(data);
-    case 'change-username': return changeUsername(data);
     case 'force-username': return forceUsername(data);
     case 'chat': return chat(data, false);
     case 'chat-live-update': return chat(data, true);
@@ -60,26 +59,25 @@ socket.onmessage = function (event) {
     case 'connection-acknowledged': return connectionAcknowledged(data);
     case 'connection-acknowledged-query': return connectionAcknowledgedQuery(data);
     case 'connection-acknowledged-tossup': return connectionAcknowledgedTossup(data);
-    case 'difficulties': return setDifficulties(data);
     case 'end-of-set': return endOfSet(data);
     case 'error': return handleError(data);
-    case 'packet-number': return setPacketNumbers(data);
-    case 'set-name': return setSetName(data);
     case 'give-answer': return giveAnswer(data);
     case 'give-answer-live-update': return logGiveAnswer(data, true);
     case 'join': return join(data);
     case 'leave': return leave(data);
     case 'lost-buzzer-race': return lostBuzzerRace(data);
-
-    case 'next':
-    case 'skip':
-      next(data);
-      break;
-
+    case 'next': return next(data);
     case 'no-questions-found': return noQuestionsFound(data);
     case 'pause': return pause(data);
-    case 'reading-speed': return readingSpeed(data);
     case 'reveal-answer': return revealAnswer(data);
+    case 'set-categories': return setCategories(data);
+    case 'set-difficulties': return setDifficulties(data);
+    case 'set-reading-speed': return setReadingSpeed(data);
+    case 'set-packet-numbers': return setPacketNumbers(data);
+    case 'set-set-name': return setSetName(data);
+    case 'set-username': return setUsername(data);
+    case 'set-year-range': return setYearRange(data);
+    case 'skip': return next(data);
     case 'start': return start(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
     case 'toggle-lock': return toggleLock(data);
@@ -90,9 +88,7 @@ socket.onmessage = function (event) {
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-timer': return toggleTimer(data);
     case 'toggle-visibility': return toggleVisibility(data);
-    case 'update-categories': return updateCategories(data);
     case 'update-question': return updateQuestion(data);
-    case 'year-range': return yearRange(data);
   }
 };
 
@@ -106,19 +102,6 @@ function buzz ({ userId, username }) {
   if (userId === USER_ID) {
     document.getElementById('answer-input-group').classList.remove('d-none');
     document.getElementById('answer-input').focus();
-  }
-}
-
-function changeUsername ({ oldUsername, newUsername, userId }) {
-  logEvent(oldUsername, `changed their username to ${newUsername}`);
-  document.getElementById('username-' + userId).textContent = newUsername;
-  players[userId].username = newUsername;
-  sortPlayerListGroup();
-
-  if (userId === USER_ID) {
-    username = newUsername;
-    window.localStorage.setItem('multiplayer-username', username);
-    document.getElementById('username').value = username;
   }
 }
 
@@ -236,7 +219,7 @@ async function connectionAcknowledgedQuery (message) {
   categoryManager.import(message.validCategories, message.validSubcategories, message.validAlternateSubcategories);
   categoryManager.loadCategoryModal();
 
-  setDifficulties(message.difficulties || []);
+  setDifficulties({ difficulties: message.difficulties || [] });
   document.getElementById('set-name').value = message.setName || '';
   document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
 
@@ -477,12 +460,6 @@ function pause ({ paused, username }) {
   logEvent(username, `${paused ? '' : 'un'}paused the game`);
 }
 
-function readingSpeed ({ username, value }) {
-  logEvent(username, `changed the reading speed to ${value}`);
-  document.getElementById('reading-speed').value = value;
-  document.getElementById('reading-speed-display').textContent = value;
-}
-
 function revealAnswer ({ answer, question }) {
   document.getElementById('question').innerHTML = question;
   document.getElementById('answer').innerHTML = 'ANSWER: ' + answer;
@@ -523,6 +500,12 @@ function sortPlayerListGroup (descending = true) {
   });
 }
 
+function setCategories ({ alternateSubcategories, categories, subcategories, username }) {
+  logEvent(username, 'updated the categories');
+  categoryManager.import(categories, subcategories, alternateSubcategories);
+  categoryManager.loadCategoryModal();
+}
+
 function setDifficulties ({ difficulties, username = undefined }) {
   if (username) { logEvent(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties'); }
 
@@ -544,9 +527,28 @@ function setPacketNumbers ({ username, value }) {
   document.getElementById('packet-number').value = value;
 }
 
+function setReadingSpeed ({ username, value }) {
+  logEvent(username, `changed the reading speed to ${value}`);
+  document.getElementById('reading-speed').value = value;
+  document.getElementById('reading-speed-display').textContent = value;
+}
+
 function setSetName ({ username, value }) {
   logEvent(username, value.length > 0 ? `changed set name to ${value}` : 'cleared set name');
   document.getElementById('set-name').value = value;
+}
+
+function setUsername ({ oldUsername, newUsername, userId }) {
+  logEvent(oldUsername, `changed their username to ${newUsername}`);
+  document.getElementById('username-' + userId).textContent = newUsername;
+  players[userId].username = newUsername;
+  sortPlayerListGroup();
+
+  if (userId === USER_ID) {
+    username = newUsername;
+    window.localStorage.setItem('multiplayer-username', username);
+    document.getElementById('username').value = username;
+  }
 }
 
 function start ({ tossup: nextTossup, username }) {
@@ -625,12 +627,6 @@ function toggleVisibility ({ public: isPublic, username }) {
   document.getElementById('toggle-timer').checked = true;
 }
 
-function updateCategories ({ alternateSubcategories, categories, subcategories, username }) {
-  logEvent(username, 'updated the categories');
-  categoryManager.import(categories, subcategories, alternateSubcategories);
-  categoryManager.loadCategoryModal();
-}
-
 function updateQuestion ({ word }) {
   if (word === '(*)') { return; }
   document.getElementById('question').innerHTML += word + ' ';
@@ -701,7 +697,7 @@ function upsertPlayerItem (player) {
   new bootstrap.Popover(playerItem);
 }
 
-function yearRange ({ minYear, maxYear }) {
+function setYearRange ({ minYear, maxYear }) {
   $('#slider').slider('values', 0, minYear);
   $('#slider').slider('values', 1, maxYear);
   document.getElementById('year-range-a').textContent = minYear;
@@ -774,8 +770,13 @@ document.getElementById('skip').addEventListener('click', function () {
 
 document.getElementById('packet-number').addEventListener('change', function () {
   const range = rangeToArray(this.value, maxPacketNumber);
-  if (range.some((num) => num < 1 || num > maxPacketNumber)) { return document.getElementById('packet-number').classList.add('is-invalid'); } else document.getElementById('packet-number').classList.remove('is-invalid');
-  socket.send(JSON.stringify({ type: 'packet-number', value: range }));
+  if (range.some((num) => num < 1 || num > maxPacketNumber)) {
+    document.getElementById('packet-number').classList.add('is-invalid');
+    return;
+  }
+
+  document.getElementById('packet-number').classList.remove('is-invalid');
+  socket.send(JSON.stringify({ type: 'set-packet-numbers', value: range }));
 });
 
 document.getElementById('pause').addEventListener('click', function () {
@@ -787,7 +788,7 @@ document.getElementById('pause').addEventListener('click', function () {
 });
 
 document.getElementById('reading-speed').addEventListener('change', function () {
-  socket.send(JSON.stringify({ type: 'reading-speed', value: this.value }));
+  socket.send(JSON.stringify({ type: 'set-reading-speed', value: this.value }));
 });
 
 document.getElementById('reading-speed').addEventListener('input', function () {
@@ -815,7 +816,11 @@ document.getElementById('set-name').addEventListener('change', async function ()
     document.getElementById('packet-number').value = `1-${maxPacketNumber}`;
   }
 
-  socket.send(JSON.stringify({ type: 'set-name', value: this.value, packetNumbers: rangeToArray(document.getElementById('packet-number').value) }));
+  socket.send(JSON.stringify({
+    type: 'set-set-name',
+    value: this.value,
+    packetNumbers: rangeToArray(document.getElementById('packet-number').value)
+  }));
 });
 
 document.getElementById('toggle-lock').addEventListener('click', function () {
@@ -863,7 +868,7 @@ document.getElementById('toggle-visibility').addEventListener('click', function 
 });
 
 document.getElementById('username').addEventListener('change', function () {
-  socket.send(JSON.stringify({ type: 'change-username', userId: USER_ID, oldUsername: username, username: this.value }));
+  socket.send(JSON.stringify({ type: 'set-username', userId: USER_ID, username: this.value }));
   username = this.value;
   window.localStorage.setItem('multiplayer-username', username);
 });
@@ -876,7 +881,7 @@ document.getElementById('year-range-a').onchange = function () {
   } else {
     document.querySelector('#yearRangeAlert').style.display = 'none';
   }
-  socket.send(JSON.stringify({ type: 'year-range', minYear, maxYear }));
+  socket.send(JSON.stringify({ type: 'set-year-range', minYear, maxYear }));
 };
 
 document.addEventListener('keydown', function (event) {
@@ -938,7 +943,7 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
     disablePercentView
     onClose={() => {
       if (oldCategories !== JSON.stringify(categoryManager.export())) {
-        socket.send(JSON.stringify({ type: 'update-categories', ...categoryManager.export() }));
+        socket.send(JSON.stringify({ type: 'set-categories', ...categoryManager.export() }));
       }
       oldCategories = JSON.stringify(categoryManager.export());
     }}
@@ -947,11 +952,6 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
 
 ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
   <DifficultyDropdown
-    onChange={() => {
-      socket.send(JSON.stringify({
-        type: 'difficulties',
-        value: getDropdownValues('difficulties')
-      }));
-    }}
+    onChange={() => socket.send(JSON.stringify({ type: 'set-difficulties', value: getDropdownValues('difficulties') }))}
   />
 );
