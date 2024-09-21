@@ -6,11 +6,6 @@ import api from './api/index.js';
  * and retrieval of `SET_LIST`.
  */
 
-document.getElementById('toggle-options').addEventListener('click', function () {
-  this.blur();
-  document.getElementById('options').classList.toggle('d-none');
-});
-
 if (window.localStorage.getItem('font-size')) {
   document.getElementById('question').style.setProperty('font-size', `${window.localStorage.getItem('font-size')}px`);
 }

@@ -74,7 +74,7 @@
         </div>
     </nav>
 
-    <div class="container-fluid mt-1 mt-lg-3 mb-5 pb-5 px-xxl-5">
+    <div class="container-fluid mt-3 mb-5 pb-5 px-xxl-5">
         <div class="toast-container position-fixed top-0 end-0 p-3">
             <div id="star-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
@@ -91,8 +91,8 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="info">
-            <div class="options d-lg-block col-12 col-lg-3 order-lg-1 mb-5" id="options">
+        <div class="row">
+            <div class="d-lg-block col-12 col-lg-3 order-lg-1 mb-5" id="settings">
                 <div class="timer d-block p-1 text-center" id="timer">
                     <span class="face">10</span><span class="fraction">.0</span>
                 </div>
@@ -174,33 +174,20 @@
                     <p class="mb-1 text-muted"><i id="private-chat-warning">chat is disabled in public rooms</i></p>
                 </div>
             </div>
-            <div class="col-12 col-lg-9">
-                <div class="buttons position-sticky top-0 pt-2">
-                    <button class="mb-2 btn btn-primary" id="next" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
-                        title="Shortcut: n or s key">Next</button>
-                    <button class="mb-2 btn btn-primary d-none" id="skip" data-bs-placement="top" data-bs-toggle="tooltip"
-                        type="button" title="Shortcut: n or s key" disabled>Skip</button>
-                    <button class="mb-2 btn btn-primary" id="pause" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
-                        title="Shortcut: p key" disabled>Pause</button>
-                    <button class="mb-2 btn btn-info" id="chat" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
-                        title="Shortcut: enter key">Chat</button>
-                    <button class="mb-2 btn btn-danger d-lg-none" id="toggle-options" type="button">Options</button>
-                    <button class="mb-2 btn btn-primary float-end" id="buzz" data-bs-placement="top" data-bs-toggle="tooltip"
-                        type="button" title="Shortcut: spacebar" disabled>Buzz</button>
-                    <form id="answer-form">
-                        <!-- User enters answer here -->
-                        <div class="input-group d-none my-2" id="answer-input-group">
-                            <input class="form-control" id="answer-input" type="text" placeholder="Enter answer" maxlength="256">
-                            <button class="btn btn-success" id="answer-submit" type="submit">Submit</button>
-                        </div>
-                    </form>
-                    <form id="chat-form">
-                        <div class="input-group d-none my-2" id="chat-input-group">
-                            <input class="form-control" id="chat-input" type="text" placeholder="Chat" maxlength="256">
-                            <button class="btn btn-success" id="chat-submit" type="submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="col-12 col-lg-9" id="content">
+                <form id="answer-form">
+                    <!-- User enters answer here -->
+                    <div class="input-group d-none my-2" id="answer-input-group">
+                        <input class="form-control" id="answer-input" type="text" placeholder="Enter answer" maxlength="256">
+                        <button class="btn btn-success" id="answer-submit" type="submit">Submit</button>
+                    </div>
+                </form>
+                <form id="chat-form">
+                    <div class="input-group d-none my-2" id="chat-input-group">
+                        <input class="form-control" id="chat-input" type="text" placeholder="Chat" maxlength="256">
+                        <button class="btn btn-success" id="chat-submit" type="submit">Submit</button>
+                    </div>
+                </form>
                 <div class="float-row">
                     <span class="float-end ps-5 me-lg-2" id="question-metadata">
                         <b id="question-info">
@@ -213,6 +200,34 @@
                 <div class="mt-2" id="question"></div>
                 <p class="my-1 my-lg-3" id="answer"></p>
                 <ul class="room-history list-unstyled" id="room-history"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-3 px-xxl-5 position-fixed bottom-0 bg-body">
+        <div class="row">
+            <div class="col-12 col-lg-9" id="buttons">
+                <button class="btn btn-primary" id="next" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: n or s key">Next</button>
+                <button class="btn btn-primary d-none" id="skip" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: n key" disabled>Skip</button>
+                <button class="btn btn-primary" id="pause" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: p key" disabled>Pause</button>
+                <button class="btn btn-info" id="chat" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: enter key">Chat</button>
+                <button class="btn btn-danger" id="toggle-settings" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: e key" type="button">
+                    <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-gear"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                            <path
+                                d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                        </svg>
+                    </div>
+                </button>
+                <button class="btn btn-primary float-end" id="buzz" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: spacebar" disabled>Buzz</button>
             </div>
         </div>
     </div>
