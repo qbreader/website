@@ -154,11 +154,9 @@ class TossupRoom extends Room {
   async message (userId, message) {
     switch (message.type) {
       case 'buzz': return this.buzz(userId, message);
-      case 'change-username': return this.changeUsername(userId, message);
       case 'chat': return this.chat(userId, message);
       case 'chat-live-update': return this.chatLiveUpdate(userId, message);
       case 'clear-stats': return this.clearStats(userId, message);
-      case 'difficulties': return this.difficulties(userId, message);
       case 'give-answer': return this.giveAnswer(userId, message);
       case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
 
@@ -167,10 +165,13 @@ class TossupRoom extends Room {
       case 'start':
         return this.next(userId, message);
 
-      case 'packet-number': return this.packetNumber(userId, message);
       case 'pause': return this.pause(userId, message);
-      case 'reading-speed': return this.readingSpeed(userId, message);
-      case 'set-name': return this.setName(userId, message);
+      case 'set-difficulties': return this.setDifficulties(userId, message);
+      case 'set-packet-numbers': return this.setPacketNumbers(userId, message);
+      case 'set-reading-speed': return this.setReadingSpeed(userId, message);
+      case 'set-set-name': return this.setSetName(userId, message);
+      case 'set-username': return this.setUsername(userId, message);
+      case 'set-year-range': return this.setYearRange(userId, message);
       case 'toggle-lock': return this.toggleLock(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
@@ -180,7 +181,6 @@ class TossupRoom extends Room {
       case 'toggle-timer': return this.toggleTimer(userId, message);
       case 'toggle-visibility': return this.togglePublic(userId, message);
       case 'update-categories': return this.updateCategories(userId, message);
-      case 'year-range': return this.yearRange(userId, message);
     }
   }
 
@@ -261,22 +261,6 @@ class TossupRoom extends Room {
     );
   }
 
-  changeUsername (userId, { username }) {
-    if (typeof username !== 'string') { return false; }
-
-    if (!isAppropriateString(username)) {
-      this.sendToSocket(userId, {
-        type: 'force-username',
-        username: this.players[userId].username,
-        message: 'Your username contains an inappropriate word, so it has been reverted.'
-      });
-    }
-
-    const oldUsername = this.players[userId].username;
-    const newUsername = this.players[userId].updateUsername(username);
-    this.emitMessage({ type: 'change-username', userId, oldUsername, newUsername });
-  }
-
   chat (userId, { message }) {
     // prevent chat messages if room is public, since they can still be sent with API
     if (this.settings.public || typeof message !== 'string') { return false; }
@@ -295,11 +279,12 @@ class TossupRoom extends Room {
     this.emitMessage({ type: 'clear-stats', userId });
   }
 
-  difficulties (userId, { value }) {
+  setDifficulties (userId, { value }) {
     const invalid = value.some((value) => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10);
     if (invalid) { return false; }
+
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'difficulties', username, value });
+    this.emitMessage({ type: 'set-difficulties', username, value });
     this.adjustQuery(['difficulties'], [value]);
   }
 
@@ -407,15 +392,6 @@ class TossupRoom extends Room {
     this.readQuestion(Date.now());
   }
 
-  async packetNumber (userId, { value }) {
-    const allowedPacketNumbers = await getNumPackets(this.query.setName);
-    if (value.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) { return false; }
-
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'packet-number', username, value });
-    this.adjustQuery(['packetNumbers'], [value]);
-  }
-
   pause (userId) {
     if (this.buzzedIn) { return false; }
 
@@ -436,14 +412,51 @@ class TossupRoom extends Room {
     this.emitMessage({ type: 'pause', paused: this.paused, username });
   }
 
-  readingSpeed (userId, { value }) {
+  async setPacketNumbers (userId, { value }) {
+    const allowedPacketNumbers = await getNumPackets(this.query.setName);
+    if (value.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) { return false; }
+
+    const username = this.players[userId].username;
+    this.emitMessage({ type: 'set-packet-numbers', username, value });
+    this.adjustQuery(['packetNumbers'], [value]);
+  }
+
+  setReadingSpeed (userId, { value }) {
     if (isNaN(value)) { return false; }
     if (value > 100) { value = 100; }
     if (value < 0) { value = 0; }
 
     this.settings.readingSpeed = value;
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'reading-speed', username, value });
+    this.emitMessage({ type: 'set-reading-speed', username, value });
+  }
+
+  async setSetName (userId, { packetNumbers, value }) {
+    if (typeof value !== 'string') { return; }
+    if (!this.setList) { return; }
+    if (!this.setList.includes(value)) { return; }
+    const maxPacketNumber = await getNumPackets(value);
+    if (packetNumbers.some((num) => num > maxPacketNumber || num < 1)) { return; }
+
+    const username = this.players[userId].username;
+    this.emitMessage({ type: 'set-set-name', username, value });
+    this.adjustQuery(['setName', 'packetNumbers'], [value, packetNumbers]);
+  }
+
+  setUsername (userId, { username }) {
+    if (typeof username !== 'string') { return false; }
+
+    if (!isAppropriateString(username)) {
+      this.sendToSocket(userId, {
+        type: 'force-username',
+        username: this.players[userId].username,
+        message: 'Your username contains an inappropriate word, so it has been reverted.'
+      });
+    } else {
+      const oldUsername = this.players[userId].username;
+      const newUsername = this.players[userId].updateUsername(username);
+      this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername });
+    }
   }
 
   async readQuestion (expectedReadTime) {
@@ -489,18 +502,6 @@ class TossupRoom extends Room {
       question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),
       answer: this.tossup.answer
     });
-  }
-
-  async setName (userId, { packetNumbers, value }) {
-    if (typeof value !== 'string') { return; }
-    if (!this.setList) { return; }
-    if (!this.setList.includes(value)) { return; }
-    const maxPacketNumber = await getNumPackets(value);
-    if (packetNumbers.some((num) => num > maxPacketNumber || num < 1)) { return; }
-
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-name', username, value });
-    this.adjustQuery(['setName', 'packetNumbers'], [value, packetNumbers]);
   }
 
   toggleLock (userId, { lock }) {
@@ -581,7 +582,7 @@ class TossupRoom extends Room {
     this.adjustQuery(['categories', 'subcategories', 'alternateSubcategories'], [categories, subcategories, alternateSubcategories]);
   }
 
-  yearRange (userId, { minYear, maxYear }) {
+  setYearRange (userId, { minYear, maxYear }) {
     minYear = parseInt(minYear);
     maxYear = parseInt(maxYear);
     if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
@@ -589,12 +590,12 @@ class TossupRoom extends Room {
 
     if (maxYear < minYear) {
       this.sendToSocket(userId, {
-        type: 'year-range',
+        type: 'set-year-range',
         minYear: this.query.minYear,
         maxYear: this.query.maxYear
       });
     } else {
-      this.emitMessage({ type: 'year-range', minYear, maxYear });
+      this.emitMessage({ type: 'set-year-range', minYear, maxYear });
       this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
     }
   }
