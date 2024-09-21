@@ -96,10 +96,7 @@
                 <div id="difficulty-settings">
                     <div class="mb-2" id="difficulty-dropdown-root"></div>
                     <section>
-                        Year range:
-                        <span class="sliderValue0" id="year-range-a">2010</span>
-                        -
-                        <span class="sliderValue1" id="year-range-b">2024</span>
+                        Year range: <span id="year-range-a">2010</span> - <span id="year-range-b">2024</span>
                         <div id="slider"></div>
                     </section>
                 </div>
@@ -110,24 +107,25 @@
                         <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-three-part-bonuses" type="checkbox" role="switch" checked>
-                        <label class="form-check-label" for="toggle-three-part-bonuses">Only use 3-part bonuses</label>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-standard-only" type="checkbox" role="switch">
-                        <label class="form-check-label" for="toggle-standard-only">Standard formats only</label>
-                    </div>
-                    <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
                         <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-show-history" type="checkbox" role="switch" checked>
-                        <label class="form-check-label" for="toggle-show-history">Show question history</label>
+                        <input class="form-check-input" id="toggle-three-part-bonuses" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-three-part-bonuses">3-part bonuses only</label>
                     </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-standard-only" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-standard-only">Standard format only</label>
+                    </div>
+                    <hr>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="type-to-answer" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="type-to-answer">Type to answer</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-show-history" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-show-history">Show question history</label>
                     </div>
                     <div>
                         View more settings <a href="/settings">here</a>.
