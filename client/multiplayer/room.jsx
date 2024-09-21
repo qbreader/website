@@ -78,7 +78,7 @@ socket.onmessage = function (event) {
     case 'set-username': return setUsername(data);
     case 'set-year-range': return setYearRange(data);
     case 'skip': return next(data);
-    case 'start': return start(data);
+    case 'start': return next(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
     case 'toggle-lock': return toggleLock(data);
     case 'toggle-powermark-only': return togglePowermarkOnly(data);
@@ -179,7 +179,7 @@ function connectionAcknowledged (message) {
       break;
     case 1:
       showSkipButton();
-      document.getElementById('options').classList.add('d-none');
+      document.getElementById('settings').classList.add('d-none');
       if (message.buzzedIn) {
         document.getElementById('buzz').disabled = true;
         document.getElementById('next').disabled = true;
@@ -191,7 +191,7 @@ function connectionAcknowledged (message) {
       break;
     case 2:
       showNextButton();
-      document.getElementById('options').classList.add('d-none');
+      document.getElementById('settings').classList.add('d-none');
       break;
   }
 
@@ -239,7 +239,8 @@ async function connectionAcknowledgedQuery (message) {
   document.getElementById('year-range-b').textContent = message.maxYear;
 }
 
-function connectionAcknowledgedTossup ({ tossup }) {
+function connectionAcknowledgedTossup ({ tossup: currentTossup }) {
+  tossup = currentTossup;
   document.getElementById('set-name-info').textContent = tossup?.set?.name ?? '';
   document.getElementById('packet-number-info').textContent = tossup?.packet?.number ?? '-';
   document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
@@ -421,7 +422,7 @@ function logGiveAnswer ({ directive = null, message, username }) {
     li.appendChild(secondBadge);
   }
 
-  if (!directive) { li.id = ''; }
+  if (directive) { li.id = ''; }
 }
 
 function lostBuzzerRace ({ username, userId }) {
@@ -430,23 +431,43 @@ function lostBuzzerRace ({ username, userId }) {
 }
 
 function next ({ tossup: nextTossup, type, username }) {
-  logEvent(username, type === 'skip' ? 'skipped the question' : 'went to the next question');
-  tossup.question = document.getElementById('question').innerHTML;
-  tossup.answer = document.getElementById('answer').innerHTML.replace('ANSWER: ', '');
-  createTossupCard(tossup);
+  switch (type) {
+    case 'next':
+      logEvent(username, 'went to the next question');
+      break;
+    case 'skip':
+      logEvent(username, 'skipped the question');
+      break;
+    case 'start':
+      logEvent(username, 'started the game');
+      break;
+    default:
+      throw new Error('Invalid type');
+  }
+
+  if (type === 'next' || type === 'skip') {
+    tossup.question = document.getElementById('question').innerHTML;
+    tossup.answer = document.getElementById('answer').innerHTML.replace('ANSWER: ', '');
+    createTossupCard(tossup);
+  } else if (type === 'start') {
+    document.getElementById('next').classList.add('btn-primary');
+    document.getElementById('next').classList.remove('btn-success');
+    document.getElementById('next').textContent = 'Next';
+  }
 
   tossup = nextTossup;
-  document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
-  document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
   document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
+  document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
+  document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
 
-  document.getElementById('options').classList.add('d-none');
-  document.getElementById('question').textContent = '';
   document.getElementById('answer').textContent = '';
+  document.getElementById('question').textContent = '';
+
   document.getElementById('buzz').textContent = 'Buzz';
   document.getElementById('buzz').disabled = false;
   document.getElementById('pause').textContent = 'Pause';
   document.getElementById('pause').disabled = false;
+  document.getElementById('settings').classList.add('d-none');
 
   showSkipButton();
   updateTimerDisplay(100);
@@ -549,25 +570,6 @@ function setUsername ({ oldUsername, newUsername, userId }) {
     window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
-}
-
-function start ({ tossup: nextTossup, username }) {
-  logEvent(username, 'started the game');
-  document.getElementById('question').textContent = '';
-  document.getElementById('answer').textContent = '';
-  document.getElementById('buzz').textContent = 'Buzz';
-  document.getElementById('buzz').disabled = false;
-  document.getElementById('pause').textContent = 'Pause';
-  document.getElementById('pause').disabled = false;
-  document.getElementById('next').classList.add('btn-primary');
-  document.getElementById('next').classList.remove('btn-success');
-  document.getElementById('next').textContent = 'Next';
-  showSkipButton();
-
-  tossup = nextTossup;
-  document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
-  document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
-  document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
 }
 
 function toggleLock ({ lock, username }) {
@@ -852,6 +854,16 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
   }));
 });
 
+document.getElementById('toggle-settings').addEventListener('click', function () {
+  this.blur();
+  document.getElementById('buttons').classList.toggle('col-lg-9');
+  document.getElementById('buttons').classList.toggle('col-lg-12');
+  document.getElementById('content').classList.toggle('col-lg-9');
+  document.getElementById('content').classList.toggle('col-lg-12');
+  document.getElementById('settings').classList.toggle('d-none');
+  document.getElementById('settings').classList.toggle('d-lg-none');
+});
+
 document.getElementById('toggle-standard-only').addEventListener('click', function () {
   this.blur();
   socket.send(JSON.stringify({ type: 'toggle-standard-only', standardOnly: this.checked }));
@@ -900,6 +912,10 @@ document.addEventListener('keydown', function (event) {
       // Prevent spacebar from scrolling the page
       document.getElementById('buzz').click();
       if (event.target === document.body) event.preventDefault();
+      break;
+
+    case 'e':
+      document.getElementById('toggle-settings').click();
       break;
 
     case 'k':

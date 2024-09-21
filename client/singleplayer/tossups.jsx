@@ -638,8 +638,7 @@ document.getElementById('start').addEventListener('click', async function () {
 
   document.getElementById('next').disabled = false;
   document.getElementById('next').textContent = 'Skip';
-  document.getElementById('options').classList.add('d-none');
-  document.getElementById('toggle-options').disabled = false;
+  document.getElementById('settings').classList.add('d-none');
 
   if (settings.selectBySetName) {
     queryLock();
@@ -717,6 +716,16 @@ document.getElementById('type-to-answer').addEventListener('click', function () 
   window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
+document.getElementById('toggle-settings').addEventListener('click', function () {
+  this.blur();
+  document.getElementById('buttons').classList.toggle('col-lg-9');
+  document.getElementById('buttons').classList.toggle('col-lg-12');
+  document.getElementById('content').classList.toggle('col-lg-9');
+  document.getElementById('content').classList.toggle('col-lg-12');
+  document.getElementById('settings').classList.toggle('d-none');
+  document.getElementById('settings').classList.toggle('d-lg-none');
+});
+
 document.getElementById('toggle-rebuzz').addEventListener('click', function () {
   this.blur();
   settings.rebuzz = this.checked;
@@ -745,6 +754,9 @@ document.addEventListener('keydown', (event) => {
       document.getElementById('buzz').click();
       // Prevent spacebar from scrolling the page:
       if (event.target === document.body) event.preventDefault();
+      break;
+    case 'e':
+      document.getElementById('toggle-settings').click();
       break;
     case 'k':
       document.getElementsByClassName('card-header-clickable')[0].click();
