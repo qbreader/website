@@ -24,7 +24,7 @@ export default function handleWssConnection (ws, req) {
   if (!hasValidCharacters(roomName)) {
     ws.send(JSON.stringify({
       type: 'error',
-      error: 'The room name contains an invalid character. Only A-Z, a-z, 0-9, - and _ are allowed.'
+      message: 'The room name contains an invalid character. Only A-Z, a-z, 0-9, - and _ are allowed.'
     }));
     return false;
   }
@@ -32,7 +32,7 @@ export default function handleWssConnection (ws, req) {
   if (!isAppropriateString(roomName)) {
     ws.send(JSON.stringify({
       type: 'error',
-      error: 'The room name contains an inappropriate word.'
+      message: 'The room name contains an inappropriate word.'
     }));
     return false;
   }
@@ -41,7 +41,7 @@ export default function handleWssConnection (ws, req) {
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({
       type: 'error',
-      error: 'The room is locked'
+      message: 'The room is locked'
     }));
     return false;
   }
