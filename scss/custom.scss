@@ -43,6 +43,16 @@ $popover-max-width: 100%;
 
 // 8. Add additional custom code here
 
+code {
+    font-family: 'Fira Code', monospace;
+}
+
+@supports (font-variation-settings: normal) {
+    code {
+        font-family: 'Fira Code VF', monospace;
+    }
+}
+
 .bg-custom {
     background-color: $custom;
 }
@@ -57,10 +67,6 @@ $popover-max-width: 100%;
     cursor: pointer;
 }
 
-#difficulty-settings {
-    min-height: 125px;
-}
-
 // make sure content goes below entire row when row contains floats
 .float-row {
     overflow: auto;
@@ -71,22 +77,6 @@ $popover-max-width: 100%;
     padding: 1em;
     font-family: "Times New Roman", serif;
     font-size: 20px;
-}
-
-#logo {
-    font-family: Inter, 'Source Sans Pro', sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-code {
-    font-family: 'Fira Code', monospace;
-}
-
-@supports (font-variation-settings: normal) {
-    code {
-        font-family: 'Fira Code VF', monospace;
-    }
 }
 
 .logo-prefix {
@@ -101,8 +91,8 @@ code {
     border-top: .5px solid lightgray;
 }
 
-#set-settings {
-    min-height: 125px;
+.small-alert {
+    --bs-alert-padding-y: 0.5rem;
 }
 
 .text-highlight {
@@ -122,12 +112,22 @@ a.list-group-item:hover {
     color: inherit;
 }
 
-.small-alert {
-    --bs-alert-padding-y: 0.5rem;
+#difficulty-settings {
+    min-height: 90px;
+}
+
+#logo {
+    font-family: Inter, 'Source Sans Pro', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 #multiplayer-name {
     margin-top: 3px
+}
+
+#set-settings {
+    min-height: 90px;
 }
 
 @import "./dual-slider";
