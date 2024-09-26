@@ -562,9 +562,14 @@ class TossupRoom extends Room {
 
   togglePublic (userId, { public: isPublic }) {
     if (this.isPermanent) { return; }
+
     this.settings.public = isPublic;
     this.settings.timer = true;
     const username = this.players[userId].username;
+    if (isPublic) {
+      this.settings.lock = false;
+      this.settings.login = false;
+    }
     this.emitMessage({ type: 'toggle-visibility', public: isPublic, username });
   }
 
