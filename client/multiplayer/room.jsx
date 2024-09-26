@@ -649,12 +649,17 @@ function toggleTimer ({ timer, username }) {
 
 function toggleVisibility ({ public: isPublic, username }) {
   logEvent(username, `made the room ${isPublic ? 'public' : 'private'}`);
-  document.getElementById('toggle-visibility').checked = isPublic;
   document.getElementById('chat').disabled = isPublic;
   document.getElementById('toggle-lock').disabled = isPublic;
   document.getElementById('toggle-login').disabled = isPublic;
   document.getElementById('toggle-timer').disabled = isPublic;
   document.getElementById('toggle-timer').checked = true;
+  document.getElementById('toggle-visibility').checked = isPublic;
+
+  if (isPublic) {
+    document.getElementById('toggle-lock').checked = false;
+    document.getElementById('toggle-login').checked = false;
+  }
 }
 
 function updateQuestion ({ word }) {
