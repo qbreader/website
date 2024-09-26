@@ -297,7 +297,7 @@ class TossupRoom extends Room {
     if (this.buzzedIn !== userId) { return false; }
 
     this.liveAnswer = '';
-    clearInterval(this.timerInterval);
+    clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: this.ANSWER_TIME_LIMIT * 10 });
 
     if (Object.keys(this.tossup).length === 0) { return; }
