@@ -75,7 +75,7 @@ class TossupRoom extends Room {
 
     this.settings = {
       lock: false,
-      login: false,
+      loginRequired: false,
       public: true,
       rebuzz: false,
       readingSpeed: 50,
@@ -168,7 +168,7 @@ class TossupRoom extends Room {
       case 'set-username': return this.setUsername(userId, message);
       case 'set-year-range': return this.setYearRange(userId, message);
       case 'toggle-lock': return this.toggleLock(userId, message);
-      case 'toggle-login': return this.toggleLogin(userId, message);
+      case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
       case 'toggle-select-by-set-name': return this.toggleSelectBySetName(userId, message);
@@ -508,12 +508,12 @@ class TossupRoom extends Room {
     this.emitMessage({ type: 'toggle-lock', lock, username });
   }
 
-  toggleLogin (userId, { login }) {
+  toggleLoginRequired (userId, { loginRequired }) {
     if (this.settings.public) { return; }
 
-    this.settings.login = login;
+    this.settings.loginRequired = loginRequired;
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'toggle-login', login, username });
+    this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
   }
 
   togglePowermarkOnly (userId, { powermarkOnly }) {
@@ -568,7 +568,7 @@ class TossupRoom extends Room {
     const username = this.players[userId].username;
     if (isPublic) {
       this.settings.lock = false;
-      this.settings.login = false;
+      this.settings.loginRequired = false;
     }
     this.emitMessage({ type: 'toggle-visibility', public: isPublic, username });
   }
