@@ -660,7 +660,7 @@ function upsertPlayerItem (player) {
     `;
 
   playerItem.setAttribute('data-bs-container', 'body');
-  playerItem.setAttribute('data-bs-custom-class', 'w-25');
+  playerItem.setAttribute('data-bs-custom-class', 'custom-popover');
   playerItem.setAttribute('data-bs-html', 'true');
   playerItem.setAttribute('data-bs-placement', 'left');
   playerItem.setAttribute('data-bs-toggle', 'popover');
