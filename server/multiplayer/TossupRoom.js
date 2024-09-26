@@ -69,6 +69,7 @@ class TossupRoom extends Room {
       subcategories,
       reverse: true, // used for `database.getSet`
       powermarkOnly: false,
+      selectBySetName: false,
       standardOnly: false
     };
 
@@ -78,7 +79,6 @@ class TossupRoom extends Room {
       public: true,
       rebuzz: false,
       readingSpeed: 50,
-      selectBySetName: false,
       skip: false,
       timer: true
     };
@@ -102,22 +102,14 @@ class TossupRoom extends Room {
       type: 'connection-acknowledged',
       userId,
 
+      players: this.players,
       isPermanent: this.isPermanent,
 
-      players: this.players,
-
-      canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       buzzedIn: this.buzzedIn,
+      canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       questionProgress: this.questionProgress,
 
-      lock: this.settings.lock,
-      login: this.settings.login,
-      public: this.settings.public,
-      readingSpeed: this.settings.readingSpeed,
-      rebuzz: this.settings.rebuzz,
-      selectBySetName: this.settings.selectBySetName,
-      skip: this.settings.skip,
-      timer: this.settings.timer
+      settings: this.settings
     }));
 
     socket.send(JSON.stringify({
@@ -199,7 +191,7 @@ class TossupRoom extends Room {
       }
     }
 
-    if (this.settings.selectBySetName) {
+    if (this.query.selectBySetName) {
       this.questionNumber = 0;
       getSet(this.query).then(set => {
         this.setCache = set;
@@ -214,7 +206,7 @@ class TossupRoom extends Room {
   async advanceQuestion () {
     this.queryingQuestion = true;
 
-    if (this.settings.selectBySetName) {
+    if (this.query.selectBySetName) {
       if (this.setCache.length === 0) {
         this.emitMessage({ type: 'end-of-set' });
         return false;
@@ -542,7 +534,7 @@ class TossupRoom extends Room {
     if (!this.setList) { return; }
     if (!this.setList.includes(setName)) { return; }
 
-    this.settings.selectBySetName = selectBySetName;
+    this.query.selectBySetName = selectBySetName;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-select-by-set-name', selectBySetName, setName, username });
     this.adjustQuery(['setName'], [setName]);
