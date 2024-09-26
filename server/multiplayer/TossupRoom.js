@@ -74,6 +74,7 @@ class TossupRoom extends Room {
 
     this.settings = {
       lock: false,
+      login: false,
       public: true,
       rebuzz: false,
       readingSpeed: 50,
@@ -109,6 +110,8 @@ class TossupRoom extends Room {
       buzzedIn: this.buzzedIn,
       questionProgress: this.questionProgress,
 
+      lock: this.settings.lock,
+      login: this.settings.login,
       public: this.settings.public,
       readingSpeed: this.settings.readingSpeed,
       rebuzz: this.settings.rebuzz,
@@ -173,6 +176,7 @@ class TossupRoom extends Room {
       case 'set-username': return this.setUsername(userId, message);
       case 'set-year-range': return this.setYearRange(userId, message);
       case 'toggle-lock': return this.toggleLock(userId, message);
+      case 'toggle-login': return this.toggleLogin(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
       case 'toggle-select-by-set-name': return this.toggleSelectBySetName(userId, message);
@@ -510,6 +514,14 @@ class TossupRoom extends Room {
     this.settings.lock = lock;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-lock', lock, username });
+  }
+
+  toggleLogin (userId, { login }) {
+    if (this.settings.public) { return; }
+
+    this.settings.login = login;
+    const username = this.players[userId].username;
+    this.emitMessage({ type: 'toggle-login', login, username });
   }
 
   togglePowermarkOnly (userId, { powermarkOnly }) {

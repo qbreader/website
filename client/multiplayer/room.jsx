@@ -81,6 +81,7 @@ socket.onmessage = function (event) {
     case 'start': return next(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
     case 'toggle-lock': return toggleLock(data);
+    case 'toggle-login': return toggleLogin(data);
     case 'toggle-powermark-only': return togglePowermarkOnly(data);
     case 'toggle-rebuzz': return toggleRebuzz(data);
     case 'toggle-select-by-set-name': return toggleSelectBySetName(data);
@@ -150,6 +151,10 @@ function connectionAcknowledged (message) {
   window.localStorage.setItem('USER_ID', USER_ID);
 
   document.getElementById('chat').disabled = message.public;
+  document.getElementById('toggle-lock').checked = message.lock;
+  document.getElementById('toggle-lock').disabled = message.public;
+  document.getElementById('toggle-login').checked = message.login;
+  document.getElementById('toggle-login').disabled = message.public;
   document.getElementById('toggle-rebuzz').checked = message.rebuzz;
   document.getElementById('toggle-skip').checked = message.skip;
   document.getElementById('toggle-timer').checked = message.timer;
@@ -577,6 +582,11 @@ function toggleLock ({ lock, username }) {
   document.getElementById('toggle-lock').checked = lock;
 }
 
+function toggleLogin ({ login, username }) {
+  logEvent(username, `${login ? 'enabled' : 'disabled'} require players to be logged in`);
+  document.getElementById('toggle-login').checked = login;
+}
+
 function togglePowermarkOnly ({ powermarkOnly, username }) {
   logEvent(username, `${powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
   document.getElementById('toggle-powermark-only').checked = powermarkOnly;
@@ -625,6 +635,7 @@ function toggleVisibility ({ public: isPublic, username }) {
   document.getElementById('toggle-visibility').checked = isPublic;
   document.getElementById('chat').disabled = isPublic;
   document.getElementById('toggle-lock').disabled = isPublic;
+  document.getElementById('toggle-login').disabled = isPublic;
   document.getElementById('toggle-timer').disabled = isPublic;
   document.getElementById('toggle-timer').checked = true;
 }
@@ -828,6 +839,11 @@ document.getElementById('set-name').addEventListener('change', async function ()
 document.getElementById('toggle-lock').addEventListener('click', function () {
   this.blur();
   socket.send(JSON.stringify({ type: 'toggle-lock', lock: this.checked }));
+});
+
+document.getElementById('toggle-login').addEventListener('click', function () {
+  this.blur();
+  socket.send(JSON.stringify({ type: 'toggle-login', login: this.checked }));
 });
 
 document.getElementById('toggle-powermark-only').addEventListener('click', function () {
