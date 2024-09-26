@@ -146,37 +146,32 @@ function clearStats ({ userId }) {
   sortPlayerListGroup();
 }
 
-function connectionAcknowledged (message) {
-  USER_ID = message.userId;
-  window.localStorage.setItem('USER_ID', USER_ID);
+function connectionAcknowledged ({
+  buzzedIn,
+  canBuzz,
+  isPermanent,
+  players: messagePlayers,
+  questionProgress,
+  settings,
+  userId
+}) {
+  document.getElementById('buzz').disabled = !canBuzz;
 
-  document.getElementById('chat').disabled = message.public;
-  document.getElementById('toggle-lock').checked = message.lock;
-  document.getElementById('toggle-lock').disabled = message.public;
-  document.getElementById('toggle-login').checked = message.login;
-  document.getElementById('toggle-login').disabled = message.public;
-  document.getElementById('toggle-rebuzz').checked = message.rebuzz;
-  document.getElementById('toggle-skip').checked = message.skip;
-  document.getElementById('toggle-timer').checked = message.timer;
-  document.getElementById('toggle-timer').disabled = message.public;
-  if (!message.timer) {
-    document.getElementById('timer').classList.add('d-none');
-  }
-  document.getElementById('toggle-visibility').checked = message.public;
-  document.getElementById('reading-speed').value = message.readingSpeed;
-  document.getElementById('reading-speed-display').textContent = message.readingSpeed;
-
-  if (message.selectBySetName) {
-    document.getElementById('toggle-select-by-set-name').checked = true;
-    document.getElementById('difficulty-settings').classList.add('d-none');
-    document.getElementById('set-settings').classList.remove('d-none');
-  } else {
-    document.getElementById('toggle-select-by-set-name').checked = false;
-    document.getElementById('difficulty-settings').classList.remove('d-none');
-    document.getElementById('set-settings').classList.add('d-none');
+  if (isPermanent) {
+    document.getElementById('category-select-button').disabled = true;
+    document.getElementById('toggle-visibility').disabled = true;
+    document.getElementById('toggle-select-by-set-name').disabled = true;
+    document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
   }
 
-  switch (message.questionProgress) {
+  Object.keys(messagePlayers).forEach(userId => {
+    messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
+    players[userId] = messagePlayers[userId];
+    upsertPlayerItem(players[userId]);
+  });
+  sortPlayerListGroup();
+
+  switch (questionProgress) {
     case 0:
       document.getElementById('next').textContent = 'Start';
       document.getElementById('next').classList.remove('btn-primary');
@@ -185,7 +180,7 @@ function connectionAcknowledged (message) {
     case 1:
       showSkipButton();
       document.getElementById('settings').classList.add('d-none');
-      if (message.buzzedIn) {
+      if (buzzedIn) {
         document.getElementById('buzz').disabled = true;
         document.getElementById('next').disabled = true;
         document.getElementById('pause').disabled = true;
@@ -200,48 +195,70 @@ function connectionAcknowledged (message) {
       break;
   }
 
-  if (message.isPermanent) {
-    document.getElementById('category-select-button').disabled = true;
-    document.getElementById('toggle-visibility').disabled = true;
-    document.getElementById('toggle-select-by-set-name').disabled = true;
-    document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
-  }
+  document.getElementById('toggle-lock').checked = settings.lock;
 
-  Object.keys(message.players).forEach(userId => {
-    message.players[userId].celerity = message.players[userId].celerity.correct.average;
-    players[userId] = message.players[userId];
-    upsertPlayerItem(players[userId]);
-  });
+  document.getElementById('toggle-login').checked = settings.login;
 
-  if (!message.canBuzz) {
-    document.getElementById('buzz').disabled = true;
-  }
+  document.getElementById('chat').disabled = settings.public;
+  document.getElementById('toggle-lock').disabled = settings.public;
+  document.getElementById('toggle-login').disabled = settings.public;
+  document.getElementById('toggle-timer').disabled = settings.public;
+  document.getElementById('toggle-visibility').checked = settings.public;
 
-  sortPlayerListGroup();
+  document.getElementById('reading-speed').value = settings.readingSpeed;
+  document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
+
+  document.getElementById('toggle-rebuzz').checked = settings.rebuzz;
+
+  document.getElementById('toggle-skip').checked = settings.skip;
+
+  document.getElementById('timer').classList.toggle('d-none', !settings.timer);
+  document.getElementById('toggle-timer').checked = settings.timer;
+
+  USER_ID = userId;
+  window.localStorage.setItem('USER_ID', USER_ID);
 }
 
-async function connectionAcknowledgedQuery (message) {
-  categoryManager.import(message.validCategories, message.validSubcategories, message.validAlternateSubcategories);
-  categoryManager.loadCategoryModal();
+async function connectionAcknowledgedQuery ({
+  difficulties = [],
+  minYear,
+  maxYear,
+  packetNumbers = [],
+  powermarkOnly,
+  selectBySetName,
+  setName = '',
+  standardOnly,
+  validAlternateSubcategories,
+  validCategories,
+  validSubcategories
+}) {
+  setDifficulties({ difficulties });
 
-  setDifficulties({ difficulties: message.difficulties || [] });
-  document.getElementById('set-name').value = message.setName || '';
-  document.getElementById('packet-number').value = arrayToRange(message.packetNumbers) || '';
+  $('#slider').slider('values', 0, minYear);
+  $('#slider').slider('values', 1, maxYear);
+  document.getElementById('year-range-a').textContent = minYear;
+  document.getElementById('year-range-b').textContent = maxYear;
 
-  maxPacketNumber = await api.getNumPackets(document.getElementById('set-name').value);
-  if (document.getElementById('set-name').value !== '' && maxPacketNumber === 0) {
+  document.getElementById('packet-number').value = arrayToRange(packetNumbers);
+
+  document.getElementById('toggle-powermark-only').checked = powermarkOnly;
+
+  document.getElementById('difficulty-settings').classList.toggle('d-none', selectBySetName);
+  document.getElementById('set-settings').classList.toggle('d-none', !selectBySetName);
+  document.getElementById('toggle-select-by-set-name').checked = selectBySetName;
+  document.getElementById('toggle-powermark-only').disabled = selectBySetName;
+  document.getElementById('toggle-standard-only').disabled = selectBySetName;
+
+  document.getElementById('set-name').value = setName;
+  maxPacketNumber = await api.getNumPackets(setName);
+  if (setName !== '' && maxPacketNumber === 0) {
     document.getElementById('set-name').classList.add('is-invalid');
   }
 
-  document.getElementById('toggle-powermark-only').disabled = message.selectBySetName;
-  document.getElementById('toggle-standard-only').disabled = message.selectBySetName;
-  document.getElementById('toggle-powermark-only').checked = message.powermarkOnly;
-  document.getElementById('toggle-standard-only').checked = message.standardOnly;
+  document.getElementById('toggle-standard-only').checked = standardOnly;
 
-  $('#slider').slider('values', 0, message.minYear);
-  $('#slider').slider('values', 1, message.maxYear);
-  document.getElementById('year-range-a').textContent = message.minYear;
-  document.getElementById('year-range-b').textContent = message.maxYear;
+  categoryManager.import(validCategories, validSubcategories, validAlternateSubcategories);
+  categoryManager.loadCategoryModal();
 }
 
 function connectionAcknowledgedTossup ({ tossup: currentTossup }) {
