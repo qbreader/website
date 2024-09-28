@@ -16,11 +16,11 @@ router.get('/*.scss', (req, res) => {
 /**
  * Redirects:
  */
-router.get('/api-info', (req, res) => res.redirect('/api-docs'));
-router.get('/bonuses', (req, res) => res.redirect('/singleplayer/bonuses'));
-router.get('/db', (req, res) => res.redirect('/database'));
-router.get('/tossups', (req, res) => res.redirect('/singleplayer/tossups'));
-router.get('/user', (req, res) => res.redirect('/user/login'));
+router.get('/api-info', (_req, res) => res.redirect('/api-docs'));
+router.get('/bonuses', (_req, res) => res.redirect('/singleplayer/bonuses'));
+router.get('/db', (_req, res) => res.redirect('/database'));
+router.get('/tossups', (_req, res) => res.redirect('/singleplayer/tossups'));
+router.get('/user', (_req, res) => res.redirect('/user/login'));
 
 /**
  * Routes:
@@ -35,5 +35,12 @@ router.use('/webhook', webhookRouter);
 
 router.use(express.static('client', { extensions: ['html'] }));
 router.use(express.static('node_modules'));
+
+/**
+ * 404 Error handler
+ */
+router.use((_req, res) => {
+  res.sendFile('404.html', { root: './client' });
+});
 
 export default router;
