@@ -7,11 +7,8 @@ import userRouter from './user.js';
 import webhookRouter from './api/webhook.js';
 
 import express, { Router } from 'express';
-import { fileURLToPath } from 'url';
-import path from 'path'; 
 
 const router = Router();
-const __dirname = path.dirname(fileURLToPath(import.meta.url)); 
 
 router.get('/*.scss', (req, res) => {
   res.sendFile(req.url, { root: './scss' });
@@ -44,7 +41,7 @@ router.use(express.static('node_modules'));
  * 404 Error handler
  */
 router.use((_req, res) => {
-    res.status(404).sendFile(path.join(__dirname, '../client', '404.html'));
+  res.sendFile('404.html', { root: './client' });
 });
 
 export default router;
