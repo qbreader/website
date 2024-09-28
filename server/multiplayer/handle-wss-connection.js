@@ -1,3 +1,4 @@
+import { checkToken } from '../authentication.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 import { createAndReturnRoom } from './TossupRoom.js';
@@ -44,6 +45,24 @@ export default function handleWssConnection (ws, req) {
       message: 'The room is locked'
     }));
     return false;
+  }
+
+  if (room.settings.loginRequired === true) {
+    const cookieString = (req?.headers?.cookie ?? 'session=;').split(';').find(token => token.trim().startsWith('session='));
+    const cookieBuffer = Buffer.from(cookieString.split('=')[1], 'base64');
+    let valid = true;
+    try {
+      const cookies = JSON.parse(cookieBuffer.toString('utf-8'));
+      valid = checkToken(cookies.username, cookies.token, true);
+    } catch (e) { valid = false; }
+
+    if (!valid) {
+      ws.send(JSON.stringify({
+        type: 'error',
+        message: 'You must be logged in with a verified email to join this room.'
+      }));
+      return false;
+    }
   }
 
   if (!isAppropriateString(username)) {
