@@ -1,3 +1,4 @@
+import { checkToken } from '../authentication.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 import { createAndReturnRoom } from './TossupRoom.js';
@@ -24,7 +25,7 @@ export default function handleWssConnection (ws, req) {
   if (!hasValidCharacters(roomName)) {
     ws.send(JSON.stringify({
       type: 'error',
-      error: 'The room name contains an invalid character. Only A-Z, a-z, 0-9, - and _ are allowed.'
+      message: 'The room name contains an invalid character. Only A-Z, a-z, 0-9, - and _ are allowed.'
     }));
     return false;
   }
@@ -32,7 +33,7 @@ export default function handleWssConnection (ws, req) {
   if (!isAppropriateString(roomName)) {
     ws.send(JSON.stringify({
       type: 'error',
-      error: 'The room name contains an inappropriate word.'
+      message: 'The room name contains an inappropriate word.'
     }));
     return false;
   }
@@ -41,9 +42,27 @@ export default function handleWssConnection (ws, req) {
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({
       type: 'error',
-      error: 'The room is locked'
+      message: 'The room is locked'
     }));
     return false;
+  }
+
+  if (room.settings.loginRequired === true) {
+    const cookieString = (req?.headers?.cookie ?? 'session=;').split(';').find(token => token.trim().startsWith('session='));
+    const cookieBuffer = Buffer.from(cookieString.split('=')[1], 'base64');
+    let valid = true;
+    try {
+      const cookies = JSON.parse(cookieBuffer.toString('utf-8'));
+      valid = checkToken(cookies.username, cookies.token, true);
+    } catch (e) { valid = false; }
+
+    if (!valid) {
+      ws.send(JSON.stringify({
+        type: 'error',
+        message: 'You must be logged in with a verified email to join this room.'
+      }));
+      return false;
+    }
   }
 
   if (!isAppropriateString(username)) {

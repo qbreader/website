@@ -9441,6 +9441,15 @@ progress {
     display: none !important;
   }
 }
+code {
+  font-family: "Fira Code", monospace;
+}
+
+@supports (font-variation-settings: normal) {
+  code {
+    font-family: "Fira Code VF", monospace;
+  }
+}
 .bg-custom {
   background-color: #fbefdf;
 }
@@ -9455,10 +9464,6 @@ progress {
   cursor: pointer;
 }
 
-#difficulty-settings {
-  min-height: 125px;
-}
-
 .float-row {
   overflow: auto;
 }
@@ -9470,21 +9475,6 @@ progress {
   font-size: 20px;
 }
 
-#logo {
-  font-family: Inter, "Source Sans Pro", sans-serif;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-code {
-  font-family: "Fira Code", monospace;
-}
-
-@supports (font-variation-settings: normal) {
-  code {
-    font-family: "Fira Code VF", monospace;
-  }
-}
 .logo-prefix {
   color: #0080ff;
 }
@@ -9497,8 +9487,8 @@ code {
   border-top: 0.5px solid lightgray;
 }
 
-#set-settings {
-  min-height: 125px;
+.small-alert {
+  --bs-alert-padding-y: 0.5rem;
 }
 
 .text-highlight {
@@ -9518,12 +9508,22 @@ a.list-group-item:hover {
   color: inherit;
 }
 
-.small-alert {
-  --bs-alert-padding-y: 0.5rem;
+#difficulty-settings {
+  min-height: 90px;
+}
+
+#logo {
+  font-family: Inter, "Source Sans Pro", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 #multiplayer-name {
   margin-top: 3px;
+}
+
+#set-settings {
+  min-height: 90px;
 }
 
 .ui-slider {
