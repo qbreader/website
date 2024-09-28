@@ -7,7 +7,6 @@ import userRouter from './user.js';
 import webhookRouter from './api/webhook.js';
 
 import express, { Router } from 'express';
-
 const router = Router();
 
 router.get('/*.scss', (req, res) => {
