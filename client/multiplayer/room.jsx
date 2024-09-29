@@ -83,12 +83,12 @@ socket.onmessage = function (event) {
     case 'toggle-lock': return toggleLock(data);
     case 'toggle-login-required': return toggleLoginRequired(data);
     case 'toggle-powermark-only': return togglePowermarkOnly(data);
+    case 'toggle-public': return togglePublic(data);
     case 'toggle-rebuzz': return toggleRebuzz(data);
     case 'toggle-select-by-set-name': return toggleSelectBySetName(data);
     case 'toggle-skip': return toggleSkip(data);
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-timer': return toggleTimer(data);
-    case 'toggle-visibility': return toggleVisibility(data);
     case 'update-question': return updateQuestion(data);
   }
 };
@@ -159,7 +159,7 @@ function connectionAcknowledged ({
 
   if (isPermanent) {
     document.getElementById('category-select-button').disabled = true;
-    document.getElementById('toggle-visibility').disabled = true;
+    document.getElementById('toggle-public').disabled = true;
     document.getElementById('toggle-select-by-set-name').disabled = true;
     document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
   }
@@ -203,7 +203,7 @@ function connectionAcknowledged ({
   document.getElementById('toggle-lock').disabled = settings.public;
   document.getElementById('toggle-login-required').disabled = settings.public;
   document.getElementById('toggle-timer').disabled = settings.public;
-  document.getElementById('toggle-visibility').checked = settings.public;
+  document.getElementById('toggle-public').checked = settings.public;
 
   document.getElementById('reading-speed').value = settings.readingSpeed;
   document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
@@ -647,14 +647,14 @@ function toggleTimer ({ timer, username }) {
   document.getElementById('timer').classList.toggle('d-none');
 }
 
-function toggleVisibility ({ public: isPublic, username }) {
+function togglePublic ({ public: isPublic, username }) {
   logEvent(username, `made the room ${isPublic ? 'public' : 'private'}`);
   document.getElementById('chat').disabled = isPublic;
   document.getElementById('toggle-lock').disabled = isPublic;
   document.getElementById('toggle-login-required').disabled = isPublic;
   document.getElementById('toggle-timer').disabled = isPublic;
   document.getElementById('toggle-timer').checked = true;
-  document.getElementById('toggle-visibility').checked = isPublic;
+  document.getElementById('toggle-public').checked = isPublic;
 
   if (isPublic) {
     document.getElementById('toggle-lock').checked = false;
@@ -914,9 +914,9 @@ document.getElementById('toggle-timer').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'toggle-timer', timer: this.checked }));
 });
 
-document.getElementById('toggle-visibility').addEventListener('click', function () {
+document.getElementById('toggle-public').addEventListener('click', function () {
   this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-visibility', public: this.checked }));
+  socket.send(JSON.stringify({ type: 'toggle-public', public: this.checked }));
 });
 
 document.getElementById('username').addEventListener('change', function () {
