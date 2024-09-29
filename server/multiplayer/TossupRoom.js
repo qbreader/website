@@ -601,10 +601,12 @@ class TossupRoom extends Room {
       this.sendToSocket(userId, {
         type: 'set-year-range',
         minYear: this.query.minYear,
-        maxYear: this.query.maxYear
+        maxYear: this.query.maxYear,
+        username: null
       });
     } else {
-      this.emitMessage({ type: 'set-year-range', minYear, maxYear });
+      const username = this.players[userId].username;
+      this.emitMessage({ type: 'set-year-range', minYear, maxYear, username });
       this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
     }
   }

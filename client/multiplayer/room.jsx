@@ -732,7 +732,9 @@ function upsertPlayerItem (player) {
   new bootstrap.Popover(playerItem);
 }
 
-function setYearRange ({ minYear, maxYear }) {
+function setYearRange ({ minYear, maxYear, username }) {
+  if (username) { logEvent(username, `changed the year range to ${minYear}-${maxYear}`); }
+
   $('#slider').slider('values', 0, minYear);
   $('#slider').slider('values', 1, maxYear);
   document.getElementById('year-range-a').textContent = minYear;
