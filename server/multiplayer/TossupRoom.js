@@ -161,6 +161,7 @@ class TossupRoom extends Room {
         return this.next(userId, message);
 
       case 'pause': return this.pause(userId, message);
+      case 'set-categories': return this.setCategories(userId, message);
       case 'set-difficulties': return this.setDifficulties(userId, message);
       case 'set-packet-numbers': return this.setPacketNumbers(userId, message);
       case 'set-reading-speed': return this.setReadingSpeed(userId, message);
@@ -176,7 +177,6 @@ class TossupRoom extends Room {
       case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
       case 'toggle-timer': return this.toggleTimer(userId, message);
       case 'toggle-visibility': return this.togglePublic(userId, message);
-      case 'update-categories': return this.updateCategories(userId, message);
     }
   }
 
@@ -573,7 +573,7 @@ class TossupRoom extends Room {
     this.emitMessage({ type: 'toggle-visibility', public: isPublic, username });
   }
 
-  updateCategories (userId, { categories, subcategories, alternateSubcategories }) {
+  setCategories (userId, { categories, subcategories, alternateSubcategories }) {
     if (this.isPermanent) { return; }
     if (!Array.isArray(categories)) { return; }
     if (!Array.isArray(subcategories)) { return; }
@@ -587,7 +587,7 @@ class TossupRoom extends Room {
     if (alternateSubcategories.some(sub => !categories.includes(ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
 
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'update-categories', categories, subcategories, alternateSubcategories, username });
+    this.emitMessage({ type: 'set-categories', categories, subcategories, alternateSubcategories, username });
     this.adjustQuery(['categories', 'subcategories', 'alternateSubcategories'], [categories, subcategories, alternateSubcategories]);
   }
 
