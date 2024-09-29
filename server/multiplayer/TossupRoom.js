@@ -176,7 +176,7 @@ class TossupRoom extends Room {
       case 'toggle-skip': return this.toggleSkip(userId, message);
       case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
       case 'toggle-timer': return this.toggleTimer(userId, message);
-      case 'toggle-visibility': return this.togglePublic(userId, message);
+      case 'toggle-public': return this.togglePublic(userId, message);
     }
   }
 
@@ -523,6 +523,19 @@ class TossupRoom extends Room {
     this.adjustQuery(['powermarkOnly'], [powermarkOnly]);
   }
 
+  togglePublic (userId, { public: isPublic }) {
+    if (this.isPermanent) { return; }
+
+    this.settings.public = isPublic;
+    this.settings.timer = true;
+    const username = this.players[userId].username;
+    if (isPublic) {
+      this.settings.lock = false;
+      this.settings.loginRequired = false;
+    }
+    this.emitMessage({ type: 'toggle-public', public: isPublic, username });
+  }
+
   toggleRebuzz (userId, { rebuzz }) {
     this.settings.rebuzz = rebuzz;
     const username = this.players[userId].username;
@@ -558,19 +571,6 @@ class TossupRoom extends Room {
     this.settings.timer = timer;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-timer', timer, username });
-  }
-
-  togglePublic (userId, { public: isPublic }) {
-    if (this.isPermanent) { return; }
-
-    this.settings.public = isPublic;
-    this.settings.timer = true;
-    const username = this.players[userId].username;
-    if (isPublic) {
-      this.settings.lock = false;
-      this.settings.loginRequired = false;
-    }
-    this.emitMessage({ type: 'toggle-visibility', public: isPublic, username });
   }
 
   setCategories (userId, { categories, subcategories, alternateSubcategories }) {
