@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A text-based quizbowl packet reader to read bonuses to yourself.">
+    <meta name="description" content="A text-based quizbowl packet reader to read tossups to yourself.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -17,7 +17,7 @@
     <script type="module" src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
         integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
     <link href="/bootstrap/light.css" rel="stylesheet">
-    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
+    <link id="custom-css" href="/bootstrap/dark.css" rel="stylesheet">
     <script type="module" src="/scripts/apply-theme.js"></script>
 </head>
 
@@ -88,6 +88,10 @@
         </div>
         <div class="row" id="info">
             <div class="options d-lg-block col-12 col-lg-3 order-lg-1 mb-5" id="settings">
+                <div class="timer d-block p-1 text-center" id="timer">
+                    <span class="face">0</span><span class="fraction">.0</span>
+                </div>
+                <hr>
                 <div class="d-none" id="set-settings">
                     <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
                     <datalist id="set-list"></datalist>
@@ -112,8 +116,8 @@
                         <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-three-part-bonuses" type="checkbox" role="switch" checked>
-                        <label class="form-check-label" for="toggle-three-part-bonuses">3-part bonuses only</label>
+                        <input class="form-check-input" id="toggle-powermark-only" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-powermark-only">Powermarked tossups only</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-standard-only" type="checkbox" role="switch">
@@ -125,9 +129,20 @@
                         <label class="form-check-label" for="type-to-answer">Type to answer</label>
                     </div>
                     <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-rebuzz" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-rebuzz">Allow rebuzzes</label>
+                    </div>
+                    <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-show-history" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-show-history">Show question history</label>
                     </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-timer">Enable timer</label>
+                    </div>
+                    <div class="mb-2"></div>
+                    <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                    <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
                     <div>
                         View more settings <a href="/settings">here</a>.
                     </div>
@@ -137,10 +152,6 @@
                             <span class="text-nowrap"><kbd>k</kbd> = show/hide last question</span><br>
                             <span class="text-nowrap"><kbd>t</kbd> = star/unstar last question</span><br>
                             <span class="text-nowrap"><kbd>y</kbd> = copy current question id to clipboard</span><br>
-                            <span class="text-nowrap"><kbd>0</kbd> = toggle last bonus part</span><br>
-                            <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
-                            <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
-                            <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
                         </p>
                     </div>
                 </div>
@@ -154,7 +165,7 @@
                     </div>
                 </form>
                 <div class="d-flex justify-content-between">
-                    <span id="statline">0.00 PPB with 0 bonuses seen (0/0/0/0, 0 pts)</span>
+                    <span id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span>
                     <span class="ps-5 me-lg-2" id="question-metadata">
                         <b id="question-info">
                             <span id="set-name-info"></span>
@@ -165,7 +176,8 @@
                     </span>
                 </div>
                 <div class="mt-2" id="question"></div>
-                <p class="my-1 my-lg-3" id="answer"></p>
+                <a class="mt-1 mt-lg-3 p-0 btn btn-link float-end d-none" id="toggle-correct">I was wrong</a>
+                <p class="mt-1 mt-lg-3" id="answer"></p>
                 <ul class="room-history list-unstyled" id="room-history"></ul>
             </div>
         </div>
@@ -178,7 +190,8 @@
                     title="Shortcut: s key">Start</button>
                 <button class="btn btn-primary" id="next" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
                     title="Shortcut: n key" disabled>Next</button>
-                <button class="btn btn-danger d-lg-none" id="toggle-options" type="button" disabled>Options</button>
+                <button class="btn btn-primary" id="pause" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: p key" disabled>Pause</button>
                 <button class="btn btn-danger" id="toggle-settings" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
                     title="Shortcut: e key" type="button">
                     <div class="d-flex align-items-center">
@@ -191,8 +204,8 @@
                         </svg>
                     </div>
                 </button>
-                <button class="btn btn-primary float-end" id="reveal" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
-                    title="Shortcut: spacebar" disabled>Reveal</button>
+                <button class="btn btn-primary float-end" id="buzz" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: spacebar" disabled>Buzz</button>
             </div>
         </div>
     </div>
@@ -222,8 +235,9 @@
                             </select>
                         </div>
                         <div>
-                            <p class="text-muted">If your answer was parsed incorrectly, please enter what answer you
-                                gave below.</p>
+                            <p class="text-muted">
+                                If your answer was parsed incorrectly, please enter what answer you gave below.
+                            </p>
                             <label class="col-form-label" for="report-question-description">Additional
                                 Information:</label>
                             <textarea class="form-control" id="report-question-description" rows="3"></textarea>
@@ -245,7 +259,7 @@
 
     <script type="module" src="/react/umd/react.production.min.js"></script>
     <script type="module" src="/react-dom/umd/react-dom.production.min.js"></script>
-    <script type="module" src="/singleplayer/bonuses.min.js"></script>
+    <script type="module" src="/singleplayer/tossups/index.min.js"></script>
 
     <script type="module" src="/scripts/dual-slider.js"></script>
 </body>
