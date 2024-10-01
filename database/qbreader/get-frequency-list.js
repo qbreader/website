@@ -1,5 +1,5 @@
 import { bonuses, tossups } from './collections.js';
-import { DIFFICULTIES } from '../../constants.js';
+import { DIFFICULTIES } from '../../quizbowl/constants.js';
 import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
 
 /**

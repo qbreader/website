@@ -1,27 +1,6 @@
-import { PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, CATEGORIES, SUBCATEGORIES_FLATTENED, ALTERNATE_SUBCATEGORIES_FLATTENED, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from './constants.js';
+import { insertTokensIntoHTML } from './insert-tokens-into-html.js';
 import Room from './Room.js';
-
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, CATEGORIES, SUBCATEGORIES_FLATTENED, ALTERNATE_SUBCATEGORIES_FLATTENED, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../../constants.js';
-import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
-import getSet from '../../database/qbreader/get-set.js';
-import getSetList from '../../database/qbreader/get-set-list.js';
-import getNumPackets from '../../database/qbreader/get-num-packets.js';
-
-import { insertTokensIntoHTML } from '../../client/scripts/utilities/insert-tokens-into-html.js';
-
-import checkAnswer from 'qb-answer-checker';
-
-import createDOMPurify from 'dompurify';
-import { JSDOM } from 'jsdom';
-import isAppropriateString from '../moderation/is-appropriate-string.js';
-const window = new JSDOM('').window;
-const DOMPurify = createDOMPurify(window);
-
-const QuestionProgressEnum = Object.freeze({
-  NOT_STARTED: 0,
-  READING: 1,
-  ANSWER_REVEALED: 2
-});
 
 /**
  * @returns {Number} The number of points scored on a tossup.
@@ -32,10 +11,21 @@ function scoreTossup ({ isCorrect, inPower, endOfQuestion, isPace = false }) {
   return isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
 }
 
-class TossupRoom extends Room {
-  constructor (name, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
+export default class TossupRoom extends Room {
+  constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name);
-    this.isPermanent = isPermanent;
+
+    this.checkAnswer = async function checkAnswer (answerline, givenAnswer) { console.log('hm'); throw new Error('Not implemented'); };
+    this.getRandomTossups = async function getRandomTossups (args) { throw new Error('Not implemented'); };
+    this.getSet = async function getSet (args) { throw new Error('Not implemented'); };
+    this.getSetList = async function getSetList (args) { throw new Error('Not implemented'); };
+    this.getNumPackets = async function getNumPackets (setName) { throw new Error('Not implemented'); };
+
+    this.QuestionProgressEnum = Object.freeze({
+      NOT_STARTED: 0,
+      READING: 1,
+      ANSWER_REVEALED: 2
+    });
 
     this.timeoutID = null;
     /**
@@ -50,7 +40,7 @@ class TossupRoom extends Room {
     this.paused = false;
     this.queryingQuestion = false;
     this.questionNumber = 0;
-    this.questionProgress = QuestionProgressEnum.NOT_STARTED;
+    this.questionProgress = this.QuestionProgressEnum.NOT_STARTED;
     this.questionSplit = [];
     this.tossup = {};
     this.wordIndex = 0;
@@ -74,9 +64,6 @@ class TossupRoom extends Room {
     };
 
     this.settings = {
-      lock: false,
-      loginRequired: false,
-      public: true,
       rebuzz: false,
       readingSpeed: 50,
       skip: false,
@@ -85,75 +72,13 @@ class TossupRoom extends Room {
 
     this.DEAD_TIME_LIMIT = 5; // time to buzz after question is read
     this.ANSWER_TIME_LIMIT = 10; // time to give answer after buzzing
-
-    getSetList().then(setList => { this.setList = setList; });
-  }
-
-  close (userId) {
-    if (this.buzzedIn === userId) {
-      this.giveAnswer(userId, '');
-      this.buzzedIn = null;
-    }
-    this.leave(userId);
-  }
-
-  connection2 (socket, userId, username, isNew) {
-    socket.send(JSON.stringify({
-      type: 'connection-acknowledged',
-      userId,
-
-      players: this.players,
-      isPermanent: this.isPermanent,
-
-      buzzedIn: this.buzzedIn,
-      canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
-      questionProgress: this.questionProgress,
-
-      settings: this.settings
-    }));
-
-    socket.send(JSON.stringify({
-      type: 'connection-acknowledged-query',
-      ...this.query
-    }));
-
-    socket.send(JSON.stringify({
-      type: 'connection-acknowledged-tossup',
-      tossup: this.tossup
-    }));
-
-    if (this.questionProgress === QuestionProgressEnum.READING) {
-      socket.send(JSON.stringify({
-        type: 'update-question',
-        word: this.questionSplit.slice(0, this.wordIndex).join(' ')
-      }));
-    }
-
-    if (this.questionProgress === QuestionProgressEnum.ANSWER_REVEALED && this.tossup?.answer) {
-      socket.send(JSON.stringify({
-        type: 'reveal-answer',
-        question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),
-        answer: this.tossup.answer
-      }));
-    }
-
-    this.emitMessage({
-      type: 'join',
-      isNew,
-      userId,
-      username,
-      user: this.players[userId]
-    });
   }
 
   async message (userId, message) {
     switch (message.type) {
       case 'buzz': return this.buzz(userId, message);
-      case 'chat': return this.chat(userId, message);
-      case 'chat-live-update': return this.chatLiveUpdate(userId, message);
       case 'clear-stats': return this.clearStats(userId, message);
       case 'give-answer': return this.giveAnswer(userId, message);
-      case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
 
       case 'next':
       case 'skip':
@@ -168,8 +93,6 @@ class TossupRoom extends Room {
       case 'set-set-name': return this.setSetName(userId, message);
       case 'set-username': return this.setUsername(userId, message);
       case 'set-year-range': return this.setYearRange(userId, message);
-      case 'toggle-lock': return this.toggleLock(userId, message);
-      case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
       case 'toggle-select-by-set-name': return this.toggleSelectBySetName(userId, message);
@@ -193,11 +116,11 @@ class TossupRoom extends Room {
 
     if (this.query.selectBySetName) {
       this.questionNumber = 0;
-      getSet(this.query).then(set => {
+      this.getSet(this.query).then(set => {
         this.setCache = set;
       });
     } else {
-      getRandomTossups(this.query).then(tossups => {
+      this.getRandomTossups(this.query).then(tossups => {
         this.randomQuestionCache = tossups;
       });
     }
@@ -217,7 +140,7 @@ class TossupRoom extends Room {
       }
     } else {
       if (this.randomQuestionCache.length === 0) {
-        this.randomQuestionCache = await getRandomTossups(this.query);
+        this.randomQuestionCache = await this.getRandomTossups(this.query);
         if (this.randomQuestionCache.length === 0) {
           this.tossup = {};
           this.emitMessage({ type: 'no-questions-found' });
@@ -257,19 +180,6 @@ class TossupRoom extends Room {
     );
   }
 
-  chat (userId, { message }) {
-    // prevent chat messages if room is public, since they can still be sent with API
-    if (this.settings.public || typeof message !== 'string') { return false; }
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'chat', message, username, userId });
-  }
-
-  chatLiveUpdate (userId, { message }) {
-    if (this.settings.public || typeof message !== 'string') { return false; }
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'chat-live-update', message, username, userId });
-  }
-
   clearStats (userId) {
     this.players[userId].clearStats();
     this.emitMessage({ type: 'clear-stats', userId });
@@ -297,7 +207,7 @@ class TossupRoom extends Room {
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
     const endOfQuestion = (this.wordIndex === this.questionSplit.length);
     const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-    const { directive, directedPrompt } = checkAnswer(this.tossup.answer, givenAnswer);
+    const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer);
     const points = scoreTossup({ isCorrect: directive === 'accept', inPower, endOfQuestion });
 
     switch (directive) {
@@ -340,14 +250,6 @@ class TossupRoom extends Room {
     });
   }
 
-  giveAnswerLiveUpdate (userId, { message }) {
-    if (typeof message !== 'string') { return false; }
-    if (userId !== this.buzzedIn) { return false; }
-    this.liveAnswer = message;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'give-answer-live-update', message, username });
-  }
-
   leave (userId) {
     // this.deletePlayer(userId);
     this.players[userId].online = false;
@@ -365,8 +267,7 @@ class TossupRoom extends Room {
   async next (userId, { type }) {
     if (this.buzzedIn) { return false; } // prevents skipping when someone has buzzed in
     if (this.queryingQuestion) { return false; }
-    if (this.questionProgress === QuestionProgressEnum.READING && !this.settings.skip) { return false; }
-    if (type === 'skip' && this.wordIndex < 5) { return false; } // prevents spam-skipping bots
+    if (this.questionProgress === this.QuestionProgressEnum.READING && !this.settings.skip) { return false; }
 
     clearTimeout(this.timeoutID);
     this.buzzedIn = null;
@@ -374,7 +275,7 @@ class TossupRoom extends Room {
     this.buzzpointIndices = [];
     this.paused = false;
 
-    if (this.questionProgress !== QuestionProgressEnum.ANSWER_REVEALED) { this.revealQuestion(); }
+    if (this.questionProgress !== this.QuestionProgressEnum.ANSWER_REVEALED) { this.revealQuestion(); }
 
     const hasNextQuestion = await this.advanceQuestion();
     this.queryingQuestion = false;
@@ -384,7 +285,7 @@ class TossupRoom extends Room {
     this.emitMessage({ type, userId, username, tossup: this.tossup });
 
     this.wordIndex = 0;
-    this.questionProgress = QuestionProgressEnum.READING;
+    this.questionProgress = this.QuestionProgressEnum.READING;
     this.readQuestion(Date.now());
   }
 
@@ -409,7 +310,7 @@ class TossupRoom extends Room {
   }
 
   async setPacketNumbers (userId, { value }) {
-    const allowedPacketNumbers = await getNumPackets(this.query.setName);
+    const allowedPacketNumbers = await this.getNumPackets(this.query.setName);
     if (value.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) { return false; }
 
     const username = this.players[userId].username;
@@ -431,7 +332,7 @@ class TossupRoom extends Room {
     if (typeof value !== 'string') { return; }
     if (!this.setList) { return; }
     if (!this.setList.includes(value)) { return; }
-    const maxPacketNumber = await getNumPackets(value);
+    const maxPacketNumber = await this.getNumPackets(value);
     if (packetNumbers.some((num) => num > maxPacketNumber || num < 1)) { return; }
 
     const username = this.players[userId].username;
@@ -441,18 +342,9 @@ class TossupRoom extends Room {
 
   setUsername (userId, { username }) {
     if (typeof username !== 'string') { return false; }
-
-    if (!isAppropriateString(username)) {
-      this.sendToSocket(userId, {
-        type: 'force-username',
-        username: this.players[userId].username,
-        message: 'Your username contains an inappropriate word, so it has been reverted.'
-      });
-    } else {
-      const oldUsername = this.players[userId].username;
-      const newUsername = this.players[userId].updateUsername(username);
-      this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername });
-    }
+    const oldUsername = this.players[userId].username;
+    this.players[userId].username = username;
+    this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername: username });
   }
 
   async readQuestion (expectedReadTime) {
@@ -492,28 +384,12 @@ class TossupRoom extends Room {
   revealQuestion () {
     if (Object.keys(this.tossup).length === 0) return;
 
-    this.questionProgress = QuestionProgressEnum.ANSWER_REVEALED;
+    this.questionProgress = this.QuestionProgressEnum.ANSWER_REVEALED;
     this.emitMessage({
       type: 'reveal-answer',
       question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),
       answer: this.tossup.answer
     });
-  }
-
-  toggleLock (userId, { lock }) {
-    if (this.settings.public) { return; }
-
-    this.settings.lock = lock;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'toggle-lock', lock, username });
-  }
-
-  toggleLoginRequired (userId, { loginRequired }) {
-    if (this.settings.public) { return; }
-
-    this.settings.loginRequired = loginRequired;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
   }
 
   togglePowermarkOnly (userId, { powermarkOnly }) {
@@ -523,19 +399,6 @@ class TossupRoom extends Room {
     this.adjustQuery(['powermarkOnly'], [powermarkOnly]);
   }
 
-  togglePublic (userId, { public: isPublic }) {
-    if (this.isPermanent) { return; }
-
-    this.settings.public = isPublic;
-    this.settings.timer = true;
-    const username = this.players[userId].username;
-    if (isPublic) {
-      this.settings.lock = false;
-      this.settings.loginRequired = false;
-    }
-    this.emitMessage({ type: 'toggle-public', public: isPublic, username });
-  }
-
   toggleRebuzz (userId, { rebuzz }) {
     this.settings.rebuzz = rebuzz;
     const username = this.players[userId].username;
@@ -543,7 +406,6 @@ class TossupRoom extends Room {
   }
 
   toggleSelectBySetName (userId, { selectBySetName, setName }) {
-    if (this.isPermanent) { return; }
     if (!this.setList) { return; }
     if (!this.setList.includes(setName)) { return; }
 
@@ -567,14 +429,12 @@ class TossupRoom extends Room {
   }
 
   toggleTimer (userId, { timer }) {
-    if (this.settings.public) { return; }
     this.settings.timer = timer;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-timer', timer, username });
   }
 
   setCategories (userId, { categories, subcategories, alternateSubcategories }) {
-    if (this.isPermanent) { return; }
     if (!Array.isArray(categories)) { return; }
     if (!Array.isArray(subcategories)) { return; }
     if (!Array.isArray(alternateSubcategories)) { return; }
@@ -611,31 +471,3 @@ class TossupRoom extends Room {
     }
   }
 }
-
-const tossupRooms = {};
-
-for (const room of PERMANENT_ROOMS) {
-  const { name, categories, subcategories } = room;
-  tossupRooms[name] = new TossupRoom(name, true, categories, subcategories);
-}
-
-/**
- * Returns the room with the given room name.
- * If the room does not exist, it is created.
- * @param {String} roomName
- * @returns {TossupRoom}
- */
-function createAndReturnRoom (roomName, isPrivate = false) {
-  roomName = DOMPurify.sanitize(roomName);
-  roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
-
-  if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
-    const newRoom = new TossupRoom(roomName, false);
-    newRoom.settings.public = !isPrivate;
-    tossupRooms[roomName] = newRoom;
-  }
-
-  return tossupRooms[roomName];
-}
-
-export { createAndReturnRoom, tossupRooms };

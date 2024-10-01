@@ -1,4 +1,4 @@
-import { CATEGORIES, SUBCATEGORIES_FLATTENED } from '../../constants.js';
+import { CATEGORIES, SUBCATEGORIES_FLATTENED } from '../../quizbowl/constants.js';
 
 export const ROOM_NAME_MAX_LENGTH = 32;
 export const USERNAME_MAX_LENGTH = 32;
