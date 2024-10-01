@@ -1,12 +1,42 @@
+import { PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
+import ServerTossupRoom from './ServerTossupRoom.js';
 import { checkToken } from '../authentication.js';
+import getRandomName from '../get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
-import { createAndReturnRoom } from './TossupRoom.js';
 
-import getRandomName from '../get-random-name.js';
-
+import createDOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
 import url from 'url';
 import * as uuid from 'uuid';
+
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
+const tossupRooms = {};
+for (const room of PERMANENT_ROOMS) {
+  const { name, categories, subcategories } = room;
+  tossupRooms[name] = new ServerTossupRoom(name, true, categories, subcategories);
+}
+
+/**
+ * Returns the room with the given room name.
+ * If the room does not exist, it is created.
+ * @param {String} roomName
+ * @returns {TossupRoom}
+ */
+function createAndReturnRoom (roomName, isPrivate = false) {
+  roomName = DOMPurify.sanitize(roomName);
+  roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
+
+  if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
+    const newRoom = new ServerTossupRoom(roomName, false);
+    newRoom.settings.public = !isPrivate;
+    tossupRooms[roomName] = newRoom;
+  }
+
+  return tossupRooms[roomName];
+}
 
 /**
  * Handle WebSocket connection
@@ -85,3 +115,5 @@ export default function handleWssConnection (ws, req) {
     }
   });
 }
+
+export { tossupRooms };
