@@ -6,7 +6,7 @@ import Timer from '../../scripts/Timer.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../../scripts/utilities/index.js';
 import CategoryManager from '../../scripts/utilities/category-manager.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
-import { insertTokensIntoHTML } from '../../../quizbowl/insert-tokens-into-html.js';
+import { insertTokensIntoHTML } from '../../insert-tokens-into-html.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
 
