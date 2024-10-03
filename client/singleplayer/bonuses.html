@@ -104,9 +104,13 @@
                 <div class="mt-2" id="general-settings">
                     <div class="text-center mb-2">
                         <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal"
-                            data-bs-toggle="modal" type="button">Categories</button>
+                                data-bs-toggle="modal" type="button">
+                            Categories
+                        </button>
                         <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
                     </div>
+                    <label for="question-length">Leniency: <span id="leniency-display">7</span><br></label>
+                    <input class="form-range" id="leniency" type="range" min="0" max="20" step="1">
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
                         <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
@@ -119,6 +123,7 @@
                         <input class="form-check-input" id="toggle-standard-only" type="checkbox" role="switch">
                         <label class="form-check-label" for="toggle-standard-only">Standard format only</label>
                     </div>
+
                     <hr>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="type-to-answer" type="checkbox" role="switch" checked>

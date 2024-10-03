@@ -225,8 +225,8 @@ function rangeToArray (string, max = 0) {
 
   const tokens = string.split(',');
   const ranges = [];
-  for (let i = 0; i < tokens.length; i++) {
-    const range = tokens[i].trim().split('-');
+  for (const element of tokens) {
+    const range = element.trim().split('-');
     if (range.length === 1) {
       ranges.push([parseInt(range[0]), parseInt(range[0])]);
     } else {
@@ -235,8 +235,8 @@ function rangeToArray (string, max = 0) {
   }
 
   const array = [];
-  for (let i = 0; i < ranges.length; i++) {
-    for (let j = ranges[i][0]; j <= ranges[i][1]; j++) {
+  for (const element of ranges) {
+    for (let j = element[0]; j <= element[1]; j++) {
       array.push(j);
     }
   }

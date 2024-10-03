@@ -61,12 +61,17 @@ const categoryManager = new CategoryManager(query.categories, query.subcategorie
 const settings = window.localStorage.getItem('singleplayer-bonus-settings')
   ? JSON.parse(window.localStorage.getItem('singleplayer-bonus-settings'))
   : {
+      leniency: 7,
       selectBySetName: false,
       showHistory: true,
       typeToAnswer: true
     };
 
 // Load query and settings first so user doesn't see the default settings
+if (settings.leniency) {
+  document.getElementById('leniency').value = settings.leniency;
+  document.getElementById('leniency-display').textContent = settings.leniency;
+}
 if (settings.selectBySetName) {
   document.getElementById('difficulty-settings').classList.add('d-none');
   document.getElementById('set-settings').classList.remove('d-none');
@@ -261,7 +266,7 @@ async function getRandomBonus ({ alternateSubcategories, categories, difficultie
 }
 
 async function giveAnswer (givenAnswer) {
-  const { directive, directedPrompt } = await api.checkAnswer(bonuses[questionNumber - 1].answers[currentBonusPart], givenAnswer);
+  const { directive, directedPrompt } = await api.checkAnswer(bonuses[questionNumber - 1].answers[currentBonusPart], givenAnswer, settings.leniency);
 
   switch (directive) {
     case 'accept':
@@ -479,6 +484,12 @@ document.getElementById('toggle-settings').addEventListener('click', function ()
   document.getElementById('settings').classList.toggle('d-lg-none');
 });
 
+document.getElementById('leniency').addEventListener('input', function () {
+  settings.leniency = this.value;
+  document.getElementById('leniency-display').textContent = this.value;
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
+});
+
 document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
   this.blur();
   settings.selectBySetName = this.checked;
@@ -525,6 +536,8 @@ document.getElementById('toggle-three-part-bonuses').addEventListener('click', f
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
   this.blur();
+  document.getElementById('leniency').disabled = !this.checked;
+  document.getElementById('leniency-display').disabled = !this.checked;
   settings.typeToAnswer = this.checked;
   window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify(settings));
 });
