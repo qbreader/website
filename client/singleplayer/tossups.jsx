@@ -84,6 +84,7 @@ const categoryManager = new CategoryManager(query.categories, query.subcategorie
 const settings = window.localStorage.getItem('singleplayer-tossup-settings')
   ? JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'))
   : {
+      leniency: 7,
       readingSpeed: 50,
       rebuzz: false,
       selectBySetName: false,
@@ -93,6 +94,10 @@ const settings = window.localStorage.getItem('singleplayer-tossup-settings')
     };
 
 // Load query and settings first so user doesn't see the default settings
+if (settings.leniency) {
+  document.getElementById('leniency-display').textContent = settings.leniency;
+  document.getElementById('leniency').value = settings.leniency;
+}
 if (settings.readingSpeed) {
   document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
   document.getElementById('reading-speed').value = settings.readingSpeed;
@@ -273,7 +278,7 @@ function clearStats () {
 async function giveAnswer (givenAnswer) {
   currentlyBuzzing = false;
 
-  const { directive, directedPrompt } = await api.checkAnswer(tossups[questionNumber - 1].answer, givenAnswer);
+  const { directive, directedPrompt } = await api.checkAnswer(tossups[questionNumber - 1].answer, givenAnswer, settings.leniency);
 
   switch (directive) {
     case 'accept': {
@@ -415,7 +420,7 @@ function readQuestion (expectedReadTime) {
     }
 
     // calculate time needed before reading next word
-    let time = Math.log(word.length) + 1;
+    let time = Math.log(word.length || 1) + 1;
     if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123) ||
             word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d') { time += 2; } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') { time += 0.75; } else if (word === '(*)') { time = 0; }
 
@@ -596,6 +601,12 @@ document.getElementById('reading-speed').addEventListener('input', function () {
   window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });
 
+document.getElementById('leniency').addEventListener('input', function () {
+  settings.leniency = this.value;
+  document.getElementById('leniency-display').textContent = this.value;
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
+});
+
 document.getElementById('report-question-submit').addEventListener('click', function () {
   api.reportQuestion(
     document.getElementById('report-question-id').value,
@@ -712,6 +723,8 @@ document.getElementById('toggle-timer').addEventListener('click', function () {
 document.getElementById('type-to-answer').addEventListener('click', function () {
   this.blur();
   settings.typeToAnswer = this.checked;
+  document.getElementById('leniency').disabled = !this.checked;
+  document.getElementById('leniency-display').disabled = !this.checked;
   document.getElementById('toggle-rebuzz').disabled = !this.checked;
   window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify(settings));
 });

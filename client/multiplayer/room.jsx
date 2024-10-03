@@ -72,6 +72,7 @@ socket.onmessage = function (event) {
     case 'reveal-answer': return revealAnswer(data);
     case 'set-categories': return setCategories(data);
     case 'set-difficulties': return setDifficulties(data);
+    case 'set-leniency': return setLeniency(data);
     case 'set-reading-speed': return setReadingSpeed(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
     case 'set-set-name': return setSetName(data);
@@ -207,6 +208,9 @@ function connectionAcknowledged ({
 
   document.getElementById('reading-speed').value = settings.readingSpeed;
   document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
+
+  document.getElementById('leniency').value = settings.leniency;
+  document.getElementById('leniency-display').textContent = settings.leniency;
 
   document.getElementById('toggle-rebuzz').checked = settings.rebuzz;
 
@@ -576,6 +580,12 @@ function setReadingSpeed ({ username, value }) {
   document.getElementById('reading-speed-display').textContent = value;
 }
 
+function setLeniency ({ username, value }) {
+  logEvent(username, `changed the leniency to ${value}`);
+  document.getElementById('leniency').value = value;
+  document.getElementById('leniency-display').textContent = value;
+}
+
 function setSetName ({ username, value }) {
   logEvent(username, value.length > 0 ? `changed set name to ${value}` : 'cleared set name');
   document.getElementById('set-name').value = value;
@@ -824,12 +834,19 @@ document.getElementById('pause').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'pause', pausedTime }));
 });
 
-document.getElementById('reading-speed').addEventListener('change', function () {
-  socket.send(JSON.stringify({ type: 'set-reading-speed', value: this.value }));
+document.getElementById('leniency').addEventListener('input', function () {
+  document.getElementById('leniency-display').textContent = this.value;
+});
+
+document.getElementById('leniency').addEventListener('change', function () {
+  socket.send(JSON.stringify({ type: 'set-leniency', value: this.value }));
 });
 
 document.getElementById('reading-speed').addEventListener('input', function () {
   document.getElementById('reading-speed-display').textContent = this.value;
+});
+document.getElementById('reading-speed').addEventListener('change', function () {
+  socket.send(JSON.stringify({ type: 'set-reading-speed', value: this.value }));
 });
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
