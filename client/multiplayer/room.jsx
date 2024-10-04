@@ -452,7 +452,7 @@ function lostBuzzerRace ({ username, userId }) {
   if (userId === USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
 }
 
-function next ({ tossup: nextTossup, type, username }) {
+function next ({ oldTossup, tossup: nextTossup, type, username }) {
   switch (type) {
     case 'next':
       logEvent(username, 'went to the next question');
@@ -468,9 +468,7 @@ function next ({ tossup: nextTossup, type, username }) {
   }
 
   if (type === 'next' || type === 'skip') {
-    tossup.question = document.getElementById('question').innerHTML;
-    tossup.answer = document.getElementById('answer').innerHTML.replace('ANSWER: ', '');
-    createTossupCard(tossup);
+    createTossupCard(oldTossup);
   } else if (type === 'start') {
     document.getElementById('next').classList.add('btn-primary');
     document.getElementById('next').classList.remove('btn-success');
