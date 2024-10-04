@@ -190,9 +190,9 @@ export default class ServerTossupRoom extends TossupRoom {
     this.emitMessage({ type: 'toggle-public', public: isPublic, username });
   }
 
-  toggleSelectBySetName (userId, { selectBySetName }) {
+  toggleSelectBySetName (userId, { selectBySetName, setName }) {
     if (this.isPermanent) { return; }
-    super.toggleSelectBySetName(userId, { selectBySetName });
+    super.toggleSelectBySetName(userId, { selectBySetName, setName });
   }
 
   toggleTimer (userId, { timer }) {
