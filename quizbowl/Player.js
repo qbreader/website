@@ -1,8 +1,7 @@
-import { USERNAME_MAX_LENGTH } from '../server/multiplayer/constants.js';
-
 class Player {
-  constructor (userId) {
+  constructor (userId, MAX_USERNAME_LENGTH = undefined) {
     this.userId = userId;
+    this.MAX_USERNAME_LENGTH = MAX_USERNAME_LENGTH;
 
     this.username = '';
 
@@ -67,12 +66,11 @@ class Player {
   /**
    * Safely update the player's username, and return the new username.
    * @param {string} username
-   * @param {number} [maxLength=USERNAME_MAX_LENGTH]
    * @returns {string} newUsername
    */
-  safelySetUsername (username, maxLength = USERNAME_MAX_LENGTH) {
+  safelySetUsername (username) {
     if (!username) { username = ''; }
-    username = username.substring(0, maxLength);
+    username = username.substring(0, this.MAX_USERNAME_LENGTH);
     this.username = username;
     return this.username;
   }

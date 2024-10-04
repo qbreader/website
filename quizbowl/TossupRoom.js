@@ -15,7 +15,7 @@ export default class TossupRoom extends Room {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name);
 
-    this.checkAnswer = async function checkAnswer (answerline, givenAnswer) { console.log('hm'); throw new Error('Not implemented'); };
+    this.checkAnswer = async function checkAnswer (answerline, givenAnswer) { throw new Error('Not implemented'); };
     this.getRandomTossups = async function getRandomTossups (args) { throw new Error('Not implemented'); };
     this.getSet = async function getSet (args) { throw new Error('Not implemented'); };
     this.getSetList = async function getSetList (args) { throw new Error('Not implemented'); };
@@ -194,7 +194,7 @@ export default class TossupRoom extends Room {
     this.adjustQuery(['difficulties'], [value]);
   }
 
-  giveAnswer (userId, { givenAnswer }) {
+  async giveAnswer (userId, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
     if (this.buzzedIn !== userId) { return false; }
 
@@ -204,11 +204,7 @@ export default class TossupRoom extends Room {
 
     if (Object.keys(this.tossup).length === 0) { return; }
 
-    const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
-    const endOfQuestion = (this.wordIndex === this.questionSplit.length);
-    const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-    const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer);
-    const points = scoreTossup({ isCorrect: directive === 'accept', inPower, endOfQuestion });
+    const { celerity, directive, directedPrompt, points } = await this.scoreTossup({ givenAnswer });
 
     switch (directive) {
       case 'accept':
@@ -277,12 +273,13 @@ export default class TossupRoom extends Room {
 
     if (this.questionProgress !== this.QuestionProgressEnum.ANSWER_REVEALED) { this.revealQuestion(); }
 
+    const oldTossup = this.tossup;
     const hasNextQuestion = await this.advanceQuestion();
     this.queryingQuestion = false;
     if (!hasNextQuestion) { return; }
 
     const username = this.players[userId].username;
-    this.emitMessage({ type, userId, username, tossup: this.tossup });
+    this.emitMessage({ type, userId, username, oldTossup, tossup: this.tossup });
 
     this.wordIndex = 0;
     this.questionProgress = this.QuestionProgressEnum.READING;
@@ -307,6 +304,15 @@ export default class TossupRoom extends Room {
     }
     const username = this.players[userId].username;
     this.emitMessage({ type: 'pause', paused: this.paused, username });
+  }
+
+  async scoreTossup ({ givenAnswer }) {
+    const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
+    const endOfQuestion = (this.wordIndex === this.questionSplit.length);
+    const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
+    const { directive, directedPrompt } = await this.checkAnswer(this.tossup.answer, givenAnswer);
+    const points = scoreTossup({ isCorrect: directive === 'accept', inPower, endOfQuestion });
+    return { celerity, directive, directedPrompt, endOfQuestion, inPower, points };
   }
 
   async setPacketNumbers (userId, { value }) {
@@ -345,6 +351,11 @@ export default class TossupRoom extends Room {
     const oldUsername = this.players[userId].username;
     this.players[userId].username = username;
     this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername: username });
+  }
+
+  startServerTimer (time, ontick, callback) {
+    if (!this.settings.timer) { return; }
+    super.startServerTimer(time, ontick, callback);
   }
 
   async readQuestion (expectedReadTime) {
