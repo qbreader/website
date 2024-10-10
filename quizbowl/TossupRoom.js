@@ -185,13 +185,13 @@ export default class TossupRoom extends Room {
     this.emitMessage({ type: 'clear-stats', userId });
   }
 
-  setDifficulties (userId, { value }) {
-    const invalid = value.some((value) => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10);
+  setDifficulties (userId, { difficulties }) {
+    const invalid = difficulties.some((value) => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10);
     if (invalid) { return false; }
 
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-difficulties', username, value });
-    this.adjustQuery(['difficulties'], [value]);
+    this.emitMessage({ type: 'set-difficulties', username, difficulties });
+    this.adjustQuery(['difficulties'], [difficulties]);
   }
 
   async giveAnswer (userId, { givenAnswer }) {
@@ -315,35 +315,35 @@ export default class TossupRoom extends Room {
     return { celerity, directive, directedPrompt, endOfQuestion, inPower, points };
   }
 
-  async setPacketNumbers (userId, { value }) {
+  async setPacketNumbers (userId, { packetNumbers }) {
     const allowedPacketNumbers = await this.getNumPackets(this.query.setName);
-    if (value.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) { return false; }
+    if (packetNumbers.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) { return false; }
 
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-packet-numbers', username, value });
-    this.adjustQuery(['packetNumbers'], [value]);
+    this.emitMessage({ type: 'set-packet-numbers', username, packetNumbers });
+    this.adjustQuery(['packetNumbers'], [packetNumbers]);
   }
 
-  setReadingSpeed (userId, { value }) {
-    if (isNaN(value)) { return false; }
-    if (value > 100) { value = 100; }
-    if (value < 0) { value = 0; }
+  setReadingSpeed (userId, { readingSpeed }) {
+    if (isNaN(readingSpeed)) { return false; }
+    if (readingSpeed > 100) { readingSpeed = 100; }
+    if (readingSpeed < 0) { readingSpeed = 0; }
 
-    this.settings.readingSpeed = value;
+    this.settings.readingSpeed = readingSpeed;
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-reading-speed', username, value });
+    this.emitMessage({ type: 'set-reading-speed', username, readingSpeed });
   }
 
-  async setSetName (userId, { packetNumbers, value }) {
-    if (typeof value !== 'string') { return; }
+  async setSetName (userId, { packetNumbers, setName }) {
+    if (typeof setName !== 'string') { return; }
     if (!this.setList) { return; }
-    if (!this.setList.includes(value)) { return; }
-    const maxPacketNumber = await this.getNumPackets(value);
+    if (!this.setList.includes(setName)) { return; }
+    const maxPacketNumber = await this.getNumPackets(setName);
     if (packetNumbers.some((num) => num > maxPacketNumber || num < 1)) { return; }
 
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-set-name', username, value });
-    this.adjustQuery(['setName', 'packetNumbers'], [value, packetNumbers]);
+    this.emitMessage({ type: 'set-set-name', username, setName });
+    this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers]);
   }
 
   setUsername (userId, { username }) {
