@@ -177,13 +177,13 @@ function setCategories ({ alternateSubcategories, categories, subcategories }) {
   categoryManager.loadCategoryModal();
 }
 
-function setDifficulties ({ value }) {}
+function setDifficulties ({ difficulties }) {}
 
-function setPacketNumbers ({ value }) {}
+function setPacketNumbers ({ packetNumbers }) {}
 
-function setReadingSpeed ({ value }) {
-  document.getElementById('reading-speed').value = value;
-  document.getElementById('reading-speed-display').textContent = value;
+function setReadingSpeed ({ readingSpeed }) {
+  document.getElementById('reading-speed').value = readingSpeed;
+  document.getElementById('reading-speed-display').textContent = readingSpeed;
 }
 
 function setSetName ({ value }) {}
@@ -272,7 +272,7 @@ document.getElementById('packet-number').addEventListener('change', function () 
   }
 
   document.getElementById('packet-number').classList.remove('is-invalid');
-  socket.sendToServer({ type: 'set-packet-numbers', value: range });
+  socket.sendToServer({ type: 'set-packet-numbers', packetNumbers: range });
 });
 
 document.getElementById('pause').addEventListener('click', function () {
@@ -284,7 +284,7 @@ document.getElementById('pause').addEventListener('click', function () {
 });
 
 document.getElementById('reading-speed').addEventListener('change', function () {
-  socket.sendToServer({ type: 'set-reading-speed', value: this.value });
+  socket.sendToServer({ type: 'set-reading-speed', readingSpeed: this.value });
 });
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
@@ -429,6 +429,6 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
 
 ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
   <DifficultyDropdown
-    onChange={() => socket.sendToServer({ type: 'set-difficulties', value: getDropdownValues('difficulties') })}
+    onChange={() => socket.sendToServer({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') })}
   />
 );
