@@ -23,6 +23,8 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
+// https://stackoverflow.com/questions/10348906/how-to-know-if-a-request-is-http-or-https-in-node-js
+app.enable('trust proxy');
 app.use(hostnameRedirection);
 app.use(httpsEnforcement);
 
