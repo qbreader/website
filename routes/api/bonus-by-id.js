@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
     return res.status(404).send(`Bonus with ID ${req.query.id} was not found`);
   }
 
-  res.header('Access-Control-Allow-Origin', '*');
   res.json({ bonus });
 });
 

@@ -6,6 +6,7 @@ import multiplayerRouter from './multiplayer.js';
 import userRouter from './user.js';
 import webhookRouter from './api/webhook.js';
 
+import cors from 'cors';
 import express, { Router } from 'express';
 const router = Router();
 
@@ -26,7 +27,7 @@ router.get('/user', (_req, res) => res.redirect('/user/login'));
  * Routes:
  */
 router.use('/admin', adminRouter);
-router.use('/api', apiRouter);
+router.use('/api', cors(), apiRouter);
 router.use('/auth', authRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);

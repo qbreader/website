@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
     return;
   }
 
-  res.header('Access-Control-Allow-Origin', '*');
   res.json({ tossup });
 });
 
