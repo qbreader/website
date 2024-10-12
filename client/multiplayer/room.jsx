@@ -4,7 +4,7 @@ import account from '../scripts/accounts.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
-import CategoryManager from '../scripts/utilities/category-manager.js';
+import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../scripts/utilities/index.js';
 import { escapeHTML } from '../scripts/utilities/strings.js';
@@ -452,7 +452,7 @@ function lostBuzzerRace ({ username, userId }) {
   if (userId === USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
 }
 
-function next ({ tossup: nextTossup, type, username }) {
+function next ({ oldTossup, tossup: nextTossup, type, username }) {
   switch (type) {
     case 'next':
       logEvent(username, 'went to the next question');
@@ -468,9 +468,7 @@ function next ({ tossup: nextTossup, type, username }) {
   }
 
   if (type === 'next' || type === 'skip') {
-    tossup.question = document.getElementById('question').innerHTML;
-    tossup.answer = document.getElementById('answer').innerHTML.replace('ANSWER: ', '');
-    createTossupCard(tossup);
+    createTossupCard(oldTossup);
   } else if (type === 'start') {
     document.getElementById('next').classList.add('btn-primary');
     document.getElementById('next').classList.remove('btn-success');
@@ -564,21 +562,21 @@ function setDifficulties ({ difficulties, username = undefined }) {
   });
 }
 
-function setPacketNumbers ({ username, value }) {
-  value = arrayToRange(value);
-  logEvent(username, value.length > 0 ? `changed packet numbers to ${value}` : 'cleared packet numbers');
-  document.getElementById('packet-number').value = value;
+function setPacketNumbers ({ username, packetNumbers }) {
+  packetNumbers = arrayToRange(packetNumbers);
+  logEvent(username, packetNumbers.length > 0 ? `changed packet numbers to ${packetNumbers}` : 'cleared packet numbers');
+  document.getElementById('packet-number').value = packetNumbers;
 }
 
-function setReadingSpeed ({ username, value }) {
-  logEvent(username, `changed the reading speed to ${value}`);
-  document.getElementById('reading-speed').value = value;
-  document.getElementById('reading-speed-display').textContent = value;
+function setReadingSpeed ({ username, readingSpeed }) {
+  logEvent(username, `changed the reading speed to ${readingSpeed}`);
+  document.getElementById('reading-speed').value = readingSpeed;
+  document.getElementById('reading-speed-display').textContent = readingSpeed;
 }
 
-function setSetName ({ username, value }) {
-  logEvent(username, value.length > 0 ? `changed set name to ${value}` : 'cleared set name');
-  document.getElementById('set-name').value = value;
+function setSetName ({ username, setName }) {
+  logEvent(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
+  document.getElementById('set-name').value = setName;
 }
 
 function setUsername ({ oldUsername, newUsername, userId }) {
@@ -825,7 +823,7 @@ document.getElementById('pause').addEventListener('click', function () {
 });
 
 document.getElementById('reading-speed').addEventListener('change', function () {
-  socket.send(JSON.stringify({ type: 'set-reading-speed', value: this.value }));
+  socket.send(JSON.stringify({ type: 'set-reading-speed', readingSpeed: this.value }));
 });
 
 document.getElementById('reading-speed').addEventListener('input', function () {
@@ -855,7 +853,7 @@ document.getElementById('set-name').addEventListener('change', async function ()
 
   socket.send(JSON.stringify({
     type: 'set-set-name',
-    value: this.value,
+    setName: this.value,
     packetNumbers: rangeToArray(document.getElementById('packet-number').value)
   }));
 });
@@ -1008,6 +1006,6 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
 
 ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
   <DifficultyDropdown
-    onChange={() => socket.send(JSON.stringify({ type: 'set-difficulties', value: getDropdownValues('difficulties') }))}
+    onChange={() => socket.send(JSON.stringify({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') }))}
   />
 );
