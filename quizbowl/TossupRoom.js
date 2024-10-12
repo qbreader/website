@@ -319,6 +319,7 @@ export default class TossupRoom extends Room {
   }
 
   async setPacketNumbers (userId, { packetNumbers }) {
+    if (!Array.isArray(packetNumbers)) { return false; }
     const allowedPacketNumbers = await this.getNumPackets(this.query.setName);
     if (packetNumbers.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) { return false; }
 
