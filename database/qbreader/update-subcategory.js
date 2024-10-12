@@ -1,6 +1,6 @@
 import { tossups, tossupData, bonuses, bonusData } from './collections.js';
 
-import { SUBCATEGORY_TO_CATEGORY } from '../../constants.js';
+import { SUBCATEGORY_TO_CATEGORY } from '../../quizbowl/constants.js';
 
 /**
  *

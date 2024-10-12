@@ -7,7 +7,7 @@
  * @param {string[]} arrayOfTokens - an array of tokens to insert into the HTML string. Default is `['<span class="text-highlight">', '</span>']`
  * @returns {string} the dirty string with tokens inserted at the specified positions in the clean string
  */
-function insertTokensIntoHTML (dirty, clean, arrayOfIndices, arrayOfTokens = ['<span class="text-highlight">', '</span>']) {
+export default function insertTokensIntoHTML (dirty, clean, arrayOfIndices, arrayOfTokens = ['<span class="text-highlight">', '</span>']) {
   dirty = dirty.replace(/…/g, '...');
 
   const result = [];
@@ -76,5 +76,3 @@ function insertTokensIntoHTML (dirty, clean, arrayOfIndices, arrayOfTokens = ['<
 
   return result.join('').replace(/〈/g, '&lt;').replace(/〉/g, '&gt;').replace(/\u0267/g, '&amp;');
 }
-
-export { insertTokensIntoHTML };

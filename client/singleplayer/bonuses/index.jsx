@@ -1,12 +1,12 @@
-import account from '../scripts/accounts.js';
-import questionStats from '../scripts/auth/question-stats.js';
-import api from '../scripts/api/index.js';
-import audio from '../audio/index.js';
-import { arrayToRange, createBonusCard, rangeToArray } from '../scripts/utilities/index.js';
-import CategoryManager from '../scripts/utilities/category-manager.js';
-import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
-import CategoryModal from '../scripts/components/CategoryModal.min.js';
-import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
+import account from '../../scripts/accounts.js';
+import questionStats from '../../scripts/auth/question-stats.js';
+import api from '../../scripts/api/index.js';
+import audio from '../../audio/index.js';
+import { arrayToRange, createBonusCard, rangeToArray } from '../../scripts/utilities/index.js';
+import CategoryManager from '../../../quizbowl/category-manager.js';
+import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
+import CategoryModal from '../../scripts/components/CategoryModal.min.js';
+import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
 
 // Functions and variables specific to the bonuses page.
 
