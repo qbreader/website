@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
   if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
     res.statusCode = 404;
   }
-  res.header('Access-Control-Allow-Origin', '*');
   res.json(packet);
 });
 
