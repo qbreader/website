@@ -1,5 +1,6 @@
 export default function httpsEnforcement (req, res, next) {
   const hostname = req.hostname;
+  console.log(req.protocol);
 
   // Use HTTPS if not on localhost
   if (req.protocol !== 'https' && !['localhost', '127.0.0.1'].includes(hostname)) {
