@@ -24,7 +24,7 @@ const players = {};
 const ROOM_NAME = decodeURIComponent(window.location.pathname.substring(13));
 let tossup = {};
 let USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
-let username = window.localStorage.getItem('multiplayer-username') || await api.getRandomName();
+let username = window.localStorage.getItem('multiplayer-username') || api.getRandomName();
 
 const socket = new WebSocket(
   window.location.href.replace('http', 'ws') +
