@@ -56,4 +56,4 @@ fetch('/api/multiplayer/room-list')
     });
   });
 
-document.getElementById('new-room-name').placeholder = await api.getRandomName();
+document.getElementById('new-room-name').placeholder = api.getRandomName();
