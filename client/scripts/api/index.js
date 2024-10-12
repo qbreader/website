@@ -1,3 +1,5 @@
+import getRandomName from '../../../quizbowl/get-random-name.js';
+
 export default class api {
   static SET_LIST = [];
 
@@ -69,13 +71,11 @@ export default class api {
   }
 
   /**
-     *
-     * @returns {Promise<string>} A random adjective-noun pair that can be used as a name.
-     */
-  static async getRandomName () {
-    return await fetch('/api/random-name')
-      .then(res => res.json())
-      .then(data => data.randomName);
+   *
+   * @returns {string} A random adjective-noun pair that can be used as a name.
+   */
+  static getRandomName () {
+    return getRandomName();
   }
 
   static async getRandomTossup ({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories }) {
