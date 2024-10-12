@@ -1,21 +1,5 @@
 import account from './scripts/accounts.js';
 
-// Javascript code common to *all* pages of the site.
-
-// Always use www
-if (['qbreader.herokuapp.com', 'qbreader-production.herokuapp.com', 'qbreader.org'].includes(window.location.hostname)) {
-  window.location.hostname = 'www.qbreader.org';
-}
-
-if (['qbreader-test.herokuapp.com', 'qbreader-test.herokuapp.com'].includes(window.location.hostname)) {
-  window.location.hostname = 'test.qbreader.org';
-}
-
-// Use https if not on localhost
-if (window.location.hostname !== 'localhost' && window.location.protocol !== 'https:') {
-  window.location.protocol = 'https:';
-}
-
 function isTouchDevice () {
   if ('ontouchstart' in window) return true;
 

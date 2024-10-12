@@ -5,6 +5,8 @@ import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from './constants.js';
 import indexRouter from './routes/index.js';
 import webhookRouter from './routes/api/webhook.js';
 import handleWssConnection from './server/multiplayer/handle-wss-connection.js';
+import hostnameRedirection from './server/hostname-redirection.js';
+import httpsEnforcement from './server/https-enforcement.js';
 
 import cookieSession from 'cookie-session';
 import express from 'express';
@@ -20,6 +22,9 @@ const wss = new WebSocketServer({ server, maxPayload: WEBSOCKET_MAX_PAYLOAD });
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
+
+app.use(hostnameRedirection);
+app.use(httpsEnforcement);
 
 // See https://masteringjs.io/tutorials/express/query-parameters
 // for why we use 'simple'
