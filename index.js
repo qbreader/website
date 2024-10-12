@@ -8,6 +8,7 @@ import handleWssConnection from './server/multiplayer/handle-wss-connection.js';
 
 import cookieSession from 'cookie-session';
 import express from 'express';
+import morgan from 'morgan';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 
@@ -15,6 +16,10 @@ const app = express();
 const server = createServer(app);
 const port = process.env.PORT || 3000;
 const wss = new WebSocketServer({ server, maxPayload: WEBSOCKET_MAX_PAYLOAD });
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 // See https://masteringjs.io/tutorials/express/query-parameters
 // for why we use 'simple'
