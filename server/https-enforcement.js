@@ -3,7 +3,7 @@ export default function httpsEnforcement (req, res, next) {
   console.log(req.protocol);
 
   // Use HTTPS if not on localhost
-  if (req.protocol !== 'https' && !['localhost', '127.0.0.1'].includes(hostname)) {
+  if (!req.secure && !['localhost', '127.0.0.1'].includes(hostname)) {
     return res.redirect(301, `https://${hostname}${req.originalUrl}`);
   }
 
