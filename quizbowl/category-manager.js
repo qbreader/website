@@ -48,11 +48,13 @@ export default class CategoryManager {
     return {
       categories: this.categories,
       subcategories: this.subcategories,
-      alternateSubcategories: this.alternateSubcategories
+      alternateSubcategories: this.alternateSubcategories,
+      percentView: this.percentView,
+      categoryPercents: this.categoryPercents
     };
   }
 
-  import (categories = [], subcategories = [], alternateSubcategories = []) {
+  import (categories = [], subcategories = [], alternateSubcategories = [], percentView = false, categoryPercents = []) {
     if (categories.length > 0 && subcategories.length === 0) {
       categories.forEach(category => {
         SUBCATEGORIES[category].forEach(subcategory => {

@@ -33,6 +33,8 @@ router.use('/multiplayer', multiplayerRouter);
 router.use('/user', userRouter);
 router.use('/webhook', webhookRouter);
 
+router.use('/quizbowl', express.static('quizbowl'));
+
 router.use(express.static('client', { extensions: ['html'] }));
 router.use(express.static('node_modules'));
 

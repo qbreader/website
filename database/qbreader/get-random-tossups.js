@@ -1,6 +1,6 @@
 import { tossups } from './collections.js';
 
-import { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../constants.js';
+import { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../quizbowl/constants.js';
 
 // eslint-disable-next-line no-unused-vars
 import * as types from '../../types.js';
