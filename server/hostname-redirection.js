@@ -1,5 +1,6 @@
 export default function hostnameRedirection (req, res, next) {
   const hostname = req.hostname;
+  console.log(req.hostname);
 
   // Redirect to www.qbreader.org for specific hostnames
   if (['qbreader.herokuapp.com', 'qbreader-production.herokuapp.com', 'qbreader.org'].includes(hostname)) {
