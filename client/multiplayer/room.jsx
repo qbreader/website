@@ -811,7 +811,7 @@ document.getElementById('packet-number').addEventListener('change', function () 
   }
 
   document.getElementById('packet-number').classList.remove('is-invalid');
-  socket.send(JSON.stringify({ type: 'set-packet-numbers', value: range }));
+  socket.send(JSON.stringify({ type: 'set-packet-numbers', packetNumbers: range }));
 });
 
 document.getElementById('pause').addEventListener('click', function () {
