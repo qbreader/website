@@ -1,6 +1,5 @@
 import api from '../scripts/api/index.js';
-// import TossupRoom from '../../quizbowl/TossupRoom.js';
-import TossupRoom from '../TossupRoom.js';
+import TossupRoom from '../../quizbowl/TossupRoom.js';
 
 export default class ClientTossupRoom extends TossupRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
@@ -15,7 +14,12 @@ export default class ClientTossupRoom extends TossupRoom {
       powerValue: 15,
       tossup: {}
     };
-    this.settings.skip = true;
+    this.settings = {
+      ...this.settings,
+      skip: true,
+      showHistory: true,
+      typeToAnswer: true
+    };
 
     this.checkAnswer = api.checkAnswer;
     this.getRandomTossups = async (args) => await api.getRandomTossup({ number: 20, ...args });
@@ -23,14 +27,25 @@ export default class ClientTossupRoom extends TossupRoom {
     this.getSetList = api.getSetList;
     this.getNumPackets = api.getNumPackets;
 
-    this.setList = this.getSetList().concat('');
+    this.setList = this.getSetList();
   }
 
   async message (userId, message) {
     switch (message.type) {
       case 'toggle-correct': return this.toggleCorrect(userId, message);
+      case 'toggle-show-history': return this.toggleShowHistory(userId, message);
+      case 'toggle-type-to-answer': return this.toggleTypeToAnswer(userId, message);
       default: super.message(userId, message);
     }
+  }
+
+  buzz (userId) {
+    if (!this.settings.typeToAnswer && this.buzzes.includes(userId)) {
+      this.giveAnswer(userId, { givenAnswer: this.tossup.answer_sanitized });
+      return;
+    }
+
+    super.buzz(userId);
   }
 
   get liveAnswer () {
@@ -73,5 +88,15 @@ export default class ClientTossupRoom extends TossupRoom {
     this.players[userId].celerity.correct.average = this.players[userId].celerity.correct.total / (this.players[userId].powers + this.players[userId].tens);
 
     this.emitMessage({ type: 'toggle-correct', correct, userId });
+  }
+
+  toggleShowHistory (userId, { showHistory }) {
+    this.settings.showHistory = showHistory;
+    this.emitMessage({ type: 'toggle-show-history', showHistory, userId });
+  }
+
+  toggleTypeToAnswer (userId, { typeToAnswer }) {
+    this.settings.typeToAnswer = typeToAnswer;
+    this.emitMessage({ type: 'toggle-type-to-answer', typeToAnswer, userId });
   }
 }

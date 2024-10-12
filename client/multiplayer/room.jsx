@@ -4,7 +4,7 @@ import account from '../scripts/accounts.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
-import CategoryManager from '../scripts/utilities/category-manager.js';
+import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../scripts/utilities/index.js';
 import { escapeHTML } from '../scripts/utilities/strings.js';
