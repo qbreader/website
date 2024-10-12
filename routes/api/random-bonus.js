@@ -41,7 +41,6 @@ router.get('/', async (req, res) => {
     res.status(404);
   }
 
-  res.header('Access-Control-Allow-Origin', '*');
   res.json({ bonuses });
 });
 
