@@ -7,9 +7,9 @@ import BonusCard from '../scripts/components/BonusCard.min.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import Star from '../scripts/components/Star.min.js';
-import CategoryManager from '../scripts/utilities/category-manager.js';
+import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
-import { insertTokensIntoHTML } from '../insert-tokens-into-html.js';
+import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 
 const starredTossupIds = new Set(await star.getStarredTossupIds());
 const starredBonusIds = new Set(await star.getStarredBonusIds());

@@ -1,7 +1,7 @@
 import ServerPlayer from './ServerPlayer.js';
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
-import { insertTokensIntoHTML } from '../../quizbowl/insert-tokens-into-html.js';
+import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 import TossupRoom from '../../quizbowl/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
 
@@ -147,6 +147,14 @@ export default class ServerTossupRoom extends TossupRoom {
     super.setCategories(userId, { categories, subcategories, alternateSubcategories });
   }
 
+  async setSetName (userId, { packetNumbers, setName }) {
+    if (!this.setList) { return; }
+    if (!this.setList.includes(setName)) { return; }
+    const maxPacketNumber = await this.getNumPackets(setName);
+    if (packetNumbers.some((num) => num > maxPacketNumber || num < 1)) { return; }
+    super.setSetName(userId, { packetNumbers, setName });
+  }
+
   setUsername (userId, { username }) {
     if (typeof username !== 'string') { return false; }
 
@@ -192,7 +200,10 @@ export default class ServerTossupRoom extends TossupRoom {
 
   toggleSelectBySetName (userId, { selectBySetName, setName }) {
     if (this.isPermanent) { return; }
+    if (!this.setList) { return; }
+    if (!this.setList.includes(setName)) { return; }
     super.toggleSelectBySetName(userId, { selectBySetName, setName });
+    this.adjustQuery(['setName'], [setName]);
   }
 
   toggleTimer (userId, { timer }) {

@@ -3,10 +3,10 @@ import api from '../../scripts/api/index.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import audio from '../../audio/index.js';
 // import Player from '../../../quizbowl/Player.js';
-import Player from '../../Player.js';
+import Player from '../../../quizbowl/Player.js';
 import ClientTossupRoom from '../ClientTossupRoom.js';
-import CategoryManager from '../../scripts/utilities/category-manager.js';
-import { createTossupCard, rangeToArray } from '../../scripts/utilities/index.js';
+import CategoryManager from '../../../quizbowl/category-manager.js';
+import { arrayToRange, createTossupCard, rangeToArray } from '../../scripts/utilities/index.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
@@ -14,7 +14,8 @@ import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.
 let maxPacketNumber = 24;
 
 const categoryManager = new CategoryManager();
-
+const queryVersion = '2024-10-11';
+const settingsVersion = '2024-10-11';
 const USER_ID = 'user';
 
 const room = new ClientTossupRoom();
@@ -28,7 +29,6 @@ room.sockets[USER_ID] = socket;
 
 function onmessage (message) {
   const data = JSON.parse(message);
-  console.log(data);
   switch (data.type) {
     case 'buzz': return buzz(data);
     case 'clear-stats': return clearStats(data);
@@ -51,8 +51,10 @@ function onmessage (message) {
     case 'toggle-powermark-only': return togglePowermarkOnly(data);
     case 'toggle-rebuzz': return toggleRebuzz(data);
     case 'toggle-select-by-set-name': return toggleSelectBySetName(data);
+    case 'toggle-show-history': return toggleShowHistory(data);
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-timer': return toggleTimer(data);
+    case 'toggle-type-to-answer': return toggleTypeToAnswer(data);
     case 'update-question': return updateQuestion(data);
   }
 }
@@ -69,8 +71,7 @@ function buzz ({ timer, userId, username }) {
 }
 
 function clearStats ({ userId }) {
-  if (userId !== USER_ID) { return; }
-  updateStatDisplay(room.players[USER_ID]);
+  updateStatDisplay(room.players[userId]);
 }
 
 function endOfSet () {
@@ -116,7 +117,7 @@ async function giveAnswer ({ directive, directedPrompt, perQuestionCelerity, sco
   // }
 }
 
-async function next ({ oldTossup, tossup: nextTossup, type }) {
+async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
   if (type === 'start') {
     document.getElementById('next').disabled = false;
     document.getElementById('next').textContent = 'Skip';
@@ -136,10 +137,10 @@ async function next ({ oldTossup, tossup: nextTossup, type }) {
   document.getElementById('buzz').disabled = false;
   document.getElementById('next').textContent = 'Skip';
   document.getElementById('packet-number-info').textContent = nextTossup.packet.number;
-  console.log(room);
-  document.getElementById('packet-length-info').textContent = room.query.selectBySetName ? room.tossup.length : '-';
+  document.getElementById('packet-length-info').textContent = room.query.selectBySetName ? packetLength : '-';
   document.getElementById('pause').textContent = 'Pause';
   document.getElementById('pause').disabled = false;
+  document.getElementById('question-number-info').textContent = nextTossup.number;
   document.getElementById('set-name-info').textContent = nextTossup.set.name;
 
   if (type === 'next' && await account.getUsername() && document.getElementById('answer').innerHTML) {
@@ -175,41 +176,84 @@ function revealAnswer ({ answer, question }) {
 function setCategories ({ alternateSubcategories, categories, subcategories }) {
   categoryManager.import(categories, subcategories, alternateSubcategories);
   categoryManager.loadCategoryModal();
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
-function setDifficulties ({ difficulties }) {}
+function setDifficulties ({ difficulties }) {
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
+}
 
-function setPacketNumbers ({ packetNumbers }) {}
+function setPacketNumbers ({ packetNumbers }) {
+  document.getElementById('packet-number').value = arrayToRange(packetNumbers);
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
+}
 
 function setReadingSpeed ({ readingSpeed }) {
   document.getElementById('reading-speed').value = readingSpeed;
   document.getElementById('reading-speed-display').textContent = readingSpeed;
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
 }
 
-function setSetName ({ value }) {}
+async function setSetName ({ setName }) {
+  document.getElementById('set-name').value = setName;
+  // make border red if set name is not in set list
+  const valid = !setName || api.getSetList().includes(setName);
+  document.getElementById('set-name').classList.toggle('is-invalid', !valid);
+  maxPacketNumber = valid ? await api.getNumPackets(setName) : 0;
+  document.getElementById('packet-number').placeholder = 'Packet Numbers' + (maxPacketNumber ? ` (1-${maxPacketNumber})` : '');
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
+}
 
-function setYearRange ({ minYear, maxYear }) {}
+function setYearRange ({ minYear, maxYear }) {
+  $('#slider').slider('values', [minYear, maxYear]);
+  document.getElementById('year-range-a').textContent = minYear;
+  document.getElementById('year-range-b').textContent = maxYear;
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
+}
 
 function toggleCorrect ({ correct, userId }) {
   updateStatDisplay(room.players[USER_ID]);
   document.getElementById('toggle-correct').textContent = correct ? 'I was wrong' : 'I was right';
 }
 
-function togglePowermarkOnly ({ powermarkOnly }) {}
-
-function toggleRebuzz ({ rebuzz }) {}
-
-function toggleSelectBySetName ({ selectBySetName, setName }) {
-  document.getElementById('difficulty-settings').classList.toggle('d-none', selectBySetName);
-  document.getElementById('set-settings').classList.toggle('d-none', !selectBySetName);
-  document.getElementById('toggle-powermark-only').disabled = selectBySetName;
-  document.getElementById('toggle-standard-only').disabled = selectBySetName;
+function togglePowermarkOnly ({ powermarkOnly }) {
+  document.getElementById('toggle-powermark-only').checked = powermarkOnly;
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
-function toggleStandardOnly ({ standardOnly }) {}
+function toggleRebuzz ({ rebuzz }) {
+  document.getElementById('toggle-rebuzz').checked = rebuzz;
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
+}
+
+function toggleSelectBySetName ({ selectBySetName }) {
+  document.getElementById('difficulty-settings').classList.toggle('d-none', selectBySetName);
+  document.getElementById('toggle-powermark-only').disabled = selectBySetName;
+  document.getElementById('toggle-select-by-set-name').checked = selectBySetName;
+  document.getElementById('toggle-standard-only').disabled = selectBySetName;
+  document.getElementById('set-settings').classList.toggle('d-none', !selectBySetName);
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
+}
+
+function toggleShowHistory ({ showHistory }) {
+  document.getElementById('room-history').classList.toggle('d-none', !showHistory);
+  document.getElementById('toggle-show-history').checked = showHistory;
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
+}
+
+function toggleStandardOnly ({ standardOnly }) {
+  document.getElementById('toggle-standard-only').checked = standardOnly;
+}
 
 function toggleTimer ({ timer }) {
   document.getElementById('timer').classList.toggle('d-none', !timer);
+  document.getElementById('toggle-timer').checked = timer;
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
+}
+
+function toggleTypeToAnswer ({ typeToAnswer }) {
+  document.getElementById('type-to-answer').checked = typeToAnswer;
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
 }
 
 function updateQuestion ({ word }) {
@@ -265,8 +309,8 @@ document.getElementById('next').addEventListener('click', function () {
 
 document.getElementById('packet-number').addEventListener('change', function () {
   const range = rangeToArray(this.value.trim(), maxPacketNumber);
-
-  if (range.some((num) => num < 1 || num > maxPacketNumber)) {
+  const invalid = range.some(num => num < 1 || num > maxPacketNumber);
+  if (invalid) {
     document.getElementById('packet-number').classList.add('is-invalid');
     return;
   }
@@ -296,21 +340,9 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 document.getElementById('set-name').addEventListener('change', async function () {
-  // make border red if set name is not in set list
-  const valid = api.getSetList().includes(this.value) || this.value.length === 0;
-  this.classList.toggle('is-invalid', !valid);
-
-  maxPacketNumber = await api.getNumPackets(this.value);
-
-  if (this.value === '' || maxPacketNumber === 0) {
-    document.getElementById('packet-number').placeholder = 'Packet Numbers';
-  } else {
-    document.getElementById('packet-number').placeholder = `Packet Numbers (1-${maxPacketNumber})`;
-  }
-
   socket.sendToServer({
     type: 'set-set-name',
-    value: this.value.trim(),
+    setName: this.value.trim(),
     packetNumbers: rangeToArray(document.getElementById('packet-number').value)
   });
 });
@@ -338,7 +370,6 @@ document.getElementById('toggle-select-by-set-name').addEventListener('click', f
   this.blur();
   socket.sendToServer({
     type: 'toggle-select-by-set-name',
-    setName: document.getElementById('set-name').value,
     selectBySetName: this.checked
   });
 });
@@ -355,7 +386,7 @@ document.getElementById('toggle-settings').addEventListener('click', function ()
 
 document.getElementById('toggle-show-history').addEventListener('click', function () {
   this.blur();
-  document.getElementById('room-history').classList.toggle('d-none', !this.checked);
+  socket.sendToServer({ type: 'toggle-show-history', showHistory: this.checked });
 });
 
 document.getElementById('toggle-standard-only').addEventListener('click', function () {
@@ -366,6 +397,11 @@ document.getElementById('toggle-standard-only').addEventListener('click', functi
 document.getElementById('toggle-timer').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-timer', timer: this.checked });
+});
+
+document.getElementById('type-to-answer').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-type-to-answer', typeToAnswer: this.checked });
 });
 
 document.getElementById('year-range-a').onchange = function () {
@@ -386,39 +422,52 @@ document.addEventListener('keydown', (event) => {
   switch (event.key) {
     case ' ':
       document.getElementById('buzz').click();
-      // Prevent spacebar from scrolling the page:
-      if (event.target === document.body) event.preventDefault();
+      if (event.target === document.body) {
+        // Prevent spacebar from scrolling the page:
+        event.preventDefault();
+      }
       break;
-    case 'e':
-      document.getElementById('toggle-settings').click();
-      break;
-    case 'k':
-      document.getElementsByClassName('card-header-clickable')[0].click();
-      break;
-    case 't':
-      document.getElementsByClassName('star-tossup')[0].click();
-      break;
-    case 'y':
-      navigator.clipboard.writeText(room.tossup._id ?? '');
-      break;
-    case 'n':
-      document.getElementById('next').click();
-      break;
-    case 'p':
-      document.getElementById('pause').click();
-      break;
-    case 's':
-      document.getElementById('start').click();
-      break;
+    case 'e': return document.getElementById('toggle-settings').click();
+    case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
+    case 'n': return document.getElementById('next').click();
+    case 'p': return document.getElementById('pause').click();
+    case 's': return document.getElementById('start').click();
+    case 't': return document.getElementsByClassName('star-tossup')[0].click();
+    case 'y': return navigator.clipboard.writeText(room.tossup._id ?? '');
   }
 });
 
-// $(document).ready(function () {
-//   $('#slider').slider('values', 0, query.minYear);
-//   $('#slider').slider('values', 1, query.maxYear);
-// });
-// document.getElementById('year-range-a').textContent = query.minYear;
-// document.getElementById('year-range-b').textContent = query.maxYear;
+let startingDifficulties = [];
+if (window.localStorage.getItem('singleplayer-tossup-query')) {
+  try {
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
+    if (savedQuery.version !== queryVersion) { throw new Error(); }
+    categoryManager.import(savedQuery.categories, savedQuery.subcategories, savedQuery.alternateSubcategories);
+    socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
+    socket.sendToServer({ type: 'set-set-name', ...savedQuery });
+    socket.sendToServer({ type: 'set-year-range', ...savedQuery });
+    socket.sendToServer({ type: 'toggle-powermark-only', ...savedQuery });
+    socket.sendToServer({ type: 'toggle-select-by-set-name', ...savedQuery });
+    socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery });
+    startingDifficulties = savedQuery.difficulties;
+  } catch {
+    window.localStorage.removeItem('singleplayer-tossup-query');
+  }
+}
+
+if (window.localStorage.getItem('singleplayer-tossup-settings')) {
+  try {
+    const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'));
+    if (savedSettings.version !== settingsVersion) { throw new Error(); }
+    socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
+  } catch {
+    window.localStorage.removeItem('singleplayer-tossup-settings');
+  }
+}
 
 ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
   <CategoryModal
@@ -429,6 +478,7 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
 
 ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
   <DifficultyDropdown
+    startingDifficulties={startingDifficulties ?? []}
     onChange={() => socket.sendToServer({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') })}
   />
 );
