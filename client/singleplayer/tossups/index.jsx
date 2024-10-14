@@ -143,7 +143,7 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
   document.getElementById('question-number-info').textContent = nextTossup.number;
   document.getElementById('set-name-info').textContent = nextTossup.set.name;
 
-  if (type === 'next' && await account.getUsername() && document.getElementById('answer').innerHTML) {
+  if (type === 'next' && await account.getUsername()) {
     const pointValue = room.previous.isCorrect ? (room.previous.inPower ? room.previous.powerValue : 10) : (room.previous.endOfQuestion ? 0 : room.previous.negValue);
     questionStats.recordTossup(room.previous.tossup, room.previous.isCorrect, pointValue, room.previous.celerity, false);
   }
