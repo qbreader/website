@@ -15,7 +15,7 @@ let maxPacketNumber = 24;
 
 const categoryManager = new CategoryManager();
 const queryVersion = '2024-10-11';
-const settingsVersion = '2024-10-11';
+const settingsVersion = '2024-10-16';
 const USER_ID = 'user';
 
 const room = new ClientTossupRoom();
@@ -40,6 +40,7 @@ function onmessage (message) {
     case 'reveal-answer': return revealAnswer(data);
     case 'set-categories': return setCategories(data);
     case 'set-difficulties': return setDifficulties(data);
+    case 'set-strictness': return setStrictness(data);
     case 'set-reading-speed': return setReadingSpeed(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
     case 'set-set-name': return setSetName(data);
@@ -183,6 +184,12 @@ function setDifficulties ({ difficulties }) {
   window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
+function setStrictness ({ strictness }) {
+  document.getElementById('strictness').value = strictness;
+  document.getElementById('strictness-display').textContent = strictness;
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
+}
+
 function setPacketNumbers ({ packetNumbers }) {
   document.getElementById('packet-number').value = arrayToRange(packetNumbers);
   window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
@@ -296,6 +303,12 @@ document.getElementById('buzz').addEventListener('click', function () {
 document.getElementById('clear-stats').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'clear-stats' });
+});
+
+document.getElementById('strictness').addEventListener('change', function () {
+  this.blur();
+  const strictness = this.value;
+  socket.sendToServer({ type: 'set-strictness', strictness });
 });
 
 document.getElementById('next').addEventListener('click', function () {
@@ -459,6 +472,7 @@ if (window.localStorage.getItem('singleplayer-tossup-settings')) {
   try {
     const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'));
     if (savedSettings.version !== settingsVersion) { throw new Error(); }
+    socket.sendToServer({ type: 'set-strictness', ...savedSettings });
     socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
     socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
     socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });

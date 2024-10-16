@@ -11,12 +11,12 @@ export default class api {
         * directedPrompt: String | null
     * }>}
     */
-  static async checkAnswer (answerline, givenAnswer) {
+  static async checkAnswer (answerline, givenAnswer, strictness = 7) {
     if (givenAnswer === '') {
       return { directive: 'reject', directedPrompt: null };
     }
 
-    return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer }))
+    return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer, strictness }))
       .then(response => response.json());
   }
 
