@@ -74,6 +74,7 @@ socket.onmessage = function (event) {
     case 'set-difficulties': return setDifficulties(data);
     case 'set-reading-speed': return setReadingSpeed(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
+    case 'set-strictness': return setStrictness(data);
     case 'set-set-name': return setSetName(data);
     case 'set-username': return setUsername(data);
     case 'set-year-range': return setYearRange(data);
@@ -207,6 +208,8 @@ function connectionAcknowledged ({
 
   document.getElementById('reading-speed').value = settings.readingSpeed;
   document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
+  document.getElementById('strictness').value = settings.strictness;
+  document.getElementById('strictness-display').textContent = settings.strictness;
 
   document.getElementById('toggle-rebuzz').checked = settings.rebuzz;
 
@@ -574,6 +577,12 @@ function setReadingSpeed ({ username, readingSpeed }) {
   document.getElementById('reading-speed-display').textContent = readingSpeed;
 }
 
+function setStrictness ({ strictness, username }) {
+  logEvent(username, `changed the strictness to ${strictness}`);
+  document.getElementById('strictness').value = strictness;
+  document.getElementById('strictness-display').textContent = strictness;
+}
+
 function setSetName ({ username, setName }) {
   logEvent(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
   document.getElementById('set-name').value = setName;
@@ -820,6 +829,14 @@ document.getElementById('pause').addEventListener('click', function () {
   const tenths = parseFloat(document.querySelector('.timer .fraction').innerText);
   const pausedTime = (seconds + tenths) * 10;
   socket.send(JSON.stringify({ type: 'pause', pausedTime }));
+});
+
+document.getElementById('strictness').addEventListener('change', function () {
+  socket.send(JSON.stringify({ type: 'set-strictness', strictness: this.value }));
+});
+
+document.getElementById('strictness').addEventListener('input', function () {
+  document.getElementById('strictness-display').textContent = this.value;
 });
 
 document.getElementById('reading-speed').addEventListener('change', function () {

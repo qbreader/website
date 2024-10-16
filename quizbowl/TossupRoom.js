@@ -16,7 +16,7 @@ export default class TossupRoom extends Room {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name);
 
-    this.checkAnswer = async function checkAnswer (answerline, givenAnswer) { throw new Error('Not implemented'); };
+    this.checkAnswer = async function checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); };
     this.getRandomTossups = async function getRandomTossups (args) { throw new Error('Not implemented'); };
     this.getSet = async function getSet (args) { throw new Error('Not implemented'); };
     this.getSetList = async function getSetList (args) { throw new Error('Not implemented'); };
@@ -65,6 +65,7 @@ export default class TossupRoom extends Room {
     };
 
     this.settings = {
+      strictness: 7,
       rebuzz: false,
       readingSpeed: 50,
       skip: false,
@@ -89,6 +90,7 @@ export default class TossupRoom extends Room {
       case 'pause': return this.pause(userId, message);
       case 'set-categories': return this.setCategories(userId, message);
       case 'set-difficulties': return this.setDifficulties(userId, message);
+      case 'set-strictness': return this.setStrictness(userId, message);
       case 'set-packet-numbers': return this.setPacketNumbers(userId, message);
       case 'set-reading-speed': return this.setReadingSpeed(userId, message);
       case 'set-set-name': return this.setSetName(userId, message);
@@ -313,9 +315,15 @@ export default class TossupRoom extends Room {
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
     const endOfQuestion = (this.wordIndex === this.questionSplit.length);
     const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-    const { directive, directedPrompt } = await this.checkAnswer(this.tossup.answer, givenAnswer);
+    const { directive, directedPrompt } = await this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
     const points = scoreTossup({ isCorrect: directive === 'accept', inPower, endOfQuestion });
     return { celerity, directive, directedPrompt, endOfQuestion, inPower, points };
+  }
+
+  setStrictness (userId, { strictness }) {
+    this.settings.strictness = strictness;
+    const username = this.players[userId].username;
+    this.emitMessage({ type: 'set-strictness', username, strictness });
   }
 
   async setPacketNumbers (userId, { packetNumbers }) {
