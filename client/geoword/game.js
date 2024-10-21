@@ -224,19 +224,14 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
-  switch (event.key) {
+  switch (event.key?.toLowerCase()) {
     case ' ':
       document.getElementById('buzz').click();
-      // Prevent spacebar from scrolling the page:
-      if (event.target === document.body) {
-        event.preventDefault();
-      }
+      // Prevent spacebar from scrolling the page
+      if (event.target === document.body) { event.preventDefault(); }
       break;
-    case 'n':
-      document.getElementById('next').click();
-      break;
-    case 's':
-      document.getElementById('start').click();
-      break;
+
+    case 'n': return document.getElementById('next').click();
+    case 's': return document.getElementById('start').click();
   }
 });

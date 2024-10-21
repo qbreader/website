@@ -434,14 +434,13 @@ document.getElementById('year-range-b').onchange = function () {
 document.addEventListener('keydown', (event) => {
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
-  switch (event.key) {
+  switch (event.key?.toLowerCase()) {
     case ' ':
       document.getElementById('buzz').click();
-      if (event.target === document.body) {
-        // Prevent spacebar from scrolling the page:
-        event.preventDefault();
-      }
+      // Prevent spacebar from scrolling the page
+      if (event.target === document.body) { event.preventDefault(); }
       break;
+
     case 'e': return document.getElementById('toggle-settings').click();
     case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
     case 'n': return document.getElementById('next').click();
