@@ -546,45 +546,24 @@ document.getElementById('year-range-b').onchange = function () {
 document.addEventListener('keydown', (event) => {
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) { return; }
 
-  switch (event.key) {
+  switch (event.key?.toLowerCase()) {
     case ' ':
       document.getElementById('reveal').click();
       // Prevent spacebar from scrolling the page
       if (event.target === document.body) { event.preventDefault(); }
       break;
-    case 'e':
-      document.getElementById('toggle-settings').click();
-      break;
-    case 'k':
-      document.getElementsByClassName('card-header-clickable')[0].click();
-      break;
-    case 't':
-      document.getElementsByClassName('star-bonus')[0].click();
-      break;
-    case 'y':
-      navigator.clipboard.writeText(bonuses[0]?._id ?? '');
-      break;
-    case 'n':
-      document.getElementById('next').click();
-      break;
-    case 's':
-      document.getElementById('start').click();
-      break;
-    case '0':
-      document.getElementById(`checkbox-${currentBonusPart}`).click();
-      break;
-    case '1':
-      document.getElementById('checkbox-1').click();
-      break;
-    case '2':
-      document.getElementById('checkbox-2').click();
-      break;
-    case '3':
-      document.getElementById('checkbox-3').click();
-      break;
-    case '4':
-      document.getElementById('checkbox-4').click();
-      break;
+
+    case 'e': return document.getElementById('toggle-settings').click();
+    case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
+    case 'n': return document.getElementById('next').click();
+    case 's': return document.getElementById('start').click();
+    case 't': return document.getElementsByClassName('star-bonus')[0].click();
+    case 'y': return navigator.clipboard.writeText(bonuses[0]?._id ?? '');
+    case '0': return document.getElementById(`checkbox-${currentBonusPart}`).click();
+    case '1': return document.getElementById('checkbox-1').click();
+    case '2': return document.getElementById('checkbox-2').click();
+    case '3': return document.getElementById('checkbox-3').click();
+    case '4': return document.getElementById('checkbox-4').click();
   }
 });
 
