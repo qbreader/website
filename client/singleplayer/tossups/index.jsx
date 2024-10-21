@@ -2,7 +2,6 @@ import account from '../../scripts/accounts.js';
 import api from '../../scripts/api/index.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import audio from '../../audio/index.js';
-// import Player from '../../../quizbowl/Player.js';
 import Player from '../../../quizbowl/Player.js';
 import ClientTossupRoom from '../ClientTossupRoom.js';
 import CategoryManager from '../../../quizbowl/category-manager.js';
@@ -305,12 +304,6 @@ document.getElementById('clear-stats').addEventListener('click', function () {
   socket.sendToServer({ type: 'clear-stats' });
 });
 
-document.getElementById('strictness').addEventListener('change', function () {
-  this.blur();
-  const strictness = this.value;
-  socket.sendToServer({ type: 'set-strictness', strictness });
-});
-
 document.getElementById('next').addEventListener('click', function () {
   this.blur();
   if (this.innerHTML === 'Skip') {
@@ -362,6 +355,15 @@ document.getElementById('set-name').addEventListener('change', async function ()
 
 document.getElementById('start').addEventListener('click', function () {
   socket.sendToServer({ type: 'start' });
+});
+
+document.getElementById('strictness').addEventListener('change', function () {
+  this.blur();
+  socket.sendToServer({ type: 'set-strictness', strictness: this.value });
+});
+
+document.getElementById('strictness').addEventListener('input', function () {
+  document.getElementById('strictness-display').textContent = this.value;
 });
 
 document.getElementById('toggle-correct').addEventListener('click', function () {

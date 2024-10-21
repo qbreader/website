@@ -1,5 +1,3 @@
-/* globals WebSocket */
-
 import account from '../scripts/accounts.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import api from '../scripts/api/index.js';
@@ -26,7 +24,7 @@ let tossup = {};
 let USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
 let username = window.localStorage.getItem('multiplayer-username') || api.getRandomName();
 
-const socket = new WebSocket(
+const socket = new window.WebSocket(
   window.location.href.replace('http', 'ws') +
     (window.location.href.endsWith('?private=true') ? '&' : '?') +
     new URLSearchParams({
@@ -831,14 +829,6 @@ document.getElementById('pause').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'pause', pausedTime }));
 });
 
-document.getElementById('strictness').addEventListener('change', function () {
-  socket.send(JSON.stringify({ type: 'set-strictness', strictness: this.value }));
-});
-
-document.getElementById('strictness').addEventListener('input', function () {
-  document.getElementById('strictness-display').textContent = this.value;
-});
-
 document.getElementById('reading-speed').addEventListener('change', function () {
   socket.send(JSON.stringify({ type: 'set-reading-speed', readingSpeed: this.value }));
 });
@@ -873,6 +863,15 @@ document.getElementById('set-name').addEventListener('change', async function ()
     setName: this.value,
     packetNumbers: rangeToArray(document.getElementById('packet-number').value)
   }));
+});
+
+document.getElementById('strictness').addEventListener('change', function () {
+  this.blur();
+  socket.send(JSON.stringify({ type: 'set-strictness', strictness: this.value }));
+});
+
+document.getElementById('strictness').addEventListener('input', function () {
+  document.getElementById('strictness-display').textContent = this.value;
 });
 
 document.getElementById('toggle-lock').addEventListener('click', function () {
