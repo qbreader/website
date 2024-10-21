@@ -1,5 +1,3 @@
-/* globals WebSocket */
-
 import account from '../scripts/accounts.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import api from '../scripts/api/index.js';
@@ -26,7 +24,7 @@ let tossup = {};
 let USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
 let username = window.localStorage.getItem('multiplayer-username') || api.getRandomName();
 
-const socket = new WebSocket(
+const socket = new window.WebSocket(
   window.location.href.replace('http', 'ws') +
     (window.location.href.endsWith('?private=true') ? '&' : '?') +
     new URLSearchParams({
@@ -74,6 +72,7 @@ socket.onmessage = function (event) {
     case 'set-difficulties': return setDifficulties(data);
     case 'set-reading-speed': return setReadingSpeed(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
+    case 'set-strictness': return setStrictness(data);
     case 'set-set-name': return setSetName(data);
     case 'set-username': return setUsername(data);
     case 'set-year-range': return setYearRange(data);
@@ -207,6 +206,8 @@ function connectionAcknowledged ({
 
   document.getElementById('reading-speed').value = settings.readingSpeed;
   document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
+  document.getElementById('strictness').value = settings.strictness;
+  document.getElementById('strictness-display').textContent = settings.strictness;
 
   document.getElementById('toggle-rebuzz').checked = settings.rebuzz;
 
@@ -574,6 +575,12 @@ function setReadingSpeed ({ username, readingSpeed }) {
   document.getElementById('reading-speed-display').textContent = readingSpeed;
 }
 
+function setStrictness ({ strictness, username }) {
+  logEvent(username, `changed the strictness to ${strictness}`);
+  document.getElementById('strictness').value = strictness;
+  document.getElementById('strictness-display').textContent = strictness;
+}
+
 function setSetName ({ username, setName }) {
   logEvent(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
   document.getElementById('set-name').value = setName;
@@ -856,6 +863,15 @@ document.getElementById('set-name').addEventListener('change', async function ()
     setName: this.value,
     packetNumbers: rangeToArray(document.getElementById('packet-number').value)
   }));
+});
+
+document.getElementById('strictness').addEventListener('change', function () {
+  this.blur();
+  socket.send(JSON.stringify({ type: 'set-strictness', strictness: this.value }));
+});
+
+document.getElementById('strictness').addEventListener('input', function () {
+  document.getElementById('strictness-display').textContent = this.value;
 });
 
 document.getElementById('toggle-lock').addEventListener('click', function () {
