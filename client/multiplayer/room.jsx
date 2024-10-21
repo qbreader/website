@@ -950,7 +950,7 @@ document.getElementById('year-range-a').onchange = function () {
   socket.send(JSON.stringify({ type: 'set-year-range', minYear, maxYear }));
 };
 
-document.addEventListener('keydown', function (event) {
+document.addEventListener('keydown', (event) => {
   // press escape to close chat
   if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {
     document.getElementById('chat-input').value = '';
@@ -961,37 +961,23 @@ document.addEventListener('keydown', function (event) {
 
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
-  switch (event.key) {
+  switch (event.key?.toLowerCase()) {
     case ' ':
-      // Prevent spacebar from scrolling the page
       document.getElementById('buzz').click();
-      if (event.target === document.body) event.preventDefault();
+      // Prevent spacebar from scrolling the page
+      if (event.target === document.body) { event.preventDefault(); }
       break;
 
-    case 'e':
-      document.getElementById('toggle-settings').click();
-      break;
-
-    case 'k':
-      document.getElementsByClassName('card-header-clickable')[0].click();
-      break;
-
-    case 't':
-      document.getElementsByClassName('star-tossup')[0].click();
-      break;
-
-    case 'y':
-      navigator.clipboard.writeText(tossup._id ?? '');
-      break;
+    case 'e': return document.getElementById('toggle-settings').click();
+    case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
+    case 'p': return document.getElementById('pause').click();
+    case 't': return document.getElementsByClassName('star-tossup')[0].click();
+    case 'y': return navigator.clipboard.writeText(tossup._id ?? '');
 
     case 'n':
     case 's':
       document.getElementById('next').click();
       document.getElementById('skip').click();
-      break;
-
-    case 'p':
-      document.getElementById('pause').click();
       break;
   }
 });
