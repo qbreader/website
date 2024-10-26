@@ -457,6 +457,7 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
     const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
     if (savedQuery.version !== queryVersion) { throw new Error(); }
     categoryManager.import(savedQuery.categories, savedQuery.subcategories, savedQuery.alternateSubcategories);
+    room.query = savedQuery;
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
     socket.sendToServer({ type: 'set-set-name', ...savedQuery });
     socket.sendToServer({ type: 'set-year-range', ...savedQuery });
