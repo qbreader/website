@@ -195,8 +195,8 @@ export default class TossupRoom extends Room {
     if (invalid) { return false; }
 
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-difficulties', username, difficulties });
     this.adjustQuery(['difficulties'], [difficulties]);
+    this.emitMessage({ type: 'set-difficulties', username, difficulties });
   }
 
   async giveAnswer (userId, { givenAnswer }) {
@@ -349,8 +349,8 @@ export default class TossupRoom extends Room {
   async setSetName (userId, { packetNumbers, setName }) {
     if (typeof setName !== 'string') { return; }
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-set-name', username, setName });
     this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers]);
+    this.emitMessage({ type: 'set-set-name', username, setName });
   }
 
   setUsername (userId, { username }) {
@@ -480,8 +480,8 @@ export default class TossupRoom extends Room {
       });
     } else {
       const username = this.players[userId].username;
-      this.emitMessage({ type: 'set-year-range', minYear, maxYear, username });
       this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
+      this.emitMessage({ type: 'set-year-range', minYear, maxYear, username });
     }
   }
 }
