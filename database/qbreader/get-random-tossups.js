@@ -1,6 +1,7 @@
 import { tossups } from './collections.js';
 
-import { DIFFICULTIES, CATEGORIES, SUBCATEGORIES_FLATTENED, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../quizbowl/constants.js';
+import { CATEGORIES, SUBCATEGORIES } from '../../quizbowl/categories.js';
+import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../quizbowl/constants.js';
 
 // eslint-disable-next-line no-unused-vars
 import * as types from '../../types.js';
@@ -22,7 +23,7 @@ import * as types from '../../types.js';
 async function getRandomTossups ({
   difficulties = DIFFICULTIES,
   categories = CATEGORIES,
-  subcategories = SUBCATEGORIES_FLATTENED,
+  subcategories = SUBCATEGORIES,
   alternateSubcategories = [],
   number = 1,
   minYear = DEFAULT_MIN_YEAR,

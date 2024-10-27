@@ -1,4 +1,4 @@
-import { CATEGORIES, SUBCATEGORIES_FLATTENED } from '../../quizbowl/constants.js';
+import { CATEGORIES, SUBCATEGORIES } from '../../quizbowl/categories.js';
 
 export const ROOM_NAME_MAX_LENGTH = 32;
 export const USERNAME_MAX_LENGTH = 32;
@@ -10,12 +10,12 @@ export const PERMANENT_ROOMS = [
   {
     name: 'hsquizbowl',
     categories: CATEGORIES,
-    subcategories: SUBCATEGORIES_FLATTENED
+    subcategories: SUBCATEGORIES
   },
   {
     name: 'collegequizbowl',
     categories: CATEGORIES,
-    subcategories: SUBCATEGORIES_FLATTENED
+    subcategories: SUBCATEGORIES
   },
   {
     name: 'literature',
