@@ -155,6 +155,11 @@ export default class ServerTossupRoom extends TossupRoom {
     super.setSetName(userId, { packetNumbers, setName });
   }
 
+  setStrictness (userId, { strictness }) {
+    if (this.isPermanent) { return; }
+    super.setStrictness(userId, { strictness });
+  }
+
   setUsername (userId, { username }) {
     if (typeof username !== 'string') { return false; }
 
