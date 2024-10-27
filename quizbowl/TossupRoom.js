@@ -270,6 +270,9 @@ export default class TossupRoom extends Room {
     if (this.queryingQuestion) { return false; }
     if (this.questionProgress === this.QuestionProgressEnum.READING && !this.settings.skip) { return false; }
 
+    clearInterval(this.timer.interval);
+    this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
+
     clearTimeout(this.timeoutID);
     this.buzzedIn = null;
     this.buzzes = [];
