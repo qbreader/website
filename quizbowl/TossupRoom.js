@@ -1,4 +1,5 @@
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, CATEGORIES, SUBCATEGORIES_FLATTENED, ALTERNATE_SUBCATEGORIES_FLATTENED, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from './constants.js';
+import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from './categories.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT } from './constants.js';
 import CategoryManager from './category-manager.js';
 import insertTokensIntoHTML from './insert-tokens-into-html.js';
 import Room from './Room.js';
@@ -71,9 +72,6 @@ export default class TossupRoom extends Room {
       skip: false,
       timer: true
     };
-
-    this.DEAD_TIME_LIMIT = 5; // time to buzz after question is read
-    this.ANSWER_TIME_LIMIT = 10; // time to give answer after buzzing
   }
 
   async message (userId, message) {
@@ -179,7 +177,7 @@ export default class TossupRoom extends Room {
     this.emitMessage({ type: 'update-question', word: '(#)' });
 
     this.startServerTimer(
-      this.ANSWER_TIME_LIMIT * 10,
+      ANSWER_TIME_LIMIT * 10,
       (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
       () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
     );
@@ -205,7 +203,7 @@ export default class TossupRoom extends Room {
 
     this.liveAnswer = '';
     clearInterval(this.timer.interval);
-    this.emitMessage({ type: 'timer-update', timeRemaining: this.ANSWER_TIME_LIMIT * 10 });
+    this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
     if (Object.keys(this.tossup).length === 0) { return; }
 
@@ -230,7 +228,7 @@ export default class TossupRoom extends Room {
         break;
       case 'prompt':
         this.startServerTimer(
-          this.ANSWER_TIME_LIMIT * 10,
+          ANSWER_TIME_LIMIT * 10,
           (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
           () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
         );
@@ -372,7 +370,7 @@ export default class TossupRoom extends Room {
     if (Object.keys(this.tossup).length === 0) { return; }
     if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
-        this.DEAD_TIME_LIMIT * 10,
+        DEAD_TIME_LIMIT * 10,
         (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
         () => this.revealQuestion()
       );
@@ -457,8 +455,8 @@ export default class TossupRoom extends Room {
     if (!Array.isArray(alternateSubcategories)) { return; }
 
     categories = categories.filter(category => CATEGORIES.includes(category));
-    subcategories = subcategories.filter(subcategory => SUBCATEGORIES_FLATTENED.includes(subcategory));
-    alternateSubcategories = alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES_FLATTENED.includes(subcategory));
+    subcategories = subcategories.filter(subcategory => SUBCATEGORIES.includes(subcategory));
+    alternateSubcategories = alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES.includes(subcategory));
 
     if (subcategories.some(sub => !categories.includes(SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
     if (alternateSubcategories.some(sub => !categories.includes(ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub]))) { return; }

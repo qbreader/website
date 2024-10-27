@@ -1,5 +1,3 @@
-// import { CATEGORIES, SUBCATEGORIES_FLATTENED } from './constants.js';
-
 // eslint-disable-next-line no-unused-vars
 import { ObjectId } from 'mongodb';
 
