@@ -1,6 +1,6 @@
 import { tossups, bonuses } from './collections.js';
 
-import { CATEGORIES, SUBCATEGORIES_FLATTENED } from '../../quizbowl/constants.js';
+import { CATEGORIES, SUBCATEGORIES } from '../../quizbowl/categories.js';
 // eslint-disable-next-line no-unused-vars
 import * as types from '../../types.js';
 
@@ -19,7 +19,7 @@ async function getSet ({ setName, packetNumbers, categories, subcategories, ques
   if (!setName) return [];
 
   if (!categories || categories.length === 0) categories = CATEGORIES;
-  if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES_FLATTENED;
+  if (!subcategories || subcategories.length === 0) subcategories = SUBCATEGORIES;
   if (!questionType) questionType = 'tossup';
 
   const filter = {

@@ -1,32 +1,4 @@
-const SUBCATEGORIES = {
-  Literature: ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
-  History: ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
-  Science: ['Biology', 'Chemistry', 'Physics', 'Other Science'],
-  'Fine Arts': ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts'],
-  Religion: ['Religion'],
-  Mythology: ['Mythology'],
-  Philosophy: ['Philosophy'],
-  'Social Science': ['Social Science'],
-  'Current Events': ['Current Events'],
-  Geography: ['Geography'],
-  'Other Academic': ['Other Academic'],
-  Trash: ['Trash']
-};
-
-const ALTERNATE_SUBCATEGORIES = {
-  Literature: ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
-  History: [],
-  Science: ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
-  'Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts'],
-  Religion: [],
-  Mythology: [],
-  Philosophy: [],
-  'Social Science': ['Anthropology', 'Economics', 'Linguistics', 'Psychology', 'Sociology', 'Other Social Science'],
-  'Current Events': [],
-  Geography: [],
-  'Other Academic': [],
-  Trash: []
-};
+import { CATEGORIES, CATEGORY_TO_SUBCATEGORY, CATEGORY_TO_ALTERNATE_SUBCATEGORIES } from './categories.js';
 
 export default class CategoryManager {
   /**
@@ -37,7 +9,7 @@ export default class CategoryManager {
   constructor (categories = [], subcategories = [], alternateSubcategories = []) {
     // Should sum to 100
     this.categoryPercents = [];
-    for (let i = 0; i < Object.keys(SUBCATEGORIES).length; i++) {
+    for (let i = 0; i < CATEGORIES.length; i++) {
       this.categoryPercents.push(0);
     }
     this.percentView = false;
@@ -57,7 +29,7 @@ export default class CategoryManager {
   import (categories = [], subcategories = [], alternateSubcategories = [], percentView = false, categoryPercents = []) {
     if (categories.length > 0 && subcategories.length === 0) {
       categories.forEach(category => {
-        SUBCATEGORIES[category].forEach(subcategory => {
+        CATEGORY_TO_SUBCATEGORY[category].forEach(subcategory => {
           subcategories.push(subcategory);
         });
       });
@@ -72,14 +44,12 @@ export default class CategoryManager {
     const total = this.categoryPercents.reduce((a, b) => a + b, 0);
     if (total === 0) {
       // uniformly return a random category
-      return Object.keys(SUBCATEGORIES)[Math.floor(Math.random() * Object.keys(SUBCATEGORIES).length)];
+      return CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
     } else {
       let random = Math.random() * total;
       for (let i = 0; i < this.categoryPercents.length; i++) {
         random -= this.categoryPercents[i];
-        if (random <= 0) {
-          return Object.keys(SUBCATEGORIES)[i];
-        }
+        if (random <= 0) { return CATEGORIES[i]; }
       }
     }
   }
@@ -115,11 +85,11 @@ export default class CategoryManager {
 
     for (const category of this.categories) {
       document.getElementById(category).checked = true;
-      SUBCATEGORIES[category].forEach(subcategory => {
+      CATEGORY_TO_SUBCATEGORY[category].forEach(subcategory => {
         document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
       });
 
-      ALTERNATE_SUBCATEGORIES[category].forEach(subcategory => {
+      CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category].forEach(subcategory => {
         document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
       });
     }
@@ -142,13 +112,13 @@ export default class CategoryManager {
   updateCategory (category) {
     if (this.categories.includes(category)) {
       this.categories = this.categories.filter(a => a !== category);
-      this.subcategories = this.subcategories.filter(a => !SUBCATEGORIES[category].includes(a));
-      this.alternateSubcategories = this.alternateSubcategories.filter(a => !ALTERNATE_SUBCATEGORIES[category].includes(a));
+      this.subcategories = this.subcategories.filter(a => !CATEGORY_TO_SUBCATEGORY[category].includes(a));
+      this.alternateSubcategories = this.alternateSubcategories.filter(a => !CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category].includes(a));
       return false;
     } else {
       this.categories.push(category);
-      this.subcategories = this.subcategories.concat(SUBCATEGORIES[category]);
-      this.alternateSubcategories = this.alternateSubcategories.concat(ALTERNATE_SUBCATEGORIES[category]);
+      this.subcategories = this.subcategories.concat(CATEGORY_TO_SUBCATEGORY[category]);
+      this.alternateSubcategories = this.alternateSubcategories.concat(CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category]);
       return true;
     }
   }
