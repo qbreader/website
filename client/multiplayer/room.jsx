@@ -158,6 +158,7 @@ function connectionAcknowledged ({
 
   if (isPermanent) {
     document.getElementById('category-select-button').disabled = true;
+    document.getElementById('strictness').disabled = true;
     document.getElementById('toggle-public').disabled = true;
     document.getElementById('toggle-select-by-set-name').disabled = true;
     document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
