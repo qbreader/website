@@ -229,9 +229,9 @@ async function connectionAcknowledgedQuery ({
   selectBySetName,
   setName = '',
   standardOnly,
-  validAlternateSubcategories,
-  validCategories,
-  validSubcategories
+  alternateSubcategories,
+  categories,
+  subcategories
 }) {
   setDifficulties({ difficulties });
 
@@ -258,7 +258,7 @@ async function connectionAcknowledgedQuery ({
 
   document.getElementById('toggle-standard-only').checked = standardOnly;
 
-  categoryManager.import(validCategories, validSubcategories, validAlternateSubcategories);
+  categoryManager.import(categories, subcategories, alternateSubcategories);
   categoryManager.loadCategoryModal();
 }
 
