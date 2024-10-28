@@ -62,9 +62,6 @@ const ALTERNATE_SUBCATEGORY_BUTTONS = [
 ];
 
 function CategoryModal ({ categoryManager, disablePercentView = false, onClose = () => {} }) {
-  const [percents, setPercents] = React.useState(CATEGORY_BUTTONS.map(element => 0));
-  const [percentView, setPercentView] = React.useState(false);
-
   React.useEffect(() => {
     categoryManager.loadCategoryModal();
     document.getElementById('category-modal').addEventListener('hidden.bs.modal', onClose);
@@ -74,24 +71,26 @@ function CategoryModal ({ categoryManager, disablePercentView = false, onClose =
     function handleClick () {
       if (categoryManager.categories.length === 0) {
         categoryManager.import(
-          CATEGORY_BUTTONS.map(element => element[0]),
-          SUBCATEGORY_BUTTONS.map(element => element[0]),
-          ALTERNATE_SUBCATEGORY_BUTTONS.map(element => element[0])
+          {
+            categories: CATEGORY_BUTTONS.map(element => element[0]),
+            subcategories: SUBCATEGORY_BUTTONS.map(element => element[0]),
+            alternateSubcategories: ALTERNATE_SUBCATEGORY_BUTTONS.map(element => element[0])
+          }
         );
       } else {
-        categoryManager.import([], [], []);
+        categoryManager.import();
       }
       categoryManager.loadCategoryModal();
     }
     return (
-      <button className='btn btn-primary me-1' onClick={handleClick} disabled={percentView}>Toggle all</button>
+      <button className='btn btn-primary me-1' id='toggle-all' onClick={handleClick}>Toggle all</button>
     );
   }
 
   function TogglePercentView () {
     function handleClick () {
-      categoryManager.percentView = !percentView;
-      setPercentView(!percentView);
+      categoryManager.percentView = !categoryManager.percentView;
+      categoryManager.loadCategoryModal();
     }
     return (
       <button className='btn btn-primary' onClick={handleClick}>% view</button>
@@ -101,27 +100,29 @@ function CategoryModal ({ categoryManager, disablePercentView = false, onClose =
   function PercentButtonRow ({ category, index }) {
     function adjustPercent (amount) {
       // clamp the percent between 0 and 100
-      const percent = Math.min(100, Math.max(0, percents[index] + amount));
-      setPercents([...percents.slice(0, index), percent, ...percents.slice(index + 1)]);
+      const percent = Math.min(100, Math.max(0, categoryManager.categoryPercents[index] + amount));
       categoryManager.categoryPercents[index] = percent;
+      categoryManager.loadCategoryModal();
     }
 
     return (
       <tr>
         <th style={{ width: '50%' }}>{category}</th>
         <td style={{ width: '50%' }}>
-          <span className='font-monospace me-1'>{String(percents[index]).padStart(3, '\u00A0')}%</span>
+          <span className='font-monospace me-1 category-percent'>
+            {/* set by categoryManager.loadCategoryModal */}
+          </span>
           <div class='btn-group btn-group-sm me-1' role='group'>
             <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(-5)}>-</button>
             <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(5)}>+</button>
           </div>
           <div class='btn-group btn-group-sm' role='group'>
             <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(-100)}>Min</button>
-            <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(50 - percents[index])}>50%</button>
+            <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(50 - categoryManager.categoryPercents[index])}>50%</button>
             <button
               type='button'
               className='btn btn-outline-secondary'
-              onClick={() => adjustPercent(100 - percents.reduce((a, b) => a + b))}
+              onClick={() => adjustPercent(100 - categoryManager.categoryPercents.reduce((a, b) => a + b))}
             >
               Max
             </button>
@@ -184,7 +185,7 @@ function CategoryModal ({ categoryManager, disablePercentView = false, onClose =
             <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' />
           </div>
           <div className='modal-body'>
-            <div className={percentView ? 'd-none' : 'row'} id='non-percent-view'>
+            <div className='row' id='non-percent-view'>
               <div className='col-4' id='categories'>
                 <h5 className='text-center'>Category</h5>
                 {CATEGORY_BUTTONS.map((element) => <CategoryButton key={element[0]} category={element[0]} color={element[1]} />)}
@@ -201,7 +202,7 @@ function CategoryModal ({ categoryManager, disablePercentView = false, onClose =
                 {ALTERNATE_SUBCATEGORY_BUTTONS.map((element) => <AlternateSubcategoryButton key={element[0]} subcategory={element[0]} color={element[1]} hidden />)}
               </div>
             </div>
-            <div className={!percentView && 'd-none'} id='percent-view'>
+            <div className='d-none' id='percent-view'>
               <table className='table'>
                 <tbody>
                   {CATEGORY_BUTTONS.map((element, index) => <PercentButtonRow key={element[0]} category={element[0]} index={index} />)}
@@ -209,8 +210,14 @@ function CategoryModal ({ categoryManager, disablePercentView = false, onClose =
                     <th>Total Percent:</th>
                     <td className='font-monospace'>
                       {/* '\u00A0' === &nbsp; */}
-                      <span className='me-1'>{String(percents.reduce((a, b) => a + b, 0)).padStart(3, '\u00A0')}%</span>
-                      <button type='button' className='btn btn-sm btn-outline-secondary' onClick={() => setPercents(percents.map(_ => 0))}>Reset</button>
+                      <span className='me-1'>{String(categoryManager.categoryPercents.reduce((a, b) => a + b, 0)).padStart(3, '\u00A0')}%</span>
+                      <button
+                        type='button'
+                        className='btn btn-sm btn-outline-secondary'
+                        onClick={() => { categoryManager.categoryPercents = categoryManager.categoryPercents.map(() => 0); categoryManager.loadCategoryModal(); }}
+                      >
+                        Reset
+                      </button>
                     </td>
                   </tr>
                 </tbody>

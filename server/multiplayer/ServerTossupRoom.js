@@ -87,7 +87,7 @@ export default class ServerTossupRoom extends TossupRoom {
       settings: this.settings
     }));
 
-    socket.send(JSON.stringify({ type: 'connection-acknowledged-query', ...this.query }));
+    socket.send(JSON.stringify({ type: 'connection-acknowledged-query', ...this.query, ...this.categoryManager.export() }));
     socket.send(JSON.stringify({ type: 'connection-acknowledged-tossup', tossup: this.tossup }));
 
     if (this.questionProgress === this.QuestionProgressEnum.READING) {
@@ -142,9 +142,9 @@ export default class ServerTossupRoom extends TossupRoom {
     super.next(userId, { type });
   }
 
-  setCategories (userId, { categories, subcategories, alternateSubcategories }) {
+  setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
     if (this.isPermanent) { return; }
-    super.setCategories(userId, { categories, subcategories, alternateSubcategories });
+    super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
   async setSetName (userId, { packetNumbers, setName }) {
