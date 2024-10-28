@@ -16,6 +16,7 @@ export default class ClientTossupRoom extends TossupRoom {
     };
     this.settings = {
       ...this.settings,
+      aiMode: false,
       skip: true,
       showHistory: true,
       typeToAnswer: true
@@ -32,6 +33,7 @@ export default class ClientTossupRoom extends TossupRoom {
 
   async message (userId, message) {
     switch (message.type) {
+      case 'toggle-ai-mode': return this.toggleAiMode(userId, message);
       case 'toggle-correct': return this.toggleCorrect(userId, message);
       case 'toggle-show-history': return this.toggleShowHistory(userId, message);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(userId, message);
@@ -64,6 +66,11 @@ export default class ClientTossupRoom extends TossupRoom {
     this.previous.inPower = inPower;
     this.previous.tossup = this.tossup;
     return { celerity, directive, directedPrompt, points };
+  }
+
+  toggleAiMode (userId, { aiMode }) {
+    this.settings.aiMode = aiMode;
+    this.emitMessage({ type: 'toggle-ai-mode', aiMode, userId });
   }
 
   toggleCorrect (userId, { correct }) {

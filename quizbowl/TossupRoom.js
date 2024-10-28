@@ -79,6 +79,7 @@ export default class TossupRoom extends Room {
   }
 
   async message (userId, message) {
+    console.log(message);
     switch (message.type) {
       case 'buzz': return this.buzz(userId, message);
       case 'clear-stats': return this.clearStats(userId, message);
@@ -218,6 +219,7 @@ export default class TossupRoom extends Room {
 
     const { celerity, directive, directedPrompt, points } = await this.scoreTossup({ givenAnswer });
 
+    console.log(directive);
     switch (directive) {
       case 'accept':
         this.buzzedIn = null;

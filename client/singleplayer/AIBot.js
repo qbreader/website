@@ -1,0 +1,56 @@
+import Player from '../../quizbowl/Player.js';
+
+export default class AIBot {
+  constructor (room, name = 'ai-bot') {
+    this.active = true;
+    this.room = room;
+    this.player = new Player(name);
+    this.socket = {
+      send: this.onmessage.bind(this),
+      sendToServer: (message) => room.message(name, message)
+    };
+    room.players[this.player.userId] = this.player;
+    room.sockets[this.player.userId] = this.socket;
+
+    this.tossup = {};
+    this.wordIndex = 0;
+  }
+
+  onmessage (message) {
+    const data = JSON.parse(message);
+    switch (data.type) {
+      case 'start':
+      case 'skip':
+      case 'next': return this.next(data);
+
+      case 'update-question': return this.updateQuestion(data);
+    }
+  }
+
+  sendBuzz ({ correct }) {
+    if (!this.active) { return; }
+    // need to wait 50ms before each action
+    // otherwise the server will not process things correctly
+    setTimeout(
+      () => {
+        this.socket.sendToServer({ type: 'buzz' });
+        setTimeout(
+          () => this.socket.sendToServer({ type: 'give-answer', givenAnswer: correct ? this.tossup.answer_sanitized : '' }),
+          50
+        );
+      }, 50
+    );
+  }
+
+  next ({ packetLength, oldTossup, tossup }) {
+    this.tossup = tossup;
+    this.wordIndex = 0;
+    // calculate when to buzz here
+  }
+
+  updateQuestion ({ word }) {
+    this.wordIndex++;
+    // check if you should buzz here
+    // call this.sendBuzz({ correct: true }) or this.sendBuzz({ correct: false })
+  }
+}

@@ -9,6 +9,8 @@ import { arrayToRange, createTossupCard, rangeToArray } from '../../scripts/util
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
+import upsertPlayerItem from '../../scripts/upsertPlayerItem.js';
+import RightAfterPowerAIBot from '../ai-bots/right-after-power.js';
 
 let maxPacketNumber = 24;
 
@@ -19,6 +21,7 @@ const USER_ID = 'user';
 
 const room = new ClientTossupRoom();
 room.players[USER_ID] = new Player(USER_ID);
+const aiBot = new RightAfterPowerAIBot(room);
 
 const socket = {
   send: onmessage,
@@ -28,6 +31,7 @@ room.sockets[USER_ID] = socket;
 
 function onmessage (message) {
   const data = JSON.parse(message);
+  console.log('client', data);
   switch (data.type) {
     case 'buzz': return buzz(data);
     case 'clear-stats': return clearStats(data);
@@ -47,6 +51,7 @@ function onmessage (message) {
     case 'skip': return next(data);
     case 'start': return next(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
+    case 'toggle-ai-mode': return toggleAiMode(data);
     case 'toggle-correct': return toggleCorrect(data);
     case 'toggle-powermark-only': return togglePowermarkOnly(data);
     case 'toggle-rebuzz': return toggleRebuzz(data);
@@ -61,6 +66,7 @@ function onmessage (message) {
 
 function buzz ({ timer, userId, username }) {
   if (audio.soundEffects) { audio.buzz.play(); }
+  if (userId !== USER_ID) { return; }
 
   const typeToAnswer = document.getElementById('type-to-answer').checked;
   if (typeToAnswer) {
@@ -217,6 +223,16 @@ function setYearRange ({ minYear, maxYear }) {
   window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
+function toggleAiMode ({ aiMode }) {
+  document.getElementById('toggle-ai-mode').checked = aiMode;
+  if (aiMode) {
+    upsertPlayerItem({ userId: 'ai-bot', username: 'ai-bot', online: true });
+  }
+  document.getElementById('player-list-group').classList.toggle('d-none', !aiMode);
+  document.getElementById('player-list-group-hr').classList.toggle('d-none', !aiMode);
+  aiBot.active = aiMode;
+}
+
 function toggleCorrect ({ correct, userId }) {
   updateStatDisplay(room.players[USER_ID]);
   document.getElementById('toggle-correct').textContent = correct ? 'I was wrong' : 'I was right';
@@ -364,6 +380,11 @@ document.getElementById('strictness').addEventListener('change', function () {
 
 document.getElementById('strictness').addEventListener('input', function () {
   document.getElementById('strictness-display').textContent = this.value;
+});
+
+document.getElementById('toggle-ai-mode').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-ai-mode', aiMode: this.checked });
 });
 
 document.getElementById('toggle-correct').addEventListener('click', function () {
