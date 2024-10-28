@@ -8,12 +8,7 @@ export default class CategoryManager {
      */
   constructor (categories = [], subcategories = [], alternateSubcategories = []) {
     // Should sum to 100
-    this.categoryPercents = [];
-    for (let i = 0; i < CATEGORIES.length; i++) {
-      this.categoryPercents.push(0);
-    }
-    this.percentView = false;
-    this.import(categories, subcategories, alternateSubcategories);
+    this.import({ categories, subcategories, alternateSubcategories });
   }
 
   export () {
@@ -26,7 +21,14 @@ export default class CategoryManager {
     };
   }
 
-  import (categories = [], subcategories = [], alternateSubcategories = [], percentView = false, categoryPercents = []) {
+  import ({ categories = [], subcategories = [], alternateSubcategories = [], percentView = false, categoryPercents = undefined } = {}) {
+    if (!categoryPercents) {
+      categoryPercents = [];
+      for (let i = 0; i < CATEGORIES.length; i++) {
+        categoryPercents.push(0);
+      }
+    }
+
     if (categories.length > 0 && subcategories.length === 0) {
       categories.forEach(category => {
         CATEGORY_TO_SUBCATEGORY[category].forEach(subcategory => {
@@ -38,6 +40,8 @@ export default class CategoryManager {
     this.categories = categories;
     this.subcategories = subcategories;
     this.alternateSubcategories = alternateSubcategories;
+    this.percentView = percentView;
+    this.categoryPercents = categoryPercents;
   }
 
   getRandomCategory () {
@@ -45,19 +49,19 @@ export default class CategoryManager {
     if (total === 0) {
       // uniformly return a random category
       return CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
-    } else {
-      let random = Math.random() * total;
-      for (let i = 0; i < this.categoryPercents.length; i++) {
-        random -= this.categoryPercents[i];
-        if (random <= 0) { return CATEGORIES[i]; }
-      }
+    }
+
+    let random = Math.random() * total;
+    for (let i = 0; i < this.categoryPercents.length; i++) {
+      random -= this.categoryPercents[i];
+      if (random <= 0) { return CATEGORIES[i]; }
     }
   }
 
   /**
-     * @param {JSON} question
-     * @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
-     */
+   * @param {JSON} question
+   * @returns {boolean} Whether or not the question is part of the valid category and subcategory combination.
+   */
   isValidCategory (question) {
     if (this.categories.length === 0 && this.subcategories.length === 0) {
       return true;
@@ -67,9 +71,9 @@ export default class CategoryManager {
   }
 
   /**
-     * Updates the category modal to show the given categories and subcategories.
-     * @returns {void}
-     */
+   * Updates the category modal to show the given categories and subcategories.
+   * @returns {void}
+   */
   loadCategoryModal () {
     document.querySelectorAll('#categories input').forEach(element => { element.checked = false; });
     document.querySelectorAll('#subcategories input').forEach(element => { element.checked = false; });
@@ -77,21 +81,18 @@ export default class CategoryManager {
     document.querySelectorAll('#alternate-subcategories input').forEach(element => { element.checked = false; });
     document.querySelectorAll('#alternate-subcategories label').forEach(element => { element.classList.add('d-none'); });
 
-    if (this.categories.length === 0 && this.subcategories.length === 0) {
-      document.getElementById('subcategory-info-text').classList.remove('d-none');
-    } else {
-      document.getElementById('subcategory-info-text').classList.add('d-none');
-    }
+    document.getElementById('subcategory-info-text').classList.toggle('d-none', this.categories.length || this.subcategories.length);
 
     for (const category of this.categories) {
       document.getElementById(category).checked = true;
-      CATEGORY_TO_SUBCATEGORY[category].forEach(subcategory => {
-        document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
-      });
 
-      CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category].forEach(subcategory => {
+      for (const subcategory of CATEGORY_TO_SUBCATEGORY[category]) {
         document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
-      });
+      }
+
+      for (const subcategory of CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category]) {
+        document.querySelector(`[for="${subcategory}"]`).classList.remove('d-none');
+      }
     }
 
     for (const subcategory of this.subcategories) {
@@ -101,14 +102,23 @@ export default class CategoryManager {
     for (const alternateSubcategory of this.alternateSubcategories) {
       document.getElementById(alternateSubcategory).checked = true;
     }
+
+    document.getElementById('non-percent-view').className = this.percentView ? 'd-none' : 'row';
+    document.getElementById('percent-view').className = this.percentView ? '' : 'd-none';
+    document.getElementById('toggle-all').disabled = this.percentView;
+
+    const categoryPercentElements = document.querySelectorAll('.category-percent');
+    for (let i = 0; i < this.categoryPercents.length; i++) {
+      categoryPercentElements.item(i).textContent = String(this.categoryPercents[i]).padStart(3, '\u00A0') + '%';
+    }
   }
 
   /**
-     * Adds the given category if it is not in the list of valid categories.
-     * Otherwise, the category is removed.
-     * @param {string} category
-     * @returns {boolean} true if the category was added, false if the category was removed
-     */
+   * Adds the given category if it is not in the list of valid categories.
+   * Otherwise, the category is removed.
+   * @param {string} category
+   * @returns {boolean} true if the category was added, false if the category was removed
+   */
   updateCategory (category) {
     if (this.categories.includes(category)) {
       this.categories = this.categories.filter(a => a !== category);
@@ -124,10 +134,10 @@ export default class CategoryManager {
   }
 
   /**
-     * Adds the given subcategory if it is not in the list of valid subcategories.
-     * Otherwise, the subcategory is removed.
-     * @param {String} subcategory
-     */
+   * Adds the given subcategory if it is not in the list of valid subcategories.
+   * Otherwise, the subcategory is removed.
+   * @param {String} subcategory
+   */
   updateSubcategory (subcategory) {
     if (this.subcategories.includes(subcategory)) {
       this.subcategories = this.subcategories.filter(a => a !== subcategory);
@@ -139,10 +149,10 @@ export default class CategoryManager {
   }
 
   /**
-     * Adds the given subcategory if it is not in the list of valid subcategories.
-     * Otherwise, the subcategory is removed.
-     * @param {String} alternateSubcategory
-     */
+   * Adds the given subcategory if it is not in the list of valid subcategories.
+   * Otherwise, the subcategory is removed.
+   * @param {String} alternateSubcategory
+   */
   updateAlternateSubcategory (alternateSubcategory) {
     if (this.alternateSubcategories.includes(alternateSubcategory)) {
       this.alternateSubcategories = this.alternateSubcategories.filter(a => a !== alternateSubcategory);
