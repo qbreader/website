@@ -2,15 +2,16 @@ import Player from '../../quizbowl/Player.js';
 
 export default class AIBot {
   constructor (room, name = 'ai-bot') {
-    this.active = true;
     this.room = room;
     this.player = new Player(name);
+    this.player.username = name;
     this.socket = {
       send: this.onmessage.bind(this),
       sendToServer: (message) => room.message(name, message)
     };
-    room.players[this.player.userId] = this.player;
-    room.sockets[this.player.userId] = this.socket;
+    this.active = true;
+    // room.players[this.player.userId] = this.player;
+    // room.sockets[this.player.userId] = this.socket;
 
     this.tossup = {};
     this.wordIndex = 0;
@@ -24,6 +25,20 @@ export default class AIBot {
       case 'next': return this.next(data);
 
       case 'update-question': return this.updateQuestion(data);
+    }
+  }
+
+  get active () {
+    return this._active;
+  }
+
+  set active (value) {
+    this._active = value;
+    if (this._active) {
+      this.room.players[this.player.userId] = this.player;
+      this.room.sockets[this.player.userId] = this.socket;
+    } else {
+      this.room.leave(this.player.userId);
     }
   }
 
@@ -49,7 +64,7 @@ export default class AIBot {
   }
 
   updateQuestion ({ word }) {
-    this.wordIndex++;
+    if (word !== '(#)') { this.wordIndex++; }
     // check if you should buzz here
     // call this.sendBuzz({ correct: true }) or this.sendBuzz({ correct: false })
   }

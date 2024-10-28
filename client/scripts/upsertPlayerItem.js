@@ -1,7 +1,13 @@
 import { escapeHTML } from './utilities/strings.js';
 
+/**
+ * Upserts a player item to the DOM element with the id `player-list-group`.
+ * @param {Player} player
+ * @param {string} USER_ID - The item is highlighted blue if `USER_ID === player.userId`.
+ */
 export default function upsertPlayerItem (player, USER_ID) {
-  const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, celerity = 0, online } = player;
+  const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
+  const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
 
   if (document.getElementById('list-group-' + userId)) {
     document.getElementById('list-group-' + userId).remove();

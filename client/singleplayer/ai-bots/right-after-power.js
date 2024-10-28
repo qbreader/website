@@ -8,8 +8,8 @@ export default class RightAfterPowerAIBot extends AIBot {
 
   next ({ packetLength, oldTossup, tossup }) {
     super.next({ packetLength, oldTossup, tossup });
-    this.buzzpoint = this.tossup.question_sanitized.split(' ').indexOf('(*)');
-    if (this.buzzpoint === -1) {
+    this.buzzpoint = this.tossup.question_sanitized.split(' ').indexOf('(*)') + 1;
+    if (this.buzzpoint === 0) {
       this.buzzpoint = this.tossup.question_sanitized.split(' ').length / 2;
       this.buzzpoint = Math.floor(this.buzzpoint);
     }
@@ -18,7 +18,7 @@ export default class RightAfterPowerAIBot extends AIBot {
   updateQuestion ({ word }) {
     super.updateQuestion({ word });
     if (this.wordIndex === this.buzzpoint) {
-      this.sendBuzz({ correct: true });
+      return this.sendBuzz({ correct: true });
     }
   }
 }
