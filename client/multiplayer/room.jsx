@@ -11,6 +11,7 @@ import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js'
 
 const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
+let startingDifficulties = [];
 
 let maxPacketNumber = 24;
 
@@ -232,10 +233,11 @@ async function connectionAcknowledgedQuery ({
   standardOnly,
   alternateSubcategories,
   categories,
-  subcategories
+  subcategories,
+  percentView,
+  categoryPercents
 }) {
   setDifficulties({ difficulties });
-
   $('#slider').slider('values', 0, minYear);
   $('#slider').slider('values', 1, maxYear);
   document.getElementById('year-range-a').textContent = minYear;
@@ -259,7 +261,7 @@ async function connectionAcknowledgedQuery ({
 
   document.getElementById('toggle-standard-only').checked = standardOnly;
 
-  categoryManager.import(categories, subcategories, alternateSubcategories);
+  categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   categoryManager.loadCategoryModal();
 }
 
@@ -543,14 +545,19 @@ function sortPlayerListGroup (descending = true) {
   });
 }
 
-function setCategories ({ alternateSubcategories, categories, subcategories, username }) {
+function setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {
   logEvent(username, 'updated the categories');
-  categoryManager.import(categories, subcategories, alternateSubcategories);
+  categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   categoryManager.loadCategoryModal();
 }
 
 function setDifficulties ({ difficulties, username = undefined }) {
   if (username) { logEvent(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties'); }
+
+  if (!document.getElementById('difficulties')) {
+    startingDifficulties = difficulties;
+    return;
+  }
 
   Array.from(document.getElementById('difficulties').children).forEach(li => {
     const input = li.querySelector('input');
@@ -997,7 +1004,6 @@ document.getElementById('username').value = username;
 ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
   <CategoryModal
     categoryManager={categoryManager}
-    disablePercentView
     onClose={() => {
       if (oldCategories !== JSON.stringify(categoryManager.export())) {
         socket.send(JSON.stringify({ type: 'set-categories', ...categoryManager.export() }));
@@ -1009,6 +1015,7 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
 
 ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
   <DifficultyDropdown
+    startingDifficulties={startingDifficulties}
     onChange={() => socket.send(JSON.stringify({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') }))}
   />
 );

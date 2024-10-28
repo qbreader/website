@@ -173,8 +173,8 @@ function revealAnswer ({ answer, question }) {
   document.getElementById('toggle-correct').textContent = room.previous.isCorrect ? 'I was wrong' : 'I was right';
 }
 
-function setCategories ({ alternateSubcategories, categories, subcategories }) {
-  categoryManager.import(categories, subcategories, alternateSubcategories);
+function setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents }) {
+  categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   categoryManager.loadCategoryModal();
   window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
@@ -455,8 +455,9 @@ let startingDifficulties = [];
 if (window.localStorage.getItem('singleplayer-tossup-query')) {
   try {
     const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
-    if (savedQuery.version !== queryVersion) { throw new Error(); }
-    categoryManager.import(savedQuery.categories, savedQuery.subcategories, savedQuery.alternateSubcategories);
+    // if (savedQuery.version !== queryVersion) { throw new Error(); }
+    categoryManager.import(savedQuery);
+    room.categoryManager.import(savedQuery);
     room.query = savedQuery;
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
     socket.sendToServer({ type: 'set-set-name', ...savedQuery });

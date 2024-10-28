@@ -50,6 +50,8 @@ export default class TossupRoom extends Room {
     this.randomQuestionCache = [];
     this.setCache = [];
 
+    this.categoryManager = new CategoryManager(categories, subcategories, alternateSubcategories);
+
     this.query = {
       difficulties: [4, 5],
       minYear: DEFAULT_MIN_YEAR,
@@ -59,6 +61,8 @@ export default class TossupRoom extends Room {
       alternateSubcategories,
       categories,
       subcategories,
+      percentView: false,
+      categoryPercents: CATEGORIES.map(() => 0),
       reverse: true, // used for `database.getSet`
       powermarkOnly: false,
       selectBySetName: false,
@@ -118,6 +122,8 @@ export default class TossupRoom extends Room {
     if (this.query.selectBySetName) {
       this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [this.query.packetNumbers[0]] });
       this.packetLength = this.setCache.length;
+    } else if (this.categoryManager.percentView) {
+      this.randomQuestionCache = [];
     } else {
       this.randomQuestionCache = await this.getRandomTossups({ ...this.query, number: 1 });
     }
@@ -127,7 +133,6 @@ export default class TossupRoom extends Room {
     this.queryingQuestion = true;
 
     if (this.query.selectBySetName) {
-      const categoryManager = new CategoryManager(this.query.categories, this.query.subcategories, this.query.alternateSubcategories);
       do {
         if (this.setCache.length === 0) {
           const packetNumber = this.query.packetNumbers.shift();
@@ -141,15 +146,19 @@ export default class TossupRoom extends Room {
 
         this.tossup = this.setCache.shift();
         this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packet.number);
-      } while (!categoryManager.isValidCategory(this.tossup));
+      } while (!this.categoryManager.isValidCategory(this.tossup));
     } else {
-      if (this.randomQuestionCache.length === 0) {
+      if (this.categoryManager.percentView) {
+        const randomCategory = this.categoryManager.getRandomCategory();
+        this.randomQuestionCache = await this.getRandomTossups({ ...this.query, number: 1, categories: [randomCategory], subcategories: [], alternateSubcategories: [] });
+      } else if (this.randomQuestionCache.length === 0) {
         this.randomQuestionCache = await this.getRandomTossups({ ...this.query, number: 20 });
-        if (this.randomQuestionCache?.length === 0) {
-          this.tossup = {};
-          this.emitMessage({ type: 'no-questions-found' });
-          return false;
-        }
+      }
+
+      if (this.randomQuestionCache?.length === 0) {
+        this.tossup = {};
+        this.emitMessage({ type: 'no-questions-found' });
+        return false;
       }
       this.tossup = this.randomQuestionCache.pop();
     }
@@ -449,10 +458,11 @@ export default class TossupRoom extends Room {
     this.emitMessage({ type: 'toggle-timer', timer, username });
   }
 
-  setCategories (userId, { categories, subcategories, alternateSubcategories }) {
+  setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
     if (!Array.isArray(categories)) { return; }
     if (!Array.isArray(subcategories)) { return; }
     if (!Array.isArray(alternateSubcategories)) { return; }
+    if (categoryPercents?.length !== CATEGORIES.length) { return; }
 
     categories = categories.filter(category => CATEGORIES.includes(category));
     subcategories = subcategories.filter(subcategory => SUBCATEGORIES.includes(subcategory));
@@ -461,9 +471,14 @@ export default class TossupRoom extends Room {
     if (subcategories.some(sub => !categories.includes(SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
     if (alternateSubcategories.some(sub => !categories.includes(ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
 
+    this.categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
+
     const username = this.players[userId].username;
-    this.adjustQuery(['categories', 'subcategories', 'alternateSubcategories'], [categories, subcategories, alternateSubcategories]);
-    this.emitMessage({ type: 'set-categories', categories, subcategories, alternateSubcategories, username });
+    this.adjustQuery(
+      ['categories', 'subcategories', 'alternateSubcategories', 'percentView', 'categoryPercents'],
+      [categories, subcategories, alternateSubcategories, percentView, categoryPercents]
+    );
+    this.emitMessage({ type: 'set-categories', ...this.categoryManager.export(), username });
   }
 
   setYearRange (userId, { minYear, maxYear }) {
