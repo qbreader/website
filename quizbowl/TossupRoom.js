@@ -145,6 +145,10 @@ export default class TossupRoom extends Room {
         }
 
         this.tossup = this.setCache.shift();
+        if (!this.tossup?.packet?.number) {
+          this.emitMessage({ type: 'no-questions-found' });
+          return false;
+        }
         this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packet.number);
       } while (!this.categoryManager.isValidCategory(this.tossup));
     } else {
