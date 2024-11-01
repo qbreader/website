@@ -10,7 +10,8 @@ import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
 import upsertPlayerItem from '../../scripts/upsertPlayerItem.js';
-import RightAfterPowerAIBot from '../ai-bots/right-after-power.js';
+import aiBots from '../ai-bots.js';
+import AIBot from '../AIBot.js';
 
 let maxPacketNumber = 24;
 
@@ -21,7 +22,8 @@ const USER_ID = 'user';
 
 const room = new ClientTossupRoom();
 room.players[USER_ID] = new Player(USER_ID);
-const aiBot = new RightAfterPowerAIBot(room);
+const aiBot = new AIBot(room);
+aiBot.setAIBot(aiBots['right-after-power']);
 
 const socket = {
   send: onmessage,

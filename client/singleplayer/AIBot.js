@@ -10,8 +10,6 @@ export default class AIBot {
       sendToServer: (message) => room.message(name, message)
     };
     this.active = true;
-    // room.players[this.player.userId] = this.player;
-    // room.sockets[this.player.userId] = this.socket;
 
     this.tossup = {};
     this.wordIndex = 0;
@@ -57,15 +55,32 @@ export default class AIBot {
     );
   }
 
+  /**
+   * Calculate when to buzz
+   * @returns {{buzzpoint: number, correctBuzz: boolean}}
+   */
+  calculateBuzzpoint ({ packetLength, oldTossup, tossup }) {
+    throw new Error('calculateBuzzpoint not implemented');
+  }
+
   next ({ packetLength, oldTossup, tossup }) {
     this.tossup = tossup;
     this.wordIndex = 0;
-    // calculate when to buzz here
+    ({ buzzpoint: this.buzzpoint, correctBuzz: this.correctBuzz } = this.calculateBuzzpoint({ packetLength, oldTossup, tossup }));
+  }
+
+  /**
+   *
+   * @param {({ packetLength, oldTossup, tossup }) => {buzzpoint: number, correctBuzz: boolean}} calculateBuzzpointFunction
+   */
+  setAIBot (calculateBuzzpointFunction) {
+    this.calculateBuzzpoint = calculateBuzzpointFunction;
   }
 
   updateQuestion ({ word }) {
     if (word !== '(#)') { this.wordIndex++; }
-    // check if you should buzz here
-    // call this.sendBuzz({ correct: true }) or this.sendBuzz({ correct: false })
+    if (this.wordIndex === this.buzzpoint) {
+      return this.sendBuzz({ correct: this.correctBuzz });
+    }
   }
 }
