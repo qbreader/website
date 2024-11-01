@@ -5,17 +5,9 @@ export default class ClientTossupRoom extends TossupRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
 
-    this.previous = {
-      celerity: 0,
-      endOfQuestion: false,
-      isCorrect: true,
-      inPower: false,
-      negValue: -5,
-      powerValue: 15,
-      tossup: {}
-    };
     this.settings = {
       ...this.settings,
+      aiMode: false,
       skip: true,
       showHistory: true,
       typeToAnswer: true
@@ -32,6 +24,7 @@ export default class ClientTossupRoom extends TossupRoom {
 
   async message (userId, message) {
     switch (message.type) {
+      case 'toggle-ai-mode': return this.toggleAiMode(userId, message);
       case 'toggle-correct': return this.toggleCorrect(userId, message);
       case 'toggle-show-history': return this.toggleShowHistory(userId, message);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(userId, message);
@@ -56,17 +49,14 @@ export default class ClientTossupRoom extends TossupRoom {
     document.getElementById('answer-input').value = value;
   }
 
-  async scoreTossup ({ givenAnswer }) {
-    const { celerity, directive, directedPrompt, endOfQuestion, inPower, points } = await super.scoreTossup({ givenAnswer });
-    this.previous.celerity = celerity;
-    this.previous.endOfQuestion = endOfQuestion;
-    this.previous.isCorrect = points > 0;
-    this.previous.inPower = inPower;
-    this.previous.tossup = this.tossup;
-    return { celerity, directive, directedPrompt, points };
+  toggleAiMode (userId, { aiMode }) {
+    this.settings.aiMode = aiMode;
+    this.emitMessage({ type: 'toggle-ai-mode', aiMode, userId });
   }
 
   toggleCorrect (userId, { correct }) {
+    if (userId !== this.previous.userId) { return; }
+
     const multiplier = correct ? 1 : -1;
 
     if (this.previous.inPower) {

@@ -9,6 +9,9 @@ import { arrayToRange, createTossupCard, rangeToArray } from '../../scripts/util
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
+import upsertPlayerItem from '../../scripts/upsertPlayerItem.js';
+import aiBots from '../ai-mode/ai-bots.js';
+import AIBot from '../ai-mode/AIBot.js';
 
 let maxPacketNumber = 24;
 
@@ -19,6 +22,8 @@ const USER_ID = 'user';
 
 const room = new ClientTossupRoom();
 room.players[USER_ID] = new Player(USER_ID);
+const aiBot = new AIBot(room);
+aiBot.setAIBot(aiBots['right-after-power'][0]);
 
 const socket = {
   send: onmessage,
@@ -47,6 +52,7 @@ function onmessage (message) {
     case 'skip': return next(data);
     case 'start': return next(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
+    case 'toggle-ai-mode': return toggleAiMode(data);
     case 'toggle-correct': return toggleCorrect(data);
     case 'toggle-powermark-only': return togglePowermarkOnly(data);
     case 'toggle-rebuzz': return toggleRebuzz(data);
@@ -61,6 +67,7 @@ function onmessage (message) {
 
 function buzz ({ timer, userId, username }) {
   if (audio.soundEffects) { audio.buzz.play(); }
+  if (userId !== USER_ID) { return; }
 
   const typeToAnswer = document.getElementById('type-to-answer').checked;
   if (typeToAnswer) {
@@ -89,6 +96,12 @@ async function giveAnswer ({ directive, directedPrompt, perQuestionCelerity, sco
     return;
   }
 
+  if (userId === USER_ID) {
+    updateStatDisplay(room.players[USER_ID]);
+  } else if (aiBot.active) {
+    upsertPlayerItem(aiBot.player);
+  }
+
   document.getElementById('answer-input').value = '';
   document.getElementById('answer-input').blur();
   document.getElementById('answer-input').placeholder = 'Enter answer';
@@ -100,8 +113,6 @@ async function giveAnswer ({ directive, directedPrompt, perQuestionCelerity, sco
     document.getElementById('buzz').textContent = 'Buzz';
   }
 
-  updateStatDisplay(room.players[USER_ID]);
-
   if (audio.soundEffects && userId === USER_ID) {
     if (directive === 'accept' && score > 10) {
       audio.power.play();
@@ -111,10 +122,6 @@ async function giveAnswer ({ directive, directedPrompt, perQuestionCelerity, sco
       audio.incorrect.play();
     }
   }
-
-  // if (directive !== 'prompt' && userId === USER_ID && await account.getUsername()) {
-  //   questionStats.recordTossup(tossup, score > 0, score, perQuestionCelerity, true);
-  // }
 }
 
 async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
@@ -217,6 +224,17 @@ function setYearRange ({ minYear, maxYear }) {
   window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
+function toggleAiMode ({ aiMode }) {
+  if (aiMode) { upsertPlayerItem(aiBot.player); }
+
+  aiBot.active = aiMode;
+  document.getElementById('ai-settings').disabled = !aiMode;
+  document.getElementById('toggle-ai-mode').checked = aiMode;
+  document.getElementById('player-list-group').classList.toggle('d-none', !aiMode);
+  document.getElementById('player-list-group-hr').classList.toggle('d-none', !aiMode);
+  window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
+}
+
 function toggleCorrect ({ correct, userId }) {
   updateStatDisplay(room.players[USER_ID]);
   document.getElementById('toggle-correct').textContent = correct ? 'I was wrong' : 'I was right';
@@ -299,6 +317,12 @@ document.getElementById('buzz').addEventListener('click', function () {
   socket.sendToServer({ type: 'buzz' });
 });
 
+document.getElementById('choose-ai').addEventListener('change', function () {
+  const prefix = 'ai-choice-';
+  const choice = this.querySelector('input:checked').id.slice(prefix.length);
+  aiBot.setAIBot(aiBots[choice][0]);
+});
+
 document.getElementById('clear-stats').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'clear-stats' });
@@ -364,6 +388,11 @@ document.getElementById('strictness').addEventListener('change', function () {
 
 document.getElementById('strictness').addEventListener('input', function () {
   document.getElementById('strictness-display').textContent = this.value;
+});
+
+document.getElementById('toggle-ai-mode').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-ai-mode', aiMode: this.checked });
 });
 
 document.getElementById('toggle-correct').addEventListener('click', function () {
@@ -472,18 +501,15 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
 }
 
 if (window.localStorage.getItem('singleplayer-tossup-settings')) {
-  try {
-    const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'));
-    if (savedSettings.version !== settingsVersion) { throw new Error(); }
-    socket.sendToServer({ type: 'set-strictness', ...savedSettings });
-    socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
-    socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
-    socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
-    socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
-    socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
-  } catch {
-    window.localStorage.removeItem('singleplayer-tossup-settings');
-  }
+  const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'));
+  if (savedSettings.version !== settingsVersion) { throw new Error(); }
+  socket.sendToServer({ type: 'set-strictness', ...savedSettings });
+  socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
+  socket.sendToServer({ type: 'toggle-ai-mode', ...savedSettings });
+  socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
+  socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
+  socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
+  socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
 }
 
 ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
