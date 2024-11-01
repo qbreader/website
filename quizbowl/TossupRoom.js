@@ -4,15 +4,6 @@ import CategoryManager from './category-manager.js';
 import insertTokensIntoHTML from './insert-tokens-into-html.js';
 import Room from './Room.js';
 
-/**
- * @returns {Number} The number of points scored on a tossup.
- */
-function scoreTossup ({ isCorrect, inPower, endOfQuestion, isPace = false }) {
-  const powerValue = isPace ? 20 : 15;
-  const negValue = isPace ? 0 : -5;
-  return isCorrect ? (inPower ? powerValue : 10) : (endOfQuestion ? 0 : negValue);
-}
-
 export default class TossupRoom extends Room {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name);
@@ -75,6 +66,17 @@ export default class TossupRoom extends Room {
       readingSpeed: 50,
       skip: false,
       timer: true
+    };
+
+    this.previous = {
+      celerity: 0,
+      endOfQuestion: false,
+      isCorrect: true,
+      inPower: false,
+      negValue: -5,
+      powerValue: 15,
+      tossup: {},
+      userId: null
     };
   }
 
@@ -330,7 +332,19 @@ export default class TossupRoom extends Room {
     const endOfQuestion = (this.wordIndex === this.questionSplit.length);
     const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
     const { directive, directedPrompt } = await this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
-    const points = scoreTossup({ isCorrect: directive === 'accept', inPower, endOfQuestion });
+    const isCorrect = directive === 'accept';
+    const points = isCorrect ? (inPower ? this.previous.powerValue : 10) : (endOfQuestion ? 0 : this.previous.negValue);
+
+    this.previous = {
+      ...this.previous,
+      celerity,
+      endOfQuestion,
+      inPower,
+      isCorrect,
+      tossup: this.tossup,
+      userId: this.buzzedIn
+    };
+
     return { celerity, directive, directedPrompt, endOfQuestion, inPower, points };
   }
 

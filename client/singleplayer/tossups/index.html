@@ -19,6 +19,11 @@
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link id="custom-css" href="/bootstrap/dark.css" rel="stylesheet">
     <script type="module" src="/scripts/apply-theme.js"></script>
+    <style type="text/css">
+        .custom-popover {
+            width: 250px;
+        }
+    </style>
 </head>
 
 <body>
@@ -92,6 +97,9 @@
                     <span class="face">0</span><span class="fraction">.0</span>
                 </div>
                 <hr>
+                <ul class="list-group d-none" id="player-list-group">
+                </ul>
+                <hr class="d-none" id="player-list-group-hr">
                 <div class="d-none" id="set-settings">
                     <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
                     <datalist id="set-list"></datalist>
@@ -107,9 +115,15 @@
                 </div>
                 <div class="mt-2" id="general-settings">
                     <div class="text-center mb-2">
+                        <button class="btn btn-info" id="ai-settings" data-bs-target="#ai-settings-modal" data-bs-toggle="modal"
+                            type="button">AI</button>
                         <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal"
                             data-bs-toggle="modal" type="button">Categories</button>
                         <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-ai-mode" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-ai-mode">Enable AI mode</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
@@ -214,7 +228,25 @@
 
     <div id="category-modal-root"></div>
 
-    <div class="modal" id="report-question-modal" tabindex="-2">
+    <div class="modal" id="ai-settings-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">AI Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Choose an AI:</p>
+                    <form id="choose-ai"></form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="report-question-modal" tabindex="-3">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
