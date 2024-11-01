@@ -1,4 +1,3 @@
-import account from '../scripts/accounts.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
@@ -332,7 +331,7 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
     sortPlayerListGroup();
   }
 
-  if (directive !== 'prompt' && userId === USER_ID && await account.getUsername()) {
+  if (directive !== 'prompt' && userId === USER_ID) {
     questionStats.recordTossup(tossup, score > 0, score, perQuestionCelerity, true);
   }
 

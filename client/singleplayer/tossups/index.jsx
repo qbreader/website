@@ -1,4 +1,3 @@
-import account from '../../scripts/accounts.js';
 import api from '../../scripts/api/index.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import audio from '../../audio/index.js';
@@ -150,7 +149,7 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
   document.getElementById('question-number-info').textContent = nextTossup.number;
   document.getElementById('set-name-info').textContent = nextTossup.set.name;
 
-  if (type === 'next' && await account.getUsername()) {
+  if (type === 'next' && room.previous.userId === USER_ID) {
     const pointValue = room.previous.isCorrect ? (room.previous.inPower ? room.previous.powerValue : 10) : (room.previous.endOfQuestion ? 0 : room.previous.negValue);
     questionStats.recordTossup(room.previous.tossup, room.previous.isCorrect, pointValue, room.previous.celerity, false);
   }
