@@ -1,7 +1,11 @@
 import account from '../accounts.js';
 
 export default class questionStats {
-  static recordBonus (bonus, pointsPerPart) {
+  static async recordBonus (bonus, pointsPerPart) {
+    if (!(await account.getUsername())) {
+      return;
+    }
+
     fetch('/auth/question-stats/record-bonus', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -14,7 +18,11 @@ export default class questionStats {
     });
   }
 
-  static recordTossup (tossup, isCorrect, pointValue, celerity, multiplayer) {
+  static async recordTossup (tossup, isCorrect, pointValue, celerity, multiplayer) {
+    if (!(await account.getUsername())) {
+      return;
+    }
+
     fetch('/auth/question-stats/record-tossup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
