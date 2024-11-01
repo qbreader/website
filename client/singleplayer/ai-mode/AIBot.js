@@ -1,4 +1,4 @@
-import Player from '../../quizbowl/Player.js';
+import Player from '../../../quizbowl/Player.js';
 
 export default class AIBot {
   constructor (room, name = 'ai-bot') {
@@ -49,7 +49,7 @@ export default class AIBot {
         this.socket.sendToServer({ type: 'buzz' });
         setTimeout(
           () => this.socket.sendToServer({ type: 'give-answer', givenAnswer: correct ? this.tossup.answer_sanitized : '' }),
-          50
+          1000
         );
       }, 50
     );

@@ -10,8 +10,8 @@ import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
 import upsertPlayerItem from '../../scripts/upsertPlayerItem.js';
-import aiBots from '../ai-bots.js';
-import AIBot from '../AIBot.js';
+import aiBots from '../ai-mode/ai-bots.js';
+import AIBot from '../ai-mode/AIBot.js';
 
 let maxPacketNumber = 24;
 
@@ -23,7 +23,7 @@ const USER_ID = 'user';
 const room = new ClientTossupRoom();
 room.players[USER_ID] = new Player(USER_ID);
 const aiBot = new AIBot(room);
-aiBot.setAIBot(aiBots['right-after-power']);
+aiBot.setAIBot(aiBots['right-after-power'][0]);
 
 const socket = {
   send: onmessage,
@@ -228,6 +228,7 @@ function toggleAiMode ({ aiMode }) {
   if (aiMode) { upsertPlayerItem(aiBot.player); }
 
   aiBot.active = aiMode;
+  document.getElementById('ai-settings').disabled = !aiMode;
   document.getElementById('toggle-ai-mode').checked = aiMode;
   document.getElementById('player-list-group').classList.toggle('d-none', !aiMode);
   document.getElementById('player-list-group-hr').classList.toggle('d-none', !aiMode);
@@ -314,6 +315,12 @@ document.getElementById('buzz').addEventListener('click', function () {
   this.blur();
   if (audio.soundEffects) audio.buzz.play();
   socket.sendToServer({ type: 'buzz' });
+});
+
+document.getElementById('choose-ai').addEventListener('change', function () {
+  const prefix = 'ai-choice-';
+  const choice = this.querySelector('input:checked').id.slice(prefix.length);
+  aiBot.setAIBot(aiBots[choice][0]);
 });
 
 document.getElementById('clear-stats').addEventListener('click', function () {
