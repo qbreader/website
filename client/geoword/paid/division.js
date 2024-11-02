@@ -1,6 +1,7 @@
-import { titleCase } from '../scripts/utilities/strings.js';
+import { titleCase } from '../../scripts/utilities/strings.js';
 
-const packetName = window.location.pathname.split('/').pop();
+const search = new URLSearchParams(window.location.search);
+const packetName = search.get('packetName');
 const packetTitle = titleCase(packetName);
 
 document.getElementById('packet-name').textContent = packetTitle;
@@ -31,7 +32,7 @@ document.getElementById('form').addEventListener('submit', event => {
     body: JSON.stringify({ division, packetName })
   }).then(response => {
     if (response.ok) {
-      window.location.href = '/geoword/game/' + packetName;
+      window.location.href = `/geoword/paid/game?packetName=${packetName}`;
     } else {
       window.alert('Something went wrong. Please try again.');
     }

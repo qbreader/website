@@ -5,7 +5,6 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Select a geoword division.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -65,23 +64,14 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p>
-            Compare your stats on <b id="packet-name"></b> (<span id="division"></span>) against another player.
-        </p>
-        <form class="mb-3" id="form">
-            <div class="mb-3">
-                <label for="opponent" class="form-label">Enter a username here:</label>
-                <input type="text" class="form-control" id="opponent">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <div id="root"></div>
+        <p class="text-center lead"><span id="packet-name"></span> Tossups:</p>
+        <div id="packet"></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/geoword/compare.js"></script>
+    <script type="module" src="/geoword/paid/packet.js"></script>
 </body>
 
 </html>

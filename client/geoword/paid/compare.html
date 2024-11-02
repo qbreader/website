@@ -66,30 +66,22 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <p>
-            Choose your division for packet <b id="packet-name"></b>.
-            <i>You cannot change your division once you have submitted a response.</i>
+            Compare your stats on <b id="packet-name"></b> (<span id="division"></span>) against another player.
         </p>
-        <div>
-            <p>
-                "Division 1" corresponds to <a href="https://www.naqt.com/college/division-i.html">ICT D1</a>,
-                and "Division 2" corresponds to <a href="https://www.naqt.com/college/division-ii.html">ICT D2</a>.
-                <i>Some packets, such as the samples, may have only 1 division.</i>
-            </p>
-            <form id="form">
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <select class="form-select" id="division"></select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-            </form>
-        </div>
+        <form class="mb-3" id="form">
+            <div class="mb-3">
+                <label for="opponent" class="form-label">Enter a username here:</label>
+                <input type="text" class="form-control" id="opponent">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div id="root"></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/geoword/division.js"></script>
+    <script type="module" src="/geoword/paid/compare.js"></script>
 </body>
 
 </html>

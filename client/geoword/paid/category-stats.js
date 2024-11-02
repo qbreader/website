@@ -1,6 +1,7 @@
-import { escapeHTML, titleCase } from '../../../../../../../scripts/utilities/index.js';
+import { escapeHTML, titleCase } from '../../scripts/utilities/strings.js';
 
-const packetName = window.location.pathname.split('/').pop();
+const search = new URLSearchParams(window.location.search);
+const packetName = search.get('packetName');
 const packetTitle = titleCase(packetName);
 
 document.getElementById('packet-name').textContent = packetTitle;

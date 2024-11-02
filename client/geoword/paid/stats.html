@@ -65,37 +65,30 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">Category Stats for <span id="packet-name"></span>:</p>
+        <p class="text-center lead">Stats for <span id="packet-name"></span>:</p>
         <p class="d-flex justify-content-between">
             <span id="statline"></span>
             <span><b>Division:</b> <span id="division"></span></span>
         </p>
-        <form class="mb-3" id="form">
-            <div class="mb-3">
-                <label class="form-label" for="category">Choose a category:</label>
-                <select class="form-select" id="category"></select>
-            </div>
-        </form>
-        <table class="table table-hover" id="leaderboard">
-            <thead>
-                <tr>
-                    <th scope="col" onclick="sortTable(0, true, 'leaderboard')">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col" onclick="sortTable(2, true, 'leaderboard')">Celerity</th>
-                    <th scope="col" onclick="sortTable(3, true, 'leaderboard')">Correct</th>
-                    <th scope="col" onclick="sortTable(4, true, 'leaderboard')">Points</th>
-                    <th scope="col" onclick="sortTable(5, true, 'leaderboard')">PPTU</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider" id="leaderboard-body"></tbody>
-            <tfoot class="table-group-divider" id="leaderboard-foot"></tfoot>
-        </table>
+        <p>
+            View the <a id="category-stats-link">category stats for this packet here</a>.
+        </p>
+        <p>
+            View the leaderboard for this packet: <span id="leaderboard-links"></span>
+        </p>
+        <p>
+            View the tossups from this packet: <span id="packet-links"></span>
+        </p>
+        <p>
+            Compare your stats against another player <a id="compare-link">by clicking here</a>.
+        </p>
+        <div id="stats"></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/geoword/category-stats.js"></script>
+    <script type="module" src="/geoword/paid/stats.js"></script>
 </body>
 
 </html>

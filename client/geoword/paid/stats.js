@@ -1,10 +1,11 @@
-import { escapeHTML, titleCase } from '../scripts/utilities/strings.js';
+import { escapeHTML, titleCase } from '../../scripts/utilities/strings.js';
 
-const packetName = window.location.pathname.split('/').pop();
+const search = new URLSearchParams(window.location.search);
+const packetName = search.get('packetName');
 const packetTitle = titleCase(packetName);
 
-document.getElementById('compare-link').href = `/geoword/compare/${packetName}`;
-document.getElementById('category-stats-link').href = `/geoword/category-stats/${packetName}`;
+document.getElementById('compare-link').href = `/geoword/paid/compare?packetName=${packetName}`;
+document.getElementById('category-stats-link').href = `/geoword/paid/category-stats?packetName=${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
 
 fetch('/api/geoword/stats?' + new URLSearchParams({ packetName }))
@@ -64,11 +65,11 @@ fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
     for (const index in divisions) {
       const division = divisions[index];
       const a1 = document.createElement('a');
-      a1.href = `/geoword/leaderboard/${packetName}?${encodeURIComponent(division)}`;
+      a1.href = `/geoword/paid/leaderboard?packetName=${packetName}&division=${encodeURIComponent(division)}`;
       a1.textContent = division;
 
       const a2 = document.createElement('a');
-      a2.href = `/geoword/packet/${packetName}?${encodeURIComponent(division)}`;
+      a2.href = `/geoword/paid/packet?packetName=${packetName}&division=${encodeURIComponent(division)}`;
       a2.textContent = division;
 
       if (index > 0) {
