@@ -34,7 +34,7 @@ fetch('/api/geoword/packet-list')
         }
 
         const a = document.createElement('a');
-        a.href = `/geoword/packet/${name}?${encodeURIComponent(division)}`;
+        a.href = `/geoword/paid/packet?packetName=${name}&division=${encodeURIComponent(division)}`;
         a.textContent = 'Packet';
 
         li.appendChild(a);

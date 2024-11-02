@@ -5,7 +5,6 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Play geoword on qbreader.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -65,61 +64,30 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <div class="buttons position-sticky top-0 pt-2">
-            <button class="mb-2 btn btn-success" id="start" type="button">Start</button>
-            <button class="mb-2 btn btn-primary" id="next" type="button" disabled>Next</button>
-            <button class="mb-2 btn btn-primary float-end" id="buzz" type="button" disabled>Buzz</button>
-            <form id="answer-form">
-                <!-- User enters answer here -->
-                <div class="input-group d-none my-2" id="answer-input-group">
-                    <input class="form-control" id="answer-input" type="text" placeholder="Enter answer">
-                    <button class="btn btn-success" id="answer-submit" type="submit">Submit</button>
-                </div>
-            </form>
-        </div>
-        <p class="d-flex justify-content-between">
-            <span class id="statline">0.00 points per question (0 points / 0 TUH), celerity: 0.000</span>
-            <b id="packet-name"></b>
+        <p class="text-center lead">Leaderboard for <span id="packet-name"></span>:</p>
+        <p>
+            <b>Division:</b> <span id="division"></span>
         </p>
-        <div id="start-content">
-            <p>
-                <!-- Choose which week you would like to play, and press start at the top when you're ready. -->
-                Welcome to geoword!
-                This packet has <b id="packet-length">20</b> questions.
-                Press start at the top when you're ready.
-                If you leave in the middle of the packet, you can resume where you left off.
-                You can check your audio by playing this sample:
-            </p>
-            <p class="text-center">
-                <button class="btn btn-primary" id="play-sample">Test</button>
-            </p>
-            <p id="progress-info"></p>
-        </div>
-        <div class="d-none" id="question-info">
-            <div><b>Status:</b> <span id="current-status"></span></div>
-            <div><b>Question #</b><span id="current-question-number"></span></div>
-            <div><b>Answer:</b> <span id="current-actual-answer"></span></div>
-            <div><b>Given answer:</b> <span id="current-given-answer"></span></div>
-            <div><b>Celerity:</b> <span id="current-celerity"></span></div>
-            <p><b>Points:</b> <span id="current-points"></span></p>
-            <p class="d-none" id="protest-text">
-                Click this button if you believe you were correct: <a href="#" id="record-protest">I was right</a>
-            </p>
-            <div class="alert alert-success d-none" id="record-protest-confirmation">
-                Your protest has been recorded.
-                A moderator will review it shortly.
-            </div>
-        </div>
-        <div class="d-none" id="end-content">
-            Thank you for playing this packet of geoword.
-            You can check out <a href="/geoword/stats" id="geoword-stats">stats here</a>.
-        </div>
+        <table class="table table-hover" id="leaderboard">
+            <thead>
+                <tr>
+                    <th scope="col" onclick="sortTable(0, true, 'leaderboard')">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col" onclick="sortTable(2, true, 'leaderboard')">Celerity</th>
+                    <th scope="col" onclick="sortTable(3, true, 'leaderboard')">Correct</th>
+                    <th scope="col" onclick="sortTable(4, true, 'leaderboard')">Points</th>
+                    <th scope="col" onclick="sortTable(5, true, 'leaderboard')">PPTU</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="leaderboard-body"></tbody>
+        </table>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/geoword/game.js"></script>
+    <script type="module" src="/geoword/paid/leaderboard.js"></script>
+    <script type="module" src="/geoword/tables.js"></script>
 </body>
 
 </html>
