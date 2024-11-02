@@ -26,7 +26,7 @@ fetch('/api/geoword/packet-list')
 
         for (const field of fields) {
           const a = document.createElement('a');
-          a.href = `/admin/geoword/${field}/${name}/${encodeURIComponent(division)}`;
+          a.href = `/admin/geoword/${field}?packetName=${name}&division=${encodeURIComponent(division)}`;
           a.textContent = titleCase(field);
 
           li.appendChild(a);

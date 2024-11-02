@@ -1,7 +1,5 @@
-import isAdmin from '../../database/account-info/is-admin.js';
-import { checkToken } from '../../server/authentication.js';
-
-import geowordRouter from './geoword.js';
+import isAdmin from '../database/account-info/is-admin.js';
+import { checkToken } from '../server/authentication.js';
 
 import { Router } from 'express';
 
@@ -11,8 +9,7 @@ router.use(async (req, res, next) => {
   const { username, token } = req.session;
   if (!checkToken(username, token)) {
     delete req.session;
-    res.redirect('/user/login?' + encodeURIComponent(req.originalUrl));
-    return;
+    return res.redirect('/user/login?' + encodeURIComponent(req.originalUrl));
   }
 
   const admin = await isAdmin(username);
@@ -22,7 +19,5 @@ router.use(async (req, res, next) => {
 
   next();
 });
-
-router.use('/geoword', geowordRouter);
 
 export default router;
