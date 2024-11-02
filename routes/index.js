@@ -1,4 +1,4 @@
-import adminRouter from './admin/index.js';
+import adminRouter from './admin.js';
 import apiRouter from './api/index.js';
 import authRouter from './auth/index.js';
 import geowordRouter from './geoword/index.js';
