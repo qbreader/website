@@ -5,6 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Select a geoword division.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -64,30 +65,31 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">Leaderboard for <span id="packet-name"></span>:</p>
         <p>
-            <b>Division:</b> <span id="division"></span>
+            Choose your division for packet <b id="packet-name"></b>.
+            <i>You cannot change your division once you have submitted a response.</i>
         </p>
-        <table class="table table-hover" id="leaderboard">
-            <thead>
-                <tr>
-                    <th scope="col" onclick="sortTable(0, true, 'leaderboard')">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col" onclick="sortTable(2, true, 'leaderboard')">Celerity</th>
-                    <th scope="col" onclick="sortTable(3, true, 'leaderboard')">Correct</th>
-                    <th scope="col" onclick="sortTable(4, true, 'leaderboard')">Points</th>
-                    <th scope="col" onclick="sortTable(5, true, 'leaderboard')">PPTU</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider" id="leaderboard-body"></tbody>
-        </table>
+        <div>
+            <p>
+                "Division 1" corresponds to <a href="https://www.naqt.com/college/division-i.html">ICT D1</a>,
+                and "Division 2" corresponds to <a href="https://www.naqt.com/college/division-ii.html">ICT D2</a>.
+                <i>Some packets, such as the samples, may have only 1 division.</i>
+            </p>
+            <form id="form">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <select class="form-select" id="division"></select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+            </form>
+        </div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/geoword/leaderboard.js"></script>
-    <script type="module" src="/geoword/tables.js"></script>
+    <script type="module" src="/geoword/paid/division.js"></script>
 </body>
 
 </html>
