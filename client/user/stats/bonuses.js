@@ -1,4 +1,5 @@
 import { attachDropdownChecklist, getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
+import sortTable from '../../scripts/utilities/tables.js';
 
 function fetchBonusStats ({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
   fetch('/auth/user-stats/bonus?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
@@ -80,3 +81,18 @@ document.getElementById('form').addEventListener('submit', onSubmit);
 
 attachDropdownChecklist();
 fetchBonusStats();
+
+document.getElementById('category-stats').querySelectorAll('th').forEach((th, index) => {
+  const numeric = [false, true, true, true, true, true, true, true];
+  th.addEventListener('click', () => sortTable(index, numeric[index], 'category-stats-body', 0, 0));
+});
+
+document.getElementById('subcategory-stats').querySelectorAll('th').forEach((th, index) => {
+  const numeric = [false, true, true, true, true, true, true, true];
+  th.addEventListener('click', () => sortTable(index, numeric[index], 'subcategory-stats-body', 0, 0));
+});
+
+document.getElementById('alternate-subcategory-stats').querySelectorAll('th').forEach((th, index) => {
+  const numeric = [false, true, true, true, true, true, true, true];
+  th.addEventListener('click', () => sortTable(index, numeric[index], 'alternate-subcategory-stats-body', 0, 0));
+});
