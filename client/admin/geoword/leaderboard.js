@@ -1,4 +1,5 @@
 import { escapeHTML, titleCase } from '../../scripts/utilities/strings.js';
+import sortTable from '../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);
 const division = search.get('division');
@@ -35,3 +36,8 @@ fetch('/api/admin/geoword/leaderboard?' + new URLSearchParams({ packetName, divi
     }
     document.getElementById('leaderboard-body').innerHTML = innerHTML;
   });
+
+document.querySelectorAll('th').forEach((th, index) => {
+  const numeric = [true, false, true, true, true, true];
+  th.addEventListener('click', () => sortTable(index, numeric[index], 'leaderboard-body', 0, 0));
+});
