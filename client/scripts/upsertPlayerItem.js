@@ -7,9 +7,11 @@ import { escapeHTML } from './utilities/strings.js';
  * @param {boolean} isOwner - This is who the owner of the room is 
  */
 export default function upsertPlayerItem (player, USER_ID, isOwner) {
+  console.log("Called");
   const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
   const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
   //change later?
+  console.log("isOwner : " + isOwner);
   let res = "No";
   if (isOwner) {
     res = "Yes"
