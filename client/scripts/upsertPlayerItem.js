@@ -4,11 +4,16 @@ import { escapeHTML } from './utilities/strings.js';
  * Upserts a player item to the DOM element with the id `player-list-group`.
  * @param {Player} player
  * @param {string} USER_ID - The item is highlighted blue if `USER_ID === player.userId`.
+ * @param {boolean} isOwner - This is who the owner of the room is 
  */
-export default function upsertPlayerItem (player, USER_ID) {
+export default function upsertPlayerItem (player, USER_ID, isOwner) {
   const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
   const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
-
+  //change later?
+  let res = "No";
+  if (isOwner) {
+    res = "Yes"
+  } 
   if (document.getElementById('list-group-' + userId)) {
     document.getElementById('list-group-' + userId).remove();
   }
@@ -16,13 +21,15 @@ export default function upsertPlayerItem (player, USER_ID) {
   const playerItem = document.createElement('a');
   playerItem.className = `list-group-item ${userId === USER_ID ? 'user-score' : ''} clickable`;
   playerItem.id = `list-group-${userId}`;
+
+  let ifOwner = isOwner ? 'data-owner="true" style="color: red;"' : "";
   playerItem.innerHTML = `
       <div class="d-flex justify-content-between">
-          <span id="username-${userId}">${escapeHTML(username)}</span>
+          <span id="username-${userId}" ${ifOwner}>${escapeHTML(username)}</span>
           <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
       </div>
       `;
-
+  
   playerItem.setAttribute('data-bs-container', 'body');
   playerItem.setAttribute('data-bs-custom-class', 'custom-popover');
   playerItem.setAttribute('data-bs-html', 'true');
@@ -54,6 +61,11 @@ export default function upsertPlayerItem (player, USER_ID) {
               <span>Celerity</span>
               <span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span>
           </li>
+          <li class="list-group-item">
+              <span>Is Owner?</span>
+              <span id="owner-${userId}" class="float-end stats stats-${userId}">${res}</span>
+          </li>
+          
       </ul>
       `);
 

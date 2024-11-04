@@ -4,7 +4,7 @@ class Player {
     this.MAX_USERNAME_LENGTH = MAX_USERNAME_LENGTH;
 
     this.username = '';
-
+    this.owner = false;
     this.powers = 0;
     this.tens = 0;
     this.zeroes = 0;
@@ -21,6 +21,9 @@ class Player {
         average: 0
       }
     };
+  }
+  assignOwner() {
+    this.owner = true
   }
 
   clearStats () {

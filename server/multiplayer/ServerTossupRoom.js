@@ -13,8 +13,9 @@ import getNumPackets from '../../database/qbreader/get-num-packets.js';
 import checkAnswer from 'qb-answer-checker';
 
 export default class ServerTossupRoom extends TossupRoom {
-  constructor (name, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
+  constructor (name, ownerId, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
+    this.ownerId = ownerId
     this.isPermanent = isPermanent;
     this.checkAnswer = checkAnswer;
     this.getNumPackets = getNumPackets;
@@ -42,12 +43,13 @@ export default class ServerTossupRoom extends TossupRoom {
       case 'toggle-lock': return this.toggleLock(userId, message);
       case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
       case 'toggle-public': return this.togglePublic(userId, message);
+      case 'owner-id': return this.owner_id(this.ownerId)
       default: super.message(userId, message);
     }
   }
 
   connection (socket, userId, username) {
-    console.log(`Connection in room ${HEADER}${this.name}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
+    console.log(`Connection in room ${HEADER}${this.name}${ENDC} - ID of owner: ${OKBLUE}${this.ownerId}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
 
     const isNew = !(userId in this.players);
     if (isNew) { this.players[userId] = new ServerPlayer(userId); }
@@ -108,6 +110,9 @@ export default class ServerTossupRoom extends TossupRoom {
     this.emitMessage({ type: 'join', isNew, userId, username, user: this.players[userId] });
   }
 
+  owner_id (id) {
+    this.emitMessage({ type: 'owner-check', id });
+  }
   chat (userId, { message }) {
     // prevent chat messages if room is public, since they can still be sent with API
     if (this.settings.public || typeof message !== 'string') { return false; }
