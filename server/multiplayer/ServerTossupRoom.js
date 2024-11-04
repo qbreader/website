@@ -22,6 +22,7 @@ export default class ServerTossupRoom extends TossupRoom {
     this.getRandomTossups = getRandomTossups;
     this.getSet = getSet;
     this.getSetList = getSetList;
+    this.bannedUserList = [];
 
     this.rateLimiter = new RateLimit(50, 1000);
     this.rateLimitExceeded = new Set();
@@ -37,6 +38,7 @@ export default class ServerTossupRoom extends TossupRoom {
 
   async message (userId, message) {
     switch (message.type) {
+      case 'ban': return this.banUser(message.ownerId, message.target_user, message.targ_name);
       case 'chat': return this.chat(userId, message);
       case 'chat-live-update': return this.chatLiveUpdate(userId, message);
       case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
@@ -49,6 +51,8 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   connection (socket, userId, username) {
+    
+    
     console.log(`Connection in room ${HEADER}${this.name}${ENDC} - ID of owner: ${OKBLUE}${this.ownerId}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
 
     const isNew = !(userId in this.players);
@@ -56,6 +60,11 @@ export default class ServerTossupRoom extends TossupRoom {
     this.players[userId].online = true;
     this.sockets[userId] = socket;
     username = this.players[userId].safelySetUsername(username);
+    if (this.bannedUserList.includes(userId)) {
+      console.log("Banned user " + userId + " (" + username + ") tried to join a room");
+      this.sendToSocket(userId, {type: 'enforcing-ban'})
+      return;
+    } 
 
     socket.on('message', message => {
       if (this.rateLimiter(socket) && !this.rateLimitExceeded.has(username)) {
@@ -74,6 +83,7 @@ export default class ServerTossupRoom extends TossupRoom {
     });
 
     socket.on('close', this.close.bind(this, userId));
+    
 
     socket.send(JSON.stringify({
       type: 'connection-acknowledged',
@@ -108,6 +118,14 @@ export default class ServerTossupRoom extends TossupRoom {
     }
 
     this.emitMessage({ type: 'join', isNew, userId, username, user: this.players[userId] });
+  }
+  banUser(ownerId, target_user, target_username) {
+    console.log("Ban request recieved. Target " + target_user);
+    if (this.ownerId === ownerId) {
+      console.log("Checked, owner sent ban");
+      this.emitMessage({ type: 'verified-ban', target: target_user, targetUsername: target_username});
+      this.bannedUserList.push(target_user);
+    }
   }
 
   owner_id (id) {
