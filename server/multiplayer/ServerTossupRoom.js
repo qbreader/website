@@ -111,7 +111,9 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   owner_id (id) {
+    console.log("Recieved a owner-id request");
     this.emitMessage({ type: 'owner-check', id });
+    console.log("Owner check sent");
   }
   chat (userId, { message }) {
     // prevent chat messages if room is public, since they can still be sent with API
