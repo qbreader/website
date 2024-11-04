@@ -241,9 +241,6 @@ function connectionAcknowledged ({
 }
 async function processPlayers(messagePlayers) {
   const owner_id = await get_owner_id(); 
-  
-  console.log("Await done");
-
   await Promise.all(Object.keys(messagePlayers).map(async (userId) => {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
@@ -535,9 +532,7 @@ function noQuestionsFound () {
 let resolveOwnerId;
 
 function ownerCheck({ id }) {
-  console.log("Owner check received at base at set ownerId");
   ownerId = id;
-  console.log("Owner ID found to be " + ownerId);
   
   // Resolve the Promise to indicate that ownerId is set
   if (resolveOwnerId) {
@@ -550,9 +545,7 @@ function get_owner_id() {
   return new Promise((resolve) => {
     resolveOwnerId = resolve;
     socket.send(JSON.stringify({ type: 'owner-id' }));
-    console.log("Prepping send");
   }).then(() => {
-    console.log("All good! then received, returning owner ID at " + ownerId);
     return ownerId;
   });
 }

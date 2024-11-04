@@ -75,7 +75,6 @@ export default function upsertPlayerItem(player, USER_ID, ownerId, socket) {
 
         
         banButton.addEventListener('click', () => {
-            console.log(`Banning user ${username} (ID: ${userId})`);
             socket.send(JSON.stringify({ type: 'ban', ownerId: ownerId, target_user: userId, targ_name: username }));
         });
     }
