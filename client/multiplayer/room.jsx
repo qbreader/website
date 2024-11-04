@@ -49,6 +49,7 @@ socket.onclose = function (event) {
 socket.onmessage = function (event) {
   const data = JSON.parse(event.data);
   switch (data.type) {
+    case 'enforcing-ban': return ackBannedFromRoom();
     case 'buzz': return buzz(data);
     case 'force-username': return forceUsername(data);
     case 'chat': return chat(data, false);
@@ -90,8 +91,28 @@ socket.onmessage = function (event) {
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-timer': return toggleTimer(data);
     case 'update-question': return updateQuestion(data);
+    case 'verified-ban': return recvBan(data);
   }
 };
+function ackBannedFromRoom() {
+  window.alert("You were banned from this room by the room owner, and cannot rejoin it."); 
+  setTimeout(() => {
+    window.location.replace("../"); 
+  }, 100); 
+
+}
+function recvBan({target, targetUsername}) {
+  if (target === USER_ID) {
+    window.alert("You were banned from this room by the room owner."); 
+    setTimeout(() => {
+      window.location.replace("../"); 
+    }, 100); 
+  } else {
+    logEvent(targetUsername + " has been banned from this room.");
+  }
+  
+}
+
 
 function buzz ({ userId, username }) {
   logEvent(username, 'buzzed');
@@ -142,7 +163,7 @@ function clearStats ({ userId }) {
   for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
     players[userId][field] = 0;
   }
-  upsertPlayerItem(players[userId], USER_ID);
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket);
   sortPlayerListGroup();
 }
 
@@ -220,13 +241,14 @@ function connectionAcknowledged ({
 }
 async function processPlayers(messagePlayers) {
   const owner_id = await get_owner_id(); 
+  
   console.log("Await done");
 
   await Promise.all(Object.keys(messagePlayers).map(async (userId) => {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
-    let is_owner = userId === owner_id;
-    upsertPlayerItem(players[userId], USER_ID, is_owner);
+    
+    upsertPlayerItem(players[userId], USER_ID, owner_id, socket);
   }));
 }
 
@@ -337,7 +359,7 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
     players[userId].tuh++;
     players[userId].celerity = celerity;
 
-    upsertPlayerItem(players[userId], USER_ID);
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket);
     sortPlayerListGroup();
   }
 
@@ -368,7 +390,7 @@ function join ({ isNew, user, userId, username }) {
 
   if (isNew) {
     user.celerity = user.celerity.correct.average;
-    upsertPlayerItem(user, USER_ID);
+    upsertPlayerItem(user, USER_ID, ownerId, socket);
     sortPlayerListGroup();
     players[userId] = user;
   } else {
@@ -633,12 +655,14 @@ function setUsername ({ oldUsername, newUsername, userId }) {
   document.getElementById('username-' + userId).textContent = newUsername;
   players[userId].username = newUsername;
   sortPlayerListGroup();
+  
 
   if (userId === USER_ID) {
     username = newUsername;
     window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket);
 }
 
 function toggleLock ({ lock, username }) {
