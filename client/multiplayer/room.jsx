@@ -11,7 +11,7 @@ import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
 const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
 let startingDifficulties = [];
-
+let ownerId = ""
 let maxPacketNumber = 24;
 
 /**
@@ -66,6 +66,7 @@ socket.onmessage = function (event) {
     case 'lost-buzzer-race': return lostBuzzerRace(data);
     case 'next': return next(data);
     case 'no-questions-found': return noQuestionsFound(data);
+    case 'owner-check': return ownerCheck(data);
     case 'pause': return pause(data);
     case 'reveal-answer': return revealAnswer(data);
     case 'set-categories': return setCategories(data);
@@ -164,11 +165,8 @@ function connectionAcknowledged ({
     document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
   }
 
-  Object.keys(messagePlayers).forEach(userId => {
-    messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
-    players[userId] = messagePlayers[userId];
-    upsertPlayerItem(players[userId], USER_ID);
-  });
+  processPlayers(messagePlayers);
+
   sortPlayerListGroup();
 
   switch (questionProgress) {
@@ -220,6 +218,17 @@ function connectionAcknowledged ({
   USER_ID = userId;
   window.localStorage.setItem('USER_ID', USER_ID);
 }
+async function processPlayers(messagePlayers) {
+  const owner_id = await get_owner_id(); 
+
+  await Promise.all(Object.keys(messagePlayers).map(async (userId) => {
+    messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
+    players[userId] = messagePlayers[userId];
+    let is_owner = userId === owner_id;
+    upsertPlayerItem(players[userId], USER_ID, is_owner);
+  }));
+}
+
 
 async function connectionAcknowledgedQuery ({
   difficulties = [],
@@ -498,6 +507,20 @@ function next ({ oldTossup, tossup: nextTossup, type, username }) {
 
 function noQuestionsFound () {
   window.alert('No questions found');
+}
+
+function ownerCheck({ id }) {
+  ownerId = id;
+}
+
+let resolveOwnerId; 
+function get_owner_id() {
+  return new Promise((resolve) => {
+    resolveOwnerId = resolve;
+    socket.send(JSON.stringify({ type: 'owner-id' }));
+  }).then(() => {
+    return ownerId;
+  });
 }
 
 function pause ({ paused, username }) {
