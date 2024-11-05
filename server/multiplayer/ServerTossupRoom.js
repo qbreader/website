@@ -15,7 +15,7 @@ import checkAnswer from 'qb-answer-checker';
 export default class ServerTossupRoom extends TossupRoom {
   constructor (name, ownerId, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
-    this.ownerId = ownerId
+    this.ownerId = ownerId;
     this.isPermanent = isPermanent;
     this.checkAnswer = checkAnswer;
     this.getNumPackets = getNumPackets;
@@ -45,14 +45,12 @@ export default class ServerTossupRoom extends TossupRoom {
       case 'toggle-lock': return this.toggleLock(userId, message);
       case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
       case 'toggle-public': return this.togglePublic(userId, message);
-      case 'owner-id': return this.owner_id(this.ownerId)
+      case 'owner-id': return this.owner_id(this.ownerId);
       default: super.message(userId, message);
     }
   }
 
   connection (socket, userId, username) {
-    
-    
     console.log(`Connection in room ${HEADER}${this.name}${ENDC} - ID of owner: ${OKBLUE}${this.ownerId}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
 
     const isNew = !(userId in this.players);
@@ -61,10 +59,10 @@ export default class ServerTossupRoom extends TossupRoom {
     this.sockets[userId] = socket;
     username = this.players[userId].safelySetUsername(username);
     if (this.bannedUserList.includes(userId)) {
-      console.log("Banned user " + userId + " (" + username + ") tried to join a room");
-      this.sendToSocket(userId, {type: 'enforcing-ban'})
+      console.log('Banned user ' + userId + ' (' + username + ') tried to join a room');
+      this.sendToSocket(userId, { type: 'enforcing-ban' });
       return;
-    } 
+    }
 
     socket.on('message', message => {
       if (this.rateLimiter(socket) && !this.rateLimitExceeded.has(username)) {
@@ -83,7 +81,6 @@ export default class ServerTossupRoom extends TossupRoom {
     });
 
     socket.on('close', this.close.bind(this, userId));
-    
 
     socket.send(JSON.stringify({
       type: 'connection-acknowledged',
@@ -119,20 +116,22 @@ export default class ServerTossupRoom extends TossupRoom {
 
     this.emitMessage({ type: 'join', isNew, userId, username, user: this.players[userId] });
   }
-  banUser(ownerId, target_user, target_username) {
-    console.log("Ban request recieved. Target " + target_user);
+
+  banUser (ownerId, targetUser, targetUsername) {
+    console.log('Ban request recieved. Target ' + targetUser);
     if (this.ownerId === ownerId) {
-      console.log("Checked, owner sent ban");
-      this.emitMessage({ type: 'verified-ban', target: target_user, targetUsername: target_username});
-      this.bannedUserList.push(target_user);
+      console.log('Checked, owner sent ban');
+      this.emitMessage({ type: 'verified-ban', target: targetUser, targetUsername });
+      this.bannedUserList.push(targetUser);
     }
   }
 
   owner_id (id) {
-    console.log("Recieved a owner-id request");
+    console.log('Recieved a owner-id request');
     this.emitMessage({ type: 'owner-check', id });
-    console.log("Owner check sent");
+    console.log('Owner check sent');
   }
+
   chat (userId, { message }) {
     // prevent chat messages if room is public, since they can still be sent with API
     if (this.settings.public || typeof message !== 'string') { return false; }

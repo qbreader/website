@@ -22,8 +22,9 @@ class Player {
       }
     };
   }
-  assignOwner() {
-    this.owner = true
+
+  assignOwner () {
+    this.owner = true;
   }
 
   clearStats () {
