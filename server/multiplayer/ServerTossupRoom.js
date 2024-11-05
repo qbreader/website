@@ -12,6 +12,34 @@ import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
 
+class Votekick {
+  constructor(targName, targId, voted = [], threshold) {
+    this.targName = targName;
+    this.targId = targId;
+    this.voted = Array.isArray(voted) ? voted : [];
+    this.threshold = threshold;
+  }
+  exists(givenId) {
+    if (this.targId === givenId) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  vote(votingId) {
+    if (!this.voted.includes(votingId)) {
+      this.voted.push(votingId);
+    }
+  }
+  check() {
+    if (this.voted.length >= this.threshold) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+}
 export default class ServerTossupRoom extends TossupRoom {
   constructor (name, ownerId, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
@@ -23,7 +51,9 @@ export default class ServerTossupRoom extends TossupRoom {
     this.getSet = getSet;
     this.getSetList = getSetList;
     this.bannedUserList = [];
-
+    this.kickedUserList = [];
+    this.votekickList = [];
+    
     this.rateLimiter = new RateLimit(50, 1000);
     this.rateLimitExceeded = new Set();
     this.settings = {
@@ -36,7 +66,8 @@ export default class ServerTossupRoom extends TossupRoom {
     this.getSetList().then(setList => { this.setList = setList; });
   }
 
-  async message (userId, message) {
+  async message(userId, message) {
+    
     switch (message.type) {
       case 'ban': return this.banUser(message.ownerId, message.target_user, message.targ_name);
       case 'chat': return this.chat(userId, message);
@@ -46,8 +77,67 @@ export default class ServerTossupRoom extends TossupRoom {
       case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
       case 'toggle-public': return this.togglePublic(userId, message);
       case 'owner-id': return this.owner_id(this.ownerId);
+      case 'votekick-init': return this.votekickInit(message.target_user, message.targ_name, message.send_id);
+      case 'votekick-vote': return this.votekickVote(message.target_user, message.send_id);
       default: super.message(userId, message);
     }
+  }
+
+  votekickInit(targetId, targetName, sendingId) {
+    if (!this.lastVotekickTime) {
+      this.lastVotekickTime = {};
+    }
+
+    const currentTime = Date.now();
+    if (this.lastVotekickTime[sendingId] && (currentTime - this.lastVotekickTime[sendingId] < 90000)) {
+      console.log(`Votekick denied: ${sendingId} 90 second cooldown viol.`);
+      return;
+    }
+
+    this.lastVotekickTime[sendingId] = currentTime;
+
+    let exists = false;
+    this.votekickList.forEach((votekick) => {
+      if (votekick.exists(targetId)) {
+        exists = true;
+      }
+    });
+    if (exists) {
+      return;
+    }
+
+    let threshold = Math.max((Object.keys(this.players).length) - 1, 0);
+    let votekick = new Votekick(targetName, targetId, [], threshold);
+    votekick.vote(sendingId);
+    if (votekick.check()) {
+      this.emitMessage({ type: 'successful-vk', targetName: votekick.targName, targetId: votekick.targId });
+      this.kickedUserList.push(targetId);
+    } else {
+      this.votekickList.push(votekick);
+      this.emitMessage({ type: 'initiated-vk', targetName: votekick.targName, targetId: votekick.targId, threshold });
+    }
+    console.log(this.votekickList);
+  }
+
+  votekickVote(targetUser, votingId) {
+    let exists = false;
+    let thisVotekick;
+    this.votekickList.forEach((votekick) => {
+      if (votekick.exists(targetUser)) {
+        thisVotekick = votekick;
+        exists = true;
+      }
+    })
+    if (!exists) {
+      return;
+    }
+    thisVotekick.vote(votingId);
+    if (thisVotekick.check()) {
+      this.emitMessage({ type: 'successful-vk', targetName: thisVotekick.targName, targetId: thisVotekick.targId })
+      this.kickedUserList.push(targetUser);
+    }
+    console.log(this.votekickList);
+
   }
 
   connection (socket, userId, username) {
@@ -61,6 +151,11 @@ export default class ServerTossupRoom extends TossupRoom {
     if (this.bannedUserList.includes(userId)) {
       console.log('Banned user ' + userId + ' (' + username + ') tried to join a room');
       this.sendToSocket(userId, { type: 'enforcing-ban' });
+      return;
+    }
+    if (this.kickedUserList.includes(userId)) {
+      console.log('Kicked user ' + userId + ' (' + username + ') tried to join a room');
+      this.sendToSocket(userId, { type: 'enforcing-kick' });
       return;
     }
 

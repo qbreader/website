@@ -13,7 +13,7 @@ let oldCategories = JSON.stringify(categoryManager.export());
 let startingDifficulties = [];
 let ownerId = '';
 let maxPacketNumber = 24;
-
+let globalPublic = true;
 /**
  * userId to player object
  */
@@ -50,6 +50,7 @@ socket.onmessage = function (event) {
   const data = JSON.parse(event.data);
   switch (data.type) {
     case 'enforcing-ban': return ackBannedFromRoom();
+    case 'enforcing-kick': return ackKickedFromRoom();
     case 'buzz': return buzz(data);
     case 'force-username': return forceUsername(data);
     case 'chat': return chat(data, false);
@@ -92,8 +93,30 @@ socket.onmessage = function (event) {
     case 'toggle-timer': return toggleTimer(data);
     case 'update-question': return updateQuestion(data);
     case 'verified-ban': return recvBan(data);
+    case 'successful-vk': return vkHandle(data);
+    case 'initiated-vk': return vkInit(data); 
   }
 };
+function vkInit({ targetName, targetId, threshold }) {
+  logEvent("A votekick has been started against user " + targetName + " and needs " + threshold + " votes to suceed.")
+}
+function vkHandle({targetName, targetId}) {
+  if (USER_ID === targetId) {
+    window.alert('You were vote kicked from this room by others.');
+    setTimeout(() => {
+      window.location.replace('../');
+    }, 100);
+  } else {
+    logEvent(targetName + " has been vote kicked from this room.")
+  }
+}
+function ackKickedFromRoom() {
+  window.alert('You were kicked from this room by players, and cannot rejoin it.');
+  setTimeout(() => {
+    window.location.replace('../');
+  }, 100);
+}
+
 function ackBannedFromRoom () {
   window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
   setTimeout(() => {
@@ -160,7 +183,7 @@ function clearStats ({ userId }) {
   for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
     players[userId][field] = 0;
   }
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket);
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
   sortPlayerListGroup();
 }
 
@@ -220,6 +243,7 @@ function connectionAcknowledged ({
   document.getElementById('toggle-login-required').disabled = settings.public;
   document.getElementById('toggle-timer').disabled = settings.public;
   document.getElementById('toggle-public').checked = settings.public;
+  globalPublic = settings.public;
 
   document.getElementById('reading-speed').value = settings.readingSpeed;
   document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
@@ -242,7 +266,7 @@ async function processPlayers (messagePlayers) {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
 
-    upsertPlayerItem(players[userId], USER_ID, recvOwnerId, socket);
+    upsertPlayerItem(players[userId], USER_ID, recvOwnerId, socket, globalPublic);
   }));
 }
 
@@ -352,7 +376,7 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
     players[userId].tuh++;
     players[userId].celerity = celerity;
 
-    upsertPlayerItem(players[userId], USER_ID, ownerId, socket);
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
     sortPlayerListGroup();
   }
 
@@ -383,7 +407,7 @@ function join ({ isNew, user, userId, username }) {
 
   if (isNew) {
     user.celerity = user.celerity.correct.average;
-    upsertPlayerItem(user, USER_ID, ownerId, socket);
+    upsertPlayerItem(user, USER_ID, ownerId, socket, globalPublic);
     sortPlayerListGroup();
     players[userId] = user;
   } else {
@@ -649,7 +673,7 @@ function setUsername ({ oldUsername, newUsername, userId }) {
     window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket);
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
 }
 
 function toggleLock ({ lock, username }) {
@@ -713,11 +737,16 @@ function togglePublic ({ public: isPublic, username }) {
   document.getElementById('toggle-timer').disabled = isPublic;
   document.getElementById('toggle-timer').checked = true;
   document.getElementById('toggle-public').checked = isPublic;
-
+  globalPublic = isPublic;
   if (isPublic) {
     document.getElementById('toggle-lock').checked = false;
     document.getElementById('toggle-login-required').checked = false;
   }
+  Object.keys(players).forEach((player) => {
+    console.log(player);
+    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
+  })
+  
 }
 
 function updateQuestion ({ word }) {
