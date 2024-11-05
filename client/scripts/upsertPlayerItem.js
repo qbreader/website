@@ -27,7 +27,6 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   const playerItem = document.createElement('a');
   playerItem.className = `list-group-item ${userId === USER_ID ? 'user-score' : ''} clickable`;
   playerItem.id = `list-group-${userId}`;
-  console.log('Is it public? ' + isPublic);
   const displayUsername = (playerIsOwner && !isPublic) ? `👑 ${escapeHTML(username)}` : escapeHTML(username);
 
   playerItem.innerHTML = `
@@ -62,7 +61,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   document.getElementById('player-list-group').appendChild(playerItem);
 
   // ban button if the viewer is the owner and the player is not, also room has to be private
-  if (iAmOwner && userId !== ownerId && !isPublic) {
+  if (iAmOwner && userId !== ownerId && !isPublic && userId !== 'ai-bot') {
     const banButton = document.createElement('button');
     banButton.className = 'btn btn-danger btn-sm mt-2';
     banButton.title = 'Ban an user. They can no longer join the room.';
@@ -76,7 +75,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   }
   let conditionalVK;
   if (!isPublic) {
-    if (ownerId === userId) {
+    if (ownerId === userId || userId === 'ai-bot') {
       conditionalVK = false;
     } else {
       conditionalVK = true;
