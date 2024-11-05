@@ -49,20 +49,21 @@ socket.onclose = function (event) {
 socket.onmessage = function (event) {
   const data = JSON.parse(event.data);
   switch (data.type) {
-    case 'enforcing-ban': return ackBannedFromRoom();
-    case 'enforcing-kick': return ackKickedFromRoom();
     case 'buzz': return buzz(data);
-    case 'force-username': return forceUsername(data);
     case 'chat': return chat(data, false);
     case 'chat-live-update': return chat(data, true);
     case 'clear-stats': return clearStats(data);
     case 'connection-acknowledged': return connectionAcknowledged(data);
     case 'connection-acknowledged-query': return connectionAcknowledgedQuery(data);
     case 'connection-acknowledged-tossup': return connectionAcknowledgedTossup(data);
+    case 'enforcing-ban': return ackBannedFromRoom();
+    case 'enforcing-kick': return ackKickedFromRoom();
     case 'end-of-set': return endOfSet(data);
     case 'error': return handleError(data);
+    case 'force-username': return forceUsername(data);
     case 'give-answer': return giveAnswer(data);
     case 'give-answer-live-update': return logGiveAnswer(data, true);
+    case 'initiated-vk': return vkInit(data);
     case 'join': return join(data);
     case 'leave': return leave(data);
     case 'lost-buzzer-race': return lostBuzzerRace(data);
@@ -81,6 +82,7 @@ socket.onmessage = function (event) {
     case 'set-year-range': return setYearRange(data);
     case 'skip': return next(data);
     case 'start': return next(data);
+    case 'successful-vk': return vkHandle(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
     case 'toggle-lock': return toggleLock(data);
     case 'toggle-login-required': return toggleLoginRequired(data);
@@ -93,24 +95,22 @@ socket.onmessage = function (event) {
     case 'toggle-timer': return toggleTimer(data);
     case 'update-question': return updateQuestion(data);
     case 'verified-ban': return recvBan(data);
-    case 'successful-vk': return vkHandle(data);
-    case 'initiated-vk': return vkInit(data); 
   }
 };
-function vkInit({ targetName, targetId, threshold }) {
-  logEvent("A votekick has been started against user " + targetName + " and needs " + threshold + " votes to suceed.")
+function vkInit ({ targetName, targetId, threshold }) {
+  logEvent('A votekick has been started against user ' + targetName + ' and needs ' + threshold + ' votes to suceed.');
 }
-function vkHandle({targetName, targetId}) {
+function vkHandle ({ targetName, targetId }) {
   if (USER_ID === targetId) {
     window.alert('You were vote kicked from this room by others.');
     setTimeout(() => {
       window.location.replace('../');
     }, 100);
   } else {
-    logEvent(targetName + " has been vote kicked from this room.")
+    logEvent(targetName + ' has been vote kicked from this room.');
   }
 }
-function ackKickedFromRoom() {
+function ackKickedFromRoom () {
   window.alert('You were kicked from this room by players, and cannot rejoin it.');
   setTimeout(() => {
     window.location.replace('../');
@@ -745,8 +745,7 @@ function togglePublic ({ public: isPublic, username }) {
   Object.keys(players).forEach((player) => {
     console.log(player);
     upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
-  })
-  
+  });
 }
 
 function updateQuestion ({ word }) {
