@@ -73,7 +73,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
       socket.send(JSON.stringify({ type: 'ban', ownerId, target_user: userId, targ_name: username }));
     });
   }
-  //whether to allow VK or not
+  // whether to allow VK or not
   let conditionalVK;
   if (!isPublic) {
     if (ownerId === userId || userId === 'ai-bot') {
@@ -85,7 +85,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     conditionalVK = true;
   }
 
-  //votekick button. cannot vk an owner (change? idk)
+  // votekick button. cannot vk an owner (change? idk)
   if (userId !== USER_ID && conditionalVK) {
     const vkButton = document.createElement('button');
     vkButton.className = 'btn btn-warning btn-sm mt-2';
@@ -107,12 +107,10 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
       }, 90000);
     });
   }
-  //User cannot be ai, yourself, and the room has to be private
+  // User cannot be ai, yourself, and the room has to be private
   if (userId !== 'ai-bot' && userId !== USER_ID && !isPublic) {
-    
-    
     const muteButton = document.createElement('button');
-    
+
     muteButton.className = 'btn btn-warning btn-sm mt-2';
     muteButton.title = 'Mute/Unmute an user to change visibility of what they say in chat.';
     muteButton.innerText = 'Mute';
@@ -122,12 +120,10 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     muteButton.addEventListener('click', () => {
       socket.send(JSON.stringify({ type: 'mute-toggle', targetId: userId, sendingMuteId: USER_ID, muteStatus: muteButton.innerText }));
       if (muteButton.innerText === 'Unmute') {
-        muteButton.innerText = `Mute`;
+        muteButton.innerText = 'Mute';
       } else {
-        muteButton.innerText = `Unmute`;
+        muteButton.innerText = 'Unmute';
       }
-
-
     });
   }
 
