@@ -11,7 +11,7 @@ import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
 const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
 let startingDifficulties = [];
-let ownerId = ""
+let ownerId = '';
 let maxPacketNumber = 24;
 
 /**
@@ -94,25 +94,22 @@ socket.onmessage = function (event) {
     case 'verified-ban': return recvBan(data);
   }
 };
-function ackBannedFromRoom() {
-  window.alert("You were banned from this room by the room owner, and cannot rejoin it."); 
+function ackBannedFromRoom () {
+  window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
   setTimeout(() => {
-    window.location.replace("../"); 
-  }, 100); 
-
+    window.location.replace('../');
+  }, 100);
 }
-function recvBan({target, targetUsername}) {
+function recvBan ({ target, targetUsername }) {
   if (target === USER_ID) {
-    window.alert("You were banned from this room by the room owner."); 
+    window.alert('You were banned from this room by the room owner.');
     setTimeout(() => {
-      window.location.replace("../"); 
-    }, 100); 
+      window.location.replace('../');
+    }, 100);
   } else {
-    logEvent(targetUsername + " has been banned from this room.");
+    logEvent(targetUsername + ' has been banned from this room.');
   }
-  
 }
-
 
 function buzz ({ userId, username }) {
   logEvent(username, 'buzzed');
@@ -239,16 +236,15 @@ function connectionAcknowledged ({
   USER_ID = userId;
   window.localStorage.setItem('USER_ID', USER_ID);
 }
-async function processPlayers(messagePlayers) {
-  const owner_id = await get_owner_id(); 
+async function processPlayers (messagePlayers) {
+  const recvOwnerId = await getRecvOwnerId();
   await Promise.all(Object.keys(messagePlayers).map(async (userId) => {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
-    
-    upsertPlayerItem(players[userId], USER_ID, owner_id, socket);
+
+    upsertPlayerItem(players[userId], USER_ID, recvOwnerId, socket);
   }));
 }
-
 
 async function connectionAcknowledgedQuery ({
   difficulties = [],
@@ -531,9 +527,9 @@ function noQuestionsFound () {
 
 let resolveOwnerId;
 
-function ownerCheck({ id }) {
+function ownerCheck ({ id }) {
   ownerId = id;
-  
+
   // Resolve the Promise to indicate that ownerId is set
   if (resolveOwnerId) {
     resolveOwnerId();
@@ -541,13 +537,12 @@ function ownerCheck({ id }) {
   }
 }
 
-function get_owner_id() {
-  return new Promise((resolve) => {
+async function getRecvOwnerId () {
+  await new Promise((resolve) => {
     resolveOwnerId = resolve;
     socket.send(JSON.stringify({ type: 'owner-id' }));
-  }).then(() => {
-    return ownerId;
   });
+  return ownerId;
 }
 
 function pause ({ paused, username }) {
@@ -648,7 +643,6 @@ function setUsername ({ oldUsername, newUsername, userId }) {
   document.getElementById('username-' + userId).textContent = newUsername;
   players[userId].username = newUsername;
   sortPlayerListGroup();
-  
 
   if (userId === USER_ID) {
     username = newUsername;
