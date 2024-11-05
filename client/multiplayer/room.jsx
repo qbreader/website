@@ -14,6 +14,7 @@ let startingDifficulties = [];
 let ownerId = '';
 let maxPacketNumber = 24;
 let globalPublic = true;
+let muteList = [];
 /**
  * userId to player object
  */
@@ -67,6 +68,7 @@ socket.onmessage = function (event) {
     case 'join': return join(data);
     case 'leave': return leave(data);
     case 'lost-buzzer-race': return lostBuzzerRace(data);
+    case 'mute-notice': return mutePlayer(data);
     case 'next': return next(data);
     case 'no-questions-found': return noQuestionsFound(data);
     case 'owner-check': return ownerCheck(data);
@@ -147,7 +149,10 @@ function buzz ({ userId, username }) {
   }
 }
 
-function chat ({ message, userId, username }, live = false) {
+function chat({ message, userId, username }, live = false) {
+  if (muteList.includes(userId)) {
+    return;
+  }
   if (!live && message === '') {
     document.getElementById('live-chat-' + userId).parentElement.remove();
     return;
@@ -502,6 +507,17 @@ function logGiveAnswer ({ directive = null, message, username }) {
 function lostBuzzerRace ({ username, userId }) {
   logEvent(username, 'lost the buzzer race');
   if (userId === USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
+}
+function mutePlayer({ targetId, muteStatus }) {
+  if (muteStatus == 'Mute') {
+    if (!muteList.includes(targetId)) {
+      muteList.push(targetId)
+    }
+  } else {
+    if (muteList.includes(targetId)) {
+      muteList = muteList.filter(Id => Id !== targetId);
+    }
+  }
 }
 
 function next ({ oldTossup, tossup: nextTossup, type, username }) {
