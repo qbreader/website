@@ -13,32 +13,34 @@ import getNumPackets from '../../database/qbreader/get-num-packets.js';
 import checkAnswer from 'qb-answer-checker';
 
 class Votekick {
-  constructor(targName, targId, voted = [], threshold) {
+  constructor (targName, targId, voted = [], threshold) {
     this.targName = targName;
     this.targId = targId;
     this.voted = Array.isArray(voted) ? voted : [];
     this.threshold = threshold;
   }
-  exists(givenId) {
+
+  exists (givenId) {
     if (this.targId === givenId) {
       return true;
     } else {
       return false;
     }
   }
-  vote(votingId) {
+
+  vote (votingId) {
     if (!this.voted.includes(votingId)) {
       this.voted.push(votingId);
     }
   }
-  check() {
+
+  check () {
     if (this.voted.length >= this.threshold) {
       return true;
     } else {
       return false;
     }
   }
-
 }
 export default class ServerTossupRoom extends TossupRoom {
   constructor (name, ownerId, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
@@ -53,7 +55,7 @@ export default class ServerTossupRoom extends TossupRoom {
     this.bannedUserList = [];
     this.kickedUserList = [];
     this.votekickList = [];
-    
+
     this.rateLimiter = new RateLimit(50, 1000);
     this.rateLimitExceeded = new Set();
     this.settings = {
@@ -66,8 +68,7 @@ export default class ServerTossupRoom extends TossupRoom {
     this.getSetList().then(setList => { this.setList = setList; });
   }
 
-  async message(userId, message) {
-    
+  async message (userId, message) {
     switch (message.type) {
       case 'ban': return this.banUser(message.ownerId, message.target_user, message.targ_name);
       case 'chat': return this.chat(userId, message);
@@ -83,7 +84,7 @@ export default class ServerTossupRoom extends TossupRoom {
     }
   }
 
-  votekickInit(targetId, targetName, sendingId) {
+  votekickInit (targetId, targetName, sendingId) {
     if (!this.lastVotekickTime) {
       this.lastVotekickTime = {};
     }
@@ -106,8 +107,8 @@ export default class ServerTossupRoom extends TossupRoom {
       return;
     }
 
-    let threshold = Math.max((Object.keys(this.players).length) - 1, 0);
-    let votekick = new Votekick(targetName, targetId, [], threshold);
+    const threshold = Math.max((Object.keys(this.players).length) - 1, 0);
+    const votekick = new Votekick(targetName, targetId, [], threshold);
     votekick.vote(sendingId);
     if (votekick.check()) {
       this.emitMessage({ type: 'successful-vk', targetName: votekick.targName, targetId: votekick.targId });
@@ -119,7 +120,7 @@ export default class ServerTossupRoom extends TossupRoom {
     console.log(this.votekickList);
   }
 
-  votekickVote(targetUser, votingId) {
+  votekickVote (targetUser, votingId) {
     let exists = false;
     let thisVotekick;
     this.votekickList.forEach((votekick) => {
@@ -127,17 +128,16 @@ export default class ServerTossupRoom extends TossupRoom {
         thisVotekick = votekick;
         exists = true;
       }
-    })
+    });
     if (!exists) {
       return;
     }
     thisVotekick.vote(votingId);
     if (thisVotekick.check()) {
-      this.emitMessage({ type: 'successful-vk', targetName: thisVotekick.targName, targetId: thisVotekick.targId })
+      this.emitMessage({ type: 'successful-vk', targetName: thisVotekick.targName, targetId: thisVotekick.targId });
       this.kickedUserList.push(targetUser);
     }
     console.log(this.votekickList);
-
   }
 
   connection (socket, userId, username) {

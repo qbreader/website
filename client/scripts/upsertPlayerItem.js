@@ -6,49 +6,49 @@ import { escapeHTML } from './utilities/strings.js';
  * @param {string} USER_ID - The item is highlighted blue if `USER_ID === player.userId`.
  * @param {string} ownerId - ID of the room owner
  */
-export default function upsertPlayerItem(player, USER_ID, ownerId, socket, isPublic) {
-    if (!player || !player.userId) {
-        console.error('Player or player.userId is undefined', { player });
-        return;
-    }
+export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic) {
+  if (!player || !player.userId) {
+    console.error('Player or player.userId is undefined', { player });
+    return;
+  }
 
-    const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
-    const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
+  const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
+  const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
 
-    const playerIsOwner = ownerId === userId;
-    const iAmOwner = ownerId === USER_ID;
-    const res = playerIsOwner ? 'Yes' : 'No';
+  const playerIsOwner = ownerId === userId;
+  const iAmOwner = ownerId === USER_ID;
+  const res = playerIsOwner ? 'Yes' : 'No';
 
-    // Remove the existing player item if it exists
-    if (document.getElementById('list-group-' + userId)) {
-        document.getElementById('list-group-' + userId).remove();
-    }
+  // Remove the existing player item if it exists
+  if (document.getElementById('list-group-' + userId)) {
+    document.getElementById('list-group-' + userId).remove();
+  }
 
-    const playerItem = document.createElement('a');
-    playerItem.className = `list-group-item ${userId === USER_ID ? 'user-score' : ''} clickable`;
-    playerItem.id = `list-group-${userId}`;
-    console.log("Is it public? " + isPublic);
-    const displayUsername = (playerIsOwner && !isPublic)  ? `👑 ${escapeHTML(username)}` : escapeHTML(username);
+  const playerItem = document.createElement('a');
+  playerItem.className = `list-group-item ${userId === USER_ID ? 'user-score' : ''} clickable`;
+  playerItem.id = `list-group-${userId}`;
+  console.log('Is it public? ' + isPublic);
+  const displayUsername = (playerIsOwner && !isPublic) ? `👑 ${escapeHTML(username)}` : escapeHTML(username);
 
-    playerItem.innerHTML = `
+  playerItem.innerHTML = `
       <div class="d-flex justify-content-between">
           <span id="username-${userId}">${displayUsername}</span>
           <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
       </div>
     `;
 
-    // Set attributes for the popover
-    playerItem.setAttribute('data-bs-container', 'body');
-    playerItem.setAttribute('data-bs-custom-class', 'custom-popover');
-    playerItem.setAttribute('data-bs-html', 'true');
-    playerItem.setAttribute('data-bs-placement', 'left');
-    playerItem.setAttribute('data-bs-toggle', 'popover');
-    playerItem.setAttribute('data-bs-trigger', 'focus');
-    playerItem.setAttribute('tabindex', '0');
+  // Set attributes for the popover
+  playerItem.setAttribute('data-bs-container', 'body');
+  playerItem.setAttribute('data-bs-custom-class', 'custom-popover');
+  playerItem.setAttribute('data-bs-html', 'true');
+  playerItem.setAttribute('data-bs-placement', 'left');
+  playerItem.setAttribute('data-bs-toggle', 'popover');
+  playerItem.setAttribute('data-bs-trigger', 'focus');
+  playerItem.setAttribute('tabindex', '0');
 
-    // Popover content
-    playerItem.setAttribute('data-bs-title', username);
-    playerItem.setAttribute('data-bs-content', `
+  // Popover content
+  playerItem.setAttribute('data-bs-title', username);
+  playerItem.setAttribute('data-bs-content', `
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><span>Powers</span><span id="powers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${powers}</span></li>
             <li class="list-group-item"><span>Tens</span><span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span></li>
@@ -59,57 +59,55 @@ export default function upsertPlayerItem(player, USER_ID, ownerId, socket, isPub
         </ul>
     `);
 
-    document.getElementById('player-list-group').appendChild(playerItem);
+  document.getElementById('player-list-group').appendChild(playerItem);
 
-    // ban button if the viewer is the owner and the player is not, also room has to be private
-    if (iAmOwner && userId !== ownerId && !isPublic) {
-        const banButton = document.createElement('button');
-        banButton.className = 'btn btn-danger btn-sm mt-2';
-        banButton.title = 'Ban an user. They can no longer join the room.'
-        banButton.innerText = 'Ban';
+  // ban button if the viewer is the owner and the player is not, also room has to be private
+  if (iAmOwner && userId !== ownerId && !isPublic) {
+    const banButton = document.createElement('button');
+    banButton.className = 'btn btn-danger btn-sm mt-2';
+    banButton.title = 'Ban an user. They can no longer join the room.';
+    banButton.innerText = 'Ban';
 
-        playerItem.appendChild(banButton);
+    playerItem.appendChild(banButton);
 
-        banButton.addEventListener('click', () => {
-            socket.send(JSON.stringify({ type: 'ban', ownerId, target_user: userId, targ_name: username }));
-        });
-    }
-    let conditionalVK;
-    if (!isPublic) {
-        if (ownerId === userId) {
-            conditionalVK = false;
-        } else {
-            conditionalVK = true;
-        }
-
+    banButton.addEventListener('click', () => {
+      socket.send(JSON.stringify({ type: 'ban', ownerId, target_user: userId, targ_name: username }));
+    });
+  }
+  let conditionalVK;
+  if (!isPublic) {
+    if (ownerId === userId) {
+      conditionalVK = false;
     } else {
-        conditionalVK = true;
+      conditionalVK = true;
     }
+  } else {
+    conditionalVK = true;
+  }
 
-    if (userId !== USER_ID && conditionalVK) {
-        const vkButton = document.createElement('button');
-        vkButton.className = 'btn btn-warning btn-sm mt-2';
-        vkButton.title = 'Initiate a votekick on an user. 90 second cooldown.'
+  if (userId !== USER_ID && conditionalVK) {
+    const vkButton = document.createElement('button');
+    vkButton.className = 'btn btn-warning btn-sm mt-2';
+    vkButton.title = 'Initiate a votekick on an user. 90 second cooldown.';
+    vkButton.innerText = 'VK';
+
+    playerItem.appendChild(vkButton);
+
+    vkButton.addEventListener('click', () => {
+      socket.send(JSON.stringify({ type: 'votekick-vote', target_user: userId, targ_name: username, send_id: USER_ID }));
+      socket.send(JSON.stringify({ type: 'votekick-init', target_user: userId, targ_name: username, send_id: USER_ID }));
+
+      vkButton.disabled = true;
+      vkButton.innerText = 'Cooldown';
+
+      setTimeout(() => {
+        vkButton.disabled = false;
         vkButton.innerText = 'VK';
+      }, 90000);
+    });
+  }
 
-        playerItem.appendChild(vkButton);
-
-        vkButton.addEventListener('click', () => {
-            socket.send(JSON.stringify({ type: 'votekick-vote', target_user: userId, targ_name: username, send_id: USER_ID }));
-            socket.send(JSON.stringify({ type: 'votekick-init', target_user: userId, targ_name: username, send_id: USER_ID }));
-
-            vkButton.disabled = true;
-            vkButton.innerText = 'Cooldown'; 
-
-            setTimeout(() => {
-                vkButton.disabled = false;
-                vkButton.innerText = 'VK';  
-            }, 90000); 
-        });
-    }
-
-
-    // bootstrap requires "new" to be called on each popover
-    // eslint-disable-next-line no-new
-    new bootstrap.Popover(playerItem);
+  // bootstrap requires "new" to be called on each popover
+  // eslint-disable-next-line no-new
+  new bootstrap.Popover(playerItem);
 }
