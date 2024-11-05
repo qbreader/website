@@ -743,7 +743,6 @@ function togglePublic ({ public: isPublic, username }) {
     document.getElementById('toggle-login-required').checked = false;
   }
   Object.keys(players).forEach((player) => {
-    console.log(player);
     upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
   });
 }
