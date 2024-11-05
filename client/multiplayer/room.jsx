@@ -149,7 +149,7 @@ function buzz ({ userId, username }) {
   }
 }
 
-function chat({ message, userId, username }, live = false) {
+function chat ({ message, userId, username }, live = false) {
   if (muteList.includes(userId)) {
     return;
   }
@@ -508,10 +508,10 @@ function lostBuzzerRace ({ username, userId }) {
   logEvent(username, 'lost the buzzer race');
   if (userId === USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
 }
-function mutePlayer({ targetId, muteStatus }) {
-  if (muteStatus == 'Mute') {
+function mutePlayer ({ targetId, muteStatus }) {
+  if (muteStatus === 'Mute') {
     if (!muteList.includes(targetId)) {
-      muteList.push(targetId)
+      muteList.push(targetId);
     }
   } else {
     if (muteList.includes(targetId)) {

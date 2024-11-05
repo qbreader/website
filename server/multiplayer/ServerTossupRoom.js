@@ -76,7 +76,7 @@ export default class ServerTossupRoom extends TossupRoom {
       case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
       case 'toggle-lock': return this.toggleLock(userId, message);
       case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
-      case 'mute-toggle': return this.toggleMute(message.targetId, message.sendingMuteId, message.muteStatus)
+      case 'mute-toggle': return this.toggleMute(message.targetId, message.sendingMuteId, message.muteStatus);
       case 'toggle-public': return this.togglePublic(userId, message);
       case 'owner-id': return this.owner_id(this.ownerId);
       case 'votekick-init': return this.votekickInit(message.target_user, message.targ_name, message.send_id);
@@ -84,8 +84,9 @@ export default class ServerTossupRoom extends TossupRoom {
       default: super.message(userId, message);
     }
   }
-  toggleMute(targetId, senderId, muteStatus) {
-    this.sendToSocket(senderId, {type: 'mute-notice', targetId, muteStatus})
+
+  toggleMute (targetId, senderId, muteStatus) {
+    this.sendToSocket(senderId, { type: 'mute-notice', targetId, muteStatus });
   }
 
   votekickInit (targetId, targetName, sendingId) {
