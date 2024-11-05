@@ -12,6 +12,7 @@ const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
 let startingDifficulties = [];
 let ownerId = '';
+let resolveOwnerId;
 let maxPacketNumber = 24;
 let globalPublic = true;
 let muteList = [];
@@ -99,19 +100,7 @@ socket.onmessage = function (event) {
     case 'verified-ban': return recvBan(data);
   }
 };
-function vkInit ({ targetName, targetId, threshold }) {
-  logEvent('A votekick has been started against user ' + targetName + ' and needs ' + threshold + ' votes to suceed.');
-}
-function vkHandle ({ targetName, targetId }) {
-  if (USER_ID === targetId) {
-    window.alert('You were vote kicked from this room by others.');
-    setTimeout(() => {
-      window.location.replace('../');
-    }, 100);
-  } else {
-    logEvent(targetName + ' has been vote kicked from this room.');
-  }
-}
+
 function ackKickedFromRoom () {
   window.alert('You were kicked from this room by players, and cannot rejoin it.');
   setTimeout(() => {
@@ -124,16 +113,6 @@ function ackBannedFromRoom () {
   setTimeout(() => {
     window.location.replace('../');
   }, 100);
-}
-function recvBan ({ target, targetUsername }) {
-  if (target === USER_ID) {
-    window.alert('You were banned from this room by the room owner.');
-    setTimeout(() => {
-      window.location.replace('../');
-    }, 100);
-  } else {
-    logEvent(targetUsername + ' has been banned from this room.');
-  }
 }
 
 function buzz ({ userId, username }) {
@@ -265,15 +244,6 @@ function connectionAcknowledged ({
   USER_ID = userId;
   window.localStorage.setItem('USER_ID', USER_ID);
 }
-async function processPlayers (messagePlayers) {
-  const recvOwnerId = await getRecvOwnerId();
-  await Promise.all(Object.keys(messagePlayers).map(async (userId) => {
-    messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
-    players[userId] = messagePlayers[userId];
-
-    upsertPlayerItem(players[userId], USER_ID, recvOwnerId, socket, globalPublic);
-  }));
-}
 
 async function connectionAcknowledgedQuery ({
   difficulties = [],
@@ -333,6 +303,14 @@ function forceUsername ({ message, username }) {
   window.alert(message);
   window.localStorage.setItem('multiplayer-username', username);
   document.querySelector('#username').value = username;
+}
+
+async function getRecvOwnerId () {
+  await new Promise((resolve) => {
+    resolveOwnerId = resolve;
+    socket.send(JSON.stringify({ type: 'owner-id' }));
+  });
+  return ownerId;
 }
 
 async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, perQuestionCelerity, score, tossup, userId, username }) {
@@ -565,28 +543,38 @@ function noQuestionsFound () {
   window.alert('No questions found');
 }
 
-let resolveOwnerId;
-
 function ownerCheck ({ id }) {
   ownerId = id;
 
-  // Resolve the Promise to indicate that ownerId is set
   if (resolveOwnerId) {
     resolveOwnerId();
-    resolveOwnerId = null; // Clear resolveOwnerId to prevent unintended future calls
+    resolveOwnerId = null;
   }
-}
-
-async function getRecvOwnerId () {
-  await new Promise((resolve) => {
-    resolveOwnerId = resolve;
-    socket.send(JSON.stringify({ type: 'owner-id' }));
-  });
-  return ownerId;
 }
 
 function pause ({ paused, username }) {
   logEvent(username, `${paused ? '' : 'un'}paused the game`);
+}
+
+async function processPlayers (messagePlayers) {
+  const recvOwnerId = await getRecvOwnerId();
+  await Promise.all(Object.keys(messagePlayers).map(async (userId) => {
+    messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
+    players[userId] = messagePlayers[userId];
+
+    upsertPlayerItem(players[userId], USER_ID, recvOwnerId, socket, globalPublic);
+  }));
+}
+
+function recvBan ({ target, targetUsername }) {
+  if (target === USER_ID) {
+    window.alert('You were banned from this room by the room owner.');
+    setTimeout(() => {
+      window.location.replace('../');
+    }, 100);
+  } else {
+    logEvent(targetUsername + ' has been banned from this room.');
+  }
 }
 
 function revealAnswer ({ answer, question }) {
@@ -692,6 +680,15 @@ function setUsername ({ oldUsername, newUsername, userId }) {
   upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
 }
 
+function setYearRange ({ minYear, maxYear, username }) {
+  if (username) { logEvent(username, `changed the year range to ${minYear}-${maxYear}`); }
+
+  $('#slider').slider('values', 0, minYear);
+  $('#slider').slider('values', 1, maxYear);
+  document.getElementById('year-range-a').textContent = minYear;
+  document.getElementById('year-range-b').textContent = maxYear;
+}
+
 function toggleLock ({ lock, username }) {
   logEvent(username, `${lock ? 'locked' : 'unlocked'} the room`);
   document.getElementById('toggle-lock').checked = lock;
@@ -776,13 +773,19 @@ function updateTimerDisplay (time) {
   document.querySelector('.timer .fraction').innerText = '.' + tenths;
 }
 
-function setYearRange ({ minYear, maxYear, username }) {
-  if (username) { logEvent(username, `changed the year range to ${minYear}-${maxYear}`); }
+function vkInit ({ targetName, targetId, threshold }) {
+  logEvent('A votekick has been started against user ' + targetName + ' and needs ' + threshold + ' votes to suceed.');
+}
 
-  $('#slider').slider('values', 0, minYear);
-  $('#slider').slider('values', 1, maxYear);
-  document.getElementById('year-range-a').textContent = minYear;
-  document.getElementById('year-range-b').textContent = maxYear;
+function vkHandle ({ targetName, targetId }) {
+  if (USER_ID === targetId) {
+    window.alert('You were vote kicked from this room by others.');
+    setTimeout(() => {
+      window.location.replace('../');
+    }, 100);
+  } else {
+    logEvent(targetName + ' has been vote kicked from this room.');
+  }
 }
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
