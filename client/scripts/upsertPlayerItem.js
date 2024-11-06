@@ -6,6 +6,7 @@ import { escapeHTML } from './utilities/strings.js';
  * @param {string} USER_ID - The item is highlighted blue if `USER_ID === player.userId`.
  * @param {string} ownerId - ID of the room owner
  */
+// overall handling of some of these mechanics in the upsertion section might not be best idea? works though
 export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic) {
   if (!player || !player.userId) {
     console.error('Player or player.userId is undefined', { player });
@@ -16,8 +17,6 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
 
   const playerIsOwner = ownerId === userId;
-  const iAmOwner = ownerId === USER_ID;
-  const res = playerIsOwner ? 'Yes' : 'No';
 
   // Remove the existing player item if it exists
   if (document.getElementById('list-group-' + userId)) {
@@ -54,69 +53,50 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
             <li class="list-group-item"><span>Negs</span><span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span></li>
             <li class="list-group-item"><span>TUH</span><span id="tuh-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tuh}</span></li>
             <li class="list-group-item"><span>Celerity</span><span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span></li>
-            <li class="list-group-item"><span>Is Owner?</span><span id="owner-${userId}" class="float-end stats stats-${userId}">${res}</span></li>
+            <li class="list-group-item"><span>Is Owner?</span><span id="owner-${userId}" class="float-end stats stats-${userId}">${playerIsOwner ? 'Yes' : 'No'}</span></li>
         </ul>
     `);
 
   document.getElementById('player-list-group').appendChild(playerItem);
 
   // ban button if the viewer is the owner and the player is not, also room has to be private
-  if (iAmOwner && userId !== ownerId && !isPublic && userId !== 'ai-bot') {
+  if ((ownerId === USER_ID) && userId !== ownerId && !isPublic && userId !== 'ai-bot') {
     const banButton = document.createElement('button');
     banButton.className = 'btn btn-danger btn-sm mt-2';
     banButton.title = 'Ban an user. They can no longer join the room.';
     banButton.innerText = 'Ban';
-
     playerItem.appendChild(banButton);
-
     banButton.addEventListener('click', () => {
       socket.send(JSON.stringify({ type: 'ban', ownerId, target_user: userId, targ_name: username }));
     });
   }
-  // whether to allow VK or not
-  let conditionalVK;
-  if (!isPublic) {
-    if (ownerId === userId || userId === 'ai-bot') {
-      conditionalVK = false;
-    } else {
-      conditionalVK = true;
-    }
-  } else {
-    conditionalVK = true;
-  }
 
   // votekick button. cannot vk an owner (change? idk)
-  if (userId !== USER_ID && conditionalVK) {
+  if (userId !== USER_ID && (isPublic || (userId !== ownerId && userId !== 'ai-bot'))) {
     const vkButton = document.createElement('button');
     vkButton.className = 'btn btn-warning btn-sm mt-2';
     vkButton.title = 'Initiate a votekick on an user. 90 second cooldown.';
     vkButton.innerText = 'VK';
-
     playerItem.appendChild(vkButton);
-
     vkButton.addEventListener('click', () => {
       socket.send(JSON.stringify({ type: 'votekick-vote', target_user: userId, targ_name: username, send_id: USER_ID }));
       socket.send(JSON.stringify({ type: 'votekick-init', target_user: userId, targ_name: username, send_id: USER_ID }));
-
       vkButton.disabled = true;
       vkButton.innerText = 'Cooldown';
-
       setTimeout(() => {
         vkButton.disabled = false;
         vkButton.innerText = 'VK';
       }, 90000);
     });
   }
-  // User cannot be ai, yourself, and the room has to be private
-  if (userId !== 'ai-bot' && userId !== USER_ID && !isPublic) {
+  // User cannot be ai or yourself
+  if (userId !== 'ai-bot' && userId !== USER_ID) {
     const muteButton = document.createElement('button');
 
     muteButton.className = 'btn btn-warning btn-sm mt-2';
     muteButton.title = 'Mute/Unmute an user to change visibility of what they say in chat.';
     muteButton.innerText = 'Mute';
-
     playerItem.appendChild(muteButton);
-
     muteButton.addEventListener('click', () => {
       socket.send(JSON.stringify({ type: 'mute-toggle', targetId: userId, sendingMuteId: USER_ID, muteStatus: muteButton.innerText }));
       if (muteButton.innerText === 'Unmute') {

@@ -58,8 +58,7 @@ socket.onmessage = function (event) {
     case 'connection-acknowledged': return connectionAcknowledged(data);
     case 'connection-acknowledged-query': return connectionAcknowledgedQuery(data);
     case 'connection-acknowledged-tossup': return connectionAcknowledgedTossup(data);
-    case 'enforcing-ban': return ackBannedFromRoom();
-    case 'enforcing-kick': return ackKickedFromRoom();
+    case 'enforcing-removal': return ackRemovedFromRoom(data);
     case 'end-of-set': return endOfSet(data);
     case 'error': return handleError(data);
     case 'force-username': return forceUsername(data);
@@ -100,16 +99,13 @@ socket.onmessage = function (event) {
     case 'verified-ban': return recvBan(data);
   }
 };
-
-function ackKickedFromRoom () {
-  window.alert('You were kicked from this room by players, and cannot rejoin it.');
-  setTimeout(() => {
-    window.location.replace('../');
-  }, 100);
-}
-
-function ackBannedFromRoom () {
-  window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
+// if a banned/kicked user tries to join a room they were removed from this is the response
+function ackRemovedFromRoom ({ removalType }) {
+  if (removalType === 'kick') {
+    window.alert('You were kicked from this room by players, and cannot rejoin it.');
+  } else {
+    window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
+  }
   setTimeout(() => {
     window.location.replace('../');
   }, 100);
