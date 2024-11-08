@@ -90,7 +90,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     });
   }
   // User cannot be ai or yourself
-  if (userId !== 'ai-bot' && userId !== USER_ID) {
+  if (userId !== 'ai-bot' && userId !== USER_ID && !isPublic) {
     const muteButton = document.createElement('button');
 
     muteButton.className = 'btn btn-warning btn-sm mt-2';
