@@ -47,15 +47,15 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   // Popover content
   playerItem.setAttribute('data-bs-title', username);
   playerItem.setAttribute('data-bs-content', `
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><span>Powers</span><span id="powers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${powers}</span></li>
-            <li class="list-group-item"><span>Tens</span><span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span></li>
-            <li class="list-group-item"><span>Negs</span><span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span></li>
-            <li class="list-group-item"><span>TUH</span><span id="tuh-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tuh}</span></li>
-            <li class="list-group-item"><span>Celerity</span><span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span></li>
-            <li class="list-group-item"><span>Is Owner?</span><span id="owner-${userId}" class="float-end stats stats-${userId}">${playerIsOwner ? 'Yes' : 'No'}</span></li>
-        </ul>
-    `);
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span>Powers</span><span id="powers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${powers}</span></li>
+        <li class="list-group-item"><span>Tens</span><span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span></li>
+        <li class="list-group-item"><span>Negs</span><span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span></li>
+        <li class="list-group-item"><span>TUH</span><span id="tuh-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tuh}</span></li>
+        <li class="list-group-item"><span>Celerity</span><span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span></li>
+        <li class="list-group-item"><span>Is Owner?</span><span id="owner-${userId}" class="float-end stats stats-${userId}">${playerIsOwner ? 'Yes' : 'No'}</span></li>
+    </ul>
+  `);
 
   document.getElementById('player-list-group').appendChild(playerItem);
 
@@ -67,7 +67,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     banButton.innerText = 'Ban';
     playerItem.appendChild(banButton);
     banButton.addEventListener('click', () => {
-      socket.send(JSON.stringify({ type: 'ban', ownerId, target_user: userId, targ_name: username }));
+      socket.send(JSON.stringify({ type: 'ban', targetId: userId, targetUsername: username }));
     });
   }
 
@@ -79,8 +79,8 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     vkButton.innerText = 'VK';
     playerItem.appendChild(vkButton);
     vkButton.addEventListener('click', () => {
-      socket.send(JSON.stringify({ type: 'votekick-vote', target_user: userId, targ_name: username, send_id: USER_ID }));
-      socket.send(JSON.stringify({ type: 'votekick-init', target_user: userId, targ_name: username, send_id: USER_ID }));
+      socket.send(JSON.stringify({ type: 'votekick-vote', targetId: userId }));
+      socket.send(JSON.stringify({ type: 'votekick-init', targetId: userId }));
       vkButton.disabled = true;
       vkButton.innerText = 'Cooldown';
       setTimeout(() => {
@@ -98,7 +98,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     muteButton.innerText = 'Mute';
     playerItem.appendChild(muteButton);
     muteButton.addEventListener('click', () => {
-      socket.send(JSON.stringify({ type: 'mute-toggle', targetId: userId, sendingMuteId: USER_ID, muteStatus: muteButton.innerText }));
+      socket.send(JSON.stringify({ type: 'toggle-mute', targetId: userId, muteStatus: muteButton.innerText }));
       if (muteButton.innerText === 'Unmute') {
         muteButton.innerText = 'Mute';
       } else {
