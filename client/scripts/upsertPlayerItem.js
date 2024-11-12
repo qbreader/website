@@ -62,7 +62,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   // ban button if the viewer is the owner and the player is not, also room has to be private
   if ((ownerId === USER_ID) && userId !== ownerId && !isPublic && userId !== 'ai-bot') {
     const banButton = document.createElement('button');
-    banButton.className = 'btn btn-danger btn-sm mt-2';
+    banButton.className = 'btn btn-danger btn-sm mt-2 me-1';
     banButton.title = 'Ban an user. They can no longer join the room.';
     banButton.innerText = 'Ban';
     playerItem.appendChild(banButton);
@@ -74,7 +74,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   // votekick button. cannot vk an owner (change? idk)
   if (userId !== USER_ID && (isPublic || (userId !== ownerId && userId !== 'ai-bot'))) {
     const vkButton = document.createElement('button');
-    vkButton.className = 'btn btn-warning btn-sm mt-2';
+    vkButton.className = 'btn btn-warning btn-sm mt-2 me-1';
     vkButton.title = 'Initiate a votekick on an user. 90 second cooldown.';
     vkButton.innerText = 'VK';
     playerItem.appendChild(vkButton);
@@ -93,7 +93,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   if (userId !== 'ai-bot' && userId !== USER_ID && !isPublic) {
     const muteButton = document.createElement('button');
 
-    muteButton.className = 'btn btn-warning btn-sm mt-2';
+    muteButton.className = 'btn btn-warning btn-sm mt-2 me-1';
     muteButton.title = 'Mute/Unmute an user to change visibility of what they say in chat.';
     muteButton.innerText = 'Mute';
     playerItem.appendChild(muteButton);
