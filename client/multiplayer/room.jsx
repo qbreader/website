@@ -12,7 +12,6 @@ const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
 let startingDifficulties = [];
 let ownerId = '';
-let resolveOwnerId;
 let maxPacketNumber = 24;
 let globalPublic = true;
 let muteList = [];
@@ -55,6 +54,7 @@ socket.onmessage = function (event) {
     case 'chat': return chat(data, false);
     case 'chat-live-update': return chat(data, true);
     case 'clear-stats': return clearStats(data);
+    case 'confirm-ban': return confirmBan(data);
     case 'connection-acknowledged': return connectionAcknowledged(data);
     case 'connection-acknowledged-query': return connectionAcknowledgedQuery(data);
     case 'connection-acknowledged-tossup': return connectionAcknowledgedTossup(data);
@@ -68,10 +68,9 @@ socket.onmessage = function (event) {
     case 'join': return join(data);
     case 'leave': return leave(data);
     case 'lost-buzzer-race': return lostBuzzerRace(data);
-    case 'mute-notice': return mutePlayer(data);
+    case 'mute-player': return mutePlayer(data);
     case 'next': return next(data);
     case 'no-questions-found': return noQuestionsFound(data);
-    case 'owner-check': return ownerCheck(data);
     case 'pause': return pause(data);
     case 'reveal-answer': return revealAnswer(data);
     case 'set-categories': return setCategories(data);
@@ -96,7 +95,6 @@ socket.onmessage = function (event) {
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-timer': return toggleTimer(data);
     case 'update-question': return updateQuestion(data);
-    case 'verified-ban': return recvBan(data);
   }
 };
 // if a banned/kicked user tries to join a room they were removed from this is the response
@@ -167,10 +165,22 @@ function clearStats ({ userId }) {
   sortPlayerListGroup();
 }
 
+function confirmBan ({ targetId, targetUsername }) {
+  if (targetId === USER_ID) {
+    window.alert('You were banned from this room by the room owner.');
+    setTimeout(() => {
+      window.location.replace('../');
+    }, 100);
+  } else {
+    logEvent(targetUsername + ' has been banned from this room.');
+  }
+}
+
 function connectionAcknowledged ({
   buzzedIn,
   canBuzz,
   isPermanent,
+  ownerId: serverOwnerId,
   players: messagePlayers,
   questionProgress,
   settings,
@@ -186,8 +196,12 @@ function connectionAcknowledged ({
     document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
   }
 
-  processPlayers(messagePlayers);
-
+  ownerId = serverOwnerId;
+  for (const userId of Object.keys(messagePlayers)) {
+    messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
+    players[userId] = messagePlayers[userId];
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+  }
   sortPlayerListGroup();
 
   switch (questionProgress) {
@@ -299,14 +313,6 @@ function forceUsername ({ message, username }) {
   window.alert(message);
   window.localStorage.setItem('multiplayer-username', username);
   document.querySelector('#username').value = username;
-}
-
-async function getRecvOwnerId () {
-  await new Promise((resolve) => {
-    resolveOwnerId = resolve;
-    socket.send(JSON.stringify({ type: 'owner-id' }));
-  });
-  return ownerId;
 }
 
 async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, perQuestionCelerity, score, tossup, userId, username }) {
@@ -539,38 +545,8 @@ function noQuestionsFound () {
   window.alert('No questions found');
 }
 
-function ownerCheck ({ id }) {
-  ownerId = id;
-
-  if (resolveOwnerId) {
-    resolveOwnerId();
-    resolveOwnerId = null;
-  }
-}
-
 function pause ({ paused, username }) {
   logEvent(username, `${paused ? '' : 'un'}paused the game`);
-}
-
-async function processPlayers (messagePlayers) {
-  const recvOwnerId = await getRecvOwnerId();
-  await Promise.all(Object.keys(messagePlayers).map(async (userId) => {
-    messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
-    players[userId] = messagePlayers[userId];
-
-    upsertPlayerItem(players[userId], USER_ID, recvOwnerId, socket, globalPublic);
-  }));
-}
-
-function recvBan ({ target, targetUsername }) {
-  if (target === USER_ID) {
-    window.alert('You were banned from this room by the room owner.');
-    setTimeout(() => {
-      window.location.replace('../');
-    }, 100);
-  } else {
-    logEvent(targetUsername + ' has been banned from this room.');
-  }
 }
 
 function revealAnswer ({ answer, question }) {
@@ -769,18 +745,18 @@ function updateTimerDisplay (time) {
   document.querySelector('.timer .fraction').innerText = '.' + tenths;
 }
 
-function vkInit ({ targetName, targetId, threshold }) {
-  logEvent('A votekick has been started against user ' + targetName + ' and needs ' + threshold + ' votes to suceed.');
+function vkInit ({ targetUsername, threshold }) {
+  logEvent(`A votekick has been started against user ${targetUsername} and needs ${threshold} votes to suceed.`);
 }
 
-function vkHandle ({ targetName, targetId }) {
+function vkHandle ({ targetUsername, targetId }) {
   if (USER_ID === targetId) {
     window.alert('You were vote kicked from this room by others.');
     setTimeout(() => {
       window.location.replace('../');
     }, 100);
   } else {
-    logEvent(targetName + ' has been vote kicked from this room.');
+    logEvent(targetUsername + ' has been vote kicked from this room.');
   }
 }
 
