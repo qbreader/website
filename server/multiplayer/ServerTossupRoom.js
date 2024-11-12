@@ -1,4 +1,5 @@
 import ServerPlayer from './ServerPlayer.js';
+import Votekick from './VoteKick.js';
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
@@ -25,6 +26,7 @@ export default class ServerTossupRoom extends TossupRoom {
     this.bannedUserList = [];
     this.kickedUserList = [];
     this.votekickList = [];
+    this.lastVotekickTime = {};
 
     this.rateLimiter = new RateLimit(50, 1000);
     this.rateLimitExceeded = new Set();
@@ -40,28 +42,27 @@ export default class ServerTossupRoom extends TossupRoom {
 
   async message (userId, message) {
     switch (message.type) {
-      case 'ban': return this.banUser(message.ownerId, message.target_user, message.targ_name);
+      case 'ban': return this.ban(userId, message);
       case 'chat': return this.chat(userId, message);
       case 'chat-live-update': return this.chatLiveUpdate(userId, message);
       case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
-      case 'mute-toggle': return this.toggleMute(message.targetId, message.sendingMuteId, message.muteStatus);
       case 'toggle-lock': return this.toggleLock(userId, message);
       case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
+      case 'toggle-mute': return this.toggleMute(userId, message);
       case 'toggle-public': return this.togglePublic(userId, message);
-      case 'owner-id': return this.owner_id(this.ownerId);
-      case 'votekick-init': return this.votekickInit(message.target_user, message.targ_name, message.send_id);
-      case 'votekick-vote': return this.votekickVote(message.target_user, message.send_id);
+      case 'votekick-init': return this.votekickInit(userId, message);
+      case 'votekick-vote': return this.votekickVote(userId, message);
       default: super.message(userId, message);
     }
   }
 
-  banUser (ownerId, targetUser, targetUsername) {
-    console.log('Ban request recieved. Target ' + targetUser);
-    if (this.ownerId === ownerId) {
-      console.log('Checked, owner sent ban');
-      this.emitMessage({ type: 'verified-ban', target: targetUser, targetUsername });
-      this.bannedUserList.push(targetUser);
-    }
+  ban (userId, { targetId, targetUsername }) {
+    console.log('Ban request recieved. Target ' + targetId);
+    if (this.ownerId !== userId) { return; }
+
+    console.log('Checked, owner sent ban');
+    this.emitMessage({ type: 'confirm-ban', targetId, targetUsername });
+    this.bannedUserList.push(targetId);
   }
 
   connection (socket, userId, username) {
@@ -72,13 +73,15 @@ export default class ServerTossupRoom extends TossupRoom {
     this.players[userId].online = true;
     this.sockets[userId] = socket;
     username = this.players[userId].safelySetUsername(username);
+
     if (this.bannedUserList.includes(userId)) {
-      console.log('Banned user ' + userId + ' (' + username + ') tried to join a room');
+      console.log(`Banned user ${userId} (${username}) tried to join a room`);
       this.sendToSocket(userId, { type: 'enforcing-removal', removalType: 'ban' });
       return;
     }
+
     if (this.kickedUserList.includes(userId)) {
-      console.log('Kicked user ' + userId + ' (' + username + ') tried to join a room');
+      console.log(`Kicked user ${userId} (${username}) tried to join a room`);
       this.sendToSocket(userId, { type: 'enforcing-removal', removalType: 'kick' });
       return;
     }
@@ -105,6 +108,7 @@ export default class ServerTossupRoom extends TossupRoom {
       type: 'connection-acknowledged',
       userId,
 
+      ownerId: this.ownerId,
       players: this.players,
       isPermanent: this.isPermanent,
 
@@ -170,10 +174,6 @@ export default class ServerTossupRoom extends TossupRoom {
     super.next(userId, { type });
   }
 
-  owner_id (id) {
-    this.emitMessage({ type: 'owner-check', id });
-  }
-
   setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
     if (this.isPermanent) { return; }
     super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
@@ -223,8 +223,8 @@ export default class ServerTossupRoom extends TossupRoom {
     this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
   }
 
-  toggleMute (targetId, senderId, muteStatus) {
-    this.sendToSocket(senderId, { type: 'mute-notice', targetId, muteStatus });
+  toggleMute (userId, { targetId, muteStatus }) {
+    this.sendToSocket(userId, { type: 'mute-player', targetId, muteStatus });
   }
 
   togglePublic (userId, { public: isPublic }) {
@@ -252,90 +252,50 @@ export default class ServerTossupRoom extends TossupRoom {
     super.toggleTimer(userId, { timer });
   }
 
-  votekickInit (targetId, targetName, sendingId) {
-    if (!this.lastVotekickTime) {
-      this.lastVotekickTime = {};
-    }
+  votekickInit (userId, { targetId }) {
+    const targetUsername = this.players[targetId].username;
 
     const currentTime = Date.now();
-    if (this.lastVotekickTime[sendingId] && (currentTime - this.lastVotekickTime[sendingId] < 90000)) {
-      console.log(`Votekick denied: ${sendingId} 90 second cooldown viol.`);
+    if (this.lastVotekickTime[userId] && (currentTime - this.lastVotekickTime[userId] < 90000)) {
+      console.log(`Votekick denied: ${userId} 90 second cooldown violation.`);
       return;
     }
 
-    this.lastVotekickTime[sendingId] = currentTime;
+    this.lastVotekickTime[userId] = currentTime;
 
-    let exists = false;
-    this.votekickList.forEach((votekick) => {
-      if (votekick.exists(targetId)) {
-        exists = true;
-      }
-    });
-    if (exists) {
-      return;
+    for (const votekick of this.votekickList) {
+      if (votekick.exists(targetId)) { return; }
     }
 
     const threshold = Math.max((Object.keys(this.players).length) - 1, 0);
-    const votekick = new Votekick(targetName, targetId, [], threshold);
-    votekick.vote(sendingId);
+    const votekick = new Votekick(targetId, threshold, []);
+    votekick.vote(userId);
     if (votekick.check()) {
-      this.emitMessage({ type: 'successful-vk', targetName: votekick.targName, targetId: votekick.targId });
+      this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
       this.kickedUserList.push(targetId);
     } else {
       this.votekickList.push(votekick);
-      this.emitMessage({ type: 'initiated-vk', targetName: votekick.targName, targetId: votekick.targId, threshold });
+      this.emitMessage({ type: 'initiated-vk', targetUsername, threshold });
     }
-    console.log(this.votekickList);
   }
 
-  votekickVote (targetUser, votingId) {
+  votekickVote (userId, { targetId }) {
+    const targetUsername = this.players[targetId].username;
+
     let exists = false;
     let thisVotekick;
-    this.votekickList.forEach((votekick) => {
-      if (votekick.exists(targetUser)) {
+    for (const votekick of this.votekickList) {
+      if (votekick.exists(targetId)) {
         thisVotekick = votekick;
         exists = true;
       }
-    });
-    if (!exists) {
-      return;
     }
-    thisVotekick.vote(votingId);
+    if (!exists) { return; }
+
+    thisVotekick.vote(userId);
     if (thisVotekick.check()) {
-      this.emitMessage({ type: 'successful-vk', targetName: thisVotekick.targName, targetId: thisVotekick.targId });
-      this.kickedUserList.push(targetUser);
-    }
-    console.log(this.votekickList);
-  }
-}
-
-class Votekick {
-  constructor (targName, targId, voted = [], threshold) {
-    this.targName = targName;
-    this.targId = targId;
-    this.voted = Array.isArray(voted) ? voted : [];
-    this.threshold = threshold;
-  }
-
-  exists (givenId) {
-    if (this.targId === givenId) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  vote (votingId) {
-    if (!this.voted.includes(votingId)) {
-      this.voted.push(votingId);
-    }
-  }
-
-  check () {
-    if (this.voted.length >= this.threshold) {
-      return true;
-    } else {
-      return false;
+      this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
+      this.kickedUserList.push(targetId);
     }
   }
 }
