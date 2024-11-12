@@ -1,4 +1,5 @@
 import ServerPlayer from './ServerPlayer.js';
+import Votekick from './VoteKick.js';
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
@@ -13,14 +14,19 @@ import getNumPackets from '../../database/qbreader/get-num-packets.js';
 import checkAnswer from 'qb-answer-checker';
 
 export default class ServerTossupRoom extends TossupRoom {
-  constructor (name, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
+  constructor (name, ownerId, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
+    this.ownerId = ownerId;
     this.isPermanent = isPermanent;
     this.checkAnswer = checkAnswer;
     this.getNumPackets = getNumPackets;
     this.getRandomTossups = getRandomTossups;
     this.getSet = getSet;
     this.getSetList = getSetList;
+    this.bannedUserList = [];
+    this.kickedUserList = [];
+    this.votekickList = [];
+    this.lastVotekickTime = {};
 
     this.rateLimiter = new RateLimit(50, 1000);
     this.rateLimitExceeded = new Set();
@@ -36,24 +42,49 @@ export default class ServerTossupRoom extends TossupRoom {
 
   async message (userId, message) {
     switch (message.type) {
+      case 'ban': return this.ban(userId, message);
       case 'chat': return this.chat(userId, message);
       case 'chat-live-update': return this.chatLiveUpdate(userId, message);
       case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
       case 'toggle-lock': return this.toggleLock(userId, message);
       case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
+      case 'toggle-mute': return this.toggleMute(userId, message);
       case 'toggle-public': return this.togglePublic(userId, message);
+      case 'votekick-init': return this.votekickInit(userId, message);
+      case 'votekick-vote': return this.votekickVote(userId, message);
       default: super.message(userId, message);
     }
   }
 
+  ban (userId, { targetId, targetUsername }) {
+    console.log('Ban request recieved. Target ' + targetId);
+    if (this.ownerId !== userId) { return; }
+
+    console.log('Checked, owner sent ban');
+    this.emitMessage({ type: 'confirm-ban', targetId, targetUsername });
+    this.bannedUserList.push(targetId);
+  }
+
   connection (socket, userId, username) {
-    console.log(`Connection in room ${HEADER}${this.name}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
+    console.log(`Connection in room ${HEADER}${this.name}${ENDC} - ID of owner: ${OKBLUE}${this.ownerId}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
 
     const isNew = !(userId in this.players);
     if (isNew) { this.players[userId] = new ServerPlayer(userId); }
     this.players[userId].online = true;
     this.sockets[userId] = socket;
     username = this.players[userId].safelySetUsername(username);
+
+    if (this.bannedUserList.includes(userId)) {
+      console.log(`Banned user ${userId} (${username}) tried to join a room`);
+      this.sendToSocket(userId, { type: 'enforcing-removal', removalType: 'ban' });
+      return;
+    }
+
+    if (this.kickedUserList.includes(userId)) {
+      console.log(`Kicked user ${userId} (${username}) tried to join a room`);
+      this.sendToSocket(userId, { type: 'enforcing-removal', removalType: 'kick' });
+      return;
+    }
 
     socket.on('message', message => {
       if (this.rateLimiter(socket) && !this.rateLimitExceeded.has(username)) {
@@ -77,6 +108,7 @@ export default class ServerTossupRoom extends TossupRoom {
       type: 'connection-acknowledged',
       userId,
 
+      ownerId: this.ownerId,
       players: this.players,
       isPermanent: this.isPermanent,
 
@@ -191,6 +223,10 @@ export default class ServerTossupRoom extends TossupRoom {
     this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
   }
 
+  toggleMute (userId, { targetId, muteStatus }) {
+    this.sendToSocket(userId, { type: 'mute-player', targetId, muteStatus });
+  }
+
   togglePublic (userId, { public: isPublic }) {
     if (this.isPermanent) { return; }
     this.settings.public = isPublic;
@@ -214,5 +250,52 @@ export default class ServerTossupRoom extends TossupRoom {
   toggleTimer (userId, { timer }) {
     if (this.settings.public) { return; }
     super.toggleTimer(userId, { timer });
+  }
+
+  votekickInit (userId, { targetId }) {
+    const targetUsername = this.players[targetId].username;
+
+    const currentTime = Date.now();
+    if (this.lastVotekickTime[userId] && (currentTime - this.lastVotekickTime[userId] < 90000)) {
+      console.log(`Votekick denied: ${userId} 90 second cooldown violation.`);
+      return;
+    }
+
+    this.lastVotekickTime[userId] = currentTime;
+
+    for (const votekick of this.votekickList) {
+      if (votekick.exists(targetId)) { return; }
+    }
+
+    const threshold = Math.max((Object.keys(this.players).length) - 1, 0);
+    const votekick = new Votekick(targetId, threshold, []);
+    votekick.vote(userId);
+    if (votekick.check()) {
+      this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
+      this.kickedUserList.push(targetId);
+    } else {
+      this.votekickList.push(votekick);
+      this.emitMessage({ type: 'initiated-vk', targetUsername, threshold });
+    }
+  }
+
+  votekickVote (userId, { targetId }) {
+    const targetUsername = this.players[targetId].username;
+
+    let exists = false;
+    let thisVotekick;
+    for (const votekick of this.votekickList) {
+      if (votekick.exists(targetId)) {
+        thisVotekick = votekick;
+        exists = true;
+      }
+    }
+    if (!exists) { return; }
+
+    thisVotekick.vote(userId);
+    if (thisVotekick.check()) {
+      this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
+      this.kickedUserList.push(targetId);
+    }
   }
 }
