@@ -266,8 +266,14 @@ export default class ServerTossupRoom extends TossupRoom {
     for (const votekick of this.votekickList) {
       if (votekick.exists(targetId)) { return; }
     }
+    let activePlayers = 0;
+    Object.keys(this.players).forEach(playerId => {
+      if (this.players[playerId].online) {
+        activePlayers += 1;
+      }
+    });
 
-    const threshold = Math.max((Object.keys(this.players).length) - 1, 0);
+    const threshold = Math.max(activePlayers - 2, 2);
     const votekick = new Votekick(targetId, threshold, []);
     votekick.vote(userId);
     if (votekick.check()) {
