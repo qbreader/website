@@ -16,7 +16,7 @@ const DOMPurify = createDOMPurify(window);
 const tossupRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupRooms[name] = new ServerTossupRoom(name, true, categories, subcategories);
+  tossupRooms[name] = new ServerTossupRoom(name, 0, true, categories, subcategories);
 }
 
 /**
@@ -25,12 +25,12 @@ for (const room of PERMANENT_ROOMS) {
  * @param {String} roomName
  * @returns {TossupRoom}
  */
-function createAndReturnRoom (roomName, isPrivate = false) {
+function createAndReturnRoom (roomName, userId, isPrivate = false) {
   roomName = DOMPurify.sanitize(roomName);
   roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
 
   if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
-    const newRoom = new ServerTossupRoom(roomName, false);
+    const newRoom = new ServerTossupRoom(roomName, userId, false);
     newRoom.settings.public = !isPrivate;
     tossupRooms[roomName] = newRoom;
   }
@@ -68,7 +68,7 @@ export default function handleWssConnection (ws, req) {
     return false;
   }
 
-  const room = createAndReturnRoom(roomName, isPrivate);
+  const room = createAndReturnRoom(roomName, userId, isPrivate);
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({
       type: 'error',
