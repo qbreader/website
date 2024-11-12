@@ -67,7 +67,7 @@ router.get('/', async (req, res) => {
 
   try {
     const queryResult = await getQuery(req.query);
-      res.json(queryResult);
+    res.json(queryResult);
   } catch (error) {
     switch (error.message) {
       case 'Invalid question type specified.':

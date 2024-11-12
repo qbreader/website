@@ -85,12 +85,9 @@ export default class TossupRoom extends Room {
       case 'buzz': return this.buzz(userId, message);
       case 'clear-stats': return this.clearStats(userId, message);
       case 'give-answer': return this.giveAnswer(userId, message);
-
       case 'next':
       case 'skip':
-      case 'start':
-        return this.next(userId, message);
-
+      case 'start': return this.next(userId, message);
       case 'pause': return this.pause(userId, message);
       case 'set-categories': return this.setCategories(userId, message);
       case 'set-difficulties': return this.setDifficulties(userId, message);
@@ -411,7 +408,7 @@ export default class TossupRoom extends Room {
     // calculate time needed before reading next word
     let time = Math.log(word.length) + 1;
     if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123) ||
-            word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d') {
+      word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d') {
       time += 2;
     } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') {
       time += 0.75;

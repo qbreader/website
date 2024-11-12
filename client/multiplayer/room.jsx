@@ -11,9 +11,10 @@ import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
 const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
 let startingDifficulties = [];
-
+let ownerId = '';
 let maxPacketNumber = 24;
-
+let globalPublic = true;
+let muteList = [];
 /**
  * userId to player object
  */
@@ -50,20 +51,24 @@ socket.onmessage = function (event) {
   const data = JSON.parse(event.data);
   switch (data.type) {
     case 'buzz': return buzz(data);
-    case 'force-username': return forceUsername(data);
     case 'chat': return chat(data, false);
     case 'chat-live-update': return chat(data, true);
     case 'clear-stats': return clearStats(data);
+    case 'confirm-ban': return confirmBan(data);
     case 'connection-acknowledged': return connectionAcknowledged(data);
     case 'connection-acknowledged-query': return connectionAcknowledgedQuery(data);
     case 'connection-acknowledged-tossup': return connectionAcknowledgedTossup(data);
+    case 'enforcing-removal': return ackRemovedFromRoom(data);
     case 'end-of-set': return endOfSet(data);
     case 'error': return handleError(data);
+    case 'force-username': return forceUsername(data);
     case 'give-answer': return giveAnswer(data);
     case 'give-answer-live-update': return logGiveAnswer(data, true);
+    case 'initiated-vk': return vkInit(data);
     case 'join': return join(data);
     case 'leave': return leave(data);
     case 'lost-buzzer-race': return lostBuzzerRace(data);
+    case 'mute-player': return mutePlayer(data);
     case 'next': return next(data);
     case 'no-questions-found': return noQuestionsFound(data);
     case 'pause': return pause(data);
@@ -78,6 +83,7 @@ socket.onmessage = function (event) {
     case 'set-year-range': return setYearRange(data);
     case 'skip': return next(data);
     case 'start': return next(data);
+    case 'successful-vk': return vkHandle(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
     case 'toggle-lock': return toggleLock(data);
     case 'toggle-login-required': return toggleLoginRequired(data);
@@ -91,6 +97,17 @@ socket.onmessage = function (event) {
     case 'update-question': return updateQuestion(data);
   }
 };
+// if a banned/kicked user tries to join a room they were removed from this is the response
+function ackRemovedFromRoom ({ removalType }) {
+  if (removalType === 'kick') {
+    window.alert('You were kicked from this room by players, and cannot rejoin it.');
+  } else {
+    window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
+  }
+  setTimeout(() => {
+    window.location.replace('../');
+  }, 100);
+}
 
 function buzz ({ userId, username }) {
   logEvent(username, 'buzzed');
@@ -106,6 +123,9 @@ function buzz ({ userId, username }) {
 }
 
 function chat ({ message, userId, username }, live = false) {
+  if (muteList.includes(userId)) {
+    return;
+  }
   if (!live && message === '') {
     document.getElementById('live-chat-' + userId).parentElement.remove();
     return;
@@ -141,14 +161,26 @@ function clearStats ({ userId }) {
   for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
     players[userId][field] = 0;
   }
-  upsertPlayerItem(players[userId], USER_ID);
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
   sortPlayerListGroup();
+}
+
+function confirmBan ({ targetId, targetUsername }) {
+  if (targetId === USER_ID) {
+    window.alert('You were banned from this room by the room owner.');
+    setTimeout(() => {
+      window.location.replace('../');
+    }, 100);
+  } else {
+    logEvent(targetUsername + ' has been banned from this room.');
+  }
 }
 
 function connectionAcknowledged ({
   buzzedIn,
   canBuzz,
   isPermanent,
+  ownerId: serverOwnerId,
   players: messagePlayers,
   questionProgress,
   settings,
@@ -164,11 +196,12 @@ function connectionAcknowledged ({
     document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
   }
 
-  Object.keys(messagePlayers).forEach(userId => {
+  ownerId = serverOwnerId;
+  for (const userId of Object.keys(messagePlayers)) {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
-    upsertPlayerItem(players[userId], USER_ID);
-  });
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+  }
   sortPlayerListGroup();
 
   switch (questionProgress) {
@@ -204,6 +237,7 @@ function connectionAcknowledged ({
   document.getElementById('toggle-login-required').disabled = settings.public;
   document.getElementById('toggle-timer').disabled = settings.public;
   document.getElementById('toggle-public').checked = settings.public;
+  globalPublic = settings.public;
 
   document.getElementById('reading-speed').value = settings.readingSpeed;
   document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
@@ -327,7 +361,7 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
     players[userId].tuh++;
     players[userId].celerity = celerity;
 
-    upsertPlayerItem(players[userId], USER_ID);
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
     sortPlayerListGroup();
   }
 
@@ -358,7 +392,7 @@ function join ({ isNew, user, userId, username }) {
 
   if (isNew) {
     user.celerity = user.celerity.correct.average;
-    upsertPlayerItem(user, USER_ID);
+    upsertPlayerItem(user, USER_ID, ownerId, socket, globalPublic);
     sortPlayerListGroup();
     players[userId] = user;
   } else {
@@ -453,6 +487,17 @@ function logGiveAnswer ({ directive = null, message, username }) {
 function lostBuzzerRace ({ username, userId }) {
   logEvent(username, 'lost the buzzer race');
   if (userId === USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
+}
+function mutePlayer ({ targetId, muteStatus }) {
+  if (muteStatus === 'Mute') {
+    if (!muteList.includes(targetId)) {
+      muteList.push(targetId);
+    }
+  } else {
+    if (muteList.includes(targetId)) {
+      muteList = muteList.filter(Id => Id !== targetId);
+    }
+  }
 }
 
 function next ({ oldTossup, tossup: nextTossup, type, username }) {
@@ -604,6 +649,16 @@ function setUsername ({ oldUsername, newUsername, userId }) {
     window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+}
+
+function setYearRange ({ minYear, maxYear, username }) {
+  if (username) { logEvent(username, `changed the year range to ${minYear}-${maxYear}`); }
+
+  $('#slider').slider('values', 0, minYear);
+  $('#slider').slider('values', 1, maxYear);
+  document.getElementById('year-range-a').textContent = minYear;
+  document.getElementById('year-range-b').textContent = maxYear;
 }
 
 function toggleLock ({ lock, username }) {
@@ -667,11 +722,14 @@ function togglePublic ({ public: isPublic, username }) {
   document.getElementById('toggle-timer').disabled = isPublic;
   document.getElementById('toggle-timer').checked = true;
   document.getElementById('toggle-public').checked = isPublic;
-
+  globalPublic = isPublic;
   if (isPublic) {
     document.getElementById('toggle-lock').checked = false;
     document.getElementById('toggle-login-required').checked = false;
   }
+  Object.keys(players).forEach((player) => {
+    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
+  });
 }
 
 function updateQuestion ({ word }) {
@@ -687,13 +745,19 @@ function updateTimerDisplay (time) {
   document.querySelector('.timer .fraction').innerText = '.' + tenths;
 }
 
-function setYearRange ({ minYear, maxYear, username }) {
-  if (username) { logEvent(username, `changed the year range to ${minYear}-${maxYear}`); }
+function vkInit ({ targetUsername, threshold }) {
+  logEvent(`A votekick has been started against user ${targetUsername} and needs ${threshold} votes to suceed.`);
+}
 
-  $('#slider').slider('values', 0, minYear);
-  $('#slider').slider('values', 1, maxYear);
-  document.getElementById('year-range-a').textContent = minYear;
-  document.getElementById('year-range-b').textContent = maxYear;
+function vkHandle ({ targetUsername, targetId }) {
+  if (USER_ID === targetId) {
+    window.alert('You were vote kicked from this room by others.');
+    setTimeout(() => {
+      window.location.replace('../');
+    }, 100);
+  } else {
+    logEvent(targetUsername + ' has been vote kicked from this room.');
+  }
 }
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
