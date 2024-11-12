@@ -29,11 +29,14 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   const displayUsername = (playerIsOwner && !isPublic) ? `👑 ${escapeHTML(username)}` : escapeHTML(username);
 
   playerItem.innerHTML = `
-      <div class="d-flex justify-content-between">
-          <span id="username-${userId}">${displayUsername}</span>
-          <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
+  <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+          <span id="username-${userId}" class="me-1">${displayUsername}</span>
+          <!-- Dropdown  -->
       </div>
-    `;
+      <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
+  </div>
+`;
 
   // Set attributes for the popover
   playerItem.setAttribute('data-bs-container', 'body');
@@ -56,55 +59,80 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
         <li class="list-group-item"><span>Is Owner?</span><span id="owner-${userId}" class="float-end stats stats-${userId}">${playerIsOwner ? 'Yes' : 'No'}</span></li>
     </ul>
   `);
-
   document.getElementById('player-list-group').appendChild(playerItem);
+  const banTrigger = (ownerId === USER_ID) && userId !== ownerId && !isPublic && userId !== 'ai-bot';
+  const muteTrigger = userId !== 'ai-bot' && userId !== USER_ID && !isPublic;
+  const vkTrigger = userId !== USER_ID && (isPublic || (userId !== ownerId && userId !== 'ai-bot'));
 
-  // ban button if the viewer is the owner and the player is not, also room has to be private
-  if ((ownerId === USER_ID) && userId !== ownerId && !isPublic && userId !== 'ai-bot') {
-    const banButton = document.createElement('button');
-    banButton.className = 'btn btn-danger btn-sm mt-2 me-1';
-    banButton.title = 'Ban an user. They can no longer join the room.';
-    banButton.innerText = 'Ban';
-    playerItem.appendChild(banButton);
-    banButton.addEventListener('click', () => {
-      socket.send(JSON.stringify({ type: 'ban', targetId: userId, targetUsername: username }));
-    });
-  }
+  if (banTrigger || muteTrigger || vkTrigger) {
+    const dropdownContainer = document.createElement('div');
+    dropdownContainer.className = 'ms-1';
 
-  // votekick button. cannot vk an owner (change? idk)
-  if (userId !== USER_ID && (isPublic || (userId !== ownerId && userId !== 'ai-bot'))) {
-    const vkButton = document.createElement('button');
-    vkButton.className = 'btn btn-warning btn-sm mt-2 me-1';
-    vkButton.title = 'Initiate a votekick on an user. 90 second cooldown.';
-    vkButton.innerText = 'VK';
-    playerItem.appendChild(vkButton);
-    vkButton.addEventListener('click', () => {
-      socket.send(JSON.stringify({ type: 'votekick-vote', targetId: userId }));
-      socket.send(JSON.stringify({ type: 'votekick-init', targetId: userId }));
-      vkButton.disabled = true;
-      vkButton.innerText = 'Cooldown';
-      setTimeout(() => {
-        vkButton.disabled = false;
-        vkButton.innerText = 'VK';
-      }, 90000);
-    });
-  }
-  // User cannot be ai or yourself
-  if (userId !== 'ai-bot' && userId !== USER_ID && !isPublic) {
-    const muteButton = document.createElement('button');
+    const toggleButton = document.createElement('button');
+    toggleButton.className = 'btn btn-default dropdown-toggle p-0';
+    toggleButton.setAttribute('data-bs-toggle', 'dropdown');
+    toggleButton.setAttribute('type', 'button');
+    dropdownContainer.appendChild(toggleButton);
 
-    muteButton.className = 'btn btn-warning btn-sm mt-2 me-1';
-    muteButton.title = 'Mute/Unmute an user to change visibility of what they say in chat.';
-    muteButton.innerText = 'Mute';
-    playerItem.appendChild(muteButton);
-    muteButton.addEventListener('click', () => {
-      socket.send(JSON.stringify({ type: 'toggle-mute', targetId: userId, muteStatus: muteButton.innerText }));
-      if (muteButton.innerText === 'Unmute') {
-        muteButton.innerText = 'Mute';
-      } else {
-        muteButton.innerText = 'Unmute';
-      }
-    });
+    const dropdownMenu = document.createElement('ul');
+    dropdownMenu.className = 'dropdown-menu';
+    dropdownMenu.setAttribute('aria-labelledby', 'playerActionsDropdown');
+
+    if (muteTrigger) {
+      const muteItem = document.createElement('li');
+      const muteButton = document.createElement('button');
+      muteButton.innerText = 'Mute';
+      muteButton.className = 'btn btn-warning btn-sm mt-2 me-1 dropdown-item';
+      muteButton.title = 'Mute/Unmute an user to change visibility of what they say in chat.';
+      muteItem.appendChild(muteButton);
+      dropdownMenu.appendChild(muteItem);
+
+      muteButton.addEventListener('click', () => {
+        socket.send(JSON.stringify({ type: 'toggle-mute', targetId: userId, muteStatus: muteButton.innerText }));
+        muteButton.innerText = muteButton.innerText === 'Unmute' ? 'Mute' : 'Unmute';
+      });
+    }
+
+    if (vkTrigger) {
+      const kickItem = document.createElement('li');
+      const vkButton = document.createElement('button');
+      vkButton.className = 'btn btn-warning btn-sm mt-2 me-1 dropdown-item';
+      vkButton.title = 'Initiate a votekick on an user. 90 second cooldown.';
+      vkButton.innerText = 'Votekick';
+      kickItem.appendChild(vkButton);
+      dropdownMenu.appendChild(kickItem);
+
+      vkButton.addEventListener('click', () => {
+        socket.send(JSON.stringify({ type: 'votekick-vote', targetId: userId }));
+        socket.send(JSON.stringify({ type: 'votekick-init', targetId: userId }));
+        vkButton.disabled = true;
+        vkButton.innerText = 'Cooldown';
+        setTimeout(() => {
+          vkButton.disabled = false;
+          vkButton.innerText = 'VK';
+        }, 90000);
+      });
+    }
+
+    if (banTrigger) {
+      const banItem = document.createElement('li');
+      const banButton = document.createElement('button');
+      banButton.className = 'btn btn-danger btn-sm mt-2 me-1 dropdown-item';
+      banButton.title = 'Ban an user. They can no longer join the room.';
+      banButton.innerText = 'Ban';
+      banItem.appendChild(banButton);
+      dropdownMenu.appendChild(banItem);
+
+      banButton.addEventListener('click', () => {
+        socket.send(JSON.stringify({ type: 'ban', targetId: userId, targetUsername: username }));
+      });
+    }
+
+    dropdownContainer.appendChild(dropdownMenu);
+
+    const usernameSpan = playerItem.querySelector(`#username-${userId}`);
+    usernameSpan.classList.add('me-2');
+    usernameSpan.after(dropdownContainer);
   }
 
   // bootstrap requires "new" to be called on each popover
