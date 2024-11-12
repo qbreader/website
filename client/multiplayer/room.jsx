@@ -746,7 +746,7 @@ function updateTimerDisplay (time) {
 }
 
 function vkInit ({ targetUsername, threshold }) {
-  logEvent(`A votekick has been started against user ${targetUsername} and needs ${threshold} votes to suceed.`);
+  logEvent(`A votekick has been started against user ${targetUsername} and needs ${threshold} votes to succeed.`);
 }
 
 function vkHandle ({ targetUsername, targetId }) {
