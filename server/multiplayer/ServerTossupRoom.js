@@ -12,6 +12,7 @@ import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
+const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
 export default class ServerTossupRoom extends TossupRoom {
   constructor (name, ownerId, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
@@ -23,8 +24,8 @@ export default class ServerTossupRoom extends TossupRoom {
     this.getRandomTossups = getRandomTossups;
     this.getSet = getSet;
     this.getSetList = getSetList;
-    this.bannedUserList = [];
-    this.kickedUserList = [];
+    this.bannedUserList = new Map();
+    this.kickedUserList = new Map();
     this.votekickList = [];
     this.lastVotekickTime = {};
 
@@ -38,6 +39,7 @@ export default class ServerTossupRoom extends TossupRoom {
     };
 
     this.getSetList().then(setList => { this.setList = setList; });
+    setInterval(this.cleanupExpiredBansAndKicks.bind(this), 5 * 60 * 1000); // 5 minutes
   }
 
   async message (userId, message) {
@@ -62,11 +64,12 @@ export default class ServerTossupRoom extends TossupRoom {
 
     console.log('Checked, owner sent ban');
     this.emitMessage({ type: 'confirm-ban', targetId, targetUsername });
-    this.bannedUserList.push(targetId);
+    this.bannedUserList.set(targetId, Date.now());
   }
 
   connection (socket, userId, username) {
     console.log(`Connection in room ${HEADER}${this.name}${ENDC} - ID of owner: ${OKBLUE}${this.ownerId}${ENDC} - userId: ${OKBLUE}${userId}${ENDC}, username: ${OKBLUE}${username}${ENDC} - with settings ${OKGREEN}${Object.keys(this.settings).map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`);
+    this.cleanupExpiredBansAndKicks();
 
     const isNew = !(userId in this.players);
     if (isNew) { this.players[userId] = new ServerPlayer(userId); }
@@ -74,13 +77,13 @@ export default class ServerTossupRoom extends TossupRoom {
     this.sockets[userId] = socket;
     username = this.players[userId].safelySetUsername(username);
 
-    if (this.bannedUserList.includes(userId)) {
+    if (this.bannedUserList.has(userId)) {
       console.log(`Banned user ${userId} (${username}) tried to join a room`);
       this.sendToSocket(userId, { type: 'enforcing-removal', removalType: 'ban' });
       return;
     }
 
-    if (this.kickedUserList.includes(userId)) {
+    if (this.kickedUserList.has(userId)) {
       console.log(`Kicked user ${userId} (${username}) tried to join a room`);
       this.sendToSocket(userId, { type: 'enforcing-removal', removalType: 'kick' });
       return;
@@ -151,6 +154,24 @@ export default class ServerTossupRoom extends TossupRoom {
     if (this.settings.public || typeof message !== 'string') { return false; }
     const username = this.players[userId].username;
     this.emitMessage({ type: 'chat-live-update', message, username, userId });
+  }
+
+  cleanupExpiredBansAndKicks () {
+    const now = Date.now();
+
+    this.bannedUserList.forEach((banTime, userId) => {
+      if (now - banTime > BAN_DURATION) {
+        this.bannedUserList.delete(userId);
+        console.log(`User ${userId} ban expired and removed from banned list`);
+      }
+    });
+
+    this.kickedUserList.forEach((kickTime, userId) => {
+      if (now - kickTime > BAN_DURATION) {
+        this.kickedUserList.delete(userId);
+        console.log(`User ${userId} kick expired and removed from kicked list`);
+      }
+    });
   }
 
   close (userId) {
@@ -278,9 +299,9 @@ export default class ServerTossupRoom extends TossupRoom {
     votekick.vote(userId);
     if (votekick.check()) {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
-      this.kickedUserList.push(targetId);
+      this.kickedUserList.set(targetId, Date.now());
     } else {
-      this.votekickList.push(votekick);
+      this.kickedUserList.set(targetId, Date.now());
       this.emitMessage({ type: 'initiated-vk', targetUsername, threshold });
     }
   }
@@ -301,7 +322,7 @@ export default class ServerTossupRoom extends TossupRoom {
     thisVotekick.vote(userId);
     if (thisVotekick.check()) {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
-      this.kickedUserList.push(targetId);
+      this.kickedUserList.set(targetId, Date.now());
     }
   }
 }
