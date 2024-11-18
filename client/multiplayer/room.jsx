@@ -633,9 +633,14 @@ function setStrictness ({ strictness, username }) {
   document.getElementById('strictness-display').textContent = strictness;
 }
 
-function setSetName ({ username, setName }) {
+function setSetName ({ username, setName, setLength }) {
   logEvent(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
   document.getElementById('set-name').value = setName;
+  // make border red if set name is not in set list
+  const valid = !setName || api.getSetList().includes(setName);
+  document.getElementById('set-name').classList.toggle('is-invalid', !valid);
+  maxPacketNumber = setLength;
+  document.getElementById('packet-number').placeholder = 'Packet Numbers' + (maxPacketNumber ? ` (1-${maxPacketNumber})` : '');
 }
 
 function setUsername ({ oldUsername, newUsername, userId }) {
@@ -860,23 +865,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 document.getElementById('set-name').addEventListener('change', async function () {
-  if (api.getSetList().includes(this.value) || this.value.length === 0) {
-    this.classList.remove('is-invalid');
-  } else {
-    this.classList.add('is-invalid');
-  }
-  maxPacketNumber = await api.getNumPackets(this.value);
-  if (this.value === '' || maxPacketNumber === 0) {
-    document.getElementById('packet-number').value = '';
-  } else {
-    document.getElementById('packet-number').value = `1-${maxPacketNumber}`;
-  }
-
-  socket.send(JSON.stringify({
-    type: 'set-set-name',
-    setName: this.value,
-    packetNumbers: rangeToArray(document.getElementById('packet-number').value)
-  }));
+  socket.send(JSON.stringify({ type: 'set-set-name', setName: this.value }));
 });
 
 document.getElementById('strictness').addEventListener('change', function () {

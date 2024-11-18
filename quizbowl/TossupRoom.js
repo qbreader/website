@@ -35,6 +35,7 @@ export default class TossupRoom extends Room {
     this.queryingQuestion = false;
     this.questionProgress = this.QuestionProgressEnum.NOT_STARTED;
     this.questionSplit = [];
+    this.setLength = undefined;
     this.tossup = {};
     this.wordIndex = 0;
 
@@ -134,7 +135,8 @@ export default class TossupRoom extends Room {
     if (this.query.selectBySetName) {
       do {
         if (this.setCache.length === 0) {
-          const packetNumber = this.query.packetNumbers.shift();
+          this.query.packetNumbers.shift();
+          const packetNumber = this.query.packetNumbers[0];
           if (packetNumber === undefined) {
             this.emitMessage({ type: 'end-of-set' });
             return false;
@@ -371,11 +373,14 @@ export default class TossupRoom extends Room {
     this.emitMessage({ type: 'set-reading-speed', username, readingSpeed });
   }
 
-  async setSetName (userId, { packetNumbers, setName }) {
+  async setSetName (userId, { setName }) {
     if (typeof setName !== 'string') { return; }
     const username = this.players[userId].username;
+    const setLength = await this.getNumPackets(setName);
+    const packetNumbers = [];
+    for (let i = 1; i <= setLength; i++) { packetNumbers.push(i); }
     this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers]);
-    this.emitMessage({ type: 'set-set-name', username, setName });
+    this.emitMessage({ type: 'set-set-name', username, setName, setLength });
   }
 
   setUsername (userId, { username }) {
