@@ -67,6 +67,7 @@ function buzz ({ timer, userId, username }) {
   if (audio.soundEffects) { audio.buzz.play(); }
   if (userId !== USER_ID) { return; }
 
+  document.getElementById('pause').disabled = true;
   const typeToAnswer = document.getElementById('type-to-answer').checked;
   if (typeToAnswer) {
     document.getElementById('answer-input-group').classList.remove('d-none');

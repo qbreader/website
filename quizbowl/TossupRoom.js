@@ -308,6 +308,7 @@ export default class TossupRoom extends Room {
 
   pause (userId) {
     if (this.buzzedIn) { return false; }
+    if (this.questionProgress === this.QuestionProgressEnum.ANSWER_REVEALED) { return false; }
 
     this.paused = !this.paused;
     if (this.paused) {
