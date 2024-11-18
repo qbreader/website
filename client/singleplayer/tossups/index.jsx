@@ -3,7 +3,6 @@ import questionStats from '../../scripts/auth/question-stats.js';
 import audio from '../../audio/index.js';
 import Player from '../../../quizbowl/Player.js';
 import ClientTossupRoom from '../ClientTossupRoom.js';
-import CategoryManager from '../../../quizbowl/category-manager.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../../scripts/utilities/index.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
@@ -14,7 +13,6 @@ import AIBot from '../ai-mode/AIBot.js';
 
 let maxPacketNumber = 24;
 
-const categoryManager = new CategoryManager();
 const queryVersion = '2024-10-11';
 const settingsVersion = '2024-10-16';
 const USER_ID = 'user';
@@ -181,8 +179,7 @@ function revealAnswer ({ answer, question }) {
 }
 
 function setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents }) {
-  categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-  categoryManager.loadCategoryModal();
+  room.categoryManager.loadCategoryModal();
   window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
@@ -481,7 +478,6 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
   try {
     const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
     // if (savedQuery.version !== queryVersion) { throw new Error(); }
-    categoryManager.import(savedQuery);
     room.categoryManager.import(savedQuery);
     room.query = savedQuery;
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
@@ -510,8 +506,8 @@ if (window.localStorage.getItem('singleplayer-tossup-settings')) {
 
 ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
   <CategoryModal
-    categoryManager={categoryManager}
-    onClose={() => socket.sendToServer({ type: 'set-categories', ...categoryManager.export() })}
+    categoryManager={room.categoryManager}
+    onClose={() => socket.sendToServer({ type: 'set-categories', ...room.categoryManager.export() })}
   />
 );
 
