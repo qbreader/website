@@ -207,12 +207,12 @@ function setReadingSpeed ({ readingSpeed }) {
   window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
 }
 
-async function setSetName ({ setName }) {
+async function setSetName ({ setName, setLength }) {
   document.getElementById('set-name').value = setName;
   // make border red if set name is not in set list
   const valid = !setName || api.getSetList().includes(setName);
   document.getElementById('set-name').classList.toggle('is-invalid', !valid);
-  maxPacketNumber = valid ? await api.getNumPackets(setName) : 0;
+  maxPacketNumber = setLength;
   document.getElementById('packet-number').placeholder = 'Packet Numbers' + (maxPacketNumber ? ` (1-${maxPacketNumber})` : '');
   window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
@@ -370,11 +370,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
 });
 
 document.getElementById('set-name').addEventListener('change', async function () {
-  socket.sendToServer({
-    type: 'set-set-name',
-    setName: this.value.trim(),
-    packetNumbers: rangeToArray(document.getElementById('packet-number').value)
-  });
+  socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
 });
 
 document.getElementById('start').addEventListener('click', function () {
