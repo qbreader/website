@@ -69,7 +69,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     dropdownContainer.className = 'ms-1';
 
     const toggleButton = document.createElement('button');
-    toggleButton.className = 'btn btn-default dropdown-toggle p-0';
+    toggleButton.className = 'btn btn-default dropdown-toggle py-0 px-1';
     toggleButton.setAttribute('data-bs-toggle', 'dropdown');
     toggleButton.setAttribute('type', 'button');
     dropdownContainer.appendChild(toggleButton);
