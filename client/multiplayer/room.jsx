@@ -547,6 +547,7 @@ function noQuestionsFound () {
 
 function pause ({ paused, username }) {
   logEvent(username, `${paused ? '' : 'un'}paused the game`);
+  document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
 }
 
 function revealAnswer ({ answer, question }) {
