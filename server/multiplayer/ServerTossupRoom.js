@@ -200,12 +200,10 @@ export default class ServerTossupRoom extends TossupRoom {
     super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
-  async setSetName (userId, { packetNumbers, setName }) {
+  async setSetName (userId, { setName }) {
     if (!this.setList) { return; }
     if (!this.setList.includes(setName)) { return; }
-    const maxPacketNumber = await this.getNumPackets(setName);
-    if (packetNumbers.some((num) => num > maxPacketNumber || num < 1)) { return; }
-    super.setSetName(userId, { packetNumbers, setName });
+    super.setSetName(userId, { setName });
   }
 
   setStrictness (userId, { strictness }) {
