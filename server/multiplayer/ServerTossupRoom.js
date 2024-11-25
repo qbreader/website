@@ -292,7 +292,7 @@ export default class ServerTossupRoom extends TossupRoom {
       }
     });
 
-    const threshold = Math.max(activePlayers - 2, 2);
+    const threshold = Math.max(Math.floor(activePlayers * 3 / 4), 2);
     const votekick = new Votekick(targetId, threshold, []);
     votekick.vote(userId);
     if (votekick.check()) {
