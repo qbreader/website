@@ -12,19 +12,24 @@ function modaqifyTossup (tossup) {
   const result = {
     question: tossup.question.replace('<i>', '<em>').replace('</i>', '</em>'),
     answer: tossup.answer.replace('<i>', '<em>').replace('</i>', '</em>'),
-    metadata: `${tossup.category} - ${tossup.subcategory}`
+    metadata: `${tossup.category} - ${tossup.subcategory}` + tossup.alternate_subcategory ? ` - ${tossup.alternate_subcategory}` : ''
   };
 
   return result;
 }
 
+/**
+ *
+ * @param {types.Bonus} bonus
+ * @returns
+ */
 function modaqifyBonus (bonus) {
   const result = {
     values: bonus.values ?? bonus.parts.map(() => 10),
     leadin: bonus.leadin.replace('<i>', '<em>').replace('</i>', '</em>'),
-    parts: bonus.parts.replace('<i>', '<em>').replace('</i>', '</em>'),
+    parts: bonus.parts.map(part => part.replace('<i>', '<em>').replace('</i>', '</em>')),
     answers: bonus.answers.map(answer => answer.replace('<i>', '<em>').replace('</i>', '</em>')),
-    metadata: `${bonus.category} - ${bonus.subcategory}`
+    metadata: `${bonus.category} - ${bonus.subcategory}` + bonus.alternate_subcategory ? ` - ${bonus.alternate_subcategory}` : ''
   };
 
   if (bonus.difficultyModifiers) {
