@@ -174,6 +174,7 @@ export default class TossupRoom extends Room {
 
   buzz (userId) {
     if (!this.settings.rebuzz && this.buzzes.includes(userId)) { return; }
+    if (this.questionProgress !== this.QuestionProgressEnum.READING) { return; }
 
     const username = this.players[userId].username;
     if (this.buzzedIn) {
