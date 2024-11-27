@@ -1,7 +1,9 @@
 let level = 'all';
 let limit = 50;
 let questionType = 'all';
-const subcategory = titleCase(window.location.search.substring(1));
+const searchParams = new URLSearchParams(window.location.search);
+const alternate = searchParams.get('alternate') === 'true';
+const subcategory = titleCase(searchParams.keys().next().value);
 
 function titleCase (name) {
   return name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -26,16 +28,19 @@ function updateFrequencyListDisplay (level, limit, questionType) {
   document.getElementById('limit').textContent = limit;
   document.getElementsByClassName('spinner-border')[0].classList.remove('d-none');
 
-  fetch('/api/frequency-list?' + new URLSearchParams({ subcategory, level, limit, questionType }))
+  const params = new URLSearchParams({ level, limit, questionType });
+  params.append(alternate ? 'alternateSubcategory' : 'subcategory', subcategory);
+
+  fetch('/api/frequency-list?' + params)
     .then(response => response.json())
     .then(response => {
       const { frequencyList } = response;
 
       for (const index in frequencyList) {
-        const { answer_sanitized: answerSanitized, count } = frequencyList[index];
+        const { answer, count } = frequencyList[index];
         const row = table.insertRow();
         row.insertCell().textContent = parseInt(index) + 1;
-        row.insertCell().textContent = answerSanitized;
+        row.insertCell().textContent = answer;
         row.insertCell().textContent = count;
       }
 
