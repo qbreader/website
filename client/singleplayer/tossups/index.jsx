@@ -20,7 +20,7 @@ const USER_ID = 'user';
 const room = new ClientTossupRoom();
 room.players[USER_ID] = new Player(USER_ID);
 const aiBot = new AIBot(room);
-aiBot.setAIBot(aiBots['right-after-power'][0]);
+aiBot.setAIBot(aiBots['average-high-school'][0]);
 aiBot.active = false;
 
 const socket = {

@@ -78,7 +78,7 @@ export default class AIBot {
   }
 
   updateQuestion ({ word }) {
-    if (word !== '(#)') { this.wordIndex++; }
+    this.wordIndex++;
     if (this.wordIndex === this.buzzpoint) {
       return this.sendBuzz({ correct: this.correctBuzz });
     }
