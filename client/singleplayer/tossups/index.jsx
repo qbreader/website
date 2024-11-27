@@ -106,10 +106,11 @@ async function giveAnswer ({ directive, directedPrompt, perQuestionCelerity, sco
   document.getElementById('answer-input').placeholder = 'Enter answer';
   document.getElementById('answer-input-group').classList.add('d-none');
   document.getElementById('next').disabled = false;
-  document.getElementById('pause').disabled = false;
-  if (room.settings.rebuzz) {
+
+  if (room.settings.rebuzz && directive === 'reject') {
     document.getElementById('buzz').disabled = false;
     document.getElementById('buzz').textContent = 'Buzz';
+    document.getElementById('pause').disabled = false;
   }
 
   if (audio.soundEffects && userId === USER_ID) {
