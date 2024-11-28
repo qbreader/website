@@ -46,6 +46,7 @@ function onmessage (message) {
     case 'set-year-range': return setYearRange(data);
     case 'start-answer': return startAnswer(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
+    case 'toggle-correct': return toggleCorrect(data);
     case 'toggle-select-by-set-name': return toggleSelectBySetName(data);
     case 'toggle-show-history': return toggleShowHistory(data);
     case 'toggle-standard-only': return toggleStandardOnly(data);
@@ -145,7 +146,9 @@ function revealNextPart ({ currentPartNumber, part, value }) {
   input.className = 'checkbox form-check-input rounded-0 me-1';
   input.type = 'checkbox';
   input.style = 'width: 20px; height: 20px; cursor: pointer';
-  input.addEventListener('click', function () { this.blur(); });
+  input.addEventListener('click', function () {
+    socket.sendToServer({ type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
+  });
 
   const inputWrapper = document.createElement('label');
   inputWrapper.style = 'cursor: pointer';
@@ -207,6 +210,10 @@ function startAnswer () {
   document.getElementById('answer-input-group').classList.remove('d-none');
   document.getElementById('answer-input').focus();
   document.getElementById('reveal').disabled = true;
+}
+
+function toggleCorrect ({ partNumber, correct }) {
+  document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
 }
 
 function toggleSelectBySetName ({ selectBySetName }) {

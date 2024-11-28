@@ -32,13 +32,13 @@ export default class BonusRoom extends QuestionRoom {
   async message (userId, message) {
     switch (message.type) {
       case 'clear-stats': return this.clearStats(userId, message);
-      case 'give-answer':
-        return this.giveAnswer(userId, message);
+      case 'give-answer': return this.giveAnswer(userId, message);
       case 'next':
       case 'skip':
       case 'start':
         return this.next(userId, message);
       case 'start-answer': return this.startAnswer(userId, message);
+      case 'toggle-correct': return this.toggleCorrect(userId, message);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(userId, message);
       default: return super.message(userId, message);
     }
@@ -50,7 +50,7 @@ export default class BonusRoom extends QuestionRoom {
     this.emitMessage({ type: 'clear-stats', userId });
   }
 
-  getCurrentPartValue () {
+  getPartValue (partNumber = this.currentPartNumber) {
     return this.bonus?.values?.[this.currentPartNumber] ?? 10;
   }
 
@@ -70,7 +70,7 @@ export default class BonusRoom extends QuestionRoom {
         () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
       );
     } else {
-      this.pointsPerPart.push(directive === 'accept' ? this.getCurrentPartValue() : 0);
+      this.pointsPerPart.push(directive === 'accept' ? this.getPartValue() : 0);
       this.revealNextAnswer();
       this.revealNextPart();
     }
@@ -137,7 +137,7 @@ export default class BonusRoom extends QuestionRoom {
       type: 'reveal-next-part',
       currentPartNumber: this.currentPartNumber,
       part: this.bonus.parts[this.currentPartNumber],
-      value: this.getCurrentPartValue()
+      value: this.getPartValue()
     });
   }
 
@@ -148,6 +148,12 @@ export default class BonusRoom extends QuestionRoom {
       (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
       () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
     );
+  }
+
+  toggleCorrect (userId, { partNumber, correct }) {
+    if (typeof partNumber !== 'number') { return false; }
+    if (partNumber < 0 || partNumber >= this.bonus.parts.length) { return false; }
+    this.pointsPerPart[partNumber] = correct ? this.getPartValue(partNumber) : 0;
   }
 
   toggleThreePartBonuses (userId, { threePartBonuses }) {
