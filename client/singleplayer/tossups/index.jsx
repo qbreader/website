@@ -194,7 +194,7 @@ function setDifficulties ({ difficulties }) {
 }
 
 function setStrictness ({ strictness }) {
-  document.getElementById('strictness').value = strictness;
+  document.getElementById('set-strictness').value = strictness;
   document.getElementById('strictness-display').textContent = strictness;
   window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
 }
@@ -377,17 +377,17 @@ document.getElementById('set-name').addEventListener('change', function () {
   socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
 });
 
-document.getElementById('start').addEventListener('click', function () {
-  socket.sendToServer({ type: 'start' });
-});
-
-document.getElementById('strictness').addEventListener('change', function () {
+document.getElementById('set-strictness').addEventListener('change', function () {
   this.blur();
   socket.sendToServer({ type: 'set-strictness', strictness: this.value });
 });
 
-document.getElementById('strictness').addEventListener('input', function () {
+document.getElementById('set-strictness').addEventListener('input', function () {
   document.getElementById('strictness-display').textContent = this.value;
+});
+
+document.getElementById('start').addEventListener('click', function () {
+  socket.sendToServer({ type: 'start' });
 });
 
 document.getElementById('toggle-ai-mode').addEventListener('click', function () {
