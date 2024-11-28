@@ -88,6 +88,10 @@
         </div>
         <div class="row" id="info">
             <div class="options d-lg-block col-12 col-lg-3 order-lg-1 mb-5" id="settings">
+                <div class="timer d-block p-1 text-center" id="timer">
+                    <span class="face">0</span><span class="fraction">.0</span>
+                </div>
+                <hr>
                 <div class="d-none" id="set-settings">
                     <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
                     <datalist id="set-list"></datalist>
@@ -127,6 +131,10 @@
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-show-history" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-show-history">Show question history</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-timer">Enable timer</label>
                     </div>
                     <div class="mb-2"></div>
                     <label for="set-strictness">Strictness: <span id="strictness-display">7</span><br></label>

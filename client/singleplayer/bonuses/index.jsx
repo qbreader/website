@@ -35,6 +35,9 @@ function onmessage (message) {
     case 'next':
     case 'skip':
     case 'start': return next(data);
+    case 'reveal-leadin': return revealLeadin(data);
+    case 'reveal-next-answer': return revealNextAnswer(data);
+    case 'reveal-next-part': return revealNextPart(data);
     case 'set-categories': return setCategories(data);
     case 'set-difficulties': return setDifficulties(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
@@ -42,13 +45,12 @@ function onmessage (message) {
     case 'set-strictness': return setStrictness(data);
     case 'set-year-range': return setYearRange(data);
     case 'start-answer': return startAnswer(data);
-    case 'reveal-leadin': return revealLeadin(data);
-    case 'reveal-next-answer': return revealNextAnswer(data);
-    case 'reveal-next-part': return revealNextPart(data);
+    case 'timer-update': return updateTimerDisplay(data.timeRemaining);
     case 'toggle-select-by-set-name': return toggleSelectBySetName(data);
     case 'toggle-show-history': return toggleShowHistory(data);
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-three-part-bonuses': return toggleThreePartBonuses(data);
+    case 'toggle-timer': return toggleTimer(data);
     case 'toggle-type-to-answer': return toggleTypeToAnswer(data);
   }
 }
@@ -232,6 +234,12 @@ function toggleThreePartBonuses ({ threePartBonuses }) {
   window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
+function toggleTimer ({ timer }) {
+  document.getElementById('timer').classList.toggle('d-none', !timer);
+  document.getElementById('toggle-timer').checked = timer;
+  window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
+}
+
 function toggleTypeToAnswer ({ typeToAnswer }) {
   document.getElementById('type-to-answer').checked = typeToAnswer;
   window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
@@ -246,6 +254,13 @@ function updateStatDisplay (stats) {
   const ppb = Math.round(100 * points / numBonuses) / 100 || 0;
   const includePlural = (numBonuses === 1) ? '' : 'es';
   document.getElementById('statline').textContent = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${stats[30]}/${stats[20]}/${stats[10]}/${stats[0]}, ${points} pts)`;
+}
+
+function updateTimerDisplay (time) {
+  const seconds = Math.floor(time / 10);
+  const tenths = time % 10;
+  document.querySelector('.timer .face').innerText = seconds;
+  document.querySelector('.timer .fraction').innerText = '.' + tenths;
 }
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
@@ -345,6 +360,11 @@ document.getElementById('toggle-three-part-bonuses').addEventListener('click', f
   socket.sendToServer({ type: 'toggle-three-part-bonuses', threePartBonuses: this.checked });
 });
 
+document.getElementById('toggle-timer').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-timer', timer: this.checked });
+});
+
 document.getElementById('type-to-answer').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-type-to-answer', typeToAnswer: this.checked });
@@ -417,6 +437,7 @@ if (window.localStorage.getItem('singleplayer-bonus-settings')) {
     if (savedSettings.version !== settingsVersion) { throw new Error(); }
     socket.sendToServer({ type: 'set-strictness', ...savedSettings });
     socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
   } catch {
     window.localStorage.removeItem('singleplayer-bonus-settings');
