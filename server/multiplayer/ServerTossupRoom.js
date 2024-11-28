@@ -59,10 +59,9 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   ban (userId, { targetId, targetUsername }) {
-    console.log('Ban request recieved. Target ' + targetId);
+    console.log('Ban request received. Target ' + targetId);
     if (this.ownerId !== userId) { return; }
 
-    console.log('Checked, owner sent ban');
     this.emitMessage({ type: 'confirm-ban', targetId, targetUsername });
     this.bannedUserList.set(targetId, Date.now());
   }
@@ -162,14 +161,12 @@ export default class ServerTossupRoom extends TossupRoom {
     this.bannedUserList.forEach((banTime, userId) => {
       if (now - banTime > BAN_DURATION) {
         this.bannedUserList.delete(userId);
-        console.log(`User ${userId} ban expired and removed from banned list`);
       }
     });
 
     this.kickedUserList.forEach((kickTime, userId) => {
       if (now - kickTime > BAN_DURATION) {
         this.kickedUserList.delete(userId);
-        console.log(`User ${userId} kick expired and removed from kicked list`);
       }
     });
   }
@@ -276,7 +273,6 @@ export default class ServerTossupRoom extends TossupRoom {
 
     const currentTime = Date.now();
     if (this.lastVotekickTime[userId] && (currentTime - this.lastVotekickTime[userId] < 90000)) {
-      console.log(`Votekick denied: ${userId} 90 second cooldown violation.`);
       return;
     }
 

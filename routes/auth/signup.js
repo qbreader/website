@@ -13,13 +13,13 @@ router.post('/', async (req, res) => {
   // return error if username already exists
   const results = await getUser(username);
   if (results) {
-    console.log(`/api/auth: SIGNUP: User ${username} failed to sign up. That username is taken.`);
+    // console.log(`/api/auth: SIGNUP: User ${username} failed to sign up. That username is taken.`);
     res.sendStatus(409);
     return;
   }
 
   if (!validateUsername(username)) {
-    console.log(`/api/auth: SIGNUP: User ${username} failed to sign up. That username is invalid.`);
+    // console.log(`/api/auth: SIGNUP: User ${username} failed to sign up. That username is invalid.`);
     res.sendStatus(400);
     return;
   }
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
   const email = req.body.email;
   await createUser(username, password, email);
   sendVerificationEmail(username);
-  console.log(`/api/auth: SIGNUP: User ${username} successfully signed up.`);
+  // console.log(`/api/auth: SIGNUP: User ${username} successfully signed up.`);
   res.status(200).send(JSON.stringify({ expires }));
 });
 
