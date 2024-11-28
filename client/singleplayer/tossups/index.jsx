@@ -80,7 +80,7 @@ function clearStats ({ userId }) {
   updateStatDisplay(room.players[userId]);
 }
 
-function endOfSet ({ lastSeenTossup }) {
+function endOfSet ({ lastSeenQuestion }) {
   document.getElementById('answer').textContent = '';
   document.getElementById('buzz').disabled = true;
   document.getElementById('pause').disabled = true;
@@ -88,7 +88,7 @@ function endOfSet ({ lastSeenTossup }) {
   document.getElementById('question').textContent = '';
   document.getElementById('toggle-correct').textContent = 'I was wrong';
   document.getElementById('toggle-correct').classList.add('d-none');
-  createTossupCard(lastSeenTossup);
+  createTossupCard(lastSeenQuestion);
   window.alert('You have reached the end of the set');
 }
 
@@ -132,7 +132,6 @@ async function giveAnswer ({ directive, directedPrompt, perQuestionCelerity, sco
 async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
   if (type === 'start') {
     document.getElementById('next').disabled = false;
-    document.getElementById('next').textContent = 'Skip';
     document.getElementById('settings').classList.add('d-none');
   }
 
@@ -271,6 +270,7 @@ function toggleShowHistory ({ showHistory }) {
 
 function toggleStandardOnly ({ standardOnly }) {
   document.getElementById('toggle-standard-only').checked = standardOnly;
+  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
 function toggleTimer ({ timer }) {
@@ -373,7 +373,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
   );
 });
 
-document.getElementById('set-name').addEventListener('change', async function () {
+document.getElementById('set-name').addEventListener('change', function () {
   socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
 });
 

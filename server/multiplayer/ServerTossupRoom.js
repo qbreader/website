@@ -21,7 +21,7 @@ export default class ServerTossupRoom extends TossupRoom {
     this.isPermanent = isPermanent;
     this.checkAnswer = checkAnswer;
     this.getNumPackets = getNumPackets;
-    this.getRandomTossups = getRandomTossups;
+    this.getRandomQuestions = getRandomTossups;
     this.getSet = getSet;
     this.getSetList = getSetList;
     this.bannedUserList = new Map();
