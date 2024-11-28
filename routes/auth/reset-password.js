@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
   req.session = null;
   res.redirect(200, '/user/login');
 
-  console.log(`/api/auth: RESET-PASSWORD: User ${username} successfully reset their password.`);
+  // console.log(`/api/auth: RESET-PASSWORD: User ${username} successfully reset their password.`);
 });
 
 export default router;

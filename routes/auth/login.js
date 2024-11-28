@@ -15,10 +15,10 @@ router.post('/', async (req, res) => {
     req.session.username = username;
     req.session.token = generateToken(username, verifiedEmail);
     req.session.expires = expires;
-    console.log(`/api/auth: LOGIN: User ${username} successfully logged in.`);
+    // console.log(`/api/auth: LOGIN: User ${username} successfully logged in.`);
     res.status(200).send(JSON.stringify({ expires }));
   } else {
-    console.log(`/api/auth: LOGIN: User ${username} failed to log in.`);
+    // console.log(`/api/auth: LOGIN: User ${username} failed to log in.`);
     res.sendStatus(401);
   }
 });

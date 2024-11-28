@@ -97,7 +97,7 @@ async function sendResetPasswordEmail (username) {
     return false;
   }
 
-  console.log(`Email sent: ${info.response}`);
+  // console.log(`Email sent: ${info.response}`);
   activeResetPasswordTokens[userId] = timestamp;
   return true;
 }
@@ -124,7 +124,7 @@ async function sendVerificationEmail (username) {
     return false;
   }
 
-  console.log(`Email sent: ${info.response}`);
+  // console.log(`Email sent: ${info.response}`);
   activeVerifyEmailTokens[userId] = timestamp;
   return true;
 }
