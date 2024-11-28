@@ -1,3 +1,4 @@
+import { ANSWER_TIME_LIMIT } from './constants.js';
 import QuestionRoom from './QuestionRoom.js';
 
 export default class BonusRoom extends QuestionRoom {
@@ -56,10 +57,19 @@ export default class BonusRoom extends QuestionRoom {
   async giveAnswer (userId, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
 
+    clearInterval(this.timer.interval);
+    this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
+
     const { directive, directedPrompt } = await this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
     this.emitMessage({ type: 'give-answer', currentPartNumber: this.currentPartNumber, directive, directedPrompt });
 
-    if (directive !== 'prompt') {
+    if (directive === 'prompt') {
+      this.startServerTimer(
+        ANSWER_TIME_LIMIT * 10,
+        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
+      );
+    } else {
       this.pointsPerPart.push(directive === 'accept' ? this.getCurrentPartValue() : 0);
       this.revealNextAnswer();
       this.revealNextPart();
@@ -69,6 +79,9 @@ export default class BonusRoom extends QuestionRoom {
   async next (userId, { type }) {
     if (this.queryingQuestion) { return false; }
     if (this.questionProgress === this.QuestionProgressEnum.READING && !this.settings.skip) { return false; }
+
+    clearInterval(this.timer.interval);
+    this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
 
     const teamId = this.players[userId].teamId;
 
@@ -99,10 +112,6 @@ export default class BonusRoom extends QuestionRoom {
     this.revealNextPart();
   }
 
-  startAnswer (userId) {
-    this.emitMessage({ type: 'start-answer', userId });
-  }
-
   revealLeadin () {
     this.emitMessage({ type: 'reveal-leadin', leadin: this.bonus.leadin });
   }
@@ -130,6 +139,15 @@ export default class BonusRoom extends QuestionRoom {
       part: this.bonus.parts[this.currentPartNumber],
       value: this.getCurrentPartValue()
     });
+  }
+
+  startAnswer (userId) {
+    this.emitMessage({ type: 'start-answer', userId });
+    this.startServerTimer(
+      ANSWER_TIME_LIMIT * 10,
+      (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+      () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
+    );
   }
 
   toggleThreePartBonuses (userId, { threePartBonuses }) {
