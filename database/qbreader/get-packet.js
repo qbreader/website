@@ -58,7 +58,6 @@ async function getPacket ({ setName, packetNumber, questionTypes = ['tossups', '
   const packet = await packets.findOne({ 'set.name': setName, number: packetNumber });
 
   if (!packet) {
-    console.log(`[DATABASE] WARNING: set "${setName}" does not exist`);
     return { tossups: [], bonuses: [] };
   }
 
