@@ -3,6 +3,7 @@ class Player {
     this.userId = userId;
     this.MAX_USERNAME_LENGTH = MAX_USERNAME_LENGTH;
 
+    this.teamId = undefined;
     this.username = '';
     this.powers = 0;
     this.tens = 0;

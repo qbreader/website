@@ -14,12 +14,10 @@ export default class ClientTossupRoom extends TossupRoom {
     };
 
     this.checkAnswer = api.checkAnswer;
-    this.getRandomTossups = async (args) => await api.getRandomTossup({ ...args });
+    this.getRandomQuestions = async (args) => await api.getRandomTossup({ ...args });
     this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketTossups(setName, packetNumbers[0] ?? 1) : [];
     this.getSetList = api.getSetList;
     this.getNumPackets = api.getNumPackets;
-
-    this.setList = this.getSetList();
   }
 
   async message (userId, message) {

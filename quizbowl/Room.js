@@ -7,13 +7,14 @@ export default class Room {
 
     this.players = {};
     this.sockets = {};
+    this.teams = {};
     this.timer = {
       interval: null,
       timeRemaining: 0
     };
   }
 
-  async message (userId, message) { throw new Error('Not implemented'); }
+  async message (id, message) { throw new Error('Not implemented'); }
 
   /**
    * Sends a message to all sockets
@@ -26,6 +27,14 @@ export default class Room {
     }
   }
 
+  leave (userId) {
+    // this.deletePlayer(userId);
+    this.players[userId].online = false;
+    delete this.sockets[userId];
+    const username = this.players[userId].username;
+    this.emitMessage({ type: 'leave', userId, username });
+  }
+
   /**
    * Sends a message to a socket at a specific userId
    * @param {string} userId
@@ -34,6 +43,13 @@ export default class Room {
   sendToSocket (userId, message) {
     message = JSON.stringify(message);
     this.sockets[userId].send(message);
+  }
+
+  setUsername (userId, { username }) {
+    if (typeof username !== 'string') { return false; }
+    const oldUsername = this.players[userId].username;
+    this.players[userId].username = username;
+    this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername: username });
   }
 
   /**
