@@ -1,18 +1,10 @@
-import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from './categories.js';
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT } from './constants.js';
-import CategoryManager from './category-manager.js';
+import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT } from './constants.js';
 import insertTokensIntoHTML from './insert-tokens-into-html.js';
-import Room from './Room.js';
+import QuestionRoom from './QuestionRoom.js';
 
-export default class TossupRoom extends Room {
+export default class TossupRoom extends QuestionRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
-    super(name);
-
-    this.checkAnswer = async function checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); };
-    this.getRandomTossups = async function getRandomTossups (args) { throw new Error('Not implemented'); };
-    this.getSet = async function getSet (args) { throw new Error('Not implemented'); };
-    this.getSetList = async function getSetList (args) { throw new Error('Not implemented'); };
-    this.getNumPackets = async function getNumPackets (setName) { throw new Error('Not implemented'); };
+    super(name, categories, subcategories, alternateSubcategories);
 
     this.QuestionProgressEnum = Object.freeze({
       NOT_STARTED: 0,
@@ -30,43 +22,21 @@ export default class TossupRoom extends Room {
     this.buzzes = [];
     this.buzzpointIndices = [];
     this.liveAnswer = '';
-    this.packetLength = undefined;
     this.paused = false;
-    this.queryingQuestion = false;
     this.questionProgress = this.QuestionProgressEnum.NOT_STARTED;
     this.questionSplit = [];
-    this.setLength = undefined;
     this.tossup = {};
     this.wordIndex = 0;
 
-    this.randomQuestionCache = [];
-    this.setCache = [];
-
-    this.categoryManager = new CategoryManager(categories, subcategories, alternateSubcategories);
-
     this.query = {
-      difficulties: [4, 5],
-      minYear: DEFAULT_MIN_YEAR,
-      maxYear: DEFAULT_MAX_YEAR,
-      packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-      setName: '2023 PACE NSC',
-      alternateSubcategories,
-      categories,
-      subcategories,
-      percentView: false,
-      categoryPercents: CATEGORIES.map(() => 0),
-      reverse: true, // used for `database.getSet`
-      powermarkOnly: false,
-      selectBySetName: false,
-      standardOnly: false
+      ...this.query,
+      powermarkOnly: false
     };
 
     this.settings = {
-      strictness: 7,
+      ...this.settings,
       rebuzz: false,
-      readingSpeed: 50,
-      skip: false,
-      timer: true
+      readingSpeed: 50
     };
 
     this.previous = {
@@ -90,87 +60,13 @@ export default class TossupRoom extends Room {
       case 'skip':
       case 'start': return this.next(userId, message);
       case 'pause': return this.pause(userId, message);
-      case 'set-categories': return this.setCategories(userId, message);
-      case 'set-difficulties': return this.setDifficulties(userId, message);
-      case 'set-strictness': return this.setStrictness(userId, message);
-      case 'set-packet-numbers': return this.setPacketNumbers(userId, message);
       case 'set-reading-speed': return this.setReadingSpeed(userId, message);
-      case 'set-set-name': return this.setSetName(userId, message);
-      case 'set-username': return this.setUsername(userId, message);
-      case 'set-year-range': return this.setYearRange(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
-      case 'toggle-select-by-set-name': return this.toggleSelectBySetName(userId, message);
-      case 'toggle-skip': return this.toggleSkip(userId, message);
-      case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
-      case 'toggle-timer': return this.toggleTimer(userId, message);
       case 'toggle-public': return this.togglePublic(userId, message);
+      default:
+        return super.message(userId, message);
     }
-  }
-
-  async adjustQuery (settings, values) {
-    if (settings.length !== values.length) { return; }
-
-    for (let i = 0; i < settings.length; i++) {
-      const setting = settings[i];
-      const value = values[i];
-      if (Object.prototype.hasOwnProperty.call(this.query, setting)) {
-        this.query[setting] = value;
-      }
-    }
-
-    if (this.query.selectBySetName) {
-      this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [this.query.packetNumbers[0]] });
-      this.packetLength = this.setCache.length;
-    } else if (this.categoryManager.percentView) {
-      this.randomQuestionCache = [];
-    } else {
-      this.randomQuestionCache = await this.getRandomTossups({ ...this.query, number: 1 });
-    }
-  }
-
-  async advanceQuestion () {
-    this.queryingQuestion = true;
-    const lastSeenTossup = this.tossup;
-
-    if (this.query.selectBySetName) {
-      do {
-        if (this.setCache.length === 0) {
-          this.query.packetNumbers.shift();
-          const packetNumber = this.query.packetNumbers[0];
-          if (packetNumber === undefined) {
-            this.emitMessage({ type: 'end-of-set', lastSeenTossup });
-            return false;
-          }
-          this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [packetNumber] });
-          this.packetLength = this.setCache.length;
-        }
-
-        this.tossup = this.setCache.shift();
-        if (!this.tossup?.packet?.number) {
-          this.emitMessage({ type: 'no-questions-found' });
-          return false;
-        }
-        this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= this.tossup.packet.number);
-      } while (!this.categoryManager.isValidCategory(this.tossup));
-    } else {
-      if (this.categoryManager.percentView) {
-        const randomCategory = this.categoryManager.getRandomCategory();
-        this.randomQuestionCache = await this.getRandomTossups({ ...this.query, number: 1, categories: [randomCategory], subcategories: [], alternateSubcategories: [] });
-      } else if (this.randomQuestionCache.length === 0) {
-        this.randomQuestionCache = await this.getRandomTossups({ ...this.query, number: 20 });
-      }
-
-      if (this.randomQuestionCache?.length === 0) {
-        this.tossup = {};
-        this.emitMessage({ type: 'no-questions-found' });
-        return false;
-      }
-      this.tossup = this.randomQuestionCache.pop();
-    }
-
-    this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
-    return true;
   }
 
   buzz (userId) {
@@ -202,15 +98,6 @@ export default class TossupRoom extends Room {
   clearStats (userId) {
     this.players[userId].clearStats();
     this.emitMessage({ type: 'clear-stats', userId });
-  }
-
-  setDifficulties (userId, { difficulties }) {
-    const invalid = difficulties.some((value) => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10);
-    if (invalid) { return false; }
-
-    const username = this.players[userId].username;
-    this.adjustQuery(['difficulties'], [difficulties]);
-    this.emitMessage({ type: 'set-difficulties', username, difficulties });
   }
 
   async giveAnswer (userId, { givenAnswer }) {
@@ -265,14 +152,6 @@ export default class TossupRoom extends Room {
     });
   }
 
-  leave (userId) {
-    // this.deletePlayer(userId);
-    this.players[userId].online = false;
-    delete this.sockets[userId];
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'leave', userId, username });
-  }
-
   /**
    * Logic for when the user presses the next button.
    * @param {string} userId - The userId of the user who pressed the next button.
@@ -296,9 +175,10 @@ export default class TossupRoom extends Room {
     if (this.questionProgress !== this.QuestionProgressEnum.ANSWER_REVEALED) { this.revealQuestion(); }
 
     const oldTossup = this.tossup;
-    const hasNextQuestion = await this.advanceQuestion();
+    this.tossup = await this.advanceQuestion({ lastSeenQuestion: oldTossup });
     this.queryingQuestion = false;
-    if (!hasNextQuestion) { return; }
+    if (!this.tossup) { return; }
+    this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
 
     const username = this.players[userId].username;
     this.emitMessage({ type, packetLength: this.packetLength, userId, username, oldTossup, tossup: this.tossup });
@@ -350,22 +230,6 @@ export default class TossupRoom extends Room {
     return { celerity, directive, directedPrompt, endOfQuestion, inPower, points };
   }
 
-  setStrictness (userId, { strictness }) {
-    this.settings.strictness = strictness;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-strictness', username, strictness });
-  }
-
-  async setPacketNumbers (userId, { packetNumbers }) {
-    if (!Array.isArray(packetNumbers)) { return false; }
-    const allowedPacketNumbers = await this.getNumPackets(this.query.setName);
-    if (packetNumbers.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) { return false; }
-
-    const username = this.players[userId].username;
-    this.adjustQuery(['packetNumbers'], [packetNumbers]);
-    this.emitMessage({ type: 'set-packet-numbers', username, packetNumbers });
-  }
-
   setReadingSpeed (userId, { readingSpeed }) {
     if (isNaN(readingSpeed)) { return false; }
     if (readingSpeed > 100) { readingSpeed = 100; }
@@ -374,28 +238,6 @@ export default class TossupRoom extends Room {
     this.settings.readingSpeed = readingSpeed;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'set-reading-speed', username, readingSpeed });
-  }
-
-  async setSetName (userId, { setName }) {
-    if (typeof setName !== 'string') { return; }
-    const username = this.players[userId].username;
-    const setLength = await this.getNumPackets(setName);
-    const packetNumbers = [];
-    for (let i = 1; i <= setLength; i++) { packetNumbers.push(i); }
-    this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers]);
-    this.emitMessage({ type: 'set-set-name', username, setName, setLength });
-  }
-
-  setUsername (userId, { username }) {
-    if (typeof username !== 'string') { return false; }
-    const oldUsername = this.players[userId].username;
-    this.players[userId].username = username;
-    this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername: username });
-  }
-
-  startServerTimer (time, ontick, callback) {
-    if (!this.settings.timer) { return; }
-    super.startServerTimer(time, ontick, callback);
   }
 
   async readQuestion (expectedReadTime) {
@@ -454,73 +296,5 @@ export default class TossupRoom extends Room {
     this.settings.rebuzz = rebuzz;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-rebuzz', rebuzz, username });
-  }
-
-  toggleSelectBySetName (userId, { selectBySetName, setName }) {
-    this.query.selectBySetName = selectBySetName;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'toggle-select-by-set-name', selectBySetName, setName, username });
-  }
-
-  toggleSkip (userId, { skip }) {
-    this.settings.skip = skip;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'toggle-skip', skip, username });
-  }
-
-  toggleStandardOnly (userId, { standardOnly }) {
-    this.query.standardOnly = standardOnly;
-    const username = this.players[userId].username;
-    this.adjustQuery(['standardOnly'], [standardOnly]);
-    this.emitMessage({ type: 'toggle-standard-only', standardOnly, username });
-  }
-
-  toggleTimer (userId, { timer }) {
-    this.settings.timer = timer;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'toggle-timer', timer, username });
-  }
-
-  setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
-    if (!Array.isArray(categories)) { return; }
-    if (!Array.isArray(subcategories)) { return; }
-    if (!Array.isArray(alternateSubcategories)) { return; }
-    if (categoryPercents?.length !== CATEGORIES.length) { return; }
-
-    categories = categories.filter(category => CATEGORIES.includes(category));
-    subcategories = subcategories.filter(subcategory => SUBCATEGORIES.includes(subcategory));
-    alternateSubcategories = alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES.includes(subcategory));
-
-    if (subcategories.some(sub => !categories.includes(SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
-    if (alternateSubcategories.some(sub => !categories.includes(ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
-
-    this.categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-
-    const username = this.players[userId].username;
-    this.adjustQuery(
-      ['categories', 'subcategories', 'alternateSubcategories', 'percentView', 'categoryPercents'],
-      [categories, subcategories, alternateSubcategories, percentView, categoryPercents]
-    );
-    this.emitMessage({ type: 'set-categories', ...this.categoryManager.export(), username });
-  }
-
-  setYearRange (userId, { minYear, maxYear }) {
-    minYear = parseInt(minYear);
-    maxYear = parseInt(maxYear);
-    if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
-    if (isNaN(maxYear)) { maxYear = DEFAULT_MAX_YEAR; }
-
-    if (maxYear < minYear) {
-      this.sendToSocket(userId, {
-        type: 'set-year-range',
-        minYear: this.query.minYear,
-        maxYear: this.query.maxYear,
-        username: null
-      });
-    } else {
-      const username = this.players[userId].username;
-      this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
-      this.emitMessage({ type: 'set-year-range', minYear, maxYear, username });
-    }
   }
 }
