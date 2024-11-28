@@ -39,6 +39,7 @@ function onmessage (message) {
     case 'set-difficulties': return setDifficulties(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
     case 'set-set-name': return setSetName(data);
+    case 'set-strictness': return setStrictness(data);
     case 'set-year-range': return setYearRange(data);
     case 'start-answer': return startAnswer(data);
     case 'reveal-leadin': return revealLeadin(data);
@@ -187,6 +188,12 @@ async function setSetName ({ setName, setLength }) {
   window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...room.query, version: queryVersion }));
 }
 
+function setStrictness ({ strictness }) {
+  document.getElementById('set-strictness').value = strictness;
+  document.getElementById('strictness-display').textContent = strictness;
+  window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
+}
+
 function setYearRange ({ minYear, maxYear }) {
   $('#slider').slider('values', [minYear, maxYear]);
   document.getElementById('year-range-a').textContent = minYear;
@@ -289,6 +296,15 @@ document.getElementById('reveal').addEventListener('click', function () {
 
 document.getElementById('set-name').addEventListener('change', function () {
   socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
+});
+
+document.getElementById('set-strictness').addEventListener('change', function () {
+  this.blur();
+  socket.sendToServer({ type: 'set-strictness', strictness: this.value });
+});
+
+document.getElementById('set-strictness').addEventListener('input', function () {
+  document.getElementById('strictness-display').textContent = this.value;
 });
 
 document.getElementById('start').addEventListener('click', async function () {
@@ -399,6 +415,7 @@ if (window.localStorage.getItem('singleplayer-bonus-settings')) {
   try {
     const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-bonus-settings'));
     if (savedSettings.version !== settingsVersion) { throw new Error(); }
+    socket.sendToServer({ type: 'set-strictness', ...savedSettings });
     socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
   } catch {
