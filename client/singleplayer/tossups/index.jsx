@@ -80,11 +80,16 @@ function clearStats ({ userId }) {
   updateStatDisplay(room.players[userId]);
 }
 
-function endOfSet () {
-  window.alert('No more questions left');
+function endOfSet ({ lastSeenTossup }) {
+  document.getElementById('answer').textContent = '';
   document.getElementById('buzz').disabled = true;
   document.getElementById('pause').disabled = true;
   document.getElementById('next').disabled = true;
+  document.getElementById('question').textContent = '';
+  document.getElementById('toggle-correct').textContent = 'I was wrong';
+  document.getElementById('toggle-correct').classList.add('d-none');
+  createTossupCard(lastSeenTossup);
+  window.alert('You have reached the end of the set');
 }
 
 async function giveAnswer ({ directive, directedPrompt, perQuestionCelerity, score, tossup, userId }) {
