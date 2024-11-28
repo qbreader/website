@@ -29,6 +29,14 @@ export default class ClientBonusRoom extends BonusRoom {
     }
   }
 
+  get liveAnswer () {
+    return document.getElementById('answer-input').value;
+  }
+
+  set liveAnswer (value) {
+    document.getElementById('answer-input').value = value;
+  }
+
   startAnswer (teamId) {
     if (!this.settings.typeToAnswer) {
       this.giveAnswer(teamId, { givenAnswer: this.bonus.answers_sanitized[this.currentPartNumber] });
