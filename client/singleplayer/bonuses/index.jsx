@@ -379,7 +379,6 @@ if (window.localStorage.getItem('singleplayer-bonus-query')) {
     room.query = savedQuery;
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
     socket.sendToServer({ type: 'set-set-name', ...savedQuery });
-    socket.sendToServer({ type: 'set-year-range', ...savedQuery });
     socket.sendToServer({ type: 'toggle-select-by-set-name', ...savedQuery });
     socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery });
     socket.sendToServer({ type: 'toggle-three-part-bonuses', ...savedQuery });
@@ -388,6 +387,13 @@ if (window.localStorage.getItem('singleplayer-bonus-query')) {
     window.localStorage.removeItem('singleplayer-bonus-query');
   }
 }
+
+$(document).ready(function () {
+  try {
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-bonus-query'));
+    socket.sendToServer({ type: 'set-year-range', ...savedQuery });
+  } catch {}
+});
 
 if (window.localStorage.getItem('singleplayer-bonus-settings')) {
   try {
