@@ -484,12 +484,11 @@ let startingDifficulties = [];
 if (window.localStorage.getItem('singleplayer-tossup-query')) {
   try {
     const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
-    // if (savedQuery.version !== queryVersion) { throw new Error(); }
+    if (savedQuery.version !== queryVersion) { throw new Error(); }
     room.categoryManager.import(savedQuery);
     room.query = savedQuery;
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
     socket.sendToServer({ type: 'set-set-name', ...savedQuery });
-    socket.sendToServer({ type: 'set-year-range', ...savedQuery });
     socket.sendToServer({ type: 'toggle-powermark-only', ...savedQuery });
     socket.sendToServer({ type: 'toggle-select-by-set-name', ...savedQuery });
     socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery });
@@ -499,16 +498,27 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
   }
 }
 
+$(document).ready(function () {
+  try {
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
+    socket.sendToServer({ type: 'set-year-range', ...savedQuery });
+  } catch {}
+});
+
 if (window.localStorage.getItem('singleplayer-tossup-settings')) {
-  const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'));
-  if (savedSettings.version !== settingsVersion) { throw new Error(); }
-  socket.sendToServer({ type: 'set-strictness', ...savedSettings });
-  socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
-  socket.sendToServer({ type: 'toggle-ai-mode', ...savedSettings });
-  socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
-  socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
-  socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
-  socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
+  try {
+    const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'));
+    if (savedSettings.version !== settingsVersion) { throw new Error(); }
+    socket.sendToServer({ type: 'set-strictness', ...savedSettings });
+    socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-ai-mode', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
+  } catch {
+    window.localStorage.removeItem('singleplayer-tossup-settings');
+  }
 }
 
 ReactDOM.createRoot(document.getElementById('category-modal-root')).render(

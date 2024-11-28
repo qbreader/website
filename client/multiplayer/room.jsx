@@ -271,8 +271,7 @@ async function connectionAcknowledgedQuery ({
   categoryPercents
 }) {
   setDifficulties({ difficulties });
-  $('#slider').slider('values', 0, minYear);
-  $('#slider').slider('values', 1, maxYear);
+
   document.getElementById('year-range-a').textContent = minYear;
   document.getElementById('year-range-b').textContent = maxYear;
 
@@ -296,6 +295,11 @@ async function connectionAcknowledgedQuery ({
 
   categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   categoryManager.loadCategoryModal();
+
+  $(document).ready(function () {
+    $('#slider').slider('values', 0, minYear);
+    $('#slider').slider('values', 1, maxYear);
+  });
 }
 
 function connectionAcknowledgedTossup ({ tossup: currentTossup }) {
