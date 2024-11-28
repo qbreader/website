@@ -305,7 +305,13 @@ function connectionAcknowledgedTossup ({ tossup: currentTossup }) {
   document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
 }
 
-function endOfSet () {
+function endOfSet ({ lastSeenTossup }) {
+  document.getElementById('answer').textContent = '';
+  document.getElementById('buzz').disabled = true;
+  document.getElementById('pause').disabled = true;
+  document.getElementById('next').disabled = true;
+  document.getElementById('question').textContent = '';
+  createTossupCard(lastSeenTossup);
   window.alert('You have reached the end of the set');
 }
 

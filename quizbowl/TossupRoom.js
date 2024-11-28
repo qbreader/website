@@ -131,6 +131,7 @@ export default class TossupRoom extends Room {
 
   async advanceQuestion () {
     this.queryingQuestion = true;
+    const lastSeenTossup = this.tossup;
 
     if (this.query.selectBySetName) {
       do {
@@ -138,7 +139,7 @@ export default class TossupRoom extends Room {
           this.query.packetNumbers.shift();
           const packetNumber = this.query.packetNumbers[0];
           if (packetNumber === undefined) {
-            this.emitMessage({ type: 'end-of-set' });
+            this.emitMessage({ type: 'end-of-set', lastSeenTossup });
             return false;
           }
           this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [packetNumber] });
