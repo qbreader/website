@@ -108,7 +108,7 @@ export default class TossupRoom extends QuestionRoom {
     clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
-    if (Object.keys(this.tossup).length === 0) { return; }
+    if (Object.keys(this.tossup || {}).length === 0) { return; }
 
     const { celerity, directive, directedPrompt, points } = await this.scoreTossup({ givenAnswer });
 
@@ -241,7 +241,7 @@ export default class TossupRoom extends QuestionRoom {
   }
 
   async readQuestion (expectedReadTime) {
-    if (Object.keys(this.tossup).length === 0) { return; }
+    if (Object.keys(this.tossup || {}).length === 0) { return; }
     if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
         DEAD_TIME_LIMIT * 10,
@@ -275,7 +275,7 @@ export default class TossupRoom extends QuestionRoom {
   }
 
   revealQuestion () {
-    if (Object.keys(this.tossup).length === 0) return;
+    if (Object.keys(this.tossup || {}).length === 0) return;
 
     this.questionProgress = this.QuestionProgressEnum.ANSWER_REVEALED;
     this.emitMessage({
