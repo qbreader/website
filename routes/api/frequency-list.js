@@ -27,9 +27,8 @@ function validateParams ({ alternateSubcategory, limit = 50, level = 'all', ques
     return null;
   }
 
-  if (isFinite(limit)) {
-    limit = parseInt(limit);
-  } else {
+  limit = parseInt(limit);
+  if (isNaN(limit) || limit < 1) {
     return null;
   }
 
