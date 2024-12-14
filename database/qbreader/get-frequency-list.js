@@ -3,6 +3,7 @@ import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
 
 /**
  * Get a frequency list of answers for a given subcategory, alternateSubcategory, and difficulty.
+ * If neither `subcategory` nor `alternateSubcategory` are provided, an empty array will be returned.
  * If both a `subcategory` and `alternateSubcategory` are provided, the frequency list will filter over questions that match both fields.
  * @param {object} params
  * @param {string} params.subcategory The subcategory to get the frequency list for.
@@ -13,6 +14,8 @@ import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
  * @returns {Promise<{ answer: string, count: number }[]>} The frequency list.
  */
 export default async function getFrequencyList ({ subcategory, alternateSubcategory, difficulties, limit, questionType }) {
+  if (!subcategory && !alternateSubcategory) { return []; }
+
   const matchDocument = { difficulty: { $in: difficulties } };
   if (subcategory) { matchDocument.subcategory = subcategory; }
   if (alternateSubcategory) { matchDocument.alternate_subcategory = alternateSubcategory; }
