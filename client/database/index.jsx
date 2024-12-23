@@ -99,6 +99,7 @@ function QueryForm () {
   const [regex, setRegex] = React.useState(false);
   const [ignoreWordOrder, setIgnoreWordOrder] = React.useState(false);
   const [exactPhrase, setExactPhrase] = React.useState(false);
+  const [caseSensitive, setCaseSensitive] = React.useState(false);
   const [powermarkOnly, setPowermarkOnly] = React.useState(false);
   const [hideAnswerlines, setHideAnswerlines] = React.useState(false);
   const [hideCardFooters, setHideCardFooters] = React.useState(false);
@@ -207,6 +208,7 @@ function QueryForm () {
       questionType,
       randomize,
       exactPhrase,
+      caseSensitive,
       powermarkOnly,
       regex,
       ignoreWordOrder,
@@ -228,7 +230,7 @@ function QueryForm () {
       .then(response => response.json())
       .then(response => {
         const { tossups, bonuses, queryString: modifiedQueryString } = response;
-        const regExp = RegExp(modifiedQueryString, 'ig');
+        const regExp = RegExp(modifiedQueryString, caseSensitive ? 'g' : 'ig');
         const workingMaxReturnLength = Math.max(1, maxReturnLength || 25);
 
         const { count: tossupCount, questionArray: tossupArray } = tossups;
@@ -413,6 +415,10 @@ function QueryForm () {
             <div className='form-check form-switch'>
               <input className='form-check-input' type='checkbox' role='switch' id='toggle-exact-phrase' checked={!regex && exactPhrase} disabled={regex} onChange={() => { setExactPhrase(!exactPhrase); }} />
               <label className='form-check-label' htmlFor='toggle-exact-phrase'>Search for exact phrase</label>
+            </div>
+            <div className='form-check form-switch'>
+              <input className='form-check-input' type='checkbox' role='switch' id='toggle-case-sensitive' checked={caseSensitive} onChange={() => { setCaseSensitive(!caseSensitive); }} />
+              <label className='form-check-label' htmlFor='toggle-case-sensitive'>Case sensitive search</label>
             </div>
             <div className='form-check form-switch'>
               <input className='form-check-input' type='checkbox' role='switch' id='toggle-powermark-only' checked={powermarkOnly} onChange={() => { setPowermarkOnly(!powermarkOnly); }} />
