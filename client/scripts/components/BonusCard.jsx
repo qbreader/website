@@ -3,7 +3,7 @@ import { stringifyBonus } from '../../database/stringify.js';
 import { getBonusPartLabel } from '../utilities/index.js';
 import QuestionCard from './QuestionCard.min.js';
 
-export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, showCardFooter, topRightComponent, fontSize = 16 }) {
+export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = bonus._id;
   const bonusLength = bonus.parts.length;
   const indices = [];
@@ -102,7 +102,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, s
           </div>
         )}
       </div>
-      <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle='modal' data-bs-target='#bonus-stats-modal'>
+      <div className={`card-footer clickable ${hideCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle='modal' data-bs-target='#bonus-stats-modal'>
         <small className='text-muted'>
           {bonus.packet.name ? 'Packet ' + bonus.packet.name : <span>&nbsp;</span>}
         </small>
