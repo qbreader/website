@@ -106,11 +106,11 @@ function BonusCard ({ bonus }) {
       question={bonus}
     >
       <div className='card-body'>
-        <p>{bonus.leadin}</p>
+        <p dangerouslySetInnerHTML={{ __html: bonus.leadin }} />
         {indices.map((i) =>
           <div key={`${bonus._id}-${i}`}>
             <hr />
-            <p>{getBonusPartLabel(i)} {bonus.parts[i]}</p>
+            <p>{getBonusPartLabel(i)} <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }} /></p>
             <b>ANSWER: </b>
             <span dangerouslySetInnerHTML={{ __html: bonus?.answers[i] }} />
           </div>
