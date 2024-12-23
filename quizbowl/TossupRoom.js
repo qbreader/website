@@ -100,7 +100,7 @@ export default class TossupRoom extends QuestionRoom {
     this.emitMessage({ type: 'clear-stats', userId });
   }
 
-  async giveAnswer (userId, { givenAnswer }) {
+  giveAnswer (userId, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
     if (this.buzzedIn !== userId) { return false; }
 
@@ -110,7 +110,7 @@ export default class TossupRoom extends QuestionRoom {
 
     if (Object.keys(this.tossup || {}).length === 0) { return; }
 
-    const { celerity, directive, directedPrompt, points } = await this.scoreTossup({ givenAnswer });
+    const { celerity, directive, directedPrompt, points } = this.scoreTossup({ givenAnswer });
 
     switch (directive) {
       case 'accept':
@@ -209,11 +209,11 @@ export default class TossupRoom extends QuestionRoom {
     this.emitMessage({ type: 'pause', paused: this.paused, username });
   }
 
-  async scoreTossup ({ givenAnswer }) {
+  scoreTossup ({ givenAnswer }) {
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
     const endOfQuestion = (this.wordIndex === this.questionSplit.length);
     const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
-    const { directive, directedPrompt } = await this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
+    const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
     const isCorrect = directive === 'accept';
     const points = isCorrect ? (inPower ? this.previous.powerValue : 10) : (endOfQuestion ? 0 : this.previous.negValue);
 

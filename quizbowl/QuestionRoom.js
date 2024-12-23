@@ -7,7 +7,7 @@ export default class QuestionRoom extends Room {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name);
 
-    this.checkAnswer = async function checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); };
+    this.checkAnswer = function checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); };
     this.getRandomQuestions = async function getRandomQuestions (args) { throw new Error('Not implemented'); };
     this.getSet = async function getSet (args) { throw new Error('Not implemented'); };
     this.getSetList = async function getSetList (args) { throw new Error('Not implemented'); };
