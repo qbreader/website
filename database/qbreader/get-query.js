@@ -54,6 +54,7 @@ function validateOptions ({
   regex = false,
   ignoreWordOrder = false,
   exactPhrase = false,
+  caseSensitive = false,
   powermarkOnly = false,
   tossupPagination = 1,
   bonusPagination = 1,
@@ -109,7 +110,7 @@ function validateOptions ({
     alternateSubcategories = alternateSubcategories.concat([null]);
   }
 
-  return { queryString, difficulties, setName, searchType, questionType, categories, subcategories, alternateSubcategories, maxReturnLength, randomize, regex, exactPhrase, powermarkOnly, tossupPagination, bonusPagination, minYear, maxYear, verbose, words };
+  return { queryString, difficulties, setName, searchType, questionType, categories, subcategories, alternateSubcategories, maxReturnLength, randomize, regex, exactPhrase, caseSensitive, powermarkOnly, tossupPagination, bonusPagination, minYear, maxYear, verbose, words };
 }
 
 /**
@@ -169,18 +170,18 @@ async function getQuery (options = {}) {
 }
 
 async function getTossupQuery (options) {
-  const { maxReturnLength, searchType, tossupPagination, words } = options;
+  const { caseSensitive, maxReturnLength, searchType, tossupPagination, words } = options;
 
   const andQuery = [];
   for (const word of words) {
     const orQuery = [];
 
     if (['question', 'all'].includes(searchType)) {
-      orQuery.push({ question_sanitized: { $regex: word, $options: 'i' } });
+      orQuery.push({ question_sanitized: { $regex: word, $options: caseSensitive ? '' : 'i' } });
     }
 
     if (['answer', 'all'].includes(searchType)) {
-      orQuery.push({ answer_sanitized: { $regex: word, $options: 'i' } });
+      orQuery.push({ answer_sanitized: { $regex: word, $options: caseSensitive ? '' : 'i' } });
     }
 
     andQuery.push({ $or: orQuery });
@@ -209,19 +210,19 @@ async function getTossupQuery (options) {
 }
 
 async function getBonusQuery (options) {
-  const { bonusPagination, maxReturnLength, searchType, words } = options;
+  const { bonusPagination, caseSensitive, maxReturnLength, searchType, words } = options;
 
   const andQuery = [];
   for (const word of words) {
     const orQuery = [];
 
     if (['question', 'all'].includes(searchType)) {
-      orQuery.push({ leadin_sanitized: { $regex: word, $options: 'i' } });
-      orQuery.push({ parts_sanitized: { $regex: word, $options: 'i' } });
+      orQuery.push({ leadin_sanitized: { $regex: word, $options: caseSensitive ? '' : 'i' } });
+      orQuery.push({ parts_sanitized: { $regex: word, $options: caseSensitive ? '' : 'i' } });
     }
 
     if (['answer', 'all'].includes(searchType)) {
-      orQuery.push({ answers_sanitized: { $regex: word, $options: 'i' } });
+      orQuery.push({ answers_sanitized: { $regex: word, $options: caseSensitive ? '' : 'i' } });
     }
 
     andQuery.push({ $or: orQuery });

@@ -13,6 +13,7 @@ router.get('/', async (req, res) => {
     req.query.searchType = 'all';
   }
 
+  req.query.caseSensitive = (req.query.caseSensitive === 'true');
   req.query.exactPhrase = (req.query.exactPhrase === 'true');
   req.query.ignoreWordOrder = (req.query.ignoreWordOrder === 'true');
   req.query.powermarkOnly = (req.query.powermarkOnly === 'true');
