@@ -101,7 +101,7 @@ function QueryForm () {
   const [exactPhrase, setExactPhrase] = React.useState(false);
   const [powermarkOnly, setPowermarkOnly] = React.useState(false);
   const [hideAnswerlines, setHideAnswerlines] = React.useState(false);
-  const [showCardFooters, setShowCardFooters] = React.useState(true);
+  const [hideCardFooters, setHideCardFooters] = React.useState(false);
 
   const [currentlySearching, setCurrentlySearching] = React.useState(false);
 
@@ -288,14 +288,14 @@ function QueryForm () {
   for (let i = 0; i < highlightedTossups.length; i++) {
     const _id = tossups[i]._id;
     const starComponent = <Star key={_id} _id={_id} questionType='tossup' initiallyStarred={starredTossupIds.has(_id)} />;
-    tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} hideAnswerline={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize} topRightComponent={starComponent} />);
+    tossupCards.push(<TossupCard key={i} tossup={tossups[i]} highlightedTossup={highlightedTossups[i]} hideAnswerline={hideAnswerlines} hideCardFooter={hideCardFooters} fontSize={fontSize} topRightComponent={starComponent} />);
   }
 
   const bonusCards = [];
   for (let i = 0; i < highlightedBonuses.length; i++) {
     const _id = bonuses[i]._id;
     const starComponent = <Star key={_id} _id={_id} questionType='bonus' initiallyStarred={starredBonusIds.has(_id)} />;
-    bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} hideAnswerlines={hideAnswerlines} showCardFooter={showCardFooters} fontSize={fontSize} topRightComponent={starComponent} />);
+    bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} hideAnswerlines={hideAnswerlines} hideCardFooter={hideCardFooters} fontSize={fontSize} topRightComponent={starComponent} />);
   }
 
   React.useEffect(() => {
@@ -423,8 +423,8 @@ function QueryForm () {
               <label className='form-check-label' htmlFor='toggle-hide-answerlines'>Hide answerlines</label>
             </div>
             <div className='form-check form-switch'>
-              <input className='form-check-input' type='checkbox' role='switch' id='toggle-show-card-footers' checked={showCardFooters} onChange={() => { setShowCardFooters(!showCardFooters); }} />
-              <label className='form-check-label' htmlFor='toggle-show-card-footers'>Show card footers</label>
+              <input className='form-check-input' type='checkbox' role='switch' id='toggle-hide-card-footers' checked={hideCardFooters} onChange={() => { setHideCardFooters(!hideCardFooters); }} />
+              <label className='form-check-label' htmlFor='toggle-hide-card-footers'>Hide card footers</label>
             </div>
             <div className='float-end'>
               <b>Download this page:</b>
