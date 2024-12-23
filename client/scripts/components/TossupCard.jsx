@@ -2,7 +2,7 @@ import account from '../accounts.js';
 import { stringifyTossup } from '../../database/stringify.js';
 import QuestionCard from './QuestionCard.min.js';
 
-export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, showCardFooter, topRightComponent, fontSize = 16 }) {
+export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = tossup._id;
 
   function clickToCopy () {
@@ -92,7 +92,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
           <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.answer }} />
         </div>
       </div>
-      <div className={`card-footer clickable ${!showCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle='modal' data-bs-target='#tossup-stats-modal'>
+      <div className={`card-footer clickable ${hideCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle='modal' data-bs-target='#tossup-stats-modal'>
         <small className='text-muted'>
           {tossup.packet.name ? 'Packet ' + tossup.packet.name : <span>&nbsp;</span>}
         </small>
