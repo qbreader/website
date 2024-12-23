@@ -54,13 +54,13 @@ export default class BonusRoom extends QuestionRoom {
     return this.bonus?.values?.[this.currentPartNumber] ?? 10;
   }
 
-  async giveAnswer (userId, { givenAnswer }) {
+  giveAnswer (userId, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
 
     clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
-    const { directive, directedPrompt } = await this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
+    const { directive, directedPrompt } = this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
     this.emitMessage({ type: 'give-answer', currentPartNumber: this.currentPartNumber, directive, directedPrompt });
 
     if (directive === 'prompt') {

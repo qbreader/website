@@ -1,5 +1,7 @@
 import getRandomName from '../../../quizbowl/get-random-name.js';
 
+import checkAnswer from 'https://cdn.jsdelivr.net/npm/qb-answer-checker@1.1.3/dist/main.mjs';
+
 export default class api {
   static SET_LIST = [];
 
@@ -11,13 +13,8 @@ export default class api {
         * directedPrompt: String | null
     * }>}
     */
-  static async checkAnswer (answerline, givenAnswer, strictness = 7) {
-    if (givenAnswer === '') {
-      return { directive: 'reject', directedPrompt: null };
-    }
-
-    return await fetch('/api/check-answer?' + new URLSearchParams({ answerline, givenAnswer, strictness }))
-      .then(response => response.json());
+  static checkAnswer (answerline, givenAnswer, strictness = 7) {
+    return checkAnswer(answerline, givenAnswer, strictness);
   }
 
   /**
