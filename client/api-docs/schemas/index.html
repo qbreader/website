@@ -139,7 +139,7 @@
                 <h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4>
             </a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="tossupExample"></code></pre>
-            <button class="btn btn-sm btn-primary" onclick="getTossupExample()">Get another example</button>
+            <button class="btn btn-sm btn-primary" id="get-tossup-example">Get another example</button>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
@@ -151,18 +151,23 @@
                     <div>
                         <code>question</code><code class="text-muted">: string</code>
                     </div>
-                    <div>The question text.</div>
+                    <div>The question text, formatted with HTML.</div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>question_sanitized</code><code class="text-muted">: string</code>
+                    </div>
+                    <div>The question text, unformatted.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
                         <code>answer</code><code class="text-muted">: string</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">optional</code>
                     </div>
                     <div>The answerline, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>answer</code><code class="text-muted">: string</code>
+                        <code>answer_sanitized</code><code class="text-muted">: string</code>
                     </div>
                     <div>The answerline, unformatted.</div>
                 </li>
@@ -184,51 +189,91 @@
                         <code class="text-muted float-end fw-semibold text-decoration-underline">optional</code>
                     </div>
                     <div>
-                        The alternate subcategory of the question.
-                        Currently, this only exists on some literature questions, where it is the genre of the work.
+                        The alternate subcategory of the question. This only exists for the following category: Literature; and for the
+                        following subcategories: Other Science, Other Fine Arts, Social Science.
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>packet</code><code class="text-muted">: string</code>
+                        <code>packet</code><code class="text-muted">: object</code>
                     </div>
-                    <div>The internal ID of the packet the question is from.</div>
+                    <div>A JavaScript object with the following properties of the packet the tossup is from:</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div>
+                                <code>_id</code><code class="text-muted">: string</code>
+                            </div>
+                            <div>
+                                The internal ID of the packet.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>name</code><code class="text-muted">: string</code>
+                            </div>
+                            <div>
+                                The name of the packet.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>number</code><code class="text-muted">: number</code>
+                            </div>
+                            <div>
+                                The packet number of the packet. <i>Always a nonnegative integer.</i>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>packetName</code><code class="text-muted">: string</code>
+                        <code>set</code><code class="text-muted">: object</code>
                     </div>
-                    <div>The name of the packet the question is from.</div>
+                    <div>A JavaScript object with the following properties of the set the tossup is from:</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div>
+                                <code>_id</code><code class="text-muted">: string</code>
+                            </div>
+                            <div>
+                                The internal ID of the set.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>name</code><code class="text-muted">: string</code>
+                            </div>
+                            <div>
+                                The name of the set.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>year</code><code class="text-muted">: number</code>
+                            </div>
+                            <div>
+                                The year associated with the set. This <b>always</b> corresponds to the first four characters of the
+                                set name.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>standard</code><code class="text-muted">: boolean</code>
+                            </div>
+                            <div>
+                                Whether or not the set has a "standard" format. This generally means anything that's designed for use
+                                at an academic quizbowl tournament, even if it does not have a full distribution. See the <a
+                                    href="https://docs.google.com/spreadsheets/d/1Q_DURZJRPCbQmikcXGu986-7Mj5KJNJoux1OqJjxUkM/edit?usp=sharing">packet
+                                    list</a> for a complete list of what sets are considered standard.
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>set</code><code class="text-muted">: string</code>
+                        <code>number</code><code class="text-muted">: number</code>
                     </div>
-                    <div>The internal ID of the set the question is from.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>setName</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The name of the set the question is from.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>setYear</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The year the question is from.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>packetNumber</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The packet number of the packet the question is from. <i>Always a positive integer.</i></div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>questionNumber</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The question number of the question in the packet. <i>Always a positive integer.</i></div>
+                    <div>The question number of the tossup in the packet. <i>Always a nonnegative integer.</i></div>
                 </li>
                 <li class="list-group-item">
                     <div>
@@ -254,7 +299,7 @@
                 <h4 class="mt-4 md-2" id="bonus"><code>Bonus</code></h4>
             </a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="bonusExample"></code></pre>
-            <button class="btn btn-sm btn-primary" onclick="getBonusExample()">Get another example</button>
+            <button class="btn btn-sm btn-primary" id="get-bonus-example">Get another example</button>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
@@ -266,26 +311,40 @@
                     <div>
                         <code>leadin</code><code class="text-muted">: string</code>
                     </div>
-                    <div>The leadin of the bonus.</div>
+                    <div>The leadin of the bonus, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>parts</code><code class="text-muted">: [string, string, string]</code>
+                        <code>leadin_sanitized</code><code class="text-muted">: string</code>
                     </div>
-                    <div>The parts of the bonus.</div>
+                    <div>The leadin of the bonus, unformatted.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>answers</code><code class="text-muted">: [string, string, string]</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">optional</code>
+                        <code>parts</code><code class="text-muted">: string[]</code>
                     </div>
-                    <div>The answerlines, formatted with HTML.</div>
+                    <div>The parts of the bonus, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>answers</code><code class="text-muted">: [string, string, string]</code>
+                        <code>parts_sanitized</code><code class="text-muted">: string[]</code>
                     </div>
-                    <div>The answerlines, unformatted.</div>
+                    <div>The parts of the bonus, unformatted. This always has length equal to <code>parts</code>.</div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>answers</code><code class="text-muted">: string[]</code>
+                    </div>
+                    <div>
+                        The answerlines, formatted with HTML. This should have the same length as <code>parts</code>, but a few bonuses
+                        have errors where this is not the case.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>answers_sanitized</code><code class="text-muted">: string[]</code>
+                    </div>
+                    <div>The answerlines, unformatted. This always has length equal to <code>answers</code>.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
@@ -305,51 +364,91 @@
                         <code class="text-muted float-end fw-semibold text-decoration-underline">optional</code>
                     </div>
                     <div>
-                        The alternate subcategory of the question.
-                        Currently, this only exists on some literature questions, where it is the genre of the work.
+                        The alternate subcategory of the question. This only exists for the following category: Literature; and for the
+                        following subcategories: Other Science, Other Fine Arts, Social Science.
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>packet</code><code class="text-muted">: string</code>
+                        <code>packet</code><code class="text-muted">: object</code>
                     </div>
-                    <div>The internal ID of the packet the question is from.</div>
+                    <div>A JavaScript object with the following properties of the packet the bonus is from:</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div>
+                                <code>_id</code><code class="text-muted">: string</code>
+                            </div>
+                            <div>
+                                The internal ID of the packet.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>name</code><code class="text-muted">: string</code>
+                            </div>
+                            <div>
+                                The name of the packet.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>number</code><code class="text-muted">: number</code>
+                            </div>
+                            <div>
+                                The packet number of the packet. <i>Always a nonnegative integer.</i>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>packetName</code><code class="text-muted">: string</code>
+                        <code>set</code><code class="text-muted">: object</code>
                     </div>
-                    <div>The name of the packet the question is from.</div>
+                    <div>A JavaScript object with the following properties of the set the bonus is from:</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div>
+                                <code>_id</code><code class="text-muted">: string</code>
+                            </div>
+                            <div>
+                                The internal ID of the set.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>name</code><code class="text-muted">: string</code>
+                            </div>
+                            <div>
+                                The name of the set.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>year</code><code class="text-muted">: number</code>
+                            </div>
+                            <div>
+                                The year associated with the set. This <b>always</b> corresponds to the first four characters of the
+                                set name.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <code>standard</code><code class="text-muted">: boolean</code>
+                            </div>
+                            <div>
+                                Whether or not the set has a "standard" format. This generally means anything that's designed for use
+                                at an academic quizbowl tournament, even if it does not have a full distribution. See the <a
+                                    href="https://docs.google.com/spreadsheets/d/1Q_DURZJRPCbQmikcXGu986-7Mj5KJNJoux1OqJjxUkM/edit?usp=sharing">packet
+                                    list</a> for a complete list of what sets are considered standard.
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>set</code><code class="text-muted">: string</code>
+                        <code>number</code><code class="text-muted">: number</code>
                     </div>
-                    <div>The internal ID of the set the question is from.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>setName</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The name of the set the question is from.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>setYear</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The year the question is from.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>packetNumber</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The packet number of the packet the question is from. <i>Always a positive integer.</i></div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>questionNumber</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The question number of the question in the packet. <i>Always a positive integer.</i></div>
+                    <div>The question number of the bonus in the packet. <i>Always a nonnegative integer.</i></div>
                 </li>
                 <li class="list-group-item">
                     <div>
@@ -373,30 +472,9 @@
         </div>
     </div>
 
-    <script>
-        function getTossupExample() {
-            fetch('/api/random-tossup')
-                .then(res => res.json())
-                .then(data => data.tossups[0])
-                .then(data => {
-                    document.getElementById("tossupExample").innerText = JSON.stringify(data, null, 4);
-                });
-        }
-
-        function getBonusExample() {
-            fetch('/api/random-bonus')
-                .then(res => res.json())
-                .then(data => data.bonuses[0])
-                .then(data => {
-                    document.getElementById("bonusExample").innerText = JSON.stringify(data, null, 4);
-                });
-        }
-
-        getTossupExample();
-        getBonusExample();
-    </script>
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
+    <script src="/api-docs/schemas/index.js"></script>
 </body>
 
 </html>

@@ -155,35 +155,63 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>categories</code><code class="text-muted">: string[] | string</code>
+                        <code>categories</code><code class="text-muted">: string | string[]</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
                         The categories to search for.
                         <ul>
-                            <li>If <code>undefined</code> then all categories are allowed.</li>
+                            <li>To pass multiple categories, separate values by a comma.</li>
+                            <li>If <code>undefined</code> then all categories are allowed / match this field.</li>
                             <li>Can also be a <code>string</code> if there is only 1 category.</li>
-                            <li>Take special care to ensure that the first letter of each word of the category is
-                                capitalized.</li>
+                            <li>Take special care to ensure that the first letter of each word of each category is capitalized.</li>
                         </ul>
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>subcategories</code><code class="text-muted">: string[] | string</code>
+                        <code>subcategories</code><code class="text-muted">: string | string[]</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
-                        The subcategories to search for.
+                        The subcategories to search for. All of the bullet points above apply here, plus:
                         <ul>
-                            <li>If <code>undefined</code> then all subcategories are allowed.</li>
-                            <li>Can also be a <code>string</code> if there is only 1 subcategory.</li>
-                            <li>Take special care to ensure that the first letter of each word of the subcategory is
-                                capitalized.</li>
-                            <li>This API endpoint does <b>not</b> check for consistency between categories and
-                                subcategories.</li>
-                            <li><i>For example, requesting the <code>"History"</code> and the <code>"Biology"</code>
+                            <li>
+                                This endpoint returns all questions that match both the <code>categories</code> AND
+                                <code>subcategories</code> field.
+                            </li>
+                            <li>This API endpoint does <b>not</b> check for consistency between categories and subcategories.</li>
+                            <li><i>For example, requesting the <code>"History"</code> category and the <code>"Biology"</code>
                                     and <code>"Chemistry"</code> subcategories will return no questions.</i></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>alternateSubcategories</code><code class="text-muted">: string | string[]</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The alternate subcategories to search for. All of the bullet points above apply here, plus:
+                        <ul>
+                            <li>
+                                This endpoint returns all questions that match the <code>categories</code> AND
+                                <code>subcategories</code> AND <code>alternateSubcategories</code> fields.
+                            </li>
+                            <li>
+                                This endpoint does <b>not</b> check for consistency between categories and subcategories and alternate
+                                subcategories.
+                            </li>
+                            <li>
+                                Categories or subcategories that do not have corresponding alternate subcategories can never be
+                                excluded by specifying values for <code>alternateSubcategories</code>.
+                            </li>
+                            <li>
+                                <i>For example, requesting the <code>"Science"</code> category and the <code>"Biology"</code>
+                                    and <code>"Other Science"</code> subcategories and the <code>"Math"</code> alternate subcategory
+                                    will return questions in both Biology and Math, since Biology questions don't have alternate
+                                    subcategories.</i>
+                            </li>
                         </ul>
                     </div>
                 </li>
