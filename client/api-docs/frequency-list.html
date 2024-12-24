@@ -139,14 +139,29 @@
             <a href="#parameters" class="text-body">
                 <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
             </a>
+            <p>
+                At least one of <code>subcategory</code> and <code>alternateSubcategory</code> must be specified; otherwise, an empty
+                array is returned.
+            </p>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
                         <code>subcategory</code><code class="text-muted">: string</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
-                        The subcategory to get the list for.
+                        The subcategory to get the list for. If this is specified along with <code>alternateSubcategory</code>,
+                        questions matching both fields are included.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>alternateubcategory</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>
+                        The alternate subcategory to get the list for. If this is specified along with <code>subcategory</code>,
+                        questions matching both fields are included.
                     </div>
                 </li>
                 <li class="list-group-item">
@@ -166,6 +181,20 @@
                     </div>
                     <div>
                         The maximum number of answers to return.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>questionType</code><code class="text-muted">: "tossup" | "bonus" | "all"</code>
+                        <code class="text-muted float-end fw-semibold">default: "all"</code>
+                    </div>
+                    <div>
+                        The type of question to search for.
+                        <ul>
+                            <li><code>"tossup"</code> - only tossups</li>
+                            <li><code>"bonus"</code> - only bonuses</li>
+                            <li><code>"all"</code> - both tossups and bonuses</li>
+                        </ul>
                     </div>
                 </li>
             </ul>
