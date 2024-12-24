@@ -139,7 +139,7 @@
                 <h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4>
             </a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="tossupExample"></code></pre>
-            <button class="btn btn-sm btn-primary" onclick="getTossupExample()">Get another example</button>
+            <button class="btn btn-sm btn-primary" id="get-tossup-example">Get another example</button>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
@@ -299,7 +299,7 @@
                 <h4 class="mt-4 md-2" id="bonus"><code>Bonus</code></h4>
             </a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="bonusExample"></code></pre>
-            <button class="btn btn-sm btn-primary" onclick="getBonusExample()">Get another example</button>
+            <button class="btn btn-sm btn-primary" id="get-bonus-example">Get another example</button>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
@@ -472,30 +472,9 @@
         </div>
     </div>
 
-    <script>
-        function getTossupExample() {
-            fetch('/api/random-tossup')
-                .then(res => res.json())
-                .then(data => data.tossups[0])
-                .then(data => {
-                    document.getElementById("tossupExample").innerText = JSON.stringify(data, null, 4);
-                });
-        }
-
-        function getBonusExample() {
-            fetch('/api/random-bonus')
-                .then(res => res.json())
-                .then(data => data.bonuses[0])
-                .then(data => {
-                    document.getElementById("bonusExample").innerText = JSON.stringify(data, null, 4);
-                });
-        }
-
-        getTossupExample();
-        getBonusExample();
-    </script>
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
+    <script src="/api-docs/schemas/index.js"></script>
 </body>
 
 </html>
