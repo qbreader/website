@@ -12,6 +12,7 @@ If you're interested in running the server locally or deploying a clone, please 
    The website is at localhost:3000
 
 The website is built by default, but if you make any changes, you can rebuild using `npm run build`.
+You can watch changes in .jsx files by running `npm run watch`.
 
 # Code Structure
 
@@ -24,10 +25,17 @@ All code that deals with **routing** is located in `routes/`, with the folder st
 For example, `routes/api/packets.js` handles all requests to `/api/packets`.
 `index.js` files handle the root of a folder, so `routes/api/index.js` handles all requests to `/api`.
 
+- Static files are served using express.static (in /routes/index.js) based on the folder structure in `client/`.
 - Type validation should occur in the code for a route endpoint inside `routes/`.
 - Functions in the `database/` folder can assume that the arguments have the correct type, but may logically be incorrect.
 
 All remaining server-side code is located in `server/`.
+
+## innerText vs. textContent vs. innerHTML
+
+Do **not** use innerText - use textContent instead for these cases.
+See <https://kellegous.com/j/2013/02/27/innertext-vs-textcontent/> for an explanation why.
+Think carefully about using innerHTML on user input, but it's generally fine to use otherwise.
 
 # Style Guide
 
