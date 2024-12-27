@@ -3,7 +3,7 @@ function getTossupExample () {
     .then(res => res.json())
     .then(data => data.tossups[0])
     .then(data => {
-      document.getElementById('tossupExample').innerText = JSON.stringify(data, null, 4);
+      document.getElementById('tossupExample').textContent = JSON.stringify(data, null, 4);
     });
 }
 
@@ -12,7 +12,7 @@ function getBonusExample () {
     .then(res => res.json())
     .then(data => data.bonuses[0])
     .then(data => {
-      document.getElementById('bonusExample').innerText = JSON.stringify(data, null, 4);
+      document.getElementById('bonusExample').textContent = JSON.stringify(data, null, 4);
     });
 }
 
