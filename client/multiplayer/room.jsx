@@ -757,8 +757,8 @@ function updateTimerDisplay (time) {
   const seconds = Math.floor(time / 10);
   const tenths = time % 10;
 
-  document.querySelector('.timer .face').innerText = seconds;
-  document.querySelector('.timer .fraction').innerText = '.' + tenths;
+  document.querySelector('.timer .face').textContent = seconds;
+  document.querySelector('.timer .fraction').textContent = '.' + tenths;
 }
 
 function vkInit ({ targetUsername, threshold }) {
@@ -853,8 +853,8 @@ document.getElementById('packet-number').addEventListener('change', function () 
 
 document.getElementById('pause').addEventListener('click', function () {
   this.blur();
-  const seconds = parseFloat(document.querySelector('.timer .face').innerText);
-  const tenths = parseFloat(document.querySelector('.timer .fraction').innerText);
+  const seconds = parseFloat(document.querySelector('.timer .face').textContent);
+  const tenths = parseFloat(document.querySelector('.timer .fraction').textContent);
   const pausedTime = (seconds + tenths) * 10;
   socket.send(JSON.stringify({ type: 'pause', pausedTime }));
 });

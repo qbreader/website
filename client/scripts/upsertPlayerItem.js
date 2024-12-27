@@ -81,15 +81,15 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     if (muteTrigger) {
       const muteItem = document.createElement('li');
       const muteButton = document.createElement('button');
-      muteButton.innerText = 'Mute';
+      muteButton.textContent = 'Mute';
       muteButton.className = 'btn btn-warning btn-sm mt-2 me-1 dropdown-item';
       muteButton.title = 'Mute/Unmute an user to change visibility of what they say in chat.';
       muteItem.appendChild(muteButton);
       dropdownMenu.appendChild(muteItem);
 
       muteButton.addEventListener('click', () => {
-        socket.send(JSON.stringify({ type: 'toggle-mute', targetId: userId, muteStatus: muteButton.innerText }));
-        muteButton.innerText = muteButton.innerText === 'Unmute' ? 'Mute' : 'Unmute';
+        socket.send(JSON.stringify({ type: 'toggle-mute', targetId: userId, muteStatus: muteButton.textContent }));
+        muteButton.textContent = muteButton.textContent === 'Unmute' ? 'Mute' : 'Unmute';
       });
     }
 
@@ -98,7 +98,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
       const vkButton = document.createElement('button');
       vkButton.className = 'btn btn-warning btn-sm mt-2 me-1 dropdown-item';
       vkButton.title = 'Initiate a votekick on an user. 90 second cooldown.';
-      vkButton.innerText = 'Votekick';
+      vkButton.textContent = 'Votekick';
       kickItem.appendChild(vkButton);
       dropdownMenu.appendChild(kickItem);
 
@@ -106,10 +106,10 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
         socket.send(JSON.stringify({ type: 'votekick-vote', targetId: userId }));
         socket.send(JSON.stringify({ type: 'votekick-init', targetId: userId }));
         vkButton.disabled = true;
-        vkButton.innerText = 'Cooldown';
+        vkButton.textContent = 'Cooldown';
         setTimeout(() => {
           vkButton.disabled = false;
-          vkButton.innerText = 'VK';
+          vkButton.textContent = 'VK';
         }, 90000);
       });
     }
@@ -119,7 +119,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
       const banButton = document.createElement('button');
       banButton.className = 'btn btn-danger btn-sm mt-2 me-1 dropdown-item';
       banButton.title = 'Ban an user. They can no longer join the room.';
-      banButton.innerText = 'Ban';
+      banButton.textContent = 'Ban';
       banItem.appendChild(banButton);
       dropdownMenu.appendChild(banItem);
 

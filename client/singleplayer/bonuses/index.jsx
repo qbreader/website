@@ -266,8 +266,8 @@ function updateStatDisplay (stats) {
 function updateTimerDisplay (time) {
   const seconds = Math.floor(time / 10);
   const tenths = time % 10;
-  document.querySelector('.timer .face').innerText = seconds;
-  document.querySelector('.timer .fraction').innerText = '.' + tenths;
+  document.querySelector('.timer .face').textContent = seconds;
+  document.querySelector('.timer .fraction').textContent = '.' + tenths;
 }
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
