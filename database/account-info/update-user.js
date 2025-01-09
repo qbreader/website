@@ -25,7 +25,7 @@ async function updateUser (username, values) {
     }
   }
 
-  if (values.username) {
+  if (values.username && values.username !== username) {
     if (await getUserId(values.username)) {
       return false;
     }
