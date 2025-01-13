@@ -1,9 +1,9 @@
-import { tossupRooms } from '../../server/multiplayer/handle-wss-connection.js';
+import { tossupRooms } from '../../../server/multiplayer/handle-wss-connection.js';
 
 import { Router } from 'express';
 const router = Router();
 
-router.get('/room-list', (req, res) => {
+router.get('/', (req, res) => {
   const roomList = [];
   for (const roomName in tossupRooms) {
     if (!tossupRooms[roomName].settings.public) {
