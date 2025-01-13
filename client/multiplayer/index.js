@@ -25,7 +25,10 @@ document.getElementById('form').addEventListener('submit', (event) => {
 fetch('/api/multiplayer/room-list')
   .then(response => response.json())
   .then(data => {
-    const { roomList } = data;
+    const { activePlayers, activeRooms, roomList } = data;
+    document.getElementById('active-players').textContent = activePlayers;
+    document.getElementById('active-rooms').textContent = activeRooms;
+
     roomList.sort((a, b) => {
       if (a.onlineCount === b.onlineCount) {
         return b.playerCount - a.playerCount;
@@ -33,9 +36,7 @@ fetch('/api/multiplayer/room-list')
         return b.onlineCount - a.onlineCount;
       }
     });
-    return roomList;
-  })
-  .then(roomList => {
+
     roomList.forEach(room => {
       const { roomName, playerCount, onlineCount, isPermanent } = room;
 
