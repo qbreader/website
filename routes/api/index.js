@@ -3,7 +3,7 @@ import bonusByIdRouter from './bonus-by-id.js';
 import checkAnswerRouter from './check-answer.js';
 import frequencyListRouter from './frequency-list.js';
 import geowordRouter from './geoword/index.js';
-import multiplayerRouter from './multiplayer.js';
+import multiplayerRouter from './multiplayer/index.js';
 import numPacketsRouter from './num-packets.js';
 import packetBonusesRouter from './packet-bonuses.js';
 import packetTossupsRouter from './packet-tossups.js';
