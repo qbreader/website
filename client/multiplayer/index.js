@@ -47,6 +47,10 @@ fetch('/api/multiplayer/room-list')
       li.appendChild(a);
       li.appendChild(document.createTextNode(` - ${playerCount} player${playerCount === 1 ? '' : 's'} - ${onlineCount} online`));
       li.classList.add('list-group-item');
+      if (onlineCount === 0 && !isPermanent) {
+        li.classList.add('d-none');
+        li.classList.add('empty-room');
+      }
 
       if (isPermanent) {
         document.getElementById('permanent-room-list').appendChild(li);
@@ -57,3 +61,10 @@ fetch('/api/multiplayer/room-list')
   });
 
 document.getElementById('new-room-name').placeholder = api.getRandomName();
+
+document.getElementById('empty-room-checkbox').addEventListener('change', function (event) {
+  const emptyRooms = document.getElementsByClassName('empty-room');
+  for (const emptyRoom of emptyRooms) {
+    emptyRoom.classList.toggle('d-none', !event.target.checked);
+  }
+});
