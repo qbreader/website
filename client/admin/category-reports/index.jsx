@@ -68,6 +68,7 @@ function TossupCard ({ tossup }) {
       question={tossup}
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
+        <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
         <span dangerouslySetInnerHTML={{ __html: tossup.question }} />
         <hr className='my-3' />
         <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.answer }} /></div>
@@ -106,7 +107,8 @@ function BonusCard ({ bonus }) {
       question={bonus}
     >
       <div className='card-body'>
-        <p dangerouslySetInnerHTML={{ __html: bonus.leadin }} />
+        <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>
+        <span dangerouslySetInnerHTML={{ __html: bonus.leadin }} />
         {indices.map((i) =>
           <div key={`${bonus._id}-${i}`}>
             <hr />
