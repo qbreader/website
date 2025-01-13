@@ -84,7 +84,15 @@
                 <hr>
                 <p>Try one of these rooms:</p>
                 <ul class="list-group mb-3" id="permanent-room-list"></ul>
-                <p>Or, check out a public room:</p>
+                <div class="d-flex justify-content-between mb-3">
+                    <div>Or, check out a public room:</div>
+                    <div class="form-check">
+                        <input class="form-check-input" id="empty-room-checkbox" type="checkbox">
+                        <label class="form-check-label" for="empty-room-checkbox">
+                            Show empty rooms
+                        </label>
+                    </div>
+                </div>
                 <ul class="list-group mb-5" id="room-list"></ul>
             </div>
         </div>
