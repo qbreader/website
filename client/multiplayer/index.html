@@ -64,38 +64,34 @@
     </nav>
 
     <div class="container mt-3 mb-4">
-        <div class="row">
-            <div class="col-12">
-                <p class="lead">Play quizbowl real-time against other players.</p>
-                <p>You can invite friends to join you by sharing the URL to your room.</p>
-                <p class="mb-0 pb-2">Create/Join a Room:</p>
-                <form id="form">
-                    <div class="input-group justify-content-center pb-2">
-                        <input class="form-control" id="new-room-name" type="text">
-                        <button class="btn btn-success" type="submit">Go</button>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" id="private-room-checkbox" type="checkbox">
-                        <label class="form-check-label" for="private-room-checkbox">
-                            Make room private
-                        </label>
-                    </div>
-                </form>
-                <hr>
-                <p>Try one of these rooms:</p>
-                <ul class="list-group mb-3" id="permanent-room-list"></ul>
-                <div class="d-flex justify-content-between mb-3">
-                    <div>Or, check out a public room:</div>
-                    <div class="form-check">
-                        <input class="form-check-input" id="empty-room-checkbox" type="checkbox">
-                        <label class="form-check-label" for="empty-room-checkbox">
-                            Show empty rooms
-                        </label>
-                    </div>
-                </div>
-                <ul class="list-group mb-5" id="room-list"></ul>
+        <p class="lead">Play quizbowl real-time against other players.</p>
+        <p>You can invite friends to join you by sharing the URL to your room.</p>
+        <p class="mb-0 pb-2">Create/Join a Room:</p>
+        <form id="form">
+            <div class="input-group justify-content-center pb-2">
+                <input class="form-control" id="new-room-name" type="text">
+                <button class="btn btn-success" type="submit">Go</button>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="private-room-checkbox" type="checkbox">
+                <label class="form-check-label" for="private-room-checkbox">
+                    Make room private
+                </label>
+            </div>
+        </form>
+        <hr>
+        <p>Try one of these rooms:</p>
+        <ul class="list-group mb-3" id="permanent-room-list"></ul>
+        <div class="d-flex justify-content-between mb-3">
+            <div>Or, check out a public room:</div>
+            <div class="form-check">
+                <input class="form-check-input" id="empty-room-checkbox" type="checkbox">
+                <label class="form-check-label" for="empty-room-checkbox">
+                    Show empty rooms
+                </label>
             </div>
         </div>
+        <ul class="list-group mb-5" id="room-list"></ul>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
