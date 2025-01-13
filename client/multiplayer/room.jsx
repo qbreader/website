@@ -749,7 +749,7 @@ function togglePublic ({ public: isPublic, username }) {
 }
 
 function updateQuestion ({ word }) {
-  if (word === '(*)') { return; }
+  if (word === '(*)' || word === '[*]') { return; }
   document.getElementById('question').innerHTML += word + ' ';
 }
 
