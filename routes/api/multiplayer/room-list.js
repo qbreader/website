@@ -4,21 +4,26 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', (req, res) => {
+  let activePlayers = 0;
+  let activeRooms = 0;
   const roomList = [];
+
   for (const roomName in tossupRooms) {
-    if (!tossupRooms[roomName].settings.public) {
-      continue;
-    }
+    const onlineCount = Object.keys(tossupRooms[roomName].sockets).length;
+    activePlayers += onlineCount;
+    activeRooms += onlineCount > 0 ? 1 : 0;
+
+    if (!tossupRooms[roomName].settings.public) { continue; }
 
     roomList.push({
-      roomName,
+      isPermanent: tossupRooms[roomName].isPermanent,
+      onlineCount,
       playerCount: Object.keys(tossupRooms[roomName].players).length,
-      onlineCount: Object.keys(tossupRooms[roomName].sockets).length,
-      isPermanent: tossupRooms[roomName].isPermanent
+      roomName
     });
   }
 
-  res.json({ roomList });
+  res.json({ activePlayers, activeRooms, roomList });
 });
 
 export default router;
