@@ -200,7 +200,7 @@ function QueryForm () {
       setBonusPaginationNumber(bonusPaginationNumber);
     }
 
-    const params = new URLSearchParams({
+    const unfilteredParams = {
       queryString,
       ...categoryManager.export(),
       difficulties: getDropdownValues('difficulties'),
@@ -214,11 +214,24 @@ function QueryForm () {
       ignoreWordOrder,
       searchType,
       setName: document.getElementById('set-name').value,
-      tossupPagination: tossupPaginationNumber,
-      bonusPagination: bonusPaginationNumber,
+      tossupPagination: tossupPaginationNumber === 1 ? '' : tossupPaginationNumber,
+      bonusPagination: bonusPaginationNumber === 1 ? '' : bonusPaginationNumber,
       minYear,
       maxYear
-    }).toString();
+    };
+
+    delete unfilteredParams.categoryPercents;
+
+    const filteredParams = Object.fromEntries(
+      Object.entries(unfilteredParams).filter(([key, value]) => {
+        if (value === '' || value === null || value === undefined) { return false; }
+        if (value === false) { return false; }
+        if (Array.isArray(value) && value.length === 0) { return false; }
+        return true;
+      })
+    );
+
+    const params = new URLSearchParams(filteredParams);
 
     fetch(`/api/query?${params}`)
       .then(response => {
