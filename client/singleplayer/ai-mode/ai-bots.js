@@ -42,7 +42,7 @@ const averageOpen = ({ packetLength, oldTossup, tossup }) => {
 };
 
 const rightAfterPower = ({ packetLength, oldTossup, tossup }) => {
-  let buzzpoint = tossup.question_sanitized.split(' ').indexOf('(*)') + 1;
+  let buzzpoint = Math.max(tossup.question_sanitized.split(' ').indexOf('(*)'), tossup.question_sanitized.split(' ').indexOf('[*]')) + 1;
   if (buzzpoint === 0) {
     buzzpoint = tossup.question_sanitized.split(' ').length / 2;
     buzzpoint = Math.floor(buzzpoint);

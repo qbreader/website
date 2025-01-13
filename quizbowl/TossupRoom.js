@@ -212,7 +212,7 @@ export default class TossupRoom extends QuestionRoom {
   scoreTossup ({ givenAnswer }) {
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
     const endOfQuestion = (this.wordIndex === this.questionSplit.length);
-    const inPower = this.questionSplit.indexOf('(*)') >= this.wordIndex;
+    const inPower = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]')) >= this.wordIndex;
     const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
     const isCorrect = directive === 'accept';
     const points = isCorrect ? (inPower ? this.previous.powerValue : 10) : (endOfQuestion ? 0 : this.previous.negValue);
@@ -262,7 +262,7 @@ export default class TossupRoom extends QuestionRoom {
       time += 2;
     } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') {
       time += 0.75;
-    } else if (word === '(*)') {
+    } else if (word === '(*)' || word === '[*]') {
       time = 0;
     }
 

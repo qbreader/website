@@ -285,7 +285,7 @@ function toggleTypeToAnswer ({ typeToAnswer }) {
 }
 
 function updateQuestion ({ word }) {
-  if (word === '(*)') { return; }
+  if (word === '(*)' || word === '[*]') { return; }
   document.getElementById('question').innerHTML += word + ' ';
 }
 
