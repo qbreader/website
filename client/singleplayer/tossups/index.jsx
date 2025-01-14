@@ -1,6 +1,7 @@
 import api from '../../scripts/api/index.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import audio from '../../audio/index.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
 import Player from '../../../quizbowl/Player.js';
 import ClientTossupRoom from '../ClientTossupRoom.js';
 import { arrayToRange, createTossupCard, rangeToArray } from '../../scripts/utilities/index.js';
@@ -13,6 +14,7 @@ import AIBot from '../ai-mode/AIBot.js';
 
 let maxPacketNumber = 24;
 
+const modeVersion = '2025-01-14';
 const queryVersion = '2024-10-11';
 const settingsVersion = '2024-10-16';
 const USER_ID = 'user';
@@ -42,8 +44,9 @@ function onmessage (message) {
     case 'reveal-answer': return revealAnswer(data);
     case 'set-categories': return setCategories(data);
     case 'set-difficulties': return setDifficulties(data);
-    case 'set-strictness': return setStrictness(data);
+    case 'set-mode': return setMode(data);
     case 'set-reading-speed': return setReadingSpeed(data);
+    case 'set-strictness': return setStrictness(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
     case 'set-set-name': return setSetName(data);
     case 'set-year-range': return setYearRange(data);
@@ -54,7 +57,6 @@ function onmessage (message) {
     case 'toggle-correct': return toggleCorrect(data);
     case 'toggle-powermark-only': return togglePowermarkOnly(data);
     case 'toggle-rebuzz': return toggleRebuzz(data);
-    case 'toggle-select-by-set-name': return toggleSelectBySetName(data);
     case 'toggle-show-history': return toggleShowHistory(data);
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-timer': return toggleTimer(data);
@@ -148,7 +150,7 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
   document.getElementById('buzz').disabled = false;
   document.getElementById('next').textContent = 'Skip';
   document.getElementById('packet-number-info').textContent = nextTossup.packet.number;
-  document.getElementById('packet-length-info').textContent = room.query.selectBySetName ? packetLength : '-';
+  document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
   document.getElementById('pause').textContent = 'Pause';
   document.getElementById('pause').disabled = false;
   document.getElementById('question-number-info').textContent = nextTossup.number;
@@ -253,13 +255,23 @@ function toggleRebuzz ({ rebuzz }) {
   window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...room.settings, version: settingsVersion }));
 }
 
-function toggleSelectBySetName ({ selectBySetName }) {
-  document.getElementById('difficulty-settings').classList.toggle('d-none', selectBySetName);
-  document.getElementById('toggle-powermark-only').disabled = selectBySetName;
-  document.getElementById('toggle-select-by-set-name').checked = selectBySetName;
-  document.getElementById('toggle-standard-only').disabled = selectBySetName;
-  document.getElementById('set-settings').classList.toggle('d-none', !selectBySetName);
-  window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...room.query, version: queryVersion }));
+function setMode ({ mode }) {
+  switch (mode) {
+    case MODE_ENUM.SET_NAME:
+      document.getElementById('difficulty-settings').classList.add('d-none');
+      document.getElementById('set-settings').classList.remove('d-none');
+      document.getElementById('toggle-powermark-only').disabled = true;
+      document.getElementById('toggle-standard-only').disabled = true;
+      break;
+    case MODE_ENUM.RANDOM:
+      document.getElementById('difficulty-settings').classList.remove('d-none');
+      document.getElementById('set-settings').classList.add('d-none');
+      document.getElementById('toggle-powermark-only').disabled = false;
+      document.getElementById('toggle-standard-only').disabled = false;
+      break;
+  }
+  document.getElementById('set-mode').value = mode;
+  window.localStorage.setItem('singleplayer-tossup-mode', JSON.stringify({ mode, version: modeVersion }));
 }
 
 function toggleShowHistory ({ showHistory }) {
@@ -373,6 +385,11 @@ document.getElementById('report-question-submit').addEventListener('click', func
   );
 });
 
+document.getElementById('set-mode').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'set-mode', mode: this.value });
+});
+
 document.getElementById('set-name').addEventListener('change', function () {
   socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
 });
@@ -408,14 +425,6 @@ document.getElementById('toggle-powermark-only').addEventListener('click', funct
 document.getElementById('toggle-rebuzz').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-rebuzz', rebuzz: this.checked });
-});
-
-document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({
-    type: 'toggle-select-by-set-name',
-    selectBySetName: this.checked
-  });
 });
 
 document.getElementById('toggle-settings').addEventListener('click', function () {
@@ -480,6 +489,16 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+if (window.localStorage.getItem('singleplayer-tossup-mode')) {
+  try {
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-mode'));
+    if (savedQuery.version !== modeVersion) { throw new Error(); }
+    socket.sendToServer({ type: 'set-mode', ...savedQuery });
+  } catch {
+    window.localStorage.removeItem('singleplayer-tossup-mode');
+  }
+}
+
 let startingDifficulties = [];
 if (window.localStorage.getItem('singleplayer-tossup-query')) {
   try {
@@ -490,7 +509,6 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
     socket.sendToServer({ type: 'set-set-name', ...savedQuery });
     socket.sendToServer({ type: 'toggle-powermark-only', ...savedQuery });
-    socket.sendToServer({ type: 'toggle-select-by-set-name', ...savedQuery });
     socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery });
     startingDifficulties = savedQuery.difficulties;
   } catch {
