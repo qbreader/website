@@ -8,9 +8,11 @@ import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.
 import ClientBonusRoom from '../ClientBonusRoom.js';
 import Player from '../../../quizbowl/Player.js';
 import Team from '../../../quizbowl/Team.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
 
 let maxPacketNumber = 24;
 
+const modeVersion = '2025-01-14';
 const queryVersion = '2024-11-01';
 const settingsVersion = '2024-11-02';
 
@@ -40,6 +42,7 @@ function onmessage (message) {
     case 'reveal-next-part': return revealNextPart(data);
     case 'set-categories': return setCategories(data);
     case 'set-difficulties': return setDifficulties(data);
+    case 'set-mode': return setMode(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
     case 'set-set-name': return setSetName(data);
     case 'set-strictness': return setStrictness(data);
@@ -47,7 +50,6 @@ function onmessage (message) {
     case 'start-answer': return startAnswer(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
     case 'toggle-correct': return toggleCorrect(data);
-    case 'toggle-select-by-set-name': return toggleSelectBySetName(data);
     case 'toggle-show-history': return toggleShowHistory(data);
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-three-part-bonuses': return toggleThreePartBonuses(data);
@@ -90,10 +92,6 @@ async function giveAnswer ({ currentPartNumber, directive, directedPrompt }) {
   }
 }
 
-/**
- * Loads and reads the next question.
- * @param {boolean} revealedAllParts - Whether all parts of the bonus have been revealed. if true, then question stats are uploaded to the server.
- */
 async function next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, pointsPerPart, stats, teamId }) {
   if (type === 'start') {
     document.getElementById('next').disabled = false;
@@ -115,7 +113,7 @@ async function next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, po
 
   document.getElementById('set-name-info').textContent = bonus.set.name;
   document.getElementById('packet-number-info').textContent = bonus.packet.number;
-  document.getElementById('packet-length-info').textContent = room.query.selectBySetName ? packetLength : '-';
+  document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
   document.getElementById('question-number-info').textContent = bonus.number;
 }
 
@@ -216,13 +214,23 @@ function toggleCorrect ({ partNumber, correct }) {
   document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
 }
 
-function toggleSelectBySetName ({ selectBySetName }) {
-  document.getElementById('difficulty-settings').classList.toggle('d-none', selectBySetName);
-  document.getElementById('toggle-select-by-set-name').checked = selectBySetName;
-  document.getElementById('toggle-standard-only').disabled = selectBySetName;
-  document.getElementById('toggle-three-part-bonuses').disabled = selectBySetName;
-  document.getElementById('set-settings').classList.toggle('d-none', !selectBySetName);
-  window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...room.query, version: queryVersion }));
+function setMode ({ mode }) {
+  switch (mode) {
+    case MODE_ENUM.SET_NAME:
+      document.getElementById('difficulty-settings').classList.add('d-none');
+      document.getElementById('set-settings').classList.remove('d-none');
+      document.getElementById('toggle-standard-only').disabled = true;
+      document.getElementById('toggle-three-part-bonuses').disabled = true;
+      break;
+    case MODE_ENUM.RANDOM:
+      document.getElementById('difficulty-settings').classList.remove('d-none');
+      document.getElementById('set-settings').classList.add('d-none');
+      document.getElementById('toggle-standard-only').disabled = false;
+      document.getElementById('toggle-three-part-bonuses').disabled = false;
+      break;
+  }
+  document.getElementById('set-mode').value = mode;
+  window.localStorage.setItem('singleplayer-bonus-mode', JSON.stringify({ mode, version: modeVersion }));
 }
 
 function toggleShowHistory ({ showHistory }) {
@@ -316,6 +324,11 @@ document.getElementById('reveal').addEventListener('click', function () {
   socket.sendToServer({ type: 'start-answer' });
 });
 
+document.getElementById('set-mode').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'set-mode', mode: this.value });
+});
+
 document.getElementById('set-name').addEventListener('change', function () {
   socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
 });
@@ -332,14 +345,6 @@ document.getElementById('set-strictness').addEventListener('input', function () 
 document.getElementById('start').addEventListener('click', async function () {
   this.blur();
   socket.sendToServer({ type: 'start' });
-});
-
-document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({
-    type: 'toggle-select-by-set-name',
-    selectBySetName: this.checked
-  });
 });
 
 document.getElementById('toggle-settings').addEventListener('click', function () {
@@ -413,6 +418,16 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+if (window.localStorage.getItem('singleplayer-bonus-mode')) {
+  try {
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-bonus-mode'));
+    if (savedQuery.version !== modeVersion) { throw new Error(); }
+    socket.sendToServer({ type: 'set-mode', ...savedQuery });
+  } catch {
+    window.localStorage.removeItem('singleplayer-bonus-mode');
+  }
+}
+
 let startingDifficulties = [];
 if (window.localStorage.getItem('singleplayer-bonus-query')) {
   try {
@@ -422,7 +437,6 @@ if (window.localStorage.getItem('singleplayer-bonus-query')) {
     room.query = savedQuery;
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
     socket.sendToServer({ type: 'set-set-name', ...savedQuery });
-    socket.sendToServer({ type: 'toggle-select-by-set-name', ...savedQuery });
     socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery });
     socket.sendToServer({ type: 'toggle-three-part-bonuses', ...savedQuery });
     startingDifficulties = savedQuery.difficulties;
