@@ -291,6 +291,7 @@ export default class ServerTossupRoom extends TossupRoom {
     const threshold = Math.max(Math.floor(activePlayers * 3 / 4), 2);
     const votekick = new Votekick(targetId, threshold, []);
     votekick.vote(userId);
+    this.votekickList.push(votekick);
     if (votekick.check()) {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
