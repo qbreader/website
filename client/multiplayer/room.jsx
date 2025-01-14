@@ -7,6 +7,7 @@ import { arrayToRange, createTossupCard, rangeToArray } from '../scripts/utiliti
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
+import { MODE_ENUM } from '../../quizbowl/constants.js';
 
 const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
@@ -75,10 +76,11 @@ socket.onmessage = function (event) {
     case 'reveal-answer': return revealAnswer(data);
     case 'set-categories': return setCategories(data);
     case 'set-difficulties': return setDifficulties(data);
-    case 'set-reading-speed': return setReadingSpeed(data);
+    case 'set-mode': return setMode(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
-    case 'set-strictness': return setStrictness(data);
+    case 'set-reading-speed': return setReadingSpeed(data);
     case 'set-set-name': return setSetName(data);
+    case 'set-strictness': return setStrictness(data);
     case 'set-username': return setUsername(data);
     case 'set-year-range': return setYearRange(data);
     case 'skip': return next(data);
@@ -90,7 +92,6 @@ socket.onmessage = function (event) {
     case 'toggle-powermark-only': return togglePowermarkOnly(data);
     case 'toggle-public': return togglePublic(data);
     case 'toggle-rebuzz': return toggleRebuzz(data);
-    case 'toggle-select-by-set-name': return toggleSelectBySetName(data);
     case 'toggle-skip': return toggleSkip(data);
     case 'toggle-standard-only': return toggleStandardOnly(data);
     case 'toggle-timer': return toggleTimer(data);
@@ -181,6 +182,7 @@ function connectionAcknowledged ({
   canBuzz,
   isPermanent,
   ownerId: serverOwnerId,
+  mode,
   players: messagePlayers,
   questionProgress,
   settings,
@@ -192,7 +194,7 @@ function connectionAcknowledged ({
     document.getElementById('category-select-button').disabled = true;
     document.getElementById('set-strictness').disabled = true;
     document.getElementById('toggle-public').disabled = true;
-    document.getElementById('toggle-select-by-set-name').disabled = true;
+    document.getElementById('set-mode').disabled = true;
     document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
   }
 
@@ -203,6 +205,8 @@ function connectionAcknowledged ({
     upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
   }
   sortPlayerListGroup();
+
+  setMode({ mode });
 
   switch (questionProgress) {
     case 0:
@@ -261,7 +265,6 @@ async function connectionAcknowledgedQuery ({
   maxYear,
   packetNumbers = [],
   powermarkOnly,
-  selectBySetName,
   setName = '',
   standardOnly,
   alternateSubcategories,
@@ -278,12 +281,6 @@ async function connectionAcknowledgedQuery ({
   document.getElementById('packet-number').value = arrayToRange(packetNumbers);
 
   document.getElementById('toggle-powermark-only').checked = powermarkOnly;
-
-  document.getElementById('difficulty-settings').classList.toggle('d-none', selectBySetName);
-  document.getElementById('set-settings').classList.toggle('d-none', !selectBySetName);
-  document.getElementById('toggle-select-by-set-name').checked = selectBySetName;
-  document.getElementById('toggle-powermark-only').disabled = selectBySetName;
-  document.getElementById('toggle-standard-only').disabled = selectBySetName;
 
   document.getElementById('set-name').value = setName;
   maxPacketNumber = await api.getNumPackets(setName);
@@ -567,39 +564,6 @@ function revealAnswer ({ answer, question }) {
   showNextButton();
 }
 
-function showNextButton () {
-  document.getElementById('next').classList.remove('d-none');
-  document.getElementById('next').disabled = false;
-  document.getElementById('skip').classList.add('d-none');
-  document.getElementById('skip').disabled = true;
-}
-
-function showSkipButton () {
-  document.getElementById('skip').classList.remove('d-none');
-  document.getElementById('skip').disabled = !document.getElementById('toggle-skip').checked;
-  document.getElementById('next').classList.add('d-none');
-  document.getElementById('next').disabled = true;
-}
-
-function sortPlayerListGroup (descending = true) {
-  const listGroup = document.getElementById('player-list-group');
-  const items = Array.from(listGroup.children);
-  const offset = 'list-group-'.length;
-  items.sort((a, b) => {
-    const aPoints = parseInt(document.getElementById('points-' + a.id.substring(offset)).innerHTML);
-    const bPoints = parseInt(document.getElementById('points-' + b.id.substring(offset)).innerHTML);
-    // if points are equal, sort alphabetically by username
-    if (aPoints === bPoints) {
-      const aUsername = document.getElementById('username-' + a.id.substring(offset)).innerHTML;
-      const bUsername = document.getElementById('username-' + b.id.substring(offset)).innerHTML;
-      return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
-    }
-    return descending ? bPoints - aPoints : aPoints - bPoints;
-  }).forEach(item => {
-    listGroup.appendChild(item);
-  });
-}
-
 function setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {
   logEvent(username, 'updated the categories');
   categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
@@ -624,6 +588,29 @@ function setDifficulties ({ difficulties, username = undefined }) {
       li.classList.remove('active');
     }
   });
+}
+
+function setMode ({ mode, setName, username }) {
+  if (username) {
+    logEvent(username, 'changed the mode to ' + mode);
+  }
+
+  switch (mode) {
+    case MODE_ENUM.SET_NAME:
+      document.getElementById('difficulty-settings').classList.add('d-none');
+      document.getElementById('set-name').textContent = setName;
+      document.getElementById('set-settings').classList.remove('d-none');
+      document.getElementById('toggle-powermark-only').disabled = true;
+      document.getElementById('toggle-standard-only').disabled = true;
+      break;
+    case MODE_ENUM.RANDOM:
+      document.getElementById('difficulty-settings').classList.remove('d-none');
+      document.getElementById('set-settings').classList.add('d-none');
+      document.getElementById('toggle-powermark-only').disabled = false;
+      document.getElementById('toggle-standard-only').disabled = false;
+      break;
+  }
+  document.getElementById('set-mode').value = mode;
 }
 
 function setPacketNumbers ({ username, packetNumbers }) {
@@ -677,6 +664,39 @@ function setYearRange ({ minYear, maxYear, username }) {
   document.getElementById('year-range-b').textContent = maxYear;
 }
 
+function showNextButton () {
+  document.getElementById('next').classList.remove('d-none');
+  document.getElementById('next').disabled = false;
+  document.getElementById('skip').classList.add('d-none');
+  document.getElementById('skip').disabled = true;
+}
+
+function showSkipButton () {
+  document.getElementById('skip').classList.remove('d-none');
+  document.getElementById('skip').disabled = !document.getElementById('toggle-skip').checked;
+  document.getElementById('next').classList.add('d-none');
+  document.getElementById('next').disabled = true;
+}
+
+function sortPlayerListGroup (descending = true) {
+  const listGroup = document.getElementById('player-list-group');
+  const items = Array.from(listGroup.children);
+  const offset = 'list-group-'.length;
+  items.sort((a, b) => {
+    const aPoints = parseInt(document.getElementById('points-' + a.id.substring(offset)).innerHTML);
+    const bPoints = parseInt(document.getElementById('points-' + b.id.substring(offset)).innerHTML);
+    // if points are equal, sort alphabetically by username
+    if (aPoints === bPoints) {
+      const aUsername = document.getElementById('username-' + a.id.substring(offset)).innerHTML;
+      const bUsername = document.getElementById('username-' + b.id.substring(offset)).innerHTML;
+      return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
+    }
+    return descending ? bPoints - aPoints : aPoints - bPoints;
+  }).forEach(item => {
+    listGroup.appendChild(item);
+  });
+}
+
 function toggleLock ({ lock, username }) {
   logEvent(username, `${lock ? 'locked' : 'unlocked'} the room`);
   document.getElementById('toggle-lock').checked = lock;
@@ -695,22 +715,6 @@ function togglePowermarkOnly ({ powermarkOnly, username }) {
 function toggleRebuzz ({ rebuzz, username }) {
   logEvent(username, `${rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
   document.getElementById('toggle-rebuzz').checked = rebuzz;
-}
-
-function toggleSelectBySetName ({ selectBySetName, setName, username }) {
-  logEvent(username, 'enabled select by ' + (selectBySetName ? 'set name' : 'difficulty'));
-  document.getElementById('toggle-select-by-set-name').checked = selectBySetName;
-  document.getElementById('toggle-powermark-only').disabled = selectBySetName;
-  document.getElementById('toggle-standard-only').disabled = selectBySetName;
-
-  if (selectBySetName) {
-    document.getElementById('difficulty-settings').classList.add('d-none');
-    document.getElementById('set-settings').classList.remove('d-none');
-    document.getElementById('set-name').textContent = setName;
-  } else {
-    document.getElementById('difficulty-settings').classList.remove('d-none');
-    document.getElementById('set-settings').classList.add('d-none');
-  }
 }
 
 function toggleSkip ({ skip, username }) {
@@ -913,13 +917,9 @@ document.getElementById('toggle-skip').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'toggle-skip', skip: this.checked }));
 });
 
-document.getElementById('toggle-select-by-set-name').addEventListener('click', function () {
+document.getElementById('set-mode').addEventListener('click', function () {
   this.blur();
-  socket.send(JSON.stringify({
-    type: 'toggle-select-by-set-name',
-    setName: document.getElementById('set-name').value,
-    selectBySetName: this.checked
-  }));
+  socket.send(JSON.stringify({ type: 'set-mode', setName: document.getElementById('set-name').value, mode: this.value }));
 });
 
 document.getElementById('toggle-settings').addEventListener('click', function () {

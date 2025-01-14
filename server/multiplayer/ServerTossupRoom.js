@@ -12,6 +12,7 @@ import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
+
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
 export default class ServerTossupRoom extends TossupRoom {
@@ -116,6 +117,7 @@ export default class ServerTossupRoom extends TossupRoom {
 
       buzzedIn: this.buzzedIn,
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
+      mode: this.mode,
       questionProgress: this.questionProgress,
 
       settings: this.settings
@@ -255,11 +257,11 @@ export default class ServerTossupRoom extends TossupRoom {
     this.emitMessage({ type: 'toggle-public', public: isPublic, username });
   }
 
-  toggleSelectBySetName (userId, { selectBySetName, setName }) {
+  setMode (userId, { mode, setName }) {
     if (this.isPermanent) { return; }
     if (!this.setList) { return; }
     if (!this.setList.includes(setName)) { return; }
-    super.toggleSelectBySetName(userId, { selectBySetName, setName });
+    super.setMode(userId, { mode, setName });
     this.adjustQuery(['setName'], [setName]);
   }
 

@@ -1,5 +1,5 @@
 import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from './categories.js';
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from './constants.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from './constants.js';
 import CategoryManager from './category-manager.js';
 import Room from './Room.js';
 
@@ -19,6 +19,8 @@ export default class QuestionRoom extends Room {
     this.randomQuestionCache = [];
     this.setCache = [];
 
+    this.mode = MODE_ENUM.RANDOM;
+
     this.query = {
       difficulties: [4, 5],
       minYear: DEFAULT_MIN_YEAR,
@@ -31,7 +33,6 @@ export default class QuestionRoom extends Room {
       percentView: false,
       categoryPercents: CATEGORIES.map(() => 0),
       reverse: true, // used for `database.getSet`
-      selectBySetName: false,
       standardOnly: false
     };
 
@@ -46,12 +47,12 @@ export default class QuestionRoom extends Room {
     switch (message.type) {
       case 'set-categories': return this.setCategories(userId, message);
       case 'set-difficulties': return this.setDifficulties(userId, message);
-      case 'set-strictness': return this.setStrictness(userId, message);
+      case 'set-mode': return this.setMode(userId, message);
       case 'set-packet-numbers': return this.setPacketNumbers(userId, message);
       case 'set-set-name': return this.setSetName(userId, message);
+      case 'set-strictness': return this.setStrictness(userId, message);
       case 'set-username': return this.setUsername(userId, message);
       case 'set-year-range': return this.setYearRange(userId, message);
-      case 'toggle-select-by-set-name': return this.toggleSelectBySetName(userId, message);
       case 'toggle-skip': return this.toggleSkip(userId, message);
       case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
       case 'toggle-timer': return this.toggleTimer(userId, message);
@@ -69,13 +70,18 @@ export default class QuestionRoom extends Room {
       }
     }
 
-    if (this.query.selectBySetName) {
-      this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [this.query.packetNumbers[0]] });
-      this.packetLength = this.setCache.length;
-    } else if (this.categoryManager.percentView) {
-      this.randomQuestionCache = [];
-    } else {
-      this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 1 });
+    switch (this.mode) {
+      case MODE_ENUM.SET_NAME:
+        this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [this.query.packetNumbers[0]] });
+        this.packetLength = this.setCache.length;
+        break;
+      case MODE_ENUM.RANDOM:
+        if (this.categoryManager.percentView) {
+          this.randomQuestionCache = [];
+        } else {
+          this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 1 });
+        }
+        break;
     }
   }
 
@@ -83,39 +89,42 @@ export default class QuestionRoom extends Room {
     this.queryingQuestion = true;
     let question = null;
 
-    if (this.query.selectBySetName) {
-      do {
-        if (this.setCache.length === 0) {
-          this.query.packetNumbers.shift();
-          const packetNumber = this.query.packetNumbers[0];
-          if (packetNumber === undefined) {
-            this.emitMessage({ type: 'end-of-set', lastSeenQuestion });
+    switch (this.mode) {
+      case MODE_ENUM.SET_NAME:
+        do {
+          if (this.setCache.length === 0) {
+            this.query.packetNumbers.shift();
+            const packetNumber = this.query.packetNumbers[0];
+            if (packetNumber === undefined) {
+              this.emitMessage({ type: 'end-of-set', lastSeenQuestion });
+              return null;
+            }
+            this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [packetNumber] });
+            this.packetLength = this.setCache.length;
+          }
+
+          question = this.setCache.shift();
+          if (!question?.packet?.number) {
+            this.emitMessage({ type: 'no-questions-found' });
             return null;
           }
-          this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [packetNumber] });
-          this.packetLength = this.setCache.length;
+          this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= question.packet.number);
+        } while (!this.categoryManager.isValidCategory(question));
+        break;
+      case MODE_ENUM.RANDOM:
+        if (this.categoryManager.percentView) {
+          const randomCategory = this.categoryManager.getRandomCategory();
+          this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 1, categories: [randomCategory], subcategories: [], alternateSubcategories: [] });
+        } else if (this.randomQuestionCache.length === 0) {
+          this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 20 });
         }
 
-        question = this.setCache.shift();
-        if (!question?.packet?.number) {
+        if (this.randomQuestionCache?.length === 0) {
           this.emitMessage({ type: 'no-questions-found' });
           return null;
         }
-        this.query.packetNumbers = this.query.packetNumbers.filter(packetNumber => packetNumber >= question.packet.number);
-      } while (!this.categoryManager.isValidCategory(question));
-    } else {
-      if (this.categoryManager.percentView) {
-        const randomCategory = this.categoryManager.getRandomCategory();
-        this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 1, categories: [randomCategory], subcategories: [], alternateSubcategories: [] });
-      } else if (this.randomQuestionCache.length === 0) {
-        this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 20 });
-      }
-
-      if (this.randomQuestionCache?.length === 0) {
-        this.emitMessage({ type: 'no-questions-found' });
-        return null;
-      }
-      question = this.randomQuestionCache.pop();
+        question = this.randomQuestionCache.pop();
+        break;
     }
 
     return question;
@@ -128,6 +137,13 @@ export default class QuestionRoom extends Room {
     const username = this.players[userId].username;
     this.adjustQuery(['difficulties'], [difficulties]);
     this.emitMessage({ type: 'set-difficulties', username, difficulties });
+  }
+
+  setMode (userId, { mode, setName }) {
+    if (!Object.values(MODE_ENUM).includes(mode)) { return; }
+    this.mode = mode;
+    const username = this.players[userId].username;
+    this.emitMessage({ type: 'set-mode', mode, setName, username });
   }
 
   async setPacketNumbers (userId, { packetNumbers }) {
@@ -159,12 +175,6 @@ export default class QuestionRoom extends Room {
   startServerTimer (time, ontick, callback) {
     if (!this.settings.timer) { return; }
     super.startServerTimer(time, ontick, callback);
-  }
-
-  toggleSelectBySetName (userId, { selectBySetName, setName }) {
-    this.query.selectBySetName = selectBySetName;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'toggle-select-by-set-name', selectBySetName, setName, username });
   }
 
   toggleSkip (userId, { skip }) {
