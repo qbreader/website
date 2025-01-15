@@ -12,7 +12,8 @@
         "test:frontend": "",
         "test:backend": "mocha test/database.test.js",
         "test:all": "npm run test:frontend && npm run test:backend",
-        "watch-jsx": "babel client --extensions .jsx --out-file-extension .min.js --out-dir client --watch"
+        "watch-jsx": "babel client --extensions .jsx --out-file-extension .min.js --out-dir client --watch",
+        "dev": "npm run build && npm run start"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.633.0",
