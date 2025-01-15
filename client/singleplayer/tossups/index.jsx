@@ -269,6 +269,12 @@ function setMode ({ mode }) {
       document.getElementById('toggle-powermark-only').disabled = false;
       document.getElementById('toggle-standard-only').disabled = false;
       break;
+    case MODE_ENUM.STARRED:
+      document.getElementById('difficulty-settings').classList.add('d-none');
+      document.getElementById('set-settings').classList.add('d-none');
+      document.getElementById('toggle-powermark-only').disabled = true;
+      document.getElementById('toggle-standard-only').disabled = true;
+      break;
   }
   document.getElementById('set-mode').value = mode;
   window.localStorage.setItem('singleplayer-tossup-mode', JSON.stringify({ mode, version: modeVersion }));
