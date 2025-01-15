@@ -11,3 +11,15 @@ export const MODE_ENUM = Object.freeze({
   RANDOM: 'random questions',
   STARRED: 'starred questions'
 });
+
+export const BONUS_PROGRESS_ENUM = Object.freeze({
+  NOT_STARTED: 0,
+  READING: 1,
+  LAST_PART_REVEALED: 2
+});
+
+export const TOSSUP_PROGRESS_ENUM = Object.freeze({
+  NOT_STARTED: 0,
+  READING: 1,
+  ANSWER_REVEALED: 2
+});

@@ -2,6 +2,7 @@ import ServerPlayer from './ServerPlayer.js';
 import Votekick from './VoteKick.js';
 import { HEADER, ENDC, OKBLUE, OKGREEN } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
+import { MODE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 import TossupRoom from '../../quizbowl/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
@@ -12,7 +13,6 @@ import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
-import { MODE_ENUM } from '../../quizbowl/constants.js';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
@@ -119,7 +119,7 @@ export default class ServerTossupRoom extends TossupRoom {
       buzzedIn: this.buzzedIn,
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       mode: this.mode,
-      questionProgress: this.questionProgress,
+      questionProgress: this.tossupProgress,
 
       settings: this.settings
     }));
@@ -127,14 +127,14 @@ export default class ServerTossupRoom extends TossupRoom {
     socket.send(JSON.stringify({ type: 'connection-acknowledged-query', ...this.query, ...this.categoryManager.export() }));
     socket.send(JSON.stringify({ type: 'connection-acknowledged-tossup', tossup: this.tossup }));
 
-    if (this.questionProgress === this.QuestionProgressEnum.READING) {
+    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING) {
       socket.send(JSON.stringify({
         type: 'update-question',
         word: this.questionSplit.slice(0, this.wordIndex).join(' ')
       }));
     }
 
-    if (this.questionProgress === this.QuestionProgressEnum.ANSWER_REVEALED && this.tossup?.answer) {
+    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED && this.tossup?.answer) {
       socket.send(JSON.stringify({
         type: 'reveal-answer',
         question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),
