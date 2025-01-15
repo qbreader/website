@@ -1,6 +1,28 @@
 import api from '../scripts/api/index.js';
 import TossupRoom from '../../quizbowl/TossupRoom.js';
 
+let starredTossupIds = null;
+async function getRandomStarredTossup () {
+  if (starredTossupIds === null) {
+    starredTossupIds = await fetch('/auth/stars/tossup-ids')
+      .then(response => {
+        console.log(response);
+        if (!response.ok) { return null; }
+        return response.json();
+      });
+
+    if (starredTossupIds === null) { return null; }
+
+    // random shuffle
+    starredTossupIds.sort(() => Math.random() - 0.5);
+  }
+
+  if (starredTossupIds.length === 0) { return null; }
+
+  const _id = starredTossupIds.pop();
+  return await api.getTossupById(_id);
+}
+
 export default class ClientTossupRoom extends TossupRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
@@ -16,6 +38,7 @@ export default class ClientTossupRoom extends TossupRoom {
     this.checkAnswer = api.checkAnswer;
     this.getRandomQuestions = async (args) => await api.getRandomTossup({ ...args });
     this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketTossups(setName, packetNumbers[0] ?? 1) : [];
+    this.getRandomStarredQuestion = getRandomStarredTossup;
     this.getSetList = api.getSetList;
     this.getNumPackets = api.getNumPackets;
   }

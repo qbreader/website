@@ -12,6 +12,7 @@ import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
+import { MODE_ENUM } from '../../quizbowl/constants.js';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
@@ -261,6 +262,7 @@ export default class ServerTossupRoom extends TossupRoom {
     if (this.isPermanent) { return; }
     if (!this.setList) { return; }
     if (!this.setList.includes(setName)) { return; }
+    if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
     super.setMode(userId, { mode, setName });
     this.adjustQuery(['setName'], [setName]);
   }

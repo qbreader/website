@@ -34,9 +34,8 @@ function onmessage (message) {
   switch (data.type) {
     case 'clear-stats': return clearStats(data);
     case 'give-answer': return giveAnswer(data);
-    case 'next':
-    case 'skip':
-    case 'start': return next(data);
+    case 'next': return next(data);
+    case 'no-questions-found': return noQuestionsFound(data);
     case 'reveal-leadin': return revealLeadin(data);
     case 'reveal-next-answer': return revealNextAnswer(data);
     case 'reveal-next-part': return revealNextPart(data);
@@ -47,6 +46,8 @@ function onmessage (message) {
     case 'set-set-name': return setSetName(data);
     case 'set-strictness': return setStrictness(data);
     case 'set-year-range': return setYearRange(data);
+    case 'skip': return next(data);
+    case 'start': return next(data);
     case 'start-answer': return startAnswer(data);
     case 'timer-update': return updateTimerDisplay(data.timeRemaining);
     case 'toggle-correct': return toggleCorrect(data);
@@ -90,6 +91,10 @@ async function giveAnswer ({ currentPartNumber, directive, directedPrompt }) {
       }
       break;
   }
+}
+
+function noQuestionsFound () {
+  window.alert('No questions found');
 }
 
 async function next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, pointsPerPart, stats, teamId }) {
@@ -227,6 +232,12 @@ function setMode ({ mode }) {
       document.getElementById('set-settings').classList.add('d-none');
       document.getElementById('toggle-standard-only').disabled = false;
       document.getElementById('toggle-three-part-bonuses').disabled = false;
+      break;
+    case MODE_ENUM.STARRED:
+      document.getElementById('difficulty-settings').classList.add('d-none');
+      document.getElementById('set-settings').classList.add('d-none');
+      document.getElementById('toggle-standard-only').disabled = true;
+      document.getElementById('toggle-three-part-bonuses').disabled = true;
       break;
   }
   document.getElementById('set-mode').value = mode;
