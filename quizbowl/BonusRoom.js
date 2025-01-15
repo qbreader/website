@@ -1,17 +1,12 @@
-import { ANSWER_TIME_LIMIT } from './constants.js';
+import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM } from './constants.js';
 import QuestionRoom from './QuestionRoom.js';
 
 export default class BonusRoom extends QuestionRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
 
-    this.QuestionProgressEnum = Object.freeze({
-      NOT_STARTED: 0,
-      READING: 1,
-      LAST_PART_REVEALED: 2
-    });
-
     this.bonus = {};
+    this.bonusProgress = BONUS_PROGRESS_ENUM.NOT_STARTED;
     /**
      * 0-indexed variable that tracks current part of the bonus being read
      */
@@ -21,7 +16,6 @@ export default class BonusRoom extends QuestionRoom {
      * @type {number[]}
      */
     this.pointsPerPart = [];
-    this.queryingQuestion = false;
 
     this.query = {
       threePartBonuses: true,
@@ -78,7 +72,7 @@ export default class BonusRoom extends QuestionRoom {
 
   async next (userId, { type }) {
     if (this.queryingQuestion) { return false; }
-    if (this.questionProgress === this.QuestionProgressEnum.READING && !this.settings.skip) { return false; }
+    if (this.bonusProgress === BONUS_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
 
     clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
@@ -97,7 +91,7 @@ export default class BonusRoom extends QuestionRoom {
     this.emitMessage({
       type,
       bonus: this.bonus,
-      lastPartRevealed: this.questionProgress === this.QuestionProgressEnum.LAST_PART_REVEALED,
+      lastPartRevealed: this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED,
       oldBonus,
       packetLength: this.packetLength,
       pointsPerPart: this.pointsPerPart,
@@ -107,7 +101,7 @@ export default class BonusRoom extends QuestionRoom {
 
     this.currentPartNumber = -1;
     this.pointsPerPart = [];
-    this.questionProgress = this.QuestionProgressEnum.READING;
+    this.bonusProgress = BONUS_PROGRESS_ENUM.READING;
     this.revealLeadin();
     this.revealNextPart();
   }
@@ -119,7 +113,7 @@ export default class BonusRoom extends QuestionRoom {
   revealNextAnswer () {
     const lastPartRevealed = this.currentPartNumber === this.bonus.parts.length - 1;
     if (lastPartRevealed) {
-      this.questionProgress = this.QuestionProgressEnum.LAST_PART_REVEALED;
+      this.bonusProgress = BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
     }
     this.emitMessage({
       type: 'reveal-next-answer',
@@ -130,7 +124,7 @@ export default class BonusRoom extends QuestionRoom {
   }
 
   revealNextPart () {
-    if (this.questionProgress === this.QuestionProgressEnum.LAST_PART_REVEALED) { return; }
+    if (this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED) { return; }
 
     this.currentPartNumber++;
     this.emitMessage({
