@@ -917,7 +917,7 @@ document.getElementById('toggle-skip').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'toggle-skip', skip: this.checked }));
 });
 
-document.getElementById('set-mode').addEventListener('click', function () {
+document.getElementById('set-mode').addEventListener('change', function () {
   this.blur();
   socket.send(JSON.stringify({ type: 'set-mode', setName: document.getElementById('set-name').value, mode: this.value }));
 });
