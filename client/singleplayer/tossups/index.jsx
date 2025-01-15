@@ -391,7 +391,7 @@ document.getElementById('report-question-submit').addEventListener('click', func
   );
 });
 
-document.getElementById('set-mode').addEventListener('click', function () {
+document.getElementById('set-mode').addEventListener('change', function () {
   this.blur();
   socket.sendToServer({ type: 'set-mode', mode: this.value });
 });

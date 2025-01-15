@@ -335,7 +335,7 @@ document.getElementById('reveal').addEventListener('click', function () {
   socket.sendToServer({ type: 'start-answer' });
 });
 
-document.getElementById('set-mode').addEventListener('click', function () {
+document.getElementById('set-mode').addEventListener('change', function () {
   this.blur();
   socket.sendToServer({ type: 'set-mode', mode: this.value });
 });
