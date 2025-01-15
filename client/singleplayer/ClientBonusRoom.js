@@ -1,6 +1,27 @@
 import BonusRoom from '../../quizbowl/BonusRoom.js';
 import api from '../scripts/api/index.js';
 
+let starredBonusIds = null;
+async function getRandomStarredBonus () {
+  if (starredBonusIds === null) {
+    starredBonusIds = await fetch('/auth/stars/bonus-ids')
+      .then(response => {
+        if (!response.ok) { return null; }
+        return response.json();
+      });
+
+    if (starredBonusIds === null) { return null; }
+
+    // random shuffle
+    starredBonusIds.sort(() => Math.random() - 0.5);
+  }
+
+  if (starredBonusIds.length === 0) { return null; }
+
+  const _id = starredBonusIds.pop();
+  return await api.getBonusById(_id);
+}
+
 export default class ClientBonusRoom extends BonusRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
@@ -8,6 +29,7 @@ export default class ClientBonusRoom extends BonusRoom {
     this.checkAnswer = api.checkAnswer;
     this.getRandomQuestions = async (args) => await api.getRandomBonus({ ...args });
     this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketBonuses(setName, packetNumbers[0] ?? 1) : [];
+    this.getRandomStarredQuestion = getRandomStarredBonus;
     this.getSetList = api.getSetList;
     this.getNumPackets = api.getNumPackets;
 

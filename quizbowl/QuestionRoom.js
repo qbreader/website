@@ -12,6 +12,7 @@ export default class QuestionRoom extends Room {
     this.getSet = async function getSet (args) { throw new Error('Not implemented'); };
     this.getSetList = async function getSetList (args) { throw new Error('Not implemented'); };
     this.getNumPackets = async function getNumPackets (setName) { throw new Error('Not implemented'); };
+    this.getRandomStarredQuestion = async function getRandomStarredQuestion () { throw new Error('Not implemented'); };
 
     this.categoryManager = new CategoryManager(categories, subcategories, alternateSubcategories);
     this.packetLength = undefined;
@@ -124,6 +125,13 @@ export default class QuestionRoom extends Room {
           return null;
         }
         question = this.randomQuestionCache.pop();
+        break;
+      case MODE_ENUM.STARRED:
+        question = await this.getRandomStarredQuestion();
+        if (question === null) {
+          this.emitMessage({ type: 'no-questions-found' });
+          return null;
+        }
         break;
     }
 

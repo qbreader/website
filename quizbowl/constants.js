@@ -8,5 +8,6 @@ export const DEAD_TIME_LIMIT = 5; // time to buzz after question is read
 
 export const MODE_ENUM = Object.freeze({
   SET_NAME: 'select by set name',
-  RANDOM: 'random questions'
+  RANDOM: 'random questions',
+  STARRED: 'starred questions'
 });
