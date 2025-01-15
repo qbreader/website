@@ -1,16 +1,10 @@
-import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT } from './constants.js';
+import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, TOSSUP_PROGRESS_ENUM } from './constants.js';
 import insertTokensIntoHTML from './insert-tokens-into-html.js';
 import QuestionRoom from './QuestionRoom.js';
 
 export default class TossupRoom extends QuestionRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
-
-    this.QuestionProgressEnum = Object.freeze({
-      NOT_STARTED: 0,
-      READING: 1,
-      ANSWER_REVEALED: 2
-    });
 
     this.timeoutID = null;
     /**
@@ -23,9 +17,9 @@ export default class TossupRoom extends QuestionRoom {
     this.buzzpointIndices = [];
     this.liveAnswer = '';
     this.paused = false;
-    this.questionProgress = this.QuestionProgressEnum.NOT_STARTED;
     this.questionSplit = [];
     this.tossup = {};
+    this.tossupProgress = TOSSUP_PROGRESS_ENUM.NOT_STARTED;
     this.wordIndex = 0;
 
     this.query = {
@@ -71,7 +65,7 @@ export default class TossupRoom extends QuestionRoom {
 
   buzz (userId) {
     if (!this.settings.rebuzz && this.buzzes.includes(userId)) { return; }
-    if (this.questionProgress !== this.QuestionProgressEnum.READING) { return; }
+    if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING) { return; }
 
     const username = this.players[userId].username;
     if (this.buzzedIn) {
@@ -161,7 +155,7 @@ export default class TossupRoom extends QuestionRoom {
   async next (userId, { type }) {
     if (this.buzzedIn) { return false; } // prevents skipping when someone has buzzed in
     if (this.queryingQuestion) { return false; }
-    if (this.questionProgress === this.QuestionProgressEnum.READING && !this.settings.skip) { return false; }
+    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
 
     clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
@@ -172,7 +166,7 @@ export default class TossupRoom extends QuestionRoom {
     this.buzzpointIndices = [];
     this.paused = false;
 
-    if (this.questionProgress !== this.QuestionProgressEnum.ANSWER_REVEALED) { this.revealQuestion(); }
+    if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { this.revealQuestion(); }
 
     const oldTossup = this.tossup;
     this.tossup = await this.advanceQuestion({ lastSeenQuestion: oldTossup });
@@ -184,13 +178,13 @@ export default class TossupRoom extends QuestionRoom {
     this.emitMessage({ type, packetLength: this.packetLength, userId, username, oldTossup, tossup: this.tossup });
 
     this.wordIndex = 0;
-    this.questionProgress = this.QuestionProgressEnum.READING;
+    this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;
     this.readQuestion(Date.now());
   }
 
   pause (userId) {
     if (this.buzzedIn) { return false; }
-    if (this.questionProgress === this.QuestionProgressEnum.ANSWER_REVEALED) { return false; }
+    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { return false; }
 
     this.paused = !this.paused;
     if (this.paused) {
@@ -277,7 +271,7 @@ export default class TossupRoom extends QuestionRoom {
   revealQuestion () {
     if (Object.keys(this.tossup || {}).length === 0) return;
 
-    this.questionProgress = this.QuestionProgressEnum.ANSWER_REVEALED;
+    this.tossupProgress = TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED;
     this.emitMessage({
       type: 'reveal-answer',
       question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),

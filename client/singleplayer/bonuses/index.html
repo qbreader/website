@@ -92,6 +92,12 @@
                     <span class="face">0</span><span class="fraction">.0</span>
                 </div>
                 <hr>
+                <label class="form-check-label mb-1" for="set-mode">Choose a mode:</label>
+                <select class="form-select mb-2" id="set-mode">
+                    <option value="select by set name">Select by Set Name</option>
+                    <option value="random questions">Random Questions</option>
+                    <option value="starred questions">Starred Questions</option>
+                </select>
                 <div class="d-none" id="set-settings">
                     <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
                     <datalist id="set-list"></datalist>
@@ -110,10 +116,6 @@
                         <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal"
                             data-bs-toggle="modal" type="button">Categories</button>
                         <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
-                        <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-three-part-bonuses" type="checkbox" role="switch" checked>

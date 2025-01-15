@@ -97,9 +97,14 @@
                     <span class="face">0</span><span class="fraction">.0</span>
                 </div>
                 <hr>
-                <ul class="list-group d-none" id="player-list-group">
-                </ul>
+                <ul class="list-group d-none" id="player-list-group"></ul>
                 <hr class="d-none" id="player-list-group-hr">
+                <label class="form-check-label mb-1" for="set-mode">Choose a mode:</label>
+                <select class="form-select mb-2" id="set-mode">
+                    <option value="select by set name">Select by Set Name</option>
+                    <option value="random questions">Random Questions</option>
+                    <option value="starred questions">Starred Questions</option>
+                </select>
                 <div class="d-none" id="set-settings">
                     <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
                     <datalist id="set-list"></datalist>
@@ -124,10 +129,6 @@
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-ai-mode" type="checkbox" role="switch">
                         <label class="form-check-label" for="toggle-ai-mode">Enable AI mode</label>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-select-by-set-name" type="checkbox" role="switch">
-                        <label class="form-check-label" for="toggle-select-by-set-name">Select by set name</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-powermark-only" type="checkbox" role="switch">
