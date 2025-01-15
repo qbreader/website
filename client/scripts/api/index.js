@@ -17,6 +17,12 @@ export default class api {
     return checkAnswer(answerline, givenAnswer, strictness);
   }
 
+  static async getBonusById (_id) {
+    return await fetch('/api/bonus-by-id?' + new URLSearchParams({ id: _id }))
+      .then(response => response.json())
+      .then(data => data.bonus);
+  }
+
   /**
      * @param {String} setName
      * @returns {Promise<Number>} The number of packets in the set.
@@ -83,6 +89,12 @@ export default class api {
 
   static getSetList () {
     return api.SET_LIST;
+  }
+
+  static async getTossupById (_id) {
+    return await fetch('/api/tossup-by-id?' + new URLSearchParams({ id: _id }))
+      .then(response => response.json())
+      .then(data => data.tossup);
   }
 
   static reportQuestion (_id, reason, description) {
