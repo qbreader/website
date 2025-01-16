@@ -49,17 +49,17 @@ export default class TossupRoom extends QuestionRoom {
     switch (message.type) {
       case 'buzz': return this.buzz(userId, message);
       case 'clear-stats': return this.clearStats(userId, message);
+      case 'end': return this.next(userId, message);
       case 'give-answer': return this.giveAnswer(userId, message);
-      case 'next':
-      case 'skip':
-      case 'start': return this.next(userId, message);
+      case 'next': return this.next(userId, message);
       case 'pause': return this.pause(userId, message);
       case 'set-reading-speed': return this.setReadingSpeed(userId, message);
+      case 'skip': return this.next(userId, message);
+      case 'start': return this.next(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
       case 'toggle-public': return this.togglePublic(userId, message);
-      default:
-        return super.message(userId, message);
+      default: return super.message(userId, message);
     }
   }
 
@@ -157,6 +157,8 @@ export default class TossupRoom extends QuestionRoom {
     if (this.queryingQuestion) { return false; }
     if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
 
+    const username = this.players[userId].username;
+
     clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
 
@@ -169,13 +171,15 @@ export default class TossupRoom extends QuestionRoom {
     if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { this.revealQuestion(); }
 
     const oldTossup = this.tossup;
-    this.tossup = await this.advanceQuestion({ lastSeenQuestion: oldTossup });
+    this.tossup = await this.advanceQuestion();
     this.queryingQuestion = false;
-    if (!this.tossup) { return; }
+    if (!this.tossup) {
+      this.emitMessage({ type: 'end', oldTossup, userId, username });
+      return false;
+    }
     this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
 
-    const username = this.players[userId].username;
-    this.emitMessage({ type, packetLength: this.packetLength, userId, username, oldTossup, tossup: this.tossup });
+    this.emitMessage({ type, packetLength: this.packetLength, oldTossup, tossup: this.tossup, userId, username });
 
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;

@@ -60,6 +60,7 @@ socket.onmessage = function (event) {
     case 'connection-acknowledged-query': return connectionAcknowledgedQuery(data);
     case 'connection-acknowledged-tossup': return connectionAcknowledgedTossup(data);
     case 'enforcing-removal': return ackRemovedFromRoom(data);
+    case 'end': return next(data);
     case 'end-of-set': return endOfSet(data);
     case 'error': return handleError(data);
     case 'force-username': return forceUsername(data);
@@ -306,13 +307,7 @@ function connectionAcknowledgedTossup ({ tossup: currentTossup }) {
   document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
 }
 
-function endOfSet ({ lastSeenTossup }) {
-  document.getElementById('answer').textContent = '';
-  document.getElementById('buzz').disabled = true;
-  document.getElementById('pause').disabled = true;
-  document.getElementById('next').disabled = true;
-  document.getElementById('question').textContent = '';
-  createTossupCard(lastSeenTossup);
+function endOfSet () {
   window.alert('You have reached the end of the set');
 }
 
@@ -508,41 +503,43 @@ function mutePlayer ({ targetId, muteStatus }) {
 }
 
 function next ({ oldTossup, tossup: nextTossup, type, username }) {
-  switch (type) {
-    case 'next':
-      logEvent(username, 'went to the next question');
-      break;
-    case 'skip':
-      logEvent(username, 'skipped the question');
-      break;
-    case 'start':
-      logEvent(username, 'started the game');
-      break;
-    default:
-      throw new Error('Invalid type');
-  }
+  const typeStrings = {
+    end: 'ended the game',
+    next: 'went to the next question',
+    skip: 'skipped the question',
+    start: 'started the game'
+  };
+  logEvent(username, typeStrings[type]);
 
-  if (type === 'next' || type === 'skip') {
-    createTossupCard(oldTossup);
-  } else if (type === 'start') {
+  if (type === 'start') {
     document.getElementById('next').classList.add('btn-primary');
     document.getElementById('next').classList.remove('btn-success');
     document.getElementById('next').textContent = 'Next';
   }
 
-  tossup = nextTossup;
-  document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
-  document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
-  document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
+  if (type !== 'start') {
+    createTossupCard(oldTossup);
+  }
 
   document.getElementById('answer').textContent = '';
   document.getElementById('question').textContent = '';
-
-  document.getElementById('buzz').textContent = 'Buzz';
-  document.getElementById('buzz').disabled = false;
-  document.getElementById('pause').textContent = 'Pause';
-  document.getElementById('pause').disabled = false;
   document.getElementById('settings').classList.add('d-none');
+
+  if (type === 'end') {
+    document.getElementById('buzz').disabled = true;
+    document.getElementById('next').classList.remove('btn-primary');
+    document.getElementById('next').classList.add('btn-success');
+    document.getElementById('next').textContent = 'Start';
+  } else {
+    tossup = nextTossup;
+    document.getElementById('buzz').textContent = 'Buzz';
+    document.getElementById('buzz').disabled = false;
+    document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
+    document.getElementById('pause').textContent = 'Pause';
+    document.getElementById('pause').disabled = false;
+    document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
+    document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
+  }
 
   showSkipButton();
   updateTimerDisplay(100);

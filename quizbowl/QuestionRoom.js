@@ -86,7 +86,7 @@ export default class QuestionRoom extends Room {
     }
   }
 
-  async advanceQuestion ({ lastSeenQuestion }) {
+  async advanceQuestion () {
     this.queryingQuestion = true;
     let question = null;
 
@@ -97,7 +97,7 @@ export default class QuestionRoom extends Room {
             this.query.packetNumbers.shift();
             const packetNumber = this.query.packetNumbers[0];
             if (packetNumber === undefined) {
-              this.emitMessage({ type: 'end-of-set', lastSeenQuestion });
+              this.emitMessage({ type: 'end-of-set' });
               return null;
             }
             this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [packetNumber] });
