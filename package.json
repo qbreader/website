@@ -32,7 +32,7 @@
         "morgan": "^1.10.0",
         "nodemailer": "^6.9.13",
         "number-to-words": "^1.2.4",
-        "qb-answer-checker": "^1.1.4",
+        "qb-answer-checker": "^1.1.5",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "roman-numerals": "^0.3.2",
