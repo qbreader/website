@@ -33,6 +33,8 @@ function onmessage (message) {
   const data = JSON.parse(message);
   switch (data.type) {
     case 'clear-stats': return clearStats(data);
+    case 'end': return next(data);
+    case 'end-of-set': return endOfSet(data);
     case 'give-answer': return giveAnswer(data);
     case 'next': return next(data);
     case 'no-questions-found': return noQuestionsFound(data);
@@ -61,6 +63,10 @@ function onmessage (message) {
 
 function clearStats ({ teamId }) {
   updateStatDisplay({ 0: 0, 10: 0, 20: 0, 30: 0 });
+}
+
+function endOfSet () {
+  window.alert('You have reached the end of the set');
 }
 
 async function giveAnswer ({ currentPartNumber, directive, directedPrompt }) {
@@ -108,18 +114,23 @@ async function next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, po
     updateStatDisplay(stats);
   }
 
-  if (type === 'next' || type === 'skip') {
+  if (type !== 'start') {
     createBonusCard(oldBonus);
   }
 
   document.getElementById('question').textContent = '';
-  document.getElementById('reveal').disabled = false;
-  document.getElementById('next').textContent = 'Skip';
 
-  document.getElementById('set-name-info').textContent = bonus.set.name;
-  document.getElementById('packet-number-info').textContent = bonus.packet.number;
-  document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
-  document.getElementById('question-number-info').textContent = bonus.number;
+  if (type === 'end') {
+    document.getElementById('next').disabled = true;
+    document.getElementById('reveal').disabled = true;
+  } else {
+    document.getElementById('next').textContent = 'Skip';
+    document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
+    document.getElementById('packet-number-info').textContent = bonus.packet.number;
+    document.getElementById('reveal').disabled = false;
+    document.getElementById('set-name-info').textContent = bonus.set.name;
+    document.getElementById('question-number-info').textContent = bonus.number;
+  }
 }
 
 /**

@@ -36,6 +36,7 @@ function onmessage (message) {
   switch (data.type) {
     case 'buzz': return buzz(data);
     case 'clear-stats': return clearStats(data);
+    case 'end': return next(data);
     case 'end-of-set': return endOfSet(data);
     case 'give-answer': return giveAnswer(data);
     case 'next': return next(data);
@@ -82,15 +83,7 @@ function clearStats ({ userId }) {
   updateStatDisplay(room.players[userId]);
 }
 
-function endOfSet ({ lastSeenQuestion }) {
-  document.getElementById('answer').textContent = '';
-  document.getElementById('buzz').disabled = true;
-  document.getElementById('pause').disabled = true;
-  document.getElementById('next').disabled = true;
-  document.getElementById('question').textContent = '';
-  document.getElementById('toggle-correct').textContent = 'I was wrong';
-  document.getElementById('toggle-correct').classList.add('d-none');
-  createTossupCard(lastSeenQuestion);
+function endOfSet () {
   window.alert('You have reached the end of the set');
 }
 
@@ -137,7 +130,7 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
     document.getElementById('settings').classList.add('d-none');
   }
 
-  if (type === 'next' || type === 'skip') {
+  if (type !== 'start') {
     createTossupCard(oldTossup);
   }
 
@@ -146,17 +139,23 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
   document.getElementById('toggle-correct').textContent = 'I was wrong';
   document.getElementById('toggle-correct').classList.add('d-none');
 
-  document.getElementById('buzz').textContent = 'Buzz';
-  document.getElementById('buzz').disabled = false;
-  document.getElementById('next').textContent = 'Skip';
-  document.getElementById('packet-number-info').textContent = nextTossup.packet.number;
-  document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
-  document.getElementById('pause').textContent = 'Pause';
-  document.getElementById('pause').disabled = false;
-  document.getElementById('question-number-info').textContent = nextTossup.number;
-  document.getElementById('set-name-info').textContent = nextTossup.set.name;
+  if (type === 'end') {
+    document.getElementById('buzz').disabled = true;
+    document.getElementById('next').disabled = true;
+    document.getElementById('pause').disabled = true;
+  } else {
+    document.getElementById('buzz').textContent = 'Buzz';
+    document.getElementById('buzz').disabled = false;
+    document.getElementById('next').textContent = 'Skip';
+    document.getElementById('packet-number-info').textContent = nextTossup.packet.number;
+    document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
+    document.getElementById('pause').textContent = 'Pause';
+    document.getElementById('pause').disabled = false;
+    document.getElementById('question-number-info').textContent = nextTossup.number;
+    document.getElementById('set-name-info').textContent = nextTossup.set.name;
+  }
 
-  if (type === 'next' && room.previous.userId === USER_ID) {
+  if ((type === 'end' || type === 'next') && room.previous.userId === USER_ID) {
     const pointValue = room.previous.isCorrect ? (room.previous.inPower ? room.previous.powerValue : 10) : (room.previous.endOfQuestion ? 0 : room.previous.negValue);
     questionStats.recordTossup(room.previous.tossup, room.previous.isCorrect, pointValue, room.previous.celerity, false);
   }
