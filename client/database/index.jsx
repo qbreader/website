@@ -460,119 +460,119 @@ function QueryForm () {
         <h3 id='tossups'>Tossups</h3>
       </div>
       {
-                tossupCount > 0
-                  ? <div className='float-row mb-3'>
-                    <span className='text-muted float-start'>Showing {tossups.length} of {tossupCount} results ({queryTime} seconds)</span>&nbsp;
-                    <span className='text-muted float-end'>
-                      <a className='clickable' onClick={() => window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' })}>
-                        Jump to bonuses
-                      </a>
-                    </span>
-                    </div> // eslint-disable-line
-                  : <div className='text-muted'>No tossups found</div>
-            }
+        tossupCount > 0
+          ? <div className='float-row mb-3'>
+            <span className='text-muted float-start'>Showing {tossups.length} of {tossupCount} results ({queryTime} seconds)</span>&nbsp;
+            <span className='text-muted float-end'>
+              <a className='clickable' onClick={() => window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' })}>
+                Jump to bonuses
+              </a>
+            </span>
+        </div> // eslint-disable-line
+          : <div className='text-muted'>No tossups found</div>
+      }
       <div>{tossupCards}</div>
       {
-                tossupPaginationLength > 1 &&
-                  <nav aria-label='tossup nagivation'>
-                    <ul className='pagination justify-content-center'>
-                      <li className='page-item'>
-                        <a className='page-link' href='#' aria-label='First' onClick={event => { handleTossupPaginationClick(event, 'first'); }}>
-                          &laquo;
-                        </a>
-                      </li>
-                      <li className='page-item'>
-                        <a className='page-link' href='#' aria-label='Previous' onClick={event => { handleTossupPaginationClick(event, 'previous'); }}>
-                          &lsaquo;
-                        </a>
-                      </li>
-                      {
-                            arrayBetween(
-                              Math.min(tossupPaginationShift),
-                              Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)
-                            ).map((i) => {
-                              const isActive = tossupPaginationNumber === i + 1;
-                              return (
-                                <li key={`tossup-pagination-${i + 1}`} className='page-item'>
-                                  <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleTossupPaginationClick(event, i + 1); }}>
-                                    {i + 1}
-                                  </a>
-                                </li>
-                              );
-                            })
-                        }
-                      <li className='page-item'>
-                        <a className='page-link' href='#' aria-label='Next' onClick={event => { handleTossupPaginationClick(event, 'next'); }}>
-                          &rsaquo;
-                        </a>
-                      </li>
-                      <li className='page-item'>
-                        <a className='page-link' href='#' aria-label='Last' onClick={event => { handleTossupPaginationClick(event, 'last'); }}>
-                          <span aria-hidden='true'>&raquo;</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-            }
+        tossupPaginationLength > 1 &&
+          <nav aria-label='tossup nagivation'>
+            <ul className='pagination justify-content-center'>
+              <li className='page-item'>
+                <a className='page-link' href='#' aria-label='First' onClick={event => { handleTossupPaginationClick(event, 'first'); }}>
+                  &laquo;
+                </a>
+              </li>
+              <li className='page-item'>
+                <a className='page-link' href='#' aria-label='Previous' onClick={event => { handleTossupPaginationClick(event, 'previous'); }}>
+                  &lsaquo;
+                </a>
+              </li>
+              {
+                arrayBetween(
+                  Math.min(tossupPaginationShift),
+                  Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)
+                ).map((i) => {
+                  const isActive = tossupPaginationNumber === i + 1;
+                  return (
+                    <li key={`tossup-pagination-${i + 1}`} className='page-item'>
+                      <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleTossupPaginationClick(event, i + 1); }}>
+                        {i + 1}
+                      </a>
+                    </li>
+                  );
+                })
+              }
+              <li className='page-item'>
+                <a className='page-link' href='#' aria-label='Next' onClick={event => { handleTossupPaginationClick(event, 'next'); }}>
+                  &rsaquo;
+                </a>
+              </li>
+              <li className='page-item'>
+                <a className='page-link' href='#' aria-label='Last' onClick={event => { handleTossupPaginationClick(event, 'last'); }}>
+                  <span aria-hidden='true'>&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+      }
       <div className='mb-5' />
       <div className='row text-center'>
         <h3 id='bonuses'>Bonuses</h3>
       </div>
       {
-                bonusCount > 0
-                  ? <div className='float-row mb-3'>
-                    <span className='text-muted float-start'>Showing {bonuses.length} of {bonusCount} results ({queryTime} seconds)</span>&nbsp;
-                    <span className='text-muted float-end'>
-                      <a className='clickable' onClick={() => window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' })}>
-                        Jump to tossups
-                      </a>
-                    </span>
-                    </div> // eslint-disable-line
-                  : <div className='text-muted'>No bonuses found</div>
-            }
+        bonusCount > 0
+          ? <div className='float-row mb-3'>
+            <span className='text-muted float-start'>Showing {bonuses.length} of {bonusCount} results ({queryTime} seconds)</span>&nbsp;
+            <span className='text-muted float-end'>
+              <a className='clickable' onClick={() => window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' })}>
+                Jump to tossups
+              </a>
+            </span>
+            </div> // eslint-disable-line
+          : <div className='text-muted'>No bonuses found</div>
+      }
       <div>{bonusCards}</div>
       {
-                bonusPaginationLength > 1 &&
-                  <nav aria-label='bonus nagivation'>
-                    <ul className='pagination justify-content-center'>
-                      <li className='page-item'>
-                        <a className='page-link' href='#' aria-label='First' onClick={event => { handleBonusPaginationClick(event, 'first'); }}>
-                          &laquo;
-                        </a>
-                      </li>
-                      <li className='page-item'>
-                        <a className='page-link' href='#' aria-label='Previous' onClick={event => { handleBonusPaginationClick(event, 'previous'); }}>
-                          &lsaquo;
-                        </a>
-                      </li>
-                      {
-                            arrayBetween(
-                              Math.min(bonusPaginationShift),
-                              Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength)
-                            ).map((i) => {
-                              const isActive = bonusPaginationNumber === i + 1;
-                              return (
-                                <li key={`bonus-pagination-${i + 1}`} className='page-item'>
-                                  <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleBonusPaginationClick(event, i + 1); }}>
-                                    {i + 1}
-                                  </a>
-                                </li>
-                              );
-                            })
-                        }
-                      <li className='page-item'>
-                        <a className='page-link' href='#' aria-label='Next' onClick={event => { handleBonusPaginationClick(event, 'next'); }}>
-                          &rsaquo;
-                        </a>
-                      </li>
-                      <li className='page-item'>
-                        <a className='page-link' href='#' aria-label='Last' onClick={event => { handleBonusPaginationClick(event, 'last'); }}>
-                          <span aria-hidden='true'>&raquo;</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
+      bonusPaginationLength > 1 &&
+        <nav aria-label='bonus nagivation'>
+          <ul className='pagination justify-content-center'>
+            <li className='page-item'>
+              <a className='page-link' href='#' aria-label='First' onClick={event => { handleBonusPaginationClick(event, 'first'); }}>
+                &laquo;
+              </a>
+            </li>
+            <li className='page-item'>
+              <a className='page-link' href='#' aria-label='Previous' onClick={event => { handleBonusPaginationClick(event, 'previous'); }}>
+                &lsaquo;
+              </a>
+            </li>
+            {
+              arrayBetween(
+                Math.min(bonusPaginationShift),
+                Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength)
+              ).map((i) => {
+                const isActive = bonusPaginationNumber === i + 1;
+                return (
+                  <li key={`bonus-pagination-${i + 1}`} className='page-item'>
+                    <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleBonusPaginationClick(event, i + 1); }}>
+                      {i + 1}
+                    </a>
+                  </li>
+                );
+              })
             }
+            <li className='page-item'>
+              <a className='page-link' href='#' aria-label='Next' onClick={event => { handleBonusPaginationClick(event, 'next'); }}>
+                &rsaquo;
+              </a>
+            </li>
+            <li className='page-item'>
+              <a className='page-link' href='#' aria-label='Last' onClick={event => { handleBonusPaginationClick(event, 'last'); }}>
+                <span aria-hidden='true'>&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      }
       <div className='mb-5' />
     </div>
   );
