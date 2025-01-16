@@ -6,13 +6,13 @@ export default class api {
   static SET_LIST = [];
 
   /**
-     * @param {string} answerline
-     * @param {string} givenAnswer
-     * @returns {Promise<{
-        * directive: "accept" | "prompt" | "reject",
-        * directedPrompt: String | null
-    * }>}
-    */
+   * @param {string} answerline
+   * @param {string} givenAnswer
+   * @returns {Promise<{
+    * directive: "accept" | "prompt" | "reject",
+    * directedPrompt: String | null
+  * }>}
+  */
   static checkAnswer (answerline, givenAnswer, strictness = 7) {
     return checkAnswer(answerline, givenAnswer, strictness);
   }
@@ -24,9 +24,9 @@ export default class api {
   }
 
   /**
-     * @param {String} setName
-     * @returns {Promise<Number>} The number of packets in the set.
-     */
+   * @param {String} setName
+   * @returns {Promise<Number>} The number of packets in the set.
+   */
   static async getNumPackets (setName) {
     if (setName === undefined || setName === '') {
       return 0;
@@ -38,10 +38,10 @@ export default class api {
   }
 
   /**
-     * @param {string} setName - The name of the set (e.g. "2021 ACF Fall").
-     * @param {string | number} packetNumber - The packet number of the set.
-     * @return {Promise<JSON[]>} An array containing the bonuses.
-     */
+   * @param {string} setName - The name of the set (e.g. "2021 ACF Fall").
+   * @param {string | number} packetNumber - The packet number of the set.
+   * @return {Promise<JSON[]>} An array containing the bonuses.
+   */
   static async getPacketBonuses (setName, packetNumber) {
     if (setName === '') {
       return [];
@@ -53,10 +53,10 @@ export default class api {
   }
 
   /**
-     * @param {string} setName - The name of the set (e.g. "2021 ACF Fall").
-     * @param {string} packetNumber - The packet number of the set.
-     * @return {Promise<JSON[]>} An array containing the tossups.
-     */
+   * @param {string} setName - The name of the set (e.g. "2021 ACF Fall").
+   * @param {string} packetNumber - The packet number of the set.
+   * @return {Promise<JSON[]>} An array containing the tossups.
+   */
   static async getPacketTossups (setName, packetNumber) {
     if (setName === '') {
       return [];
