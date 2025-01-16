@@ -26,11 +26,11 @@ export default class BonusRoom extends QuestionRoom {
   async message (userId, message) {
     switch (message.type) {
       case 'clear-stats': return this.clearStats(userId, message);
+      case 'end': return this.next(userId, message);
       case 'give-answer': return this.giveAnswer(userId, message);
-      case 'next':
-      case 'skip':
-      case 'start':
-        return this.next(userId, message);
+      case 'next': return this.next(userId, message);
+      case 'skip': return this.next(userId, message);
+      case 'start': return this.next(userId, message);
       case 'start-answer': return this.startAnswer(userId, message);
       case 'toggle-correct': return this.toggleCorrect(userId, message);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(userId, message);
@@ -77,27 +77,24 @@ export default class BonusRoom extends QuestionRoom {
     clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
 
+    const lastPartRevealed = this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
+    const pointsPerPart = this.pointsPerPart;
     const teamId = this.players[userId].teamId;
 
     if (type === 'next') {
       this.teams[teamId].updateStats(this.pointsPerPart.reduce((a, b) => a + b, 0));
     }
+    const stats = this.teams[teamId].bonusStats;
 
     const oldBonus = this.bonus;
-    this.bonus = await this.advanceQuestion({ lastSeenQuestion: oldBonus });
+    this.bonus = await this.advanceQuestion();
     this.queryingQuestion = false;
-    if (!this.bonus) { return; }
+    if (!this.bonus) {
+      this.emitMessage({ type: 'end', lastPartRevealed, oldBonus, pointsPerPart, stats, userId });
+      return false;
+    }
 
-    this.emitMessage({
-      type,
-      bonus: this.bonus,
-      lastPartRevealed: this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED,
-      oldBonus,
-      packetLength: this.packetLength,
-      pointsPerPart: this.pointsPerPart,
-      userId,
-      stats: this.teams[teamId].bonusStats
-    });
+    this.emitMessage({ type, bonus: this.bonus, lastPartRevealed, oldBonus, packetLength: this.packetLength, pointsPerPart, stats, teamId });
 
     this.currentPartNumber = -1;
     this.pointsPerPart = [];
