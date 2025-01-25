@@ -8,6 +8,11 @@ export const USERNAME_MAX_LENGTH = 32;
  */
 export const PERMANENT_ROOMS = [
   {
+    name: 'msquizbowl',
+    categories: CATEGORIES,
+    subcategories: SUBCATEGORIES
+  },
+  {
     name: 'hsquizbowl',
     categories: CATEGORIES,
     subcategories: SUBCATEGORIES
@@ -36,6 +41,16 @@ export const PERMANENT_ROOMS = [
     name: 'fine-arts',
     categories: ['Fine Arts'],
     subcategories: ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts']
+  },
+  {
+    name: 'rmpss',
+    categories: ['Religion', 'Mythology', 'Philosophy', 'Social Science'],
+    subcategories: ['Religion', 'Mythology', 'Philosophy', 'Social Science']
+  },
+  {
+    name: 'geography',
+    categories: ['Geography'],
+    subcategories: ['Geography']
   },
   {
     name: 'trash',
