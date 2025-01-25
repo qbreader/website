@@ -273,6 +273,7 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   votekickInit (userId, { targetId }) {
+    if (!this.players[targetId]) { return; }
     const targetUsername = this.players[targetId].username;
 
     const currentTime = Date.now();
@@ -306,6 +307,7 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   votekickVote (userId, { targetId }) {
+    if (!this.players[targetId]) { return; }
     const targetUsername = this.players[targetId].username;
 
     let exists = false;
