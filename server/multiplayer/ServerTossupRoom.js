@@ -200,6 +200,20 @@ export default class ServerTossupRoom extends TossupRoom {
     super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
+  setMode (userId, { mode, setName }) {
+    if (this.isPermanent) { return; }
+    if (!this.setList) { return; }
+    if (!this.setList.includes(setName)) { return; }
+    if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
+    super.setMode(userId, { mode, setName });
+    this.adjustQuery(['setName'], [setName]);
+  }
+
+  setReadingSpeed (userId, { readingSpeed }) {
+    if (this.isPermanent) { return; }
+    super.setReadingSpeed(userId, { readingSpeed });
+  }
+
   async setSetName (userId, { setName }) {
     if (!this.setList) { return; }
     if (!this.setList.includes(setName)) { return; }
@@ -256,15 +270,6 @@ export default class ServerTossupRoom extends TossupRoom {
       this.settings.loginRequired = false;
     }
     this.emitMessage({ type: 'toggle-public', public: isPublic, username });
-  }
-
-  setMode (userId, { mode, setName }) {
-    if (this.isPermanent) { return; }
-    if (!this.setList) { return; }
-    if (!this.setList.includes(setName)) { return; }
-    if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
-    super.setMode(userId, { mode, setName });
-    this.adjustQuery(['setName'], [setName]);
   }
 
   toggleTimer (userId, { timer }) {
