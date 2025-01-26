@@ -213,6 +213,20 @@ export default class ServerTossupRoom extends TossupRoom {
     super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
+  setMode (userId, { mode, setName }) {
+    if (this.isPermanent || !this.allowed(userId)) { return; }
+    if (!this.setList) { return; }
+    if (!this.setList.includes(setName)) { return; }
+    if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
+    super.setMode(userId, { mode, setName });
+    this.adjustQuery(['setName'], [setName]);
+  }
+
+  setReadingSpeed (userId, { readingSpeed }) {
+    if (this.isPermanent) { return; }
+    super.setReadingSpeed(userId, { readingSpeed });
+  }
+
   async setSetName (userId, { setName }) {
     if (!this.allowed(userId)) { return; }
     if (!this.setList) { return; }
@@ -279,21 +293,13 @@ export default class ServerTossupRoom extends TossupRoom {
     this.emitMessage({ type: 'toggle-public', public: isPublic, username });
   }
 
-  setMode (userId, { mode, setName }) {
-    if (this.isPermanent || !this.allowed(userId)) { return; }
-    if (!this.setList) { return; }
-    if (!this.setList.includes(setName)) { return; }
-    if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
-    super.setMode(userId, { mode, setName });
-    this.adjustQuery(['setName'], [setName]);
-  }
-
   toggleTimer (userId, { timer }) {
     if (this.settings.public || !this.allowed(userId)) { return; }
     super.toggleTimer(userId, { timer });
   }
 
   votekickInit (userId, { targetId }) {
+    if (!this.players[targetId]) { return; }
     const targetUsername = this.players[targetId].username;
 
     const currentTime = Date.now();
@@ -327,6 +333,7 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   votekickVote (userId, { targetId }) {
+    if (!this.players[targetId]) { return; }
     const targetUsername = this.players[targetId].username;
 
     let exists = false;
