@@ -16,7 +16,7 @@ let ownerId = '';
 let maxPacketNumber = 24;
 let globalPublic = true;
 let muteList = [];
-let isPermanent = false;
+const isPermanent = false;
 /**
  * userId to player object
  */
@@ -559,7 +559,7 @@ function ownerChange ({ newOwner }) {
   if (players[newOwner]) {
     ownerId = newOwner;
     logEvent(players[newOwner].username, 'became the room owner');
-  } else logEvent(targetId, 'became the room owner');
+  } else logEvent(newOwner, 'became the room owner');
 
   Object.keys(players).forEach((player) => {
     upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
@@ -711,7 +711,7 @@ function sortPlayerListGroup (descending = true) {
   });
 }
 
-function processControlled(yesNo) {
+function processControlled (yesNo) {
   document.getElementById('toggle-controlled').checked = yesNo;
 
   document.getElementById('toggle-lock').disabled = yesNo;
@@ -733,9 +733,9 @@ function processControlled(yesNo) {
 function toggleControlled ({ controlled, username }) {
   logEvent(username, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
 
-  document.getElementById('toggle-controlled').disabled = (globalPublic == false || isPermanent) && ownerId !== USER_ID;
+  document.getElementById('toggle-controlled').disabled = (globalPublic === false || isPermanent) && ownerId !== USER_ID;
 
-  if (controlled && (globalPublic == false || isPermanent) && ownerId !== USER_ID) processControlled(true);
+  if (controlled && (globalPublic === false || isPermanent) && ownerId !== USER_ID) processControlled(true);
   else processControlled(false);
 }
 
