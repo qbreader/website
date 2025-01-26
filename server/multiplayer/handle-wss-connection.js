@@ -1,6 +1,5 @@
 import { PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
 import ServerTossupRoom from './ServerTossupRoom.js';
-import TossupRoom from '../../quizbowl/TossupRoom.js';
 import { checkToken } from '../authentication.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';

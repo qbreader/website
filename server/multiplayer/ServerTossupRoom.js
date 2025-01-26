@@ -64,8 +64,7 @@ export default class ServerTossupRoom extends TossupRoom {
 
   allowed (userId) {
     if (this.settings.public && !this.isPermanent) { return true; } // public rooms have iscontrolled disabled
-    if ((userId == this.ownerId) || !this.settings.controlled) { return true; }
-    else { return false; }
+    if ((userId === this.ownerId) || !this.settings.controlled) { return true; } else { return false; }
   }
 
   ban (userId, { targetId, targetUsername }) {
@@ -81,8 +80,8 @@ export default class ServerTossupRoom extends TossupRoom {
     this.cleanupExpiredBansAndKicks();
 
     if (this.sockets[userId]) {
-        this.sendToSocket(userId, { type: 'error', message: 'You joined in another tab' });
-        this.close(userId);
+      this.sendToSocket(userId, { type: 'error', message: 'You joined in another tab' });
+      this.close(userId);
     }
 
     const isNew = !(userId in this.players);
@@ -351,9 +350,9 @@ export default class ServerTossupRoom extends TossupRoom {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
 
-      if (targetId == this.ownerId) {
-        let onlinePlayers = Object.keys(this.players).filter(playerId => this.players[playerId].online);
-        let newHost = onlinePlayers.reduce((maxPlayer, playerId) => (this.players[playerId].tuh || 0) > (this.players[maxPlayer].tuh || 0) ? playerId : maxPlayer, onlinePlayers[0]);
+      if (targetId === this.ownerId) {
+        const onlinePlayers = Object.keys(this.players).filter(playerId => this.players[playerId].online);
+        const newHost = onlinePlayers.reduce((maxPlayer, playerId) => (this.players[playerId].tuh || 0) > (this.players[maxPlayer].tuh || 0) ? playerId : maxPlayer, onlinePlayers[0]);
         // ^^ highest tuh player becomes new host
 
         this.ownerId = newHost;
