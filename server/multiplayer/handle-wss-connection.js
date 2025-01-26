@@ -1,5 +1,6 @@
 import { PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
 import ServerTossupRoom from './ServerTossupRoom.js';
+import TossupRoom from '../../quizbowl/TossupRoom.js';
 import { checkToken } from '../authentication.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
@@ -16,7 +17,7 @@ const DOMPurify = createDOMPurify(window);
 const tossupRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupRooms[name] = new ServerTossupRoom(name, 0, true, categories, subcategories);
+  tossupRooms[name] = new ServerTossupRoom(name, '0', true, categories, subcategories);
 }
 
 /**
@@ -25,13 +26,14 @@ for (const room of PERMANENT_ROOMS) {
  * @param {String} roomName
  * @returns {TossupRoom}
  */
-function createAndReturnRoom (roomName, userId, isPrivate = false) {
+function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled = false) {
   roomName = DOMPurify.sanitize(roomName);
   roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
 
   if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
     const newRoom = new ServerTossupRoom(roomName, userId, false);
     newRoom.settings.public = !isPrivate;
+    newRoom.settings.controlled = isControlled;
     tossupRooms[roomName] = newRoom;
   }
 
@@ -46,6 +48,7 @@ function createAndReturnRoom (roomName, userId, isPrivate = false) {
 export default function handleWssConnection (ws, req) {
   const parsedUrl = new url.URL(req.url, process.env.BASE_URL ?? 'http://localhost');
   const isPrivate = parsedUrl.searchParams.get('private') === 'true';
+  const isControlled = parsedUrl.searchParams.get('controlled') === 'true';
   const roomName = parsedUrl.searchParams.get('roomName');
   let userId = parsedUrl.searchParams.get('userId') ?? 'unknown';
   let username = parsedUrl.searchParams.get('username') ?? getRandomName();
@@ -68,7 +71,7 @@ export default function handleWssConnection (ws, req) {
     return false;
   }
 
-  const room = createAndReturnRoom(roomName, userId, isPrivate);
+  const room = createAndReturnRoom(roomName, userId, isPrivate, isControlled);
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({
       type: 'error',
