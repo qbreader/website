@@ -31,7 +31,8 @@ function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled 
 
   if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
     const newRoom = new ServerTossupRoom(roomName, userId, false);
-    newRoom.settings.public = !isPrivate;
+    // A room cannot be both public and controlled
+    newRoom.settings.public = !isPrivate && !isControlled;
     newRoom.settings.controlled = isControlled;
     tossupRooms[roomName] = newRoom;
   }
