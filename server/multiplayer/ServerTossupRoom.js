@@ -257,6 +257,7 @@ export default class ServerTossupRoom extends TossupRoom {
 
   toggleControlled (userId, { controlled }) {
     if (this.settings.public) { return; }
+    if (userId !== this.ownerId) { return; }
     this.settings.controlled = !!controlled;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-controlled', controlled, username });
@@ -352,7 +353,10 @@ export default class ServerTossupRoom extends TossupRoom {
 
       if (targetId === this.ownerId) {
         const onlinePlayers = Object.keys(this.players).filter(playerId => this.players[playerId].online);
-        const newHost = onlinePlayers.reduce((maxPlayer, playerId) => (this.players[playerId].tuh || 0) > (this.players[maxPlayer].tuh || 0) ? playerId : maxPlayer, onlinePlayers[0]);
+        const newHost = onlinePlayers.reduce(
+          (maxPlayer, playerId) => (this.players[playerId].tuh || 0) > (this.players[maxPlayer].tuh || 0) ? playerId : maxPlayer,
+          onlinePlayers[0]
+        );
         // ^^ highest tuh player becomes new host
 
         this.ownerId = newHost;

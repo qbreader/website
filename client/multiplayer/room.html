@@ -188,7 +188,13 @@
                     <div>
                         View more settings <a href="/settings">here</a>.
                     </div>
-                    <p class="mb-1 text-muted"><i id="private-chat-warning">chat is disabled in public rooms</i></p>
+                    <p class="mb-1 text-muted">
+                        <i id="private-chat-warning">Chat is disabled in public rooms.</i>
+                        <i class="d-none" id="permanent-room-warning">This is a permanent room. Some settings have been restricted.</i>
+                        <i class="d-none" id="controlled-room-warning">
+                            This is a controlled room. Some settings can only be edited by the creator.
+                        </i>
+                    </p>
                 </div>
             </div>
             <div class="col-12 col-lg-9" id="content">
