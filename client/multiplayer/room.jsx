@@ -16,7 +16,7 @@ let ownerId = '';
 let maxPacketNumber = 24;
 let globalPublic = true;
 let muteList = [];
-const isPermanent = false;
+
 /**
  * userId to player object
  */
@@ -30,12 +30,13 @@ let username = window.localStorage.getItem('multiplayer-username') || api.getRan
 const socket = new window.WebSocket(
   window.location.href.replace('http', 'ws').split('?')[0] + '?' +
     new URLSearchParams({
-      ...new URLSearchParams(window.location.search),
+      ...Object.fromEntries(new URLSearchParams(window.location.search)),
       roomName: ROOM_NAME,
       userId: USER_ID,
       username
     }).toString()
 );
+window.history.pushState({}, '', '/multiplayer/' + encodeURIComponent(ROOM_NAME));
 
 // Ping server every 45 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(
@@ -115,7 +116,7 @@ function ackRemovedFromRoom ({ removalType }) {
 }
 
 function buzz ({ userId, username }) {
-  logEvent(username, 'buzzed');
+  logEventConditionally(username, 'buzzed');
   document.getElementById('buzz').disabled = true;
   document.getElementById('pause').disabled = true;
   document.getElementById('next').disabled = true;
@@ -177,7 +178,7 @@ function confirmBan ({ targetId, targetUsername }) {
       window.location.replace('../');
     }, 100);
   } else {
-    logEvent(targetUsername + ' has been banned from this room.');
+    logEventConditionally(targetUsername + ' has been banned from this room.');
   }
 }
 
@@ -192,20 +193,22 @@ function connectionAcknowledged ({
   settings,
   userId
 }) {
+  globalPublic = settings.public;
+  ownerId = serverOwnerId;
+  USER_ID = userId;
+  window.localStorage.setItem('USER_ID', USER_ID);
+
   document.getElementById('buzz').disabled = !canBuzz;
 
   if (isPermanent) {
-    isPermanent = true;
-
     document.getElementById('category-select-button').disabled = true;
+    document.getElementById('permanent-room-warning').classList.remove('d-none');
     document.getElementById('reading-speed').disabled = true;
     document.getElementById('set-strictness').disabled = true;
     document.getElementById('set-mode').disabled = true;
     document.getElementById('toggle-public').disabled = true;
-    document.getElementById('private-chat-warning').innerHTML = 'This is a permanent room. Some settings have been restricted.';
   }
 
-  ownerId = serverOwnerId;
   for (const userId of Object.keys(messagePlayers)) {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
@@ -239,31 +242,16 @@ function connectionAcknowledged ({
       break;
   }
 
-  document.getElementById('toggle-lock').checked = settings.lock;
-
-  document.getElementById('toggle-login-required').checked = settings.loginRequired;
-
-  document.getElementById('chat').disabled = settings.public;
-  document.getElementById('toggle-lock').disabled = settings.public;
-  document.getElementById('toggle-login-required').disabled = settings.public;
-  document.getElementById('toggle-timer').disabled = settings.public;
-  document.getElementById('toggle-public').checked = settings.public;
-  globalPublic = settings.public;
-
-  document.getElementById('reading-speed').value = settings.readingSpeed;
-  document.getElementById('reading-speed-display').textContent = settings.readingSpeed;
-  document.getElementById('set-strictness').value = settings.strictness;
-  document.getElementById('strictness-display').textContent = settings.strictness;
-
-  document.getElementById('toggle-rebuzz').checked = settings.rebuzz;
-
-  document.getElementById('toggle-skip').checked = settings.skip;
-
-  document.getElementById('timer').classList.toggle('d-none', !settings.timer);
-  document.getElementById('toggle-timer').checked = settings.timer;
-
-  USER_ID = userId;
-  window.localStorage.setItem('USER_ID', USER_ID);
+  toggleLock({ lock: settings.lock });
+  toggleLoginRequired({ loginRequired: settings.loginRequired });
+  togglePublic({ public: settings.public });
+  toggleRebuzz({ rebuzz: settings.rebuzz });
+  toggleSkip({ skip: settings.skip });
+  toggleTimer({ timer: settings.timer });
+  setReadingSpeed({ readingSpeed: settings.readingSpeed });
+  setStrictness({ strictness: settings.strictness });
+  // controlled mode must be set last
+  toggleControlled({ controlled: settings.controlled });
 }
 
 async function connectionAcknowledgedQuery ({
@@ -330,11 +318,11 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
   logGiveAnswer({ directive, message: givenAnswer, username });
 
   if (directive === 'prompt' && directedPrompt) {
-    logEvent(username, `was prompted with "${directedPrompt}"`);
+    logEventConditionally(username, `was prompted with "${directedPrompt}"`);
   } else if (directive === 'prompt') {
-    logEvent(username, 'was prompted');
+    logEventConditionally(username, 'was prompted');
   } else {
-    logEvent(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
+    logEventConditionally(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
   }
 
   if (directive === 'prompt' && userId === USER_ID) {
@@ -395,7 +383,7 @@ function handleError ({ message }) {
 }
 
 function join ({ isNew, user, userId, username }) {
-  logEvent(username, 'joined the game');
+  logEventConditionally(username, 'joined the game');
   if (userId === USER_ID) { return; }
 
   if (isNew) {
@@ -411,13 +399,21 @@ function join ({ isNew, user, userId, username }) {
 }
 
 function leave ({ userId, username }) {
-  logEvent(username, 'left the game');
+  logEventConditionally(username, 'left the game');
   players[userId].online = false;
   document.getElementById('points-' + userId).classList.remove('bg-success');
   document.getElementById('points-' + userId).classList.add('bg-secondary');
 }
 
-function logEvent (username, message) {
+/**
+ * Log the event, but only if `username !== undefined`.
+ * If username is undefined, do nothing, regardless of the value of message.
+ * @param {string | undefined} username
+ * @param {string | undefined} message
+ */
+function logEventConditionally (username, message) {
+  if (username === undefined) { return; }
+
   const span1 = document.createElement('span');
   span1.textContent = username;
 
@@ -493,9 +489,10 @@ function logGiveAnswer ({ directive = null, message, username }) {
 }
 
 function lostBuzzerRace ({ username, userId }) {
-  logEvent(username, 'lost the buzzer race');
+  logEventConditionally(username, 'lost the buzzer race');
   if (userId === USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
 }
+
 function mutePlayer ({ targetId, muteStatus }) {
   if (muteStatus === 'Mute') {
     if (!muteList.includes(targetId)) {
@@ -515,7 +512,7 @@ function next ({ oldTossup, tossup: nextTossup, type, username }) {
     skip: 'skipped the question',
     start: 'started the game'
   };
-  logEvent(username, typeStrings[type]);
+  logEventConditionally(username, typeStrings[type]);
 
   if (type === 'start') {
     document.getElementById('next').classList.add('btn-primary');
@@ -558,16 +555,18 @@ function noQuestionsFound () {
 function ownerChange ({ newOwner }) {
   if (players[newOwner]) {
     ownerId = newOwner;
-    logEvent(players[newOwner].username, 'became the room owner');
-  } else logEvent(newOwner, 'became the room owner');
+    logEventConditionally(players[newOwner].username, 'became the room owner');
+  } else logEventConditionally(newOwner, 'became the room owner');
 
   Object.keys(players).forEach((player) => {
     upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
   });
+
+  document.getElementById('toggle-controlled').disabled = globalPublic || (ownerId !== USER_ID);
 }
 
 function pause ({ paused, username }) {
-  logEvent(username, `${paused ? '' : 'un'}paused the game`);
+  logEventConditionally(username, `${paused ? '' : 'un'}paused the game`);
   document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
 }
 
@@ -579,13 +578,13 @@ function revealAnswer ({ answer, question }) {
 }
 
 function setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {
-  logEvent(username, 'updated the categories');
+  logEventConditionally(username, 'updated the categories');
   categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   categoryManager.loadCategoryModal();
 }
 
 function setDifficulties ({ difficulties, username = undefined }) {
-  if (username) { logEvent(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties'); }
+  if (username) { logEventConditionally(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties'); }
 
   if (!document.getElementById('difficulties')) {
     startingDifficulties = difficulties;
@@ -606,7 +605,7 @@ function setDifficulties ({ difficulties, username = undefined }) {
 
 function setMode ({ mode, setName, username }) {
   if (username) {
-    logEvent(username, 'changed the mode to ' + mode);
+    logEventConditionally(username, 'changed the mode to ' + mode);
   }
 
   switch (mode) {
@@ -629,24 +628,24 @@ function setMode ({ mode, setName, username }) {
 
 function setPacketNumbers ({ username, packetNumbers }) {
   packetNumbers = arrayToRange(packetNumbers);
-  logEvent(username, packetNumbers.length > 0 ? `changed packet numbers to ${packetNumbers}` : 'cleared packet numbers');
+  logEventConditionally(username, packetNumbers.length > 0 ? `changed packet numbers to ${packetNumbers}` : 'cleared packet numbers');
   document.getElementById('packet-number').value = packetNumbers;
 }
 
 function setReadingSpeed ({ username, readingSpeed }) {
-  logEvent(username, `changed the reading speed to ${readingSpeed}`);
+  logEventConditionally(username, `changed the reading speed to ${readingSpeed}`);
   document.getElementById('reading-speed').value = readingSpeed;
   document.getElementById('reading-speed-display').textContent = readingSpeed;
 }
 
 function setStrictness ({ strictness, username }) {
-  logEvent(username, `changed the strictness to ${strictness}`);
+  logEventConditionally(username, `changed the strictness to ${strictness}`);
   document.getElementById('set-strictness').value = strictness;
   document.getElementById('strictness-display').textContent = strictness;
 }
 
 function setSetName ({ username, setName, setLength }) {
-  logEvent(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
+  logEventConditionally(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
   document.getElementById('set-name').value = setName;
   // make border red if set name is not in set list
   const valid = !setName || api.getSetList().includes(setName);
@@ -656,7 +655,7 @@ function setSetName ({ username, setName, setLength }) {
 }
 
 function setUsername ({ oldUsername, newUsername, userId }) {
-  logEvent(oldUsername, `changed their username to ${newUsername}`);
+  logEventConditionally(oldUsername, `changed their username to ${newUsername}`);
   document.getElementById('username-' + userId).textContent = newUsername;
   players[userId].username = newUsername;
   sortPlayerListGroup();
@@ -670,7 +669,7 @@ function setUsername ({ oldUsername, newUsername, userId }) {
 }
 
 function setYearRange ({ minYear, maxYear, username }) {
-  if (username) { logEvent(username, `changed the year range to ${minYear}-${maxYear}`); }
+  if (username) { logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`); }
 
   $('#slider').slider('values', 0, minYear);
   $('#slider').slider('values', 1, maxYear);
@@ -711,74 +710,67 @@ function sortPlayerListGroup (descending = true) {
   });
 }
 
-function processControlled (yesNo) {
-  document.getElementById('toggle-controlled').checked = yesNo;
-
-  document.getElementById('toggle-lock').disabled = yesNo;
-  document.getElementById('toggle-login-required').disabled = yesNo;
-  document.getElementById('toggle-timer').disabled = yesNo;
-  document.getElementById('toggle-powermark-only').disabled = yesNo;
-  document.getElementById('toggle-public').disabled = yesNo;
-  document.getElementById('toggle-rebuzz').disabled = yesNo;
-
-  document.getElementById('category-select-button').disabled = yesNo;
-  document.getElementById('reading-speed').disabled = yesNo;
-  document.getElementById('set-mode').disabled = yesNo;
-  document.getElementById('set-strictness').disabled = yesNo;
-
-  if (!isPermanent && yesNo) document.getElementById('private-chat-warning').innerHTML = 'This is a controlled room. Some settings can only be edited by the creator.';
-  else if (!isPermanent) document.getElementById('private-chat-warning').innerHTML = '';
-}
-
 function toggleControlled ({ controlled, username }) {
-  logEvent(username, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
+  logEventConditionally(username, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
 
-  document.getElementById('toggle-controlled').disabled = (globalPublic === false || isPermanent) && ownerId !== USER_ID;
+  document.getElementById('toggle-controlled').checked = controlled;
 
-  if (controlled && (globalPublic === false || isPermanent) && ownerId !== USER_ID) processControlled(true);
-  else processControlled(false);
+  document.getElementById('toggle-lock').disabled = controlled;
+  document.getElementById('toggle-login-required').disabled = controlled;
+  document.getElementById('toggle-timer').disabled = controlled;
+  document.getElementById('toggle-powermark-only').disabled = controlled;
+  document.getElementById('toggle-public').disabled = controlled;
+  document.getElementById('toggle-rebuzz').disabled = controlled;
+
+  document.getElementById('category-select-button').disabled = controlled;
+  document.getElementById('reading-speed').disabled = controlled;
+  document.getElementById('set-mode').disabled = controlled;
+  document.getElementById('set-strictness').disabled = controlled;
+
+  document.getElementById('controlled-room-warning').classList.toggle('d-none', !controlled);
 }
 
 function toggleLock ({ lock, username }) {
-  logEvent(username, `${lock ? 'locked' : 'unlocked'} the room`);
+  logEventConditionally(username, `${lock ? 'locked' : 'unlocked'} the room`);
   document.getElementById('toggle-lock').checked = lock;
 }
 
 function toggleLoginRequired ({ loginRequired, username }) {
-  logEvent(username, `${loginRequired ? 'enabled' : 'disabled'} require players to be logged in`);
+  logEventConditionally(username, `${loginRequired ? 'enabled' : 'disabled'} require players to be logged in`);
   document.getElementById('toggle-login-required').checked = loginRequired;
 }
 
 function togglePowermarkOnly ({ powermarkOnly, username }) {
-  logEvent(username, `${powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
+  logEventConditionally(username, `${powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
   document.getElementById('toggle-powermark-only').checked = powermarkOnly;
 }
 
 function toggleRebuzz ({ rebuzz, username }) {
-  logEvent(username, `${rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
+  logEventConditionally(username, `${rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
   document.getElementById('toggle-rebuzz').checked = rebuzz;
 }
 
 function toggleSkip ({ skip, username }) {
-  logEvent(username, `${skip ? 'enabled' : 'disabled'} skipping`);
+  logEventConditionally(username, `${skip ? 'enabled' : 'disabled'} skipping`);
   document.getElementById('toggle-skip').checked = skip;
   document.getElementById('skip').disabled = !skip || document.getElementById('skip').classList.contains('d-none');
 }
 
 function toggleStandardOnly ({ standardOnly, username }) {
-  logEvent(username, `${standardOnly ? 'enabled' : 'disabled'} standard format only`);
+  logEventConditionally(username, `${standardOnly ? 'enabled' : 'disabled'} standard format only`);
   document.getElementById('toggle-standard-only').checked = standardOnly;
 }
 
 function toggleTimer ({ timer, username }) {
-  logEvent(username, `${timer ? 'enabled' : 'disabled'} the timer`);
+  logEventConditionally(username, `${timer ? 'enabled' : 'disabled'} the timer`);
   document.getElementById('toggle-timer').checked = timer;
   document.getElementById('timer').classList.toggle('d-none');
 }
 
 function togglePublic ({ public: isPublic, username }) {
-  logEvent(username, `made the room ${isPublic ? 'public' : 'private'}`);
+  logEventConditionally(username, `made the room ${isPublic ? 'public' : 'private'}`);
   document.getElementById('chat').disabled = isPublic;
+  document.getElementById('toggle-controlled').disabled = isPublic || (ownerId !== USER_ID);
   document.getElementById('toggle-lock').disabled = isPublic;
   document.getElementById('toggle-login-required').disabled = isPublic;
   document.getElementById('toggle-timer').disabled = isPublic;
@@ -808,7 +800,7 @@ function updateTimerDisplay (time) {
 }
 
 function vkInit ({ targetUsername, threshold }) {
-  logEvent(`A votekick has been started against user ${targetUsername} and needs ${threshold} votes to succeed.`);
+  logEventConditionally(`A votekick has been started against user ${targetUsername} and needs ${threshold} votes to succeed.`);
 }
 
 function vkHandle ({ targetUsername, targetId }) {
@@ -818,7 +810,7 @@ function vkHandle ({ targetUsername, targetId }) {
       window.location.replace('../');
     }, 100);
   } else {
-    logEvent(targetUsername + ' has been vote kicked from this room.');
+    logEventConditionally(targetUsername + ' has been vote kicked from this room.');
   }
 }
 
