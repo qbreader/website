@@ -64,7 +64,7 @@ export default class ServerTossupRoom extends TossupRoom {
 
   allowed (userId) {
     if (this.settings.public && !this.isPermanent) { return true; } // public rooms have iscontrolled disabled
-    if ((userId === this.ownerId) || !this.settings.controlled) { return true; } else { return false; }
+    return (userId === this.ownerId) || !this.settings.controlled;
   }
 
   ban (userId, { targetId, targetUsername }) {
@@ -294,11 +294,11 @@ export default class ServerTossupRoom extends TossupRoom {
   togglePublic (userId, { public: isPublic }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
     this.settings.public = isPublic;
-    this.settings.timer = true;
     const username = this.players[userId].username;
     if (isPublic) {
       this.settings.lock = false;
       this.settings.loginRequired = false;
+      this.settings.timer = true;
     }
     this.emitMessage({ type: 'toggle-public', public: isPublic, username });
   }
