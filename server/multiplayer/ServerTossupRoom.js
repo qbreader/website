@@ -281,9 +281,9 @@ export default class ServerTossupRoom extends TossupRoom {
     this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
   }
 
-  toggleMute (userId, { targetId, muteStatus }) {
+  toggleMute (userId, { targetId, targetUsername, muteStatus }) {
     if (userId != this.ownerId) return;
-    this.sendToSocket(userId, { type: 'mute-player', targetId, muteStatus });
+    this.sendToSocket(userId, { type: 'mute-player', targetId, targetUsername, muteStatus });
   }
 
   togglePublic (userId, { public: isPublic }) {
