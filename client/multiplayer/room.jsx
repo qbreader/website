@@ -720,12 +720,14 @@ function toggleControlled ({ controlled, username }) {
   logEventConditionally(username, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
 
   document.getElementById('toggle-controlled').checked = controlled;
+  document.getElementById('controlled-room-warning').classList.toggle('d-none', !controlled);
+  document.getElementById('toggle-public').disabled = controlled;
 
+  controlled = controlled && (USER_ID !== ownerId);
   document.getElementById('toggle-lock').disabled = controlled;
   document.getElementById('toggle-login-required').disabled = controlled;
   document.getElementById('toggle-timer').disabled = controlled;
   document.getElementById('toggle-powermark-only').disabled = controlled;
-  document.getElementById('toggle-public').disabled = controlled;
   document.getElementById('toggle-rebuzz').disabled = controlled;
   document.getElementById('toggle-skip').disabled = controlled;
   document.getElementById('toggle-standard-only').disabled = controlled;
@@ -734,8 +736,6 @@ function toggleControlled ({ controlled, username }) {
   document.getElementById('reading-speed').disabled = controlled;
   document.getElementById('set-mode').disabled = controlled;
   document.getElementById('set-strictness').disabled = controlled;
-
-  document.getElementById('controlled-room-warning').classList.toggle('d-none', !controlled);
 }
 
 function toggleLock ({ lock, username }) {

@@ -302,7 +302,7 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   togglePublic (userId, { public: isPublic }) {
-    if (this.isPermanent || !this.allowed(userId)) { return; }
+    if (this.isPermanent || this.settings.controlled) { return; }
     this.settings.public = isPublic;
     const username = this.players[userId].username;
     if (isPublic) {
