@@ -226,7 +226,7 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   setReadingSpeed (userId, { readingSpeed }) {
-    if (this.isPermanent) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return false; }
     super.setReadingSpeed(userId, { readingSpeed });
   }
 
@@ -286,6 +286,11 @@ export default class ServerTossupRoom extends TossupRoom {
     this.sendToSocket(userId, { type: 'mute-player', targetId, targetUsername, muteStatus });
   }
 
+  togglePowermarkOnly (userId, { powermarkOnly }) {
+    if (!this.allowed(userId)) { return; }
+    super.togglePowermarkOnly(userId, { powermarkOnly });
+  }
+
   togglePublic (userId, { public: isPublic }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
     this.settings.public = isPublic;
@@ -296,6 +301,11 @@ export default class ServerTossupRoom extends TossupRoom {
       this.settings.loginRequired = false;
     }
     this.emitMessage({ type: 'toggle-public', public: isPublic, username });
+  }
+
+  toggleRebuzz (userId, { rebuzz }) {
+    if (!this.allowed(userId)) { return false; }
+    super.toggleRebuzz(userId, { rebuzz });
   }
 
   toggleTimer (userId, { timer }) {
