@@ -727,6 +727,8 @@ function toggleControlled ({ controlled, username }) {
   document.getElementById('toggle-powermark-only').disabled = controlled;
   document.getElementById('toggle-public').disabled = controlled;
   document.getElementById('toggle-rebuzz').disabled = controlled;
+  document.getElementById('toggle-skip').disabled = controlled;
+  document.getElementById('toggle-standard-only').disabled = controlled;
 
   document.getElementById('category-select-button').disabled = controlled;
   document.getElementById('reading-speed').disabled = controlled;
