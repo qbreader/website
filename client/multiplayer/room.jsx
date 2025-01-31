@@ -244,14 +244,18 @@ function connectionAcknowledged ({
 
   toggleLock({ lock: settings.lock });
   toggleLoginRequired({ loginRequired: settings.loginRequired });
-  togglePublic({ public: settings.public });
   toggleRebuzz({ rebuzz: settings.rebuzz });
   toggleSkip({ skip: settings.skip });
   toggleTimer({ timer: settings.timer });
   setReadingSpeed({ readingSpeed: settings.readingSpeed });
   setStrictness({ strictness: settings.strictness });
-  // controlled mode must be set last
-  toggleControlled({ controlled: settings.controlled });
+
+  if (settings.controlled) {
+    toggleControlled({ controlled: settings.controlled });
+  }
+  if (settings.public) {
+    togglePublic({ public: settings.public });
+  }
 }
 
 async function connectionAcknowledgedQuery ({
@@ -766,7 +770,7 @@ function toggleStandardOnly ({ standardOnly, username }) {
 function toggleTimer ({ timer, username }) {
   logEventConditionally(username, `${timer ? 'enabled' : 'disabled'} the timer`);
   document.getElementById('toggle-timer').checked = timer;
-  document.getElementById('timer').classList.toggle('d-none');
+  document.getElementById('timer').classList.toggle('d-none', !timer);
 }
 
 function togglePublic ({ public: isPublic, username }) {
@@ -775,13 +779,13 @@ function togglePublic ({ public: isPublic, username }) {
   document.getElementById('toggle-controlled').disabled = isPublic || (ownerId !== USER_ID);
   document.getElementById('toggle-lock').disabled = isPublic;
   document.getElementById('toggle-login-required').disabled = isPublic;
-  document.getElementById('toggle-timer').disabled = isPublic;
-  document.getElementById('toggle-timer').checked = true;
   document.getElementById('toggle-public').checked = isPublic;
+  document.getElementById('toggle-timer').disabled = isPublic;
   globalPublic = isPublic;
   if (isPublic) {
     document.getElementById('toggle-lock').checked = false;
     document.getElementById('toggle-login-required').checked = false;
+    toggleTimer({ timer: true });
   }
   Object.keys(players).forEach((player) => {
     upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
