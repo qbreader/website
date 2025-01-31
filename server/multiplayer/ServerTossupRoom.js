@@ -73,6 +73,8 @@ export default class ServerTossupRoom extends TossupRoom {
 
     this.emitMessage({ type: 'confirm-ban', targetId, targetUsername });
     this.bannedUserList.set(targetId, Date.now());
+
+    setTimeout(() => this.close(targetId), 1000);
   }
 
   connection (socket, userId, username) {
@@ -187,6 +189,8 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   close (userId) {
+    if (!this.players[userId]) return;
+
     if (this.buzzedIn === userId) {
       this.giveAnswer(userId, this.liveAnswer);
       this.buzzedIn = null;
@@ -350,6 +354,8 @@ export default class ServerTossupRoom extends TossupRoom {
     if (thisVotekick.check()) {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
+
+      setTimeout(() => this.close(userId), 1000);
 
       if (targetId === this.ownerId) {
         const onlinePlayers = Object.keys(this.players).filter(playerId => this.players[playerId].online);
