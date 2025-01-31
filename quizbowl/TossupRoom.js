@@ -49,7 +49,6 @@ export default class TossupRoom extends QuestionRoom {
     switch (message.type) {
       case 'buzz': return this.buzz(userId, message);
       case 'clear-stats': return this.clearStats(userId, message);
-      case 'end': return this.next(userId, message);
       case 'give-answer': return this.giveAnswer(userId, message);
       case 'next': return this.next(userId, message);
       case 'pause': return this.pause(userId, message);
