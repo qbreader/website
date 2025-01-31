@@ -282,7 +282,7 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   toggleMute (userId, { targetId, targetUsername, muteStatus }) {
-    if (userId != this.ownerId) return;
+    if (userId !== this.ownerId) return;
     this.sendToSocket(userId, { type: 'mute-player', targetId, targetUsername, muteStatus });
   }
 
