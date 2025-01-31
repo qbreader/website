@@ -63,7 +63,7 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   allowed (userId) {
-    if (this.settings.public && !this.isPermanent) { return true; } // public rooms have iscontrolled disabled
+    // public rooms have this.settings.controlled === false
     return (userId === this.ownerId) || !this.settings.controlled;
   }
 
@@ -289,6 +289,16 @@ export default class ServerTossupRoom extends TossupRoom {
   togglePowermarkOnly (userId, { powermarkOnly }) {
     if (!this.allowed(userId)) { return; }
     super.togglePowermarkOnly(userId, { powermarkOnly });
+  }
+
+  toggleSkip (userId, { skip }) {
+    if (!this.allowed(userId)) { return; }
+    super.toggleSkip(userId, { skip });
+  }
+
+  toggleStandardOnly (userId, { standardOnly }) {
+    if (!this.allowed(userId)) { return; }
+    super.toggleStandardOnly(userId, { standardOnly });
   }
 
   togglePublic (userId, { public: isPublic }) {
