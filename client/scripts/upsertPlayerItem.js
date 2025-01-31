@@ -88,7 +88,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
       dropdownMenu.appendChild(muteItem);
 
       muteButton.addEventListener('click', () => {
-        socket.send(JSON.stringify({ type: 'toggle-mute', targetId: userId, muteStatus: muteButton.textContent }));
+        socket.send(JSON.stringify({ type: 'toggle-mute', targetId: userId, targetUsername: player.username, muteStatus: muteButton.textContent }));
         muteButton.textContent = muteButton.textContent === 'Unmute' ? 'Mute' : 'Unmute';
       });
     }
