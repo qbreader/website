@@ -38,10 +38,10 @@ const socket = new window.WebSocket(
 );
 window.history.pushState({}, '', '/multiplayer/' + encodeURIComponent(ROOM_NAME));
 
-// Ping server every 45 seconds to prevent socket disconnection
+// Ping server every 30 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(
   () => socket.send(JSON.stringify({ type: 'ping' })),
-  45000
+  30000
 );
 
 socket.onclose = function (event) {
@@ -493,14 +493,16 @@ function lostBuzzerRace ({ username, userId }) {
   if (userId === USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
 }
 
-function mutePlayer ({ targetId, muteStatus }) {
+function mutePlayer ({ targetId, targetUsername, muteStatus }) {
   if (muteStatus === 'Mute') {
     if (!muteList.includes(targetId)) {
       muteList.push(targetId);
+      logEventConditionally(targetUsername, 'was muted');
     }
   } else {
     if (muteList.includes(targetId)) {
       muteList = muteList.filter(Id => Id !== targetId);
+      logEventConditionally(targetUsername, 'was unmuted');
     }
   }
 }
