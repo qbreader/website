@@ -934,8 +934,9 @@ document.getElementById('report-question-submit').addEventListener('click', func
 document.getElementById('set-maxplayers').addEventListener('change', function () {
   this.blur();
 
-  if (this.value < Object.values(players).filter((i) => i.online).length)
-    return alert('There are more players in the room, kick people out and try again.');
+  if (this.value < Object.values(players).filter((i) => i.online).length) {
+    return window.alert('There are more players in the room, kick people out and try again.');
+  }
 
   socket.send(JSON.stringify({ type: 'set-maxplayers', maxPlayers: this.value }));
 });
