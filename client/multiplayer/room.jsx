@@ -16,6 +16,7 @@ let ownerId = '';
 let maxPacketNumber = 24;
 let globalPublic = true;
 let muteList = [];
+let showingOffline = false;
 
 /**
  * userId to player object
@@ -80,6 +81,7 @@ socket.onmessage = function (event) {
     case 'reveal-answer': return revealAnswer(data);
     case 'set-categories': return setCategories(data);
     case 'set-difficulties': return setDifficulties(data);
+    case 'set-maxplayers': return setMaxPlayers(data);
     case 'set-mode': return setMode(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
     case 'set-reading-speed': return setReadingSpeed(data);
@@ -167,7 +169,7 @@ function clearStats ({ userId }) {
   for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
     players[userId][field] = 0;
   }
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
   sortPlayerListGroup();
 }
 
@@ -204,6 +206,7 @@ function connectionAcknowledged ({
     document.getElementById('category-select-button').disabled = true;
     document.getElementById('permanent-room-warning').classList.remove('d-none');
     document.getElementById('reading-speed').disabled = true;
+    document.getElementById('set-maxplayers').disabled = true;
     document.getElementById('set-strictness').disabled = true;
     document.getElementById('set-mode').disabled = true;
     document.getElementById('toggle-public').disabled = true;
@@ -212,7 +215,7 @@ function connectionAcknowledged ({
   for (const userId of Object.keys(messagePlayers)) {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
-    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
   }
   sortPlayerListGroup();
 
@@ -247,6 +250,7 @@ function connectionAcknowledged ({
   toggleRebuzz({ rebuzz: settings.rebuzz });
   toggleSkip({ skip: settings.skip });
   toggleTimer({ timer: settings.timer });
+  setMaxPlayers({ maxPlayers: settings.maxPlayers });
   setReadingSpeed({ readingSpeed: settings.readingSpeed });
   setStrictness({ strictness: settings.strictness });
 
@@ -361,7 +365,7 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
     players[userId].tuh++;
     players[userId].celerity = celerity;
 
-    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
     sortPlayerListGroup();
   }
 
@@ -392,7 +396,7 @@ function join ({ isNew, user, userId, username }) {
 
   if (isNew) {
     user.celerity = user.celerity.correct.average;
-    upsertPlayerItem(user, USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(user, USER_ID, ownerId, socket, globalPublic, showingOffline);
     sortPlayerListGroup();
     players[userId] = user;
   } else {
@@ -405,8 +409,7 @@ function join ({ isNew, user, userId, username }) {
 function leave ({ userId, username }) {
   logEventConditionally(username, 'left the game');
   players[userId].online = false;
-  document.getElementById('points-' + userId).classList.remove('bg-success');
-  document.getElementById('points-' + userId).classList.add('bg-secondary');
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
 }
 
 /**
@@ -565,7 +568,7 @@ function ownerChange ({ newOwner }) {
   } else logEventConditionally(newOwner, 'became the room owner');
 
   Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic, showingOffline);
   });
 
   document.getElementById('toggle-controlled').disabled = globalPublic || (ownerId !== USER_ID);
@@ -607,6 +610,12 @@ function setDifficulties ({ difficulties, username = undefined }) {
       li.classList.remove('active');
     }
   });
+}
+
+function setMaxPlayers ({ maxPlayers, username }) {
+  logEventConditionally(username, `changed the max players to ${maxPlayers}`);
+  document.getElementById('set-maxplayers').value = maxPlayers;
+  document.getElementById('maxplayers-display').textContent = maxPlayers;
 }
 
 function setMode ({ mode, setName, username }) {
@@ -671,7 +680,7 @@ function setUsername ({ oldUsername, newUsername, userId }) {
     window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
 }
 
 function setYearRange ({ minYear, maxYear, username }) {
@@ -736,6 +745,7 @@ function toggleControlled ({ controlled, username }) {
   document.getElementById('reading-speed').disabled = controlled;
   document.getElementById('set-mode').disabled = controlled;
   document.getElementById('set-strictness').disabled = controlled;
+  document.getElementById('set-maxplayers').disabled = controlled;
 }
 
 function toggleLock ({ lock, username }) {
@@ -790,7 +800,7 @@ function togglePublic ({ public: isPublic, username }) {
     toggleTimer({ timer: true });
   }
   Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic, showingOffline);
   });
 }
 
@@ -921,6 +931,15 @@ document.getElementById('report-question-submit').addEventListener('click', func
   );
 });
 
+document.getElementById('set-maxplayers').addEventListener('change', function () {
+  this.blur();
+
+  if (this.value < Object.values(players).filter((i) => i.online).length)
+    return alert('There are more players in the room, kick people out and try again.');
+
+  socket.send(JSON.stringify({ type: 'set-maxplayers', maxPlayers: this.value }));
+});
+
 document.getElementById('set-name').addEventListener('change', async function () {
   socket.send(JSON.stringify({ type: 'set-set-name', setName: this.value }));
 });
@@ -932,6 +951,12 @@ document.getElementById('set-strictness').addEventListener('change', function ()
 
 document.getElementById('set-strictness').addEventListener('input', function () {
   document.getElementById('strictness-display').textContent = this.value;
+});
+
+document.getElementById('toggle-offline-players').addEventListener('click', function () {
+  showingOffline = this.checked;
+  this.blur();
+  Object.values(players).forEach((player) => upsertPlayerItem(player, USER_ID, ownerId, socket, globalPublic, showingOffline));
 });
 
 document.getElementById('toggle-controlled').addEventListener('click', function () {
