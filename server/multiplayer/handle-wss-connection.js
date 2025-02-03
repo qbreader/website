@@ -107,6 +107,14 @@ export default function handleWssConnection (ws, req) {
     }));
   }
 
+  if (room.settings.maxPlayers <= Object.values(room.players).filter(p => p.online).length) {
+    ws.send(JSON.stringify({
+      type: 'error',
+      message: 'The room has hit the maximum players, ask the host to increase them/'
+    }))
+    return false;
+  }
+
   room.connection(ws, userId, username);
 
   ws.on('error', (err) => {
