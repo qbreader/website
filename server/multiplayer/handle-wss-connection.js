@@ -111,7 +111,7 @@ export default function handleWssConnection (ws, req) {
     ws.send(JSON.stringify({
       type: 'error',
       message: 'The room has hit the maximum players, ask the host to increase them.'
-    }))
+    }));
     return false;
   }
 
