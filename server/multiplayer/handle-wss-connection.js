@@ -73,14 +73,13 @@ export default function handleWssConnection (ws, req) {
 
   const room = createAndReturnRoom(roomName, userId, isPrivate, isControlled);
   const roomOwner = {
-    id: room.ownerId,
-    name: room.players[room.ownerId].username
+    id: room.ownerId
   };
 
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({
       type: 'error',
-      message: `The room is locked. If you believe this is a mistake, ask the owner (${roomOwner.name}) to unlock it.`,
+      message: 'The room is locked.',
       roomOwner
     }));
     return false;
@@ -98,7 +97,7 @@ export default function handleWssConnection (ws, req) {
     if (!valid) {
       ws.send(JSON.stringify({
         type: 'error',
-        message: `You must be logged in with a verified email to join this room. If you believe this is a mistake, ask the owner (${roomOwner.name}) to modify the settings.`,
+        message: 'You must be logged in with a verified email to join this room.',
         roomOwner
       }));
       return false;
@@ -117,7 +116,7 @@ export default function handleWssConnection (ws, req) {
   if (room.settings.maxPlayers <= Object.values(room.players).filter(p => p.online).length) {
     ws.send(JSON.stringify({
       type: 'error',
-      message: `The room has hit the maximum online players, ask the host (${roomOwner.name}) to increase them.`,
+      message: 'The room has hit the maximum online players.',
       roomOwner
     }));
     return false;
