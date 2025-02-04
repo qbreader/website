@@ -84,8 +84,8 @@ export default class ServerTossupRoom extends TossupRoom {
     this.cleanupExpiredBansAndKicks();
 
     if (this.sockets[userId]) {
-      this.sendToSocket(userId, { type: 'error', message: 'You joined in another tab' });
-      this.close(userId);
+      this.sendToSocket(userId, { type: 'error', message: 'You joined on another tab' });
+      setTimeout(() => this.close(userId), 5000);
     }
 
     const isNew = !(userId in this.players);
@@ -389,7 +389,7 @@ export default class ServerTossupRoom extends TossupRoom {
       setTimeout(() => this.close(userId), 1000);
 
       if (targetId === this.ownerId) {
-        const onlinePlayers = Object.keys(this.players).filter(playerId => this.players[playerId].online);
+        const onlinePlayers = Object.keys(this.players).filter(playerId => this.players[playerId].online && playerId !== targetId);
         const newHost = onlinePlayers.reduce(
           (maxPlayer, playerId) => (this.players[playerId].tuh || 0) > (this.players[maxPlayer].tuh || 0) ? playerId : maxPlayer,
           onlinePlayers[0]
