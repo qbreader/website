@@ -298,8 +298,7 @@ async function connectionAcknowledgedQuery ({
 
   document.getElementById('toggle-standard-only').checked = standardOnly;
 
-  categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-  categoryManager.loadCategoryModal();
+  setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
 
   $(document).ready(function () {
     $('#slider').slider('values', 0, minYear);
@@ -595,6 +594,9 @@ function revealAnswer ({ answer, question }) {
 function setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {
   logEventConditionally(username, 'updated the categories');
   categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
+
+  if (!document.getElementById('category-modal')) { return; }
+
   categoryManager.loadCategoryModal();
 }
 
