@@ -18,6 +18,10 @@ let globalPublic = true;
 let muteList = [];
 let showingOffline = false;
 
+const room = {
+  mode: MODE_ENUM.RANDOM
+};
+
 /**
  * userId to player object
  */
@@ -189,6 +193,7 @@ function connectionAcknowledged ({
   isPermanent,
   ownerId: serverOwnerId,
   mode,
+  packetLength,
   players: messagePlayers,
   questionProgress,
   settings,
@@ -220,6 +225,8 @@ function connectionAcknowledged ({
   sortPlayerListGroup();
 
   setMode({ mode });
+
+  document.getElementById('packet-length-info').textContent = mode === MODE_ENUM.SET_NAME ? packetLength : '-';
 
   switch (questionProgress) {
     case 0:
@@ -512,7 +519,7 @@ function mutePlayer ({ targetId, targetUsername, muteStatus }) {
   }
 }
 
-function next ({ oldTossup, tossup: nextTossup, type, username }) {
+function next ({ packetLength, oldTossup, tossup: nextTossup, type, username }) {
   const typeStrings = {
     end: 'ended the game',
     next: 'went to the next question',
@@ -544,6 +551,7 @@ function next ({ oldTossup, tossup: nextTossup, type, username }) {
     tossup = nextTossup;
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
+    document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
     document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
     document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
@@ -615,6 +623,7 @@ function setMode ({ mode, setName, username }) {
     logEventConditionally(username, 'changed the mode to ' + mode);
   }
 
+  room.mode = mode;
   switch (mode) {
     case MODE_ENUM.SET_NAME:
       document.getElementById('difficulty-settings').classList.add('d-none');
