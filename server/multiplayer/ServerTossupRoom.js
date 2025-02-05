@@ -133,6 +133,7 @@ export default class ServerTossupRoom extends TossupRoom {
       buzzedIn: this.buzzedIn,
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       mode: this.mode,
+      packetLength: this.packetLength,
       questionProgress: this.tossupProgress,
       setLength: this.setLength,
 
