@@ -1,4 +1,4 @@
-import { PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
+import { MAX_ONLINE_PLAYERS, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
 import ServerTossupRoom from './ServerTossupRoom.js';
 import { checkToken } from '../authentication.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
@@ -113,10 +113,10 @@ export default function handleWssConnection (ws, req) {
     }));
   }
 
-  if (room.settings.maxPlayers <= Object.values(room.players).filter(p => p.online).length) {
+  if (MAX_ONLINE_PLAYERS <= Object.values(room.players).filter(p => p.online).length) {
     ws.send(JSON.stringify({
       type: 'error',
-      message: 'The room has hit the maximum online players.',
+      message: `The room has hit the maximum online players of ${MAX_ONLINE_PLAYERS}.`,
       roomOwner
     }));
     return false;
