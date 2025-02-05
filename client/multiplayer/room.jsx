@@ -81,7 +81,6 @@ socket.onmessage = function (event) {
     case 'reveal-answer': return revealAnswer(data);
     case 'set-categories': return setCategories(data);
     case 'set-difficulties': return setDifficulties(data);
-    case 'set-maxplayers': return setMaxPlayers(data);
     case 'set-mode': return setMode(data);
     case 'set-packet-numbers': return setPacketNumbers(data);
     case 'set-reading-speed': return setReadingSpeed(data);
@@ -206,7 +205,6 @@ function connectionAcknowledged ({
     document.getElementById('category-select-button').disabled = true;
     document.getElementById('permanent-room-warning').classList.remove('d-none');
     document.getElementById('reading-speed').disabled = true;
-    document.getElementById('set-maxplayers').disabled = true;
     document.getElementById('set-strictness').disabled = true;
     document.getElementById('set-mode').disabled = true;
     document.getElementById('toggle-public').disabled = true;
@@ -250,7 +248,6 @@ function connectionAcknowledged ({
   toggleRebuzz({ rebuzz: settings.rebuzz });
   toggleSkip({ skip: settings.skip });
   toggleTimer({ timer: settings.timer });
-  setMaxPlayers({ maxPlayers: settings.maxPlayers });
   setReadingSpeed({ readingSpeed: settings.readingSpeed });
   setStrictness({ strictness: settings.strictness });
 
@@ -612,12 +609,6 @@ function setDifficulties ({ difficulties, username = undefined }) {
   });
 }
 
-function setMaxPlayers ({ maxPlayers, username }) {
-  logEventConditionally(username, `changed the max players to ${maxPlayers}`);
-  document.getElementById('set-maxplayers').value = maxPlayers;
-  document.getElementById('maxplayers-display').textContent = maxPlayers;
-}
-
 function setMode ({ mode, setName, username }) {
   if (username) {
     logEventConditionally(username, 'changed the mode to ' + mode);
@@ -745,7 +736,6 @@ function toggleControlled ({ controlled, username }) {
   document.getElementById('reading-speed').disabled = controlled;
   document.getElementById('set-mode').disabled = controlled;
   document.getElementById('set-strictness').disabled = controlled;
-  document.getElementById('set-maxplayers').disabled = controlled;
 }
 
 function toggleLock ({ lock, username }) {
@@ -929,16 +919,6 @@ document.getElementById('report-question-submit').addEventListener('click', func
     document.getElementById('report-question-reason').value,
     document.getElementById('report-question-description').value
   );
-});
-
-document.getElementById('set-maxplayers').addEventListener('change', function () {
-  this.blur();
-
-  if (this.value < Object.values(players).filter((i) => i.online).length) {
-    return window.alert('There are more players in the room, kick people out and try again.');
-  }
-
-  socket.send(JSON.stringify({ type: 'set-maxplayers', maxPlayers: this.value }));
 });
 
 document.getElementById('set-name').addEventListener('change', async function () {
