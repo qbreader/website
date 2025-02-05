@@ -1,4 +1,4 @@
-import { PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
+import { MAX_ONLINE_PLAYERS, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
 import ServerTossupRoom from './ServerTossupRoom.js';
 import { checkToken } from '../authentication.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
@@ -72,10 +72,15 @@ export default function handleWssConnection (ws, req) {
   }
 
   const room = createAndReturnRoom(roomName, userId, isPrivate, isControlled);
+  const roomOwner = {
+    id: room.ownerId
+  };
+
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({
       type: 'error',
-      message: 'The room is locked'
+      message: 'The room is locked.',
+      roomOwner
     }));
     return false;
   }
@@ -92,7 +97,8 @@ export default function handleWssConnection (ws, req) {
     if (!valid) {
       ws.send(JSON.stringify({
         type: 'error',
-        message: 'You must be logged in with a verified email to join this room.'
+        message: 'You must be logged in with a verified email to join this room.',
+        roomOwner
       }));
       return false;
     }
@@ -105,6 +111,15 @@ export default function handleWssConnection (ws, req) {
       username,
       message: 'Your username contains an inappropriate word, so it has been reset.'
     }));
+  }
+
+  if (MAX_ONLINE_PLAYERS <= Object.values(room.players).filter(p => p.online).length) {
+    ws.send(JSON.stringify({
+      type: 'error',
+      message: `The room has hit the maximum online players of ${MAX_ONLINE_PLAYERS}.`,
+      roomOwner
+    }));
+    return false;
   }
 
   room.connection(ws, userId, username);

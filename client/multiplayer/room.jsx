@@ -16,6 +16,7 @@ let ownerId = '';
 let maxPacketNumber = 24;
 let globalPublic = true;
 let muteList = [];
+let showingOffline = false;
 
 /**
  * userId to player object
@@ -167,7 +168,7 @@ function clearStats ({ userId }) {
   for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
     players[userId][field] = 0;
   }
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
   sortPlayerListGroup();
 }
 
@@ -212,7 +213,7 @@ function connectionAcknowledged ({
   for (const userId of Object.keys(messagePlayers)) {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
-    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
   }
   sortPlayerListGroup();
 
@@ -361,7 +362,7 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
     players[userId].tuh++;
     players[userId].celerity = celerity;
 
-    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
     sortPlayerListGroup();
   }
 
@@ -392,7 +393,7 @@ function join ({ isNew, user, userId, username }) {
 
   if (isNew) {
     user.celerity = user.celerity.correct.average;
-    upsertPlayerItem(user, USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(user, USER_ID, ownerId, socket, globalPublic, showingOffline);
     sortPlayerListGroup();
     players[userId] = user;
   } else {
@@ -405,8 +406,7 @@ function join ({ isNew, user, userId, username }) {
 function leave ({ userId, username }) {
   logEventConditionally(username, 'left the game');
   players[userId].online = false;
-  document.getElementById('points-' + userId).classList.remove('bg-success');
-  document.getElementById('points-' + userId).classList.add('bg-secondary');
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
 }
 
 /**
@@ -565,7 +565,7 @@ function ownerChange ({ newOwner }) {
   } else logEventConditionally(newOwner, 'became the room owner');
 
   Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic, showingOffline);
   });
 
   document.getElementById('toggle-controlled').disabled = globalPublic || (ownerId !== USER_ID);
@@ -671,7 +671,7 @@ function setUsername ({ oldUsername, newUsername, userId }) {
     window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic);
+  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
 }
 
 function setYearRange ({ minYear, maxYear, username }) {
@@ -790,7 +790,7 @@ function togglePublic ({ public: isPublic, username }) {
     toggleTimer({ timer: true });
   }
   Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic);
+    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic, showingOffline);
   });
 }
 
@@ -932,6 +932,12 @@ document.getElementById('set-strictness').addEventListener('change', function ()
 
 document.getElementById('set-strictness').addEventListener('input', function () {
   document.getElementById('strictness-display').textContent = this.value;
+});
+
+document.getElementById('toggle-offline-players').addEventListener('click', function () {
+  showingOffline = this.checked;
+  this.blur();
+  Object.values(players).forEach((player) => upsertPlayerItem(player, USER_ID, ownerId, socket, globalPublic, showingOffline));
 });
 
 document.getElementById('toggle-controlled').addEventListener('click', function () {
