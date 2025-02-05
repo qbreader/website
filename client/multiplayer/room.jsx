@@ -11,15 +11,15 @@ import { MODE_ENUM } from '../../quizbowl/constants.js';
 
 const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
-let startingDifficulties = [];
-let ownerId = '';
-let setLength = 24;
-let globalPublic = true;
-let muteList = [];
-let showingOffline = false;
 
 const room = {
-  mode: MODE_ENUM.RANDOM
+  difficulties: [],
+  mode: MODE_ENUM.RANDOM,
+  muteList: [],
+  ownerId: '',
+  public: true,
+  setLength: 24,
+  showingOffline: false
 };
 
 /**
@@ -134,7 +134,7 @@ function buzz ({ userId, username }) {
 }
 
 function chat ({ message, userId, username }, live = false) {
-  if (muteList.includes(userId)) {
+  if (room.muteList.includes(userId)) {
     return;
   }
   if (!live && message === '') {
@@ -172,7 +172,7 @@ function clearStats ({ userId }) {
   for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
     players[userId][field] = 0;
   }
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
+  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
   sortPlayerListGroup();
 }
 
@@ -200,9 +200,9 @@ function connectionAcknowledged ({
   setLength: newSetLength,
   userId
 }) {
-  globalPublic = settings.public;
-  ownerId = serverOwnerId;
-  setLength = newSetLength;
+  room.public = settings.public;
+  room.ownerId = serverOwnerId;
+  room.setLength = newSetLength;
   USER_ID = userId;
   window.localStorage.setItem('USER_ID', USER_ID);
 
@@ -220,7 +220,7 @@ function connectionAcknowledged ({
   for (const userId of Object.keys(messagePlayers)) {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
-    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
+    upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
   }
   sortPlayerListGroup();
 
@@ -292,7 +292,7 @@ async function connectionAcknowledgedQuery ({
   document.getElementById('toggle-powermark-only').checked = powermarkOnly;
 
   document.getElementById('set-name').value = setName;
-  if (setName !== '' && setLength === 0) {
+  if (setName !== '' && room.setLength === 0) {
     document.getElementById('set-name').classList.add('is-invalid');
   }
 
@@ -370,7 +370,7 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
     players[userId].tuh++;
     players[userId].celerity = celerity;
 
-    upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
+    upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
     sortPlayerListGroup();
   }
 
@@ -401,7 +401,7 @@ function join ({ isNew, user, userId, username }) {
 
   if (isNew) {
     user.celerity = user.celerity.correct.average;
-    upsertPlayerItem(user, USER_ID, ownerId, socket, globalPublic, showingOffline);
+    upsertPlayerItem(user, USER_ID, room.ownerId, socket, room.public, room.showingOffline);
     sortPlayerListGroup();
     players[userId] = user;
   } else {
@@ -414,7 +414,7 @@ function join ({ isNew, user, userId, username }) {
 function leave ({ userId, username }) {
   logEventConditionally(username, 'left the game');
   players[userId].online = false;
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
+  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
 }
 
 /**
@@ -507,13 +507,13 @@ function lostBuzzerRace ({ username, userId }) {
 
 function mutePlayer ({ targetId, targetUsername, muteStatus }) {
   if (muteStatus === 'Mute') {
-    if (!muteList.includes(targetId)) {
-      muteList.push(targetId);
+    if (!room.muteList.includes(targetId)) {
+      room.muteList.push(targetId);
       logEventConditionally(targetUsername, 'was muted');
     }
   } else {
-    if (muteList.includes(targetId)) {
-      muteList = muteList.filter(Id => Id !== targetId);
+    if (room.muteList.includes(targetId)) {
+      room.muteList = room.muteList.filter(Id => Id !== targetId);
       logEventConditionally(targetUsername, 'was unmuted');
     }
   }
@@ -569,15 +569,15 @@ function noQuestionsFound () {
 
 function ownerChange ({ newOwner }) {
   if (players[newOwner]) {
-    ownerId = newOwner;
+    room.ownerId = newOwner;
     logEventConditionally(players[newOwner].username, 'became the room owner');
   } else logEventConditionally(newOwner, 'became the room owner');
 
   Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic, showingOffline);
+    upsertPlayerItem(players[player], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
   });
 
-  document.getElementById('toggle-controlled').disabled = globalPublic || (ownerId !== USER_ID);
+  document.getElementById('toggle-controlled').disabled = room.public || (room.ownerId !== USER_ID);
 }
 
 function pause ({ paused, username }) {
@@ -602,7 +602,7 @@ function setDifficulties ({ difficulties, username = undefined }) {
   if (username) { logEventConditionally(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties'); }
 
   if (!document.getElementById('difficulties')) {
-    startingDifficulties = difficulties;
+    room.difficulties = difficulties;
     return;
   }
 
@@ -665,8 +665,8 @@ function setSetName ({ username, setName, setLength: newSetLength }) {
   document.getElementById('set-name').value = setName;
   // make border red if set name is not in set list
   const valid = !setName || api.getSetList().includes(setName);
-  setLength = newSetLength;
-  document.getElementById('packet-number').placeholder = 'Packet Numbers' + (setLength ? ` (1-${setLength})` : '');
+  room.setLength = newSetLength;
+  document.getElementById('packet-number').placeholder = 'Packet Numbers' + (room.setLength ? ` (1-${room.setLength})` : '');
   document.getElementById('set-name').classList.toggle('is-invalid', !valid);
 }
 
@@ -681,7 +681,7 @@ function setUsername ({ oldUsername, newUsername, userId }) {
     window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
-  upsertPlayerItem(players[userId], USER_ID, ownerId, socket, globalPublic, showingOffline);
+  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
 }
 
 function setYearRange ({ minYear, maxYear, username }) {
@@ -733,7 +733,7 @@ function toggleControlled ({ controlled, username }) {
   document.getElementById('controlled-room-warning').classList.toggle('d-none', !controlled);
   document.getElementById('toggle-public').disabled = controlled;
 
-  controlled = controlled && (USER_ID !== ownerId);
+  controlled = controlled && (USER_ID !== room.ownerId);
   document.getElementById('toggle-lock').disabled = controlled;
   document.getElementById('toggle-login-required').disabled = controlled;
   document.getElementById('toggle-timer').disabled = controlled;
@@ -788,19 +788,19 @@ function toggleTimer ({ timer, username }) {
 function togglePublic ({ public: isPublic, username }) {
   logEventConditionally(username, `made the room ${isPublic ? 'public' : 'private'}`);
   document.getElementById('chat').disabled = isPublic;
-  document.getElementById('toggle-controlled').disabled = isPublic || (ownerId !== USER_ID);
+  document.getElementById('toggle-controlled').disabled = isPublic || (room.ownerId !== USER_ID);
   document.getElementById('toggle-lock').disabled = isPublic;
   document.getElementById('toggle-login-required').disabled = isPublic;
   document.getElementById('toggle-public').checked = isPublic;
   document.getElementById('toggle-timer').disabled = isPublic;
-  globalPublic = isPublic;
+  room.public = isPublic;
   if (isPublic) {
     document.getElementById('toggle-lock').checked = false;
     document.getElementById('toggle-login-required').checked = false;
     toggleTimer({ timer: true });
   }
   Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, ownerId, socket, globalPublic, showingOffline);
+    upsertPlayerItem(players[player], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
   });
 }
 
@@ -897,8 +897,8 @@ document.getElementById('skip').addEventListener('click', function () {
 });
 
 document.getElementById('packet-number').addEventListener('change', function () {
-  const range = rangeToArray(this.value, setLength);
-  if (range.some((num) => num < 1 || num > setLength)) {
+  const range = rangeToArray(this.value, room.setLength);
+  if (range.some((num) => num < 1 || num > room.setLength)) {
     document.getElementById('packet-number').classList.add('is-invalid');
     return;
   }
@@ -945,9 +945,9 @@ document.getElementById('set-strictness').addEventListener('input', function () 
 });
 
 document.getElementById('toggle-offline-players').addEventListener('click', function () {
-  showingOffline = this.checked;
+  room.showingOffline = this.checked;
   this.blur();
-  Object.values(players).forEach((player) => upsertPlayerItem(player, USER_ID, ownerId, socket, globalPublic, showingOffline));
+  Object.values(players).forEach((player) => upsertPlayerItem(player, USER_ID, room.ownerId, socket, room.public, room.showingOffline));
 });
 
 document.getElementById('toggle-controlled').addEventListener('click', function () {
@@ -1084,7 +1084,7 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
 
 ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
   <DifficultyDropdown
-    startingDifficulties={startingDifficulties}
+    startingDifficulties={room.difficulties}
     onChange={() => socket.send(JSON.stringify({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') }))}
   />
 );
