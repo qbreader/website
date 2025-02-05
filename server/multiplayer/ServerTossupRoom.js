@@ -134,6 +134,7 @@ export default class ServerTossupRoom extends TossupRoom {
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       mode: this.mode,
       questionProgress: this.tossupProgress,
+      setLength: this.setLength,
 
       settings: this.settings
     }));
