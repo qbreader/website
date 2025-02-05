@@ -19,6 +19,7 @@ export default class QuestionRoom extends Room {
     this.queryingQuestion = false;
     this.randomQuestionCache = [];
     this.setCache = [];
+    this.setLength = 24; // length of 2023 PACE NSC
 
     this.mode = MODE_ENUM.RANDOM;
 
@@ -156,8 +157,7 @@ export default class QuestionRoom extends Room {
 
   async setPacketNumbers (userId, { packetNumbers }) {
     if (!Array.isArray(packetNumbers)) { return false; }
-    const allowedPacketNumbers = await this.getNumPackets(this.query.setName);
-    if (packetNumbers.some((value) => typeof value !== 'number' || value < 1 || value > allowedPacketNumbers)) { return false; }
+    if (packetNumbers.some((value) => typeof value !== 'number' || value < 1 || value > this.setLength)) { return false; }
 
     const username = this.players[userId].username;
     this.adjustQuery(['packetNumbers'], [packetNumbers]);
@@ -167,11 +167,11 @@ export default class QuestionRoom extends Room {
   async setSetName (userId, { setName }) {
     if (typeof setName !== 'string') { return; }
     const username = this.players[userId].username;
-    const setLength = await this.getNumPackets(setName);
+    this.setLength = await this.getNumPackets(setName);
     const packetNumbers = [];
-    for (let i = 1; i <= setLength; i++) { packetNumbers.push(i); }
+    for (let i = 1; i <= this.setLength; i++) { packetNumbers.push(i); }
     this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers]);
-    this.emitMessage({ type: 'set-set-name', username, setName, setLength });
+    this.emitMessage({ type: 'set-set-name', username, setName, setLength: this.setLength });
   }
 
   setStrictness (userId, { strictness }) {
