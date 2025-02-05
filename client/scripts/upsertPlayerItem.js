@@ -7,7 +7,7 @@ import { escapeHTML } from './utilities/strings.js';
  * @param {string} ownerId - ID of the room owner
  */
 // overall handling of some of these mechanics in the upsertion section might not be best idea? works though
-export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic) {
+export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic, showingOffline) {
   if (!player || !player.userId) {
     console.error('Player or player.userId is undefined', { player });
     return;
@@ -24,7 +24,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   }
 
   const playerItem = document.createElement('a');
-  playerItem.className = `list-group-item ${userId === USER_ID ? 'user-score' : ''} clickable`;
+  playerItem.className = `list-group-item ${userId === USER_ID ? 'user-score' : ''} clickable ${showingOffline === false && player.online === false && 'd-none'}`;
   playerItem.id = `list-group-${userId}`;
   const displayUsername = (playerIsOwner && !isPublic) ? `👑 ${escapeHTML(username)}` : escapeHTML(username);
 
