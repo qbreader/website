@@ -37,7 +37,6 @@ export default class ServerTossupRoom extends TossupRoom {
       ...this.settings,
       lock: false,
       loginRequired: false,
-      maxPlayers: 200,
       public: true,
       controlled: false
     };
@@ -52,7 +51,6 @@ export default class ServerTossupRoom extends TossupRoom {
       case 'chat': return this.chat(userId, message);
       case 'chat-live-update': return this.chatLiveUpdate(userId, message);
       case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
-      case 'set-maxplayers': return this.setMaxPlayers(userId, message);
       case 'toggle-controlled': return this.toggleControlled(userId, message);
       case 'toggle-lock': return this.toggleLock(userId, message);
       case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
@@ -216,14 +214,6 @@ export default class ServerTossupRoom extends TossupRoom {
   setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-  }
-
-  setMaxPlayers (userId, { maxPlayers }) {
-    maxPlayers = Number(maxPlayers);
-    if (isNaN(maxPlayers)) return;
-    this.settings.maxPlayers = maxPlayers;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-maxplayers', maxPlayers, username });
   }
 
   setMode (userId, { mode, setName }) {
