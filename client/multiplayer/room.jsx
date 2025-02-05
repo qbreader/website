@@ -13,7 +13,7 @@ const categoryManager = new CategoryManager();
 let oldCategories = JSON.stringify(categoryManager.export());
 let startingDifficulties = [];
 let ownerId = '';
-let maxPacketNumber = 24;
+let setLength = 24;
 let globalPublic = true;
 let muteList = [];
 let showingOffline = false;
@@ -192,10 +192,12 @@ function connectionAcknowledged ({
   players: messagePlayers,
   questionProgress,
   settings,
+  setLength: newSetLength,
   userId
 }) {
   globalPublic = settings.public;
   ownerId = serverOwnerId;
+  setLength = newSetLength;
   USER_ID = userId;
   window.localStorage.setItem('USER_ID', USER_ID);
 
@@ -283,8 +285,7 @@ async function connectionAcknowledgedQuery ({
   document.getElementById('toggle-powermark-only').checked = powermarkOnly;
 
   document.getElementById('set-name').value = setName;
-  maxPacketNumber = await api.getNumPackets(setName);
-  if (setName !== '' && maxPacketNumber === 0) {
+  if (setName !== '' && setLength === 0) {
     document.getElementById('set-name').classList.add('is-invalid');
   }
 
@@ -650,14 +651,14 @@ function setStrictness ({ strictness, username }) {
   document.getElementById('strictness-display').textContent = strictness;
 }
 
-function setSetName ({ username, setName, setLength }) {
+function setSetName ({ username, setName, setLength: newSetLength }) {
   logEventConditionally(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
   document.getElementById('set-name').value = setName;
   // make border red if set name is not in set list
   const valid = !setName || api.getSetList().includes(setName);
+  setLength = newSetLength;
+  document.getElementById('packet-number').placeholder = 'Packet Numbers' + (setLength ? ` (1-${setLength})` : '');
   document.getElementById('set-name').classList.toggle('is-invalid', !valid);
-  maxPacketNumber = setLength;
-  document.getElementById('packet-number').placeholder = 'Packet Numbers' + (maxPacketNumber ? ` (1-${maxPacketNumber})` : '');
 }
 
 function setUsername ({ oldUsername, newUsername, userId }) {
@@ -887,8 +888,8 @@ document.getElementById('skip').addEventListener('click', function () {
 });
 
 document.getElementById('packet-number').addEventListener('change', function () {
-  const range = rangeToArray(this.value, maxPacketNumber);
-  if (range.some((num) => num < 1 || num > maxPacketNumber)) {
+  const range = rangeToArray(this.value, setLength);
+  if (range.some((num) => num < 1 || num > setLength)) {
     document.getElementById('packet-number').classList.add('is-invalid');
     return;
   }
