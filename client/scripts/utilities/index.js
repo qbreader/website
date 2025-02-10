@@ -134,7 +134,7 @@ const createTossupCard = (function () {
 
     questionCounter++;
 
-    const { question, answer, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id } = tossup;
+    const {markedQuestion, answer, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id, buzzpoints} = tossup;
 
     // append a card containing the question to the history element
     const card = document.createElement('div');
@@ -152,7 +152,7 @@ const createTossupCard = (function () {
             </div>
             <div class="card-container collapse" id="question-${questionCounter}">
                 <div class="card-body">
-                    ${question}
+                    ${markedQuestion}
                     <a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
                     <hr></hr>
                     <div>ANSWER: ${answer}</div>
