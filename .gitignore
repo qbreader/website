@@ -1,4 +1,7 @@
+antibot
+
 node_modules
+bun.lock
 
 **/.DS_store
 .env

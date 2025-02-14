@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 import { ipFilterMiddleware, ipFilterError } from './server/moderation/ip-filter.js';
+import { isUsingAntibot } from './server/moderation/using-antibot.js';
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from './constants.js';
 import indexRouter from './routes/index.js';
 import webhookRouter from './routes/api/webhook.js';
@@ -43,6 +44,11 @@ app.use(cookieSession({
 
 app.use(ipFilterMiddleware);
 app.use(ipFilterError);
+
+if (isUsingAntibot) {
+    const { default: antibot } = await import('./server/antibot/middleware.js');
+    app.use(antibot);
+}
 
 wss.on('connection', handleWssConnection);
 

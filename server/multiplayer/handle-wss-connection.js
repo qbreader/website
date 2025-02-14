@@ -4,6 +4,7 @@ import { checkToken } from '../authentication.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
+import { isUsingAntibot } from '../moderation/using-antibot.js';
 
 import createDOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
@@ -45,7 +46,12 @@ function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled 
  * @param {WebSocket} ws
  * @param {http.IncomingMessage} req
  */
-export default function handleWssConnection (ws, req) {
+export default async function handleWssConnection (ws, req) {
+  if (isUsingAntibot) {
+    let clearance = (await import('../antibot/check.js')).canConnectTo(ws, req);
+    if (!clearance) return ws.close();
+  }
+
   const parsedUrl = new url.URL(req.url, process.env.BASE_URL ?? 'http://localhost');
   const isPrivate = parsedUrl.searchParams.get('private') === 'true';
   const isControlled = parsedUrl.searchParams.get('controlled') === 'true';
