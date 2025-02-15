@@ -17,7 +17,7 @@ const DOMPurify = createDOMPurify(window);
 const tossupRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupRooms[name] = new ServerTossupRoom(name, '0', true, categories, subcategories);
+  tossupRooms[name] = new ServerTossupRoom(name, Symbol('unique permanent room owner'), true, categories, subcategories);
 }
 
 /**
