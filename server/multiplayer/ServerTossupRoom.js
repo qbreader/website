@@ -334,6 +334,7 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   votekickInit (userId, { targetId }) {
+    if (this.players[userId].tens === 0 && this.players[userId].powers === 0) { return; }
     if (!this.players[targetId]) { return; }
     const targetUsername = this.players[targetId].username;
 
@@ -368,6 +369,10 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   votekickVote (userId, { targetId }) {
+    if (this.players[userId].tens === 0 && this.players[userId].powers === 0) {
+      this.emitMessage({ type: 'no-points-votekick-attempt', userId });
+      return;
+    }
     if (!this.players[targetId]) { return; }
     const targetUsername = this.players[targetId].username;
 

@@ -80,6 +80,7 @@ socket.onmessage = function (event) {
     case 'mute-player': return mutePlayer(data);
     case 'next': return next(data);
     case 'no-questions-found': return noQuestionsFound(data);
+    case 'no-points-votekick-attempt': return failedVotekickPoints(data);
     case 'owner-change': return ownerChange(data);
     case 'pause': return pause(data);
     case 'reveal-answer': return revealAnswer(data);
@@ -315,6 +316,11 @@ function connectionAcknowledgedTossup ({ tossup: currentTossup }) {
 
 function endOfSet () {
   window.alert('You have reached the end of the set');
+}
+function failedVotekickPoints ({ userId }) {
+  if (userId === USER_ID) {
+    window.alert('You can only votekick once you have answered a question correctly!');
+  }
 }
 
 function forceUsername ({ message, username }) {
