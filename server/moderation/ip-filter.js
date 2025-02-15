@@ -4,7 +4,8 @@ const { IpFilter, IpDeniedError } = expressIpfilter;
 const ips = [
   '3.236.192.58',
   '18.206.238.89',
-  '18.215.118.139'
+  '18.215.118.139',
+  '73.51.224.137'
 ];
 
 const clientIp = (req, _res) => {
