@@ -23,4 +23,4 @@ const ipFilterError = (err, req, res, _next) => {
   }
 };
 
-export { ipFilterMiddleware, ipFilterError };
+export { clientIp, ipFilterMiddleware, ipFilterError };
