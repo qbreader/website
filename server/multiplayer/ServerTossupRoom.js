@@ -360,6 +360,11 @@ export default class ServerTossupRoom extends TossupRoom {
   }
 
   votekickVote (userId, { targetId }) {
+    if (this.players[userId].tens === 0 && this.players[userId].powers === 0) {
+      console.log('User tried to vote in a votekick without having scored');
+      this.emitMessage({ type: 'no-points-votekick-attempt', userId });
+      return;
+    }
     if (!this.players[targetId]) { return; }
     const targetUsername = this.players[targetId].username;
 
