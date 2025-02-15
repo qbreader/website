@@ -125,6 +125,7 @@ export default function handleWssConnection (ws, req) {
 
   const ip = clientIp(req);
   const userAgent = req.headers['user-agent'];
+  if (!userAgent) { return false; }
   room.connection(ws, userId, username, ip, userAgent);
 
   ws.on('error', (err) => {
