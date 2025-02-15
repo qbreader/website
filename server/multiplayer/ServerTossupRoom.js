@@ -82,7 +82,7 @@ export default class ServerTossupRoom extends TossupRoom {
       `Connection in room ${HEADER}${this.name}${ENDC};`,
       `ip: ${OKCYAN}${ip}${ENDC};`,
       userAgent ? `userAgent: ${OKCYAN}${userAgent}${ENDC};` : '',
-      `ownerId: ${OKBLUE}${this.ownerId}${ENDC};`,
+      typeof this.ownerId === 'string' ? `ownerId: ${OKBLUE}${this.ownerId}${ENDC};` : '',
       `userId: ${OKBLUE}${userId}${ENDC};`,
       `username: ${OKBLUE}${username}${ENDC};`,
       `settings: ${OKGREEN}${['controlled', 'lock', 'loginRequired', 'public'].map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`
