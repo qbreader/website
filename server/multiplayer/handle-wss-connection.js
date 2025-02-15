@@ -3,6 +3,7 @@ import ServerTossupRoom from './ServerTossupRoom.js';
 import { checkToken } from '../authentication.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
+import { clientIp } from '../moderation/ip-filter.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 
 import createDOMPurify from 'dompurify';
@@ -23,7 +24,7 @@ for (const room of PERMANENT_ROOMS) {
  * Returns the room with the given room name.
  * If the room does not exist, it is created.
  * @param {String} roomName
- * @returns {TossupRoom}
+ * @returns {ServerTossupRoom}
  */
 function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled = false) {
   roomName = DOMPurify.sanitize(roomName);
@@ -122,11 +123,13 @@ export default function handleWssConnection (ws, req) {
     return false;
   }
 
-  room.connection(ws, userId, username);
+  const ip = clientIp(req);
+  const userAgent = req.headers['user-agent'];
+  room.connection(ws, userId, username, ip, userAgent);
 
   ws.on('error', (err) => {
     if (err instanceof RangeError) {
-      console.log(`[WEBSOCKET] WARNING: Max payload exceeded from ip ${ws._socket.remoteAddress}`);
+      console.log(`[WEBSOCKET] WARNING: Max payload exceeded from ip ${ip}`);
       ws.close();
     } else {
       console.log(err);

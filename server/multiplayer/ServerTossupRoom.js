@@ -77,10 +77,11 @@ export default class ServerTossupRoom extends TossupRoom {
     setTimeout(() => this.close(targetId), 1000);
   }
 
-  connection (socket, userId, username) {
+  connection (socket, userId, username, ip, userAgent = '') {
     console.log(
       `Connection in room ${HEADER}${this.name}${ENDC};`,
-      `ip: ${OKCYAN}${socket._socket.remoteAddress}${ENDC};`,
+      `ip: ${OKCYAN}${ip}${ENDC};`,
+      userAgent ? `userAgent: ${OKCYAN}${userAgent}${ENDC};` : '',
       `ownerId: ${OKBLUE}${this.ownerId}${ENDC};`,
       `userId: ${OKBLUE}${userId}${ENDC};`,
       `username: ${OKBLUE}${username}${ENDC};`,
