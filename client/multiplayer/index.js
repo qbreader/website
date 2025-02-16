@@ -16,11 +16,13 @@ document.getElementById('form').addEventListener('submit', (event) => {
 
   const isPrivate = document.getElementById('private-room-checkbox').checked;
   const isControlled = document.getElementById('controlled-room-checkbox').checked;
+  const isTeam = document.getElementById('team-room-checkbox').checked;
 
   const params = new URLSearchParams();
 
   if (isPrivate) params.set('private', 'true');
   if (isControlled) params.set('controlled', 'true');
+  if (isTeam) params.set('team', 'true');
 
   window.location.href = `/multiplayer/${encodeURIComponent(roomName)}?${params.toString()}`;
 });

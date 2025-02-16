@@ -5,7 +5,7 @@ import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import { clientIp } from '../moderation/ip-filter.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
-
+import ServerTeamRoom from './ServerTeamRoom.js';
 import createDOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 import url from 'url';
@@ -26,12 +26,17 @@ for (const room of PERMANENT_ROOMS) {
  * @param {String} roomName
  * @returns {ServerTossupRoom}
  */
-function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled = false) {
+function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled = false, isTeam = false) {
   roomName = DOMPurify.sanitize(roomName);
   roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
-
   if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
-    const newRoom = new ServerTossupRoom(roomName, userId, false);
+    let newRoom;
+    if (isTeam) {
+      newRoom = new ServerTeamRoom(roomName, userId, false);
+    } else {
+      newRoom = new ServerTossupRoom(roomName, userId, false);
+    }
+
     // A room cannot be both public and controlled
     newRoom.settings.public = !isPrivate && !isControlled;
     newRoom.settings.controlled = isControlled;
@@ -50,6 +55,7 @@ export default function handleWssConnection (ws, req) {
   const parsedUrl = new url.URL(req.url, process.env.BASE_URL ?? 'http://localhost');
   const isPrivate = parsedUrl.searchParams.get('private') === 'true';
   const isControlled = parsedUrl.searchParams.get('controlled') === 'true';
+  const isTeam = parsedUrl.searchParams.get('team') === 'true';
   const roomName = parsedUrl.searchParams.get('roomName');
   let userId = parsedUrl.searchParams.get('userId') ?? 'unknown';
   let username = parsedUrl.searchParams.get('username') ?? getRandomName();
@@ -72,7 +78,7 @@ export default function handleWssConnection (ws, req) {
     return false;
   }
 
-  const room = createAndReturnRoom(roomName, userId, isPrivate, isControlled);
+  const room = createAndReturnRoom(roomName, userId, isPrivate, isControlled, isTeam);
   const roomOwner = {
     id: room.ownerId
   };

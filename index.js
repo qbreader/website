@@ -16,7 +16,7 @@ import { WebSocketServer } from 'ws';
 
 const app = express();
 const server = createServer(app);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const wss = new WebSocketServer({ server, maxPayload: WEBSOCKET_MAX_PAYLOAD });
 
 if (process.env.NODE_ENV !== 'production') {

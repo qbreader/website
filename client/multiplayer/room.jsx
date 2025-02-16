@@ -26,7 +26,9 @@ const room = {
  * userId to player object
  */
 const players = {};
-
+let PLAYER_TEAM = null;
+let RED_SCORE = 0;
+let BLUE_SCORE = 0;
 const ROOM_NAME = decodeURIComponent(window.location.pathname.substring(13));
 let tossup = {};
 let USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
@@ -34,12 +36,12 @@ let username = window.localStorage.getItem('multiplayer-username') || api.getRan
 
 const socket = new window.WebSocket(
   window.location.href.replace('http', 'ws').split('?')[0] + '?' +
-    new URLSearchParams({
-      ...Object.fromEntries(new URLSearchParams(window.location.search)),
-      roomName: ROOM_NAME,
-      userId: USER_ID,
-      username
-    }).toString()
+  new URLSearchParams({
+    ...Object.fromEntries(new URLSearchParams(window.location.search)),
+    roomName: ROOM_NAME,
+    userId: USER_ID,
+    username
+  }).toString()
 );
 window.history.pushState({}, '', '/multiplayer/' + encodeURIComponent(ROOM_NAME));
 
@@ -75,6 +77,7 @@ socket.onmessage = function (event) {
     case 'give-answer-live-update': return logGiveAnswer(data);
     case 'initiated-vk': return vkInit(data);
     case 'join': return join(data);
+    case 'join-team': return joinTeam(data);
     case 'leave': return leave(data);
     case 'lost-buzzer-race': return lostBuzzerRace(data);
     case 'mute-player': return mutePlayer(data);
@@ -173,7 +176,7 @@ function clearStats ({ userId }) {
   for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
     players[userId][field] = 0;
   }
-  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
+  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
   sortPlayerListGroup();
 }
 
@@ -197,10 +200,17 @@ function connectionAcknowledged ({
   packetLength,
   players: messagePlayers,
   questionProgress,
+  team,
   settings,
   setLength: newSetLength,
-  userId
+  userId,
+  rscore,
+  bscore
 }) {
+  console.log(rscore);
+  console.log(bscore);
+  RED_SCORE = rscore;
+  BLUE_SCORE = bscore;
   room.public = settings.public;
   room.ownerId = serverOwnerId;
   room.setLength = newSetLength;
@@ -208,6 +218,11 @@ function connectionAcknowledged ({
   window.localStorage.setItem('USER_ID', USER_ID);
 
   document.getElementById('buzz').disabled = !canBuzz;
+  if (team === 'red') {
+    PLAYER_TEAM = 'red';
+  } else if (team === 'blue') {
+    PLAYER_TEAM = 'blue';
+  }
 
   if (isPermanent) {
     document.getElementById('category-select-button').disabled = true;
@@ -221,7 +236,7 @@ function connectionAcknowledged ({
   for (const userId of Object.keys(messagePlayers)) {
     messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
     players[userId] = messagePlayers[userId];
-    upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
+    upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
   }
   sortPlayerListGroup();
 
@@ -365,17 +380,32 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
 
     if (score > 10) {
       players[userId].powers++;
+      if (players[userId].team === 'red') {
+        RED_SCORE += 15;
+      } else if (players[userId].team === 'blue') {
+        BLUE_SCORE += 15;
+      }
     } else if (score === 10) {
       players[userId].tens++;
+      if (players[userId].team === 'red') {
+        RED_SCORE += 10;
+      } else if (players[userId].team === 'blue') {
+        BLUE_SCORE += 10;
+      }
     } else if (score < 0) {
       players[userId].negs++;
+      if (players[userId].team === 'red') {
+        RED_SCORE -= 5;
+      } else if (players[userId].team === 'blue') {
+        BLUE_SCORE -= 5;
+      }
     }
 
     players[userId].points += score;
     players[userId].tuh++;
     players[userId].celerity = celerity;
 
-    upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
+    upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
     sortPlayerListGroup();
   }
 
@@ -406,7 +436,23 @@ function join ({ isNew, user, userId, username }) {
 
   if (isNew) {
     user.celerity = user.celerity.correct.average;
-    upsertPlayerItem(user, USER_ID, room.ownerId, socket, room.public, room.showingOffline);
+    upsertPlayerItem(user, USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
+    sortPlayerListGroup();
+    players[userId] = user;
+  } else {
+    players[userId].online = true;
+    document.getElementById('points-' + userId).classList.add('bg-success');
+    document.getElementById('points-' + userId).classList.remove('bg-secondary');
+  }
+}
+
+function joinTeam ({ isNew, user, userId, username, team }) {
+  logEventConditionally(username, 'joined the game on ' + team);
+  if (userId === USER_ID) { return; }
+
+  if (isNew) {
+    user.celerity = user.celerity.correct.average;
+    upsertPlayerItem(user, USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
     sortPlayerListGroup();
     players[userId] = user;
   } else {
@@ -419,7 +465,7 @@ function join ({ isNew, user, userId, username }) {
 function leave ({ userId, username }) {
   logEventConditionally(username, 'left the game');
   players[userId].online = false;
-  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
+  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
 }
 
 /**
@@ -579,7 +625,7 @@ function ownerChange ({ newOwner }) {
   } else logEventConditionally(newOwner, 'became the room owner');
 
   Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
+    upsertPlayerItem(players[player], USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
   });
 
   document.getElementById('toggle-controlled').disabled = room.public || (room.ownerId !== USER_ID);
@@ -689,7 +735,7 @@ function setUsername ({ oldUsername, newUsername, userId }) {
     window.localStorage.setItem('multiplayer-username', username);
     document.getElementById('username').value = username;
   }
-  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
+  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
 }
 
 function setYearRange ({ minYear, maxYear, username }) {
@@ -716,6 +762,9 @@ function showSkipButton () {
 }
 
 function sortPlayerListGroup (descending = true) {
+  if (PLAYER_TEAM) {
+    return;
+  }
   const listGroup = document.getElementById('player-list-group');
   const items = Array.from(listGroup.children);
   const offset = 'list-group-'.length;
@@ -808,7 +857,7 @@ function togglePublic ({ public: isPublic, username }) {
     toggleTimer({ timer: true });
   }
   Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
+    upsertPlayerItem(players[player], USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE);
   });
 }
 
@@ -955,7 +1004,7 @@ document.getElementById('set-strictness').addEventListener('input', function () 
 document.getElementById('toggle-offline-players').addEventListener('click', function () {
   room.showingOffline = this.checked;
   this.blur();
-  Object.values(players).forEach((player) => upsertPlayerItem(player, USER_ID, room.ownerId, socket, room.public, room.showingOffline));
+  Object.values(players).forEach((player) => upsertPlayerItem(player, USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE));
 });
 
 document.getElementById('toggle-controlled').addEventListener('click', function () {

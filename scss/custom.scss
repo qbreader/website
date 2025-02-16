@@ -130,5 +130,13 @@ a.list-group-item:hover {
     min-height: 90px;
 }
 
+.blue {
+    background-color: blue;
+}
+
+.red {
+    background-color: red;
+}
+
 @import "./dual-slider";
 @import "./dropdown-checklist";
