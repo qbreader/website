@@ -26,6 +26,7 @@ const room = {
  * userId to player object
  */
 const players = {};
+let BLOCKED_TEAM_BUZZ = false;
 let PLAYER_TEAM = null;
 let RED_SCORE = 0;
 let BLUE_SCORE = 0;
@@ -60,6 +61,7 @@ socket.onclose = function (event) {
 socket.onmessage = function (event) {
   const data = JSON.parse(event.data);
   switch (data.type) {
+    case 'block-team-buzz': return blockTeamBuzz(data);
     case 'buzz': return buzz(data);
     case 'chat': return chat(data, false);
     case 'chat-live-update': return chat(data, true);
@@ -123,8 +125,21 @@ function ackRemovedFromRoom ({ removalType }) {
     window.location.replace('../');
   }, 100);
 }
+function blockTeamBuzz ({ team }) {
+  if (PLAYER_TEAM === team) {
+    document.getElementById('buzz').disabled = true;
+    BLOCKED_TEAM_BUZZ = true;
+    console.log('disabled buzz bc teammate wrong');
+  } else {
+    console.log('other team no buzz');
+  }
+}
 
 function buzz ({ userId, username }) {
+  console.log(players[userId].team);
+  if (players[userId].team === PLAYER_TEAM) {
+    console.log('Your teammate buzzed');
+  }
   logEventConditionally(username, 'buzzed');
   document.getElementById('buzz').disabled = true;
   document.getElementById('pause').disabled = true;
@@ -216,7 +231,7 @@ function connectionAcknowledged ({
   room.setLength = newSetLength;
   USER_ID = userId;
   window.localStorage.setItem('USER_ID', USER_ID);
-
+  console.log('t1');
   document.getElementById('buzz').disabled = !canBuzz;
   if (team === 'red') {
     PLAYER_TEAM = 'red';
@@ -258,8 +273,11 @@ function connectionAcknowledged ({
         document.getElementById('next').disabled = true;
         document.getElementById('pause').disabled = true;
       } else {
-        document.getElementById('buzz').disabled = false;
-        document.getElementById('pause').disabled = false;
+        if (!BLOCKED_TEAM_BUZZ) {
+          console.log('t9');
+          document.getElementById('buzz').disabled = false;
+          document.getElementById('pause').disabled = false;
+        }
       }
       break;
     case 2:
@@ -375,7 +393,10 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
     }
 
     if (directive === 'reject') {
-      document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === USER_ID;
+      console.log('t2');
+      console.log(BLOCKED_TEAM_BUZZ);
+
+      document.getElementById('buzz').disabled = (!document.getElementById('toggle-rebuzz').checked && userId === USER_ID) || BLOCKED_TEAM_BUZZ;
     }
 
     if (score > 10) {
@@ -601,7 +622,9 @@ function next ({ packetLength, oldTossup, tossup: nextTossup, type, username }) 
   } else {
     tossup = nextTossup;
     document.getElementById('buzz').textContent = 'Buzz';
+    console.log('t5');
     document.getElementById('buzz').disabled = false;
+    console.log('recove');
     document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
     document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
     document.getElementById('pause').textContent = 'Pause';
@@ -612,6 +635,7 @@ function next ({ packetLength, oldTossup, tossup: nextTossup, type, username }) 
 
   showSkipButton();
   updateTimerDisplay(100);
+  BLOCKED_TEAM_BUZZ = false;
 }
 
 function noQuestionsFound () {
@@ -641,6 +665,7 @@ function revealAnswer ({ answer, question }) {
   document.getElementById('answer').innerHTML = 'ANSWER: ' + answer;
   document.getElementById('pause').disabled = true;
   showNextButton();
+  BLOCKED_TEAM_BUZZ = false;
 }
 
 function setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {

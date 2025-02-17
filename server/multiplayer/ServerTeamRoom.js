@@ -2,7 +2,7 @@ import ServerPlayer from './ServerPlayer.js';
 import Votekick from './VoteKick.js';
 import { HEADER, ENDC, OKCYAN, OKBLUE, OKGREEN } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
-import { MODE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
+import { MODE_ENUM, TOSSUP_PROGRESS_ENUM, ANSWER_TIME_LIMIT } from '../../quizbowl/constants.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 import TossupRoom from '../../quizbowl/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
@@ -11,7 +11,6 @@ import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
 import getSet from '../../database/qbreader/get-set.js';
 import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
-
 import checkAnswer from 'qb-answer-checker';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
@@ -60,6 +59,7 @@ export default class ServerTeamRoom extends TossupRoom {
       case 'toggle-public': return this.togglePublic(userId, message);
       case 'votekick-init': return this.votekickInit(userId, message);
       case 'votekick-vote': return this.votekickVote(userId, message);
+      case 'give-answer': return this.giveAnswer(userId, message);
       default: super.message(userId, message);
     }
   }
@@ -81,13 +81,13 @@ export default class ServerTeamRoom extends TossupRoom {
 
   connection (socket, userId, username, ip, userAgent = '') {
     console.log(
-      `Connection in TEAM room ${HEADER}${this.name}${ENDC};`,
-      `ip: ${OKCYAN}${ip}${ENDC};`,
-      userAgent ? `userAgent: ${OKCYAN}${userAgent}${ENDC};` : '',
-      typeof this.ownerId === 'string' ? `ownerId: ${OKBLUE}${this.ownerId}${ENDC};` : '',
-      `userId: ${OKBLUE}${userId}${ENDC};`,
-      `username: ${OKBLUE}${username}${ENDC};`,
-      `settings: ${OKGREEN}${['controlled', 'lock', 'loginRequired', 'public'].map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`
+            `Connection in TEAM room ${HEADER}${this.name}${ENDC};`,
+            `ip: ${OKCYAN}${ip}${ENDC};`,
+            userAgent ? `userAgent: ${OKCYAN}${userAgent}${ENDC};` : '',
+            typeof this.ownerId === 'string' ? `ownerId: ${OKBLUE}${this.ownerId}${ENDC};` : '',
+            `userId: ${OKBLUE}${userId}${ENDC};`,
+            `username: ${OKBLUE}${username}${ENDC};`,
+            `settings: ${OKGREEN}${['controlled', 'lock', 'loginRequired', 'public'].map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`
     );
     this.cleanupExpiredBansAndKicks();
 
@@ -244,6 +244,64 @@ export default class ServerTeamRoom extends TossupRoom {
       this.buzzedIn = null;
     }
     this.leave(userId);
+  }
+
+  giveAnswer (userId, { givenAnswer }) {
+    console.log('Special give answer');
+    if (typeof givenAnswer !== 'string') { return false; }
+    if (this.buzzedIn !== userId) { return false; }
+
+    this.liveAnswer = '';
+    clearInterval(this.timer.interval);
+    this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
+
+    if (Object.keys(this.tossup || {}).length === 0) { return; }
+
+    const { celerity, directive, directedPrompt, points } = this.scoreTossup({ givenAnswer });
+
+    switch (directive) {
+      case 'accept':
+        this.buzzedIn = null;
+        this.revealQuestion();
+        this.players[userId].updateStats(points, celerity);
+        Object.values(this.players).forEach(player => { player.tuh++; });
+        break;
+      case 'reject':
+        this.buzzedIn = null;
+        this.players[userId].updateStats(points, celerity);
+        if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
+          this.revealQuestion();
+          Object.values(this.players).forEach(player => { player.tuh++; });
+        } else {
+          this.readQuestion(Date.now());
+        }
+        if (this.players[userId].team === 'red') {
+          this.emitMessage({ type: 'block-team-buzz', team: 'red' });
+        } else if (this.players[userId].team === 'blue') {
+          this.emitMessage({ type: 'block-team-buzz', team: 'blue' });
+        }
+        break;
+      case 'prompt':
+        this.startServerTimer(
+          ANSWER_TIME_LIMIT * 10,
+          (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+          () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
+        );
+    }
+
+    this.emitMessage({
+      type: 'give-answer',
+      userId,
+      username: this.players[userId].username,
+      givenAnswer,
+      directive,
+      directedPrompt,
+      score: points,
+      celerity: this.players[userId].celerity.correct.average,
+      // the below fields are used to record buzzpoint data
+      tossup: this.tossup,
+      perQuestionCelerity: celerity
+    });
   }
 
   giveAnswerLiveUpdate (userId, { message }) {
