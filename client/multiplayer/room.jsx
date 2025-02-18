@@ -72,7 +72,7 @@ socket.onmessage = function (event) {
     case 'error': return handleError(data);
     case 'force-username': return forceUsername(data);
     case 'give-answer': return giveAnswer(data);
-    case 'give-answer-live-update': return logGiveAnswer(data, true);
+    case 'give-answer-live-update': return logGiveAnswer(data);
     case 'initiated-vk': return vkInit(data);
     case 'join': return join(data);
     case 'leave': return leave(data);
@@ -333,7 +333,7 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
   document.getElementById('answer-input').value = '';
   document.getElementById('answer-input-group').classList.add('d-none');
   document.getElementById('answer-input').blur();
-  logGiveAnswer({ directive, message: givenAnswer, username });
+  logGiveAnswer({ directive, givenAnswer, username });
 
   if (directive === 'prompt' && directedPrompt) {
     logEventConditionally(username, `was prompted with "${directedPrompt}"`);
@@ -448,7 +448,7 @@ function logEventConditionally (username, message) {
   document.getElementById('room-history').prepend(li);
 }
 
-function logGiveAnswer ({ directive = null, message, username }) {
+function logGiveAnswer ({ directive = null, givenAnswer, username }) {
   const badge = document.createElement('span');
   badge.textContent = 'Buzz';
   switch (directive) {
@@ -470,7 +470,7 @@ function logGiveAnswer ({ directive = null, message, username }) {
   b.textContent = username;
 
   const span = document.createElement('span');
-  span.textContent = message;
+  span.textContent = givenAnswer;
 
   let li;
   if (document.getElementById('live-buzz')) {
@@ -849,14 +849,14 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 });
 
 document.getElementById('answer-input').addEventListener('input', function () {
-  socket.send(JSON.stringify({ type: 'give-answer-live-update', message: this.value }));
+  socket.send(JSON.stringify({ type: 'give-answer-live-update', givenAnswer: this.value }));
 });
 
 document.getElementById('buzz').addEventListener('click', function () {
   this.blur();
   if (audio.soundEffects) audio.buzz.play();
   socket.send(JSON.stringify({ type: 'buzz' }));
-  socket.send(JSON.stringify({ type: 'give-answer-live-update', message: '' }));
+  socket.send(JSON.stringify({ type: 'give-answer-live-update', givenAnswer: '' }));
 });
 
 document.getElementById('chat').addEventListener('click', function () {
