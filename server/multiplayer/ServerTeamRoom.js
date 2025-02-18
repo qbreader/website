@@ -49,6 +49,7 @@ export default class ServerTeamRoom extends TossupRoom {
   async message (userId, message) {
     switch (message.type) {
       case 'ban': return this.ban(userId, message);
+      case 'change-team': return this.changeTeam(userId, message);
       case 'chat': return this.chat(userId, message);
       case 'chat-live-update': return this.chatLiveUpdate(userId, message);
       case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
@@ -79,15 +80,40 @@ export default class ServerTeamRoom extends TossupRoom {
     setTimeout(() => this.close(targetId), 1000);
   }
 
+  changeTeam (userId, { curTeam }) {
+    let newTeam;
+    if (curTeam === 'red') {
+      newTeam = 'blue';
+    } else {
+      newTeam = 'red';
+    }
+    console.log(newTeam + 'is ');
+    let newRscore = 0;
+    let newBscore = 0;
+    this.players[userId].team = newTeam;
+    for (const num in this.players) {
+      if (this.players[num].team === 'red') {
+        newRscore += this.players[num].points;
+      } else if (this.players[num].team === 'blue') {
+        newBscore += this.players[num].points;
+      }
+    }
+
+    console.log(newRscore);
+    console.log(newBscore);
+
+    this.emitMessage({ type: 'change-team', user: userId, username: this.players[userId].username, newTeam, newRscore, newBscore });
+  }
+
   connection (socket, userId, username, ip, userAgent = '') {
     console.log(
-            `Connection in TEAM room ${HEADER}${this.name}${ENDC};`,
-            `ip: ${OKCYAN}${ip}${ENDC};`,
-            userAgent ? `userAgent: ${OKCYAN}${userAgent}${ENDC};` : '',
-            typeof this.ownerId === 'string' ? `ownerId: ${OKBLUE}${this.ownerId}${ENDC};` : '',
-            `userId: ${OKBLUE}${userId}${ENDC};`,
-            `username: ${OKBLUE}${username}${ENDC};`,
-            `settings: ${OKGREEN}${['controlled', 'lock', 'loginRequired', 'public'].map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`
+      `Connection in TEAM room ${HEADER}${this.name}${ENDC};`,
+      `ip: ${OKCYAN}${ip}${ENDC};`,
+      userAgent ? `userAgent: ${OKCYAN}${userAgent}${ENDC};` : '',
+      typeof this.ownerId === 'string' ? `ownerId: ${OKBLUE}${this.ownerId}${ENDC};` : '',
+      `userId: ${OKBLUE}${userId}${ENDC};`,
+      `username: ${OKBLUE}${username}${ENDC};`,
+      `settings: ${OKGREEN}${['controlled', 'lock', 'loginRequired', 'public'].map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`
     );
     this.cleanupExpiredBansAndKicks();
 
@@ -269,7 +295,7 @@ export default class ServerTeamRoom extends TossupRoom {
       case 'reject':
         this.buzzedIn = null;
         this.players[userId].updateStats(points, celerity);
-        if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
+        if (!this.settings.rebuzz && this.buzzes.length === 2) {
           this.revealQuestion();
           Object.values(this.players).forEach(player => { player.tuh++; });
         } else {

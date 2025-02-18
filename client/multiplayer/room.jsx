@@ -63,6 +63,7 @@ socket.onmessage = function (event) {
   switch (data.type) {
     case 'block-team-buzz': return blockTeamBuzz(data);
     case 'buzz': return buzz(data);
+    case 'change-team': return teamChange(data);
     case 'chat': return chat(data, false);
     case 'chat-live-update': return chat(data, true);
     case 'clear-stats': return clearStats(data);
@@ -807,6 +808,14 @@ function sortPlayerListGroup (descending = true) {
     listGroup.appendChild(item);
   });
 }
+function teamChange ({ user, username, newTeam, newRscore, newBscore }) {
+  logEventConditionally(username, `switched teams to ${newTeam}`);
+  players[user].team = newTeam;
+  PLAYER_TEAM = newTeam;
+  RED_SCORE = newRscore;
+  BLUE_SCORE = newBscore;
+  Object.values(players).forEach((player) => upsertPlayerItem(player, USER_ID, room.ownerId, socket, room.public, room.showingOffline, RED_SCORE, BLUE_SCORE));
+}
 
 function toggleControlled ({ controlled, username }) {
   logEventConditionally(username, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
@@ -933,11 +942,18 @@ document.getElementById('buzz').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'give-answer-live-update', givenAnswer: '' }));
 });
 
+document.getElementById('switch-team').addEventListener('click', function () {
+  this.blur();
+  if (audio.soundEffects) audio.buzz.play();
+  console.log('s');
+  socket.send(JSON.stringify({ type: 'change-team', curTeam: PLAYER_TEAM }));
+});
+
 document.getElementById('chat').addEventListener('click', function () {
   this.blur();
   document.getElementById('chat-input-group').classList.remove('d-none');
   document.getElementById('chat-input').focus();
-  socket.send(JSON.stringify({ type: 'chat-live-update', message: '' }));
+  (JSON.stringify({ type: 'chat-live-update', message: '' }));
 });
 
 document.getElementById('chat-form').addEventListener('submit', function (event) {

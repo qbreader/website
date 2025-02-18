@@ -63,16 +63,24 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     </ul>
   `);
 
-    // Red team logic
     let redPlayers = document.getElementById('redPlayers');
 
     if (!redPlayers) {
       console.log('first r');
       const redHeader = document.createElement('div');
-      redHeader.innerHTML = `redHead ${rscore}`;
+      redHeader.innerHTML = `
+  <div class="d-flex red justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+          <span class="me-1">Red Team</span>
+          
+      </div>
+      <span><span id="points-red" class="badge rounded-pill bg-success">${rscore}</span></span>
+  </div>
+`;
       redHeader.id = 'redHeader';
       redPlayers = document.createElement('div');
       redPlayers.id = 'redPlayers';
+      redPlayers.className = 'red';
 
       document.getElementById('player-list-group').appendChild(redHeader);
       document.getElementById('player-list-group').appendChild(redPlayers);
@@ -80,7 +88,15 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     const redHeader = document.getElementById('redHeader');
 
     if (team === 'red') {
-      redHeader.innerHTML = `redHead ${rscore}`;
+      redHeader.innerHTML = `
+  <div class="d-flex red justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+          <span class="me-1">Red Team</span>
+          
+      </div>
+      <span><span id="points-red" class="badge rounded-pill bg-success">${rscore}</span></span>
+  </div>
+`;
       redPlayers.appendChild(playerItem);
     }
 
@@ -89,10 +105,20 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     if (!bluePlayers) {
       console.log('first b');
       const blueHeader = document.createElement('div');
-      blueHeader.innerHTML = `blueHead ${bscore}`;
+      blueHeader.innerHTML = `
+  <div class="d-flex blue justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+          <span class="me-1">Blue Team</span>
+          
+      </div>
+      <span><span id="points-blue" class="badge rounded-pill bg-success">${bscore}</span></span>
+  </div>
+`;
+
       blueHeader.id = 'blueHeader';
       bluePlayers = document.createElement('div');
       bluePlayers.id = 'bluePlayers';
+      bluePlayers.className = 'blue';
 
       document.getElementById('player-list-group').appendChild(blueHeader);
       document.getElementById('player-list-group').appendChild(bluePlayers);
@@ -100,7 +126,15 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     const blueHeader = document.getElementById('blueHeader');
 
     if (team === 'blue') {
-      blueHeader.innerHTML = `blueHead ${bscore}`;
+      blueHeader.innerHTML = `
+  <div class="d-flex blue justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+          <span class="me-1">Blue Team</span>
+          
+      </div>
+      <span><span id="points-blue" class="badge rounded-pill bg-success">${bscore}</span></span>
+  </div>
+`;
       bluePlayers.appendChild(playerItem);
     }
 
