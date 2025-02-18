@@ -208,12 +208,12 @@ export default class ServerTossupRoom extends TossupRoom {
     this.leave(userId);
   }
 
-  giveAnswerLiveUpdate (userId, { message }) {
-    if (typeof message !== 'string') { return false; }
+  giveAnswerLiveUpdate (userId, { givenAnswer }) {
+    if (typeof givenAnswer !== 'string') { return false; }
     if (userId !== this.buzzedIn) { return false; }
-    this.liveAnswer = message;
+    this.liveAnswer = givenAnswer;
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'give-answer-live-update', message, username });
+    this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username });
   }
 
   next (userId, { type }) {
