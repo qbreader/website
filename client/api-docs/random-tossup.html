@@ -45,37 +45,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/singleplayer">Singleplayer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/multiplayer">Multiplayer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/db">Database</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/frequency-list">Frequency List</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/geoword">Geoword</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/api-docs" aria-current="page">API</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/settings">Settings</a>
-                    </li>
-                </ul>
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-link" href="/singleplayer">Singleplayer</a>
+                    <a class="nav-link" href="/multiplayer">Multiplayer</a>
+                    <a class="nav-link" href="/db">Database</a>
+                    <a class="nav-link" href="/frequency-list">Frequency List</a>
+                    <a class="nav-link" href="/geoword">Geoword</a>
+                    <a class="nav-link active" href="/api-docs" aria-current="page">API</a>
+                    <a class="nav-link" href="/about">About</a>
+                    <a class="nav-link" href="/settings">Settings</a>
+                </div>
                 <div class="d-flex">
                     <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/user/login" id="login-link">Log in</a>
-                        </li>
+                        <a class="nav-link" href="/user/login" id="login-link">Log in</a>
                     </ul>
                 </div>
             </div>
@@ -87,62 +69,28 @@
         <!-- docs sidebar -->
         <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
             <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a href="/api-docs"><code>Overview</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/schemas"><code>Object Schemas</code></a>
-                </li>
+            <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                <a href="/api-docs"><code>Overview</code></a>
+                <a href="/api-docs/schemas"><code>Object Schemas</code></a>
                 <h5 class="mt-4 mb-2">Database</h5>
-                <li class="nav-item">
-                    <a href="/api-docs/query"><code>query</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/random-tossup" class="active fw-semibold" aria-current="page"><code>random-tossup</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/packet"><code>packet</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/packet-tossups"><code>packet-tossups</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/packet-bonuses"><code>packet-bonuses</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/num-packets"><code>num-packets</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/set-list"><code>set-list</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/bonus-by-id"><code>bonus-by-id</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/tossup-by-id"><code>tossup-by-id</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/frequency-list"><code>frequency-list</code></a>
-                </li>
+                <a href="/api-docs/query"><code>query</code></a>
+                <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
+                <a href="/api-docs/random-tossup" class="active fw-semibold" aria-current="page"><code>random-tossup</code></a>
+                <a href="/api-docs/packet"><code>packet</code></a>
+                <a href="/api-docs/packet-tossups"><code>packet-tossups</code></a>
+                <a href="/api-docs/packet-bonuses"><code>packet-bonuses</code></a>
+                <a href="/api-docs/num-packets"><code>num-packets</code></a>
+                <a href="/api-docs/set-list"><code>set-list</code></a>
+                <a href="/api-docs/bonus-by-id"><code>bonus-by-id</code></a>
+                <a href="/api-docs/tossup-by-id"><code>tossup-by-id</code></a>
+                <a href="/api-docs/frequency-list"><code>frequency-list</code></a>
                 <h5 class="mt-4 mb-2">Multiplayer</h5>
-                <li class="nav-item">
-                    <a href="/api-docs/multiplayer/room-list"><code>room-list</code></a>
-                </li>
+                <a href="/api-docs/multiplayer/room-list"><code>room-list</code></a>
                 <h5 class="mt-4 mb-2">Other</h5>
-                <li class="nav-item">
-                    <a href="/api-docs/check-answer"><code>check-answer</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/report-question"><code>report-question</code></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/api-docs/random-name"><code>random-name</code></a>
-                </li>
-            </ul>
+                <a href="/api-docs/check-answer"><code>check-answer</code></a>
+                <a href="/api-docs/report-question"><code>report-question</code></a>
+                <a href="/api-docs/random-name"><code>random-name</code></a>
+            </div>
         </div>
 
         <div class="col-12 col-md-9">
