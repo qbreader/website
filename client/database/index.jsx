@@ -227,6 +227,8 @@ function QueryForm () {
         if (value === '' || value === null || value === undefined) { return false; }
         if (value === false) { return false; }
         if (Array.isArray(value) && value.length === 0) { return false; }
+        if (key === 'questionType' && value === 'all') { return false; }
+        if (key === 'searchType' && value === 'all') { return false; }
         return true;
       })
     );
