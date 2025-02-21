@@ -41,7 +41,7 @@ export const inappropriateNames = [
   'packer', 'flange', 'Goddamn', 'God', 'gyat',
   'hell', 'homo', 'horn', 'jerk', 'jizz',
   'knobend', 'knob', 'labia', 'lmao',
-  'lmfao', 'muff', 'nigg', 'niqq', 'omg', 'papi',
+  'lmfao', 'muff', 'nigg', 'nigger', 'niqq', 'omg', 'papi',
   'penis', 'piss', 'poop', 'prick', 'pube',
   'pussy', 'queer', 'rizz', 'scrotum', 'sex',
   'sigma', 'shit', 'sh1t', 'slut', 'smegma',
