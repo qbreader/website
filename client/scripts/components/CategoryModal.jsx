@@ -50,6 +50,7 @@ const ALTERNATE_SUBCATEGORY_BUTTONS = [
   ['Dance', 'warning'],
   ['Film', 'warning'],
   ['Jazz', 'warning'],
+  ['Musicals', 'warning'],
   ['Opera', 'warning'],
   ['Photography', 'warning'],
   ['Misc Arts', 'warning'],
