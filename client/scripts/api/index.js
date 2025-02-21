@@ -1,6 +1,6 @@
 import getRandomName from '../../../quizbowl/get-random-name.js';
 
-import checkAnswer from 'https://cdn.jsdelivr.net/npm/qb-answer-checker@1.1.5/dist/main.mjs';
+import checkAnswer from 'https://cdn.jsdelivr.net/npm/qb-answer-checker@1.1.6/dist/main.mjs';
 
 export default class api {
   static SET_LIST = [];
