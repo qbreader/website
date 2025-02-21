@@ -1,54 +1,8 @@
 import { getBonusPartLabel } from '../../scripts/utilities/index.js';
 import QuestionCard from '../../scripts/components/QuestionCard.min.js';
+import { CATEGORY_TO_ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY } from '../../../quizbowl/categories.js';
 
 const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;
-
-const ALTERNATE_SUBCATEGORIES = {
-  Literature: ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
-  History: [],
-  Science: [],
-  'Fine Arts': [],
-  Religion: [],
-  Mythology: [],
-  Philosophy: [],
-  'Social Science': ['Anthropology', 'Economics', 'Linguistics', 'Psychology', 'Sociology', 'Other Social Science'],
-  'Current Events': [],
-  Geography: [],
-  'Other Academic': [],
-  Trash: [],
-
-  'Other Science': ['Math', 'Astronomy', 'Computer Science', 'Earth Science', 'Engineering', 'Misc Science'],
-  'Other Fine Arts': ['Architecture', 'Dance', 'Film', 'Jazz', 'Opera', 'Photography', 'Misc Arts']
-};
-
-const SUBCATEGORY_TO_CATEGORY = {
-  'American Literature': 'Literature',
-  'British Literature': 'Literature',
-  'Classical Literature': 'Literature',
-  'European Literature': 'Literature',
-  'World Literature': 'Literature',
-  'Other Literature': 'Literature',
-  'American History': 'History',
-  'Ancient History': 'History',
-  'European History': 'History',
-  'World History': 'History',
-  'Other History': 'History',
-  Biology: 'Science',
-  Chemistry: 'Science',
-  Physics: 'Science',
-  'Other Science': 'Other Science',
-  'Visual Fine Arts': 'Fine Arts',
-  'Auditory Fine Arts': 'Fine Arts',
-  'Other Fine Arts': 'Other Fine Arts',
-  Religion: 'Religion',
-  Mythology: 'Mythology',
-  Philosophy: 'Philosophy',
-  'Social Science': 'Social Science',
-  'Current Events': 'Current Events',
-  Geography: 'Geography',
-  'Other Academic': 'Other Academic',
-  Trash: 'Trash'
-};
 
 function TossupCard ({ tossup }) {
   const _id = tossup._id;
@@ -207,7 +161,12 @@ function Reports () {
 document.getElementById('new-category').addEventListener('input', function () {
   const subcategory = this.value;
   const category = SUBCATEGORY_TO_CATEGORY[subcategory];
-  const alternateCategories = ALTERNATE_SUBCATEGORIES[category];
+  let alternateCategories = [];
+  if (category === 'Literature') {
+    alternateCategories = CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category];
+  } else if (['Other Science', 'Other Fine Arts', 'Social Science'].includes(subcategory)) {
+    alternateCategories = CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category];
+  }
 
   const select = document.getElementById('new-alternate-subcategory');
   select.innerHTML = '';

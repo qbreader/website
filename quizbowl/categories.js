@@ -1,4 +1,3 @@
-export const CATEGORIES = ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash'];
 export const CATEGORY_TO_SUBCATEGORY = {
   Literature: ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature'],
   History: ['American History', 'Ancient History', 'European History', 'World History', 'Other History'],
@@ -13,6 +12,7 @@ export const CATEGORY_TO_SUBCATEGORY = {
   'Other Academic': ['Other Academic'],
   Trash: ['Trash']
 };
+export const CATEGORIES = Object.keys(CATEGORY_TO_SUBCATEGORY);
 
 export const CATEGORY_TO_ALTERNATE_SUBCATEGORIES = {
   Literature: ['Drama', 'Long Fiction', 'Poetry', 'Short Fiction', 'Misc Literature'],
