@@ -139,11 +139,11 @@ function updatePassword (username, newPassword) {
  * @returns {boolean} True if the username is valid, and false otherwise.
  */
 function validateUsername (username) {
-  if (!username) {
+  if (!username || typeof username !== 'string') {
     return false;
   }
 
-  if (banList.includes(username)) {
+  if (banList.includes(username.toLowerCase())) {
     return false;
   }
 
