@@ -1,5 +1,7 @@
+export const MIN_YEAR = 2000;
+export const MAX_YEAR = 2025;
 export const DEFAULT_MIN_YEAR = 2010;
-export const DEFAULT_MAX_YEAR = 2024;
+export const DEFAULT_MAX_YEAR = 2025;
 
 export const DIFFICULTIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
