@@ -1,5 +1,4 @@
 import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
-
 import api from '../scripts/api/index.js';
 import star from '../scripts/auth/star.js';
 import TossupCard from '../scripts/components/TossupCard.min.js';
@@ -7,16 +6,21 @@ import BonusCard from '../scripts/components/BonusCard.min.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import Star from '../scripts/components/Star.min.js';
-import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import CategoryManager from '../../quizbowl/category-manager.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 
 const starredTossupIds = new Set(await star.getStarredTossupIds());
 const starredBonusIds = new Set(await star.getStarredBonusIds());
 
+const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;
 const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
 
 const categoryManager = new CategoryManager();
+
+function arrayBetween (start, end) {
+  return Array(end - start).fill().map((_, idx) => start + idx);
+}
 
 function getMatchIndices (clean, regex) {
   const iterator = clean.matchAll(regex);
@@ -89,18 +93,22 @@ function QueryForm () {
   const [tossupCount, setTossupCount] = React.useState(0);
   const [bonusCount, setBonusCount] = React.useState(0);
 
-  const [maxReturnLength, setMaxReturnLength] = React.useState('');
-  const [queryString, setQueryString] = React.useState('');
-  const [questionType, setQuestionType] = React.useState('all');
-  const [searchType, setSearchType] = React.useState('all');
-  const [minYear, setMinYear] = React.useState('');
-  const [maxYear, setMaxYear] = React.useState('');
+  // query form
+  const initialParams = new window.URLSearchParams(window.location.search);
+  const [queryString, setQueryString] = React.useState(initialParams.get('queryString') ?? '');
+  const [maxReturnLength, setMaxReturnLength] = React.useState(initialParams.get('maxReturnLength') ?? '');
+  const [setName, setSetName] = React.useState(initialParams.get('setName') ?? '');
+  const [searchType, setSearchType] = React.useState(initialParams.get('searchType') ?? 'all');
+  const [questionType, setQuestionType] = React.useState(initialParams.get('questionType') ?? 'all');
+  const [minYear, setMinYear] = React.useState(initialParams.get('minYear') ?? '');
+  const [maxYear, setMaxYear] = React.useState(initialParams.get('maxYear') ?? '');
 
-  const [regex, setRegex] = React.useState(false);
-  const [ignoreWordOrder, setIgnoreWordOrder] = React.useState(false);
-  const [exactPhrase, setExactPhrase] = React.useState(false);
-  const [caseSensitive, setCaseSensitive] = React.useState(false);
-  const [powermarkOnly, setPowermarkOnly] = React.useState(false);
+  // toggleable options
+  const [regex, setRegex] = React.useState(initialParams.get('regex') === 'true');
+  const [ignoreWordOrder, setIgnoreWordOrder] = React.useState(initialParams.get('ignoreWordOrder') === 'true');
+  const [exactPhrase, setExactPhrase] = React.useState(initialParams.get('exactPhrase') === 'true');
+  const [caseSensitive, setCaseSensitive] = React.useState(initialParams.get('caseSensitive') === 'true');
+  const [powermarkOnly, setPowermarkOnly] = React.useState(initialParams.get('powermarkOnly') === 'true');
   const [hideAnswerlines, setHideAnswerlines] = React.useState(false);
   const [hideCardFooters, setHideCardFooters] = React.useState(false);
 
@@ -110,87 +118,67 @@ function QueryForm () {
   let [bonusPaginationNumber, setBonusPaginationNumber] = React.useState(1);
   const [tossupPaginationLength, setTossupPaginationLength] = React.useState(1);
   const [bonusPaginationLength, setBonusPaginationLength] = React.useState(1);
+  // paginationShift is one less than the first pagination number selectable
+  // so if the options are 11, 12, ..., 19, 20, then paginationShift=10
+  //    if the options are 86, 87, ..., 89, 90, then paginationShift=85
   const [tossupPaginationShift, setTossupPaginationShift] = React.useState(0);
   const [bonusPaginationShift, setBonusPaginationShift] = React.useState(0);
 
   const [queryTime, setQueryTime] = React.useState(0);
 
-  const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;
-
-  function arrayBetween (start, end) {
-    return Array(end - start).fill().map((_, idx) => start + idx);
-  }
-
   function getMaxPagination () {
     return Math.floor(10000 / (maxReturnLength || 25));
   }
 
-  function handleTossupPaginationClick (event, value) {
+  /**
+   *
+   * @param {"tossup" | "bonus"} type - The type of question to handle pagination for.
+   */
+  function handlePaginationClick (event, value, type) {
     event.preventDefault();
-
-    switch (value) {
-      case 'first':
-        tossupPaginationNumber = 1;
-        break;
-      case 'previous':
-        tossupPaginationNumber = Math.max(1, tossupPaginationNumber - 1);
-        break;
-      case 'next':
-        tossupPaginationNumber = Math.min(tossupPaginationLength, tossupPaginationNumber + 1, getMaxPagination());
-        break;
-      case 'last':
-        tossupPaginationNumber = Math.min(tossupPaginationLength, getMaxPagination());
-        break;
-      default:
-        tossupPaginationNumber = value;
-        break;
+    let paginationNumber = type === 'tossup' ? tossupPaginationNumber : bonusPaginationNumber;
+    const valueToNumber = {
+      first: 1,
+      previous: Math.max(1, paginationNumber - 1),
+      next: Math.min(type === 'tossup' ? tossupPaginationLength : bonusPaginationLength, paginationNumber + 1, getMaxPagination()),
+      last: Math.min(type === 'tossup' ? tossupPaginationLength : bonusPaginationLength, getMaxPagination())
+    };
+    if (value in valueToNumber) {
+      paginationNumber = valueToNumber[value];
+    } else {
+      paginationNumber = value;
     }
 
-    setTossupPaginationNumber(tossupPaginationNumber);
-    setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
+    const paginationShift = paginationShiftLength * Math.floor((paginationNumber - 1) / paginationShiftLength);
+    if (type === 'tossup') {
+      tossupPaginationNumber = paginationNumber;
+      setTossupPaginationNumber(paginationNumber);
+      setTossupPaginationShift(paginationShift);
+    } else {
+      bonusPaginationNumber = paginationNumber;
+      setBonusPaginationNumber(paginationNumber);
+      setBonusPaginationShift(paginationShift);
+    }
     handleSubmit(event, false, true);
 
     window.scrollTo({
-      top: document.getElementById('tossups').offsetTop - 100,
+      top: document.getElementById(type === 'tossup' ? 'tossups' : 'bonuses').offsetTop - 100,
       behavior: 'smooth'
     });
+  }
+
+  function handleTossupPaginationClick (event, value) {
+    return handlePaginationClick(event, value, 'tossup');
   }
 
   function handleBonusPaginationClick (event, value) {
-    event.preventDefault();
-
-    switch (value) {
-      case 'first':
-        bonusPaginationNumber = 1;
-        break;
-      case 'previous':
-        bonusPaginationNumber = Math.max(1, bonusPaginationNumber - 1);
-        break;
-      case 'next':
-        bonusPaginationNumber = Math.min(bonusPaginationLength, bonusPaginationNumber + 1, getMaxPagination());
-        break;
-      case 'last':
-        bonusPaginationNumber = Math.min(bonusPaginationLength, getMaxPagination());
-        break;
-      default:
-        bonusPaginationNumber = value;
-        break;
-    }
-
-    setBonusPaginationNumber(bonusPaginationNumber);
-    setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
-    handleSubmit(event, false, true);
-
-    window.scrollTo({
-      top: document.getElementById('bonuses').offsetTop - 100,
-      behavior: 'smooth'
-    });
+    return handlePaginationClick(event, value, 'bonus');
   }
 
-  function handleSubmit (event, randomize = false, paginationUpdate = false) {
-    const startTime = performance.now();
+  function handleSubmit (event = null, randomize = false, paginationUpdate = false) {
+    const startTime = window.performance.now();
 
-    event.preventDefault();
+    event?.preventDefault();
     setCurrentlySearching(true);
 
     if (randomize || !paginationUpdate) {
@@ -213,7 +201,7 @@ function QueryForm () {
       regex,
       ignoreWordOrder,
       searchType,
-      setName: document.getElementById('set-name').value,
+      setName,
       tossupPagination: tossupPaginationNumber === 1 ? '' : tossupPaginationNumber,
       bonusPagination: bonusPaginationNumber === 1 ? '' : bonusPaginationNumber,
       minYear,
@@ -233,7 +221,7 @@ function QueryForm () {
       })
     );
 
-    const params = new URLSearchParams(filteredParams);
+    const params = new window.URLSearchParams(filteredParams);
 
     fetch(`/api/query?${params}`)
       .then(response => {
@@ -284,7 +272,7 @@ function QueryForm () {
         setTossupPaginationShift(paginationShiftLength * Math.floor((tossupPaginationNumber - 1) / paginationShiftLength));
         setBonusPaginationShift(paginationShiftLength * Math.floor((bonusPaginationNumber - 1) / paginationShiftLength));
 
-        const endTime = performance.now();
+        const endTime = window.performance.now();
         const timeElapsed = ((endTime - startTime) / 1000).toFixed(2);
         setQueryTime(timeElapsed);
 
@@ -316,14 +304,6 @@ function QueryForm () {
   }
 
   React.useEffect(() => {
-    document.getElementById('report-question-submit').addEventListener('click', function () {
-      api.reportQuestion(
-        document.getElementById('report-question-id').value,
-        document.getElementById('report-question-reason').value,
-        document.getElementById('report-question-description').value
-      );
-    });
-
     window.addEventListener('popstate', event => {
       if (event.state === null) {
         setTossupCount(0);
@@ -370,6 +350,8 @@ function QueryForm () {
     });
 
     document.getElementById('set-list').innerHTML = api.getSetList().map(setName => `<option>${setName}</option>`).join('');
+
+    if (window.location.search !== '') { handleSubmit(); }
   }, []);
 
   return (
@@ -389,7 +371,7 @@ function QueryForm () {
             <input type='number' className='form-control' id='max-return-length' placeholder='# to Display' value={maxReturnLength} onChange={event => { setMaxReturnLength(event.target.value); }} />
           </div>
           <div className='input-group col-12 col-xl-6 mb-2'>
-            <input type='text' className='form-control' id='set-name' placeholder='Set Name' list='set-list' />
+            <input type='text' className='form-control' id='set-name' placeholder='Set Name' list='set-list' value={setName} onChange={event => { setSetName(event.target.value); }} />
             <datalist id='set-list' />
             <button type='button' className='btn btn-danger' id='category-select-button' data-bs-toggle='modal' data-bs-target='#category-modal'>Categories</button>
           </div>
@@ -582,3 +564,11 @@ function QueryForm () {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<QueryForm />);
+
+document.getElementById('report-question-submit').addEventListener('click', function () {
+  api.reportQuestion(
+    document.getElementById('report-question-id').value,
+    document.getElementById('report-question-reason').value,
+    document.getElementById('report-question-description').value
+  );
+});
