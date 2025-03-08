@@ -33,7 +33,15 @@
                     <a class="nav-link" href="/db">Database</a>
                     <a class="nav-link" href="/frequency-list">Frequency List</a>
                     <a class="nav-link" href="/geoword">Geoword</a>
-                    <a class="nav-link active" href="/api-docs" aria-current="page">API</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Tools
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/tools/api-docs">API Docs</a>
+                        </ul>
+                    </li>
                     <a class="nav-link" href="/about">About</a>
                     <a class="nav-link" href="/settings">Settings</a>
                 </div>
@@ -52,26 +60,26 @@
         <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
             <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
             <div class="navbar-nav me-auto mb-2 mb-lg-0">
-                <a href="/api-docs" class="active fw-semibold" aria-current="page"><code>Overview</code></a>
-                <a href="/api-docs/schemas"><code>Object Schemas</code></a>
+                <a href="." class="active fw-semibold" aria-current="page"><code>Overview</code></a>
+                <a href="./schemas"><code>Object Schemas</code></a>
                 <h5 class="mt-4 mb-2">Database</h5>
-                <a href="/api-docs/query"><code>query</code></a>
-                <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
-                <a href="/api-docs/random-tossup"><code>random-tossup</code></a>
-                <a href="/api-docs/packet"><code>packet</code></a>
-                <a href="/api-docs/packet-tossups"><code>packet-tossups</code></a>
-                <a href="/api-docs/packet-bonuses"><code>packet-bonuses</code></a>
-                <a href="/api-docs/num-packets"><code>num-packets</code></a>
-                <a href="/api-docs/set-list"><code>set-list</code></a>
-                <a href="/api-docs/bonus-by-id"><code>bonus-by-id</code></a>
-                <a href="/api-docs/tossup-by-id"><code>tossup-by-id</code></a>
-                <a href="/api-docs/frequency-list"><code>frequency-list</code></a>
+                <a href="./query"><code>query</code></a>
+                <a href="./random-bonus"><code>random-bonus</code></a>
+                <a href="./random-tossup"><code>random-tossup</code></a>
+                <a href="./packet"><code>packet</code></a>
+                <a href="./packet-tossups"><code>packet-tossups</code></a>
+                <a href="./packet-bonuses"><code>packet-bonuses</code></a>
+                <a href="./num-packets"><code>num-packets</code></a>
+                <a href="./set-list"><code>set-list</code></a>
+                <a href="./bonus-by-id"><code>bonus-by-id</code></a>
+                <a href="./tossup-by-id"><code>tossup-by-id</code></a>
+                <a href="./frequency-list"><code>frequency-list</code></a>
                 <h5 class="mt-4 mb-2">Multiplayer</h5>
-                <a href="/api-docs/multiplayer/room-list"><code>room-list</code></a>
+                <a href="./multiplayer/room-list"><code>room-list</code></a>
                 <h5 class="mt-4 mb-2">Other</h5>
-                <a href="/api-docs/check-answer"><code>check-answer</code></a>
-                <a href="/api-docs/report-question"><code>report-question</code></a>
-                <a href="/api-docs/random-name"><code>random-name</code></a>
+                <a href="./check-answer"><code>check-answer</code></a>
+                <a href="./report-question"><code>report-question</code></a>
+                <a href="./random-name"><code>random-name</code></a>
             </div>
         </div>
 
@@ -110,67 +118,67 @@
             <h5 class="mt-4 md-2">Database</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a href="/api-docs/query">
+                    <a href="./query">
                         <div><code>GET</code> <code>/query</code></div>
                     </a>
                     <div>Query the database.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/random-bonus">
+                    <a href="./random-bonus">
                         <div><code>GET</code> <code>/random-bonus</code></div>
                     </a>
                     <div>Get random bonuses from the database.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/random-tossup">
+                    <a href="./random-tossup">
                         <div><code>GET</code> <code>/random-tossup</code></div>
                     </a>
                     <div>Get random tossups from the database.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/packet">
+                    <a href="./packet">
                         <div><code>GET</code> <code>/packet</code></div>
                     </a>
                     <div>Get a specific packet from a set.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/packet-tossups">
+                    <a href="./packet-tossups">
                         <div><code>GET</code> <code>/packet-tossups</code></div>
                     </a>
                     <div>Get only tossups from a packet.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/packet-bonuses">
+                    <a href="./packet-bonuses">
                         <div><code>GET</code> <code>/packet-bonuses</code></div>
                     </a>
                     <div>Get only bonuses from a packet.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/num-packets">
+                    <a href="./num-packets">
                         <div><code>GET</code> <code>/num-packets</code></div>
                     </a>
                     <div>Get the number of packets in a set.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/set-list">
+                    <a href="./set-list">
                         <div><code>GET</code> <code>/set-list</code></div>
                     </a>
                     <div>Get a list of all sets in the database.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/bonus-by-id">
+                    <a href="./bonus-by-id">
                         <div><code>GET</code> <code>/bonus-by-id</code></div>
                     </a>
                     <div>Get a single bonus by its ID.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/tossup-by-id">
+                    <a href="./tossup-by-id">
                         <div><code>GET</code> <code>/tossup-by-id</code></div>
                     </a>
                     <div>Get a single tossup by its ID.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/frequency-list">
+                    <a href="./frequency-list">
                         <div><code>GET</code> <code>/frequency-list</code></div>
                     </a>
                     <div>Get the most frequent tossup and bonus answers for the given subcategory.</div>
@@ -180,7 +188,7 @@
             <h5 class="mt-4 md-2">Multiplayer</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a href="/api-docs/multiplayer/room-list">
+                    <a href="./multiplayer/room-list">
                         <div><code>GET</code> <code>/multiplayer/room-list</code></div>
                     </a>
                     <div>Get all public rooms.</div>
@@ -190,19 +198,19 @@
             <h5 class="mt-4 md-2">Other</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a href="/api-docs/check-answer">
+                    <a href="./check-answer">
                         <div><code>GET</code> <code>/check-answer</code></div>
                     </a>
                     <div>Judge an answer to be correct, incorrect, or prompt, given an answerline.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/report-question">
+                    <a href="./report-question">
                         <div><code>POST</code> <code>/report-question</code></div>
                     </a>
                     <div>Report a question.</div>
                 </li>
                 <li class="list-group-item">
-                    <a href="/api-docs/random-name">
+                    <a href="./random-name">
                         <div><code>GET</code> <code>/random-name</code></div>
                     </a>
                     <div>Get a random adjective-noun pair that can be used as a name.</div>
