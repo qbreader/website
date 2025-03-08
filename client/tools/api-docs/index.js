@@ -1,4 +1,4 @@
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../quizbowl/constants.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../quizbowl/constants.js';
 
 document.querySelectorAll('span.default-min-year').forEach(element => {
   element.textContent = DEFAULT_MIN_YEAR;

@@ -33,7 +33,15 @@
                     <a class="nav-link" href="/db">Database</a>
                     <a class="nav-link" href="/frequency-list">Frequency List</a>
                     <a class="nav-link" href="/geoword">Geoword</a>
-                    <a class="nav-link active" href="/api-docs" aria-current="page">API</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Tools
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/tools/api-docs">API Docs</a>
+                        </ul>
+                    </li>
                     <a class="nav-link" href="/about">About</a>
                     <a class="nav-link" href="/settings">Settings</a>
                 </div>
@@ -52,36 +60,36 @@
         <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
             <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
             <div class="navbar-nav me-auto mb-2 mb-lg-0">
-                <a href="/api-docs"><code>Overview</code></a>
-                <a href="/api-docs/schemas"><code>Object Schemas</code></a>
+                <a href="."><code>Overview</code></a>
+                <a href="./schemas"><code>Object Schemas</code></a>
                 <h5 class="mt-4 mb-2">Database</h5>
-                <a href="/api-docs/query"><code>query</code></a>
-                <a href="/api-docs/random-bonus"><code>random-bonus</code></a>
-                <a href="/api-docs/random-tossup"><code>random-tossup</code></a>
-                <a href="/api-docs/packet" class="active fw-semibold" aria-current="page"><code>packet</code></a>
-                <a href="/api-docs/packet-tossups"><code>packet-tossups</code></a>
-                <a href="/api-docs/packet-bonuses"><code>packet-bonuses</code></a>
-                <a href="/api-docs/num-packets"><code>num-packets</code></a>
-                <a href="/api-docs/set-list"><code>set-list</code></a>
-                <a href="/api-docs/bonus-by-id"><code>bonus-by-id</code></a>
-                <a href="/api-docs/tossup-by-id"><code>tossup-by-id</code></a>
-                <a href="/api-docs/frequency-list"><code>frequency-list</code></a>
+                <a href="./query"><code>query</code></a>
+                <a href="./random-bonus"><code>random-bonus</code></a>
+                <a href="./random-tossup"><code>random-tossup</code></a>
+                <a href="./packet"><code>packet</code></a>
+                <a href="./packet-tossups"><code>packet-tossups</code></a>
+                <a href="./packet-bonuses"><code>packet-bonuses</code></a>
+                <a href="./num-packets"><code>num-packets</code></a>
+                <a href="./set-list"><code>set-list</code></a>
+                <a href="./bonus-by-id"><code>bonus-by-id</code></a>
+                <a href="./tossup-by-id"><code>tossup-by-id</code></a>
+                <a href="./frequency-list"><code>frequency-list</code></a>
                 <h5 class="mt-4 mb-2">Multiplayer</h5>
-                <a href="/api-docs/multiplayer/room-list"><code>room-list</code></a>
+                <a href="./multiplayer/room-list"><code>room-list</code></a>
                 <h5 class="mt-4 mb-2">Other</h5>
-                <a href="/api-docs/check-answer"><code>check-answer</code></a>
-                <a href="/api-docs/report-question"><code>report-question</code></a>
-                <a href="/api-docs/random-name"><code>random-name</code></a>
+                <a href="./check-answer"><code>check-answer</code></a>
+                <a href="./report-question" class="active fw-semibold" aria-current="page"><code>report-question</code></a>
+                <a href="./random-name"><code>random-name</code></a>
             </div>
         </div>
 
         <div class="col-12 col-md-9">
             <h3 class="md-4">
-                <div><code>GET</code> <code>qbreader.org/api/packet</code></div>
+                <div><code>POST</code> <code>qbreader.org/api/report-question</code></div>
             </h3>
 
             <p>
-                Get a specific packet from a set.
+                Report a question error.
             </p>
 
             <a href="#parameters" class="text-body">
@@ -90,29 +98,29 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
-                        <code>setName</code><code class="text-muted">: string</code>
+                        <code>_id</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
                     </div>
                     <div>
-                        The name of the set. See <a href="/api-docs/set-list"><code>/set-list</code></a> for a list of all sets.
+                        The internal ID of the question.
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>packetNumber</code><code class="text-muted">: number</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                        <code>reason</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: ""</code>
                     </div>
                     <div>
-                        The number of the packet in the set, starting from 1.
+                        The reason why the question is being reported.
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>modaq</code><code class="text-muted">: boolean</code>
-                        <code class="text-muted float-end fw-semibold">default: "false"</code>
+                        <code>description</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: ""</code>
                     </div>
                     <div>
-                        Whether or not to output in a format compatible with <a href="https://github.com/alopezlago/MODAQ">MODAQ</a>.
+                        A description of the problem.
                     </div>
                 </li>
             </ul>
@@ -121,28 +129,8 @@
                 <h4 class="mt-4 md-2" id="returns">Returns</h4>
             </a>
             <div>
-                A JSON <code>object</code> with the following properties:
+                <code>200 OK</code> if the operation was successful and <code>500 Internal Server Error</code> if there was an error.
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div>
-                        <code>tossups</code><code
-                            class="text-muted">: <a href="/api-docs/schemas#tossup" class="text-muted">Tossup</a>[]</code>
-                    </div>
-                    <div>
-                        An array of <a href="/api-docs/schemas#tossup"><code>Tossups</code></a> in the packet.
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>bonuses</code><code
-                            class="text-muted">: <a href="/api-docs/schemas#bonus" class="text-muted">Bonus</a>[]</code>
-                    </div>
-                    <div>
-                        An array of <a href="/api-docs/schemas#bonus"><code>Bonuses</code></a> in the packet.
-                    </div>
-                </li>
-            </ul>
         </div>
     </div>
 
