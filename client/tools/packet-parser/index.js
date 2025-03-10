@@ -10,7 +10,9 @@ function createDownloadGroupItem (data, filename) {
   a.href = '#';
   a.target = '_blank';
   a.textContent = filename;
-  a.addEventListener('click', function () {
+  a.addEventListener('click', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
     saveAs(new window.Blob([JSON.stringify(data, null, 4)], { type: 'application/json' }), filename);
   });
   return a;
