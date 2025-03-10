@@ -6,7 +6,6 @@ async function getRandomStarredTossup () {
   if (starredTossupIds === null) {
     starredTossupIds = await fetch('/auth/stars/tossup-ids')
       .then(response => {
-        console.log(response);
         if (!response.ok) { return null; }
         return response.json();
       });
