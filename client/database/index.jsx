@@ -102,6 +102,10 @@ function QueryForm () {
   const [questionType, setQuestionType] = React.useState(initialParams.get('questionType') ?? 'all');
   const [minYear, setMinYear] = React.useState(initialParams.get('minYear') ?? '');
   const [maxYear, setMaxYear] = React.useState(initialParams.get('maxYear') ?? '');
+  const [randomize, setRandomize] = React.useState(initialParams.get('randomize') ?? 'false');
+
+  const [difficulties] = React.useState((/^\d+(,\d+)*$/.test(initialParams.get('difficulties') ?? '') ? (initialParams.get('difficulties') ?? '').split(',').map(Number) : getDropdownValues('difficulties')));
+  // due to how the diff dropdown is set up using setState is not logical here, or at least it doesn't seem so to me
 
   // toggleable options
   const [regex, setRegex] = React.useState(initialParams.get('regex') === 'true');
@@ -159,7 +163,7 @@ function QueryForm () {
       setBonusPaginationNumber(paginationNumber);
       setBonusPaginationShift(paginationShift);
     }
-    handleSubmit(event, false, true);
+    handleSubmit(event, true);
 
     window.scrollTo({
       top: document.getElementById(type === 'tossup' ? 'tossups' : 'bonuses').offsetTop - 100,
@@ -175,7 +179,7 @@ function QueryForm () {
     return handlePaginationClick(event, value, 'bonus');
   }
 
-  function handleSubmit (event = null, randomize = false, paginationUpdate = false) {
+  function handleSubmit (event = null, paginationUpdate = false) {
     const startTime = window.performance.now();
 
     event?.preventDefault();
@@ -361,11 +365,11 @@ function QueryForm () {
         <div className='input-group mb-2'>
           <input type='text' className='form-control' id='query' placeholder='Query' value={queryString} onChange={event => { setQueryString(event.target.value); }} />
           <button type='submit' className='btn btn-info'>Search</button>
-          <button id='randomize' className='btn btn-success' onClick={event => { handleSubmit(event, true); }}>Random</button>
+          <button id='randomize' className='btn btn-success' onClick={event => { setRandomize(true); handleSubmit(event); }}>Random</button>
         </div>
         <div className='row'>
           <div className='col-6 col-xl-3 mb-2'>
-            <DifficultyDropdown />
+            <DifficultyDropdown startingDifficulties={difficulties} />
           </div>
           <div className='col-6 col-xl-3 mb-2'>
             <input type='number' className='form-control' id='max-return-length' placeholder='# to Display' value={maxReturnLength} onChange={event => { setMaxReturnLength(event.target.value); }} />
@@ -452,7 +456,7 @@ function QueryForm () {
                 Jump to bonuses
               </a>
             </span>
-        </div> // eslint-disable-line
+          </div> // eslint-disable-line
           : <div className='text-muted'>No tossups found</div>
       }
       <div>{tossupCards}</div>
@@ -471,20 +475,20 @@ function QueryForm () {
                 </a>
               </li>
               {
-                arrayBetween(
-                  Math.min(tossupPaginationShift),
-                  Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)
-                ).map((i) => {
-                  const isActive = tossupPaginationNumber === i + 1;
-                  return (
-                    <li key={`tossup-pagination-${i + 1}`} className='page-item'>
-                      <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleTossupPaginationClick(event, i + 1); }}>
-                        {i + 1}
-                      </a>
-                    </li>
-                  );
-                })
-              }
+              arrayBetween(
+                Math.min(tossupPaginationShift),
+                Math.min(tossupPaginationShift + paginationShiftLength, tossupPaginationLength)
+              ).map((i) => {
+                const isActive = tossupPaginationNumber === i + 1;
+                return (
+                  <li key={`tossup-pagination-${i + 1}`} className='page-item'>
+                    <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleTossupPaginationClick(event, i + 1); }}>
+                      {i + 1}
+                    </a>
+                  </li>
+                );
+              })
+            }
               <li className='page-item'>
                 <a className='page-link' href='#' aria-label='Next' onClick={event => { handleTossupPaginationClick(event, 'next'); }}>
                   &rsaquo;
@@ -511,25 +515,25 @@ function QueryForm () {
                 Jump to tossups
               </a>
             </span>
-            </div> // eslint-disable-line
+          </div> // eslint-disable-line
           : <div className='text-muted'>No bonuses found</div>
       }
       <div>{bonusCards}</div>
       {
-      bonusPaginationLength > 1 &&
-        <nav aria-label='bonus nagivation'>
-          <ul className='pagination justify-content-center'>
-            <li className='page-item'>
-              <a className='page-link' href='#' aria-label='First' onClick={event => { handleBonusPaginationClick(event, 'first'); }}>
-                &laquo;
-              </a>
-            </li>
-            <li className='page-item'>
-              <a className='page-link' href='#' aria-label='Previous' onClick={event => { handleBonusPaginationClick(event, 'previous'); }}>
-                &lsaquo;
-              </a>
-            </li>
-            {
+        bonusPaginationLength > 1 &&
+          <nav aria-label='bonus nagivation'>
+            <ul className='pagination justify-content-center'>
+              <li className='page-item'>
+                <a className='page-link' href='#' aria-label='First' onClick={event => { handleBonusPaginationClick(event, 'first'); }}>
+                  &laquo;
+                </a>
+              </li>
+              <li className='page-item'>
+                <a className='page-link' href='#' aria-label='Previous' onClick={event => { handleBonusPaginationClick(event, 'previous'); }}>
+                  &lsaquo;
+                </a>
+              </li>
+              {
               arrayBetween(
                 Math.min(bonusPaginationShift),
                 Math.min(bonusPaginationShift + paginationShiftLength, bonusPaginationLength)
@@ -544,18 +548,18 @@ function QueryForm () {
                 );
               })
             }
-            <li className='page-item'>
-              <a className='page-link' href='#' aria-label='Next' onClick={event => { handleBonusPaginationClick(event, 'next'); }}>
-                &rsaquo;
-              </a>
-            </li>
-            <li className='page-item'>
-              <a className='page-link' href='#' aria-label='Last' onClick={event => { handleBonusPaginationClick(event, 'last'); }}>
-                <span aria-hidden='true'>&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+              <li className='page-item'>
+                <a className='page-link' href='#' aria-label='Next' onClick={event => { handleBonusPaginationClick(event, 'next'); }}>
+                  &rsaquo;
+                </a>
+              </li>
+              <li className='page-item'>
+                <a className='page-link' href='#' aria-label='Last' onClick={event => { handleBonusPaginationClick(event, 'last'); }}>
+                  <span aria-hidden='true'>&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
       }
       <div className='mb-5' />
     </div>
