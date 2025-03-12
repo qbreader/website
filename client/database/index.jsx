@@ -12,7 +12,6 @@ import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 
 const starredTossupIds = new Set(await star.getStarredTossupIds());
 const starredBonusIds = new Set(await star.getStarredBonusIds());
-let RANDOMIZE = null;
 
 const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;
 const paginationShiftLength = window.screen.width > 992 ? 10 : 5;
@@ -103,9 +102,10 @@ function QueryForm () {
   const [questionType, setQuestionType] = React.useState(initialParams.get('questionType') ?? 'all');
   const [minYear, setMinYear] = React.useState(initialParams.get('minYear') ?? '');
   const [maxYear, setMaxYear] = React.useState(initialParams.get('maxYear') ?? '');
-  const [difficulties] = React.useState(initialParams.get('difficulties') ?? '');
-  const [randomize] = React.useState(initialParams.get('randomize') ?? 'false');
-  RANDOMIZE = randomize;
+  const [randomize, setRandomize] = React.useState(initialParams.get('randomize') ?? 'false');
+
+  const [difficulties] = React.useState((/^\d+(,\d+)*$/.test(initialParams.get('difficulties') ?? '') ? (initialParams.get('difficulties') ?? '').split(',').map(Number) : getDropdownValues('difficulties')));
+  // due to how the diff dropdown is set up using setState is not logical here, or at least it doesn't seem so to me
 
   // toggleable options
   const [regex, setRegex] = React.useState(initialParams.get('regex') === 'true');
@@ -163,7 +163,7 @@ function QueryForm () {
       setBonusPaginationNumber(paginationNumber);
       setBonusPaginationShift(paginationShift);
     }
-    handleSubmit(event, false, true);
+    handleSubmit(event, true);
 
     window.scrollTo({
       top: document.getElementById(type === 'tossup' ? 'tossups' : 'bonuses').offsetTop - 100,
@@ -179,19 +179,8 @@ function QueryForm () {
     return handlePaginationClick(event, value, 'bonus');
   }
 
-  function handleSubmit (event = null, randomize = false, paginationUpdate = false) {
+  function handleSubmit (event = null, paginationUpdate = false) {
     const startTime = window.performance.now();
-    let questionDifficulties = null;
-    if (difficulties !== '') {
-      questionDifficulties = [];
-      for (const value in difficulties.split(',')) {
-        questionDifficulties.push(value);
-      }
-    } else {
-      questionDifficulties = getDropdownValues('difficulties');
-    }
-
-    randomize = RANDOMIZE;
 
     event?.preventDefault();
     setCurrentlySearching(true);
@@ -206,7 +195,7 @@ function QueryForm () {
     const unfilteredParams = {
       queryString,
       ...categoryManager.export(),
-      difficulties: questionDifficulties,
+      difficulties: getDropdownValues('difficulties'),
       maxReturnLength,
       questionType,
       randomize,
@@ -372,15 +361,15 @@ function QueryForm () {
   return (
     <div>
       <CategoryModal categoryManager={categoryManager} disablePercentView />
-      <form className='mt-3' onSubmit={event => { handleSubmit(event, RANDOMIZE); }}>
+      <form className='mt-3' onSubmit={event => { handleSubmit(event); }}>
         <div className='input-group mb-2'>
           <input type='text' className='form-control' id='query' placeholder='Query' value={queryString} onChange={event => { setQueryString(event.target.value); }} />
           <button type='submit' className='btn btn-info'>Search</button>
-          <button id='randomize' className='btn btn-success' onClick={event => { handleSubmit(event, true); }}>Random</button>
+          <button id='randomize' className='btn btn-success' onClick={event => { setRandomize(true); handleSubmit(event); }}>Random</button>
         </div>
         <div className='row'>
           <div className='col-6 col-xl-3 mb-2'>
-            <DifficultyDropdown />
+            <DifficultyDropdown startingDifficulties={difficulties} />
           </div>
           <div className='col-6 col-xl-3 mb-2'>
             <input type='number' className='form-control' id='max-return-length' placeholder='# to Display' value={maxReturnLength} onChange={event => { setMaxReturnLength(event.target.value); }} />
