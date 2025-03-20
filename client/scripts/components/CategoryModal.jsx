@@ -113,11 +113,11 @@ function CategoryModal ({ categoryManager, disablePercentView = false, onClose =
           <span className='font-monospace me-1 category-percent'>
             {/* set by categoryManager.loadCategoryModal */}
           </span>
-          <div class='btn-group btn-group-sm me-1' role='group'>
+          <div className='btn-group btn-group-sm me-1' role='group'>
             <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(-5)}>-</button>
             <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(5)}>+</button>
           </div>
-          <div class='btn-group btn-group-sm' role='group'>
+          <div className='btn-group btn-group-sm' role='group'>
             <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(-100)}>Min</button>
             <button type='button' className='btn btn-outline-secondary' onClick={() => adjustPercent(50 - categoryManager.categoryPercents[index])}>50%</button>
             <button

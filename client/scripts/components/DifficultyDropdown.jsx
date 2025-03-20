@@ -31,9 +31,9 @@ function DifficultyCheckbox ({ startChecked = false, label, value }) {
 
 function DifficultyDropdown ({ startingDifficulties = [], onChange = () => {} }) {
   return (
-    <div class='dropdown-checklist btn-group w-100'>
+    <div className='dropdown-checklist btn-group w-100'>
       <button
-        class='btn btn-default text-start w-100'
+        className='btn btn-default text-start w-100'
         id='dropdownMenu1'
         data-bs-toggle='dropdown'
         type='button'
@@ -43,11 +43,11 @@ function DifficultyDropdown ({ startingDifficulties = [], onChange = () => {} })
         Difficulties
       </button>
       <button
-        class='btn btn-default dropdown-toggle dropdown-toggle-split' data-bs-toggle='dropdown'
+        className='btn btn-default dropdown-toggle dropdown-toggle-split' data-bs-toggle='dropdown'
         type='button'
       />
       <ul
-        class='dropdown-menu checkbox-menu allow-focus'
+        className='dropdown-menu checkbox-menu allow-focus'
         id='difficulties'
         aria-labelledby='dropdownMenu1'
         onClick={(e) => e.stopPropagation()}
