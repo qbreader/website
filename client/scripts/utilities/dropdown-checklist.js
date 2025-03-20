@@ -1,4 +1,4 @@
-function attachDropdownChecklist () {
+export function attachDropdownChecklist () {
   Array.from(document.querySelectorAll('.checkbox-menu input[type=\'checkbox\']')).forEach(input => {
     input.addEventListener('change', function () {
       if (input.checked) {
@@ -16,7 +16,7 @@ function attachDropdownChecklist () {
   });
 }
 
-function getDropdownValues (id) {
+export function getDropdownValues (id) {
   const values = [];
   Array.from(document.getElementById(id).children).forEach(li => {
     const input = li.querySelector('input');
@@ -27,4 +27,13 @@ function getDropdownValues (id) {
   return values;
 }
 
-export { attachDropdownChecklist, getDropdownValues };
+export function setDropdownValues (id, values) {
+  if (!Array.isArray(values)) { return; }
+
+  Array.from(document.getElementById(id).children).forEach(li => {
+    const input = li.querySelector('input');
+    if (values.includes(parseInt(input.value)) ^ input.checked) {
+      input.click();
+    }
+  });
+}
