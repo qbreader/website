@@ -6,7 +6,7 @@ import BonusCard from '../scripts/components/BonusCard.min.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import Star from '../scripts/components/Star.min.js';
-import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import { getDropdownValues, setDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 
@@ -352,6 +352,8 @@ function QueryForm () {
     document.getElementById('set-list').innerHTML = api.getSetList().map(setName => `<option>${setName}</option>`).join('');
 
     if (window.location.search !== '') {
+      const difficulties = initialParams.get('difficulties')?.split(',')?.map(difficulty => parseInt(difficulty));
+      if (difficulties) { setDropdownValues('difficulties', difficulties); }
       handleSubmit(null, initialParams.get('randomize') === 'true');
     }
   }, []);
