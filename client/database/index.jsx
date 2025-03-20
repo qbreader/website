@@ -351,7 +351,9 @@ function QueryForm () {
 
     document.getElementById('set-list').innerHTML = api.getSetList().map(setName => `<option>${setName}</option>`).join('');
 
-    if (window.location.search !== '') { handleSubmit(); }
+    if (window.location.search !== '') {
+      handleSubmit(null, initialParams.get('randomize') === 'true');
+    }
   }, []);
 
   return (
