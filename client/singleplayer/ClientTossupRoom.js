@@ -74,9 +74,15 @@ export default class ClientTossupRoom extends TossupRoom {
     this.emitMessage({ type: 'toggle-ai-mode', aiMode, userId });
   }
 
+  /**
+   * @param {object} params
+   * @param {boolean} params.correct whether the answer was correct. If `correct=true`, then the player's score increases after calling this function.
+   * @returns
+   */
   toggleCorrect (userId, { correct }) {
     if (userId !== this.previous.userId) { return; }
 
+    this.previous.isCorrect = correct;
     const multiplier = correct ? 1 : -1;
 
     if (this.previous.inPower) {
