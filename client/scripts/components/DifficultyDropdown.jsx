@@ -20,9 +20,9 @@ function DifficultyCheckbox ({ startChecked = false, label, value }) {
   }
 
   return (
-    <li className={checked && 'active'}>
+    <li className={checked ? 'active' : undefined}>
       <label>
-        <input type='checkbox' value={value} onClick={handleClick} checked={checked} />
+        <input type='checkbox' value={value} onClick={handleClick} defaultChecked={checked} />
         {value}: {label}
       </label>
     </li>
