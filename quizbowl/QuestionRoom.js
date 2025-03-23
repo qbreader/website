@@ -128,11 +128,13 @@ export default class QuestionRoom extends Room {
         question = this.randomQuestionCache.pop();
         break;
       case MODE_ENUM.STARRED:
-        question = await this.getRandomStarredQuestion();
-        if (question === null) {
-          this.emitMessage({ type: 'no-questions-found' });
-          return null;
-        }
+        do {
+          question = await this.getRandomStarredQuestion();
+          if (question === null) {
+            this.emitMessage({ type: 'no-questions-found' });
+            return null;
+          }
+        } while (!this.categoryManager.isValidCategory(question));
         break;
     }
 
