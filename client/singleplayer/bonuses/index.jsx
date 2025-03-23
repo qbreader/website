@@ -1,7 +1,8 @@
 import questionStats from '../../scripts/auth/question-stats.js';
 import api from '../../scripts/api/index.js';
 import audio from '../../audio/index.js';
-import { arrayToRange, createBonusCard, rangeToArray } from '../../scripts/utilities/index.js';
+import { arrayToRange, rangeToArray } from '../../scripts/utilities/index.js';
+import createBonusGameCard from '../../scripts/utilities/bonus-game-card.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
@@ -115,7 +116,10 @@ async function next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, po
   }
 
   if (type !== 'start') {
-    createBonusCard(oldBonus);
+    createBonusGameCard({
+      bonus: oldBonus,
+      starred: room.mode === MODE_ENUM.STARRED ? true : null
+    });
   }
 
   document.getElementById('question').textContent = '';
