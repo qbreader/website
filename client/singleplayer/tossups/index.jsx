@@ -4,7 +4,7 @@ import audio from '../../audio/index.js';
 import { MODE_ENUM } from '../../../quizbowl/constants.js';
 import Player from '../../../quizbowl/Player.js';
 import ClientTossupRoom from '../ClientTossupRoom.js';
-import { arrayToRange, rangeToArray } from '../../scripts/utilities/index.js';
+import { arrayToRange, rangeToArray } from '../../scripts/utilities/ranges.js';
 import createTossupGameCard from '../../scripts/utilities/tossup-game-card.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';

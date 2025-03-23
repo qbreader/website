@@ -3,7 +3,7 @@ import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
-import { arrayToRange, rangeToArray } from '../scripts/utilities/index.js';
+import { arrayToRange, rangeToArray } from '../scripts/utilities/ranges.js';
 import createTossupGameCard from '../scripts/utilities/tossup-game-card.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
