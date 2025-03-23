@@ -84,7 +84,11 @@ export default class star {
 
     return await fetch(`/auth/stars/is-starred-bonus?bonus_id=${bonusId}`)
       .then(response => response.json())
-      .then(response => response.isStarred);
+      .then(response => response.isStarred)
+      .catch(_error => {
+        // window.alert('There was an error checking if the bonus is starred.');
+        return false;
+      });
   }
 
   static async isStarredTossup (tossupId) {
@@ -94,7 +98,11 @@ export default class star {
 
     return await fetch(`/auth/stars/is-starred-tossup?tossup_id=${tossupId}`)
       .then(response => response.json())
-      .then(response => response.isStarred);
+      .then(response => response.isStarred)
+      .catch(_error => {
+        // window.alert('There was an error checking if the tossup is starred.');
+        return false;
+      });
   }
 
   static async getStarredTossups () {
