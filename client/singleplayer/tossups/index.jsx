@@ -5,7 +5,7 @@ import { MODE_ENUM } from '../../../quizbowl/constants.js';
 import Player from '../../../quizbowl/Player.js';
 import ClientTossupRoom from '../ClientTossupRoom.js';
 import { arrayToRange, rangeToArray } from '../../scripts/utilities/index.js';
-import { createTossupCard } from '../../scripts/utilities/tossup-game-card.js';
+import createTossupGameCard from '../../scripts/utilities/tossup-game-card.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
@@ -132,7 +132,10 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
   }
 
   if (type !== 'start') {
-    createTossupCard(oldTossup);
+    createTossupGameCard({
+      starred: room.mode === MODE_ENUM.STARRED ? true : null,
+      tossup: oldTossup
+    });
   }
 
   document.getElementById('answer').textContent = '';
