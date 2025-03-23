@@ -1,6 +1,4 @@
-// Constants and functions useful for quizbowl.
-
-function arrayToRange (array) {
+export function arrayToRange (array) {
   if (array.length === 0) return '';
 
   array = [...new Set(array)];
@@ -33,7 +31,7 @@ function arrayToRange (array) {
   return string.slice(2);
 }
 
-function rangeToArray (string, max = 0) {
+export function rangeToArray (string, max = 0) {
   if (string.length === 0) {
     string = `1-${max}`;
   }
@@ -62,8 +60,3 @@ function rangeToArray (string, max = 0) {
 
   return array;
 }
-
-export {
-  arrayToRange,
-  rangeToArray
-};
