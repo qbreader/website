@@ -1,5 +1,5 @@
 import star from '../../scripts/auth/star.js';
-import { getBonusPartLabel } from '../../scripts/utilities/index.js';
+import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 
 const bonuses = await star.getStarredBonuses();
 const bonusList = document.getElementById('bonus-list');
