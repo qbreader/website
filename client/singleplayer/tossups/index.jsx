@@ -35,6 +35,7 @@ room.sockets[USER_ID] = socket;
 function onmessage (message) {
   const data = JSON.parse(message);
   switch (data.type) {
+    case 'alert': return window.alert(data.message);
     case 'buzz': return buzz(data);
     case 'clear-stats': return clearStats(data);
     case 'end': return next(data);
@@ -133,7 +134,7 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
 
   if (type !== 'start') {
     createTossupGameCard({
-      starred: room.mode === MODE_ENUM.STARRED ? true : null,
+      starred: room.mode === MODE_ENUM.STARRED ? true : (room.mode === MODE_ENUM.LOCAL ? false : null),
       tossup: oldTossup
     });
   }
@@ -159,7 +160,7 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
     document.getElementById('set-name-info').textContent = nextTossup.set.name;
   }
 
-  if ((type === 'end' || type === 'next') && room.previous.userId === USER_ID) {
+  if ((type === 'end' || type === 'next') && room.previous.userId === USER_ID && (room.mode !== MODE_ENUM.LOCAL)) {
     const pointValue = room.previous.isCorrect ? (room.previous.inPower ? room.previous.powerValue : 10) : (room.previous.endOfQuestion ? 0 : room.previous.negValue);
     questionStats.recordTossup(room.previous.tossup, room.previous.isCorrect, pointValue, room.previous.celerity, false);
   }
@@ -262,18 +263,28 @@ function setMode ({ mode }) {
   switch (mode) {
     case MODE_ENUM.SET_NAME:
       document.getElementById('difficulty-settings').classList.add('d-none');
+      document.getElementById('local-packet-settings').classList.add('d-none');
       document.getElementById('set-settings').classList.remove('d-none');
       document.getElementById('toggle-powermark-only').disabled = true;
       document.getElementById('toggle-standard-only').disabled = true;
       break;
     case MODE_ENUM.RANDOM:
       document.getElementById('difficulty-settings').classList.remove('d-none');
+      document.getElementById('local-packet-settings').classList.add('d-none');
       document.getElementById('set-settings').classList.add('d-none');
       document.getElementById('toggle-powermark-only').disabled = false;
       document.getElementById('toggle-standard-only').disabled = false;
       break;
     case MODE_ENUM.STARRED:
       document.getElementById('difficulty-settings').classList.add('d-none');
+      document.getElementById('local-packet-settings').classList.add('d-none');
+      document.getElementById('set-settings').classList.add('d-none');
+      document.getElementById('toggle-powermark-only').disabled = true;
+      document.getElementById('toggle-standard-only').disabled = true;
+      break;
+    case MODE_ENUM.LOCAL:
+      document.getElementById('difficulty-settings').classList.add('d-none');
+      document.getElementById('local-packet-settings').classList.remove('d-none');
       document.getElementById('set-settings').classList.add('d-none');
       document.getElementById('toggle-powermark-only').disabled = true;
       document.getElementById('toggle-standard-only').disabled = true;
@@ -351,6 +362,21 @@ document.getElementById('choose-ai').addEventListener('change', function () {
 document.getElementById('clear-stats').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'clear-stats' });
+});
+
+document.getElementById('local-packet-input').addEventListener('change', function (event) {
+  const file = this.files[0];
+  if (!file) { return; }
+  const reader = new window.FileReader();
+  reader.onload = function (e) {
+    try {
+      const packet = JSON.parse(e.target.result);
+      socket.sendToServer({ type: 'upload-local-packet', packet, filename: file.name });
+    } catch (error) {
+      window.alert('Invalid packet format');
+    }
+  };
+  reader.readAsText(file);
 });
 
 document.getElementById('next').addEventListener('click', function () {
