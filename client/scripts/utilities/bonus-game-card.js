@@ -1,6 +1,6 @@
 import star from '../auth/star.js';
 import { removeParentheses } from './strings.js';
-import { getBonusPartLabel } from './index.js';
+import getBonusPartLabel from './get-bonus-part-label.js';
 
 const starredSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">

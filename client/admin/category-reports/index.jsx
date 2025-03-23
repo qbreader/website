@@ -1,4 +1,4 @@
-import { getBonusPartLabel } from '../../scripts/utilities/index.js';
+import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 import QuestionCard from '../../scripts/components/QuestionCard.min.js';
 import { CATEGORY_TO_ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY } from '../../../quizbowl/categories.js';
 
