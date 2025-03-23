@@ -11,7 +11,8 @@ export const DEAD_TIME_LIMIT = 5; // time to buzz after question is read
 export const MODE_ENUM = Object.freeze({
   SET_NAME: 'select by set name',
   RANDOM: 'random questions',
-  STARRED: 'starred questions'
+  STARRED: 'starred questions',
+  LOCAL: 'local packet'
 });
 
 export const BONUS_PROGRESS_ENUM = Object.freeze({

@@ -5,6 +5,8 @@ export default class BonusRoom extends QuestionRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
 
+    this.getNextLocalQuestion = () => this.localQuestions.bonuses.length > 0 ? this.localQuestions.bonuses.shift() : null;
+
     this.bonus = {};
     this.bonusProgress = BONUS_PROGRESS_ENUM.NOT_STARTED;
     /**

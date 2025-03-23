@@ -13,6 +13,7 @@ export default class QuestionRoom extends Room {
     this.getSetList = async function getSetList (args) { throw new Error('Not implemented'); };
     this.getNumPackets = async function getNumPackets (setName) { throw new Error('Not implemented'); };
     this.getRandomStarredQuestion = async function getRandomStarredQuestion () { throw new Error('Not implemented'); };
+    this.getNextLocalQuestion = function getNextLocalQuestion () { throw new Error('Not implemented'); };
 
     this.categoryManager = new CategoryManager(categories, subcategories, alternateSubcategories);
     this.packetLength = undefined;
@@ -22,6 +23,11 @@ export default class QuestionRoom extends Room {
     this.setLength = 24; // length of 2023 PACE NSC
 
     this.mode = MODE_ENUM.RANDOM;
+
+    this.localQuestions = {
+      tossups: [],
+      bonuses: []
+    };
 
     this.query = {
       difficulties: [4, 5],
@@ -58,6 +64,7 @@ export default class QuestionRoom extends Room {
       case 'toggle-skip': return this.toggleSkip(userId, message);
       case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
       case 'toggle-timer': return this.toggleTimer(userId, message);
+      case 'upload-local-packet': return this.uploadLocalPacket(userId, message);
     }
   }
 
@@ -130,6 +137,15 @@ export default class QuestionRoom extends Room {
       case MODE_ENUM.STARRED:
         do {
           question = await this.getRandomStarredQuestion();
+          if (question === null) {
+            this.emitMessage({ type: 'no-questions-found' });
+            return null;
+          }
+        } while (!this.categoryManager.isValidCategory(question));
+        break;
+      case MODE_ENUM.LOCAL:
+        do {
+          question = this.getNextLocalQuestion();
           if (question === null) {
             this.emitMessage({ type: 'no-questions-found' });
             return null;
@@ -247,5 +263,33 @@ export default class QuestionRoom extends Room {
       this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
       this.emitMessage({ type: 'set-year-range', minYear, maxYear, username });
     }
+  }
+
+  uploadLocalPacket (userId, { packet, filename }) {
+    if (typeof filename !== 'string' || filename.length === 0) { return; }
+    if (typeof packet !== 'object' || packet === null) { return; }
+    if (!Object.prototype.hasOwnProperty.call(packet, 'bonuses') || !Object.prototype.hasOwnProperty.call(packet, 'tossups')) { return; }
+
+    this.localQuestions.tossups = [];
+    this.localQuestions.bonuses = [];
+
+    for (const key of ['bonuses', 'tossups']) {
+      const questions = packet[key];
+      if (!Array.isArray(questions)) { return; }
+      // detect if number is contained in filename
+      const match = filename.match(/\d+/);
+      const rawPacketNumber = parseInt(match?.[0]);
+      const packetNumber = isNaN(rawPacketNumber) ? 1 : rawPacketNumber;
+      for (let i = 0; i < questions.length; i++) {
+        const question = questions[i];
+        question._id = Math.random().toString(16).slice(2); // generate a random id
+        question.number = i + 1;
+        question.packet = { number: packetNumber };
+        question.set = { name: filename };
+      }
+      this.localQuestions[key] = questions;
+    }
+
+    this.emitMessage({ type: 'alert', message: `Successfully uploaded ${this.localQuestions.tossups.length} tossups and ${this.localQuestions.bonuses.length} bonuses.`, userId });
   }
 }
