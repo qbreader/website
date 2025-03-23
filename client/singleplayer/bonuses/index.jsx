@@ -1,7 +1,7 @@
 import questionStats from '../../scripts/auth/question-stats.js';
 import api from '../../scripts/api/index.js';
 import audio from '../../audio/index.js';
-import { arrayToRange, rangeToArray } from '../../scripts/utilities/index.js';
+import { arrayToRange, rangeToArray } from '../../scripts/utilities/ranges.js';
 import createBonusGameCard from '../../scripts/utilities/bonus-game-card.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
