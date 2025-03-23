@@ -33,21 +33,6 @@ function arrayToRange (array) {
   return string.slice(2);
 }
 
-/**
- * Return a string that represents the bonus part label for the given bonus and index.
- * For example, '[10m]' or '[10]'.
- * @param {*} bonus
- * @param {*} index
- * @param {*} defaultValue
- * @param {*} defaultDifficulty
- * @returns {String}
- */
-function getBonusPartLabel (bonus, index, defaultValue = 10, defaultDifficulty = '') {
-  const value = bonus.values ? (bonus.values[index] ?? defaultValue) : defaultValue;
-  const difficulty = bonus.difficultyModifiers ? (bonus.difficultyModifiers[index] ?? defaultDifficulty) : defaultDifficulty;
-  return `[${value}${difficulty}]`;
-}
-
 function rangeToArray (string, max = 0) {
   if (string.length === 0) {
     string = `1-${max}`;
@@ -80,6 +65,5 @@ function rangeToArray (string, max = 0) {
 
 export {
   arrayToRange,
-  getBonusPartLabel,
   rangeToArray
 };
