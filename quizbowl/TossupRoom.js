@@ -6,6 +6,8 @@ export default class TossupRoom extends QuestionRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
 
+    this.getNextLocalQuestion = () => this.localQuestions.tossups.length > 0 ? this.localQuestions.tossups.shift() : null;
+
     this.timeoutID = null;
     /**
      * @type {string | null}
