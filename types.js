@@ -19,7 +19,6 @@ import { ObjectId } from 'mongodb';
  * @property {string} set.name
  * @property {number} set.year
  *
- * @property {Date} createdAt
  * @property {Date} updatedAt
  */
 

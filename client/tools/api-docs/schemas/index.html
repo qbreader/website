@@ -86,12 +86,11 @@
 
         <div class="col-12 col-md-9">
             <h3 class="md-4">Object Schemas</h3>
-
             <p>
                 The QB Reader API represents tossups and bonuses as JSON objects. These schemas describe the
-                structure of these objects.
+                structure of these objects. You can extract the date a document was created (formerly the <code>createdAt</code> field)
+                <a href="https://stackoverflow.com/questions/6452021/getting-timestamp-from-mongodb-id">from the ObjectId</a>.
             </p>
-
             <a href="#tossup">
                 <h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4>
             </a>
@@ -231,12 +230,6 @@
                         <code>number</code><code class="text-muted">: number</code>
                     </div>
                     <div>The question number of the tossup in the packet. <i>Always a nonnegative integer.</i></div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>createdAt</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The date the question was created in the database. <i>ISO 8601 format.</i></div>
                 </li>
                 <li class="list-group-item">
                     <div>
@@ -406,12 +399,6 @@
                         <code>number</code><code class="text-muted">: number</code>
                     </div>
                     <div>The question number of the bonus in the packet. <i>Always a nonnegative integer.</i></div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>createdAt</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The date the question was created in the database. <i>ISO 8601 format.</i></div>
                 </li>
                 <li class="list-group-item">
                     <div>
