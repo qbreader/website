@@ -62,12 +62,6 @@ const schemas = {
         type: 'integer',
         minimum: 1
       },
-      createdAt: {
-        description: 'The date the question was created in the database',
-        type: 'string',
-        format: 'date',
-        pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$'
-      },
       updatedAt: {
         description: 'The date the question was last updated in the database',
         type: 'string',
@@ -97,7 +91,6 @@ const schemas = {
       'type',
       'packetNumber',
       'questionNumber',
-      'createdAt',
       'updatedAt',
       'difficulty',
       'setYear'
@@ -181,12 +174,6 @@ const schemas = {
         type: 'integer',
         minimum: 1
       },
-      createdAt: {
-        description: 'The date the question was created in the database',
-        type: 'string',
-        format: 'date',
-        pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$'
-      },
       updatedAt: {
         description: 'The date the question was last updated in the database',
         type: 'string',
@@ -217,7 +204,6 @@ const schemas = {
       'type',
       'packetNumber',
       'questionNumber',
-      'createdAt',
       'updatedAt',
       'difficulty',
       'setYear'

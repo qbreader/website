@@ -32,7 +32,6 @@ function downloadTossupsAsCSV (tossups, filename = 'tossups.csv') {
     'difficulty',
     'set._id',
     'packet._id',
-    'createdAt',
     'updatedAt'
   ];
 
@@ -84,7 +83,6 @@ function downloadBonusesAsCSV (bonuses, filename = 'bonuses.csv') {
     'difficulty',
     'set._id',
     'packet._id',
-    'createdAt',
     'updatedAt'
   ];
 
