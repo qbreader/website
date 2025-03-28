@@ -8,10 +8,18 @@ import { escapeHTML } from './utilities/strings.js';
  */
 // overall handling of some of these mechanics in the upsertion section might not be best idea? works though
 export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic, showingOffline) {
-  if (!player || !player.userId) {
-    console.error('Player or player.userId is undefined', { player });
+  if (!player || !player.userId || !player.username) {
+    console.error('Player or player.userId or player.username is undefined', { player });
     return;
   }
+
+  if (typeof player.userId !== 'string' || typeof player.username !== 'string') {
+    console.error('player.userId and player.username must be strings', { player });
+    return;
+  }
+
+  player.userId = escapeHTML(player.userId);
+  player.username = escapeHTML(player.username);
 
   const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
   const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
@@ -26,7 +34,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   const playerItem = document.createElement('a');
   playerItem.className = `list-group-item ${userId === USER_ID ? 'user-score' : ''} clickable ${showingOffline === false && player.online === false && 'd-none'}`;
   playerItem.id = `list-group-${userId}`;
-  const displayUsername = (playerIsOwner && !isPublic) ? `👑 ${escapeHTML(username)}` : escapeHTML(username);
+  const displayUsername = (playerIsOwner && !isPublic) ? `👑 ${username}` : username;
 
   playerItem.innerHTML = `
   <div class="d-flex justify-content-between align-items-center">
