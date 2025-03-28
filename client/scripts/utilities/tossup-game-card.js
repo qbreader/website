@@ -24,6 +24,8 @@ export default async function createTossupGameCard ({ roomHistoryId = 'room-hist
 
   const { markedQuestion, answer, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id } = tossup;
 
+  starred = starred ?? await star.isStarredTossup(_id);
+
   // append a card containing the question to the history element
   const card = document.createElement('div');
   card.className = 'card my-2';
@@ -32,8 +34,8 @@ export default async function createTossupGameCard ({ roomHistoryId = 'room-hist
       <span class="card-header-clickable clickable" data-bs-toggle="collapse" data-bs-target="#question-${_id}" aria-expanded="true">
         ${removeParentheses(answer)}
       </span>
-      <a href="#" class="star-tossup" id="star-tossup-${_id}">
-        ${(starred ?? await star.isStarredTossup(_id)) ? starredSvg : unstarredSvg}
+      <a href="#" class="star-tossup ${starred ? 'selected' : ''}" id="star-tossup-${_id}">
+        ${starred ? starredSvg : unstarredSvg}
       </a>
     </div>
     <div class="card-container collapse" id="question-${_id}">

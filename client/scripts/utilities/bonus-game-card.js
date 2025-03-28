@@ -32,6 +32,8 @@ export default async function createBonusGameCard ({ bonus, starred }) {
     `;
   }
 
+  starred = starred ?? await star.isStarredBonus(_id);
+
   // append a card containing the question to the history element
   const card = document.createElement('div');
   card.className = 'card my-2';
@@ -40,8 +42,8 @@ export default async function createBonusGameCard ({ bonus, starred }) {
       <span class="card-header-clickable clickable" data-bs-toggle="collapse" data-bs-target="#question-${_id}" aria-expanded="true">
         ${answers.map(removeParentheses).join(' / ')}
       </span>
-      <a href="#" class="star-bonus" id="star-bonus-${_id}">
-        ${(starred ?? await star.isStarredTossup(_id)) ? starredSvg : unstarredSvg}
+      <a href="#" class="star-bonus ${starred ? 'selected' : ''}" id="star-bonus-${_id}">
+        ${starred ? starredSvg : unstarredSvg}
       </a>
     </div>
     <div class="card-container collapse" id="question-${_id}">
@@ -68,9 +70,9 @@ export default async function createBonusGameCard ({ bonus, starred }) {
 
     if (this.classList.contains('selected')) {
       this.innerHTML = unstarredSvg;
-      star.unstarTossup(_id);
+      star.unstarBonus(_id);
       this.classList.remove('selected');
-    } else if (await star.starTossup(_id)) {
+    } else if (await star.starBonus(_id)) {
       this.innerHTML = starredSvg;
       this.classList.add('selected');
     }
