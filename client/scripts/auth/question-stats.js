@@ -24,7 +24,7 @@ export default class questionStats {
     });
   }
 
-  static async recordTossup (tossup, isCorrect, pointValue, celerity, multiplayer) {
+  static async recordTossup ({ _id, celerity, isCorrect, multiplayer, pointValue }) {
     if (!(await account.getUsername())) {
       return;
     }
@@ -32,7 +32,7 @@ export default class questionStats {
     fetch('/auth/question-stats/record-tossup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tossup, isCorrect, pointValue, celerity, multiplayer })
+      body: JSON.stringify({ _id, isCorrect, pointValue, celerity, multiplayer })
     }).then(response => {
       if (response.status === 401) {
         account.deleteUsername();

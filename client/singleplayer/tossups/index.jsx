@@ -162,7 +162,13 @@ async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
 
   if ((type === 'end' || type === 'next') && room.previous.userId === USER_ID && (room.mode !== MODE_ENUM.LOCAL)) {
     const pointValue = room.previous.isCorrect ? (room.previous.inPower ? room.previous.powerValue : 10) : (room.previous.endOfQuestion ? 0 : room.previous.negValue);
-    questionStats.recordTossup(room.previous.tossup, room.previous.isCorrect, pointValue, room.previous.celerity, false);
+    questionStats.recordTossup({
+      _id: room.previous.tossup._id,
+      celerity: room.previous.celerity,
+      isCorrect: room.previous.isCorrect,
+      multiplayer: false,
+      pointValue
+    });
   }
 }
 
