@@ -1,4 +1,4 @@
-import { tossupData } from '../collections.js';
+import { perTossupData } from '../collections.js';
 
 /**
  * Get the stats for a single tossup.
@@ -6,7 +6,7 @@ import { tossupData } from '../collections.js';
  * @returns {Promise<Document>} the tossup stats
  */
 async function getSingleTossupStats (tossupId) {
-  const result = await tossupData.aggregate([
+  const result = await perTossupData.aggregate([
     { $match: { tossup_id: tossupId } },
     {
       $addFields: {

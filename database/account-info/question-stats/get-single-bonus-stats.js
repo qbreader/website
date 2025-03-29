@@ -1,4 +1,4 @@
-import { bonusData } from '../collections.js';
+import { perBonusData } from '../collections.js';
 
 import getBonus from '../../qbreader/get-bonus.js';
 
@@ -14,7 +14,7 @@ async function getSingleBonusStats (bonusId) {
     return null;
   }
 
-  const result = await bonusData.aggregate([
+  const result = await perBonusData.aggregate([
     { $match: { bonus_id: bonusId, pointsPerPart: { $size: bonus.parts.length } } },
     { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
     {

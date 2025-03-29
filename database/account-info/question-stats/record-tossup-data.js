@@ -1,4 +1,4 @@
-import { tossupData } from '../collections.js';
+import { perTossupData } from '../collections.js';
 import getUserId from '../get-user-id.js';
 
 import { ObjectId } from 'mongodb';
@@ -23,7 +23,7 @@ async function recordTossupData (username, { tossup, celerity, isCorrect, pointV
   } catch (e) {
     return null;
   }
-  return await tossupData.insertOne(newData);
+  return await perTossupData.insertOne(newData);
 }
 
 export default recordTossupData;

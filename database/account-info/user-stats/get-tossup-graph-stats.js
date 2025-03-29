@@ -1,10 +1,10 @@
-import { tossupData } from '../collections.js';
+import { perTossupData } from '../collections.js';
 import generateMatchDocument from './generate-match-document.js';
 
 async function getTossupGraphStats ({ user_id: userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
   const matchDocument = await generateMatchDocument({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
-  const stats = await tossupData.aggregate([
+  const stats = await perTossupData.aggregate([
     { $addFields: { createdAt: { $toDate: '$_id' } } },
     { $match: matchDocument },
     {

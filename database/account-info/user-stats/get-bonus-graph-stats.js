@@ -1,10 +1,10 @@
-import { bonusData } from '../collections.js';
+import { perBonusData } from '../collections.js';
 import generateMatchDocument from './generate-match-document.js';
 
 async function getBonusGraphStats ({ user_id: userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
   const matchDocument = await generateMatchDocument({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 
-  const stats = await bonusData.aggregate([
+  const stats = await perBonusData.aggregate([
     { $addFields: { createdAt: { $toDate: '$_id' } } },
     { $match: matchDocument },
     { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
