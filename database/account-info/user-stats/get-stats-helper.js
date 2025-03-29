@@ -1,4 +1,4 @@
-import { bonusData, tossupData } from '../collections.js';
+import { perBonusData, perTossupData } from '../collections.js';
 import generateMatchDocument from './generate-match-document.js';
 
 /**
@@ -19,7 +19,7 @@ async function getStatsHelper ({ userId, questionType, groupByField, difficultie
 
   switch (questionType) {
     case 'tossup':
-      return await tossupData.aggregate([
+      return await perTossupData.aggregate([
         { $addFields: { createdAt: { $toDate: '$_id' } } },
         { $match: matchDocument },
         { $match: { [groupByField]: { $exists: true } } },
@@ -52,7 +52,7 @@ async function getStatsHelper ({ userId, questionType, groupByField, difficultie
         { $sort: { pptu: -1, averageCorrectCelerity: -1, totalPoints: -1 } }
       ]).toArray();
     case 'bonus':
-      return await bonusData.aggregate([
+      return await perBonusData.aggregate([
         { $addFields: { createdAt: { $toDate: '$_id' } } },
         { $match: matchDocument },
         { $match: { [groupByField]: { $exists: true } } },
