@@ -1,4 +1,4 @@
-import { bonusData } from '../collections.js';
+import { perBonusData } from '../collections.js';
 import getUserId from '../get-user-id.js';
 
 import { ObjectId } from 'mongodb';
@@ -21,7 +21,7 @@ async function recordBonusData (username, { bonus, pointsPerPart }) {
     return null;
   }
 
-  return await bonusData.insertOne(newData);
+  return await perBonusData.insertOne(newData);
 }
 
 export default recordBonusData;

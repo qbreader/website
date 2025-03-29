@@ -1,20 +1,10 @@
 import { accountInfo } from '../databases.js';
 
-const bonusData = accountInfo.collection('bonus-data');
-const bonusStars = accountInfo.collection('bonus-stars');
-const tossupData = accountInfo.collection('tossup-data');
-const tossupStars = accountInfo.collection('tossup-stars');
-const users = accountInfo.collection('users');
+export const bonusStars = accountInfo.collection('bonus-stars');
+export const perBonusData = accountInfo.collection('per-bonus-data');
+export const perTossupData = accountInfo.collection('per-tossup-data');
+export const tossupStars = accountInfo.collection('tossup-stars');
+export const users = accountInfo.collection('users');
 
-const usernameToId = {};
-const idToUsername = {};
-
-export {
-  bonusData,
-  bonusStars,
-  tossupData,
-  tossupStars,
-  users,
-  usernameToId,
-  idToUsername
-};
+export const usernameToId = {};
+export const idToUsername = {};

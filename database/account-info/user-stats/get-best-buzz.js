@@ -1,4 +1,4 @@
-import { tossupData } from '../collections.js';
+import { perTossupData } from '../collections.js';
 import generateMatchDocument from './generate-match-document.js';
 import getUserId from '../get-user-id.js';
 
@@ -21,7 +21,7 @@ async function getBestBuzz ({ username, difficulties, setName, includeMultiplaye
   const matchDocument = await generateMatchDocument({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
   matchDocument.isCorrect = true;
 
-  const data = (await tossupData.aggregate([
+  const data = (await perTossupData.aggregate([
     { $addFields: { createdAt: { $toDate: '$_id' } } },
     { $match: matchDocument },
     { $sort: { celerity: -1 } },
