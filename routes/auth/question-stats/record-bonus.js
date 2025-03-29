@@ -1,7 +1,7 @@
 import recordBonusData from '../../../database/account-info/question-stats/record-bonus-data.js';
-import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';
+import { ObjectId } from 'mongodb';
 
 const router = Router();
 
@@ -9,44 +9,29 @@ const router = Router();
  * Validates the parameters for recording the stats of a played bonus.
  *
  * @param {object} params - The parameters to validate.
- * @param {object} params.tossup - The bonus object.
+ * @param {ObjectId | string} params._id - The _id of the bonus.
  * @param {number[]} params.pointsPerPart - The points per part of the bonus.
  * @returns {{
- *  tossup: object,
+ *  _id: ObjectId,
  *  pointsPerPart: number[]
  * } | null} The validated parameters or null if validation fails.
  */
-function validateParams ({ bonus, pointsPerPart }) {
-  if (bonus?.constructor !== Object) { return null; }
-
-  for (const key of ['category', 'subcategory', '_id']) {
-    if (typeof bonus[key] !== 'string') {
-      return null;
-    }
+function validateParams ({ _id, pointsPerPart }) {
+  if (!_id) { return null; }
+  try {
+    _id = new ObjectId(_id);
+  } catch (e) {
+    return null;
   }
-  if (isNaN(parseInt(bonus.difficulty)) || bonus.difficulty < 0 || bonus.difficulty > 10) { return null; }
-  if (bonus.alternate_subcategory !== undefined && typeof bonus.alternate_subcategory !== 'string') { return null; }
-  if (typeof bonus?.set?._id !== 'string') { return null; }
 
   if (!Array.isArray(pointsPerPart)) { return null; }
   if (pointsPerPart.some(points => typeof points !== 'number')) { return null; }
 
-  return { bonus, pointsPerPart };
+  return { _id, pointsPerPart };
 }
 
 router.post('/', async (req, res) => {
-  const { username, token } = req.session;
-  if (!checkToken(username, token)) {
-    delete req.session;
-    res.sendStatus(401);
-    return;
-  }
-
-  if (!checkToken(username, token, true)) {
-    res.sendStatus(403);
-    return;
-  }
-
+  const { username } = req.session;
   const params = validateParams(req.body);
   if (params === null) {
     return res.status(400).send('Invalid parameters');
