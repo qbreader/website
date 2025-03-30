@@ -7,9 +7,11 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const { username } = req.session;
-  const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
   const userId = await getUserId(username);
-  res.json(await getTossupGraphStats({ user_id: userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }));
+  const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
+  const query = { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate };
+  const stats = await getTossupGraphStats(userId, query);
+  res.json({ stats });
 });
 
 export default router;
