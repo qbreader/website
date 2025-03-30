@@ -1,28 +1,29 @@
-import { tossupData } from '../collections.js';
+import { perTossupData } from '../collections.js';
 import generateMatchDocument from './generate-match-document.js';
 
-async function getTossupGraphStats ({ user_id: userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-  const matchDocument = await generateMatchDocument({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+async function getTossupGraphStats (userId, query) {
+  const matchDocument = await generateMatchDocument({ userId, ...query });
 
-  const stats = await tossupData.aggregate([
-    { $addFields: { createdAt: { $toDate: '$_id' } } },
+  return await perTossupData.aggregate([
     { $match: matchDocument },
+    { $unwind: '$data' },
+    { $match: { 'data.user_id': userId } },
     {
       $addFields: {
         result: {
           $switch: {
             branches: [
-              { case: { $eq: ['$pointValue', 15] }, then: 'power' },
-              { case: { $eq: ['$pointValue', 10] }, then: 'ten' },
-              { case: { $eq: ['$pointValue', 0] }, then: 'dead' },
-              { case: { $eq: ['$pointValue', -5] }, then: 'neg' }
+              { case: { $eq: ['$data.pointValue', 15] }, then: 'power' },
+              { case: { $eq: ['$data.pointValue', 10] }, then: 'ten' },
+              { case: { $eq: ['$data.pointValue', 0] }, then: 'dead' },
+              { case: { $eq: ['$data.pointValue', -5] }, then: 'neg' }
             ],
             default: 'other'
           }
         },
-        createdAt: {
+        created: {
           $dateTrunc: {
-            date: '$createdAt',
+            date: '$data.created',
             unit: 'day',
             binSize: 1,
             timezone: 'America/New_York'
@@ -32,17 +33,17 @@ async function getTossupGraphStats ({ user_id: userId, difficulties, setName, in
     },
     {
       $group: {
-        _id: '$createdAt',
-        pptu: { $avg: '$pointValue' },
+        _id: '$created',
+        pptu: { $avg: '$data.pointValue' },
         count: { $sum: 1 },
-        correct: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+        correct: { $sum: { $cond: ['$data.isCorrect', 1, 0] } },
         powers: { $sum: { $cond: [{ $eq: ['$result', 'power'] }, 1, 0] } },
         tens: { $sum: { $cond: [{ $eq: ['$result', 'ten'] }, 1, 0] } },
         deads: { $sum: { $cond: [{ $eq: ['$result', 'dead'] }, 1, 0] } },
         negs: { $sum: { $cond: [{ $eq: ['$result', 'neg'] }, 1, 0] } },
-        totalPoints: { $sum: '$pointValue' },
-        totalCorrectCelerity: { $sum: { $cond: ['$isCorrect', '$celerity', 0] } },
-        averageCelerity: { $avg: '$celerity' }
+        totalPoints: { $sum: '$data.pointValue' },
+        totalCorrectCelerity: { $sum: { $cond: ['$data.isCorrect', '$data.celerity', 0] } },
+        averageCelerity: { $avg: '$data.celerity' }
       }
     },
     {
@@ -52,8 +53,6 @@ async function getTossupGraphStats ({ user_id: userId, difficulties, setName, in
     },
     { $sort: { _id: 1 } }
   ]).toArray();
-
-  return { stats };
 }
 
 export default getTossupGraphStats;

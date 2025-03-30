@@ -381,7 +381,13 @@ async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, p
   }
 
   if (directive !== 'prompt' && userId === USER_ID) {
-    questionStats.recordTossup(tossup, score > 0, score, perQuestionCelerity, true);
+    questionStats.recordTossup({
+      _id: tossup._id,
+      celerity: perQuestionCelerity,
+      isCorrect: score > 0,
+      multiplayer: true,
+      pointValue: score
+    });
   }
 
   if (audio.soundEffects && userId === USER_ID) {

@@ -133,7 +133,7 @@ async function next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, po
   }
 
   if (lastPartRevealed && (room.mode !== MODE_ENUM.LOCAL)) {
-    questionStats.recordBonus(oldBonus, pointsPerPart);
+    questionStats.recordBonus({ _id: oldBonus._id, pointsPerPart });
     updateStatDisplay(stats);
   }
 }
