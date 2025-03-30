@@ -1,4 +1,4 @@
-import { tossups, tossupData, bonuses, bonusData } from './collections.js';
+import { tossups, perTossupData, bonuses, perBonusData } from './collections.js';
 
 import { SUBCATEGORY_TO_CATEGORY } from '../../quizbowl/categories.js';
 
@@ -50,11 +50,11 @@ async function updateSubcategory (_id, type, subcategory, alternateSubcategory, 
 
   switch (type) {
     case 'tossup': {
-      tossupData.updateMany({ tossup_id: _id }, dataUpdate);
+      perTossupData.updateOne({ _id }, dataUpdate);
       return await tossups.updateOne({ _id }, questionUpdate);
     }
     case 'bonus': {
-      bonusData.updateMany({ bonus_id: _id }, dataUpdate);
+      perBonusData.updateMany({ _id }, dataUpdate);
       return await bonuses.updateOne({ _id }, questionUpdate);
     }
   }

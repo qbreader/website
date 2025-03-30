@@ -1,7 +1,13 @@
 import account from '../accounts.js';
 
 export default class questionStats {
-  static async recordBonus (bonus, pointsPerPart) {
+  /**
+   *
+   * @param {string} _id - The bonus id
+   * @param {number[]} pointsPerPart - How many points were scored on each part of the bonus
+   * @returns
+   */
+  static async recordBonus ({ _id, pointsPerPart }) {
     if (!(await account.getUsername())) {
       return;
     }
@@ -9,7 +15,7 @@ export default class questionStats {
     fetch('/auth/question-stats/record-bonus', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ bonus, pointsPerPart })
+      body: JSON.stringify({ _id, pointsPerPart })
     }).then(response => {
       if (response.status === 401) {
         account.deleteUsername();
@@ -18,7 +24,7 @@ export default class questionStats {
     });
   }
 
-  static async recordTossup (tossup, isCorrect, pointValue, celerity, multiplayer) {
+  static async recordTossup ({ _id, celerity, isCorrect, multiplayer, pointValue }) {
     if (!(await account.getUsername())) {
       return;
     }
@@ -26,7 +32,7 @@ export default class questionStats {
     fetch('/auth/question-stats/record-tossup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tossup, isCorrect, pointValue, celerity, multiplayer })
+      body: JSON.stringify({ _id, isCorrect, pointValue, celerity, multiplayer })
     }).then(response => {
       if (response.status === 401) {
         account.deleteUsername();
