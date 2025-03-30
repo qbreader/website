@@ -1,6 +1,5 @@
-import getAlternateSubcategoryStats from '../../../database/account-info/user-stats/get-alternate-subcategory-stats.js';
-import getCategoryStats from '../../../database/account-info/user-stats/get-category-stats.js';
-import getSubcategoryStats from '../../../database/account-info/user-stats/get-subcategory-stats.js';
+import getUserId from '../../../database/account-info/get-user-id.js';
+import getSummaryBonusStats from '../../../database/account-info/user-stats/get-summary-bonus-stats.js';
 
 import { Router } from 'express';
 
@@ -8,12 +7,14 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const { username } = req.session;
+  const userId = await getUserId(username);
   const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
+  const query = { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate };
 
   const [categoryStats, subcategoryStats, alternateSubcategoryStats] = await Promise.all([
-    await getCategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
-    await getSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }),
-    await getAlternateSubcategoryStats({ username, questionType: 'bonus', difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate })
+    await getSummaryBonusStats(userId, 'category', query),
+    await getSummaryBonusStats(userId, 'subcategory', query),
+    await getSummaryBonusStats(userId, 'alternate_subcategory', query)
   ]);
 
   res.json({

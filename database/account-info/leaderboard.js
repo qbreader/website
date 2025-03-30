@@ -1,4 +1,4 @@
-import { tossupData, bonusData } from '../../database/qbreader/collections.js';
+import { perTossupData, perBonusData } from '../../database/qbreader/collections.js';
 import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
 
 export default async function leaderboard (limit) {
@@ -22,6 +22,8 @@ export default async function leaderboard (limit) {
  */
 async function helper (type = 'tossup') {
   const aggregation = [
+    { $unwind: '$data' },
+    { $addFields: { user_id: '$data.user_id' } },
     {
       $group: {
         _id: '$user_id',
@@ -48,11 +50,11 @@ async function helper (type = 'tossup') {
 
   switch (type) {
     case 'tossup': {
-      const results = await tossupData.aggregate(aggregation).toArray();
+      const results = await perTossupData.aggregate(aggregation).toArray();
       return results.map((result) => ({ ...result, tossupCount: result.total, bonusCount: 0 }));
     }
     case 'bonus': {
-      const results = await bonusData.aggregate(aggregation).toArray();
+      const results = await perBonusData.aggregate(aggregation).toArray();
       return results.map((result) => ({ ...result, tossupCount: 0, bonusCount: result.total }));
     }
   }
