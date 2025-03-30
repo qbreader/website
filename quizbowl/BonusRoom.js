@@ -53,6 +53,7 @@ export default class BonusRoom extends QuestionRoom {
   giveAnswer (userId, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
 
+    this.liveAnswer = '';
     clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
