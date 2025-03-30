@@ -1,22 +1,23 @@
 import { perBonusData } from '../collections.js';
 import generateMatchDocument from './generate-match-document.js';
 
-async function getBonusGraphStats ({ user_id: userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-  const matchDocument = await generateMatchDocument({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
+async function getBonusGraphStats (userId, query) {
+  const matchDocument = await generateMatchDocument({ userId, ...query });
 
-  const stats = await perBonusData.aggregate([
-    { $addFields: { createdAt: { $toDate: '$_id' } } },
+  return await perBonusData.aggregate([
     { $match: matchDocument },
-    { $addFields: { pointValue: { $sum: '$pointsPerPart' } } },
+    { $unwind: '$data' },
+    { $match: { 'data.user_id': userId } },
+    { $addFields: { pointValue: { $sum: '$data.pointsPerPart' } } },
     {
       $addFields: {
         is30: { $eq: ['$pointValue', 30] },
         is20: { $eq: ['$pointValue', 20] },
         is10: { $eq: ['$pointValue', 10] },
         is0: { $eq: ['$pointValue', 0] },
-        createdAt: {
+        created: {
           $dateTrunc: {
-            date: '$createdAt',
+            date: '$data.created',
             unit: 'day',
             binSize: 1,
             timezone: 'America/New_York'
@@ -26,7 +27,7 @@ async function getBonusGraphStats ({ user_id: userId, difficulties, setName, inc
     },
     {
       $group: {
-        _id: '$createdAt',
+        _id: '$created',
         count: { $sum: 1 },
         '30s': { $sum: { $cond: ['$is30', 1, 0] } },
         '20s': { $sum: { $cond: ['$is20', 1, 0] } },
@@ -38,8 +39,6 @@ async function getBonusGraphStats ({ user_id: userId, difficulties, setName, inc
     },
     { $sort: { _id: 1 } }
   ]).toArray();
-
-  return { stats };
 }
 
 export default getBonusGraphStats;
