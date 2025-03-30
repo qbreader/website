@@ -5,8 +5,8 @@ const packets = qbreader.collection('packets');
 const tossups = qbreader.collection('tossups');
 const bonuses = qbreader.collection('bonuses');
 
-const perTossupData = accountInfo.collection('tossup-data');
-const perBonusData = accountInfo.collection('bonus-data');
+const perTossupData = accountInfo.collection('per-tossup-data');
+const perBonusData = accountInfo.collection('per-bonus-data');
 
 export {
   sets,
