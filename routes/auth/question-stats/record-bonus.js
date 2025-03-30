@@ -1,3 +1,4 @@
+import getUserId from '../../../database/account-info/get-user-id.js';
 import recordBonusData from '../../../database/account-info/question-stats/record-bonus-data.js';
 
 import { Router } from 'express';
@@ -32,11 +33,15 @@ function validateParams ({ _id, pointsPerPart }) {
 
 router.post('/', async (req, res) => {
   const { username } = req.session;
+  const userId = await getUserId(username);
+  if (!userId) {
+    return res.status(401).send('Unauthorized');
+  }
   const params = validateParams(req.body);
   if (params === null) {
     return res.status(400).send('Invalid parameters');
   }
-  const results = await recordBonusData(username, params);
+  const results = await recordBonusData(userId, params);
   res.json(results);
 });
 
