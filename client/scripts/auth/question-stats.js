@@ -7,7 +7,7 @@ export default class questionStats {
    * @param {number[]} pointsPerPart - How many points were scored on each part of the bonus
    * @returns
    */
-  static async recordBonus (_id, pointsPerPart) {
+  static async recordBonus ({ _id, pointsPerPart }) {
     if (!(await account.getUsername())) {
       return;
     }
