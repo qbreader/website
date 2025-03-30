@@ -20,7 +20,6 @@ export default async function getSummaryBonusStats (userId, groupByField, query)
     { $match: { [groupByField]: { $exists: true } } },
     { $unwind: '$data' },
     { $match: { 'data.user_id': userId } },
-    { $match: { 'data.user_id': { $ne: null } } },
     { $addFields: { pointValue: { $sum: '$data.pointsPerPart' } } },
     {
       $addFields: {
