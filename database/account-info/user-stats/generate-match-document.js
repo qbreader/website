@@ -2,30 +2,30 @@ import getSetId from '../../qbreader/get-set-id.js';
 
 /**
  * Generates a match document for a given user and set of match options.
- * @param {Object} options - The options for the match generation.
- * @param {string} options.userId - The ID of the user generating the match.
- * @param {number[]} options.difficulties - An array of difficulties to filter by.
- * @param {string} options.setName - The name of the set to search in.
- * @param {boolean} options.includeMultiplayer - Whether to include multiplayer questions.
- * @param {boolean} options.includeSingleplayer - Whether to include singleplayer questions.
- * @param {Date} [options.startDate] - The start date of the match.
- * @param {Date} [options.endDate] - The end date of the match.
+ * @param {Object} query - The options for the match generation.
+ * @param {ObjectId} query.userId - The ID of the user generating the match.
+ * @param {number[]} query.difficulties - An array of difficulties to filter by.
+ * @param {string} query.setName - The name of the set to search in.
+ * @param {boolean} query.includeMultiplayer - Whether to include multiplayer questions.
+ * @param {boolean} query.includeSingleplayer - Whether to include singleplayer questions.
+ * @param {Date} [query.startDate] - The start date of the match.
+ * @param {Date} [query.endDate] - The end date of the match.
  * @returns {Object} The generated match document.
  */
-async function generateMatchDocument ({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
-  const matchDocument = { user_id: userId };
+export default async function generateMatchDocument ({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
+  const matchDocument = { 'data.user_id': userId };
 
   if (!includeMultiplayer && !includeSingleplayer) {
     return { _id: null };
   }
 
   if (!includeSingleplayer) {
-    matchDocument.multiplayer = true;
+    matchDocument['data.multiplayer'] = true;
   }
 
   if (!includeMultiplayer) {
     // if multiplayer field is missing, then it is singleplayer
-    matchDocument.multiplayer = { $ne: true };
+    matchDocument['data.multiplayer'] = false;
   }
 
   if (difficulties) {
@@ -37,18 +37,16 @@ async function generateMatchDocument ({ userId, difficulties, setName, includeMu
   }
 
   if (startDate) {
-    matchDocument.createdAt = { $gte: startDate };
+    matchDocument['data.created'] = { $gte: startDate };
   }
 
   if (endDate) {
-    if (!matchDocument.createdAt) {
-      matchDocument.createdAt = {};
+    if (!matchDocument['data.created']) {
+      matchDocument['data.created'] = {};
     }
 
-    matchDocument.createdAt.$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
+    matchDocument['data.created'].$lt = new Date(endDate.getTime() + 1000 * 60 * 60 * 24);
   }
 
   return matchDocument;
 }
-
-export default generateMatchDocument;
