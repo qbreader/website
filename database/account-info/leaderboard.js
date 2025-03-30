@@ -22,6 +22,8 @@ export default async function leaderboard (limit) {
  */
 async function helper (type = 'tossup') {
   const aggregation = [
+    { $unwind: '$data' },
+    { $addFields: { user_id: '$data.user_id' } },
     {
       $group: {
         _id: '$user_id',
