@@ -40,38 +40,25 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
         }
 
         const averageCelerity = stats.numCorrect > 0 ? (stats.totalCorrectCelerity / stats.numCorrect) : 0;
-        document.getElementById('tossup-stats-body').innerHTML = `
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    TUH
-                    <span>${stats.count}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    15s
-                    <span>${stats['15s']}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    10s
-                    <span>${stats['10s']}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    -5s
-                    <span>${stats['-5s']}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Average celerity
-                    <span>${averageCelerity.toFixed(3)}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Total points
-                    <span>${stats.totalPoints}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    PPTU
-                    <span>${stats.pptu.toFixed(2)}</span>
-                </li>
-            </ul>
-            `;
+        const statsList = [
+          ['TUH', stats.count],
+          ['15s', stats['15s']],
+          ['10s', stats['10s']],
+          ['-5s', stats['-5s']],
+          ['Average celerity', averageCelerity.toFixed(3)],
+          ['Total points', stats.totalPoints],
+          ['PPTU', stats.pptu.toFixed(2)]
+        ];
+        const ul = document.createElement('ul');
+        ul.className = 'list-group';
+        for (const [label, value] of statsList) {
+          const li = document.createElement('li');
+          li.className = 'list-group-item d-flex justify-content-between align-items-center';
+          li.innerHTML = `${label} <span>${value}</span>`;
+          ul.appendChild(li);
+        }
+        document.getElementById('tossup-stats-body').textContent = '';
+        document.getElementById('tossup-stats-body').appendChild(ul);
       })
       .catch(error => {
         console.error('Error:', error);
