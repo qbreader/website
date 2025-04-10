@@ -8,17 +8,20 @@ import { perTossupData } from '../collections.js';
 async function getSingleTossupStats (tossupId) {
   const document = await perTossupData.findOne({ _id: tossupId });
   if (!document) { return null; }
+  const data = document.data;
+  // data should always be an array
+  if (!Array.isArray(data) || data.length === 0) { return null; }
   return {
     _id: tossupId,
-    '15s': document.data.filter(d => d.pointValue > 10).length,
-    '10s': document.data.filter(d => d.pointValue === 10).length,
-    '-5s': document.data.filter(d => d.pointValue < 0).length,
-    count: document.data.length,
-    numCorrect: document.data.reduce((acc, curr) => acc + (curr.pointValue > 0 ? 1 : 0), 0),
-    pptu: document.data.reduce((acc, curr) => acc + curr.pointValue, 0) / document.data.length,
-    totalCelerity: document.data.reduce((acc, curr) => acc + curr.celerity, 0),
-    totalCorrectCelerity: document.data.reduce((acc, curr) => acc + (curr.pointValue > 0 ? curr.celerity : 0), 0),
-    totalPoints: document.data.reduce((acc, curr) => acc + curr.pointValue, 0)
+    '15s': data.filter(d => d.pointValue > 10).length,
+    '10s': data.filter(d => d.pointValue === 10).length,
+    '-5s': data.filter(d => d.pointValue < 0).length,
+    count: data.length,
+    numCorrect: data.reduce((a, b) => a + (b.pointValue > 0 ? 1 : 0), 0),
+    pptu: data.reduce((a, b) => a + b.pointValue, 0) / data.length,
+    totalCelerity: data.reduce((a, b) => a + b.celerity, 0),
+    totalCorrectCelerity: data.reduce((a, b) => a + (b.pointValue > 0 ? b.celerity : 0), 0),
+    totalPoints: data.reduce((a, b) => a + b.pointValue, 0)
   };
 }
 
