@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Play geoword on qbreader.">
+
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+
+    <link href="/bootstrap/light.css" rel="stylesheet">
+    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
+    <script type="module" src="/scripts/apply-theme.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/">
+                <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
+            </a>
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-link" href="/singleplayer/">Singleplayer</a>
+                    <a class="nav-link" href="/multiplayer/">Multiplayer</a>
+                    <a class="nav-link" href="/database/">Database</a>
+                    <a class="nav-link" href="/frequency-list/">Frequency List</a>
+                    <a class="nav-link active" href="/geoword/" aria-current="page">Geoword</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tools
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/tools/api-docs/">API Docs</a>
+                            <a class="dropdown-item" href="/tools/packet-parser/">Packet Parser</a>
+                        </ul>
+                    </li>
+                    <a class="nav-link" href="/about/">About</a>
+                    <a class="nav-link" href="/settings/">Settings</a>
+                </div>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <a class="nav-link" href="/user/login" id="login-link">Log in</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <div class="buttons position-sticky top-0 pt-2">
+            <button class="mb-2 btn btn-success" id="start" type="button">Start</button>
+            <button class="mb-2 btn btn-primary" id="next" type="button" disabled>Next</button>
+            <button class="mb-2 btn btn-primary float-end" id="buzz" type="button" disabled>Buzz</button>
+            <form id="answer-form">
+                <!-- User enters answer here -->
+                <div class="input-group d-none my-2" id="answer-input-group">
+                    <input class="form-control" id="answer-input" type="text" placeholder="Enter answer" autocomplete="off">
+                    <button class="btn btn-success" id="answer-submit" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <p class="d-flex justify-content-between">
+            <span class id="statline">0.00 points per question (0 points / 0 TUH), celerity: 0.000</span>
+            <b id="packet-name"></b>
+        </p>
+        <div id="start-content">
+            <p>
+                <!-- Choose which week you would like to play, and press start at the top when you're ready. -->
+                Welcome to geoword!
+                This packet has <b id="packet-length">20</b> questions.
+                Press start at the top when you're ready.
+                If you leave in the middle of the packet, you can resume where you left off.
+                You can check your audio by playing this sample:
+            </p>
+            <p class="text-center">
+                <button class="btn btn-primary" id="play-sample">Test</button>
+            </p>
+            <p id="progress-info"></p>
+        </div>
+        <div class="d-none" id="question-info">
+            <div><b>Status:</b> <span id="current-status"></span></div>
+            <div><b>Question #</b><span id="current-question-number"></span></div>
+            <div><b>Answer:</b> <span id="current-actual-answer"></span></div>
+            <div><b>Given answer:</b> <span id="current-given-answer"></span></div>
+            <div><b>Celerity:</b> <span id="current-celerity"></span></div>
+            <p><b>Points:</b> <span id="current-points"></span></p>
+            <p class="d-none" id="protest-text">
+                Click this button if you believe you were correct: <a href="#" id="record-protest">I was right</a>
+            </p>
+            <div class="alert alert-success d-none" id="record-protest-confirmation">
+                Your protest has been recorded.
+                A moderator will review it shortly.
+            </div>
+        </div>
+        <div class="d-none" id="end-content">
+            Thank you for playing this packet of geoword.
+            You can check out <a href="/geoword/stats" id="geoword-stats">stats here</a>.
+        </div>
+    </div>
+
+    <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/script.js"></script>
+
+    <script type="module" src="./game.js"></script>
+</body>
+
+</html>

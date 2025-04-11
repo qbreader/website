@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Geoword stats.">
+
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+
+    <link href="/bootstrap/light.css" rel="stylesheet">
+    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
+    <script type="module" src="/scripts/apply-theme.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/">
+                <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
+            </a>
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-link" href="/singleplayer/">Singleplayer</a>
+                    <a class="nav-link" href="/multiplayer/">Multiplayer</a>
+                    <a class="nav-link" href="/database/">Database</a>
+                    <a class="nav-link" href="/frequency-list/">Frequency List</a>
+                    <a class="nav-link active" href="/geoword/" aria-current="page">Geoword</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tools
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/tools/api-docs/">API Docs</a>
+                            <a class="dropdown-item" href="/tools/packet-parser/">Packet Parser</a>
+                        </ul>
+                    </li>
+                    <a class="nav-link" href="/about/">About</a>
+                    <a class="nav-link" href="/settings/">Settings</a>
+                </div>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <a class="nav-link" href="/user/login" id="login-link">Log in</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <p class="text-center lead">Category Stats for <span id="packet-name"></span>:</p>
+        <p class="d-flex justify-content-between">
+            <span id="statline"></span>
+            <span><b>Division:</b> <span id="division"></span></span>
+        </p>
+        <form class="mb-3" id="form">
+            <div class="mb-3">
+                <label class="form-label" for="category">Choose a category:</label>
+                <select class="form-select" id="category"></select>
+            </div>
+        </form>
+        <table class="table table-hover" id="leaderboard">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Celerity</th>
+                    <th scope="col">Correct</th>
+                    <th scope="col">Points</th>
+                    <th scope="col">PPTU</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="leaderboard-body"></tbody>
+            <tfoot class="table-group-divider" id="leaderboard-foot"></tfoot>
+        </table>
+    </div>
+
+    <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/script.js"></script>
+
+    <script type="module" src="./category-stats.js"></script>
+</body>
+
+</html>
