@@ -1,5 +1,4 @@
-import divisionRouter from './division.js';
-import gameRouter from './game.js';
+import playRouter from './play/index.js';
 
 import getUserId from '../../../database/account-info/get-user-id.js';
 import isAdmin from '../../../database/account-info/is-admin.js';
@@ -41,7 +40,6 @@ router.use(/^\/[^.]*$/, async (req, res, next) => {
   next();
 });
 
-router.use('/division', divisionRouter);
-router.use('/game', gameRouter);
+router.use('/play', playRouter);
 
 export default router;
