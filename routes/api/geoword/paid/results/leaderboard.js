@@ -5,8 +5,8 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const { packetName, division } = req.query;
-  const leaderboard = await getLeaderboard(packetName, division);
+  const { packetName } = req.query;
+  const leaderboard = await getLeaderboard({ packetName });
   res.json({ leaderboard });
 });
 

@@ -56,31 +56,8 @@ fetch('/api/geoword/paid/results/stats?' + new URLSearchParams({ packetName }))
     document.getElementById('stats').innerHTML = innerHTML;
   });
 
-fetch('/api/geoword/get-divisions?' + new URLSearchParams({ packetName }))
-  .then(response => response.json())
-  .then(data => {
-    const { divisions } = data;
-    const leaderboardLinks = document.getElementById('leaderboard-links');
-    const packetLinks = document.getElementById('packet-links');
-    for (const index in divisions) {
-      const division = divisions[index];
-      const a1 = document.createElement('a');
-      a1.href = `./leaderboard?packetName=${packetName}&division=${encodeURIComponent(division)}`;
-      a1.textContent = division;
-
-      const a2 = document.createElement('a');
-      a2.href = `./packet?packetName=${packetName}&division=${encodeURIComponent(division)}`;
-      a2.textContent = division;
-
-      if (index > 0) {
-        leaderboardLinks.appendChild(document.createTextNode(' | '));
-        packetLinks.appendChild(document.createTextNode(' | '));
-      }
-
-      leaderboardLinks.appendChild(a1);
-      packetLinks.appendChild(a2);
-    }
-  });
+document.getElementById('leaderboard-link').href = `./leaderboard?packetName=${packetName}`;
+document.getElementById('packet-link').href = `./packet?packetName=${packetName}`;
 
 function getPromptString (buzz) {
   if (!buzz?.prompts) {

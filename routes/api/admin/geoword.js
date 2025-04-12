@@ -26,8 +26,9 @@ router.get('/compare', async (req, res) => {
 });
 
 router.get('/leaderboard', async (req, res) => {
-  const { packetName, division, includeInactive } = req.query;
-  const leaderboard = await getLeaderboard(packetName, division, includeInactive === 'true');
+  req.query.includeInactive = req.query.includeInactive === 'true';
+  const { packetName, includeInactive } = req.query;
+  const leaderboard = await getLeaderboard({ packetName, includeInactive });
   res.json({ leaderboard });
 });
 
