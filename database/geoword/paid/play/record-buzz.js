@@ -1,4 +1,4 @@
-import { buzzes, packets } from '../../collections.js';
+import { buzzes, packets, tossups } from '../../collections.js';
 import getDivisionChoice from '../../get-division-choice.js';
 
 import isAdminById from '../../../account-info/is-admin-by-id.js';
@@ -13,11 +13,12 @@ import isAdminById from '../../../account-info/is-admin-by-id.js';
  * @param {ObjectId} params.user_id
  * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
-async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts, questionNumber, user_id: userId }) {
-  const [division, packet, admin] = await Promise.all([
+async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts, questionNumber, userId }) {
+  const [admin, division, packet, tossup] = await Promise.all([
+    isAdminById(userId),
     getDivisionChoice(packetName, userId),
     packets.findOne({ name: packetName }),
-    isAdminById(userId)
+    tossups.findOne({ 'packet.name': packetName, questionNumber })
   ]);
 
   const insertDocument = {
@@ -31,6 +32,7 @@ async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts,
       name: packet.name
     },
     questionNumber,
+    tossup_id: tossup._id,
     user_id: userId
   };
 
