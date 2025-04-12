@@ -16,7 +16,7 @@ async function getAdminStats (packetName, division) {
         bestCelerity: { $max: '$correctCelerity' },
         bestUserId: { $first: '$user_id' },
         numberCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
-        questionNumber: { $first: '$questionNumber' },
+        tossup_id: { $first: '$tossup_id' },
         timesHeard: { $sum: 1 }
       }
     },
@@ -24,20 +24,8 @@ async function getAdminStats (packetName, division) {
     {
       $lookup: {
         from: 'tossups',
-        let: { questionNumber: '$questionNumber', packet: { name: packetName }, division },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $and: [
-                  { $eq: ['$questionNumber', '$$questionNumber'] },
-                  { $eq: ['$packet.name', '$$packet.name'] },
-                  { $eq: ['$division', '$$division'] }
-                ]
-              }
-            }
-          }
-        ],
+        localField: 'tossup_id',
+        foreignField: '_id',
         as: 'tossup'
       }
     },
