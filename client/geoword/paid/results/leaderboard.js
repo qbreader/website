@@ -1,14 +1,15 @@
-import createTabs from '../../scripts/utilities/create-tabs.js';
-import { titleCase, kebabCase } from '../../scripts/utilities/strings.js';
-import sortTable from '../../scripts/utilities/tables.js';
+import createTabs from '../../../scripts/utilities/create-tabs.js';
+import { kebabCase, titleCase } from '../../../scripts/utilities/strings.js';
+import sortTable from '../../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
 const packetTitle = titleCase(packetName);
 
+document.getElementById('back-link').href = `./stats?packetName=${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
 
-fetch('/api/admin/geoword/leaderboard?' + new URLSearchParams({ packetName, includeInactive: true }))
+fetch('/api/geoword/paid/results/leaderboard?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
     const { leaderboard } = data;
@@ -24,7 +25,6 @@ fetch('/api/admin/geoword/leaderboard?' + new URLSearchParams({ packetName, incl
       const theadRow = thead.insertRow();
       const labels = ['#', 'Username', 'Celerity', 'Correct', 'Points', 'PPTU'];
       const numeric = [true, false, true, true, true, true];
-
       for (const index in labels) {
         const label = labels[index];
         const cell = document.createElement('th');
@@ -33,24 +33,17 @@ fetch('/api/admin/geoword/leaderboard?' + new URLSearchParams({ packetName, incl
         cell.addEventListener('click', () => sortTable(index, numeric[index], table.id, 1, 0));
         theadRow.appendChild(cell);
       }
-
       const tbody = table.createTBody();
-      let numberSkipped = 0;
       for (const index in leaderboard[division]) {
-        const { active, username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity } = leaderboard[division][index];
+        const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity } = leaderboard[division][index];
 
         const row = tbody.insertRow();
-        row.insertCell().textContent = parseInt(index) + 1 - numberSkipped;
+        row.insertCell().textContent = parseInt(index) + 1;
         row.insertCell().textContent = username;
         row.insertCell().textContent = (averageCorrectCelerity ?? 0.0).toFixed(3);
         row.insertCell().textContent = numberCorrect;
         row.insertCell().textContent = points;
         row.insertCell().textContent = (pointsPerTossup ?? 0.0).toFixed(2);
-
-        if (!active) {
-          row.className = 'table-info';
-          numberSkipped++;
-        }
       }
       divs[division].appendChild(table);
     }

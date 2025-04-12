@@ -1,8 +1,8 @@
 import getUserId from '../../../database/account-info/get-user-id.js';
 import getAdminStats from '../../../database/geoword/get-admin-stats.js';
 import getBuzzes from '../../../database/geoword/get-buzzes.js';
-import getCategoryLeaderboard from '../../../database/geoword/get-category-stats.js';
-import getLeaderboard from '../../../database/geoword/get-leaderboard.js';
+import getCategoryLeaderboard from '../../../database/geoword/paid/results/get-category-stats.js';
+import getLeaderboard from '../../../database/geoword/paid/results/get-leaderboard.js';
 import getPlayerList from '../../../database/geoword/get-player-list.js';
 import getProtests from '../../../database/geoword/get-protests.js';
 import resolveProtest from '../../../database/geoword/resolve-protest.js';
@@ -26,8 +26,9 @@ router.get('/compare', async (req, res) => {
 });
 
 router.get('/leaderboard', async (req, res) => {
-  const { packetName, division, includeInactive } = req.query;
-  const leaderboard = await getLeaderboard(packetName, division, includeInactive === 'true');
+  req.query.includeInactive = req.query.includeInactive === 'true';
+  const { packetName, includeInactive } = req.query;
+  const leaderboard = await getLeaderboard({ packetName, includeInactive });
   res.json({ leaderboard });
 });
 
