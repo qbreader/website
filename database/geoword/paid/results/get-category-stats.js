@@ -10,20 +10,8 @@ async function getCategoryLeaderboard (packetName, division, includeInactive = f
     {
       $lookup: {
         from: 'tossups',
-        let: { questionNumber: '$questionNumber', packet: { name: packetName }, division },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $and: [
-                  { $eq: ['$questionNumber', '$$questionNumber'] },
-                  { $eq: ['$packet.name', '$$packet.name'] },
-                  { $eq: ['$division', '$$division'] }
-                ]
-              }
-            }
-          }
-        ],
+        localField: 'tossup_id',
+        foreignField: '_id',
         as: 'tossup'
       }
     },
