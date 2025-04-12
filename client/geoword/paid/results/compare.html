@@ -5,6 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Select a geoword division.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -54,18 +55,23 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">Leaderboard for <span id="packet-name"></span>:</p>
-        <p class="d-flex justify-content-end"><a href="/geoword/admin">Back to admin page</a></p>
-        <nav class="mb-3">
-            <div class="nav nav-tabs" id="tabs" role="tablist"></div>
-        </nav>
-        <div class="tab-content" id="tab-content"></div>
+        <p>
+            Compare your stats on <b id="packet-name"></b> (<span id="division"></span>) against another player.
+        </p>
+        <form class="mb-3" id="form">
+            <div class="mb-3">
+                <label for="opponent" class="form-label">Enter a username here:</label>
+                <input type="text" class="form-control" id="opponent">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div id="root"></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/admin/geoword/leaderboard.js"></script>
+    <script type="module" src="./compare.js"></script>
 </body>
 
 </html>

@@ -5,6 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Geoword stats.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -54,18 +55,22 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">Leaderboard for <span id="packet-name"></span>:</p>
-        <p class="d-flex justify-content-end"><a href="/geoword/admin">Back to admin page</a></p>
-        <nav class="mb-3">
-            <div class="nav nav-tabs" id="tabs" role="tablist"></div>
-        </nav>
-        <div class="tab-content" id="tab-content"></div>
+        <p class="text-center lead">Stats for <span id="packet-name"></span>:</p>
+        <p class="d-flex justify-content-between">
+            <span id="statline"></span>
+            <span><b>Division:</b> <span id="division"></span></span>
+        </p>
+        <p>View the <a id="category-stats-link">category stats for this packet here</a>.</p>
+        <p>View the leaderboard for this packet: <a id="leaderboard-link">Leaderboard</a></p>
+        <p>View the tossups from this packet: <a id="packet-link">Packet</a></p>
+        <p>Compare your stats against another player <a id="compare-link">by clicking here</a>.</p>
+        <div id="stats"></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/admin/geoword/leaderboard.js"></script>
+    <script type="module" src="./stats.js"></script>
 </body>
 
 </html>
