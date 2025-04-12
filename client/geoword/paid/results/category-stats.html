@@ -5,6 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Geoword stats.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -54,18 +55,37 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">Leaderboard for <span id="packet-name"></span>:</p>
-        <p class="d-flex justify-content-end"><a href="/geoword/admin">Back to admin page</a></p>
-        <nav class="mb-3">
-            <div class="nav nav-tabs" id="tabs" role="tablist"></div>
-        </nav>
-        <div class="tab-content" id="tab-content"></div>
+        <p class="text-center lead">Category Stats for <span id="packet-name"></span>:</p>
+        <p class="d-flex justify-content-between">
+            <span><b>Division:</b> <span id="division"></span></span>
+            <a id="back-link">Back to stats page</a>
+        </p>
+        <form class="mb-3" id="form">
+            <div class="mb-3">
+                <label class="form-label" for="category">Choose a category:</label>
+                <select class="form-select" id="category"></select>
+            </div>
+        </form>
+        <table class="table table-hover" id="leaderboard">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Celerity</th>
+                    <th scope="col">Correct</th>
+                    <th scope="col">Points</th>
+                    <th scope="col">PPTU</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="leaderboard-body"></tbody>
+            <tfoot class="table-group-divider" id="leaderboard-foot"></tfoot>
+        </table>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/admin/geoword/leaderboard.js"></script>
+    <script type="module" src="./category-stats.js"></script>
 </body>
 
 </html>

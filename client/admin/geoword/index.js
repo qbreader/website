@@ -26,7 +26,7 @@ fetch('/api/geoword/packet-list')
 
         for (const field of fields) {
           const a = document.createElement('a');
-          a.href = `/admin/geoword/${field}?packetName=${name}&division=${encodeURIComponent(division)}`;
+          a.href = `/admin/geoword/${field}?packetName=${name}`;
           a.textContent = titleCase(field);
 
           li.appendChild(a);
@@ -34,7 +34,7 @@ fetch('/api/geoword/packet-list')
         }
 
         const a = document.createElement('a');
-        a.href = `/geoword/paid/packet?packetName=${name}&division=${encodeURIComponent(division)}`;
+        a.href = `/geoword/paid/results/packet?packetName=${name}`;
         a.textContent = 'Packet';
 
         li.appendChild(a);
