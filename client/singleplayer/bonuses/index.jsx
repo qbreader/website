@@ -462,7 +462,7 @@ document.addEventListener('keydown', (event) => {
     case 's': return document.getElementById('start').click();
     case 't': return document.getElementsByClassName('star-bonus')[0].click();
     case 'y': return navigator.clipboard.writeText(room.bonus._id ?? '');
-    case '0': return document.getQuerySelector('input.checkbox[type="checkbox"]').click();
+    case '0': return document.getElementById(`checkbox-${room.pointsPerPart.length}`)?.click();
     case '1': return document.getElementById('checkbox-1').click();
     case '2': return document.getElementById('checkbox-2').click();
     case '3': return document.getElementById('checkbox-3').click();
