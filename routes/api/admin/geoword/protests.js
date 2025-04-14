@@ -1,4 +1,4 @@
-import getProtests from '../../../../database/geoword/get-protests.js';
+import getProtests from '../../../../database/geoword/admin/get-protests.js';
 
 import { Router } from 'express';
 

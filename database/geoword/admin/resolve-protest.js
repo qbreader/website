@@ -1,4 +1,4 @@
-import { buzzes } from './collections.js';
+import { buzzes } from '../collections.js';
 
 async function resolveProtest (buzzId, decision, reason) {
   const updateDocument = { pendingProtest: false, decision, reason };
