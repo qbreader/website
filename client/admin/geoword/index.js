@@ -15,7 +15,7 @@ fetch('/api/geoword/packet-list')
       listGroupItem.className = 'list-group-item';
       listGroupItem.appendChild(b);
 
-      for (const field of ['stats', 'category-stats', 'protests', 'leaderboard']) {
+      for (const field of ['stats', 'category-stats', 'protests', 'leaderboard', 'manage-payments']) {
         const a = document.createElement('a');
         a.href = `/admin/geoword/${field}?packetName=${name}`;
         a.textContent = titleCase(field);
