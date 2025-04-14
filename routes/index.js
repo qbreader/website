@@ -4,7 +4,6 @@ import authRouter from './auth/index.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
 import userRouter from './user.js';
-import webhookRouter from './api/webhook.js';
 
 import cors from 'cors';
 import express, { Router } from 'express';
@@ -32,7 +31,6 @@ router.use('/auth', authRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);
 router.use('/user', userRouter);
-router.use('/webhook', webhookRouter);
 
 router.use('/quizbowl', express.static('quizbowl'));
 
