@@ -9,6 +9,10 @@ import { Router } from 'express';
 
 const router = Router();
 
+/**
+ * All routes in this folder require payment or authentication.
+ * It expects a packetName query parameter to be passed.
+ */
 router.use(async (req, res, next) => {
   const { username, token } = req.session;
   if (!checkToken(username, token)) {
