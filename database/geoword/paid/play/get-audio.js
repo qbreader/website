@@ -1,19 +1,18 @@
-import { bucketName, s3 } from '../../../databases.js';
-import * as AWS from '@aws-sdk/client-s3';
+import { audio, tossups } from '../../collections.js';
 
 /**
- *
- * @param {String} packetName
- * @param {String} division
- * @param {Integer} questionNumber
+ * @param {object} options
+ * @param {string} options.division
+ * @param {string} options.packetName
+ * @param {integer} options.questionNumber
  * @returns {Promise<Buffer>}
  */
-async function getAudio ({ packetName, division, sample = false, questionNumber }) {
-  const filepath = sample ? `${packetName}/sample.mp3` : `${packetName}/${division}/${questionNumber}.mp3`;
-  const command = new AWS.GetObjectCommand({ Bucket: bucketName, Key: 'geoword/audio/' + filepath });
-  const { Body } = await s3.send(command);
-  const byteArray = await Body.transformToByteArray();
-  return Buffer.from(byteArray);
-}
+export default async function getAudio ({ packetName, division, questionNumber }) {
+  const tossup = await tossups.findOne({ 'packet.name': packetName, division, questionNumber });
+  if (!tossup) { return null; }
 
-export default getAudio;
+  const audioFile = await audio.findOne({ _id: tossup.audio_id });
+  if (!audioFile) { return null; }
+
+  return audioFile.audio.buffer;
+}
