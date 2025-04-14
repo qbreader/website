@@ -57,11 +57,13 @@
         <p class="text-center lead">
             Admin stats for <span id="packet-name"></span>:
         </p>
-        <p class="d-flex justify-content-between">
-            <span><b>Division:</b> <span id="division"></span></span>
+        <p class="d-flex justify-content-end">
             <a href="/geoword/admin">Back to admin page</a>
         </p>
-        <div id="stats"></div>
+        <nav class="mb-3">
+            <div class="nav nav-tabs" id="tabs" role="tablist"></div>
+        </nav>
+        <div class="tab-content" id="tab-content"></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>

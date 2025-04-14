@@ -1,9 +1,10 @@
 import { buzzes } from './collections.js';
 
 import getUsername from '../account-info/get-username.js';
+import getDivisions from './get-divisions.js';
 
-async function getAdminStats (packetName, division) {
-  const stats = await buzzes.aggregate([
+function getAggregation ({ division, packetName }) {
+  return [
     { $match: { 'packet.name': packetName, division, active: true } },
     { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
     { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined] } } },
@@ -30,14 +31,29 @@ async function getAdminStats (packetName, division) {
       }
     },
     { $unwind: '$tossup' }
-  ]).toArray();
+  ];
+}
 
-  for (const index in stats) {
-    const question = stats[index];
-    question.bestUsername = await getUsername(question.bestUserId);
+async function getAdminStats ({ packetName }) {
+  const divisions = await getDivisions(packetName);
+  if (!divisions || divisions.length === 0) {
+    return {};
+  }
+  const queries = divisions.map(division => {
+    const aggregation = getAggregation({ division, packetName });
+    return buzzes.aggregate(aggregation).toArray();
+  });
+
+  const results = await Promise.all(queries);
+  for (const result of results) {
+    for (const document of result) {
+      document.bestUsername = await getUsername(document.bestUserId);
+    }
   }
 
-  return stats;
+  return Object.fromEntries(
+    divisions.map((division, index) => [division, results[index]])
+  );
 }
 
 export default getAdminStats;
