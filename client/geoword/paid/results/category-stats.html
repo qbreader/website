@@ -56,8 +56,7 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <p class="text-center lead">Category Stats for <span id="packet-name"></span>:</p>
-        <p class="d-flex justify-content-between">
-            <span><b>Division:</b> <span id="division"></span></span>
+        <p class="d-flex justify-content-end">
             <a id="back-link">Back to stats page</a>
         </p>
         <form class="mb-3" id="form">
@@ -66,20 +65,10 @@
                 <select class="form-select" id="category"></select>
             </div>
         </form>
-        <table class="table table-hover" id="leaderboard">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Celerity</th>
-                    <th scope="col">Correct</th>
-                    <th scope="col">Points</th>
-                    <th scope="col">PPTU</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider" id="leaderboard-body"></tbody>
-            <tfoot class="table-group-divider" id="leaderboard-foot"></tfoot>
-        </table>
+        <nav class="mb-3">
+            <div class="nav nav-tabs" id="tabs" role="tablist"></div>
+        </nav>
+        <div class="tab-content" id="tab-content"></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>

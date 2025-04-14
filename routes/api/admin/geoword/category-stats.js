@@ -4,10 +4,10 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/category-stats', async (req, res) => {
-  const { packetName, division } = req.query;
-  const leaderboard = await getCategoryLeaderboard(packetName, division, true);
-  res.json({ leaderboard });
+router.get('/', async (req, res) => {
+  const { packetName } = req.query;
+  const leaderboards = await getCategoryLeaderboard({ packetName, includeInactive: true });
+  res.json({ leaderboards });
 });
 
 export default router;
