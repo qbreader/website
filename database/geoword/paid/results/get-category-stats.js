@@ -1,10 +1,17 @@
 import { buzzes } from '../../collections.js';
 
 import getUsername from '../../../account-info/get-username.js';
+import getDivisions from '../../get-divisions.js';
 
-async function getCategoryLeaderboard (packetName, division, includeInactive = false) {
-  const aggregation = [
-    { $match: { 'packet.name': packetName, division } },
+function getAggregation ({ division, includeInactive, packetName }) {
+  return [
+    {
+      $match: {
+        division,
+        'packet.name': packetName,
+        ...(!includeInactive && { active: true })
+      }
+    },
     { $addFields: { isCorrect: { $gt: ['$points', 0] } } },
     { $addFields: { correctCelerity: { $cond: ['$isCorrect', '$celerity', undefined] } } },
     {
@@ -52,20 +59,31 @@ async function getCategoryLeaderboard (packetName, division, includeInactive = f
     { $addFields: { category: '$_id' } },
     { $sort: { category: 1 } }
   ];
+}
 
-  if (!includeInactive) {
-    aggregation[0].$match.active = true;
+async function getCategoryLeaderboard ({ packetName, includeInactive = false }) {
+  const divisions = await getDivisions(packetName);
+  if (!divisions || divisions.length === 0) {
+    return {};
   }
 
-  const leaderboard = await buzzes.aggregate(aggregation).toArray();
+  const queries = divisions.map(division => {
+    const aggregation = getAggregation({ division, includeInactive, packetName });
+    return buzzes.aggregate(aggregation).toArray();
+  });
 
-  for (const category of leaderboard) {
-    for (const user of category.users) {
-      user.user.username = await getUsername(user.user_id);
+  const results = await Promise.all(queries);
+  for (const leaderboard of results) {
+    for (const category of leaderboard) {
+      for (const user of category.users) {
+        user.user.username = await getUsername(user.user_id);
+      }
     }
   }
 
-  return leaderboard;
+  return Object.fromEntries(
+    divisions.map((division, index) => [division, results[index]])
+  );
 }
 
 export default getCategoryLeaderboard;
