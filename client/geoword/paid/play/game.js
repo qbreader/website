@@ -111,13 +111,8 @@ function next () {
 }
 
 function recordProtest (packetName, questionNumber) {
-  fetch('/api/geoword/paid/play/record-protest?', {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      packetName,
-      questionNumber
-    })
+  fetch('/api/geoword/paid/play/record-protest?' + new URLSearchParams({ packetName, questionNumber }), {
+    method: 'PUT'
   }).then(() => {
     document.getElementById('record-protest-confirmation').classList.remove('d-none');
   });

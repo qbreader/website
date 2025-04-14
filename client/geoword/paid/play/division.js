@@ -26,13 +26,11 @@ document.getElementById('form').addEventListener('submit', event => {
   event.stopPropagation();
 
   const division = document.getElementById('division').value;
-  fetch('/api/geoword/paid/play/record-division?', {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ division, packetName })
+  fetch('/api/geoword/paid/play/record-division?' + new URLSearchParams({ division, packetName }), {
+    method: 'PUT'
   }).then(response => {
     if (response.ok) {
-      window.location.href = `/geoword/paid/game?packetName=${packetName}`;
+      window.location.href = `/geoword/paid/play/game?packetName=${packetName}`;
     } else {
       window.alert('Something went wrong. Please try again.');
     }

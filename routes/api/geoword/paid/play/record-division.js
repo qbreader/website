@@ -7,7 +7,7 @@ const router = Router();
 
 router.put('/', async (req, res) => {
   const { username } = req.session;
-  const { packetName, division } = req.body;
+  const { packetName, division } = req.query;
   const userId = await getUserId(username);
   const result = await recordDivision(packetName, division, userId);
 
