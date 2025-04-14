@@ -1,7 +1,7 @@
-import { buzzes, tossups } from './collections.js';
+import { buzzes, tossups } from '../collections.js';
 
-import getUsername from '../account-info/get-username.js';
-import getDivisions from './get-divisions.js';
+import getUsername from '../../account-info/get-username.js';
+import getDivisions from '../get-divisions.js';
 
 async function getDivisionProtests ({ division, packetName }) {
   const protests = await buzzes.find(
