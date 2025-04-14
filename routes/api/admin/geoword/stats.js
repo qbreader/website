@@ -1,4 +1,4 @@
-import getAdminStats from '../../../../database/geoword/get-admin-stats.js';
+import getAdminStats from '../../../../database/geoword/admin/get-admin-stats.js';
 
 import { Router } from 'express';
 

@@ -1,4 +1,4 @@
-import resolveProtest from '../../../../database/geoword/resolve-protest.js';
+import resolveProtest from '../../../../database/geoword/admin/resolve-protest.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
