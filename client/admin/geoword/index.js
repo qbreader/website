@@ -6,41 +6,29 @@ fetch('/api/geoword/packet-list')
     const { packetList } = data;
     const gameListSelect = document.getElementById('packet-list');
     packetList.forEach(game => {
-      const { name, divisions } = game;
+      const { name } = game;
 
       const b = document.createElement('b');
-      b.textContent = `${titleCase(name)}:`;
-
-      const ul = document.createElement('ul');
+      b.textContent = `${titleCase(name)}: `;
 
       const listGroupItem = document.createElement('li');
       listGroupItem.className = 'list-group-item';
       listGroupItem.appendChild(b);
-      listGroupItem.appendChild(ul);
 
-      for (const division of divisions) {
-        const li = document.createElement('li');
-        li.textContent = `${titleCase(division)}: `;
-
-        const fields = ['stats', 'category-stats', 'protests', 'leaderboard'];
-
-        for (const field of fields) {
-          const a = document.createElement('a');
-          a.href = `/admin/geoword/${field}?packetName=${name}`;
-          a.textContent = titleCase(field);
-
-          li.appendChild(a);
-          li.appendChild(document.createTextNode(' | '));
-        }
-
+      for (const field of ['stats', 'category-stats', 'protests', 'leaderboard']) {
         const a = document.createElement('a');
-        a.href = `/geoword/paid/results/packet?packetName=${name}`;
-        a.textContent = 'Packet';
+        a.href = `/admin/geoword/${field}?packetName=${name}`;
+        a.textContent = titleCase(field);
 
-        li.appendChild(a);
-
-        ul.appendChild(li);
+        listGroupItem.appendChild(a);
+        listGroupItem.appendChild(document.createTextNode(' | '));
       }
+
+      const a = document.createElement('a');
+      a.href = `/geoword/paid/results/packet?packetName=${name}`;
+      a.textContent = 'Packet';
+
+      listGroupItem.appendChild(a);
 
       gameListSelect.appendChild(listGroupItem);
     });
