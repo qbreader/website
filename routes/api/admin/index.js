@@ -1,4 +1,4 @@
-import geowordRouter from './geoword.js';
+import geowordRouter from './geoword/index.js';
 import listReportsRouter from './list-reports.js';
 import leaderboardRouter from './leaderboard.js';
 import updateSubcategoryRouter from './update-subcategory.js';
