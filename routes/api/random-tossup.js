@@ -5,10 +5,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   if (req.query.difficulties) {
-    req.query.difficulties = req.query.difficulties
-      .split(',')
-      .map((difficulty) => parseInt(difficulty));
-
+    req.query.difficulties = req.query.difficulties.split(',').map(difficulty => parseInt(difficulty));
     req.query.difficulties = req.query.difficulties.length ? req.query.difficulties : undefined;
   }
 

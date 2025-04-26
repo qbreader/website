@@ -1,6 +1,7 @@
 import getRandomName from '../../../quizbowl/get-random-name.js';
 
 import checkAnswer from 'https://cdn.jsdelivr.net/npm/qb-answer-checker@1.1.6/dist/main.mjs';
+import filterParams from '../utilities/filter-params.js';
 
 export default class api {
   static SET_LIST = [];
@@ -68,7 +69,8 @@ export default class api {
   }
 
   static async getRandomBonus ({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }) {
-    return await fetch('/api/random-bonus?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses }))
+    const filteredParams = filterParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, subcategories, threePartBonuses });
+    return await fetch('/api/random-bonus?' + new URLSearchParams(filteredParams))
       .then(response => response.json())
       .then(response => response.bonuses);
   }
@@ -82,7 +84,8 @@ export default class api {
   }
 
   static async getRandomTossup ({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories }) {
-    return await fetch('/api/random-tossup?' + new URLSearchParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories }))
+    const filteredParams = filterParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories });
+    return await fetch('/api/random-tossup?' + new URLSearchParams(filteredParams))
       .then(response => response.json())
       .then(response => response.tossups);
   }
