@@ -9,7 +9,7 @@ router.put('/', async (req, res) => {
   const { packetName, username } = req.body;
 
   const userId = await getUserId(username);
-  if (!userId) { return res.status(400).send('Invalid username'); }
+  if (!userId) { return res.status(400).send('User not found'); }
 
   const result = await recordPayment(packetName, userId, true);
 
@@ -17,8 +17,6 @@ router.put('/', async (req, res) => {
 
   if (result.upsertedCount === 1) {
     res.status(200).send('Payment recorded successfully');
-  } else if (result.matchedCount === 1) {
-    res.status(400).send('Payment already recorded');
   } else {
     res.status(500).send('Failed to record payment');
   }

@@ -39,7 +39,7 @@ document.getElementById('record-payment-form').addEventListener('submit', event 
   }).then(response => {
     switch (response.status) {
       case 200: return window.location.reload();
-      case 400: return window.alert('Payment already recorded.');
+      case 400: return window.alert('User not found');
       default: return window.alert('Something went wrong. Please try again.');
     }
   });
