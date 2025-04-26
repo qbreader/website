@@ -7,6 +7,7 @@ import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import Star from '../scripts/components/Star.min.js';
 import { getDropdownValues, setDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
+import filterParams from '../scripts/utilities/filter-params.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 
@@ -210,17 +211,7 @@ function QueryForm () {
 
     delete unfilteredParams.categoryPercents;
 
-    const filteredParams = Object.fromEntries(
-      Object.entries(unfilteredParams).filter(([key, value]) => {
-        if (value === '' || value === null || value === undefined) { return false; }
-        if (value === false) { return false; }
-        if (Array.isArray(value) && value.length === 0) { return false; }
-        if (key === 'questionType' && value === 'all') { return false; }
-        if (key === 'searchType' && value === 'all') { return false; }
-        return true;
-      })
-    );
-
+    const filteredParams = filterParams(unfilteredParams);
     const params = new window.URLSearchParams(filteredParams);
 
     fetch(`/api/query?${params}`)
