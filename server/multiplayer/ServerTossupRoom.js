@@ -202,7 +202,7 @@ export default class ServerTossupRoom extends TossupRoom {
     if (!this.players[userId]) return;
 
     if (this.buzzedIn === userId) {
-      this.giveAnswer(userId, this.liveAnswer);
+      this.giveAnswer(userId, { givenAnswer: this.liveAnswer });
       this.buzzedIn = null;
     }
     this.leave(userId);
