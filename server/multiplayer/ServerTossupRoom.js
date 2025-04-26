@@ -1,6 +1,6 @@
 import ServerPlayer from './ServerPlayer.js';
 import Votekick from './VoteKick.js';
-import { HEADER, ENDC, OKCYAN, OKBLUE, OKGREEN } from '../bcolors.js';
+import { HEADER, ENDC, OKCYAN, OKBLUE } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 import { MODE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
@@ -82,10 +82,8 @@ export default class ServerTossupRoom extends TossupRoom {
       `Connection in room ${HEADER}${this.name}${ENDC};`,
       `ip: ${OKCYAN}${ip}${ENDC};`,
       userAgent ? `userAgent: ${OKCYAN}${userAgent}${ENDC};` : '',
-      typeof this.ownerId === 'string' ? `ownerId: ${OKBLUE}${this.ownerId}${ENDC};` : '',
       `userId: ${OKBLUE}${userId}${ENDC};`,
-      `username: ${OKBLUE}${username}${ENDC};`,
-      `settings: ${OKGREEN}${['controlled', 'lock', 'loginRequired', 'public'].map(key => [key, this.settings[key]].join(': ')).join('; ')};${ENDC}`
+      `username: ${OKBLUE}${username}${ENDC};`
     );
     this.cleanupExpiredBansAndKicks();
 
