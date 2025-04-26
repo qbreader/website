@@ -21,6 +21,7 @@ fetch('/api/admin/geoword/payment-list?' + new URLSearchParams({ packetName }))
       row.insertCell().textContent = manual ? 'Manual' : 'Automatic';
       row.insertCell().textContent = 'None';
     }
+    document.getElementById('total-payments').textContent = payments.length;
     document.getElementById('spinner').classList.add('d-none');
   });
 
