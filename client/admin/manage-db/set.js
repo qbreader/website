@@ -1,5 +1,5 @@
 const setId = new URLSearchParams(window.location.search).get('_id');
-fetch('/api/admin/db-manager/packet-metadata?' + new URLSearchParams({ setId }))
+fetch('/api/admin/manage-db/packet-metadata?' + new URLSearchParams({ setId }))
   .then(res => res.json())
   .then(data => {
     document.getElementById('set-name').textContent = data.setName;

@@ -1,4 +1,4 @@
-import dbManagerRouter from './db-manager/index.js';
+import manageDbRouter from './manage-db/index.js';
 import geowordRouter from './geoword/index.js';
 import listReportsRouter from './list-reports.js';
 import leaderboardRouter from './leaderboard.js';
@@ -28,7 +28,7 @@ router.use(async (req, res, next) => {
   next();
 });
 
-router.use('/db-manager', dbManagerRouter);
+router.use('/db-manager', manageDbRouter);
 router.use('/geoword', geowordRouter);
 router.use('/list-reports', listReportsRouter);
 router.use('/leaderboard', leaderboardRouter);
