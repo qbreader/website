@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Backups for qbreader.">
+    <meta name="description" content="">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -55,24 +55,28 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="lead">
-            Welcome to the admin portal of QB Reader, <span id="welcome-username"></span>!
-        </p>
-        <p>
-            Here's a list of useful links:
-        </p>
-        <ul>
-            <li><a href="./db-manager">Database manager</a></li>
-            <li><a href="./category-reports">Fix question categories</a></li>
-            <li><a href="./geoword">Geoword</a></li>
-            <li><a href="./leaderboard">Leaderboard</a></li>
-        </ul>
+        <div class="d-flex justify-content-between mb-3">
+            <span>View and manage <span id="set-name"></span> here:</span>
+            <a href="./">Back to all sets</a>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Packet Name</th>
+                    <th scope="col"># of Tossups</th>
+                    <th scope="col"># of Bonuses</th>
+                </tr>
+            </thead>
+            <tbody id="set-metadata-list"></tbody>
+        </table>
+        <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
     </div>
 
     <script type="module" src="/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="/admin/index.js"></script>
+    <script type="module" src="./set.js"></script>
 </body>
 
 </html>

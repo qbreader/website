@@ -1,6 +1,6 @@
 import { sets } from './collections.js';
 
-export default async function getSetMetadataList (limit) {
+export default async function getSetMetadata (limit) {
   const aggregation = [
     {
       $lookup: {
