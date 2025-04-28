@@ -3,7 +3,6 @@ fetch('/api/admin/db-manager/packet-metadata?' + new URLSearchParams({ setId }))
   .then(res => res.json())
   .then(data => {
     document.getElementById('set-name').textContent = data.setName;
-    console.log(data);
     return data.data;
   })
   .then(data => {
