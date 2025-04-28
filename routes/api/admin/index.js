@@ -1,6 +1,7 @@
 import geowordRouter from './geoword/index.js';
 import listReportsRouter from './list-reports.js';
 import leaderboardRouter from './leaderboard.js';
+import setMetadataListRouter from './set-metadata-list.js';
 import updateSubcategoryRouter from './update-subcategory.js';
 
 import isAdmin from '../../../database/account-info/is-admin.js';
@@ -30,6 +31,7 @@ router.use(async (req, res, next) => {
 router.use('/geoword', geowordRouter);
 router.use('/list-reports', listReportsRouter);
 router.use('/leaderboard', leaderboardRouter);
+router.use('/set-metadata-list', setMetadataListRouter);
 router.use('/update-subcategory', updateSubcategoryRouter);
 
 export default router;
