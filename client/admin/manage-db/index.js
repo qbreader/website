@@ -1,4 +1,4 @@
-fetch('/api/admin/db-manager/set-metadata?')
+fetch('/api/admin/manage-db/set-metadata?')
   .then(res => res.json())
   .then(data => data.data)
   .then(data => {
