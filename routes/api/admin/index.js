@@ -28,10 +28,10 @@ router.use(async (req, res, next) => {
   next();
 });
 
-router.use('/db-manager', manageDbRouter);
 router.use('/geoword', geowordRouter);
 router.use('/list-reports', listReportsRouter);
 router.use('/leaderboard', leaderboardRouter);
+router.use('/manage-db', manageDbRouter);
 router.use('/update-subcategory', updateSubcategoryRouter);
 
 export default router;
