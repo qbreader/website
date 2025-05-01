@@ -31,7 +31,13 @@ const SUBCATEGORY_BUTTONS = [
   ['Other Science', 'danger'],
   ['Visual Fine Arts', 'warning'],
   ['Auditory Fine Arts', 'warning'],
-  ['Other Fine Arts', 'warning']
+  ['Other Fine Arts', 'warning'],
+  ['Movies', 'secondary'],
+  ['Music', 'secondary'],
+  ['Sports', 'secondary'],
+  ['Television', 'secondary'],
+  ['Video Games', 'secondary'],
+  ['Other Pop Culture', 'secondary']
 ];
 
 const ALTERNATE_SUBCATEGORY_BUTTONS = [
