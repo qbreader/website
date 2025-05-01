@@ -1,4 +1,4 @@
-import { CATEGORIES, SUBCATEGORIES } from '../../quizbowl/categories.js';
+import { CATEGORIES, CATEGORY_TO_SUBCATEGORY, SUBCATEGORIES } from '../../quizbowl/categories.js';
 
 export const ROOM_NAME_MAX_LENGTH = 32;
 export const USERNAME_MAX_LENGTH = 32;
@@ -27,22 +27,22 @@ export const PERMANENT_ROOMS = [
   {
     name: 'literature',
     categories: ['Literature'],
-    subcategories: ['American Literature', 'British Literature', 'Classical Literature', 'European Literature', 'World Literature', 'Other Literature']
+    subcategories: CATEGORY_TO_SUBCATEGORY.Literature
   },
   {
     name: 'history',
     categories: ['History'],
-    subcategories: ['American History', 'Ancient History', 'European History', 'World History', 'Other History']
+    subcategories: CATEGORY_TO_SUBCATEGORY.History
   },
   {
     name: 'science',
     categories: ['Science'],
-    subcategories: ['Biology', 'Chemistry', 'Physics', 'Other Science']
+    subcategories: CATEGORY_TO_SUBCATEGORY.Science
   },
   {
     name: 'fine-arts',
     categories: ['Fine Arts'],
-    subcategories: ['Visual Fine Arts', 'Auditory Fine Arts', 'Other Fine Arts']
+    subcategories: CATEGORY_TO_SUBCATEGORY['Fine Arts']
   },
   {
     name: 'rmpss',
@@ -52,11 +52,11 @@ export const PERMANENT_ROOMS = [
   {
     name: 'geography',
     categories: ['Geography'],
-    subcategories: ['Geography']
+    subcategories: CATEGORY_TO_SUBCATEGORY.Geography
   },
   {
-    name: 'trash',
-    categories: ['Trash'],
-    subcategories: ['Trash']
+    name: 'pop culture',
+    categories: ['Pop Culture'],
+    subcategories: CATEGORY_TO_SUBCATEGORY['Pop Culture']
   }
 ];
