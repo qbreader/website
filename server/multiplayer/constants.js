@@ -55,8 +55,8 @@ export const PERMANENT_ROOMS = [
     subcategories: ['Geography']
   },
   {
-    name: 'trash',
-    categories: ['Trash'],
-    subcategories: ['Trash']
+    name: 'pop culture',
+    categories: ['Pop Culture'],
+    subcategories: ['Pop Culture']
   }
 ];
