@@ -10,7 +10,7 @@ const CATEGORY_BUTTONS = [
   ['Current Events', 'secondary'],
   ['Geography', 'secondary'],
   ['Other Academic', 'secondary'],
-  ['Trash', 'secondary']
+  ['Pop Culture', 'secondary']
 ];
 
 const SUBCATEGORY_BUTTONS = [
