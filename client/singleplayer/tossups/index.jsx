@@ -16,7 +16,7 @@ import AIBot from '../ai-mode/AIBot.js';
 let maxPacketNumber = 24;
 
 const modeVersion = '2025-01-14';
-const queryVersion = '2024-10-11';
+const queryVersion = '2025-05-07';
 const settingsVersion = '2024-10-16';
 const USER_ID = 'user';
 
