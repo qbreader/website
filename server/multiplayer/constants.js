@@ -55,7 +55,7 @@ export const PERMANENT_ROOMS = [
     subcategories: CATEGORY_TO_SUBCATEGORY.Geography
   },
   {
-    name: 'pop culture',
+    name: 'pop-culture',
     categories: ['Pop Culture'],
     subcategories: CATEGORY_TO_SUBCATEGORY['Pop Culture']
   }
