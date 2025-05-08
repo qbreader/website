@@ -14,7 +14,7 @@ import { MODE_ENUM } from '../../../quizbowl/constants.js';
 let maxPacketNumber = 24;
 
 const modeVersion = '2025-01-14';
-const queryVersion = '2024-11-01';
+const queryVersion = '2025-05-07';
 const settingsVersion = '2024-11-02';
 
 const USER_ID = 'user';
