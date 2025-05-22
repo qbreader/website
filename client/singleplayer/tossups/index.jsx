@@ -127,6 +127,7 @@ async function giveAnswer ({ directive, directedPrompt, perQuestionCelerity, sco
 }
 
 async function next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
+  updateStatDisplay(room.players[USER_ID]);
   if (type === 'start') {
     document.getElementById('next').disabled = false;
     document.getElementById('settings').classList.add('d-none');
