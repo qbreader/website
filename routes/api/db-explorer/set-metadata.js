@@ -1,4 +1,4 @@
-import getSetMetadata from '../../../../database/qbreader/set-metadata-list.js';
+import getSetMetadata from '../../../database/qbreader/set-metadata-list.js';
 
 import { Router } from 'express';
 

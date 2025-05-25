@@ -1,4 +1,4 @@
-import getPacketMetadata from '../../../../database/qbreader/packet-metadata-list.js';
+import getPacketMetadata from '../../../database/qbreader/packet-metadata-list.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
