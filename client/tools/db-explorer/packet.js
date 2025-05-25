@@ -2,29 +2,34 @@ import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 
 const packetId = new URLSearchParams(window.location.search).get('_id');
 
-fetch('/api/packet?' + new URLSearchParams({ _id: packetId }))
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById('spinner').classList.add('d-none');
+const { tossups, bonuses, packet } = await fetch('/api/packet?' + new URLSearchParams({ _id: packetId })).then(res => res.json());
 
-    for (const tossup of data.tossups) {
-      const div = tossupToHTML(tossup);
-      div.classList.add('mb-2');
-      const container = document.getElementById('questions');
-      container.appendChild(div);
-      const a = editQuestionButton('tossup', tossup._id);
-      container.appendChild(a);
-    }
+document.getElementById('spinner').classList.add('d-none');
 
-    for (const bonus of data.bonuses) {
-      const div = bonusToHTML(bonus);
-      div.classList.add('mb-2');
-      const container = document.getElementById('questions');
-      container.appendChild(div);
-      const a = editQuestionButton('bonus', bonus._id);
-      container.appendChild(a);
-    }
-  });
+document.getElementById('packet-name').textContent = packet.name;
+document.getElementById('packet-number').textContent = packet.number;
+document.getElementById('set-name').textContent = packet.set.name;
+document.getElementById('set-name').href = './set?_id=' + packet.set._id;
+
+for (const tossup of tossups) {
+  const div = tossupToHTML(tossup);
+  div.classList.add('mb-2');
+  const container = document.getElementById('questions');
+  container.appendChild(div);
+  const a = getQuestionLink('tossup', tossup._id);
+  div.appendChild(a);
+  container.appendChild(document.createElement('hr'));
+}
+
+for (const bonus of bonuses) {
+  const div = bonusToHTML(bonus);
+  div.classList.add('mb-2');
+  const container = document.getElementById('questions');
+  container.appendChild(div);
+  const a = getQuestionLink('bonus', bonus._id);
+  div.appendChild(a);
+  container.appendChild(document.createElement('hr'));
+}
 
 function bonusToHTML (bonus) {
   const div = document.createElement('div');
@@ -48,11 +53,10 @@ function bonusToHTML (bonus) {
   return div;
 }
 
-function editQuestionButton (type, _id) {
+function getQuestionLink (type, _id) {
   const a = document.createElement('a');
   a.href = `./${type}?_id=${_id}`;
-  a.textContent = `Edit this ${type}`;
-  a.className = 'btn btn-primary mb-3';
+  a.textContent = ` Link to ${type}`;
   return a;
 }
 
