@@ -81,7 +81,8 @@ async function getPacket ({ _id, setName, packetNumber, questionTypes = ['tossup
 
   const result = {
     tossups: [],
-    bonuses: []
+    bonuses: [],
+    packet
   };
 
   if (questionTypes.includes('tossups')) {
