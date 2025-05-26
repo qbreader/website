@@ -1,7 +1,7 @@
-import account from '../accounts.js';
-import { stringifyBonus } from '../../database/stringify.js';
-import getBonusPartLabel from '../utilities/get-bonus-part-label.js';
-import QuestionCard from './QuestionCard.min.js';
+import account from '../scripts/accounts.js';
+import { stringifyBonus } from './stringify.js';
+import getBonusPartLabel from '../scripts/utilities/get-bonus-part-label.js';
+import QuestionCard from '../scripts/components/QuestionCard.min.js';
 
 export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = bonus._id;
