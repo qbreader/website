@@ -89,15 +89,23 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
           </div>
         )}
       </div>
-      <div className={`card-footer clickable ${hideCardFooter && 'd-none'}`} onClick={showBonusStats} data-bs-toggle='modal' data-bs-target='#bonus-stats-modal'>
-        <small className='text-muted'>
-          {bonus.packet.name ? 'Packet ' + bonus.packet.name : <span>&nbsp;</span>}
-        </small>
-        <small className='text-muted float-end'>
-          <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
-            Report Question
-          </a>
-        </small>
+      <div className={`card-footer d-flex justify-content-between ${hideCardFooter && 'd-none'}`}>
+        <div className='clickable flex-grow-1' onClick={showBonusStats} data-bs-toggle='modal' data-bs-target='#bonus-stats-modal'>
+          <small className='text-muted'>
+            {bonus.packet.name ? 'Packet ' + bonus.packet.name : <span>&nbsp;</span>}
+          </small>
+        </div>
+        <div>
+          <small className='text-muted'>
+            <a href={`/tools/db-explorer/bonus?_id=${_id}`} onClick={e => e.stopPropagation()}>
+              Link to bonus
+            </a>
+            <span> | </span>
+            <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
+              Report Question
+            </a>
+          </small>
+        </div>
       </div>
     </QuestionCard>
   );
