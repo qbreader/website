@@ -50,12 +50,14 @@ function modaqifyBonus (bonus) {
  * @param {boolean} [options.modaq=false] - Whether to output in a result compatible with MODAQ.
  * @returns {Promise<{tossups: types.Tossup[], bonuses: types.Bonus[]}>} The retrieved packet of questions.
  */
-async function getPacket ({ setName, packetNumber, questionTypes = ['tossups', 'bonuses'], modaq = false }) {
-  if (!setName || isNaN(packetNumber) || packetNumber < 1) {
+async function getPacket ({ _id, setName, packetNumber, questionTypes = ['tossups', 'bonuses'], modaq = false }) {
+  if (!_id && (!setName || isNaN(packetNumber) || packetNumber < 1)) {
     return { tossups: [], bonuses: [] };
   }
 
-  const packet = await packets.findOne({ 'set.name': setName, number: packetNumber });
+  const packet = _id
+    ? await packets.findOne({ _id })
+    : await packets.findOne({ 'set.name': setName, number: packetNumber });
 
   if (!packet) {
     return { tossups: [], bonuses: [] };
@@ -79,7 +81,8 @@ async function getPacket ({ setName, packetNumber, questionTypes = ['tossups', '
 
   const result = {
     tossups: [],
-    bonuses: []
+    bonuses: [],
+    packet
   };
 
   if (questionTypes.includes('tossups')) {

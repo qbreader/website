@@ -1,8 +1,8 @@
 import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
 import api from '../scripts/api/index.js';
 import star from '../scripts/auth/star.js';
-import TossupCard from '../scripts/components/TossupCard.min.js';
-import BonusCard from '../scripts/components/BonusCard.min.js';
+import TossupCard from './TossupCard.min.js';
+import BonusCard from './BonusCard.min.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import Star from '../scripts/components/Star.min.js';

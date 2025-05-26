@@ -1,6 +1,6 @@
-import account from '../accounts.js';
-import { stringifyTossup } from '../../database/stringify.js';
-import QuestionCard from './QuestionCard.min.js';
+import account from '../scripts/accounts.js';
+import { stringifyTossup } from './stringify.js';
+import QuestionCard from '../scripts/components/QuestionCard.min.js';
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = tossup._id;
@@ -79,15 +79,23 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
           <b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: hideAnswerline ? '' : highlightedTossup?.answer }} />
         </div>
       </div>
-      <div className={`card-footer clickable ${hideCardFooter && 'd-none'}`} onClick={showTossupStats} data-bs-toggle='modal' data-bs-target='#tossup-stats-modal'>
-        <small className='text-muted'>
-          {tossup.packet.name ? 'Packet ' + tossup.packet.name : <span>&nbsp;</span>}
-        </small>
-        <small className='text-muted float-end'>
-          <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
-            Report Question
-          </a>
-        </small>
+      <div className={`card-footer d-flex justify-content-between ${hideCardFooter && 'd-none'}`}>
+        <div className='clickable flex-grow-1' onClick={showTossupStats} data-bs-toggle='modal' data-bs-target='#tossup-stats-modal'>
+          <small className='text-muted'>
+            {tossup.packet.name ? 'Packet ' + tossup.packet.name : <span>&nbsp;</span>}
+          </small>
+        </div>
+        <div>
+          <small className='text-muted'>
+            <a href={`/tools/db-explorer/tossup?_id=${_id}`} onClick={e => e.stopPropagation()}>
+              Link to tossup
+            </a>
+            <span> | </span>
+            <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
+              Report Question
+            </a>
+          </small>
+        </div>
       </div>
     </QuestionCard>
   );
