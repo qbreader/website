@@ -67,7 +67,11 @@ export default class CategoryManager {
       return true;
     }
 
-    return this.categories.includes(question.category) && this.subcategories.includes(question.subcategory);
+    const validAlternateSubcategory = question.alternate_subcategory
+      ? this.alternateSubcategories.length > 0 && this.alternateSubcategories.includes(question.alternate_subcategory)
+      : true;
+
+    return this.categories.includes(question.category) && this.subcategories.includes(question.subcategory) && validAlternateSubcategory;
   }
 
   /**
