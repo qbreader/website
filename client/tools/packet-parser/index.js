@@ -1,5 +1,5 @@
 /* global JSZip, saveAs */
-import Parser from 'https://cdn.jsdelivr.net/npm/qb-packet-parser@1.1.0/dist/main.browser.mjs';
+import Parser from 'https://cdn.jsdelivr.net/npm/qb-packet-parser/dist/main.browser.mjs';
 
 let zip;
 
