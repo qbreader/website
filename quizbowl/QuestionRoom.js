@@ -45,6 +45,10 @@ export default class QuestionRoom extends Room {
     };
 
     this.settings = {
+      /**
+       * Whether or not the order of the questions in a **local packet** is randomized.
+       */
+      randomizeOrder: false,
       strictness: 7,
       skip: false,
       timer: true
@@ -61,6 +65,7 @@ export default class QuestionRoom extends Room {
       case 'set-strictness': return this.setStrictness(userId, message);
       case 'set-username': return this.setUsername(userId, message);
       case 'set-year-range': return this.setYearRange(userId, message);
+      case 'toggle-randomize-order': return this.toggleRandomizeOrder(userId, message);
       case 'toggle-skip': return this.toggleSkip(userId, message);
       case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
       case 'toggle-timer': return this.toggleTimer(userId, message);
@@ -201,6 +206,12 @@ export default class QuestionRoom extends Room {
   startServerTimer (time, ontick, callback) {
     if (!this.settings.timer) { return; }
     super.startServerTimer(time, ontick, callback);
+  }
+
+  toggleRandomizeOrder (userId, { randomizeOrder }) {
+    this.settings.randomizeOrder = randomizeOrder;
+    const username = this.players[userId].username;
+    this.emitMessage({ type: 'toggle-randomize-order', randomizeOrder, username });
   }
 
   toggleSkip (userId, { skip }) {
