@@ -6,6 +6,8 @@ import { Router } from 'express';
 const router = Router();
 
 function castObjectId (id) {
+  if (!id) { return null; }
+
   try {
     return ObjectId(id);
   } catch (e) {
