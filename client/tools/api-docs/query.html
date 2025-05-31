@@ -11,18 +11,7 @@
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
     <link href="/bootstrap/dark.css" rel="stylesheet">
-    <script>
-        if (window.localStorage.getItem('color-theme') === 'dark') {
-            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
-        } else if (window.localStorage.getItem('color-theme') === 'light') {
-            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            // Get OS preferred color scheme
-            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/dark.css");
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.querySelector('link[rel="stylesheet"]').setAttribute('href', "/bootstrap/light.css");
-        }
-    </script>
+    <script type="module" src="/scripts/apply-theme.js"></script>
 </head>
 
 <body>
