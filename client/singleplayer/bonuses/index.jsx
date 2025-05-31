@@ -399,6 +399,11 @@ document.getElementById('start').addEventListener('click', async function () {
   socket.sendToServer({ type: 'start' });
 });
 
+document.getElementById('toggle-randomize-order').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
+});
+
 document.getElementById('toggle-settings').addEventListener('click', function () {
   this.blur();
   document.getElementById('buttons').classList.toggle('col-lg-9');

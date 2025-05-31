@@ -463,6 +463,11 @@ document.getElementById('toggle-powermark-only').addEventListener('click', funct
   socket.sendToServer({ type: 'toggle-powermark-only', powermarkOnly: this.checked });
 });
 
+document.getElementById('toggle-randomize-order').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
+});
+
 document.getElementById('toggle-rebuzz').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-rebuzz', rebuzz: this.checked });

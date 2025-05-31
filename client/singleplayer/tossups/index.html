@@ -98,9 +98,13 @@
                     <option value="local packet">Upload Local Packet</option>
                 </select>
                 <div class="d-none" id="local-packet-settings">
-                    You may need to <a href="/tools/packet-parser/">parse the packet here</a> into .json.
+                    You can <a href="/tools/packet-parser/">parse a packet here</a>.
                     To play a <a href="/database/">database search</a>, download the results as a .json file and upload it here!
-                    <input class="form-control" type="file" id="local-packet-input" accept=".json">
+                    <input class="form-control my-1" type="file" id="local-packet-input" accept=".json">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-randomize-order" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-randomize-order">Randomize order</label>
+                    </div>
                 </div>
                 <div class="d-none" id="set-settings">
                     <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
