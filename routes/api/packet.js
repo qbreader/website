@@ -19,12 +19,13 @@ router.get('/', async (req, res) => {
   req.query._id = castObjectId(req.query._id);
   let packet;
 
+  const modaq = req.query.modaq === 'true';
+
   if (req.query._id !== null) {
-    packet = await getPacket({ _id: req.query._id });
+    packet = await getPacket({ _id: req.query._id, modaq });
   } else {
     const setName = req.query.setName;
     const packetNumber = parseInt(req.query.packetNumber);
-    const modaq = req.query.modaq === 'true';
     packet = await getPacket({ setName, packetNumber, modaq });
   }
 
