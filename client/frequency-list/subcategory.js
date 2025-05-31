@@ -8,6 +8,7 @@ const subcategory = titleCase(searchParams.keys().next().value);
 const levelToDifficulties = {
   'middle-school': [1],
   'high-school': [2, 3, 4, 5],
+  'national-high-school': [5],
   college: [6, 7, 8, 9],
   open: [10],
   all: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
