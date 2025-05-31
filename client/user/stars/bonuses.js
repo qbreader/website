@@ -3,6 +3,7 @@ import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 
 const bonuses = await star.getStarredBonuses();
 const bonusList = document.getElementById('bonus-list');
+document.getElementById('starred-number').innerText = bonuses.length;
 
 for (const bonus of bonuses) {
   let cardBody = '';
@@ -52,3 +53,8 @@ for (const bonus of bonuses) {
     }
   });
 }
+
+document.getElementById('confirm').addEventListener('click', async function () {
+  await star.clearStarredBonuses();
+  window.location.reload();
+});

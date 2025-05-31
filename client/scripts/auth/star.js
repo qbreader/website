@@ -146,4 +146,36 @@ export default class star {
       .then(response => response.json())
       .then(ids => ids);
   }
+
+  static async clearStarredTossups () {
+    const response = await fetch('/auth/stars/clear-tossup-stars', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!response.ok) {
+      window.alert('There was an error clearing starred tossups.');
+    }
+
+    const { count } = await response.json();
+    if (count) {
+      window.alert(`Cleared ${count} starred tossups.`);
+    }
+  }
+
+  static async clearStarredBonuses () {
+    const response = await fetch('/auth/stars/clear-bonus-stars', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!response.ok) {
+      window.alert('There was an error clearing starred bonuses.');
+    }
+
+    const { count } = await response.json();
+    if (count) {
+      window.alert(`Cleared ${count} starred bonuses.`);
+    }
+  }
 }

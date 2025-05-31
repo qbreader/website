@@ -1,5 +1,7 @@
 import bonusIdsRouter from './bonus-ids.js';
 import bonusesRouter from './bonuses.js';
+import clearBonusStarsRouter from './clear-bonus-stars.js';
+import clearTossupStarsRouter from './clear-tossup-stars.js';
 import isStarredBonusRouter from './is-starred-bonus.js';
 import isStarredTossupRouter from './is-starred-tossup.js';
 import starBonusRouter from './star-bonus.js';
@@ -28,6 +30,8 @@ router.use((req, res, next) => {
 
 router.use('/bonus-ids', bonusIdsRouter);
 router.use('/bonuses', bonusesRouter);
+router.use('/clear-bonus-stars', clearBonusStarsRouter);
+router.use('/clear-tossup-stars', clearTossupStarsRouter);
 router.use('/is-starred-bonus', isStarredBonusRouter);
 router.use('/is-starred-tossup', isStarredTossupRouter);
 router.use('/star-bonus', starBonusRouter);
