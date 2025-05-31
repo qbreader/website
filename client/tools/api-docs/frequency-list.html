@@ -114,7 +114,7 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>alternateubcategory</code><code class="text-muted">: string</code>
+                        <code>alternateSubcategory</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
@@ -124,12 +124,16 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>level</code><code
-                            class="text-muted">: "middle school" | "high school" | "college" | "open" | "all"</code>
-                        <code class="text-muted float-end fw-semibold">default: "all"</code>
+                        <code>difficulties</code><code class="text-muted">: number | string | number[] | string[]</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
                     <div>
-                        The difficulty level to get the list for.
+                        The difficulties to filter for.
+                        <ul>
+                            <li>To pass multiple difficulties, separate values by a comma.</li>
+                            <li>If <code>undefined</code> then all difficulties are allowed.</li>
+                            <li>Can also be a <code>string</code> or <code>number</code> if there is only 1 difficulty.</li>
+                        </ul>
                     </div>
                 </li>
                 <li class="list-group-item">
@@ -147,7 +151,7 @@
                         <code class="text-muted float-end fw-semibold">default: "all"</code>
                     </div>
                     <div>
-                        The type of question to search for.
+                        The type of question to filter for.
                         <ul>
                             <li><code>"tossup"</code> - only tossups</li>
                             <li><code>"bonus"</code> - only bonuses</li>
