@@ -2,6 +2,7 @@ import star from '../../scripts/auth/star.js';
 
 const tossups = await star.getStarredTossups();
 const tossupList = document.getElementById('tossup-list');
+document.getElementById('starred-number').innerText = tossups.length;
 
 for (const tossup of tossups) {
   tossupList.innerHTML += `
@@ -43,3 +44,8 @@ for (const tossup of tossups) {
     }
   });
 }
+
+document.getElementById('confirm').addEventListener('click', async function () {
+  await star.clearStarredTossups();
+  window.location.reload();
+});
