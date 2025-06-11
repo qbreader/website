@@ -4,12 +4,13 @@ import Parser from 'https://cdn.jsdelivr.net/npm/qb-packet-parser/dist/main.brow
 let zip;
 
 function createDownloadGroupItem (data, filename) {
+  const { tossups, bonuses } = data;
   const a = document.createElement('a');
   a.className = 'list-group-item list-group-item-action';
   a.download = filename;
   a.href = '#';
   a.target = '_blank';
-  a.textContent = filename;
+  a.textContent = `${filename} - ${tossups.length} tossups, ${bonuses.length} bonuses`;
   a.addEventListener('click', function (event) {
     event.preventDefault();
     event.stopPropagation();
