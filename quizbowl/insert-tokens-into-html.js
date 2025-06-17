@@ -17,7 +17,33 @@ export default function insertTokensIntoHTML (dirty, clean, arrayOfIndices, arra
   let dirtyPosition = 0;
   let lastDirtyPosition = 0;
 
+  let openToken = false;
+
   while (cleanPosition <= clean.length) {
+    // if we are at a closing html tag
+    // and there is an open token (e.g. <span class="text-highlight"> but no closing </span>)
+    // then we need to insert a </span> before the closing tag
+    // and add back <span class="text-highlight"> after it
+    if (openToken && arrayOfTokens.length === 2) {
+      while (clean.charAt(cleanPosition) !== '<' && dirty.charAt(dirtyPosition) === '<' && dirty.charAt(dirtyPosition + 1) === '/') {
+        result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
+        result.push(arrayOfTokens[1]); // insert closing token
+        lastDirtyPosition = dirtyPosition;
+
+        // skip over the closing tag
+        while (dirty.charAt(dirtyPosition) === '<' && clean.charAt(cleanPosition) !== '<') {
+          while (dirty.charAt(dirtyPosition) !== '>' && dirtyPosition < dirty.length - 1) {
+            dirtyPosition++;
+          }
+          dirtyPosition++;
+        }
+        // insert the opening token again
+        result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
+        result.push(arrayOfTokens[0]);
+        lastDirtyPosition = dirtyPosition;
+      }
+    }
+
     // skip over any HTML tags in the dirty string
     while (dirty.charAt(dirtyPosition) === '<' && clean.charAt(cleanPosition) !== '<') {
       while (dirty.charAt(dirtyPosition) !== '>' && dirtyPosition < dirty.length - 1) {
@@ -65,6 +91,7 @@ export default function insertTokensIntoHTML (dirty, clean, arrayOfIndices, arra
         result.push(arrayOfTokens[i]);
         indices[i]++;
         lastDirtyPosition = dirtyPosition;
+        openToken = (i === 0);
       }
     }
 
