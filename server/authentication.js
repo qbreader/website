@@ -88,7 +88,7 @@ async function sendResetPasswordEmail (username) {
 
   const info = await sendEmail({
     to: email,
-    subject: 'Reset your password',
+    subject: 'QBReader: Reset your password',
     text: `Click this link to reset your password: ${url} This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it. Do not reply to this email; this inbox is unmonitored.`,
     html: `<p>Click this link to reset your password: <a href="${url}">${url}</a></p> <p>This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it.</p> <i>Do not reply to this email; this inbox is unmonitored.</i>`
   });
@@ -115,7 +115,7 @@ async function sendVerificationEmail (username) {
 
   const info = await sendEmail({
     to: email,
-    subject: 'Verify your email address',
+    subject: 'QBReader: Verify your email address',
     text: `Click this link to verify your email address: ${url} This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it. Do not reply to this email; this inbox is unmonitored.`,
     html: `<p>Click this link to verify your email address: <a href="${url}">${url}</a></p> <p>This link will expire in 15 minutes. Only the most recent link will work. If you did not request this email, please ignore it.</p> <i>Do not reply to this email; this inbox is unmonitored.</i>`
   });
