@@ -284,10 +284,10 @@ export default class TossupRoom extends QuestionRoom {
     if (Object.keys(this.tossup || {}).length === 0) return;
 
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED;
-    this.tossup.markedQuestion = insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']);
+    this.tossup.markedQuestion = insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices });
     this.emitMessage({
       type: 'reveal-answer',
-      question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),
+      question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices }),
       answer: this.tossup.answer
     });
   }

@@ -1,4 +1,5 @@
 import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
+import { highlightBonusQuery, highlightTossupQuery } from './highlight-query.js';
 import api from '../scripts/api/index.js';
 import star from '../scripts/auth/star.js';
 import TossupCard from './TossupCard.min.js';
@@ -9,7 +10,6 @@ import Star from '../scripts/components/Star.min.js';
 import { getDropdownValues, setDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import filterParams from '../scripts/utilities/filter-params.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
-import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 
 const starredTossupIds = new Set(await star.getStarredTossupIds());
 const starredBonusIds = new Set(await star.getStarredBonusIds());
@@ -21,69 +21,6 @@ const categoryManager = new CategoryManager();
 
 function arrayBetween (start, end) {
   return Array(end - start).fill().map((_, idx) => start + idx);
-}
-
-function getMatchIndices (clean, regex) {
-  const iterator = clean.matchAll(regex);
-  const starts = [];
-  const ends = [];
-
-  let data = iterator.next();
-  while (data.done === false) {
-    starts.push(data.value.index);
-    ends.push(data.value.index + data.value[0].length);
-    data = iterator.next();
-  }
-
-  return { starts, ends };
-}
-
-function highlightTossupQuery ({ tossup, regExp, searchType = 'all', ignoreWordOrder, queryString }) {
-  const words = ignoreWordOrder
-    ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig'))
-    : [regExp];
-
-  for (const word of words) {
-    if (searchType === 'question' || searchType === 'all') {
-      const { starts, ends } = getMatchIndices(tossup.question_sanitized, word);
-      tossup.question = insertTokensIntoHTML(tossup.question, tossup.question_sanitized, [starts, ends]);
-    }
-
-    if (searchType === 'answer' || searchType === 'all') {
-      const { starts, ends } = getMatchIndices(tossup.answer_sanitized, word);
-      tossup.answer = insertTokensIntoHTML(tossup.answer, tossup.answer_sanitized, [starts, ends]);
-    }
-  }
-
-  return tossup;
-}
-
-function highlightBonusQuery ({ bonus, regExp, searchType = 'all', ignoreWordOrder, queryString }) {
-  const words = ignoreWordOrder
-    ? queryString.split(' ').filter(word => word !== '').map(word => new RegExp(word, 'ig'))
-    : [regExp];
-
-  for (const word of words) {
-    if (searchType === 'question' || searchType === 'all') {
-      {
-        const { starts, ends } = getMatchIndices(bonus.leadin_sanitized, word);
-        bonus.leadin = insertTokensIntoHTML(bonus.leadin, bonus.leadin_sanitized, [starts, ends]);
-      }
-      for (let i = 0; i < bonus.parts.length; i++) {
-        const { starts, ends } = getMatchIndices(bonus.parts_sanitized[i], word);
-        bonus.parts[i] = insertTokensIntoHTML(bonus.parts[i], bonus.parts_sanitized[i], [starts, ends]);
-      }
-    }
-
-    if (searchType === 'answer' || searchType === 'all') {
-      for (let i = 0; i < bonus.answers.length; i++) {
-        const { starts, ends } = getMatchIndices(bonus.answers_sanitized[i], word);
-        bonus.answers[i] = insertTokensIntoHTML(bonus.answers[i], bonus.answers_sanitized[i], [starts, ends]);
-      }
-    }
-  }
-
-  return bonus;
 }
 
 function QueryForm () {

@@ -159,7 +159,7 @@ export default class ServerTossupRoom extends TossupRoom {
     if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED && this.tossup?.answer) {
       socket.send(JSON.stringify({
         type: 'reveal-answer',
-        question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, [this.buzzpointIndices], [' (#) ']),
+        question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices }),
         answer: this.tossup.answer
       }));
     }
