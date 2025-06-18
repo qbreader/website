@@ -83,12 +83,6 @@ export default function insertTokensIntoHTML (
       dirty = dirty.slice(0, dirtyPosition) + '〉' + dirty.slice(dirtyPosition + 1);
     }
 
-    if (clean[cleanPosition] === '&') {
-      // replace it with a special single character
-      clean = clean.slice(0, cleanPosition) + '\u0267' + clean.slice(cleanPosition + 1);
-      dirty = dirty.slice(0, dirtyPosition) + '\u0267' + dirty.slice(dirtyPosition + 1);
-    }
-
     result.push(dirty.substring(lastDirtyPosition, dirtyPosition));
     lastDirtyPosition = dirtyPosition;
 
@@ -109,7 +103,7 @@ export default function insertTokensIntoHTML (
 
   result.push(dirty.substring(lastDirtyPosition, dirty.length));
 
-  return result.join('').replace(/〈/g, '&lt;').replace(/〉/g, '&gt;').replace(/\u0267/g, '&amp;');
+  return result.join('').replace(/〈/g, '&lt;').replace(/〉/g, '&gt;');
 }
 
 function getClosingToken (tokensToIndices, openingToken) {
