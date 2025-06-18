@@ -28,5 +28,6 @@
         "aria-.+",
         "tabindex",
         "style"
-    ]
+    ],
+    "editor.indentSize": 2
 }
