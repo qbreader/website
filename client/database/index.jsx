@@ -173,11 +173,11 @@ function QueryForm () {
         // create deep copy to highlight
         if (queryString !== '') {
           for (let i = 0; i < highlightedTossupArray.length; i++) {
-            highlightedTossupArray[i] = highlightTossupQuery({ tossup: highlightedTossupArray[i], regExp, searchType, ignoreWordOrder, queryString });
+            highlightedTossupArray[i] = highlightTossupQuery({ tossup: highlightedTossupArray[i], regExp, searchType, ignoreWordOrder, queryString: modifiedQueryString });
           }
 
           for (let i = 0; i < highlightedBonusArray.length; i++) {
-            highlightedBonusArray[i] = highlightBonusQuery({ bonus: highlightedBonusArray[i], regExp, searchType, ignoreWordOrder, queryString });
+            highlightedBonusArray[i] = highlightBonusQuery({ bonus: highlightedBonusArray[i], regExp, searchType, ignoreWordOrder, queryString: modifiedQueryString });
           }
         }
 
