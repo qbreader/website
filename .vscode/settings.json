@@ -1,15 +1,20 @@
 {
+    "[html]": {
+        "editor.rulers": [
+            135
+        ]
+    },
+    "[javascript]": {
+        "editor.detectIndentation": false,
+        "editor.indentSize": 2,
+        "editor.tabSize": 2
+    },
     "[json]": {
         "editor.formatOnSave": false
     },
     "eslint.validate": [
         "javascript"
     ],
-    "[html]": {
-        "editor.rulers": [
-            135
-        ]
-    },
     "html.format.wrapLineLength": 135,
     // based on https://codeguide.co/#attribute-order
     "attrsSorter.order": [
@@ -28,6 +33,5 @@
         "aria-.+",
         "tabindex",
         "style"
-    ],
-    "editor.indentSize": 2
+    ]
 }
