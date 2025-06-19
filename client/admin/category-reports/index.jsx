@@ -96,6 +96,40 @@ function Reports () {
         setBonuses(bonuses);
       });
 
+    document.getElementById('clear-reports-submit').addEventListener('click', function () {
+      const _id = document.getElementById('question-id').value;
+      const type = document.getElementById('question-type').textContent;
+
+      this.disabled = true;
+      this.textContent = 'Clearing...';
+
+      fetch('/api/admin/clear-reports', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _id, type })
+      }).then(response => {
+        document.getElementById('fix-category-close').click();
+        this.disabled = false;
+        this.textContent = 'Clear Reports';
+
+        if (!response.ok) {
+          window.alert(`Error clearing reports for ${type} ${_id}`);
+          return;
+        }
+
+        switch (type) {
+          case 'tossup':
+            tossups = tossups.filter(tossup => tossup._id !== _id);
+            setTossups(tossups);
+            break;
+          case 'bonus':
+            bonuses = bonuses.filter(bonus => bonus._id !== _id);
+            setBonuses(bonuses);
+            break;
+        }
+      });
+    });
+
     document.getElementById('fix-category-submit').addEventListener('click', function () {
       const _id = document.getElementById('question-id').value;
       const type = document.getElementById('question-type').textContent;

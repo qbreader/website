@@ -1,3 +1,4 @@
+import clearReportsRouter from './clear-reports.js';
 import geowordRouter from './geoword/index.js';
 import listReportsRouter from './list-reports.js';
 import leaderboardRouter from './leaderboard.js';
@@ -27,6 +28,7 @@ router.use(async (req, res, next) => {
   next();
 });
 
+router.use('/clear-reports', clearReportsRouter);
 router.use('/geoword', geowordRouter);
 router.use('/list-reports', listReportsRouter);
 router.use('/leaderboard', leaderboardRouter);
