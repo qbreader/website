@@ -8,13 +8,13 @@ const ips = [
   '73.51.224.137'
 ];
 
-const clientIp = (req, _res) => {
+export const clientIp = (req, _res) => {
   return req.headers['x-forwarded-for'] ? (req.headers['x-forwarded-for']).split(',')[0] : req.ip;
 };
 
-const ipFilterMiddleware = IpFilter(ips, { mode: 'deny', log: false, detectIp: clientIp });
+export const ipFilterMiddleware = IpFilter(ips, { mode: 'deny', log: false, detectIp: clientIp });
 
-const ipFilterError = (err, req, res, _next) => {
+export const ipFilterError = (err, req, res, _next) => {
   if (err instanceof IpDeniedError) {
     console.log(`Blocked IP: ${req.ip}`);
     res.status(403);
@@ -23,5 +23,3 @@ const ipFilterError = (err, req, res, _next) => {
     res.status(err.status || 500);
   }
 };
-
-export { clientIp, ipFilterMiddleware, ipFilterError };

@@ -31,7 +31,7 @@ const activeResetPasswordTokens = {};
  * @param {String} password - plaintext password to check.
  * @returns {Promise<Boolean>}
  */
-async function checkPassword (username, password) {
+export async function checkPassword (username, password) {
   return await getUserField(username, 'password') === saltAndHashPassword(password);
 }
 
@@ -42,7 +42,7 @@ async function checkPassword (username, password) {
  * @param {String} token
  * @returns {Boolean} True if the token is valid, and false otherwise.
  */
-function checkToken (username, token, checkEmailVerification = false) {
+export function checkToken (username, token, checkEmailVerification = false) {
   return verify(token, secret, (err, decoded) => {
     if (err) {
       return false;
@@ -58,7 +58,7 @@ function checkToken (username, token, checkEmailVerification = false) {
  * @param {String} username
  * @returns A JWT token.
  */
-function generateToken (username, verifiedEmail = false) {
+export function generateToken (username, verifiedEmail = false) {
   return sign({ username, verifiedEmail }, secret);
 }
 
@@ -67,7 +67,7 @@ function generateToken (username, verifiedEmail = false) {
  * @param {String} password
  * @returns Base64 encoded hashed password.
  */
-function saltAndHashPassword (password) {
+export function saltAndHashPassword (password) {
   password = salt + password + salt;
   const hash = createHash('sha256').update(password).digest('base64');
   const hash2 = createHash('sha256').update(hash).digest('base64');
@@ -75,7 +75,7 @@ function saltAndHashPassword (password) {
   return hash3;
 }
 
-async function sendResetPasswordEmail (username) {
+export async function sendResetPasswordEmail (username) {
   const email = await getUserField(username, 'email');
   const userId = await getUserId(username);
   if (!userId || !email) {
@@ -102,7 +102,7 @@ async function sendResetPasswordEmail (username) {
   return true;
 }
 
-async function sendVerificationEmail (username) {
+export async function sendVerificationEmail (username) {
   const email = await getUserField(username, 'email');
   const userId = await getUserId(username);
   if (!userId || !email) {
@@ -129,7 +129,7 @@ async function sendVerificationEmail (username) {
   return true;
 }
 
-function updatePassword (username, newPassword) {
+export function updatePassword (username, newPassword) {
   return updateUser(username, { password: saltAndHashPassword(newPassword) });
 }
 
@@ -138,7 +138,7 @@ function updatePassword (username, newPassword) {
  * @param {string} username
  * @returns {boolean} True if the username is valid, and false otherwise.
  */
-function validateUsername (username) {
+export function validateUsername (username) {
   if (!username || typeof username !== 'string') {
     return false;
   }
@@ -156,7 +156,7 @@ function validateUsername (username) {
   return true;
 }
 
-function verifyEmailLink (userId, token) {
+export function verifyEmailLink (userId, token) {
   const expirationTime = 1000 * 60 * 15; // 15 minutes
   return verify(token, secret, (err, decoded) => {
     if (err) {
@@ -189,7 +189,7 @@ function verifyEmailLink (userId, token) {
   });
 }
 
-function verifyResetPasswordLink (userId, token) {
+export function verifyResetPasswordLink (userId, token) {
   const expirationTime = 1000 * 60 * 15; // 15 minutes
   return verify(token, secret, (err, decoded) => {
     if (err) {
@@ -218,16 +218,3 @@ function verifyResetPasswordLink (userId, token) {
     return true;
   });
 }
-
-export {
-  checkPassword,
-  checkToken,
-  generateToken,
-  saltAndHashPassword,
-  sendResetPasswordEmail,
-  sendVerificationEmail,
-  updatePassword,
-  validateUsername,
-  verifyEmailLink,
-  verifyResetPasswordLink
-};

@@ -1,15 +1,7 @@
-const DEFAULT_QUERY_RETURN_LENGTH = 25;
-const MAX_QUERY_RETURN_LENGTH = 10000;
+export const DEFAULT_QUERY_RETURN_LENGTH = 25;
+export const MAX_QUERY_RETURN_LENGTH = 10000;
 
-const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7; // 7 days
-const WEBSOCKET_MAX_PAYLOAD = 1024 * 10 * 1; // 10 KB
+export const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7; // 7 days
+export const WEBSOCKET_MAX_PAYLOAD = 1024 * 10 * 1; // 10 KB
 
-const QBREADER_EMAIL_ADDRESS = 'noreply@qbreader.org';
-
-export {
-  DEFAULT_QUERY_RETURN_LENGTH,
-  MAX_QUERY_RETURN_LENGTH,
-  COOKIE_MAX_AGE,
-  WEBSOCKET_MAX_PAYLOAD,
-  QBREADER_EMAIL_ADDRESS
-};
+export const QBREADER_EMAIL_ADDRESS = 'noreply@qbreader.org';

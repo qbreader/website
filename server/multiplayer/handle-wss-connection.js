@@ -14,7 +14,7 @@ import * as uuid from 'uuid';
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
-const tossupRooms = {};
+export const tossupRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
   tossupRooms[name] = new ServerTossupRoom(name, Symbol('unique permanent room owner'), true, categories, subcategories);
@@ -137,5 +137,3 @@ export default function handleWssConnection (ws, req) {
     }
   });
 }
-
-export { tossupRooms };

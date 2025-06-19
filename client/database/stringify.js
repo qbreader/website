@@ -1,6 +1,6 @@
 import getBonusPartLabel from '../scripts/utilities/get-bonus-part-label.js';
 
-function stringifyBonus (bonus, includeMetadata = false) {
+export function stringifyBonus (bonus, includeMetadata = false) {
   let textdata = '';
 
   if (includeMetadata) {
@@ -17,7 +17,7 @@ function stringifyBonus (bonus, includeMetadata = false) {
   return textdata;
 }
 
-function stringifyTossup (tossup, includeMetadata = false) {
+export function stringifyTossup (tossup, includeMetadata = false) {
   let textdata = '';
 
   if (includeMetadata) {
@@ -30,5 +30,3 @@ function stringifyTossup (tossup, includeMetadata = false) {
   textdata += `<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' / ' + tossup.alternate_subcategory : ''}>\n`;
   return textdata;
 }
-
-export { stringifyBonus, stringifyTossup };
