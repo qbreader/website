@@ -1,6 +1,6 @@
 import { stringifyBonus, stringifyTossup } from './stringify.js';
 
-function downloadQuestionsAsText (tossups, bonuses, filename = 'data.txt') {
+export function downloadQuestionsAsText (tossups, bonuses, filename = 'data.txt') {
   let textdata = '';
   for (const tossup of tossups) {
     textdata += stringifyTossup(tossup, true) + '\n';
@@ -17,7 +17,7 @@ function downloadQuestionsAsText (tossups, bonuses, filename = 'data.txt') {
   hiddenElement.click();
 }
 
-function downloadTossupsAsCSV (tossups, filename = 'tossups.csv') {
+export function downloadTossupsAsCSV (tossups, filename = 'tossups.csv') {
   const header = [
     '_id',
     'set.name',
@@ -61,7 +61,7 @@ function downloadTossupsAsCSV (tossups, filename = 'tossups.csv') {
   hiddenElement.click();
 }
 
-function downloadBonusesAsCSV (bonuses, filename = 'bonuses.csv') {
+export function downloadBonusesAsCSV (bonuses, filename = 'bonuses.csv') {
   const header = [
     '_id',
     'set.name',
@@ -113,7 +113,7 @@ function downloadBonusesAsCSV (bonuses, filename = 'bonuses.csv') {
   hiddenElement.click();
 }
 
-function downloadQuestionsAsJSON (tossups, bonuses, filename = 'data.json') {
+export function downloadQuestionsAsJSON (tossups, bonuses, filename = 'data.json') {
   const JSONdata = { tossups, bonuses };
   const hiddenElement = document.createElement('a');
   hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(JSONdata, null, 4));
@@ -129,5 +129,3 @@ function escapeCSVString (string) {
 
   return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
 }
-
-export { downloadQuestionsAsJSON, downloadTossupsAsCSV, downloadBonusesAsCSV, downloadQuestionsAsText };
