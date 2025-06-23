@@ -9,7 +9,7 @@ function castObjectId (id) {
   if (!id) { return null; }
 
   try {
-    return ObjectId(id);
+    return new ObjectId(id);
   } catch (e) {
     return null;
   }

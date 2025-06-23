@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    req.query.setId = ObjectId(req.query.setId);
+    req.query.setId = new ObjectId(req.query.setId);
   } catch (e) {
     res.status(400).send('Invalid set ID');
     return;
