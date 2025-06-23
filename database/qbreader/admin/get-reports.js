@@ -1,7 +1,7 @@
-import { bonuses, tossups } from './collections.js';
+import { bonuses, tossups } from '../collections.js';
 
 // eslint-disable-next-line no-unused-vars
-import * as types from '../../types.js';
+import * as types from '../../../types.js';
 
 /**
  *

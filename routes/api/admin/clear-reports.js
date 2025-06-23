@@ -1,4 +1,4 @@
-import clearReports from '../../../database/qbreader/clear-reports.js';
+import clearReports from '../../../database/qbreader/admin/clear-reports.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';

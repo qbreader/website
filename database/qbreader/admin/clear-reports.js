@@ -1,4 +1,4 @@
-import { bonuses, tossups } from './collections.js';
+import { bonuses, tossups } from '../collections.js';
 
 /**
  * Deletes the reports from a single tossup or bonus.
