@@ -13,7 +13,7 @@ document.getElementById('set-name').addEventListener('change', function () {
 });
 
 document.getElementById('update-type').addEventListener('change', function () {
-  const fields = ['difficulty'];
+  const fields = ['difficulty', 'standard'];
   // const fields = ['difficulty', 'name', 'standard'];
 
   for (const field of fields) {
@@ -51,6 +51,22 @@ document.getElementById('form').addEventListener('submit', async function (event
         window.alert(`Set ${setName} not found`);
       } else {
         window.alert('Error updating set difficulty');
+      }
+      break;
+    }
+    case 'standard': {
+      const standard = document.getElementById('new-set-standard').value === 'true';
+      const response = await fetch('/api/admin/question-management/set/update-standard', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ standard, setName })
+      });
+      if (response.ok) {
+        window.alert(`Set ${setName} standardness updated successfully`);
+      } else if (response.status === 404) {
+        window.alert(`Set ${setName} not found`);
+      } else {
+        window.alert('Error updating set standardness');
       }
     }
   }

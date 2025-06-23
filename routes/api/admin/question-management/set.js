@@ -1,7 +1,8 @@
 import updateSetDifficulty from '../../../../database/qbreader/admin/update-set-difficulty.js';
+import updateSetStandardness from '../../../../database/qbreader/admin/update-set-standardness.js';
+import { DIFFICULTIES } from '../../../../quizbowl/constants.js';
 
 import { Router } from 'express';
-import { DIFFICULTIES } from '../../../../quizbowl/constants.js';
 
 const router = Router();
 
@@ -17,6 +18,22 @@ router.put('/update-difficulty', async (req, res) => {
   }
 
   const result = await updateSetDifficulty(setName, difficulty);
+
+  if (result) {
+    res.sendStatus(200);
+  } else {
+    res.status(404).send('Set not found');
+  }
+});
+
+router.put('/update-standard', async (req, res) => {
+  const { setName, standard } = req.body;
+
+  if (typeof setName !== 'string' || typeof standard !== 'boolean') {
+    return res.sendStatus(400);
+  }
+
+  const result = await updateSetStandardness(setName, standard);
 
   if (result) {
     res.sendStatus(200);

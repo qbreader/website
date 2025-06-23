@@ -73,7 +73,7 @@
                 <select class="form-select" id="update-type">
                     <option value="difficulty">Update Set Difficulty</option>
                     <!-- <option value="name">Change Set Name</option> -->
-                    <!-- <option value="standard">Update Set Standardness</option> -->
+                    <option value="standard">Update Set Standardness</option>
                 </select>
             </div>
             <div class="mb-3" id="difficulty-div">
@@ -85,7 +85,7 @@
             </div>
             <div class="mb-3 d-none" id="name-div">
                 <label for="new-set-name" class="form-label">New Set Name</label>
-                <input type="text" class="form-control" id="new-set-name" required />
+                <input type="text" class="form-control" id="new-set-name" />
                 <div class="invalid-feedback">
                     Please enter a new set name. The first four characters must be the year of the set, followed by a space and the
                     rest of the set name.
@@ -94,7 +94,7 @@
             <div class="mb-3 d-none" id="standard-div">
                 <label for="new-set-standard" class="form-label">New Set Standardness</label>
                 <!-- boolean option -->
-                <select class="form-select" id="new-set-standard" required>
+                <select class="form-select" id="new-set-standard">
                     <option value="true">Standard</option>
                     <option value="false">Not Standard</option>
                 </select>
