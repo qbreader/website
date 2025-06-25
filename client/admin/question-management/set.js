@@ -13,8 +13,7 @@ document.getElementById('set-name').addEventListener('change', function () {
 });
 
 document.getElementById('update-type').addEventListener('change', function () {
-  const fields = ['difficulty', 'standard'];
-  // const fields = ['difficulty', 'name', 'standard'];
+  const fields = ['difficulty', 'name', 'standard'];
 
   for (const field of fields) {
     document.getElementById(`${field}-div`).classList.add('d-none');
@@ -51,6 +50,26 @@ document.getElementById('form').addEventListener('submit', async function (event
         window.alert(`Set ${setName} not found`);
       } else {
         window.alert('Error updating set difficulty');
+      }
+      break;
+    }
+    case 'name': {
+      const newName = document.getElementById('new-set-name').value;
+      if (newName.length < 4) {
+        window.alert('Set name must be at least 4 characters long');
+        document.getElementById('submit').disabled = false;
+        document.getElementById('submit').textContent = 'Submit';
+        return;
+      }
+      const response = await fetch('/api/admin/question-management/set/rename-set', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ oldName: setName, newName })
+      });
+      if (response.ok) {
+        window.alert(`Set ${setName} renamed to ${newName} successfully`);
+      } else {
+        window.alert('Error renaming set');
       }
       break;
     }
