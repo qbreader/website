@@ -110,7 +110,7 @@ function Reports () {
       }).then(response => {
         document.getElementById('fix-category-close').click();
         this.disabled = false;
-        this.textContent = 'Clear Reports';
+        this.textContent = 'Clear Report(s)';
 
         if (!response.ok) {
           window.alert(`Error clearing reports for ${type} ${_id}`);
