@@ -1,17 +1,17 @@
 import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import audio from '../../audio/index.js';
 import api from '../../scripts/api/index.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import { arrayToRange } from '../../scripts/utilities/ranges.js';
-import createTossupGameCard from '../../scripts/utilities/tossup-game-card.js';
 import upsertPlayerItem from '../../scripts/upsertPlayerItem.js';
+import TossupClient from '../../play/TossupClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
 const settingsVersion = '2024-11-02';
 
-export default class SingleplayerTossupClient {
+export default class SingleplayerTossupClient extends TossupClient {
   constructor (room, USER_ID, aiBot) {
+    super(room, USER_ID);
     this.room = room;
     this.USER_ID = USER_ID;
     this.aiBot = aiBot;
@@ -23,28 +23,18 @@ export default class SingleplayerTossupClient {
       case 'alert': return window.alert(data.message);
       case 'buzz': return this.buzz(data);
       case 'clear-stats': return this.clearStats(data);
-      case 'end': return this.next(data);
-      case 'end-of-set': return this.endOfSet(data);
       case 'give-answer': return this.giveAnswer(data);
-      case 'next': return this.next(data);
-      case 'no-questions-found': return this.noQuestionsFound(data);
-      case 'pause': return this.pause(data);
       case 'reveal-answer': return this.revealAnswer(data);
       case 'set-categories': return this.setCategories(data);
       case 'set-difficulties': return this.setDifficulties(data);
       case 'set-mode': return this.setMode(data);
-      case 'set-reading-speed': return this.setReadingSpeed(data);
       case 'set-strictness': return this.setStrictness(data);
       case 'set-packet-numbers': return this.setPacketNumbers(data);
       case 'set-set-name': return this.setSetName(data);
       case 'set-year-range': return this.setYearRange(data);
-      case 'skip': return this.next(data);
-      case 'start': return this.next(data);
       case 'timer-update': return this.updateTimerDisplay(data.timeRemaining);
       case 'toggle-ai-mode': return this.toggleAiMode(data);
       case 'toggle-correct': return this.toggleCorrect(data);
-      case 'toggle-powermark-only': return this.togglePowermarkOnly(data);
-      case 'toggle-rebuzz': return this.toggleRebuzz(data);
       case 'toggle-show-history': return this.toggleShowHistory(data);
       case 'toggle-standard-only': return this.toggleStandardOnly(data);
       case 'toggle-timer': return this.toggleTimer(data);
@@ -54,33 +44,24 @@ export default class SingleplayerTossupClient {
   }
 
   buzz ({ timer, userId, username }) {
-    if (audio.soundEffects) { audio.buzz.play(); }
     if (userId !== this.USER_ID) { return; }
 
-    document.getElementById('pause').disabled = true;
     const typeToAnswer = document.getElementById('type-to-answer').checked;
     if (typeToAnswer) {
       document.getElementById('answer-input-group').classList.remove('d-none');
       document.getElementById('answer-input').focus();
-      document.getElementById('buzz').disabled = true;
     }
+    super.buzz();
   }
 
   clearStats ({ userId }) {
     this.updateStatDisplay(this.room.players[userId]);
   }
 
-  endOfSet () {
-    window.alert('You have reached the end of the set');
-  }
-
   async giveAnswer ({ directive, directedPrompt, perQuestionCelerity, score, tossup, userId }) {
-    if (directive === 'prompt') {
-      document.getElementById('answer-input-group').classList.remove('d-none');
-      document.getElementById('answer-input').focus();
-      document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
-      return;
-    }
+    super.giveAnswer({ directive, directedPrompt, score, userId });
+
+    if (directive === 'prompt') { return; }
 
     if (userId === this.USER_ID) {
       this.updateStatDisplay(this.room.players[this.USER_ID]);
@@ -88,61 +69,29 @@ export default class SingleplayerTossupClient {
       upsertPlayerItem(this.aiBot.player);
     }
 
-    document.getElementById('answer-input').value = '';
-    document.getElementById('answer-input').blur();
-    document.getElementById('answer-input').placeholder = 'Enter answer';
-    document.getElementById('answer-input-group').classList.add('d-none');
-    document.getElementById('next').disabled = false;
-
     if (this.room.settings.rebuzz && directive === 'reject') {
       document.getElementById('buzz').disabled = false;
       document.getElementById('buzz').textContent = 'Buzz';
       document.getElementById('pause').disabled = false;
     }
-
-    if (audio.soundEffects && userId === this.USER_ID) {
-      if (directive === 'accept' && score > 10) {
-        audio.power.play();
-      } else if (directive === 'accept' && score === 10) {
-        audio.correct.play();
-      } else if (directive === 'reject') {
-        audio.incorrect.play();
-      }
-    }
   }
 
   async next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
+    const starred = this.room.mode === MODE_ENUM.STARRED ? true : (this.room.mode === MODE_ENUM.LOCAL ? false : null);
+    super.next({ nextTossup, oldTossup, packetLength, starred, type });
+
     if (type === 'start') {
       document.getElementById('next').disabled = false;
-      document.getElementById('settings').classList.add('d-none');
     }
 
-    if (type !== 'start') {
-      createTossupGameCard({
-        starred: this.room.mode === MODE_ENUM.STARRED ? true : (this.room.mode === MODE_ENUM.LOCAL ? false : null),
-        tossup: oldTossup
-      });
-    }
-
-    document.getElementById('answer').textContent = '';
-    document.getElementById('question').textContent = '';
     document.getElementById('toggle-correct').textContent = 'I was wrong';
     document.getElementById('toggle-correct').classList.add('d-none');
 
     if (type === 'end') {
-      document.getElementById('buzz').disabled = true;
       document.getElementById('next').disabled = true;
       document.getElementById('pause').disabled = true;
     } else {
-      document.getElementById('buzz').textContent = 'Buzz';
-      document.getElementById('buzz').disabled = false;
       document.getElementById('next').textContent = 'Skip';
-      document.getElementById('packet-number-info').textContent = nextTossup.packet.number;
-      document.getElementById('packet-length-info').textContent = this.room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
-      document.getElementById('pause').textContent = 'Pause';
-      document.getElementById('pause').disabled = false;
-      document.getElementById('question-number-info').textContent = nextTossup.number;
-      document.getElementById('set-name-info').textContent = nextTossup.set.name;
     }
 
     if ((type === 'end' || type === 'next') && this.room.previous.userId === this.USER_ID && (this.room.mode !== MODE_ENUM.LOCAL)) {
@@ -155,15 +104,6 @@ export default class SingleplayerTossupClient {
         pointValue
       });
     }
-  }
-
-  noQuestionsFound () {
-    window.alert('No questions found');
-  }
-
-  pause ({ paused }) {
-    document.getElementById('buzz').disabled = paused;
-    document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
   }
 
   revealAnswer ({ answer, question }) {
@@ -202,8 +142,7 @@ export default class SingleplayerTossupClient {
   }
 
   setReadingSpeed ({ readingSpeed }) {
-    document.getElementById('reading-speed').value = readingSpeed;
-    document.getElementById('reading-speed-display').textContent = readingSpeed;
+    super.setReadingSpeed({ readingSpeed });
     window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
@@ -240,12 +179,12 @@ export default class SingleplayerTossupClient {
   }
 
   togglePowermarkOnly ({ powermarkOnly }) {
-    document.getElementById('toggle-powermark-only').checked = powermarkOnly;
+    super.togglePowermarkOnly({ powermarkOnly });
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
   toggleRebuzz ({ rebuzz }) {
-    document.getElementById('toggle-rebuzz').checked = rebuzz;
+    super.toggleRebuzz({ rebuzz });
     window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 

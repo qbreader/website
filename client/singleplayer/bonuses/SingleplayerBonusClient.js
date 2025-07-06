@@ -4,13 +4,15 @@ import api from '../../scripts/api/index.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import { arrayToRange } from '../../scripts/utilities/ranges.js';
 import createBonusGameCard from '../../scripts/utilities/bonus-game-card.js';
+import BonusClient from '../../play/BonusClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
 const settingsVersion = '2024-11-02';
 
-export default class SingleplayerBonusClient {
+export default class SingleplayerBonusClient extends BonusClient {
   constructor (room, USER_ID) {
+    super(room, USER_ID);
     this.room = room;
     this.USER_ID = USER_ID;
   }
@@ -21,10 +23,8 @@ export default class SingleplayerBonusClient {
       case 'alert': return window.alert(data.message);
       case 'clear-stats': return this.clearStats(data);
       case 'end': return this.next(data);
-      case 'end-of-set': return this.endOfSet(data);
       case 'give-answer': return this.giveAnswer(data);
       case 'next': return this.next(data);
-      case 'no-questions-found': return this.noQuestionsFound(data);
       case 'reveal-leadin': return this.revealLeadin(data);
       case 'reveal-next-answer': return this.revealNextAnswer(data);
       case 'reveal-next-part': return this.revealNextPart(data);
@@ -50,10 +50,6 @@ export default class SingleplayerBonusClient {
 
   clearStats ({ teamId }) {
     this.updateStatDisplay({ 0: 0, 10: 0, 20: 0, 30: 0 });
-  }
-
-  endOfSet () {
-    window.alert('You have reached the end of the set');
   }
 
   async giveAnswer ({ currentPartNumber, directive, directedPrompt }) {
@@ -84,10 +80,6 @@ export default class SingleplayerBonusClient {
         }
         break;
     }
-  }
-
-  noQuestionsFound () {
-    window.alert('No questions found');
   }
 
   async next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, pointsPerPart, stats, teamId }) {
