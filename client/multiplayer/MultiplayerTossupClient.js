@@ -1,5 +1,4 @@
 import { MODE_ENUM } from '../../quizbowl/constants.js';
-import api from '../scripts/api/index.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import { arrayToRange } from '../scripts/utilities/ranges.js';
 import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
@@ -8,15 +7,12 @@ import TossupClient from '../play/TossupClient.js';
 export default class MultiplayerTossupClient extends TossupClient {
   constructor (room, USER_ID, socket) {
     super(room, USER_ID);
-    this.room = room;
-    this.USER_ID = USER_ID;
     this.socket = socket;
   }
 
-  onmessage (event) {
-    const data = JSON.parse(event.data);
+  onmessage (message) {
+    const data = JSON.parse(message.data);
     switch (data.type) {
-      case 'buzz': return this.buzz(data);
       case 'chat': return this.chat(data, false);
       case 'chat-live-update': return this.chat(data, true);
       case 'clear-stats': return this.clearStats(data);
@@ -27,7 +23,6 @@ export default class MultiplayerTossupClient extends TossupClient {
       case 'enforcing-removal': return this.ackRemovedFromRoom(data);
       case 'error': return this.handleError(data);
       case 'force-username': return this.forceUsername(data);
-      case 'give-answer': return this.giveAnswer(data);
       case 'give-answer-live-update': return this.logGiveAnswer(data);
       case 'initiated-vk': return this.vkInit(data);
       case 'join': return this.join(data);
@@ -36,25 +31,13 @@ export default class MultiplayerTossupClient extends TossupClient {
       case 'mute-player': return this.mutePlayer(data);
       case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
       case 'owner-change': return this.ownerChange(data);
-      case 'reveal-answer': return this.revealAnswer(data);
-      case 'set-categories': return this.setCategories(data);
-      case 'set-difficulties': return this.setDifficulties(data);
-      case 'set-mode': return this.setMode(data);
-      case 'set-packet-numbers': return this.setPacketNumbers(data);
-      case 'set-set-name': return this.setSetName(data);
-      case 'set-strictness': return this.setStrictness(data);
       case 'set-username': return this.setUsername(data);
-      case 'set-year-range': return this.setYearRange(data);
       case 'successful-vk': return this.vkHandle(data);
-      case 'timer-update': return this.updateTimerDisplay(data.timeRemaining);
       case 'toggle-controlled': return this.toggleControlled(data);
       case 'toggle-lock': return this.toggleLock(data);
       case 'toggle-login-required': return this.toggleLoginRequired(data);
       case 'toggle-public': return this.togglePublic(data);
-      case 'toggle-skip': return this.toggleSkip(data);
-      case 'toggle-standard-only': return this.toggleStandardOnly(data);
-      case 'toggle-timer': return this.toggleTimer(data);
-      case 'update-question': return this.updateQuestion(data);
+      default: return super.onmessage(message);
     }
   }
 
@@ -504,23 +487,19 @@ export default class MultiplayerTossupClient extends TossupClient {
   }
 
   revealAnswer ({ answer, question }) {
-    document.getElementById('question').innerHTML = question;
-    document.getElementById('answer').innerHTML = 'ANSWER: ' + answer;
-    document.getElementById('pause').disabled = true;
+    super.revealAnswer({ answer, question });
     this.showNextButton();
   }
 
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {
     this.logEventConditionally(username, 'updated the categories');
     this.room.categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-
     if (!document.getElementById('category-modal')) { return; }
-
-    this.room.categoryManager.loadCategoryModal();
+    super.setCategories();
   }
 
   setDifficulties ({ difficulties, username = undefined }) {
-    if (username) { this.logEventConditionally(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties'); }
+    this.logEventConditionally(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties');
 
     if (!document.getElementById('difficulties')) {
       this.room.difficulties = difficulties;
@@ -540,33 +519,23 @@ export default class MultiplayerTossupClient extends TossupClient {
   }
 
   setMode ({ mode, setName, username }) {
-    if (username) {
-      this.logEventConditionally(username, 'changed the mode to ' + mode);
-    }
+    this.logEventConditionally(username, 'changed the mode to ' + mode);
 
     this.room.mode = mode;
     switch (mode) {
       case MODE_ENUM.SET_NAME:
-        document.getElementById('difficulty-settings').classList.add('d-none');
         document.getElementById('set-name').textContent = setName;
-        document.getElementById('set-settings').classList.remove('d-none');
-        document.getElementById('toggle-powermark-only').disabled = true;
-        document.getElementById('toggle-standard-only').disabled = true;
         break;
       case MODE_ENUM.RANDOM:
-        document.getElementById('difficulty-settings').classList.remove('d-none');
-        document.getElementById('set-settings').classList.add('d-none');
-        document.getElementById('toggle-powermark-only').disabled = false;
-        document.getElementById('toggle-standard-only').disabled = false;
         break;
     }
-    document.getElementById('set-mode').value = mode;
+
+    super.setMode({ mode });
   }
 
   setPacketNumbers ({ username, packetNumbers }) {
-    packetNumbers = arrayToRange(packetNumbers);
-    this.logEventConditionally(username, packetNumbers.length > 0 ? `changed packet numbers to ${packetNumbers}` : 'cleared packet numbers');
-    document.getElementById('packet-number').value = packetNumbers;
+    super.setPacketNumbers({ packetNumbers });
+    this.logEventConditionally(username, packetNumbers.length > 0 ? `changed packet numbers to ${arrayToRange(packetNumbers)}` : 'cleared packet numbers');
   }
 
   setReadingSpeed ({ username, readingSpeed }) {
@@ -576,18 +545,13 @@ export default class MultiplayerTossupClient extends TossupClient {
 
   setStrictness ({ strictness, username }) {
     this.logEventConditionally(username, `changed the strictness to ${strictness}`);
-    document.getElementById('set-strictness').value = strictness;
-    document.getElementById('strictness-display').textContent = strictness;
+    super.setStrictness({ strictness });
   }
 
-  setSetName ({ username, setName, setLength: newSetLength }) {
+  setSetName ({ username, setName, setLength }) {
     this.logEventConditionally(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
-    document.getElementById('set-name').value = setName;
-    // make border red if set name is not in set list
-    const valid = !setName || api.getSetList().includes(setName);
-    this.room.setLength = newSetLength;
-    document.getElementById('packet-number').placeholder = 'Packet Numbers' + (this.room.setLength ? ` (1-${this.room.setLength})` : '');
-    document.getElementById('set-name').classList.toggle('is-invalid', !valid);
+    this.room.setLength = setLength;
+    super.setSetName({ setName, setLength });
   }
 
   setUsername ({ oldUsername, newUsername, userId }) {
@@ -605,12 +569,8 @@ export default class MultiplayerTossupClient extends TossupClient {
   }
 
   setYearRange ({ minYear, maxYear, username }) {
-    if (username) { this.logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`); }
-
-    $('#slider').slider('values', 0, minYear);
-    $('#slider').slider('values', 1, maxYear);
-    document.getElementById('year-range-a').textContent = minYear;
-    document.getElementById('year-range-b').textContent = maxYear;
+    this.logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`);
+    super.setYearRange({ minYear, maxYear });
   }
 
   showNextButton () {
@@ -696,13 +656,12 @@ export default class MultiplayerTossupClient extends TossupClient {
 
   toggleStandardOnly ({ standardOnly, username }) {
     this.logEventConditionally(username, `${standardOnly ? 'enabled' : 'disabled'} standard format only`);
-    document.getElementById('toggle-standard-only').checked = standardOnly;
+    super.toggleStandardOnly({ standardOnly });
   }
 
   toggleTimer ({ timer, username }) {
     this.logEventConditionally(username, `${timer ? 'enabled' : 'disabled'} the timer`);
-    document.getElementById('toggle-timer').checked = timer;
-    document.getElementById('timer').classList.toggle('d-none', !timer);
+    super.toggleTimer({ timer });
   }
 
   togglePublic ({ public: isPublic, username }) {
@@ -722,19 +681,6 @@ export default class MultiplayerTossupClient extends TossupClient {
     Object.keys(this.room.players).forEach((player) => {
       upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
     });
-  }
-
-  updateQuestion ({ word }) {
-    if (word === '(*)' || word === '[*]') { return; }
-    document.getElementById('question').innerHTML += word + ' ';
-  }
-
-  updateTimerDisplay (time) {
-    const seconds = Math.floor(time / 10);
-    const tenths = time % 10;
-
-    document.querySelector('.timer .face').textContent = seconds;
-    document.querySelector('.timer .fraction').textContent = '.' + tenths;
   }
 
   vkInit ({ targetUsername, threshold }) {

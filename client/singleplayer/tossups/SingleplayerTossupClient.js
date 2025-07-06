@@ -1,7 +1,5 @@
 import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import api from '../../scripts/api/index.js';
 import questionStats from '../../scripts/auth/question-stats.js';
-import { arrayToRange } from '../../scripts/utilities/ranges.js';
 import upsertPlayerItem from '../../scripts/upsertPlayerItem.js';
 import TossupClient from '../../play/TossupClient.js';
 
@@ -12,34 +10,18 @@ const settingsVersion = '2024-11-02';
 export default class SingleplayerTossupClient extends TossupClient {
   constructor (room, USER_ID, aiBot) {
     super(room, USER_ID);
-    this.room = room;
-    this.USER_ID = USER_ID;
     this.aiBot = aiBot;
   }
 
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'alert': return window.alert(data.message);
-      case 'buzz': return this.buzz(data);
       case 'clear-stats': return this.clearStats(data);
-      case 'give-answer': return this.giveAnswer(data);
-      case 'reveal-answer': return this.revealAnswer(data);
-      case 'set-categories': return this.setCategories(data);
-      case 'set-difficulties': return this.setDifficulties(data);
-      case 'set-mode': return this.setMode(data);
-      case 'set-strictness': return this.setStrictness(data);
-      case 'set-packet-numbers': return this.setPacketNumbers(data);
-      case 'set-set-name': return this.setSetName(data);
-      case 'set-year-range': return this.setYearRange(data);
-      case 'timer-update': return this.updateTimerDisplay(data.timeRemaining);
       case 'toggle-ai-mode': return this.toggleAiMode(data);
       case 'toggle-correct': return this.toggleCorrect(data);
       case 'toggle-show-history': return this.toggleShowHistory(data);
-      case 'toggle-standard-only': return this.toggleStandardOnly(data);
-      case 'toggle-timer': return this.toggleTimer(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
-      case 'update-question': return this.updateQuestion(data);
+      default: return super.onmessage(message);
     }
   }
 
@@ -107,9 +89,7 @@ export default class SingleplayerTossupClient extends TossupClient {
   }
 
   revealAnswer ({ answer, question }) {
-    document.getElementById('question').innerHTML = question;
-    document.getElementById('answer').innerHTML = 'ANSWER: ' + answer;
-    document.getElementById('pause').disabled = true;
+    super.revealAnswer({ answer, question });
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('buzz').textContent = 'Buzz';
@@ -122,7 +102,7 @@ export default class SingleplayerTossupClient extends TossupClient {
   }
 
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents }) {
-    this.room.categoryManager.loadCategoryModal();
+    super.setCategories();
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
@@ -131,13 +111,12 @@ export default class SingleplayerTossupClient extends TossupClient {
   }
 
   setStrictness ({ strictness }) {
-    document.getElementById('set-strictness').value = strictness;
-    document.getElementById('strictness-display').textContent = strictness;
+    super.setStrictness({ strictness });
     window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
   setPacketNumbers ({ packetNumbers }) {
-    document.getElementById('packet-number').value = arrayToRange(packetNumbers);
+    super.setPacketNumbers({ packetNumbers });
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
@@ -147,18 +126,12 @@ export default class SingleplayerTossupClient extends TossupClient {
   }
 
   async setSetName ({ setName, setLength }) {
-    document.getElementById('set-name').value = setName;
-    // make border red if set name is not in set list
-    const valid = !setName || api.getSetList().includes(setName);
-    document.getElementById('set-name').classList.toggle('is-invalid', !valid);
-    document.getElementById('packet-number').placeholder = 'Packet Numbers' + (setLength ? ` (1-${setLength})` : '');
+    super.setSetName({ setName, setLength });
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
   setYearRange ({ minYear, maxYear }) {
-    $('#slider').slider('values', [minYear, maxYear]);
-    document.getElementById('year-range-a').textContent = minYear;
-    document.getElementById('year-range-b').textContent = maxYear;
+    super.setYearRange({ minYear, maxYear });
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
@@ -191,18 +164,10 @@ export default class SingleplayerTossupClient extends TossupClient {
   setMode ({ mode }) {
     switch (mode) {
       case MODE_ENUM.SET_NAME:
-        document.getElementById('difficulty-settings').classList.add('d-none');
         document.getElementById('local-packet-settings').classList.add('d-none');
-        document.getElementById('set-settings').classList.remove('d-none');
-        document.getElementById('toggle-powermark-only').disabled = true;
-        document.getElementById('toggle-standard-only').disabled = true;
         break;
       case MODE_ENUM.RANDOM:
-        document.getElementById('difficulty-settings').classList.remove('d-none');
         document.getElementById('local-packet-settings').classList.add('d-none');
-        document.getElementById('set-settings').classList.add('d-none');
-        document.getElementById('toggle-powermark-only').disabled = false;
-        document.getElementById('toggle-standard-only').disabled = false;
         break;
       case MODE_ENUM.STARRED:
         document.getElementById('difficulty-settings').classList.add('d-none');
@@ -219,7 +184,7 @@ export default class SingleplayerTossupClient extends TossupClient {
         document.getElementById('toggle-standard-only').disabled = true;
         break;
     }
-    document.getElementById('set-mode').value = mode;
+    super.setMode({ mode });
     window.localStorage.setItem('singleplayer-tossup-mode', JSON.stringify({ mode, version: modeVersion }));
   }
 
@@ -230,24 +195,18 @@ export default class SingleplayerTossupClient extends TossupClient {
   }
 
   toggleStandardOnly ({ standardOnly }) {
-    document.getElementById('toggle-standard-only').checked = standardOnly;
+    super.toggleStandardOnly({ standardOnly });
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
   toggleTimer ({ timer }) {
-    document.getElementById('timer').classList.toggle('d-none', !timer);
-    document.getElementById('toggle-timer').checked = timer;
+    super.toggleTimer({ timer });
     window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
   toggleTypeToAnswer ({ typeToAnswer }) {
     document.getElementById('type-to-answer').checked = typeToAnswer;
     window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
-  }
-
-  updateQuestion ({ word }) {
-    if (word === '(*)' || word === '[*]') { return; }
-    document.getElementById('question').innerHTML += word + ' ';
   }
 
   /**
@@ -260,12 +219,5 @@ export default class SingleplayerTossupClient extends TossupClient {
 
     // disable clear stats button if no stats
     document.getElementById('clear-stats').disabled = (tuh === 0);
-  }
-
-  updateTimerDisplay (time) {
-    const seconds = Math.floor(time / 10);
-    const tenths = time % 10;
-    document.querySelector('.timer .face').textContent = seconds;
-    document.querySelector('.timer .fraction').textContent = '.' + tenths;
   }
 }
