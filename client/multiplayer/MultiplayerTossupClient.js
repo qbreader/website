@@ -1,13 +1,13 @@
 import { MODE_ENUM } from '../../quizbowl/constants.js';
-import audio from '../audio/index.js';
 import api from '../scripts/api/index.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import { arrayToRange } from '../scripts/utilities/ranges.js';
-import createTossupGameCard from '../scripts/utilities/tossup-game-card.js';
 import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
+import TossupClient from '../play/TossupClient.js';
 
-export default class MultiplayerTossupClient {
+export default class MultiplayerTossupClient extends TossupClient {
   constructor (room, USER_ID, socket) {
+    super(room, USER_ID);
     this.room = room;
     this.USER_ID = USER_ID;
     this.socket = socket;
@@ -25,8 +25,6 @@ export default class MultiplayerTossupClient {
       case 'connection-acknowledged-query': return this.connectionAcknowledgedQuery(data);
       case 'connection-acknowledged-tossup': return this.connectionAcknowledgedTossup(data);
       case 'enforcing-removal': return this.ackRemovedFromRoom(data);
-      case 'end': return this.next(data);
-      case 'end-of-set': return this.endOfSet(data);
       case 'error': return this.handleError(data);
       case 'force-username': return this.forceUsername(data);
       case 'give-answer': return this.giveAnswer(data);
@@ -36,31 +34,23 @@ export default class MultiplayerTossupClient {
       case 'leave': return this.leave(data);
       case 'lost-buzzer-race': return this.lostBuzzerRace(data);
       case 'mute-player': return this.mutePlayer(data);
-      case 'next': return this.next(data);
-      case 'no-questions-found': return this.noQuestionsFound(data);
       case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
       case 'owner-change': return this.ownerChange(data);
-      case 'pause': return this.pause(data);
       case 'reveal-answer': return this.revealAnswer(data);
       case 'set-categories': return this.setCategories(data);
       case 'set-difficulties': return this.setDifficulties(data);
       case 'set-mode': return this.setMode(data);
       case 'set-packet-numbers': return this.setPacketNumbers(data);
-      case 'set-reading-speed': return this.setReadingSpeed(data);
       case 'set-set-name': return this.setSetName(data);
       case 'set-strictness': return this.setStrictness(data);
       case 'set-username': return this.setUsername(data);
       case 'set-year-range': return this.setYearRange(data);
-      case 'skip': return this.next(data);
-      case 'start': return this.next(data);
       case 'successful-vk': return this.vkHandle(data);
       case 'timer-update': return this.updateTimerDisplay(data.timeRemaining);
       case 'toggle-controlled': return this.toggleControlled(data);
       case 'toggle-lock': return this.toggleLock(data);
       case 'toggle-login-required': return this.toggleLoginRequired(data);
-      case 'toggle-powermark-only': return this.togglePowermarkOnly(data);
       case 'toggle-public': return this.togglePublic(data);
-      case 'toggle-rebuzz': return this.toggleRebuzz(data);
       case 'toggle-skip': return this.toggleSkip(data);
       case 'toggle-standard-only': return this.toggleStandardOnly(data);
       case 'toggle-timer': return this.toggleTimer(data);
@@ -82,15 +72,13 @@ export default class MultiplayerTossupClient {
 
   buzz ({ userId, username }) {
     this.logEventConditionally(username, 'buzzed');
-    document.getElementById('buzz').disabled = true;
-    document.getElementById('pause').disabled = true;
-    document.getElementById('next').disabled = true;
     document.getElementById('skip').disabled = true;
 
     if (userId === this.USER_ID) {
       document.getElementById('answer-input-group').classList.remove('d-none');
       document.getElementById('answer-input').focus();
     }
+    super.buzz();
   }
 
   chat ({ message, userId, username }, live = false) {
@@ -273,10 +261,6 @@ export default class MultiplayerTossupClient {
     document.getElementById('question-number-info').textContent = this.room.tossup?.number ?? '-';
   }
 
-  endOfSet () {
-    window.alert('You have reached the end of the set');
-  }
-
   failedVotekickPoints ({ userId }) {
     if (userId === this.USER_ID) {
       window.alert('You can only votekick once you have answered a question correctly!');
@@ -290,9 +274,6 @@ export default class MultiplayerTossupClient {
   }
 
   async giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, perQuestionCelerity, score, tossup, userId, username }) {
-    document.getElementById('answer-input').value = '';
-    document.getElementById('answer-input-group').classList.add('d-none');
-    document.getElementById('answer-input').blur();
     this.logGiveAnswer({ directive, givenAnswer, username });
 
     if (directive === 'prompt' && directedPrompt) {
@@ -303,43 +284,39 @@ export default class MultiplayerTossupClient {
       this.logEventConditionally(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
     }
 
-    if (directive === 'prompt' && userId === this.USER_ID) {
-      document.getElementById('answer-input-group').classList.remove('d-none');
-      document.getElementById('answer-input').focus();
-      document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
-    } else if (directive !== 'prompt') {
-      document.getElementById('answer-input').placeholder = 'Enter answer';
-      document.getElementById('next').disabled = false;
-      document.getElementById('pause').disabled = false;
+    super.giveAnswer({ directive, directedPrompt, score, userId });
 
-      if (directive === 'accept') {
-        document.getElementById('buzz').disabled = true;
-        Array.from(document.getElementsByClassName('tuh')).forEach(element => {
-          element.textContent = parseInt(element.innerHTML) + 1;
-        });
-      }
+    if (directive === 'prompt') { return; }
 
-      if (directive === 'reject') {
-        document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === this.USER_ID;
-      }
+    document.getElementById('pause').disabled = false;
 
-      if (score > 10) {
-        this.room.players[userId].powers++;
-      } else if (score === 10) {
-        this.room.players[userId].tens++;
-      } else if (score < 0) {
-        this.room.players[userId].negs++;
-      }
-
-      this.room.players[userId].points += score;
-      this.room.players[userId].tuh++;
-      this.room.players[userId].celerity = celerity;
-
-      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
-      this.sortPlayerListGroup();
+    if (directive === 'accept') {
+      document.getElementById('buzz').disabled = true;
+      Array.from(document.getElementsByClassName('tuh')).forEach(element => {
+        element.textContent = parseInt(element.innerHTML) + 1;
+      });
     }
 
-    if (directive !== 'prompt' && userId === this.USER_ID) {
+    if (directive === 'reject') {
+      document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === this.USER_ID;
+    }
+
+    if (score > 10) {
+      this.room.players[userId].powers++;
+    } else if (score === 10) {
+      this.room.players[userId].tens++;
+    } else if (score < 0) {
+      this.room.players[userId].negs++;
+    }
+
+    this.room.players[userId].points += score;
+    this.room.players[userId].tuh++;
+    this.room.players[userId].celerity = celerity;
+
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+    this.sortPlayerListGroup();
+
+    if (userId === this.USER_ID) {
       questionStats.recordTossup({
         _id: tossup._id,
         celerity: perQuestionCelerity,
@@ -347,16 +324,6 @@ export default class MultiplayerTossupClient {
         multiplayer: true,
         pointValue: score
       });
-    }
-
-    if (audio.soundEffects && userId === this.USER_ID) {
-      if (directive === 'accept' && score > 10) {
-        audio.power.play();
-      } else if (directive === 'accept' && score === 10) {
-        audio.correct.play();
-      } else if (directive === 'reject') {
-        audio.incorrect.play();
-      }
     }
   }
 
@@ -499,43 +466,23 @@ export default class MultiplayerTossupClient {
     };
     this.logEventConditionally(username, typeStrings[type]);
 
+    super.next({ nextTossup, oldTossup, packetLength, type });
+
     if (type === 'start') {
       document.getElementById('next').classList.add('btn-primary');
       document.getElementById('next').classList.remove('btn-success');
       document.getElementById('next').textContent = 'Next';
     }
 
-    if (type !== 'start') {
-      createTossupGameCard({ tossup: oldTossup });
-    }
-
-    document.getElementById('answer').textContent = '';
-    document.getElementById('question').textContent = '';
-    document.getElementById('settings').classList.add('d-none');
-
     if (type === 'end') {
-      document.getElementById('buzz').disabled = true;
       document.getElementById('next').classList.remove('btn-primary');
       document.getElementById('next').classList.add('btn-success');
       document.getElementById('next').textContent = 'Start';
     } else {
       this.room.tossup = nextTossup;
-      document.getElementById('buzz').textContent = 'Buzz';
-      document.getElementById('buzz').disabled = false;
-      document.getElementById('packet-length-info').textContent = this.room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
-      document.getElementById('packet-number-info').textContent = this.room.tossup?.packet.number ?? '-';
-      document.getElementById('pause').textContent = 'Pause';
-      document.getElementById('pause').disabled = false;
-      document.getElementById('question-number-info').textContent = this.room.tossup?.number ?? '-';
-      document.getElementById('set-name-info').textContent = this.room.tossup?.set.name ?? '';
     }
 
     this.showSkipButton();
-    this.updateTimerDisplay(100);
-  }
-
-  noQuestionsFound () {
-    window.alert('No questions found');
   }
 
   ownerChange ({ newOwner }) {
@@ -553,7 +500,7 @@ export default class MultiplayerTossupClient {
 
   pause ({ paused, username }) {
     this.logEventConditionally(username, `${paused ? '' : 'un'}paused the game`);
-    document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
+    super.pause({ paused });
   }
 
   revealAnswer ({ answer, question }) {
@@ -623,9 +570,8 @@ export default class MultiplayerTossupClient {
   }
 
   setReadingSpeed ({ username, readingSpeed }) {
+    super.setReadingSpeed({ readingSpeed });
     this.logEventConditionally(username, `changed the reading speed to ${readingSpeed}`);
-    document.getElementById('reading-speed').value = readingSpeed;
-    document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
   setStrictness ({ strictness, username }) {
@@ -734,12 +680,12 @@ export default class MultiplayerTossupClient {
 
   togglePowermarkOnly ({ powermarkOnly, username }) {
     this.logEventConditionally(username, `${powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
-    document.getElementById('toggle-powermark-only').checked = powermarkOnly;
+    super.togglePowermarkOnly({ powermarkOnly });
   }
 
   toggleRebuzz ({ rebuzz, username }) {
     this.logEventConditionally(username, `${rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
-    document.getElementById('toggle-rebuzz').checked = rebuzz;
+    super.toggleRebuzz({ rebuzz });
   }
 
   toggleSkip ({ skip, username }) {

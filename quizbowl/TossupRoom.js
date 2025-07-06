@@ -66,7 +66,6 @@ export default class TossupRoom extends QuestionRoom {
       case 'start': return this.next(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
-      case 'toggle-public': return this.togglePublic(userId, message);
       default: return super.message(userId, message);
     }
   }
