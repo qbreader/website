@@ -1,37 +1,35 @@
-import questionStats from '../scripts/auth/question-stats.js';
 import api from '../scripts/api/index.js';
 import audio from '../audio/index.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
-import { arrayToRange, rangeToArray } from '../scripts/utilities/ranges.js';
-import createTossupGameCard from '../scripts/utilities/tossup-game-card.js';
+import { rangeToArray } from '../scripts/utilities/ranges.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
 import { MODE_ENUM } from '../../quizbowl/constants.js';
-
-const categoryManager = new CategoryManager();
-let oldCategories = JSON.stringify(categoryManager.export());
+import MultiplayerTossupClient from './MultiplayerTossupClient.js';
 
 const room = {
+  categoryManager: new CategoryManager(),
   difficulties: [],
   mode: MODE_ENUM.RANDOM,
   muteList: [],
   ownerId: '',
+  /**
+   * userId to player object
+   */
+  players: {},
   public: true,
   setLength: 24,
-  showingOffline: false
+  showingOffline: false,
+  tossup: {},
+  username: window.localStorage.getItem('multiplayer-username') || api.getRandomName()
 };
 
-/**
- * userId to player object
- */
-const players = {};
+let oldCategories = JSON.stringify(room.categoryManager.export());
 
 const ROOM_NAME = decodeURIComponent(window.location.pathname.substring(13));
-let tossup = {};
-let USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
-let username = window.localStorage.getItem('multiplayer-username') || api.getRandomName();
+const USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
 
 const socket = new window.WebSocket(
   window.location.href.replace('http', 'ws').split('?')[0] + '?' +
@@ -39,7 +37,7 @@ const socket = new window.WebSocket(
       ...Object.fromEntries(new URLSearchParams(window.location.search)),
       roomName: ROOM_NAME,
       userId: USER_ID,
-      username
+      username: room.username
     }).toString()
 );
 window.history.pushState({}, '', '/multiplayer/' + encodeURIComponent(ROOM_NAME));
@@ -56,796 +54,11 @@ socket.onclose = function (event) {
   clearInterval(PING_INTERVAL_ID);
 };
 
-socket.onmessage = function (event) {
-  const data = JSON.parse(event.data);
-  switch (data.type) {
-    case 'buzz': return buzz(data);
-    case 'chat': return chat(data, false);
-    case 'chat-live-update': return chat(data, true);
-    case 'clear-stats': return clearStats(data);
-    case 'confirm-ban': return confirmBan(data);
-    case 'connection-acknowledged': return connectionAcknowledged(data);
-    case 'connection-acknowledged-query': return connectionAcknowledgedQuery(data);
-    case 'connection-acknowledged-tossup': return connectionAcknowledgedTossup(data);
-    case 'enforcing-removal': return ackRemovedFromRoom(data);
-    case 'end': return next(data);
-    case 'end-of-set': return endOfSet(data);
-    case 'error': return handleError(data);
-    case 'force-username': return forceUsername(data);
-    case 'give-answer': return giveAnswer(data);
-    case 'give-answer-live-update': return logGiveAnswer(data);
-    case 'initiated-vk': return vkInit(data);
-    case 'join': return join(data);
-    case 'leave': return leave(data);
-    case 'lost-buzzer-race': return lostBuzzerRace(data);
-    case 'mute-player': return mutePlayer(data);
-    case 'next': return next(data);
-    case 'no-questions-found': return noQuestionsFound(data);
-    case 'no-points-votekick-attempt': return failedVotekickPoints(data);
-    case 'owner-change': return ownerChange(data);
-    case 'pause': return pause(data);
-    case 'reveal-answer': return revealAnswer(data);
-    case 'set-categories': return setCategories(data);
-    case 'set-difficulties': return setDifficulties(data);
-    case 'set-mode': return setMode(data);
-    case 'set-packet-numbers': return setPacketNumbers(data);
-    case 'set-reading-speed': return setReadingSpeed(data);
-    case 'set-set-name': return setSetName(data);
-    case 'set-strictness': return setStrictness(data);
-    case 'set-username': return setUsername(data);
-    case 'set-year-range': return setYearRange(data);
-    case 'skip': return next(data);
-    case 'start': return next(data);
-    case 'successful-vk': return vkHandle(data);
-    case 'timer-update': return updateTimerDisplay(data.timeRemaining);
-    case 'toggle-controlled': return toggleControlled(data);
-    case 'toggle-lock': return toggleLock(data);
-    case 'toggle-login-required': return toggleLoginRequired(data);
-    case 'toggle-powermark-only': return togglePowermarkOnly(data);
-    case 'toggle-public': return togglePublic(data);
-    case 'toggle-rebuzz': return toggleRebuzz(data);
-    case 'toggle-skip': return toggleSkip(data);
-    case 'toggle-standard-only': return toggleStandardOnly(data);
-    case 'toggle-timer': return toggleTimer(data);
-    case 'update-question': return updateQuestion(data);
-  }
+const client = new MultiplayerTossupClient(room, USER_ID, socket);
+
+socket.onmessage = (message) => {
+  client.onmessage(message);
 };
-// if a banned/kicked user tries to join a room they were removed from this is the response
-function ackRemovedFromRoom ({ removalType }) {
-  if (removalType === 'kick') {
-    window.alert('You were kicked from this room by players, and cannot rejoin it.');
-  } else {
-    window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
-  }
-  setTimeout(() => {
-    window.location.replace('../');
-  }, 100);
-}
-
-function buzz ({ userId, username }) {
-  logEventConditionally(username, 'buzzed');
-  document.getElementById('buzz').disabled = true;
-  document.getElementById('pause').disabled = true;
-  document.getElementById('next').disabled = true;
-  document.getElementById('skip').disabled = true;
-
-  if (userId === USER_ID) {
-    document.getElementById('answer-input-group').classList.remove('d-none');
-    document.getElementById('answer-input').focus();
-  }
-}
-
-function chat ({ message, userId, username }, live = false) {
-  if (room.muteList.includes(userId)) {
-    return;
-  }
-  if (!live && message === '') {
-    document.getElementById('live-chat-' + userId).parentElement.remove();
-    return;
-  }
-
-  if (!live && message) {
-    document.getElementById('live-chat-' + userId).className = '';
-    document.getElementById('live-chat-' + userId).id = '';
-    return;
-  }
-
-  if (document.getElementById('live-chat-' + userId)) {
-    document.getElementById('live-chat-' + userId).textContent = message;
-    return;
-  }
-
-  const b = document.createElement('b');
-  b.textContent = username;
-
-  const span = document.createElement('span');
-  span.classList.add('text-muted');
-  span.id = 'live-chat-' + userId;
-  span.textContent = message;
-
-  const li = document.createElement('li');
-  li.appendChild(b);
-  li.appendChild(document.createTextNode(' '));
-  li.appendChild(span);
-  document.getElementById('room-history').prepend(li);
-}
-
-function clearStats ({ userId }) {
-  for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
-    players[userId][field] = 0;
-  }
-  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
-  sortPlayerListGroup();
-}
-
-function confirmBan ({ targetId, targetUsername }) {
-  if (targetId === USER_ID) {
-    window.alert('You were banned from this room by the room owner.');
-    setTimeout(() => {
-      window.location.replace('../');
-    }, 100);
-  } else {
-    logEventConditionally(targetUsername + ' has been banned from this room.');
-  }
-}
-
-function connectionAcknowledged ({
-  buzzedIn,
-  canBuzz,
-  isPermanent,
-  ownerId: serverOwnerId,
-  mode,
-  packetLength,
-  players: messagePlayers,
-  questionProgress,
-  settings,
-  setLength: newSetLength,
-  userId
-}) {
-  room.public = settings.public;
-  room.ownerId = serverOwnerId;
-  room.setLength = newSetLength;
-  USER_ID = userId;
-  window.localStorage.setItem('USER_ID', USER_ID);
-
-  document.getElementById('buzz').disabled = !canBuzz;
-
-  if (isPermanent) {
-    document.getElementById('category-select-button').disabled = true;
-    document.getElementById('permanent-room-warning').classList.remove('d-none');
-    document.getElementById('reading-speed').disabled = true;
-    document.getElementById('set-strictness').disabled = true;
-    document.getElementById('set-mode').disabled = true;
-    document.getElementById('toggle-public').disabled = true;
-  }
-
-  for (const userId of Object.keys(messagePlayers)) {
-    messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
-    players[userId] = messagePlayers[userId];
-    upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
-  }
-  sortPlayerListGroup();
-
-  setMode({ mode });
-
-  document.getElementById('packet-length-info').textContent = mode === MODE_ENUM.SET_NAME ? packetLength : '-';
-
-  switch (questionProgress) {
-    case 0:
-      document.getElementById('next').textContent = 'Start';
-      document.getElementById('next').classList.remove('btn-primary');
-      document.getElementById('next').classList.add('btn-success');
-      break;
-    case 1:
-      showSkipButton();
-      document.getElementById('settings').classList.add('d-none');
-      if (buzzedIn) {
-        document.getElementById('buzz').disabled = true;
-        document.getElementById('next').disabled = true;
-        document.getElementById('pause').disabled = true;
-      } else {
-        document.getElementById('buzz').disabled = false;
-        document.getElementById('pause').disabled = false;
-      }
-      break;
-    case 2:
-      showNextButton();
-      document.getElementById('settings').classList.add('d-none');
-      break;
-  }
-
-  toggleLock({ lock: settings.lock });
-  toggleLoginRequired({ loginRequired: settings.loginRequired });
-  toggleRebuzz({ rebuzz: settings.rebuzz });
-  toggleSkip({ skip: settings.skip });
-  toggleTimer({ timer: settings.timer });
-  setReadingSpeed({ readingSpeed: settings.readingSpeed });
-  setStrictness({ strictness: settings.strictness });
-
-  if (settings.controlled) {
-    toggleControlled({ controlled: settings.controlled });
-  }
-  if (settings.public) {
-    togglePublic({ public: settings.public });
-  }
-}
-
-async function connectionAcknowledgedQuery ({
-  difficulties = [],
-  minYear,
-  maxYear,
-  packetNumbers = [],
-  powermarkOnly,
-  setName = '',
-  standardOnly,
-  alternateSubcategories,
-  categories,
-  subcategories,
-  percentView,
-  categoryPercents
-}) {
-  setDifficulties({ difficulties });
-
-  document.getElementById('year-range-a').textContent = minYear;
-  document.getElementById('year-range-b').textContent = maxYear;
-
-  document.getElementById('packet-number').value = arrayToRange(packetNumbers);
-
-  document.getElementById('toggle-powermark-only').checked = powermarkOnly;
-
-  document.getElementById('set-name').value = setName;
-  if (setName !== '' && room.setLength === 0) {
-    document.getElementById('set-name').classList.add('is-invalid');
-  }
-
-  document.getElementById('toggle-standard-only').checked = standardOnly;
-
-  setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-
-  $(document).ready(function () {
-    $('#slider').slider('values', 0, minYear);
-    $('#slider').slider('values', 1, maxYear);
-  });
-}
-
-function connectionAcknowledgedTossup ({ tossup: currentTossup }) {
-  tossup = currentTossup;
-  document.getElementById('set-name-info').textContent = tossup?.set?.name ?? '';
-  document.getElementById('packet-number-info').textContent = tossup?.packet?.number ?? '-';
-  document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
-}
-
-function endOfSet () {
-  window.alert('You have reached the end of the set');
-}
-function failedVotekickPoints ({ userId }) {
-  if (userId === USER_ID) {
-    window.alert('You can only votekick once you have answered a question correctly!');
-  }
-}
-
-function forceUsername ({ message, username }) {
-  window.alert(message);
-  window.localStorage.setItem('multiplayer-username', username);
-  document.querySelector('#username').value = username;
-}
-
-async function giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, perQuestionCelerity, score, tossup, userId, username }) {
-  document.getElementById('answer-input').value = '';
-  document.getElementById('answer-input-group').classList.add('d-none');
-  document.getElementById('answer-input').blur();
-  logGiveAnswer({ directive, givenAnswer, username });
-
-  if (directive === 'prompt' && directedPrompt) {
-    logEventConditionally(username, `was prompted with "${directedPrompt}"`);
-  } else if (directive === 'prompt') {
-    logEventConditionally(username, 'was prompted');
-  } else {
-    logEventConditionally(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
-  }
-
-  if (directive === 'prompt' && userId === USER_ID) {
-    document.getElementById('answer-input-group').classList.remove('d-none');
-    document.getElementById('answer-input').focus();
-    document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
-  } else if (directive !== 'prompt') {
-    document.getElementById('answer-input').placeholder = 'Enter answer';
-    document.getElementById('next').disabled = false;
-    document.getElementById('pause').disabled = false;
-
-    if (directive === 'accept') {
-      document.getElementById('buzz').disabled = true;
-      Array.from(document.getElementsByClassName('tuh')).forEach(element => {
-        element.textContent = parseInt(element.innerHTML) + 1;
-      });
-    }
-
-    if (directive === 'reject') {
-      document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === USER_ID;
-    }
-
-    if (score > 10) {
-      players[userId].powers++;
-    } else if (score === 10) {
-      players[userId].tens++;
-    } else if (score < 0) {
-      players[userId].negs++;
-    }
-
-    players[userId].points += score;
-    players[userId].tuh++;
-    players[userId].celerity = celerity;
-
-    upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
-    sortPlayerListGroup();
-  }
-
-  if (directive !== 'prompt' && userId === USER_ID) {
-    questionStats.recordTossup({
-      _id: tossup._id,
-      celerity: perQuestionCelerity,
-      isCorrect: score > 0,
-      multiplayer: true,
-      pointValue: score
-    });
-  }
-
-  if (audio.soundEffects && userId === USER_ID) {
-    if (directive === 'accept' && score > 10) {
-      audio.power.play();
-    } else if (directive === 'accept' && score === 10) {
-      audio.correct.play();
-    } else if (directive === 'reject') {
-      audio.incorrect.play();
-    }
-  }
-}
-
-function handleError ({ message }) {
-  socket.close(3000);
-  window.alert(message);
-  window.location.href = '/multiplayer';
-}
-
-function join ({ isNew, user, userId, username }) {
-  logEventConditionally(username, 'joined the game');
-  if (userId === USER_ID) { return; }
-
-  if (isNew) {
-    user.celerity = user.celerity.correct.average;
-    upsertPlayerItem(user, USER_ID, room.ownerId, socket, room.public, room.showingOffline);
-    sortPlayerListGroup();
-    players[userId] = user;
-  } else {
-    players[userId].online = true;
-    document.getElementById('points-' + userId).classList.add('bg-success');
-    document.getElementById('points-' + userId).classList.remove('bg-secondary');
-  }
-}
-
-function leave ({ userId, username }) {
-  logEventConditionally(username, 'left the game');
-  players[userId].online = false;
-  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
-}
-
-/**
- * Log the event, but only if `username !== undefined`.
- * If username is undefined, do nothing, regardless of the value of message.
- * @param {string | undefined} username
- * @param {string | undefined} message
- */
-function logEventConditionally (username, message) {
-  if (username === undefined) { return; }
-
-  const span1 = document.createElement('span');
-  span1.textContent = username;
-
-  const span2 = document.createElement('span');
-  span2.textContent = message;
-
-  const i = document.createElement('i');
-  i.appendChild(span1);
-  i.appendChild(document.createTextNode(' '));
-  i.appendChild(span2);
-
-  const li = document.createElement('li');
-  li.appendChild(i);
-
-  document.getElementById('room-history').prepend(li);
-}
-
-function logGiveAnswer ({ directive = null, givenAnswer, username }) {
-  const badge = document.createElement('span');
-  badge.textContent = 'Buzz';
-  switch (directive) {
-    case 'accept':
-      badge.className = 'badge text-dark bg-success';
-      break;
-    case 'reject':
-      badge.className = 'badge text-light bg-danger';
-      break;
-    case 'prompt':
-      badge.className = 'badge text-dark bg-warning';
-      break;
-    default:
-      badge.className = 'badge text-light bg-primary';
-      break;
-  }
-
-  const b = document.createElement('b');
-  b.textContent = username;
-
-  const span = document.createElement('span');
-  span.textContent = givenAnswer;
-
-  let li;
-  if (document.getElementById('live-buzz')) {
-    li = document.getElementById('live-buzz');
-    li.textContent = '';
-  } else {
-    li = document.createElement('li');
-    li.id = 'live-buzz';
-    document.getElementById('room-history').prepend(li);
-  }
-
-  li.appendChild(badge);
-  li.appendChild(document.createTextNode(' '));
-  li.appendChild(b);
-  li.appendChild(document.createTextNode(' '));
-  li.appendChild(span);
-
-  if (directive === 'accept' || directive === 'reject') {
-    const secondBadge = document.createElement('span');
-    secondBadge.className = badge.className;
-
-    if (directive === 'accept') {
-      secondBadge.textContent = 'Correct';
-    } else if (directive === 'reject') {
-      secondBadge.textContent = 'Incorrect';
-    }
-
-    li.appendChild(document.createTextNode(' '));
-    li.appendChild(secondBadge);
-  }
-
-  if (directive) { li.id = ''; }
-}
-
-function lostBuzzerRace ({ username, userId }) {
-  logEventConditionally(username, 'lost the buzzer race');
-  if (userId === USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
-}
-
-function mutePlayer ({ targetId, targetUsername, muteStatus }) {
-  if (muteStatus === 'Mute') {
-    if (!room.muteList.includes(targetId)) {
-      room.muteList.push(targetId);
-      logEventConditionally(targetUsername, 'was muted');
-    }
-  } else {
-    if (room.muteList.includes(targetId)) {
-      room.muteList = room.muteList.filter(Id => Id !== targetId);
-      logEventConditionally(targetUsername, 'was unmuted');
-    }
-  }
-}
-
-function next ({ packetLength, oldTossup, tossup: nextTossup, type, username }) {
-  const typeStrings = {
-    end: 'ended the game',
-    next: 'went to the next question',
-    skip: 'skipped the question',
-    start: 'started the game'
-  };
-  logEventConditionally(username, typeStrings[type]);
-
-  if (type === 'start') {
-    document.getElementById('next').classList.add('btn-primary');
-    document.getElementById('next').classList.remove('btn-success');
-    document.getElementById('next').textContent = 'Next';
-  }
-
-  if (type !== 'start') {
-    createTossupGameCard({ tossup: oldTossup });
-  }
-
-  document.getElementById('answer').textContent = '';
-  document.getElementById('question').textContent = '';
-  document.getElementById('settings').classList.add('d-none');
-
-  if (type === 'end') {
-    document.getElementById('buzz').disabled = true;
-    document.getElementById('next').classList.remove('btn-primary');
-    document.getElementById('next').classList.add('btn-success');
-    document.getElementById('next').textContent = 'Start';
-  } else {
-    tossup = nextTossup;
-    document.getElementById('buzz').textContent = 'Buzz';
-    document.getElementById('buzz').disabled = false;
-    document.getElementById('packet-length-info').textContent = room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
-    document.getElementById('packet-number-info').textContent = tossup?.packet.number ?? '-';
-    document.getElementById('pause').textContent = 'Pause';
-    document.getElementById('pause').disabled = false;
-    document.getElementById('question-number-info').textContent = tossup?.number ?? '-';
-    document.getElementById('set-name-info').textContent = tossup?.set.name ?? '';
-  }
-
-  showSkipButton();
-  updateTimerDisplay(100);
-}
-
-function noQuestionsFound () {
-  window.alert('No questions found');
-}
-
-function ownerChange ({ newOwner }) {
-  if (players[newOwner]) {
-    room.ownerId = newOwner;
-    logEventConditionally(players[newOwner].username, 'became the room owner');
-  } else logEventConditionally(newOwner, 'became the room owner');
-
-  Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
-  });
-
-  document.getElementById('toggle-controlled').disabled = room.public || (room.ownerId !== USER_ID);
-}
-
-function pause ({ paused, username }) {
-  logEventConditionally(username, `${paused ? '' : 'un'}paused the game`);
-  document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
-}
-
-function revealAnswer ({ answer, question }) {
-  document.getElementById('question').innerHTML = question;
-  document.getElementById('answer').innerHTML = 'ANSWER: ' + answer;
-  document.getElementById('pause').disabled = true;
-  showNextButton();
-}
-
-function setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {
-  logEventConditionally(username, 'updated the categories');
-  categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-
-  if (!document.getElementById('category-modal')) { return; }
-
-  categoryManager.loadCategoryModal();
-}
-
-function setDifficulties ({ difficulties, username = undefined }) {
-  if (username) { logEventConditionally(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties'); }
-
-  if (!document.getElementById('difficulties')) {
-    room.difficulties = difficulties;
-    return;
-  }
-
-  Array.from(document.getElementById('difficulties').children).forEach(li => {
-    const input = li.querySelector('input');
-    if (difficulties.includes(parseInt(input.value))) {
-      input.checked = true;
-      li.classList.add('active');
-    } else {
-      input.checked = false;
-      li.classList.remove('active');
-    }
-  });
-}
-
-function setMode ({ mode, setName, username }) {
-  if (username) {
-    logEventConditionally(username, 'changed the mode to ' + mode);
-  }
-
-  room.mode = mode;
-  switch (mode) {
-    case MODE_ENUM.SET_NAME:
-      document.getElementById('difficulty-settings').classList.add('d-none');
-      document.getElementById('set-name').textContent = setName;
-      document.getElementById('set-settings').classList.remove('d-none');
-      document.getElementById('toggle-powermark-only').disabled = true;
-      document.getElementById('toggle-standard-only').disabled = true;
-      break;
-    case MODE_ENUM.RANDOM:
-      document.getElementById('difficulty-settings').classList.remove('d-none');
-      document.getElementById('set-settings').classList.add('d-none');
-      document.getElementById('toggle-powermark-only').disabled = false;
-      document.getElementById('toggle-standard-only').disabled = false;
-      break;
-  }
-  document.getElementById('set-mode').value = mode;
-}
-
-function setPacketNumbers ({ username, packetNumbers }) {
-  packetNumbers = arrayToRange(packetNumbers);
-  logEventConditionally(username, packetNumbers.length > 0 ? `changed packet numbers to ${packetNumbers}` : 'cleared packet numbers');
-  document.getElementById('packet-number').value = packetNumbers;
-}
-
-function setReadingSpeed ({ username, readingSpeed }) {
-  logEventConditionally(username, `changed the reading speed to ${readingSpeed}`);
-  document.getElementById('reading-speed').value = readingSpeed;
-  document.getElementById('reading-speed-display').textContent = readingSpeed;
-}
-
-function setStrictness ({ strictness, username }) {
-  logEventConditionally(username, `changed the strictness to ${strictness}`);
-  document.getElementById('set-strictness').value = strictness;
-  document.getElementById('strictness-display').textContent = strictness;
-}
-
-function setSetName ({ username, setName, setLength: newSetLength }) {
-  logEventConditionally(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
-  document.getElementById('set-name').value = setName;
-  // make border red if set name is not in set list
-  const valid = !setName || api.getSetList().includes(setName);
-  room.setLength = newSetLength;
-  document.getElementById('packet-number').placeholder = 'Packet Numbers' + (room.setLength ? ` (1-${room.setLength})` : '');
-  document.getElementById('set-name').classList.toggle('is-invalid', !valid);
-}
-
-function setUsername ({ oldUsername, newUsername, userId }) {
-  logEventConditionally(oldUsername, `changed their username to ${newUsername}`);
-  document.getElementById('username-' + userId).textContent = newUsername;
-  players[userId].username = newUsername;
-  sortPlayerListGroup();
-
-  if (userId === USER_ID) {
-    username = newUsername;
-    window.localStorage.setItem('multiplayer-username', username);
-    document.getElementById('username').value = username;
-  }
-  upsertPlayerItem(players[userId], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
-}
-
-function setYearRange ({ minYear, maxYear, username }) {
-  if (username) { logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`); }
-
-  $('#slider').slider('values', 0, minYear);
-  $('#slider').slider('values', 1, maxYear);
-  document.getElementById('year-range-a').textContent = minYear;
-  document.getElementById('year-range-b').textContent = maxYear;
-}
-
-function showNextButton () {
-  document.getElementById('next').classList.remove('d-none');
-  document.getElementById('next').disabled = false;
-  document.getElementById('skip').classList.add('d-none');
-  document.getElementById('skip').disabled = true;
-}
-
-function showSkipButton () {
-  document.getElementById('skip').classList.remove('d-none');
-  document.getElementById('skip').disabled = !document.getElementById('toggle-skip').checked;
-  document.getElementById('next').classList.add('d-none');
-  document.getElementById('next').disabled = true;
-}
-
-function sortPlayerListGroup (descending = true) {
-  const listGroup = document.getElementById('player-list-group');
-  const items = Array.from(listGroup.children);
-  const offset = 'list-group-'.length;
-  items.sort((a, b) => {
-    const aPoints = parseInt(document.getElementById('points-' + a.id.substring(offset)).innerHTML);
-    const bPoints = parseInt(document.getElementById('points-' + b.id.substring(offset)).innerHTML);
-    // if points are equal, sort alphabetically by username
-    if (aPoints === bPoints) {
-      const aUsername = document.getElementById('username-' + a.id.substring(offset)).innerHTML;
-      const bUsername = document.getElementById('username-' + b.id.substring(offset)).innerHTML;
-      return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
-    }
-    return descending ? bPoints - aPoints : aPoints - bPoints;
-  }).forEach(item => {
-    listGroup.appendChild(item);
-  });
-}
-
-function toggleControlled ({ controlled, username }) {
-  logEventConditionally(username, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
-
-  document.getElementById('toggle-controlled').checked = controlled;
-  document.getElementById('controlled-room-warning').classList.toggle('d-none', !controlled);
-  document.getElementById('toggle-public').disabled = controlled;
-
-  controlled = controlled && (USER_ID !== room.ownerId);
-  document.getElementById('toggle-lock').disabled = controlled;
-  document.getElementById('toggle-login-required').disabled = controlled;
-  document.getElementById('toggle-timer').disabled = controlled;
-  document.getElementById('toggle-powermark-only').disabled = controlled;
-  document.getElementById('toggle-rebuzz').disabled = controlled;
-  document.getElementById('toggle-skip').disabled = controlled;
-  document.getElementById('toggle-standard-only').disabled = controlled;
-
-  document.getElementById('category-select-button').disabled = controlled;
-  document.getElementById('reading-speed').disabled = controlled;
-  document.getElementById('set-mode').disabled = controlled;
-  document.getElementById('set-strictness').disabled = controlled;
-}
-
-function toggleLock ({ lock, username }) {
-  logEventConditionally(username, `${lock ? 'locked' : 'unlocked'} the room`);
-  document.getElementById('toggle-lock').checked = lock;
-}
-
-function toggleLoginRequired ({ loginRequired, username }) {
-  logEventConditionally(username, `${loginRequired ? 'enabled' : 'disabled'} require players to be logged in`);
-  document.getElementById('toggle-login-required').checked = loginRequired;
-}
-
-function togglePowermarkOnly ({ powermarkOnly, username }) {
-  logEventConditionally(username, `${powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
-  document.getElementById('toggle-powermark-only').checked = powermarkOnly;
-}
-
-function toggleRebuzz ({ rebuzz, username }) {
-  logEventConditionally(username, `${rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
-  document.getElementById('toggle-rebuzz').checked = rebuzz;
-}
-
-function toggleSkip ({ skip, username }) {
-  logEventConditionally(username, `${skip ? 'enabled' : 'disabled'} skipping`);
-  document.getElementById('toggle-skip').checked = skip;
-  document.getElementById('skip').disabled = !skip || document.getElementById('skip').classList.contains('d-none');
-}
-
-function toggleStandardOnly ({ standardOnly, username }) {
-  logEventConditionally(username, `${standardOnly ? 'enabled' : 'disabled'} standard format only`);
-  document.getElementById('toggle-standard-only').checked = standardOnly;
-}
-
-function toggleTimer ({ timer, username }) {
-  logEventConditionally(username, `${timer ? 'enabled' : 'disabled'} the timer`);
-  document.getElementById('toggle-timer').checked = timer;
-  document.getElementById('timer').classList.toggle('d-none', !timer);
-}
-
-function togglePublic ({ public: isPublic, username }) {
-  logEventConditionally(username, `made the room ${isPublic ? 'public' : 'private'}`);
-  document.getElementById('chat').disabled = isPublic;
-  document.getElementById('toggle-controlled').disabled = isPublic || (room.ownerId !== USER_ID);
-  document.getElementById('toggle-lock').disabled = isPublic;
-  document.getElementById('toggle-login-required').disabled = isPublic;
-  document.getElementById('toggle-public').checked = isPublic;
-  document.getElementById('toggle-timer').disabled = isPublic;
-  room.public = isPublic;
-  if (isPublic) {
-    document.getElementById('toggle-lock').checked = false;
-    document.getElementById('toggle-login-required').checked = false;
-    toggleTimer({ timer: true });
-  }
-  Object.keys(players).forEach((player) => {
-    upsertPlayerItem(players[player], USER_ID, room.ownerId, socket, room.public, room.showingOffline);
-  });
-}
-
-function updateQuestion ({ word }) {
-  if (word === '(*)' || word === '[*]') { return; }
-  document.getElementById('question').innerHTML += word + ' ';
-}
-
-function updateTimerDisplay (time) {
-  const seconds = Math.floor(time / 10);
-  const tenths = time % 10;
-
-  document.querySelector('.timer .face').textContent = seconds;
-  document.querySelector('.timer .fraction').textContent = '.' + tenths;
-}
-
-function vkInit ({ targetUsername, threshold }) {
-  logEventConditionally(`A votekick has been started against user ${targetUsername} and needs ${threshold} votes to succeed.`);
-}
-
-function vkHandle ({ targetUsername, targetId }) {
-  if (USER_ID === targetId) {
-    window.alert('You were vote kicked from this room by others.');
-    setTimeout(() => {
-      window.location.replace('../');
-    }, 100);
-  } else {
-    logEventConditionally(targetUsername + ' has been vote kicked from this room.');
-  }
-}
 
 document.getElementById('answer-form').addEventListener('submit', function (event) {
   event.preventDefault();
@@ -962,7 +175,7 @@ document.getElementById('set-strictness').addEventListener('input', function () 
 document.getElementById('toggle-offline-players').addEventListener('click', function () {
   room.showingOffline = this.checked;
   this.blur();
-  Object.values(players).forEach((player) => upsertPlayerItem(player, USER_ID, room.ownerId, socket, room.public, room.showingOffline));
+  Object.values(room.players).forEach((player) => upsertPlayerItem(player, USER_ID, room.ownerId, socket, room.public, room.showingOffline));
 });
 
 document.getElementById('toggle-controlled').addEventListener('click', function () {
@@ -1027,8 +240,8 @@ document.getElementById('toggle-public').addEventListener('click', function () {
 
 document.getElementById('username').addEventListener('change', function () {
   socket.send(JSON.stringify({ type: 'set-username', userId: USER_ID, username: this.value }));
-  username = this.value;
-  window.localStorage.setItem('multiplayer-username', username);
+  room.username = this.value;
+  window.localStorage.setItem('multiplayer-username', room.username);
 });
 
 document.getElementById('year-range-a').onchange = function () {
@@ -1064,7 +277,7 @@ document.addEventListener('keydown', (event) => {
     case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
     case 'p': return document.getElementById('pause').click();
     case 't': return document.getElementsByClassName('star-tossup')[0].click();
-    case 'y': return navigator.clipboard.writeText(tossup._id ?? '');
+    case 'y': return navigator.clipboard.writeText(room.tossup._id ?? '');
 
     case 'n':
     case 's':
@@ -1083,16 +296,16 @@ document.addEventListener('keypress', function (event) {
   }
 });
 
-document.getElementById('username').value = username;
+document.getElementById('username').value = room.username;
 
 ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
   <CategoryModal
-    categoryManager={categoryManager}
+    categoryManager={room.categoryManager}
     onClose={() => {
-      if (oldCategories !== JSON.stringify(categoryManager.export())) {
-        socket.send(JSON.stringify({ type: 'set-categories', ...categoryManager.export() }));
+      if (oldCategories !== JSON.stringify(room.categoryManager.export())) {
+        socket.send(JSON.stringify({ type: 'set-categories', ...room.categoryManager.export() }));
       }
-      oldCategories = JSON.stringify(categoryManager.export());
+      oldCategories = JSON.stringify(room.categoryManager.export());
     }}
   />
 );
