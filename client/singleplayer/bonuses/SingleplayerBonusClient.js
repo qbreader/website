@@ -1,9 +1,5 @@
 import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import audio from '../../audio/index.js';
-import api from '../../scripts/api/index.js';
 import questionStats from '../../scripts/auth/question-stats.js';
-import { arrayToRange } from '../../scripts/utilities/ranges.js';
-import createBonusGameCard from '../../scripts/utilities/bonus-game-card.js';
 import BonusClient from '../../play/BonusClient.js';
 
 const modeVersion = '2025-01-14';
@@ -11,40 +7,19 @@ const queryVersion = '2025-05-07';
 const settingsVersion = '2024-11-02';
 
 export default class SingleplayerBonusClient extends BonusClient {
-  constructor (room, USER_ID) {
-    super(room, USER_ID);
-    this.room = room;
-    this.USER_ID = USER_ID;
-  }
-
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'alert': return window.alert(data.message);
       case 'clear-stats': return this.clearStats(data);
-      case 'end': return this.next(data);
-      case 'give-answer': return this.giveAnswer(data);
-      case 'next': return this.next(data);
       case 'reveal-leadin': return this.revealLeadin(data);
       case 'reveal-next-answer': return this.revealNextAnswer(data);
       case 'reveal-next-part': return this.revealNextPart(data);
-      case 'set-categories': return this.setCategories(data);
-      case 'set-difficulties': return this.setDifficulties(data);
-      case 'set-mode': return this.setMode(data);
-      case 'set-packet-numbers': return this.setPacketNumbers(data);
-      case 'set-set-name': return this.setSetName(data);
-      case 'set-strictness': return this.setStrictness(data);
-      case 'set-year-range': return this.setYearRange(data);
-      case 'skip': return this.next(data);
-      case 'start': return this.next(data);
       case 'start-answer': return this.startAnswer(data);
-      case 'timer-update': return this.updateTimerDisplay(data.timeRemaining);
       case 'toggle-correct': return this.toggleCorrect(data);
       case 'toggle-show-history': return this.toggleShowHistory(data);
-      case 'toggle-standard-only': return this.toggleStandardOnly(data);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
-      case 'toggle-timer': return this.toggleTimer(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
+      default: return super.onmessage(message);
     }
   }
 
@@ -53,60 +28,15 @@ export default class SingleplayerBonusClient extends BonusClient {
   }
 
   async giveAnswer ({ currentPartNumber, directive, directedPrompt }) {
-    if (directive === 'prompt') {
-      document.getElementById('answer-input-group').classList.remove('d-none');
-      document.getElementById('answer-input').focus();
-      document.getElementById('answer-input').placeholder = directedPrompt ? `Prompt: "${directedPrompt}"` : 'Prompt';
-      return;
-    }
-
-    document.getElementById('answer-input').value = '';
-    document.getElementById('answer-input').blur();
-    document.getElementById('answer-input').placeholder = 'Enter answer';
-    document.getElementById('answer-input-group').classList.add('d-none');
-
-    switch (directive) {
-      case 'accept':
-        document.getElementById(`checkbox-${currentPartNumber + 1}`).checked = true;
-        document.getElementById('reveal').disabled = false;
-        if (audio.soundEffects) {
-          audio.correct.play();
-        }
-        break;
-      case 'reject':
-        document.getElementById('reveal').disabled = false;
-        if (audio.soundEffects) {
-          audio.incorrect.play();
-        }
-        break;
-    }
+    super.giveAnswer({ currentPartNumber, directive, directedPrompt });
   }
 
   async next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, pointsPerPart, stats, teamId }) {
+    const starred = this.room.mode === MODE_ENUM.STARRED ? true : (this.room.mode === MODE_ENUM.LOCAL ? false : null);
+    super.next({ bonus, oldBonus, packetLength, starred, type });
+
     if (type === 'start') {
       document.getElementById('next').disabled = false;
-      document.getElementById('settings').classList.add('d-none');
-    }
-
-    if (type !== 'start') {
-      createBonusGameCard({
-        bonus: oldBonus,
-        starred: this.room.mode === MODE_ENUM.STARRED ? true : (this.room.mode === MODE_ENUM.LOCAL ? false : null)
-      });
-    }
-
-    document.getElementById('question').textContent = '';
-
-    if (type === 'end') {
-      document.getElementById('next').disabled = true;
-      document.getElementById('reveal').disabled = true;
-    } else {
-      document.getElementById('next').textContent = 'Skip';
-      document.getElementById('packet-length-info').textContent = this.room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
-      document.getElementById('packet-number-info').textContent = bonus.packet.number;
-      document.getElementById('reveal').disabled = false;
-      document.getElementById('set-name-info').textContent = bonus.set.name;
-      document.getElementById('question-number-info').textContent = bonus.number;
     }
 
     if (lastPartRevealed && (this.room.mode !== MODE_ENUM.LOCAL)) {
@@ -116,8 +46,8 @@ export default class SingleplayerBonusClient extends BonusClient {
   }
 
   /**
- * Called when the users wants to reveal the next bonus part.
- */
+   * Called when the users wants to reveal the next bonus part.
+   */
   revealNextAnswer ({ answer, currentPartNumber, lastPartRevealed }) {
     const paragraph = document.createElement('p');
     paragraph.innerHTML = 'ANSWER: ' + answer;
@@ -143,7 +73,7 @@ export default class SingleplayerBonusClient extends BonusClient {
     input.type = 'checkbox';
     input.style = 'width: 20px; height: 20px; cursor: pointer';
     input.addEventListener('click', function () {
-      this.room.message.sendToServer({ type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
+      this.room.message(this.USER_ID, { type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
     });
 
     const inputWrapper = document.createElement('label');
@@ -166,7 +96,7 @@ export default class SingleplayerBonusClient extends BonusClient {
   }
 
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents }) {
-    this.room.categoryManager.loadCategoryModal();
+    super.setCategories();
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
@@ -175,29 +105,22 @@ export default class SingleplayerBonusClient extends BonusClient {
   }
 
   setPacketNumbers ({ packetNumbers }) {
-    document.getElementById('packet-number').value = arrayToRange(packetNumbers);
+    super.setPacketNumbers({ packetNumbers });
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
   async setSetName ({ setName, setLength }) {
-    document.getElementById('set-name').value = setName;
-    // make border red if set name is not in set list
-    const valid = !setName || api.getSetList().includes(setName);
-    document.getElementById('set-name').classList.toggle('is-invalid', !valid);
-    document.getElementById('packet-number').placeholder = 'Packet Numbers' + (setLength ? ` (1-${setLength})` : '');
+    super.setSetName({ setName, setLength });
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
   setStrictness ({ strictness }) {
-    document.getElementById('set-strictness').value = strictness;
-    document.getElementById('strictness-display').textContent = strictness;
+    super.setStrictness({ strictness });
     window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
   setYearRange ({ minYear, maxYear }) {
-    $('#slider').slider('values', [minYear, maxYear]);
-    document.getElementById('year-range-a').textContent = minYear;
-    document.getElementById('year-range-b').textContent = maxYear;
+    super.setYearRange({ minYear, maxYear });
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
@@ -214,18 +137,10 @@ export default class SingleplayerBonusClient extends BonusClient {
   setMode ({ mode }) {
     switch (mode) {
       case MODE_ENUM.SET_NAME:
-        document.getElementById('difficulty-settings').classList.add('d-none');
         document.getElementById('local-packet-settings').classList.add('d-none');
-        document.getElementById('set-settings').classList.remove('d-none');
-        document.getElementById('toggle-standard-only').disabled = true;
-        document.getElementById('toggle-three-part-bonuses').disabled = true;
         break;
       case MODE_ENUM.RANDOM:
-        document.getElementById('difficulty-settings').classList.remove('d-none');
         document.getElementById('local-packet-settings').classList.add('d-none');
-        document.getElementById('set-settings').classList.add('d-none');
-        document.getElementById('toggle-standard-only').disabled = false;
-        document.getElementById('toggle-three-part-bonuses').disabled = false;
         break;
       case MODE_ENUM.STARRED:
         document.getElementById('difficulty-settings').classList.add('d-none');
@@ -242,7 +157,7 @@ export default class SingleplayerBonusClient extends BonusClient {
         document.getElementById('toggle-three-part-bonuses').disabled = true;
         break;
     }
-    document.getElementById('set-mode').value = mode;
+    super.setMode({ mode });
     window.localStorage.setItem('singleplayer-bonus-mode', JSON.stringify({ mode, version: modeVersion }));
   }
 
@@ -253,7 +168,7 @@ export default class SingleplayerBonusClient extends BonusClient {
   }
 
   toggleStandardOnly ({ standardOnly }) {
-    document.getElementById('toggle-standard-only').checked = standardOnly;
+    super.toggleStandardOnly({ standardOnly });
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
@@ -263,8 +178,7 @@ export default class SingleplayerBonusClient extends BonusClient {
   }
 
   toggleTimer ({ timer }) {
-    document.getElementById('timer').classList.toggle('d-none', !timer);
-    document.getElementById('toggle-timer').checked = timer;
+    super.toggleTimer({ timer });
     window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
@@ -282,12 +196,5 @@ export default class SingleplayerBonusClient extends BonusClient {
     const ppb = Math.round(100 * points / numBonuses) / 100 || 0;
     const includePlural = (numBonuses === 1) ? '' : 'es';
     document.getElementById('statline').textContent = `${ppb} PPB with ${numBonuses} bonus${includePlural} seen (${stats[30]}/${stats[20]}/${stats[10]}/${stats[0]}, ${points} pts)`;
-  }
-
-  updateTimerDisplay (time) {
-    const seconds = Math.floor(time / 10);
-    const tenths = time % 10;
-    document.querySelector('.timer .face').textContent = seconds;
-    document.querySelector('.timer .fraction').textContent = '.' + tenths;
   }
 }
