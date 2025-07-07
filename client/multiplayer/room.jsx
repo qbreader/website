@@ -1,5 +1,4 @@
 import api from '../scripts/api/index.js';
-import audio from '../audio/index.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { rangeToArray } from '../scripts/utilities/ranges.js';
@@ -73,7 +72,6 @@ document.getElementById('answer-input').addEventListener('input', function () {
 
 document.getElementById('buzz').addEventListener('click', function () {
   this.blur();
-  if (audio.soundEffects) audio.buzz.play();
   socket.send(JSON.stringify({ type: 'buzz' }));
   socket.send(JSON.stringify({ type: 'give-answer-live-update', givenAnswer: '' }));
 });
