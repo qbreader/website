@@ -103,7 +103,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
       this.room.players[userId][field] = 0;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
     this.sortPlayerListGroup();
   }
 
@@ -151,7 +151,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     for (const userId of Object.keys(messagePlayers)) {
       messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
       this.room.players[userId] = messagePlayers[userId];
-      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
     }
     this.sortPlayerListGroup();
 
@@ -296,7 +296,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     this.room.players[userId].tuh++;
     this.room.players[userId].celerity = celerity;
 
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
     this.sortPlayerListGroup();
 
     if (userId === this.USER_ID) {
@@ -319,23 +319,26 @@ export default class MultiplayerTossupClient extends TossupClient {
   join ({ isNew, user, userId, username }) {
     this.logEventConditionally(username, 'joined the game');
     if (userId === this.USER_ID) { return; }
+    this.room.players[userId] = user;
 
     if (isNew) {
       user.celerity = user.celerity.correct.average;
-      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public);
       this.sortPlayerListGroup();
-      this.room.players[userId] = user;
     } else {
-      this.room.players[userId].online = true;
+      document.getElementById(`list-group-${userId}`).classList.remove('offline');
       document.getElementById('points-' + userId).classList.add('bg-success');
       document.getElementById('points-' + userId).classList.remove('bg-secondary');
+      document.getElementById('username-' + userId).textContent = username;
     }
   }
 
   leave ({ userId, username }) {
     this.logEventConditionally(username, 'left the game');
     this.room.players[userId].online = false;
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+    document.getElementById(`list-group-${userId}`).classList.add('offline');
+    document.getElementById(`points-${userId}`).classList.remove('bg-success');
+    document.getElementById(`points-${userId}`).classList.add('bg-secondary');
   }
 
   /**
@@ -475,7 +478,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     } else this.logEventConditionally(newOwner, 'became the this.room owner');
 
     Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
     });
 
     document.getElementById('toggle-controlled').disabled = this.room.public || (this.room.ownerId !== this.USER_ID);
@@ -565,7 +568,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       window.localStorage.setItem('multiplayer-username', this.room.username);
       document.getElementById('username').value = this.room.username;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
   }
 
   setYearRange ({ minYear, maxYear, username }) {
@@ -679,7 +682,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       this.toggleTimer({ timer: true });
     }
     Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.showingOffline);
+      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
     });
   }
 

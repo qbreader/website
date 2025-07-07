@@ -5,7 +5,6 @@ import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { rangeToArray } from '../scripts/utilities/ranges.js';
 import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
-import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
 import { MODE_ENUM } from '../../quizbowl/constants.js';
 import MultiplayerTossupClient from './MultiplayerTossupClient.js';
 
@@ -172,10 +171,17 @@ document.getElementById('set-strictness').addEventListener('input', function () 
   document.getElementById('strictness-display').textContent = this.value;
 });
 
+const styleSheet = document.createElement('style');
+styleSheet.textContent = room.showingOffline ? '' : '.offline { display: none; }';
+document.head.appendChild(styleSheet);
 document.getElementById('toggle-offline-players').addEventListener('click', function () {
   room.showingOffline = this.checked;
   this.blur();
-  Object.values(room.players).forEach((player) => upsertPlayerItem(player, USER_ID, room.ownerId, socket, room.public, room.showingOffline));
+  if (room.showingOffline) {
+    styleSheet.textContent = '';
+  } else {
+    styleSheet.textContent = '.offline { display: none; }';
+  }
 });
 
 document.getElementById('toggle-controlled').addEventListener('click', function () {
