@@ -1,11 +1,7 @@
-import getRandomName from '../../../quizbowl/get-random-name.js';
-
 import checkAnswer from 'https://cdn.jsdelivr.net/npm/qb-answer-checker@1.1.7/dist/main.mjs';
 import filterParams from '../utilities/filter-params.js';
 
 export default class api {
-  static SET_LIST = [];
-
   /**
    * @param {string} answerline
    * @param {string} givenAnswer
@@ -75,14 +71,6 @@ export default class api {
       .then(response => response.bonuses);
   }
 
-  /**
-   *
-   * @returns {string} A random adjective-noun pair that can be used as a name.
-   */
-  static getRandomName () {
-    return getRandomName();
-  }
-
   static async getRandomTossup ({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories }) {
     const filteredParams = filterParams({ alternateSubcategories, categories, difficulties, maxYear, minYear, number, powermarkOnly, standardOnly, subcategories });
     return await fetch('/api/random-tossup?' + new URLSearchParams(filteredParams))
@@ -90,39 +78,9 @@ export default class api {
       .then(response => response.tossups);
   }
 
-  static getSetList () {
-    return api.SET_LIST;
-  }
-
   static async getTossupById (_id) {
     return await fetch('/api/tossup-by-id?' + new URLSearchParams({ id: _id }))
       .then(response => response.json())
       .then(data => data.tossup);
   }
-
-  static reportQuestion (_id, reason, description) {
-    document.getElementById('report-question-submit').disabled = true;
-    fetch('/api/report-question', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ _id, reason, description })
-    }).then(response => {
-      if (response.status === 200) {
-        document.getElementById('report-question-reason').value = 'wrong-category';
-        document.getElementById('report-question-description').value = '';
-        window.alert('Question has been reported.');
-      } else {
-        window.alert('There was an error reporting the question.');
-      }
-    }).catch(_error => {
-      window.alert('There was an error reporting the question.');
-    }).finally(() => {
-      document.getElementById('report-question-close').click();
-      document.getElementById('report-question-submit').disabled = false;
-    });
-  }
 }
-
-api.SET_LIST = await fetch('/api/set-list')
-  .then(response => response.json())
-  .then(data => data.setList);

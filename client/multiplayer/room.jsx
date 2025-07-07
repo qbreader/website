@@ -1,4 +1,3 @@
-import api from '../scripts/api/index.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { rangeToArray } from '../scripts/utilities/ranges.js';
@@ -6,6 +5,8 @@ import CategoryModal from '../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
 import { MODE_ENUM } from '../../quizbowl/constants.js';
 import MultiplayerTossupClient from './MultiplayerTossupClient.js';
+import getRandomName from '../../quizbowl/get-random-name.js';
+import reportQuestion from '../scripts/api/report-question.js';
 
 const room = {
   categoryManager: new CategoryManager(),
@@ -21,7 +22,7 @@ const room = {
   setLength: 24,
   showingOffline: false,
   tossup: {},
-  username: window.localStorage.getItem('multiplayer-username') || api.getRandomName()
+  username: window.localStorage.getItem('multiplayer-username') || getRandomName()
 };
 
 let oldCategories = JSON.stringify(room.categoryManager.export());
@@ -149,7 +150,7 @@ document.getElementById('reading-speed').addEventListener('input', function () {
 });
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
-  api.reportQuestion(
+  reportQuestion(
     document.getElementById('report-question-id').value,
     document.getElementById('report-question-reason').value,
     document.getElementById('report-question-description').value

@@ -1,6 +1,5 @@
 import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
 import { highlightBonusQuery, highlightTossupQuery } from './highlight-query.js';
-import api from '../scripts/api/index.js';
 import star from '../scripts/auth/star.js';
 import TossupCard from './TossupCard.min.js';
 import BonusCard from './BonusCard.min.js';
@@ -10,6 +9,8 @@ import Star from '../scripts/components/Star.min.js';
 import { getDropdownValues, setDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import filterParams from '../scripts/utilities/filter-params.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
+import reportQuestion from '../scripts/api/report-question.js';
+import getSetList from '../scripts/api/get-set-list.js';
 
 const starredTossupIds = new Set(await star.getStarredTossupIds());
 const starredBonusIds = new Set(await star.getStarredBonusIds());
@@ -231,7 +232,7 @@ function QueryForm () {
     bonusCards.push(<BonusCard key={i} bonus={bonuses[i]} highlightedBonus={highlightedBonuses[i]} hideAnswerlines={hideAnswerlines} hideCardFooter={hideCardFooters} fontSize={fontSize} topRightComponent={starComponent} />);
   }
 
-  React.useEffect(() => {
+  React.useEffect(async () => {
     window.addEventListener('popstate', event => {
       if (event.state === null) {
         setTossupCount(0);
@@ -277,7 +278,8 @@ function QueryForm () {
       setQueryTime(timeElapsed);
     });
 
-    document.getElementById('set-list').innerHTML = api.getSetList().map(setName => `<option>${setName}</option>`).join('');
+    const setList = await getSetList();
+    document.getElementById('set-list').innerHTML = setList.map(setName => `<option>${setName}</option>`).join('');
 
     if (window.location.search !== '') {
       const difficulties = initialParams.get('difficulties')?.split(',')?.map(difficulty => parseInt(difficulty));
@@ -498,7 +500,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<QueryForm />);
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
-  api.reportQuestion(
+  reportQuestion(
     document.getElementById('report-question-id').value,
     document.getElementById('report-question-reason').value,
     document.getElementById('report-question-description').value

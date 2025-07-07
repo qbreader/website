@@ -1,5 +1,5 @@
-import BonusRoom from '../../quizbowl/BonusRoom.js';
-import api from '../scripts/api/index.js';
+import BonusRoom from '../../../quizbowl/BonusRoom.js';
+import api from '../../scripts/api/index.js';
 
 let starredBonusIds = null;
 async function getRandomStarredBonus () {
@@ -30,10 +30,7 @@ export default class ClientBonusRoom extends BonusRoom {
     this.getRandomQuestions = async (args) => await api.getRandomBonus({ ...args });
     this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketBonuses(setName, packetNumbers[0] ?? 1) : [];
     this.getRandomStarredQuestion = getRandomStarredBonus;
-    this.getSetList = api.getSetList;
     this.getNumPackets = api.getNumPackets;
-
-    this.setList = this.getSetList();
 
     this.settings = {
       ...this.settings,
