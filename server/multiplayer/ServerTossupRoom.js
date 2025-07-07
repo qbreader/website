@@ -232,6 +232,10 @@ export default class ServerTossupRoom extends TossupRoom {
     this.adjustQuery(['setName'], [setName]);
   }
 
+  setPacketNumbers (userId, { packetNumbers }) {
+    super.setPacketNumbers(userId, { doNotFetch: false, packetNumbers });
+  }
+
   setReadingSpeed (userId, { readingSpeed }) {
     if (this.isPermanent || !this.allowed(userId)) { return false; }
     super.setReadingSpeed(userId, { readingSpeed });
@@ -241,7 +245,7 @@ export default class ServerTossupRoom extends TossupRoom {
     if (!this.allowed(userId)) { return; }
     if (!this.setList) { return; }
     if (!this.setList.includes(setName)) { return; }
-    super.setSetName(userId, { setName });
+    super.setSetName(userId, { doNotFetch: false, setName });
   }
 
   setStrictness (userId, { strictness }) {
@@ -305,7 +309,7 @@ export default class ServerTossupRoom extends TossupRoom {
 
   toggleStandardOnly (userId, { standardOnly }) {
     if (!this.allowed(userId)) { return; }
-    super.toggleStandardOnly(userId, { standardOnly });
+    super.toggleStandardOnly(userId, { doNotFetch: false, standardOnly });
   }
 
   togglePublic (userId, { public: isPublic }) {
