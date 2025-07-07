@@ -67,6 +67,10 @@ code {
     cursor: pointer;
 }
 
+.custom-popover {
+    width: 250px;
+}
+
 // make sure content goes below entire row when row contains floats
 .float-row {
     overflow: auto;

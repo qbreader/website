@@ -9464,6 +9464,10 @@ code {
   cursor: pointer;
 }
 
+.custom-popover {
+  width: 250px;
+}
+
 .float-row {
   overflow: auto;
 }
