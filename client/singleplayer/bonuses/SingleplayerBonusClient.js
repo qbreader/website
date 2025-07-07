@@ -72,8 +72,11 @@ export default class SingleplayerBonusClient extends BonusClient {
     input.className = 'checkbox form-check-input rounded-0 me-1';
     input.type = 'checkbox';
     input.style = 'width: 20px; height: 20px; cursor: pointer';
+
+    const room = this.room;
+    const USER_ID = this.USER_ID;
     input.addEventListener('click', function () {
-      this.room.message(this.USER_ID, { type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
+      room.message(USER_ID, { type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
     });
 
     const inputWrapper = document.createElement('label');
