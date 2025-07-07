@@ -72,7 +72,12 @@ export default class QuestionRoom extends Room {
     }
   }
 
-  async adjustQuery (settings, values) {
+  /**
+   *
+   * @param {boolean} [doNotFetch=false] - If true, the query will not be fetched from the database.
+   * @returns
+   */
+  async adjustQuery (settings, values, doNotFetch = false) {
     if (settings.length !== values.length) { return; }
 
     for (let i = 0; i < settings.length; i++) {
@@ -82,6 +87,8 @@ export default class QuestionRoom extends Room {
         this.query[setting] = value;
       }
     }
+
+    if (doNotFetch) { return; }
 
     switch (this.mode) {
       case MODE_ENUM.SET_NAME:
@@ -177,22 +184,22 @@ export default class QuestionRoom extends Room {
     this.emitMessage({ type: 'set-mode', mode, setName, username });
   }
 
-  async setPacketNumbers (userId, { packetNumbers }) {
+  async setPacketNumbers (userId, { doNotFetch = false, packetNumbers }) {
     if (!Array.isArray(packetNumbers)) { return false; }
     if (packetNumbers.some((value) => typeof value !== 'number' || value < 1 || value > this.setLength)) { return false; }
 
     const username = this.players[userId].username;
-    this.adjustQuery(['packetNumbers'], [packetNumbers]);
+    this.adjustQuery(['packetNumbers'], [packetNumbers], doNotFetch);
     this.emitMessage({ type: 'set-packet-numbers', username, packetNumbers });
   }
 
-  async setSetName (userId, { setName }) {
+  async setSetName (userId, { doNotFetch = false, setName }) {
     if (typeof setName !== 'string') { return; }
     const username = this.players[userId].username;
     this.setLength = await this.getNumPackets(setName);
     const packetNumbers = [];
     for (let i = 1; i <= this.setLength; i++) { packetNumbers.push(i); }
-    this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers]);
+    this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers], doNotFetch);
     this.emitMessage({ type: 'set-set-name', username, setName, setLength: this.setLength });
   }
 
@@ -219,10 +226,10 @@ export default class QuestionRoom extends Room {
     this.emitMessage({ type: 'toggle-skip', skip, username });
   }
 
-  toggleStandardOnly (userId, { standardOnly }) {
+  toggleStandardOnly (userId, { doNotFetch = false, standardOnly }) {
     this.query.standardOnly = standardOnly;
     const username = this.players[userId].username;
-    this.adjustQuery(['standardOnly'], [standardOnly]);
+    this.adjustQuery(['standardOnly'], [standardOnly], doNotFetch);
     this.emitMessage({ type: 'toggle-standard-only', standardOnly, username });
   }
 

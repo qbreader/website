@@ -233,10 +233,10 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
     if (savedQuery.version !== queryVersion) { throw new Error(); }
     room.categoryManager.import(savedQuery);
     room.query = savedQuery;
-    socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery });
-    socket.sendToServer({ type: 'set-set-name', ...savedQuery });
+    socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'set-set-name', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery, doNotFetch: true });
     socket.sendToServer({ type: 'toggle-powermark-only', ...savedQuery });
-    socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery });
     startingDifficulties = savedQuery.difficulties;
   } catch {
     window.localStorage.removeItem('singleplayer-tossup-query');
