@@ -1,12 +1,18 @@
 import { MODE_ENUM } from '../../quizbowl/constants.js';
 import api from '../scripts/api/index.js';
+import account from '../scripts/accounts.js';
 import audio from '../audio/index.js';
 import { arrayToRange } from '../scripts/utilities/ranges.js';
+
+const SET_LIST = api.getSetList();
 
 export default class QuestionClient {
   constructor (room, USER_ID) {
     this.room = room;
     this.USER_ID = USER_ID;
+
+    this.SET_LIST = SET_LIST;
+    document.getElementById('set-list').innerHTML = this.SET_LIST.map(setName => `<option>${setName}</option>`).join('');
   }
 
   onmessage (message) {
@@ -137,3 +143,57 @@ export default class QuestionClient {
     document.getElementById('toggle-timer').checked = timer;
   }
 }
+
+const fontSize = window.localStorage.getItem('font-size');
+if (fontSize) {
+  document.getElementById('question').style.setProperty('font-size', `${fontSize}px`);
+}
+
+if (window.localStorage.getItem('high-contrast-question-text') === 'true') {
+  document.getElementById('question').classList.add('high-contrast-question-text');
+}
+
+// eslint-disable-next-line no-unused-vars
+function fillSetName (event) {
+  const setNameInput = document.getElementById('set-name');
+  const name = event.target.innerHTML;
+  setNameInput.value = name;
+  setNameInput.focus();
+}
+
+function removeDropdown () {
+  document.getElementById('set-dropdown')?.remove();
+}
+
+if (window.navigator.userAgent.match(/Mobile.*Firefox/)) {
+  const setNameInput = document.getElementById('set-name');
+  setNameInput.addEventListener('input', function () {
+    document.getElementById('set-dropdown')?.remove();
+    const set = this.value.toLowerCase();
+    const dropdownItems = SET_LIST
+      .filter(setName => setName.toLowerCase().includes(set))
+      .map(setName => `<a class="dropdown-item" onclick="fillSetName(event)">${setName}</a>`)
+      .join('');
+    const dropdownHtml = dropdownItems === ''
+      ? ''
+      : `
+        <div id="set-dropdown" class="dropdown-menu" style="display: inline" aria-labelledby="set-name">
+            ${dropdownItems}
+        </div>
+        `;
+    setNameInput.insertAdjacentHTML('afterend', dropdownHtml);
+  });
+  setNameInput.addEventListener('blur', removeDropdown);
+}
+
+const banners = {};
+
+account.getUsername().then(username => {
+  const toast = new bootstrap.Toast(document.getElementById('funny-toast'));
+  const toastText = document.getElementById('funny-toast-text');
+
+  if (username in banners) {
+    toastText.textContent = banners[username];
+    toast.show();
+  }
+});
