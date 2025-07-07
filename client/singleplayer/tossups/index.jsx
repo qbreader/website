@@ -1,5 +1,4 @@
 import api from '../../scripts/api/index.js';
-import audio from '../../audio/index.js';
 import Player from '../../../quizbowl/Player.js';
 import ClientTossupRoom from '../ClientTossupRoom.js';
 import { rangeToArray } from '../../scripts/utilities/ranges.js';
@@ -38,7 +37,6 @@ document.getElementById('answer-form').addEventListener('submit', function (even
 
 document.getElementById('buzz').addEventListener('click', function () {
   this.blur();
-  if (audio.soundEffects) audio.buzz.play();
   socket.sendToServer({ type: 'buzz' });
 });
 

@@ -18,11 +18,11 @@ export default class TossupClient extends QuestionClient {
     }
   }
 
-  buzz () {
+  buzz ({ userId }) {
     document.getElementById('buzz').disabled = true;
     document.getElementById('next').disabled = true;
     document.getElementById('pause').disabled = true;
-    if (audio.soundEffects) { audio.buzz.play(); }
+    if (userId === this.USER_ID && audio.soundEffects) { audio.buzz.play(); }
   }
 
   giveAnswer ({ directive, directedPrompt, score, userId }) {
