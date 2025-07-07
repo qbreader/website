@@ -1,5 +1,5 @@
-import api from '../scripts/api/index.js';
-import TossupRoom from '../../quizbowl/TossupRoom.js';
+import api from '../../scripts/api/index.js';
+import TossupRoom from '../../../quizbowl/TossupRoom.js';
 
 let starredTossupIds = null;
 async function getRandomStarredTossup () {
@@ -38,7 +38,6 @@ export default class ClientTossupRoom extends TossupRoom {
     this.getRandomQuestions = async (args) => await api.getRandomTossup({ ...args });
     this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketTossups(setName, packetNumbers[0] ?? 1) : [];
     this.getRandomStarredQuestion = getRandomStarredTossup;
-    this.getSetList = api.getSetList;
     this.getNumPackets = api.getNumPackets;
   }
 

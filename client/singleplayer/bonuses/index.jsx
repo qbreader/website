@@ -1,11 +1,11 @@
-import api from '../../scripts/api/index.js';
 import { rangeToArray } from '../../scripts/utilities/ranges.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
-import ClientBonusRoom from '../ClientBonusRoom.js';
 import Player from '../../../quizbowl/Player.js';
 import Team from '../../../quizbowl/Team.js';
+import reportQuestion from '../../scripts/api/report-question.js';
+import ClientBonusRoom from './ClientBonusRoom.js';
 import SingleplayerBonusClient from './SingleplayerBonusClient.js';
 
 const modeVersion = '2025-01-14';
@@ -76,7 +76,7 @@ document.getElementById('packet-number').addEventListener('change', function () 
 });
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
-  api.reportQuestion(
+  reportQuestion(
     document.getElementById('report-question-id').value,
     document.getElementById('report-question-reason').value,
     document.getElementById('report-question-description').value

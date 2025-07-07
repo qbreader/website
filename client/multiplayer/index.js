@@ -1,4 +1,4 @@
-import api from '../scripts/api/index.js';
+import getRandomName from '../../quizbowl/get-random-name.js';
 
 const ROOM_NAME_MAX_LENGTH = 32;
 
@@ -64,7 +64,7 @@ fetch('/api/multiplayer/room-list')
     });
   });
 
-document.getElementById('new-room-name').placeholder = api.getRandomName();
+document.getElementById('new-room-name').placeholder = getRandomName();
 
 document.getElementById('empty-room-checkbox').addEventListener('change', function (event) {
   const emptyRooms = document.getElementsByClassName('empty-room');

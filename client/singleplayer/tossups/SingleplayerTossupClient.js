@@ -33,7 +33,7 @@ export default class SingleplayerTossupClient extends TossupClient {
       document.getElementById('answer-input-group').classList.remove('d-none');
       document.getElementById('answer-input').focus();
     }
-    super.buzz();
+    super.buzz({ userId });
   }
 
   clearStats ({ userId }) {

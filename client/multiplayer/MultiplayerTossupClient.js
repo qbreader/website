@@ -10,8 +10,8 @@ export default class MultiplayerTossupClient extends TossupClient {
     this.socket = socket;
   }
 
-  onmessage (message) {
-    const data = JSON.parse(message.data);
+  onmessage (event) {
+    const data = JSON.parse(event.data);
     switch (data.type) {
       case 'chat': return this.chat(data, false);
       case 'chat-live-update': return this.chat(data, true);
@@ -37,7 +37,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       case 'toggle-lock': return this.toggleLock(data);
       case 'toggle-login-required': return this.toggleLoginRequired(data);
       case 'toggle-public': return this.togglePublic(data);
-      default: return super.onmessage(message);
+      default: return super.onmessage(event.data);
     }
   }
 
@@ -61,7 +61,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       document.getElementById('answer-input-group').classList.remove('d-none');
       document.getElementById('answer-input').focus();
     }
-    super.buzz();
+    super.buzz({ userId });
   }
 
   chat ({ message, userId, username }, live = false) {

@@ -10,7 +10,6 @@ export default class QuestionRoom extends Room {
     this.checkAnswer = function checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); };
     this.getRandomQuestions = async function getRandomQuestions (args) { throw new Error('Not implemented'); };
     this.getSet = async function getSet (args) { throw new Error('Not implemented'); };
-    this.getSetList = async function getSetList (args) { throw new Error('Not implemented'); };
     this.getNumPackets = async function getNumPackets (setName) { throw new Error('Not implemented'); };
     this.getRandomStarredQuestion = async function getRandomStarredQuestion () { throw new Error('Not implemented'); };
     this.getNextLocalQuestion = function getNextLocalQuestion () { throw new Error('Not implemented'); };

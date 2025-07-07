@@ -1,7 +1,7 @@
-import api from '../../scripts/api/index.js';
 import getPacketList from '../../scripts/api/packet-list.js';
+import getSetList from '../../scripts/api/get-set-list.js';
 
-const SET_LIST = api.getSetList();
+const SET_LIST = await getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
 document.getElementById('packet-number-checkbox').addEventListener('change', function () {

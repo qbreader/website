@@ -1,12 +1,12 @@
-import api from '../../scripts/api/index.js';
 import Player from '../../../quizbowl/Player.js';
-import ClientTossupRoom from '../ClientTossupRoom.js';
+import reportQuestion from '../../scripts/api/report-question.js';
 import { rangeToArray } from '../../scripts/utilities/ranges.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.min.js';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
 import aiBots from '../ai-mode/ai-bots.js';
 import AIBot from '../ai-mode/AIBot.js';
+import ClientTossupRoom from './ClientTossupRoom.js';
 import SingleplayerTossupClient from './SingleplayerTossupClient.js';
 
 const modeVersion = '2025-01-14';
@@ -100,7 +100,7 @@ document.getElementById('reading-speed').addEventListener('change', function () 
 });
 
 document.getElementById('report-question-submit').addEventListener('click', function () {
-  api.reportQuestion(
+  reportQuestion(
     document.getElementById('report-question-id').value,
     document.getElementById('report-question-reason').value,
     document.getElementById('report-question-description').value

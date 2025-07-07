@@ -25,7 +25,6 @@ export default class ServerTossupRoom extends TossupRoom {
     this.getNumPackets = getNumPackets;
     this.getRandomQuestions = getRandomTossups;
     this.getSet = getSet;
-    this.getSetList = getSetList;
     this.bannedUserList = new Map();
     this.kickedUserList = new Map();
     this.votekickList = [];
@@ -41,7 +40,7 @@ export default class ServerTossupRoom extends TossupRoom {
       controlled: false
     };
 
-    this.getSetList().then(setList => { this.setList = setList; });
+    getSetList().then(setList => { this.setList = setList; });
     setInterval(this.cleanupExpiredBansAndKicks.bind(this), 5 * 60 * 1000); // 5 minutes
   }
 
