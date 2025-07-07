@@ -135,7 +135,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     this.room.ownerId = serverOwnerId;
     this.room.setLength = newSetLength;
     this.USER_ID = userId;
-    window.localStorage.setItem('this.USER_ID', this.USER_ID);
+    window.localStorage.setItem('USER_ID', this.USER_ID);
 
     document.getElementById('buzz').disabled = !canBuzz;
 
