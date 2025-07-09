@@ -28,12 +28,15 @@ export default class SingleplayerTossupClient extends TossupClient {
   buzz ({ timer, userId, username }) {
     if (userId !== this.USER_ID) { return; }
 
-    const typeToAnswer = document.getElementById('type-to-answer').checked;
-    if (typeToAnswer) {
+    super.buzz({ userId });
+
+    if (this.room.settings.typeToAnswer) {
       document.getElementById('answer-input-group').classList.remove('d-none');
       document.getElementById('answer-input').focus();
+    } else {
+      document.getElementById('buzz').disabled = false;
+      document.getElementById('buzz').textContent = 'Reveal';
     }
-    super.buzz({ userId });
   }
 
   clearStats ({ userId }) {
