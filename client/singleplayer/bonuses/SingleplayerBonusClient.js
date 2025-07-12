@@ -27,8 +27,8 @@ export default class SingleplayerBonusClient extends BonusClient {
     this.updateStatDisplay({ 0: 0, 10: 0, 20: 0, 30: 0 });
   }
 
-  async giveAnswer ({ currentPartNumber, directive, directedPrompt }) {
-    super.giveAnswer({ currentPartNumber, directive, directedPrompt });
+  async giveAnswer ({ currentPartNumber, directive, directedPrompt, userId }) {
+    super.giveAnswer({ currentPartNumber, directive, directedPrompt, userId });
   }
 
   async next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, pointsPerPart, stats, teamId }) {
