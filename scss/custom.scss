@@ -13,6 +13,12 @@ $popover-max-width: 100%;
 // 6. Optionally include any other parts as needed
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css); // Fira Code font
 
+// Update the import directory to point to it‘s location within node_modules
+$bootstrap-icons-font-dir: "/bootstrap-icons/font/fonts";
+
+// Import the Sass files as usual
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons";
+
 @import "../node_modules/bootstrap/scss/alert";
 @import "../node_modules/bootstrap/scss/badge";
 @import "../node_modules/bootstrap/scss/buttons";
