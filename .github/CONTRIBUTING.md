@@ -12,7 +12,7 @@ If you're interested in running the server locally or deploying a clone, please 
    The website is at localhost:3000
 
 The website is built by default, but if you make any changes, you can rebuild using `npm run build`.
-You can watch changes in .jsx files by running `npm run watch`.
+You can watch changes in .jsx files by running `npm run webpack-watch`.
 
 # Code Structure
 
