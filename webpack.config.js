@@ -6,7 +6,7 @@ export default {
     'singleplayer/tossups/index': './client/singleplayer/tossups/index.jsx',
     'singleplayer/bonuses/index': './client/singleplayer/bonuses/index.jsx',
     'multiplayer/room': './client/multiplayer/room.jsx',
-    'database/index': './client/database/index.jsx',
+    'db/index': './client/db/index.jsx',
     'admin/category-reports/index': './client/admin/category-reports/index.jsx'
   },
   output: {

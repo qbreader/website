@@ -30,8 +30,17 @@
                 <div class="navbar-nav me-auto mb-2 mb-lg-0">
                     <a class="nav-link" href="/singleplayer/">Singleplayer</a>
                     <a class="nav-link" href="/multiplayer/">Multiplayer</a>
-                    <a class="nav-link" href="/database/">Database</a>
-                    <a class="nav-link" href="/frequency-list/">Frequency List</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Database
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/db/">Search</a>
+                            <a class="dropdown-item" href="/db/explorer/">DB Explorer</a>
+                            <a class="dropdown-item" href="/db/frequency-list">Frequency List</a>
+                        </ul>
+                    </li>
                     <a class="nav-link" href="/geoword/">Geoword</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,7 +48,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="/tools/api-docs/">API Docs</a>
-                            <a class="dropdown-item" href="/tools/db-explorer/">DB Explorer</a>
                             <a class="dropdown-item icon-link" href="https://modaq.github.io/">
                                 MODAQ <i class="bi bi-box-arrow-up-right"></i>
                             </a>
@@ -69,7 +77,7 @@
             <a href="./">Back to all sets</a>
         </div>
         <hr>
-        <div id="tossup"></div>
+        <div id="bonus"></div>
         <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
         <hr>
         <p><b>Difficulty:</b> <span id="difficulty"></span></p>
@@ -82,7 +90,7 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script type="module" src="/script.js"></script>
 
-    <script type="module" src="./tossup.js"></script>
+    <script type="module" src="./bonus.js"></script>
 </body>
 
 </html>
