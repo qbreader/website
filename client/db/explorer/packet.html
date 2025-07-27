@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Frequency lists generated on qbreader.">
+    <meta name="description" content="">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -30,8 +30,17 @@
                 <div class="navbar-nav me-auto mb-2 mb-lg-0">
                     <a class="nav-link" href="/singleplayer/">Singleplayer</a>
                     <a class="nav-link" href="/multiplayer/">Multiplayer</a>
-                    <a class="nav-link" href="/database/">Database</a>
-                    <a class="nav-link active" href="/frequency-list/" aria-current="page">Frequency List</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Database
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/db/">Search</a>
+                            <a class="dropdown-item" href="/db/explorer/">DB Explorer</a>
+                            <a class="dropdown-item" href="/db/frequency-list">Frequency List</a>
+                        </ul>
+                    </li>
                     <a class="nav-link" href="/geoword/">Geoword</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,7 +48,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="/tools/api-docs/">API Docs</a>
-                            <a class="dropdown-item" href="/tools/db-explorer/">DB Explorer</a>
                             <a class="dropdown-item icon-link" href="https://modaq.github.io/">
                                 MODAQ <i class="bi bi-box-arrow-up-right"></i>
                             </a>
@@ -59,63 +67,19 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="">
-            <span class="lead" id="numbering-info">
-                The <span id="limit">50</span> most frequent answers in <span id="subcategory-name"></span> <span
-                    id="question-type">questions</span>:
-            </span>
-            <span class="float-end" id="numbering-info">
-                <a href="/frequency-list/">Back to all frequency lists</a>
-            </span>
-        </p>
-        <form class="row mb-3" id="form">
-            <div class="col-6 col-md-4 mb-3">
-                <label class="form-label" for="level-select">Choose a difficulty level:</label>
-                <select class="form-select" id="level-select">
-                    <option value="all" selected>All</option>
-                    <option value="middle-school">Middle School</option>
-                    <option value="high-school">High School</option>
-                    <option value="national-high-school">National High School</option>
-                    <option value="college">College</option>
-                    <option value="open">Open</option>
-                </select>
+        <div class="d-flex justify-content-between mb-3">
+            <div>
+                Packet <span id="packet-number"></span> (<span id="packet-name"></span>) of <a id="set-name"></a>:
             </div>
-            <div class="col-6 col-md-4 mb-3">
-                <label class="form-label" for="limit-select">Choose a limit:</label>
-                <select class="form-control" id="limit-select">
-                    <option value="25">25</option>
-                    <option value="50" selected>50</option>
-                    <option value="100">100</option>
-                    <option value="200">200</option>
-                    <option value="500">500</option>
-                    <option value="1000">1000</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-4 mb-3">
-                <label class="form-label" for="question-type-select">Choose a question type:</label>
-                <select class="form-control" id="question-type-select">
-                    <option value="tossup">Tossups only</option>
-                    <option value="bonus">Bonuses only</option>
-                    <option value="all" selected>All questions</option>
-                </select>
-            </div>
-        </form>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Answer</th>
-                    <th scope="col">Frequency</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider" id="frequency-list"></tbody>
-        </table>
-        <div class="d-block mx-auto mt-3 spinner-border" role="status"><span class="d-none">Loading...</span></div>
+            <a href="./">Back to all sets</a>
+        </div>
+        <div id="questions"></div>
+        <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script type="module" src="/frequency-list/subcategory.js"></script>
+    <script type="module" src="./packet.js"></script>
     <script type="module" src="/script.js"></script>
 </body>
 

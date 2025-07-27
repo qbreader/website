@@ -5,22 +5,15 @@ import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
 import userRouter from './user.js';
 
+import redirectsRouter from './redirects.js';
+
 import cors from 'cors';
 import express, { Router } from 'express';
 const router = Router();
 
-router.get('/*.scss', (req, res) => {
-  res.sendFile(req.url, { root: './scss' });
-});
+router.get('/*.scss', (req, res) => res.sendFile(req.url, { root: './scss' }));
 
-/**
- * Redirects:
- */
-router.get('/api-info', (_req, res) => res.redirect('/api-docs'));
-router.get('/bonuses', (_req, res) => res.redirect('/singleplayer/bonuses'));
-router.get('/db', (_req, res) => res.redirect('/database'));
-router.get('/tossups', (_req, res) => res.redirect('/singleplayer/tossups'));
-router.get('/user', (_req, res) => res.redirect('/user/login'));
+router.use(redirectsRouter);
 
 /**
  * Routes:

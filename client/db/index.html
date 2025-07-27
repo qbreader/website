@@ -30,8 +30,17 @@
                 <div class="navbar-nav me-auto mb-2 mb-lg-0">
                     <a class="nav-link" href="/singleplayer/">Singleplayer</a>
                     <a class="nav-link" href="/multiplayer/">Multiplayer</a>
-                    <a class="nav-link active" href="/database/" aria-current="page">Database</a>
-                    <a class="nav-link" href="/frequency-list/">Frequency List</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Database
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/db/">Search</a>
+                            <a class="dropdown-item" href="/db/explorer/">DB Explorer</a>
+                            <a class="dropdown-item" href="/db/frequency-list">Frequency List</a>
+                        </ul>
+                    </li>
                     <a class="nav-link" href="/geoword/">Geoword</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,7 +48,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="/tools/api-docs/">API Docs</a>
-                            <a class="dropdown-item" href="/tools/db-explorer/">DB Explorer</a>
                             <a class="dropdown-item icon-link" href="https://modaq.github.io/">
                                 MODAQ <i class="bi bi-box-arrow-up-right"></i>
                             </a>
@@ -179,13 +187,13 @@
     <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
     <script type="module" src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script data-type="module" src="/database/index.jsx" type="text/babel"></script> -->
+    <script data-type="module" src="./index.jsx" type="text/babel"></script> -->
 
     <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"
         integrity="sha384-tMH8h3BGESGckSAVGZ82T9n90ztNXxvdwvdM6UoR56cYcf+0iGXBliJ29D+wZ/x8" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"
         integrity="sha384-bm7MnzvK++ykSwVJ2tynSE5TRdN+xL418osEVF2DE/L/gfWHj91J2Sphe582B1Bh" crossorigin="anonymous"></script>
-    <script type="module" src="/database/index.min.js"></script>
+    <script type="module" src="./index.min.js"></script>
 </body>
 
 </html>

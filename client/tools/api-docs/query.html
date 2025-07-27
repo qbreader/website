@@ -28,8 +28,16 @@
                 <div class="navbar-nav me-auto mb-2 mb-lg-0">
                     <a class="nav-link" href="/singleplayer/">Singleplayer</a>
                     <a class="nav-link" href="/multiplayer/">Multiplayer</a>
-                    <a class="nav-link" href="/database/">Database</a>
-                    <a class="nav-link" href="/frequency-list/">Frequency List</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Database
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/db/">Search</a>
+                            <a class="dropdown-item" href="/db/explorer/">DB Explorer</a>
+                            <a class="dropdown-item" href="/db/frequency-list">Frequency List</a>
+                        </ul>
+                    </li>
                     <a class="nav-link" href="/geoword/">Geoword</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
@@ -38,7 +46,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="/tools/api-docs/">API Docs</a>
-                            <a class="dropdown-item" href="/tools/db-explorer/">DB Explorer</a>
                             <a class="dropdown-item icon-link" href="https://modaq.github.io/">
                                 MODAQ <i class="bi bi-box-arrow-up-right"></i>
                             </a>
