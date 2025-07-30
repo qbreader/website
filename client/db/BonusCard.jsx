@@ -23,7 +23,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
   }
 
   function showBonusStats () {
-    fetch('/api/question-stats/bonus?' + new URLSearchParams({ bonus_id: _id }))
+    fetch('/api/question-stats/bonus?' + new URLSearchParams({ _id }))
       .then(response => response.json())
       .then(response => {
         document.getElementById('bonus-stats-question-id').value = _id;
