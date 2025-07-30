@@ -1,7 +1,6 @@
-import account from '../scripts/accounts.js';
 import { stringifyBonus } from './stringify.js';
 import getBonusPartLabel from '../scripts/utilities/get-bonus-part-label.js';
-import QuestionCard from '../scripts/components/QuestionCard.min.js';
+import QuestionCard from '../scripts/components/QuestionCard.jsx';
 
 export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = bonus._id;
@@ -24,19 +23,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
   }
 
   function showBonusStats () {
-    fetch('/auth/question-stats/single-bonus?' + new URLSearchParams({ bonus_id: _id }))
-      .then(response => {
-        switch (response.status) {
-          case 401:
-            document.getElementById('bonus-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
-            account.deleteUsername();
-            throw new Error('Unauthenticated');
-          case 403:
-            document.getElementById('bonus-stats-body').textContent = 'You need verify your account email to view question stats.';
-            throw new Error('Forbidden');
-        }
-        return response;
-      })
+    fetch('/api/question-stats/bonus?' + new URLSearchParams({ bonus_id: _id }))
       .then(response => response.json())
       .then(response => {
         document.getElementById('bonus-stats-question-id').value = _id;
@@ -65,9 +52,6 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
         }
         document.getElementById('bonus-stats-body').textContent = '';
         document.getElementById('bonus-stats-body').appendChild(ul);
-      })
-      .catch(error => {
-        console.error('Error:', error);
       });
   }
 

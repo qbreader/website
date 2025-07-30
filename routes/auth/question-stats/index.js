@@ -1,7 +1,5 @@
 import recordBonusRouter from './record-bonus.js';
 import recordTossupRouter from './record-tossup.js';
-import singleBonusRouter from './single-bonus.js';
-import singleTossupRouter from './single-tossup.js';
 
 import { checkToken } from '../../../server/authentication.js';
 
@@ -27,7 +25,5 @@ router.use((req, res, next) => {
 
 router.use('/record-bonus', recordBonusRouter);
 router.use('/record-tossup', recordTossupRouter);
-router.use('/single-bonus', singleBonusRouter);
-router.use('/single-tossup', singleTossupRouter);
 
 export default router;
