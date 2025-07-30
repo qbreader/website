@@ -264,9 +264,9 @@ export default class TossupRoom extends QuestionRoom {
     let time = Math.log(word.length) + 1;
     if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123) ||
       word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d') {
-      time += 2;
+      time += 2.5;
     } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') {
-      time += 0.75;
+      time += 1.5;
     } else if (word === '(*)' || word === '[*]') {
       time = 0;
     }
