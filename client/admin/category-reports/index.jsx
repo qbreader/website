@@ -1,5 +1,5 @@
 import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
-import QuestionCard from '../../scripts/components/QuestionCard.min.js';
+import QuestionCard from '../../scripts/components/QuestionCard.jsx';
 import { CATEGORY_TO_ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY } from '../../../quizbowl/categories.js';
 
 const fontSize = window.localStorage.getItem('database-font-size') === 'true' ? (window.localStorage.getItem('font-size') ?? 16) : 16;

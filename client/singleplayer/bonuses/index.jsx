@@ -1,7 +1,7 @@
 import { rangeToArray } from '../../scripts/utilities/ranges.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
-import CategoryModal from '../../scripts/components/CategoryModal.min.js';
-import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.min.js';
+import CategoryModal from '../../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
 import Player from '../../../quizbowl/Player.js';
 import Team from '../../../quizbowl/Team.js';
 import reportQuestion from '../../scripts/api/report-question.js';

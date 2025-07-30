@@ -1,6 +1,5 @@
-import account from '../scripts/accounts.js';
 import { stringifyTossup } from './stringify.js';
-import QuestionCard from '../scripts/components/QuestionCard.min.js';
+import QuestionCard from '../scripts/components/QuestionCard.jsx';
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = tossup._id;
@@ -17,19 +16,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
   }
 
   function showTossupStats () {
-    fetch('/auth/question-stats/single-tossup?' + new URLSearchParams({ tossup_id: _id }))
-      .then(response => {
-        switch (response.status) {
-          case 401:
-            document.getElementById('tossup-stats-body').textContent = 'You need to make an account with a verified email to view question stats.';
-            account.deleteUsername();
-            throw new Error('Unauthenticated');
-          case 403:
-            document.getElementById('tossup-stats-body').textContent = 'You need verify your account email to view question stats.';
-            throw new Error('Forbidden');
-        }
-        return response;
-      })
+    fetch('/api/question-stats/tossup?' + new URLSearchParams({ tossup_id: _id }))
       .then(response => response.json())
       .then(response => {
         document.getElementById('tossup-stats-question-id').value = _id;

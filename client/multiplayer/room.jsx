@@ -1,8 +1,8 @@
 import CategoryManager from '../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { rangeToArray } from '../scripts/utilities/ranges.js';
-import CategoryModal from '../scripts/components/CategoryModal.min.js';
-import DifficultyDropdown from '../scripts/components/DifficultyDropdown.min.js';
+import CategoryModal from '../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../scripts/components/DifficultyDropdown.jsx';
 import { MODE_ENUM } from '../../quizbowl/constants.js';
 import MultiplayerTossupClient from './MultiplayerTossupClient.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
