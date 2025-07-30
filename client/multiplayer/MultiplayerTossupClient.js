@@ -44,9 +44,9 @@ export default class MultiplayerTossupClient extends TossupClient {
   // if a banned/kicked user tries to join a this.room they were removed from this is the response
   ackRemovedFromRoom ({ removalType }) {
     if (removalType === 'kick') {
-      window.alert('You were kicked from this this.room by this.room.players, and cannot rejoin it.');
+      window.alert('You were kicked from this room by room players, and cannot rejoin it.');
     } else {
-      window.alert('You were banned from this this.room by the this.room owner, and cannot rejoin it.');
+      window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
     }
     setTimeout(() => {
       window.location.replace('../');
@@ -109,12 +109,12 @@ export default class MultiplayerTossupClient extends TossupClient {
 
   confirmBan ({ targetId, targetUsername }) {
     if (targetId === this.USER_ID) {
-      window.alert('You were banned from this this.room by the this.room owner.');
+      window.alert('You were banned from this room by the room owner.');
       setTimeout(() => {
         window.location.replace('../');
       }, 100);
     } else {
-      this.logEventConditionally(targetUsername + ' has been banned from this this.room.');
+      this.logEventConditionally(targetUsername + ' has been banned from this room.');
     }
   }
 
@@ -141,7 +141,7 @@ export default class MultiplayerTossupClient extends TossupClient {
 
     if (isPermanent) {
       document.getElementById('category-select-button').disabled = true;
-      document.getElementById('permanent-this.room-warning').classList.remove('d-none');
+      document.getElementById('permanent-room-warning').classList.remove('d-none');
       document.getElementById('reading-speed').disabled = true;
       document.getElementById('set-strictness').disabled = true;
       document.getElementById('set-mode').disabled = true;
@@ -474,8 +474,8 @@ export default class MultiplayerTossupClient extends TossupClient {
   ownerChange ({ newOwner }) {
     if (this.room.players[newOwner]) {
       this.room.ownerId = newOwner;
-      this.logEventConditionally(this.room.players[newOwner].username, 'became the this.room owner');
-    } else this.logEventConditionally(newOwner, 'became the this.room owner');
+      this.logEventConditionally(this.room.players[newOwner].username, 'became the room owner');
+    } else this.logEventConditionally(newOwner, 'became the room owner');
 
     Object.keys(this.room.players).forEach((player) => {
       upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
@@ -613,7 +613,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     this.logEventConditionally(username, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
 
     document.getElementById('toggle-controlled').checked = controlled;
-    document.getElementById('controlled-this.room-warning').classList.toggle('d-none', !controlled);
+    document.getElementById('controlled-room-warning').classList.toggle('d-none', !controlled);
     document.getElementById('toggle-public').disabled = controlled;
 
     controlled = controlled && (this.USER_ID !== this.room.ownerId);
@@ -692,12 +692,12 @@ export default class MultiplayerTossupClient extends TossupClient {
 
   vkHandle ({ targetUsername, targetId }) {
     if (this.USER_ID === targetId) {
-      window.alert('You were vote kicked from this this.room by others.');
+      window.alert('You were vote kicked from this room by others.');
       setTimeout(() => {
         window.location.replace('../');
       }, 100);
     } else {
-      this.logEventConditionally(targetUsername + ' has been vote kicked from this this.room.');
+      this.logEventConditionally(targetUsername + ' has been vote kicked from this room.');
     }
   }
 }
