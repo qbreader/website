@@ -16,7 +16,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
   }
 
   function showTossupStats () {
-    fetch('/api/question-stats/tossup?' + new URLSearchParams({ tossup_id: _id }))
+    fetch('/api/question-stats/tossup?' + new URLSearchParams({ _id }))
       .then(response => response.json())
       .then(response => {
         document.getElementById('tossup-stats-question-id').value = _id;

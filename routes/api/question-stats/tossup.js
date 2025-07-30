@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   let _id;
-  try { _id = new ObjectId(req.query.tossup_id); } catch (e) { return res.status(400).send('Invalid Tossup ID'); }
+  try { _id = new ObjectId(req.query._id); } catch (e) { return res.status(400).send('Invalid Tossup ID'); }
   const stats = await getSingleTossupStats(_id);
   res.json({ stats });
 });

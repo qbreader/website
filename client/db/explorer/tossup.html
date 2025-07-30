@@ -80,10 +80,24 @@
         <div id="tossup"></div>
         <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
         <hr>
-        <p><b>Difficulty:</b> <span id="difficulty"></span></p>
-        <p><b>Standard:</b> <span id="standard"></span></p>
-        <p><b>Date Created:</b> <span id="time-created"></span></p>
-        <p><b>Last Modified:</b> <span id="last-modified"></span></p>
+        <div id="metadata">
+            <b>Question ID:</b> <span id="_id"></span><br>
+            <b>Difficulty:</b> <span id="difficulty"></span><br>
+            <b>Standard:</b> <span id="standard"></span><br>
+            <b>Date Created:</b> <span id="time-created"></span><br>
+            <b>Last Modified:</b> <span id="last-modified"></span><br>
+        </div>
+        <hr>
+        <p><b>Question Stats:</b></p>
+        <div class="d-none" id="question-stats">
+            <b>TUH:</b> <span id="tuh"></span><br>
+            <b>15s:</b> <span id="15s"></span><br>
+            <b>10s:</b> <span id="10s"></span><br>
+            <b>-5s:</b> <span id="-5s"></span><br>
+            <b>Average celerity:</b> <span id="average-celerity"></span><br>
+            <b>Total points:</b> <span id="total-points"></span><br>
+            <b>PPTU:</b> <span id="pptu"></span>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
