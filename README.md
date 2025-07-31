@@ -10,6 +10,8 @@ Please read the [contributing guidelines](.github/CONTRIBUTING.md#running-the-se
 
 ## Contributing
 
+**Note:** If you've cloned the repository before July 31st, 2025, you'll have to delete your local copy of the repository and make a fresh clone.
+
 Pull requests and Github issues are welcome!
 Please read the [contributing guidelines](.github/CONTRIBUTING.md) before making changes.
 
