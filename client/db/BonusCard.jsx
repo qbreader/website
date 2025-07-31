@@ -81,7 +81,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
         </div>
         <div>
           <small className='text-muted'>
-            <a href={`/tools/db-explorer/bonus?_id=${_id}`} onClick={e => e.stopPropagation()}>
+            <a href={`/db/explorer/bonus?_id=${_id}`} onClick={e => e.stopPropagation()}>
               Link to bonus
             </a>
             <span> | </span>

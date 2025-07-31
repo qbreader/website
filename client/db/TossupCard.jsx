@@ -74,7 +74,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
         </div>
         <div>
           <small className='text-muted'>
-            <a href={`/tools/db-explorer/tossup?_id=${_id}`} onClick={e => e.stopPropagation()}>
+            <a href={`/db/explorer/tossup?_id=${_id}`} onClick={e => e.stopPropagation()}>
               Link to tossup
             </a>
             <span> | </span>
