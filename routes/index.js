@@ -1,6 +1,7 @@
 import adminRouter from './admin.js';
 import apiRouter from './api/index.js';
 import authRouter from './auth/index.js';
+import dbRouter from './db.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer.js';
 import userRouter from './user.js';
@@ -21,6 +22,7 @@ router.use(redirectsRouter);
 router.use('/admin', adminRouter);
 router.use('/api', cors(), apiRouter);
 router.use('/auth', authRouter);
+router.use('/db', dbRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);
 router.use('/user', userRouter);
