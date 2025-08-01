@@ -10,6 +10,7 @@ router.get('/explorer/bonus', async (req, res) => {
   let _id = new URLSearchParams(req.query).get('_id');
   try { _id = new ObjectId(_id); } catch (e) { return res.status(400).send('Invalid ID'); }
   const bonus = await getBonus(_id);
+  if (!bonus) return res.sendStatus(404);
   const description = `Bonus: ${bonus.answers_sanitized.map(a => removeParentheses(a)).join(' / ')} [${bonus.set.name}]`;
   const file = fs.readFileSync('./client/db/explorer/bonus.html', { encoding: 'utf8' });
   res.send(file.replace('<meta name="description" content="">', `<meta name="description" content="${description}">`));
@@ -19,6 +20,7 @@ router.get('/explorer/tossup', async (req, res) => {
   let _id = new URLSearchParams(req.query).get('_id');
   try { _id = new ObjectId(_id); } catch (e) { return res.status(400).send('Invalid ID'); }
   const tossup = await getTossup(_id);
+  if (!tossup) return res.sendStatus(404);
   const description = `Tossup: ${removeParentheses(tossup.answer_sanitized)} [${tossup.set.name}]`;
   const file = fs.readFileSync('./client/db/explorer/tossup.html', { encoding: 'utf8' });
   res.send(file.replace('<meta name="description" content="">', `<meta name="description" content="${description}">`));
