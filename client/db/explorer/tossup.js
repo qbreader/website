@@ -24,9 +24,13 @@ const { stats } = await fetch('/api/question-stats/tossup?' + new URLSearchParam
 
 if (stats) {
   document.getElementById('tuh').textContent = stats.count;
-  document.getElementById('15s').textContent = stats['15s'];
-  document.getElementById('10s').textContent = stats['10s'];
-  document.getElementById('-5s').textContent = stats['-5s'];
+
+  for (const [pointValue, count] of Object.entries(stats.resultCounts).sort((a, b) => b[0] - a[0])) {
+    const pointValueElement = document.createElement('div');
+    pointValueElement.innerHTML = `<b>${pointValue}s:</b> ${count}`;
+    document.getElementById('result-counts').appendChild(pointValueElement);
+  }
+
   const averageCelerity = stats.numCorrect > 0 ? (stats.totalCorrectCelerity / stats.numCorrect) : 0;
   document.getElementById('average-celerity').textContent = averageCelerity.toFixed(3);
   document.getElementById('total-points').textContent = stats.totalPoints;
