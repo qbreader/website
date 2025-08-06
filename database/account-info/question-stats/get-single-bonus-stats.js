@@ -10,19 +10,29 @@ async function getSingleBonusStats (bonusId) {
   if (!document) { return null; }
   const data = document.data;
   // data should always be an array
-  if (data.length === 0) { return null; }
+  if (!Array.isArray(data) || data.length === 0) { return null; }
   data.forEach(d => { d.pointValue = d.pointsPerPart.reduce((a, b) => a + b, 0); });
+
+  const partConversion = [];
+  for (let i = 0; i < data[0].pointsPerPart.length; i++) {
+    const fraction = data.reduce((a, b) => a + (b.pointsPerPart[i] > 0 ? 1 : 0), 0) / data.length;
+    partConversion.push(fraction);
+  }
+
+  // guarantee that we include 30, 20, 10, and 0
+  const resultCounts = { 30: 0, 20: 0, 10: 0, 0: 0 };
+  // below is just in case there are other point values
+  const pointValues = new Set(data.map(d => d.pointValue));
+  for (const pointValue of pointValues) {
+    resultCounts[pointValue] = data.filter(d => d.pointValue === pointValue).length;
+  }
+
   return {
     _id: bonusId,
-    '30s': data.filter(d => d.pointValue === 30).length,
-    '20s': data.filter(d => d.pointValue === 20).length,
-    '10s': data.filter(d => d.pointValue === 10).length,
-    '0s': data.filter(d => d.pointValue === 0).length,
     count: data.length,
-    part1: data.reduce((a, b) => a + (b.pointsPerPart[0] > 0 ? 1 : 0), 0) / data.length,
-    part2: data.reduce((a, b) => a + (b.pointsPerPart[1] > 0 ? 1 : 0), 0) / data.length,
-    part3: data.reduce((a, b) => a + (b.pointsPerPart[2] > 0 ? 1 : 0), 0) / data.length,
+    partConversion,
     ppb: data.reduce((a, b) => a + b.pointValue, 0) / data.length,
+    resultCounts,
     totalPoints: data.reduce((a, b) => a + b.pointValue, 0)
   };
 }

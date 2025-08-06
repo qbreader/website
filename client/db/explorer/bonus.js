@@ -24,13 +24,17 @@ const { stats } = await fetch('/api/question-stats/bonus?' + new URLSearchParams
 
 if (stats) {
   document.getElementById('bh').textContent = stats.count;
-  document.getElementById('1st-part').textContent = (10 * stats.part1).toFixed(2) + ' pts';
-  document.getElementById('2nd-part').textContent = (10 * stats.part2).toFixed(2) + ' pts';
-  document.getElementById('3rd-part').textContent = (10 * stats.part3).toFixed(2) + ' pts';
-  document.getElementById('30s').textContent = stats['30s'];
-  document.getElementById('20s').textContent = stats['20s'];
-  document.getElementById('10s').textContent = stats['10s'];
-  document.getElementById('0s').textContent = stats['0s'];
+
+  for (const [i, part] of stats.partConversion.entries()) {
+    const partDiv = document.createElement('div');
+    partDiv.innerHTML = `<b>Part ${i + 1}:</b> ${(10 * part).toFixed(2)} pts`;
+    document.getElementById('part-conversion').appendChild(partDiv);
+  }
+
+  const resultCountsKeys = Object.keys(stats.resultCounts).sort((a, b) => b - a);
+  document.getElementById('result-counts-label').textContent = resultCountsKeys.map(key => `${key}s`).join('/') + ':';
+  document.getElementById('result-counts').textContent = resultCountsKeys.map(key => stats.resultCounts[key]).join('/');
+
   document.getElementById('total-points').textContent = stats.totalPoints;
   document.getElementById('ppb').textContent = stats.ppb.toFixed(2);
 } else {

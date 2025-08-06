@@ -33,15 +33,18 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
           return;
         }
 
-        const statsList = [
-          ['BH', stats.count],
-          ['1st part', (10 * stats.part1).toFixed(2) + ' pts'],
-          ['2nd part', (10 * stats.part2).toFixed(2) + ' pts'],
-          ['3rd part', (10 * stats.part3).toFixed(2) + ' pts'],
-          ['30s/20s/10s/0s', `${stats['30s']}/${stats['20s']}/${stats['10s']}/${stats['0s']}`],
-          ['Total points', stats.totalPoints],
-          ['PPB', stats.ppb.toFixed(2)]
-        ];
+        const statsList = [['BH', stats.count]];
+
+        for (const [i, part] of stats.partConversion.entries()) {
+          statsList.push([`Part ${i + 1}`, `${(10 * part).toFixed(2)} pts`]);
+        }
+
+        const resultCountsKeys = Object.keys(stats.resultCounts).sort((a, b) => b - a);
+
+        statsList.push([resultCountsKeys.map(key => `${key}s`).join('/') + ':', resultCountsKeys.map(key => stats.resultCounts[key]).join('/')]);
+        statsList.push(['Total Points', stats.totalPoints.toFixed(2)]);
+        statsList.push(['PPB', stats.ppb.toFixed(2)]);
+
         const ul = document.createElement('ul');
         ul.className = 'list-group';
         for (const [label, value] of statsList) {
