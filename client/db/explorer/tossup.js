@@ -1,7 +1,7 @@
 import { mongoIdToDate, tossupToHTML } from './utilities.js';
 
 const tossupId = new URLSearchParams(window.location.search).get('_id');
-const { tossup } = await fetch('/api/tossup-by-id?' + new URLSearchParams({ id: tossupId })).then(res => res.json());
+const { tossup } = await fetch('/api/tossup?' + new URLSearchParams({ _id: tossupId })).then(res => res.json());
 
 document.getElementById('spinner').classList.add('d-none');
 

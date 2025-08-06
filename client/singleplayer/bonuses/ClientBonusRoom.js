@@ -19,7 +19,7 @@ async function getRandomStarredBonus () {
   if (starredBonusIds.length === 0) { return null; }
 
   const _id = starredBonusIds.pop();
-  return await api.getBonusById(_id);
+  return await api.getBonus(_id);
 }
 
 export default class ClientBonusRoom extends BonusRoom {

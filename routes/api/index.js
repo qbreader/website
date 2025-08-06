@@ -1,5 +1,5 @@
 import adminRouter from './admin/index.js';
-import bonusByIdRouter from './bonus-by-id.js';
+import bonusRouter from './bonus.js';
 import checkAnswerRouter from './check-answer.js';
 import dbExplorerRouter from './db-explorer/index.js';
 import frequencyListRouter from './frequency-list.js';
@@ -17,7 +17,7 @@ import randomNameRouter from './random-name.js';
 import randomTossupRouter from './random-tossup.js';
 import reportQuestionRouter from './report-question.js';
 import setListRouter from './set-list.js';
-import tossupByIdRouter from './tossup-by-id.js';
+import tossupRouter from './tossup.js';
 
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
@@ -44,7 +44,7 @@ router.use((req, _res, next) => {
 });
 
 router.use('/admin', adminRouter);
-router.use('/bonus-by-id', bonusByIdRouter);
+router.use('/bonus', bonusRouter);
 router.use('/check-answer', checkAnswerRouter);
 router.use('/db-explorer', dbExplorerRouter);
 router.use('/frequency-list', frequencyListRouter);
@@ -62,6 +62,10 @@ router.use('/random-name', randomNameRouter);
 router.use('/random-tossup', randomTossupRouter);
 router.use('/report-question', reportQuestionRouter);
 router.use('/set-list', setListRouter);
-router.use('/tossup-by-id', tossupByIdRouter);
+router.use('/tossup', tossupRouter);
+
+// deprecated, but kept for backwards compatibility
+router.use('/bonus-by-id', bonusRouter);
+router.use('/tossup-by-id', tossupRouter);
 
 export default router;
