@@ -27,15 +27,16 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
         }
 
         const averageCelerity = stats.numCorrect > 0 ? (stats.totalCorrectCelerity / stats.numCorrect) : 0;
-        const statsList = [
-          ['TUH', stats.count],
-          ['15s', stats['15s']],
-          ['10s', stats['10s']],
-          ['-5s', stats['-5s']],
-          ['Average celerity', averageCelerity.toFixed(3)],
-          ['Total points', stats.totalPoints],
-          ['PPTU', stats.pptu.toFixed(2)]
-        ];
+        const statsList = [['TUH', stats.count]];
+
+        for (const [pointValue, count] of Object.entries(stats.resultCounts).sort((a, b) => b[0] - a[0])) {
+          statsList.push([`${pointValue}s`, count]);
+        }
+
+        statsList.push(['Average Celerity', averageCelerity.toFixed(3)]);
+        statsList.push(['Total Points', stats.totalPoints]);
+        statsList.push(['PPTU', stats.pptu.toFixed(2)]);
+
         const ul = document.createElement('ul');
         ul.className = 'list-group';
         for (const [label, value] of statsList) {
