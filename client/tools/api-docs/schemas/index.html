@@ -102,52 +102,21 @@
                 structure of these objects. You can extract the date a document was created (formerly the <code>createdAt</code> field)
                 <a href="https://stackoverflow.com/questions/6452021/getting-timestamp-from-mongodb-id">from the ObjectId</a>.
             </p>
-            <a href="#tossup">
-                <h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4>
+            <a href="#Question">
+                <h4 class="mt-4 md-2" id="question"><code>Question</code></h4>
             </a>
-            <pre class="bg-dark p-3 rounded"><code class="text-light" id="tossupExample"></code></pre>
-            <button class="btn btn-sm btn-primary" id="get-tossup-example">Get another example</button>
+            <p>All questions (<a href="#tossup">tossups</a> and <a href="#bonus">bonuses</a>) contain the following fields:</p>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div>
-                        <code>_id</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The internal ID of the tossup.</div>
+                    <div><code>_id</code><code class="text-muted">: string</code></div>
+                    <div>The internal ID of the question.</div>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>question</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The question text, formatted with HTML.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>question_sanitized</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The question text, unformatted.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>answer</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The answerline, formatted with HTML.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>answer_sanitized</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The answerline, unformatted.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>category</code><code class="text-muted">: string</code>
-                    </div>
+                    <div><code>category</code><code class="text-muted">: string</code></div>
                     <div>The category of the question.</div>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>subcategory</code><code class="text-muted">: string</code>
-                    </div>
+                    <div><code>subcategory</code><code class="text-muted">: string</code></div>
                     <div>The subcategory of the question.</div>
                 </li>
                 <li class="list-group-item">
@@ -162,71 +131,53 @@
                 </li>
                 <li class="list-group-item">
                     <div>
-                        <code>packet</code><code class="text-muted">: object</code>
+                        <code>difficulty</code><code class="text-muted">: number</code>
                     </div>
-                    <div>A JavaScript object with the following properties of the packet the tossup is from:</div>
+                    <div>The difficulty of the question. <i>Always an integer in <code>[0-10]</code>.</i></div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>number</code><code class="text-muted">: number</code></div>
+                    <div>The question number of the question in the packet. <i>Always a nonnegative integer.</i></div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>packet</code><code class="text-muted">: object</code></div>
+                    <div>A JavaScript object with the following properties of the packet the question is from:</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <div>
-                                <code>_id</code><code class="text-muted">: string</code>
-                            </div>
-                            <div>
-                                The internal ID of the packet.
-                            </div>
+                            <div><code>_id</code><code class="text-muted">: string</code></div>
+                            <div>The internal ID of the packet.</div>
                         </li>
                         <li class="list-group-item">
-                            <div>
-                                <code>name</code><code class="text-muted">: string</code>
-                            </div>
-                            <div>
-                                The name of the packet.
-                            </div>
+                            <div><code>name</code><code class="text-muted">: string</code></div>
+                            <div>The name of the packet.</div>
                         </li>
                         <li class="list-group-item">
-                            <div>
-                                <code>number</code><code class="text-muted">: number</code>
-                            </div>
-                            <div>
-                                The packet number of the packet. <i>Always a nonnegative integer.</i>
-                            </div>
+                            <div><code>number</code><code class="text-muted">: number</code></div>
+                            <div>The packet number of the packet. <i>Always a nonnegative integer.</i></div>
                         </li>
                     </ul>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>set</code><code class="text-muted">: object</code>
-                    </div>
-                    <div>A JavaScript object with the following properties of the set the tossup is from:</div>
+                    <div><code>set</code><code class="text-muted">: object</code></div>
+                    <div>A JavaScript object with the following properties of the set the question is from:</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <div>
-                                <code>_id</code><code class="text-muted">: string</code>
-                            </div>
-                            <div>
-                                The internal ID of the set.
-                            </div>
+                            <div><code>_id</code><code class="text-muted">: string</code></div>
+                            <div>The internal ID of the set.</div>
                         </li>
                         <li class="list-group-item">
-                            <div>
-                                <code>name</code><code class="text-muted">: string</code>
-                            </div>
-                            <div>
-                                The name of the set.
-                            </div>
+                            <div><code>name</code><code class="text-muted">: string</code></div>
+                            <div>The name of the set.</div>
                         </li>
                         <li class="list-group-item">
-                            <div>
-                                <code>year</code><code class="text-muted">: number</code>
-                            </div>
+                            <div><code>year</code><code class="text-muted">: number</code></div>
                             <div>
                                 The year associated with the set. This <b>always</b> corresponds to the first four characters of the
                                 set name.
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <div>
-                                <code>standard</code><code class="text-muted">: boolean</code>
-                            </div>
+                            <div><code>standard</code><code class="text-muted">: boolean</code></div>
                             <div>
                                 Whether or not the set has a "standard" format. This generally means anything that's designed for use
                                 at an academic quizbowl tournament, even if it does not have a full distribution. See the <a
@@ -237,191 +188,67 @@
                     </ul>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>number</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The question number of the tossup in the packet. <i>Always a nonnegative integer.</i></div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>updatedAt</code><code class="text-muted">: string</code>
-                    </div>
+                    <div><code>updatedAt</code><code class="text-muted">: string</code></div>
                     <div>The date the question was last modified in the database. <i>ISO 8601 format.</i></div>
                 </li>
+            </ul>
+            <a href="#tossup">
+                <h4 class="mt-4 md-2" id="tossup"><code>Tossup</code></h4>
+            </a>
+            <pre class="bg-dark p-3 rounded"><code class="text-light" id="tossupExample"></code></pre>
+            <button class="btn btn-sm btn-primary mb-3" id="get-tossup-example">Get another example</button>
+            <div>In addition to the fields found in all <a href="#question">questions</a>, tossups contain the following fields:</div>
+            <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div>
-                        <code>difficulty</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The difficulty of the question. <i>Always an integer in <code>[0-10]</code>.</i></div>
+                    <div><code>question</code><code class="text-muted">: string</code></div>
+                    <div>The question text, formatted with HTML.</div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>question_sanitized</code><code class="text-muted">: string</code></div>
+                    <div>The question text, unformatted.</div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>answer</code><code class="text-muted">: string</code></div>
+                    <div>The answerline, formatted with HTML.</div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>answer_sanitized</code><code class="text-muted">: string</code></div>
+                    <div>The answerline, unformatted.</div>
                 </li>
             </ul>
-
             <a href="#bonus">
                 <h4 class="mt-4 md-2" id="bonus"><code>Bonus</code></h4>
             </a>
             <pre class="bg-dark p-3 rounded"><code class="text-light" id="bonusExample"></code></pre>
-            <button class="btn btn-sm btn-primary" id="get-bonus-example">Get another example</button>
+            <button class="btn btn-sm btn-primary mb-3" id="get-bonus-example">Get another example</button>
+            <div>In addition to the fields found in all <a href="#question">questions</a>, bonuses contain the following fields:</div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div>
-                        <code>_id</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The internal ID of the bonus.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>leadin</code><code class="text-muted">: string</code>
-                    </div>
+                    <div><code>leadin</code><code class="text-muted">: string</code></div>
                     <div>The leadin of the bonus, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>leadin_sanitized</code><code class="text-muted">: string</code>
-                    </div>
+                    <div><code>leadin_sanitized</code><code class="text-muted">: string</code></div>
                     <div>The leadin of the bonus, unformatted.</div>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>parts</code><code class="text-muted">: string[]</code>
-                    </div>
+                    <div><code>parts</code><code class="text-muted">: string[]</code></div>
                     <div>The parts of the bonus, formatted with HTML.</div>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>parts_sanitized</code><code class="text-muted">: string[]</code>
-                    </div>
+                    <div><code>parts_sanitized</code><code class="text-muted">: string[]</code></div>
                     <div>The parts of the bonus, unformatted. This always has length equal to <code>parts</code>.</div>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>answers</code><code class="text-muted">: string[]</code>
-                    </div>
+                    <div><code>answers</code><code class="text-muted">: string[]</code></div>
                     <div>
                         The answerlines, formatted with HTML. This should have the same length as <code>parts</code>, but a few bonuses
                         have errors where this is not the case.
                     </div>
                 </li>
                 <li class="list-group-item">
-                    <div>
-                        <code>answers_sanitized</code><code class="text-muted">: string[]</code>
-                    </div>
+                    <div><code>answers_sanitized</code><code class="text-muted">: string[]</code></div>
                     <div>The answerlines, unformatted. This always has length equal to <code>answers</code>.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>category</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The category of the question.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>subcategory</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The subcategory of the question.</div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>alternate_subcategory</code><code class="text-muted">: string</code>
-                        <code class="text-muted float-end fw-semibold text-decoration-underline">optional</code>
-                    </div>
-                    <div>
-                        The alternate subcategory of the question. This only exists for the following category: Literature; and for the
-                        following subcategories: Other Science, Other Fine Arts, Social Science.
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>packet</code><code class="text-muted">: object</code>
-                    </div>
-                    <div>A JavaScript object with the following properties of the packet the bonus is from:</div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div>
-                                <code>_id</code><code class="text-muted">: string</code>
-                            </div>
-                            <div>
-                                The internal ID of the packet.
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <code>name</code><code class="text-muted">: string</code>
-                            </div>
-                            <div>
-                                The name of the packet.
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <code>number</code><code class="text-muted">: number</code>
-                            </div>
-                            <div>
-                                The packet number of the packet. <i>Always a nonnegative integer.</i>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>set</code><code class="text-muted">: object</code>
-                    </div>
-                    <div>A JavaScript object with the following properties of the set the bonus is from:</div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div>
-                                <code>_id</code><code class="text-muted">: string</code>
-                            </div>
-                            <div>
-                                The internal ID of the set.
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <code>name</code><code class="text-muted">: string</code>
-                            </div>
-                            <div>
-                                The name of the set.
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <code>year</code><code class="text-muted">: number</code>
-                            </div>
-                            <div>
-                                The year associated with the set. This <b>always</b> corresponds to the first four characters of the
-                                set name.
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <code>standard</code><code class="text-muted">: boolean</code>
-                            </div>
-                            <div>
-                                Whether or not the set has a "standard" format. This generally means anything that's designed for use
-                                at an academic quizbowl tournament, even if it does not have a full distribution. See the <a
-                                    href="https://docs.google.com/spreadsheets/d/1Q_DURZJRPCbQmikcXGu986-7Mj5KJNJoux1OqJjxUkM/edit?usp=sharing">packet
-                                    list</a> for a complete list of what sets are considered standard.
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>number</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The question number of the bonus in the packet. <i>Always a nonnegative integer.</i></div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>updatedAt</code><code class="text-muted">: string</code>
-                    </div>
-                    <div>The date the question was last modified in the database. <i>ISO 8601 format.</i></div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <code>difficulty</code><code class="text-muted">: number</code>
-                    </div>
-                    <div>The difficulty of the question. <i>Always an integer in <code>[0-10]</code>.</i></div>
                 </li>
             </ul>
         </div>
