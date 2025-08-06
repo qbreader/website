@@ -19,7 +19,7 @@ async function getRandomStarredTossup () {
   if (starredTossupIds.length === 0) { return null; }
 
   const _id = starredTossupIds.pop();
-  return await api.getTossupById(_id);
+  return await api.getTossup(_id);
 }
 
 export default class ClientTossupRoom extends TossupRoom {

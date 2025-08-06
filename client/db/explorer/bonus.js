@@ -1,7 +1,7 @@
 import { bonusToHTML, mongoIdToDate } from './utilities.js';
 
 const bonusId = new URLSearchParams(window.location.search).get('_id');
-const { bonus } = await fetch('/api/bonus-by-id?' + new URLSearchParams({ id: bonusId })).then(res => res.json());
+const { bonus } = await fetch('/api/bonus?' + new URLSearchParams({ _id: bonusId })).then(res => res.json());
 
 document.getElementById('spinner').classList.add('d-none');
 

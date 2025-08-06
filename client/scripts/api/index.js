@@ -14,8 +14,8 @@ export default class api {
     return checkAnswer(answerline, givenAnswer, strictness);
   }
 
-  static async getBonusById (_id) {
-    return await fetch('/api/bonus-by-id?' + new URLSearchParams({ id: _id }))
+  static async getBonus (_id) {
+    return await fetch('/api/bonus?' + new URLSearchParams({ _id }))
       .then(response => response.json())
       .then(data => data.bonus);
   }
@@ -78,8 +78,8 @@ export default class api {
       .then(response => response.tossups);
   }
 
-  static async getTossupById (_id) {
-    return await fetch('/api/tossup-by-id?' + new URLSearchParams({ id: _id }))
+  static async getTossup (_id) {
+    return await fetch('/api/tossup?' + new URLSearchParams({ _id }))
       .then(response => response.json())
       .then(data => data.tossup);
   }
