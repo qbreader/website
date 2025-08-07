@@ -1,30 +1,30 @@
-let level = 'all';
+import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
+import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
+
+let difficulties = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 let limit = 50;
 let questionType = 'all';
 const searchParams = new URLSearchParams(window.location.search);
 const alternate = searchParams.get('alternate') === 'true';
 const subcategory = titleCase(searchParams.keys().next().value);
 
-const levelToDifficulties = {
-  'middle-school': [1],
-  'high-school': [2, 3, 4, 5],
-  'national-high-school': [5],
-  college: [6, 7, 8, 9],
-  open: [10],
-  all: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-};
+function difficultyDropdownListener () {
+  difficulties = getDropdownValues('difficulties');
+  if (difficulties.length === 0) { difficulties = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; }
+  updateFrequencyListDisplay(difficulties, limit, questionType);
+}
 
 function titleCase (name) {
   return name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
-function updateFrequencyListDisplay (level, limit, questionType) {
+function updateFrequencyListDisplay (difficulties, limit, questionType) {
   const table = document.getElementById('frequency-list');
   table.innerHTML = '';
 
   document.getElementsByClassName('spinner-border')[0].classList.remove('d-none');
 
-  const params = new URLSearchParams({ difficulties: levelToDifficulties[level], limit, questionType });
+  const params = new URLSearchParams({ difficulties, limit, questionType });
   params.append(alternate ? 'alternateSubcategory' : 'subcategory', subcategory);
 
   fetch('/api/frequency-list?' + params)
@@ -44,15 +44,10 @@ function updateFrequencyListDisplay (level, limit, questionType) {
     });
 }
 
-document.getElementById('level-select').addEventListener('change', event => {
-  level = event.target.value;
-  updateFrequencyListDisplay(level, limit, questionType);
-});
-
 document.getElementById('limit-select').addEventListener('change', event => {
   limit = event.target.value;
   document.getElementById('limit').textContent = limit;
-  updateFrequencyListDisplay(level, limit, questionType);
+  updateFrequencyListDisplay(difficulties, limit, questionType);
 });
 
 document.getElementById('question-type-select').addEventListener('change', event => {
@@ -68,8 +63,11 @@ document.getElementById('question-type-select').addEventListener('change', event
       document.getElementById('question-type').textContent = 'questions';
       break;
   }
-  updateFrequencyListDisplay(level, limit, questionType);
+  updateFrequencyListDisplay(difficulties, limit, questionType);
 });
 
 document.getElementById('subcategory-name').textContent = subcategory;
-updateFrequencyListDisplay(level, limit, questionType);
+updateFrequencyListDisplay(difficulties, limit, questionType);
+
+const root = ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root'));
+root.render(<DifficultyDropdown onChange={difficultyDropdownListener} />);

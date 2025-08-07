@@ -7,6 +7,7 @@ export default {
     'singleplayer/bonuses/index': './client/singleplayer/bonuses/index.jsx',
     'multiplayer/room': './client/multiplayer/room.jsx',
     'db/index': './client/db/index.jsx',
+    'db/frequency-list/subcategory': './client/db/frequency-list/subcategory.jsx',
     'admin/category-reports/index': './client/admin/category-reports/index.jsx'
   },
   output: {
