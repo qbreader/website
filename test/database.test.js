@@ -70,39 +70,35 @@ async function testCorrectness () {
   return mocha.describe('Correctness Tests', function () {
     this.timeout(0);
 
-    function testQuery (testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer) {
+    function testQuery (testName, params, tossupCount, bonusCount, expectedFirstTossupId) {
       mocha.it(testName, async () => {
         const { tossups, bonuses } = await getQuery(params);
         assert.isOk(tossups, 'tossups');
         assert.isOk(bonuses, 'bonuses');
         assert.propertyVal(tossups, 'count', tossupCount, 'tossup count');
         assert.propertyVal(bonuses, 'count', bonusCount, 'bonus count');
-        assert.strictEqual(tossups.questionArray[0].question, expectedFirstTossupQueston, 'tossup array - question');
-        assert.strictEqual(tossups.questionArray[0].answer_sanitized, expectedFirstTossupAnswer, 'tossup array - answer');
+        assert.deepEqual(tossups.questionArray[0]._id, expectedFirstTossupId, 'tossup array - _id');
       });
     }
     {
-      const question = 'Note to moderator: Read the answerline carefully. A simplified, secular form of this practice is nicknamed “the 24.” Arthur Rosenfeld hosted a PBS program that instructed this practice for longevity and taught that chewing food 36 times can enhance the sensitivity, or “listening power,” outlined in this practice’s “classics.” The last Saturday in April is a worldwide holiday for this practice, whose methods of silk reeling and pushing hands may be attributed to its legendary inventor Zhāng Sānfēng (“jahng sahn-fung”) of the Wǔdāng (“oo-dahng”) Mountains. The Sūn (“swun”) and Yáng lineages are two of the five major styles of this type of nèijiā (“nay-jʼyah”), which originated in Chén (“chun”) Village. Unlike repetitive qìgōng (“chee-gong”), this balance-promoting practice’s “frames” link up to 108 specific postures. For 10 points, the elderly in Kowloon Park often perform what internal martial art whose routines feature slow movements?';
-      const answer = 'tai chi [or taijiquan or t\'ai chi ch\'uan; accept shadowboxing; prompt on Chinese martial arts until read; prompt on wushu or guoshu or kuoshu; prompt on exercise, physical activity, or meditation; prompt on neijia or neigong or neijing until "neijia" is read; prompt on qigong, ch\'i kung, chi gung, or chi \'ung until "qigong" is read; prompt on Wudang quan until read; prompt on traditional Chinese medicine or TCM or Zhongyi; reject "boxing"]';
+      const _id = new ObjectId('63d6dbb47c00e8c6f8d886db');
       testQuery('getQuery - "qigong", 2023 ACF Regionals, ignore diacritics',
-        { queryString: 'qigong', setName: '2023 ACF Regionals', verbose: false }, 1, 0, question, answer);
+        { queryString: 'qigong', setName: '2023 ACF Regionals', verbose: false }, 1, 0, _id);
     }
     {
-      const question = '<b>A theorem introduced by this man gives a formula to find the radii of four mutually tangent circles. The second book of a work by this mathematician consists of a classification of algebraic curves, including his namesake "folium." This man is the inventor, and sometimes the namesake, of the field of analytic geometry. This man\'s three (*)</b> "laws of nature" were a major influence on Isaac Newton\'s laws of motion. An upper limit on the number of positive roots of a polynomial can be found using this mathematician\'s "rule of signs." In two dimensions, ordered pairs are used to represent the x- and y-coordinates of numbers in his namesake coordinate system. For 10 points, name this French mathematician, who, in a famous work of philosophy, stated "Cogito ergo sum."';
-      const answer = 'Rene Descartes (day-CART)';
+      const _id = new ObjectId('62ec4057d6777289bcae8215');
       testQuery('getQuery - "newton", all questions, 2018 PACE NSC, return length = 400',
         { queryString: 'newton', questionType: 'all', setName: '2018 PACE NSC', verbose: false, maxReturnLength: 400 },
-        5, 2, question, answer);
+        5, 2, _id);
     }
     {
-      const question = '<b>A theorem introduced by this man gives a formula to find the radii of four mutually tangent circles. The second book of a work by this mathematician consists of a classification of algebraic curves, including his namesake "folium." This man is the inventor, and sometimes the namesake, of the field of analytic geometry. This man\'s three (*)</b> "laws of nature" were a major influence on Isaac Newton\'s laws of motion. An upper limit on the number of positive roots of a polynomial can be found using this mathematician\'s "rule of signs." In two dimensions, ordered pairs are used to represent the x- and y-coordinates of numbers in his namesake coordinate system. For 10 points, name this French mathematician, who, in a famous work of philosophy, stated "Cogito ergo sum."';
-      const answer = 'Rene Descartes (day-CART)';
+      const _id = new ObjectId('62ec4057d6777289bcae8215');
       testQuery('getQuery - "newton", math alternate_subcategory, 2018 PACE NSC, return length = 400',
         { queryString: 'newton', questionType: 'all', setName: '2018 PACE NSC', verbose: false, maxReturnLength: 400, subcategories: ['Other Science'], alternateSubcategories: ['Math'] },
-        2, 0, question, answer);
+        2, 0, _id);
     }
 
-    function testGetPacket (testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer, expectedFirstLeadin) {
+    function testGetPacket (testName, params, tossupCount, bonusCount, expectedFirstTossupId, expectedFirstBonusId) {
       mocha.it(testName, async () => {
         const packet = await getPacket({ ...params, questionType: 'tossup' });
         const { tossups, bonuses } = packet;
@@ -111,19 +107,17 @@ async function testCorrectness () {
         assert.isOk(bonuses, 'bonuses');
         assert.propertyVal(tossups, 'length', tossupCount, 'tossup count');
         assert.propertyVal(bonuses, 'length', bonusCount, 'bonus count');
-        assert.propertyVal(bonuses[0], 'leadin', expectedFirstLeadin, 'bonuses - leadins');
-        assert.strictEqual(tossups[0].question, expectedFirstTossupQueston, 'tossups - question');
-        assert.strictEqual(tossups[0].answer, expectedFirstTossupAnswer, 'tossups - answer');
+        assert.deepEqual(tossups[0]._id, expectedFirstTossupId, 'tossups - _id');
+        assert.deepEqual(bonuses[0]._id, expectedFirstBonusId, 'bonuses - _id');
       });
     }
     {
-      const question = '<b>In his final appearance, this character experiences a severe toothache after asserting "as a weapon I may be of some use. But as a man, I\'m a wreck," then leaves to join King Milan\'s forces. This man buys a painting of two boys fishing, and commissions a portrait, from his fellow expatriate Mihailov. He is shocked to learn that his lover is pregnant between one scene in which he glimpses his rival Makhotin\'s chestnut (*)</b> Gladiator, and another scene in which he rides his own horse Frou-Frou to death. This character first encounters his future lover at a railway station, where a worker is crushed by a train, and is initially interested in Kitty Shcherbatsky. For 10 points, name this Leo Tolstoy character, a nobleman who has an affair with Anna Karenina.';
-      const answer = 'Count Alexei (Kirillovich) <b><u>Vronsky</u></b> [prompt on <u>Alexei</u>]';
-      const leadin = 'The 170 men who rowed each of these ships often came from Piraeus and were thetes, the lowest class of citizen. For 10 points each:';
-      testGetPacket('getPacket - 2018 PACE NSC, Packet 5', { setName: '2018 PACE NSC', packetNumber: 5 }, 21, 21, question, answer, leadin);
+      const tossupId = new ObjectId('62ec4057d6777289bcae82bf');
+      const bonusId = new ObjectId('62ec4057d6777289bcae82d4');
+      testGetPacket('getPacket - 2018 PACE NSC, Packet 5', { setName: '2018 PACE NSC', packetNumber: 5 }, 21, 21, tossupId, bonusId);
     }
 
-    function testGetSet (testName, params, tossupCount, bonusCount, expectedFirstTossupQueston, expectedFirstTossupAnswer, expectedFirstLeadin) {
+    function testGetSet (testName, params, tossupCount, bonusCount, expectedFirstTossupId, expectedFirstBonusId) {
       mocha.it(testName, async () => {
         const tossups = await getSet({ ...params, questionType: 'tossup' });
         const bonuses = await getSet({ ...params, questionType: 'bonus' });
@@ -132,17 +126,15 @@ async function testCorrectness () {
         assert.isOk(bonuses, 'bonuses');
         assert.propertyVal(tossups, 'length', tossupCount, 'tossup count');
         assert.propertyVal(bonuses, 'length', bonusCount, 'bonus count');
-        assert.propertyVal(bonuses[0], 'leadin', expectedFirstLeadin, 'bonuses - leadins');
-        assert.strictEqual(tossups[0].question, expectedFirstTossupQueston, 'tossups - question');
-        assert.strictEqual(tossups[0].answer, expectedFirstTossupAnswer, 'tossups - answer');
+        assert.deepEqual(tossups[0]._id, expectedFirstTossupId, 'tossups - _id');
+        assert.deepEqual(bonuses[0]._id, expectedFirstBonusId, 'bonuses - _id');
       });
     }
 
     {
-      const question = 'Besides his treatise on the Divine Names, the most notable work by Pseudo-Dionysius the Areopagite discusses these things. The phrase "Grigori" refers to some of these things that are heavily described in the apocryphal Books of Enoch. First Corinthians 11 argues that, specifically because of these things, women should wear head coverings when praying or prophesying. Tertullian suggested these things are what created the gigantic Nephilim. In the Talmud, Elisha ben Abuyah declares that there are "two powers in heaven" when he sees one of these things named Metatron. The book of Daniel mentions one of these beings by name, saying he will help fight the princes of Persia and protect Israel. For 10 points, name these celestial figures that include Gabriel and Michael.';
-      const answer = '<b><u>angel</u></b>s [or <b><u>archangel</u></b>s; or fallen <b><u>angel</u></b>s; or <b><u>Watcher</u></b>s; or <b><u>mal\'akh</u></b>im; or <b><u>Grigori</u></b> until it is read]';
-      const leadin = 'In a painting by this artist, a heavily-garlanded Pan sprawls in front of an eagle, flanked by a female personification of Death, who holds a bloody sword, and one of Pain, who wears a crown of thorns. For 10 points each:';
-      testGetSet('getSet - 2016 NASAT', { setName: '2016 NASAT', packetNumbers }, 336, 336, question, answer, leadin);
+      const tossupId = new ObjectId('630020e3cab8fa6d1490b8d5');
+      const bonusId = new ObjectId('630020e3cab8fa6d1490b8ea');
+      testGetSet('getSet - 2016 NASAT', { setName: '2016 NASAT', packetNumbers }, 336, 336, tossupId, bonusId);
     }
 
     mocha.it('getNumPackets - 2018 PACE NSC', async () => assert.equal(await getNumPackets('2018 PACE NSC'), 25));
