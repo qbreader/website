@@ -5,7 +5,8 @@ let difficulties = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 let limit = 50;
 let questionType = 'all';
 const searchParams = new URLSearchParams(window.location.search);
-const alternate = searchParams.get('alternate') === 'true';
+const isAlternate = searchParams.get('alternate') === 'true';
+const isCategory = searchParams.get('category') === 'true';
 const subcategory = titleCase(searchParams.keys().next().value);
 
 function difficultyDropdownListener () {
@@ -25,7 +26,9 @@ function updateFrequencyListDisplay (difficulties, limit, questionType) {
   document.getElementsByClassName('spinner-border')[0].classList.remove('d-none');
 
   const params = new URLSearchParams({ difficulties, limit, questionType });
-  params.append(alternate ? 'alternateSubcategory' : 'subcategory', subcategory);
+  if (isCategory) params.append('category', subcategory);
+  else if (isAlternate) params.append('alternate', subcategory);
+  else params.append('subcategory', subcategory);
 
   fetch('/api/frequency-list?' + params)
     .then(response => response.json())

@@ -102,37 +102,37 @@
                 <div><code>GET</code> <code>qbreader.org/api/frequency-list</code></div>
             </h3>
 
-            <p>
-                Get the most frequent tossup and bonus answers for the given subcategory.
-            </p>
+            <p>Get the most frequent tossup and bonus answers for the given subcategory.</p>
 
             <a href="#parameters" class="text-body">
                 <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
             </a>
             <p>
-                At least one of <code>subcategory</code> and <code>alternateSubcategory</code> must be specified; otherwise, an empty
-                array is returned.
+                At least one of <code>category</code>, <code>subcategory</code> and <code>alternateSubcategory</code> must be
+                specified; otherwise, an empty array is returned.
+                If multiple of these parameters are specified, questions matching all of the given fields are included.
             </p>
             <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>category</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold">default: undefined</code>
+                    </div>
+                    <div>The category to get the list for.</div>
+                </li>
                 <li class="list-group-item">
                     <div>
                         <code>subcategory</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
-                    <div>
-                        The subcategory to get the list for. If this is specified along with <code>alternateSubcategory</code>,
-                        questions matching both fields are included.
-                    </div>
+                    <div>The subcategory to get the list for.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
                         <code>alternateSubcategory</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold">default: undefined</code>
                     </div>
-                    <div>
-                        The alternate subcategory to get the list for. If this is specified along with <code>subcategory</code>,
-                        questions matching both fields are included.
-                    </div>
+                    <div>The alternate subcategory to get the list for.</div>
                 </li>
                 <li class="list-group-item">
                     <div>

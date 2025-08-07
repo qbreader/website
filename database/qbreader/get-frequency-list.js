@@ -2,9 +2,9 @@ import { bonuses, tossups } from './collections.js';
 import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
 
 /**
- * Get a frequency list of answers for a given subcategory, alternateSubcategory, and difficulty.
- * If neither `subcategory` nor `alternateSubcategory` are provided, an empty array will be returned.
- * If both a `subcategory` and `alternateSubcategory` are provided, the frequency list will filter over questions that match both fields.
+ * Get a frequency list of answers for a given category/subcategory/alternateSubcategory, and difficulty.
+ * If neither `category` nor `subcategory` nor `alternateSubcategory` are provided, an empty array will be returned.
+ * If a `category`, `subcategory`, and/or `alternateSubcategory` are provided, the frequency list will filter over questions that match all provided fields.
  * @param {object} params
  * @param {string} params.subcategory The subcategory to get the frequency list for.
  * @param {string} params.alternateSubcategory The alternate subcategory to get the frequency list for.
@@ -13,10 +13,11 @@ import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
  * @param {'tossup' | 'bonus' | 'all'} [params.questionType] The type of question to include.
  * @returns {Promise<{ answer: string, count: number }[]>} The frequency list.
  */
-export default async function getFrequencyList ({ subcategory, alternateSubcategory, difficulties, limit, questionType }) {
-  if (!subcategory && !alternateSubcategory) { return []; }
+export default async function getFrequencyList ({ alternateSubcategory, category, subcategory, difficulties, limit, questionType }) {
+  if (!category && !subcategory && !alternateSubcategory) { return []; }
 
   const matchDocument = { difficulty: { $in: difficulties } };
+  if (category) { matchDocument.category = category; }
   if (subcategory) { matchDocument.subcategory = subcategory; }
   if (alternateSubcategory) { matchDocument.alternate_subcategory = alternateSubcategory; }
 
