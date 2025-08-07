@@ -20,13 +20,14 @@ router.get('/', async (req, res) => {
   let packet;
 
   const modaq = req.query.modaq === 'true';
+  const questionTypes = req.query.questionTypes ? req.query.questionTypes.split(',') : undefined;
 
   if (req.query._id !== null) {
-    packet = await getPacket({ _id: req.query._id, modaq });
+    packet = await getPacket({ _id: req.query._id, modaq, questionTypes });
   } else {
     const setName = req.query.setName;
     const packetNumber = parseInt(req.query.packetNumber);
-    packet = await getPacket({ setName, packetNumber, modaq });
+    packet = await getPacket({ setName, packetNumber, modaq, questionTypes });
   }
 
   if (packet.tossups.length === 0 && packet.bonuses.length === 0) {

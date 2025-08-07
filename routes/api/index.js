@@ -6,8 +6,6 @@ import frequencyListRouter from './frequency-list.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer/index.js';
 import numPacketsRouter from './num-packets.js';
-import packetBonusesRouter from './packet-bonuses.js';
-import packetTossupsRouter from './packet-tossups.js';
 import packetRouter from './packet.js';
 import packetListRouter from './packet-list.js';
 import questionStatsRouter from './question-stats/index.js';
@@ -18,6 +16,9 @@ import randomTossupRouter from './random-tossup.js';
 import reportQuestionRouter from './report-question.js';
 import setListRouter from './set-list.js';
 import tossupRouter from './tossup.js';
+
+import packetBonusesRouter from './deprecated/packet-bonuses.js';
+import packetTossupsRouter from './deprecated/packet-tossups.js';
 
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
@@ -51,8 +52,6 @@ router.use('/frequency-list', frequencyListRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);
 router.use('/num-packets', numPacketsRouter);
-router.use('/packet-bonuses', packetBonusesRouter);
-router.use('/packet-tossups', packetTossupsRouter);
 router.use('/packet', packetRouter);
 router.use('/packet-list', packetListRouter);
 router.use('/question-stats', questionStatsRouter);
@@ -66,6 +65,8 @@ router.use('/tossup', tossupRouter);
 
 // deprecated, but kept for backwards compatibility
 router.use('/bonus-by-id', bonusRouter);
+router.use('/packet-bonuses', packetBonusesRouter);
+router.use('/packet-tossups', packetTossupsRouter);
 router.use('/tossup-by-id', tossupRouter);
 
 export default router;
