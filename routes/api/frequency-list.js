@@ -7,23 +7,30 @@ const router = Router();
 
 /**
  * Validate the parameters for the frequency list API endpoint.
- * If both a `subcategory` and `alternateSubcategory` are provided, the frequency list will filter over questions that match both fields.
+ * If a `category`, `subcategory`, and/or `alternateSubcategory` are provided, the frequency list will filter over questions that match all provided fields.
+ * If neither `category` nor `subcategory` nor `alternateSubcategory` are provided, an empty array will be returned.
  * @param {object} params
  * @param {string} [params.alternateSubcategory] - The alternate subcategory to get the frequency list for, if any.
+ * @param {string} [params.category] - The category to get the frequency list for, if any.
+ * @param {string} [params.subcategory] - The subcategory to get the frequency list for, if any.
  * @param {number[] | string[] | number | string} [params.difficulties] - The difficulty levels to include in the frequency list. Can be an array of numbers or a comma-separated string of numbers. Default is all difficulties.
  * @param {number | string} [params.limit=50] - The maximum number of answers to return. Must be a number or a string representation of a number. Default is 50.
  * @param {'tossup' | 'bonus' | 'all'} [params.questionType] - The type of question to include. Default is 'all'.
- * @param {string} [params.subcategory] - The subcategory to get the frequency list for, if any.
  * @returns {{
  *  alternateSubcategory: string | undefined,
+ *  category: string | undefined,
  *  difficulties: number[],
  *  limit: number,
  *  questionType: 'tossup' | 'bonus' | 'all',
  *  subcategory: string | undefined
  *  } | null} The validated parameters, or `null` if the parameters are invalid.
  */
-function validateParams ({ alternateSubcategory, difficulties = DIFFICULTIES, limit = 50, questionType = 'all', subcategory }) {
+function validateParams ({ alternateSubcategory, category, subcategory, difficulties = DIFFICULTIES, limit = 50, questionType = 'all' }) {
   if (typeof alternateSubcategory !== 'string' && alternateSubcategory !== undefined) {
+    return null;
+  }
+
+  if (typeof category !== 'string' && category !== undefined) {
     return null;
   }
 
@@ -47,7 +54,7 @@ function validateParams ({ alternateSubcategory, difficulties = DIFFICULTIES, li
     return null;
   }
 
-  return { alternateSubcategory, difficulties, limit, questionType, subcategory };
+  return { alternateSubcategory, category, difficulties, limit, questionType, subcategory };
 }
 
 router.use('/', async (req, res) => {
