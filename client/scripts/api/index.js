@@ -44,7 +44,7 @@ export default class api {
       return [];
     }
 
-    return await fetch('/api/packet-bonuses?' + new URLSearchParams({ setName, packetNumber }))
+    return await fetch('/api/packet?' + new URLSearchParams({ setName, packetNumber, questionTypes: 'bonuses' }))
       .then(response => response.json())
       .then(data => data.bonuses);
   }
@@ -59,7 +59,7 @@ export default class api {
       return [];
     }
 
-    return await fetch('/api/packet-tossups?' + new URLSearchParams({ setName, packetNumber }))
+    return await fetch('/api/packet?' + new URLSearchParams({ setName, packetNumber, questionTypes: 'tossups' }))
       .then(response => response.json())
       .then(data => data.tossups);
   }

@@ -80,8 +80,6 @@
                 <a href="./random-bonus"><code>random-bonus</code></a>
                 <a href="./random-tossup"><code>random-tossup</code></a>
                 <a href="./packet" class="active fw-semibold" aria-current="page"><code>packet</code></a>
-                <a href="./packet-tossups"><code>packet-tossups</code></a>
-                <a href="./packet-bonuses"><code>packet-bonuses</code></a>
                 <a href="./num-packets"><code>num-packets</code></a>
                 <a href="./set-list"><code>set-list</code></a>
                 <a href="./bonus"><code>bonus</code></a>
@@ -104,32 +102,46 @@
                 <div><code>GET</code> <code>qbreader.org/api/packet</code></div>
             </h3>
 
-            <p>
-                Get a specific packet from a set.
-            </p>
+            <p>Get a specific packet from a set.</p>
 
             <a href="#parameters" class="text-body">
                 <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
             </a>
+            One of the following sets of parameters is required.
+            Set 1:
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
                         <code>setName</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
                     </div>
-                    <div>
-                        The name of the set. See <a href="./set-list"><code>/set-list</code></a> for a list of all sets.
-                    </div>
+                    <div>The name of the set. See <a href="./set-list"><code>/set-list</code></a> for a list of all sets.</div>
                 </li>
                 <li class="list-group-item">
                     <div>
                         <code>packetNumber</code><code class="text-muted">: number</code>
                         <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
                     </div>
-                    <div>
-                        The number of the packet in the set, starting from 1.
-                    </div>
+                    <div>The number of the packet in the set, starting from 1.</div>
                 </li>
+            </ul>
+            <div>
+                If both an <code>_id</code> and a <code>setName</code>, <code>packetNumber</code> are provided, the <code>_id</code>
+                will be used. Set 2:
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>_id</code><code class="text-muted">: string</code>
+                        <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
+                    </div>
+                    <div>The _id of the set.</div>
+                </li>
+            </ul>
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-2 md-2" id="parameters">Optional Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
                         <code>modaq</code><code class="text-muted">: boolean</code>
@@ -137,6 +149,16 @@
                     </div>
                     <div>
                         Whether or not to output in a format compatible with <a href="https://github.com/alopezlago/MODAQ">MODAQ</a>.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>questionTypes</code><code class="text-muted">: ("tossups", "bonuses")[]</code>
+                        <code class="text-muted float-end fw-semibold">default: ["tossups", "bonuses"]</code>
+                    </div>
+                    <div>
+                        An array of question types to include in the response. If not provided, both tossups and bonuses will be
+                        included. Valid values are <code>"tossups"</code> and <code>"bonuses"</code>.
                     </div>
                 </li>
             </ul>
@@ -162,6 +184,14 @@
                     </div>
                     <div>
                         An array of <a href="schemas#bonus"><code>Bonuses</code></a> in the packet.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>packet</code><code class="text-muted">: <a href="schemas#packet" class="text-muted">Packet</a></code>
+                    </div>
+                    <div>
+                        A <a href="schemas#packet"><code>Packet</code></a> object representing the requested packet.
                     </div>
                 </li>
             </ul>
