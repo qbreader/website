@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { ipFilterMiddleware, ipFilterError } from './server/moderation/ip-filter.js';
+import { ipFilterMiddleware } from './server/moderation/ip-filter.js';
 import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from './constants.js';
 import indexRouter from './routes/index.js';
 import webhookRouter from './routes/api/webhook.js';
@@ -42,7 +42,6 @@ app.use(cookieSession({
 }));
 
 app.use(ipFilterMiddleware);
-app.use(ipFilterError);
 
 wss.on('connection', handleWssConnection);
 
