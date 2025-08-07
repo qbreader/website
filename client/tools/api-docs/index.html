@@ -88,6 +88,9 @@
                 <a href="./frequency-list"><code>frequency-list</code></a>
                 <h5 class="mt-4 mb-2">Multiplayer</h5>
                 <a href="./multiplayer/room-list"><code>room-list</code></a>
+                <h5 class="mt-4 mb-2">Question Stats</h5>
+                <a href="./question-stats/bonus"><code>bonus</code></a>
+                <a href="./question-stats/tossup"><code>tossup</code></a>
                 <h5 class="mt-4 mb-2">Other</h5>
                 <a href="./check-answer"><code>check-answer</code></a>
                 <a href="./report-question"><code>report-question</code></a>
@@ -109,10 +112,6 @@
             </p>
             <p>
                 <b>Base URL:</b> <code>https://www.qbreader.org/api</code>
-            </p>
-            <p>
-                The base URL for the multiplayer API is <code>https://www.qbreader.org/api/multiplayer</code>
-                (Note: There is only one multiplayer API endpoint.)
             </p>
             <p>
                 New rooms are created on the server when a WebSocket connection is established.
@@ -204,6 +203,22 @@
                         <div><code>GET</code> <code>/multiplayer/room-list</code></div>
                     </a>
                     <div>Get all public rooms.</div>
+                </li>
+            </ul>
+
+            <h5 class="mt-4 md-2">Question Stats</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <a href="./question-stats/bonus">
+                        <div><code>GET</code> <code>/question-stats/bonus</code></div>
+                    </a>
+                    <div>Get aggregated QBReader play statistics for a given bonus.</div>
+                </li>
+                <li class="list-group-item">
+                    <a href="./question-stats/tossup">
+                        <div><code>GET</code> <code>/question-stats/tossup</code></div>
+                    </a>
+                    <div>Get aggregated QBReader play statistics for a given tossup.</div>
                 </li>
             </ul>
 

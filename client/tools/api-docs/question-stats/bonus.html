@@ -72,40 +72,37 @@
         <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
             <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
             <div class="navbar-nav me-auto mb-2 mb-lg-0">
-                <a href="."><code>Overview</code></a>
-                <a href="./schemas"><code>Object Schemas</code></a>
+                <a href=".."><code>Overview</code></a>
+                <a href="../schemas"><code>Object Schemas</code></a>
                 <h5 class="mt-4 mb-2">Database</h5>
-                <a href="./query"><code>query</code></a>
-                <a href="./random-bonus"><code>random-bonus</code></a>
-                <a href="./random-tossup"><code>random-tossup</code></a>
-                <a href="./packet"><code>packet</code></a>
-                <a href="./packet-tossups"><code>packet-tossups</code></a>
-                <a href="./packet-bonuses"><code>packet-bonuses</code></a>
-                <a href="./num-packets"><code>num-packets</code></a>
-                <a href="./set-list"><code>set-list</code></a>
-                <a href="./bonus" class="active fw-semibold" aria-current="page"><code>bonus</code></a>
-                <a href="./tossup"><code>tossup</code></a>
-                <a href="./frequency-list"><code>frequency-list</code></a>
+                <a href="../query"><code>query</code></a>
+                <a href="../random-bonus"><code>random-bonus</code></a>
+                <a href="../random-tossup"><code>random-tossup</code></a>
+                <a href="../packet"><code>packet</code></a>
+                <a href="../packet-tossups"><code>packet-tossups</code></a>
+                <a href="../packet-bonuses"><code>packet-bonuses</code></a>
+                <a href="../num-packets"><code>num-packets</code></a>
+                <a href="../set-list"><code>set-list</code></a>
+                <a href="../bonus"><code>bonus</code></a>
+                <a href="../tossup"><code>tossup</code></a>
+                <a href="../frequency-list"><code>frequency-list</code></a>
                 <h5 class="mt-4 mb-2">Multiplayer</h5>
-                <a href="./multiplayer/room-list"><code>room-list</code></a>
+                <a href="../multiplayer/room-list"><code>room-list</code></a>
                 <h5 class="mt-4 mb-2">Question Stats</h5>
-                <a href="./question-stats/bonus"><code>bonus</code></a>
-                <a href="./question-stats/tossup"><code>tossup</code></a>
+                <a href="../question-stats/bonus" class="active fw-semibold" aria-current="page"><code>bonus</code></a>
+                <a href="../question-stats/tossup"><code>tossup</code></a>
                 <h5 class="mt-4 mb-2">Other</h5>
-                <a href="./check-answer"><code>check-answer</code></a>
-                <a href="./report-question"><code>report-question</code></a>
-                <a href="./random-name"><code>random-name</code></a>
+                <a href="../check-answer"><code>check-answer</code></a>
+                <a href="../report-question"><code>report-question</code></a>
+                <a href="../random-name"><code>random-name</code></a>
             </div>
         </div>
-
         <div class="col-12 col-md-9">
             <h3 class="md-4">
-                <div><code>GET</code> <code>qbreader.org/api/bonus</code></div>
+                <div><code>GET</code> <code>qbreader.org/api/question-stats/bonus</code></div>
             </h3>
 
-            <p>
-                Get a bonus by its ID.
-            </p>
+            <p>Get aggregated QBReader play statistics for a given bonus.</p>
 
             <a href="#parameters" class="text-body">
                 <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
@@ -116,9 +113,7 @@
                         <code>_id</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold text-decoration-underline">required</code>
                     </div>
-                    <div>
-                        The ID of the bonus.
-                    </div>
+                    <div>The ID of the bonus.</div>
                 </li>
             </ul>
 
@@ -130,12 +125,43 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
+                    <div><code>_id</code><code class="text-muted">: string</code></div>
+                    <div>The _id of the requested bonus.</div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>count</code><code class="text-muted">: number</code></div>
+                    <div>The number of times the bonus was played.</div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>partConversion</code><code class="text-muted">: number[]</code></div>
                     <div>
-                        <code>bonus</code><code class="text-muted">: Bonus</code>
+                        An array with the same length as the number of parts the bonus has.
+                        Each element of <code>partConversion</code> is the fraction of times, expressed as a decimal in
+                        <code>[0, 1]</code>, that the corresponding part was answered correctly.
                     </div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>ppb</code><code class="text-muted">: number</code></div>
+                    <div>The average points earned on this bonus for each time it was played.</div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>resultCounts</code><code class="text-muted">: object</code></div>
                     <div>
-                        A singular <a href="schemas#bonus"><code>Bonus</code></a> with the given ID.
+                        For each <code>key: value</code> pair, <code>key</code> represents a possible number of points that a player
+                        could earn on the bonus, and <code>value</code> equals number of times the bonus was played and the player got
+                        points on the bonus equal to <code>key</code>.
+                        <ul>
+                            <li>
+                                Keys of <code>30</code>, <code>20</code>, <code>10</code>, and <code>0</code> are guaranteed to be
+                                present.
+                            </li>
+                            <li>The sum of all values of this object is guaranteed to equal <code>count</code>.</li>
+                        </ul>
                     </div>
+                </li>
+                <li class="list-group-item">
+                    <div><code>totalPoints</code><code class="text-muted">: number</code></div>
+                    <div>The total points earned on this bonus over every time it was played.</div>
                 </li>
             </ul>
         </div>
