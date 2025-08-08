@@ -27,7 +27,7 @@ function updateFrequencyListDisplay (difficulties, limit, questionType) {
 
   const params = new URLSearchParams({ difficulties, limit, questionType });
   if (isCategory) params.append('category', subcategory);
-  else if (isAlternate) params.append('alternate', subcategory);
+  else if (isAlternate) params.append('alternateSubcategory', subcategory);
   else params.append('subcategory', subcategory);
 
   fetch('/api/frequency-list?' + params)
