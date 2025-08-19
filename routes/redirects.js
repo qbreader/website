@@ -6,7 +6,6 @@ const router = Router();
 /**
  * Redirects:
  */
-router.get('/api-info', (_req, res) => res.redirect('/api-docs'));
 router.get('/bonuses', (_req, res) => res.redirect('/singleplayer/bonuses'));
 router.get('/database', queryRedirect('/db/'));
 router.get('/frequency-list', queryRedirect('/db/frequency-list/'));
