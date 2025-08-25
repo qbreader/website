@@ -1,4 +1,4 @@
-import { stringifyBonus } from './stringify.js';
+import { stringifyBonus } from '../scripts/stringify.js';
 import getBonusPartLabel from '../scripts/utilities/get-bonus-part-label.js';
 import QuestionCard from '../scripts/components/QuestionCard.jsx';
 

@@ -1,4 +1,4 @@
-import { downloadQuestionsAsText, downloadTossupsAsCSV, downloadQuestionsAsJSON } from '../../../../../../../../db/download.js';
+import { downloadQuestionsAsText, downloadTossupsAsCSV, downloadQuestionsAsJSON } from '../../scripts/download.js';
 import star from '../../scripts/auth/star.js';
 
 const tossups = await star.getStarredTossups();

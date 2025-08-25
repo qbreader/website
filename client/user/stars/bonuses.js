@@ -1,5 +1,4 @@
-import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadQuestionsAsJSON } from '../../../../../../../../db/download.js';
-
+import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadQuestionsAsJSON } from '../../scripts/download.js';
 import star from '../../scripts/auth/star.js';
 import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 
