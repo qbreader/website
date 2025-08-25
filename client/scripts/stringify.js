@@ -1,4 +1,4 @@
-import getBonusPartLabel from '../scripts/utilities/get-bonus-part-label.js';
+import getBonusPartLabel from './utilities/get-bonus-part-label.js';
 
 export function stringifyBonus (bonus, includeMetadata = false) {
   let textdata = '';

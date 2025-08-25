@@ -1,4 +1,4 @@
-import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from './download.js';
+import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadTossupsAsCSV, downloadQuestionsAsJSON } from '../scripts/download.js';
 import { highlightBonusQuery, highlightTossupQuery } from './highlight-query.js';
 import star from '../scripts/auth/star.js';
 import TossupCard from './TossupCard.jsx';

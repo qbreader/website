@@ -1,3 +1,4 @@
+import { downloadQuestionsAsText, downloadBonusesAsCSV, downloadQuestionsAsJSON } from '../../scripts/download.js';
 import star from '../../scripts/auth/star.js';
 import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 
@@ -57,4 +58,14 @@ for (const bonus of bonuses) {
 document.getElementById('confirm').addEventListener('click', async function () {
   await star.clearStarredBonuses();
   window.location.reload();
+});
+
+document.getElementById('download-questions-txt').addEventListener('click', function () {
+  downloadQuestionsAsText([], bonuses);
+});
+document.getElementById('download-questions-csv').addEventListener('click', function () {
+  downloadBonusesAsCSV(bonuses);
+});
+document.getElementById('download-questions-json').addEventListener('click', function () {
+  downloadQuestionsAsJSON([], bonuses);
 });

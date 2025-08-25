@@ -1,3 +1,4 @@
+import { downloadQuestionsAsText, downloadTossupsAsCSV, downloadQuestionsAsJSON } from '../../scripts/download.js';
 import star from '../../scripts/auth/star.js';
 
 const tossups = await star.getStarredTossups();
@@ -48,4 +49,14 @@ for (const tossup of tossups) {
 document.getElementById('confirm').addEventListener('click', async function () {
   await star.clearStarredTossups();
   window.location.reload();
+});
+
+document.getElementById('download-questions-txt').addEventListener('click', function () {
+  downloadQuestionsAsText(tossups, []);
+});
+document.getElementById('download-questions-csv').addEventListener('click', function () {
+  downloadTossupsAsCSV(tossups);
+});
+document.getElementById('download-questions-json').addEventListener('click', function () {
+  downloadQuestionsAsJSON(tossups, []);
 });
