@@ -1,4 +1,4 @@
-import { stringifyTossup } from './stringify.js';
+import { stringifyTossup } from '../scripts/stringify.js';
 import QuestionCard from '../scripts/components/QuestionCard.jsx';
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, hideCardFooter, topRightComponent, fontSize = 16 }) {
