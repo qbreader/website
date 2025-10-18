@@ -7,7 +7,7 @@
         "build": "npm run webpack && npm run sass",
         "dev": "npm run build && npm run start",
         "start": "node index.js",
-        "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css",
+        "sass": "for theme in light dark; do sass scss/$theme.scss client/bootstrap/$theme.css --style compressed; done",
         "lint": "npx semistandard --fix",
         "webpack": "webpack --config webpack.config.js",
         "webpack-watch": "webpack --config webpack.config.js --watch"
