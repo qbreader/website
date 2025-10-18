@@ -6,3 +6,5 @@ node_modules
 
 # build output
 **.min.js
+**.css
+**.css.map

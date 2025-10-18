@@ -4,14 +4,11 @@
     "type": "module",
     "scripts": {
         "test": "mocha",
-        "build": "npm run webpack && npm run sass && npm test",
+        "build": "npm run webpack && npm run sass",
         "dev": "npm run build && npm run start",
         "start": "node index.js",
         "sass": "sass scss/light.scss client/bootstrap/light.css && sass scss/dark.scss client/bootstrap/dark.css",
         "lint": "npx semistandard --fix",
-        "test:frontend": "",
-        "test:backend": "mocha test/database.test.js",
-        "test:all": "npm run test:frontend && npm run test:backend",
         "webpack": "webpack --config webpack.config.js",
         "webpack-watch": "webpack --config webpack.config.js --watch"
     },
