@@ -1,7 +1,5 @@
-import bonusGraphRouter from './bonus-graph.js';
-import bonusRouter from './bonus.js';
-import tossupGraphRouter from './tossup-graph.js';
-import tossupRouter from './tossup.js';
+import bonusRouter from './bonus/index.js';
+import tossupRouter from './tossup/index.js';
 
 import { checkToken } from '../../../server/authentication.js';
 
@@ -42,8 +40,6 @@ router.use((req, res, next) => {
 });
 
 router.use('/bonus', bonusRouter);
-router.use('/bonus-graph', bonusGraphRouter);
 router.use('/tossup', tossupRouter);
-router.use('/tossup-graph', tossupGraphRouter);
 
 export default router;

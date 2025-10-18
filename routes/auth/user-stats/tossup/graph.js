@@ -1,5 +1,5 @@
-import getUserId from '../../../database/account-info/get-user-id.js';
-import getBonusGraphStats from '../../../database/account-info/user-stats/get-bonus-graph-stats.js';
+import getUserId from '../../../../database/account-info/get-user-id.js';
+import getTossupGraphStats from '../../../../database/account-info/user-stats/get-tossup-graph-stats.js';
 
 import { Router } from 'express';
 
@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
   const userId = await getUserId(username);
   const { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate } = req.query;
   const query = { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate };
-  const stats = await getBonusGraphStats(userId, query);
+  const stats = await getTossupGraphStats(userId, query);
   res.json({ stats });
 });
 
