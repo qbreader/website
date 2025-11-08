@@ -271,7 +271,7 @@ export default class TossupRoom extends QuestionRoom {
       time = 0;
     }
 
-    time = time * 0.9 * (125 - this.settings.readingSpeed);
+    time = time * 0.9 * (150 - this.settings.readingSpeed);
     const delay = time - Date.now() + expectedReadTime;
 
     this.timeoutID = setTimeout(() => {
