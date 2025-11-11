@@ -7,9 +7,9 @@ fetch('/auth/get-profile')
     document.getElementById('username-2').textContent = data.user.username;
     document.getElementById('email').textContent = data.user.email;
     if (data.user.verifiedEmail) {
-      document.getElementById('email-verified').textContent = 'Yes';
+      document.getElementById('email-verified').textContent = 'Email verified';
     } else {
-      document.getElementById('email-verified').textContent = 'No';
+      document.getElementById('email-verified').textContent = 'Email not verified';
       document.getElementById('email-verification-span').classList.remove('d-none');
     }
   });
