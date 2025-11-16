@@ -1,35 +1,21 @@
+import Checkbox, { toggleItem } from './Checkbox.jsx';
+
 const DIFFICULTIES = [
-  [0, 'Pop Culture'],
-  [1, 'Middle School'],
-  [2, 'Easy High School'],
-  [3, 'Regular High School'],
-  [4, 'Hard High School'],
-  [5, 'National High School'],
-  [6, '● / Easy College'],
-  [7, '●● / Medium College'],
-  [8, '●●● / Regionals College'],
-  [9, '●●●● / Nationals College'],
-  [10, 'Open']
+  [0, '0: Pop Culture'],
+  [1, '1: Middle School'],
+  [2, '2: Easy High School'],
+  [3, '3: Regular High School'],
+  [4, '4: Hard High School'],
+  [5, '5: National High School'],
+  [6, '6: ● / Easy College'],
+  [7, '7: ●● / Medium College'],
+  [8, '8: ●●● / Regionals College'],
+  [9, '9: ●●●● / Nationals College'],
+  [10, '10: Open']
 ];
 
-function DifficultyCheckbox ({ startChecked = false, label, value }) {
-  const [checked, setChecked] = React.useState(startChecked);
-
-  function handleClick (event) {
-    setChecked(event.target.checked);
-  }
-
-  return (
-    <li className={checked ? 'active' : undefined}>
-      <label>
-        <input type='checkbox' value={value} onClick={handleClick} defaultChecked={checked} />
-        {value}: {label}
-      </label>
-    </li>
-  );
-}
-
 function DifficultyDropdown ({ startingDifficulties = [], onChange = () => {} }) {
+  const [difficulties, setDifficulties] = React.useState(startingDifficulties);
   return (
     <div className='dropdown-checklist btn-group w-100'>
       <button
@@ -54,7 +40,10 @@ function DifficultyDropdown ({ startingDifficulties = [], onChange = () => {} })
         onChange={onChange}
       >
         {DIFFICULTIES.map(([value, label]) => (
-          <DifficultyCheckbox key={value} label={label} startChecked={startingDifficulties.includes(value)} value={value} />
+          <Checkbox
+            key={value} value={value} label={label} checked={difficulties.includes(value)}
+            onClick={() => { setDifficulties(prevDifficulties => toggleItem(value, prevDifficulties)); }}
+          />
         ))}
       </ul>
     </div>

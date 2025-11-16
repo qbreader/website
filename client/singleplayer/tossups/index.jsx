@@ -4,6 +4,7 @@ import { rangeToArray } from '../../scripts/utilities/ranges.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
+import SetListDropdown from '../../scripts/components/SetListDropdown.jsx';
 import aiBots from '../ai-mode/ai-bots.js';
 import AIBot from '../ai-mode/AIBot.js';
 import ClientTossupRoom from './ClientTossupRoom.js';
@@ -278,4 +279,8 @@ ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
     startingDifficulties={startingDifficulties ?? []}
     onChange={() => socket.sendToServer({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') })}
   />
+);
+
+ReactDOM.createRoot(document.getElementById('set-list-root')).render(
+  <SetListDropdown />
 );
