@@ -112,9 +112,9 @@ export default class SingleplayerBonusClient extends BonusClient {
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
-  async setSetName ({ setName, setLength }) {
-    super.setSetName({ setName, setLength });
-    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
+  async setSetNames ({ setNames, maxPacketNumber }) {
+    super.setSetNames({ setNames, maxPacketNumber });
+    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
   setStrictness ({ strictness }) {

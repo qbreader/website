@@ -77,8 +77,8 @@ document.getElementById('next').addEventListener('click', function () {
 });
 
 document.getElementById('packet-number').addEventListener('change', function () {
-  const range = rangeToArray(this.value.trim(), room.setLength);
-  const invalid = range.some(num => num < 1 || num > room.setLength);
+  const range = rangeToArray(this.value.trim(), room.maxPacketNumber);
+  const invalid = range.some(num => num < 1 || num > room.maxPacketNumber);
   if (invalid) {
     document.getElementById('packet-number').classList.add('is-invalid');
     return;
@@ -111,10 +111,6 @@ document.getElementById('report-question-submit').addEventListener('click', func
 document.getElementById('set-mode').addEventListener('change', function () {
   this.blur();
   socket.sendToServer({ type: 'set-mode', mode: this.value });
-});
-
-document.getElementById('set-name').addEventListener('change', function () {
-  socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
 });
 
 document.getElementById('set-strictness').addEventListener('change', function () {
@@ -235,7 +231,7 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
     room.categoryManager.import(savedQuery);
     room.query = savedQuery;
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery, doNotFetch: true });
-    socket.sendToServer({ type: 'set-set-name', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'set-set-names', ...savedQuery, doNotFetch: true });
     socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery, doNotFetch: true });
     socket.sendToServer({ type: 'toggle-powermark-only', ...savedQuery });
     startingDifficulties = savedQuery.difficulties;
@@ -277,10 +273,10 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
 ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
   <DifficultyDropdown
     startingDifficulties={startingDifficulties ?? []}
-    onChange={() => socket.sendToServer({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') })}
+    onChange={() => socket.sendToServer({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties', parseInt) })}
   />
 );
 
 ReactDOM.createRoot(document.getElementById('set-list-root')).render(
-  <SetListDropdown />
+  <SetListDropdown onChange={() => socket.sendToServer({ type: 'set-set-names', setNames: getDropdownValues('set-names') })} />
 );

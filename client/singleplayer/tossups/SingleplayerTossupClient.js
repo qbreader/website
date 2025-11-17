@@ -4,7 +4,7 @@ import upsertPlayerItem from '../../scripts/upsertPlayerItem.js';
 import TossupClient from '../../play/TossupClient.js';
 
 const modeVersion = '2025-01-14';
-const queryVersion = '2025-05-07';
+const queryVersion = '2025-11-16';
 const settingsVersion = '2024-11-02';
 
 export default class SingleplayerTossupClient extends TossupClient {
@@ -128,8 +128,8 @@ export default class SingleplayerTossupClient extends TossupClient {
     window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
-  async setSetName ({ setName, setLength }) {
-    super.setSetName({ setName, setLength });
+  async setSetNames ({ setNames, maxPacketNumber }) {
+    super.setSetNames({ setNames, maxPacketNumber });
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 

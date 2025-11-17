@@ -8,9 +8,9 @@ import TossupRoom from '../../quizbowl/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
 
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
-import getSet from '../../database/qbreader/get-set.js';
+import getSets from '../../database/qbreader/get-sets.js';
 import getSetList from '../../database/qbreader/get-set-list.js';
-import getNumPackets from '../../database/qbreader/get-num-packets.js';
+import getMaxPacketNumber from '../../database/qbreader/get-max-packet-number.js';
 
 import checkAnswer from 'qb-answer-checker';
 
@@ -22,9 +22,9 @@ export default class ServerTossupRoom extends TossupRoom {
     this.ownerId = ownerId;
     this.isPermanent = isPermanent;
     this.checkAnswer = checkAnswer;
-    this.getNumPackets = getNumPackets;
     this.getRandomQuestions = getRandomTossups;
-    this.getSet = getSet;
+    this.getSets = getSets;
+    this.getMaxPacketNumber = getMaxPacketNumber;
     this.bannedUserList = new Map();
     this.kickedUserList = new Map();
     this.votekickList = [];
@@ -140,7 +140,7 @@ export default class ServerTossupRoom extends TossupRoom {
       mode: this.mode,
       packetLength: this.packetLength,
       questionProgress: this.tossupProgress,
-      setLength: this.setLength,
+      maxPacketNumber: this.maxPacketNumber,
 
       settings: this.settings
     }));
@@ -223,13 +223,10 @@ export default class ServerTossupRoom extends TossupRoom {
     super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
-  setMode (userId, { mode, setName }) {
+  setMode (userId, { mode }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
-    if (!this.setList) { return; }
-    if (!this.setList.includes(setName)) { return; }
     if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
-    super.setMode(userId, { mode, setName });
-    this.adjustQuery(['setName'], [setName]);
+    super.setMode(userId, { mode });
   }
 
   setPacketNumbers (userId, { packetNumbers }) {
@@ -241,11 +238,12 @@ export default class ServerTossupRoom extends TossupRoom {
     super.setReadingSpeed(userId, { readingSpeed });
   }
 
-  async setSetName (userId, { setName }) {
+  async setSetNames (userId, { setNames }) {
     if (!this.allowed(userId)) { return; }
     if (!this.setList) { return; }
-    if (!this.setList.includes(setName)) { return; }
-    super.setSetName(userId, { doNotFetch: false, setName });
+    if (!Array.isArray(setNames)) { return; }
+    if (!setNames.every(name => this.setList.includes(name))) { return; }
+    super.setSetNames(userId, { doNotFetch: false, setNames });
   }
 
   setStrictness (userId, { strictness }) {

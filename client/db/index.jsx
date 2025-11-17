@@ -130,7 +130,7 @@ function QueryForm () {
     const unfilteredParams = {
       queryString,
       ...categoryManager.export(),
-      difficulties: getDropdownValues('difficulties'),
+      difficulties: getDropdownValues('difficulties', parseInt),
       maxReturnLength,
       questionType,
       randomize,

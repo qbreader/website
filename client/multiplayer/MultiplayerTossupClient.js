@@ -3,6 +3,7 @@ import questionStats from '../scripts/auth/question-stats.js';
 import { arrayToRange } from '../scripts/utilities/ranges.js';
 import upsertPlayerItem from '../scripts/upsertPlayerItem.js';
 import TossupClient from '../play/TossupClient.js';
+import { setDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 
 export default class MultiplayerTossupClient extends TossupClient {
   constructor (room, USER_ID, socket) {
@@ -128,12 +129,12 @@ export default class MultiplayerTossupClient extends TossupClient {
     players: messagePlayers,
     questionProgress,
     settings,
-    setLength: newSetLength,
+    maxPacketNumber,
     userId
   }) {
     this.room.public = settings.public;
     this.room.ownerId = serverOwnerId;
-    this.room.setLength = newSetLength;
+    this.room.maxPacketNumber = maxPacketNumber;
     this.USER_ID = userId;
     window.localStorage.setItem('USER_ID', this.USER_ID);
 
@@ -205,7 +206,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     maxYear,
     packetNumbers = [],
     powermarkOnly,
-    setName = '',
+    setNames = '',
     standardOnly,
     alternateSubcategories,
     categories,
@@ -214,19 +215,13 @@ export default class MultiplayerTossupClient extends TossupClient {
     categoryPercents
   }) {
     this.setDifficulties({ difficulties });
+    this.setSetNames({ setNames, maxPacketNumber: this.room.maxPacketNumber });
 
     document.getElementById('year-range-a').textContent = minYear;
     document.getElementById('year-range-b').textContent = maxYear;
 
     document.getElementById('packet-number').value = arrayToRange(packetNumbers);
-
     document.getElementById('toggle-powermark-only').checked = powermarkOnly;
-
-    document.getElementById('set-name').value = setName;
-    if (setName !== '' && this.room.setLength === 0) {
-      document.getElementById('set-name').classList.add('is-invalid');
-    }
-
     document.getElementById('toggle-standard-only').checked = standardOnly;
 
     this.setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
@@ -509,30 +504,22 @@ export default class MultiplayerTossupClient extends TossupClient {
       return;
     }
 
-    Array.from(document.getElementById('difficulties').children).forEach(li => {
-      const input = li.querySelector('input');
-      if (difficulties.includes(parseInt(input.value))) {
-        input.checked = true;
-        li.classList.add('active');
-      } else {
-        input.checked = false;
-        li.classList.remove('active');
-      }
-    });
+    // Array.from(document.getElementById('difficulties').children).forEach(li => {
+    //   const input = li.querySelector('input');
+    //   if (difficulties.includes(parseInt(input.value))) {
+    //     input.checked = true;
+    //     li.classList.add('active');
+    //   } else {
+    //     input.checked = false;
+    //     li.classList.remove('active');
+    //   }
+    // });
+    setDropdownValues('difficulties', difficulties.map(x => x.toString()));
   }
 
-  setMode ({ mode, setName, username }) {
+  setMode ({ mode, username }) {
     this.logEventConditionally(username, 'changed the mode to ' + mode);
-
     this.room.mode = mode;
-    switch (mode) {
-      case MODE_ENUM.SET_NAME:
-        document.getElementById('set-name').textContent = setName;
-        break;
-      case MODE_ENUM.RANDOM:
-        break;
-    }
-
     super.setMode({ mode });
   }
 
@@ -551,10 +538,10 @@ export default class MultiplayerTossupClient extends TossupClient {
     super.setStrictness({ strictness });
   }
 
-  setSetName ({ username, setName, setLength }) {
-    this.logEventConditionally(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
-    this.room.setLength = setLength;
-    super.setSetName({ setName, setLength });
+  setSetNames ({ username, setNames, maxPacketNumber }) {
+    this.logEventConditionally(username, setNames.length > 0 ? `changed set name to ${setNames}` : 'cleared set name');
+    this.room.maxPacketNumber = maxPacketNumber;
+    super.setSetNames({ setNames, maxPacketNumber });
   }
 
   setUsername ({ oldUsername, newUsername, userId }) {
@@ -668,7 +655,7 @@ export default class MultiplayerTossupClient extends TossupClient {
   }
 
   togglePublic ({ public: isPublic, username }) {
-    this.logEventConditionally(username, `made the this.room ${isPublic ? 'public' : 'private'}`);
+    this.logEventConditionally(username, `made the room ${isPublic ? 'public' : 'private'}`);
     document.getElementById('chat').disabled = isPublic;
     document.getElementById('toggle-controlled').disabled = isPublic || (this.room.ownerId !== this.USER_ID);
     document.getElementById('toggle-lock').disabled = isPublic;

@@ -1,4 +1,6 @@
 import api from '../../scripts/api/index.js';
+import getSets from '../../scripts/api/sets.js';
+import getMaxPacketNumber from '../../scripts/api/max-packet-number.js';
 import TossupRoom from '../../../quizbowl/TossupRoom.js';
 
 let starredTossupIds = null;
@@ -36,9 +38,9 @@ export default class ClientTossupRoom extends TossupRoom {
 
     this.checkAnswer = api.checkAnswer;
     this.getRandomQuestions = async (args) => await api.getRandomTossup({ ...args });
-    this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketTossups(setName, packetNumbers[0] ?? 1) : [];
+    this.getSets = getSets;
     this.getRandomStarredQuestion = getRandomStarredTossup;
-    this.getNumPackets = api.getNumPackets;
+    this.getMaxPacketNumber = getMaxPacketNumber;
   }
 
   async message (userId, message) {

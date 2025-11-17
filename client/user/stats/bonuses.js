@@ -69,7 +69,7 @@ function fetchBonusStats ({ difficulties = '', setName = '', includeMultiplayer 
 function onSubmit (event) {
   event.preventDefault();
   const setName = document.getElementById('set-name').value;
-  const difficulties = getDropdownValues('difficulties');
+  const difficulties = getDropdownValues('difficulties', parseInt);
   // const includeMultiplayer = document.getElementById('include-multiplayer').checked;
   // const includeSingleplayer = document.getElementById('include-singleplayer').checked;
   const startDate = document.getElementById('start-date').value;

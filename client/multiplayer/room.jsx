@@ -3,6 +3,7 @@ import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import { rangeToArray } from '../scripts/utilities/ranges.js';
 import CategoryModal from '../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../scripts/components/DifficultyDropdown.jsx';
+import SetListDropdown from '../scripts/components/SetListDropdown.jsx';
 import { MODE_ENUM } from '../../quizbowl/constants.js';
 import MultiplayerTossupClient from './MultiplayerTossupClient.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
@@ -19,7 +20,7 @@ const room = {
    */
   players: {},
   public: true,
-  setLength: 24,
+  maxPacketNumber: 24,
   showingOffline: false,
   tossup: {},
   username: window.localStorage.getItem('multiplayer-username') || getRandomName()
@@ -123,8 +124,8 @@ document.getElementById('skip').addEventListener('click', function () {
 });
 
 document.getElementById('packet-number').addEventListener('change', function () {
-  const range = rangeToArray(this.value, room.setLength);
-  if (range.some((num) => num < 1 || num > room.setLength)) {
+  const range = rangeToArray(this.value, room.maxPacketNumber);
+  if (range.some((num) => num < 1 || num > room.maxPacketNumber)) {
     document.getElementById('packet-number').classList.add('is-invalid');
     return;
   }
@@ -155,10 +156,6 @@ document.getElementById('report-question-submit').addEventListener('click', func
     document.getElementById('report-question-reason').value,
     document.getElementById('report-question-description').value
   );
-});
-
-document.getElementById('set-name').addEventListener('change', async function () {
-  socket.send(JSON.stringify({ type: 'set-set-name', setName: this.value }));
 });
 
 document.getElementById('set-strictness').addEventListener('change', function () {
@@ -215,7 +212,7 @@ document.getElementById('toggle-skip').addEventListener('click', function () {
 
 document.getElementById('set-mode').addEventListener('change', function () {
   this.blur();
-  socket.send(JSON.stringify({ type: 'set-mode', setName: document.getElementById('set-name').value, mode: this.value }));
+  socket.send(JSON.stringify({ type: 'set-mode', mode: this.value }));
 });
 
 document.getElementById('toggle-settings').addEventListener('click', function () {
@@ -318,6 +315,13 @@ ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
 ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
   <DifficultyDropdown
     startingDifficulties={room.difficulties}
-    onChange={() => socket.send(JSON.stringify({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') }))}
+    onChange={() => socket.send(JSON.stringify({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties', parseInt) }))}
+  />
+);
+
+ReactDOM.createRoot(document.getElementById('set-list-root')).render(
+  <SetListDropdown
+    startingDifficulties={room.setNames}
+    onChange={() => socket.send(JSON.stringify({ type: 'set-set-names', setNames: getDropdownValues('set-names') }))}
   />
 );

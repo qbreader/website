@@ -9,8 +9,8 @@ export default class QuestionRoom extends Room {
 
     this.checkAnswer = function checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); };
     this.getRandomQuestions = async function getRandomQuestions (args) { throw new Error('Not implemented'); };
-    this.getSet = async function getSet (args) { throw new Error('Not implemented'); };
-    this.getNumPackets = async function getNumPackets (setName) { throw new Error('Not implemented'); };
+    this.getSets = async function getSets (args) { throw new Error('Not implemented'); };
+    this.getMaxPacketNumber = async function getMaxPacketNumber (setNames) { throw new Error('Not implemented'); };
     this.getRandomStarredQuestion = async function getRandomStarredQuestion () { throw new Error('Not implemented'); };
     this.getNextLocalQuestion = function getNextLocalQuestion () { throw new Error('Not implemented'); };
 
@@ -19,7 +19,7 @@ export default class QuestionRoom extends Room {
     this.queryingQuestion = false;
     this.randomQuestionCache = [];
     this.setCache = [];
-    this.setLength = 24; // length of 2023 PACE NSC
+    this.maxPacketNumber = 24; // length of 2023 PACE NSC
 
     this.mode = MODE_ENUM.RANDOM;
 
@@ -33,7 +33,7 @@ export default class QuestionRoom extends Room {
       minYear: DEFAULT_MIN_YEAR,
       maxYear: DEFAULT_MAX_YEAR,
       packetNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-      setName: '2023 PACE NSC',
+      setNames: ['2023 PACE NSC'],
       alternateSubcategories,
       categories,
       subcategories,
@@ -60,7 +60,7 @@ export default class QuestionRoom extends Room {
       case 'set-difficulties': return this.setDifficulties(userId, message);
       case 'set-mode': return this.setMode(userId, message);
       case 'set-packet-numbers': return this.setPacketNumbers(userId, message);
-      case 'set-set-name': return this.setSetName(userId, message);
+      case 'set-set-names': return this.setSetNames(userId, message);
       case 'set-strictness': return this.setStrictness(userId, message);
       case 'set-username': return this.setUsername(userId, message);
       case 'set-year-range': return this.setYearRange(userId, message);
@@ -92,7 +92,7 @@ export default class QuestionRoom extends Room {
 
     switch (this.mode) {
       case MODE_ENUM.SET_NAME:
-        this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [this.query.packetNumbers[0]] });
+        this.setCache = await this.getSets({ setNames: this.query.setNames, packetNumbers: [this.query.packetNumbers[0]] });
         this.packetLength = this.setCache.length;
         break;
       case MODE_ENUM.RANDOM:
@@ -119,7 +119,7 @@ export default class QuestionRoom extends Room {
               this.emitMessage({ type: 'end-of-set' });
               return null;
             }
-            this.setCache = await this.getSet({ setName: this.query.setName, packetNumbers: [packetNumber] });
+            this.setCache = await this.getSets({ setNames: this.query.setNames, packetNumbers: [packetNumber] });
             this.packetLength = this.setCache.length;
           }
 
@@ -177,30 +177,30 @@ export default class QuestionRoom extends Room {
     this.emitMessage({ type: 'set-difficulties', username, difficulties });
   }
 
-  setMode (userId, { mode, setName }) {
+  setMode (userId, { mode }) {
     if (!Object.values(MODE_ENUM).includes(mode)) { return; }
     this.mode = mode;
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-mode', mode, setName, username });
+    this.emitMessage({ type: 'set-mode', mode, username });
   }
 
   async setPacketNumbers (userId, { doNotFetch = false, packetNumbers }) {
     if (!Array.isArray(packetNumbers)) { return false; }
-    if (packetNumbers.some((value) => typeof value !== 'number' || value < 1 || value > this.setLength)) { return false; }
+    if (packetNumbers.some((value) => typeof value !== 'number' || value < 1 || value > this.maxPacketNumber)) { return false; }
 
     const username = this.players[userId].username;
     this.adjustQuery(['packetNumbers'], [packetNumbers], doNotFetch);
     this.emitMessage({ type: 'set-packet-numbers', username, packetNumbers });
   }
 
-  async setSetName (userId, { doNotFetch = false, setName }) {
-    if (typeof setName !== 'string') { return; }
+  async setSetNames (userId, { doNotFetch = false, setNames }) {
+    if (!Array.isArray(setNames) || !setNames.every(item => typeof item === 'string')) { return; }
     const username = this.players[userId].username;
-    this.setLength = await this.getNumPackets(setName);
+    this.maxPacketNumber = await this.getMaxPacketNumber(setNames);
     const packetNumbers = [];
-    for (let i = 1; i <= this.setLength; i++) { packetNumbers.push(i); }
-    this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers], doNotFetch);
-    this.emitMessage({ type: 'set-set-name', username, setName, setLength: this.setLength });
+    for (let i = 1; i <= this.maxPacketNumber; i++) { packetNumbers.push(i); }
+    this.adjustQuery(['setNames', 'packetNumbers'], [setNames, packetNumbers], doNotFetch);
+    this.emitMessage({ type: 'set-set-names', username, setNames, maxPacketNumber: this.maxPacketNumber });
   }
 
   setStrictness (userId, { strictness }) {

@@ -1,4 +1,6 @@
 import BonusRoom from '../../../quizbowl/BonusRoom.js';
+import getSets from '../../scripts/api/sets.js';
+import getMaxPacketNumber from '../../scripts/api/max-packet-number.js';
 import api from '../../scripts/api/index.js';
 
 let starredBonusIds = null;
@@ -28,9 +30,9 @@ export default class ClientBonusRoom extends BonusRoom {
 
     this.checkAnswer = api.checkAnswer;
     this.getRandomQuestions = async (args) => await api.getRandomBonus({ ...args });
-    this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketBonuses(setName, packetNumbers[0] ?? 1) : [];
+    this.getSets = async ({ setNames, packetNumbers }) => getSets({ questionType: 'bonus', setNames, packetNumbers });
+    this.getMaxPacketNumber = getMaxPacketNumber;
     this.getRandomStarredQuestion = getRandomStarredBonus;
-    this.getNumPackets = api.getNumPackets;
 
     this.settings = {
       ...this.settings,

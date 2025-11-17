@@ -3,9 +3,9 @@ import getSetList from '../api/get-set-list';
 
 const setList = await getSetList();
 
-export default function SetListDropdown ({ onChange = () => {} }) {
+export default function SetListDropdown ({ startingSets = [], onChange = () => {} }) {
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [selectedItems, setSelectedItems] = React.useState([]);
+  const [selectedItems, setSelectedItems] = React.useState(startingSets);
 
   // Filter options based on search term and sort selected to top
   const filteredOptions = setList
@@ -24,7 +24,7 @@ export default function SetListDropdown ({ onChange = () => {} }) {
     <div className='dropdown-checklist btn-group w-100'>
       <button
         className='btn btn-default text-start w-100'
-        id='dropdownMenu1'
+        id='set-names-label'
         data-bs-toggle='dropdown'
         type='button'
         aria-expanded='true'
@@ -35,8 +35,8 @@ export default function SetListDropdown ({ onChange = () => {} }) {
       <button className='btn btn-default dropdown-toggle' type='button' />
       <ul
         className='dropdown-menu checkbox-menu allow-focus w-100'
-        id='set-names-1'
-        aria-labelledby='dropdownMenu1'
+        id='set-names'
+        aria-labelledby='set-names-label'
         onClick={(e) => e.stopPropagation()}
         onChange={onChange}
       >

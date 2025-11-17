@@ -2,17 +2,12 @@ import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, MIN_YEAR, MODE_ENUM } from '../../q
 import account from '../scripts/accounts.js';
 import audio from '../audio/index.js';
 import { arrayToRange } from '../scripts/utilities/ranges.js';
-import getSetList from '../scripts/api/get-set-list.js';
-
-const SET_LIST = await getSetList();
+import { setDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 
 export default class QuestionClient {
   constructor (room, USER_ID) {
     this.room = room;
     this.USER_ID = USER_ID;
-
-    this.SET_LIST = SET_LIST;
-    document.getElementById('set-list').innerHTML = this.SET_LIST.map(setName => `<option>${setName}</option>`).join('');
   }
 
   onmessage (message) {
@@ -28,7 +23,7 @@ export default class QuestionClient {
       case 'set-difficulties': return this.setDifficulties(data);
       case 'set-mode': return this.setMode(data);
       case 'set-packet-numbers': return this.setPacketNumbers(data);
-      case 'set-set-name': return this.setSetName(data);
+      case 'set-set-names': return this.setSetNames(data);
       case 'set-strictness': return this.setStrictness(data);
       case 'set-year-range': return this.setYearRange(data);
       case 'skip': return this.next(data);
@@ -108,12 +103,10 @@ export default class QuestionClient {
     document.getElementById('packet-number').value = arrayToRange(packetNumbers);
   }
 
-  setSetName ({ setName, setLength }) {
-    document.getElementById('set-name').value = setName;
-    // make border red if set name is not in set list
-    const valid = !setName || this.SET_LIST.includes(setName);
-    document.getElementById('packet-number').placeholder = 'Packet Numbers' + (setLength ? ` (1-${setLength})` : '');
-    document.getElementById('set-name').classList.toggle('is-invalid', !valid);
+  setSetNames ({ setNames, maxPacketNumber }) {
+    setDropdownValues('set-names', setNames);
+    document.getElementById('packet-number').placeholder = 'Packet Numbers' + (maxPacketNumber ? ` (1-${maxPacketNumber})` : '');
+    document.getElementById('set-names-label').textContent = setNames.length === 0 ? 'Select Sets' : `${setNames.length} Set${setNames.length !== 1 ? 's' : ''} Selected`;
   }
 
   setStrictness ({ strictness }) {
@@ -152,42 +145,6 @@ if (fontSize) {
 if (window.localStorage.getItem('high-contrast-question-text') === 'true') {
   document.getElementById('question').classList.add('high-contrast-question-text');
 }
-
-function polyfillSetNameInput () {
-  // eslint-disable-next-line no-unused-vars
-  function fillSetName (event) {
-    const setNameInput = document.getElementById('set-name');
-    const name = event.target.innerHTML;
-    setNameInput.value = name;
-    setNameInput.focus();
-  }
-
-  function removeDropdown () {
-    document.getElementById('set-dropdown')?.remove();
-  }
-
-  if (window.navigator.userAgent.match(/Mobile.*Firefox/)) {
-    const setNameInput = document.getElementById('set-name');
-    setNameInput.addEventListener('input', function () {
-      document.getElementById('set-dropdown')?.remove();
-      const set = this.value.toLowerCase();
-      const dropdownItems = SET_LIST
-        .filter(setName => setName.toLowerCase().includes(set))
-        .map(setName => `<a class="dropdown-item" onclick="fillSetName(event)">${setName}</a>`)
-        .join('');
-      const dropdownHtml = dropdownItems === ''
-        ? ''
-        : `
-        <div id="set-dropdown" class="dropdown-menu" style="display: inline" aria-labelledby="set-name">
-            ${dropdownItems}
-        </div>
-        `;
-      setNameInput.insertAdjacentHTML('afterend', dropdownHtml);
-    });
-    setNameInput.addEventListener('blur', removeDropdown);
-  }
-}
-polyfillSetNameInput();
 
 const banners = {};
 

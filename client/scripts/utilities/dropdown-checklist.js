@@ -16,12 +16,12 @@ export function attachDropdownChecklist () {
   });
 }
 
-export function getDropdownValues (id) {
+export function getDropdownValues (id, mapFn = (x) => x) {
   const values = [];
   Array.from(document.getElementById(id).children).forEach(li => {
     const input = li.querySelector('input');
     if (input.checked) {
-      values.push(parseInt(input.value));
+      values.push(mapFn(input.value));
     }
   });
   return values;
@@ -32,8 +32,12 @@ export function setDropdownValues (id, values) {
 
   Array.from(document.getElementById(id).children).forEach(li => {
     const input = li.querySelector('input');
-    if (values.includes(parseInt(input.value)) ^ input.checked) {
-      input.click();
+    if (values.includes(input.value)) {
+      input.checked = true;
+      li.classList.add('active');
+    } else {
+      input.checked = false;
+      li.classList.remove('active');
     }
   });
 }
