@@ -104,7 +104,7 @@ export default class QuestionClient {
   }
 
   setSetNames ({ setNames, maxPacketNumber }) {
-    setDropdownValues('set-names', setNames);
+    setDropdownValues('set-names', setNames, true);
     document.getElementById('packet-number').placeholder = 'Packet Numbers' + (maxPacketNumber ? ` (1-${maxPacketNumber})` : '');
     document.getElementById('set-names-label').textContent = setNames.length === 0 ? 'Select Sets' : `${setNames.length} Set${setNames.length !== 1 ? 's' : ''} Selected`;
   }

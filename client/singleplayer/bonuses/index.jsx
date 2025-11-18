@@ -10,7 +10,7 @@ import ClientBonusRoom from './ClientBonusRoom.js';
 import SingleplayerBonusClient from './SingleplayerBonusClient.js';
 
 const modeVersion = '2025-01-14';
-const queryVersion = '2025-05-07';
+const queryVersion = '2025-11-16';
 const settingsVersion = '2024-11-02';
 
 const USER_ID = 'user';

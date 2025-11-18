@@ -27,10 +27,13 @@ export function getDropdownValues (id, mapFn = (x) => x) {
   return values;
 }
 
-export function setDropdownValues (id, values) {
+export function setDropdownValues (id, values, sort = false) {
   if (!Array.isArray(values)) { return; }
 
-  Array.from(document.getElementById(id).children).forEach(li => {
+  const container = document.getElementById(id);
+  const items = Array.from(container.children);
+
+  items.forEach(li => {
     const input = li.querySelector('input');
     if (values.includes(input.value)) {
       input.checked = true;
@@ -40,4 +43,19 @@ export function setDropdownValues (id, values) {
       li.classList.remove('active');
     }
   });
+
+  if (sort === false) { return; }
+
+  // Sort: checked items first, then unchecked
+  items.sort((a, b) => {
+    if (a.tagName === 'FORM') { return -1; }
+    if (b.tagName === 'FORM') { return 1; }
+
+    const aChecked = a.querySelector('input').checked;
+    const bChecked = b.querySelector('input').checked;
+    return bChecked - aChecked;
+  });
+
+  // Re-append in sorted order
+  items.forEach(li => container.appendChild(li));
 }

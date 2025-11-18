@@ -11,7 +11,7 @@ import ClientTossupRoom from './ClientTossupRoom.js';
 import SingleplayerTossupClient from './SingleplayerTossupClient.js';
 
 const modeVersion = '2025-01-14';
-const queryVersion = '2025-05-07';
+const queryVersion = '2025-11-16';
 const settingsVersion = '2024-10-16';
 const USER_ID = 'user';
 
