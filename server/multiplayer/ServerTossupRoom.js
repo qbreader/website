@@ -13,6 +13,7 @@ import getSetList from '../../database/qbreader/get-set-list.js';
 import getMaxPacketNumber from '../../database/qbreader/get-max-packet-number.js';
 
 import checkAnswer from 'qb-answer-checker';
+import { MAX_SET_NAMES } from './constants.js';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
@@ -243,6 +244,11 @@ export default class ServerTossupRoom extends TossupRoom {
     if (!this.setList) { return; }
     if (!Array.isArray(setNames)) { return; }
     if (!setNames.every(name => this.setList.includes(name))) { return; }
+    if (setNames.length > MAX_SET_NAMES) {
+      this.emitMessage({ type: 'alert', message: `You can only select up to ${MAX_SET_NAMES} sets.` });
+      this.emitMessage({ type: 'set-set-names', setNames: this.setNames, maxPacketNumber: this.maxPacketNumber });
+      return;
+    }
     super.setSetNames(userId, { doNotFetch: false, setNames });
   }
 

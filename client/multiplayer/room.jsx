@@ -320,8 +320,5 @@ ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
 );
 
 ReactDOM.createRoot(document.getElementById('set-list-root')).render(
-  <SetListDropdown
-    startingDifficulties={room.setNames}
-    onChange={() => socket.send(JSON.stringify({ type: 'set-set-names', setNames: getDropdownValues('set-names') }))}
-  />
+  <SetListDropdown onChange={() => socket.send(JSON.stringify({ type: 'set-set-names', setNames: getDropdownValues('set-names') }))} />
 );

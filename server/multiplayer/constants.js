@@ -5,6 +5,8 @@ export const USERNAME_MAX_LENGTH = 32;
 
 export const MAX_ONLINE_PLAYERS = 500;
 
+export const MAX_SET_NAMES = 10;
+
 /**
  * List of multiplayer permanent room names.
  */
