@@ -6,21 +6,21 @@ import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
 import aiBots from '../ai-mode/ai-bots.js';
 import AIBot from '../ai-mode/AIBot.js';
-import ClientTossupRoom from './ClientTossupRoom.js';
-import SingleplayerTossupClient from './SingleplayerTossupClient.js';
+import SoloTossupRoom from './SoloTossupRoom.js';
+import SoloTossupClient from './SoloTossupClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
 const settingsVersion = '2024-10-16';
 const USER_ID = 'user';
 
-const room = new ClientTossupRoom();
+const room = new SoloTossupRoom();
 room.players[USER_ID] = new Player(USER_ID);
 const aiBot = new AIBot(room);
 aiBot.setAIBot(aiBots['average-high-school'][0]);
 aiBot.active = false;
 
-const client = new SingleplayerTossupClient(room, USER_ID, aiBot);
+const client = new SoloTossupClient(room, USER_ID, aiBot);
 
 const socket = {
   send: (message) => client.onmessage(message),

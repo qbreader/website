@@ -22,7 +22,7 @@ async function getRandomStarredBonus () {
   return await api.getBonus(_id);
 }
 
-export default class ClientBonusRoom extends BonusRoom {
+export default class SoloBonusRoom extends BonusRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
 
