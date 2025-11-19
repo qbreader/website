@@ -28,7 +28,7 @@ const room = {
 
 let oldCategories = JSON.stringify(room.categoryManager.export());
 
-const ROOM_NAME = decodeURIComponent(window.location.pathname.substring(13));
+const ROOM_NAME = decodeURIComponent(window.location.pathname.split('/').at(-1));
 const USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
 
 const socket = new window.WebSocket(
@@ -40,7 +40,7 @@ const socket = new window.WebSocket(
       username: room.username
     }).toString()
 );
-window.history.pushState({}, '', '/multiplayer/' + encodeURIComponent(ROOM_NAME));
+window.history.pushState({}, '', './' + encodeURIComponent(ROOM_NAME));
 
 // Ping server every 30 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(
