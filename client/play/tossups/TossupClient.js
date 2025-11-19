@@ -1,6 +1,6 @@
 import audio from '../../audio/index.js';
 import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import createTossupGameCard from '../../scripts/utilities/tossup-game-card.js';
+import addTossupGameCard from './add-tossup-game-card.js';
 import QuestionClient from '../QuestionClient.js';
 
 export default class TossupClient extends QuestionClient {
@@ -39,7 +39,7 @@ export default class TossupClient extends QuestionClient {
     document.getElementById('answer').textContent = '';
 
     if (type !== 'start') {
-      createTossupGameCard({ starred, tossup: oldTossup });
+      addTossupGameCard({ starred, tossup: oldTossup });
     }
 
     if (type === 'end') {

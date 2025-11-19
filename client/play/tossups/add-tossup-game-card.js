@@ -1,5 +1,5 @@
-import star from '../auth/star.js';
-import { removeParentheses } from './strings.js';
+import star from '../../scripts/auth/star.js';
+import { removeParentheses } from '../../scripts/utilities/strings.js';
 
 /**
  * Creates a card for a tossup question and appends it to the room history element.
@@ -9,7 +9,7 @@ import { removeParentheses } from './strings.js';
  * @param {string} [params.roomHistoryId='room-history'] - The id of the DOM element to prepend the card to.
  * @param {boolean} [params.starred] - Whether the tossup is starred. If not provided, this function will query the server.
  */
-export default async function createTossupGameCard ({ roomHistoryId = 'room-history', starred, tossup }) {
+export default async function addTossupGameCard ({ roomHistoryId = 'room-history', starred, tossup }) {
   if (!tossup || Object.keys(tossup).length === 0) return;
 
   const { markedQuestion, answer, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id } = tossup;

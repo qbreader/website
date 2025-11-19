@@ -1,11 +1,11 @@
-import star from '../auth/star.js';
-import { removeParentheses } from './strings.js';
-import getBonusPartLabel from './get-bonus-part-label.js';
+import star from '../../scripts/auth/star.js';
+import { removeParentheses } from '../../scripts/utilities/strings.js';
+import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 
 /**
  * See tossup-game-card.js for documentation.
  */
-export default async function createBonusGameCard ({ bonus, starred }) {
+export default async function addBonusGameCard ({ bonus, starred }) {
   if (!bonus || Object.keys(bonus).length === 0) { return; }
 
   const { leadin, parts, answers, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id } = bonus;

@@ -2,8 +2,8 @@ import TossupClient from '../TossupClient.js';
 
 import { MODE_ENUM } from '../../../../quizbowl/constants.js';
 import questionStats from '../../../scripts/auth/question-stats.js';
-import { arrayToRange } from '../../../scripts/utilities/ranges.js';
-import upsertPlayerItem from '../../../scripts/upsertPlayerItem.js';
+import { arrayToRange } from '../../ranges.js';
+import upsertPlayerItem from '../../upsert-player-item.js';
 
 export default class MultiplayerTossupClient extends TossupClient {
   constructor (room, USER_ID, socket) {

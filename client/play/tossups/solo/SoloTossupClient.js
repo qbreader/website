@@ -1,6 +1,6 @@
 import { MODE_ENUM } from '../../../../quizbowl/constants.js';
 import questionStats from '../../../scripts/auth/question-stats.js';
-import upsertPlayerItem from '../../../scripts/upsertPlayerItem.js';
+import upsertPlayerItem from '../../upsert-player-item.js';
 import TossupClient from '../TossupClient.js';
 
 const modeVersion = '2025-01-14';

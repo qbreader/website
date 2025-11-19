@@ -1,4 +1,4 @@
-import { rangeToArray } from '../../../scripts/utilities/ranges.js';
+import { rangeToArray } from '../../ranges.js';
 import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';

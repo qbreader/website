@@ -1,6 +1,6 @@
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import createBonusGameCard from '../../scripts/utilities/bonus-game-card.js';
+import addBonusGameCard from './add-bonus-game-card.js';
 import QuestionClient from '../QuestionClient.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
 
 export default class BonusClient extends QuestionClient {
   onmessage (message) {
@@ -26,7 +26,7 @@ export default class BonusClient extends QuestionClient {
     super.next({ nextQuestion: bonus, packetLength, type });
 
     if (type !== 'start') {
-      createBonusGameCard({ bonus: oldBonus, starred });
+      addBonusGameCard({ bonus: oldBonus, starred });
     }
 
     if (type === 'end') {
