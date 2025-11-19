@@ -1,6 +1,6 @@
-import { MODE_ENUM } from '../../quizbowl/constants.js';
-import createBonusGameCard from '../scripts/utilities/bonus-game-card.js';
-import QuestionClient from './QuestionClient.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import createBonusGameCard from '../../scripts/utilities/bonus-game-card.js';
+import QuestionClient from '../QuestionClient.js';
 
 export default class BonusClient extends QuestionClient {
   onmessage (message) {

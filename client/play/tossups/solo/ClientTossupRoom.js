@@ -1,5 +1,5 @@
-import api from '../../scripts/api/index.js';
-import TossupRoom from '../../../quizbowl/TossupRoom.js';
+import api from '../../../scripts/api/index.js';
+import TossupRoom from '../../../../quizbowl/TossupRoom.js';
 
 let starredTossupIds = null;
 async function getRandomStarredTossup () {

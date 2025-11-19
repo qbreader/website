@@ -1,4 +1,4 @@
-import getRandomName from '../../quizbowl/get-random-name.js';
+import getRandomName from '../../../../quizbowl/get-random-name.js';
 
 const ROOM_NAME_MAX_LENGTH = 32;
 

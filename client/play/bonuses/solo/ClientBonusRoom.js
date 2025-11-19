@@ -1,5 +1,5 @@
-import BonusRoom from '../../../quizbowl/BonusRoom.js';
-import api from '../../scripts/api/index.js';
+import BonusRoom from '../../../../quizbowl/BonusRoom.js';
+import api from '../../../scripts/api/index.js';
 
 let starredBonusIds = null;
 async function getRandomStarredBonus () {

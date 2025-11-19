@@ -1,12 +1,13 @@
-import CategoryManager from '../../quizbowl/category-manager.js';
-import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
-import { rangeToArray } from '../scripts/utilities/ranges.js';
-import CategoryModal from '../scripts/components/CategoryModal.jsx';
-import DifficultyDropdown from '../scripts/components/DifficultyDropdown.jsx';
-import { MODE_ENUM } from '../../quizbowl/constants.js';
 import MultiplayerTossupClient from './MultiplayerTossupClient.js';
-import getRandomName from '../../quizbowl/get-random-name.js';
-import reportQuestion from '../scripts/api/report-question.js';
+
+import CategoryManager from '../../../../quizbowl/category-manager.js';
+import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
+import { rangeToArray } from '../../../scripts/utilities/ranges.js';
+import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
+import { MODE_ENUM } from '../../../../quizbowl/constants.js';
+import getRandomName from '../../../../quizbowl/get-random-name.js';
+import reportQuestion from '../../../scripts/api/report-question.js';
 
 const room = {
   categoryManager: new CategoryManager(),

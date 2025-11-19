@@ -3,9 +3,9 @@ export default {
   experiments: { outputModule: true },
   // below is based on https://stackoverflow.com/questions/35903246/how-to-create-multiple-output-paths-in-webpack-config
   entry: {
-    'singleplayer/tossups/index': './client/singleplayer/tossups/index.jsx',
-    'singleplayer/bonuses/index': './client/singleplayer/bonuses/index.jsx',
-    'multiplayer/room': './client/multiplayer/room.jsx',
+    'play/tossups/solo/index': './client/play/tossups/solo/index.jsx',
+    'play/bonuses/solo/index': './client/play/bonuses/solo/index.jsx',
+    'play/tossups/mp/room': './client/play/tossups/mp/room.jsx',
     'db/index': './client/db/index.jsx',
     'db/frequency-list/subcategory': './client/db/frequency-list/subcategory.jsx',
     'admin/category-reports/index': './client/admin/category-reports/index.jsx'

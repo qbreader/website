@@ -1,7 +1,7 @@
-import audio from '../audio/index.js';
-import { MODE_ENUM } from '../../quizbowl/constants.js';
-import createTossupGameCard from '../scripts/utilities/tossup-game-card.js';
-import QuestionClient from './QuestionClient.js';
+import audio from '../../audio/index.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import createTossupGameCard from '../../scripts/utilities/tossup-game-card.js';
+import QuestionClient from '../QuestionClient.js';
 
 export default class TossupClient extends QuestionClient {
   onmessage (message) {

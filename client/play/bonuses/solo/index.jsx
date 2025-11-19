@@ -1,10 +1,10 @@
-import { rangeToArray } from '../../scripts/utilities/ranges.js';
-import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
-import CategoryModal from '../../scripts/components/CategoryModal.jsx';
-import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
-import Player from '../../../quizbowl/Player.js';
-import Team from '../../../quizbowl/Team.js';
-import reportQuestion from '../../scripts/api/report-question.js';
+import { rangeToArray } from '../../../scripts/utilities/ranges.js';
+import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
+import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
+import Player from '../../../../quizbowl/Player.js';
+import Team from '../../../../quizbowl/Team.js';
+import reportQuestion from '../../../scripts/api/report-question.js';
 import ClientBonusRoom from './ClientBonusRoom.js';
 import SingleplayerBonusClient from './SingleplayerBonusClient.js';
 
