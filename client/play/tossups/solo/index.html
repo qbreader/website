@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A text-based quizbowl packet reader to read bonuses to yourself.">
+    <meta name="description" content="A text-based quizbowl packet reader to read tossups to yourself.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -17,7 +17,7 @@
     <script type="module" src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
         integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
     <link href="/bootstrap/light.css" rel="stylesheet">
-    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
+    <link id="custom-css" href="/bootstrap/dark.css" rel="stylesheet">
     <script type="module" src="/scripts/apply-theme.js"></script>
 </head>
 
@@ -33,8 +33,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <a class="nav-link active" href="/singleplayer/" aria-current="page">Singleplayer</a>
-                    <a class="nav-link" href="/multiplayer/">Multiplayer</a>
+                    <a class="nav-link active" href="/play/" aria-current="page">Play</a>
+                    <a class="nav-link" href="/play/tossups/mp/">Multiplayer</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Database
@@ -94,6 +94,8 @@
                     <span class="face">0</span><span class="fraction">.0</span>
                 </div>
                 <hr>
+                <ul class="list-group d-none" id="player-list-group"></ul>
+                <hr class="d-none" id="player-list-group-hr">
                 <label class="form-check-label mb-1" for="set-mode">Choose a mode:</label>
                 <select class="form-select mb-2" id="set-mode">
                     <option value="select by set name">Select by Set Name</option>
@@ -125,13 +127,19 @@
                 </div>
                 <div class="mt-2" id="general-settings">
                     <div class="text-center mb-2">
+                        <button class="btn btn-info" id="ai-settings" data-bs-target="#ai-settings-modal" data-bs-toggle="modal"
+                            type="button" disabled>AI</button>
                         <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal"
                             data-bs-toggle="modal" type="button">Categories</button>
                         <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" id="toggle-three-part-bonuses" type="checkbox" role="switch" checked>
-                        <label class="form-check-label" for="toggle-three-part-bonuses">3-part bonuses only</label>
+                        <input class="form-check-input" id="toggle-ai-mode" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-ai-mode">Enable AI mode</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-powermark-only" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-powermark-only">Powermarked tossups only</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-standard-only" type="checkbox" role="switch">
@@ -143,6 +151,10 @@
                         <label class="form-check-label" for="type-to-answer">Type to answer</label>
                     </div>
                     <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-rebuzz" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-rebuzz">Allow rebuzzes</label>
+                    </div>
+                    <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-show-history" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-show-history">Show question history</label>
                     </div>
@@ -151,6 +163,8 @@
                         <label class="form-check-label" for="toggle-timer">Enable timer</label>
                     </div>
                     <div class="mb-2"></div>
+                    <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                    <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
                     <label for="set-strictness">Strictness: <span id="strictness-display">7</span><br></label>
                     <input class="form-range" id="set-strictness" type="range" min="0" max="20" step="1" value="7">
                     <div>
@@ -162,10 +176,6 @@
                             <span class="text-nowrap"><kbd>k</kbd> = show/hide last question</span><br>
                             <span class="text-nowrap"><kbd>t</kbd> = star/unstar last question</span><br>
                             <span class="text-nowrap"><kbd>y</kbd> = copy current question id to clipboard</span><br>
-                            <span class="text-nowrap"><kbd>0</kbd> = toggle last bonus part</span><br>
-                            <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
-                            <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
-                            <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
                         </p>
                     </div>
                 </div>
@@ -179,7 +189,7 @@
                     </div>
                 </form>
                 <div class="d-flex justify-content-between">
-                    <span id="statline">0.00 PPB with 0 bonuses seen (0/0/0/0, 0 pts)</span>
+                    <span id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span>
                     <span class="ps-5 me-lg-2" id="question-metadata">
                         <b id="question-info">
                             <span id="set-name-info"></span>
@@ -190,7 +200,8 @@
                     </span>
                 </div>
                 <div class="mt-2" id="question"></div>
-                <p class="my-1 my-lg-3" id="answer"></p>
+                <a class="mt-1 mt-lg-3 p-0 btn btn-link float-end d-none" id="toggle-correct">I was wrong</a>
+                <p class="mt-1 mt-lg-3" id="answer"></p>
                 <ul class="room-history list-unstyled" id="room-history"></ul>
             </div>
         </div>
@@ -203,20 +214,39 @@
                     title="Shortcut: s key">Start</button>
                 <button class="btn btn-primary" id="next" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
                     title="Shortcut: n key" disabled>Next</button>
-                <button class="btn btn-danger d-lg-none" id="toggle-options" type="button" disabled>Options</button>
+                <button class="btn btn-primary" id="pause" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: p key" disabled>Pause</button>
                 <button class="btn btn-danger" id="toggle-settings" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
                     title="Shortcut: e key" type="button">
                     <div class="d-flex align-items-center"><i class="bi bi-gear"></i></div>
                 </button>
-                <button class="btn btn-primary float-end" id="reveal" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
-                    title="Shortcut: spacebar" disabled>Reveal</button>
+                <button class="btn btn-primary float-end" id="buzz" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: spacebar" disabled>Buzz</button>
             </div>
         </div>
     </div>
 
     <div id="category-modal-root"></div>
 
-    <div class="modal" id="report-question-modal" tabindex="-2">
+    <div class="modal" id="ai-settings-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">AI Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Choose an AI:</p>
+                    <form id="choose-ai"></form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="report-question-modal" tabindex="-3">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -239,8 +269,9 @@
                             </select>
                         </div>
                         <div>
-                            <p class="text-muted">If your answer was parsed incorrectly, please enter what answer you
-                                gave below.</p>
+                            <p class="text-muted">
+                                If your answer was parsed incorrectly, please enter what answer you gave below.
+                            </p>
                             <label class="col-form-label" for="report-question-description">Additional
                                 Information:</label>
                             <textarea class="form-control" id="report-question-description" rows="3"></textarea>
@@ -263,7 +294,7 @@
         integrity="sha384-tMH8h3BGESGckSAVGZ82T9n90ztNXxvdwvdM6UoR56cYcf+0iGXBliJ29D+wZ/x8" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"
         integrity="sha384-bm7MnzvK++ykSwVJ2tynSE5TRdN+xL418osEVF2DE/L/gfWHj91J2Sphe582B1Bh" crossorigin="anonymous"></script>
-    <script type="module" src="/singleplayer/bonuses/index.min.js"></script>
+    <script type="module" src="./index.min.js"></script>
 </body>
 
 </html>

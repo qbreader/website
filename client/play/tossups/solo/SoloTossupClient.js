@@ -1,13 +1,13 @@
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import questionStats from '../../scripts/auth/question-stats.js';
-import upsertPlayerItem from '../../scripts/upsertPlayerItem.js';
-import TossupClient from '../../play/TossupClient.js';
+import { MODE_ENUM } from '../../../../quizbowl/constants.js';
+import questionStats from '../../../scripts/auth/question-stats.js';
+import upsertPlayerItem from '../../upsert-player-item.js';
+import TossupClient from '../TossupClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
 const settingsVersion = '2024-11-02';
 
-export default class SingleplayerTossupClient extends TossupClient {
+export default class SoloTossupClient extends TossupClient {
   constructor (room, USER_ID, aiBot) {
     super(room, USER_ID);
     this.aiBot = aiBot;

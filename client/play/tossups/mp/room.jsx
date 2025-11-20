@@ -1,12 +1,13 @@
-import CategoryManager from '../../quizbowl/category-manager.js';
-import { getDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
-import { rangeToArray } from '../scripts/utilities/ranges.js';
-import CategoryModal from '../scripts/components/CategoryModal.jsx';
-import DifficultyDropdown from '../scripts/components/DifficultyDropdown.jsx';
-import { MODE_ENUM } from '../../quizbowl/constants.js';
 import MultiplayerTossupClient from './MultiplayerTossupClient.js';
-import getRandomName from '../../quizbowl/get-random-name.js';
-import reportQuestion from '../scripts/api/report-question.js';
+
+import CategoryManager from '../../../../quizbowl/category-manager.js';
+import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
+import { rangeToArray } from '../../ranges.js';
+import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
+import { MODE_ENUM } from '../../../../quizbowl/constants.js';
+import getRandomName from '../../../../quizbowl/get-random-name.js';
+import reportQuestion from '../../../scripts/api/report-question.js';
 
 const room = {
   categoryManager: new CategoryManager(),
@@ -27,7 +28,7 @@ const room = {
 
 let oldCategories = JSON.stringify(room.categoryManager.export());
 
-const ROOM_NAME = decodeURIComponent(window.location.pathname.substring(13));
+const ROOM_NAME = decodeURIComponent(window.location.pathname.split('/').at(-1));
 const USER_ID = window.localStorage.getItem('USER_ID') || 'unknown';
 
 const socket = new window.WebSocket(
@@ -39,7 +40,7 @@ const socket = new window.WebSocket(
       username: room.username
     }).toString()
 );
-window.history.pushState({}, '', '/multiplayer/' + encodeURIComponent(ROOM_NAME));
+window.history.pushState({}, '', './' + encodeURIComponent(ROOM_NAME));
 
 // Ping server every 30 seconds to prevent socket disconnection
 const PING_INTERVAL_ID = setInterval(

@@ -3,7 +3,7 @@ import apiRouter from './api/index.js';
 import authRouter from './auth/index.js';
 import dbRouter from './db.js';
 import geowordRouter from './geoword/index.js';
-import multiplayerRouter from './multiplayer.js';
+import playRouter from './play/index.js';
 import userRouter from './user.js';
 
 import redirectsRouter from './redirects.js';
@@ -24,7 +24,7 @@ router.use('/api', cors(), apiRouter);
 router.use('/auth', authRouter);
 router.use('/db', dbRouter);
 router.use('/geoword', geowordRouter);
-router.use('/multiplayer', multiplayerRouter);
+router.use('/play', playRouter);
 router.use('/user', userRouter);
 
 router.use('/quizbowl', express.static('quizbowl'));

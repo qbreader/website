@@ -1,12 +1,12 @@
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import questionStats from '../../scripts/auth/question-stats.js';
-import BonusClient from '../../play/BonusClient.js';
+import { MODE_ENUM } from '../../../../quizbowl/constants.js';
+import questionStats from '../../../scripts/auth/question-stats.js';
+import BonusClient from '../BonusClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
 const settingsVersion = '2024-11-02';
 
-export default class SingleplayerBonusClient extends BonusClient {
+export default class SoloBonusClient extends BonusClient {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {

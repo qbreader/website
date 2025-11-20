@@ -1,12 +1,12 @@
-import { rangeToArray } from '../../scripts/utilities/ranges.js';
-import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
-import CategoryModal from '../../scripts/components/CategoryModal.jsx';
-import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
-import Player from '../../../quizbowl/Player.js';
-import Team from '../../../quizbowl/Team.js';
-import reportQuestion from '../../scripts/api/report-question.js';
-import ClientBonusRoom from './ClientBonusRoom.js';
-import SingleplayerBonusClient from './SingleplayerBonusClient.js';
+import { rangeToArray } from '../../ranges.js';
+import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
+import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
+import Player from '../../../../quizbowl/Player.js';
+import Team from '../../../../quizbowl/Team.js';
+import reportQuestion from '../../../scripts/api/report-question.js';
+import SoloBonusRoom from './SoloBonusRoom.js';
+import SoloBonusClient from './SoloBonusClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
@@ -14,12 +14,12 @@ const settingsVersion = '2024-11-02';
 
 const USER_ID = 'user';
 const TEAM_ID = 'team';
-const room = new ClientBonusRoom();
+const room = new SoloBonusRoom();
 room.players[USER_ID] = new Player(USER_ID);
 room.players[USER_ID].teamId = TEAM_ID;
 room.teams[TEAM_ID] = new Team(TEAM_ID);
 
-const client = new SingleplayerBonusClient(room, USER_ID);
+const client = new SoloBonusClient(room, USER_ID);
 
 const socket = {
   send: (message) => client.onmessage(message),

@@ -1,5 +1,5 @@
-import api from '../../scripts/api/index.js';
-import TossupRoom from '../../../quizbowl/TossupRoom.js';
+import api from '../../../scripts/api/index.js';
+import TossupRoom from '../../../../quizbowl/TossupRoom.js';
 
 let starredTossupIds = null;
 async function getRandomStarredTossup () {
@@ -22,7 +22,7 @@ async function getRandomStarredTossup () {
   return await api.getTossup(_id);
 }
 
-export default class ClientTossupRoom extends TossupRoom {
+export default class SoloTossupRoom extends TossupRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
 

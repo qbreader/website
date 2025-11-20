@@ -1,4 +1,4 @@
-import Player from '../../../quizbowl/Player.js';
+import Player from '../../../../quizbowl/Player.js';
 
 export default class AIBot {
   constructor (room, name = 'ai-bot') {

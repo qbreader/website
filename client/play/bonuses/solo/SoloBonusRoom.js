@@ -1,5 +1,5 @@
-import BonusRoom from '../../../quizbowl/BonusRoom.js';
-import api from '../../scripts/api/index.js';
+import BonusRoom from '../../../../quizbowl/BonusRoom.js';
+import api from '../../../scripts/api/index.js';
 
 let starredBonusIds = null;
 async function getRandomStarredBonus () {
@@ -22,7 +22,7 @@ async function getRandomStarredBonus () {
   return await api.getBonus(_id);
 }
 
-export default class ClientBonusRoom extends BonusRoom {
+export default class SoloBonusRoom extends BonusRoom {
   constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
     super(name, categories, subcategories, alternateSubcategories);
 

@@ -1,4 +1,4 @@
-import getRandomName from '../../quizbowl/get-random-name.js';
+import getRandomName from '../../../../quizbowl/get-random-name.js';
 
 const ROOM_NAME_MAX_LENGTH = 32;
 
@@ -22,7 +22,7 @@ document.getElementById('form').addEventListener('submit', (event) => {
   if (isPrivate) params.set('private', 'true');
   if (isControlled) params.set('controlled', 'true');
 
-  window.location.href = `/multiplayer/${encodeURIComponent(roomName)}?${params.toString()}`;
+  window.location.href = `./${encodeURIComponent(roomName)}?${params.toString()}`;
 });
 
 fetch('/api/multiplayer/room-list')
@@ -44,7 +44,7 @@ fetch('/api/multiplayer/room-list')
       const { roomName, playerCount, onlineCount, isPermanent } = room;
 
       const a = document.createElement('a');
-      a.href = `/multiplayer/${encodeURIComponent(roomName)}`;
+      a.href = `./${encodeURIComponent(roomName)}`;
       a.textContent = roomName;
 
       const li = document.createElement('li');

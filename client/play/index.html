@@ -5,6 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A text-based quizbowl packet reader to read questions to yourself.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -27,8 +28,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <a class="nav-link" href="/singleplayer/">Singleplayer</a>
-                    <a class="nav-link active" href="/multiplayer/" aria-current="page">Multiplayer</a>
+                    <a class="nav-link active" href="/singleplayer/" aria-current="page">Play</a>
+                    <a class="nav-link" href="/play/tossups/mp/">Multiplayer</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Database
@@ -65,54 +66,25 @@
         </div>
     </nav>
 
-    <div class="container mt-3 mb-4">
-        <p class="lead">Play quizbowl real-time against other players.</p>
-        <p>
-            You can invite friends to join you by sharing the URL to your room.
-            There are <span id="active-players"></span> active players in <span id="active-rooms"></span> active rooms.
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <p class="lead">
+            Play quizbowl questions by yourself.
         </p>
         <p>
-            Settings in controlled rooms can only be changed by the room creator.
+            <a type="button" class="btn btn-primary" href="./tossups/solo/">Tossups</a>
+            <a type="button" class="btn btn-primary" href="./bonuses/solo/">Bonuses</a>
         </p>
-        <p class="mb-0 pb-2">Create/Join a Room:</p>
-        <form id="form">
-            <div class="input-group justify-content-center pb-2">
-                <input class="form-control" id="new-room-name" type="text">
-                <button class="btn btn-success" type="submit">Go</button>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" id="private-room-checkbox" type="checkbox">
-                <label class="form-check-label" for="private-room-checkbox">
-                    Make room private
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" id="controlled-room-checkbox" type="checkbox">
-                <label class="form-check-label" for="controlled-room-checkbox">
-                    Make room controlled
-                </label>
-            </div>
-        </form>
-        <hr>
-        <p>Try one of these rooms:</p>
-        <ul class="list-group mb-3" id="permanent-room-list"></ul>
-        <div class="d-flex justify-content-between mb-3">
-            <div>Or, check out a public room:</div>
-            <div class="form-check">
-                <input class="form-check-input" id="empty-room-checkbox" type="checkbox">
-                <label class="form-check-label" for="empty-room-checkbox">
-                    Show empty rooms
-                </label>
-            </div>
-        </div>
-        <ul class="list-group mb-5" id="room-list"></ul>
+        <p class="text-muted">
+            Note: AI mode is under the <a href="./tossups/solo/">tossups</a> page.
+        </p>
+        <p>
+            Or, check out a <a href="./tossups/mp/">multiplayer room</a>.
+        </p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script type="module" src="/script.js"></script>
-
-    <script type="module" src="/multiplayer/index.js"></script>
 </body>
 
 </html>

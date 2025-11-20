@@ -1,7 +1,7 @@
 import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, MIN_YEAR, MODE_ENUM } from '../../quizbowl/constants.js';
 import account from '../scripts/accounts.js';
 import audio from '../audio/index.js';
-import { arrayToRange } from '../scripts/utilities/ranges.js';
+import { arrayToRange } from './ranges.js';
 import getSetList from '../scripts/api/get-set-list.js';
 
 const SET_LIST = await getSetList();
