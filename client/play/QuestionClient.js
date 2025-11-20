@@ -1,15 +1,17 @@
 import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, MIN_YEAR, MODE_ENUM } from '../../quizbowl/constants.js';
 import account from '../scripts/accounts.js';
 import audio from '../audio/index.js';
-import { arrayToRange } from './ranges.js';
+import { arrayToRange, rangeToArray } from './ranges.js';
 import getSetList from '../scripts/api/get-set-list.js';
+import reportQuestion from '../scripts/api/report-question.js';
 
 const SET_LIST = await getSetList();
 
 export default class QuestionClient {
-  constructor (room, USER_ID) {
+  constructor (room, userId, socket) {
     this.room = room;
-    this.USER_ID = USER_ID;
+    this.USER_ID = userId;
+    attachEventListeners(room, socket);
 
     this.SET_LIST = SET_LIST;
     document.getElementById('set-list').innerHTML = this.SET_LIST.map(setName => `<option>${setName}</option>`).join('');
@@ -242,3 +244,78 @@ $('input.sliderValue').change(function () {
   const $this = $(this);
   $('#slider').slider('values', $this.data('index'), $this.val());
 });
+
+function attachEventListeners (room, socket) {
+  document.getElementById('answer-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const answer = document.getElementById('answer-input').value;
+    socket.sendToServer({ type: 'give-answer', givenAnswer: answer });
+  });
+
+  document.getElementById('clear-stats').addEventListener('click', function () {
+    this.blur();
+    room.sendToServer({ type: 'clear-stats' });
+  });
+
+  document.getElementById('packet-number').addEventListener('change', function () {
+    const range = rangeToArray(this.value.trim(), room.setLength);
+    if (range.some(num => num < 1 || num > room.setLength)) {
+      document.getElementById('packet-number').classList.add('is-invalid');
+      return;
+    }
+    document.getElementById('packet-number').classList.remove('is-invalid');
+    socket.sendToServer({ type: 'set-packet-numbers', packetNumbers: range });
+  });
+
+  document.getElementById('report-question-submit').addEventListener('click', function () {
+    reportQuestion(
+      document.getElementById('report-question-id').value,
+      document.getElementById('report-question-reason').value,
+      document.getElementById('report-question-description').value
+    );
+  });
+
+  document.getElementById('set-mode').addEventListener('change', function () {
+    this.blur();
+    socket.sendToServer({ type: 'set-mode', mode: this.value });
+  });
+
+  document.getElementById('set-name').addEventListener('change', function () {
+    socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
+  });
+
+  document.getElementById('set-strictness').addEventListener('change', function () {
+    this.blur();
+    socket.sendToServer({ type: 'set-strictness', strictness: this.value });
+  });
+
+  document.getElementById('set-strictness').addEventListener('input', function () {
+    document.getElementById('strictness-display').textContent = this.value;
+  });
+
+  document.getElementById('toggle-settings').addEventListener('click', function () {
+    this.blur();
+    document.getElementById('buttons').classList.toggle('col-lg-9');
+    document.getElementById('buttons').classList.toggle('col-lg-12');
+    document.getElementById('content').classList.toggle('col-lg-9');
+    document.getElementById('content').classList.toggle('col-lg-12');
+    document.getElementById('settings').classList.toggle('d-none');
+    document.getElementById('settings').classList.toggle('d-lg-none');
+  });
+
+  document.getElementById('toggle-show-history').addEventListener('click', function () {
+    this.blur();
+    document.getElementById('room-history').classList.toggle('d-none', !this.checked);
+  });
+
+  document.getElementById('toggle-standard-only').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'toggle-standard-only', standardOnly: this.checked });
+  });
+
+  document.getElementById('toggle-timer').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'toggle-timer', timer: this.checked });
+  });
+}

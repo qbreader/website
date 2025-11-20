@@ -177,11 +177,11 @@ export default class QuestionRoom extends Room {
     this.emitMessage({ type: 'set-difficulties', username, difficulties });
   }
 
-  setMode (userId, { mode, setName }) {
+  setMode (userId, { mode }) {
     if (!Object.values(MODE_ENUM).includes(mode)) { return; }
     this.mode = mode;
     const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-mode', mode, setName, username });
+    this.emitMessage({ type: 'set-mode', mode, username });
   }
 
   async setPacketNumbers (userId, { doNotFetch = false, packetNumbers }) {

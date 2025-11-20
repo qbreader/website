@@ -1,9 +1,14 @@
-import audio from '../../audio/index.js';
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
 import addTossupGameCard from './add-tossup-game-card.js';
 import QuestionClient from '../QuestionClient.js';
+import audio from '../../audio/index.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
 
 export default class TossupClient extends QuestionClient {
+  constructor (room, userId, socket) {
+    super(room, userId, socket);
+    attachEventListeners(room, socket);
+  }
+
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
@@ -93,4 +98,38 @@ export default class TossupClient extends QuestionClient {
     if (word === '(*)' || word === '[*]') { return; }
     document.getElementById('question').innerHTML += word + ' ';
   }
+}
+
+function attachEventListeners (room, socket) {
+  document.getElementById('buzz').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'buzz' });
+    socket.sendToServer({ type: 'give-answer-live-update', givenAnswer: '' });
+  });
+
+  document.getElementById('pause').addEventListener('click', function () {
+    this.blur();
+    const seconds = parseFloat(document.querySelector('.timer .face').textContent);
+    const tenths = parseFloat(document.querySelector('.timer .fraction').textContent);
+    const pausedTime = (seconds + tenths) * 10;
+    socket.sendToServer({ type: 'pause', pausedTime });
+  });
+
+  document.getElementById('reading-speed').addEventListener('change', function () {
+    socket.sendToServer({ type: 'set-reading-speed', readingSpeed: this.value });
+  });
+
+  document.getElementById('reading-speed').addEventListener('input', function () {
+    document.getElementById('reading-speed-display').textContent = this.value;
+  });
+
+  document.getElementById('toggle-powermark-only').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'toggle-powermark-only', powermarkOnly: this.checked });
+  });
+
+  document.getElementById('toggle-rebuzz').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'toggle-rebuzz', rebuzz: this.checked });
+  });
 }

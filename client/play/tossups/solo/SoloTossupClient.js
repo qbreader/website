@@ -8,8 +8,8 @@ const queryVersion = '2025-05-07';
 const settingsVersion = '2024-11-02';
 
 export default class SoloTossupClient extends TossupClient {
-  constructor (room, USER_ID, aiBot) {
-    super(room, USER_ID);
+  constructor (room, userId, socket, aiBot) {
+    super(room, userId, socket);
     this.aiBot = aiBot;
   }
 
@@ -19,7 +19,6 @@ export default class SoloTossupClient extends TossupClient {
       case 'clear-stats': return this.clearStats(data);
       case 'toggle-ai-mode': return this.toggleAiMode(data);
       case 'toggle-correct': return this.toggleCorrect(data);
-      case 'toggle-show-history': return this.toggleShowHistory(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
       default: return super.onmessage(message);
     }
@@ -189,12 +188,6 @@ export default class SoloTossupClient extends TossupClient {
     }
     super.setMode({ mode });
     window.localStorage.setItem('singleplayer-tossup-mode', JSON.stringify({ mode, version: modeVersion }));
-  }
-
-  toggleShowHistory ({ showHistory }) {
-    document.getElementById('room-history').classList.toggle('d-none', !showHistory);
-    document.getElementById('toggle-show-history').checked = showHistory;
-    window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
   toggleStandardOnly ({ standardOnly }) {

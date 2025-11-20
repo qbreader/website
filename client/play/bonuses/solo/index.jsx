@@ -1,10 +1,8 @@
-import { rangeToArray } from '../../ranges.js';
 import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
 import Player from '../../../../quizbowl/Player.js';
 import Team from '../../../../quizbowl/Team.js';
-import reportQuestion from '../../../scripts/api/report-question.js';
 import SoloBonusRoom from './SoloBonusRoom.js';
 import SoloBonusClient from './SoloBonusClient.js';
 
@@ -19,25 +17,10 @@ room.players[USER_ID] = new Player(USER_ID);
 room.players[USER_ID].teamId = TEAM_ID;
 room.teams[TEAM_ID] = new Team(TEAM_ID);
 
-const client = new SoloBonusClient(room, USER_ID);
-
-const socket = {
-  send: (message) => client.onmessage(message),
-  sendToServer: (message) => room.message(USER_ID, message)
-};
+const socket = { sendToServer: (message) => room.message(USER_ID, message) };
+const client = new SoloBonusClient(room, USER_ID, socket);
+socket.send = (message) => client.onmessage(message);
 room.sockets[TEAM_ID] = socket;
-
-document.getElementById('answer-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  event.stopPropagation();
-  const answer = document.getElementById('answer-input').value;
-  socket.sendToServer({ type: 'give-answer', givenAnswer: answer });
-});
-
-document.getElementById('clear-stats').addEventListener('click', function () {
-  this.blur();
-  room.sendToServer({ type: 'clear-stats' });
-});
 
 document.getElementById('next').addEventListener('click', function () {
   this.blur();
@@ -63,47 +46,9 @@ document.getElementById('local-packet-input').addEventListener('change', functio
   reader.readAsText(file);
 });
 
-document.getElementById('packet-number').addEventListener('change', function () {
-  const range = rangeToArray(this.value.trim(), room.setLength);
-  const invalid = range.some(num => num < 1 || num > room.setLength);
-  if (invalid) {
-    document.getElementById('packet-number').classList.add('is-invalid');
-    return;
-  }
-
-  document.getElementById('packet-number').classList.remove('is-invalid');
-  socket.sendToServer({ type: 'set-packet-numbers', packetNumbers: range });
-});
-
-document.getElementById('report-question-submit').addEventListener('click', function () {
-  reportQuestion(
-    document.getElementById('report-question-id').value,
-    document.getElementById('report-question-reason').value,
-    document.getElementById('report-question-description').value
-  );
-});
-
 document.getElementById('reveal').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'start-answer' });
-});
-
-document.getElementById('set-mode').addEventListener('change', function () {
-  this.blur();
-  socket.sendToServer({ type: 'set-mode', mode: this.value });
-});
-
-document.getElementById('set-name').addEventListener('change', function () {
-  socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
-});
-
-document.getElementById('set-strictness').addEventListener('change', function () {
-  this.blur();
-  socket.sendToServer({ type: 'set-strictness', strictness: this.value });
-});
-
-document.getElementById('set-strictness').addEventListener('input', function () {
-  document.getElementById('strictness-display').textContent = this.value;
 });
 
 document.getElementById('start').addEventListener('click', async function () {
@@ -116,34 +61,9 @@ document.getElementById('toggle-randomize-order').addEventListener('click', func
   socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
 });
 
-document.getElementById('toggle-settings').addEventListener('click', function () {
-  this.blur();
-  document.getElementById('buttons').classList.toggle('col-lg-9');
-  document.getElementById('buttons').classList.toggle('col-lg-12');
-  document.getElementById('content').classList.toggle('col-lg-9');
-  document.getElementById('content').classList.toggle('col-lg-12');
-  document.getElementById('settings').classList.toggle('d-none');
-  document.getElementById('settings').classList.toggle('d-lg-none');
-});
-
-document.getElementById('toggle-show-history').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-show-history', showHistory: this.checked });
-});
-
-document.getElementById('toggle-standard-only').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-standard-only', standardOnly: this.checked });
-});
-
 document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-three-part-bonuses', threePartBonuses: this.checked });
-});
-
-document.getElementById('toggle-timer').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-timer', timer: this.checked });
 });
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
@@ -226,7 +146,6 @@ if (window.localStorage.getItem('singleplayer-bonus-settings')) {
     const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-bonus-settings'));
     if (savedSettings.version !== settingsVersion) { throw new Error(); }
     socket.sendToServer({ type: 'set-strictness', ...savedSettings });
-    socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
     socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
   } catch {

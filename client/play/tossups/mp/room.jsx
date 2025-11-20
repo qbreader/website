@@ -2,12 +2,10 @@ import MultiplayerTossupClient from './MultiplayerTossupClient.js';
 
 import CategoryManager from '../../../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
-import { rangeToArray } from '../../ranges.js';
 import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
 import { MODE_ENUM } from '../../../../quizbowl/constants.js';
 import getRandomName from '../../../../quizbowl/get-random-name.js';
-import reportQuestion from '../../../scripts/api/report-question.js';
 
 const room = {
   categoryManager: new CategoryManager(),
@@ -48,6 +46,8 @@ const PING_INTERVAL_ID = setInterval(
   30000
 );
 
+socket.sendToServer = (data) => socket.send(JSON.stringify(data));
+
 socket.onclose = function (event) {
   const { code } = event;
   if (code !== 3000) { window.alert('Disconnected from server'); }
@@ -55,27 +55,10 @@ socket.onclose = function (event) {
 };
 
 const client = new MultiplayerTossupClient(room, USER_ID, socket);
-
-socket.onmessage = (message) => {
-  client.onmessage(message);
-};
-
-document.getElementById('answer-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  event.stopPropagation();
-
-  const answer = document.getElementById('answer-input').value;
-  socket.send(JSON.stringify({ type: 'give-answer', givenAnswer: answer }));
-});
+socket.onmessage = (message) => client.onmessage(message);
 
 document.getElementById('answer-input').addEventListener('input', function () {
   socket.send(JSON.stringify({ type: 'give-answer-live-update', givenAnswer: this.value }));
-});
-
-document.getElementById('buzz').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'buzz' }));
-  socket.send(JSON.stringify({ type: 'give-answer-live-update', givenAnswer: '' }));
 });
 
 document.getElementById('chat').addEventListener('click', function () {
@@ -101,11 +84,6 @@ document.getElementById('chat-input').addEventListener('input', function () {
   socket.send(JSON.stringify({ type: 'chat-live-update', message: this.value }));
 });
 
-document.getElementById('clear-stats').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'clear-stats' }));
-});
-
 document.getElementById('next').addEventListener('click', function () {
   this.blur();
   switch (this.innerHTML) {
@@ -121,54 +99,6 @@ document.getElementById('next').addEventListener('click', function () {
 document.getElementById('skip').addEventListener('click', function () {
   this.blur();
   socket.send(JSON.stringify({ type: 'skip' }));
-});
-
-document.getElementById('packet-number').addEventListener('change', function () {
-  const range = rangeToArray(this.value, room.setLength);
-  if (range.some((num) => num < 1 || num > room.setLength)) {
-    document.getElementById('packet-number').classList.add('is-invalid');
-    return;
-  }
-
-  document.getElementById('packet-number').classList.remove('is-invalid');
-  socket.send(JSON.stringify({ type: 'set-packet-numbers', packetNumbers: range }));
-});
-
-document.getElementById('pause').addEventListener('click', function () {
-  this.blur();
-  const seconds = parseFloat(document.querySelector('.timer .face').textContent);
-  const tenths = parseFloat(document.querySelector('.timer .fraction').textContent);
-  const pausedTime = (seconds + tenths) * 10;
-  socket.send(JSON.stringify({ type: 'pause', pausedTime }));
-});
-
-document.getElementById('reading-speed').addEventListener('change', function () {
-  socket.send(JSON.stringify({ type: 'set-reading-speed', readingSpeed: this.value }));
-});
-
-document.getElementById('reading-speed').addEventListener('input', function () {
-  document.getElementById('reading-speed-display').textContent = this.value;
-});
-
-document.getElementById('report-question-submit').addEventListener('click', function () {
-  reportQuestion(
-    document.getElementById('report-question-id').value,
-    document.getElementById('report-question-reason').value,
-    document.getElementById('report-question-description').value
-  );
-});
-
-document.getElementById('set-name').addEventListener('change', async function () {
-  socket.send(JSON.stringify({ type: 'set-set-name', setName: this.value }));
-});
-
-document.getElementById('set-strictness').addEventListener('change', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'set-strictness', strictness: this.value }));
-});
-
-document.getElementById('set-strictness').addEventListener('input', function () {
-  document.getElementById('strictness-display').textContent = this.value;
 });
 
 const styleSheet = document.createElement('style');
@@ -199,44 +129,9 @@ document.getElementById('toggle-login-required').addEventListener('click', funct
   socket.send(JSON.stringify({ type: 'toggle-login-required', loginRequired: this.checked }));
 });
 
-document.getElementById('toggle-powermark-only').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-powermark-only', powermarkOnly: this.checked }));
-});
-
-document.getElementById('toggle-rebuzz').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-rebuzz', rebuzz: this.checked }));
-});
-
 document.getElementById('toggle-skip').addEventListener('click', function () {
   this.blur();
   socket.send(JSON.stringify({ type: 'toggle-skip', skip: this.checked }));
-});
-
-document.getElementById('set-mode').addEventListener('change', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'set-mode', setName: document.getElementById('set-name').value, mode: this.value }));
-});
-
-document.getElementById('toggle-settings').addEventListener('click', function () {
-  this.blur();
-  document.getElementById('buttons').classList.toggle('col-lg-9');
-  document.getElementById('buttons').classList.toggle('col-lg-12');
-  document.getElementById('content').classList.toggle('col-lg-9');
-  document.getElementById('content').classList.toggle('col-lg-12');
-  document.getElementById('settings').classList.toggle('d-none');
-  document.getElementById('settings').classList.toggle('d-lg-none');
-});
-
-document.getElementById('toggle-standard-only').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-standard-only', standardOnly: this.checked }));
-});
-
-document.getElementById('toggle-timer').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-timer', timer: this.checked }));
 });
 
 document.getElementById('toggle-public').addEventListener('click', function () {

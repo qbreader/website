@@ -16,7 +16,6 @@ export default class SoloBonusClient extends BonusClient {
       case 'reveal-next-part': return this.revealNextPart(data);
       case 'start-answer': return this.startAnswer(data);
       case 'toggle-correct': return this.toggleCorrect(data);
-      case 'toggle-show-history': return this.toggleShowHistory(data);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
       default: return super.onmessage(message);
@@ -162,12 +161,6 @@ export default class SoloBonusClient extends BonusClient {
     }
     super.setMode({ mode });
     window.localStorage.setItem('singleplayer-bonus-mode', JSON.stringify({ mode, version: modeVersion }));
-  }
-
-  toggleShowHistory ({ showHistory }) {
-    document.getElementById('room-history').classList.toggle('d-none', !showHistory);
-    document.getElementById('toggle-show-history').checked = showHistory;
-    window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
   toggleStandardOnly ({ standardOnly }) {

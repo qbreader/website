@@ -1,6 +1,4 @@
 import Player from '../../../../quizbowl/Player.js';
-import reportQuestion from '../../../scripts/api/report-question.js';
-import { rangeToArray } from '../../ranges.js';
 import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
@@ -20,35 +18,15 @@ const aiBot = new AIBot(room);
 aiBot.setAIBot(aiBots['average-high-school'][0]);
 aiBot.active = false;
 
-const client = new SoloTossupClient(room, USER_ID, aiBot);
-
-const socket = {
-  send: (message) => client.onmessage(message),
-  sendToServer: (message) => room.message(USER_ID, message)
-};
+const socket = { sendToServer: (message) => room.message(USER_ID, message) };
+const client = new SoloTossupClient(room, USER_ID, socket, aiBot);
+socket.send = (message) => client.onmessage(message);
 room.sockets[USER_ID] = socket;
-
-document.getElementById('answer-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  event.stopPropagation();
-  const answer = document.getElementById('answer-input').value;
-  socket.sendToServer({ type: 'give-answer', givenAnswer: answer });
-});
-
-document.getElementById('buzz').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'buzz' });
-});
 
 document.getElementById('choose-ai').addEventListener('change', function () {
   const prefix = 'ai-choice-';
   const choice = this.querySelector('input:checked').id.slice(prefix.length);
   aiBot.setAIBot(aiBots[choice][0]);
-});
-
-document.getElementById('clear-stats').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'clear-stats' });
 });
 
 document.getElementById('local-packet-input').addEventListener('change', function (event) {
@@ -75,56 +53,6 @@ document.getElementById('next').addEventListener('click', function () {
   }
 });
 
-document.getElementById('packet-number').addEventListener('change', function () {
-  const range = rangeToArray(this.value.trim(), room.setLength);
-  const invalid = range.some(num => num < 1 || num > room.setLength);
-  if (invalid) {
-    document.getElementById('packet-number').classList.add('is-invalid');
-    return;
-  }
-
-  document.getElementById('packet-number').classList.remove('is-invalid');
-  socket.sendToServer({ type: 'set-packet-numbers', packetNumbers: range });
-});
-
-document.getElementById('pause').addEventListener('click', function () {
-  this.blur();
-  const seconds = parseFloat(document.querySelector('.timer .face').textContent);
-  const tenths = parseFloat(document.querySelector('.timer .fraction').textContent);
-  const pausedTime = (seconds + tenths) * 10;
-  socket.sendToServer({ type: 'pause', pausedTime });
-});
-
-document.getElementById('reading-speed').addEventListener('change', function () {
-  socket.sendToServer({ type: 'set-reading-speed', readingSpeed: this.value });
-});
-
-document.getElementById('report-question-submit').addEventListener('click', function () {
-  reportQuestion(
-    document.getElementById('report-question-id').value,
-    document.getElementById('report-question-reason').value,
-    document.getElementById('report-question-description').value
-  );
-});
-
-document.getElementById('set-mode').addEventListener('change', function () {
-  this.blur();
-  socket.sendToServer({ type: 'set-mode', mode: this.value });
-});
-
-document.getElementById('set-name').addEventListener('change', function () {
-  socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
-});
-
-document.getElementById('set-strictness').addEventListener('change', function () {
-  this.blur();
-  socket.sendToServer({ type: 'set-strictness', strictness: this.value });
-});
-
-document.getElementById('set-strictness').addEventListener('input', function () {
-  document.getElementById('strictness-display').textContent = this.value;
-});
-
 document.getElementById('start').addEventListener('click', function () {
   socket.sendToServer({ type: 'start' });
 });
@@ -139,44 +67,9 @@ document.getElementById('toggle-correct').addEventListener('click', function () 
   socket.sendToServer({ type: 'toggle-correct', correct: this.textContent === 'I was right' });
 });
 
-document.getElementById('toggle-powermark-only').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-powermark-only', powermarkOnly: this.checked });
-});
-
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
-});
-
-document.getElementById('toggle-rebuzz').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-rebuzz', rebuzz: this.checked });
-});
-
-document.getElementById('toggle-settings').addEventListener('click', function () {
-  this.blur();
-  document.getElementById('buttons').classList.toggle('col-lg-9');
-  document.getElementById('buttons').classList.toggle('col-lg-12');
-  document.getElementById('content').classList.toggle('col-lg-9');
-  document.getElementById('content').classList.toggle('col-lg-12');
-  document.getElementById('settings').classList.toggle('d-none');
-  document.getElementById('settings').classList.toggle('d-lg-none');
-});
-
-document.getElementById('toggle-show-history').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-show-history', showHistory: this.checked });
-});
-
-document.getElementById('toggle-standard-only').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-standard-only', standardOnly: this.checked });
-});
-
-document.getElementById('toggle-timer').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-timer', timer: this.checked });
 });
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
@@ -258,7 +151,6 @@ if (window.localStorage.getItem('singleplayer-tossup-settings')) {
     socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
     socket.sendToServer({ type: 'toggle-ai-mode', ...savedSettings });
     socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
-    socket.sendToServer({ type: 'toggle-show-history', ...savedSettings });
     socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
   } catch {

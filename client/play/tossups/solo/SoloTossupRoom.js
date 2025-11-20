@@ -45,7 +45,6 @@ export default class SoloTossupRoom extends TossupRoom {
     switch (message.type) {
       case 'toggle-ai-mode': return this.toggleAiMode(userId, message);
       case 'toggle-correct': return this.toggleCorrect(userId, message);
-      case 'toggle-show-history': return this.toggleShowHistory(userId, message);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(userId, message);
       default: super.message(userId, message);
     }
@@ -103,11 +102,6 @@ export default class SoloTossupRoom extends TossupRoom {
     this.players[userId].celerity.correct.average = this.players[userId].celerity.correct.total / (this.players[userId].powers + this.players[userId].tens);
 
     this.emitMessage({ type: 'toggle-correct', correct, userId });
-  }
-
-  toggleShowHistory (userId, { showHistory }) {
-    this.settings.showHistory = showHistory;
-    this.emitMessage({ type: 'toggle-show-history', showHistory, userId });
   }
 
   toggleTypeToAnswer (userId, { typeToAnswer }) {

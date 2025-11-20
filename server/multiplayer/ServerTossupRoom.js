@@ -223,13 +223,11 @@ export default class ServerTossupRoom extends TossupRoom {
     super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
-  setMode (userId, { mode, setName }) {
+  setMode (userId, { mode }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
-    if (!this.setList) { return; }
-    if (!this.setList.includes(setName)) { return; }
     if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
-    super.setMode(userId, { mode, setName });
-    this.adjustQuery(['setName'], [setName]);
+    super.setMode(userId, { mode });
+    this.adjustQuery(['setName'], [this.query.setName]);
   }
 
   setPacketNumbers (userId, { packetNumbers }) {

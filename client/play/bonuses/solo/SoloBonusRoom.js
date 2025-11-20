@@ -42,7 +42,6 @@ export default class SoloBonusRoom extends BonusRoom {
 
   async message (userId, message) {
     switch (message.type) {
-      case 'toggle-show-history': return this.toggleShowHistory(userId, message);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(userId, message);
       default: super.message(userId, message);
     }
@@ -63,11 +62,6 @@ export default class SoloBonusRoom extends BonusRoom {
     }
 
     super.startAnswer(teamId);
-  }
-
-  toggleShowHistory (userId, { showHistory }) {
-    this.settings.showHistory = showHistory;
-    this.emitMessage({ type: 'toggle-show-history', showHistory, userId });
   }
 
   toggleTypeToAnswer (teamId, { typeToAnswer }) {

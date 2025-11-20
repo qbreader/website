@@ -6,8 +6,8 @@ import { arrayToRange } from '../../ranges.js';
 import upsertPlayerItem from '../../upsert-player-item.js';
 
 export default class MultiplayerTossupClient extends TossupClient {
-  constructor (room, USER_ID, socket) {
-    super(room, USER_ID);
+  constructor (room, userId, socket) {
+    super(room, userId, socket);
     this.socket = socket;
   }
 
@@ -522,18 +522,9 @@ export default class MultiplayerTossupClient extends TossupClient {
     });
   }
 
-  setMode ({ mode, setName, username }) {
+  setMode ({ mode, username }) {
     this.logEventConditionally(username, 'changed the mode to ' + mode);
-
     this.room.mode = mode;
-    switch (mode) {
-      case MODE_ENUM.SET_NAME:
-        document.getElementById('set-name').textContent = setName;
-        break;
-      case MODE_ENUM.RANDOM:
-        break;
-    }
-
     super.setMode({ mode });
   }
 
