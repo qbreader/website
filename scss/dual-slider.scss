@@ -1,6 +1,8 @@
 // primarily based on jquery
 
 .ui-slider {
+    position: relative;
+    text-align: left;
     background-color: $slider-background;
     height: 8px;
     border-radius: 8px;
@@ -15,4 +17,14 @@
     background-color: $primary;
     border-color: $primary;
     outline-color: $primary;
+}
+
+.ui-slider .ui-slider-handle {
+    position: absolute;
+    z-index: 2;
+    width: 1.2em;
+    height: 1.2em;
+    cursor: pointer;
+    -ms-touch-action: none;
+    touch-action: none;
 }

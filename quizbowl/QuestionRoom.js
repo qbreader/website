@@ -63,7 +63,8 @@ export default class QuestionRoom extends Room {
       case 'set-set-name': return this.setSetName(userId, message);
       case 'set-strictness': return this.setStrictness(userId, message);
       case 'set-username': return this.setUsername(userId, message);
-      case 'set-year-range': return this.setYearRange(userId, message);
+      case 'set-max-year': return this.setMaxYear(userId, message);
+      case 'set-min-year': return this.setMinYear(userId, message);
       case 'toggle-randomize-order': return this.toggleRandomizeOrder(userId, message);
       case 'toggle-skip': return this.toggleSkip(userId, message);
       case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
@@ -168,6 +169,29 @@ export default class QuestionRoom extends Room {
     return question;
   }
 
+  setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
+    if (!Array.isArray(categories)) { return; }
+    if (!Array.isArray(subcategories)) { return; }
+    if (!Array.isArray(alternateSubcategories)) { return; }
+    if (categoryPercents?.length !== CATEGORIES.length) { return; }
+
+    categories = categories.filter(category => CATEGORIES.includes(category));
+    subcategories = subcategories.filter(subcategory => SUBCATEGORIES.includes(subcategory));
+    alternateSubcategories = alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES.includes(subcategory));
+
+    if (subcategories.some(sub => !categories.includes(SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
+    if (alternateSubcategories.some(sub => !categories.includes(ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
+
+    this.categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
+
+    const username = this.players[userId].username;
+    this.adjustQuery(
+      ['categories', 'subcategories', 'alternateSubcategories', 'percentView', 'categoryPercents'],
+      [categories, subcategories, alternateSubcategories, percentView, categoryPercents]
+    );
+    this.emitMessage({ type: 'set-categories', ...this.categoryManager.export(), username });
+  }
+
   setDifficulties (userId, { difficulties }) {
     const invalid = difficulties.some((value) => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10);
     if (invalid) { return false; }
@@ -175,6 +199,26 @@ export default class QuestionRoom extends Room {
     const username = this.players[userId].username;
     this.adjustQuery(['difficulties'], [difficulties]);
     this.emitMessage({ type: 'set-difficulties', username, difficulties });
+  }
+
+  setMaxYear (userId, { maxYear, doNotFetch = false }) {
+    maxYear = parseInt(maxYear);
+    if (isNaN(maxYear)) { maxYear = DEFAULT_MAX_YEAR; }
+
+    maxYear = Math.max(maxYear, this.query.minYear);
+    const username = this.players[userId].username;
+    this.adjustQuery(['maxYear'], [maxYear], doNotFetch);
+    this.emitMessage({ type: 'set-max-year', maxYear, username });
+  }
+
+  setMinYear (userId, { minYear, doNotFetch = false }) {
+    minYear = parseInt(minYear);
+    if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
+
+    minYear = Math.min(minYear, this.query.maxYear);
+    const username = this.players[userId].username;
+    this.adjustQuery(['minYear'], [minYear], doNotFetch);
+    this.emitMessage({ type: 'set-min-year', minYear, username });
   }
 
   setMode (userId, { mode }) {
@@ -237,49 +281,6 @@ export default class QuestionRoom extends Room {
     this.settings.timer = timer;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-timer', timer, username });
-  }
-
-  setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
-    if (!Array.isArray(categories)) { return; }
-    if (!Array.isArray(subcategories)) { return; }
-    if (!Array.isArray(alternateSubcategories)) { return; }
-    if (categoryPercents?.length !== CATEGORIES.length) { return; }
-
-    categories = categories.filter(category => CATEGORIES.includes(category));
-    subcategories = subcategories.filter(subcategory => SUBCATEGORIES.includes(subcategory));
-    alternateSubcategories = alternateSubcategories.filter(subcategory => ALTERNATE_SUBCATEGORIES.includes(subcategory));
-
-    if (subcategories.some(sub => !categories.includes(SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
-    if (alternateSubcategories.some(sub => !categories.includes(ALTERNATE_SUBCATEGORY_TO_CATEGORY[sub]))) { return; }
-
-    this.categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-
-    const username = this.players[userId].username;
-    this.adjustQuery(
-      ['categories', 'subcategories', 'alternateSubcategories', 'percentView', 'categoryPercents'],
-      [categories, subcategories, alternateSubcategories, percentView, categoryPercents]
-    );
-    this.emitMessage({ type: 'set-categories', ...this.categoryManager.export(), username });
-  }
-
-  setYearRange (userId, { minYear, maxYear }) {
-    minYear = parseInt(minYear);
-    maxYear = parseInt(maxYear);
-    if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
-    if (isNaN(maxYear)) { maxYear = DEFAULT_MAX_YEAR; }
-
-    if (maxYear < minYear) {
-      this.sendToSocket(userId, {
-        type: 'set-year-range',
-        minYear: this.query.minYear,
-        maxYear: this.query.maxYear,
-        username: null
-      });
-    } else {
-      const username = this.players[userId].username;
-      this.adjustQuery(['minYear', 'maxYear'], [minYear, maxYear]);
-      this.emitMessage({ type: 'set-year-range', minYear, maxYear, username });
-    }
   }
 
   uploadLocalPacket (userId, { packet, filename }) {

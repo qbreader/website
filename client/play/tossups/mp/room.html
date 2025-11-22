@@ -10,11 +10,6 @@
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
-    <link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
-    <script type="module" src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    <script type="module" src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
-        integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
     <link href="/bootstrap/light.css" rel="stylesheet">
     <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
     <script type="module" src="/scripts/apply-theme.js"></script>
@@ -125,14 +120,11 @@
                 </div>
                 <div id="difficulty-settings">
                     <div class="mb-2" id="difficulty-dropdown-root"></div>
-                    <section>
-                        Year range: <span class="sliderValue0" id="year-range-a"><span class="default-min-year"></span></span> -
-                        <span class="sliderValue1" id="year-range-b"><span class="default-max-year"></span></span>
-                        <div id="slider"></div>
-                        <div class="alert small-alert alert-danger" role="alert" id="yearRangeAlert" style="display: none">
-                            Invalid input. Years must be after or during each other to update.
-                        </div>
-                    </section>
+                    Year range: <span id="min-year-label">2010</span> - <span id="max-year-label">2025</span>
+                    <div class="ui-slider d-flex align-items-center" id="year-slider">
+                        <span class="ui-slider-handle" id="min-year-handle"></span>
+                        <span class="ui-slider-handle" id="max-year-handle"></span>
+                    </div>
                 </div>
                 <div class="mt-2" id="general-settings">
                     <div class="text-center mb-2">

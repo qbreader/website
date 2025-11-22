@@ -145,17 +145,6 @@ document.getElementById('username').addEventListener('change', function () {
   window.localStorage.setItem('multiplayer-username', room.username);
 });
 
-document.getElementById('year-range-a').onchange = function () {
-  const [minYear, maxYear] = $('#slider').slider('values');
-  if (maxYear < minYear) {
-    document.querySelector('#yearRangeAlert').style.display = '';
-    return;
-  } else {
-    document.querySelector('#yearRangeAlert').style.display = 'none';
-  }
-  socket.send(JSON.stringify({ type: 'set-year-range', minYear, maxYear }));
-};
-
 document.addEventListener('keydown', (event) => {
   // press escape to close chat
   if (event.key === 'Escape' && document.activeElement.id === 'chat-input') {

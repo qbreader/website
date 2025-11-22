@@ -106,34 +106,14 @@ export default class SoloBonusClient extends BonusClient {
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
-  setPacketNumbers ({ packetNumbers }) {
-    super.setPacketNumbers({ packetNumbers });
+  setMaxYear ({ maxYear }) {
+    super.setMaxYear({ maxYear });
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
-  async setSetName ({ setName, setLength }) {
-    super.setSetName({ setName, setLength });
+  setMinYear ({ minYear }) {
+    super.setMinYear({ minYear });
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
-  }
-
-  setStrictness ({ strictness }) {
-    super.setStrictness({ strictness });
-    window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
-  }
-
-  setYearRange ({ minYear, maxYear }) {
-    super.setYearRange({ minYear, maxYear });
-    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
-  }
-
-  startAnswer () {
-    document.getElementById('answer-input-group').classList.remove('d-none');
-    document.getElementById('answer-input').focus();
-    document.getElementById('reveal').disabled = true;
-  }
-
-  toggleCorrect ({ partNumber, correct }) {
-    document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
   }
 
   setMode ({ mode }) {
@@ -161,6 +141,31 @@ export default class SoloBonusClient extends BonusClient {
     }
     super.setMode({ mode });
     window.localStorage.setItem('singleplayer-bonus-mode', JSON.stringify({ mode, version: modeVersion }));
+  }
+
+  setPacketNumbers ({ packetNumbers }) {
+    super.setPacketNumbers({ packetNumbers });
+    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
+  }
+
+  async setSetName ({ setName, setLength }) {
+    super.setSetName({ setName, setLength });
+    window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
+  }
+
+  setStrictness ({ strictness }) {
+    super.setStrictness({ strictness });
+    window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
+  }
+
+  startAnswer () {
+    document.getElementById('answer-input-group').classList.remove('d-none');
+    document.getElementById('answer-input').focus();
+    document.getElementById('reveal').disabled = true;
+  }
+
+  toggleCorrect ({ partNumber, correct }) {
+    document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
   }
 
   toggleStandardOnly ({ standardOnly }) {

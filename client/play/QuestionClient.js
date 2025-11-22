@@ -1,9 +1,10 @@
-import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, MIN_YEAR, MODE_ENUM } from '../../quizbowl/constants.js';
+import { MODE_ENUM } from '../../quizbowl/constants.js';
 import account from '../scripts/accounts.js';
 import audio from '../audio/index.js';
 import { arrayToRange, rangeToArray } from './ranges.js';
 import getSetList from '../scripts/api/get-set-list.js';
 import reportQuestion from '../scripts/api/report-question.js';
+import { addSliderEventListeners, setYear } from './year-slider.js';
 
 const SET_LIST = await getSetList();
 
@@ -32,7 +33,8 @@ export default class QuestionClient {
       case 'set-packet-numbers': return this.setPacketNumbers(data);
       case 'set-set-name': return this.setSetName(data);
       case 'set-strictness': return this.setStrictness(data);
-      case 'set-year-range': return this.setYearRange(data);
+      case 'set-max-year': return this.setMaxYear(data);
+      case 'set-min-year': return this.setMinYear(data);
       case 'skip': return this.next(data);
       case 'start': return this.next(data);
       case 'timer-update': return this.timerUpdate(data);
@@ -124,10 +126,12 @@ export default class QuestionClient {
     document.getElementById('strictness-display').textContent = strictness;
   }
 
-  setYearRange ({ minYear, maxYear }) {
-    $('#slider').slider('values', [minYear, maxYear]);
-    document.getElementById('year-range-a').textContent = minYear;
-    document.getElementById('year-range-b').textContent = maxYear;
+  setMaxYear ({ maxYear }) {
+    setYear(maxYear, 'max-year');
+  }
+
+  setMinYear ({ minYear }) {
+    setYear(minYear, 'min-year');
   }
 
   timerUpdate ({ timeRemaining }) {
@@ -209,48 +213,6 @@ account.getUsername().then(username => {
   }
 });
 
-document.querySelectorAll('span.default-min-year').forEach(element => {
-  element.textContent = DEFAULT_MIN_YEAR;
-});
-
-document.querySelectorAll('span.default-max-year').forEach(element => {
-  element.textContent = DEFAULT_MAX_YEAR;
-});
-
-const slidersToUpdate = [];
-
-document.body.onmouseup = function () {
-  for (let i = 0; i < slidersToUpdate.length; ++i) {
-    if (slidersToUpdate[i].onchange) {
-      slidersToUpdate[i].onchange();
-    }
-  }
-  slidersToUpdate.length = 0;
-};
-
-$('#slider').slider({
-  min: MIN_YEAR,
-  max: DEFAULT_MAX_YEAR,
-  step: 1,
-  values: [DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR],
-  slide: function (event, ui) {
-    for (let i = 0; i < ui.values.length; ++i) {
-      $(`span.sliderValue${i}`)[0].textContent = ui.values[i];
-      if (!slidersToUpdate.includes($(`span.sliderValue${i}`)[0])) {
-        slidersToUpdate.push($(`span.sliderValue${i}`)[0]);
-      }
-    }
-  }
-});
-
-document.getElementById('slider').classList.remove('ui-widget-content');
-document.getElementById('slider').classList.remove('ui-widget');
-
-$('input.sliderValue').change(function () {
-  const $this = $(this);
-  $('#slider').slider('values', $this.data('index'), $this.val());
-});
-
 function attachEventListeners (room, socket) {
   document.getElementById('answer-form').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -323,5 +285,9 @@ function attachEventListeners (room, socket) {
   document.getElementById('toggle-timer').addEventListener('click', function () {
     this.blur();
     socket.sendToServer({ type: 'toggle-timer', timer: this.checked });
+  });
+
+  addSliderEventListeners((year, which) => {
+    socket.sendToServer({ type: `set-${which}`, [which === 'min-year' ? 'minYear' : 'maxYear']: year });
   });
 }

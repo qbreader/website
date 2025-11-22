@@ -1,4 +1,4 @@
-import { DEFAULT_MAX_YEAR } from '../../../quizbowl/constants.js';
+import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR } from '../../../quizbowl/constants.js';
 
 /**
  * Filters out unwanted key-value pairs from the given parameters object.
@@ -18,6 +18,7 @@ export default function filterParams (params) {
       if (value === '' || value === null || value === undefined) { return false; }
       if (value === false) { return false; }
       if (Array.isArray(value) && value.length === 0) { return false; }
+      if (key === 'minYear' && value === DEFAULT_MIN_YEAR) { return false; }
       if (key === 'maxYear' && value === DEFAULT_MAX_YEAR) { return false; }
       if (key === 'questionType' && value === 'all') { return false; }
       if (key === 'searchType' && value === 'all') { return false; }

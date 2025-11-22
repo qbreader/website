@@ -77,18 +77,6 @@ document.getElementById('type-to-answer').addEventListener('click', function () 
   socket.sendToServer({ type: 'toggle-type-to-answer', typeToAnswer: this.checked });
 });
 
-document.getElementById('year-range-a').onchange = function () {
-  const minYear = $('#slider').slider('values', 0);
-  const maxYear = $('#slider').slider('values', 1);
-  socket.sendToServer({ type: 'set-year-range', minYear, maxYear });
-};
-
-document.getElementById('year-range-b').onchange = function () {
-  const minYear = $('#slider').slider('values', 0);
-  const maxYear = $('#slider').slider('values', 1);
-  socket.sendToServer({ type: 'set-year-range', minYear, maxYear });
-};
-
 document.addEventListener('keydown', (event) => {
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
@@ -126,6 +114,9 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
     if (savedQuery.version !== queryVersion) { throw new Error(); }
     room.categoryManager.import(savedQuery);
     room.query = savedQuery;
+    // need to set min year first to avoid conflicts between saved max year and default min year
+    socket.sendToServer({ type: 'set-min-year', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'set-max-year', ...savedQuery, doNotFetch: true });
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery, doNotFetch: true });
     socket.sendToServer({ type: 'set-set-name', ...savedQuery, doNotFetch: true });
     socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery, doNotFetch: true });
@@ -135,13 +126,6 @@ if (window.localStorage.getItem('singleplayer-tossup-query')) {
     window.localStorage.removeItem('singleplayer-tossup-query');
   }
 }
-
-$(document).ready(function () {
-  try {
-    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
-    socket.sendToServer({ type: 'set-year-range', ...savedQuery });
-  } catch {}
-});
 
 if (window.localStorage.getItem('singleplayer-tossup-settings')) {
   try {

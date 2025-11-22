@@ -112,9 +112,14 @@ export default class SoloTossupClient extends TossupClient {
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
-  setStrictness ({ strictness }) {
-    super.setStrictness({ strictness });
-    window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
+  setMaxYear ({ maxYear }) {
+    super.setMaxYear({ maxYear });
+    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
+  }
+
+  setMinYear ({ minYear }) {
+    super.setMinYear({ minYear });
+    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
   setPacketNumbers ({ packetNumbers }) {
@@ -132,9 +137,9 @@ export default class SoloTossupClient extends TossupClient {
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
-  setYearRange ({ minYear, maxYear }) {
-    super.setYearRange({ minYear, maxYear });
-    window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
+  setStrictness ({ strictness }) {
+    super.setStrictness({ strictness });
+    window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
   toggleAiMode ({ aiMode }) {

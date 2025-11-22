@@ -4,6 +4,7 @@ import { MODE_ENUM } from '../../../../quizbowl/constants.js';
 import questionStats from '../../../scripts/auth/question-stats.js';
 import { arrayToRange } from '../../ranges.js';
 import upsertPlayerItem from '../../upsert-player-item.js';
+import { setYear } from '../../year-slider.js';
 
 export default class MultiplayerTossupClient extends TossupClient {
   constructor (room, userId, socket) {
@@ -216,14 +217,14 @@ export default class MultiplayerTossupClient extends TossupClient {
   }) {
     this.setDifficulties({ difficulties });
 
-    document.getElementById('year-range-a').textContent = minYear;
-    document.getElementById('year-range-b').textContent = maxYear;
+    // need to set min year first to avoid conflicts between saved max year and default min year
+    setYear(minYear, 'min-year');
+    setYear(maxYear, 'max-year');
 
     document.getElementById('packet-number').value = arrayToRange(packetNumbers);
-
+    document.getElementById('set-name').value = setName;
     document.getElementById('toggle-powermark-only').checked = powermarkOnly;
 
-    document.getElementById('set-name').value = setName;
     if (setName !== '' && this.room.setLength === 0) {
       document.getElementById('set-name').classList.add('is-invalid');
     }
@@ -522,6 +523,18 @@ export default class MultiplayerTossupClient extends TossupClient {
     });
   }
 
+  setMinYear ({ minYear, username }) {
+    const maxYear = parseInt(document.getElementById('max-year-label').textContent);
+    this.logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`);
+    super.setMinYear({ minYear });
+  }
+
+  setMaxYear ({ maxYear, username }) {
+    const minYear = parseInt(document.getElementById('min-year-label').textContent);
+    this.logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`);
+    super.setMaxYear({ maxYear });
+  }
+
   setMode ({ mode, username }) {
     this.logEventConditionally(username, 'changed the mode to ' + mode);
     this.room.mode = mode;
@@ -561,11 +574,6 @@ export default class MultiplayerTossupClient extends TossupClient {
       document.getElementById('username').value = this.room.username;
     }
     upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
-  }
-
-  setYearRange ({ minYear, maxYear, username }) {
-    this.logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`);
-    super.setYearRange({ minYear, maxYear });
   }
 
   showNextButton () {
