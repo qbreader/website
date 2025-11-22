@@ -40,23 +40,28 @@ function sliderEventListener (event, which, callback) {
   const handle = event.target;
   let lastSeenYear = null;
 
-  function onMouseMove (e) {
+  function onMove (e) {
     const rect = slider.getBoundingClientRect();
     const handleWidth = handle.offsetWidth - 1;
-    lastSeenYear = fracToYear((e.clientX - rect.left - handleWidth) / (rect.width - handleWidth));
+    const clientX = e.clientX ?? e.touches[0].clientX;
+    lastSeenYear = fracToYear((clientX - rect.left - handleWidth) / (rect.width - handleWidth));
     setYear(lastSeenYear, which);
   }
 
-  function onMouseUp () {
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
+  function onEnd () {
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onEnd);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend', onEnd);
     if (lastSeenYear !== null) {
       callback(lastSeenYear, which);
     }
   }
 
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+  document.addEventListener('touchmove', onMove);
+  document.addEventListener('touchend', onEnd);
 }
 
 /**
@@ -69,7 +74,9 @@ function sliderEventListener (event, which, callback) {
  */
 function addSliderEventListeners (callback) {
   document.getElementById('min-year-handle').addEventListener('mousedown', event => sliderEventListener(event, 'min-year', callback));
+  document.getElementById('min-year-handle').addEventListener('touchstart', event => sliderEventListener(event, 'min-year', callback));
   document.getElementById('max-year-handle').addEventListener('mousedown', event => sliderEventListener(event, 'max-year', callback));
+  document.getElementById('max-year-handle').addEventListener('touchstart', event => sliderEventListener(event, 'max-year', callback));
   document.getElementById('year-slider').addEventListener('click', event => {
     const rect = event.currentTarget.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
