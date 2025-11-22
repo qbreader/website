@@ -645,8 +645,7 @@ export default class MultiplayerTossupClient extends TossupClient {
 
   toggleSkip ({ skip, username }) {
     this.logEventConditionally(username, `${skip ? 'enabled' : 'disabled'} skipping`);
-    document.getElementById('toggle-skip').checked = skip;
-    document.getElementById('skip').disabled = !skip || document.getElementById('skip').classList.contains('d-none');
+    super.toggleSkip({ skip });
   }
 
   toggleStandardOnly ({ standardOnly, username }) {

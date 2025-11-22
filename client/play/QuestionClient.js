@@ -36,6 +36,7 @@ export default class QuestionClient {
       case 'skip': return this.next(data);
       case 'start': return this.next(data);
       case 'timer-update': return this.timerUpdate(data);
+      case 'toggle-skip': return this.toggleSkip(data);
       case 'toggle-standard-only': return this.toggleStandardOnly(data);
       case 'toggle-timer': return this.toggleTimer(data);
     }
@@ -134,6 +135,11 @@ export default class QuestionClient {
     const tenths = timeRemaining % 10;
     document.querySelector('.timer .face').textContent = seconds;
     document.querySelector('.timer .fraction').textContent = '.' + tenths;
+  }
+
+  toggleSkip ({ skip }) {
+    document.getElementById('toggle-skip').checked = skip;
+    document.getElementById('skip').disabled = !skip || document.getElementById('skip').classList.contains('d-none');
   }
 
   toggleStandardOnly ({ standardOnly }) {
