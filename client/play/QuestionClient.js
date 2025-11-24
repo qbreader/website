@@ -223,7 +223,7 @@ function attachEventListeners (room, socket) {
 
   document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
-    room.sendToServer({ type: 'clear-stats' });
+    socket.sendToServer({ type: 'clear-stats' });
   });
 
   document.getElementById('packet-number').addEventListener('change', function () {
