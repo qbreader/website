@@ -632,12 +632,12 @@ export default class MultiplayerTossupClient extends TossupClient {
   }
 
   toggleLock ({ lock, username }) {
-    this.logEventConditionally(username, `${lock ? 'locked' : 'unlocked'} the this.room`);
+    this.logEventConditionally(username, `${lock ? 'locked' : 'unlocked'} the room`);
     document.getElementById('toggle-lock').checked = lock;
   }
 
   toggleLoginRequired ({ loginRequired, username }) {
-    this.logEventConditionally(username, `${loginRequired ? 'enabled' : 'disabled'} require this.room.players to be logged in`);
+    this.logEventConditionally(username, `${loginRequired ? 'enabled' : 'disabled'} requiring players to be logged in`);
     document.getElementById('toggle-login-required').checked = loginRequired;
   }
 
@@ -667,7 +667,7 @@ export default class MultiplayerTossupClient extends TossupClient {
   }
 
   togglePublic ({ public: isPublic, username }) {
-    this.logEventConditionally(username, `made the this.room ${isPublic ? 'public' : 'private'}`);
+    this.logEventConditionally(username, `made the room ${isPublic ? 'public' : 'private'}`);
     document.getElementById('chat').disabled = isPublic;
     document.getElementById('toggle-controlled').disabled = isPublic || (this.room.ownerId !== this.USER_ID);
     document.getElementById('toggle-lock').disabled = isPublic;
