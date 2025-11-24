@@ -112,6 +112,14 @@ function onSubmit (event) {
   fetchTossupStats({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate });
 }
 
+function downloadCSVData (data, filename) {
+  const hiddenElement = document.createElement('a');
+  hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(data);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = filename;
+  hiddenElement.click();
+}
+
 document.getElementById('form').addEventListener('submit', onSubmit);
 
 attachDropdownChecklist();
@@ -130,4 +138,40 @@ document.getElementById('subcategory-stats').querySelectorAll('th').forEach((th,
 document.getElementById('alternate-subcategory-stats').querySelectorAll('th').forEach((th, index) => {
   const numeric = [false, true, true, true, true, true, true, true];
   th.addEventListener('click', () => sortTable(index, numeric[index], 'alternate-subcategory-stats-body', 0, 0));
+});
+
+let csvData = '';
+document.getElementById('download-stats-csv').addEventListener('click', async function () {
+  if (csvData !== '') {
+    downloadCSVData(csvData, 'tossup-stats.csv');
+    return;
+  }
+
+  this.textContent = 'Downloading...';
+  this.classList.remove('clickable');
+
+  const stats = await fetch('/auth/user-stats/tossup/all').then(response => response.json());
+  const header = [
+    'created',
+    'tossup._id',
+    'set._id',
+    'difficulty',
+    'category',
+    'subcategory',
+    'alternate_subcategory',
+    'multiplayer',
+    'ceierity',
+    'pointValue'
+  ];
+
+  csvData = header.join(',') + '\n';
+  for (const row of stats) {
+    csvData += row.join(',');
+    csvData += '\n';
+  }
+
+  downloadCSVData(csvData, 'tossup-stats.csv');
+
+  this.classList.add('clickable');
+  this.textContent = 'CSV';
 });
