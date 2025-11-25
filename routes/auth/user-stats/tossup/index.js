@@ -1,3 +1,4 @@
+import allRouter from './all.js';
 import graphRouter from './graph.js';
 
 import getUserId from '../../../../database/account-info/get-user-id.js';
@@ -5,7 +6,6 @@ import getBestBuzz from '../../../../database/account-info/user-stats/get-best-b
 import getSummaryTossupStats from '../../../../database/account-info/user-stats/get-summary-tossup-stats.js';
 
 import { Router } from 'express';
-
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -29,6 +29,7 @@ router.get('/', async (req, res) => {
   });
 });
 
+router.use('/all', allRouter);
 router.use('/graph', graphRouter);
 
 export default router;
