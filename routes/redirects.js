@@ -8,7 +8,7 @@ const router = Router();
  */
 router.get('/bonuses', (_req, res) => res.redirect('/play/bonuses/solo/'));
 router.get('/multiplayer', (_req, res) => res.redirect('/play/tossups/mp'));
-router.get('/multiplayer/:param', (req, res) => queryRedirect(res.redirect('/play/tossups/mp/' + req.params.param))(req, res));
+router.get('/multiplayer/:param', (req, res) => queryRedirect('/play/tossups/mp/' + req.params.param)(req, res));
 router.get('/singleplayer', (_req, res) => res.redirect('/play/'));
 router.get('/singleplayer/bonuses', (_req, res) => res.redirect('/play/bonuses/solo/'));
 router.get('/singleplayer/tossups', (_req, res) => res.redirect('/play/tossups/solo/'));
