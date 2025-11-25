@@ -1,3 +1,4 @@
+import allRouter from './all.js';
 import graphRouter from './graph.js';
 
 import getUserId from '../../../../database/account-info/get-user-id.js';
@@ -26,6 +27,7 @@ router.get('/', async (req, res) => {
   });
 });
 
+router.use('/all', allRouter);
 router.use('/graph', graphRouter);
 
 export default router;
