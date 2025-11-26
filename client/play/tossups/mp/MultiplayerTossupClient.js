@@ -232,11 +232,6 @@ export default class MultiplayerTossupClient extends TossupClient {
     document.getElementById('toggle-standard-only').checked = standardOnly;
 
     this.setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-
-    // $(document).ready(function () {
-    //   $('#slider').slider('values', 0, minYear);
-    //   $('#slider').slider('values', 1, maxYear);
-    // });
   }
 
   connectionAcknowledgedTossup ({ tossup: currentTossup }) {
