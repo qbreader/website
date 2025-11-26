@@ -3,7 +3,7 @@
 .ui-slider {
     position: relative;
     text-align: left;
-    background-color: $slider-background;
+    background-color: $form-range-track-bg;
     height: 8px;
     border-radius: 8px;
     margin-top: 8px;
@@ -14,9 +14,9 @@
 .ui-slider-handle {
     border-radius: 100%;
     font-size: 13px;
-    background-color: $primary;
     border-color: $primary;
     outline-color: $primary;
+    @include gradient-bg(var(--form-range-thumb-bg));
 }
 
 .ui-slider .ui-slider-handle {

@@ -233,10 +233,10 @@ export default class MultiplayerTossupClient extends TossupClient {
 
     this.setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
 
-    $(document).ready(function () {
-      $('#slider').slider('values', 0, minYear);
-      $('#slider').slider('values', 1, maxYear);
-    });
+    // $(document).ready(function () {
+    //   $('#slider').slider('values', 0, minYear);
+    //   $('#slider').slider('values', 1, maxYear);
+    // });
   }
 
   connectionAcknowledgedTossup ({ tossup: currentTossup }) {

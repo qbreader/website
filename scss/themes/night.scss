@@ -1,0 +1,221 @@
+// Variable values taken from https://vinorodrigues.github.io/bootstrap-dark-5/
+// And code structure taken from https://github.com/ForEvolve/bootstrap-dark/blob/master/scss/_dark-variables.scss
+
+// $body-bg-night:     #21262c;
+$body-bg-night: #222222;
+$body-color-night: #e0e0e0;
+$body-secondary-color-night: $gray-600;
+$body-secondary-bg-night: $gray-600;
+$body-tertiary-color-night: rgba($body-color-night, .5);
+$body-tertiary-bg-night: mix($gray-800, $gray-900, 50%);
+
+$link-color-night: #6699ff;
+$link-hover-color-night: shift-color($link-color-night, $link-shade-percentage);
+
+$border-color-night: $gray-600;
+
+/* redefine theme colors for dark theme */
+$blue-night: #375a7f;
+$green-night: #00bc8c;
+$cyan-night: #17a2b8;
+$orange-night: #fd7e14;
+$red-night: #e74c3c;
+
+$primary-night: $blue-night;
+
+$theme-colors-night: (
+    "primary": $blue-night,
+    "secondary": $gray-600,
+    "success": $green-night,
+    "info": $cyan-night,
+    "warning": $orange-night,
+    "danger": $red-night,
+    "light": $gray-300,
+    "dark": $gray-800,
+);
+
+$btn-close-color-night: $gray-300;
+$btn-close-bg-night: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$btn-close-color-night}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414'/></svg>");
+
+$component-active-color-night: $black;
+$component-active-bg-night: $primary-night;
+
+$form-select-indicator-color-night: $gray-200;
+$form-select-indicator-night: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#{$form-select-indicator-color-night}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>");
+
+$form-switch-color-night: $gray-600;
+$form-switch-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-color-night}'/></svg>");
+$form-switch-checked-color-night: $gray-600;
+$form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-checked-color-night}'/></svg>");
+
+@include color-mode(night, true) {
+    color-scheme: night;
+
+    // custom classes
+
+    --form-range-thumb-bg: #{$component-active-bg-night};
+    --logo-prefix-color: #0080ff;
+    --logo-suffix-color: #000000;
+    --user-score-background: #4A90E2;
+
+    .dropdown-checklist button {
+        --dropdown-checklist-border-color: #{$border-color-night};
+    }
+
+    .navbar {
+        background-color: #dfebfb;
+    }
+
+    .timer {
+        background: linear-gradient(#444, #333);
+    }
+
+    // bootstrap
+
+    @each $color, $value in $theme-colors-night {
+        --#{$prefix}#{$color}: #{$value};
+
+        .btn-#{$color} {
+            @include button-variant($value, $value);
+        }
+
+        .btn-outline-#{$color} {
+            @include button-outline-variant($value);
+        }
+    }
+
+    // scss-docs-start root-night-mode-vars
+    --#{$prefix}body-color: #{$body-color-night};
+    --#{$prefix}body-color-rgb: #{to-rgb($body-color-night)};
+    --#{$prefix}body-bg: #{$body-bg-night};
+    --#{$prefix}body-bg-rgb: #{to-rgb($body-bg-night)};
+
+    --#{$prefix}emphasis-color: #{$body-color-night};
+    --#{$prefix}emphasis-color-rgb: #{to-rgb($body-color-night)};
+
+    --#{$prefix}secondary-color: #{$body-secondary-color-night};
+    --#{$prefix}secondary-color-rgb: #{to-rgb($body-secondary-color-night)};
+    --#{$prefix}secondary-bg: #{$body-secondary-bg-night};
+    --#{$prefix}secondary-bg-rgb: #{to-rgb($body-secondary-bg-night)};
+
+    --#{$prefix}tertiary-color: #{$body-tertiary-color-night};
+    --#{$prefix}tertiary-color-rgb: #{to-rgb($body-tertiary-color-night)};
+    --#{$prefix}tertiary-bg: #{$body-tertiary-bg-night};
+    --#{$prefix}tertiary-bg-rgb: #{to-rgb($body-tertiary-bg-night)};
+
+    --#{$prefix}link-color: #{$link-color-night};
+    --#{$prefix}link-color-rgb: #{to-rgb($link-color-night)};
+    --#{$prefix}link-hover-color: #{$link-hover-color-night};
+    --#{$prefix}link-hover-color-rgb: #{to-rgb($link-hover-color-night)};
+
+    --#{$prefix}border-color: #{$border-color-night};
+    --#{$prefix}border-color-rgb: #{to-rgb($border-color-night)};
+
+    .navbar {
+        --#{$prefix}navbar-color: #{rgba($black, .55)};
+        --#{$prefix}navbar-hover-color: #{rgba($black, .8)};
+        --#{$prefix}navbar-active-color: #{rgba($black, 1)};
+        --#{$prefix}navbar-disabled-color: #{rgba($black, .3)};
+    }
+
+    .vr {
+        background-color: #{rgba($black, .55)};
+    }
+
+    .btn-close {
+        --#{$prefix}btn-close-color: #{$btn-close-color-night};
+        --#{$prefix}btn-close-bg: #{ escape-svg($btn-close-bg-night) };
+    }
+
+    .card {
+        --#{$prefix}card-border-color: #{rgba($white, .125)};
+        --#{$prefix}card-cap-bg: #{rgba($white, .03)};
+        --#{$prefix}card-bg: #{$body-bg-night};
+    }
+
+    // Nav tabs
+    .nav-tabs {
+        --#{$prefix}nav-tabs-border-color: #{rgba($white, .125)};
+        --#{$prefix}nav-tabs-link-hover-border-color: #{$gray-700} #{$gray-700} #{rgba($white, .125)};
+        --#{$prefix}nav-tabs-link-active-color: #{$gray-100};
+        --#{$prefix}nav-tabs-link-active-bg: #{$body-bg-night};
+        --#{$prefix}nav-tabs-link-active-border-color: #{$gray-700} #{$gray-700} #{$body-bg-night};
+    }
+
+    // Modals
+    .modal {
+        --#{$prefix}modal-bg: #{$body-bg-night};
+        --#{$prefix}modal-border-color: #{rgba($white, .2)};
+    }
+
+    .input-group-text {
+        background-color: #{$gray-800};
+    }
+
+    // List groups
+    .list-group {
+        --#{$prefix}list-group-bg: #{rgba($body-bg-night, .05)};
+        --#{$prefix}list-group-border-color: #{rgba($white, .125)};
+        --#{$prefix}list-group-color: #{$body-color-night};
+        --#{$prefix}list-group-hover-bg: #{$gray-900};
+        --#{$prefix}list-group-active-color: #{$black};
+        --#{$prefix}list-group-active-bg: #{$blue-night};
+        --#{$prefix}list-group-active-border-color: #{$blue-night};
+        --#{$prefix}list-group-disabled-color: #{$gray-400};
+        --#{$prefix}list-group-disabled-bg: #{rgba($body-bg-night, .05)};
+        --#{$prefix}list-group-action-color: #{$gray-300};
+        --#{$prefix}list-group-action-hover-color: #{$gray-300};
+        --#{$prefix}list-group-action-active-color: #{$body-color-night};
+        --#{$prefix}list-group-action-active-bg: #{$gray-800};
+    }
+
+    .form-control {
+        &:focus {
+            border-color: #{lighten($blue-night, 25%)};
+        }
+
+        &:disabled {
+            background-color: #{$gray-800};
+        }
+    }
+
+    .form-range {
+        &::-moz-range-thumb {
+            @include gradient-bg(var(--form-range-thumb-bg));
+        }
+
+        &::-webkit-slider-thumb {
+            @include gradient-bg(var(--form-range-thumb-bg));
+        }
+    }
+
+    .form-switch .form-check-input {
+        --#{$prefix}form-switch-bg: #{escape-svg($form-switch-bg-image-night)};
+
+        &:checked {
+            background-color: #{$component-active-bg-night};
+            border-color: #{$component-active-bg-night};
+
+            @if $enable-gradients {
+                --#{$prefix}form-switch-bg: #{escape-svg($form-switch-checked-bg-image-night)},
+                var(--#{$prefix}gradient);
+            }
+
+            @else {
+                --#{$prefix}form-switch-bg: #{escape-svg($form-switch-checked-bg-image-night)};
+            }
+        }
+    }
+
+    .pagination {
+        --#{$prefix}pagination-active-color: #{$component-active-color-night};
+        --#{$prefix}pagination-active-bg: #{$component-active-bg-night};
+        --#{$prefix}pagination-active-border-color: #{$component-active-color-night};
+    }
+
+    // Popovers
+    .popover {
+        --#{$prefix}popover-bg: #{$body-bg-night};
+        --#{$prefix}popover-header-bg: #{tint-color($body-bg-night, 6%)};
+    }
+}

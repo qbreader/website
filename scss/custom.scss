@@ -1,14 +1,28 @@
 // Custom.scss
 // Option B: Include parts of Bootstrap
 
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../node_modules/bootstrap/scss/functions";
+
 // 2. Include any default variable overrides here
 
-$font-family-sans-serif: Helvetica, sans-serif;
+// $font-family-sans-serif: Helvetica, sans-serif;
 $link-decoration: none;
 
 $popover-body-padding-y: 0;
 $popover-body-padding-x: 0;
 $popover-max-width: 100%;
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/variables-dark";
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
 
 // 6. Optionally include any other parts as needed
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css); // Fira Code font
@@ -43,11 +57,20 @@ $bootstrap-icons-font-dir: "/bootstrap-icons/font/fonts";
 @import "../node_modules/bootstrap/scss/transitions";
 @import "../node_modules/bootstrap/scss/type";
 
+@import "../node_modules/bootstrap/scss/helpers/vr";
+
 // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import "../node_modules/bootstrap/scss/utilities";
 @import "../node_modules/bootstrap/scss/utilities/api";
 
 // 8. Add additional custom code here
+
+@import "./themes/light.scss";
+@import "./themes/night.scss";
+
+@import "./dual-slider";
+@import "./dropdown-checklist";
+@import "./logo";
 
 code {
     font-family: 'Fira Code', monospace;
@@ -57,10 +80,6 @@ code {
     code {
         font-family: 'Fira Code VF', monospace;
     }
-}
-
-.bg-custom {
-    background-color: $custom;
 }
 
 .buttons {
@@ -89,14 +108,6 @@ code {
     font-size: 20px;
 }
 
-.logo-prefix {
-    color: $logo-prefix-color;
-}
-
-.logo-suffix {
-    color: $logo-suffix-color;
-}
-
 .room-history {
     border-top: .5px solid lightgray;
 }
@@ -110,12 +121,16 @@ code {
     color: $dark;
 }
 
+.timer {
+    font-size: 250%;
+}
+
 .timer .fraction {
     font-size: 50%;
 }
 
 .user-score {
-    background-color: $user-score-background;
+    background-color: var(--user-score-background);
 }
 
 a.list-group-item:hover {
@@ -126,12 +141,6 @@ a.list-group-item:hover {
     min-height: 90px;
 }
 
-#logo {
-    font-family: Inter, 'Source Sans Pro', sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
 #multiplayer-name {
     margin-top: 3px
 }
@@ -139,6 +148,3 @@ a.list-group-item:hover {
 #set-settings {
     min-height: 90px;
 }
-
-@import "./dual-slider";
-@import "./dropdown-checklist";

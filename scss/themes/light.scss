@@ -1,0 +1,20 @@
+$link-color: #003399;
+
+@include color-mode(light, true) {
+    --form-range-thumb-bg: #{$component-active-bg};
+    --logo-prefix-color: #0080ff;
+    --logo-suffix-color: #000000;
+    --user-score-background: #FFF9C4;
+
+    .dropdown-checklist button {
+        --dropdown-checklist-border-color: #{$gray-400};
+    }
+
+    .navbar {
+        background-color: #fbefdf;
+    }
+
+    .timer {
+        background: linear-gradient(#ddd, #eee);
+    }
+}
