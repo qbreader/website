@@ -57,6 +57,8 @@ $bootstrap-icons-font-dir: "/bootstrap-icons/font/fonts";
 @import "../node_modules/bootstrap/scss/transitions";
 @import "../node_modules/bootstrap/scss/type";
 
+@import "../node_modules/bootstrap/scss/helpers/vr";
+
 // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import "../node_modules/bootstrap/scss/utilities";
 @import "../node_modules/bootstrap/scss/utilities/api";

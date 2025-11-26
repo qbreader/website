@@ -118,6 +118,10 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
         --#{$prefix}navbar-disabled-color: #{rgba($black, .3)};
     }
 
+    .vr {
+        background-color: #{rgba($black, .55)};
+    }
+
     .btn-close {
         --#{$prefix}btn-close-color: #{$btn-close-color-night};
         --#{$prefix}btn-close-bg: #{ escape-svg($btn-close-bg-night) };

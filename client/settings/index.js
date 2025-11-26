@@ -15,27 +15,6 @@ if (window.localStorage.getItem('sound-effects') === 'true') {
   document.getElementById('toggle-sound-effects').checked = true;
 }
 
-const htmlTag = document.getElementsByTagName('html')[0];
-document.getElementById('toggle-color-theme').addEventListener('click', function () {
-  if (htmlTag.getAttribute('data-bs-theme') === 'light') {
-    htmlTag.setAttribute('data-bs-theme', 'night');
-    window.localStorage.setItem('color-theme', 'dark');
-  } else {
-    htmlTag.setAttribute('data-bs-theme', 'light');
-    window.localStorage.setItem('color-theme', 'light');
-  }
-});
-
-document.getElementById('reset-color-theme').addEventListener('click', function () {
-  window.localStorage.removeItem('color-theme');
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    // Get OS preferred color scheme
-    document.querySelector('#custom-css').setAttribute('href', '/bootstrap/dark.css');
-  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-    document.querySelector('#custom-css').setAttribute('href', '/bootstrap/light.css');
-  }
-});
-
 document.getElementById('font-size').addEventListener('input', function () {
   window.localStorage.setItem('font-size', this.value);
   document.getElementById('font-size-display').textContent = this.value;
