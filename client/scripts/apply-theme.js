@@ -1,10 +1,15 @@
+const htmlTag = document.getElementsByTagName('html')[0];
+
+let colorTheme = 'light';
 if (window.localStorage.getItem('color-theme') === 'dark') {
-  document.querySelector('#custom-css').setAttribute('href', '/bootstrap/dark.css');
+  colorTheme = 'night';
 } else if (window.localStorage.getItem('color-theme') === 'light') {
-  document.querySelector('#custom-css').setAttribute('href', '/bootstrap/light.css');
+  colorTheme = 'light';
 } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
   // Get OS preferred color scheme
-  document.querySelector('#custom-css').setAttribute('href', '/bootstrap/dark.css');
+  colorTheme = 'night';
 } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-  document.querySelector('#custom-css').setAttribute('href', '/bootstrap/light.css');
+  colorTheme = 'light';
 }
+
+htmlTag.setAttribute('data-bs-theme', colorTheme);

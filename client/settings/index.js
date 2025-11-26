@@ -15,13 +15,13 @@ if (window.localStorage.getItem('sound-effects') === 'true') {
   document.getElementById('toggle-sound-effects').checked = true;
 }
 
-const stylesheet = document.querySelector('#custom-css');
+const htmlTag = document.getElementsByTagName('html')[0];
 document.getElementById('toggle-color-theme').addEventListener('click', function () {
-  if (stylesheet.getAttribute('href') === '/bootstrap/light.css') {
-    stylesheet.setAttribute('href', '/bootstrap/dark.css');
+  if (htmlTag.getAttribute('data-bs-theme') === 'light') {
+    htmlTag.setAttribute('data-bs-theme', 'night');
     window.localStorage.setItem('color-theme', 'dark');
   } else {
-    stylesheet.setAttribute('href', '/bootstrap/light.css');
+    htmlTag.setAttribute('data-bs-theme', 'light');
     window.localStorage.setItem('color-theme', 'light');
   }
 });

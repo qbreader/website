@@ -11,13 +11,12 @@
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
     <link type="image/x-icon" href="/favicon.ico" rel="icon">
 
-    <link href="/bootstrap/light.css" rel="stylesheet">
-    <link href="/bootstrap/dark.css" rel="stylesheet" id="custom-css">
-    <script type="module" src="/scripts/apply-theme.js"></script>
+    <script src="/scripts/apply-theme.js"></script>
+    <link href="/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-lg bg-custom" id="navbar" style="z-index: 10">
+    <nav class="navbar navbar-expand-lg" id="navbar" style="z-index: 10">
         <div class="container-fluid">
             <a class="navbar-brand ms-1 py-0" id="logo" href="/">
                 <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
@@ -83,7 +82,7 @@
                     <th scope="col"># of Bonuses</th>
                 </tr>
             </thead>
-            <tbody id="set-metadata-list"></tbody>
+            <tbody class="table-group-divider" id="set-metadata-list"></tbody>
         </table>
         <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
     </div>

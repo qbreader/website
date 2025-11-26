@@ -1,6 +1,10 @@
 .dropdown-checklist button {
-    border-color: $dropdown-checklist-border-color;
+    border-color: var(--dropdown-checklist-border-color);
     --bs-btn-hover-border-color: $dropdown-checklist-border-color;
+}
+
+.checkbox-menu {
+    background-color: #fff !important;
 }
 
 .checkbox-menu li label {
