@@ -7,8 +7,9 @@
         "build": "npm run webpack && npm run sass",
         "dev": "npm run build && npm run start",
         "start": "node index.js",
-        "sass": "for theme in light dark; do sass scss/$theme.scss client/bootstrap/$theme.css --style compressed; done",
         "lint": "npx semistandard --fix",
+        "sass": "sass scss/custom.scss client/style.css --style compressed",
+        "sass-watch": "sass scss/custom.scss client/style.css --style compressed --watch",
         "webpack": "webpack --config webpack.config.js",
         "webpack-watch": "webpack --config webpack.config.js --watch"
     },
@@ -48,9 +49,6 @@
             "bootstrap",
             "React",
             "ReactDOM"
-        ],
-        "ignore": [
-            "client/bootstrap/*"
         ]
     }
 }
