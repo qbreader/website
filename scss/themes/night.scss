@@ -111,17 +111,6 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
     --#{$prefix}border-color: #{$border-color-night};
     --#{$prefix}border-color-rgb: #{to-rgb($border-color-night)};
 
-    .navbar {
-        --#{$prefix}navbar-color: #{rgba($black, .55)};
-        --#{$prefix}navbar-hover-color: #{rgba($black, .8)};
-        --#{$prefix}navbar-active-color: #{rgba($black, 1)};
-        --#{$prefix}navbar-disabled-color: #{rgba($black, .3)};
-    }
-
-    .vr {
-        background-color: #{rgba($black, .55)};
-    }
-
     .btn-close {
         --#{$prefix}btn-close-color: #{$btn-close-color-night};
         --#{$prefix}btn-close-bg: #{ escape-svg($btn-close-bg-night) };
@@ -131,42 +120,6 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
         --#{$prefix}card-border-color: #{rgba($white, .125)};
         --#{$prefix}card-cap-bg: #{rgba($white, .03)};
         --#{$prefix}card-bg: #{$body-bg-night};
-    }
-
-    // Nav tabs
-    .nav-tabs {
-        --#{$prefix}nav-tabs-border-color: #{rgba($white, .125)};
-        --#{$prefix}nav-tabs-link-hover-border-color: #{$gray-700} #{$gray-700} #{rgba($white, .125)};
-        --#{$prefix}nav-tabs-link-active-color: #{$gray-100};
-        --#{$prefix}nav-tabs-link-active-bg: #{$body-bg-night};
-        --#{$prefix}nav-tabs-link-active-border-color: #{$gray-700} #{$gray-700} #{$body-bg-night};
-    }
-
-    // Modals
-    .modal {
-        --#{$prefix}modal-bg: #{$body-bg-night};
-        --#{$prefix}modal-border-color: #{rgba($white, .2)};
-    }
-
-    .input-group-text {
-        background-color: #{$gray-800};
-    }
-
-    // List groups
-    .list-group {
-        --#{$prefix}list-group-bg: #{rgba($body-bg-night, .05)};
-        --#{$prefix}list-group-border-color: #{rgba($white, .125)};
-        --#{$prefix}list-group-color: #{$body-color-night};
-        --#{$prefix}list-group-hover-bg: #{$gray-900};
-        --#{$prefix}list-group-active-color: #{$black};
-        --#{$prefix}list-group-active-bg: #{$blue-night};
-        --#{$prefix}list-group-active-border-color: #{$blue-night};
-        --#{$prefix}list-group-disabled-color: #{$gray-400};
-        --#{$prefix}list-group-disabled-bg: #{rgba($body-bg-night, .05)};
-        --#{$prefix}list-group-action-color: #{$gray-300};
-        --#{$prefix}list-group-action-hover-color: #{$gray-300};
-        --#{$prefix}list-group-action-active-color: #{$body-color-night};
-        --#{$prefix}list-group-action-active-bg: #{$gray-800};
     }
 
     .form-control {
@@ -207,6 +160,46 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
         }
     }
 
+    .input-group-text {
+        background-color: #{$gray-800};
+    }
+
+    .list-group {
+        --#{$prefix}list-group-bg: #{rgba($body-bg-night, .05)};
+        --#{$prefix}list-group-border-color: #{rgba($white, .125)};
+        --#{$prefix}list-group-color: #{$body-color-night};
+        --#{$prefix}list-group-hover-bg: #{$gray-900};
+        --#{$prefix}list-group-active-color: #{$black};
+        --#{$prefix}list-group-active-bg: #{$blue-night};
+        --#{$prefix}list-group-active-border-color: #{$blue-night};
+        --#{$prefix}list-group-disabled-color: #{$gray-400};
+        --#{$prefix}list-group-disabled-bg: #{rgba($body-bg-night, .05)};
+        --#{$prefix}list-group-action-color: #{$gray-300};
+        --#{$prefix}list-group-action-hover-color: #{$gray-300};
+        --#{$prefix}list-group-action-active-color: #{$body-color-night};
+        --#{$prefix}list-group-action-active-bg: #{$gray-800};
+    }
+
+    .modal {
+        --#{$prefix}modal-bg: #{$body-bg-night};
+        --#{$prefix}modal-border-color: #{rgba($white, .2)};
+    }
+
+    .nav-tabs {
+        --#{$prefix}nav-tabs-border-color: #{rgba($white, .125)};
+        --#{$prefix}nav-tabs-link-hover-border-color: #{$gray-700} #{$gray-700} #{rgba($white, .125)};
+        --#{$prefix}nav-tabs-link-active-color: #{$gray-100};
+        --#{$prefix}nav-tabs-link-active-bg: #{$body-bg-night};
+        --#{$prefix}nav-tabs-link-active-border-color: #{$gray-700} #{$gray-700} #{$body-bg-night};
+    }
+
+    .navbar {
+        --#{$prefix}navbar-color: #{rgba($black, .55)};
+        --#{$prefix}navbar-hover-color: #{rgba($black, .8)};
+        --#{$prefix}navbar-active-color: #{rgba($black, 1)};
+        --#{$prefix}navbar-disabled-color: #{rgba($black, .3)};
+    }
+
     .pagination {
         --#{$prefix}pagination-active-color: #{$component-active-color-night};
         --#{$prefix}pagination-active-bg: #{$component-active-bg-night};
@@ -217,5 +210,9 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
     .popover {
         --#{$prefix}popover-bg: #{$body-bg-night};
         --#{$prefix}popover-header-bg: #{tint-color($body-bg-night, 6%)};
+    }
+
+    .vr {
+        background-color: #{rgba($black, .55)};
     }
 }
