@@ -38,14 +38,22 @@ export default class TossupClient extends QuestionClient {
     }
   }
 
-  next ({ nextTossup, oldTossup, packetLength, starred, type }) {
+  next (data) {
+    if (data.type !== 'start' && data.oldTossup) {
+      addTossupGameCard({ starred: data.starred, tossup: data.oldTossup });
+    }
+    if (data.nextQuestion) {  // just passing through, e.g. from a child class that handles bonus questions
+      super.next(data); 
+    }
+    else {
+      this.nextTossup(data);
+    }
+  }
+
+  nextTossup ({ tossup: nextTossup, oldTossup, packetLength, starred, type }) {
     super.next({ nextQuestion: nextTossup, packetLength, type });
 
     document.getElementById('answer').textContent = '';
-
-    if (type !== 'start') {
-      addTossupGameCard({ starred, tossup: oldTossup });
-    }
 
     if (type === 'end') {
       document.getElementById('buzz').disabled = true;
@@ -54,6 +62,8 @@ export default class TossupClient extends QuestionClient {
       document.getElementById('buzz').disabled = false;
       document.getElementById('pause').textContent = 'Pause';
       document.getElementById('pause').disabled = false;
+
+      this.room.tossup = nextTossup;
     }
   }
 

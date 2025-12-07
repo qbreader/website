@@ -1,5 +1,5 @@
 import { MAX_ONLINE_PLAYERS, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
-import ServerTossupRoom from './ServerTossupRoom.js';
+import ServerTossupBonusRoom from './ServerTossupBonusRoom.js';
 import { checkToken } from '../authentication.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
@@ -20,21 +20,21 @@ const DOMPurify = createDOMPurify(window);
 export const tossupRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupRooms[name] = new ServerTossupRoom(name, Symbol('unique permanent room owner'), true, categories, subcategories);
+  tossupRooms[name] = new ServerTossupBonusRoom(name, Symbol('unique permanent room owner'), true, categories, subcategories);
 }
 
 /**
  * Returns the room with the given room name.
  * If the room does not exist, it is created.
  * @param {String} roomName
- * @returns {ServerTossupRoom}
+ * @returns {ServerTossupBonusRoom}
  */
 function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled = false) {
   roomName = DOMPurify.sanitize(roomName);
   roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
 
   if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
-    const newRoom = new ServerTossupRoom(roomName, userId, false);
+    const newRoom = new ServerTossupBonusRoom(roomName, userId, false);
     // A room cannot be both public and controlled
     newRoom.settings.public = !isPrivate && !isControlled;
     newRoom.settings.controlled = isControlled;

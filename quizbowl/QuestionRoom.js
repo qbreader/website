@@ -18,6 +18,7 @@ export default class QuestionRoom extends Room {
     this.packetLength = undefined;
     this.queryingQuestion = false;
     this.randomQuestionCache = [];
+    this.useRandomQuestionCache = true;
     this.setCache = [];
     this.setLength = 24; // length of 2023 PACE NSC
 
@@ -137,7 +138,9 @@ export default class QuestionRoom extends Room {
           const randomCategory = this.categoryManager.getRandomCategory();
           this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 1, categories: [randomCategory], subcategories: [], alternateSubcategories: [] });
         } else if (this.randomQuestionCache.length === 0) {
-          this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 20 });
+          var cache_size = 20;
+          if (this.useRandomQuestionCache === false) { cache_size = 1; }
+          this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: cache_size });
         }
 
         if (this.randomQuestionCache?.length === 0) {
