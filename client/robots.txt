@@ -1,2 +1,2 @@
 User-agent: *
-Disallow: /multiplayer/
+Disallow: /play/tossups/mp/
