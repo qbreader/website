@@ -1,8 +1,7 @@
 /**
- * This file is run at the start of every page
+ * This file is run at the start of every page.
+ * Because it must be run immmediately, it **cannot** defer and cannot be a module.
  */
-
-import account from './accounts.js';
 
 function isTouchDevice () {
   if ('ontouchstart' in window) return true;
@@ -19,11 +18,19 @@ for (const tooltipTriggerEl of tooltipTriggerList) {
   new bootstrap.Tooltip(tooltipTriggerEl);
 }
 
-account.getUsername().then(username => {
-  if (username) {
+window.addEventListener('DOMContentLoaded', () => {
+  function myCallback (username) {
+    if (!username) { return; }
     document.getElementById('login-link').textContent = username;
     document.getElementById('login-link').href = '/user/my-profile';
   }
+  const data = window.sessionStorage.getItem('account-username');
+  if (data !== null) { return myCallback(JSON.parse(data).username); }
+  fetch('/auth/get-username').then(response => {
+    if (response.status === 401) { return { username: null }; }
+    return response.json();
+  }).then(json => json.username)
+    .then(username => { myCallback(username); window.sessionStorage.setItem('account-username', JSON.stringify({ username })); });
 });
 
 // mostly copied from https://getbootstrap.com/docs/5.3/customize/color-modes/#javascript
