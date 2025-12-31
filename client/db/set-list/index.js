@@ -7,7 +7,7 @@ await fetch('/api/db-explorer/set-metadata?' + new URLSearchParams({ includeCoun
     data.forEach(({ _id, setName, difficulty, standard }) => {
       const row = table.insertRow(-1);
       const a = document.createElement('a');
-      a.href = `./set?_id=${_id}`;
+      a.href = `../set/?_id=${_id}`;
       a.textContent = setName;
       row.insertCell(-1).appendChild(a);
       row.insertCell(-1).textContent = difficulty;

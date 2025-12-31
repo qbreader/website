@@ -92,39 +92,24 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <div class="d-flex justify-content-between mb-3">
-            <div>
-                <div>
-                    <b>Packet:</b> <a id="packet-link"><span id="packet-number" href="">1</span> (<span id="packet-name"></span>)</a>
-                </div>
-                <div><b>Set:</b> <a id="set-name"></a></div>
-            </div>
-            <a href="./">Back to all sets</a>
+            <span>View <span id="set-name"></span> here:</span>
+            <a href="../set-list">Back to all sets</a>
         </div>
-        <hr>
-        <div id="bonus"></div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Packet Name</th>
+                    <th scope="col"># of Tossups</th>
+                    <th scope="col"># of Bonuses</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="set-metadata-list"></tbody>
+        </table>
         <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
-        <hr>
-        <div id="metadata">
-            <b>Question ID:</b> <span id="_id"></span><br>
-            <b>Difficulty:</b> <span id="difficulty"></span><br>
-            <b>Standard:</b> <span id="standard"></span><br>
-            <b>Date Created:</b> <span id="time-created"></span><br>
-            <b>Last Modified:</b> <span id="last-modified"></span><br>
-        </div>
-        <hr>
-        <p><b>Question Stats:</b></p>
-        <div class="d-none" id="question-stats">
-            <b>BH:</b> <span id="bh"></span><br>
-            <div id="part-conversion"></div>
-            <b id="result-counts-label"></b> <span id="result-counts"></span><br>
-            <b>Total points:</b> <span id="total-points"></span><br>
-            <b>PPB:</b> <span id="ppb"></span><br>
-        </div>
     </div>
 
-
-
-    <script type="module" src="./bonus.js"></script>
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>

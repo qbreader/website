@@ -1,4 +1,5 @@
-import { tossupToHTML, bonusToHTML } from './utilities.js';
+import bonusToHTML from '../bonus-to-html.js';
+import tossupToHTML from '../tossup-to-html.js';
 
 const packetId = new URLSearchParams(window.location.search).get('_id');
 
@@ -9,7 +10,7 @@ document.getElementById('spinner').classList.add('d-none');
 document.getElementById('packet-name').textContent = packet.name;
 document.getElementById('packet-number').textContent = packet.number;
 document.getElementById('set-name').textContent = packet.set.name;
-document.getElementById('set-name').href = './set?_id=' + packet.set._id;
+document.getElementById('set-name').href = '../set/?_id=' + packet.set._id;
 
 for (const tossup of tossups) {
   const div = tossupToHTML(tossup);
@@ -33,7 +34,7 @@ for (const bonus of bonuses) {
 
 function getQuestionLink (type, _id) {
   const a = document.createElement('a');
-  a.href = `./${type}?_id=${_id}`;
+  a.href = `../${type}/?_id=${_id}`;
   a.textContent = ` Link to ${type}`;
   return a;
 }

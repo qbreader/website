@@ -1,15 +1,16 @@
-import { mongoIdToDate, tossupToHTML } from './utilities.js';
+import mongoIdToDate from '../mongo-id-to-date.js';
+import tossupToHTML from '../tossup-to-html.js';
 
 const tossupId = new URLSearchParams(window.location.search).get('_id');
 const { tossup } = await fetch('/api/tossup?' + new URLSearchParams({ _id: tossupId })).then(res => res.json());
 
 document.getElementById('spinner').classList.add('d-none');
 
-document.getElementById('packet-link').href = `./packet?_id=${tossup.packet._id}`;
+document.getElementById('packet-link').href = `../packet/?_id=${tossup.packet._id}`;
 document.getElementById('packet-number').textContent = tossup.packet.number;
 document.getElementById('packet-name').textContent = tossup.packet.name;
 
-document.getElementById('set-name').href = `./set?_id=${tossup.set._id}`;
+document.getElementById('set-name').href = `../set/?_id=${tossup.set._id}`;
 document.getElementById('set-name').textContent = tossup.set.name;
 
 document.getElementById('tossup').appendChild(tossupToHTML(tossup));
