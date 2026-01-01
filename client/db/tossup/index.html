@@ -39,7 +39,7 @@
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="/db/">Search</a>
                             <a class="dropdown-item" href="/db/backups">Backups</a>
-                            <a class="dropdown-item" href="/db/explorer/">DB Explorer</a>
+                            <a class="dropdown-item" href="/db/set-list/">Set List</a>
                             <a class="dropdown-item" href="/db/frequency-list/">Frequency List</a>
                         </ul>
                     </li>
@@ -92,24 +92,37 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <div class="d-flex justify-content-between mb-3">
-            <span>View <span id="set-name"></span> here:</span>
-            <a href="./">Back to all sets</a>
+            <div>
+                <div>
+                    <b>Packet:</b> <a id="packet-link"><span id="packet-number" href="">1</span> (<span id="packet-name"></span>)</a>
+                </div>
+                <div><b>Set:</b> <a id="set-name"></a></div>
+            </div>
+            <a href="../set-list/">Back to all sets</a>
         </div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Packet Name</th>
-                    <th scope="col"># of Tossups</th>
-                    <th scope="col"># of Bonuses</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider" id="set-metadata-list"></tbody>
-        </table>
+        <hr>
+        <div id="tossup"></div>
         <div class="d-block mx-auto mt-3 spinner-border" id="spinner" role="status"><span class='d-none'>Loading...</span></div>
+        <hr>
+        <div id="metadata">
+            <b>Question ID:</b> <span id="_id"></span><br>
+            <b>Difficulty:</b> <span id="difficulty"></span><br>
+            <b>Standard:</b> <span id="standard"></span><br>
+            <b>Date Created:</b> <span id="time-created"></span><br>
+            <b>Last Modified:</b> <span id="last-modified"></span><br>
+        </div>
+        <hr>
+        <p><b>Question Stats:</b></p>
+        <div class="d-none" id="question-stats">
+            <b>TUH:</b> <span id="tuh"></span><br>
+            <div id="result-counts"></div>
+            <b>Average celerity:</b> <span id="average-celerity"></span><br>
+            <b>Total points:</b> <span id="total-points"></span><br>
+            <b>PPTU:</b> <span id="pptu"></span>
+        </div>
     </div>
 
-    <script type="module" src="./set.js"></script>
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>

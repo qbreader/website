@@ -1,15 +1,16 @@
-import { bonusToHTML, mongoIdToDate } from './utilities.js';
+import bonusToHTML from '../bonus-to-html.js';
+import mongoIdToDate from '../mongo-id-to-date.js';
 
 const bonusId = new URLSearchParams(window.location.search).get('_id');
 const { bonus } = await fetch('/api/bonus?' + new URLSearchParams({ _id: bonusId })).then(res => res.json());
 
 document.getElementById('spinner').classList.add('d-none');
 
-document.getElementById('packet-link').href = `./packet?_id=${bonus.packet._id}`;
+document.getElementById('packet-link').href = `../packet/?_id=${bonus.packet._id}`;
 document.getElementById('packet-number').textContent = bonus.packet.number;
 document.getElementById('packet-name').textContent = bonus.packet.name;
 
-document.getElementById('set-name').href = `./set?_id=${bonus.set._id}`;
+document.getElementById('set-name').href = `../set/?_id=${bonus.set._id}`;
 document.getElementById('set-name').textContent = bonus.set.name;
 
 document.getElementById('bonus').appendChild(bonusToHTML(bonus));

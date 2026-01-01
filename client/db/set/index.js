@@ -12,7 +12,7 @@ fetch('/api/db-explorer/packet-metadata?' + new URLSearchParams({ setId }))
       const row = table.insertRow(-1);
       row.insertCell(-1).textContent = packetNumber;
       const a = document.createElement('a');
-      a.href = `./packet?_id=${_id}`;
+      a.href = `../packet/?_id=${_id}`;
       a.textContent = packetName;
       row.insertCell(-1).appendChild(a);
       row.insertCell(-1).textContent = tossupCount;
