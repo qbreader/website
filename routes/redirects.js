@@ -19,6 +19,9 @@ router.get('/frequency-list', queryRedirect('/db/frequency-list/'));
 router.get('/frequency-list/subcategory', queryRedirect('/db/frequency-list/subcategory'));
 router.get('/tools/db-explorer/:param', (req, res) => queryRedirect('/db/explorer/' + req.params.param)(req, res));
 
+router.get('/db/explorer/', (_req, res) => res.redirect('/db/set-list'));
+router.get('/db/explorer/:param', (req, res) => queryRedirect('/db/' + req.params.param + '/')(req, res));
+
 router.get('/user', (_req, res) => res.redirect('/user/login'));
 
 export default router;
