@@ -23,12 +23,14 @@ document.getElementById('submit').addEventListener('click', function (e) {
       for (const [index, tossup] of packet.tossups.entries()) {
         const team = parseDoNotReadToDirective(tossup.question);
         const filename = `TB-Tossup-${index + 1}${team ? `-${team}` : ''}.json`;
-        zip.file(filename, JSON.stringify(tossup, null, 4));
+        const data = { tossups: [tossup], bonuses: [] };
+        zip.file(filename, JSON.stringify(data, null, 4));
       }
       for (const [index, bonus] of packet.bonuses.entries()) {
         const team = parseDoNotReadToDirective(bonus.leadin);
         const filename = `TB-Bonus-${index + 1}${team ? `-${team}` : ''}.json`;
-        zip.file(filename, JSON.stringify(bonus, null, 4));
+        const data = { tossups: [], bonuses: [bonus] };
+        zip.file(filename, JSON.stringify(data, null, 4));
       }
       zip.generateAsync({ type: 'blob' }).then(content => saveAs(content, 'individual-tbs.zip'));
     } catch (error) {
