@@ -13,7 +13,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
 
   onmessage (event) {
     const data = JSON.parse(event.data);
-    console.log("MultiplayerClientMixin onmessage", data.type, data);
+    console.log('MultiplayerClientMixin onmessage', data.type, data);
     switch (data.type) {
       case 'chat': return this.chat(data, false);
       case 'chat-live-update': return this.chat(data, true);
@@ -311,8 +311,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     if (directive === 'reject') {
       if (data.tossup) {
         document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === this.USER_ID;
-      }
-      else {
+      } else {
         document.getElementById('reveal').disabled = !document.getElementById('toggle-rebuzz').checked && userId === this.USER_ID;
       }
     }

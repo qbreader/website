@@ -21,7 +21,7 @@ export default class TossupBonusRoom extends TossupRoom {
     this.getRandomQuestions = this.getRandomTossups;
   }
 
-  switchToBonusRound() {
+  switchToBonusRound () {
     this.currentRound = ROUND.BONUS;
     this.randomQuestionCache = [];
 
@@ -71,7 +71,7 @@ export default class TossupBonusRoom extends TossupRoom {
 
   scoreTossup ({ givenAnswer }) {
     const decision = super.scoreTossup({ givenAnswer });
-    if (decision.directive === "accept") {
+    if (decision.directive === 'accept') {
       this.bonusEligibleUserId = this.buzzedIn;
       this.switchToBonusRound();
     }
@@ -81,8 +81,7 @@ export default class TossupBonusRoom extends TossupRoom {
   async nextRound (userId, { type }) {
     if (this.currentRound === ROUND.TOSSUP) {
       await this.nextTossup(userId, { type });
-    }
-    else {
+    } else {
       await this.nextBonus(userId, { type });
     }
   }
@@ -90,8 +89,7 @@ export default class TossupBonusRoom extends TossupRoom {
   lastQuestionDict () {
     if (this.currentRound === ROUND.TOSSUP) {
       return { oldTossup: this.tossup };
-    }
-    else {
+    } else {
       return { oldBonus: this.bonus };
     }
   }
@@ -111,11 +109,10 @@ export default class TossupBonusRoom extends TossupRoom {
     if (type === 'next' && bonusStarted) {
       // Points already added incrementally during bonus, just update stats with 0 points
       this.players[userId].updateStats(0, 1);
-      const oldBonus = this.bonus;  // Preserve oldBonus before switching rounds
+      const oldBonus = this.bonus; // Preserve oldBonus before switching rounds
       this.switchToTossupRound();
       await this.nextTossup(userId, { type, oldBonus });
-    }
-    else {
+    } else {
       const lastQuestionDict = this.lastQuestionDict();
 
       // If this is the first bonus (transitioning from tossup), preserve the oldTossup
@@ -127,7 +124,7 @@ export default class TossupBonusRoom extends TossupRoom {
       this.queryingQuestion = false;
 
       if (!this.bonus) {
-        this.emitMessage({ ...lastQuestionDict, ...preservedTossup, type: 'end', lastPartRevealed, pointsPerPart, stats, userId });
+        this.emitMessage({ ...lastQuestionDict, ...preservedTossup, type: 'end', lastPartRevealed, pointsPerPart, userId });
         return false;
       }
 
@@ -203,7 +200,7 @@ export default class TossupBonusRoom extends TossupRoom {
     // Cancel buzz timer when manually revealing
     clearInterval(this.buzzTimer.interval);
 
-    this.liveAnswer = '';  // Clear any previous answer
+    this.liveAnswer = ''; // Clear any previous answer
     this.emitMessage({ type: 'start-answer', userId: this.bonusEligibleUserId });
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,

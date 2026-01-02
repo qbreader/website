@@ -138,9 +138,9 @@ export default class QuestionRoom extends Room {
           const randomCategory = this.categoryManager.getRandomCategory();
           this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: 1, categories: [randomCategory], subcategories: [], alternateSubcategories: [] });
         } else if (this.randomQuestionCache.length === 0) {
-          var cache_size = 20;
-          if (this.useRandomQuestionCache === false) { cache_size = 1; }
-          this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: cache_size });
+          let cacheSize = 20;
+          if (this.useRandomQuestionCache === false) { cacheSize = 1; }
+          this.randomQuestionCache = await this.getRandomQuestions({ ...this.query, number: cacheSize });
         }
 
         if (this.randomQuestionCache?.length === 0) {

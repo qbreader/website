@@ -42,10 +42,9 @@ export default class TossupClient extends QuestionClient {
     if (data.type !== 'start' && data.oldTossup) {
       addTossupGameCard({ starred: data.starred, tossup: data.oldTossup });
     }
-    if (data.nextQuestion) {  // just passing through, e.g. from a child class that handles bonus questions
-      super.next(data); 
-    }
-    else {
+    if (data.nextQuestion) { // just passing through, e.g. from a child class that handles bonus questions
+      super.next(data);
+    } else {
       this.nextTossup(data);
     }
   }

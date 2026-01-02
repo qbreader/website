@@ -1,4 +1,4 @@
-import ServerMultiplayerRoomMixin from './ServerMultiplayerRoomMixin.js'
+import ServerMultiplayerRoomMixin from './ServerMultiplayerRoomMixin.js';
 import TossupRoom from '../../quizbowl/TossupRoom.js';
 
 const ServerTossupRoom = ServerMultiplayerRoomMixin(TossupRoom);

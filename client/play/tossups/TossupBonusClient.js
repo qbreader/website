@@ -2,9 +2,9 @@ import TossupClient from './TossupClient.js';
 import addBonusGameCard from '../bonuses/add-bonus-game-card.js';
 
 export default class TossupBonusClient extends TossupClient {
-  constructor (room, userId, socket) {
-    super(room, userId, socket);
-  }
+  // constructor (room, userId, socket) {
+  //   super(room, userId, socket);
+  // }
 
   onmessage (message) {
     const data = JSON.parse(message);
@@ -30,8 +30,7 @@ export default class TossupBonusClient extends TossupClient {
         document.getElementById('reveal').disabled = false;
         document.getElementById('buzz').disabled = true;
       }
-    }
-    else {
+    } else {
       if (data.type !== 'start' && data.oldBonus) {
         addBonusGameCard({ bonus: data.oldBonus, starred: data.starred });
       }
@@ -112,5 +111,4 @@ export default class TossupBonusClient extends TossupClient {
 
     document.getElementById('question').appendChild(row);
   }
-
 }
