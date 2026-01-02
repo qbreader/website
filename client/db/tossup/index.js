@@ -1,5 +1,5 @@
 import mongoIdToDate from '../mongo-id-to-date.js';
-import tossupToHTML from '../tossup-to-html.js';
+import tossupToHTML from '../../scripts/tossup-to-html.js';
 
 const tossupId = new URLSearchParams(window.location.search).get('_id');
 const { tossup } = await fetch('/api/tossup?' + new URLSearchParams({ _id: tossupId })).then(res => res.json());

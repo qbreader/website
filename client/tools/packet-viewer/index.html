@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The packet parser that powers QB Reader.">
+
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link href="/style.css" rel="stylesheet">
+    <script src="/scripts/global.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/">
+                <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
+            </a>
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-link" href="/play/">Play</a>
+                    <a class="nav-link" href="/play/tossups/mp/">Multiplayer</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Database
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/db/">Search</a>
+                            <a class="dropdown-item" href="/db/backups">Backups</a>
+                            <a class="dropdown-item" href="/db/set-list/">Set List</a>
+                            <a class="dropdown-item" href="/db/frequency-list/">Frequency List</a>
+                        </ul>
+                    </li>
+                    <a class="nav-link" href="/geoword/">Geoword</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Tools
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/tools/api-docs/">API Docs</a>
+                            <a class="dropdown-item icon-link" href="https://modaq.github.io/">
+                                MODAQ <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                            <a class="dropdown-item" href="/tools/packet-parser/">Packet Parser</a>
+                            <a class="dropdown-item" href="/tools/tb-splitter/">TB Splitter</a>
+                        </ul>
+                    </li>
+                    <a class="nav-link" href="/about/">About</a>
+                    <a class="nav-link" href="/settings/">Settings</a>
+                </div>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <button id="bd-theme" class="btn btn-link nav-link dropdown-toggle d-flex align-items-center"
+                                data-bs-toggle="dropdown">
+                                <span class="theme-icon-active"><i class="bi bi-moon-stars-fill"></i></span>
+                                <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item d-flex" data-bs-theme-value="light">
+                                    <i class="bi bi-sun-fill me-2"></i>Light<i class="bi bi-check2 ms-auto d-none"></i>
+                                </a>
+                                <a class="dropdown-item d-flex" data-bs-theme-value="night">
+                                    <i class="bi bi-moon-stars-fill me-2"></i>Night<i class="bi bi-check2 ms-auto d-none"></i>
+                                </a>
+                                <a class="dropdown-item d-flex active" data-bs-theme-value="auto">
+                                    <i class="bi bi-circle-half me-2"></i>Auto<i class="bi bi-check2 ms-auto d-none"></i>
+                                </a>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
+                        </li>
+                        <a class="nav-link" href="/user/login" id="login-link">Log in</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <p>
+            This tool takes a packet that was parsed using the <a href="/tools/packet-parser/">QBReader parser</a> (in any mode) or
+            <a href="https://quizbowlreader.com/yapp.html">YAPP</a> and displays it for viewing.
+        </p>
+        <label for="file-input" class="form-label">Select a <code>.json</code> file to view:</label>
+        <input class="form-control" type="file" id="file-input" accept="application/json,.json">
+        <hr>
+        <div class="mb-3" id="file-output"></div>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
-import bonusToHTML from '../bonus-to-html.js';
-import tossupToHTML from '../tossup-to-html.js';
+import bonusToHTML from '../../scripts/bonus-to-html.js';
+import tossupToHTML from '../../scripts/tossup-to-html.js';
 
 const packetId = new URLSearchParams(window.location.search).get('_id');
 

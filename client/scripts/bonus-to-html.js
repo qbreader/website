@@ -1,4 +1,4 @@
-import getBonusPartLabel from '../scripts/utilities/get-bonus-part-label.js';
+import getBonusPartLabel from './utilities/get-bonus-part-label.js';
 
 export default function bonusToHTML (bonus) {
   const div = document.createElement('div');
@@ -18,6 +18,7 @@ export default function bonusToHTML (bonus) {
     div.appendChild(document.createElement('br'));
   }
 
-  div.appendChild(document.createTextNode(`<${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' / ' + bonus.alternate_subcategory : ''}>`));
+  const tag = bonus.metadata ?? `${bonus.category} / ${bonus.subcategory}${bonus.alternate_subcategory ? ' / ' + bonus.alternate_subcategory : ''}`;
+  div.appendChild(document.createTextNode(`<${tag}>`));
   return div;
 }

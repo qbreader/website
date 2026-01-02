@@ -8,6 +8,7 @@ export default function tossupToHTML (tossup) {
   span2.innerHTML = `ANSWER: ${tossup.answer}`;
   div.appendChild(span2);
   div.appendChild(document.createElement('br'));
-  div.appendChild(document.createTextNode(`<${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' / ' + tossup.alternate_subcategory : ''}>`));
+  const tag = tossup.metadata ?? `${tossup.category} / ${tossup.subcategory}${tossup.alternate_subcategory ? ' / ' + tossup.alternate_subcategory : ''}`;
+  div.appendChild(document.createTextNode(`<${tag}>`));
   return div;
 }
