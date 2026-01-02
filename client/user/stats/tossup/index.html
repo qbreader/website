@@ -122,14 +122,14 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">
-                    <!-- <div class="form-check form-switch">
+                    <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="include-multiplayer" checked />
                         <label class="form-check-label" for="include-multiplayer">Include multiplayer stats</label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="include-singleplayer" checked />
                         <label class="form-check-label" for="include-singleplayer">Include singleplayer stats</label>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="col-12 col-md-6 text-md-end">
                     <div>
@@ -173,21 +173,28 @@
                     Alternate Subcategory <span class="d-none d-md-inline">Stats</span>
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="best-buzz-tab" data-bs-toggle="tab" data-bs-target="#best-buzz-tab-pane" type="button"
+                    role="tab" aria-controls="best-buzz-tab-pane" aria-selected="false">
+                    Best Buzz
+                </button>
+            </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane table-responsive show active" id="set-tab-pane" role="tabpanel" aria-labelledby="set-tab"
                 tabindex="0">
+                <p class="text-muted">Sets with less than 20 tossups heard are excluded for brevity.</p>
                 <table class="table table-hover" id="set-stats">
                     <thead>
                         <tr>
                             <th scope="col">Set Name</th>
-                            <th scope="col">BH</th>
-                            <th scope="col">30</th>
-                            <th scope="col">20</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
                             <th scope="col">10</th>
-                            <th scope="col">0s</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
                             <th scope="col">Points</th>
-                            <th scope="col">PPB</th>
+                            <th scope="col">PPTU</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider" id="set-stats-body"></tbody>
@@ -199,13 +206,13 @@
                     <thead>
                         <tr>
                             <th scope="col">Category</th>
-                            <th scope="col">BH</th>
-                            <th scope="col">30</th>
-                            <th scope="col">20</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
                             <th scope="col">10</th>
-                            <th scope="col">0s</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
                             <th scope="col">Points</th>
-                            <th scope="col">PPB</th>
+                            <th scope="col">PPTU</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider" id="category-stats-body"></tbody>
@@ -218,13 +225,13 @@
                     <thead>
                         <tr>
                             <th scope="col">Subcategory</th>
-                            <th scope="col">BH</th>
-                            <th scope="col">30</th>
-                            <th scope="col">20</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
                             <th scope="col">10</th>
-                            <th scope="col">0</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
                             <th scope="col">Points</th>
-                            <th scope="col">PPB</th>
+                            <th scope="col">PPTU</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider" id="subcategory-stats-body"></tbody>
@@ -237,26 +244,27 @@
                     <thead>
                         <tr>
                             <th scope="col">Subcategory</th>
-                            <th scope="col">BH</th>
-                            <th scope="col">30</th>
-                            <th scope="col">20</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
                             <th scope="col">10</th>
-                            <th scope="col">0</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
                             <th scope="col">Points</th>
-                            <th scope="col">PPB</th>
+                            <th scope="col">PPTU</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider" id="alternate-subcategory-stats-body"></tbody>
                     <tfoot class="table-group-divider" id="alternate-subcategory-stats-foot"></tfoot>
                 </table>
             </div>
+            <div class="tab-pane" id="best-buzz-tab-pane" role="tabpanel" aria-labelledby="best-buzz-tab" tabindex="0">
+                <div id="best-buzz"></div>
+            </div>
         </div>
     </div>
 
-
-
-    <script type="module" src="/user/stats/script.js"></script>
-    <script type="module" src="/user/stats/bonuses.js"></script>
+    <script type="module" src="../script.js"></script>
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>

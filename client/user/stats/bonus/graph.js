@@ -1,4 +1,4 @@
-import { attachDropdownChecklist, getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
+import { attachDropdownChecklist, getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
 
 function showBonusGraphStats ({ cumulative = false, difficulties = '', filterLowData = true, setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
   fetch('/auth/user-stats/bonus/graph?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
