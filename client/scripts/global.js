@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function myCallback (username) {
     if (!username) { return; }
     document.getElementById('login-link').textContent = username;
-    document.getElementById('login-link').href = '/user/my-profile';
+    document.getElementById('login-link').href = '/user/';
   }
   const data = window.sessionStorage.getItem('account-username');
   if (data !== null) { return myCallback(JSON.parse(data).username); }

@@ -22,7 +22,7 @@ router.use(async (req, res, next) => {
 
   const admin = await isAdmin(username);
   if (!admin) {
-    res.status(403).redirect('/user/my-profile');
+    res.status(403).redirect('/user/');
     return;
   }
 

@@ -29,7 +29,7 @@ form.addEventListener('submit', (event) => {
       if (window.location.search.length > 1) {
         window.location.href = decodeURIComponent(window.location.search.slice(1));
       } else {
-        window.location.href = '/user/my-profile';
+        window.location.href = '/user/';
       }
     } else {
       document.getElementById('submission').textContent = 'Login';

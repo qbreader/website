@@ -22,6 +22,6 @@ router.get('/tools/db-explorer/:param', (req, res) => queryRedirect('/db/explore
 router.get('/db/explorer/', (_req, res) => res.redirect('/db/set-list'));
 router.get('/db/explorer/:param', (req, res) => queryRedirect('/db/' + req.params.param + '/')(req, res));
 
-router.get('/user', (_req, res) => res.redirect('/user/login'));
+router.get('/user/my-profile', (_req, res) => res.redirect('/user/'));
 
 export default router;
