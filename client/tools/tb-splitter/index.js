@@ -34,6 +34,7 @@ document.getElementById('submit').addEventListener('click', function (e) {
       zip.generateAsync({ type: 'blob' }).then(content => saveAs(content, 'individual-tbs.zip'));
     } catch (error) {
       window.alert('Invalid packet format');
+      throw error;
     }
   };
   reader.readAsText(file);
