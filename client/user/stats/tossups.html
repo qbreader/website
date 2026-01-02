@@ -149,8 +149,14 @@
         </div>
         <ul class="nav nav-tabs mb-3" id="stats-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="category-tab" data-bs-toggle="tab" data-bs-target="#category-tab-pane"
-                    type="button" role="tab" aria-controls="category-tab-pane" aria-selected="true">
+                <button class="nav-link active" id="set-tab" data-bs-toggle="tab" data-bs-target="#set-tab-pane" type="button"
+                    role="tab" aria-controls="set-tab-pane" aria-selected="true">
+                    Set <span class="d-none d-md-inline">Stats</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="category-tab" data-bs-toggle="tab" data-bs-target="#category-tab-pane" type="button"
+                    role="tab" aria-controls="category-tab-pane" aria-selected="false">
                     Category <span class="d-none d-md-inline">Stats</span>
                 </button>
             </li>
@@ -175,8 +181,27 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane table-responsive show active" id="category-tab-pane" role="tabpanel" aria-labelledby="category-tab"
+            <div class="tab-pane table-responsive show active" id="set-tab-pane" role="tabpanel" aria-labelledby="set-tab"
                 tabindex="0">
+                <p class="text-muted">Sets with less than 20 tossups heard are excluded for brevity.</p>
+                <table class="table table-hover" id="set-stats">
+                    <thead>
+                        <tr>
+                            <th scope="col">Set Name</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
+                            <th scope="col">10</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">PPTU</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="set-stats-body"></tbody>
+                    <tfoot class="table-group-divider" id="set-stats-foot"></tfoot>
+                </table>
+            </div>
+            <div class="tab-pane table-responsive" id="category-tab-pane" role="tabpanel" aria-labelledby="category-tab" tabindex="0">
                 <table class="table table-hover" id="category-stats">
                     <thead>
                         <tr>

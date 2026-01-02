@@ -41,6 +41,7 @@ export default async function getSummaryBonusStats (userId, groupByField, query)
         ppb: { $avg: '$pointValue' }
       }
     },
-    { $sort: { ppb: -1, totalPoints: -1 } }
+    ...(groupByField === 'set_id' ? [{ $match: { count: { $gt: 20 } } }] : []),
+    { $sort: { count: -1, ppb: -1, totalPoints: -1 } }
   ]).toArray();
 }

@@ -11,7 +11,7 @@ function fetchBonusStats ({ difficulties = '', setName = '', includeMultiplayer 
     })
     .then(response => response.json())
     .then(data => {
-      for (const type of ['category', 'subcategory', 'alternate-subcategory']) {
+      for (const type of ['set', 'category', 'subcategory', 'alternate-subcategory']) {
         if (!data[`${type}-stats`]) {
           continue;
         }
@@ -89,6 +89,11 @@ document.getElementById('form').addEventListener('submit', onSubmit);
 
 attachDropdownChecklist();
 fetchBonusStats();
+
+document.getElementById('set-stats').querySelectorAll('th').forEach((th, index) => {
+  const numeric = [false, true, true, true, true, true, true, true];
+  th.addEventListener('click', () => sortTable(index, numeric[index], 'set-stats-body', 0, 0));
+});
 
 document.getElementById('category-stats').querySelectorAll('th').forEach((th, index) => {
   const numeric = [false, true, true, true, true, true, true, true];
