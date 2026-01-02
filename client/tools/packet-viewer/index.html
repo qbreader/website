@@ -96,7 +96,15 @@
             <a href="https://quizbowlreader.com/yapp.html">YAPP</a> and displays it for viewing.
         </p>
         <label for="file-input" class="form-label">Select a <code>.json</code> file to view:</label>
-        <input class="form-control" type="file" id="file-input" accept="application/json,.json">
+        <input class="form-control mb-2" type="file" id="file-input" accept="application/json,.json">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="pg-gray" checked>
+            <label class="form-check-label" for="pg-gray">Gray out pronunciation guides</label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="pg-highlight">
+            <label class="form-check-label" for="pg-highlight">Highlight pronunciation guides</label>
+        </div>
         <hr>
         <div class="mb-3" id="file-output"></div>
     </div>

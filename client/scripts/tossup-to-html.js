@@ -1,7 +1,12 @@
-export default function tossupToHTML (tossup) {
+export default function tossupToHTML (tossup, tagPronunciationGuides = false) {
+  const pronunciationGuideRegex = /(\([\u201C-\u201F][^\u201C-\u201F]*[\u201C-\u201F]\))/g;
+  const question = tagPronunciationGuides
+    ? tossup.question.replace(pronunciationGuideRegex, '<span class="pronunciation-guide">$1</span>')
+    : tossup.question;
+
   const div = document.createElement('div');
   const span1 = document.createElement('span');
-  span1.innerHTML = `${tossup.number}. ${tossup.question}`;
+  span1.innerHTML = `${tossup.number}. ${question}`;
   div.appendChild(span1);
   div.appendChild(document.createElement('br'));
   const span2 = document.createElement('span');
