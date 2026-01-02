@@ -39,7 +39,7 @@ export async function sendEmail ({ to, subject = '', text, html }) {
   const message = { from: QBREADER_EMAIL_ADDRESS, to, subject, text, html };
 
   try {
-    return transporter.sendMail(message);
+    return await transporter.sendMail(message);
   } catch (error) {
     console.log(error);
     return null;

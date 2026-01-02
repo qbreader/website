@@ -1,20 +1,65 @@
 import { stringifyBonus, stringifyTossup } from './stringify.js';
 
-export function downloadQuestionsAsText (tossups, bonuses, filename = 'data.txt') {
-  let textdata = '';
-  for (const tossup of tossups) {
-    textdata += stringifyTossup(tossup, true) + '\n';
-  }
+/**
+ * Downloads data as a file by creating a temporary anchor element and triggering a download.
+ * Supports CSV, JSON, and TXT file formats.
+ *
+ * @param {string} filename - The name of the file to be downloaded, including extension (csv, json, or txt)
+ * @param {string} data - The content to be downloaded as a file
+ * @returns {void}
+ *
+ * @example
+ * downloadAsFile('data.json', JSON.stringify({key: 'value'}));
+ * downloadAsFile('report.csv', 'name,age\nJohn,30');
+ */
+export function downloadAsFile (filename, data) {
+  const filetype = filename.split('.').pop().toLowerCase();
+  const mimeTypes = {
+    csv: 'text/csv',
+    json: 'application/json',
+    txt: 'text/plain'
+  };
 
-  for (const bonus of bonuses) {
-    textdata += stringifyBonus(bonus, true) + '\n';
-  }
-
+  const mimeType = mimeTypes[filetype];
   const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/text;charset=utf-8,' + encodeURIComponent(textdata);
+  hiddenElement.href = `data:${mimeType};charset=utf-8,` + encodeURIComponent(data);
   hiddenElement.target = '_blank';
   hiddenElement.download = filename;
   hiddenElement.click();
+}
+
+export function downloadQuestionsAsText (tossups, bonuses, filename = 'data.txt') {
+  let textdata = '';
+  for (const tossup of tossups) { textdata += stringifyTossup(tossup, true) + '\n'; }
+  for (const bonus of bonuses) { textdata += stringifyBonus(bonus, true) + '\n'; }
+  downloadAsFile(filename, textdata);
+}
+
+function convertQuestionsToCSV (header, questions) {
+  function extractEmbeddedField (object, field) {
+    const parts = field.split('.');
+    let value = object;
+    for (const part of parts) {
+      if (value === undefined) { break; }
+      value = value[part];
+    }
+    return value;
+  }
+
+  function escapeCSVString (string) {
+    if (string === undefined || string === null) { return ''; }
+    if (typeof string !== 'string') { string = string.toString(); }
+    return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
+  }
+
+  let csvdata = header.join(',') + '\n';
+  for (const question of questions) {
+    csvdata += header
+      .map(key => extractEmbeddedField(question, key))
+      .map(escapeCSVString)
+      .join(',') + '\n';
+  }
+  return csvdata;
 }
 
 export function downloadTossupsAsCSV (tossups, filename = 'tossups.csv') {
@@ -24,7 +69,7 @@ export function downloadTossupsAsCSV (tossups, filename = 'tossups.csv') {
     'packet.number',
     'number',
     'question',
-    'answer',
+    'answer_sanitized',
     'answer',
     'category',
     'subcategory',
@@ -35,30 +80,8 @@ export function downloadTossupsAsCSV (tossups, filename = 'tossups.csv') {
     'updatedAt'
   ];
 
-  let csvdata = header.join(',') + '\n';
-  for (const tossup of tossups) {
-    for (const key of header) {
-      const parts = key.split('.');
-      let value = tossup;
-      for (const part of parts) {
-        if (value === undefined) {
-          break;
-        } else {
-          value = value[part];
-        }
-      }
-      csvdata += escapeCSVString(value) + ',';
-    }
-
-    csvdata = csvdata.slice(0, -1);
-    csvdata += '\n';
-  }
-
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(csvdata);
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
+  const csvdata = convertQuestionsToCSV(header, tossups);
+  downloadAsFile(filename, csvdata);
 }
 
 export function downloadBonusesAsCSV (bonuses, filename = 'bonuses.csv') {
@@ -86,46 +109,10 @@ export function downloadBonusesAsCSV (bonuses, filename = 'bonuses.csv') {
     'updatedAt'
   ];
 
-  let csvdata = header.join(',') + '\n';
-  for (const bonus of bonuses) {
-    for (const key of header) {
-      const parts = key.split('.');
-      let value = bonus;
-      for (const part of parts) {
-        if (value === undefined) {
-          break;
-        } else {
-          value = value[part];
-        }
-      }
-
-      csvdata += escapeCSVString(value) + ',';
-    }
-
-    csvdata = csvdata.slice(0, -1);
-    csvdata += '\n';
-  }
-
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:attachment/csv;charset=utf-8,' + encodeURIComponent(csvdata);
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
+  const csvdata = convertQuestionsToCSV(header, bonuses);
+  downloadAsFile(filename, csvdata);
 }
 
 export function downloadQuestionsAsJSON (tossups, bonuses, filename = 'data.json') {
-  const JSONdata = { tossups, bonuses };
-  const hiddenElement = document.createElement('a');
-  hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(JSONdata, null, 4));
-  hiddenElement.target = '_blank';
-  hiddenElement.download = filename;
-  hiddenElement.click();
-}
-
-function escapeCSVString (string) {
-  if (string === undefined || string === null) { return ''; }
-
-  if (typeof string !== 'string') { string = string.toString(); }
-
-  return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
+  downloadAsFile(filename, JSON.stringify({ tossups, bonuses }, null, 4));
 }

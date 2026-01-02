@@ -7,6 +7,9 @@ import { clientIp } from '../moderation/ip-filter.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 
 import createDOMPurify from 'dompurify';
+// below is used for type annotation
+// eslint-disable-next-line no-unused-vars
+import http from 'http';
 import { JSDOM } from 'jsdom';
 import url from 'url';
 import * as uuid from 'uuid';
@@ -87,10 +90,10 @@ export default function handleWssConnection (ws, req) {
   }
 
   if (room.settings.loginRequired === true) {
-    const cookieString = (req?.headers?.cookie ?? 'session=;').split(';').find(token => token.trim().startsWith('session='));
-    const cookieBuffer = Buffer.from(cookieString.split('=')[1], 'base64');
     let valid = true;
     try {
+      const cookieString = (req?.headers?.cookie ?? 'session=;').split(';').find(token => token.trim().startsWith('session='));
+      const cookieBuffer = Buffer.from(cookieString.split('=')[1], 'base64');
       const cookies = JSON.parse(cookieBuffer.toString('utf-8'));
       valid = checkToken(cookies.username, cookies.token, true);
     } catch (e) { valid = false; }

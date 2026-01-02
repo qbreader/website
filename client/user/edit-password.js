@@ -31,7 +31,7 @@ form.addEventListener('submit', async (event) => {
     if (response.status === 200) {
       const { expires } = await response.json();
       window.sessionStorage.setItem('account-username', JSON.stringify({ username, expires }));
-      window.location.href = '/user/my-profile';
+      window.location.href = '/user/';
     } else {
       document.getElementById('submission').textContent = 'Submit';
       document.getElementById('old-password').value = '';

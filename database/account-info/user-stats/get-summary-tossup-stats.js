@@ -46,6 +46,7 @@ export default async function getSummaryTossupStats (userId, groupByField, query
         averageCorrectCelerity: { $cond: ['$numCorrect', { $divide: ['$totalCorrectCelerity', '$numCorrect'] }, 0] }
       }
     },
-    { $sort: { pptu: -1, averageCorrectCelerity: -1, totalPoints: -1 } }
+    ...(groupByField === 'set_id' ? [{ $match: { count: { $gt: 20 } } }] : []),
+    { $sort: { count: -1, pptu: -1, averageCorrectCelerity: -1, totalPoints: -1 } }
   ]).toArray();
 }

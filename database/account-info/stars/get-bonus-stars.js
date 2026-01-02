@@ -10,12 +10,7 @@ export default async function getBonusStars (userId) {
   const bonusIds = await getBonusIds(userId);
   return await bonuses.find(
     { _id: { $in: bonusIds } },
-    {
-      sort: {
-        'set.name': -1,
-        'packet.number': 1,
-        number: 1
-      }
-    }
+    { $addFields: { insertTime: { $toDate: '$_id' } } },
+    { $sort: { insertTime: -1 } }
   ).toArray();
 }

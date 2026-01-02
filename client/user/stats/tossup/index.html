@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link href="/style.css" rel="stylesheet">
+    <script src="/scripts/global.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg" id="navbar" style="z-index: 10">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-1 py-0" id="logo" href="/">
+                <span class="logo-prefix">QB</span><span class="logo-suffix">Reader</span>
+            </a>
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-link" href="/play/">Play</a>
+                    <a class="nav-link" href="/play/tossups/mp/">Multiplayer</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Database
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/db/">Search</a>
+                            <a class="dropdown-item" href="/db/backups">Backups</a>
+                            <a class="dropdown-item" href="/db/set-list/">Set List</a>
+                            <a class="dropdown-item" href="/db/frequency-list/">Frequency List</a>
+                        </ul>
+                    </li>
+                    <a class="nav-link" href="/geoword/">Geoword</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tools
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="dropdown-item" href="/tools/api-docs/">API Docs</a>
+                            <a class="dropdown-item icon-link" href="https://modaq.github.io/">
+                                MODAQ <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                            <a class="dropdown-item" href="/tools/packet-parser/">Packet Parser</a>
+                            <a class="dropdown-item" href="/tools/packet-viewer/">Packet Viewer</a>
+                            <a class="dropdown-item" href="/tools/tb-splitter/">TB Splitter</a>
+                        </ul>
+                    </li>
+                    <a class="nav-link" href="/about/">About</a>
+                    <a class="nav-link" href="/settings/">Settings</a>
+                </div>
+                <div class="d-flex">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <button id="bd-theme" class="btn btn-link nav-link dropdown-toggle d-flex align-items-center"
+                                data-bs-toggle="dropdown">
+                                <span class="theme-icon-active"><i class="bi bi-moon-stars-fill"></i></span>
+                                <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item d-flex" data-bs-theme-value="light">
+                                    <i class="bi bi-sun-fill me-2"></i>Light<i class="bi bi-check2 ms-auto d-none"></i>
+                                </a>
+                                <a class="dropdown-item d-flex" data-bs-theme-value="night">
+                                    <i class="bi bi-moon-stars-fill me-2"></i>Night<i class="bi bi-check2 ms-auto d-none"></i>
+                                </a>
+                                <a class="dropdown-item d-flex active" data-bs-theme-value="auto">
+                                    <i class="bi bi-circle-half me-2"></i>Auto<i class="bi bi-check2 ms-auto d-none"></i>
+                                </a>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
+                        </li>
+                        <a class="nav-link" href="/user/login" id="login-link">Log in</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <form class="mb-3" id="form">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-2">
+                    <div class="dropdown-checklist btn-group w-100">
+                        <button class="btn btn-default text-start w-100" id="dropdownMenu1" data-bs-toggle="dropdown" type="button"
+                            aria-expanded="true" aria-haspopup="true">
+                            Difficulties
+                        </button>
+                        <button class="btn btn-default dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                            type="button"></button>
+                        <ul class="dropdown-menu checkbox-menu allow-focus" id="difficulties" aria-labelledby="dropdownMenu1">
+                            <li><label><input type="checkbox" value="1" /> 1: Middle School</label></li>
+                            <li><label><input type="checkbox" value="2" /> 2: Easy High School</label></li>
+                            <li><label><input type="checkbox" value="3" /> 3: Regular High School</label></li>
+                            <li><label><input type="checkbox" value="4" /> 4: Hard High School</label></li>
+                            <li><label><input type="checkbox" value="5" /> 5: National High School</label></li>
+                            <li><label><input type="checkbox" value="6" /> 6: ● / Easy College</label></li>
+                            <li><label><input type="checkbox" value="7" /> 7: ●● / Medium College</label></li>
+                            <li><label><input type="checkbox" value="8" /> 8: ●●● / Regionals College</label></li>
+                            <li><label><input type="checkbox" value="9" /> 9: ●●●● / Nationals College</label></li>
+                            <li><label><input type="checkbox" value="10" /> 10: Open</label></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="input-group col-12 col-md-6 mb-2">
+                    <input type="text" class="form-control" id="set-name" placeholder="Set Name" list="set-list" />
+                    <datalist id="set-list"></datalist>
+                    <button type="submit" class="btn btn-info">Submit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="include-multiplayer" checked />
+                        <label class="form-check-label" for="include-multiplayer">Include multiplayer stats</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="include-singleplayer" checked />
+                        <label class="form-check-label" for="include-singleplayer">Include singleplayer stats</label>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 text-md-end">
+                    <div>
+                        <label for="start-date">Start Date (optional):</label>
+                        <input type="date" id="start-date" name="start-date">
+                    </div>
+                    <div>
+                        <label for="end-date">End Date (optional):</label>
+                        <input type="date" id="end-date" name="end-date">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="d-flex justify-content-end">
+            Download stats:
+            <a class='ms-2 clickable' id='download-stats-csv'>CSV</a>
+        </div>
+        <ul class="nav nav-tabs mb-3" id="stats-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="set-tab" data-bs-toggle="tab" data-bs-target="#set-tab-pane" type="button"
+                    role="tab" aria-controls="set-tab-pane" aria-selected="true">
+                    Set <span class="d-none d-md-inline">Stats</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="category-tab" data-bs-toggle="tab" data-bs-target="#category-tab-pane" type="button"
+                    role="tab" aria-controls="category-tab-pane" aria-selected="false">
+                    Category <span class="d-none d-md-inline">Stats</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="subcategory-tab" data-bs-toggle="tab" data-bs-target="#subcategory-tab-pane" type="button"
+                    role="tab" aria-controls="subcategory-tab-pane" aria-selected="false">
+                    Subcategory <span class="d-none d-md-inline">Stats</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="alternate-subcategory-tab" data-bs-toggle="tab"
+                    data-bs-target="#alternate-subcategory-tab-pane" type="button" role="tab"
+                    aria-controls="alternate-subcategory-tab-pane" aria-selected="false">
+                    Alternate Subcategory <span class="d-none d-md-inline">Stats</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="best-buzz-tab" data-bs-toggle="tab" data-bs-target="#best-buzz-tab-pane" type="button"
+                    role="tab" aria-controls="best-buzz-tab-pane" aria-selected="false">
+                    Best Buzz
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane table-responsive show active" id="set-tab-pane" role="tabpanel" aria-labelledby="set-tab"
+                tabindex="0">
+                <p class="text-muted">Sets with less than 20 tossups heard are excluded for brevity.</p>
+                <table class="table table-hover" id="set-stats">
+                    <thead>
+                        <tr>
+                            <th scope="col">Set Name</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
+                            <th scope="col">10</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">PPTU</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="set-stats-body"></tbody>
+                    <tfoot class="table-group-divider" id="set-stats-foot"></tfoot>
+                </table>
+            </div>
+            <div class="tab-pane table-responsive" id="category-tab-pane" role="tabpanel" aria-labelledby="category-tab" tabindex="0">
+                <table class="table table-hover" id="category-stats">
+                    <thead>
+                        <tr>
+                            <th scope="col">Category</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
+                            <th scope="col">10</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">PPTU</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="category-stats-body"></tbody>
+                    <tfoot class="table-group-divider" id="category-stats-foot"></tfoot>
+                </table>
+            </div>
+            <div class="tab-pane table-responsive" id="subcategory-tab-pane" role="tabpanel" aria-labelledby="subcategory-tab"
+                tabindex="0">
+                <table class="table table-hover" id="subcategory-stats">
+                    <thead>
+                        <tr>
+                            <th scope="col">Subcategory</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
+                            <th scope="col">10</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">PPTU</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="subcategory-stats-body"></tbody>
+                    <tfoot class="table-group-divider" id="subcategory-stats-foot"></tfoot>
+                </table>
+            </div>
+            <div class="tab-pane table-responsive" id="alternate-subcategory-tab-pane" role="tabpanel"
+                aria-labelledby="alternate-subcategory-tab" tabindex="0">
+                <table class="table table-hover" id="alternate-subcategory-stats">
+                    <thead>
+                        <tr>
+                            <th scope="col">Subcategory</th>
+                            <th scope="col">TUH</th>
+                            <th scope="col">15</th>
+                            <th scope="col">10</th>
+                            <th scope="col">-5</th>
+                            <th scope="col">Celerity</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">PPTU</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="alternate-subcategory-stats-body"></tbody>
+                    <tfoot class="table-group-divider" id="alternate-subcategory-stats-foot"></tfoot>
+                </table>
+            </div>
+            <div class="tab-pane" id="best-buzz-tab-pane" role="tabpanel" aria-labelledby="best-buzz-tab" tabindex="0">
+                <div id="best-buzz"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../script.js"></script>
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>
