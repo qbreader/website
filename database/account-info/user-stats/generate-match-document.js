@@ -10,7 +10,7 @@ import getSetId from '../../qbreader/get-set-id.js';
  * @param {boolean} query.includeSingleplayer - Whether to include singleplayer questions.
  * @param {Date} [query.startDate] - The start date of the match.
  * @param {Date} [query.endDate] - The end date of the match.
- * @returns {Object} The generated match document.
+ * @returns {Promise<Object>} The generated match document.
  */
 export default async function generateMatchDocument ({ userId, difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }) {
   const matchDocument = { 'data.user_id': userId };
