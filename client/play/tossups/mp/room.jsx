@@ -1,4 +1,4 @@
-import MultiplayerTossupClient from './MultiplayerTossupClient.js';
+import MultiplayerTossupBonusClient from './MultiplayerTossupBonusClient.js';
 
 import CategoryManager from '../../../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
@@ -54,7 +54,7 @@ socket.onclose = function (event) {
   clearInterval(PING_INTERVAL_ID);
 };
 
-const client = new MultiplayerTossupClient(room, USER_ID, socket);
+const client = new MultiplayerTossupBonusClient(room, USER_ID, socket);
 socket.onmessage = (message) => client.onmessage(message);
 
 document.getElementById('answer-input').addEventListener('input', function () {
@@ -139,6 +139,11 @@ document.getElementById('toggle-public').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'toggle-public', public: this.checked }));
 });
 
+document.getElementById('reveal').addEventListener('click', function () {
+  this.blur();
+  socket.send(JSON.stringify({ type: 'start-answer' }));
+});
+
 document.getElementById('username').addEventListener('change', function () {
   socket.send(JSON.stringify({ type: 'set-username', userId: USER_ID, username: this.value }));
   room.username = this.value;
@@ -158,7 +163,12 @@ document.addEventListener('keydown', (event) => {
 
   switch (event.key?.toLowerCase()) {
     case ' ':
-      document.getElementById('buzz').click();
+      // During bonus rounds, spacebar should reveal; during tossups, it should buzz
+      if (!document.getElementById('reveal').disabled) {
+        document.getElementById('reveal').click();
+      } else {
+        document.getElementById('buzz').click();
+      }
       // Prevent spacebar from scrolling the page
       if (event.target === document.body) { event.preventDefault(); }
       break;

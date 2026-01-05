@@ -164,8 +164,6 @@ export default class TossupRoom extends QuestionRoom {
     if (this.queryingQuestion) { return false; }
     if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
 
-    const username = this.players[userId].username;
-
     clearInterval(this.timer.interval);
     this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
 
@@ -176,17 +174,29 @@ export default class TossupRoom extends QuestionRoom {
     this.paused = false;
 
     if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { this.revealQuestion(); }
+    await this.nextRound(userId, { type });
+  }
 
-    const oldTossup = this.tossup;
+  async nextRound (userId, { type }) {
+    await this.nextTossup(userId, { type });
+  }
+
+  lastQuestionDict () { return { oldTossup: this.tossup }; }
+
+  async nextTossup (userId, { type, oldBonus }) {
+    const username = this.players[userId].username;
+    // Only include oldTossup if we're not coming from a bonus (oldBonus would already have the history)
+    const lastQuestionDict = oldBonus ? {} : this.lastQuestionDict();
+
     this.tossup = await this.advanceQuestion();
     this.queryingQuestion = false;
     if (!this.tossup) {
-      this.emitMessage({ type: 'end', oldTossup, userId, username });
+      this.emitMessage({ ...lastQuestionDict, ...(oldBonus ? { oldBonus } : {}), type: 'end', userId, username });
       return false;
     }
     this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
 
-    this.emitMessage({ type, packetLength: this.packetLength, oldTossup, tossup: this.tossup, userId, username });
+    this.emitMessage({ ...lastQuestionDict, ...(oldBonus ? { oldBonus } : {}), type, packetLength: this.packetLength, tossup: this.tossup, userId, username });
 
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;
