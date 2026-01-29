@@ -1,4 +1,4 @@
-import TossupClient from './TossupClient.js';
+import TossupClient from '../tossups/TossupClient.js';
 import addBonusGameCard from '../bonuses/add-bonus-game-card.js';
 
 export default class TossupBonusClient extends TossupClient {

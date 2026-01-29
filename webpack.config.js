@@ -5,7 +5,7 @@ export default {
   entry: {
     'play/tossups/solo/index': './client/play/tossups/solo/index.jsx',
     'play/bonuses/solo/index': './client/play/bonuses/solo/index.jsx',
-    'play/tossups/mp/room': './client/play/tossups/mp/room.jsx',
+    'play/mp/room': './client/play/mp/room.jsx',
     'db/index': './client/db/index.jsx',
     'db/frequency-list/subcategory': './client/db/frequency-list/subcategory.jsx',
     'admin/category-reports/index': './client/admin/category-reports/index.jsx'

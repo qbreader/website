@@ -17,10 +17,10 @@ import * as uuid from 'uuid';
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
-export const tossupRooms = {};
+export const tossupBonusRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupRooms[name] = new ServerTossupBonusRoom(name, Symbol('unique permanent room owner'), true, categories, subcategories);
+  tossupBonusRooms[name] = new ServerTossupBonusRoom(name, Symbol('unique permanent room owner'), true, categories, subcategories);
 }
 
 /**
@@ -33,15 +33,15 @@ function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled 
   roomName = DOMPurify.sanitize(roomName);
   roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
 
-  if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
+  if (!Object.prototype.hasOwnProperty.call(tossupBonusRooms, roomName)) {
     const newRoom = new ServerTossupBonusRoom(roomName, userId, false);
     // A room cannot be both public and controlled
     newRoom.settings.public = !isPrivate && !isControlled;
     newRoom.settings.controlled = isControlled;
-    tossupRooms[roomName] = newRoom;
+    tossupBonusRooms[roomName] = newRoom;
   }
 
-  return tossupRooms[roomName];
+  return tossupBonusRooms[roomName];
 }
 
 /**

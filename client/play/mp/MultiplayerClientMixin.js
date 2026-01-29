@@ -1,9 +1,9 @@
 
-import { MODE_ENUM } from '../../../../quizbowl/constants.js';
-import questionStats from '../../../scripts/auth/question-stats.js';
-import { arrayToRange } from '../../ranges.js';
-import upsertPlayerItem from '../../upsert-player-item.js';
-import { setYear } from '../../year-slider.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import questionStats from '../../scripts/auth/question-stats.js';
+import { arrayToRange } from '../ranges.js';
+import upsertPlayerItem from '../upsert-player-item.js';
+import { setYear } from '../year-slider.js';
 
 const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
