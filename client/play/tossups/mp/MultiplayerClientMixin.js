@@ -233,11 +233,6 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     document.getElementById('toggle-standard-only').checked = standardOnly;
 
     this.setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
-
-    $(document).ready(function () {
-      $('#slider').slider('values', 0, minYear);
-      $('#slider').slider('values', 1, maxYear);
-    });
   }
 
   connectionAcknowledgedTossup ({ tossup: currentTossup }) {
