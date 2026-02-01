@@ -79,7 +79,7 @@ document.addEventListener('keydown', (event) => {
     case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
     case 'n': return document.getElementById('next').click();
     case 'p': return document.getElementById('pause').click();
-    case 's': return document.getElementById('start').click();
+    case 's': return document.getElementById('next').click();
     case 't': return document.getElementsByClassName('star-tossup')[0].click();
     case 'y': return navigator.clipboard.writeText(room.tossup._id ?? '');
   }

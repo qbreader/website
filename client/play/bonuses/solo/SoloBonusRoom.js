@@ -1,6 +1,10 @@
 import BonusRoom from '../../../../quizbowl/BonusRoom.js';
 import api from '../../../scripts/api/index.js';
 
+async function getPacket ({ setName, packetNumber }) {
+  return setName ? await api.getPacketBonuses(setName, packetNumber ?? 1) : [];
+}
+
 let starredBonusIds = null;
 async function getRandomStarredBonus () {
   if (starredBonusIds === null) {
@@ -27,8 +31,8 @@ export default class SoloBonusRoom extends BonusRoom {
     super(name, categoryManager, ['bonuses']);
 
     this.checkAnswer = api.checkAnswer;
-    this.getRandomQuestions = async (args) => await api.getRandomBonus({ ...args });
-    this.getPacket = async ({ setName, packetNumbers }) => setName ? await api.getPacketBonuses(setName, packetNumbers[0] ?? 1) : [];
+    this.getRandomBonuses = api.getRandomBonus;
+    this.getPacket = getPacket;
     this.getRandomStarredQuestion = getRandomStarredBonus;
     this.getPacketCount = api.getNumPackets;
 
@@ -55,13 +59,13 @@ export default class SoloBonusRoom extends BonusRoom {
     document.getElementById('answer-input').value = value;
   }
 
-  startAnswer (teamId) {
+  startBonusAnswer (teamId) {
     if (!this.settings.typeToAnswer) {
       this.giveBonusAnswer(teamId, { givenAnswer: this.bonus.answers_sanitized[this.currentPartNumber] });
       return;
     }
 
-    super.startAnswer(teamId);
+    super.startBonusAnswer(teamId);
   }
 
   toggleTypeToAnswer (teamId, { typeToAnswer }) {

@@ -26,3 +26,8 @@ export const TOSSUP_PROGRESS_ENUM = Object.freeze({
   READING: 1,
   ANSWER_REVEALED: 2
 });
+
+export const QUESTION_TYPE_ENUM = Object.freeze({
+  TOSSUP: 0,
+  BONUS: 1
+});

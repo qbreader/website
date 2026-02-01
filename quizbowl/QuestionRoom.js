@@ -13,7 +13,8 @@ export default class QuestionRoom extends Room {
     super(name);
 
     this.checkAnswer = function checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); };
-    this.getRandomQuestions = async function getRandomQuestions (args) { throw new Error('Not implemented'); };
+    this.getRandomBonuses = async function getRandomBonuses (args) { throw new Error('Not implemented'); };
+    this.getRandomTossups = async function getRandomTossups (args) { throw new Error('Not implemented'); };
     this.getPacket = async function getPacket (args) { throw new Error('Not implemented'); };
     this.getPacketCount = async function getPacketCount (setName) { throw new Error('Not implemented'); };
     this.getStarredTossup = async function getStarredTossup () { throw new Error('Not implemented'); };
@@ -109,11 +110,14 @@ export default class QuestionRoom extends Room {
 
     switch (this.mode) {
       case MODE_ENUM.SET_NAME:
-        this.packet = await this.getPacket({ setName: this.query.setName, packetNumbers: [this.query.packetNumbers[0]] });
+        this.packet = await this.getPacket({ setName: this.query.setName, packetNumber: this.query.packetNumbers[0] });
         break;
       case MODE_ENUM.RANDOM:
         for (const s of this.supportedQuestionTypes) {
-          this.randomQuestionCache[s] = this.categoryManager.percentView ? [] : await this.getRandomQuestions({ ...this.query, number: 1 });
+          const query = { ...this.query, number: 1 };
+          this.randomQuestionCache[s] = this.categoryManager.percentView
+            ? []
+            : await this.getRandomQuestions(s, query);
         }
         break;
     }
@@ -127,10 +131,10 @@ export default class QuestionRoom extends Room {
     if (this.mode === MODE_ENUM.RANDOM) {
       if (this.categoryManager.percentView) {
         const randomCategory = this.categoryManager.getRandomCategory();
-        this.randomQuestionCache[questionType] = await this.getRandomQuestions({ ...this.query, number: 1, categories: [randomCategory], subcategories: [], alternateSubcategories: [] });
+        this.randomQuestionCache[questionType] = await this.getRandomQuestions(questionType, { ...this.query, number: 1, categories: [randomCategory], subcategories: [], alternateSubcategories: [] });
       } else if (this.randomQuestionCache[questionType].length === 0) {
         const cacheSize = this.useRandomQuestionCache ? 20 : 1;
-        this.randomQuestionCache[questionType] = await this.getRandomQuestions({ ...this.query, number: cacheSize });
+        this.randomQuestionCache[questionType] = await this.getRandomQuestions(questionType, { ...this.query, number: cacheSize });
       }
       if (this.randomQuestionCache[questionType]?.length === 0) {
         return this.emitMessage({ type: 'no-questions-found' });
@@ -147,7 +151,7 @@ export default class QuestionRoom extends Room {
             if (packetNumber === undefined) {
               return this.emitMessage({ type: 'end-of-set' });
             }
-            this.packet = await this.getPacket({ setName: this.query.setName, packetNumbers: [packetNumber] });
+            this.packet = await this.getPacket({ setName: this.query.setName, packetNumber });
           }
           question = this.packet[questionType].shift();
           break;
@@ -173,6 +177,10 @@ export default class QuestionRoom extends Room {
       return this.localPacket[questionType].splice(randomIndex, 1)[0];
     }
     return this.localPacket[questionType].shift();
+  }
+
+  getRandomQuestions (questionType, query) {
+    return questionType === 'tossups' ? this.getRandomTossups(query) : this.getRandomBonuses(query);
   }
 
   setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {

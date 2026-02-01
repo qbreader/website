@@ -1,6 +1,7 @@
 import { MAX_ONLINE_PLAYERS, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
 import ServerTossupBonusRoom from './ServerTossupBonusRoom.js';
 import { checkToken } from '../authentication.js';
+import CategoryManager from '../../quizbowl/category-manager.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import { clientIp } from '../moderation/ip-filter.js';
@@ -20,7 +21,9 @@ const DOMPurify = createDOMPurify(window);
 export const tossupBonusRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupBonusRooms[name] = new ServerTossupBonusRoom(name, Symbol('unique permanent room owner'), true, categories, subcategories);
+  tossupBonusRooms[name] = new ServerTossupBonusRoom(
+    name, Symbol('unique permanent room owner'), true, new CategoryManager(categories, subcategories)
+  );
 }
 
 /**
@@ -34,11 +37,11 @@ function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled 
   roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
 
   if (!Object.prototype.hasOwnProperty.call(tossupBonusRooms, roomName)) {
-    const newRoom = new ServerTossupBonusRoom(roomName, userId, false);
+    const room = new ServerTossupBonusRoom(roomName, userId, false, new CategoryManager());
     // A room cannot be both public and controlled
-    newRoom.settings.public = !isPrivate && !isControlled;
-    newRoom.settings.controlled = isControlled;
-    tossupBonusRooms[roomName] = newRoom;
+    room.settings.public = !isPrivate && !isControlled;
+    room.settings.controlled = isControlled;
+    tossupBonusRooms[roomName] = room;
   }
 
   return tossupBonusRooms[roomName];
@@ -76,9 +79,7 @@ export default function handleWssConnection (ws, req) {
   }
 
   const room = createAndReturnRoom(roomName, userId, isPrivate, isControlled);
-  const roomOwner = {
-    id: room.ownerId
-  };
+  const roomOwner = { id: room.ownerId };
 
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({

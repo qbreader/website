@@ -57,8 +57,8 @@ export default class SoloTossupClient extends TossupClient {
     }
   }
 
-  async giveBonusAnswer ({ directive, directedPrompt, perQuestionCelerity, score, tossup, userId }) {
-    super.giveBonusAnswer({ directive, directedPrompt, score, userId });
+  async giveTossupAnswer ({ directive, directedPrompt, perQuestionCelerity, score, tossup, userId }) {
+    super.giveTossupAnswer({ directive, directedPrompt, score, userId });
 
     if (directive === 'prompt') { return; }
 
@@ -83,14 +83,13 @@ export default class SoloTossupClient extends TossupClient {
     document.getElementById('next').textContent = 'Skip';
   }
 
-  revealAnswer ({ answer, question }) {
-    super.revealAnswer({ answer, question });
+  revealTossupAnswer ({ answer, question }) {
+    super.revealTossupAnswer({ answer, question });
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('next').disabled = false;
     document.getElementById('next').textContent = 'Next';
-    document.getElementById('start').disabled = false;
 
     document.getElementById('toggle-correct').classList.remove('d-none');
     document.getElementById('toggle-correct').textContent = this.room.previousTossup.isCorrect ? 'I was wrong' : 'I was right';

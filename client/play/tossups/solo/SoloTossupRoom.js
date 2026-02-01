@@ -22,8 +22,8 @@ async function getStarredTossup () {
   return await api.getTossup(_id);
 }
 
-async function getPacket ({ setName, packetNumbers }) {
-  const tossups = setName ? await api.getPacketTossups(setName, packetNumbers[0] ?? 1) : [];
+async function getPacket ({ setName, packetNumber }) {
+  const tossups = setName ? await api.getPacketTossups(setName, packetNumber ?? 1) : [];
   return { tossups };
 }
 
@@ -40,7 +40,7 @@ export default class SoloTossupRoom extends TossupRoom {
     };
 
     this.checkAnswer = api.checkAnswer;
-    this.getRandomQuestions = async (args) => await api.getRandomTossup({ ...args });
+    this.getRandomTossups = async (args) => await api.getRandomTossup({ ...args });
     this.getPacket = getPacket;
     this.getStarredTossup = getStarredTossup;
     this.getPacketCount = api.getNumPackets;

@@ -8,6 +8,7 @@ import { MODE_ENUM } from '../../../quizbowl/constants.js';
 import getRandomName from '../../../quizbowl/get-random-name.js';
 
 const room = {
+  bonus: {},
   categoryManager: new CategoryManager(),
   difficulties: [],
   mode: MODE_ENUM.RANDOM,
@@ -20,6 +21,7 @@ const room = {
   public: true,
   setLength: 24,
   showingOffline: false,
+  teams: {},
   tossup: {},
   username: window.localStorage.getItem('multiplayer-username') || getRandomName()
 };
@@ -84,23 +86,6 @@ document.getElementById('chat-input').addEventListener('input', function () {
   socket.send(JSON.stringify({ type: 'chat-live-update', message: this.value }));
 });
 
-document.getElementById('next').addEventListener('click', function () {
-  this.blur();
-  switch (this.innerHTML) {
-    case 'Start':
-      socket.send(JSON.stringify({ type: 'start' }));
-      break;
-    case 'Next':
-      socket.send(JSON.stringify({ type: 'next' }));
-      break;
-  }
-});
-
-document.getElementById('skip').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'skip' }));
-});
-
 const styleSheet = document.createElement('style');
 styleSheet.textContent = room.showingOffline ? '' : '.offline { display: none; }';
 document.head.appendChild(styleSheet);
@@ -141,7 +126,7 @@ document.getElementById('toggle-public').addEventListener('click', function () {
 
 document.getElementById('reveal').addEventListener('click', function () {
   this.blur();
-  socket.send(JSON.stringify({ type: 'start-answer' }));
+  socket.send(JSON.stringify({ type: 'start-bonus-answer' }));
 });
 
 document.getElementById('username').addEventListener('change', function () {
@@ -163,7 +148,6 @@ document.addEventListener('keydown', (event) => {
 
   switch (event.key?.toLowerCase()) {
     case ' ':
-      // During bonus rounds, spacebar should reveal; during tossups, it should buzz
       if (!document.getElementById('reveal').disabled) {
         document.getElementById('reveal').click();
       } else {

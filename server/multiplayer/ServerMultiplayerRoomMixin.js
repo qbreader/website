@@ -2,35 +2,34 @@ import ServerPlayer from './ServerPlayer.js';
 import Votekick from './VoteKick.js';
 import { HEADER, ENDC, OKCYAN, OKBLUE } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
-import { MODE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
+import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
 import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 // import TossupRoom from '../../quizbowl/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
 
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
 import getRandomBonuses from '../../database/qbreader/get-random-bonuses.js';
-import getSet from '../../database/qbreader/get-set.js';
+import getPacket from '../../database/qbreader/get-packet.js';
 import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
+import Team from '../../quizbowl/Team.js';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
 const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
-  constructor (name, ownerId, isPermanent = false, categories = [], subcategories = [], alternateSubcategories = []) {
-    super(name, categories, subcategories, alternateSubcategories);
+  constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes) {
+    super(name, categoryManager, supportedQuestionTypes);
     this.ownerId = ownerId;
     this.isPermanent = isPermanent;
     this.checkAnswer = checkAnswer;
     this.getPacketCount = getNumPackets;
 
-    this.getRandomQuestions = getRandomTossups;
-    // in case we are in a room that supports switching between Tossup and Bonus rounds
     this.getRandomTossups = getRandomTossups;
     this.getRandomBonuses = getRandomBonuses;
 
-    this.getPacket = getSet;
+    this.getPacket = getPacket;
     this.bannedUserList = new Map();
     this.kickedUserList = new Map();
     this.votekickList = [];
@@ -79,7 +78,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.emitMessage({ type: 'confirm-ban', targetId, targetUsername });
     this.bannedUserList.set(targetId, Date.now());
 
-    setTimeout(() => this.close(targetId), 1000);
+    setTimeout(() => this.closeConnection(targetId), 1000);
   }
 
   connection (socket, userId, username, ip, userAgent = '') {
@@ -94,11 +93,15 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
     if (this.sockets[userId]) {
       this.sendToSocket(userId, { type: 'error', message: 'You joined on another tab' });
-      setTimeout(() => this.close(userId), 5000);
+      setTimeout(() => this.closeConnection(userId), 5000);
     }
 
     const isNew = !(userId in this.players);
-    if (isNew) { this.players[userId] = new ServerPlayer(userId); }
+    if (isNew) {
+      this.players[userId] = new ServerPlayer(userId);
+      this.players[userId].teamId = userId;
+      this.teams[userId] = new Team(userId);
+    }
     this.players[userId].online = true;
     this.sockets[userId] = socket;
     username = this.players[userId].safelySetUsername(username);
@@ -131,60 +134,50 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       this.message(userId, message);
     });
 
-    socket.on('close', this.close.bind(this, userId));
+    socket.on('close', this.closeConnection.bind(this, userId));
 
     socket.send(JSON.stringify({
       type: 'connection-acknowledged',
       userId,
 
-      ownerId: this.ownerId,
-      players: this.players,
-      isPermanent: this.isPermanent,
-
+      bonusProgress: this.bonusProgress,
       buzzedIn: this.buzzedIn,
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
+      currentQuestionType: this.currentQuestionType,
+      isPermanent: this.isPermanent,
       mode: this.mode,
+      ownerId: this.ownerId,
       packetLength: this.packetCount,
-      questionProgress: this.tossupProgress,
-      setLength: this.packetCount,
-
+      players: this.players,
+      teams: this.teams,
+      tossupProgress: this.tossupProgress,
+      packetCount: this.packetCount,
       settings: this.settings
     }));
 
     socket.send(JSON.stringify({ type: 'connection-acknowledged-query', ...this.query, ...this.categoryManager.export() }));
-    socket.send(JSON.stringify({ type: 'connection-acknowledged-tossup', tossup: this.tossup }));
+    socket.send(JSON.stringify({
+      type: 'connection-acknowledged-question',
+      question: this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ? this.tossup : this.bonus
+    }));
 
-    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING) {
-      socket.send(JSON.stringify({
-        type: 'update-question',
-        word: this.questionSplit.slice(0, this.wordIndex).join(' ')
-      }));
-    }
-
-    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED && this.tossup?.answer) {
-      socket.send(JSON.stringify({
-        type: 'reveal-answer',
-        question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices }),
-        answer: this.tossup.answer
-      }));
-    }
-
-    // Handle TossupBonusRoom reconnection - send bonus state if in bonus round
-    if (this.currentRound !== undefined && this.currentRound === 1 && this.bonus && this.bonus.parts) { // 1 = ROUND.BONUS
-      socket.send(JSON.stringify({
-        type: 'connection-acknowledged-bonus',
-        bonus: this.bonus,
-        bonusProgress: this.bonusProgress,
-        currentPartNumber: this.currentPartNumber,
-        pointsPerPart: this.pointsPerPart,
-        bonusEligibleUserId: this.bonusEligibleUserId
-      }));
-
-      // Reconstruct bonus UI by sending reveal messages for completed parts
-      if (this.bonus.leadin) {
-        socket.send(JSON.stringify({ type: 'reveal-leadin', leadin: this.bonus.leadin }));
+    if (this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
+      if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING) {
+        socket.send(JSON.stringify({
+          type: 'update-question',
+          word: this.questionSplit.slice(0, this.wordIndex).join(' ')
+        }));
       }
 
+      if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED && this.tossup?.answer) {
+        socket.send(JSON.stringify({
+          type: 'reveal-tossup-answer',
+          question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices }),
+          answer: this.tossup.answer
+        }));
+      }
+    } else if (this.currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
+      socket.send(JSON.stringify({ type: 'reveal-leadin', leadin: this.bonus.leadin }));
       // Reveal each part that has been shown
       for (let i = 0; i <= this.currentPartNumber && i < this.bonus.parts.length; i++) {
         socket.send(JSON.stringify({
@@ -207,7 +200,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       }
     }
 
-    this.emitMessage({ type: 'join', isNew, userId, username, user: this.players[userId] });
+    this.emitMessage({ type: 'join', isNew, team: this.teams[this.players[userId].teamId], userId, username, user: this.players[userId] });
   }
 
   chat (userId, { message }) {
@@ -239,7 +232,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     });
   }
 
-  close (userId) {
+  closeConnection (userId) {
     if (!this.players[userId]) return;
 
     if (this.buzzedIn === userId) {
@@ -251,16 +244,9 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
   giveAnswerLiveUpdate (userId, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
-    // Allow live updates during bonuses (when buzzedIn is null) or from the user who buzzed
-    if (this.buzzedIn && userId !== this.buzzedIn) { return false; }
     this.liveAnswer = givenAnswer;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username });
-  }
-
-  next (userId, { type }) {
-    if (type === 'skip' && this.wordIndex < 3) { return false; } // prevents spam-skipping trolls
-    super.next(userId, { type });
   }
 
   setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
@@ -446,7 +432,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
 
-      setTimeout(() => this.close(userId), 1000);
+      setTimeout(() => this.closeConnection(userId), 1000);
 
       if (targetId === this.ownerId) {
         const onlinePlayers = Object.keys(this.players).filter(playerId => this.players[playerId].online && playerId !== targetId);

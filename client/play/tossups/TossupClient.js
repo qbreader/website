@@ -3,7 +3,7 @@ import QuestionClient from '../QuestionClient.js';
 import audio from '../../audio/index.js';
 import { MODE_ENUM } from '../../../quizbowl/constants.js';
 
-export default class TossupClient extends QuestionClient {
+export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
     super(room, userId, socket);
     attachEventListeners(room, socket);
@@ -16,7 +16,7 @@ export default class TossupClient extends QuestionClient {
       case 'end-current-tossup': return this.endCurrentTossup(data);
       case 'give-tossup-answer': return this.giveTossupAnswer(data);
       case 'pause': return this.pause(data);
-      case 'reveal-answer': return this.revealAnswer(data);
+      case 'reveal-tossup-answer': return this.revealTossupAnswer(data);
       case 'set-reading-speed': return this.setReadingSpeed(data);
       case 'start-next-tossup': return this.startNextTossup(data);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(data);
@@ -38,7 +38,7 @@ export default class TossupClient extends QuestionClient {
   }
 
   giveTossupAnswer ({ directive, directedPrompt, score, userId }) {
-    super.giveBonusAnswer({ directive, directedPrompt, score, userId });
+    super.giveAnswer({ directive, directedPrompt, score, userId });
 
     if (directive !== 'prompt') {
       document.getElementById('next').disabled = false;
@@ -49,7 +49,7 @@ export default class TossupClient extends QuestionClient {
     document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
   }
 
-  revealAnswer ({ answer, question }) {
+  revealTossupAnswer ({ answer, question }) {
     document.getElementById('question').innerHTML = question;
     document.getElementById('answer').innerHTML = 'ANSWER: ' + answer;
     document.getElementById('pause').disabled = true;
@@ -75,8 +75,7 @@ export default class TossupClient extends QuestionClient {
   }
 
   startNextTossup ({ tossup, packetLength }) {
-    super.startNextQuestion({ question: tossup, packetLength });
-    document.getElementById('answer').textContent = '';
+    this.startNextQuestion({ question: tossup, packetLength });
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
     document.getElementById('pause').textContent = 'Pause';
@@ -96,7 +95,7 @@ export default class TossupClient extends QuestionClient {
     if (word === '(*)' || word === '[*]') { return; }
     document.getElementById('question').innerHTML += word + ' ';
   }
-}
+};
 
 function attachEventListeners (room, socket) {
   document.getElementById('buzz').addEventListener('click', function () {
@@ -131,3 +130,6 @@ function attachEventListeners (room, socket) {
     socket.sendToServer({ type: 'toggle-rebuzz', rebuzz: this.checked });
   });
 }
+
+const TossupClient = TossupClientMixin(QuestionClient);
+export default TossupClient;

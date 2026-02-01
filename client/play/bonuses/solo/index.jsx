@@ -40,7 +40,7 @@ document.getElementById('local-packet-input').addEventListener('change', functio
 
 document.getElementById('reveal').addEventListener('click', function () {
   this.blur();
-  socket.sendToServer({ type: 'start-answer' });
+  socket.sendToServer({ type: 'start-bonus-answer' });
 });
 
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {
@@ -71,7 +71,7 @@ document.addEventListener('keydown', (event) => {
     case 'e': return document.getElementById('toggle-settings').click();
     case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
     case 'n': return document.getElementById('next').click();
-    case 's': return document.getElementById('start').click();
+    case 's': return document.getElementById('next').click();
     case 't': return document.getElementsByClassName('star-bonus')[0].click();
     case 'y': return navigator.clipboard.writeText(room.bonus._id ?? '');
     case '0': return document.getElementById(`checkbox-${room.pointsPerPart.length}`)?.click();

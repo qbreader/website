@@ -1,5 +1,5 @@
 
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../../quizbowl/constants.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import { arrayToRange } from '../ranges.js';
 import upsertPlayerItem from '../upsert-player-item.js';
@@ -13,7 +13,6 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
 
   onmessage (event) {
     const data = JSON.parse(event.data);
-    console.log('MultiplayerClientMixin onmessage', data.type, data);
     switch (data.type) {
       case 'chat': return this.chat(data, false);
       case 'chat-live-update': return this.chat(data, true);
@@ -106,7 +105,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
       this.room.players[userId][field] = 0;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
     this.sortPlayerListGroup();
   }
 
@@ -122,21 +121,24 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
   }
 
   connectionAcknowledged ({
+    bonusProgress,
     buzzedIn,
     canBuzz,
+    currentQuestionType,
     isPermanent,
-    ownerId: serverOwnerId,
+    ownerId,
     mode,
     packetLength,
-    players: messagePlayers,
-    questionProgress,
+    players,
     settings,
-    setLength: newSetLength,
+    packetCount,
+    teams,
+    tossupProgress,
     userId
   }) {
     this.room.public = settings.public;
-    this.room.ownerId = serverOwnerId;
-    this.room.setLength = newSetLength;
+    this.room.ownerId = ownerId;
+    this.room.setLength = packetCount;
     this.USER_ID = userId;
     window.localStorage.setItem('USER_ID', this.USER_ID);
 
@@ -151,39 +153,48 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
       document.getElementById('toggle-public').disabled = true;
     }
 
-    for (const userId of Object.keys(messagePlayers)) {
-      messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
-      this.room.players[userId] = messagePlayers[userId];
-      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+    for (const userId of Object.keys(players)) {
+      const teamId = players[userId].teamId;
+      players[userId].celerity = players[userId].celerity.correct.average;
+      this.room.players[userId] = players[userId];
+      this.room.teams[teamId] = teams[teamId];
+      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
     }
     this.sortPlayerListGroup();
 
-    this.packetMode({ mode });
+    this.setMode({ mode });
 
     document.getElementById('packet-length-info').textContent = mode === MODE_ENUM.SET_NAME ? packetLength : '-';
 
-    switch (questionProgress) {
-      case 0:
-        document.getElementById('next').textContent = 'Start';
-        document.getElementById('next').classList.remove('btn-primary');
-        document.getElementById('next').classList.add('btn-success');
-        break;
-      case 1:
-        this.showSkipButton();
-        document.getElementById('settings').classList.add('d-none');
-        if (buzzedIn) {
-          document.getElementById('buzz').disabled = true;
-          document.getElementById('next').disabled = true;
-          document.getElementById('pause').disabled = true;
-        } else {
-          document.getElementById('buzz').disabled = false;
-          document.getElementById('pause').disabled = false;
-        }
-        break;
-      case 2:
-        this.showNextButton();
-        document.getElementById('settings').classList.add('d-none');
-        break;
+    if (currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
+      document.getElementById('reveal').disabled = true;
+
+      switch (tossupProgress) {
+        case TOSSUP_PROGRESS_ENUM.NOT_STARTED:
+          document.getElementById('next').textContent = 'Start';
+          document.getElementById('next').classList.remove('btn-primary');
+          document.getElementById('next').classList.add('btn-success');
+          break;
+        case TOSSUP_PROGRESS_ENUM.READING:
+          this.showSkipButton();
+          document.getElementById('settings').classList.add('d-none');
+          if (buzzedIn) {
+            document.getElementById('buzz').disabled = true;
+            document.getElementById('next').disabled = true;
+            document.getElementById('pause').disabled = true;
+          } else {
+            document.getElementById('buzz').disabled = false;
+            document.getElementById('pause').disabled = false;
+          }
+          break;
+        case TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED:
+          this.showNextButton();
+          document.getElementById('settings').classList.add('d-none');
+          break;
+      }
+    } else if (currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
+      document.getElementById('buzz').disabled = true;
+      document.getElementById('reveal').disabled = true;
     }
 
     this.toggleLock({ lock: settings.lock });
@@ -191,8 +202,8 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     this.toggleRebuzz({ rebuzz: settings.rebuzz });
     this.toggleSkip({ skip: settings.skip });
     this.toggleTimer({ timer: settings.timer });
-    this.packetReadingSpeed({ readingSpeed: settings.readingSpeed });
-    this.packetStrictness({ strictness: settings.strictness });
+    this.setReadingSpeed({ readingSpeed: settings.readingSpeed });
+    this.setStrictness({ strictness: settings.strictness });
 
     if (settings.controlled) {
       this.toggleControlled({ controlled: settings.controlled });
@@ -216,7 +227,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     percentView,
     categoryPercents
   }) {
-    this.packetDifficulties({ difficulties });
+    this.setDifficulties({ difficulties });
 
     // need to set min year first to avoid conflicts between saved max year and default min year
     setYear(minYear, 'min-year');
@@ -232,7 +243,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
 
     document.getElementById('toggle-standard-only').checked = standardOnly;
 
-    this.packetCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
+    this.setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
   connectionAcknowledgedTossup ({ tossup: currentTossup }) {
@@ -264,6 +275,14 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     }
   }
 
+  endCurrentBonus ({ bonus, lastPartRevealed, pointsPerPart, starred, teamId }) {
+    super.endCurrentBonus({ bonus, starred });
+    if (!lastPartRevealed) {
+      this.room.teams[teamId].updateStats(pointsPerPart.reduce((a, b) => a + b, 0));
+      upsertPlayerItem(this.room.players[teamId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
+    }
+  }
+
   failedVotekickPoints ({ userId }) {
     if (userId === this.USER_ID) {
       window.alert('You can only votekick once you have answered a question correctly!');
@@ -276,11 +295,18 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     document.querySelector('#username').value = username;
   }
 
-  async giveAnswer (data) {
-    const { directive, directedPrompt, givenAnswer, score, userId, username } = data;
+  async giveBonusAnswer ({ currentPartNumber, directive, directedPrompt, givenAnswer, score, userId, username }) {
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.BONUS, username });
+    if (directive === 'prompt' && directedPrompt) {
+      this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
+    } else if (directive === 'prompt') {
+      this.logEventConditionally(username, 'was prompted');
+    }
+    super.giveBonusAnswer({ currentPartNumber, directive, directedPrompt, userId });
+  }
 
-    this.logGiveAnswer({ directive, givenAnswer, username });
-
+  async giveTossupAnswer ({ celerity, tossup, perQuestionCelerity, directive, directedPrompt, givenAnswer, score, userId, username }) {
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, username });
     if (directive === 'prompt' && directedPrompt) {
       this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
@@ -288,8 +314,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     } else {
       this.logEventConditionally(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
     }
-
-    super.giveAnswer(data);
+    super.giveTossupAnswer({ directive, directedPrompt, givenAnswer, score, userId, username });
 
     if (directive === 'prompt') { return; }
 
@@ -304,48 +329,32 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     }
 
     if (directive === 'reject') {
-      if (data.tossup) {
-        document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === this.USER_ID;
-      } else {
-        document.getElementById('reveal').disabled = !document.getElementById('toggle-rebuzz').checked && userId === this.USER_ID;
-      }
+      document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === this.USER_ID;
     }
 
-    if (data.tossup) {
-      const { celerity, tossup, perQuestionCelerity } = data;
-
-      if (score > 10) {
-        this.room.players[userId].powers++;
-      } else if (score === 10) {
-        this.room.players[userId].tens++;
-      } else if (score < 0) {
-        this.room.players[userId].negs++;
-      }
-
-      this.room.players[userId].points += score;
-      this.room.players[userId].tuh++;
-      this.room.players[userId].celerity = celerity;
-
-      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
-      this.sortPlayerListGroup();
-
-      if (userId === this.USER_ID) {
-        questionStats.recordTossup({
-          _id: tossup._id,
-          celerity: perQuestionCelerity,
-          isCorrect: score > 0,
-          multiplayer: true,
-          pointValue: score
-        });
-      }
+    if (score > 10) {
+      this.room.players[userId].powers++;
+    } else if (score === 10) {
+      this.room.players[userId].tens++;
+    } else if (score < 0) {
+      this.room.players[userId].negs++;
     }
 
-    if (data.bonus && data.currentPartNumber !== undefined) {
-      // Update player points for bonus parts
-      this.room.players[userId].points += score;
+    this.room.players[userId].points += score;
+    this.room.players[userId].tuh++;
+    this.room.players[userId].celerity = celerity;
 
-      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
-      this.sortPlayerListGroup();
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
+    this.sortPlayerListGroup();
+
+    if (userId === this.USER_ID) {
+      questionStats.recordTossup({
+        _id: tossup._id,
+        celerity: perQuestionCelerity,
+        isCorrect: score > 0,
+        multiplayer: true,
+        pointValue: score
+      });
     }
   }
 
@@ -355,14 +364,15 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     window.location.href = '/multiplayer';
   }
 
-  join ({ isNew, user, userId, username }) {
+  join ({ isNew, team, user, userId, username }) {
     this.logEventConditionally(username, 'joined the game');
     if (userId === this.USER_ID) { return; }
     this.room.players[userId] = user;
+    this.room.teams[user.teamId] = team;
 
     if (isNew) {
       user.celerity = user.celerity.correct.average;
-      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[user.teamId]);
       this.sortPlayerListGroup();
     } else {
       document.getElementById(`list-group-${userId}`).classList.remove('offline');
@@ -406,9 +416,9 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     document.getElementById('room-history').prepend(li);
   }
 
-  logGiveAnswer ({ directive = null, givenAnswer, username }) {
+  logGiveAnswer ({ directive = null, givenAnswer, questionType, username }) {
     const badge = document.createElement('span');
-    badge.textContent = 'Buzz';
+    badge.textContent = questionType === QUESTION_TYPE_ENUM.TOSSUP ? 'Buzz' : 'Answer';
     switch (directive) {
       case 'accept':
         badge.className = 'badge text-dark bg-success';
@@ -482,35 +492,6 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     }
   }
 
-  next (data) {
-    const username = data.username;
-    const type = data.type;
-
-    const typeStrings = {
-      end: 'ended the game',
-      next: 'went to the next question',
-      skip: 'skipped the question',
-      start: 'started the game'
-    };
-    this.logEventConditionally(username, typeStrings[type]);
-
-    super.next(data);
-
-    if (type === 'start') {
-      document.getElementById('next').classList.add('btn-primary');
-      document.getElementById('next').classList.remove('btn-success');
-      document.getElementById('next').textContent = 'Next';
-    }
-
-    if (type === 'end') {
-      document.getElementById('next').classList.remove('btn-primary');
-      document.getElementById('next').classList.add('btn-success');
-      document.getElementById('next').textContent = 'Start';
-    }
-
-    this.showSkipButton();
-  }
-
   ownerChange ({ newOwner }) {
     if (this.room.players[newOwner]) {
       this.room.ownerId = newOwner;
@@ -518,7 +499,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     } else this.logEventConditionally(newOwner, 'became the room owner');
 
     Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
     });
 
     document.getElementById('toggle-controlled').disabled = this.room.public || (this.room.ownerId !== this.USER_ID);
@@ -616,7 +597,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
       window.localStorage.setItem('multiplayer-username', this.room.username);
       document.getElementById('username').value = this.room.username;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
   }
 
   showNextButton () {
@@ -650,6 +631,11 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     }).forEach(item => {
       listGroup.appendChild(item);
     });
+  }
+
+  startNextQuestion ({ packetLength, question, username }) {
+    this.logEventConditionally(username, 'started the next question');
+    super.startNextQuestion({ packetLength, question });
   }
 
   toggleControlled ({ controlled, username }) {
@@ -724,7 +710,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
       this.toggleTimer({ timer: true });
     }
     Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
     });
   }
 

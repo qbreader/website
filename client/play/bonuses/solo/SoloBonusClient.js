@@ -11,12 +11,6 @@ export default class SoloBonusClient extends BonusClient {
     const data = JSON.parse(message);
     switch (data.type) {
       case 'clear-stats': return this.clearStats(data);
-      case 'reveal-leadin': return this.revealLeadin(data);
-      case 'reveal-next-answer': return this.revealNextAnswer(data);
-      case 'reveal-next-part': return this.revealNextPart(data);
-      case 'start-answer': return this.startAnswer(data);
-      case 'toggle-correct': return this.toggleCorrect(data);
-      case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
       default: return super.onmessage(message);
     }
@@ -32,63 +26,6 @@ export default class SoloBonusClient extends BonusClient {
     if (lastPartRevealed && (this.room.mode !== MODE_ENUM.LOCAL)) {
       questionStats.recordBonus({ _id: bonus._id, pointsPerPart });
     }
-  }
-
-  async giveBonusAnswer ({ currentPartNumber, directive, directedPrompt, userId }) {
-    super.giveBonusAnswer({ currentPartNumber, directive, directedPrompt, userId });
-  }
-
-  /**
-   * Called when the users wants to reveal the next bonus part.
-   */
-  revealNextAnswer ({ answer, currentPartNumber, lastPartRevealed }) {
-    const paragraph = document.createElement('p');
-    paragraph.innerHTML = 'ANSWER: ' + answer;
-    document.getElementById(`bonus-part-${currentPartNumber + 1}`).appendChild(paragraph);
-
-    if (lastPartRevealed) {
-      document.getElementById('reveal').disabled = true;
-      document.getElementById('next').textContent = 'Next';
-    }
-  }
-
-  revealLeadin ({ leadin }) {
-    const paragraph = document.createElement('p');
-    paragraph.id = 'leadin';
-    paragraph.innerHTML = leadin;
-    document.getElementById('question').appendChild(paragraph);
-  }
-
-  revealNextPart ({ currentPartNumber, part, value }) {
-    const input = document.createElement('input');
-    input.id = `checkbox-${currentPartNumber + 1}`;
-    input.className = 'checkbox form-check-input rounded-0 me-1';
-    input.type = 'checkbox';
-    input.style = 'width: 20px; height: 20px; cursor: pointer';
-
-    const room = this.room;
-    const USER_ID = this.USER_ID;
-    input.addEventListener('click', function () {
-      room.message(USER_ID, { type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
-    });
-
-    const inputWrapper = document.createElement('label');
-    inputWrapper.style = 'cursor: pointer';
-    inputWrapper.appendChild(input);
-
-    const p = document.createElement('p');
-    p.innerHTML = `[${value}] ${part}`;
-
-    const bonusPart = document.createElement('div');
-    bonusPart.id = `bonus-part-${currentPartNumber + 1}`;
-    bonusPart.appendChild(p);
-
-    const row = document.createElement('div');
-    row.className = 'd-flex';
-    row.appendChild(inputWrapper);
-    row.appendChild(bonusPart);
-
-    document.getElementById('question').appendChild(row);
   }
 
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents }) {
@@ -157,23 +94,13 @@ export default class SoloBonusClient extends BonusClient {
     document.getElementById('next').disabled = false;
   }
 
-  startAnswer () {
-    document.getElementById('answer-input-group').classList.remove('d-none');
-    document.getElementById('answer-input').focus();
-    document.getElementById('reveal').disabled = true;
-  }
-
-  toggleCorrect ({ partNumber, correct }) {
-    document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
-  }
-
   toggleStandardOnly ({ standardOnly }) {
     super.toggleStandardOnly({ standardOnly });
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
   toggleThreePartBonuses ({ threePartBonuses }) {
-    document.getElementById('toggle-three-part-bonuses').checked = threePartBonuses;
+    super.toggleThreePartBonuses({ threePartBonuses });
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 

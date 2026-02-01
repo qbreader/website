@@ -51,8 +51,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case 'give-answer': return this.giveTossupAnswer(userId, message);
       case 'next': return this.next(userId, message);
       case 'pause': return this.pause(userId, message);
-      case 'set-reading-speed': return this.packetReadingSpeed(userId, message);
-      case 'start': return this.startNextTossup(userId, message);
+      case 'set-reading-speed': return this.setReadingSpeed(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
       default: return super.message(userId, message);
@@ -159,6 +158,9 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
   }
 
   async next (userId) {
+    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.NOT_STARTED) {
+      return await this.startNextTossup(userId);
+    }
     const allowed = this.endCurrentTossup(userId);
     if (allowed) { await this.startNextTossup(userId); }
   }
@@ -223,7 +225,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED;
     this.tossup.markedQuestion = insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices });
     this.emitMessage({
-      type: 'reveal-answer',
+      type: 'reveal-tossup-answer',
       question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices }),
       answer: this.tossup.answer
     });

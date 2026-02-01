@@ -41,7 +41,7 @@ export default class QuestionClient {
     window.alert('You have reached the end of the set');
   }
 
-  giveBonusAnswer ({ directive, directedPrompt, score, userId }) {
+  giveAnswer ({ directive, directedPrompt, score, userId }) {
     document.getElementById('answer-input').value = '';
     document.getElementById('answer-input').blur();
     document.getElementById('answer-input').placeholder = 'Enter answer';
@@ -117,6 +117,7 @@ export default class QuestionClient {
 
   startNextQuestion ({ packetLength, question }) {
     document.getElementById('question').textContent = '';
+    document.getElementById('answer').textContent = '';
     document.getElementById('settings').classList.add('d-none');
     document.getElementById('packet-length-info').textContent = this.room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
     document.getElementById('packet-number-info').textContent = question.packet.number;
@@ -255,11 +256,6 @@ function attachEventListeners (room, socket) {
 
   document.getElementById('set-strictness').addEventListener('input', function () {
     document.getElementById('strictness-display').textContent = this.value;
-  });
-
-  document.getElementById('start').addEventListener('click', function () {
-    this.blur();
-    socket.sendToServer({ type: 'start' });
   });
 
   document.getElementById('toggle-settings').addEventListener('click', function () {
