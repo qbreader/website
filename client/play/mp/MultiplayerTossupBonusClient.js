@@ -1,4 +1,4 @@
-import TossupBonusClient from '../all/TossupBonusClient.js';
+import TossupBonusClient from '../TossupBonusClient.js';
 import MultiplayerClientMixin from './MultiplayerClientMixin.js';
 
 const MultiplayerTossupBonusClient = MultiplayerClientMixin(TossupBonusClient);

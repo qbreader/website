@@ -1,7 +1,7 @@
-import addTossupGameCard from './add-tossup-game-card.js';
-import QuestionClient from '../QuestionClient.js';
-import audio from '../../audio/index.js';
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import addTossupGameCard from './tossups/add-tossup-game-card.js';
+import QuestionClient from './QuestionClient.js';
+import audio from '../audio/index.js';
+import { MODE_ENUM } from '../../quizbowl/constants.js';
 
 export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {

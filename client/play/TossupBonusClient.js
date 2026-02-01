@@ -1,6 +1,6 @@
-import { BonusClientMixin } from '../bonuses/BonusClient.js';
-import { TossupClientMixin } from '../tossups/TossupClient.js';
-import QuestionClient from '../QuestionClient.js';
+import { BonusClientMixin } from './BonusClient.js';
+import { TossupClientMixin } from './TossupClient.js';
+import QuestionClient from './QuestionClient.js';
 
 export default class TossupBonusClient extends BonusClientMixin(TossupClientMixin(QuestionClient)) {
   startNextTossup ({ tossup, packetLength }) {

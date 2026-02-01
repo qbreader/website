@@ -1,5 +1,5 @@
-import BonusRoom from '../../../../quizbowl/BonusRoom.js';
-import api from '../../../scripts/api/index.js';
+import BonusRoom from '../../../quizbowl/BonusRoom.js';
+import api from '../../scripts/api/index.js';
 
 async function getPacket ({ setName, packetNumber }) {
   return setName ? await api.getPacketBonuses(setName, packetNumber ?? 1) : [];

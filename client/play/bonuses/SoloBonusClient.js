@@ -1,5 +1,5 @@
-import { MODE_ENUM } from '../../../../quizbowl/constants.js';
-import questionStats from '../../../scripts/auth/question-stats.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import questionStats from '../../scripts/auth/question-stats.js';
 import BonusClient from '../BonusClient.js';
 
 const modeVersion = '2025-01-14';
