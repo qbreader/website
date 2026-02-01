@@ -34,7 +34,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
       case 'mute-player': return this.mutePlayer(data);
       case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
       case 'owner-change': return this.ownerChange(data);
-      case 'set-username': return this.setUsername(data);
+      case 'set-username': return this.packetUsername(data);
       case 'successful-vk': return this.vkHandle(data);
       case 'toggle-controlled': return this.toggleControlled(data);
       case 'toggle-lock': return this.toggleLock(data);
@@ -158,7 +158,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     }
     this.sortPlayerListGroup();
 
-    this.setMode({ mode });
+    this.packetMode({ mode });
 
     document.getElementById('packet-length-info').textContent = mode === MODE_ENUM.SET_NAME ? packetLength : '-';
 
@@ -191,8 +191,8 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     this.toggleRebuzz({ rebuzz: settings.rebuzz });
     this.toggleSkip({ skip: settings.skip });
     this.toggleTimer({ timer: settings.timer });
-    this.setReadingSpeed({ readingSpeed: settings.readingSpeed });
-    this.setStrictness({ strictness: settings.strictness });
+    this.packetReadingSpeed({ readingSpeed: settings.readingSpeed });
+    this.packetStrictness({ strictness: settings.strictness });
 
     if (settings.controlled) {
       this.toggleControlled({ controlled: settings.controlled });
@@ -216,7 +216,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     percentView,
     categoryPercents
   }) {
-    this.setDifficulties({ difficulties });
+    this.packetDifficulties({ difficulties });
 
     // need to set min year first to avoid conflicts between saved max year and default min year
     setYear(minYear, 'min-year');
@@ -232,7 +232,7 @@ const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
 
     document.getElementById('toggle-standard-only').checked = standardOnly;
 
-    this.setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
+    this.packetCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
   connectionAcknowledgedTossup ({ tossup: currentTossup }) {

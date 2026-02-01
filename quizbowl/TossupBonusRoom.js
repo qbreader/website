@@ -17,7 +17,6 @@ export default class TossupBonusRoom extends TossupRoom {
     this.currentRound = ROUND.TOSSUP;
     this.randomQuestionCache = [];
     this.bonusEligibleUserId = null;
-    this.getNextLocalQuestion = super.getNextLocalQuestion;
     this.getRandomQuestions = this.getRandomTossups;
   }
 
@@ -25,14 +24,6 @@ export default class TossupBonusRoom extends TossupRoom {
     this.currentRound = ROUND.BONUS;
     this.randomQuestionCache = [];
 
-    this.getNextLocalQuestion = () => {
-      if (this.localQuestions.bonuses.length === 0) { return null; }
-      if (this.settings.randomizeOrder) {
-        const randomIndex = Math.floor(Math.random() * this.localQuestions.bonuses.length);
-        return this.localQuestions.bonuses.splice(randomIndex, 1)[0];
-      }
-      return this.localQuestions.bonuses.shift();
-    };
     this.getRandomQuestions = this.getRandomBonuses;
 
     this.bonus = {};
@@ -120,7 +111,7 @@ export default class TossupBonusRoom extends TossupRoom {
         ? { oldTossup: this.tossup }
         : {};
 
-      this.bonus = await this.advanceQuestion();
+      this.bonus = await this.getNextQuestion('bonuses');
       this.queryingQuestion = false;
 
       if (!this.bonus) {
@@ -134,7 +125,7 @@ export default class TossupBonusRoom extends TossupRoom {
         return false;
       }
 
-      this.emitMessage({ ...lastQuestionDict, ...preservedTossup, type, bonus: this.bonus, lastPartRevealed, packetLength: this.packetLength, pointsPerPart });
+      this.emitMessage({ ...lastQuestionDict, ...preservedTossup, type, bonus: this.bonus, lastPartRevealed, packetLength: this.packetCount, pointsPerPart });
 
       this.currentPartNumber = -1;
       this.pointsPerPart = [];

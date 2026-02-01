@@ -1,3 +1,4 @@
+import CategoryManager from '../../../../quizbowl/category-manager.js';
 import Player from '../../../../quizbowl/Player.js';
 import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
@@ -12,7 +13,7 @@ const queryVersion = '2025-05-07';
 const settingsVersion = '2024-10-16';
 const USER_ID = 'user';
 
-const room = new SoloTossupRoom();
+const room = new SoloTossupRoom('', new CategoryManager());
 room.players[USER_ID] = new Player(USER_ID);
 const aiBot = new AIBot(room);
 aiBot.setAIBot(aiBots['average-high-school'][0]);
@@ -42,19 +43,6 @@ document.getElementById('local-packet-input').addEventListener('change', functio
     }
   };
   reader.readAsText(file);
-});
-
-document.getElementById('next').addEventListener('click', function () {
-  this.blur();
-  if (this.innerHTML === 'Skip') {
-    socket.sendToServer({ type: 'skip' });
-  } else {
-    socket.sendToServer({ type: 'next' });
-  }
-});
-
-document.getElementById('start').addEventListener('click', function () {
-  socket.sendToServer({ type: 'start' });
 });
 
 document.getElementById('toggle-ai-mode').addEventListener('click', function () {

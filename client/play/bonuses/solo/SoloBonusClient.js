@@ -26,22 +26,16 @@ export default class SoloBonusClient extends BonusClient {
     this.updateStatDisplay({ 0: 0, 10: 0, 20: 0, 30: 0 });
   }
 
-  async giveAnswer ({ currentPartNumber, directive, directedPrompt, userId }) {
-    super.giveAnswer({ currentPartNumber, directive, directedPrompt, userId });
+  endCurrentBonus ({ bonus, lastPartRevealed, pointsPerPart, starred, stats }) {
+    super.endCurrentBonus({ bonus, starred });
+    this.updateStatDisplay(stats);
+    if (lastPartRevealed && (this.room.mode !== MODE_ENUM.LOCAL)) {
+      questionStats.recordBonus({ _id: bonus._id, pointsPerPart });
+    }
   }
 
-  async next ({ type, bonus, lastPartRevealed, oldBonus, packetLength, pointsPerPart, stats, teamId }) {
-    const starred = this.room.mode === MODE_ENUM.STARRED ? true : (this.room.mode === MODE_ENUM.LOCAL ? false : null);
-    super.next({ bonus, oldBonus, packetLength, starred, type });
-
-    if (type === 'start') {
-      document.getElementById('next').disabled = false;
-    }
-
-    if (lastPartRevealed && (this.room.mode !== MODE_ENUM.LOCAL)) {
-      questionStats.recordBonus({ _id: oldBonus._id, pointsPerPart });
-      this.updateStatDisplay(stats);
-    }
+  async giveBonusAnswer ({ currentPartNumber, directive, directedPrompt, userId }) {
+    super.giveBonusAnswer({ currentPartNumber, directive, directedPrompt, userId });
   }
 
   /**
@@ -156,6 +150,11 @@ export default class SoloBonusClient extends BonusClient {
   setStrictness ({ strictness }) {
     super.setStrictness({ strictness });
     window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
+  }
+
+  startNextBonus ({ bonus, packetLength }) {
+    super.startNextBonus({ packetLength, bonus });
+    document.getElementById('next').disabled = false;
   }
 
   startAnswer () {

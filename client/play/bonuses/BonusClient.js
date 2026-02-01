@@ -6,12 +6,19 @@ export default class BonusClient extends QuestionClient {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
+      case 'end-current-bonus': return this.endCurrentBonus(data);
+      case 'give-bonus-answer': return this.giveBonusAnswer(data);
+      case 'start-next-bonus': return this.startNextBonus(data);
       default: return super.onmessage(message);
     }
   }
 
-  giveAnswer ({ currentPartNumber, directive, directedPrompt, userId }) {
-    super.giveAnswer({ directive, directedPrompt, userId });
+  endCurrentBonus ({ starred, bonus }) {
+    addBonusGameCard({ starred, bonus });
+  }
+
+  giveBonusAnswer ({ currentPartNumber, directive, directedPrompt, userId }) {
+    super.giveBonusAnswer({ directive, directedPrompt, userId });
 
     if (directive === 'accept') {
       document.getElementById(`checkbox-${currentPartNumber + 1}`).checked = true;
@@ -22,20 +29,10 @@ export default class BonusClient extends QuestionClient {
     }
   }
 
-  next ({ bonus, oldBonus, packetLength, starred, type }) {
-    super.next({ nextQuestion: bonus, packetLength, type });
-
-    if (type !== 'start') {
-      addBonusGameCard({ bonus: oldBonus, starred });
-    }
-
-    if (type === 'end') {
-      document.getElementById('next').disabled = true;
-      document.getElementById('reveal').disabled = true;
-    } else {
-      document.getElementById('next').textContent = 'Skip';
-      document.getElementById('reveal').disabled = false;
-    }
+  startNextBonus ({ bonus, packetLength }) {
+    super.startNextQuestion({ packetLength, question: bonus });
+    document.getElementById('next').textContent = 'Skip';
+    document.getElementById('reveal').disabled = false;
   }
 
   setMode ({ mode }) {

@@ -23,14 +23,14 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.ownerId = ownerId;
     this.isPermanent = isPermanent;
     this.checkAnswer = checkAnswer;
-    this.getNumPackets = getNumPackets;
+    this.getPacketCount = getNumPackets;
 
     this.getRandomQuestions = getRandomTossups;
     // in case we are in a room that supports switching between Tossup and Bonus rounds
     this.getRandomTossups = getRandomTossups;
     this.getRandomBonuses = getRandomBonuses;
 
-    this.getSet = getSet;
+    this.getPacket = getSet;
     this.bannedUserList = new Map();
     this.kickedUserList = new Map();
     this.votekickList = [];
@@ -46,7 +46,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       controlled: false
     };
 
-    getSetList().then(setList => { this.setList = setList; });
+    getSetList().then(setList => { this.packetList = setList; });
     setInterval(this.cleanupExpiredBansAndKicks.bind(this), 5 * 60 * 1000); // 5 minutes
   }
 
@@ -144,9 +144,9 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       buzzedIn: this.buzzedIn,
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       mode: this.mode,
-      packetLength: this.packetLength,
+      packetLength: this.packetCount,
       questionProgress: this.tossupProgress,
-      setLength: this.setLength,
+      setLength: this.packetCount,
 
       settings: this.settings
     }));
@@ -287,8 +287,8 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
   async setSetName (userId, { setName }) {
     if (!this.allowed(userId)) { return; }
-    if (!this.setList) { return; }
-    if (!this.setList.includes(setName)) { return; }
+    if (!this.packetList) { return; }
+    if (!this.packetList.includes(setName)) { return; }
     super.setSetName(userId, { doNotFetch: false, setName });
   }
 

@@ -13,9 +13,12 @@ export default class TossupClient extends QuestionClient {
     const data = JSON.parse(message);
     switch (data.type) {
       case 'buzz': return this.buzz(data);
+      case 'end-current-tossup': return this.endCurrentTossup(data);
+      case 'give-tossup-answer': return this.giveTossupAnswer(data);
       case 'pause': return this.pause(data);
       case 'reveal-answer': return this.revealAnswer(data);
       case 'set-reading-speed': return this.setReadingSpeed(data);
+      case 'start-next-tossup': return this.startNextTossup(data);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(data);
       case 'toggle-rebuzz': return this.toggleRebuzz(data);
       case 'update-question': return this.updateQuestion(data);
@@ -30,39 +33,15 @@ export default class TossupClient extends QuestionClient {
     if (userId === this.USER_ID && audio.soundEffects) { audio.buzz.play(); }
   }
 
-  giveAnswer ({ directive, directedPrompt, score, userId }) {
-    super.giveAnswer({ directive, directedPrompt, score, userId });
+  endCurrentTossup ({ starred, tossup }) {
+    addTossupGameCard({ starred, tossup });
+  }
+
+  giveTossupAnswer ({ directive, directedPrompt, score, userId }) {
+    super.giveBonusAnswer({ directive, directedPrompt, score, userId });
 
     if (directive !== 'prompt') {
       document.getElementById('next').disabled = false;
-    }
-  }
-
-  next (data) {
-    if (data.type !== 'start' && data.oldTossup) {
-      addTossupGameCard({ starred: data.starred, tossup: data.oldTossup });
-    }
-    if (data.nextQuestion) { // just passing through, e.g. from a child class that handles bonus questions
-      super.next(data);
-    } else {
-      this.nextTossup(data);
-    }
-  }
-
-  nextTossup ({ tossup: nextTossup, oldTossup, packetLength, starred, type }) {
-    super.next({ nextQuestion: nextTossup, packetLength, type });
-
-    document.getElementById('answer').textContent = '';
-
-    if (type === 'end') {
-      document.getElementById('buzz').disabled = true;
-    } else {
-      document.getElementById('buzz').textContent = 'Buzz';
-      document.getElementById('buzz').disabled = false;
-      document.getElementById('pause').textContent = 'Pause';
-      document.getElementById('pause').disabled = false;
-
-      this.room.tossup = nextTossup;
     }
   }
 
@@ -93,6 +72,16 @@ export default class TossupClient extends QuestionClient {
   setReadingSpeed ({ readingSpeed }) {
     document.getElementById('reading-speed').value = readingSpeed;
     document.getElementById('reading-speed-display').textContent = readingSpeed;
+  }
+
+  startNextTossup ({ tossup, packetLength }) {
+    super.startNextQuestion({ question: tossup, packetLength });
+    document.getElementById('answer').textContent = '';
+    document.getElementById('buzz').textContent = 'Buzz';
+    document.getElementById('buzz').disabled = false;
+    document.getElementById('pause').textContent = 'Pause';
+    document.getElementById('pause').disabled = false;
+    this.room.tossup = tossup;
   }
 
   togglePowermarkOnly ({ powermarkOnly }) {

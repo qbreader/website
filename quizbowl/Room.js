@@ -14,7 +14,18 @@ export default class Room {
     };
   }
 
-  async message (id, message) { throw new Error('Not implemented'); }
+  async message (userId, message) {
+    switch (message.type) {
+      case 'clear-stats': return this.clearStats(userId, message);
+    }
+  }
+
+  clearStats (userId) {
+    this.players[userId].clearStats();
+    const teamId = this.players[userId].teamId;
+    this.teams[teamId].clearStats();
+    this.emitMessage({ type: 'clear-stats', userId });
+  }
 
   /**
    * Sends a message to all sockets

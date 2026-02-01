@@ -1,6 +1,7 @@
 import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
+import CategoryManager from '../../../../quizbowl/category-manager.js';
 import Player from '../../../../quizbowl/Player.js';
 import Team from '../../../../quizbowl/Team.js';
 import SoloBonusRoom from './SoloBonusRoom.js';
@@ -12,7 +13,7 @@ const settingsVersion = '2024-11-02';
 
 const USER_ID = 'user';
 const TEAM_ID = 'team';
-const room = new SoloBonusRoom();
+const room = new SoloBonusRoom('', new CategoryManager());
 room.players[USER_ID] = new Player(USER_ID);
 room.players[USER_ID].teamId = TEAM_ID;
 room.teams[TEAM_ID] = new Team(TEAM_ID);
@@ -21,15 +22,6 @@ const socket = { sendToServer: (message) => room.message(USER_ID, message) };
 const client = new SoloBonusClient(room, USER_ID, socket);
 socket.send = (message) => client.onmessage(message);
 room.sockets[TEAM_ID] = socket;
-
-document.getElementById('next').addEventListener('click', function () {
-  this.blur();
-  if (this.innerHTML === 'Skip') {
-    socket.sendToServer({ type: 'skip' });
-  } else {
-    socket.sendToServer({ type: 'next' });
-  }
-});
 
 document.getElementById('local-packet-input').addEventListener('change', function (event) {
   const file = this.files[0];
@@ -49,11 +41,6 @@ document.getElementById('local-packet-input').addEventListener('change', functio
 document.getElementById('reveal').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'start-answer' });
-});
-
-document.getElementById('start').addEventListener('click', async function () {
-  this.blur();
-  socket.sendToServer({ type: 'start' });
 });
 
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {

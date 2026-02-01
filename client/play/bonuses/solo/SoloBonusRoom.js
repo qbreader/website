@@ -23,14 +23,14 @@ async function getRandomStarredBonus () {
 }
 
 export default class SoloBonusRoom extends BonusRoom {
-  constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
-    super(name, categories, subcategories, alternateSubcategories);
+  constructor (name, categoryManager) {
+    super(name, categoryManager, ['bonuses']);
 
     this.checkAnswer = api.checkAnswer;
     this.getRandomQuestions = async (args) => await api.getRandomBonus({ ...args });
-    this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketBonuses(setName, packetNumbers[0] ?? 1) : [];
+    this.getPacket = async ({ setName, packetNumbers }) => setName ? await api.getPacketBonuses(setName, packetNumbers[0] ?? 1) : [];
     this.getRandomStarredQuestion = getRandomStarredBonus;
-    this.getNumPackets = api.getNumPackets;
+    this.getPacketCount = api.getNumPackets;
 
     this.settings = {
       ...this.settings,
@@ -57,7 +57,7 @@ export default class SoloBonusRoom extends BonusRoom {
 
   startAnswer (teamId) {
     if (!this.settings.typeToAnswer) {
-      this.giveAnswer(teamId, { givenAnswer: this.bonus.answers_sanitized[this.currentPartNumber] });
+      this.giveBonusAnswer(teamId, { givenAnswer: this.bonus.answers_sanitized[this.currentPartNumber] });
       return;
     }
 

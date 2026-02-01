@@ -50,9 +50,9 @@ export default class TossupBonusClient extends TossupClient {
     }
   }
 
-  giveAnswer (data) {
+  giveBonusAnswer (data) {
     const { directive, directedPrompt, score, userId } = data;
-    super.giveAnswer({ directive, directedPrompt, score, userId });
+    super.giveBonusAnswer({ directive, directedPrompt, score, userId });
 
     if (data.currentPartNumber !== undefined) {
       const currentPartNumber = data.currentPartNumber;
