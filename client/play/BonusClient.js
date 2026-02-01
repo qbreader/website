@@ -54,7 +54,10 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
   }
 
   revealNextPart ({ bonusEligibleTeamId, currentPartNumber, part, value }) {
-    document.getElementById('reveal').disabled = bonusEligibleTeamId !== this.room.players[this.USER_ID]?.teamId;
+    document.getElementById('reveal').disabled = !(
+      bonusEligibleTeamId === undefined ||
+      bonusEligibleTeamId === this.room.players[this.USER_ID]?.teamId
+    );
 
     const input = document.createElement('input');
     input.id = `checkbox-${currentPartNumber + 1}`;

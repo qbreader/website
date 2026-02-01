@@ -266,9 +266,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     const username = this.players[userId].username;
     this.tossup = await this.getNextQuestion('tossups');
     this.queryingQuestion = false;
-    if (!this.tossup) {
-      return this.emitMessage({ type: 'no-questions-found' });
-    }
+    if (!this.tossup) { return; }
     this.emitMessage({ type: 'start-next-tossup', packetLength: this.packet.tossups.length, tossup: this.tossup, userId, username });
     this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
     this.wordIndex = 0;

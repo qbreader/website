@@ -138,10 +138,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     const username = this.players[userId].username;
     this.bonus = await this.getNextQuestion('bonuses');
     this.queryingQuestion = false;
-    if (!this.bonus) {
-      this.emitMessage({ type: 'no-questions-found' });
-      return false;
-    }
+    if (!this.bonus) { return; }
     this.emitMessage({ type: 'start-next-bonus', packetLength: this.packet.bonuses.length, bonus: this.bonus, userId, username });
     this.currentPartNumber = -1;
     this.pointsPerPart = [];

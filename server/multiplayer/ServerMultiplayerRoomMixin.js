@@ -67,8 +67,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   allowed (userId) {
-    // public rooms have this.settings.controlled === false
-    return (userId === this.ownerId) || !this.settings.controlled;
+    return (userId === this.ownerId) || this.settings.public || !this.settings.controlled;
   }
 
   ban (userId, { targetId, targetUsername }) {
@@ -317,6 +316,11 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.settings.controlled = !!controlled;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-controlled', controlled, username });
+  }
+
+  toggleEnableBonuses (userId, { enableBonuses }) {
+    if (this.isPermanent || !this.allowed(userId)) { return; }
+    super.toggleEnableBonuses(userId, { enableBonuses });
   }
 
   toggleLock (userId, { lock }) {

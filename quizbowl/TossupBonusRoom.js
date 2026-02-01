@@ -7,6 +7,10 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
   constructor (name, categoryManager, supportedQuestionTypes = ['tossups', 'bonuses']) {
     super(name, categoryManager, supportedQuestionTypes);
     this.currentQuestionType = QUESTION_TYPE_ENUM.TOSSUP;
+    this.settings = {
+      enableBonuses: false,
+      ...this.settings
+    };
     // Only the user who answered the tossup correctly can answer the bonus
     this.bonusEligibleTeamId = null;
   }
@@ -15,6 +19,7 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
     switch (message.type) {
       case 'give-answer': return this.giveAnswer(userId, message);
       case 'start-bonus-answer': return this.startBonusAnswer(userId, message);
+      case 'toggle-enable-bonuses': return this.toggleEnableBonuses(userId, message);
       default: return super.message(userId, message);
     }
   }
@@ -63,7 +68,7 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
       }
       const allowed = this.endCurrentTossup(userId);
       if (!allowed) { return; }
-      if (this.bonusEligibleTeamId) {
+      if (this.bonusEligibleTeamId && this.settings.enableBonuses) {
         await this.startNextBonus(userId);
       } else {
         await this.startNextTossup(userId);
@@ -90,5 +95,11 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
     this.bonusEligibleTeamId = null;
     this.currentQuestionType = QUESTION_TYPE_ENUM.TOSSUP;
     return super.startNextTossup(userId);
+  }
+
+  toggleEnableBonuses (userId, { enableBonuses }) {
+    const username = this.players[userId].username;
+    this.settings.enableBonuses = enableBonuses;
+    this.emitMessage({ type: 'toggle-enable-bonuses', enableBonuses, username });
   }
 }
