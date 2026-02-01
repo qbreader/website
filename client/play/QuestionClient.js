@@ -134,7 +134,7 @@ export default class QuestionClient {
 
   toggleSkip ({ skip }) {
     document.getElementById('toggle-skip').checked = skip;
-    document.getElementById('skip').disabled = !skip || document.getElementById('skip').classList.contains('d-none');
+    document.getElementById('next').disabled = !skip && document.getElementById('next').textContent === 'Skip';
   }
 
   toggleStandardOnly ({ standardOnly }) {

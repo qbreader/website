@@ -141,6 +141,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       userId,
 
       bonusProgress: this.bonusProgress,
+      bonusEligibleTeamId: this.bonusEligibleTeamId,
       buzzedIn: this.buzzedIn,
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       currentQuestionType: this.currentQuestionType,
@@ -158,6 +159,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     socket.send(JSON.stringify({ type: 'connection-acknowledged-query', ...this.query, ...this.categoryManager.export() }));
     socket.send(JSON.stringify({
       type: 'connection-acknowledged-question',
+      currentQuestionType: this.currentQuestionType,
       question: this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ? this.tossup : this.bonus
     }));
 
@@ -184,8 +186,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
           type: 'reveal-next-part',
           currentPartNumber: i,
           part: this.bonus.parts[i],
-          value: this.bonus.values?.[i] ?? 10,
-          bonusEligibleUserId: this.bonusEligibleUserId
+          value: this.bonus.values?.[i] ?? 10
         }));
 
         // If this part has been answered, reveal its answer

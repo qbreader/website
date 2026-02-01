@@ -53,18 +53,14 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     }
   }
 
-  revealNextPart ({ currentPartNumber, part, value }) {
+  revealNextPart ({ bonusEligibleTeamId, currentPartNumber, part, value }) {
+    document.getElementById('reveal').disabled = bonusEligibleTeamId !== this.room.players[this.USER_ID]?.teamId;
+
     const input = document.createElement('input');
     input.id = `checkbox-${currentPartNumber + 1}`;
     input.className = 'checkbox form-check-input rounded-0 me-1';
     input.type = 'checkbox';
     input.style = 'width: 20px; height: 20px; cursor: pointer';
-
-    const room = this.room;
-    const USER_ID = this.USER_ID;
-    input.addEventListener('click', function () {
-      room.message(USER_ID, { type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
-    });
 
     const inputWrapper = document.createElement('label');
     inputWrapper.style = 'cursor: pointer';
@@ -94,7 +90,6 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
   startNextBonus ({ bonus, packetLength }) {
     this.startNextQuestion({ packetLength, question: bonus });
     document.getElementById('next').textContent = 'Skip';
-    document.getElementById('reveal').disabled = false;
   }
 
   setMode ({ mode }) {

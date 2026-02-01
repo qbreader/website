@@ -28,6 +28,16 @@ export default class SoloBonusClient extends BonusClient {
     }
   }
 
+  revealNextPart ({ bonusEligibleTeamId, currentPartNumber, part, value }) {
+    super.revealNextPart({ bonusEligibleTeamId, currentPartNumber, part, value });
+    const room = this.room;
+    const USER_ID = this.USER_ID;
+    const input = document.getElementById(`checkbox-${currentPartNumber + 1}`);
+    input.addEventListener('click', function () {
+      room.message(USER_ID, { type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
+    });
+  }
+
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents }) {
     super.setCategories();
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));

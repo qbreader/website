@@ -118,6 +118,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.currentPartNumber++;
     this.emitMessage({
       type: 'reveal-next-part',
+      bonusEligibleTeamId: this.bonusEligibleTeamId,
       currentPartNumber: this.currentPartNumber,
       part: this.bonus.parts[this.currentPartNumber],
       value: this.getPartValue()
@@ -156,9 +157,10 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
   }
 
   toggleThreePartBonuses (userId, { threePartBonuses }) {
+    const username = this.players[userId].username;
     this.query.threePartBonuses = threePartBonuses;
     this.adjustQuery(['threePartBonuses'], [threePartBonuses]);
-    this.emitMessage({ type: 'toggle-three-part-bonuses', threePartBonuses });
+    this.emitMessage({ type: 'toggle-three-part-bonuses', threePartBonuses, username });
   }
 };
 

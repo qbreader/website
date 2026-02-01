@@ -2,5 +2,9 @@ import { BonusClientMixin } from '../bonuses/BonusClient.js';
 import { TossupClientMixin } from '../tossups/TossupClient.js';
 import QuestionClient from '../QuestionClient.js';
 
-const TossupBonusClient = BonusClientMixin(TossupClientMixin(QuestionClient));
-export default TossupBonusClient;
+export default class TossupBonusClient extends BonusClientMixin(TossupClientMixin(QuestionClient)) {
+  startNextTossup ({ tossup, packetLength }) {
+    super.startNextTossup({ tossup, packetLength });
+    document.getElementById('reveal').disabled = true;
+  }
+}

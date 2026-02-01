@@ -53,10 +53,8 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
         return await this.startNextBonus(userId);
       }
       const allowed = this.endCurrentBonus(userId);
-      if (allowed) {
-        this.currentQuestionType = QUESTION_TYPE_ENUM.TOSSUP;
-        await this.startNextTossup(userId);
-      }
+      if (!allowed) { return; }
+      await this.startNextTossup(userId);
     };
 
     const nextTossup = async (userId) => {
@@ -64,9 +62,11 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
         return await this.startNextTossup(userId);
       }
       const allowed = this.endCurrentTossup(userId);
-      if (allowed) {
-        this.currentQuestionType = QUESTION_TYPE_ENUM.BONUS;
+      if (!allowed) { return; }
+      if (this.bonusEligibleTeamId) {
         await this.startNextBonus(userId);
+      } else {
+        await this.startNextTossup(userId);
       }
     };
 
@@ -79,5 +79,16 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
   startBonusAnswer (userId) {
     if (!this.canUserAnswerBonus(userId)) { return false; }
     super.startBonusAnswer(userId);
+  }
+
+  startNextBonus (userId) {
+    this.currentQuestionType = QUESTION_TYPE_ENUM.BONUS;
+    return super.startNextBonus(userId);
+  }
+
+  startNextTossup (userId) {
+    this.bonusEligibleTeamId = null;
+    this.currentQuestionType = QUESTION_TYPE_ENUM.TOSSUP;
+    return super.startNextTossup(userId);
   }
 }

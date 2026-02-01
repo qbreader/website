@@ -164,10 +164,7 @@ document.addEventListener('keydown', (event) => {
     case 'y': return navigator.clipboard.writeText(room.tossup._id ?? '');
 
     case 'n':
-    case 's':
-      document.getElementById('next').click();
-      document.getElementById('skip').click();
-      break;
+    case 's': return document.getElementById('next').click();
   }
 });
 
