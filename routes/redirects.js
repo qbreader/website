@@ -6,13 +6,17 @@ const router = Router();
 /**
  * Redirects:
  */
-router.get('/bonuses', (_req, res) => res.redirect('/play/bonuses/solo/'));
-router.get('/multiplayer', (_req, res) => res.redirect('/play/tossups/mp'));
-router.get('/multiplayer/:param', (req, res) => queryRedirect('/play/tossups/mp/' + req.params.param)(req, res));
+router.get('/bonuses', (_req, res) => res.redirect('/play/bonuses/'));
+router.get('/multiplayer', (_req, res) => res.redirect('/play/mp'));
+router.get('/multiplayer/:param', (req, res) => queryRedirect('/play/mp/' + req.params.param)(req, res));
+router.get('/play/bonuses/solo', (_req, res) => res.redirect('/play/bonuses/'));
+router.get('/play/tossups/mp/', (req, res) => res.redirect('/play/mp/'));
+router.get('/play/tossups/mp/:param', (req, res) => queryRedirect('/play/mp/' + req.params.param)(req, res));
+router.get('/play/tossups/solo', (_req, res) => res.redirect('/play/tossups/'));
 router.get('/singleplayer', (_req, res) => res.redirect('/play/'));
-router.get('/singleplayer/bonuses', (_req, res) => res.redirect('/play/bonuses/solo/'));
-router.get('/singleplayer/tossups', (_req, res) => res.redirect('/play/tossups/solo/'));
-router.get('/tossups', (_req, res) => res.redirect('/play/tossups/solo/'));
+router.get('/singleplayer/bonuses', (_req, res) => res.redirect('/play/bonuses/'));
+router.get('/singleplayer/tossups', (_req, res) => res.redirect('/play/tossups/'));
+router.get('/tossups/', (_req, res) => res.redirect('/play/tossups/'));
 
 router.get('/database', queryRedirect('/db/'));
 router.get('/frequency-list', queryRedirect('/db/frequency-list/'));
