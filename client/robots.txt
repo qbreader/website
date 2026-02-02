@@ -1,2 +1,2 @@
 User-agent: *
-Disallow: /play/tossups/mp/
+Disallow: /play/mp/
