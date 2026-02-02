@@ -1,4 +1,4 @@
-import { tossupRooms } from '../../../server/multiplayer/handle-wss-connection.js';
+import { tossupBonusRooms } from '../../../server/multiplayer/handle-wss-connection.js';
 
 import { Router } from 'express';
 const router = Router();
@@ -8,17 +8,17 @@ router.get('/', (req, res) => {
   let activeRooms = 0;
   const roomList = [];
 
-  for (const roomName in tossupRooms) {
-    const onlineCount = Object.keys(tossupRooms[roomName].sockets).length;
+  for (const roomName in tossupBonusRooms) {
+    const onlineCount = Object.keys(tossupBonusRooms[roomName].sockets).length;
     activePlayers += onlineCount;
     activeRooms += onlineCount > 0 ? 1 : 0;
 
-    if (!tossupRooms[roomName].settings.public) { continue; }
+    if (!tossupBonusRooms[roomName].settings.public) { continue; }
 
     roomList.push({
-      isPermanent: tossupRooms[roomName].isPermanent,
+      isPermanent: tossupBonusRooms[roomName].isPermanent,
       onlineCount,
-      playerCount: Object.keys(tossupRooms[roomName].players).length,
+      playerCount: Object.keys(tossupBonusRooms[roomName].players).length,
       roomName
     });
   }

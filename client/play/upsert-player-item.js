@@ -7,7 +7,7 @@ import { escapeHTML } from '../scripts/utilities/strings.js';
  * @param {string} ownerId - ID of the room owner
  */
 // overall handling of some of these mechanics in the upsertion section might not be best idea? works though
-export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic) {
+export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic, team) {
   if (!player || !player.userId || !player.username) {
     console.error('Player or player.userId or player.username is undefined', { player });
     return;
@@ -23,6 +23,10 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
 
   const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
   const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
+
+  const { bonusStats = { 0: 0, 10: 0, 20: 0, 30: 0 } } = team;
+  const bonusPoints = Object.entries(bonusStats).map(([pointValue, count]) => pointValue * count).reduce((a, b) => a + b, 0);
+  const ppb = bonusPoints / (Object.values(bonusStats).reduce((a, b) => a + b, 0) || 1);
 
   const playerIsOwner = ownerId === userId;
 
@@ -42,7 +46,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
           <span id="username-${userId}" class="me-1">${displayUsername}</span>
           <!-- Dropdown  -->
       </div>
-      <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points}</span></span>
+      <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points + bonusPoints}</span></span>
   </div>
 `;
 
@@ -63,6 +67,8 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
         <li class="list-group-item"><span>Tens</span><span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span></li>
         <li class="list-group-item"><span>Negs</span><span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span></li>
         <li class="list-group-item"><span>TUH</span><span id="tuh-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tuh}</span></li>
+        <li class="list-group-item"><span>Bonus Points</span><span id="bonus-points-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${bonusPoints}</span></li>
+        <li class="list-group-item"><span>PPB</span><span id="ppb-${userId}" class="float-end stats stats-${userId}">${isNaN(ppb) ? '0.000' : ppb.toFixed(3)}</span></li>
         <li class="list-group-item"><span>Celerity</span><span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span></li>
         <li class="list-group-item"><span>Is Owner?</span><span id="owner-${userId}" class="float-end stats stats-${userId}">${playerIsOwner ? 'Yes' : 'No'}</span></li>
     </ul>

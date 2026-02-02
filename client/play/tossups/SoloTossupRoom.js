@@ -1,8 +1,8 @@
-import api from '../../../scripts/api/index.js';
-import TossupRoom from '../../../../quizbowl/TossupRoom.js';
+import api from '../../scripts/api/index.js';
+import TossupRoom from '../../../quizbowl/TossupRoom.js';
 
 let starredTossupIds = null;
-async function getRandomStarredTossup () {
+async function getStarredTossup () {
   if (starredTossupIds === null) {
     starredTossupIds = await fetch('/auth/stars/tossup-ids')
       .then(response => {
@@ -22,9 +22,14 @@ async function getRandomStarredTossup () {
   return await api.getTossup(_id);
 }
 
+async function getPacket ({ setName, packetNumber }) {
+  const tossups = setName ? await api.getPacketTossups(setName, packetNumber ?? 1) : [];
+  return { tossups };
+}
+
 export default class SoloTossupRoom extends TossupRoom {
-  constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
-    super(name, categories, subcategories, alternateSubcategories);
+  constructor (name, categoryManager) {
+    super(name, categoryManager, ['tossups']);
 
     this.settings = {
       ...this.settings,
@@ -35,10 +40,10 @@ export default class SoloTossupRoom extends TossupRoom {
     };
 
     this.checkAnswer = api.checkAnswer;
-    this.getRandomQuestions = async (args) => await api.getRandomTossup({ ...args });
-    this.getSet = async ({ setName, packetNumbers }) => setName ? await api.getPacketTossups(setName, packetNumbers[0] ?? 1) : [];
-    this.getRandomStarredQuestion = getRandomStarredTossup;
-    this.getNumPackets = api.getNumPackets;
+    this.getRandomTossups = async (args) => await api.getRandomTossup({ ...args });
+    this.getPacket = getPacket;
+    this.getStarredTossup = getStarredTossup;
+    this.getPacketCount = api.getNumPackets;
   }
 
   async message (userId, message) {
@@ -52,7 +57,7 @@ export default class SoloTossupRoom extends TossupRoom {
 
   buzz (userId) {
     if (!this.settings.typeToAnswer && this.buzzes.includes(userId)) {
-      this.giveAnswer(userId, { givenAnswer: this.tossup.answer_sanitized });
+      this.giveTossupAnswer(userId, { givenAnswer: this.tossup.answer_sanitized });
       return;
     }
 
@@ -78,27 +83,27 @@ export default class SoloTossupRoom extends TossupRoom {
    * @returns
    */
   toggleCorrect (userId, { correct }) {
-    if (userId !== this.previous.userId) { return; }
+    if (userId !== this.previousTossup.userId) { return; }
 
-    this.previous.isCorrect = correct;
+    this.previousTossup.isCorrect = correct;
     const multiplier = correct ? 1 : -1;
 
-    if (this.previous.inPower) {
+    if (this.previousTossup.inPower) {
       this.players[userId].powers += multiplier * 1;
-      this.players[userId].points += multiplier * this.previous.powerValue;
+      this.players[userId].points += multiplier * this.previousTossup.powerValue;
     } else {
       this.players[userId].tens += multiplier * 1;
       this.players[userId].points += multiplier * 10;
     }
 
-    if (this.previous.endOfQuestion) {
+    if (this.previousTossup.endOfQuestion) {
       this.players[userId].dead += multiplier * -1;
     } else {
       this.players[userId].negs += multiplier * -1;
-      this.players[userId].points += multiplier * -this.previous.negValue;
+      this.players[userId].points += multiplier * -this.previousTossup.negValue;
     }
 
-    this.players[userId].celerity.correct.total += multiplier * this.previous.celerity;
+    this.players[userId].celerity.correct.total += multiplier * this.previousTossup.celerity;
     this.players[userId].celerity.correct.average = this.players[userId].celerity.correct.total / (this.players[userId].powers + this.players[userId].tens);
 
     this.emitMessage({ type: 'toggle-correct', correct, userId });

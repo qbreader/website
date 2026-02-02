@@ -1,0 +1,139 @@
+import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
+import CategoryModal from '../../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
+import CategoryManager from '../../../quizbowl/category-manager.js';
+import Player from '../../../quizbowl/Player.js';
+import Team from '../../../quizbowl/Team.js';
+import SoloBonusRoom from './SoloBonusRoom.js';
+import SoloBonusClient from './SoloBonusClient.js';
+
+const modeVersion = '2025-01-14';
+const queryVersion = '2025-05-07';
+const settingsVersion = '2024-11-02';
+
+const USER_ID = 'user';
+const TEAM_ID = 'team';
+const room = new SoloBonusRoom('', new CategoryManager());
+room.players[USER_ID] = new Player(USER_ID);
+room.players[USER_ID].teamId = TEAM_ID;
+room.teams[TEAM_ID] = new Team(TEAM_ID);
+
+const socket = { sendToServer: (message) => room.message(USER_ID, message) };
+const client = new SoloBonusClient(room, USER_ID, socket);
+socket.send = (message) => client.onmessage(message);
+room.sockets[TEAM_ID] = socket;
+
+document.getElementById('local-packet-input').addEventListener('change', function (event) {
+  const file = this.files[0];
+  if (!file) { return; }
+  const reader = new window.FileReader();
+  reader.onload = function (e) {
+    try {
+      const packet = JSON.parse(e.target.result);
+      socket.sendToServer({ type: 'upload-local-packet', packet, filename: file.name });
+    } catch (error) {
+      window.alert('Invalid packet format');
+    }
+  };
+  reader.readAsText(file);
+});
+
+document.getElementById('reveal').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'start-bonus-answer' });
+});
+
+document.getElementById('toggle-randomize-order').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
+});
+
+document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-three-part-bonuses', threePartBonuses: this.checked });
+});
+
+document.getElementById('type-to-answer').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-type-to-answer', typeToAnswer: this.checked });
+});
+
+document.addEventListener('keydown', (event) => {
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) { return; }
+
+  switch (event.key?.toLowerCase()) {
+    case ' ':
+      document.getElementById('reveal').click();
+      // Prevent spacebar from scrolling the page
+      if (event.target === document.body) { event.preventDefault(); }
+      break;
+
+    case 'e': return document.getElementById('toggle-settings').click();
+    case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
+    case 'n': return document.getElementById('next').click();
+    case 's': return document.getElementById('next').click();
+    case 't': return document.getElementsByClassName('star-bonus')[0].click();
+    case 'y': return navigator.clipboard.writeText(room.bonus._id ?? '');
+    case '0': return document.getElementById(`checkbox-${room.pointsPerPart.length}`)?.click();
+    case '1': return document.getElementById('checkbox-1').click();
+    case '2': return document.getElementById('checkbox-2').click();
+    case '3': return document.getElementById('checkbox-3').click();
+    case '4': return document.getElementById('checkbox-4').click();
+  }
+});
+
+if (window.localStorage.getItem('singleplayer-bonus-mode')) {
+  try {
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-bonus-mode'));
+    if (savedQuery.version !== modeVersion) { throw new Error(); }
+    socket.sendToServer({ type: 'set-mode', ...savedQuery });
+  } catch {
+    window.localStorage.removeItem('singleplayer-bonus-mode');
+  }
+}
+
+let startingDifficulties = [];
+if (window.localStorage.getItem('singleplayer-bonus-query')) {
+  try {
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-bonus-query'));
+    if (savedQuery.version !== queryVersion) { throw new Error(); }
+    room.categoryManager.import(savedQuery);
+    room.query = savedQuery;
+    // need to set min year first to avoid conflicts between saved max year and default min year
+    socket.sendToServer({ type: 'set-min-year', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'set-max-year', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'set-set-name', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery, doNotFetch: true });
+    socket.sendToServer({ type: 'toggle-three-part-bonuses', ...savedQuery });
+    startingDifficulties = savedQuery.difficulties;
+  } catch {
+    window.localStorage.removeItem('singleplayer-bonus-query');
+  }
+}
+
+if (window.localStorage.getItem('singleplayer-bonus-settings')) {
+  try {
+    const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-bonus-settings'));
+    if (savedSettings.version !== settingsVersion) { throw new Error(); }
+    socket.sendToServer({ type: 'set-strictness', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
+  } catch {
+    window.localStorage.removeItem('singleplayer-bonus-settings');
+  }
+}
+
+ReactDOM.createRoot(document.getElementById('category-modal-root')).render(
+  <CategoryModal
+    categoryManager={room.categoryManager}
+    onClose={() => socket.sendToServer({ type: 'set-categories', ...room.categoryManager.export() })}
+  />
+);
+
+ReactDOM.createRoot(document.getElementById('difficulty-dropdown-root')).render(
+  <DifficultyDropdown
+    startingDifficulties={startingDifficulties ?? []}
+    onChange={() => socket.sendToServer({ type: 'set-difficulties', difficulties: getDropdownValues('difficulties') })}
+  />
+);

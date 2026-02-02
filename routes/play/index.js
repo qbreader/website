@@ -1,8 +1,8 @@
-import tossupsRouter from './tossups/index.js';
+import mpRouter from './mp.js';
 
 import { Router } from 'express';
 const router = Router();
 
-router.use('/tossups', tossupsRouter);
+router.use('/mp', mpRouter);
 
 export default router;

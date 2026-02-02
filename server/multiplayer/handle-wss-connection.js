@@ -1,6 +1,7 @@
 import { MAX_ONLINE_PLAYERS, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
-import ServerTossupRoom from './ServerTossupRoom.js';
+import ServerTossupBonusRoom from './ServerTossupBonusRoom.js';
 import { checkToken } from '../authentication.js';
+import CategoryManager from '../../quizbowl/category-manager.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import { clientIp } from '../moderation/ip-filter.js';
@@ -17,31 +18,33 @@ import * as uuid from 'uuid';
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
-export const tossupRooms = {};
+export const tossupBonusRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupRooms[name] = new ServerTossupRoom(name, Symbol('unique permanent room owner'), true, categories, subcategories);
+  tossupBonusRooms[name] = new ServerTossupBonusRoom(
+    name, Symbol('unique permanent room owner'), true, new CategoryManager(categories, subcategories)
+  );
 }
 
 /**
  * Returns the room with the given room name.
  * If the room does not exist, it is created.
  * @param {String} roomName
- * @returns {ServerTossupRoom}
+ * @returns {ServerTossupBonusRoom}
  */
 function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled = false) {
   roomName = DOMPurify.sanitize(roomName);
   roomName = roomName?.substring(0, ROOM_NAME_MAX_LENGTH) ?? '';
 
-  if (!Object.prototype.hasOwnProperty.call(tossupRooms, roomName)) {
-    const newRoom = new ServerTossupRoom(roomName, userId, false);
+  if (!Object.prototype.hasOwnProperty.call(tossupBonusRooms, roomName)) {
+    const room = new ServerTossupBonusRoom(roomName, userId, false, new CategoryManager());
     // A room cannot be both public and controlled
-    newRoom.settings.public = !isPrivate && !isControlled;
-    newRoom.settings.controlled = isControlled;
-    tossupRooms[roomName] = newRoom;
+    room.settings.public = !isPrivate && !isControlled;
+    room.settings.controlled = isControlled;
+    tossupBonusRooms[roomName] = room;
   }
 
-  return tossupRooms[roomName];
+  return tossupBonusRooms[roomName];
 }
 
 /**
@@ -76,9 +79,7 @@ export default function handleWssConnection (ws, req) {
   }
 
   const room = createAndReturnRoom(roomName, userId, isPrivate, isControlled);
-  const roomOwner = {
-    id: room.ownerId
-  };
+  const roomOwner = { id: room.ownerId };
 
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({

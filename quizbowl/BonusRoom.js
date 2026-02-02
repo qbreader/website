@@ -1,18 +1,9 @@
-import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM } from './constants.js';
+import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from './constants.js';
 import QuestionRoom from './QuestionRoom.js';
 
-export default class BonusRoom extends QuestionRoom {
-  constructor (name, categories = [], subcategories = [], alternateSubcategories = []) {
-    super(name, categories, subcategories, alternateSubcategories);
-
-    this.getNextLocalQuestion = () => {
-      if (this.localQuestions.bonuses.length === 0) { return null; }
-      if (this.settings.randomizeOrder) {
-        const randomIndex = Math.floor(Math.random() * this.localQuestions.bonuses.length);
-        return this.localQuestions.bonuses.splice(randomIndex, 1)[0];
-      }
-      return this.localQuestions.bonuses.shift();
-    };
+export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomClass {
+  constructor (name, categoryManager, supportedQuestionTypes = ['bonuses']) {
+    super(name, categoryManager, supportedQuestionTypes);
 
     this.bonus = {};
     this.bonusProgress = BONUS_PROGRESS_ENUM.NOT_STARTED;
@@ -34,13 +25,9 @@ export default class BonusRoom extends QuestionRoom {
 
   async message (userId, message) {
     switch (message.type) {
-      case 'clear-stats': return this.clearStats(userId, message);
-      case 'end': return this.next(userId, message);
-      case 'give-answer': return this.giveAnswer(userId, message);
+      case 'give-answer': return this.giveBonusAnswer(userId, message);
       case 'next': return this.next(userId, message);
-      case 'skip': return this.next(userId, message);
-      case 'start': return this.next(userId, message);
-      case 'start-answer': return this.startAnswer(userId, message);
+      case 'start-bonus-answer': return this.startBonusAnswer(userId, message);
       case 'toggle-correct': return this.toggleCorrect(userId, message);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(userId, message);
       default: return super.message(userId, message);
@@ -53,34 +40,7 @@ export default class BonusRoom extends QuestionRoom {
     this.emitMessage({ type: 'clear-stats', userId });
   }
 
-  getPartValue (partNumber = this.currentPartNumber) {
-    return this.bonus?.values?.[this.currentPartNumber] ?? 10;
-  }
-
-  giveAnswer (userId, { givenAnswer }) {
-    if (typeof givenAnswer !== 'string') { return false; }
-
-    this.liveAnswer = '';
-    clearInterval(this.timer.interval);
-    this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
-
-    const { directive, directedPrompt } = this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
-    this.emitMessage({ type: 'give-answer', currentPartNumber: this.currentPartNumber, directive, directedPrompt, userId });
-
-    if (directive === 'prompt') {
-      this.startServerTimer(
-        ANSWER_TIME_LIMIT * 10,
-        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
-        () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
-      );
-    } else {
-      this.pointsPerPart.push(directive === 'accept' ? this.getPartValue() : 0);
-      this.revealNextAnswer();
-      this.revealNextPart();
-    }
-  }
-
-  async next (userId, { type }) {
+  endCurrentBonus (userId) {
     if (this.queryingQuestion) { return false; }
     if (this.bonusProgress === BONUS_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
 
@@ -90,27 +50,49 @@ export default class BonusRoom extends QuestionRoom {
     const lastPartRevealed = this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
     const pointsPerPart = this.pointsPerPart;
     const teamId = this.players[userId].teamId;
-
-    if (type === 'next') {
+    if (lastPartRevealed) {
       this.teams[teamId].updateStats(this.pointsPerPart.reduce((a, b) => a + b, 0));
     }
+
     const stats = this.teams[teamId].bonusStats;
+    const starred = this.mode === MODE_ENUM.STARRED ? true : (this.mode === MODE_ENUM.LOCAL ? false : null);
+    this.emitMessage({ type: 'end-current-bonus', bonus: this.bonus, lastPartRevealed, pointsPerPart, starred, stats, teamId });
+    return true;
+  }
 
-    const oldBonus = this.bonus;
-    this.bonus = await this.advanceQuestion();
-    this.queryingQuestion = false;
-    if (!this.bonus) {
-      this.emitMessage({ type: 'end', lastPartRevealed, oldBonus, pointsPerPart, stats, userId });
-      return false;
+  getPartValue () {
+    return this.bonus?.values?.[this.currentPartNumber] ?? 10;
+  }
+
+  giveBonusAnswer (userId, { givenAnswer }) {
+    if (typeof givenAnswer !== 'string') { return false; }
+
+    this.liveAnswer = '';
+    clearInterval(this.timer.interval);
+    this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
+
+    const { directive, directedPrompt } = this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
+    this.emitMessage({ type: 'give-bonus-answer', currentPartNumber: this.currentPartNumber, directive, directedPrompt, givenAnswer, userId });
+
+    if (directive === 'prompt') {
+      this.startServerTimer(
+        ANSWER_TIME_LIMIT * 10,
+        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        () => this.giveBonusAnswer(userId, { givenAnswer: this.liveAnswer })
+      );
+    } else {
+      this.pointsPerPart.push(directive === 'accept' ? this.getPartValue() : 0);
+      this.revealNextAnswer();
+      this.revealNextPart();
     }
+  }
 
-    this.emitMessage({ type, bonus: this.bonus, lastPartRevealed, oldBonus, packetLength: this.packetLength, pointsPerPart, stats, teamId });
-
-    this.currentPartNumber = -1;
-    this.pointsPerPart = [];
-    this.bonusProgress = BONUS_PROGRESS_ENUM.READING;
-    this.revealLeadin();
-    this.revealNextPart();
+  async next (userId) {
+    if (this.bonusProgress === BONUS_PROGRESS_ENUM.NOT_STARTED) {
+      return await this.startNextBonus(userId);
+    }
+    const allowed = this.endCurrentBonus(userId);
+    if (allowed) { await this.startNextBonus(userId); }
   }
 
   revealLeadin () {
@@ -136,19 +118,33 @@ export default class BonusRoom extends QuestionRoom {
     this.currentPartNumber++;
     this.emitMessage({
       type: 'reveal-next-part',
+      bonusEligibleTeamId: this.bonusEligibleTeamId,
       currentPartNumber: this.currentPartNumber,
       part: this.bonus.parts[this.currentPartNumber],
       value: this.getPartValue()
     });
   }
 
-  startAnswer (userId) {
-    this.emitMessage({ type: 'start-answer', userId });
+  startBonusAnswer (userId) {
+    this.emitMessage({ type: 'start-bonus-answer', userId });
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,
       (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
-      () => this.giveAnswer(userId, { givenAnswer: this.liveAnswer })
+      () => this.giveBonusAnswer(userId, { givenAnswer: this.liveAnswer })
     );
+  }
+
+  async startNextBonus (userId) {
+    const username = this.players[userId].username;
+    this.bonus = await this.getNextQuestion('bonuses');
+    this.queryingQuestion = false;
+    if (!this.bonus) { return; }
+    this.emitMessage({ type: 'start-next-bonus', packetLength: this.packet.bonuses.length, bonus: this.bonus, userId, username });
+    this.currentPartNumber = -1;
+    this.pointsPerPart = [];
+    this.bonusProgress = BONUS_PROGRESS_ENUM.READING;
+    this.revealLeadin();
+    this.revealNextPart();
   }
 
   toggleCorrect (userId, { partNumber, correct }) {
@@ -158,8 +154,12 @@ export default class BonusRoom extends QuestionRoom {
   }
 
   toggleThreePartBonuses (userId, { threePartBonuses }) {
+    const username = this.players[userId].username;
     this.query.threePartBonuses = threePartBonuses;
     this.adjustQuery(['threePartBonuses'], [threePartBonuses]);
-    this.emitMessage({ type: 'toggle-three-part-bonuses', threePartBonuses });
+    this.emitMessage({ type: 'toggle-three-part-bonuses', threePartBonuses, username });
   }
-}
+};
+
+const BonusRoom = BonusRoomMixin(QuestionRoom);
+export default BonusRoom;

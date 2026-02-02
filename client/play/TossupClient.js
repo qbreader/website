@@ -1,9 +1,9 @@
-import addTossupGameCard from './add-tossup-game-card.js';
-import QuestionClient from '../QuestionClient.js';
-import audio from '../../audio/index.js';
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import addTossupGameCard from './tossups/add-tossup-game-card.js';
+import QuestionClient from './QuestionClient.js';
+import audio from '../audio/index.js';
+import { MODE_ENUM } from '../../quizbowl/constants.js';
 
-export default class TossupClient extends QuestionClient {
+export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
     super(room, userId, socket);
     attachEventListeners(room, socket);
@@ -13,9 +13,12 @@ export default class TossupClient extends QuestionClient {
     const data = JSON.parse(message);
     switch (data.type) {
       case 'buzz': return this.buzz(data);
+      case 'end-current-tossup': return this.endCurrentTossup(data);
+      case 'give-tossup-answer': return this.giveTossupAnswer(data);
       case 'pause': return this.pause(data);
-      case 'reveal-answer': return this.revealAnswer(data);
+      case 'reveal-tossup-answer': return this.revealTossupAnswer(data);
       case 'set-reading-speed': return this.setReadingSpeed(data);
+      case 'start-next-tossup': return this.startNextTossup(data);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(data);
       case 'toggle-rebuzz': return this.toggleRebuzz(data);
       case 'update-question': return this.updateQuestion(data);
@@ -30,7 +33,11 @@ export default class TossupClient extends QuestionClient {
     if (userId === this.USER_ID && audio.soundEffects) { audio.buzz.play(); }
   }
 
-  giveAnswer ({ directive, directedPrompt, score, userId }) {
+  endCurrentTossup ({ starred, tossup }) {
+    addTossupGameCard({ starred, tossup });
+  }
+
+  giveTossupAnswer ({ directive, directedPrompt, score, userId }) {
     super.giveAnswer({ directive, directedPrompt, score, userId });
 
     if (directive !== 'prompt') {
@@ -38,30 +45,11 @@ export default class TossupClient extends QuestionClient {
     }
   }
 
-  next ({ nextTossup, oldTossup, packetLength, starred, type }) {
-    super.next({ nextQuestion: nextTossup, packetLength, type });
-
-    document.getElementById('answer').textContent = '';
-
-    if (type !== 'start') {
-      addTossupGameCard({ starred, tossup: oldTossup });
-    }
-
-    if (type === 'end') {
-      document.getElementById('buzz').disabled = true;
-    } else {
-      document.getElementById('buzz').textContent = 'Buzz';
-      document.getElementById('buzz').disabled = false;
-      document.getElementById('pause').textContent = 'Pause';
-      document.getElementById('pause').disabled = false;
-    }
-  }
-
   pause ({ paused }) {
     document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
   }
 
-  revealAnswer ({ answer, question }) {
+  revealTossupAnswer ({ answer, question }) {
     document.getElementById('question').innerHTML = question;
     document.getElementById('answer').innerHTML = 'ANSWER: ' + answer;
     document.getElementById('pause').disabled = true;
@@ -86,6 +74,15 @@ export default class TossupClient extends QuestionClient {
     document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
+  startNextTossup ({ tossup, packetLength }) {
+    this.startNextQuestion({ question: tossup, packetLength });
+    document.getElementById('buzz').textContent = 'Buzz';
+    document.getElementById('buzz').disabled = false;
+    document.getElementById('pause').textContent = 'Pause';
+    document.getElementById('pause').disabled = false;
+    this.room.tossup = tossup;
+  }
+
   togglePowermarkOnly ({ powermarkOnly }) {
     document.getElementById('toggle-powermark-only').checked = powermarkOnly;
   }
@@ -98,7 +95,7 @@ export default class TossupClient extends QuestionClient {
     if (word === '(*)' || word === '[*]') { return; }
     document.getElementById('question').innerHTML += word + ' ';
   }
-}
+};
 
 function attachEventListeners (room, socket) {
   document.getElementById('buzz').addEventListener('click', function () {
@@ -133,3 +130,6 @@ function attachEventListeners (room, socket) {
     socket.sendToServer({ type: 'toggle-rebuzz', rebuzz: this.checked });
   });
 }
+
+const TossupClient = TossupClientMixin(QuestionClient);
+export default TossupClient;

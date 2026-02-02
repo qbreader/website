@@ -1,13 +1,14 @@
-import MultiplayerTossupClient from './MultiplayerTossupClient.js';
+import MultiplayerTossupBonusClient from './MultiplayerTossupBonusClient.js';
 
-import CategoryManager from '../../../../quizbowl/category-manager.js';
-import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
-import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
-import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
-import { MODE_ENUM } from '../../../../quizbowl/constants.js';
-import getRandomName from '../../../../quizbowl/get-random-name.js';
+import CategoryManager from '../../../quizbowl/category-manager.js';
+import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
+import CategoryModal from '../../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import getRandomName from '../../../quizbowl/get-random-name.js';
 
 const room = {
+  bonus: {},
   categoryManager: new CategoryManager(),
   difficulties: [],
   mode: MODE_ENUM.RANDOM,
@@ -20,6 +21,7 @@ const room = {
   public: true,
   setLength: 24,
   showingOffline: false,
+  teams: {},
   tossup: {},
   username: window.localStorage.getItem('multiplayer-username') || getRandomName()
 };
@@ -54,7 +56,7 @@ socket.onclose = function (event) {
   clearInterval(PING_INTERVAL_ID);
 };
 
-const client = new MultiplayerTossupClient(room, USER_ID, socket);
+const client = new MultiplayerTossupBonusClient(room, USER_ID, socket);
 socket.onmessage = (message) => client.onmessage(message);
 
 document.getElementById('answer-input').addEventListener('input', function () {
@@ -82,23 +84,6 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
 
 document.getElementById('chat-input').addEventListener('input', function () {
   socket.send(JSON.stringify({ type: 'chat-live-update', message: this.value }));
-});
-
-document.getElementById('next').addEventListener('click', function () {
-  this.blur();
-  switch (this.innerHTML) {
-    case 'Start':
-      socket.send(JSON.stringify({ type: 'start' }));
-      break;
-    case 'Next':
-      socket.send(JSON.stringify({ type: 'next' }));
-      break;
-  }
-});
-
-document.getElementById('skip').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'skip' }));
 });
 
 const styleSheet = document.createElement('style');
@@ -139,6 +124,11 @@ document.getElementById('toggle-public').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'toggle-public', public: this.checked }));
 });
 
+document.getElementById('reveal').addEventListener('click', function () {
+  this.blur();
+  socket.send(JSON.stringify({ type: 'start-bonus-answer' }));
+});
+
 document.getElementById('username').addEventListener('change', function () {
   socket.send(JSON.stringify({ type: 'set-username', userId: USER_ID, username: this.value }));
   room.username = this.value;
@@ -158,7 +148,11 @@ document.addEventListener('keydown', (event) => {
 
   switch (event.key?.toLowerCase()) {
     case ' ':
-      document.getElementById('buzz').click();
+      if (!document.getElementById('reveal').disabled) {
+        document.getElementById('reveal').click();
+      } else {
+        document.getElementById('buzz').click();
+      }
       // Prevent spacebar from scrolling the page
       if (event.target === document.body) { event.preventDefault(); }
       break;
@@ -170,10 +164,7 @@ document.addEventListener('keydown', (event) => {
     case 'y': return navigator.clipboard.writeText(room.tossup._id ?? '');
 
     case 'n':
-    case 's':
-      document.getElementById('next').click();
-      document.getElementById('skip').click();
-      break;
+    case 's': return document.getElementById('next').click();
   }
 });
 

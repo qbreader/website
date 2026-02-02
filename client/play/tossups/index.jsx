@@ -1,34 +1,33 @@
-import { getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
-import CategoryModal from '../../../scripts/components/CategoryModal.jsx';
-import DifficultyDropdown from '../../../scripts/components/DifficultyDropdown.jsx';
-import Player from '../../../../quizbowl/Player.js';
-import Team from '../../../../quizbowl/Team.js';
-import SoloBonusRoom from './SoloBonusRoom.js';
-import SoloBonusClient from './SoloBonusClient.js';
+import CategoryManager from '../../../quizbowl/category-manager.js';
+import Player from '../../../quizbowl/Player.js';
+import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
+import CategoryModal from '../../scripts/components/CategoryModal.jsx';
+import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
+import aiBots from './ai-mode/ai-bots.js';
+import AIBot from './ai-mode/AIBot.js';
+import SoloTossupRoom from './SoloTossupRoom.js';
+import SoloTossupClient from './SoloTossupClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
-const settingsVersion = '2024-11-02';
-
+const settingsVersion = '2024-10-16';
 const USER_ID = 'user';
-const TEAM_ID = 'team';
-const room = new SoloBonusRoom();
+
+const room = new SoloTossupRoom('', new CategoryManager());
 room.players[USER_ID] = new Player(USER_ID);
-room.players[USER_ID].teamId = TEAM_ID;
-room.teams[TEAM_ID] = new Team(TEAM_ID);
+const aiBot = new AIBot(room);
+aiBot.setAIBot(aiBots['average-high-school'][0]);
+aiBot.active = false;
 
 const socket = { sendToServer: (message) => room.message(USER_ID, message) };
-const client = new SoloBonusClient(room, USER_ID, socket);
+const client = new SoloTossupClient(room, USER_ID, socket, aiBot);
 socket.send = (message) => client.onmessage(message);
-room.sockets[TEAM_ID] = socket;
+room.sockets[USER_ID] = socket;
 
-document.getElementById('next').addEventListener('click', function () {
-  this.blur();
-  if (this.innerHTML === 'Skip') {
-    socket.sendToServer({ type: 'skip' });
-  } else {
-    socket.sendToServer({ type: 'next' });
-  }
+document.getElementById('choose-ai').addEventListener('change', function () {
+  const prefix = 'ai-choice-';
+  const choice = this.querySelector('input:checked').id.slice(prefix.length);
+  aiBot.setAIBot(aiBots[choice][0]);
 });
 
 document.getElementById('local-packet-input').addEventListener('change', function (event) {
@@ -46,24 +45,19 @@ document.getElementById('local-packet-input').addEventListener('change', functio
   reader.readAsText(file);
 });
 
-document.getElementById('reveal').addEventListener('click', function () {
+document.getElementById('toggle-ai-mode').addEventListener('click', function () {
   this.blur();
-  socket.sendToServer({ type: 'start-answer' });
+  socket.sendToServer({ type: 'toggle-ai-mode', aiMode: this.checked });
 });
 
-document.getElementById('start').addEventListener('click', async function () {
+document.getElementById('toggle-correct').addEventListener('click', function () {
   this.blur();
-  socket.sendToServer({ type: 'start' });
+  socket.sendToServer({ type: 'toggle-correct', correct: this.textContent === 'I was right' });
 });
 
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
-});
-
-document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-three-part-bonuses', threePartBonuses: this.checked });
 });
 
 document.getElementById('type-to-answer').addEventListener('click', function () {
@@ -72,11 +66,11 @@ document.getElementById('type-to-answer').addEventListener('click', function () 
 });
 
 document.addEventListener('keydown', (event) => {
-  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) { return; }
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
   switch (event.key?.toLowerCase()) {
     case ' ':
-      document.getElementById('reveal').click();
+      document.getElementById('buzz').click();
       // Prevent spacebar from scrolling the page
       if (event.target === document.body) { event.preventDefault(); }
       break;
@@ -84,31 +78,27 @@ document.addEventListener('keydown', (event) => {
     case 'e': return document.getElementById('toggle-settings').click();
     case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
     case 'n': return document.getElementById('next').click();
-    case 's': return document.getElementById('start').click();
-    case 't': return document.getElementsByClassName('star-bonus')[0].click();
-    case 'y': return navigator.clipboard.writeText(room.bonus._id ?? '');
-    case '0': return document.getElementById(`checkbox-${room.pointsPerPart.length}`)?.click();
-    case '1': return document.getElementById('checkbox-1').click();
-    case '2': return document.getElementById('checkbox-2').click();
-    case '3': return document.getElementById('checkbox-3').click();
-    case '4': return document.getElementById('checkbox-4').click();
+    case 'p': return document.getElementById('pause').click();
+    case 's': return document.getElementById('next').click();
+    case 't': return document.getElementsByClassName('star-tossup')[0].click();
+    case 'y': return navigator.clipboard.writeText(room.tossup._id ?? '');
   }
 });
 
-if (window.localStorage.getItem('singleplayer-bonus-mode')) {
+if (window.localStorage.getItem('singleplayer-tossup-mode')) {
   try {
-    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-bonus-mode'));
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-mode'));
     if (savedQuery.version !== modeVersion) { throw new Error(); }
     socket.sendToServer({ type: 'set-mode', ...savedQuery });
   } catch {
-    window.localStorage.removeItem('singleplayer-bonus-mode');
+    window.localStorage.removeItem('singleplayer-tossup-mode');
   }
 }
 
 let startingDifficulties = [];
-if (window.localStorage.getItem('singleplayer-bonus-query')) {
+if (window.localStorage.getItem('singleplayer-tossup-query')) {
   try {
-    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-bonus-query'));
+    const savedQuery = JSON.parse(window.localStorage.getItem('singleplayer-tossup-query'));
     if (savedQuery.version !== queryVersion) { throw new Error(); }
     room.categoryManager.import(savedQuery);
     room.query = savedQuery;
@@ -118,22 +108,25 @@ if (window.localStorage.getItem('singleplayer-bonus-query')) {
     socket.sendToServer({ type: 'set-packet-numbers', ...savedQuery, doNotFetch: true });
     socket.sendToServer({ type: 'set-set-name', ...savedQuery, doNotFetch: true });
     socket.sendToServer({ type: 'toggle-standard-only', ...savedQuery, doNotFetch: true });
-    socket.sendToServer({ type: 'toggle-three-part-bonuses', ...savedQuery });
+    socket.sendToServer({ type: 'toggle-powermark-only', ...savedQuery });
     startingDifficulties = savedQuery.difficulties;
   } catch {
-    window.localStorage.removeItem('singleplayer-bonus-query');
+    window.localStorage.removeItem('singleplayer-tossup-query');
   }
 }
 
-if (window.localStorage.getItem('singleplayer-bonus-settings')) {
+if (window.localStorage.getItem('singleplayer-tossup-settings')) {
   try {
-    const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-bonus-settings'));
+    const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'));
     if (savedSettings.version !== settingsVersion) { throw new Error(); }
     socket.sendToServer({ type: 'set-strictness', ...savedSettings });
+    socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-ai-mode', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
     socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
   } catch {
-    window.localStorage.removeItem('singleplayer-bonus-settings');
+    window.localStorage.removeItem('singleplayer-tossup-settings');
   }
 }
 

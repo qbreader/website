@@ -1,6 +1,6 @@
-import { MODE_ENUM } from '../../../../quizbowl/constants.js';
-import questionStats from '../../../scripts/auth/question-stats.js';
-import upsertPlayerItem from '../../upsert-player-item.js';
+import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import questionStats from '../../scripts/auth/question-stats.js';
+import upsertPlayerItem from '../upsert-player-item.js';
 import TossupClient from '../TossupClient.js';
 
 const modeVersion = '2025-01-14';
@@ -42,8 +42,23 @@ export default class SoloTossupClient extends TossupClient {
     this.updateStatDisplay(this.room.players[userId]);
   }
 
-  async giveAnswer ({ directive, directedPrompt, perQuestionCelerity, score, tossup, userId }) {
-    super.giveAnswer({ directive, directedPrompt, score, userId });
+  endCurrentTossup ({ isSkip, starred, tossup }) {
+    super.endCurrentTossup({ starred, tossup });
+    if (!isSkip && this.room.previousTossup.userId === this.USER_ID && (this.room.mode !== MODE_ENUM.LOCAL)) {
+      const previous = this.room.previousTossup;
+      const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
+      questionStats.recordTossup({
+        _id: previous.tossup._id,
+        celerity: previous.celerity,
+        isCorrect: previous.isCorrect,
+        multiplayer: false,
+        pointValue
+      });
+    }
+  }
+
+  async giveTossupAnswer ({ directive, directedPrompt, perQuestionCelerity, score, tossup, userId }) {
+    super.giveTossupAnswer({ directive, directedPrompt, score, userId });
 
     if (directive === 'prompt') { return; }
 
@@ -60,47 +75,24 @@ export default class SoloTossupClient extends TossupClient {
     }
   }
 
-  async next ({ packetLength, oldTossup, tossup: nextTossup, type }) {
-    const starred = this.room.mode === MODE_ENUM.STARRED ? true : (this.room.mode === MODE_ENUM.LOCAL ? false : null);
-    super.next({ nextTossup, oldTossup, packetLength, starred, type });
-
-    if (type === 'start') {
-      document.getElementById('next').disabled = false;
-    }
-
+  async startNextTossup ({ packetLength, tossup }) {
+    super.startNextTossup({ tossup, packetLength });
+    document.getElementById('next').disabled = false;
     document.getElementById('toggle-correct').textContent = 'I was wrong';
     document.getElementById('toggle-correct').classList.add('d-none');
-
-    if (type === 'end') {
-      document.getElementById('next').disabled = true;
-      document.getElementById('pause').disabled = true;
-    } else {
-      document.getElementById('next').textContent = 'Skip';
-    }
-
-    if ((type === 'end' || type === 'next') && this.room.previous.userId === this.USER_ID && (this.room.mode !== MODE_ENUM.LOCAL)) {
-      const pointValue = this.room.previous.isCorrect ? (this.room.previous.inPower ? this.room.previous.powerValue : 10) : (this.room.previous.endOfQuestion ? 0 : this.room.previous.negValue);
-      questionStats.recordTossup({
-        _id: this.room.previous.tossup._id,
-        celerity: this.room.previous.celerity,
-        isCorrect: this.room.previous.isCorrect,
-        multiplayer: false,
-        pointValue
-      });
-    }
+    document.getElementById('next').textContent = 'Skip';
   }
 
-  revealAnswer ({ answer, question }) {
-    super.revealAnswer({ answer, question });
+  revealTossupAnswer ({ answer, question }) {
+    super.revealTossupAnswer({ answer, question });
 
     document.getElementById('buzz').disabled = true;
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('next').disabled = false;
     document.getElementById('next').textContent = 'Next';
-    document.getElementById('start').disabled = false;
 
     document.getElementById('toggle-correct').classList.remove('d-none');
-    document.getElementById('toggle-correct').textContent = this.room.previous.isCorrect ? 'I was wrong' : 'I was right';
+    document.getElementById('toggle-correct').textContent = this.room.previousTossup.isCorrect ? 'I was wrong' : 'I was right';
   }
 
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents }) {

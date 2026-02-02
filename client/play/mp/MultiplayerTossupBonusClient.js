@@ -1,12 +1,12 @@
-import TossupClient from '../TossupClient.js';
 
-import { MODE_ENUM } from '../../../../quizbowl/constants.js';
-import questionStats from '../../../scripts/auth/question-stats.js';
-import { arrayToRange } from '../../ranges.js';
-import upsertPlayerItem from '../../upsert-player-item.js';
-import { setYear } from '../../year-slider.js';
+import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../../quizbowl/constants.js';
+import questionStats from '../../scripts/auth/question-stats.js';
+import TossupBonusClient from '../TossupBonusClient.js';
+import { arrayToRange } from '../ranges.js';
+import upsertPlayerItem from '../upsert-player-item.js';
+import { setYear } from '../year-slider.js';
 
-export default class MultiplayerTossupClient extends TossupClient {
+export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
     super(room, userId, socket);
     this.socket = socket;
@@ -21,7 +21,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       case 'confirm-ban': return this.confirmBan(data);
       case 'connection-acknowledged': return this.connectionAcknowledged(data);
       case 'connection-acknowledged-query': return this.connectionAcknowledgedQuery(data);
-      case 'connection-acknowledged-tossup': return this.connectionAcknowledgedTossup(data);
+      case 'connection-acknowledged-question': return this.connectionAcknowledgedQuestion(data);
       case 'enforcing-removal': return this.ackRemovedFromRoom(data);
       case 'error': return this.handleError(data);
       case 'force-username': return this.forceUsername(data);
@@ -33,7 +33,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       case 'mute-player': return this.mutePlayer(data);
       case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
       case 'owner-change': return this.ownerChange(data);
-      case 'set-username': return this.setUsername(data);
+      case 'set-username': return this.packetUsername(data);
       case 'successful-vk': return this.vkHandle(data);
       case 'toggle-controlled': return this.toggleControlled(data);
       case 'toggle-lock': return this.toggleLock(data);
@@ -57,8 +57,6 @@ export default class MultiplayerTossupClient extends TossupClient {
 
   buzz ({ userId, username }) {
     this.logEventConditionally(username, 'buzzed');
-    document.getElementById('skip').disabled = true;
-
     if (userId === this.USER_ID) {
       document.getElementById('answer-input-group').classList.remove('d-none');
       document.getElementById('answer-input').focus();
@@ -105,7 +103,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
       this.room.players[userId][field] = 0;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
     this.sortPlayerListGroup();
   }
 
@@ -121,25 +119,31 @@ export default class MultiplayerTossupClient extends TossupClient {
   }
 
   connectionAcknowledged ({
+    bonusEligibleTeamId,
+    bonusProgress,
     buzzedIn,
     canBuzz,
+    currentQuestionType,
     isPermanent,
-    ownerId: serverOwnerId,
+    ownerId,
     mode,
     packetLength,
-    players: messagePlayers,
-    questionProgress,
+    players,
     settings,
-    setLength: newSetLength,
+    packetCount,
+    teams,
+    tossupProgress,
     userId
   }) {
+    this.room.bonusEligibleTeamId = bonusEligibleTeamId;
     this.room.public = settings.public;
-    this.room.ownerId = serverOwnerId;
-    this.room.setLength = newSetLength;
+    this.room.ownerId = ownerId;
+    this.room.setLength = packetCount;
     this.USER_ID = userId;
     window.localStorage.setItem('USER_ID', this.USER_ID);
 
     document.getElementById('buzz').disabled = !canBuzz;
+    document.getElementById('reveal').disabled = currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP || userId !== bonusEligibleTeamId;
 
     if (isPermanent) {
       document.getElementById('category-select-button').disabled = true;
@@ -150,46 +154,54 @@ export default class MultiplayerTossupClient extends TossupClient {
       document.getElementById('toggle-public').disabled = true;
     }
 
-    for (const userId of Object.keys(messagePlayers)) {
-      messagePlayers[userId].celerity = messagePlayers[userId].celerity.correct.average;
-      this.room.players[userId] = messagePlayers[userId];
-      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+    for (const userId of Object.keys(players)) {
+      const teamId = players[userId].teamId;
+      players[userId].celerity = players[userId].celerity.correct.average;
+      this.room.players[userId] = players[userId];
+      this.room.teams[teamId] = teams[teamId];
+      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
     }
     this.sortPlayerListGroup();
 
-    this.setMode({ mode });
-
     document.getElementById('packet-length-info').textContent = mode === MODE_ENUM.SET_NAME ? packetLength : '-';
 
-    switch (questionProgress) {
-      case 0:
-        document.getElementById('next').textContent = 'Start';
-        document.getElementById('next').classList.remove('btn-primary');
-        document.getElementById('next').classList.add('btn-success');
-        break;
-      case 1:
-        this.showSkipButton();
-        document.getElementById('settings').classList.add('d-none');
-        if (buzzedIn) {
+    if (currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
+      switch (tossupProgress) {
+        case TOSSUP_PROGRESS_ENUM.NOT_STARTED:
           document.getElementById('buzz').disabled = true;
-          document.getElementById('next').disabled = true;
-          document.getElementById('pause').disabled = true;
-        } else {
-          document.getElementById('buzz').disabled = false;
-          document.getElementById('pause').disabled = false;
-        }
-        break;
-      case 2:
-        this.showNextButton();
-        document.getElementById('settings').classList.add('d-none');
-        break;
+          document.getElementById('next').textContent = 'Start';
+          document.getElementById('next').classList.remove('btn-primary');
+          document.getElementById('next').classList.add('btn-success');
+          break;
+        case TOSSUP_PROGRESS_ENUM.READING:
+          document.getElementById('next').textContent = 'Skip';
+          document.getElementById('settings').classList.add('d-none');
+          if (buzzedIn) {
+            document.getElementById('buzz').disabled = true;
+            document.getElementById('next').disabled = true;
+            document.getElementById('pause').disabled = true;
+          } else {
+            document.getElementById('buzz').disabled = false;
+            document.getElementById('pause').disabled = false;
+          }
+          break;
+        case TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED:
+          document.getElementById('buzz').disabled = true;
+          document.getElementById('next').textContent = 'Next';
+          document.getElementById('settings').classList.add('d-none');
+          break;
+      }
+    } else if (currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
+      document.getElementById('buzz').disabled = true;
     }
 
+    this.toggleEnableBonuses({ enableBonuses: settings.enableBonuses });
     this.toggleLock({ lock: settings.lock });
     this.toggleLoginRequired({ loginRequired: settings.loginRequired });
     this.toggleRebuzz({ rebuzz: settings.rebuzz });
     this.toggleSkip({ skip: settings.skip });
     this.toggleTimer({ timer: settings.timer });
+    this.setMode({ mode });
     this.setReadingSpeed({ readingSpeed: settings.readingSpeed });
     this.setStrictness({ strictness: settings.strictness });
 
@@ -234,11 +246,26 @@ export default class MultiplayerTossupClient extends TossupClient {
     this.setCategories({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
-  connectionAcknowledgedTossup ({ tossup: currentTossup }) {
-    this.room.tossup = currentTossup;
-    document.getElementById('set-name-info').textContent = this.room.tossup?.set?.name ?? '';
-    document.getElementById('packet-number-info').textContent = this.room.tossup?.packet?.number ?? '-';
-    document.getElementById('question-number-info').textContent = this.room.tossup?.number ?? '-';
+  connectionAcknowledgedQuestion ({ currentQuestionType, question }) {
+    document.getElementById('set-name-info').textContent = this.question?.set?.name ?? '';
+    document.getElementById('packet-number-info').textContent = this.question?.packet?.number ?? '-';
+    document.getElementById('question-number-info').textContent = this.question?.number ?? '-';
+
+    if (currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
+      this.room.tossup = question;
+    } else if (currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
+      this.room.bonus = question;
+    }
+  }
+
+  endCurrentBonus ({ bonus, lastPartRevealed, pointsPerPart, starred, teamId }) {
+    super.endCurrentBonus({ bonus, starred });
+    if (lastPartRevealed) {
+      const points = pointsPerPart.reduce((a, b) => a + b, 0);
+      this.room.teams[teamId].bonusStats[points]++;
+      upsertPlayerItem(this.room.players[teamId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
+      this.sortPlayerListGroup();
+    }
   }
 
   failedVotekickPoints ({ userId }) {
@@ -253,9 +280,18 @@ export default class MultiplayerTossupClient extends TossupClient {
     document.querySelector('#username').value = username;
   }
 
-  async giveAnswer ({ celerity, directive, directedPrompt, givenAnswer, perQuestionCelerity, score, tossup, userId, username }) {
-    this.logGiveAnswer({ directive, givenAnswer, username });
+  async giveBonusAnswer ({ currentPartNumber, directive, directedPrompt, givenAnswer, score, userId, username }) {
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.BONUS, username });
+    if (directive === 'prompt' && directedPrompt) {
+      this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
+    } else if (directive === 'prompt') {
+      this.logEventConditionally(username, 'was prompted');
+    }
+    super.giveBonusAnswer({ currentPartNumber, directive, directedPrompt, userId });
+  }
 
+  async giveTossupAnswer ({ celerity, tossup, perQuestionCelerity, directive, directedPrompt, givenAnswer, score, userId, username }) {
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, username });
     if (directive === 'prompt' && directedPrompt) {
       this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
@@ -263,8 +299,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     } else {
       this.logEventConditionally(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
     }
-
-    super.giveAnswer({ directive, directedPrompt, score, userId });
+    super.giveTossupAnswer({ directive, directedPrompt, givenAnswer, score, userId, username });
 
     if (directive === 'prompt') { return; }
 
@@ -275,6 +310,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       Array.from(document.getElementsByClassName('tuh')).forEach(element => {
         element.textContent = parseInt(element.innerHTML) + 1;
       });
+      this.room.bonusEligibleTeamId = this.room.players[userId].teamId;
     }
 
     if (directive === 'reject') {
@@ -293,7 +329,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     this.room.players[userId].tuh++;
     this.room.players[userId].celerity = celerity;
 
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
     this.sortPlayerListGroup();
 
     if (userId === this.USER_ID) {
@@ -313,14 +349,15 @@ export default class MultiplayerTossupClient extends TossupClient {
     window.location.href = '/multiplayer';
   }
 
-  join ({ isNew, user, userId, username }) {
+  join ({ isNew, team, user, userId, username }) {
     this.logEventConditionally(username, 'joined the game');
     if (userId === this.USER_ID) { return; }
     this.room.players[userId] = user;
+    this.room.teams[user.teamId] = team;
 
     if (isNew) {
       user.celerity = user.celerity.correct.average;
-      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[user.teamId]);
       this.sortPlayerListGroup();
     } else {
       document.getElementById(`list-group-${userId}`).classList.remove('offline');
@@ -364,9 +401,9 @@ export default class MultiplayerTossupClient extends TossupClient {
     document.getElementById('room-history').prepend(li);
   }
 
-  logGiveAnswer ({ directive = null, givenAnswer, username }) {
+  logGiveAnswer ({ directive = null, givenAnswer, questionType, username }) {
     const badge = document.createElement('span');
-    badge.textContent = 'Buzz';
+    badge.textContent = questionType === QUESTION_TYPE_ENUM.TOSSUP ? 'Buzz' : 'Answer';
     switch (directive) {
       case 'accept':
         badge.className = 'badge text-dark bg-success';
@@ -440,34 +477,6 @@ export default class MultiplayerTossupClient extends TossupClient {
     }
   }
 
-  next ({ packetLength, oldTossup, tossup: nextTossup, type, username }) {
-    const typeStrings = {
-      end: 'ended the game',
-      next: 'went to the next question',
-      skip: 'skipped the question',
-      start: 'started the game'
-    };
-    this.logEventConditionally(username, typeStrings[type]);
-
-    super.next({ nextTossup, oldTossup, packetLength, type });
-
-    if (type === 'start') {
-      document.getElementById('next').classList.add('btn-primary');
-      document.getElementById('next').classList.remove('btn-success');
-      document.getElementById('next').textContent = 'Next';
-    }
-
-    if (type === 'end') {
-      document.getElementById('next').classList.remove('btn-primary');
-      document.getElementById('next').classList.add('btn-success');
-      document.getElementById('next').textContent = 'Start';
-    } else {
-      this.room.tossup = nextTossup;
-    }
-
-    this.showSkipButton();
-  }
-
   ownerChange ({ newOwner }) {
     if (this.room.players[newOwner]) {
       this.room.ownerId = newOwner;
@@ -475,7 +484,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     } else this.logEventConditionally(newOwner, 'became the room owner');
 
     Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
     });
 
     document.getElementById('toggle-controlled').disabled = this.room.public || (this.room.ownerId !== this.USER_ID);
@@ -488,7 +497,16 @@ export default class MultiplayerTossupClient extends TossupClient {
 
   revealAnswer ({ answer, question }) {
     super.revealAnswer({ answer, question });
-    this.showNextButton();
+    document.getElementById('next').textContent = 'Next';
+    document.getElementById('next').disabled = false;
+  }
+
+  revealNextAnswer ({ answer, currentPartNumber, lastPartRevealed }) {
+    super.revealNextAnswer({ answer, currentPartNumber, lastPartRevealed });
+    if (lastPartRevealed) {
+      document.getElementById('next').textContent = 'Next';
+      document.getElementById('next').disabled = false;
+    }
   }
 
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {
@@ -568,21 +586,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       window.localStorage.setItem('multiplayer-username', this.room.username);
       document.getElementById('username').value = this.room.username;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
-  }
-
-  showNextButton () {
-    document.getElementById('next').classList.remove('d-none');
-    document.getElementById('next').disabled = false;
-    document.getElementById('skip').classList.add('d-none');
-    document.getElementById('skip').disabled = true;
-  }
-
-  showSkipButton () {
-    document.getElementById('skip').classList.remove('d-none');
-    document.getElementById('skip').disabled = !document.getElementById('toggle-skip').checked;
-    document.getElementById('next').classList.add('d-none');
-    document.getElementById('next').disabled = true;
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
   }
 
   sortPlayerListGroup (descending = true) {
@@ -590,18 +594,35 @@ export default class MultiplayerTossupClient extends TossupClient {
     const items = Array.from(listGroup.children);
     const offset = 'list-group-'.length;
     items.sort((a, b) => {
-      const aPoints = parseInt(document.getElementById('points-' + a.id.substring(offset)).innerHTML);
-      const bPoints = parseInt(document.getElementById('points-' + b.id.substring(offset)).innerHTML);
+      const aPoints = parseInt(document.getElementById('points-' + a.id.substring(offset)).textContent);
+      const bPoints = parseInt(document.getElementById('points-' + b.id.substring(offset)).textContent);
       // if points are equal, sort alphabetically by username
       if (aPoints === bPoints) {
-        const aUsername = document.getElementById('username-' + a.id.substring(offset)).innerHTML;
-        const bUsername = document.getElementById('username-' + b.id.substring(offset)).innerHTML;
+        const aUsername = document.getElementById('username-' + a.id.substring(offset)).textContent;
+        const bUsername = document.getElementById('username-' + b.id.substring(offset)).textContent;
         return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
       }
       return descending ? bPoints - aPoints : aPoints - bPoints;
     }).forEach(item => {
       listGroup.appendChild(item);
     });
+  }
+
+  startNextQuestion ({ packetLength, question }) {
+    document.getElementById('next').classList.add('btn-primary');
+    document.getElementById('next').classList.remove('btn-success');
+    document.getElementById('next').textContent = 'Skip';
+    super.startNextQuestion({ packetLength, question });
+  }
+
+  startNextBonus ({ bonus, packetLength, username }) {
+    this.logEventConditionally(username, 'started the next bonus');
+    super.startNextBonus({ bonus, packetLength });
+  }
+
+  startNextTossup ({ tossup, packetLength, username }) {
+    this.logEventConditionally(username, 'started the next tossup');
+    super.startNextTossup({ tossup, packetLength });
   }
 
   toggleControlled ({ controlled, username }) {
@@ -612,6 +633,7 @@ export default class MultiplayerTossupClient extends TossupClient {
     document.getElementById('toggle-public').disabled = controlled;
 
     controlled = controlled && (this.USER_ID !== this.room.ownerId);
+    document.getElementById('toggle-enable-bonuses').disabled = controlled;
     document.getElementById('toggle-lock').disabled = controlled;
     document.getElementById('toggle-login-required').disabled = controlled;
     document.getElementById('toggle-timer').disabled = controlled;
@@ -619,11 +641,15 @@ export default class MultiplayerTossupClient extends TossupClient {
     document.getElementById('toggle-rebuzz').disabled = controlled;
     document.getElementById('toggle-skip').disabled = controlled;
     document.getElementById('toggle-standard-only').disabled = controlled;
-
     document.getElementById('category-select-button').disabled = controlled;
     document.getElementById('reading-speed').disabled = controlled;
     document.getElementById('set-mode').disabled = controlled;
     document.getElementById('set-strictness').disabled = controlled;
+  }
+
+  toggleEnableBonuses ({ enableBonuses, username }) {
+    this.logEventConditionally(username, `${enableBonuses ? 'enabled' : 'disabled'} bonuses`);
+    super.toggleEnableBonuses({ enableBonuses });
   }
 
   toggleLock ({ lock, username }) {
@@ -661,6 +687,11 @@ export default class MultiplayerTossupClient extends TossupClient {
     super.toggleTimer({ timer });
   }
 
+  toggleThreePartBonuses ({ threePartBonuses, username }) {
+    this.logEventConditionally(username, `${threePartBonuses ? 'enabled' : 'disabled'} three-part bonuses only`);
+    super.toggleThreePartBonuses({ threePartBonuses });
+  }
+
   togglePublic ({ public: isPublic, username }) {
     this.logEventConditionally(username, `made the room ${isPublic ? 'public' : 'private'}`);
     document.getElementById('chat').disabled = isPublic;
@@ -676,7 +707,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       this.toggleTimer({ timer: true });
     }
     Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public);
+      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
     });
   }
 
@@ -694,4 +725,7 @@ export default class MultiplayerTossupClient extends TossupClient {
       this.logEventConditionally(targetUsername + ' has been vote kicked from this room.');
     }
   }
-}
+};
+
+const MultiplayerTossupBonusClient = MultiplayerClientMixin(TossupBonusClient);
+export default MultiplayerTossupBonusClient;

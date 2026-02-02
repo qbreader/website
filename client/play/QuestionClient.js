@@ -7,25 +7,20 @@ import reportQuestion from '../scripts/api/report-question.js';
 import { addSliderEventListeners, setYear } from './year-slider.js';
 
 const SET_LIST = await getSetList();
+document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
 export default class QuestionClient {
   constructor (room, userId, socket) {
     this.room = room;
     this.USER_ID = userId;
     attachEventListeners(room, socket);
-
-    this.SET_LIST = SET_LIST;
-    document.getElementById('set-list').innerHTML = this.SET_LIST.map(setName => `<option>${setName}</option>`).join('');
   }
 
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
       case 'alert': return window.alert(data.message);
-      case 'end': return this.next(data);
       case 'end-of-set': return this.endOfSet(data);
-      case 'give-answer': return this.giveAnswer(data);
-      case 'next': return this.next(data);
       case 'no-questions-found': return this.noQuestionsFound(data);
       case 'set-categories': return this.setCategories(data);
       case 'set-difficulties': return this.setDifficulties(data);
@@ -35,8 +30,6 @@ export default class QuestionClient {
       case 'set-strictness': return this.setStrictness(data);
       case 'set-max-year': return this.setMaxYear(data);
       case 'set-min-year': return this.setMinYear(data);
-      case 'skip': return this.next(data);
-      case 'start': return this.next(data);
       case 'timer-update': return this.timerUpdate(data);
       case 'toggle-skip': return this.toggleSkip(data);
       case 'toggle-standard-only': return this.toggleStandardOnly(data);
@@ -68,18 +61,6 @@ export default class QuestionClient {
       } else if (directive === 'reject') {
         audio.incorrect.play();
       }
-    }
-  }
-
-  next ({ type, nextQuestion, packetLength }) {
-    document.getElementById('question').textContent = '';
-    document.getElementById('settings').classList.add('d-none');
-
-    if (type !== 'end') {
-      document.getElementById('packet-length-info').textContent = this.room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
-      document.getElementById('packet-number-info').textContent = nextQuestion.packet.number;
-      document.getElementById('set-name-info').textContent = nextQuestion.set.name;
-      document.getElementById('question-number-info').textContent = nextQuestion.number;
     }
   }
 
@@ -116,7 +97,7 @@ export default class QuestionClient {
   setSetName ({ setName, setLength }) {
     document.getElementById('set-name').value = setName;
     // make border red if set name is not in set list
-    const valid = !setName || this.SET_LIST.includes(setName);
+    const valid = !setName || SET_LIST.includes(setName);
     document.getElementById('packet-number').placeholder = 'Packet Numbers' + (setLength ? ` (1-${setLength})` : '');
     document.getElementById('set-name').classList.toggle('is-invalid', !valid);
   }
@@ -134,6 +115,16 @@ export default class QuestionClient {
     setYear(minYear, 'min-year');
   }
 
+  startNextQuestion ({ packetLength, question }) {
+    document.getElementById('question').textContent = '';
+    document.getElementById('answer').textContent = '';
+    document.getElementById('settings').classList.add('d-none');
+    document.getElementById('packet-length-info').textContent = this.room.mode === MODE_ENUM.SET_NAME ? packetLength : '-';
+    document.getElementById('packet-number-info').textContent = question.packet.number;
+    document.getElementById('question-number-info').textContent = question.number;
+    document.getElementById('set-name-info').textContent = question.set.name;
+  }
+
   timerUpdate ({ timeRemaining }) {
     const seconds = Math.floor(timeRemaining / 10);
     const tenths = timeRemaining % 10;
@@ -143,7 +134,7 @@ export default class QuestionClient {
 
   toggleSkip ({ skip }) {
     document.getElementById('toggle-skip').checked = skip;
-    document.getElementById('skip').disabled = !skip || document.getElementById('skip').classList.contains('d-none');
+    document.getElementById('next').disabled = !skip && document.getElementById('next').textContent === 'Skip';
   }
 
   toggleStandardOnly ({ standardOnly }) {
@@ -224,6 +215,11 @@ function attachEventListeners (room, socket) {
   document.getElementById('clear-stats').addEventListener('click', function () {
     this.blur();
     socket.sendToServer({ type: 'clear-stats' });
+  });
+
+  document.getElementById('next').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'next' });
   });
 
   document.getElementById('packet-number').addEventListener('change', function () {
