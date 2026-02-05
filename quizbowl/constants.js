@@ -3,7 +3,7 @@ export const MAX_YEAR = 2025;
 export const DEFAULT_MIN_YEAR = 2010;
 export const DEFAULT_MAX_YEAR = 2025;
 
-export const DIFFICULTIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export const DIFFICULTIES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const ANSWER_TIME_LIMIT = 10; // time to give answer after buzzing
 export const DEAD_TIME_LIMIT = 5; // time to buzz after question is read
