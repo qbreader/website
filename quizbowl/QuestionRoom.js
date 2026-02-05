@@ -35,11 +35,13 @@ export default class QuestionRoom extends Room {
     this.randomQuestionCache = {};
     this.packet = {};
     this.localPacket = {};
+    this.questionIndex = {};
 
     for (const s of supportedQuestionTypes) {
       this.randomQuestionCache[s] = [];
       this.packet[s] = [];
       this.localPacket[s] = [];
+      this.questionIndex[s] = 0;
     }
 
     this.categoryManager = categoryManager;
@@ -146,7 +148,8 @@ export default class QuestionRoom extends Room {
     do {
       switch (this.mode) {
         case MODE_ENUM.SET_NAME:
-          if (this.packet[questionType].length === 0) {
+          if (this.questionIndex[questionType] === this.packet[questionType].length) {
+            this.questionIndex[questionType] = 0;
             this.query.packetNumbers.shift();
             const packetNumber = this.query.packetNumbers[0];
             if (packetNumber === undefined) {
@@ -154,7 +157,8 @@ export default class QuestionRoom extends Room {
             }
             this.packet = await this.getPacket({ setName: this.query.setName, packetNumber });
           }
-          question = this.packet[questionType].shift();
+          question = this.packet[questionType][this.questionIndex[questionType]];
+          this.questionIndex[questionType]++;
           break;
 
         case MODE_ENUM.STARRED:
