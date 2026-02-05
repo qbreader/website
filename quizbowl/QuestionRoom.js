@@ -87,6 +87,7 @@ export default class QuestionRoom extends Room {
       case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
       case 'toggle-timer': return this.toggleTimer(userId, message);
       case 'upload-local-packet': return this.uploadLocalPacket(userId, message);
+      default: return super.message(userId, message);
     }
   }
 
