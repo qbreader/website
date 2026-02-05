@@ -34,7 +34,7 @@ export default class SoloBonusClient extends BonusClient {
     const USER_ID = this.USER_ID;
     const input = document.getElementById(`checkbox-${currentPartNumber + 1}`);
     input.addEventListener('click', function () {
-      room.message(USER_ID, { type: 'toggle-correct', partNumber: currentPartNumber, correct: this.checked });
+      room.message(USER_ID, { type: 'toggle-bonus-part', partNumber: currentPartNumber, correct: this.checked });
     });
   }
 

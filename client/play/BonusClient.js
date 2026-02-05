@@ -13,7 +13,7 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
       case 'reveal-next-part': return this.revealNextPart(data);
       case 'start-bonus-answer': return this.startBonusAnswer(data);
       case 'start-next-bonus': return this.startNextBonus(data);
-      case 'toggle-correct': return this.toggleCorrect(data);
+      case 'toggle-bonus-part': return this.toggleBonusPart(data);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
       default: return super.onmessage(message);
     }
@@ -109,7 +109,7 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     }
   }
 
-  toggleCorrect ({ partNumber, correct }) {
+  toggleBonusPart ({ partNumber, correct }) {
     document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
   }
 

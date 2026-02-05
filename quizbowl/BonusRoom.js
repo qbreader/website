@@ -28,7 +28,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
       case 'give-answer': return this.giveBonusAnswer(userId, message);
       case 'next': return this.next(userId, message);
       case 'start-bonus-answer': return this.startBonusAnswer(userId, message);
-      case 'toggle-correct': return this.toggleCorrect(userId, message);
+      case 'toggle-bonus-part': return this.toggleBonusPart(userId, message);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(userId, message);
       default: return super.message(userId, message);
     }
@@ -141,7 +141,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.revealNextPart();
   }
 
-  toggleCorrect (userId, { partNumber, correct }) {
+  toggleBonusPart (userId, { partNumber, correct }) {
     if (typeof partNumber !== 'number') { return false; }
     if (partNumber < 0 || partNumber >= this.bonus.parts.length) { return false; }
     this.pointsPerPart[partNumber] = correct ? this.getPartValue(partNumber) : 0;
