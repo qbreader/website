@@ -33,7 +33,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case 'mute-player': return this.mutePlayer(data);
       case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
       case 'owner-change': return this.ownerChange(data);
-      case 'set-username': return this.packetUsername(data);
+      case 'set-username': return this.setUsername(data);
       case 'successful-vk': return this.vkHandle(data);
       case 'toggle-controlled': return this.toggleControlled(data);
       case 'toggle-lock': return this.toggleLock(data);
