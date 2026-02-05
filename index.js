@@ -17,7 +17,7 @@ import { WebSocketServer } from 'ws';
 const app = express();
 const server = createServer(app);
 const port = process.env.PORT || 3000;
-const wss = new WebSocketServer({ server, maxPayload: WEBSOCKET_MAX_PAYLOAD });
+const wss = new WebSocketServer({ server, maxPayload: WEBSOCKET_MAX_PAYLOAD, handshakeTimeout: 30000 });
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
