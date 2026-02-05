@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="A text-based quizbowl packet reader created by Geoffrey Wu.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -57,7 +57,7 @@
                             <a class="dropdown-item" href="/tools/tb-splitter/">TB Splitter</a>
                         </ul>
                     </li>
-                    <a class="nav-link" href="/about/">About</a>
+                    <a class="nav-link active" href="/about/" aria-current="page">About</a>
                     <a class="nav-link" href="/settings/">Settings</a>
                 </div>
                 <div class="d-flex">
@@ -91,101 +91,14 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="lead">
-            Welcome to QB Reader<span id="welcome-username"></span>!
+        <p>
+            A set is <b>standard format</b> if it's designed for use at a full-length academic quizbowl tournament.
+            Examples of sets that are <i>not</i> standard format include pop culture sets, single-packet sets, and side events.
+            Single-subject full-length tournaments, such as <a href="/db/set/?_id=62ead0bf8c91030f69d5badc">DECAF</a> and
+            <a href="/db/set/?_id=63a3f66ab17797e852f22cb3">Lederberg</a>, still count as "standard-format".
         </p>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-3">
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Question Reader</h5>
-                        <p>QB Reader is a text-based quizbowl question reader. Play some questions on your own:</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="/play/tossups/">Tossups</a>
-                            <a class="btn btn-primary" href="/play/bonuses/">Bonuses</a>
-                        </p>
-                        <p>Or, join a multiplayer room to play against other people:</p>
-                        <p class="text-center">
-                            <a class="btn btn-success" href="/play/mp/">Multiplayer</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Question Database</h5>
-                        <p>
-                            QB Reader comes with a searchable database of questions which have been downloaded and parsed from <a
-                                href="https://quizbowlpackets.com/">https://quizbowlpackets.com/</a>.
-                        </p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="/db/">Search</a>
-                            <a class="btn btn-primary" href="/db/set-list/">Set List</a>
-                        </p>
-                        <p>Answerlines have been aggregated into frequency lists by category.</p>
-                        <p class="text-center"><a class="btn btn-primary" href="/db/frequency-list/">Frequency List</a></p>
-                        <p>
-                            The questions are parsed using the <a href="https://github.com/qbreader/packet-parser">Python</a> or
-                            <a href="/tools/packet-parser/">JavaScript</a> packet parser.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Account</h5>
-                        <p>
-                            <a href="/user/signup">Sign up for an account</a> to track your stats, and play
-                            <a href="/geoword/">geoword</a>. If you already have an account, <a href="/user/login">login here</a>. To
-                            find out more about what an account can do, check out the <a href="/about/">about page</a>.
-                        </p>
-                        <h5>Discord</h5>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="https://discord.gg/5ue7MucTGQ">Join the official Discord.</a>
-                        </p>
-                        <h5>Settings</h5>
-                        <p class="text-center"><a class="btn btn-primary" href="/settings/">Adjust site-wide settings.</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>API</h5>
-                        <p>
-                            Most features of QB Reader can be accessed <a href="/tools/api-docs/">through the API</a>. You can also use
-                            the <a href="https://github.com/qbreader/python-module">python wrapper</a> to interact with the API.
-                        </p>
-                        <p>
-                            You can also directly view the <a href="https://github.com/qbreader/website">Github source code</a> and the
-                            <a href="https://www.npmjs.com/package/qb-answer-checker">answer checking code</a> as an npm package.
-                        </p>
-                        <h5>Changelog</h5>
-                        <p><a href="https://github.com/qbreader/website/releases">View the changelog on Github</a>.</p>
-                        <h5>Legal</h5>
-                        <p class="d-flex justify-content-between">
-                            <a href="/about/privacy-policy">Privacy Policy</a>
-                            <a href="/about/terms-of-service">Terms of Service</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <h3>Feature of the Day:</h3>
-        <blockquote class="blockquote">
-            <p>
-                You can filter your queries to only show <a href="/about/standard-format">standard format</a> sets.
-            </p>
-            <!-- <p>
-                To play a <a href="/db/">database search</a>, you can download the results as a .json file and upload it as a
-                local packet to play in singleplayer!
-            </p> -->
-        </blockquote>
+        <p>You can check if a set is standard from the <a href="/db/set-list/">set list page</a>.</p>
     </div>
-
-    <script type="module" src="/index.js"></script>
 </body>
 
 </html>
