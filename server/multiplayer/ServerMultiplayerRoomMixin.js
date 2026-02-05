@@ -233,12 +233,18 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   closeConnection (userId) {
-    if (!this.players[userId]) return;
+    if (!this.players[userId]) { return; }
 
-    if (this.buzzedIn === userId) {
-      this.giveAnswer(userId, { givenAnswer: this.liveAnswer });
-      this.buzzedIn = null;
+    if (this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
+      if (this.buzzedIn === userId) {
+        this.giveAnswer(userId, { givenAnswer: this.liveAnswer });
+        this.buzzedIn = null;
+      }
+    } else if (this.currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
+      this.endCurrentBonus(userId);
+      this.startNextTossup(userId);
     }
+
     this.leave(userId);
   }
 
