@@ -147,6 +147,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
     if (isPermanent) {
       document.getElementById('category-select-button').disabled = true;
+      document.getElementById('toggle-enable-bonuses').disabled = true;
       document.getElementById('permanent-room-warning').classList.remove('d-none');
       document.getElementById('reading-speed').disabled = true;
       document.getElementById('set-strictness').disabled = true;
