@@ -36,6 +36,12 @@ export default async function getFrequencyList ({ alternateSubcategory, category
       }
     },
     { $addFields: { answer_normalized: { $trim: { input: '$regex.match' } } } },
+    {
+      $addFields: {
+        // Replace hyphens with spaces to treat them as equivalent
+        answer_normalized: { $replaceAll: { input: '$answer_normalized', find: '-', replacement: ' ' } }
+      }
+    },
     { $group: { _id: '$answer_normalized', count: { $sum: 1 } } },
     { $match: { _id: { $ne: null } } },
     { $addFields: { answer: '$_id' } },

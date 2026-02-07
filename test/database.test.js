@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 import { mongoClient } from '../database/databases.js';
+import getFrequencyList from '../database/qbreader/get-frequency-list.js';
 import getNumPackets from '../database/qbreader/get-num-packets.js';
 import getPacket from '../database/qbreader/get-packet.js';
 import getQuery from '../database/qbreader/get-query.js';
@@ -148,6 +149,22 @@ async function testCorrectness () {
     mocha.it('getRandomTossups', async () => {
       const tossups = await getRandomTossups();
       assert.isOk(tossups, 'tossups');
+    });
+
+    mocha.it('getFrequencyList - hyphens and spaces are equivalent', async () => {
+      // Test that the frequency list treats hyphens and spaces as equivalent
+      // We'll test with a category that likely has answers with hyphens
+      const frequencyList = await getFrequencyList({
+        category: 'Literature',
+        difficulties: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        limit: 100,
+        questionType: 'all'
+      });
+      assert.isOk(frequencyList, 'frequencyList');
+      assert.isArray(frequencyList, 'frequencyList is an array');
+      // Ensure no answers in the list contain hyphens (they should be replaced with spaces)
+      const answersWithHyphens = frequencyList.filter(item => item.answer && item.answer.includes('-'));
+      assert.equal(answersWithHyphens.length, 0, 'No answers should contain hyphens - they should be replaced with spaces');
     });
   });
 }
