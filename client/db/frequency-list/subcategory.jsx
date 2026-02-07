@@ -38,6 +38,7 @@ function updateFrequencyListDisplay (difficulties, limit, questionType) {
     .then(response => response.json())
     .then(response => {
       const { frequencyList } = response;
+      table.innerHTML = '';
 
       for (const index in frequencyList) {
         const { answer, count } = frequencyList[index];
