@@ -35,11 +35,17 @@ export default async function getFrequencyList ({ alternateSubcategory, category
         regex: { $regexFind: { input: '$regex.match', regex: /[^()]+(?![^(]*\))/ } }
       }
     },
-    { $addFields: { answer_normalized: { $trim: { input: '$regex.match' } } } },
-    { $group: { _id: '$answer_normalized', count: { $sum: 1 } } },
+    { $addFields: { answer: { $trim: { input: '$regex.match' } } } },
+    {
+      $addFields: {
+        answer_normalized: { $replaceAll: { input: '$answer', find: '-', replacement: ' ' } }
+      }
+    },
+    { $addFields: { answer_normalized: { $toLower: '$answer_normalized' } } },
+    { $group: { _id: '$answer_normalized', count: { $sum: 1 }, answer: { $first: '$answer' } } },
     { $match: { _id: { $ne: null } } },
-    { $addFields: { answer: '$_id' } },
-    { $sort: { answer: 1 } }
+    { $addFields: { answer_normalized: '$_id' } },
+    { $sort: { answer_normalized: 1 } }
   ];
 
   const bonusAggregation = [
@@ -74,8 +80,8 @@ export default async function getFrequencyList ({ alternateSubcategory, category
   const frequencyList = mergeTwoSortedArrays(
     tossupList,
     bonusList,
-    (a) => a.answer,
-    (a, b) => ({ answer: a.answer, count: a.count + b.count })
+    (a) => a.answer_normalized,
+    (a, b) => ({ answer_normalized: a.answer_normalized, count: a.count + b.count, answer: a.answer })
   );
 
   frequencyList.sort((a, b) => b.count - a.count);
