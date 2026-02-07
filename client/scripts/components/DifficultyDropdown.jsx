@@ -33,7 +33,7 @@ function DifficultyDropdown ({ startingDifficulties = [], onChange = () => {} })
   return (
     <div className='dropdown-checklist btn-group w-100'>
       <button
-        className='btn btn-default text-start w-100'
+        className='btn btn-default dropdown-toggle text-start w-100'
         id='dropdownMenu1'
         data-bs-toggle='dropdown'
         type='button'
@@ -42,10 +42,6 @@ function DifficultyDropdown ({ startingDifficulties = [], onChange = () => {} })
       >
         Difficulties
       </button>
-      <button
-        className='btn btn-default dropdown-toggle dropdown-toggle-split' data-bs-toggle='dropdown'
-        type='button'
-      />
       <ul
         className='dropdown-menu checkbox-menu allow-focus'
         id='difficulties'
