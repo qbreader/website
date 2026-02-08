@@ -283,12 +283,12 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
           'set.name': { $regex: name, $options: 'i' }
         }));
 
-        // Add to existing $and array if present
+        // Always add to $and array to properly combine with other conditions
         if (query.$and) {
           query.$and.push({ $or: setNameOr });
         } else {
-          // If there's no existing $and, we can directly set $or
-          query.$or = setNameOr;
+          // Create $and array with the $or condition
+          query.$and = [{ $or: setNameOr }];
         }
       }
     } else {
