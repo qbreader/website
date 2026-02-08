@@ -272,7 +272,34 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
   }
 
   if (setName) {
-    query['set.name'] = setName;
+    // setName is now an array after being split by commas
+    if (Array.isArray(setName)) {
+      // Check if any of the set names contain regex special characters
+      const hasRegex = setName.some(name => /[.*+?^${}()|[\]\\]/.test(name));
+
+      if (hasRegex) {
+        // If any set name contains regex patterns, use $or with $regex for each pattern
+        const setNameOr = setName.map(name => ({
+          'set.name': { $regex: name, $options: 'i' }
+        }));
+
+        // Add to existing $and array if present
+        if (query.$and) {
+          query.$and.push({ $or: setNameOr });
+        } else {
+          query.$or = setNameOr;
+        }
+      } else if (setName.length === 1) {
+        // Single exact match
+        query['set.name'] = setName[0];
+      } else {
+        // Multiple exact matches using $in
+        query['set.name'] = { $in: setName };
+      }
+    } else {
+      // Backward compatibility: if setName is a string (shouldn't happen after API route change)
+      query['set.name'] = setName;
+    }
   }
 
   if (minYear && maxYear) {
