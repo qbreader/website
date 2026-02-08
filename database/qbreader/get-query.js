@@ -288,6 +288,8 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
           query.$and.push({ $or: setNameOr });
         } else {
           // Create $and array with the $or condition
+          // Note: Other conditions (difficulty, category, etc.) are direct properties
+          // and will be ANDed with this $and at the top level by MongoDB
           query.$and = [{ $or: setNameOr }];
         }
       }

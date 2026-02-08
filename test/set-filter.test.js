@@ -111,6 +111,13 @@ mocha.describe('Set Name Filtering', function () {
     assert.isOk(result.tossups, 'tossups');
     assert.isOk(result.bonuses, 'bonuses');
     assert.isAbove(result.tossups.count, 0, 'should have tossups');
+    // Verify results match one of the patterns
+    if (result.tossups.questionArray.length > 0) {
+      const setNames = result.tossups.questionArray.map(q => q.set.name);
+      assert.isTrue(setNames.every(name =>
+        (/2023 ACF [FR]/i.test(name) || /2024 PACE NSC/i.test(name))
+      ), 'All results should match one of the specified patterns');
+    }
   });
 
   mocha.it('should work with search query and set filter', async () => {
