@@ -279,7 +279,6 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
         query['set.name'] = { $regex: setName[0], $options: 'i' };
       } else {
         // Multiple set names - use $or with $regex for each pattern
-        query.$or = query.$or || [];
         const setNameOr = setName.map(name => ({
           'set.name': { $regex: name, $options: 'i' }
         }));
@@ -288,6 +287,7 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
         if (query.$and) {
           query.$and.push({ $or: setNameOr });
         } else {
+          // If there's no existing $and, we can directly set $or
           query.$or = setNameOr;
         }
       }

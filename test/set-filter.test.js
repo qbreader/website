@@ -45,7 +45,7 @@ mocha.describe('Set Name Filtering', function () {
     // Verify results match one of the patterns
     if (result.tossups.questionArray.length > 0) {
       const setNames = result.tossups.questionArray.map(q => q.set.name);
-      assert.isTrue(setNames.every(name => 
+      assert.isTrue(setNames.every(name =>
         /2023 ACF Regionals/i.test(name) || /2023 ACF Fall/i.test(name)
       ));
     }
