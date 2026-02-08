@@ -61,7 +61,7 @@ document.getElementById('confirm').addEventListener('click', async function () {
 });
 
 document.getElementById('download-questions-txt').addEventListener('click', function () {
-  downloadQuestionsAsText([], bonuses);
+  downloadQuestionsAsText({ bonuses });
 });
 document.getElementById('download-questions-csv').addEventListener('click', function () {
   downloadBonusesAsCSV(bonuses);

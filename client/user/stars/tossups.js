@@ -52,7 +52,7 @@ document.getElementById('confirm').addEventListener('click', async function () {
 });
 
 document.getElementById('download-questions-txt').addEventListener('click', function () {
-  downloadQuestionsAsText(tossups, []);
+  downloadQuestionsAsText({ tossups });
 });
 document.getElementById('download-questions-csv').addEventListener('click', function () {
   downloadTossupsAsCSV(tossups);
