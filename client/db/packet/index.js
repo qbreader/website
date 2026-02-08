@@ -1,5 +1,6 @@
 import bonusToHTML from '../../scripts/bonus-to-html.js';
 import tossupToHTML from '../../scripts/tossup-to-html.js';
+import { downloadQuestionsAsText, downloadQuestionsAsJSON } from '../../scripts/download.js';
 
 const packetId = new URLSearchParams(window.location.search).get('_id');
 
@@ -38,3 +39,11 @@ function getQuestionLink (type, _id) {
   a.textContent = ` Link to ${type}`;
   return a;
 }
+
+document.getElementById('download-txt').addEventListener('click', () => {
+  downloadQuestionsAsText({ tossups, bonuses, filename: `${packet.name}.txt`, includeMetadata: false });
+});
+
+document.getElementById('download-json').addEventListener('click', () => {
+  downloadQuestionsAsJSON(tossups, bonuses, `${packet.name}.json`);
+});

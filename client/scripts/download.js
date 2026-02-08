@@ -28,10 +28,10 @@ export function downloadAsFile (filename, data) {
   hiddenElement.click();
 }
 
-export function downloadQuestionsAsText (tossups, bonuses, filename = 'data.txt') {
+export function downloadQuestionsAsText ({ tossups = [], bonuses = [], filename = 'data.txt', includeMetadata = true }) {
   let textdata = '';
-  for (const tossup of tossups) { textdata += stringifyTossup(tossup, true) + '\n'; }
-  for (const bonus of bonuses) { textdata += stringifyBonus(bonus, true) + '\n'; }
+  for (const tossup of tossups) { textdata += stringifyTossup(tossup, includeMetadata) + '\n'; }
+  for (const bonus of bonuses) { textdata += stringifyBonus(bonus, includeMetadata) + '\n'; }
   downloadAsFile(filename, textdata);
 }
 

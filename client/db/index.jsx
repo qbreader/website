@@ -365,7 +365,7 @@ function QueryForm () {
             </div>
             <div className='float-end'>
               <b>Download this page:</b>
-              <a className='ms-2 clickable' onClick={() => { downloadQuestionsAsText(tossups, bonuses); }}>TXT</a>
+              <a className='ms-2 clickable' onClick={() => { downloadQuestionsAsText({ tossups, bonuses }); }}>TXT</a>
               <a className='ms-2 clickable' onClick={() => { downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses); }}>CSV</a>
               <a className='ms-2 clickable' onClick={() => { downloadQuestionsAsJSON(tossups, bonuses); }}>JSON</a>
             </div>
