@@ -33,5 +33,6 @@
         "aria-.+",
         "tabindex",
         "style"
-    ]
+    ],
+    "liveServer.settings.port": 5501
 }
