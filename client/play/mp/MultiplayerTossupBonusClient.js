@@ -1,74 +1,74 @@
 import {
   MODE_ENUM,
   QUESTION_TYPE_ENUM,
-  TOSSUP_PROGRESS_ENUM,
-} from "../../../quizbowl/constants.js";
-import questionStats from "../../scripts/auth/question-stats.js";
-import TossupBonusClient from "../TossupBonusClient.js";
-import { arrayToRange } from "../ranges.js";
-import upsertPlayerItem from "../upsert-player-item.js";
-import { setYear } from "../year-slider.js";
+  TOSSUP_PROGRESS_ENUM
+} from '../../../quizbowl/constants.js';
+import questionStats from '../../scripts/auth/question-stats.js';
+import TossupBonusClient from '../TossupBonusClient.js';
+import { arrayToRange } from '../ranges.js';
+import upsertPlayerItem from '../upsert-player-item.js';
+import { setYear } from '../year-slider.js';
 
 export const MultiplayerClientMixin = (ClientClass) =>
   class extends ClientClass {
-    constructor(room, userId, socket) {
-      console.log("MultiplayerClinetMixin is active");
+    constructor (room, userId, socket) {
+      console.log('MultiplayerClinetMixin is active');
       super(room, userId, socket);
       this.socket = socket;
     }
 
-    onmessage(event) {
+    onmessage (event) {
       const data = JSON.parse(event.data);
       switch (data.type) {
-        case "chat":
+        case 'chat':
           return this.chat(data, false);
-        case "chat-live-update":
+        case 'chat-live-update':
           return this.chat(data, true);
-        case "clear-stats":
+        case 'clear-stats':
           return this.clearStats(data);
-        case "confirm-ban":
+        case 'confirm-ban':
           return this.confirmBan(data);
-        case "connection-acknowledged":
+        case 'connection-acknowledged':
           return this.connectionAcknowledged(data);
-        case "connection-acknowledged-query":
+        case 'connection-acknowledged-query':
           return this.connectionAcknowledgedQuery(data);
-        case "connection-acknowledged-question":
+        case 'connection-acknowledged-question':
           return this.connectionAcknowledgedQuestion(data);
-        case "enforcing-removal":
+        case 'enforcing-removal':
           return this.ackRemovedFromRoom(data);
-        case "error":
+        case 'error':
           return this.handleError(data);
-        case "force-username":
+        case 'force-username':
           return this.forceUsername(data);
-        case "give-answer-live-update":
+        case 'give-answer-live-update':
           return this.logGiveAnswer(data);
-        case "initiated-vk":
+        case 'initiated-vk':
           return this.vkInit(data);
-        case "join":
+        case 'join':
           return this.join(data);
-        case "leave":
+        case 'leave':
           return this.leave(data);
-        case "lost-buzzer-race":
+        case 'lost-buzzer-race':
           return this.lostBuzzerRace(data);
-        case "mute-player":
+        case 'mute-player':
           return this.mutePlayer(data);
-        case "no-points-votekick-attempt":
+        case 'no-points-votekick-attempt':
           return this.failedVotekickPoints(data);
-        case "owner-change":
+        case 'owner-change':
           return this.ownerChange(data);
-        case "set-username":
+        case 'set-username':
           return this.setUsername(data);
-        case "successful-vk":
+        case 'successful-vk':
           return this.vkHandle(data);
-        case "toggle-controlled":
+        case 'toggle-controlled':
           return this.toggleControlled(data);
-        case "toggle-lock":
+        case 'toggle-lock':
           return this.toggleLock(data);
-        case "toggle-login-required":
+        case 'toggle-login-required':
           return this.toggleLoginRequired(data);
-        case "toggle-public":
+        case 'toggle-public':
           return this.togglePublic(data);
-        case "toggle-stop-on-power":
+        case 'toggle-stop-on-power':
           return this.toggleStopOnPower(data);
         default:
           return super.onmessage(event.data);
@@ -76,76 +76,76 @@ export const MultiplayerClientMixin = (ClientClass) =>
     }
 
     // if a banned/kicked user tries to join a this.room they were removed from this is the response
-    ackRemovedFromRoom({ removalType }) {
-      if (removalType === "kick") {
+    ackRemovedFromRoom ({ removalType }) {
+      if (removalType === 'kick') {
         window.alert(
-          "You were kicked from this room by room players, and cannot rejoin it.",
+          'You were kicked from this room by room players, and cannot rejoin it.'
         );
       } else {
         window.alert(
-          "You were banned from this room by the room owner, and cannot rejoin it.",
+          'You were banned from this room by the room owner, and cannot rejoin it.'
         );
       }
       setTimeout(() => {
-        window.location.replace("../");
+        window.location.replace('../');
       }, 100);
     }
 
-    buzz({ userId, username }) {
-      this.logEventConditionally(username, "buzzed");
+    buzz ({ userId, username }) {
+      this.logEventConditionally(username, 'buzzed');
       if (userId === this.USER_ID) {
         document
-          .getElementById("answer-input-group")
-          .classList.remove("d-none");
-        document.getElementById("answer-input").focus();
+          .getElementById('answer-input-group')
+          .classList.remove('d-none');
+        document.getElementById('answer-input').focus();
       }
       super.buzz({ userId });
     }
 
-    chat({ message, userId, username }, live = false) {
+    chat ({ message, userId, username }, live = false) {
       if (this.room.muteList.includes(userId)) {
         return;
       }
-      if (!live && message === "") {
-        document.getElementById("live-chat-" + userId).parentElement.remove();
+      if (!live && message === '') {
+        document.getElementById('live-chat-' + userId).parentElement.remove();
         return;
       }
 
       if (!live && message) {
-        document.getElementById("live-chat-" + userId).className = "";
-        document.getElementById("live-chat-" + userId).id = "";
+        document.getElementById('live-chat-' + userId).className = '';
+        document.getElementById('live-chat-' + userId).id = '';
         return;
       }
 
-      if (document.getElementById("live-chat-" + userId)) {
-        document.getElementById("live-chat-" + userId).textContent = message;
+      if (document.getElementById('live-chat-' + userId)) {
+        document.getElementById('live-chat-' + userId).textContent = message;
         return;
       }
 
-      const b = document.createElement("b");
+      const b = document.createElement('b');
       b.textContent = username;
 
-      const span = document.createElement("span");
-      span.classList.add("text-muted");
-      span.id = "live-chat-" + userId;
+      const span = document.createElement('span');
+      span.classList.add('text-muted');
+      span.id = 'live-chat-' + userId;
       span.textContent = message;
 
-      const li = document.createElement("li");
+      const li = document.createElement('li');
       li.appendChild(b);
-      li.appendChild(document.createTextNode(" "));
+      li.appendChild(document.createTextNode(' '));
       li.appendChild(span);
-      document.getElementById("room-history").prepend(li);
+      document.getElementById('room-history').prepend(li);
     }
 
-    clearStats({ userId }) {
+    clearStats ({ userId }) {
       for (const field of [
-        "celerity",
-        "negs",
-        "points",
-        "powers",
-        "tens",
-        "tuh",
-        "zeroes",
+        'celerity',
+        'negs',
+        'points',
+        'powers',
+        'tens',
+        'tuh',
+        'zeroes'
       ]) {
         this.room.players[userId][field] = 0;
       }
@@ -155,25 +155,25 @@ export const MultiplayerClientMixin = (ClientClass) =>
         this.room.ownerId,
         this.socket,
         this.room.public,
-        this.room.teams[this.room.players[userId].teamId],
+        this.room.teams[this.room.players[userId].teamId]
       );
       this.sortPlayerListGroup();
     }
 
-    confirmBan({ targetId, targetUsername }) {
+    confirmBan ({ targetId, targetUsername }) {
       if (targetId === this.USER_ID) {
-        window.alert("You were banned from this room by the room owner.");
+        window.alert('You were banned from this room by the room owner.');
         setTimeout(() => {
-          window.location.replace("../");
+          window.location.replace('../');
         }, 100);
       } else {
         this.logEventConditionally(
-          targetUsername + " has been banned from this room.",
+          targetUsername + ' has been banned from this room.'
         );
       }
     }
 
-    connectionAcknowledged({
+    connectionAcknowledged ({
       bonusEligibleTeamId,
       bonusProgress,
       buzzedIn,
@@ -188,30 +188,30 @@ export const MultiplayerClientMixin = (ClientClass) =>
       packetCount,
       teams,
       tossupProgress,
-      userId,
+      userId
     }) {
       this.room.bonusEligibleTeamId = bonusEligibleTeamId;
       this.room.public = settings.public;
       this.room.ownerId = ownerId;
       this.room.setLength = packetCount;
       this.USER_ID = userId;
-      window.localStorage.setItem("USER_ID", this.USER_ID);
+      window.localStorage.setItem('USER_ID', this.USER_ID);
 
-      document.getElementById("buzz").disabled = !canBuzz;
-      document.getElementById("reveal").disabled =
+      document.getElementById('buzz').disabled = !canBuzz;
+      document.getElementById('reveal').disabled =
         currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ||
         userId !== bonusEligibleTeamId;
 
       if (isPermanent) {
-        document.getElementById("category-select-button").disabled = true;
-        document.getElementById("toggle-enable-bonuses").disabled = true;
+        document.getElementById('category-select-button').disabled = true;
+        document.getElementById('toggle-enable-bonuses').disabled = true;
         document
-          .getElementById("permanent-room-warning")
-          .classList.remove("d-none");
-        document.getElementById("reading-speed").disabled = true;
-        document.getElementById("set-strictness").disabled = true;
-        document.getElementById("set-mode").disabled = true;
-        document.getElementById("toggle-public").disabled = true;
+          .getElementById('permanent-room-warning')
+          .classList.remove('d-none');
+        document.getElementById('reading-speed').disabled = true;
+        document.getElementById('set-strictness').disabled = true;
+        document.getElementById('set-mode').disabled = true;
+        document.getElementById('toggle-public').disabled = true;
       }
 
       for (const userId of Object.keys(players)) {
@@ -225,42 +225,42 @@ export const MultiplayerClientMixin = (ClientClass) =>
           this.room.ownerId,
           this.socket,
           this.room.public,
-          this.room.teams[teamId],
+          this.room.teams[teamId]
         );
       }
       this.sortPlayerListGroup();
 
-      document.getElementById("packet-length-info").textContent =
-        mode === MODE_ENUM.SET_NAME ? packetLength : "-";
+      document.getElementById('packet-length-info').textContent =
+        mode === MODE_ENUM.SET_NAME ? packetLength : '-';
 
       if (currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
         switch (tossupProgress) {
           case TOSSUP_PROGRESS_ENUM.NOT_STARTED:
-            document.getElementById("buzz").disabled = true;
-            document.getElementById("next").textContent = "Start";
-            document.getElementById("next").classList.remove("btn-primary");
-            document.getElementById("next").classList.add("btn-success");
+            document.getElementById('buzz').disabled = true;
+            document.getElementById('next').textContent = 'Start';
+            document.getElementById('next').classList.remove('btn-primary');
+            document.getElementById('next').classList.add('btn-success');
             break;
           case TOSSUP_PROGRESS_ENUM.READING:
-            document.getElementById("next").textContent = "Skip";
-            document.getElementById("settings").classList.add("d-none");
+            document.getElementById('next').textContent = 'Skip';
+            document.getElementById('settings').classList.add('d-none');
             if (buzzedIn) {
-              document.getElementById("buzz").disabled = true;
-              document.getElementById("next").disabled = true;
-              document.getElementById("pause").disabled = true;
+              document.getElementById('buzz').disabled = true;
+              document.getElementById('next').disabled = true;
+              document.getElementById('pause').disabled = true;
             } else {
-              document.getElementById("buzz").disabled = false;
-              document.getElementById("pause").disabled = false;
+              document.getElementById('buzz').disabled = false;
+              document.getElementById('pause').disabled = false;
             }
             break;
           case TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED:
-            document.getElementById("buzz").disabled = true;
-            document.getElementById("next").textContent = "Next";
-            document.getElementById("settings").classList.add("d-none");
+            document.getElementById('buzz').disabled = true;
+            document.getElementById('next').textContent = 'Next';
+            document.getElementById('settings').classList.add('d-none');
             break;
         }
       } else if (currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
-        document.getElementById("buzz").disabled = true;
+        document.getElementById('buzz').disabled = true;
       }
 
       this.toggleEnableBonuses({ enableBonuses: settings.enableBonuses });
@@ -281,53 +281,53 @@ export const MultiplayerClientMixin = (ClientClass) =>
       }
     }
 
-    async connectionAcknowledgedQuery({
+    async connectionAcknowledgedQuery ({
       difficulties = [],
       minYear,
       maxYear,
       packetNumbers = [],
       powermarkOnly,
-      setName = "",
+      setName = '',
       standardOnly,
       alternateSubcategories,
       categories,
       subcategories,
       percentView,
-      categoryPercents,
+      categoryPercents
     }) {
       this.setDifficulties({ difficulties });
 
       // need to set min year first to avoid conflicts between saved max year and default min year
-      setYear(minYear, "min-year");
-      setYear(maxYear, "max-year");
+      setYear(minYear, 'min-year');
+      setYear(maxYear, 'max-year');
 
-      document.getElementById("packet-number").value =
+      document.getElementById('packet-number').value =
         arrayToRange(packetNumbers);
-      document.getElementById("set-name").value = setName;
-      document.getElementById("toggle-powermark-only").checked = powermarkOnly;
+      document.getElementById('set-name').value = setName;
+      document.getElementById('toggle-powermark-only').checked = powermarkOnly;
 
-      if (setName !== "" && this.room.setLength === 0) {
-        document.getElementById("set-name").classList.add("is-invalid");
+      if (setName !== '' && this.room.setLength === 0) {
+        document.getElementById('set-name').classList.add('is-invalid');
       }
 
-      document.getElementById("toggle-standard-only").checked = standardOnly;
+      document.getElementById('toggle-standard-only').checked = standardOnly;
 
       this.setCategories({
         categories,
         subcategories,
         alternateSubcategories,
         percentView,
-        categoryPercents,
+        categoryPercents
       });
     }
 
-    connectionAcknowledgedQuestion({ currentQuestionType, question }) {
-      document.getElementById("set-name-info").textContent =
-        this.question?.set?.name ?? "";
-      document.getElementById("packet-number-info").textContent =
-        this.question?.packet?.number ?? "-";
-      document.getElementById("question-number-info").textContent =
-        this.question?.number ?? "-";
+    connectionAcknowledgedQuestion ({ currentQuestionType, question }) {
+      document.getElementById('set-name-info').textContent =
+        this.question?.set?.name ?? '';
+      document.getElementById('packet-number-info').textContent =
+        this.question?.packet?.number ?? '-';
+      document.getElementById('question-number-info').textContent =
+        this.question?.number ?? '-';
 
       if (currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
         this.room.tossup = question;
@@ -336,12 +336,12 @@ export const MultiplayerClientMixin = (ClientClass) =>
       }
     }
 
-    endCurrentBonus({
+    endCurrentBonus ({
       bonus,
       lastPartRevealed,
       pointsPerPart,
       starred,
-      teamId,
+      teamId
     }) {
       super.endCurrentBonus({ bonus, starred });
       if (lastPartRevealed) {
@@ -353,58 +353,58 @@ export const MultiplayerClientMixin = (ClientClass) =>
           this.room.ownerId,
           this.socket,
           this.room.public,
-          this.room.teams[teamId],
+          this.room.teams[teamId]
         );
         this.sortPlayerListGroup();
       }
     }
 
-    failedVotekickPoints({ userId }) {
+    failedVotekickPoints ({ userId }) {
       if (userId === this.USER_ID) {
         window.alert(
-          "You can only votekick once you have answered a question correctly!",
+          'You can only votekick once you have answered a question correctly!'
         );
       }
     }
 
-    forceUsername({ message, username }) {
+    forceUsername ({ message, username }) {
       window.alert(message);
-      window.localStorage.setItem("multiplayer-username", username);
-      document.querySelector("#username").value = username;
+      window.localStorage.setItem('multiplayer-username', username);
+      document.querySelector('#username').value = username;
     }
 
-    async giveBonusAnswer({
+    async giveBonusAnswer ({
       currentPartNumber,
       directive,
       directedPrompt,
       givenAnswer,
       score,
       userId,
-      username,
+      username
     }) {
       this.logGiveAnswer({
         directive,
         givenAnswer,
         questionType: QUESTION_TYPE_ENUM.BONUS,
-        username,
+        username
       });
-      if (directive === "prompt" && directedPrompt) {
+      if (directive === 'prompt' && directedPrompt) {
         this.logEventConditionally(
           username,
-          `was prompted with "${directedPrompt}"`,
+          `was prompted with "${directedPrompt}"`
         );
-      } else if (directive === "prompt") {
-        this.logEventConditionally(username, "was prompted");
+      } else if (directive === 'prompt') {
+        this.logEventConditionally(username, 'was prompted');
       }
       super.giveBonusAnswer({
         currentPartNumber,
         directive,
         directedPrompt,
-        userId,
+        userId
       });
     }
 
-    async giveTossupAnswer({
+    async giveTossupAnswer ({
       celerity,
       tossup,
       perQuestionCelerity,
@@ -413,25 +413,25 @@ export const MultiplayerClientMixin = (ClientClass) =>
       givenAnswer,
       score,
       userId,
-      username,
+      username
     }) {
       this.logGiveAnswer({
         directive,
         givenAnswer,
         questionType: QUESTION_TYPE_ENUM.TOSSUP,
-        username,
+        username
       });
-      if (directive === "prompt" && directedPrompt) {
+      if (directive === 'prompt' && directedPrompt) {
         this.logEventConditionally(
           username,
-          `was prompted with "${directedPrompt}"`,
+          `was prompted with "${directedPrompt}"`
         );
-      } else if (directive === "prompt") {
-        this.logEventConditionally(username, "was prompted");
+      } else if (directive === 'prompt') {
+        this.logEventConditionally(username, 'was prompted');
       } else {
         this.logEventConditionally(
           username,
-          `${score > 0 ? "" : "in"}correctly answered for ${score} points`,
+          `${score > 0 ? '' : 'in'}correctly answered for ${score} points`
         );
       }
       super.giveTossupAnswer({
@@ -440,28 +440,28 @@ export const MultiplayerClientMixin = (ClientClass) =>
         givenAnswer,
         score,
         userId,
-        username,
+        username
       });
 
-      if (directive === "prompt") {
+      if (directive === 'prompt') {
         return;
       }
 
-      document.getElementById("pause").disabled = false;
+      document.getElementById('pause').disabled = false;
 
-      if (directive === "accept") {
-        document.getElementById("buzz").disabled = true;
-        Array.from(document.getElementsByClassName("tuh")).forEach(
+      if (directive === 'accept') {
+        document.getElementById('buzz').disabled = true;
+        Array.from(document.getElementsByClassName('tuh')).forEach(
           (element) => {
             element.textContent = parseInt(element.innerHTML) + 1;
-          },
+          }
         );
         this.room.bonusEligibleTeamId = this.room.players[userId].teamId;
       }
 
-      if (directive === "reject") {
-        document.getElementById("buzz").disabled =
-          !document.getElementById("toggle-rebuzz").checked &&
+      if (directive === 'reject') {
+        document.getElementById('buzz').disabled =
+          !document.getElementById('toggle-rebuzz').checked &&
           userId === this.USER_ID;
       }
 
@@ -483,7 +483,7 @@ export const MultiplayerClientMixin = (ClientClass) =>
         this.room.ownerId,
         this.socket,
         this.room.public,
-        this.room.teams[this.room.players[userId].teamId],
+        this.room.teams[this.room.players[userId].teamId]
       );
       this.sortPlayerListGroup();
 
@@ -493,19 +493,19 @@ export const MultiplayerClientMixin = (ClientClass) =>
           celerity: perQuestionCelerity,
           isCorrect: score > 0,
           multiplayer: true,
-          pointValue: score,
+          pointValue: score
         });
       }
     }
 
-    handleError({ message }) {
+    handleError ({ message }) {
       this.socket.close(3000);
       window.alert(message);
-      window.location.href = "/multiplayer";
+      window.location.href = '/multiplayer';
     }
 
-    join({ isNew, team, user, userId, username }) {
-      this.logEventConditionally(username, "joined the game");
+    join ({ isNew, team, user, userId, username }) {
+      this.logEventConditionally(username, 'joined the game');
       if (userId === this.USER_ID) {
         return;
       }
@@ -520,29 +520,29 @@ export const MultiplayerClientMixin = (ClientClass) =>
           this.room.ownerId,
           this.socket,
           this.room.public,
-          this.room.teams[user.teamId],
+          this.room.teams[user.teamId]
         );
         this.sortPlayerListGroup();
       } else {
         document
           .getElementById(`list-group-${userId}`)
-          .classList.remove("offline");
-        document.getElementById("points-" + userId).classList.add("bg-success");
+          .classList.remove('offline');
+        document.getElementById('points-' + userId).classList.add('bg-success');
         document
-          .getElementById("points-" + userId)
-          .classList.remove("bg-secondary");
-        document.getElementById("username-" + userId).textContent = username;
+          .getElementById('points-' + userId)
+          .classList.remove('bg-secondary');
+        document.getElementById('username-' + userId).textContent = username;
       }
     }
 
-    leave({ userId, username }) {
-      this.logEventConditionally(username, "left the game");
+    leave ({ userId, username }) {
+      this.logEventConditionally(username, 'left the game');
       this.room.players[userId].online = false;
-      document.getElementById(`list-group-${userId}`).classList.add("offline");
+      document.getElementById(`list-group-${userId}`).classList.add('offline');
       document
         .getElementById(`points-${userId}`)
-        .classList.remove("bg-success");
-      document.getElementById(`points-${userId}`).classList.add("bg-secondary");
+        .classList.remove('bg-success');
+      document.getElementById(`points-${userId}`).classList.add('bg-secondary');
     }
 
     /**
@@ -551,119 +551,119 @@ export const MultiplayerClientMixin = (ClientClass) =>
      * @param {string | undefined} username
      * @param {string | undefined} message
      */
-    logEventConditionally(username, message) {
+    logEventConditionally (username, message) {
       if (username === undefined) {
         return;
       }
 
-      const span1 = document.createElement("span");
+      const span1 = document.createElement('span');
       span1.textContent = username;
 
-      const span2 = document.createElement("span");
+      const span2 = document.createElement('span');
       span2.textContent = message;
 
-      const i = document.createElement("i");
+      const i = document.createElement('i');
       i.appendChild(span1);
-      i.appendChild(document.createTextNode(" "));
+      i.appendChild(document.createTextNode(' '));
       i.appendChild(span2);
 
-      const li = document.createElement("li");
+      const li = document.createElement('li');
       li.appendChild(i);
 
-      document.getElementById("room-history").prepend(li);
+      document.getElementById('room-history').prepend(li);
     }
 
-    logGiveAnswer({ directive = null, givenAnswer, questionType, username }) {
-      const badge = document.createElement("span");
+    logGiveAnswer ({ directive = null, givenAnswer, questionType, username }) {
+      const badge = document.createElement('span');
       badge.textContent =
-        questionType === QUESTION_TYPE_ENUM.TOSSUP ? "Buzz" : "Answer";
+        questionType === QUESTION_TYPE_ENUM.TOSSUP ? 'Buzz' : 'Answer';
       switch (directive) {
-        case "accept":
-          badge.className = "badge text-dark bg-success";
+        case 'accept':
+          badge.className = 'badge text-dark bg-success';
           break;
-        case "reject":
-          badge.className = "badge text-light bg-danger";
+        case 'reject':
+          badge.className = 'badge text-light bg-danger';
           break;
-        case "prompt":
-          badge.className = "badge text-dark bg-warning";
+        case 'prompt':
+          badge.className = 'badge text-dark bg-warning';
           break;
         default:
-          badge.className = "badge text-light bg-primary";
+          badge.className = 'badge text-light bg-primary';
           break;
       }
 
-      const b = document.createElement("b");
+      const b = document.createElement('b');
       b.textContent = username;
 
-      const span = document.createElement("span");
+      const span = document.createElement('span');
       span.textContent = givenAnswer;
 
       let li;
-      if (document.getElementById("live-buzz")) {
-        li = document.getElementById("live-buzz");
-        li.textContent = "";
+      if (document.getElementById('live-buzz')) {
+        li = document.getElementById('live-buzz');
+        li.textContent = '';
       } else {
-        li = document.createElement("li");
-        li.id = "live-buzz";
-        document.getElementById("room-history").prepend(li);
+        li = document.createElement('li');
+        li.id = 'live-buzz';
+        document.getElementById('room-history').prepend(li);
       }
 
       li.appendChild(badge);
-      li.appendChild(document.createTextNode(" "));
+      li.appendChild(document.createTextNode(' '));
       li.appendChild(b);
-      li.appendChild(document.createTextNode(" "));
+      li.appendChild(document.createTextNode(' '));
       li.appendChild(span);
 
-      if (directive === "accept" || directive === "reject") {
-        const secondBadge = document.createElement("span");
+      if (directive === 'accept' || directive === 'reject') {
+        const secondBadge = document.createElement('span');
         secondBadge.className = badge.className;
 
-        if (directive === "accept") {
-          secondBadge.textContent = "Correct";
-        } else if (directive === "reject") {
-          secondBadge.textContent = "Incorrect";
+        if (directive === 'accept') {
+          secondBadge.textContent = 'Correct';
+        } else if (directive === 'reject') {
+          secondBadge.textContent = 'Incorrect';
         }
 
-        li.appendChild(document.createTextNode(" "));
+        li.appendChild(document.createTextNode(' '));
         li.appendChild(secondBadge);
       }
 
       if (directive) {
-        li.id = "";
+        li.id = '';
       }
     }
 
-    lostBuzzerRace({ username, userId }) {
-      this.logEventConditionally(username, "lost the buzzer race");
+    lostBuzzerRace ({ username, userId }) {
+      this.logEventConditionally(username, 'lost the buzzer race');
       if (userId === this.USER_ID) {
-        document.getElementById("answer-input-group").classList.add("d-none");
+        document.getElementById('answer-input-group').classList.add('d-none');
       }
     }
 
-    mutePlayer({ targetId, targetUsername, muteStatus }) {
-      if (muteStatus === "Mute") {
+    mutePlayer ({ targetId, targetUsername, muteStatus }) {
+      if (muteStatus === 'Mute') {
         if (!this.room.muteList.includes(targetId)) {
           this.room.muteList.push(targetId);
-          this.logEventConditionally(targetUsername, "was muted");
+          this.logEventConditionally(targetUsername, 'was muted');
         }
       } else {
         if (this.room.muteList.includes(targetId)) {
           this.room.muteList = this.room.muteList.filter(
-            (Id) => Id !== targetId,
+            (Id) => Id !== targetId
           );
-          this.logEventConditionally(targetUsername, "was unmuted");
+          this.logEventConditionally(targetUsername, 'was unmuted');
         }
       }
     }
 
-    ownerChange({ newOwner }) {
+    ownerChange ({ newOwner }) {
       if (this.room.players[newOwner]) {
         this.room.ownerId = newOwner;
         this.logEventConditionally(
           this.room.players[newOwner].username,
-          "became the room owner",
+          'became the room owner'
         );
-      } else this.logEventConditionally(newOwner, "became the room owner");
+      } else this.logEventConditionally(newOwner, 'became the room owner');
 
       Object.keys(this.room.players).forEach((player) => {
         upsertPlayerItem(
@@ -672,163 +672,163 @@ export const MultiplayerClientMixin = (ClientClass) =>
           this.room.ownerId,
           this.socket,
           this.room.public,
-          this.room.teams[this.room.players[player].teamId],
+          this.room.teams[this.room.players[player].teamId]
         );
       });
 
-      document.getElementById("toggle-controlled").disabled =
+      document.getElementById('toggle-controlled').disabled =
         this.room.public || this.room.ownerId !== this.USER_ID;
     }
 
-    pause({ paused, username }) {
+    pause ({ paused, username }) {
       this.logEventConditionally(
         username,
-        `${paused ? "" : "un"}paused the game`,
+        `${paused ? '' : 'un'}paused the game`
       );
       super.pause({ paused });
     }
 
-    revealAnswer({ answer, question }) {
+    revealAnswer ({ answer, question }) {
       super.revealAnswer({ answer, question });
-      document.getElementById("next").textContent = "Next";
-      document.getElementById("next").disabled = false;
+      document.getElementById('next').textContent = 'Next';
+      document.getElementById('next').disabled = false;
     }
 
-    revealNextAnswer({ answer, currentPartNumber, lastPartRevealed }) {
+    revealNextAnswer ({ answer, currentPartNumber, lastPartRevealed }) {
       super.revealNextAnswer({ answer, currentPartNumber, lastPartRevealed });
       if (lastPartRevealed) {
-        document.getElementById("next").textContent = "Next";
-        document.getElementById("next").disabled = false;
+        document.getElementById('next').textContent = 'Next';
+        document.getElementById('next').disabled = false;
       }
     }
 
-    setCategories({
+    setCategories ({
       alternateSubcategories,
       categories,
       subcategories,
       percentView,
       categoryPercents,
-      username,
+      username
     }) {
-      this.logEventConditionally(username, "updated the categories");
+      this.logEventConditionally(username, 'updated the categories');
       this.room.categoryManager.import({
         categories,
         subcategories,
         alternateSubcategories,
         percentView,
-        categoryPercents,
+        categoryPercents
       });
-      if (!document.getElementById("category-modal")) {
+      if (!document.getElementById('category-modal')) {
         return;
       }
       super.setCategories();
     }
 
-    setDifficulties({ difficulties, username = undefined }) {
+    setDifficulties ({ difficulties, username = undefined }) {
       this.logEventConditionally(
         username,
         difficulties.length > 0
           ? `set the difficulties to ${difficulties}`
-          : "cleared the difficulties",
+          : 'cleared the difficulties'
       );
 
-      if (!document.getElementById("difficulties")) {
+      if (!document.getElementById('difficulties')) {
         this.room.difficulties = difficulties;
         return;
       }
 
-      Array.from(document.getElementById("difficulties").children).forEach(
+      Array.from(document.getElementById('difficulties').children).forEach(
         (li) => {
-          const input = li.querySelector("input");
+          const input = li.querySelector('input');
           if (difficulties.includes(parseInt(input.value))) {
             input.checked = true;
-            li.classList.add("active");
+            li.classList.add('active');
           } else {
             input.checked = false;
-            li.classList.remove("active");
+            li.classList.remove('active');
           }
-        },
+        }
       );
     }
 
-    setMinYear({ minYear, username }) {
+    setMinYear ({ minYear, username }) {
       const maxYear = parseInt(
-        document.getElementById("max-year-label").textContent,
+        document.getElementById('max-year-label').textContent
       );
       this.logEventConditionally(
         username,
-        `changed the year range to ${minYear}-${maxYear}`,
+        `changed the year range to ${minYear}-${maxYear}`
       );
       super.setMinYear({ minYear });
     }
 
-    setMaxYear({ maxYear, username }) {
+    setMaxYear ({ maxYear, username }) {
       const minYear = parseInt(
-        document.getElementById("min-year-label").textContent,
+        document.getElementById('min-year-label').textContent
       );
       this.logEventConditionally(
         username,
-        `changed the year range to ${minYear}-${maxYear}`,
+        `changed the year range to ${minYear}-${maxYear}`
       );
       super.setMaxYear({ maxYear });
     }
 
-    setMode({ mode, username }) {
-      this.logEventConditionally(username, "changed the mode to " + mode);
+    setMode ({ mode, username }) {
+      this.logEventConditionally(username, 'changed the mode to ' + mode);
       this.room.mode = mode;
       super.setMode({ mode });
     }
 
-    setPacketNumbers({ username, packetNumbers }) {
+    setPacketNumbers ({ username, packetNumbers }) {
       super.setPacketNumbers({ packetNumbers });
       this.logEventConditionally(
         username,
         packetNumbers.length > 0
           ? `changed packet numbers to ${arrayToRange(packetNumbers)}`
-          : "cleared packet numbers",
+          : 'cleared packet numbers'
       );
     }
 
-    setReadingSpeed({ username, readingSpeed }) {
+    setReadingSpeed ({ username, readingSpeed }) {
       super.setReadingSpeed({ readingSpeed });
       this.logEventConditionally(
         username,
-        `changed the reading speed to ${readingSpeed}`,
+        `changed the reading speed to ${readingSpeed}`
       );
     }
 
-    setStrictness({ strictness, username }) {
+    setStrictness ({ strictness, username }) {
       this.logEventConditionally(
         username,
-        `changed the strictness to ${strictness}`,
+        `changed the strictness to ${strictness}`
       );
       super.setStrictness({ strictness });
     }
 
-    setSetName({ username, setName, setLength }) {
+    setSetName ({ username, setName, setLength }) {
       this.logEventConditionally(
         username,
         setName.length > 0
           ? `changed set name to ${setName}`
-          : "cleared set name",
+          : 'cleared set name'
       );
       this.room.setLength = setLength;
       super.setSetName({ setName, setLength });
     }
 
-    setUsername({ oldUsername, newUsername, userId }) {
+    setUsername ({ oldUsername, newUsername, userId }) {
       this.logEventConditionally(
         oldUsername,
-        `changed their username to ${newUsername}`,
+        `changed their username to ${newUsername}`
       );
-      document.getElementById("username-" + userId).textContent = newUsername;
+      document.getElementById('username-' + userId).textContent = newUsername;
       this.room.players[userId].username = newUsername;
       this.sortPlayerListGroup();
 
       if (userId === this.USER_ID) {
         this.room.username = newUsername;
-        window.localStorage.setItem("multiplayer-username", this.room.username);
-        document.getElementById("username").value = this.room.username;
+        window.localStorage.setItem('multiplayer-username', this.room.username);
+        document.getElementById('username').value = this.room.username;
       }
       upsertPlayerItem(
         this.room.players[userId],
@@ -836,31 +836,31 @@ export const MultiplayerClientMixin = (ClientClass) =>
         this.room.ownerId,
         this.socket,
         this.room.public,
-        this.room.teams[this.room.players[userId].teamId],
+        this.room.teams[this.room.players[userId].teamId]
       );
     }
 
-    sortPlayerListGroup(descending = true) {
-      const listGroup = document.getElementById("player-list-group");
+    sortPlayerListGroup (descending = true) {
+      const listGroup = document.getElementById('player-list-group');
       const items = Array.from(listGroup.children);
-      const offset = "list-group-".length;
+      const offset = 'list-group-'.length;
       items
         .sort((a, b) => {
           const aPoints = parseInt(
-            document.getElementById("points-" + a.id.substring(offset))
-              .textContent,
+            document.getElementById('points-' + a.id.substring(offset))
+              .textContent
           );
           const bPoints = parseInt(
-            document.getElementById("points-" + b.id.substring(offset))
-              .textContent,
+            document.getElementById('points-' + b.id.substring(offset))
+              .textContent
           );
           // if points are equal, sort alphabetically by username
           if (aPoints === bPoints) {
             const aUsername = document.getElementById(
-              "username-" + a.id.substring(offset),
+              'username-' + a.id.substring(offset)
             ).textContent;
             const bUsername = document.getElementById(
-              "username-" + b.id.substring(offset),
+              'username-' + b.id.substring(offset)
             ).textContent;
             return descending
               ? aUsername.localeCompare(bUsername)
@@ -873,138 +873,138 @@ export const MultiplayerClientMixin = (ClientClass) =>
         });
     }
 
-    startNextQuestion({ packetLength, question }) {
-      document.getElementById("next").classList.add("btn-primary");
-      document.getElementById("next").classList.remove("btn-success");
-      document.getElementById("next").textContent = "Skip";
+    startNextQuestion ({ packetLength, question }) {
+      document.getElementById('next').classList.add('btn-primary');
+      document.getElementById('next').classList.remove('btn-success');
+      document.getElementById('next').textContent = 'Skip';
       super.startNextQuestion({ packetLength, question });
     }
 
-    startNextBonus({ bonus, packetLength, username }) {
-      this.logEventConditionally(username, "started the next bonus");
+    startNextBonus ({ bonus, packetLength, username }) {
+      this.logEventConditionally(username, 'started the next bonus');
       super.startNextBonus({ bonus, packetLength });
     }
 
-    startNextTossup({ tossup, packetLength, username }) {
-      this.logEventConditionally(username, "started the next tossup");
+    startNextTossup ({ tossup, packetLength, username }) {
+      this.logEventConditionally(username, 'started the next tossup');
       super.startNextTossup({ tossup, packetLength });
     }
 
-    toggleControlled({ controlled, username }) {
+    toggleControlled ({ controlled, username }) {
       this.logEventConditionally(
         username,
-        `${controlled ? "enabled" : "disabled"} controlled mode`,
+        `${controlled ? 'enabled' : 'disabled'} controlled mode`
       );
 
-      document.getElementById("toggle-controlled").checked = controlled;
+      document.getElementById('toggle-controlled').checked = controlled;
       document
-        .getElementById("controlled-room-warning")
-        .classList.toggle("d-none", !controlled);
-      document.getElementById("toggle-public").disabled = controlled;
+        .getElementById('controlled-room-warning')
+        .classList.toggle('d-none', !controlled);
+      document.getElementById('toggle-public').disabled = controlled;
 
       controlled = controlled && this.USER_ID !== this.room.ownerId;
-      document.getElementById("toggle-enable-bonuses").disabled = controlled;
-      document.getElementById("toggle-lock").disabled = controlled;
-      document.getElementById("toggle-login-required").disabled = controlled;
-      document.getElementById("toggle-timer").disabled = controlled;
-      document.getElementById("toggle-powermark-only").disabled = controlled;
-      document.getElementById("toggle-rebuzz").disabled = controlled;
-      document.getElementById("toggle-skip").disabled = controlled;
-      document.getElementById("toggle-standard-only").disabled = controlled;
-      document.getElementById("category-select-button").disabled = controlled;
-      document.getElementById("reading-speed").disabled = controlled;
-      document.getElementById("set-mode").disabled = controlled;
-      document.getElementById("set-strictness").disabled = controlled;
+      document.getElementById('toggle-enable-bonuses').disabled = controlled;
+      document.getElementById('toggle-lock').disabled = controlled;
+      document.getElementById('toggle-login-required').disabled = controlled;
+      document.getElementById('toggle-timer').disabled = controlled;
+      document.getElementById('toggle-powermark-only').disabled = controlled;
+      document.getElementById('toggle-rebuzz').disabled = controlled;
+      document.getElementById('toggle-skip').disabled = controlled;
+      document.getElementById('toggle-standard-only').disabled = controlled;
+      document.getElementById('category-select-button').disabled = controlled;
+      document.getElementById('reading-speed').disabled = controlled;
+      document.getElementById('set-mode').disabled = controlled;
+      document.getElementById('set-strictness').disabled = controlled;
     }
 
-    toggleEnableBonuses({ enableBonuses, username }) {
+    toggleEnableBonuses ({ enableBonuses, username }) {
       this.logEventConditionally(
         username,
-        `${enableBonuses ? "enabled" : "disabled"} bonuses`,
+        `${enableBonuses ? 'enabled' : 'disabled'} bonuses`
       );
       super.toggleEnableBonuses({ enableBonuses });
     }
 
-    toggleLock({ lock, username }) {
+    toggleLock ({ lock, username }) {
       this.logEventConditionally(
         username,
-        `${lock ? "locked" : "unlocked"} the room`,
+        `${lock ? 'locked' : 'unlocked'} the room`
       );
-      document.getElementById("toggle-lock").checked = lock;
+      document.getElementById('toggle-lock').checked = lock;
     }
 
-    toggleLoginRequired({ loginRequired, username }) {
+    toggleLoginRequired ({ loginRequired, username }) {
       this.logEventConditionally(
         username,
-        `${loginRequired ? "enabled" : "disabled"} requiring players to be logged in`,
+        `${loginRequired ? 'enabled' : 'disabled'} requiring players to be logged in`
       );
-      document.getElementById("toggle-login-required").checked = loginRequired;
+      document.getElementById('toggle-login-required').checked = loginRequired;
     }
 
-    togglePowermarkOnly({ powermarkOnly, username }) {
+    togglePowermarkOnly ({ powermarkOnly, username }) {
       this.logEventConditionally(
         username,
-        `${powermarkOnly ? "enabled" : "disabled"} powermark only`,
+        `${powermarkOnly ? 'enabled' : 'disabled'} powermark only`
       );
       super.togglePowermarkOnly({ powermarkOnly });
     }
 
-    toggleRebuzz({ rebuzz, username }) {
+    toggleRebuzz ({ rebuzz, username }) {
       this.logEventConditionally(
         username,
-        `${rebuzz ? "enabled" : "disabled"} multiple buzzes (effective next question)`,
+        `${rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`
       );
       super.toggleRebuzz({ rebuzz });
     }
 
-    toggleSkip({ skip, username }) {
+    toggleSkip ({ skip, username }) {
       this.logEventConditionally(
         username,
-        `${skip ? "enabled" : "disabled"} skipping`,
+        `${skip ? 'enabled' : 'disabled'} skipping`
       );
       super.toggleSkip({ skip });
     }
 
-    toggleStandardOnly({ standardOnly, username }) {
+    toggleStandardOnly ({ standardOnly, username }) {
       this.logEventConditionally(
         username,
-        `${standardOnly ? "enabled" : "disabled"} standard format only`,
+        `${standardOnly ? 'enabled' : 'disabled'} standard format only`
       );
       super.toggleStandardOnly({ standardOnly });
     }
 
-    toggleTimer({ timer, username }) {
+    toggleTimer ({ timer, username }) {
       this.logEventConditionally(
         username,
-        `${timer ? "enabled" : "disabled"} the timer`,
+        `${timer ? 'enabled' : 'disabled'} the timer`
       );
       super.toggleTimer({ timer });
     }
 
-    toggleThreePartBonuses({ threePartBonuses, username }) {
+    toggleThreePartBonuses ({ threePartBonuses, username }) {
       this.logEventConditionally(
         username,
-        `${threePartBonuses ? "enabled" : "disabled"} three-part bonuses only`,
+        `${threePartBonuses ? 'enabled' : 'disabled'} three-part bonuses only`
       );
       super.toggleThreePartBonuses({ threePartBonuses });
     }
 
-    togglePublic({ public: isPublic, username }) {
+    togglePublic ({ public: isPublic, username }) {
       this.logEventConditionally(
         username,
-        `made the room ${isPublic ? "public" : "private"}`,
+        `made the room ${isPublic ? 'public' : 'private'}`
       );
-      document.getElementById("chat").disabled = isPublic;
-      document.getElementById("toggle-controlled").disabled =
+      document.getElementById('chat').disabled = isPublic;
+      document.getElementById('toggle-controlled').disabled =
         isPublic || this.room.ownerId !== this.USER_ID;
-      document.getElementById("toggle-lock").disabled = isPublic;
-      document.getElementById("toggle-login-required").disabled = isPublic;
-      document.getElementById("toggle-public").checked = isPublic;
-      document.getElementById("toggle-timer").disabled = isPublic;
+      document.getElementById('toggle-lock').disabled = isPublic;
+      document.getElementById('toggle-login-required').disabled = isPublic;
+      document.getElementById('toggle-public').checked = isPublic;
+      document.getElementById('toggle-timer').disabled = isPublic;
       this.room.public = isPublic;
       if (isPublic) {
-        document.getElementById("toggle-lock").checked = false;
-        document.getElementById("toggle-login-required").checked = false;
+        document.getElementById('toggle-lock').checked = false;
+        document.getElementById('toggle-login-required').checked = false;
         this.toggleTimer({ timer: true });
       }
       Object.keys(this.room.players).forEach((player) => {
@@ -1014,33 +1014,33 @@ export const MultiplayerClientMixin = (ClientClass) =>
           this.room.ownerId,
           this.socket,
           this.room.public,
-          this.room.teams[this.room.players[player].teamId],
+          this.room.teams[this.room.players[player].teamId]
         );
       });
     }
 
-    stopOnPower({ stopOnPower: stopOnPower, username }) {
+    stopOnPower ({ stopOnPower, username }) {
       this.logEventConditionally(
         username,
-        `${stopOnPower ? "enabled" : "disabled"} stop on power`,
+        `${stopOnPower ? 'enabled' : 'disabled'} stop on power`
       );
     }
 
-    vkInit({ targetUsername, threshold }) {
+    vkInit ({ targetUsername, threshold }) {
       this.logEventConditionally(
-        `A votekick has been started against user ${targetUsername} and needs ${threshold} votes to succeed.`,
+        `A votekick has been started against user ${targetUsername} and needs ${threshold} votes to succeed.`
       );
     }
 
-    vkHandle({ targetUsername, targetId }) {
+    vkHandle ({ targetUsername, targetId }) {
       if (this.USER_ID === targetId) {
-        window.alert("You were vote kicked from this room by others.");
+        window.alert('You were vote kicked from this room by others.');
         setTimeout(() => {
-          window.location.replace("../");
+          window.location.replace('../');
         }, 100);
       } else {
         this.logEventConditionally(
-          targetUsername + " has been vote kicked from this room.",
+          targetUsername + ' has been vote kicked from this room.'
         );
       }
     }
