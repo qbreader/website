@@ -2,7 +2,9 @@ import { BonusClientMixin } from './BonusClient.js';
 import { TossupClientMixin } from './TossupClient.js';
 import QuestionClient from './QuestionClient.js';
 
-export default class TossupBonusClient extends BonusClientMixin(TossupClientMixin(QuestionClient)) {
+export default class TossupBonusClient extends BonusClientMixin(
+  TossupClientMixin(QuestionClient)
+) {
   constructor (room, userId, socket) {
     super(room, userId, socket);
     attachEventListeners(room, socket);
@@ -11,8 +13,10 @@ export default class TossupBonusClient extends BonusClientMixin(TossupClientMixi
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'toggle-enable-bonuses': return this.toggleEnableBonuses(data);
-      default: return super.onmessage(message);
+      case 'toggle-enable-bonuses':
+        return this.toggleEnableBonuses(data);
+      default:
+        return super.onmessage(message);
     }
   }
 
@@ -27,8 +31,13 @@ export default class TossupBonusClient extends BonusClientMixin(TossupClientMixi
 }
 
 function attachEventListeners (room, socket) {
-  document.getElementById('toggle-enable-bonuses').addEventListener('click', function () {
-    this.blur();
-    socket.sendToServer({ type: 'toggle-enable-bonuses', enableBonuses: this.checked });
-  });
+  document
+    .getElementById('toggle-enable-bonuses')
+    .addEventListener('click', function () {
+      this.blur();
+      socket.sendToServer({
+        type: 'toggle-enable-bonuses',
+        enableBonuses: this.checked
+      });
+    });
 }
