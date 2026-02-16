@@ -33,7 +33,7 @@ export default class SoloBonusRoom extends BonusRoom {
     this.checkAnswer = api.checkAnswer;
     this.getRandomBonuses = api.getRandomBonus;
     this.getPacket = getPacket;
-    this.getRandomStarredQuestion = getRandomStarredBonus;
+    this.getStarredBonus = getRandomStarredBonus;
     this.getPacketCount = api.getNumPackets;
 
     this.settings = {
