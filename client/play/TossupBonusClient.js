@@ -12,7 +12,7 @@ export default class TossupBonusClient extends BonusClientMixin(TossupClientMixi
 		const data = JSON.parse(message);
 		switch (data.type) {
 			case 'toggle-enable-bonuses': return this.toggleEnableBonuses(data);
-			case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
+			// case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
 			default: return super.onmessage(message);
 		}
 	}
@@ -26,9 +26,9 @@ export default class TossupBonusClient extends BonusClientMixin(TossupClientMixi
 		document.getElementById('toggle-enable-bonuses').checked = enableBonuses;
 	}
 
-	toggleStopOnPower({ stopOnPower }) {
-		document.getElementById('toggle-stop-on-power').checked = stopOnPower;
-	}
+	// toggleStopOnPower({ stopOnPower }) {
+	// document.getElementById('toggle-stop-on-power').checked = stopOnPower;
+	// }
 }
 
 function attachEventListeners(room, socket) {
@@ -37,8 +37,8 @@ function attachEventListeners(room, socket) {
 		socket.sendToServer({ type: 'toggle-enable-bonuses', enableBonuses: this.checked });
 	});
 
-	document.getElementById('toggle-stop-on-power').addEventListener('click', function() {
-		this.blur();
-		socket.sendToServer({ type: 'toggle-stop-on-power', stopOnPower: this.checked });
-	});
+	// document.getElementById('toggle-stop-on-power').addEventListener('click', function() {
+	// this.blur();
+	// socket.sendToServer({ type: 'toggle-stop-on-power', stopOnPower: this.checked });
+	// });
 }
