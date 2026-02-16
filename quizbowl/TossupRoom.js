@@ -25,6 +25,7 @@ export const TossupRoomMixin = (QuestionRoomClass) =>
       this.paused = false;
       this.questionSplit = [];
       this.tossup = {};
+      this.stopOnPowerEnded = false;
       this.tossupProgress = TOSSUP_PROGRESS_ENUM.NOT_STARTED;
       this.wordIndex = 0;
 
@@ -273,6 +274,7 @@ export const TossupRoomMixin = (QuestionRoomClass) =>
 
       // stop reading and start timer if power and stopOnPower is enabled
       if ((word === "(*)" || word === "[*]") && this.settings.stopOnPower) {
+        this.stopOnPowerEnded = true;
         this.startServerTimer(
           DEAD_TIME_LIMIT * 10,
           (time) =>
@@ -333,7 +335,9 @@ export const TossupRoomMixin = (QuestionRoomClass) =>
       const celerity =
         this.questionSplit.slice(this.wordIndex).join(" ").length /
         this.tossup.question.length;
-      const endOfQuestion = this.wordIndex === this.questionSplit.length;
+      const endOfQuestion = this.settings.stopOnPower
+        ? this.stopOnPowerEnded
+        : this.wordIndex === this.questionSplit.length;
       const inPower =
         Math.max(
           this.questionSplit.indexOf("(*)"),
@@ -345,13 +349,19 @@ export const TossupRoomMixin = (QuestionRoomClass) =>
         this.settings.strictness,
       );
       const isCorrect = directive === "accept";
-      const points = isCorrect
-        ? inPower
-          ? this.previousTossup.powerValue
-          : 10
-        : endOfQuestion
-          ? 0
-          : this.previousTossup.negValue;
+      const points = this.settings.stopOnPower
+        ? isCorrect
+          ? 10
+          : this.stopOnPowerEnded
+            ? 0
+            : this.previousTossup.negValue
+        : isCorrect
+          ? inPower
+            ? this.previousTossup.powerValue
+            : 10
+          : endOfQuestion
+            ? 0
+            : this.previousTossup.negValue;
 
       this.previousTossup = {
         ...this.previousTossup,
