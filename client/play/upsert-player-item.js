@@ -5,9 +5,10 @@ import { escapeHTML } from '../scripts/utilities/strings.js';
  * @param {Player} player
  * @param {string} USER_ID - The item is highlighted blue if `USER_ID === player.userId`.
  * @param {string} ownerId - ID of the room owner
+ * @param {Object} room - The room object containing distractionFreeMode flag
  */
 // overall handling of some of these mechanics in the upsertion section might not be best idea? works though
-export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic, team) {
+export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic, team, room) {
   if (!player || !player.userId || !player.username) {
     console.error('Player or player.userId or player.username is undefined', { player });
     return;
@@ -23,6 +24,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
 
   const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
   const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
+  const displayUsername = window.getDisplayName ? window.getDisplayName(username, room?.distractionFreeMode || false) : username;
 
   const { bonusStats = { 0: 0, 10: 0, 20: 0, 30: 0 } } = team;
   const bonusPoints = Object.entries(bonusStats).map(([pointValue, count]) => pointValue * count).reduce((a, b) => a + b, 0);
@@ -38,12 +40,12 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   const playerItem = document.createElement('a');
   playerItem.className = `list-group-item clickable ${userId === USER_ID ? 'user-score' : ''} ${online === false && 'offline'}`;
   playerItem.id = `list-group-${userId}`;
-  const displayUsername = (playerIsOwner && !isPublic) ? `👑 ${username}` : username;
+  const crownDisplayUsername = (playerIsOwner && !isPublic) ? `👑 ${displayUsername}` : displayUsername;
 
   playerItem.innerHTML = `
   <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center">
-          <span id="username-${userId}" class="me-1">${displayUsername}</span>
+          <span id="username-${userId}" class="me-1">${crownDisplayUsername}</span>
           <!-- Dropdown  -->
       </div>
       <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points + bonusPoints}</span></span>

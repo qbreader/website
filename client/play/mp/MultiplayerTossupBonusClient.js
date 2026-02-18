@@ -56,7 +56,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   buzz ({ userId, username }) {
-    this.logEventConditionally(username, 'buzzed');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, 'buzzed');
     if (userId === this.USER_ID) {
       document.getElementById('answer-input-group').classList.remove('d-none');
       document.getElementById('answer-input').focus();
@@ -65,6 +66,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   chat ({ message, userId, username }, live = false) {
+    if (this.room.distractionFreeMode) {
+      return;
+    }
     if (this.room.muteList.includes(userId)) {
       return;
     }
@@ -103,7 +107,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
       this.room.players[userId][field] = 0;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId], this.room);
     this.sortPlayerListGroup();
   }
 
@@ -160,7 +164,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       players[userId].celerity = players[userId].celerity.correct.average;
       this.room.players[userId] = players[userId];
       this.room.teams[teamId] = teams[teamId];
-      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
+      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId], this.room);
     }
     this.sortPlayerListGroup();
 
@@ -264,7 +268,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     if (lastPartRevealed) {
       const points = pointsPerPart.reduce((a, b) => a + b, 0);
       this.room.teams[teamId].bonusStats[points]++;
-      upsertPlayerItem(this.room.players[teamId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
+      upsertPlayerItem(this.room.players[teamId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId], this.room);
       this.sortPlayerListGroup();
     }
   }
@@ -282,23 +286,25 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   async giveBonusAnswer ({ currentPartNumber, directive, directedPrompt, givenAnswer, score, userId, username }) {
-    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.BONUS, username });
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.BONUS, username: displayName });
     if (directive === 'prompt' && directedPrompt) {
-      this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
+      this.logEventConditionally(displayName, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
-      this.logEventConditionally(username, 'was prompted');
+      this.logEventConditionally(displayName, 'was prompted');
     }
     super.giveBonusAnswer({ currentPartNumber, directive, directedPrompt, userId });
   }
 
   async giveTossupAnswer ({ celerity, tossup, perQuestionCelerity, directive, directedPrompt, givenAnswer, score, userId, username }) {
-    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, username });
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, username: displayName });
     if (directive === 'prompt' && directedPrompt) {
-      this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
+      this.logEventConditionally(displayName, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
-      this.logEventConditionally(username, 'was prompted');
+      this.logEventConditionally(displayName, 'was prompted');
     } else {
-      this.logEventConditionally(username, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
+      this.logEventConditionally(displayName, `${score > 0 ? '' : 'in'}correctly answered for ${score} points`);
     }
     super.giveTossupAnswer({ directive, directedPrompt, givenAnswer, score, userId, username });
 
@@ -330,7 +336,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.room.players[userId].tuh++;
     this.room.players[userId].celerity = celerity;
 
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId], this.room);
     this.sortPlayerListGroup();
 
     if (userId === this.USER_ID) {
@@ -351,14 +357,15 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   join ({ isNew, team, user, userId, username }) {
-    this.logEventConditionally(username, 'joined the game');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, 'joined the game');
     if (userId === this.USER_ID) { return; }
     this.room.players[userId] = user;
     this.room.teams[user.teamId] = team;
 
     if (isNew) {
       user.celerity = user.celerity.correct.average;
-      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[user.teamId]);
+      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[user.teamId], this.room);
       this.sortPlayerListGroup();
     } else {
       document.getElementById(`list-group-${userId}`).classList.remove('offline');
@@ -369,7 +376,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   leave ({ userId, username }) {
-    this.logEventConditionally(username, 'left the game');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, 'left the game');
     this.room.players[userId].online = false;
     document.getElementById(`list-group-${userId}`).classList.add('offline');
     document.getElementById(`points-${userId}`).classList.remove('bg-success');
@@ -403,6 +411,10 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   logGiveAnswer ({ directive = null, givenAnswer, questionType, username }) {
+    // Transform username based on distraction-free mode
+    const displayName = (window.getDisplayName && this.room?.distractionFreeMode) 
+      ? window.getDisplayName(username, this.room.distractionFreeMode) 
+      : username;
     const badge = document.createElement('span');
     badge.textContent = questionType === QUESTION_TYPE_ENUM.TOSSUP ? 'Buzz' : 'Answer';
     switch (directive) {
@@ -421,7 +433,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     }
 
     const b = document.createElement('b');
-    b.textContent = username;
+    b.textContent = displayName;
 
     const span = document.createElement('span');
     span.textContent = givenAnswer;
@@ -460,7 +472,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   lostBuzzerRace ({ username, userId }) {
-    this.logEventConditionally(username, 'lost the buzzer race');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, 'lost the buzzer race');
     if (userId === this.USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
   }
 
@@ -481,18 +494,20 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   ownerChange ({ newOwner }) {
     if (this.room.players[newOwner]) {
       this.room.ownerId = newOwner;
-      this.logEventConditionally(this.room.players[newOwner].username, 'became the room owner');
+      const displayName = window.getDisplayName ? window.getDisplayName(this.room.players[newOwner].username, this.room?.distractionFreeMode || false) : this.room.players[newOwner].username;
+      this.logEventConditionally(displayName, 'became the room owner');
     } else this.logEventConditionally(newOwner, 'became the room owner');
 
     Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
+      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId], this.room);
     });
 
     document.getElementById('toggle-controlled').disabled = this.room.public || (this.room.ownerId !== this.USER_ID);
   }
 
   pause ({ paused, username }) {
-    this.logEventConditionally(username, `${paused ? '' : 'un'}paused the game`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${paused ? '' : 'un'}paused the game`);
     super.pause({ paused });
   }
 
@@ -511,14 +526,16 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents, username }) {
-    this.logEventConditionally(username, 'updated the categories');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, 'updated the categories');
     this.room.categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
     if (!document.getElementById('category-modal')) { return; }
     super.setCategories();
   }
 
   setDifficulties ({ difficulties, username = undefined }) {
-    this.logEventConditionally(username, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties');
+    const displayName = username ? (window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username) : username;
+    this.logEventConditionally(displayName, difficulties.length > 0 ? `set the difficulties to ${difficulties}` : 'cleared the difficulties');
 
     if (!document.getElementById('difficulties')) {
       this.room.difficulties = difficulties;
@@ -538,46 +555,55 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   setMinYear ({ minYear, username }) {
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
     const maxYear = parseInt(document.getElementById('max-year-label').textContent);
-    this.logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`);
+    this.logEventConditionally(displayName, `changed the year range to ${minYear}-${maxYear}`);
     super.setMinYear({ minYear });
   }
 
   setMaxYear ({ maxYear, username }) {
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
     const minYear = parseInt(document.getElementById('min-year-label').textContent);
-    this.logEventConditionally(username, `changed the year range to ${minYear}-${maxYear}`);
+    this.logEventConditionally(displayName, `changed the year range to ${minYear}-${maxYear}`);
     super.setMaxYear({ maxYear });
   }
 
   setMode ({ mode, username }) {
-    this.logEventConditionally(username, 'changed the mode to ' + mode);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, 'changed the mode to ' + mode);
     this.room.mode = mode;
     super.setMode({ mode });
   }
 
   setPacketNumbers ({ username, packetNumbers }) {
     super.setPacketNumbers({ packetNumbers });
-    this.logEventConditionally(username, packetNumbers.length > 0 ? `changed packet numbers to ${arrayToRange(packetNumbers)}` : 'cleared packet numbers');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, packetNumbers.length > 0 ? `changed packet numbers to ${arrayToRange(packetNumbers)}` : 'cleared packet numbers');
   }
 
   setReadingSpeed ({ username, readingSpeed }) {
     super.setReadingSpeed({ readingSpeed });
-    this.logEventConditionally(username, `changed the reading speed to ${readingSpeed}`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `changed the reading speed to ${readingSpeed}`);
   }
 
   setStrictness ({ strictness, username }) {
-    this.logEventConditionally(username, `changed the strictness to ${strictness}`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `changed the strictness to ${strictness}`);
     super.setStrictness({ strictness });
   }
 
   setSetName ({ username, setName, setLength }) {
-    this.logEventConditionally(username, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, setName.length > 0 ? `changed set name to ${setName}` : 'cleared set name');
     this.room.setLength = setLength;
     super.setSetName({ setName, setLength });
   }
 
   setUsername ({ oldUsername, newUsername, userId }) {
-    this.logEventConditionally(oldUsername, `changed their username to ${newUsername}`);
+    const displayOldName = window.getDisplayName ? window.getDisplayName(oldUsername, this.room?.distractionFreeMode || false) : oldUsername;
+    const displayNewName = window.getDisplayName ? window.getDisplayName(newUsername, this.room?.distractionFreeMode || false) : newUsername;
+    this.logEventConditionally(displayOldName, `changed their username to ${displayNewName}`);
     document.getElementById('username-' + userId).textContent = newUsername;
     this.room.players[userId].username = newUsername;
     this.sortPlayerListGroup();
@@ -587,7 +613,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       window.localStorage.setItem('multiplayer-username', this.room.username);
       document.getElementById('username').value = this.room.username;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId], this.room);
   }
 
   sortPlayerListGroup (descending = true) {
@@ -617,17 +643,20 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   startNextBonus ({ bonus, packetLength, username }) {
-    this.logEventConditionally(username, 'started the next bonus');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, 'started the next bonus');
     super.startNextBonus({ bonus, packetLength });
   }
 
   startNextTossup ({ tossup, packetLength, username }) {
-    this.logEventConditionally(username, 'started the next tossup');
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, 'started the next tossup');
     super.startNextTossup({ tossup, packetLength });
   }
 
   toggleControlled ({ controlled, username }) {
-    this.logEventConditionally(username, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${controlled ? 'enabled' : 'disabled'} controlled mode`);
 
     document.getElementById('toggle-controlled').checked = controlled;
     document.getElementById('controlled-room-warning').classList.toggle('d-none', !controlled);
@@ -649,52 +678,62 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   toggleEnableBonuses ({ enableBonuses, username }) {
-    this.logEventConditionally(username, `${enableBonuses ? 'enabled' : 'disabled'} bonuses`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${enableBonuses ? 'enabled' : 'disabled'} bonuses`);
     super.toggleEnableBonuses({ enableBonuses });
   }
 
   toggleLock ({ lock, username }) {
-    this.logEventConditionally(username, `${lock ? 'locked' : 'unlocked'} the room`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${lock ? 'locked' : 'unlocked'} the room`);
     document.getElementById('toggle-lock').checked = lock;
   }
 
   toggleLoginRequired ({ loginRequired, username }) {
-    this.logEventConditionally(username, `${loginRequired ? 'enabled' : 'disabled'} requiring players to be logged in`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${loginRequired ? 'enabled' : 'disabled'} requiring players to be logged in`);
     document.getElementById('toggle-login-required').checked = loginRequired;
   }
 
   togglePowermarkOnly ({ powermarkOnly, username }) {
-    this.logEventConditionally(username, `${powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${powermarkOnly ? 'enabled' : 'disabled'} powermark only`);
     super.togglePowermarkOnly({ powermarkOnly });
   }
 
   toggleRebuzz ({ rebuzz, username }) {
-    this.logEventConditionally(username, `${rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${rebuzz ? 'enabled' : 'disabled'} multiple buzzes (effective next question)`);
     super.toggleRebuzz({ rebuzz });
   }
 
   toggleSkip ({ skip, username }) {
-    this.logEventConditionally(username, `${skip ? 'enabled' : 'disabled'} skipping`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${skip ? 'enabled' : 'disabled'} skipping`);
     super.toggleSkip({ skip });
   }
 
   toggleStandardOnly ({ standardOnly, username }) {
-    this.logEventConditionally(username, `${standardOnly ? 'enabled' : 'disabled'} standard format only`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${standardOnly ? 'enabled' : 'disabled'} standard format only`);
     super.toggleStandardOnly({ standardOnly });
   }
 
   toggleTimer ({ timer, username }) {
-    this.logEventConditionally(username, `${timer ? 'enabled' : 'disabled'} the timer`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${timer ? 'enabled' : 'disabled'} the timer`);
     super.toggleTimer({ timer });
   }
 
   toggleThreePartBonuses ({ threePartBonuses, username }) {
-    this.logEventConditionally(username, `${threePartBonuses ? 'enabled' : 'disabled'} three-part bonuses only`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `${threePartBonuses ? 'enabled' : 'disabled'} three-part bonuses only`);
     super.toggleThreePartBonuses({ threePartBonuses });
   }
 
   togglePublic ({ public: isPublic, username }) {
-    this.logEventConditionally(username, `made the room ${isPublic ? 'public' : 'private'}`);
+    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
+    this.logEventConditionally(displayName, `made the room ${isPublic ? 'public' : 'private'}`);
     document.getElementById('chat').disabled = isPublic;
     document.getElementById('toggle-controlled').disabled = isPublic || (this.room.ownerId !== this.USER_ID);
     document.getElementById('toggle-lock').disabled = isPublic;
@@ -708,7 +747,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       this.toggleTimer({ timer: true });
     }
     Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
+      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId], this.room);
     });
   }
 

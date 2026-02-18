@@ -7,10 +7,16 @@ import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx'
 import { MODE_ENUM } from '../../../quizbowl/constants.js';
 import getRandomName from '../../../quizbowl/get-random-name.js';
 
+// Helper function to get display name based on distraction-free mode
+window.getDisplayName = (username, distractionFreeMode) => {
+  return distractionFreeMode ? 'Player' : username;
+};
+
 const room = {
   bonus: {},
   categoryManager: new CategoryManager(),
   difficulties: [],
+  distractionFreeMode: window.localStorage.getItem('distraction-free-mode') === 'true',
   mode: MODE_ENUM.RANDOM,
   muteList: [],
   ownerId: '',
@@ -133,6 +139,21 @@ document.getElementById('username').addEventListener('change', function () {
   socket.send(JSON.stringify({ type: 'set-username', userId: USER_ID, username: this.value }));
   room.username = this.value;
   window.localStorage.setItem('multiplayer-username', room.username);
+});
+
+document.getElementById('toggle-distraction-free').checked = room.distractionFreeMode;
+document.getElementById('toggle-distraction-free').addEventListener('click', function () {
+  room.distractionFreeMode = this.checked;
+  window.localStorage.setItem('distraction-free-mode', this.checked);
+  this.blur();
+  // Refresh player list to update usernames
+  for (const userId of Object.keys(room.players)) {
+    const player = room.players[userId];
+    const teamId = player.teamId;
+    import('../upsert-player-item.js').then(module => {
+      module.default(player, USER_ID, room.ownerId, socket, room.public, room.teams[teamId], room);
+    });
+  }
 });
 
 document.addEventListener('keydown', (event) => {
