@@ -92,71 +92,24 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <p class="lead">
-            Welcome to the admin portal of QB Reader, <span id="welcome-username"></span>!
+            This is the admin portal of QBReader <a href="/play/mp/">multiplayer</a>.
         </p>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-4 mb-3">
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Question Management</h5>
-                        <p>Manage the database of questions, including associated metadata, here.</p>
-                        <div class="text-center">
-                            <a class="btn btn-primary mb-2" href="./question-management/set">Update Set</a>
-                            <a class="btn btn-primary mb-2" href="./question-management/packet">Update Packet</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Reports</h5>
-                        <p>Manage reports here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./category-reports/">Fix category reports</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Geoword</h5>
-                        <p>View the geoword admin portal here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./geoword/">Geoword</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Statistics</h5>
-                        <p>View some useful statistics here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./leaderboard/">Leaderboard</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Multiplayer</h5>
-                        <p>Manage multiplayer rooms here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./multiplayer/">Multiplayer</a>
-                        </p>
-                    </div>
-                </div>
+        <p>
+            There are <span id="active-players"></span> active players in <span id="active-rooms"></span> active rooms.
+        </p>
+        <ul class="list-group mb-3" id="permanent-room-list"></ul>
+        <div class="d-flex justify-content-end mb-3">
+            <div class="form-check">
+                <input class="form-check-input" id="empty-room-checkbox" type="checkbox">
+                <label class="form-check-label" for="empty-room-checkbox">
+                    Show empty rooms
+                </label>
             </div>
         </div>
+        <ul class="list-group mb-5" id="room-list"></ul>
     </div>
 
-
-
-    <script type="module" src="/admin/index.js"></script>
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>

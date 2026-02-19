@@ -255,6 +255,14 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username });
   }
 
+  removeAllPlayers () {
+    for (const userId of Object.keys(this.players)) {
+      this.sendToSocket(userId, { type: 'admin-lock', message: 'An admin has locked this room.' });
+      this.players[userId].online = false;
+      delete this.sockets[userId];
+    }
+  }
+
   setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });

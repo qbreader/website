@@ -15,6 +15,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   onmessage (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
+      case 'admin-lock': return this.adminLock(data);
       case 'chat': return this.chat(data, false);
       case 'chat-live-update': return this.chat(data, true);
       case 'clear-stats': return this.clearStats(data);
@@ -53,6 +54,11 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     setTimeout(() => {
       window.location.replace('../');
     }, 100);
+  }
+
+  adminLock ({ message }) {
+    window.alert(message);
+    window.location.replace('/play/mp');
   }
 
   buzz ({ userId, username }) {
