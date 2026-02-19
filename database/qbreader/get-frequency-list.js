@@ -43,7 +43,7 @@ export default async function getFrequencyList ({ alternateSubcategory, category
     },
     { $addFields: { answer_normalized: { $toLower: '$answer_normalized' } } },
     { $group: { _id: '$answer_normalized', count: { $sum: 1 }, answer: { $first: '$answer' } } },
-    { $match: { _id: { $ne: null } } },
+    { $match: { _id: { $nin: [null, ''] } } },
     { $addFields: { answer_normalized: '$_id' } },
     { $sort: { answer_normalized: 1 } }
   ];
