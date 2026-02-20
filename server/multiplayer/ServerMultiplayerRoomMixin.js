@@ -257,9 +257,11 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
   removeAllPlayers () {
     for (const userId of Object.keys(this.players)) {
-      this.sendToSocket(userId, { type: 'admin-lock', message: 'An admin has locked this room.' });
       this.players[userId].online = false;
-      delete this.sockets[userId];
+      if (Object.keys(this.sockets).includes(userId)) {
+        this.sendToSocket(userId, { type: 'admin-lock', message: 'An admin has locked this room.' });
+        delete this.sockets[userId];
+      }
     }
   }
 
