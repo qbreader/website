@@ -10,6 +10,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   constructor (room, userId, socket) {
     super(room, userId, socket);
     this.socket = socket;
+    this.distractionFreeMode = false;
+    attachEventListeners(room, socket, this);
   }
 
   onmessage (event) {
@@ -71,9 +73,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   chat ({ message, userId, username }, live = false) {
-    if (this.room.muteList.includes(userId)) {
-      return;
-    }
+    if (this.room.muteList.includes(userId)) { return; }
+
     if (!live && message === '') {
       document.getElementById('live-chat-' + userId).parentElement.remove();
       return;
@@ -102,14 +103,17 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     li.appendChild(b);
     li.appendChild(document.createTextNode(' '));
     li.appendChild(span);
+    li.classList.add('chat-message');
+    li.classList.toggle('d-none', this.distractionFreeMode);
     document.getElementById('room-history').prepend(li);
   }
 
   clearStats ({ userId }) {
+    const player = this.room.players[userId];
     for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
-      this.room.players[userId][field] = 0;
+      player[field] = 0;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
+    upsertPlayerItem(player, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[player.teamId] });
     this.sortPlayerListGroup();
   }
 
@@ -166,7 +170,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       players[userId].celerity = players[userId].celerity.correct.average;
       this.room.players[userId] = players[userId];
       this.room.teams[teamId] = teams[teamId];
-      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
+      upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[teamId] });
     }
     this.sortPlayerListGroup();
 
@@ -270,7 +274,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     if (lastPartRevealed) {
       const points = pointsPerPart.reduce((a, b) => a + b, 0);
       this.room.teams[teamId].bonusStats[points]++;
-      upsertPlayerItem(this.room.players[teamId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
+      upsertPlayerItem(this.room.players[teamId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[teamId] });
       this.sortPlayerListGroup();
     }
   }
@@ -336,7 +340,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.room.players[userId].tuh++;
     this.room.players[userId].celerity = celerity;
 
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
+    upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[this.room.players[userId].teamId] });
     this.sortPlayerListGroup();
 
     if (userId === this.USER_ID) {
@@ -364,7 +368,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
     if (isNew) {
       user.celerity = user.celerity.correct.average;
-      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[user.teamId]);
+      upsertPlayerItem(user, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[user.teamId] });
       this.sortPlayerListGroup();
     } else {
       document.getElementById(`list-group-${userId}`).classList.remove('offline');
@@ -392,7 +396,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     if (username === undefined) { return; }
 
     const span1 = document.createElement('span');
-    span1.textContent = username;
+    span1.textContent = this.distractionFreeMode ? 'Player' : username;
+    span1.setAttribute('data-username', username);
+    span1.classList.add('event-username');
 
     const span2 = document.createElement('span');
     span2.textContent = message;
@@ -490,8 +496,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       this.logEventConditionally(this.room.players[newOwner].username, 'became the room owner');
     } else this.logEventConditionally(newOwner, 'became the room owner');
 
-    Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
+    Object.entries(this.room.players).forEach(([playerId, player]) => {
+      upsertPlayerItem(player, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[player.teamId] });
     });
 
     document.getElementById('toggle-controlled').disabled = this.room.public || (this.room.ownerId !== this.USER_ID);
@@ -593,7 +599,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       window.localStorage.setItem('multiplayer-username', this.room.username);
       document.getElementById('username').value = this.room.username;
     }
-    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
+    upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[this.room.players[userId].teamId] });
   }
 
   sortPlayerListGroup (descending = true) {
@@ -713,8 +719,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       document.getElementById('toggle-login-required').checked = false;
       this.toggleTimer({ timer: true });
     }
-    Object.keys(this.room.players).forEach((player) => {
-      upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
+    Object.entries(this.room.players).forEach(([playerId, player]) => {
+      upsertPlayerItem(player, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[player.teamId] });
     });
   }
 
@@ -733,6 +739,26 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     }
   }
 };
+
+function attachEventListeners (room, socket, client) {
+  document.getElementById('toggle-distraction-free-mode').addEventListener('change', (event) => {
+    client.distractionFreeMode = event.target.checked;
+
+    Array.from(document.getElementsByClassName('event-username')).forEach(span => {
+      const username = span.getAttribute('data-username');
+      span.textContent = client.distractionFreeMode ? 'Player' : username;
+    });
+
+    Array.from(document.getElementsByClassName('player-item-display-username')).forEach(span => {
+      const username = span.getAttribute('data-username');
+      span.textContent = client.distractionFreeMode ? 'Player' : username;
+    });
+
+    Array.from(document.getElementsByClassName('chat-message')).forEach(li => {
+      li.classList.toggle('d-none', client.distractionFreeMode);
+    });
+  });
+}
 
 const MultiplayerTossupBonusClient = MultiplayerClientMixin(TossupBonusClient);
 export default MultiplayerTossupBonusClient;

@@ -198,6 +198,15 @@
                         <label class="form-check-label" for="toggle-timer">Enable timer</label>
                     </div>
                     <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-distraction-free-mode" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-distraction-free-mode">
+                            Enable distraction-free mode
+                            <i class="bi bi-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Hides all chat messages and shows all usernames as 'Player'. This change only affects you."
+                                style="font-size: 0.85em; cursor: help;"></i>
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-lock" type="checkbox" role="switch">
                         <label class="form-check-label" for="toggle-lock">Lock room from new players</label>
                     </div>
@@ -314,8 +323,6 @@
             </div>
         </div>
     </div>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"
         integrity="sha384-tMH8h3BGESGckSAVGZ82T9n90ztNXxvdwvdM6UoR56cYcf+0iGXBliJ29D+wZ/x8" crossorigin="anonymous"></script>
