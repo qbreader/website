@@ -1,4 +1,4 @@
-import { MAX_ONLINE_PLAYERS, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
+import { MAX_ONLINE_PLAYERS, PERMANENT_ROOMS, VERIFIED_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
 import ServerTossupBonusRoom from './ServerTossupBonusRoom.js';
 import { checkToken } from '../authentication.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
@@ -22,7 +22,13 @@ export const tossupBonusRooms = {};
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
   tossupBonusRooms[name] = new ServerTossupBonusRoom(
-    name, Symbol('unique permanent room owner'), true, new CategoryManager(categories, subcategories)
+    name, Symbol('unique permanent room owner'), true, new CategoryManager(categories, subcategories), false
+  );
+}
+for (const room of VERIFIED_ROOMS) {
+  const { name, categories, subcategories } = room;
+  tossupBonusRooms[name] = new ServerTossupBonusRoom(
+    name, Symbol('unique verified room owner'), true, new CategoryManager(categories, subcategories), true
   );
 }
 
