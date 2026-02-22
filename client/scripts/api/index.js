@@ -1,4 +1,4 @@
-import checkAnswer from 'https://cdn.jsdelivr.net/npm/qb-answer-checker@1.1.7/dist/main.mjs';
+import checkAnswer from 'https://cdn.jsdelivr.net/npm/qb-answer-checker/dist/main.mjs';
 import filterParams from '../utilities/filter-params.js';
 
 export default class api {
