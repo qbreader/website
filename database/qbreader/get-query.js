@@ -272,7 +272,31 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
   }
 
   if (setName) {
-    query['set.name'] = setName;
+    // setName is now an array after being split by commas
+    if (Array.isArray(setName)) {
+      if (setName.length === 1) {
+        // Single set name - use regex for partial matching
+        query['set.name'] = { $regex: setName[0], $options: 'i' };
+      } else {
+        // Multiple set names - use $or with $regex for each pattern
+        const setNameOr = setName.map(name => ({
+          'set.name': { $regex: name, $options: 'i' }
+        }));
+
+        // Always add to $and array to properly combine with other conditions
+        if (query.$and) {
+          query.$and.push({ $or: setNameOr });
+        } else {
+          // Create $and array with the $or condition
+          // Note: Other conditions (difficulty, category, etc.) are direct properties
+          // and will be ANDed with this $and at the top level by MongoDB
+          query.$and = [{ $or: setNameOr }];
+        }
+      }
+    } else {
+      // Backward compatibility: if setName is a string (shouldn't happen after API route change)
+      query['set.name'] = { $regex: setName, $options: 'i' };
+    }
   }
 
   if (minYear && maxYear) {
