@@ -207,13 +207,15 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
   chat (userId, { message }) {
     // prevent chat messages if room is public, since they can still be sent with API
-    if (this.settings.public || typeof message !== 'string') { return false; }
+    if (this.settings.public && !this.settings.loginRequired) { return false; }
+    if (typeof message !== 'string') { return false; }
     const username = this.players[userId].username;
     this.emitMessage({ type: 'chat', message, username, userId });
   }
 
   chatLiveUpdate (userId, { message }) {
-    if (this.settings.public || typeof message !== 'string') { return false; }
+    if (this.settings.public && !this.settings.loginRequired) { return false; }
+    if (typeof message !== 'string') { return false; }
     const username = this.players[userId].username;
     this.emitMessage({ type: 'chat-live-update', message, username, userId });
   }
