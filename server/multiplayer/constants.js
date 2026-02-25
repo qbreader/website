@@ -66,7 +66,6 @@ export const PERMANENT_ROOMS = [
  * Same categories as permanent rooms, with verified- prefix.
  */
 export const VERIFIED_ROOMS = PERMANENT_ROOMS.map(room => ({
-  name: `verified-${room.name}`,
-  categories: room.categories,
-  subcategories: room.subcategories
+  ...room,
+  name: `verified-${room.name}`
 }));
