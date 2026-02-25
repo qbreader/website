@@ -15,17 +15,21 @@ const router = Router();
  * @param {string} [params.subcategory] - The subcategory to get the frequency list for, if any.
  * @param {number[] | string[] | number | string} [params.difficulties] - The difficulty levels to include in the frequency list. Can be an array of numbers or a comma-separated string of numbers. Default is all difficulties.
  * @param {number | string} [params.limit=50] - The maximum number of answers to return. Must be a number or a string representation of a number. Default is 50.
+ * @param {number | string} [params.minYear] - The minimum year to include. Default is undefined (no minimum).
+ * @param {number | string} [params.maxYear] - The maximum year to include. Default is undefined (no maximum).
  * @param {'tossup' | 'bonus' | 'all'} [params.questionType] - The type of question to include. Default is 'all'.
  * @returns {{
  *  alternateSubcategory: string | undefined,
  *  category: string | undefined,
  *  difficulties: number[],
  *  limit: number,
+ *  minYear: number | undefined,
+ *  maxYear: number | undefined,
  *  questionType: 'tossup' | 'bonus' | 'all',
  *  subcategory: string | undefined
  *  } | null} The validated parameters, or `null` if the parameters are invalid.
  */
-function validateParams ({ alternateSubcategory, category, subcategory, difficulties = DIFFICULTIES, limit = 50, questionType = 'all' }) {
+function validateParams ({ alternateSubcategory, category, subcategory, difficulties = DIFFICULTIES, limit = 50, minYear, maxYear, questionType = 'all' }) {
   if (typeof alternateSubcategory !== 'string' && alternateSubcategory !== undefined) {
     return null;
   }
@@ -54,7 +58,17 @@ function validateParams ({ alternateSubcategory, category, subcategory, difficul
     return null;
   }
 
-  return { alternateSubcategory, category, difficulties, limit, questionType, subcategory };
+  minYear = minYear === undefined ? undefined : parseInt(minYear);
+  if (minYear !== undefined && isNaN(minYear)) {
+    return null;
+  }
+
+  maxYear = maxYear === undefined ? undefined : parseInt(maxYear);
+  if (maxYear !== undefined && isNaN(maxYear)) {
+    return null;
+  }
+
+  return { alternateSubcategory, category, difficulties, limit, minYear, maxYear, questionType, subcategory };
 }
 
 router.use('/', async (req, res) => {
