@@ -4,7 +4,7 @@ import { checkToken } from '../authentication.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
-import { clientIp } from '../moderation/ip-filter.js';
+import { clientIp, isBannedIp } from '../moderation/ip-filter.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 
 import createDOMPurify from 'dompurify';
@@ -134,6 +134,7 @@ export default function handleWssConnection (ws, req) {
   }
 
   const ip = clientIp(req);
+  if (isBannedIp(ip)) { return false; }
   const userAgent = req.headers['user-agent'];
   if (!userAgent) { return false; }
   room.connection(ws, userId, username, ip, userAgent);
