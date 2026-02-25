@@ -297,7 +297,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   setStrictness (userId, { strictness }) {
-    if (this.isPermanent || !this.allowed) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setStrictness(userId, { strictness });
   }
 
