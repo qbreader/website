@@ -202,6 +202,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
             document.getElementById('pause').disabled = true;
           } else {
             document.getElementById('buzz').disabled = false;
+            document.getElementById('next').disabled = !settings.skip;
             document.getElementById('pause').disabled = false;
           }
           break;
