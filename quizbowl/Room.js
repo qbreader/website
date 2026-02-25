@@ -22,8 +22,6 @@ export default class Room {
 
   clearStats (userId) {
     this.players[userId].clearStats();
-    const teamId = this.players[userId].teamId;
-    this.teams[teamId].clearStats();
     this.emitMessage({ type: 'clear-stats', userId });
   }
 

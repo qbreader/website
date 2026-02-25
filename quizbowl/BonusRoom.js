@@ -34,6 +34,12 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     }
   }
 
+  clearStats (userId) {
+    const teamId = this.players[userId].teamId;
+    this.teams[teamId].clearStats();
+    super.clearStats(userId);
+  }
+
   endCurrentBonus (userId) {
     if (this.queryingQuestion) { return false; }
     if (this.bonusProgress === BONUS_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
