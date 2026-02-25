@@ -3,8 +3,8 @@ import TossupBonusRoom from '../../quizbowl/TossupBonusRoom.js';
 import { QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
 
 export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(TossupBonusRoom) {
-  constructor (name, ownerId, isPermanent, categoryManager) {
-    super(name, ownerId, isPermanent, categoryManager, ['tossups', 'bonuses']);
+  constructor (name, ownerId, isPermanent, categoryManager, isVerified = false) {
+    super(name, ownerId, isPermanent, categoryManager, ['tossups', 'bonuses'], isVerified);
   }
 
   giveAnswerLiveUpdate (userId, { givenAnswer }) {

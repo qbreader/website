@@ -60,3 +60,12 @@ export const PERMANENT_ROOMS = [
     subcategories: CATEGORY_TO_SUBCATEGORY['Pop Culture']
   }
 ];
+
+/**
+ * Verified rooms
+ * Same categories as permanent rooms, with verified- prefix.
+ */
+export const VERIFIED_ROOMS = PERMANENT_ROOMS.map(room => ({
+  ...room,
+  name: `verified-${room.name}`
+}));

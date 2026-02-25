@@ -25,44 +25,55 @@ document.getElementById('form').addEventListener('submit', (event) => {
   window.location.href = `./${encodeURIComponent(roomName)}?${params.toString()}`;
 });
 
-fetch('/api/multiplayer/room-list')
-  .then(response => response.json())
-  .then(data => {
-    const { activePlayers, activeRooms, roomList } = data;
-    document.getElementById('active-players').textContent = activePlayers;
-    document.getElementById('active-rooms').textContent = activeRooms;
+Promise.all([
+  fetch('/api/multiplayer/room-list').then(response => response.json()),
+  fetch('/auth/get-profile').then(response => response.status === 200 ? response.json() : { user: null })
+]).then(([roomData, profileData]) => {
+  const { activePlayers, activeRooms, roomList } = roomData;
+  const verifiedEmail = profileData?.user?.verifiedEmail === true;
 
-    roomList.sort((a, b) => {
-      if (a.onlineCount === b.onlineCount) {
-        return b.playerCount - a.playerCount;
-      } else {
-        return b.onlineCount - a.onlineCount;
-      }
-    });
+  document.getElementById('active-players').textContent = activePlayers;
+  document.getElementById('active-rooms').textContent = activeRooms;
 
-    roomList.forEach(room => {
-      const { roomName, playerCount, onlineCount, isPermanent } = room;
+  if (verifiedEmail) {
+    document.getElementById('verified-rooms-section').classList.remove('d-none');
+  }
 
-      const a = document.createElement('a');
-      a.href = `./${encodeURIComponent(roomName)}`;
-      a.textContent = roomName;
-
-      const li = document.createElement('li');
-      li.appendChild(a);
-      li.appendChild(document.createTextNode(` - ${playerCount} player${playerCount === 1 ? '' : 's'} - ${onlineCount} online`));
-      li.classList.add('list-group-item');
-      if (onlineCount === 0 && !isPermanent) {
-        li.classList.add('d-none');
-        li.classList.add('empty-room');
-      }
-
-      if (isPermanent) {
-        document.getElementById('permanent-room-list').appendChild(li);
-      } else {
-        document.getElementById('room-list').appendChild(li);
-      }
-    });
+  roomList.sort((a, b) => {
+    if (a.onlineCount === b.onlineCount) {
+      return b.playerCount - a.playerCount;
+    } else {
+      return b.onlineCount - a.onlineCount;
+    }
   });
+
+  roomList.forEach(room => {
+    const { roomName, playerCount, onlineCount, isPermanent, isVerified = false } = room;
+
+    if (isVerified && !verifiedEmail) { return; }
+
+    const a = document.createElement('a');
+    a.href = `./${encodeURIComponent(roomName)}`;
+    a.textContent = roomName;
+
+    const li = document.createElement('li');
+    li.appendChild(a);
+    li.appendChild(document.createTextNode(` - ${playerCount} player${playerCount === 1 ? '' : 's'} - ${onlineCount} online`));
+    li.classList.add('list-group-item');
+    if (onlineCount === 0 && !isPermanent && !isVerified) {
+      li.classList.add('d-none');
+      li.classList.add('empty-room');
+    }
+
+    if (isVerified) {
+      document.getElementById('verified-room-list').appendChild(li);
+    } else if (isPermanent) {
+      document.getElementById('permanent-room-list').appendChild(li);
+    } else {
+      document.getElementById('room-list').appendChild(li);
+    }
+  });
+});
 
 document.getElementById('new-room-name').placeholder = getRandomName();
 

@@ -19,10 +19,11 @@ import Team from '../../quizbowl/Team.js';
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
 const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
-  constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes) {
+  constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes, isVerified = false) {
     super(name, categoryManager, supportedQuestionTypes);
     this.ownerId = ownerId;
     this.isPermanent = isPermanent;
+    this.isVerified = isVerified;
     this.checkAnswer = checkAnswer;
     this.getPacketCount = getNumPackets;
 
@@ -40,7 +41,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.settings = {
       ...this.settings,
       lock: false,
-      loginRequired: false,
+      loginRequired: isVerified,
       public: true,
       controlled: false
     };
@@ -145,6 +146,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       currentQuestionType: this.currentQuestionType,
       isPermanent: this.isPermanent,
+      isVerified: this.isVerified,
       mode: this.mode,
       ownerId: this.ownerId,
       packetLength: this.packetCount,
@@ -347,7 +349,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   toggleLoginRequired (userId, { loginRequired }) {
-    if (this.settings.public || !this.allowed(userId)) { return; }
+    if (this.isVerified || this.settings.public || !this.allowed(userId)) { return; }
     this.settings.loginRequired = loginRequired;
     const username = this.players[userId].username;
     this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
