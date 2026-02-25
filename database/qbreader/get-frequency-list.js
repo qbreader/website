@@ -10,16 +10,25 @@ import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
  * @param {string} params.alternateSubcategory The alternate subcategory to get the frequency list for.
  * @param {number[]} [params.difficulties] An array of difficulties to include.
  * @param {number} [params.limit=50] The maximum number of answers to return.
+ * @param {number} [params.minYear] The minimum year to include.
+ * @param {number} [params.maxYear] The maximum year to include.
  * @param {'tossup' | 'bonus' | 'all'} [params.questionType] The type of question to include.
  * @returns {Promise<{ answer: string, count: number }[]>} The frequency list.
  */
-export default async function getFrequencyList ({ alternateSubcategory, category, subcategory, difficulties, limit, questionType }) {
+export default async function getFrequencyList ({ alternateSubcategory, category, subcategory, difficulties, limit, minYear, maxYear, questionType }) {
   if (!category && !subcategory && !alternateSubcategory) { return []; }
 
   const matchDocument = { difficulty: { $in: difficulties } };
   if (category) { matchDocument.category = category; }
   if (subcategory) { matchDocument.subcategory = subcategory; }
   if (alternateSubcategory) { matchDocument.alternate_subcategory = alternateSubcategory; }
+  if (minYear && maxYear) {
+    matchDocument['set.year'] = { $gte: minYear, $lte: maxYear };
+  } else if (minYear) {
+    matchDocument['set.year'] = { $gte: minYear };
+  } else if (maxYear) {
+    matchDocument['set.year'] = { $lte: maxYear };
+  }
 
   const tossupAggregation = [
     { $match: matchDocument },
