@@ -135,6 +135,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     canBuzz,
     currentQuestionType,
     isPermanent,
+    isVerified,
     ownerId,
     mode,
     packetLength,
@@ -146,6 +147,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     userId
   }) {
     this.room.bonusEligibleTeamId = bonusEligibleTeamId;
+    this.room.isPermanent = isPermanent;
+    this.room.isVerified = isVerified;
     this.room.public = settings.public;
     this.room.ownerId = ownerId;
     this.room.setLength = packetCount;
@@ -159,10 +162,16 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       document.getElementById('category-select-button').disabled = true;
       document.getElementById('toggle-enable-bonuses').disabled = true;
       document.getElementById('permanent-room-warning').classList.remove('d-none');
+      document.getElementById('permanent-room-warning').textContent = isVerified
+        ? 'This is a verified room. Login is required and some settings have been restricted.'
+        : 'This is a permanent room. Some settings have been restricted.';
       document.getElementById('reading-speed').disabled = true;
       document.getElementById('set-strictness').disabled = true;
       document.getElementById('set-mode').disabled = true;
       document.getElementById('toggle-public').disabled = true;
+      if (isVerified) {
+        document.getElementById('toggle-login-required').disabled = true;
+      }
     }
 
     for (const userId of Object.keys(players)) {
@@ -716,7 +725,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.room.public = isPublic;
     if (isPublic) {
       document.getElementById('toggle-lock').checked = false;
-      document.getElementById('toggle-login-required').checked = false;
+      if (!this.room.isVerified) {
+        document.getElementById('toggle-login-required').checked = false;
+      }
       this.toggleTimer({ timer: true });
     }
     Object.entries(this.room.players).forEach(([playerId, player]) => {

@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
 
     roomList.push({
       isPermanent: tossupBonusRooms[roomName].isPermanent,
+      isVerified: tossupBonusRooms[roomName].isVerified ?? false,
       onlineCount,
       playerCount: Object.keys(tossupBonusRooms[roomName].players).length,
       roomName
