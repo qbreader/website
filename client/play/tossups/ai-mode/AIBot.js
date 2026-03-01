@@ -18,10 +18,7 @@ export default class AIBot {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'start':
-      case 'skip':
-      case 'next': return this.next(data);
-
+      case 'start-next-tossup': return this.next(data);
       case 'update-question': return this.updateQuestion(data);
     }
   }
@@ -63,10 +60,10 @@ export default class AIBot {
     throw new Error('calculateBuzzpoint not implemented');
   }
 
-  next ({ packetLength, oldTossup, tossup }) {
+  next ({ packetLength, tossup }) {
     this.tossup = tossup;
     this.wordIndex = 0;
-    ({ buzzpoint: this.buzzpoint, correctBuzz: this.correctBuzz } = this.calculateBuzzpoint({ packetLength, oldTossup, tossup }));
+    ({ buzzpoint: this.buzzpoint, correctBuzz: this.correctBuzz } = this.calculateBuzzpoint({ packetLength, tossup }));
   }
 
   /**

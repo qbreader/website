@@ -17,7 +17,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
     multiplayerOptions = {};
   }
   const isMultiplayer = Object.keys(multiplayerOptions).length > 0;
-  const { callerId, distractionFreeMode, isPublic, ownerId, socket, team } = multiplayerOptions;
+  const { callerId, distractionFreeMode, isPublic, ownerId, socket, team = {} } = multiplayerOptions;
 
   if (!player || !player.userId || !player.username) {
     console.error('Player or player.userId or player.username is undefined', { player });
