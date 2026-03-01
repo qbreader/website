@@ -3,9 +3,8 @@ document.getElementById('verify-email-form').addEventListener('submit', function
   const username = document.getElementById('username').value.trim();
   if (!username) return;
 
-  const resultDiv = document.getElementById('result');
-  resultDiv.textContent = '';
-  resultDiv.className = '';
+  document.getElementById('submit').disabled = true;
+  document.getElementById('submit').textContent = 'Verifying...';
 
   fetch('/api/admin/user-management/verify-email', {
     method: 'PUT',
@@ -14,14 +13,14 @@ document.getElementById('verify-email-form').addEventListener('submit', function
   }).then(async response => {
     const text = await response.text();
     if (response.ok) {
-      resultDiv.textContent = text || 'Email verified successfully.';
-      resultDiv.className = 'alert alert-success mt-3';
+      window.alert(text || 'Email verified successfully.');
     } else {
-      resultDiv.textContent = text || 'An error occurred.';
-      resultDiv.className = 'alert alert-danger mt-3';
+      window.alert(text || 'An error occurred.');
     }
   }).catch(() => {
-    resultDiv.textContent = 'Network error: Unable to connect to server.';
-    resultDiv.className = 'alert alert-danger mt-3';
+    window.alert('An error occurred.');
+  }).finally(() => {
+    document.getElementById('submit').disabled = false;
+    document.getElementById('submit').textContent = 'Verify Email';
   });
 });
