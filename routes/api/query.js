@@ -38,6 +38,10 @@ router.get('/', async (req, res) => {
     req.query.subcategories = req.query.subcategories.split(',');
   }
 
+  if (req.query.setName) {
+    req.query.setName = req.query.setName.split(',').map(s => s.trim());
+  }
+
   if (!req.query.tossupPagination) {
     req.query.tossupPagination = 1;
   }

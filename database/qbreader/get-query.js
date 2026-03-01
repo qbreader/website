@@ -272,7 +272,13 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
   }
 
   if (setName) {
-    query['set.name'] = setName;
+    // setName is now an array after being split by commas
+    if (Array.isArray(setName)) {
+      query['set.name'] = { $in: setName.map(name => new RegExp(name, 'i')) };
+    } else {
+      // Backward compatibility: if setName is a string (shouldn't happen after API route change)
+      query['set.name'] = { $regex: setName, $options: 'i' };
+    }
   }
 
   if (minYear && maxYear) {
