@@ -10,7 +10,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     /**
      * @type {string | null}
      * The userId of the player who buzzed in.
-     * We should ensure that buzzedIn is null before calling any readQuestion.
+     * We should ensure that buzzedIn is null before calling readTossup.
      */
     this.buzzedIn = null;
     this.buzzes = [];
@@ -131,7 +131,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
           this.revealTossupAnswer();
           Object.values(this.players).forEach(player => { player.tuh++; });
         } else {
-          this.readQuestion(Date.now());
+          this.readTossup(Date.now());
         }
         break;
       case 'prompt':
@@ -180,13 +180,13 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
         () => this.revealTossupAnswer()
       );
     } else {
-      this.readQuestion(Date.now());
+      this.readTossup(Date.now());
     }
     const username = this.players[userId].username;
     this.emitMessage({ type: 'pause', paused: this.paused, username });
   }
 
-  async readQuestion (expectedReadTime) {
+  async readTossup (expectedReadTime) {
     if (Object.keys(this.tossup || {}).length === 0) { return; }
     if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
@@ -216,7 +216,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     const delay = time - Date.now() + expectedReadTime;
 
     this.timeoutID = setTimeout(() => {
-      this.readQuestion(time + expectedReadTime);
+      this.readTossup(time + expectedReadTime);
     }, delay);
   }
 
@@ -272,7 +272,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;
     clearTimeout(this.timeoutID);
-    this.readQuestion(Date.now());
+    this.readTossup(Date.now());
   }
 
   togglePowermarkOnly (userId, { powermarkOnly }) {
