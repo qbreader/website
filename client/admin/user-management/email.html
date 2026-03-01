@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Backups for qbreader.">
+    <meta name="description" content="">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -91,83 +91,19 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="lead">
-            Welcome to the admin portal of QB Reader, <span id="welcome-username"></span>!
-        </p>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-4 mb-3">
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Question Management</h5>
-                        <p>Manage the database of questions, including associated metadata, here.</p>
-                        <div class="text-center">
-                            <a class="btn btn-primary mb-2" href="./question-management/set">Update Set</a>
-                            <a class="btn btn-primary mb-2" href="./question-management/packet">Update Packet</a>
-                        </div>
-                    </div>
-                </div>
+        <h3>Verify User Email</h3>
+        <p>Manually verify a user's email address.</p>
+        <form id="verify-email-form">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" required>
             </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Reports</h5>
-                        <p>Manage reports here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./category-reports/">Fix category reports</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Geoword</h5>
-                        <p>View the geoword admin portal here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./geoword/">Geoword</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Statistics</h5>
-                        <p>View some useful statistics here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./leaderboard/">Leaderboard</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Multiplayer</h5>
-                        <p>Manage multiplayer rooms here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./multiplayer/">Multiplayer</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>User Management</h5>
-                        <p>Manage user accounts here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./user-management/email">Verify Email</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary" id="submit">Verify Email</button>
+        </form>
+        <div id="result"></div>
     </div>
 
-
-
-    <script type="module" src="/admin/index.js"></script>
+    <script type="module" src="/admin/user-management/email.js"></script>
 </body>
 
 </html>

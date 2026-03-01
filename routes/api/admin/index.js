@@ -5,6 +5,7 @@ import leaderboardRouter from './leaderboard.js';
 import multiplayerRouter from './multiplayer/index.js';
 import questionManagementRouter from './question-management/index.js';
 import updateSubcategoryRouter from './update-subcategory.js';
+import userManagementRouter from './user-management/index.js';
 
 import isAdmin from '../../../database/account-info/is-admin.js';
 import { checkToken } from '../../../server/authentication.js';
@@ -37,5 +38,6 @@ router.use('/leaderboard', leaderboardRouter);
 router.use('/multiplayer', multiplayerRouter);
 router.use('/question-management', questionManagementRouter);
 router.use('/update-subcategory', updateSubcategoryRouter);
+router.use('/user-management', userManagementRouter);
 
 export default router;
