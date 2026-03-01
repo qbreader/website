@@ -1,6 +1,6 @@
 import { MODE_ENUM } from '../../quizbowl/constants.js';
 import account from '../scripts/accounts.js';
-import audio from '../audio/index.js';
+import audio from './audio/index.js';
 import { arrayToRange, rangeToArray } from './ranges.js';
 import getSetList from '../scripts/api/get-set-list.js';
 import reportQuestion from '../scripts/api/report-question.js';
