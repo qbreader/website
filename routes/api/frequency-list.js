@@ -1,5 +1,5 @@
 import getFrequencyList from '../../database/qbreader/get-frequency-list.js';
-import { DIFFICULTIES } from '../../quizbowl/constants.js';
+import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, DIFFICULTIES } from '../../quizbowl/constants.js';
 
 import { Router } from 'express';
 
@@ -15,8 +15,8 @@ const router = Router();
  * @param {string} [params.subcategory] - The subcategory to get the frequency list for, if any.
  * @param {number[] | string[] | number | string} [params.difficulties] - The difficulty levels to include in the frequency list. Can be an array of numbers or a comma-separated string of numbers. Default is all difficulties.
  * @param {number | string} [params.limit=50] - The maximum number of answers to return. Must be a number or a string representation of a number. Default is 50.
- * @param {number | string} [params.minYear] - The minimum year to include. Default is undefined (no minimum).
- * @param {number | string} [params.maxYear] - The maximum year to include. Default is undefined (no maximum).
+ * @param {number | string} [params.minYear] - The minimum year to include. Default is `DEFAULT_MIN_YEAR`.
+ * @param {number | string} [params.maxYear] - The maximum year to include. Default is `DEFAULT_MAX_YEAR`.
  * @param {'tossup' | 'bonus' | 'all'} [params.questionType] - The type of question to include. Default is 'all'.
  * @returns {{
  *  alternateSubcategory: string | undefined,
@@ -29,7 +29,16 @@ const router = Router();
  *  subcategory: string | undefined
  *  } | null} The validated parameters, or `null` if the parameters are invalid.
  */
-function validateParams ({ alternateSubcategory, category, subcategory, difficulties = DIFFICULTIES, limit = 50, minYear, maxYear, questionType = 'all' }) {
+function validateParams ({
+  alternateSubcategory,
+  category,
+  subcategory,
+  difficulties = DIFFICULTIES,
+  limit = 50,
+  minYear = DEFAULT_MIN_YEAR,
+  maxYear = DEFAULT_MAX_YEAR,
+  questionType = 'all'
+}) {
   if (typeof alternateSubcategory !== 'string' && alternateSubcategory !== undefined) {
     return null;
   }
@@ -58,15 +67,11 @@ function validateParams ({ alternateSubcategory, category, subcategory, difficul
     return null;
   }
 
-  minYear = minYear === undefined ? undefined : parseInt(minYear);
-  if (minYear !== undefined && isNaN(minYear)) {
-    return null;
-  }
+  minYear = parseInt(minYear);
+  if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
 
-  maxYear = maxYear === undefined ? undefined : parseInt(maxYear);
-  if (maxYear !== undefined && isNaN(maxYear)) {
-    return null;
-  }
+  maxYear = parseInt(maxYear);
+  if (isNaN(maxYear)) { maxYear = DEFAULT_MAX_YEAR; }
 
   return { alternateSubcategory, category, difficulties, limit, minYear, maxYear, questionType, subcategory };
 }

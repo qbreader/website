@@ -19,10 +19,10 @@ function setYear (year, which) {
   year = clip(year, GLOBAL_MIN_YEAR, GLOBAL_MAX_YEAR);
   if (which === 'min-year') {
     const maxYear = parseInt(document.getElementById('max-year-label').textContent);
-    year = Math.min(year, maxYear);
+    year = Math.min(year, isNaN(maxYear) ? GLOBAL_MAX_YEAR : maxYear);
   } else if (which === 'max-year') {
     const minYear = parseInt(document.getElementById('min-year-label').textContent);
-    year = Math.max(year, minYear);
+    year = Math.max(year, isNaN(minYear) ? GLOBAL_MIN_YEAR : minYear);
   }
 
   const handle = document.getElementById(`${which}-handle`);
