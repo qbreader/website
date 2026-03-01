@@ -376,16 +376,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.room.players[userId] = user;
     this.room.teams[user.teamId] = team;
 
-    if (isNew) {
-      user.celerity = user.celerity.correct.average;
-      upsertPlayerItem(user, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[user.teamId] });
-      this.sortPlayerListGroup();
-    } else {
-      document.getElementById(`list-group-${userId}`).classList.remove('offline');
-      document.getElementById('points-' + userId).classList.add('bg-success');
-      document.getElementById('points-' + userId).classList.remove('bg-secondary');
-      document.getElementById('username-' + userId).textContent = username;
-    }
+    user.celerity = user.celerity.correct.average;
+    upsertPlayerItem(user, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[user.teamId] });
+    this.sortPlayerListGroup();
   }
 
   leave ({ userId, username }) {
