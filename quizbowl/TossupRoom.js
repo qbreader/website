@@ -235,7 +235,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
     const endOfQuestion = (this.wordIndex === this.questionSplit.length);
     const inPower = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]')) >= this.wordIndex;
-    const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
+    const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer);
     const isCorrect = directive === 'accept';
     const points = isCorrect ? (inPower ? this.previousTossup.powerValue : 10) : (endOfQuestion ? 0 : this.previousTossup.negValue);
 

@@ -34,5 +34,8 @@
         "tabindex",
         "style"
     ],
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    "chat.tools.terminal.autoApprove": {
+        "Test-Path": true
+    }
 }

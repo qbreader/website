@@ -284,11 +284,6 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     super.setSetName(userId, { doNotFetch: false, setName });
   }
 
-  setStrictness (userId, { strictness }) {
-    if (this.isPermanent || !this.allowed) { return; }
-    super.setStrictness(userId, { strictness });
-  }
-
   setMinYear (userId, { minYear }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setMinYear(userId, { minYear });

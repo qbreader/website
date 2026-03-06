@@ -67,7 +67,6 @@ export default class QuestionRoom extends Room {
        * Whether or not the order of the questions in a **local packet** is randomized.
        */
       randomizeOrder: false,
-      strictness: 7,
       skip: false,
       timer: true
     };
@@ -80,7 +79,6 @@ export default class QuestionRoom extends Room {
       case 'set-mode': return this.setMode(userId, message);
       case 'set-packet-numbers': return this.setPacketNumbers(userId, message);
       case 'set-set-name': return this.setSetName(userId, message);
-      case 'set-strictness': return this.setStrictness(userId, message);
       case 'set-username': return this.setUsername(userId, message);
       case 'set-max-year': return this.setMaxYear(userId, message);
       case 'set-min-year': return this.setMinYear(userId, message);
@@ -260,12 +258,6 @@ export default class QuestionRoom extends Room {
     for (let i = 1; i <= this.packetCount; i++) { packetNumbers.push(i); }
     this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers], doNotFetch);
     this.emitMessage({ type: 'set-set-name', username, setName, setLength: this.packetCount });
-  }
-
-  setStrictness (userId, { strictness }) {
-    this.settings.strictness = strictness;
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'set-strictness', username, strictness });
   }
 
   startServerTimer (time, ontick, callback) {

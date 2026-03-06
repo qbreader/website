@@ -154,7 +154,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       document.getElementById('toggle-enable-bonuses').disabled = true;
       document.getElementById('permanent-room-warning').classList.remove('d-none');
       document.getElementById('reading-speed').disabled = true;
-      document.getElementById('set-strictness').disabled = true;
       document.getElementById('set-mode').disabled = true;
       document.getElementById('toggle-public').disabled = true;
     }
@@ -208,7 +207,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.toggleTimer({ timer: settings.timer });
     this.setMode({ mode });
     this.setReadingSpeed({ readingSpeed: settings.readingSpeed });
-    this.setStrictness({ strictness: settings.strictness });
 
     if (settings.controlled) {
       this.toggleControlled({ controlled: settings.controlled });
@@ -297,6 +295,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   async giveTossupAnswer ({ celerity, tossup, perQuestionCelerity, directive, directedPrompt, givenAnswer, score, userId, username }) {
+    // log receipt of answer message for debugging
+    console.log('giveTossupAnswer received', { directive, userId, score, roomPublic: this.room?.public });
+
     const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
     this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, username: displayName });
     if (directive === 'prompt' && directedPrompt) {
@@ -412,8 +413,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   logGiveAnswer ({ directive = null, givenAnswer, questionType, username }) {
     // Transform username based on distraction-free mode
-    const displayName = (window.getDisplayName && this.room?.distractionFreeMode) 
-      ? window.getDisplayName(username, this.room.distractionFreeMode) 
+    const displayName = (window.getDisplayName && this.room?.distractionFreeMode)
+      ? window.getDisplayName(username, this.room.distractionFreeMode)
       : username;
     const badge = document.createElement('span');
     badge.textContent = questionType === QUESTION_TYPE_ENUM.TOSSUP ? 'Buzz' : 'Answer';
@@ -517,6 +518,10 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('next').disabled = false;
   }
 
+  revealTossupAnswer ({ answer, question }) {
+    super.revealTossupAnswer({ answer, question });
+  }
+
   revealNextAnswer ({ answer, currentPartNumber, lastPartRevealed }) {
     super.revealNextAnswer({ answer, currentPartNumber, lastPartRevealed });
     if (lastPartRevealed) {
@@ -585,12 +590,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     super.setReadingSpeed({ readingSpeed });
     const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
     this.logEventConditionally(displayName, `changed the reading speed to ${readingSpeed}`);
-  }
-
-  setStrictness ({ strictness, username }) {
-    const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
-    this.logEventConditionally(displayName, `changed the strictness to ${strictness}`);
-    super.setStrictness({ strictness });
   }
 
   setSetName ({ username, setName, setLength }) {
@@ -674,7 +673,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('category-select-button').disabled = controlled;
     document.getElementById('reading-speed').disabled = controlled;
     document.getElementById('set-mode').disabled = controlled;
-    document.getElementById('set-strictness').disabled = controlled;
   }
 
   toggleEnableBonuses ({ enableBonuses, username }) {
@@ -732,6 +730,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   togglePublic ({ public: isPublic, username }) {
+    console.log('togglePublic called', { isPublic, previous: this.room.previousTossup });
     const displayName = window.getDisplayName ? window.getDisplayName(username, this.room?.distractionFreeMode || false) : username;
     this.logEventConditionally(displayName, `made the room ${isPublic ? 'public' : 'private'}`);
     document.getElementById('chat').disabled = isPublic;
@@ -741,11 +740,13 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('toggle-public').checked = isPublic;
     document.getElementById('toggle-timer').disabled = isPublic;
     this.room.public = isPublic;
+
     if (isPublic) {
       document.getElementById('toggle-lock').checked = false;
       document.getElementById('toggle-login-required').checked = false;
       this.toggleTimer({ timer: true });
     }
+
     Object.keys(this.room.players).forEach((player) => {
       upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId], this.room);
     });

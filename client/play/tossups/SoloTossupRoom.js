@@ -49,7 +49,6 @@ export default class SoloTossupRoom extends TossupRoom {
   async message (userId, message) {
     switch (message.type) {
       case 'toggle-ai-mode': return this.toggleAiMode(userId, message);
-      case 'toggle-correct': return this.toggleCorrect(userId, message);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(userId, message);
       default: super.message(userId, message);
     }
@@ -75,38 +74,6 @@ export default class SoloTossupRoom extends TossupRoom {
   toggleAiMode (userId, { aiMode }) {
     this.settings.aiMode = aiMode;
     this.emitMessage({ type: 'toggle-ai-mode', aiMode, userId });
-  }
-
-  /**
-   * @param {object} params
-   * @param {boolean} params.correct whether the answer was correct. If `correct=true`, then the player's score increases after calling this function.
-   * @returns
-   */
-  toggleCorrect (userId, { correct }) {
-    if (userId !== this.previousTossup.userId) { return; }
-
-    this.previousTossup.isCorrect = correct;
-    const multiplier = correct ? 1 : -1;
-
-    if (this.previousTossup.inPower) {
-      this.players[userId].powers += multiplier * 1;
-      this.players[userId].points += multiplier * this.previousTossup.powerValue;
-    } else {
-      this.players[userId].tens += multiplier * 1;
-      this.players[userId].points += multiplier * 10;
-    }
-
-    if (this.previousTossup.endOfQuestion) {
-      this.players[userId].dead += multiplier * -1;
-    } else {
-      this.players[userId].negs += multiplier * -1;
-      this.players[userId].points += multiplier * -this.previousTossup.negValue;
-    }
-
-    this.players[userId].celerity.correct.total += multiplier * this.previousTossup.celerity;
-    this.players[userId].celerity.correct.average = this.players[userId].celerity.correct.total / (this.players[userId].powers + this.players[userId].tens);
-
-    this.emitMessage({ type: 'toggle-correct', correct, userId });
   }
 
   toggleTypeToAnswer (userId, { typeToAnswer }) {

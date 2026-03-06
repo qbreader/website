@@ -94,11 +94,6 @@ export default class SoloBonusClient extends BonusClient {
     window.localStorage.setItem('singleplayer-bonus-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
-  setStrictness ({ strictness }) {
-    super.setStrictness({ strictness });
-    window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
-  }
-
   startNextBonus ({ bonus, packetLength }) {
     super.startNextBonus({ packetLength, bonus });
     document.getElementById('next').disabled = false;

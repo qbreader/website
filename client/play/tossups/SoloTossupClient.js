@@ -18,7 +18,6 @@ export default class SoloTossupClient extends TossupClient {
     switch (data.type) {
       case 'clear-stats': return this.clearStats(data);
       case 'toggle-ai-mode': return this.toggleAiMode(data);
-      case 'toggle-correct': return this.toggleCorrect(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
       default: return super.onmessage(message);
     }
@@ -78,8 +77,6 @@ export default class SoloTossupClient extends TossupClient {
   async startNextTossup ({ packetLength, tossup }) {
     super.startNextTossup({ tossup, packetLength });
     document.getElementById('next').disabled = false;
-    document.getElementById('toggle-correct').textContent = 'I was wrong';
-    document.getElementById('toggle-correct').classList.add('d-none');
     document.getElementById('next').textContent = 'Skip';
   }
 
@@ -90,9 +87,6 @@ export default class SoloTossupClient extends TossupClient {
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('next').disabled = false;
     document.getElementById('next').textContent = 'Next';
-
-    document.getElementById('toggle-correct').classList.remove('d-none');
-    document.getElementById('toggle-correct').textContent = this.room.previousTossup.isCorrect ? 'I was wrong' : 'I was right';
   }
 
   setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents }) {
@@ -129,11 +123,6 @@ export default class SoloTossupClient extends TossupClient {
     window.localStorage.setItem('singleplayer-tossup-query', JSON.stringify({ ...this.room.query, version: queryVersion }));
   }
 
-  setStrictness ({ strictness }) {
-    super.setStrictness({ strictness });
-    window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
-  }
-
   toggleAiMode ({ aiMode }) {
     if (aiMode) { upsertPlayerItem(this.aiBot.player); }
 
@@ -143,11 +132,6 @@ export default class SoloTossupClient extends TossupClient {
     document.getElementById('player-list-group').classList.toggle('d-none', !aiMode);
     document.getElementById('player-list-group-hr').classList.toggle('d-none', !aiMode);
     window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
-  }
-
-  toggleCorrect ({ correct, userId }) {
-    this.updateStatDisplay(this.room.players[this.USER_ID]);
-    document.getElementById('toggle-correct').textContent = correct ? 'I was wrong' : 'I was right';
   }
 
   togglePowermarkOnly ({ powermarkOnly }) {

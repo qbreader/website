@@ -50,11 +50,6 @@ document.getElementById('toggle-ai-mode').addEventListener('click', function () 
   socket.sendToServer({ type: 'toggle-ai-mode', aiMode: this.checked });
 });
 
-document.getElementById('toggle-correct').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'toggle-correct', correct: this.textContent === 'I was right' });
-});
-
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
@@ -119,7 +114,6 @@ if (window.localStorage.getItem('singleplayer-tossup-settings')) {
   try {
     const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-tossup-settings'));
     if (savedSettings.version !== settingsVersion) { throw new Error(); }
-    socket.sendToServer({ type: 'set-strictness', ...savedSettings });
     socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
     socket.sendToServer({ type: 'toggle-ai-mode', ...savedSettings });
     socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });

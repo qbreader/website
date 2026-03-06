@@ -27,7 +27,6 @@ export default class QuestionClient {
       case 'set-mode': return this.setMode(data);
       case 'set-packet-numbers': return this.setPacketNumbers(data);
       case 'set-set-name': return this.setSetName(data);
-      case 'set-strictness': return this.setStrictness(data);
       case 'set-max-year': return this.setMaxYear(data);
       case 'set-min-year': return this.setMinYear(data);
       case 'timer-update': return this.timerUpdate(data);
@@ -100,11 +99,6 @@ export default class QuestionClient {
     const valid = !setName || SET_LIST.includes(setName);
     document.getElementById('packet-number').placeholder = 'Packet Numbers' + (setLength ? ` (1-${setLength})` : '');
     document.getElementById('set-name').classList.toggle('is-invalid', !valid);
-  }
-
-  setStrictness ({ strictness }) {
-    document.getElementById('set-strictness').value = strictness;
-    document.getElementById('strictness-display').textContent = strictness;
   }
 
   setMaxYear ({ maxYear }) {
@@ -247,15 +241,6 @@ function attachEventListeners (room, socket) {
 
   document.getElementById('set-name').addEventListener('change', function () {
     socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
-  });
-
-  document.getElementById('set-strictness').addEventListener('change', function () {
-    this.blur();
-    socket.sendToServer({ type: 'set-strictness', strictness: this.value });
-  });
-
-  document.getElementById('set-strictness').addEventListener('input', function () {
-    document.getElementById('strictness-display').textContent = this.value;
   });
 
   document.getElementById('toggle-settings').addEventListener('click', function () {

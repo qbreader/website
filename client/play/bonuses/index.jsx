@@ -116,7 +116,6 @@ if (window.localStorage.getItem('singleplayer-bonus-settings')) {
   try {
     const savedSettings = JSON.parse(window.localStorage.getItem('singleplayer-bonus-settings'));
     if (savedSettings.version !== settingsVersion) { throw new Error(); }
-    socket.sendToServer({ type: 'set-strictness', ...savedSettings });
     socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
   } catch {
