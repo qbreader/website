@@ -1,18 +1,12 @@
-import {
-  MODE_ENUM,
-  QUESTION_TYPE_ENUM,
-  TOSSUP_PROGRESS_ENUM
-} from '../../../quizbowl/constants.js';
+import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../../quizbowl/constants.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import TossupBonusClient from '../TossupBonusClient.js';
 import { arrayToRange } from '../ranges.js';
 import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
 
-export const MultiplayerClientMixin = (ClientClass) =>
-  class extends ClientClass {
+export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
     constructor (room, userId, socket) {
-      console.log('MultiplayerClinetMixin is active');
       super(room, userId, socket);
       this.socket = socket;
     }
@@ -20,71 +14,41 @@ export const MultiplayerClientMixin = (ClientClass) =>
     onmessage (event) {
       const data = JSON.parse(event.data);
       switch (data.type) {
-        case 'chat':
-          return this.chat(data, false);
-        case 'chat-live-update':
-          return this.chat(data, true);
-        case 'clear-stats':
-          return this.clearStats(data);
-        case 'confirm-ban':
-          return this.confirmBan(data);
-        case 'connection-acknowledged':
-          return this.connectionAcknowledged(data);
-        case 'connection-acknowledged-query':
-          return this.connectionAcknowledgedQuery(data);
-        case 'connection-acknowledged-question':
-          return this.connectionAcknowledgedQuestion(data);
-        case 'enforcing-removal':
-          return this.ackRemovedFromRoom(data);
-        case 'error':
-          return this.handleError(data);
-        case 'force-username':
-          return this.forceUsername(data);
-        case 'give-answer-live-update':
-          return this.logGiveAnswer(data);
-        case 'initiated-vk':
-          return this.vkInit(data);
-        case 'join':
-          return this.join(data);
-        case 'leave':
-          return this.leave(data);
-        case 'lost-buzzer-race':
-          return this.lostBuzzerRace(data);
-        case 'mute-player':
-          return this.mutePlayer(data);
-        case 'no-points-votekick-attempt':
-          return this.failedVotekickPoints(data);
-        case 'owner-change':
-          return this.ownerChange(data);
-        case 'set-username':
-          return this.setUsername(data);
-        case 'successful-vk':
-          return this.vkHandle(data);
-        case 'toggle-controlled':
-          return this.toggleControlled(data);
-        case 'toggle-lock':
-          return this.toggleLock(data);
-        case 'toggle-login-required':
-          return this.toggleLoginRequired(data);
-        case 'toggle-public':
-          return this.togglePublic(data);
-        case 'toggle-stop-on-power':
-          return this.toggleStopOnPower(data);
-        default:
-          return super.onmessage(event.data);
+        case 'chat': return this.chat(data, false);
+        case 'chat-live-update': return this.chat(data, true);
+        case 'clear-stats': return this.clearStats(data);
+        case 'confirm-ban': return this.confirmBan(data);
+        case 'connection-acknowledged': return this.connectionAcknowledged(data);
+        case 'connection-acknowledged-query': return this.connectionAcknowledgedQuery(data);
+        case 'connection-acknowledged-question': return this.connectionAcknowledgedQuestion(data);
+        case 'enforcing-removal': return this.ackRemovedFromRoom(data);
+        case 'error': return this.handleError(data);
+        case 'force-username': return this.forceUsername(data);
+        case 'give-answer-live-update': return this.logGiveAnswer(data);
+        case 'initiated-vk': return this.vkInit(data);
+        case 'join': return this.join(data);
+        case 'leave': return this.leave(data);
+        case 'lost-buzzer-race': return this.lostBuzzerRace(data);
+        case 'mute-player': return this.mutePlayer(data);
+        case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
+        case 'owner-change': return this.ownerChange(data);
+        case 'set-username': return this.setUsername(data);
+        case 'successful-vk': return this.vkHandle(data);
+        case 'toggle-controlled': return this.toggleControlled(data);
+        case 'toggle-lock': return this.toggleLock(data);
+        case 'toggle-login-required': return this.toggleLoginRequired(data);
+        case 'toggle-public': return this.togglePublic(data);
+        case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
+        default: return super.onmessage(event.data);
       }
     }
 
     // if a banned/kicked user tries to join a this.room they were removed from this is the response
     ackRemovedFromRoom ({ removalType }) {
       if (removalType === 'kick') {
-        window.alert(
-          'You were kicked from this room by room players, and cannot rejoin it.'
-        );
+        window.alert('You were kicked from this room by room players, and cannot rejoin it.');
       } else {
-        window.alert(
-          'You were banned from this room by the room owner, and cannot rejoin it.'
-        );
+        window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
       }
       setTimeout(() => {
         window.location.replace('../');
@@ -94,9 +58,7 @@ export const MultiplayerClientMixin = (ClientClass) =>
     buzz ({ userId, username }) {
       this.logEventConditionally(username, 'buzzed');
       if (userId === this.USER_ID) {
-        document
-          .getElementById('answer-input-group')
-          .classList.remove('d-none');
+        document.getElementById('answer-input-group').classList.remove('d-none');
         document.getElementById('answer-input').focus();
       }
       super.buzz({ userId });
@@ -138,25 +100,10 @@ export const MultiplayerClientMixin = (ClientClass) =>
     }
 
     clearStats ({ userId }) {
-      for (const field of [
-        'celerity',
-        'negs',
-        'points',
-        'powers',
-        'tens',
-        'tuh',
-        'zeroes'
-      ]) {
+      for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
         this.room.players[userId][field] = 0;
       }
-      upsertPlayerItem(
-        this.room.players[userId],
-        this.USER_ID,
-        this.room.ownerId,
-        this.socket,
-        this.room.public,
-        this.room.teams[this.room.players[userId].teamId]
-      );
+      upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
       this.sortPlayerListGroup();
     }
 
@@ -167,9 +114,7 @@ export const MultiplayerClientMixin = (ClientClass) =>
           window.location.replace('../');
         }, 100);
       } else {
-        this.logEventConditionally(
-          targetUsername + ' has been banned from this room.'
-        );
+        this.logEventConditionally(targetUsername + ' has been banned from this room.');
       }
     }
 
@@ -198,16 +143,12 @@ export const MultiplayerClientMixin = (ClientClass) =>
       window.localStorage.setItem('USER_ID', this.USER_ID);
 
       document.getElementById('buzz').disabled = !canBuzz;
-      document.getElementById('reveal').disabled =
-        currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ||
-        userId !== bonusEligibleTeamId;
+      document.getElementById('reveal').disabled = currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP || userId !== bonusEligibleTeamId;
 
       if (isPermanent) {
         document.getElementById('category-select-button').disabled = true;
         document.getElementById('toggle-enable-bonuses').disabled = true;
-        document
-          .getElementById('permanent-room-warning')
-          .classList.remove('d-none');
+        document.getElementById('permanent-room-warning').classList.remove('d-none');
         document.getElementById('reading-speed').disabled = true;
         document.getElementById('set-strictness').disabled = true;
         document.getElementById('set-mode').disabled = true;
@@ -219,19 +160,11 @@ export const MultiplayerClientMixin = (ClientClass) =>
         players[userId].celerity = players[userId].celerity.correct.average;
         this.room.players[userId] = players[userId];
         this.room.teams[teamId] = teams[teamId];
-        upsertPlayerItem(
-          this.room.players[userId],
-          this.USER_ID,
-          this.room.ownerId,
-          this.socket,
-          this.room.public,
-          this.room.teams[teamId]
-        );
+        upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[teamId]);
       }
       this.sortPlayerListGroup();
 
-      document.getElementById('packet-length-info').textContent =
-        mode === MODE_ENUM.SET_NAME ? packetLength : '-';
+      document.getElementById('packet-length-info').textContent = mode === MODE_ENUM.SET_NAME ? packetLength : '-';
 
       if (currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
         switch (tossupProgress) {
