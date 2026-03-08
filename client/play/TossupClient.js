@@ -92,7 +92,7 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   }
 
   updateQuestion ({ word }) {
-    if (word === '(*)' || word === '[*]') { return; }
+    if (word === '(*)' || word === '[*]' || word === '(+)') { return; }
     document.getElementById('question').innerHTML += word + ' ';
   }
 };

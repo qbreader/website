@@ -88,7 +88,10 @@ export default class SoloTossupRoom extends TossupRoom {
     this.previousTossup.isCorrect = correct;
     const multiplier = correct ? 1 : -1;
 
-    if (this.previousTossup.inPower) {
+    if (this.previousTossup.inSuperpower) {
+      this.players[userId].powers += multiplier * 1;
+      this.players[userId].points += multiplier * this.previousTossup.superpowerValue;
+    } else if (this.previousTossup.inPower) {
       this.players[userId].powers += multiplier * 1;
       this.players[userId].points += multiplier * this.previousTossup.powerValue;
     } else {

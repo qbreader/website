@@ -38,8 +38,10 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       endOfQuestion: false,
       isCorrect: true,
       inPower: false,
+      inSuperpower: false,
       negValue: -5,
       powerValue: 15,
+      superpowerValue: 20,
       tossup: {},
       userId: null
     };
@@ -209,7 +211,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       time += 2.5;
     } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') {
       time += 1.5;
-    } else if (word === '(*)' || word === '[*]') {
+    } else if (word === '(*)' || word === '[*]' || word === '(+)') {
       time = 0;
     }
 
@@ -235,22 +237,28 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
   scoreTossup ({ givenAnswer }) {
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
     const endOfQuestion = (this.wordIndex === this.questionSplit.length);
-    const inPower = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]')) >= this.wordIndex;
+    const superpowerIndex = this.questionSplit.indexOf('(+)');
+    const powerIndex = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]'));
+    const inSuperpower = superpowerIndex !== -1 && superpowerIndex >= this.wordIndex;
+    const inPower = !inSuperpower && powerIndex !== -1 && powerIndex >= this.wordIndex;
     const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
     const isCorrect = directive === 'accept';
-    const points = isCorrect ? (inPower ? this.previousTossup.powerValue : 10) : (endOfQuestion ? 0 : this.previousTossup.negValue);
+    const points = isCorrect
+      ? (inSuperpower ? this.previousTossup.superpowerValue : (inPower ? this.previousTossup.powerValue : 10))
+      : (endOfQuestion ? 0 : this.previousTossup.negValue);
 
     this.previousTossup = {
       ...this.previousTossup,
       celerity,
       endOfQuestion,
       inPower,
+      inSuperpower,
       isCorrect,
       tossup: this.tossup,
       userId: this.buzzedIn
     };
 
-    return { celerity, directive, directedPrompt, endOfQuestion, inPower, points };
+    return { celerity, directive, directedPrompt, endOfQuestion, inPower, inSuperpower, points };
   }
 
   setReadingSpeed (userId, { readingSpeed }) {

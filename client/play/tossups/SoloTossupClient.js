@@ -46,7 +46,7 @@ export default class SoloTossupClient extends TossupClient {
     super.endCurrentTossup({ starred, tossup });
     if (!isSkip && this.room.previousTossup.userId === this.USER_ID && (this.room.mode !== MODE_ENUM.LOCAL)) {
       const previous = this.room.previousTossup;
-      const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
+      const pointValue = previous.isCorrect ? (previous.inSuperpower ? previous.superpowerValue : (previous.inPower ? previous.powerValue : 10)) : (previous.endOfQuestion ? 0 : previous.negValue);
       questionStats.recordTossup({
         _id: previous.tossup._id,
         celerity: previous.celerity,
