@@ -388,12 +388,17 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     }
   }
 
-  leave ({ userId, username }) {
+  leave ({ userId, username, remove }) {
     this.logEventConditionally(username, 'left the game');
-    this.room.players[userId].online = false;
-    document.getElementById(`list-group-${userId}`).classList.add('offline');
-    document.getElementById(`points-${userId}`).classList.remove('bg-success');
-    document.getElementById(`points-${userId}`).classList.add('bg-secondary');
+    if (remove) {
+      delete this.room.players[userId];
+      document.getElementById(`list-group-${userId}`)?.remove();
+    } else {
+      this.room.players[userId].online = false;
+      document.getElementById(`list-group-${userId}`).classList.add('offline');
+      document.getElementById(`points-${userId}`).classList.remove('bg-success');
+      document.getElementById(`points-${userId}`).classList.add('bg-secondary');
+    }
   }
 
   /**

@@ -70,6 +70,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     clearTimeout(this.timeoutID);
     this.buzzedIn = userId;
     this.buzzes.push(userId);
+    this.players[userId].buzzes++;
     this.buzzpointIndices.push(this.questionSplit.slice(0, this.wordIndex).join(' ').length);
     this.paused = false;
 

@@ -5,6 +5,7 @@ class Player {
 
     this.teamId = undefined;
     this.username = '';
+    this.buzzes = 0;
     this.powers = 0;
     this.tens = 0;
     this.zeroes = 0;
@@ -24,6 +25,7 @@ class Player {
   }
 
   clearStats () {
+    this.buzzes = 0;
     this.powers = 0;
     this.tens = 0;
     this.zeroes = 0;
@@ -61,6 +63,14 @@ class Player {
       this.celerity.correct.total += celerity;
       this.celerity.correct.average = this.celerity.correct.total / (this.powers + this.tens);
     }
+  }
+
+  /**
+   * Returns true if the player has recorded any stats or buzzes.
+   * @returns {boolean}
+   */
+  hasActivity () {
+    return this.tuh > 0 || this.buzzes > 0 || this.powers > 0 || this.tens > 0 || this.zeroes > 0 || this.negs > 0;
   }
 
   /**

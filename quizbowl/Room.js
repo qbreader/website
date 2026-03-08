@@ -37,11 +37,18 @@ export default class Room {
   }
 
   leave (userId) {
-    // this.deletePlayer(userId);
-    this.players[userId].online = false;
+    if (!this.players[userId]) { return; }
+    const player = this.players[userId];
+    const username = player.username;
     delete this.sockets[userId];
-    const username = this.players[userId].username;
-    this.emitMessage({ type: 'leave', userId, username });
+    if (!player.hasActivity()) {
+      delete this.players[userId];
+      delete this.teams[userId];
+      this.emitMessage({ type: 'leave', userId, username, remove: true });
+    } else {
+      player.online = false;
+      this.emitMessage({ type: 'leave', userId, username });
+    }
   }
 
   /**
