@@ -181,7 +181,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       this.room.teams[teamId] = teams[teamId];
       upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[teamId] });
     }
-    this.sortPlayerListGroup();
+    setTimeout(() => this.sortPlayerListGroup(), 0);
 
     document.getElementById('packet-length-info').textContent = mode === MODE_ENUM.SET_NAME ? packetLength : '-';
 
