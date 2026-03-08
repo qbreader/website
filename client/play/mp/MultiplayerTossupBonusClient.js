@@ -643,6 +643,14 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     super.startNextQuestion({ packetLength, question });
   }
 
+  startBonusAnswer (data) {
+    super.startBonusAnswer(data);
+    const myTeamId = this.room.players[this.USER_ID]?.teamId;
+    if (myTeamId !== undefined && myTeamId !== this.room.bonusEligibleTeamId) {
+      document.getElementById('answer-input-group').classList.add('d-none');
+    }
+  }
+
   startNextBonus ({ bonus, packetLength, username }) {
     this.logEventConditionally(username, 'started the next bonus');
     super.startNextBonus({ bonus, packetLength });
