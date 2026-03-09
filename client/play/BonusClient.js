@@ -3,6 +3,11 @@ import QuestionClient from './QuestionClient.js';
 import { MODE_ENUM } from '../../quizbowl/constants.js';
 
 export const BonusClientMixin = (ClientClass) => class extends ClientClass {
+  constructor (room, userId, socket) {
+    super(room, userId, socket);
+    attachEventListeners(room, socket);
+  }
+
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
@@ -117,6 +122,13 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     document.getElementById('toggle-three-part-bonuses').checked = threePartBonuses;
   }
 };
+
+function attachEventListeners (room, socket) {
+  document.getElementById('reveal').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'start-bonus-answer' });
+  });
+}
 
 const BonusClient = BonusClientMixin(QuestionClient);
 export default BonusClient;

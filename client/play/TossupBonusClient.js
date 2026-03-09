@@ -6,14 +6,25 @@ export default class TossupBonusClient extends BonusClientMixin(TossupClientMixi
   constructor (room, userId, socket) {
     super(room, userId, socket);
     attachEventListeners(room, socket);
+    this.bonusEligibleTeamId = null;
   }
 
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
+      case 'set-bonus-eligible-team-id': return this.setBonusEligibleTeamId(data);
       case 'toggle-enable-bonuses': return this.toggleEnableBonuses(data);
       default: return super.onmessage(message);
     }
+  }
+
+  setBonusEligibleTeamId ({ teamId }) {
+    this.bonusEligibleTeamId = teamId;
+  }
+
+  startBonusAnswer () {
+    if (this.bonusEligibleTeamId !== null && this.USER_ID !== this.bonusEligibleTeamId) { return; }
+    super.startBonusAnswer();
   }
 
   startNextTossup ({ tossup, packetLength }) {

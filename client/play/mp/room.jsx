@@ -124,11 +124,6 @@ document.getElementById('toggle-public').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'toggle-public', public: this.checked }));
 });
 
-document.getElementById('reveal').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'start-bonus-answer' }));
-});
-
 document.getElementById('username').addEventListener('change', function () {
   socket.send(JSON.stringify({ type: 'set-username', userId: USER_ID, username: this.value }));
   room.username = this.value;

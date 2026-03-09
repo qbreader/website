@@ -48,6 +48,7 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
     if (directive === 'accept') {
       const teamId = this.players[userId].teamId;
       this.bonusEligibleTeamId = teamId;
+      this.emitMessage({ type: 'set-bonus-eligible-team-id', teamId });
     }
   }
 

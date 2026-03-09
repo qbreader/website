@@ -38,11 +38,6 @@ document.getElementById('local-packet-input').addEventListener('change', functio
   reader.readAsText(file);
 });
 
-document.getElementById('reveal').addEventListener('click', function () {
-  this.blur();
-  socket.sendToServer({ type: 'start-bonus-answer' });
-});
-
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
