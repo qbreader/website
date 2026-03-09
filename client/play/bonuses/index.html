@@ -169,6 +169,14 @@
                         <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-timer">Enable timer</label>
                     </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-read-bonuses" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-read-bonuses">Read bonuses word by word</label>
+                    </div>
+                    <div class="d-none" id="reading-speed-settings">
+                        <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                        <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
+                    </div>
                     <div class="mb-2"></div>
                     <label for="set-strictness">Strictness: <span id="strictness-display">7</span><br></label>
                     <input class="form-range" id="set-strictness" type="range" min="0" max="20" step="1" value="7">
@@ -220,6 +228,8 @@
             <div class="col-12 col-lg-9" id="buttons">
                 <button class="btn btn-primary" id="next" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
                     title="Shortcut: n key">Next</button>
+                <button class="btn btn-primary" id="pause" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: p key" disabled>Pause</button>
                 <button class="btn btn-danger d-lg-none" id="toggle-options" type="button" disabled>Options</button>
                 <button class="btn btn-danger" id="toggle-settings" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
                     title="Shortcut: e key" type="button">

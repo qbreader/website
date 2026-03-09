@@ -58,6 +58,24 @@ document.getElementById('type-to-answer').addEventListener('click', function () 
   socket.sendToServer({ type: 'toggle-type-to-answer', typeToAnswer: this.checked });
 });
 
+document.getElementById('toggle-read-bonuses').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-read-bonuses', readBonuses: this.checked });
+});
+
+document.getElementById('reading-speed').addEventListener('change', function () {
+  socket.sendToServer({ type: 'set-reading-speed', readingSpeed: this.value });
+});
+
+document.getElementById('reading-speed').addEventListener('input', function () {
+  document.getElementById('reading-speed-display').textContent = this.value;
+});
+
+document.getElementById('pause').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'pause' });
+});
+
 document.addEventListener('keydown', (event) => {
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) { return; }
 
@@ -71,6 +89,7 @@ document.addEventListener('keydown', (event) => {
     case 'e': return document.getElementById('toggle-settings').click();
     case 'k': return document.getElementsByClassName('card-header-clickable')[0].click();
     case 'n': return document.getElementById('next').click();
+    case 'p': return document.getElementById('pause').click();
     case 's': return document.getElementById('next').click();
     case 't': return document.getElementsByClassName('star-bonus')[0].click();
     case 'y': return navigator.clipboard.writeText(room.bonus._id ?? '');
@@ -119,6 +138,12 @@ if (window.localStorage.getItem('singleplayer-bonus-settings')) {
     socket.sendToServer({ type: 'set-strictness', ...savedSettings });
     socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
+    if (savedSettings.readBonuses !== undefined) {
+      socket.sendToServer({ type: 'toggle-read-bonuses', ...savedSettings });
+    }
+    if (savedSettings.readingSpeed !== undefined) {
+      socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
+    }
   } catch {
     window.localStorage.removeItem('singleplayer-bonus-settings');
   }
