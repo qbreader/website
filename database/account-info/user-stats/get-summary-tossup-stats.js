@@ -22,7 +22,8 @@ export default async function getSummaryTossupStats (userId, groupByField, query
     { $match: { 'data.user_id': userId } },
     {
       $addFields: {
-        is15: { $gt: ['$data.pointValue', 10] },
+        is20: { $eq: ['$data.pointValue', 20] },
+        is15: { $eq: ['$data.pointValue', 15] },
         is10: { $eq: ['$data.pointValue', 10] },
         isNeg5: { $lt: ['$data.pointValue', 0] }
       }
@@ -32,7 +33,8 @@ export default async function getSummaryTossupStats (userId, groupByField, query
         numCorrect: { $sum: { $cond: ['$data.isCorrect', 1, 0] } },
         _id: '$' + groupByField,
         count: { $sum: 1 },
-        '15s': { $sum: { $cond: ['$is15', 1, 0] } },
+        superpowers: { $sum: { $cond: ['$is20', 1, 0] } },
+        powers: { $sum: { $cond: ['$is15', 1, 0] } },
         '10s': { $sum: { $cond: ['$is10', 1, 0] } },
         '-5s': { $sum: { $cond: ['$isNeg5', 1, 0] } },
         totalCelerity: { $sum: '$data.celerity' },
