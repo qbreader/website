@@ -89,7 +89,7 @@ export default class SoloTossupRoom extends TossupRoom {
     const multiplier = correct ? 1 : -1;
 
     if (this.previousTossup.inSuperpower) {
-      this.players[userId].powers += multiplier * 1;
+      this.players[userId].superpowers += multiplier * 1;
       this.players[userId].points += multiplier * this.previousTossup.superpowerValue;
     } else if (this.previousTossup.inPower) {
       this.players[userId].powers += multiplier * 1;
@@ -106,8 +106,9 @@ export default class SoloTossupRoom extends TossupRoom {
       this.players[userId].points += multiplier * -this.previousTossup.negValue;
     }
 
+    const correctBuzzes = this.players[userId].superpowers + this.players[userId].powers + this.players[userId].tens;
     this.players[userId].celerity.correct.total += multiplier * this.previousTossup.celerity;
-    this.players[userId].celerity.correct.average = this.players[userId].celerity.correct.total / (this.players[userId].powers + this.players[userId].tens);
+    this.players[userId].celerity.correct.average = this.players[userId].celerity.correct.total / correctBuzzes;
 
     this.emitMessage({ type: 'toggle-correct', correct, userId });
   }

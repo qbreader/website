@@ -6,6 +6,7 @@ class Player {
     this.teamId = undefined;
     this.username = '';
     this.buzzes = 0;
+    this.superpowers = 0;
     this.powers = 0;
     this.tens = 0;
     this.zeroes = 0;
@@ -27,6 +28,7 @@ class Player {
   clearStats () {
     this.buzzes = 0;
     this.powers = 0;
+    this.superpowers = 0;
     this.tens = 0;
     this.zeroes = 0;
     this.negs = 0;
@@ -49,7 +51,9 @@ class Player {
     this.celerity.all.total += celerity;
     this.celerity.all.average = this.celerity.all.total / this.tuh;
 
-    if (points > 10) {
+    if (points === 20) {
+      this.superpowers++;
+    } else if (points === 15) {
       this.powers++;
     } else if (points === 10) {
       this.tens++;
@@ -60,8 +64,9 @@ class Player {
     }
 
     if (points > 0) {
+      const correctBuzzes = this.superpowers + this.powers + this.tens;
       this.celerity.correct.total += celerity;
-      this.celerity.correct.average = this.celerity.correct.total / (this.powers + this.tens);
+      this.celerity.correct.average = this.celerity.correct.total / correctBuzzes;
     }
   }
 
@@ -70,7 +75,7 @@ class Player {
    * @returns {boolean}
    */
   hasActivity () {
-    return this.tuh > 0 || this.buzzes > 0 || this.powers > 0 || this.tens > 0 || this.zeroes > 0 || this.negs > 0;
+    return this.tuh > 0 || this.buzzes > 0 || this.powers > 0 || this.tens > 0 || this.zeroes > 0 || this.negs > 0 || this.superpowers > 0;
   }
 
   /**
