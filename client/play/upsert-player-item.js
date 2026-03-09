@@ -156,7 +156,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
 
     dropdownContainer.appendChild(dropdownMenu);
 
-    const usernameSpan = playerItem.querySelector(`#username-${userId}`);
+    const usernameSpan = document.getElementById(`username-${userId}`);
     usernameSpan.classList.add('me-2');
     usernameSpan.after(dropdownContainer);
   }
