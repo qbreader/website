@@ -1,3 +1,4 @@
+
 import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../../quizbowl/constants.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import TossupBonusClient from '../TossupBonusClient.js';
@@ -330,7 +331,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.room.players[userId].tuh++;
     this.room.players[userId].celerity = celerity;
 
-    upsertPlayerItem( this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId] );
+    upsertPlayerItem(this.room.players[userId], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[userId].teamId]);
     this.sortPlayerListGroup();
 
     if (userId === this.USER_ID) {
@@ -358,7 +359,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
     if (isNew) {
       user.celerity = user.celerity.correct.average;
-      upsertPlayerItem( user, this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[user.teamId] );
+      upsertPlayerItem(user, this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[user.teamId]);
       this.sortPlayerListGroup();
     } else {
       document.getElementById(`list-group-${userId}`).classList.remove('offline');
@@ -377,11 +378,11 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   /**
-  * Log the event, but only if `username !== undefined`.
-  * If username is undefined, do nothing, regardless of the value of message.
-  * @param {string | undefined} username
-  * @param {string | undefined} message
-  */
+ * Log the event, but only if `username !== undefined`.
+ * If username is undefined, do nothing, regardless of the value of message.
+ * @param {string | undefined} username
+ * @param {string | undefined} message
+ */
   logEventConditionally (username, message) {
     if (username === undefined) { return; }
 
@@ -488,7 +489,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       upsertPlayerItem(this.room.players[player], this.USER_ID, this.room.ownerId, this.socket, this.room.public, this.room.teams[this.room.players[player].teamId]);
     });
 
-    document.getElementById('toggle-controlled').disabled = this.room.public || this.room.ownerId !== this.USER_ID;
+    document.getElementById('toggle-controlled').disabled = this.room.public || (this.room.ownerId !== this.USER_ID);
   }
 
   pause ({ paused, username }) {
@@ -595,19 +596,19 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     const items = Array.from(listGroup.children);
     const offset = 'list-group-'.length;
     items.sort((a, b) => {
-        const aPoints = parseInt(document.getElementById('points-' + a.id.substring(offset)).textContent);
-        const bPoints = parseInt(document.getElementById('points-' + b.id.substring(offset)).textContent);
-        // if points are equal, sort alphabetically by username
-        if (aPoints === bPoints) {
-          const aUsername = document.getElementById('username-' + a.id.substring(offset)).textContent;
-          const bUsername = document.getElementById('username-' + b.id.substring(offset)).textContent;
-          return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
-        }
-        return descending ? bPoints - aPoints : aPoints - bPoints;
-      })
-      .forEach((item) => {
-        listGroup.appendChild(item);
-      });
+      const aPoints = parseInt(document.getElementById('points-' + a.id.substring(offset)).textContent);
+      const bPoints = parseInt(document.getElementById('points-' + b.id.substring(offset)).textContent);
+      // if points are equal, sort alphabetically by username
+      if (aPoints === bPoints) {
+        const aUsername = document.getElementById('username-' + a.id.substring(offset)).textContent;
+        const bUsername = document.getElementById('username-' + b.id.substring(offset)).textContent;
+        return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
+      }
+      return descending ? bPoints - aPoints : aPoints - bPoints;
+    })
+    .forEach((item) => {
+      listGroup.appendChild(item);
+    });
   }
 
   startNextQuestion ({ packetLength, question }) {
@@ -650,7 +651,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   toggleEnableBonuses ({ enableBonuses, username }) {
-    this.logEventConditionally(username, `${enableBonuses ? 'en' : 'dis'}abled bonuses`);
+    this.logEventConditionally(username, `${enableBonuses ? 'enabled' : 'disabled'} bonuses`);
     super.toggleEnableBonuses({ enableBonuses });
   }
 
@@ -697,7 +698,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   togglePublic ({ public: isPublic, username }) {
     this.logEventConditionally(username, `made the room ${isPublic ? 'public' : 'private'}`);
     document.getElementById('chat').disabled = isPublic;
-    document.getElementById('toggle-controlled').disabled = isPublic || this.room.ownerId !== this.USER_ID;
+    document.getElementById('toggle-controlled').disabled = isPublic || (this.room.ownerId !== this.USER_ID);
     document.getElementById('toggle-lock').disabled = isPublic;
     document.getElementById('toggle-login-required').disabled = isPublic;
     document.getElementById('toggle-public').checked = isPublic;
