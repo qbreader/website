@@ -605,8 +605,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
         return descending ? aUsername.localeCompare(bUsername) : bUsername.localeCompare(aUsername);
       }
       return descending ? bPoints - aPoints : aPoints - bPoints;
-    })
-    .forEach((item) => {
+    }).forEach((item) => {
       listGroup.appendChild(item);
     });
   }
