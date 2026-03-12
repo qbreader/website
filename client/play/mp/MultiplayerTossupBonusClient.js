@@ -6,50 +6,50 @@ import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
 
 export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
-    constructor (room, userId, socket) {
-      super(room, userId, socket);
-      this.socket = socket;
-    }
+  constructor (room, userId, socket) {
+    super(room, userId, socket);
+    this.socket = socket;
+  }
 
-    onmessage (event) {
-      const data = JSON.parse(event.data);
-      switch (data.type) {
-        case 'chat': return this.chat(data, false);
-        case 'chat-live-update': return this.chat(data, true);
-        case 'clear-stats': return this.clearStats(data);
-        case 'confirm-ban': return this.confirmBan(data);
-        case 'connection-acknowledged': return this.connectionAcknowledged(data);
-        case 'connection-acknowledged-query': return this.connectionAcknowledgedQuery(data);
-        case 'connection-acknowledged-question': return this.connectionAcknowledgedQuestion(data);
-        case 'enforcing-removal': return this.ackRemovedFromRoom(data);
-        case 'error': return this.handleError(data);
-        case 'force-username': return this.forceUsername(data);
-        case 'give-answer-live-update': return this.logGiveAnswer(data);
-        case 'initiated-vk': return this.vkInit(data);
-        case 'join': return this.join(data);
-        case 'leave': return this.leave(data);
-        case 'lost-buzzer-race': return this.lostBuzzerRace(data);
-        case 'mute-player': return this.mutePlayer(data);
-        case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
-        case 'owner-change': return this.ownerChange(data);
-        case 'set-username': return this.setUsername(data);
-        case 'successful-vk': return this.vkHandle(data);
-        case 'toggle-controlled': return this.toggleControlled(data);
-        case 'toggle-lock': return this.toggleLock(data);
-        case 'toggle-login-required': return this.toggleLoginRequired(data);
-        case 'toggle-public': return this.togglePublic(data);
-        case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
-        default: return super.onmessage(event.data);
-      }
+  onmessage (event) {
+    const data = JSON.parse(event.data);
+    switch (data.type) {
+      case 'chat': return this.chat(data, false);
+      case 'chat-live-update': return this.chat(data, true);
+      case 'clear-stats': return this.clearStats(data);
+      case 'confirm-ban': return this.confirmBan(data);
+      case 'connection-acknowledged': return this.connectionAcknowledged(data);
+      case 'connection-acknowledged-query': return this.connectionAcknowledgedQuery(data);
+      case 'connection-acknowledged-question': return this.connectionAcknowledgedQuestion(data);
+      case 'enforcing-removal': return this.ackRemovedFromRoom(data);
+      case 'error': return this.handleError(data);
+      case 'force-username': return this.forceUsername(data);
+      case 'give-answer-live-update': return this.logGiveAnswer(data);
+      case 'initiated-vk': return this.vkInit(data);
+      case 'join': return this.join(data);
+      case 'leave': return this.leave(data);
+      case 'lost-buzzer-race': return this.lostBuzzerRace(data);
+      case 'mute-player': return this.mutePlayer(data);
+      case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
+      case 'owner-change': return this.ownerChange(data);
+      case 'set-username': return this.setUsername(data);
+      case 'successful-vk': return this.vkHandle(data);
+      case 'toggle-controlled': return this.toggleControlled(data);
+      case 'toggle-lock': return this.toggleLock(data);
+      case 'toggle-login-required': return this.toggleLoginRequired(data);
+      case 'toggle-public': return this.togglePublic(data);
+      case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
+      default: return super.onmessage(event.data);
     }
+  }
 
-    // if a banned/kicked user tries to join a this.room they were removed from this is the response
-    ackRemovedFromRoom ({ removalType }) {
-      if (removalType === 'kick') {
-        window.alert('You were kicked from this room by room players, and cannot rejoin it.');
-      } else {
-        window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
-      }
+  // if a banned/kicked user tries to join a this.room they were removed from this is the response
+  ackRemovedFromRoom ({ removalType }) {
+    if (removalType === 'kick') {
+      window.alert('You were kicked from this room by room players, and cannot rejoin it.');
+    } else {
+      window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
+    }
       setTimeout(() => {
         window.location.replace('../');
       }, 100);
