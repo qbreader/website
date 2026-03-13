@@ -209,14 +209,14 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     // prevent chat messages if room is public, since they can still be sent with API
     if (this.settings.public && !this.settings.loginRequired) { return false; }
     if (typeof message !== 'string') { return false; }
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'chat', message, username, userId });
   }
 
   chatLiveUpdate (userId, { message }) {
     if (this.settings.public && !this.settings.loginRequired) { return false; }
     if (typeof message !== 'string') { return false; }
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'chat-live-update', message, username, userId });
   }
 
@@ -255,7 +255,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   giveAnswerLiveUpdate (userId, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
     this.liveAnswer = givenAnswer;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username });
   }
 
@@ -334,7 +334,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     if (this.settings.public) { return; }
     if (userId !== this.ownerId) { return; }
     this.settings.controlled = !!controlled;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-controlled', controlled, username });
   }
 
@@ -346,14 +346,14 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   toggleLock (userId, { lock }) {
     if (this.settings.public || !this.allowed(userId)) { return; }
     this.settings.lock = lock;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-lock', lock, username });
   }
 
   toggleLoginRequired (userId, { loginRequired }) {
     if (this.isVerified || this.settings.public || !this.allowed(userId)) { return; }
     this.settings.loginRequired = loginRequired;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
   }
 
@@ -380,7 +380,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   togglePublic (userId, { public: isPublic }) {
     if (this.isPermanent || this.settings.controlled) { return; }
     this.settings.public = isPublic;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     if (isPublic) {
       this.settings.lock = false;
       this.settings.loginRequired = false;

@@ -203,7 +203,7 @@ export default class QuestionRoom extends Room {
 
     this.categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
 
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.adjustQuery(
       ['categories', 'subcategories', 'alternateSubcategories', 'percentView', 'categoryPercents'],
       [categories, subcategories, alternateSubcategories, percentView, categoryPercents]
@@ -214,7 +214,7 @@ export default class QuestionRoom extends Room {
   setDifficulties (userId, { difficulties }) {
     const invalid = difficulties.some(value => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10);
     if (invalid) { return false; }
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.adjustQuery(['difficulties'], [difficulties]);
     this.emitMessage({ type: 'set-difficulties', username, difficulties });
   }
@@ -223,7 +223,7 @@ export default class QuestionRoom extends Room {
     maxYear = parseInt(maxYear);
     if (isNaN(maxYear)) { maxYear = DEFAULT_MAX_YEAR; }
     maxYear = Math.max(maxYear, this.query.minYear);
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.adjustQuery(['maxYear'], [maxYear], doNotFetch);
     this.emitMessage({ type: 'set-max-year', maxYear, username });
   }
@@ -232,7 +232,7 @@ export default class QuestionRoom extends Room {
     minYear = parseInt(minYear);
     if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
     minYear = Math.min(minYear, this.query.maxYear);
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.adjustQuery(['minYear'], [minYear], doNotFetch);
     this.emitMessage({ type: 'set-min-year', minYear, username });
   }
@@ -240,21 +240,21 @@ export default class QuestionRoom extends Room {
   setMode (userId, { mode }) {
     if (!Object.values(MODE_ENUM).includes(mode)) { return; }
     this.mode = mode;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'set-mode', mode, username });
   }
 
   setPacketNumbers (userId, { doNotFetch = false, packetNumbers }) {
     if (!Array.isArray(packetNumbers)) { return false; }
     if (packetNumbers.some(value => typeof value !== 'number' || value < 1 || value > this.packetCount)) { return false; }
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.adjustQuery(['packetNumbers'], [packetNumbers], doNotFetch);
     this.emitMessage({ type: 'set-packet-numbers', username, packetNumbers });
   }
 
   async setSetName (userId, { doNotFetch = false, setName }) {
     if (typeof setName !== 'string') { return; }
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.packetCount = await this.getPacketCount(setName);
     const packetNumbers = [];
     for (let i = 1; i <= this.packetCount; i++) { packetNumbers.push(i); }
@@ -264,7 +264,7 @@ export default class QuestionRoom extends Room {
 
   setStrictness (userId, { strictness }) {
     this.settings.strictness = strictness;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'set-strictness', username, strictness });
   }
 
@@ -275,26 +275,26 @@ export default class QuestionRoom extends Room {
 
   toggleRandomizeOrder (userId, { randomizeOrder }) {
     this.settings.randomizeOrder = randomizeOrder;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-randomize-order', randomizeOrder, username });
   }
 
   toggleSkip (userId, { skip }) {
     this.settings.skip = skip;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-skip', skip, username });
   }
 
   toggleStandardOnly (userId, { doNotFetch = false, standardOnly }) {
     this.query.standardOnly = standardOnly;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.adjustQuery(['standardOnly'], [standardOnly], doNotFetch);
     this.emitMessage({ type: 'toggle-standard-only', standardOnly, username });
   }
 
   toggleTimer (userId, { timer }) {
     this.settings.timer = timer;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-timer', timer, username });
   }
 

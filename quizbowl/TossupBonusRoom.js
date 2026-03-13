@@ -99,7 +99,7 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
   }
 
   toggleEnableBonuses (userId, { enableBonuses }) {
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.settings.enableBonuses = enableBonuses;
     this.emitMessage({ type: 'toggle-enable-bonuses', enableBonuses, username });
   }

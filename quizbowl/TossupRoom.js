@@ -62,7 +62,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (!this.settings.rebuzz && this.buzzes.includes(userId)) { return; }
     if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING) { return; }
 
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     if (this.buzzedIn) {
       return this.emitMessage({ type: 'lost-buzzer-race', userId, username });
     }
@@ -183,7 +183,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     } else {
       this.readTossup(Date.now());
     }
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'pause', paused: this.paused, username });
   }
 
@@ -259,12 +259,12 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (readingSpeed < 0) { readingSpeed = 0; }
 
     this.settings.readingSpeed = readingSpeed;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'set-reading-speed', username, readingSpeed });
   }
 
   async startNextTossup (userId) {
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.tossup = await this.getNextQuestion('tossups');
     this.queryingQuestion = false;
     if (!this.tossup) { return; }
@@ -278,14 +278,14 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
   togglePowermarkOnly (userId, { powermarkOnly }) {
     this.query.powermarkOnly = powermarkOnly;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.adjustQuery(['powermarkOnly'], [powermarkOnly]);
     this.emitMessage({ type: 'toggle-powermark-only', powermarkOnly, username });
   }
 
   toggleRebuzz (userId, { rebuzz }) {
     this.settings.rebuzz = rebuzz;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-rebuzz', rebuzz, username });
   }
 };
