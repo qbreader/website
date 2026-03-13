@@ -10,7 +10,7 @@ export function highlightTossupQuery ({ tossup, regExp, searchType = 'all', igno
       tossup.question = insertHighlightTokensHelper(tossup.question, tossup.question_sanitized, word);
     }
 
-    if (searchType === 'answer' || searchType === 'all') {
+    if (searchType === 'answer' || searchType === 'exactAnswer' || searchType === 'all') {
       tossup.answer = insertHighlightTokensHelper(tossup.answer, tossup.answer_sanitized, word);
     }
   }
@@ -31,7 +31,7 @@ export function highlightBonusQuery ({ bonus, regExp, searchType = 'all', ignore
       }
     }
 
-    if (searchType === 'answer' || searchType === 'all') {
+    if (searchType === 'answer' || searchType === 'exactAnswer' || searchType === 'all') {
       for (let i = 0; i < bonus.answers.length; i++) {
         bonus.answers[i] = insertHighlightTokensHelper(bonus.answers[i], bonus.answers_sanitized[i], word);
       }
