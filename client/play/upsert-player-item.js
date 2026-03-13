@@ -32,7 +32,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
   player.userId = escapeHTML(player.userId);
   player.username = escapeHTML(player.username);
 
-  const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
+  const { userId, username, superpowers = 0, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
   const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
 
   const { bonusStats = { 0: 0, 10: 0, 20: 0, 30: 0 } } = team;
@@ -75,6 +75,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
   playerItem.setAttribute('data-bs-title', username);
   playerItem.setAttribute('data-bs-content', `
     <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span>Superpowers</span><span id="superpowers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${superpowers}</span></li>
         <li class="list-group-item"><span>Powers</span><span id="powers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${powers}</span></li>
         <li class="list-group-item"><span>Tens</span><span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span></li>
         <li class="list-group-item"><span>Negs</span><span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span></li>
