@@ -101,9 +101,7 @@ document.getElementById('toggle-offline-players').addEventListener('click', func
 
 document.getElementById('toggle-controlled').addEventListener('click', function () {
   this.blur();
-  socket.send(
-    JSON.stringify({ type: 'toggle-controlled', controlled: this.checked })
-  );
+  socket.send(JSON.stringify({ type: 'toggle-controlled', controlled: this.checked }));
 });
 
 document.getElementById('toggle-lock').addEventListener('click', function () {
@@ -113,12 +111,7 @@ document.getElementById('toggle-lock').addEventListener('click', function () {
 
 document.getElementById('toggle-login-required').addEventListener('click', function () {
   this.blur();
-  socket.send(
-    JSON.stringify({
-      type: 'toggle-login-required',
-      loginRequired: this.checked
-    })
-  );
+  socket.send(JSON.stringify({ type: 'toggle-login-required', loginRequired: this.checked }));
 });
 
 document.getElementById('toggle-skip').addEventListener('click', function () {
@@ -128,12 +121,7 @@ document.getElementById('toggle-skip').addEventListener('click', function () {
 
 document.getElementById('toggle-stop-on-power').addEventListener('click', function () {
   this.blur();
-  socket.send(
-    JSON.stringify({
-      type: 'toggle-stop-on-power',
-      stopOnPower: this.checked
-    })
-  );
+  socket.send(JSON.stringify({ type: 'toggle-stop-on-power', stopOnPower: this.checked }));
 });
 
 document.getElementById('toggle-public').addEventListener('click', function () {
@@ -161,7 +149,7 @@ document.addEventListener('keydown', (event) => {
     socket.send(JSON.stringify({ type: 'chat', message: '' }));
   }
 
-  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName))  return;
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
   switch (event.key?.toLowerCase()) {
     case ' ':
