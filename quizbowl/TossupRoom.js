@@ -8,10 +8,10 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     this.timeoutID = null;
     /**
-      * @type {string | null}
-      * The userId of the player who buzzed in.
-      * We should ensure that buzzedIn is null before calling any readQuestion.
-      */
+   * @type {string | null}
+   * The userId of the player who buzzed in.
+   * We should ensure that buzzedIn is null before calling any readQuestion.
+   */
     this.buzzedIn = null;
     this.buzzes = [];
     this.buzzpointIndices = [];
@@ -49,34 +49,21 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
   async message (userId, message) {
     switch (message.type) {
-      case 'buzz':
-        return this.buzz(userId, message);
-      case 'give-answer':
-        return this.giveTossupAnswer(userId, message);
-      case 'next':
-        return this.next(userId, message);
-      case 'pause':
-        return this.pause(userId, message);
-      case 'set-reading-speed':
-        return this.setReadingSpeed(userId, message);
-      case 'toggle-powermark-only':
-        return this.togglePowermarkOnly(userId, message);
-      case 'toggle-rebuzz':
-        return this.toggleRebuzz(userId, message);
-      case 'toggle-stop-on-power':
-        return this.toggleStopOnPower(userId, message);
-      default:
-        return super.message(userId, message);
+      case 'buzz': return this.buzz(userId, message);
+      case 'give-answer': return this.giveTossupAnswer(userId, message);
+      case 'next': return this.next(userId, message);
+      case 'pause': return this.pause(userId, message);
+      case 'set-reading-speed': return this.setReadingSpeed(userId, message);
+      case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
+      case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
+      case 'toggle-stop-on-power': return this.toggleStopOnPower(userId, message);
+      default: return super.message(userId, message);
     }
   }
 
   buzz (userId) {
-    if (!this.settings.rebuzz && this.buzzes.includes(userId)) {
-      return;
-    }
-    if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING) {
-      return;
-    }
+    if (!this.settings.rebuzz && this.buzzes.includes(userId)) { return; }
+    if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING) { return; }
 
     const username = this.players[userId].username;
     if (this.buzzedIn) {
@@ -86,9 +73,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     clearTimeout(this.timeoutID);
     this.buzzedIn = userId;
     this.buzzes.push(userId);
-    this.buzzpointIndices.push(
-      this.questionSplit.slice(0, this.wordIndex).join(' ').length
-    );
+    this.buzzpointIndices.push(this.questionSplit.slice(0, this.wordIndex).join(' ').length);
     this.paused = false;
 
     this.emitMessage({ type: 'buzz', userId, username });
@@ -96,23 +81,16 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,
-      (time) =>
-        this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+      (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
       () => this.giveTossupAnswer(userId, { givenAnswer: this.liveAnswer })
     );
   }
 
   endCurrentTossup (userId) {
-    if (this.buzzedIn) {
-      return false;
-    } // prevents skipping when someone has buzzed in
-    if (this.queryingQuestion) {
-      return false;
-    }
+    if (this.buzzedIn) { return false; } // prevents skipping when someone has buzzed in
+    if (this.queryingQuestion) { return false; }
     const isSkip = this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING;
-    if (isSkip && !this.settings.skip) {
-      return false;
-    }
+    if (isSkip && !this.settings.skip) { return false; }
 
     clearInterval(this.timer.interval);
     clearTimeout(this.timeoutID);
@@ -123,68 +101,38 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.buzzpointIndices = [];
     this.paused = false;
 
-    if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) {
-      this.revealTossupAnswer();
-    }
+    if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { this.revealTossupAnswer(); }
 
-    const starred =
-      this.mode === MODE_ENUM.STARRED
-        ? true
-        : this.mode === MODE_ENUM.LOCAL
-          ? false
-          : null;
-    this.emitMessage({
-      type: 'end-current-tossup',
-      isSkip,
-      starred,
-      tossup: this.tossup
-    });
+    const starred = this.mode === MODE_ENUM.STARRED ? true : (this.mode === MODE_ENUM.LOCAL ? false : null);
+    this.emitMessage({ type: 'end-current-tossup', isSkip, starred, tossup: this.tossup });
     return true;
   }
 
   giveTossupAnswer (userId, { givenAnswer }) {
-    if (typeof givenAnswer !== 'string') {
-      return false;
-    }
-    if (this.buzzedIn !== userId) {
-      return false;
-    }
+    if (typeof givenAnswer !== 'string') { return false; }
+    if (this.buzzedIn !== userId) { return false; }
 
     this.liveAnswer = '';
     clearInterval(this.timer.interval);
-    this.emitMessage({
-      type: 'timer-update',
-      timeRemaining: ANSWER_TIME_LIMIT * 10
-    });
+    this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
-    if (Object.keys(this.tossup || {}).length === 0) {
-      return;
-    }
+    if (Object.keys(this.tossup || {}).length === 0) { return; }
 
-    const { celerity, directive, directedPrompt, points } = this.scoreTossup({
-      givenAnswer
-    });
+    const { celerity, directive, directedPrompt, points } = this.scoreTossup({ givenAnswer });
 
     switch (directive) {
       case 'accept':
         this.buzzedIn = null;
         this.revealTossupAnswer();
         this.players[userId].updateStats(points, celerity);
-        Object.values(this.players).forEach((player) => {
-          player.tuh++;
-        });
+        Object.values(this.players).forEach((player) => { player.tuh++; });
         break;
       case 'reject':
         this.buzzedIn = null;
         this.players[userId].updateStats(points, celerity);
-        if (
-          !this.settings.rebuzz &&
-          this.buzzes.length === Object.keys(this.sockets).length
-        ) {
+        if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
           this.revealTossupAnswer();
-          Object.values(this.players).forEach((player) => {
-            player.tuh++;
-          });
+          Object.values(this.players).forEach((player) => { player.tuh++; });
         } else {
           this.readQuestion(Date.now());
         }
@@ -192,10 +140,8 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case 'prompt':
         this.startServerTimer(
           ANSWER_TIME_LIMIT * 10,
-          (time) =>
-            this.emitMessage({ type: 'timer-update', timeRemaining: time }),
-          () =>
-            this.giveTossupAnswer(userId, { givenAnswer: this.liveAnswer })
+          (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+          () => this.giveTossupAnswer(userId, { givenAnswer: this.liveAnswer })
         );
     }
 
@@ -219,18 +165,12 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       return await this.startNextTossup(userId);
     }
     const allowed = this.endCurrentTossup(userId);
-    if (allowed) {
-      await this.startNextTossup(userId);
-    }
+    if (allowed) { await this.startNextTossup(userId); }
   }
 
   pause (userId) {
-    if (this.buzzedIn) {
-      return false;
-    }
-    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) {
-      return false;
-    }
+    if (this.buzzedIn) { return false; }
+    if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { return false; }
 
     this.paused = !this.paused;
     if (this.paused) {
@@ -239,8 +179,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     } else if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
         this.timer.timeRemaining,
-        (time) =>
-          this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
     } else {
@@ -251,14 +190,11 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
   }
 
   async readQuestion (expectedReadTime) {
-    if (Object.keys(this.tossup || {}).length === 0) {
-      return;
-    }
+    if (Object.keys(this.tossup || {}).length === 0) { return; }
     if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
         DEAD_TIME_LIMIT * 10,
-        (time) =>
-          this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
       return;
@@ -269,10 +205,8 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     // stop reading and start timer if power and stopOnPower is enabled
     if ((word === '(*)' || word === '[*]') && this.settings.stopOnPower) {
       this.stopOnPowerEnded = true;
-      this.startServerTimer(
-        DEAD_TIME_LIMIT * 10,
-        (time) =>
-          this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+      this.startServerTimer(DEAD_TIME_LIMIT * 10,
+        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
       return;
@@ -283,14 +217,8 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     // calculate time needed before reading next word
     let time = Math.log(word.length) + 1;
-    if (
-      (word.endsWith('.') &&
-        word.charCodeAt(word.length - 2) > 96 &&
-        word.charCodeAt(word.length - 2) < 123) ||
-      word.slice(-2) === '.\u201d' ||
-      word.slice(-2) === '!\u201d' ||
-      word.slice(-2) === '?\u201d'
-    ) {
+    if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123) ||
+      word.slice(-2) === '.\u201d' || word.slice(-2) === '!\u201d' || word.slice(-2) === '?\u201d') {
       time += 2.5;
     } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') {
       time += 1.5;
@@ -309,53 +237,21 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
   revealTossupAnswer () {
     if (Object.keys(this.tossup || {}).length === 0) return;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED;
-    this.tossup.markedQuestion = insertTokensIntoHTML(
-      this.tossup.question,
-      this.tossup.question_sanitized,
-      { ' (#) ': this.buzzpointIndices }
-    );
+    this.tossup.markedQuestion = insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices });
     this.emitMessage({
       type: 'reveal-tossup-answer',
-      question: insertTokensIntoHTML(
-        this.tossup.question,
-        this.tossup.question_sanitized,
-        { ' (#) ': this.buzzpointIndices }
-      ),
+      question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices }),
       answer: this.tossup.answer
     });
   }
 
   scoreTossup ({ givenAnswer }) {
-    const celerity =
-      this.questionSplit.slice(this.wordIndex).join(' ').length /
-      this.tossup.question.length;
-    const endOfQuestion = this.settings.stopOnPower
-      ? this.stopOnPowerEnded
-      : this.wordIndex === this.questionSplit.length;
-    const inPower =
-      Math.max(
-        this.questionSplit.indexOf('(*)'),
-        this.questionSplit.indexOf('[*]')
-      ) >= this.wordIndex;
-    const { directive, directedPrompt } = this.checkAnswer(
-      this.tossup.answer,
-      givenAnswer,
-      this.settings.strictness
-    );
+    const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
+    const endOfQuestion = this.settings.stopOnPower ? this.stopOnPowerEnded : this.wordIndex === this.questionSplit.length;
+    const inPower = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]')) >= this.wordIndex;
+    const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
     const isCorrect = directive === 'accept';
-    const points = this.settings.stopOnPower
-      ? isCorrect
-        ? 10
-        : this.stopOnPowerEnded
-          ? 0
-          : this.previousTossup.negValue
-      : isCorrect
-        ? inPower
-          ? this.previousTossup.powerValue
-          : 10
-        : endOfQuestion
-          ? 0
-          : this.previousTossup.negValue;
+    const points = this.settings.stopOnPower ? (isCorrect ? 10 : (this.stopOnPowerEnded ? 0 : this.previousTossup.negValue)) : (isCorrect ? (inPower ? this.previousTossup.powerValue : 10) : (endOfQuestion ? 0 : this.previousTossup.negValue));
 
     this.previousTossup = {
       ...this.previousTossup,
@@ -367,26 +263,13 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       userId: this.buzzedIn
     };
 
-    return {
-      celerity,
-      directive,
-      directedPrompt,
-      endOfQuestion,
-      inPower,
-      points
-    };
+    return { celerity, directive, directedPrompt, endOfQuestion, inPower, points };
   }
 
   setReadingSpeed (userId, { readingSpeed }) {
-    if (isNaN(readingSpeed)) {
-      return false;
-    }
-    if (readingSpeed > 100) {
-      readingSpeed = 100;
-    }
-    if (readingSpeed < 0) {
-      readingSpeed = 0;
-    }
+    if (isNaN(readingSpeed)) { return false; }
+    if (readingSpeed > 100) { readingSpeed = 100; }
+    if (readingSpeed < 0) { readingSpeed = 0; }
 
     this.settings.readingSpeed = readingSpeed;
     const username = this.players[userId].username;
@@ -397,19 +280,9 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     const username = this.players[userId].username;
     this.tossup = await this.getNextQuestion('tossups');
     this.queryingQuestion = false;
-    if (!this.tossup) {
-      return;
-    }
-    this.emitMessage({
-      type: 'start-next-tossup',
-      packetLength: this.packet.tossups.length,
-      tossup: this.tossup,
-      userId,
-      username
-    });
-    this.questionSplit = this.tossup.question_sanitized
-      .split(' ')
-      .filter((word) => word !== '');
+    if (!this.tossup) { return; }
+    this.emitMessage({ type: 'start-next-tossup', packetLength: this.packet.tossups.length, tossup: this.tossup, userId, username });
+    this.questionSplit = this.tossup.question_sanitized.split(' ').filter((word) => word !== '');
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;
     clearTimeout(this.timeoutID);
@@ -420,11 +293,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.query.powermarkOnly = powermarkOnly;
     const username = this.players[userId].username;
     this.adjustQuery(['powermarkOnly'], [powermarkOnly]);
-    this.emitMessage({
-      type: 'toggle-powermark-only',
-      powermarkOnly,
-      username
-    });
+    this.emitMessage({ type: 'toggle-powermark-only', powermarkOnly, username });
   }
 
   toggleRebuzz (userId, { rebuzz }) {
