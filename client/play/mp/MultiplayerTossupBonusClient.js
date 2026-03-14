@@ -42,6 +42,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case 'toggle-lock': return this.toggleLock(data);
       case 'toggle-login-required': return this.toggleLoginRequired(data);
       case 'toggle-public': return this.togglePublic(data);
+      case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
       default: return super.onmessage(event.data);
     }
   }
@@ -740,6 +741,10 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     Object.entries(this.room.players).forEach(([playerId, player]) => {
       upsertPlayerItem(player, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[player.teamId] });
     });
+  }
+
+  stopOnPower ({ stopOnPower, username }) {
+    this.logEventConditionally(username, `${stopOnPower ? 'enabled' : 'disabled'} stop on power`);
   }
 
   vkInit ({ targetUsername, threshold }) {

@@ -123,6 +123,7 @@ if (window.localStorage.getItem('singleplayer-tossup-settings')) {
     socket.sendToServer({ type: 'set-reading-speed', ...savedSettings });
     socket.sendToServer({ type: 'toggle-ai-mode', ...savedSettings });
     socket.sendToServer({ type: 'toggle-rebuzz', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-stop-on-power', ...savedSettings });
     socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
   } catch {
