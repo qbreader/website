@@ -8,10 +8,10 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     this.timeoutID = null;
     /**
-   * @type {string | null}
-   * The userId of the player who buzzed in.
-   * We should ensure that buzzedIn is null before calling any readQuestion.
-   */
+     * @type {string | null}
+     * The userId of the player who buzzed in.
+     * We should ensure that buzzedIn is null before calling any readQuestion.
+     */
     this.buzzedIn = null;
     this.buzzes = [];
     this.buzzpointIndices = [];
@@ -125,14 +125,14 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
         this.buzzedIn = null;
         this.revealTossupAnswer();
         this.players[userId].updateStats(points, celerity);
-        Object.values(this.players).forEach((player) => { player.tuh++; });
+        Object.values(this.players).forEach(player => { player.tuh++; });
         break;
       case 'reject':
         this.buzzedIn = null;
         this.players[userId].updateStats(points, celerity);
         if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
           this.revealTossupAnswer();
-          Object.values(this.players).forEach((player) => { player.tuh++; });
+          Object.values(this.players).forEach(player => { player.tuh++; });
         } else {
           this.readQuestion(Date.now());
         }
@@ -247,7 +247,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
   scoreTossup ({ givenAnswer }) {
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
-    const endOfQuestion = this.settings.stopOnPower ? this.stopOnPowerEnded : this.wordIndex === this.questionSplit.length;
+    const endOfQuestion = this.settings.stopOnPower ? this.stopOnPowerEnded : (this.wordIndex === this.questionSplit.length);
     const inPower = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]')) >= this.wordIndex;
     const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
     const isCorrect = directive === 'accept';
@@ -282,7 +282,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.queryingQuestion = false;
     if (!this.tossup) { return; }
     this.emitMessage({ type: 'start-next-tossup', packetLength: this.packet.tossups.length, tossup: this.tossup, userId, username });
-    this.questionSplit = this.tossup.question_sanitized.split(' ').filter((word) => word !== '');
+    this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;
     clearTimeout(this.timeoutID);
