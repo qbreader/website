@@ -3,7 +3,7 @@ import { TossupClientMixin } from './TossupClient.js';
 import QuestionClient from './QuestionClient.js';
 
 export default class TossupBonusClient extends BonusClientMixin(TossupClientMixin(QuestionClient)) {
-  constructor(room, userId, socket) {
+  constructor (room, userId, socket) {
     super(room, userId, socket);
     attachEventListeners(room, socket);
   }
@@ -28,7 +28,7 @@ export default class TossupBonusClient extends BonusClientMixin(TossupClientMixi
 
 function attachEventListeners (room, socket) {
   document.getElementById('toggle-enable-bonuses').addEventListener('click', function () {
-      this.blur();
-      socket.sendToServer({ type: 'toggle-enable-bonuses', enableBonuses: this.checked });
+    this.blur();
+    socket.sendToServer({ type: 'toggle-enable-bonuses', enableBonuses: this.checked });
   });
 }
