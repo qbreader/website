@@ -12,30 +12,18 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'buzz':
-        return this.buzz(data);
-      case 'end-current-tossup':
-        return this.endCurrentTossup(data);
-      case 'give-tossup-answer':
-        return this.giveTossupAnswer(data);
-      case 'pause':
-        return this.pause(data);
-      case 'reveal-tossup-answer':
-        return this.revealTossupAnswer(data);
-      case 'set-reading-speed':
-        return this.setReadingSpeed(data);
-      case 'start-next-tossup':
-        return this.startNextTossup(data);
-      case 'toggle-powermark-only':
-        return this.togglePowermarkOnly(data);
-      case 'toggle-rebuzz':
-        return this.toggleRebuzz(data);
-      case 'toggle-stop-on-power':
-        return this.toggleStopOnPower(data);
-      case 'update-question':
-        return this.updateQuestion(data);
-      default:
-        return super.onmessage(message);
+      case 'buzz': return this.buzz(data);
+      case 'end-current-tossup': return this.endCurrentTossup(data);
+      case 'give-tossup-answer': return this.giveTossupAnswer(data);
+      case 'pause': return this.pause(data);
+      case 'reveal-tossup-answer': return this.revealTossupAnswer(data);
+      case 'set-reading-speed': return this.setReadingSpeed(data);
+      case 'start-next-tossup': return this.startNextTossup(data);
+      case 'toggle-powermark-only': return this.togglePowermarkOnly(data);
+      case 'toggle-rebuzz': return this.toggleRebuzz(data);
+      case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
+      case 'update-question': return this.updateQuestion(data);
+      default: return super.onmessage(message);
     }
   }
 
@@ -43,9 +31,7 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
     document.getElementById('buzz').disabled = true;
     document.getElementById('next').disabled = true;
     document.getElementById('pause').disabled = true;
-    if (userId === this.USER_ID && audio.soundEffects) {
-      audio.buzz.play();
-    }
+    if (userId === this.USER_ID && audio.soundEffects) { audio.buzz.play(); }
   }
 
   endCurrentTossup ({ starred, tossup }) {
@@ -61,9 +47,7 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   }
 
   pause ({ paused }) {
-    document.getElementById('pause').textContent = paused
-      ? 'Resume'
-      : 'Pause';
+    document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
   }
 
   revealTossupAnswer ({ answer, question }) {
@@ -88,8 +72,7 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
 
   setReadingSpeed ({ readingSpeed }) {
     document.getElementById('reading-speed').value = readingSpeed;
-    document.getElementById('reading-speed-display').textContent =
-      readingSpeed;
+    document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
   startNextTossup ({ tossup, packetLength }) {
@@ -110,14 +93,11 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   }
 
   toggleStopOnPower ({ stopOnPower }) {
-    console.log('TossupClient.toggleStopOnPower called');
     document.getElementById('toggle-stop-on-power').checked = stopOnPower;
   }
 
   updateQuestion ({ word }) {
-    if (word === '(*)' || word === '[*]') {
-      return;
-    }
+    if (word === '(*)' || word === '[*]') { return; }
     document.getElementById('question').innerHTML += word + ' ';
   }
 };
@@ -138,10 +118,7 @@ function attachEventListeners (room, socket) {
   });
 
   document.getElementById('reading-speed').addEventListener('change', function () {
-    socket.sendToServer({
-      type: 'set-reading-speed',
-      readingSpeed: this.value
-    });
+    socket.sendToServer({ type: 'set-reading-speed', readingSpeed: this.value });
   });
 
   document.getElementById('reading-speed').addEventListener('input', function () {
@@ -150,10 +127,7 @@ function attachEventListeners (room, socket) {
 
   document.getElementById('toggle-powermark-only').addEventListener('click', function () {
     this.blur();
-    socket.sendToServer({
-      type: 'toggle-powermark-only',
-      powermarkOnly: this.checked
-    });
+    socket.sendToServer({ type: 'toggle-powermark-only', powermarkOnly: this.checked });
   });
 
   document.getElementById('toggle-rebuzz').addEventListener('click', function () {
@@ -162,12 +136,8 @@ function attachEventListeners (room, socket) {
   });
 
   document.getElementById('toggle-stop-on-power').addEventListener('click', function () {
-    console.log('stop-on-power checkbox has been checked');
     this.blur();
-    socket.sendToServer({
-      type: 'toggle-stop-on-power',
-      stopOnPower: this.checked
-    });
+    socket.sendToServer({ type: 'toggle-stop-on-power', stopOnPower: this.checked });
   });
 }
 
