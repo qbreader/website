@@ -55,14 +55,14 @@ router.put('/update-bonus', async (req, res) => {
   }
 
   if (parts !== undefined) {
-    if (!Array.isArray(parts) || parts.some(p => typeof p !== 'string')) {
-      return res.status(400).send('Invalid parts field');
+    if (!Array.isArray(parts) || parts.length !== 3 || parts.some(p => typeof p !== 'string')) {
+      return res.status(400).send('Invalid parts field: must be an array of 3 strings');
     }
   }
 
   if (answers !== undefined) {
-    if (!Array.isArray(answers) || answers.some(a => typeof a !== 'string')) {
-      return res.status(400).send('Invalid answers field');
+    if (!Array.isArray(answers) || answers.length !== 3 || answers.some(a => typeof a !== 'string')) {
+      return res.status(400).send('Invalid answers field: must be an array of 3 strings');
     }
   }
 
