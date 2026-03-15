@@ -316,6 +316,7 @@ function QueryForm () {
               <option value='all'>All text</option>
               <option value='question'>Question</option>
               <option value='answer'>Answer</option>
+              <option value='exactAnswer'>Exact answer</option>
             </select>
           </div>
           <div className='col-6 col-md-3 mb-2'>

@@ -102,7 +102,7 @@ function validateOptions ({
 
   if (!searchType) {
     searchType = 'all';
-  } else if (!['question', 'answer', 'all'].includes(searchType)) {
+  } else if (!['question', 'answer', 'exactAnswer', 'all'].includes(searchType)) {
     throw new Error('Invalid search type specified.');
   }
 
@@ -184,6 +184,10 @@ async function getTossupQuery (options) {
       orQuery.push({ answer_sanitized: { $regex: word, $options: caseSensitive ? '' : 'i' } });
     }
 
+    if (searchType === 'exactAnswer') {
+      orQuery.push({ answer_sanitized: { $regex: `^\\s*${word}\\s*(\\[.*|\\(.*)?$`, $options: caseSensitive ? '' : 'i' } });
+    }
+
     andQuery.push({ $or: orQuery });
   }
 
@@ -223,6 +227,10 @@ async function getBonusQuery (options) {
 
     if (['answer', 'all'].includes(searchType)) {
       orQuery.push({ answers_sanitized: { $regex: word, $options: caseSensitive ? '' : 'i' } });
+    }
+
+    if (searchType === 'exactAnswer') {
+      orQuery.push({ answers_sanitized: { $regex: `^\\s*${word}\\s*(\\[.*|\\(.*)?$`, $options: caseSensitive ? '' : 'i' } });
     }
 
     andQuery.push({ $or: orQuery });
@@ -300,8 +308,6 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
         number: 1
       }
     },
-    // { $skip: (pagination - 1) * maxReturnLength },
-    // { $limit: maxReturnLength },
     { $project: { reports: 0 } }
   ];
 
