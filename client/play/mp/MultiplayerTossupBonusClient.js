@@ -339,7 +339,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       document.getElementById('buzz').disabled = !document.getElementById('toggle-rebuzz').checked && userId === this.USER_ID;
     }
 
-    if (score > 10) {
+    if (score === 20) {
+      this.room.players[userId].superpowers++;
+    } else if (score === 15) {
       this.room.players[userId].powers++;
     } else if (score === 10) {
       this.room.players[userId].tens++;

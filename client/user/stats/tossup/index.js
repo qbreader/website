@@ -41,6 +41,7 @@ async function fetchTossupStats ({ difficulties = '', setName = '', includeMulti
         <tr>
           <th scope="row">${stat._id}</th>
           <td>${stat.count}</td>
+          <td>${stat['20s']}</td>
           <td>${stat['15s']}</td>
           <td>${stat['10s']}</td>
           <td>${stat['-5s']}</td>
@@ -68,6 +69,7 @@ async function fetchTossupStats ({ difficulties = '', setName = '', includeMulti
       <tr>
         <th scope="col">Total</th>
         <th scope="col">${totalStats.count ?? 0}</th>
+        <th scope="col">${totalStats['20s'] ?? 0}</th>
         <th scope="col">${totalStats['15s'] ?? 0}</th>
         <th scope="col">${totalStats['10s'] ?? 0}</th>
         <th scope="col">${totalStats['-5s'] ?? 0}</th>
@@ -93,7 +95,7 @@ document.getElementById('form').addEventListener('submit', event => {
 attachDropdownChecklist();
 fetchTossupStats();
 
-const isNumericColumn = [false, true, true, true, true, true, true, true];
+const isNumericColumn = [false, true, true, true, true, true, true, true, true];
 
 document.getElementById('set-stats').querySelectorAll('th').forEach((th, index) => {
   th.addEventListener('click', () => sortTable(index, isNumericColumn[index], 'set-stats-body', 0, 0));
