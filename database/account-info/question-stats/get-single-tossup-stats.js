@@ -12,8 +12,8 @@ async function getSingleTossupStats (tossupId) {
   // data should always be an array
   if (!Array.isArray(data) || data.length === 0) { return null; }
 
-  // guarantee that we include 15, 10, 0, and -5
-  const resultCounts = { 15: 0, 10: 0, 0: 0, '-5': 0 };
+  // guarantee that we include 20, 15, 10, 0, and -5
+  const resultCounts = { 20: 0, 15: 0, 10: 0, 0: 0, '-5': 0 };
   // below is just in case there are other point values
   const pointValues = new Set(data.map(d => d.pointValue));
   for (const pointValue of pointValues) {
