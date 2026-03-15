@@ -119,11 +119,6 @@ document.getElementById('toggle-skip').addEventListener('click', function () {
   socket.send(JSON.stringify({ type: 'toggle-skip', skip: this.checked }));
 });
 
-document.getElementById('toggle-stop-on-power').addEventListener('click', function () {
-  this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-stop-on-power', stopOnPower: this.checked }));
-});
-
 document.getElementById('toggle-public').addEventListener('click', function () {
   this.blur();
   socket.send(JSON.stringify({ type: 'toggle-public', public: this.checked }));

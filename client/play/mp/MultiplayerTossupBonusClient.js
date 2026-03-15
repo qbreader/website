@@ -206,6 +206,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.setMode({ mode });
     this.setReadingSpeed({ readingSpeed: settings.readingSpeed });
     this.setStrictness({ strictness: settings.strictness });
+    this.toggleStopOnPower({ stopOnPower: settings.stopOnPower });
 
     if (settings.controlled) {
       this.toggleControlled({ controlled: settings.controlled });
@@ -713,8 +714,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     });
   }
 
-  stopOnPower ({ stopOnPower, username }) {
+  toggleStopOnPower ({ stopOnPower, username }) {
     this.logEventConditionally(username, `${stopOnPower ? 'enabled' : 'disabled'} stop on power`);
+    super.toggleStopOnPower({ stopOnPower });
   }
 
   vkInit ({ targetUsername, threshold }) {
