@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Backups for qbreader.">
+    <meta name="description" content="">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -91,84 +91,85 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="lead">
-            Welcome to the admin portal of QB Reader, <span id="welcome-username"></span>!
-        </p>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-4 mb-3">
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Question Management</h5>
-                        <p>Manage the database of questions, including associated metadata, here.</p>
-                        <div class="text-center">
-                            <a class="btn btn-primary mb-2" href="./question-management/set">Update Set</a>
-                            <a class="btn btn-primary mb-2" href="./question-management/packet">Update Packet</a>
-                            <a class="btn btn-primary mb-2" href="./question-management/question">Edit Question</a>
-                        </div>
-                    </div>
-                </div>
+        <div class="d-flex justify-content-end">
+            <a href="/admin/">Back to admin page</a>
+        </div>
+        <h4 class="mb-3">Edit Question by ID</h4>
+        <div class="mb-3">
+            <label for="question-type" class="form-label">Question Type</label>
+            <select class="form-select" id="question-type">
+                <option value="tossup">Tossup</option>
+                <option value="bonus">Bonus</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="question-id" class="form-label">Question _id</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="question-id" placeholder="Enter question _id" required />
+                <button class="btn btn-outline-secondary" type="button" id="load-question">Load</button>
             </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Reports</h5>
-                        <p>Manage reports here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./category-reports/">Fix category reports</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Geoword</h5>
-                        <p>View the geoword admin portal here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./geoword/">Geoword</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Statistics</h5>
-                        <p>View some useful statistics here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./leaderboard/">Leaderboard</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>Multiplayer</h5>
-                        <p>Manage multiplayer rooms here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./multiplayer/">Multiplayer</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5>User Management</h5>
-                        <p>Manage user accounts here.</p>
-                        <p class="text-center">
-                            <a class="btn btn-primary" href="./user-management/email">Verify Email</a>
-                        </p>
-                    </div>
-                </div>
+            <div class="invalid-feedback">Please enter a valid question _id.</div>
+        </div>
+
+        <div id="question-preview" class="d-none mb-3">
+            <div class="card">
+                <div class="card-header" id="preview-header"></div>
+                <div class="card-body" id="preview-body"></div>
             </div>
         </div>
+
+        <form class="needs-validation d-none" id="tossup-form" novalidate>
+            <div class="mb-3">
+                <label for="tossup-question" class="form-label">Question Text</label>
+                <textarea class="form-control" id="tossup-question" rows="5"></textarea>
+                <div class="form-text">Allowed HTML tags: &lt;b&gt;, &lt;i&gt;, &lt;u&gt;</div>
+            </div>
+            <div class="mb-3">
+                <label for="tossup-answer" class="form-label">Answer</label>
+                <textarea class="form-control" id="tossup-answer" rows="2"></textarea>
+                <div class="form-text">Allowed HTML tags: &lt;b&gt;, &lt;i&gt;, &lt;u&gt;</div>
+            </div>
+            <button class="btn btn-primary" id="tossup-submit" type="submit">Save Changes</button>
+        </form>
+
+        <form class="needs-validation d-none" id="bonus-form" novalidate>
+            <div class="mb-3">
+                <label for="bonus-leadin" class="form-label">Leadin</label>
+                <textarea class="form-control" id="bonus-leadin" rows="2"></textarea>
+                <div class="form-text">Allowed HTML tags: &lt;b&gt;, &lt;i&gt;, &lt;u&gt;</div>
+            </div>
+            <div class="mb-3">
+                <label for="bonus-part-0" class="form-label">Part 1</label>
+                <textarea class="form-control" id="bonus-part-0" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="bonus-answer-0" class="form-label">Answer 1</label>
+                <textarea class="form-control" id="bonus-answer-0" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="bonus-part-1" class="form-label">Part 2</label>
+                <textarea class="form-control" id="bonus-part-1" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="bonus-answer-1" class="form-label">Answer 2</label>
+                <textarea class="form-control" id="bonus-answer-1" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="bonus-part-2" class="form-label">Part 3</label>
+                <textarea class="form-control" id="bonus-part-2" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="bonus-answer-2" class="form-label">Answer 3</label>
+                <textarea class="form-control" id="bonus-answer-2" rows="2"></textarea>
+            </div>
+            <div class="form-text mb-3">Allowed HTML tags: &lt;b&gt;, &lt;i&gt;, &lt;u&gt;</div>
+            <button class="btn btn-primary" id="bonus-submit" type="submit">Save Changes</button>
+        </form>
     </div>
 
 
 
-    <script type="module" src="/admin/index.js"></script>
+    <script type="module" src="./question.js"></script>
 </body>
 
 </html>
