@@ -162,6 +162,11 @@ export default class SoloTossupClient extends TossupClient {
     window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
+  toggleStopOnPower ({ stopOnPower }) {
+    super.toggleStopOnPower({ stopOnPower });
+    window.localStorage.setItem('singleplayer-tossup-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
+  }
+
   setMode ({ mode }) {
     switch (mode) {
       case MODE_ENUM.SET_NAME:

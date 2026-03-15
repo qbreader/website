@@ -21,6 +21,7 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
       case 'start-next-tossup': return this.startNextTossup(data);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(data);
       case 'toggle-rebuzz': return this.toggleRebuzz(data);
+      case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
       case 'update-question': return this.updateQuestion(data);
       default: return super.onmessage(message);
     }
@@ -91,6 +92,10 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
     document.getElementById('toggle-rebuzz').checked = rebuzz;
   }
 
+  toggleStopOnPower ({ stopOnPower }) {
+    document.getElementById('toggle-stop-on-power').checked = stopOnPower;
+  }
+
   updateQuestion ({ word }) {
     if (word === '(*)' || word === '[*]' || word === '(+)') { return; }
     document.getElementById('question').innerHTML += word + ' ';
@@ -128,6 +133,11 @@ function attachEventListeners (room, socket) {
   document.getElementById('toggle-rebuzz').addEventListener('click', function () {
     this.blur();
     socket.sendToServer({ type: 'toggle-rebuzz', rebuzz: this.checked });
+  });
+
+  document.getElementById('toggle-stop-on-power').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'toggle-stop-on-power', stopOnPower: this.checked });
   });
 }
 

@@ -19,6 +19,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.paused = false;
     this.questionSplit = [];
     this.tossup = {};
+    this.stopOnPowerEnded = false;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.NOT_STARTED;
     this.wordIndex = 0;
 
@@ -30,6 +31,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.settings = {
       ...this.settings,
       rebuzz: false,
+      stopOnPower: false,
       readingSpeed: 50
     };
 
@@ -56,6 +58,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case 'set-reading-speed': return this.setReadingSpeed(userId, message);
       case 'toggle-powermark-only': return this.togglePowermarkOnly(userId, message);
       case 'toggle-rebuzz': return this.toggleRebuzz(userId, message);
+      case 'toggle-stop-on-power': return this.toggleStopOnPower(userId, message);
       default: return super.message(userId, message);
     }
   }
@@ -201,6 +204,17 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     }
 
     const word = this.questionSplit[this.wordIndex];
+
+    // stop reading and start timer if power and stopOnPower is enabled
+    if ((word === '(*)' || word === '[*]') && this.settings.stopOnPower) {
+      this.stopOnPowerEnded = true;
+      this.startServerTimer(DEAD_TIME_LIMIT * 10,
+        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        () => this.revealTossupAnswer()
+      );
+      return;
+    }
+
     this.wordIndex++;
     this.emitMessage({ type: 'update-question', word });
 
@@ -236,7 +250,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
   scoreTossup ({ givenAnswer }) {
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
-    const endOfQuestion = (this.wordIndex === this.questionSplit.length);
+    const endOfQuestion = this.settings.stopOnPower ? this.stopOnPowerEnded : (this.wordIndex === this.questionSplit.length);
     const superpowerIndex = this.questionSplit.indexOf('(+)');
     const powerIndex = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]'));
     const inSuperpower = superpowerIndex !== -1 && superpowerIndex >= this.wordIndex;
@@ -295,6 +309,12 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.settings.rebuzz = rebuzz;
     const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-rebuzz', rebuzz, username });
+  }
+
+  toggleStopOnPower (userId, { stopOnPower }) {
+    this.settings.stopOnPower = stopOnPower;
+    const username = this.players[userId].username;
+    this.emitMessage({ type: 'toggle-stop-on-power', stopOnPower, username });
   }
 };
 
