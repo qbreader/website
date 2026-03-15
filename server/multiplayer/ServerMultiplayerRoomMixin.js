@@ -245,8 +245,8 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
         this.buzzedIn = null;
       }
     } else if (this.currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
-      this.endCurrentBonus(userId);
-      this.startNextTossup(userId);
+      const allowed = this.endCurrentBonus(userId);
+      if (allowed) { this.startNextTossup(userId); }
     }
 
     this.leave(userId);
