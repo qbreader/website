@@ -19,10 +19,11 @@ import Team from '../../quizbowl/Team.js';
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
 const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
-  constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes) {
+  constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes, isVerified = false) {
     super(name, categoryManager, supportedQuestionTypes);
     this.ownerId = ownerId;
     this.isPermanent = isPermanent;
+    this.isVerified = isVerified;
     this.checkAnswer = checkAnswer;
     this.getPacketCount = getNumPackets;
 
@@ -40,7 +41,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.settings = {
       ...this.settings,
       lock: false,
-      loginRequired: false,
+      loginRequired: isVerified,
       public: true,
       controlled: false
     };
@@ -145,6 +146,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       currentQuestionType: this.currentQuestionType,
       isPermanent: this.isPermanent,
+      isVerified: this.isVerified,
       mode: this.mode,
       ownerId: this.ownerId,
       packetLength: this.packetCount,
@@ -205,14 +207,16 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
   chat (userId, { message }) {
     // prevent chat messages if room is public, since they can still be sent with API
-    if (this.settings.public || typeof message !== 'string') { return false; }
-    const username = this.players[userId].username;
+    if (this.settings.public && !this.settings.loginRequired) { return false; }
+    if (typeof message !== 'string') { return false; }
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'chat', message, username, userId });
   }
 
   chatLiveUpdate (userId, { message }) {
-    if (this.settings.public || typeof message !== 'string') { return false; }
-    const username = this.players[userId].username;
+    if (this.settings.public && !this.settings.loginRequired) { return false; }
+    if (typeof message !== 'string') { return false; }
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'chat-live-update', message, username, userId });
   }
 
@@ -241,8 +245,8 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
         this.buzzedIn = null;
       }
     } else if (this.currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
-      this.endCurrentBonus(userId);
-      this.startNextTossup(userId);
+      const allowed = this.endCurrentBonus(userId);
+      if (allowed) { this.startNextTossup(userId); }
     }
 
     this.leave(userId);
@@ -251,8 +255,18 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   giveAnswerLiveUpdate (userId, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
     this.liveAnswer = givenAnswer;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username });
+  }
+
+  removeAllPlayers () {
+    for (const userId of Object.keys(this.players)) {
+      this.players[userId].online = false;
+      if (Object.keys(this.sockets).includes(userId)) {
+        this.sendToSocket(userId, { type: 'admin-lock', message: 'An admin has locked this room.' });
+        delete this.sockets[userId];
+      }
+    }
   }
 
   setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
@@ -285,7 +299,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   setStrictness (userId, { strictness }) {
-    if (this.isPermanent || !this.allowed) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setStrictness(userId, { strictness });
   }
 
@@ -320,7 +334,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     if (this.settings.public) { return; }
     if (userId !== this.ownerId) { return; }
     this.settings.controlled = !!controlled;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-controlled', controlled, username });
   }
 
@@ -332,14 +346,14 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   toggleLock (userId, { lock }) {
     if (this.settings.public || !this.allowed(userId)) { return; }
     this.settings.lock = lock;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-lock', lock, username });
   }
 
   toggleLoginRequired (userId, { loginRequired }) {
-    if (this.settings.public || !this.allowed(userId)) { return; }
+    if (this.isVerified || this.settings.public || !this.allowed(userId)) { return; }
     this.settings.loginRequired = loginRequired;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
   }
 
@@ -366,7 +380,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   togglePublic (userId, { public: isPublic }) {
     if (this.isPermanent || this.settings.controlled) { return; }
     this.settings.public = isPublic;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     if (isPublic) {
       this.settings.lock = false;
       this.settings.loginRequired = false;

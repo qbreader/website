@@ -19,10 +19,13 @@ export default async function getBestBuzz (userId, query) {
   const matchDocument = await generateMatchDocument({ userId, ...query });
   matchDocument['data.isCorrect'] = true;
 
+  // there are two $match stages for performance reasons
+  // before unwinding, there is one document per tossup, so we filter to the relevant tossups based on the query
+  // after unwinding, there is one document per buzz, so we filter to the relevant buzzes for the player
   const data = (await perTossupData.aggregate([
     { $match: matchDocument },
     { $unwind: '$data' },
-    { $match: { 'data.user_id': userId } },
+    { $match: matchDocument },
     { $match: { 'data.user_id': { $ne: null } } },
     { $sort: { 'data.celerity': -1 } },
     { $limit: 1 }

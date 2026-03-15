@@ -1,4 +1,4 @@
-import { tossupBonusRooms } from '../../../server/multiplayer/handle-wss-connection.js';
+import { tossupBonusRooms } from '../../../../server/multiplayer/handle-wss-connection.js';
 
 import { Router } from 'express';
 const router = Router();
@@ -13,14 +13,12 @@ router.get('/', (req, res) => {
     activePlayers += onlineCount;
     activeRooms += onlineCount > 0 ? 1 : 0;
 
-    if (!tossupBonusRooms[roomName].settings.public) { continue; }
-
     roomList.push({
       isPermanent: tossupBonusRooms[roomName].isPermanent,
-      isVerified: tossupBonusRooms[roomName].isVerified ?? false,
       onlineCount,
       playerCount: Object.keys(tossupBonusRooms[roomName].players).length,
-      roomName
+      roomName,
+      settings: tossupBonusRooms[roomName].settings
     });
   }
 

@@ -305,7 +305,7 @@ function QueryForm () {
             <input type='number' className='form-control' id='max-return-length' placeholder='# to Display' value={maxReturnLength} onChange={event => { setMaxReturnLength(event.target.value); }} />
           </div>
           <div className='input-group col-12 col-xl-6 mb-2'>
-            <input type='text' className='form-control' id='set-name' placeholder='Set Name' list='set-list' value={setName} onChange={event => { setSetName(event.target.value); }} />
+            <input type='text' className='form-control' id='set-name' placeholder='Set Name (supports regex, commas)' list='set-list' value={setName} onChange={event => { setSetName(event.target.value); }} />
             <datalist id='set-list' />
             <button type='button' className='btn btn-danger' id='category-select-button' data-bs-toggle='modal' data-bs-target='#category-modal'>Categories</button>
           </div>
@@ -316,6 +316,7 @@ function QueryForm () {
               <option value='all'>All text</option>
               <option value='question'>Question</option>
               <option value='answer'>Answer</option>
+              <option value='exactAnswer'>Exact answer</option>
             </select>
           </div>
           <div className='col-6 col-md-3 mb-2'>

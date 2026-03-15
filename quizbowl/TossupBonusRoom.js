@@ -48,6 +48,7 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
     if (directive === 'accept') {
       const teamId = this.players[userId].teamId;
       this.bonusEligibleTeamId = teamId;
+      this.emitMessage({ type: 'set-bonus-eligible-team-id', teamId });
     }
   }
 
@@ -98,7 +99,7 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
   }
 
   toggleEnableBonuses (userId, { enableBonuses }) {
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.settings.enableBonuses = enableBonuses;
     this.emitMessage({ type: 'toggle-enable-bonuses', enableBonuses, username });
   }

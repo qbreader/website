@@ -1,10 +1,10 @@
-import { MAX_ONLINE_PLAYERS, PERMANENT_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
+import { MAX_ONLINE_PLAYERS, MAX_CONNECTIONS_PER_IP, PERMANENT_ROOMS, VERIFIED_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
 import ServerTossupBonusRoom from './ServerTossupBonusRoom.js';
 import { checkToken } from '../authentication.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
-import { clientIp } from '../moderation/ip-filter.js';
+import { clientIp, isBannedIp } from '../moderation/ip-filter.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 
 import createDOMPurify from 'dompurify';
@@ -19,10 +19,17 @@ const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
 export const tossupBonusRooms = {};
+const connectionsByIp = new Map();
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
   tossupBonusRooms[name] = new ServerTossupBonusRoom(
-    name, Symbol('unique permanent room owner'), true, new CategoryManager(categories, subcategories)
+    name, Symbol('unique permanent room owner'), true, new CategoryManager(categories, subcategories), false
+  );
+}
+for (const room of VERIFIED_ROOMS) {
+  const { name, categories, subcategories } = room;
+  tossupBonusRooms[name] = new ServerTossupBonusRoom(
+    name, Symbol('unique verified room owner'), true, new CategoryManager(categories, subcategories), true
   );
 }
 
@@ -128,8 +135,30 @@ export default function handleWssConnection (ws, req) {
   }
 
   const ip = clientIp(req);
+  if (isBannedIp(ip)) { return false; }
+
+  const ipConnections = connectionsByIp.get(ip) ?? 0;
+  if (ipConnections >= MAX_CONNECTIONS_PER_IP) {
+    ws.send(JSON.stringify({
+      type: 'error',
+      message: `Too many connections from your IP address. The limit is ${MAX_CONNECTIONS_PER_IP}.`
+    }));
+    return false;
+  }
+
   const userAgent = req.headers['user-agent'];
   if (!userAgent) { return false; }
+
+  connectionsByIp.set(ip, ipConnections + 1);
+  ws.on('close', () => {
+    const current = connectionsByIp.get(ip) ?? 0;
+    if (current <= 1) {
+      connectionsByIp.delete(ip);
+    } else {
+      connectionsByIp.set(ip, current - 1);
+    }
+  });
+
   room.connection(ws, userId, username, ip, userAgent);
 
   ws.on('error', (err) => {

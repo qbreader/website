@@ -34,6 +34,12 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     }
   }
 
+  clearStats (userId) {
+    const teamId = this.players[userId].teamId;
+    this.teams[teamId].clearStats();
+    super.clearStats(userId);
+  }
+
   endCurrentBonus (userId) {
     if (this.queryingQuestion) { return false; }
     if (this.bonusProgress === BONUS_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
@@ -129,7 +135,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
   }
 
   async startNextBonus (userId) {
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.bonus = await this.getNextQuestion('bonuses');
     this.queryingQuestion = false;
     if (!this.bonus) { return; }
@@ -148,7 +154,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
   }
 
   toggleThreePartBonuses (userId, { threePartBonuses }) {
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.query.threePartBonuses = threePartBonuses;
     this.adjustQuery(['threePartBonuses'], [threePartBonuses]);
     this.emitMessage({ type: 'toggle-three-part-bonuses', threePartBonuses, username });

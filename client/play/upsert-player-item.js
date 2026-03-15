@@ -3,11 +3,22 @@ import { escapeHTML } from '../scripts/utilities/strings.js';
 /**
  * Upserts a player item to the DOM element with the id `player-list-group`.
  * @param {Player} player
- * @param {string} USER_ID - The item is highlighted blue if `USER_ID === player.userId`.
- * @param {string} ownerId - ID of the room owner
+ * @param {Object} multiplayerOptions - Only needed if calling from a multiplayer context.
+ * @param {string} multiplayerOptions.callerId - The user ID of the person triggering the upsert, used to apply special styling to their player item.
+ * @param {boolean} multiplayerOptions.distractionFreeMode
+ * @param {string} multiplayerOptions.ownerId - ID of the room owner
+ * @param {boolean} multiplayerOptions.isPublic
+ * @param {WebSocket} multiplayerOptions.socket
+ * @param {Object} multiplayerOptions.team - the team object of the `player`
  */
-// overall handling of some of these mechanics in the upsertion section might not be best idea? works though
-export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPublic, team) {
+export default function upsertPlayerItem (player, multiplayerOptions = {}) {
+  // overall handling of some of these mechanics in the upsertion section might not be best idea? works though
+  if (multiplayerOptions?.constructor !== Object) {
+    multiplayerOptions = {};
+  }
+  const isMultiplayer = Object.keys(multiplayerOptions).length > 0;
+  const { callerId, distractionFreeMode, isPublic, ownerId, socket, team = {} } = multiplayerOptions;
+
   if (!player || !player.userId || !player.username) {
     console.error('Player or player.userId or player.username is undefined', { player });
     return;
@@ -21,7 +32,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   player.userId = escapeHTML(player.userId);
   player.username = escapeHTML(player.username);
 
-  const { userId, username, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
+  const { userId, username, superpowers = 0, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
   const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
 
   const { bonusStats = { 0: 0, 10: 0, 20: 0, 30: 0 } } = team;
@@ -36,14 +47,15 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   }
 
   const playerItem = document.createElement('a');
-  playerItem.className = `list-group-item clickable ${userId === USER_ID ? 'user-score' : ''} ${online === false && 'offline'}`;
+  playerItem.className = `list-group-item clickable ${userId === callerId ? 'user-score' : ''} ${online === false && 'offline'}`;
   playerItem.id = `list-group-${userId}`;
-  const displayUsername = (playerIsOwner && !isPublic) ? `👑 ${username}` : username;
+  const displayUsername = distractionFreeMode ? 'Player' : username;
+  const crown = (playerIsOwner && !isPublic) ? '👑' : '';
 
   playerItem.innerHTML = `
   <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center">
-          <span id="username-${userId}" class="me-1">${displayUsername}</span>
+          ${crown} <span id="username-${userId}" class="me-1 player-item-display-username" data-username="${username.replace(/"/g, '&quot;')}">${displayUsername}</span>
           <!-- Dropdown  -->
       </div>
       <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points + bonusPoints}</span></span>
@@ -63,6 +75,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
   playerItem.setAttribute('data-bs-title', username);
   playerItem.setAttribute('data-bs-content', `
     <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span>Superpowers</span><span id="superpowers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${superpowers}</span></li>
         <li class="list-group-item"><span>Powers</span><span id="powers-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${powers}</span></li>
         <li class="list-group-item"><span>Tens</span><span id="tens-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tens}</span></li>
         <li class="list-group-item"><span>Negs</span><span id="negs-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${negs}</span></li>
@@ -74,9 +87,9 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
     </ul>
   `);
   document.getElementById('player-list-group').appendChild(playerItem);
-  const banTrigger = (ownerId === USER_ID) && userId !== ownerId && !isPublic && userId !== 'ai-bot';
-  const muteTrigger = userId !== 'ai-bot' && userId !== USER_ID && !isPublic;
-  const vkTrigger = userId !== USER_ID && (isPublic || (userId !== ownerId && userId !== 'ai-bot'));
+  const banTrigger = isMultiplayer && (ownerId === callerId) && userId !== ownerId && !isPublic;
+  const muteTrigger = isMultiplayer && userId !== callerId && !isPublic;
+  const vkTrigger = isMultiplayer && userId !== callerId && (isPublic || userId !== ownerId);
 
   if (banTrigger || muteTrigger || vkTrigger) {
     const dropdownContainer = document.createElement('div');
@@ -144,7 +157,7 @@ export default function upsertPlayerItem (player, USER_ID, ownerId, socket, isPu
 
     dropdownContainer.appendChild(dropdownMenu);
 
-    const usernameSpan = playerItem.querySelector(`#username-${userId}`);
+    const usernameSpan = document.getElementById(`username-${userId}`);
     usernameSpan.classList.add('me-2');
     usernameSpan.after(dropdownContainer);
   }

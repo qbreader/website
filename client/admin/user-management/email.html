@@ -5,6 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -29,7 +30,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="navbar-nav me-auto mb-2 mb-lg-0">
                     <a class="nav-link" href="/play/">Play</a>
-                    <a class="nav-link active" href="/play/mp/" aria-current="page">Multiplayer</a>
+                    <a class="nav-link" href="/play/mp/">Multiplayer</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Database
@@ -89,57 +90,20 @@
         </div>
     </nav>
 
-    <div class="container mt-3 mb-4">
-        <p class="lead">Play quizbowl real-time against other players.</p>
-        <p>
-            You can invite friends to join you by sharing the URL to your room.
-            There are <span id="active-players"></span> active players in <span id="active-rooms"></span> active rooms.
-        </p>
-        <p>
-            <b>Admins have the ability to lock rooms.</b>
-            Settings in controlled rooms can only be changed by the room creator.
-        </p>
-        <p class="mb-0 pb-2">Create/Join a Room:</p>
-        <form id="form">
-            <div class="input-group justify-content-center pb-2">
-                <input class="form-control" id="new-room-name" type="text">
-                <button class="btn btn-success" type="submit">Go</button>
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <h3>Verify User Email</h3>
+        <p>Manually verify a user's email address.</p>
+        <form id="verify-email-form">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" required>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" id="private-room-checkbox" type="checkbox">
-                <label class="form-check-label" for="private-room-checkbox">
-                    Make room private
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" id="controlled-room-checkbox" type="checkbox">
-                <label class="form-check-label" for="controlled-room-checkbox">
-                    Make room controlled
-                </label>
-            </div>
+            <button type="submit" class="btn btn-primary" id="submit">Verify Email</button>
         </form>
-        <hr>
-        <div id="verified-rooms-section" class="d-none">
-            <p>Verified rooms (login required):</p>
-            <ul class="list-group mb-3" id="verified-room-list"></ul>
-        </div>
-        <p>Try one of these rooms:</p>
-        <ul class="list-group mb-3" id="permanent-room-list"></ul>
-        <div class="d-flex justify-content-between mb-3">
-            <div>Or, check out a public room:</div>
-            <div class="form-check">
-                <input class="form-check-input" id="empty-room-checkbox" type="checkbox">
-                <label class="form-check-label" for="empty-room-checkbox">
-                    Show empty rooms
-                </label>
-            </div>
-        </div>
-        <ul class="list-group mb-5" id="room-list"></ul>
+        <div id="result"></div>
     </div>
 
-
-
-    <script type="module" src="./index.js"></script>
+    <script type="module" src="/admin/user-management/email.js"></script>
 </body>
 
 </html>

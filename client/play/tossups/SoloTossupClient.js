@@ -46,7 +46,9 @@ export default class SoloTossupClient extends TossupClient {
     super.endCurrentTossup({ starred, tossup });
     if (!isSkip && this.room.previousTossup.userId === this.USER_ID && (this.room.mode !== MODE_ENUM.LOCAL)) {
       const previous = this.room.previousTossup;
-      const pointValue = previous.isCorrect ? (previous.inPower ? previous.powerValue : 10) : (previous.endOfQuestion ? 0 : previous.negValue);
+      const pointValue = previous.isCorrect
+        ? (previous.inSuperpower ? previous.superpowerValue : (previous.inPower ? previous.powerValue : 10))
+        : (previous.endOfQuestion ? 0 : previous.negValue);
       questionStats.recordTossup({
         _id: previous.tossup._id,
         celerity: previous.celerity,
@@ -208,12 +210,12 @@ export default class SoloTossupClient extends TossupClient {
   }
 
   /**
- * Updates the displayed stat line.
- */
-  updateStatDisplay ({ powers, tens, negs, tuh, points, celerity }) {
+   * Updates the displayed stat line.
+   */
+  updateStatDisplay ({ superpowers, powers, tens, negs, tuh, points, celerity }) {
     const averageCelerity = celerity.correct.average.toFixed(3);
     const plural = (tuh === 1) ? '' : 's';
-    document.getElementById('statline').innerHTML = `${powers}/${tens}/${negs} with ${tuh} tossup${plural} seen (${points} pts, celerity: ${averageCelerity})`;
+    document.getElementById('statline').innerHTML = `${superpowers}/${powers}/${tens}/${negs} with ${tuh} tossup${plural} seen (${points} pts, celerity: ${averageCelerity})`;
 
     // disable clear stats button if no stats
     document.getElementById('clear-stats').disabled = (tuh === 0);

@@ -10,7 +10,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     /**
      * @type {string | null}
      * The userId of the player who buzzed in.
-     * We should ensure that buzzedIn is null before calling any readQuestion.
+     * We should ensure that buzzedIn is null before calling readTossup.
      */
     this.buzzedIn = null;
     this.buzzes = [];
@@ -40,8 +40,10 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       endOfQuestion: false,
       isCorrect: true,
       inPower: false,
+      inSuperpower: false,
       negValue: -5,
       powerValue: 15,
+      superpowerValue: 20,
       tossup: {},
       userId: null
     };
@@ -65,7 +67,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (!this.settings.rebuzz && this.buzzes.includes(userId)) { return; }
     if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING) { return; }
 
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     if (this.buzzedIn) {
       return this.emitMessage({ type: 'lost-buzzer-race', userId, username });
     }
@@ -73,6 +75,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     clearTimeout(this.timeoutID);
     this.buzzedIn = userId;
     this.buzzes.push(userId);
+    this.players[userId].buzzes++;
     this.buzzpointIndices.push(this.questionSplit.slice(0, this.wordIndex).join(' ').length);
     this.paused = false;
 
@@ -134,7 +137,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
           this.revealTossupAnswer();
           Object.values(this.players).forEach(player => { player.tuh++; });
         } else {
-          this.readQuestion(Date.now());
+          this.readTossup(Date.now());
         }
         break;
       case 'prompt':
@@ -183,13 +186,13 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
         () => this.revealTossupAnswer()
       );
     } else {
-      this.readQuestion(Date.now());
+      this.readTossup(Date.now());
     }
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'pause', paused: this.paused, username });
   }
 
-  async readQuestion (expectedReadTime) {
+  async readTossup (expectedReadTime) {
     if (Object.keys(this.tossup || {}).length === 0) { return; }
     if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
@@ -222,7 +225,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       time += 2.5;
     } else if (word.endsWith(',') || word.slice(-2) === ',\u201d') {
       time += 1.5;
-    } else if (word === '(*)' || word === '[*]') {
+    } else if (word === '(*)' || word === '[*]' || word === '(+)') {
       time = 0;
     }
 
@@ -230,7 +233,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     const delay = time - Date.now() + expectedReadTime;
 
     this.timeoutID = setTimeout(() => {
-      this.readQuestion(time + expectedReadTime);
+      this.readTossup(time + expectedReadTime);
     }, delay);
   }
 
@@ -248,22 +251,28 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
   scoreTossup ({ givenAnswer }) {
     const celerity = this.questionSplit.slice(this.wordIndex).join(' ').length / this.tossup.question.length;
     const endOfQuestion = this.settings.stopOnPower ? this.stopOnPowerEnded : (this.wordIndex === this.questionSplit.length);
-    const inPower = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]')) >= this.wordIndex;
+    const superpowerIndex = this.questionSplit.indexOf('(+)');
+    const powerIndex = Math.max(this.questionSplit.indexOf('(*)'), this.questionSplit.indexOf('[*]'));
+    const inSuperpower = superpowerIndex !== -1 && superpowerIndex >= this.wordIndex;
+    const inPower = !inSuperpower && powerIndex !== -1 && powerIndex >= this.wordIndex;
     const { directive, directedPrompt } = this.checkAnswer(this.tossup.answer, givenAnswer, this.settings.strictness);
     const isCorrect = directive === 'accept';
-    const points = this.settings.stopOnPower ? (isCorrect ? 10 : (this.stopOnPowerEnded ? 0 : this.previousTossup.negValue)) : (isCorrect ? (inPower ? this.previousTossup.powerValue : 10) : (endOfQuestion ? 0 : this.previousTossup.negValue));
+    const points = isCorrect
+      ? (inSuperpower ? this.previousTossup.superpowerValue : (inPower ? this.previousTossup.powerValue : 10))
+      : (endOfQuestion ? 0 : this.previousTossup.negValue);
 
     this.previousTossup = {
       ...this.previousTossup,
       celerity,
       endOfQuestion,
       inPower,
+      inSuperpower,
       isCorrect,
       tossup: this.tossup,
       userId: this.buzzedIn
     };
 
-    return { celerity, directive, directedPrompt, endOfQuestion, inPower, points };
+    return { celerity, directive, directedPrompt, endOfQuestion, inPower, inSuperpower, points };
   }
 
   setReadingSpeed (userId, { readingSpeed }) {
@@ -272,12 +281,12 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (readingSpeed < 0) { readingSpeed = 0; }
 
     this.settings.readingSpeed = readingSpeed;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'set-reading-speed', username, readingSpeed });
   }
 
   async startNextTossup (userId) {
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.tossup = await this.getNextQuestion('tossups');
     this.queryingQuestion = false;
     if (!this.tossup) { return; }
@@ -286,19 +295,19 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;
     clearTimeout(this.timeoutID);
-    this.readQuestion(Date.now());
+    this.readTossup(Date.now());
   }
 
   togglePowermarkOnly (userId, { powermarkOnly }) {
     this.query.powermarkOnly = powermarkOnly;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.adjustQuery(['powermarkOnly'], [powermarkOnly]);
     this.emitMessage({ type: 'toggle-powermark-only', powermarkOnly, username });
   }
 
   toggleRebuzz (userId, { rebuzz }) {
     this.settings.rebuzz = rebuzz;
-    const username = this.players[userId].username;
+    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-rebuzz', rebuzz, username });
   }
 
