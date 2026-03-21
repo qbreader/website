@@ -7,7 +7,7 @@ async function getBonusGraphStats (userId, query) {
   return await perBonusData.aggregate([
     { $match: matchDocument },
     { $unwind: '$data' },
-    { $match: { 'data.user_id': userId } },
+    { $match: matchDocument },
     { $addFields: { pointValue: { $sum: '$data.pointsPerPart' } } },
     {
       $addFields: {

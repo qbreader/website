@@ -7,7 +7,7 @@ async function getTossupGraphStats (userId, query) {
   return await perTossupData.aggregate([
     { $match: matchDocument },
     { $unwind: '$data' },
-    { $match: { 'data.user_id': userId } },
+    { $match: matchDocument },
     {
       $addFields: {
         result: {

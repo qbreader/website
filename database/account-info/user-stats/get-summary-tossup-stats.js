@@ -19,7 +19,7 @@ export default async function getSummaryTossupStats (userId, groupByField, query
     { $match: matchDocument },
     { $match: { [groupByField]: { $exists: true } } },
     { $unwind: '$data' },
-    { $match: { 'data.user_id': userId } },
+    { $match: matchDocument },
     {
       $addFields: {
         is20: { $eq: ['$data.pointValue', 20] },
