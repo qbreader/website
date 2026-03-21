@@ -17,7 +17,7 @@ const router = Router();
  *  pointsPerPart: number[]
  * } | null} The validated parameters or null if validation fails.
  */
-function validateParams ({ _id, pointsPerPart }) {
+function validateParams ({ _id, pointsPerPart, multiplayer }) {
   if (!_id) { return null; }
   try {
     _id = new ObjectId(_id);
@@ -27,8 +27,10 @@ function validateParams ({ _id, pointsPerPart }) {
 
   if (!Array.isArray(pointsPerPart)) { return null; }
   if (pointsPerPart.some(points => typeof points !== 'number')) { return null; }
+  if (multiplayer === 'true') { multiplayer = true; } else if (multiplayer === 'false') { multiplayer = false; }
+  if (typeof multiplayer !== 'boolean') { return null; }
 
-  return { _id, pointsPerPart };
+  return { _id, pointsPerPart, multiplayer };
 }
 
 router.post('/', async (req, res) => {

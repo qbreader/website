@@ -7,7 +7,7 @@ export default class questionStats {
    * @param {number[]} pointsPerPart - How many points were scored on each part of the bonus
    * @returns
    */
-  static async recordBonus ({ _id, pointsPerPart }) {
+  static async recordBonus ({ _id, multiplayer, pointsPerPart }) {
     if (!(await account.getUsername())) {
       return;
     }
@@ -15,7 +15,7 @@ export default class questionStats {
     fetch('/auth/question-stats/record-bonus', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ _id, pointsPerPart })
+      body: JSON.stringify({ _id, pointsPerPart, multiplayer })
     }).then(response => {
       if (response.status === 401) {
         account.deleteUsername();

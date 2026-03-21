@@ -99,8 +99,9 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     const isNew = !(userId in this.players);
     if (isNew) {
       this.players[userId] = new ServerPlayer(userId);
-      this.players[userId].teamId = userId;
-      this.teams[userId] = new Team(userId);
+      const teamId = userId;
+      this.players[userId].teamId = teamId;
+      this.teams[teamId] = new Team(teamId);
     }
     this.players[userId].online = true;
     this.sockets[userId] = socket;
@@ -138,6 +139,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
     socket.send(JSON.stringify({
       type: 'connection-acknowledged',
+      teamId: this.players[userId].teamId,
       userId,
 
       bonusProgress: this.bonusProgress,

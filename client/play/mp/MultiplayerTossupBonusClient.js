@@ -11,6 +11,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     super(room, userId, socket);
     this.socket = socket;
     this.distractionFreeMode = false;
+    this.TEAM_ID = userId; // overridden in connectionAcknowledged
     attachEventListeners(room, socket, this);
   }
 
@@ -144,6 +145,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     settings,
     packetCount,
     teams,
+    teamId,
     tossupProgress,
     userId
   }) {
@@ -153,6 +155,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.room.public = settings.public;
     this.room.ownerId = ownerId;
     this.room.setLength = packetCount;
+    this.TEAM_ID = teamId;
     this.USER_ID = userId;
     window.localStorage.setItem('USER_ID', this.USER_ID);
 
@@ -289,6 +292,10 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       this.room.teams[teamId].bonusStats[points]++;
       upsertPlayerItem(this.room.players[teamId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[teamId] });
       this.sortPlayerListGroup();
+
+      if (this.TEAM_ID === teamId) {
+        questionStats.recordBonus({ _id: bonus._id, pointsPerPart, multiplayer: true });
+      }
     }
   }
 

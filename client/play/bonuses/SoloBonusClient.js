@@ -24,7 +24,7 @@ export default class SoloBonusClient extends BonusClient {
     super.endCurrentBonus({ bonus, starred });
     this.updateStatDisplay(stats);
     if (lastPartRevealed && (this.room.mode !== MODE_ENUM.LOCAL)) {
-      questionStats.recordBonus({ _id: bonus._id, pointsPerPart });
+      questionStats.recordBonus({ _id: bonus._id, pointsPerPart, multiplayer: false });
     }
   }
 
