@@ -24,7 +24,6 @@ export default async function generateMatchDocument ({ userId, difficulties, set
   }
 
   if (!includeMultiplayer) {
-    // if multiplayer field is missing, then it is singleplayer
     matchDocument['data.multiplayer'] = false;
   }
 
