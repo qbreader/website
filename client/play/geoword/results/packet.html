@@ -5,7 +5,6 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Geoword stats.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -42,7 +41,7 @@
                             <a class="dropdown-item" href="/db/frequency-list/">Frequency List</a>
                         </ul>
                     </li>
-                    <a class="nav-link active" href="/geoword/" aria-current="page">Geoword</a>
+                    <a class="nav-link active" href="/play/geoword/" aria-current="page">Geoword</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Tools
@@ -91,25 +90,15 @@
     </nav>
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">Category Stats for <span id="packet-name"></span>:</p>
-        <p class="d-flex justify-content-end">
-            <a id="back-link">Back to stats page</a>
-        </p>
-        <form class="mb-3" id="form">
-            <div class="mb-3">
-                <label class="form-label" for="category">Choose a category:</label>
-                <select class="form-select" id="category"></select>
-            </div>
-        </form>
+        <p class="text-center lead"><span id="packet-name"></span> Tossups:</p>
+        <p class="d-flex justify-content-end"><a id="back-link">Back to stats page</a></p>
         <nav class="mb-3">
             <div class="nav nav-tabs" id="tabs" role="tablist"></div>
         </nav>
         <div class="tab-content" id="tab-content"></div>
     </div>
 
-
-
-    <script type="module" src="./category-stats.js"></script>
+    <script type="module" src="./packet.js"></script>
 </body>
 
 </html>

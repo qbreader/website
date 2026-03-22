@@ -1,9 +1,11 @@
-import getUserId from '../../../../database/account-info/get-user-id.js';
-import getDivisionChoice from '../../../../database/geoword/get-division-choice.js';
+import paidMiddleware from './paid-middleware.js';
+import getUserId from '../../../database/account-info/get-user-id.js';
+import getDivisionChoice from '../../../database/geoword/get-division-choice.js';
 
 import { Router } from 'express';
-
 const router = Router();
+
+router.use(/^\/[^.]*$/, paidMiddleware);
 
 router.get('/', async (req, res, next) => {
   const { username } = req.session;
@@ -12,7 +14,7 @@ router.get('/', async (req, res, next) => {
   const divisionChoice = await getDivisionChoice(packetName, userId);
 
   if (divisionChoice) {
-    return res.redirect(`/geoword/paid/play/game?packetName=${packetName}`);
+    return res.redirect(`/play/geoword/game/?packetName=${packetName}`);
   }
 
   next();

@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import getUser from '../../../database/account-info/get-user';
-import getBuzzCount from '../../../database/geoword/get-buzz-count';
-import getQuestionCount from '../../../database/geoword/get-question-count';
+import getUser from '../../../database/account-info/get-user.js';
+import getBuzzCount from '../../../database/geoword/get-buzz-count.js';
+import getQuestionCount from '../../../database/geoword/get-question-count.js';
 
+import { Router } from 'express';
 const router = Router();
 
 // only match routes that do not have a '.' in the URL
@@ -23,3 +23,5 @@ router.use(/^\/[^.]*$/, async (req, res, next) => {
 
   next();
 });
+
+export default router;

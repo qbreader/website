@@ -30,7 +30,7 @@ document.getElementById('form').addEventListener('submit', event => {
     method: 'PUT'
   }).then(response => {
     if (response.ok) {
-      window.location.href = `/geoword/paid/play/game?packetName=${packetName}`;
+      window.location.href = `../game/?packetName=${packetName}`;
     } else {
       window.alert('Something went wrong. Please try again.');
     }

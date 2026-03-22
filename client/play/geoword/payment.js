@@ -1,7 +1,7 @@
 /* globals Stripe */
 // source: https://docs.stripe.com/payments/quickstart
 
-import { titleCase } from '../scripts/utilities/strings.js';
+import { titleCase } from '../../scripts/utilities/strings.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -67,7 +67,7 @@ async function handleSubmit (e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: window.location.origin + '/geoword/confirmation',
+      return_url: window.location.origin + '/play/geoword/confirmation',
       receipt_email: emailAddress
     }
   });

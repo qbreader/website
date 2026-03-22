@@ -1,11 +1,11 @@
-import createTabs from '../../../scripts/utilities/create-tabs.js';
-import { titleCase } from '../../../scripts/utilities/strings.js';
+import createTabs from '../../../../scripts/utilities/create-tabs.js';
+import { titleCase } from '../../../../scripts/utilities/strings.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
 const packetTitle = titleCase(packetName);
 
-document.getElementById('back-link').href = `./stats?packetName=${packetName}`;
+document.getElementById('back-link').href = `./?packetName=${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
 
 fetch('/api/geoword/paid/results/packet?' + new URLSearchParams({ packetName }))

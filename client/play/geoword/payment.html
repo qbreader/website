@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Select a geoword division.">
+    <meta name="description" content="Play geoword on qbreader.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -15,6 +15,9 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link href="/style.css" rel="stylesheet">
     <script src="/scripts/global.js"></script>
+
+    <script type="module" src="https://js.stripe.com/v3/"></script>
+    <script type="module" src="./payment.js" defer></script>
 </head>
 
 <body>
@@ -42,7 +45,7 @@
                             <a class="dropdown-item" href="/db/frequency-list/">Frequency List</a>
                         </ul>
                     </li>
-                    <a class="nav-link active" href="/geoword/" aria-current="page">Geoword</a>
+                    <a class="nav-link active" href="/play/geoword/" aria-current="page">Geoword</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Tools
@@ -92,21 +95,25 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <p>
-            Compare your stats on <b id="packet-name"></b> (<span id="division"></span>) against another player.
+            The cost to play the packet <b id="packet-name"></b> is <b>$<span id="cost">2.50</span></b>.
+            If you would like to pay with <b>Venmo</b>, please send the payment to <code>Geoffrey-Wu-1</code> with your qbreader
+            username and the name of the packet in the description.
+            Please enter payment information below:
         </p>
-        <form class="mb-3" id="form">
-            <div class="mb-3">
-                <label for="opponent" class="form-label">Enter a username here:</label>
-                <input type="text" class="form-control" id="opponent">
+        <form id="payment-form">
+            <div id="link-authentication-element">
+                <!--Stripe.js injects the Link Authentication Element-->
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="mb-3" id="payment-element">
+                <!--Stripe.js injects the Payment Element-->
+            </div>
+            <button class="btn btn-primary" id="submit">
+                <div class="spinner hidden" id="spinner"></div>
+                <span id="button-text">Pay now</span>
+            </button>
+            <div id="payment-message" class="hidden"></div>
         </form>
-        <div id="root"></div>
     </div>
-
-
-
-    <script type="module" src="./compare.js"></script>
 </body>
 
 </html>

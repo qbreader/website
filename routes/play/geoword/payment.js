@@ -1,5 +1,5 @@
-import getUserId from '../../database/account-info/get-user-id.js';
-import checkPayment from '../../database/geoword/check-payment.js';
+import getUserId from '../../../database/account-info/get-user-id.js';
+import checkPayment from '../../../database/geoword/check-payment.js';
 
 import { Router } from 'express';
 
@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
   const paid = await checkPayment(packetName, userId);
 
   if (paid) {
-    return res.redirect(`/geoword/division?packetName=${packetName}`);
+    return res.redirect(`/play/geoword/division/?packetName=${packetName}`);
   }
 
   next();

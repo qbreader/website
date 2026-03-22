@@ -5,7 +5,7 @@
     <title>QB Reader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Play geoword on qbreader.">
+    <meta name="description" content="Select a geoword division.">
 
     <link href="/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
@@ -42,7 +42,7 @@
                             <a class="dropdown-item" href="/db/frequency-list/">Frequency List</a>
                         </ul>
                     </li>
-                    <a class="nav-link active" href="/geoword/" aria-current="page">Geoword</a>
+                    <a class="nav-link active" href="/play/geoword/" aria-current="page">Geoword</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Tools
@@ -92,22 +92,27 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <p>
-            Welcome to geoword, a buzzword-style competition that is the spiritual successor to beterword.
-            <span id="login-warning">
-                You must <a href="/user/signup">create an account</a> or <a href="/user/login">login</a> before you can play.
-            </span>
-            Choose a game below:
+            Choose your division for packet <b id="packet-name"></b>.
+            <i>You cannot change your division once you have submitted a response.</i>
         </p>
-        <ul id="packet-list"></ul>
-        <i>
-            Note: the division 1, division 2, and high school samples have (mostly) the same answers, with questions (mostly)
-            up/downcoverted from each other.
-        </i>
+        <div>
+            <p>
+                "Division 1" corresponds to <a href="https://www.naqt.com/college/division-i.html">ICT D1</a>,
+                and "Division 2" corresponds to <a href="https://www.naqt.com/college/division-ii.html">ICT D2</a>.
+                <i>Some packets, such as the samples, may have only 1 division.</i>
+            </p>
+            <form id="form">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <select class="form-select" id="division"></select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+            </form>
+        </div>
     </div>
 
-
-
-    <script type="module" src="/geoword/index.js"></script>
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>
