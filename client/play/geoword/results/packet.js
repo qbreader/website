@@ -1,5 +1,5 @@
-import createTabs from '../../../scripts/utilities/create-tabs.js';
-import { titleCase } from '../../../scripts/utilities/strings.js';
+import createTabs from '../../../../scripts/utilities/create-tabs.js';
+import { titleCase } from '../../../../scripts/utilities/strings.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');

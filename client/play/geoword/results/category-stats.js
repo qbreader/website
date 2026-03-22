@@ -1,6 +1,6 @@
-import createTabs from '../../../scripts/utilities/create-tabs.js';
-import { escapeHTML, kebabCase, titleCase } from '../../../scripts/utilities/strings.js';
-import sortTable from '../../../scripts/utilities/tables.js';
+import createTabs from '../../../../scripts/utilities/create-tabs.js';
+import { escapeHTML, kebabCase, titleCase } from '../../../../scripts/utilities/strings.js';
+import sortTable from '../../../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');

@@ -1,4 +1,4 @@
-import { escapeHTML, titleCase } from '../../../scripts/utilities/strings.js';
+import { escapeHTML, titleCase } from '../../../../scripts/utilities/strings.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');

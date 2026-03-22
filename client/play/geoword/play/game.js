@@ -1,7 +1,7 @@
 /* globals Audio */
 
-import { titleCase } from '../../../scripts/utilities/strings.js';
-import audio from '../../../play/audio/index.js';
+import { titleCase } from '../../../../scripts/utilities/strings.js';
+import audio from '../../../audio/index.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');

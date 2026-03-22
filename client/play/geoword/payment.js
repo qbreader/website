@@ -1,7 +1,7 @@
 /* globals Stripe */
 // source: https://docs.stripe.com/payments/quickstart
 
-import { titleCase } from '../scripts/utilities/strings.js';
+import { titleCase } from '../../scripts/utilities/strings.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
