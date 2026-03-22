@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
   const divisionChoice = await getDivisionChoice(packetName, userId);
 
   if (divisionChoice) {
-    return res.redirect(`/geoword/paid/play/game?packetName=${packetName}`);
+    return res.redirect(`/play/geoword/play/?packetName=${packetName}`);
   }
 
   next();

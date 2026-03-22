@@ -1,5 +1,5 @@
-import getUserId from '../../database/account-info/get-user-id.js';
-import checkPayment from '../../database/geoword/check-payment.js';
+import getUserId from '../../../database/account-info/get-user-id.js';
+import checkPayment from '../../../database/geoword/check-payment.js';
 
 import { Router } from 'express';
 
