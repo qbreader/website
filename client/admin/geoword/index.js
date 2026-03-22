@@ -25,7 +25,7 @@ fetch('/api/geoword/packet-list')
       }
 
       const a = document.createElement('a');
-      a.href = `/geoword/paid/results/packet?packetName=${name}`;
+      a.href = `/play/geoword/results/packet?packetName=${name}`;
       a.textContent = 'Packet';
 
       listGroupItem.appendChild(a);
