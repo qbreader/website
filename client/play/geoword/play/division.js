@@ -1,4 +1,4 @@
-import { titleCase } from '../../../../scripts/utilities/strings.js';
+import { titleCase } from '../../../scripts/utilities/strings.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -30,7 +30,7 @@ document.getElementById('form').addEventListener('submit', event => {
     method: 'PUT'
   }).then(response => {
     if (response.ok) {
-      window.location.href = `/geoword/paid/play/game?packetName=${packetName}`;
+      window.location.href = `../?packetName=${packetName}`;
     } else {
       window.alert('Something went wrong. Please try again.');
     }

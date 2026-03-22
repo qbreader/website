@@ -1,7 +1,7 @@
 /* globals Audio */
 
 import { titleCase } from '../../../../scripts/utilities/strings.js';
-import audio from '../../../audio/index.js';
+import audio from '../../audio/index.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -20,7 +20,7 @@ let prompts = [];
 let totalCorrectCelerity = 0;
 let tossupsHeard = 0;
 
-document.getElementById('geoword-stats').href = '../results/stats?packetName=' + packetName;
+document.getElementById('geoword-stats').href = '../results/?packetName=' + packetName;
 
 fetch('/api/geoword/paid/play/get-progress?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
