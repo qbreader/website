@@ -13,7 +13,7 @@ fetch('/api/geoword/packet-list')
     const { packetList } = data;
     packetList.forEach(game => {
       const a = document.createElement('a');
-      a.href = './' + (game.costInCents ? 'payment' : 'play/division') + '?packetName=' + game.name;
+      a.href = './' + (game.costInCents ? 'payment' : 'division/') + '?packetName=' + game.name;
       a.textContent = titleCase(game.name);
 
       const li = document.createElement('li');

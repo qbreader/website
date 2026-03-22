@@ -1,8 +1,8 @@
-import getUserId from '../../../../database/account-info/get-user-id.js';
-import isAdmin from '../../../../database/account-info/is-admin.js';
-import checkPayment from '../../../../database/geoword/check-payment.js';
-import getPacketStatus from '../../../../database/geoword/get-packet-status.js';
-import { checkToken } from '../../../../server/authentication.js';
+import getUserId from '../../../database/account-info/get-user-id.js';
+import isAdmin from '../../../database/account-info/is-admin.js';
+import checkPayment from '../../../database/geoword/check-payment.js';
+import getPacketStatus from '../../../database/geoword/get-packet-status.js';
+import { checkToken } from '../../../server/authentication.js';
 
 // router.use(/^\/[^.]*$/, paidMiddleware);
 
