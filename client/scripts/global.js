@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
     return response.json();
   }).then(json => json.username)
     .then(username => { myCallback(username); window.sessionStorage.setItem('account-username', JSON.stringify({ username })); });
-});
+}, { once: true });
 
 // mostly copied from https://getbootstrap.com/docs/5.3/customize/color-modes/#javascript
 
@@ -86,4 +86,4 @@ window.addEventListener('DOMContentLoaded', () => {
         showActiveTheme(theme, true);
       });
     });
-});
+}, { once: true });

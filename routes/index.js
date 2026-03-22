@@ -9,11 +9,13 @@ import redirectsRouter from './redirects.js';
 
 import cors from 'cors';
 import express, { Router } from 'express';
+import navbarMiddleware from './navbar-middleware.js';
 const router = Router();
 
 router.get('/*.scss', (req, res) => res.sendFile(req.url, { root: './scss' }));
 
 router.use(redirectsRouter);
+router.use(navbarMiddleware);
 
 /**
  * Routes:
