@@ -17,15 +17,14 @@ router.use(async (req, res, next) => {
   const { username, token } = req.session;
   if (!checkToken(username, token)) {
     delete req.session;
-    res.sendStatus(401);
+    return res.sendStatus(401);
   }
 
   const packetName = req.query.packetName;
   const userId = await getUserId(username);
   const paid = await checkPayment(packetName, userId);
   if (!paid) {
-    res.status(403).send('Payment required');
-    return;
+    return res.status(403).send('Payment required');
   }
 
   next();
