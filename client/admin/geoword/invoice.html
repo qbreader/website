@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QB Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link href="/style.css" rel="stylesheet">
+    <script src="/scripts/global.js"></script>
+</head>
+
+<body>
+    <!--#include virtual="/nav/index.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <p class="d-flex justify-content-end">
+            <a href="./">Back to admin page</a>
+        </p>
+
+        <div class="d-flex">
+            <h1 class="display-6">Invoice</h1>
+        </div>
+        <p class="lead">
+            This is an invoice for geoword, an online quizbowl game on QBReader.org.
+        </p>
+        <p><b>Time of payment:</b> <span id="date"></span></p>
+        <p><b>Packet name:</b> <span id="packet-name"></span></p>
+        <p><b>Packet id:</b> <span id="packet-id"></span></p>
+        <p><b>Username:</b> <span id="username"></span></p>
+        <p><b>User id:</b> <span id="user-id"></span></p>
+        <p><b>Amount:</b> $<span id="amount"></span></p>
+    </div>
+
+    <script type="module" src="./invoice.js"></script>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 import categoryStatsRouter from './category-stats.js';
 import compareRouter from './compare.js';
+import invoiceRouter from './invoice.js';
 import leaderboardRouter from './leaderboard.js';
 import paymentsListRouter from './payment-list.js';
 import playerListRouter from './player-list.js';
@@ -14,6 +15,7 @@ const router = Router();
 
 router.use('/category-stats', categoryStatsRouter);
 router.use('/compare', compareRouter);
+router.use('/invoice', invoiceRouter);
 router.use('/leaderboard', leaderboardRouter);
 router.use('/payment-list', paymentsListRouter);
 router.use('/player-list', playerListRouter);
