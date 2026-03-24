@@ -15,7 +15,6 @@ const router = Router();
 router.get('/*.scss', (req, res) => res.sendFile(req.url, { root: './scss' }));
 
 router.use(redirectsRouter);
-router.use(includeVirtualMiddleware);
 
 /**
  * Routes:
@@ -29,6 +28,7 @@ router.use('/user', userRouter);
 
 router.use('/quizbowl', express.static('quizbowl'));
 
+router.use(includeVirtualMiddleware);
 router.use(express.static('client', { extensions: ['html'] }));
 router.use(express.static('node_modules'));
 
