@@ -7,6 +7,12 @@ import fs from 'fs';
 import { ObjectId } from 'mongodb';
 const router = Router();
 
+const head = fs.readFileSync('./client/head.html', 'utf8');
+const nav = fs.readFileSync('./client/nav/index.html', 'utf8');
+const file = fs.readFileSync('./client/db/bonus/index.html', { encoding: 'utf8' })
+  .replace('<!--#include virtual="/head.html" -->', head)
+  .replace('<!--#include virtual="/nav/index.html" -->', nav);
+
 function removeParentheses (answer) {
   return answer.replace(/[([].*/g, '');
 }
@@ -21,7 +27,6 @@ router.get('/', async (req, res) => {
   if (!bonus) { return res.sendStatus(404); }
 
   const description = `Bonus: ${bonus.answers_sanitized.map(a => escapeHTML(removeParentheses(a))).join(' / ')} [${bonus.set.name}]`;
-  const file = fs.readFileSync('./client/db/bonus/index.html', { encoding: 'utf8' });
   res.send(file.replace('<meta name="description" content="">', `<meta name="description" content="${description}">`));
 });
 
