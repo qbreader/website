@@ -124,6 +124,16 @@ export default class SoloBonusClient extends BonusClient {
     window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
+  setReadingSpeed ({ readingSpeed }) {
+    super.setReadingSpeed({ readingSpeed });
+    window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
+  }
+
+  toggleReadBonuses ({ readBonuses }) {
+    super.toggleReadBonuses({ readBonuses });
+    window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
+  }
+
   /**
  * Calculates the points per bonus and updates the display.
  */

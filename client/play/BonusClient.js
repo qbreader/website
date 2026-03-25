@@ -13,13 +13,19 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     switch (data.type) {
       case 'end-current-bonus': return this.endCurrentBonus(data);
       case 'give-bonus-answer': return this.giveBonusAnswer(data);
+      case 'pause': return this.pause(data);
       case 'reveal-leadin': return this.revealLeadin(data);
       case 'reveal-next-answer': return this.revealNextAnswer(data);
       case 'reveal-next-part': return this.revealNextPart(data);
+      case 'set-reading-speed': return this.setReadingSpeed(data);
       case 'start-bonus-answer': return this.startBonusAnswer(data);
       case 'start-next-bonus': return this.startNextBonus(data);
       case 'toggle-bonus-part': return this.toggleBonusPart(data);
+      case 'toggle-read-bonuses': return this.toggleReadBonuses(data);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
+      case 'update-question':
+        if (data.target) { return this.updateQuestion(data); }
+        return super.onmessage(message);
       default: return super.onmessage(message);
     }
   }
@@ -36,7 +42,7 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     }
 
     if (directive !== 'prompt') {
-      document.getElementById('reveal').disabled = false;
+      document.getElementById('reveal').disabled = !this.room.settings.readBonuses;
     }
   }
 
@@ -59,10 +65,12 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
   }
 
   revealNextPart ({ bonusEligibleTeamId, currentPartNumber, part, value }) {
-    document.getElementById('reveal').disabled = !(
-      bonusEligibleTeamId === undefined ||
-      bonusEligibleTeamId === this.room.players[this.USER_ID]?.teamId
-    );
+    if (!this.room.settings.readBonuses) {
+      document.getElementById('reveal').disabled = !(
+        bonusEligibleTeamId === undefined ||
+        bonusEligibleTeamId === this.room.players[this.USER_ID]?.teamId
+      );
+    }
 
     const input = document.createElement('input');
     input.id = `checkbox-${currentPartNumber + 1}`;
@@ -98,6 +106,11 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
   startNextBonus ({ bonus, packetLength }) {
     this.startNextQuestion({ packetLength, question: bonus });
     document.getElementById('next').textContent = 'Skip';
+    const pauseButton = document.getElementById('pause');
+    if (pauseButton) {
+      pauseButton.textContent = 'Pause';
+      pauseButton.disabled = !this.room.settings.readBonuses;
+    }
   }
 
   setMode ({ mode }) {
@@ -120,6 +133,46 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
 
   toggleThreePartBonuses ({ threePartBonuses }) {
     document.getElementById('toggle-three-part-bonuses').checked = threePartBonuses;
+  }
+
+  pause ({ paused }) {
+    const pauseButton = document.getElementById('pause');
+    if (pauseButton) {
+      pauseButton.textContent = paused ? 'Resume' : 'Pause';
+    }
+  }
+
+  setReadingSpeed ({ readingSpeed }) {
+    const el = document.getElementById('reading-speed');
+    if (el) {
+      el.value = readingSpeed;
+    }
+    const display = document.getElementById('reading-speed-display');
+    if (display) {
+      display.textContent = readingSpeed;
+    }
+  }
+
+  toggleReadBonuses ({ readBonuses }) {
+    const el = document.getElementById('toggle-read-bonuses');
+    if (el) {
+      el.checked = readBonuses;
+    }
+    const readingSpeedSettings = document.getElementById('reading-speed-settings');
+    if (readingSpeedSettings) {
+      readingSpeedSettings.classList.toggle('d-none', !readBonuses);
+    }
+  }
+
+  updateQuestion ({ word, target, currentPartNumber }) {
+    if (target === 'leadin') {
+      document.getElementById('leadin').innerHTML += word + ' ';
+    } else {
+      const partEl = document.getElementById(`bonus-part-${currentPartNumber + 1}`);
+      if (partEl) {
+        partEl.querySelector('p').innerHTML += word + ' ';
+      }
+    }
   }
 };
 
