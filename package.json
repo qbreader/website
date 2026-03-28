@@ -26,7 +26,7 @@
         "jsonwebtoken": "^9.0.0",
         "mongodb": "^6.17.0",
         "morgan": "^1.10.0",
-        "nodemailer": "^7.0.9",
+        "nodemailer": "^8.0.4",
         "qb-answer-checker": "^1.1.9",
         "stripe": "^12.10.0",
         "uuid": "^8.3.2",
