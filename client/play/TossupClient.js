@@ -80,9 +80,8 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
     this.startNextQuestion({ question: tossup, packetLength });
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
-    const pauseIcon = document.getElementById('pause').querySelector('i');
-    if (pauseIcon) { pauseIcon.className = 'bi bi-pause-fill'; }
     document.getElementById('pause').disabled = false;
+    this.pause({ paused: false });
     this.room.tossup = tossup;
   }
 
