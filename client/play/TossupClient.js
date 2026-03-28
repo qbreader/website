@@ -47,7 +47,8 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   }
 
   pause ({ paused }) {
-    document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
+    const icon = document.getElementById('pause').querySelector('i');
+    if (icon) { icon.className = paused ? 'bi bi-play-fill' : 'bi bi-pause-fill'; }
   }
 
   revealTossupAnswer ({ answer, question }) {
@@ -79,8 +80,8 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
     this.startNextQuestion({ question: tossup, packetLength });
     document.getElementById('buzz').textContent = 'Buzz';
     document.getElementById('buzz').disabled = false;
-    document.getElementById('pause').textContent = 'Pause';
     document.getElementById('pause').disabled = false;
+    this.pause({ paused: false });
     this.room.tossup = tossup;
   }
 
