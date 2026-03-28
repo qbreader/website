@@ -259,7 +259,7 @@ async function getBonusQuery (options) {
   }
 }
 
-function buildQueryAggregation ({ query, difficulties, categories, subcategories, alternateSubcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty, powermarkOnly }) {
+function buildQueryAggregation ({ query, difficulties, categories, subcategories, alternateSubcategories, setName, maxReturnLength, randomize, minYear, maxYear, isEmpty, powermarkOnly, regex = false }) {
   if (isEmpty) {
     delete query.$or;
   }
@@ -283,10 +283,10 @@ function buildQueryAggregation ({ query, difficulties, categories, subcategories
   if (setName) {
     // setName is now an array after being split by commas
     if (Array.isArray(setName)) {
-      query['set.name'] = { $in: setName.map(name => new RegExp(name, 'i')) };
+      query['set.name'] = { $in: setName.map(name => new RegExp(regex ? name : escapeRegExp(name), 'i')) };
     } else {
       // Backward compatibility: if setName is a string (shouldn't happen after API route change)
-      query['set.name'] = { $regex: setName, $options: 'i' };
+      query['set.name'] = { $regex: regex ? setName : escapeRegExp(setName), $options: 'i' };
     }
   }
 
