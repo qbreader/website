@@ -65,6 +65,10 @@ if (process.env.DKIM_PRIVATE_KEY && process.env.DKIM_SELECTOR) {
 }
 
 const transporter = createTransport(transporterOptions);
+// verify the transporter configuration on startup
+if (process.env.DKIM_PRIVATE_KEY && process.env.DKIM_SELECTOR) {
+  transporter.verify((error, success) => { if (error) { throw error; } });
+}
 
 /**
  *
