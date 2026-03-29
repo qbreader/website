@@ -14,13 +14,13 @@ export default class Room {
     };
   }
 
-  async message (userId, message) {
+  async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'clear-stats': return this.clearStats(userId, message);
+      case 'clear-stats': return this.clearStats({ userId, username }, message);
     }
   }
 
-  clearStats (userId) {
+  clearStats ({ userId }) {
     this.players[userId].clearStats();
     this.emitMessage({ type: 'clear-stats', userId });
   }
@@ -61,7 +61,7 @@ export default class Room {
     this.sockets[userId].send(message);
   }
 
-  setUsername (userId, { username }) {
+  setUsername ({ userId }, { username }) {
     if (typeof username !== 'string') { return false; }
     const oldUsername = this.players[userId].username;
     this.players[userId].username = username;

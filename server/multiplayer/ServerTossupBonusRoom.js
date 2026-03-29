@@ -7,26 +7,26 @@ export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(To
     super(name, ownerId, isPermanent, categoryManager, ['tossups', 'bonuses'], isVerified);
   }
 
-  giveAnswerLiveUpdate (userId, { givenAnswer }) {
+  giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
     // Allow live updates during bonuses (when buzzedIn is null) or from the user who buzzed
     switch (this.currentQuestionType) {
       case QUESTION_TYPE_ENUM.TOSSUP:
         if (userId !== this.buzzedIn) { return false; }
         break;
       case QUESTION_TYPE_ENUM.BONUS:
-        if (!this.canUserAnswerBonus(userId)) { return false; }
+        if (!this.canUserAnswerBonus({ userId, username })) { return false; }
         break;
     }
-    super.giveAnswerLiveUpdate(userId, { givenAnswer });
+    super.giveAnswerLiveUpdate({ userId, username }, { givenAnswer });
   }
 
-  next (userId) {
+  next ({ userId, username }) {
     // prevents spam-skipping trolls
     if (
       this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP &&
       this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING &&
       this.wordIndex < 3
     ) { return false; }
-    super.next(userId);
+    super.next({ userId, username });
   }
 }

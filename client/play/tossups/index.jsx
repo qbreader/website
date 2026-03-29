@@ -19,7 +19,7 @@ const aiBot = new AIBot(room);
 aiBot.setAIBot(aiBots['average-high-school'][0]);
 aiBot.active = false;
 
-const socket = { sendToServer: (message) => room.message(USER_ID, message) };
+const socket = { sendToServer: (message) => room.message({ userId: USER_ID, username: room.players[USER_ID]?.username }, message) };
 const client = new SoloTossupClient(room, USER_ID, socket, aiBot);
 socket.send = (message) => client.onmessage(message);
 room.sockets[USER_ID] = socket;

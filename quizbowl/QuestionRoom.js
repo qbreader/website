@@ -73,23 +73,23 @@ export default class QuestionRoom extends Room {
     };
   }
 
-  message (userId, message) {
+  message ({ userId, username }, message) {
     switch (message.type) {
-      case 'set-categories': return this.setCategories(userId, message);
-      case 'set-difficulties': return this.setDifficulties(userId, message);
-      case 'set-mode': return this.setMode(userId, message);
-      case 'set-packet-numbers': return this.setPacketNumbers(userId, message);
-      case 'set-set-name': return this.setSetName(userId, message);
-      case 'set-strictness': return this.setStrictness(userId, message);
-      case 'set-username': return this.setUsername(userId, message);
-      case 'set-max-year': return this.setMaxYear(userId, message);
-      case 'set-min-year': return this.setMinYear(userId, message);
-      case 'toggle-randomize-order': return this.toggleRandomizeOrder(userId, message);
-      case 'toggle-skip': return this.toggleSkip(userId, message);
-      case 'toggle-standard-only': return this.toggleStandardOnly(userId, message);
-      case 'toggle-timer': return this.toggleTimer(userId, message);
-      case 'upload-local-packet': return this.uploadLocalPacket(userId, message);
-      default: return super.message(userId, message);
+      case 'set-categories': return this.setCategories({ userId, username }, message);
+      case 'set-difficulties': return this.setDifficulties({ userId, username }, message);
+      case 'set-mode': return this.setMode({ userId, username }, message);
+      case 'set-packet-numbers': return this.setPacketNumbers({ userId, username }, message);
+      case 'set-set-name': return this.setSetName({ userId, username }, message);
+      case 'set-strictness': return this.setStrictness({ userId, username }, message);
+      case 'set-username': return this.setUsername({ userId, username }, message);
+      case 'set-max-year': return this.setMaxYear({ userId, username }, message);
+      case 'set-min-year': return this.setMinYear({ userId, username }, message);
+      case 'toggle-randomize-order': return this.toggleRandomizeOrder({ userId, username }, message);
+      case 'toggle-skip': return this.toggleSkip({ userId, username }, message);
+      case 'toggle-standard-only': return this.toggleStandardOnly({ userId, username }, message);
+      case 'toggle-timer': return this.toggleTimer({ userId, username }, message);
+      case 'upload-local-packet': return this.uploadLocalPacket({ userId, username }, message);
+      default: return super.message({ userId, username }, message);
     }
   }
 
@@ -188,7 +188,7 @@ export default class QuestionRoom extends Room {
     return questionType === 'tossups' ? this.getRandomTossups(query) : this.getRandomBonuses(query);
   }
 
-  setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
+  setCategories ({ username }, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
     if (!Array.isArray(categories)) { return; }
     if (!Array.isArray(subcategories)) { return; }
     if (!Array.isArray(alternateSubcategories)) { return; }
@@ -203,7 +203,6 @@ export default class QuestionRoom extends Room {
 
     this.categoryManager.import({ categories, subcategories, alternateSubcategories, percentView, categoryPercents });
 
-    const username = this.players[userId]?.username;
     this.adjustQuery(
       ['categories', 'subcategories', 'alternateSubcategories', 'percentView', 'categoryPercents'],
       [categories, subcategories, alternateSubcategories, percentView, categoryPercents]
@@ -211,50 +210,44 @@ export default class QuestionRoom extends Room {
     this.emitMessage({ type: 'set-categories', ...this.categoryManager.export(), username });
   }
 
-  setDifficulties (userId, { difficulties }) {
+  setDifficulties ({ username }, { difficulties }) {
     const invalid = difficulties.some(value => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10);
     if (invalid) { return false; }
-    const username = this.players[userId]?.username;
     this.adjustQuery(['difficulties'], [difficulties]);
     this.emitMessage({ type: 'set-difficulties', username, difficulties });
   }
 
-  setMaxYear (userId, { maxYear, doNotFetch = false }) {
+  setMaxYear ({ username }, { maxYear, doNotFetch = false }) {
     maxYear = parseInt(maxYear);
     if (isNaN(maxYear)) { maxYear = DEFAULT_MAX_YEAR; }
     maxYear = Math.max(maxYear, this.query.minYear);
-    const username = this.players[userId]?.username;
     this.adjustQuery(['maxYear'], [maxYear], doNotFetch);
     this.emitMessage({ type: 'set-max-year', maxYear, username });
   }
 
-  setMinYear (userId, { minYear, doNotFetch = false }) {
+  setMinYear ({ username }, { minYear, doNotFetch = false }) {
     minYear = parseInt(minYear);
     if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
     minYear = Math.min(minYear, this.query.maxYear);
-    const username = this.players[userId]?.username;
     this.adjustQuery(['minYear'], [minYear], doNotFetch);
     this.emitMessage({ type: 'set-min-year', minYear, username });
   }
 
-  setMode (userId, { mode }) {
+  setMode ({ username }, { mode }) {
     if (!Object.values(MODE_ENUM).includes(mode)) { return; }
     this.mode = mode;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'set-mode', mode, username });
   }
 
-  setPacketNumbers (userId, { doNotFetch = false, packetNumbers }) {
+  setPacketNumbers ({ username }, { doNotFetch = false, packetNumbers }) {
     if (!Array.isArray(packetNumbers)) { return false; }
     if (packetNumbers.some(value => typeof value !== 'number' || value < 1 || value > this.packetCount)) { return false; }
-    const username = this.players[userId]?.username;
     this.adjustQuery(['packetNumbers'], [packetNumbers], doNotFetch);
     this.emitMessage({ type: 'set-packet-numbers', username, packetNumbers });
   }
 
-  async setSetName (userId, { doNotFetch = false, setName }) {
+  async setSetName ({ username }, { doNotFetch = false, setName }) {
     if (typeof setName !== 'string') { return; }
-    const username = this.players[userId]?.username;
     this.packetCount = await this.getPacketCount(setName);
     const packetNumbers = [];
     for (let i = 1; i <= this.packetCount; i++) { packetNumbers.push(i); }
@@ -262,9 +255,8 @@ export default class QuestionRoom extends Room {
     this.emitMessage({ type: 'set-set-name', username, setName, setLength: this.packetCount });
   }
 
-  setStrictness (userId, { strictness }) {
+  setStrictness ({ username }, { strictness }) {
     this.settings.strictness = strictness;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'set-strictness', username, strictness });
   }
 
@@ -273,32 +265,28 @@ export default class QuestionRoom extends Room {
     super.startServerTimer(time, ontick, callback);
   }
 
-  toggleRandomizeOrder (userId, { randomizeOrder }) {
+  toggleRandomizeOrder ({ username }, { randomizeOrder }) {
     this.settings.randomizeOrder = randomizeOrder;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-randomize-order', randomizeOrder, username });
   }
 
-  toggleSkip (userId, { skip }) {
+  toggleSkip ({ username }, { skip }) {
     this.settings.skip = skip;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-skip', skip, username });
   }
 
-  toggleStandardOnly (userId, { doNotFetch = false, standardOnly }) {
+  toggleStandardOnly ({ username }, { doNotFetch = false, standardOnly }) {
     this.query.standardOnly = standardOnly;
-    const username = this.players[userId]?.username;
     this.adjustQuery(['standardOnly'], [standardOnly], doNotFetch);
     this.emitMessage({ type: 'toggle-standard-only', standardOnly, username });
   }
 
-  toggleTimer (userId, { timer }) {
+  toggleTimer ({ username }, { timer }) {
     this.settings.timer = timer;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-timer', timer, username });
   }
 
-  uploadLocalPacket (userId, { filename, packet }) {
+  uploadLocalPacket ({ userId }, { filename, packet }) {
     if (typeof filename !== 'string' || filename.length === 0) { return; }
     if (typeof packet !== 'object' || packet === null) { return; }
 

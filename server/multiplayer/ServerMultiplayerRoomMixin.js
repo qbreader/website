@@ -50,20 +50,20 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     setInterval(this.cleanupExpiredBansAndKicks.bind(this), 5 * 60 * 1000); // 5 minutes
   }
 
-  async message (userId, message) {
+  async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'ban': return this.ban(userId, message);
-      case 'chat': return this.chat(userId, message);
-      case 'chat-live-update': return this.chatLiveUpdate(userId, message);
-      case 'give-answer-live-update': return this.giveAnswerLiveUpdate(userId, message);
-      case 'toggle-controlled': return this.toggleControlled(userId, message);
-      case 'toggle-lock': return this.toggleLock(userId, message);
-      case 'toggle-login-required': return this.toggleLoginRequired(userId, message);
-      case 'toggle-mute': return this.toggleMute(userId, message);
-      case 'toggle-public': return this.togglePublic(userId, message);
-      case 'votekick-init': return this.votekickInit(userId, message);
-      case 'votekick-vote': return this.votekickVote(userId, message);
-      default: super.message(userId, message);
+      case 'ban': return this.ban({ userId, username }, message);
+      case 'chat': return this.chat({ userId, username }, message);
+      case 'chat-live-update': return this.chatLiveUpdate({ userId, username }, message);
+      case 'give-answer-live-update': return this.giveAnswerLiveUpdate({ userId, username }, message);
+      case 'toggle-controlled': return this.toggleControlled({ userId, username }, message);
+      case 'toggle-lock': return this.toggleLock({ userId, username }, message);
+      case 'toggle-login-required': return this.toggleLoginRequired({ userId, username }, message);
+      case 'toggle-mute': return this.toggleMute({ userId, username }, message);
+      case 'toggle-public': return this.togglePublic({ userId, username }, message);
+      case 'votekick-init': return this.votekickInit({ userId, username }, message);
+      case 'votekick-vote': return this.votekickVote({ userId, username }, message);
+      default: super.message({ userId, username }, message);
     }
   }
 
@@ -71,14 +71,14 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     return (userId === this.ownerId) || this.settings.public || !this.settings.controlled;
   }
 
-  ban (userId, { targetId, targetUsername }) {
+  ban ({ userId }, { targetId, targetUsername }) {
     console.log('Ban request received. Target ' + targetId);
     if (this.ownerId !== userId) { return; }
 
     this.emitMessage({ type: 'confirm-ban', targetId, targetUsername });
     this.bannedUserList.set(targetId, Date.now());
 
-    setTimeout(() => this.closeConnection(targetId), 1000);
+    setTimeout(() => this.closeConnection({ userId: targetId, username: targetUsername }), 1000);
   }
 
   connection (socket, userId, username, ip, userAgent = '') {
@@ -93,7 +93,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
     if (this.sockets[userId]) {
       this.sendToSocket(userId, { type: 'error', message: 'You joined on another tab' });
-      setTimeout(() => this.closeConnection(userId), 5000);
+      setTimeout(() => this.closeConnection({ userId, username }), 5000);
     }
 
     const isNew = !(userId in this.players);
@@ -132,10 +132,10 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
         console.log(`Error parsing message: ${message}`);
         return;
       }
-      this.message(userId, message);
+      this.message({ userId, username: this.players[userId]?.username }, message);
     });
 
-    socket.on('close', this.closeConnection.bind(this, userId));
+    socket.on('close', this.closeConnection.bind(this, { userId, username }));
 
     socket.send(JSON.stringify({
       type: 'connection-acknowledged',
@@ -207,18 +207,16 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.emitMessage({ type: 'join', isNew, team: this.teams[this.players[userId].teamId], userId, username, user: this.players[userId] });
   }
 
-  chat (userId, { message }) {
+  chat ({ userId, username }, { message }) {
     // prevent chat messages if room is public, since they can still be sent with API
     if (this.settings.public && !this.settings.loginRequired) { return false; }
     if (typeof message !== 'string') { return false; }
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'chat', message, username, userId });
   }
 
-  chatLiveUpdate (userId, { message }) {
+  chatLiveUpdate ({ userId, username }, { message }) {
     if (this.settings.public && !this.settings.loginRequired) { return false; }
     if (typeof message !== 'string') { return false; }
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'chat-live-update', message, username, userId });
   }
 
@@ -238,26 +236,27 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     });
   }
 
-  closeConnection (userId) {
+  closeConnection ({ userId, username }) {
     if (!this.players[userId]) { return; }
 
     if (this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
       if (this.buzzedIn === userId) {
-        this.giveAnswer(userId, { givenAnswer: this.liveAnswer });
+        this.giveAnswer({ userId, username }, { givenAnswer: this.liveAnswer });
         this.buzzedIn = null;
       }
     } else if (this.currentQuestionType === QUESTION_TYPE_ENUM.BONUS) {
-      const allowed = this.endCurrentBonus(userId);
-      if (allowed) { this.startNextTossup(userId); }
+      const allowed = this.endCurrentBonus({ userId, username });
+      if (allowed) {
+        this.startNextTossup({ userId, username });
+      }
     }
 
     this.leave(userId);
   }
 
-  giveAnswerLiveUpdate (userId, { givenAnswer }) {
+  giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
     this.liveAnswer = givenAnswer;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username });
   }
 
@@ -271,51 +270,51 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     }
   }
 
-  setCategories (userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
+  setCategories ({ userId, username }, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
-    super.setCategories(userId, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
+    super.setCategories({ userId, username }, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
-  setMode (userId, { mode }) {
+  setMode ({ userId, username }, { mode }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
     if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
-    super.setMode(userId, { mode });
+    super.setMode({ userId, username }, { mode });
     this.adjustQuery(['setName'], [this.query.setName]);
   }
 
-  setPacketNumbers (userId, { packetNumbers }) {
+  setPacketNumbers ({ userId, username }, { packetNumbers }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
-    super.setPacketNumbers(userId, { doNotFetch: false, packetNumbers });
+    super.setPacketNumbers({ userId, username }, { doNotFetch: false, packetNumbers });
   }
 
-  setReadingSpeed (userId, { readingSpeed }) {
+  setReadingSpeed ({ userId, username }, { readingSpeed }) {
     if (this.isPermanent || !this.allowed(userId)) { return false; }
-    super.setReadingSpeed(userId, { readingSpeed });
+    super.setReadingSpeed({ userId, username }, { readingSpeed });
   }
 
-  async setSetName (userId, { setName }) {
+  async setSetName ({ userId, username }, { setName }) {
     if (!this.allowed(userId)) { return; }
     if (!this.packetList) { return; }
     if (!this.packetList.includes(setName)) { return; }
-    super.setSetName(userId, { doNotFetch: false, setName });
+    super.setSetName({ userId, username }, { doNotFetch: false, setName });
   }
 
-  setStrictness (userId, { strictness }) {
+  setStrictness ({ userId, username }, { strictness }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
-    super.setStrictness(userId, { strictness });
+    super.setStrictness({ userId, username }, { strictness });
   }
 
-  setMinYear (userId, { minYear }) {
+  setMinYear ({ userId, username }, { minYear }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
-    super.setMinYear(userId, { minYear });
+    super.setMinYear({ userId, username }, { minYear });
   }
 
-  setMaxYear (userId, { maxYear }) {
+  setMaxYear ({ userId, username }, { maxYear }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
-    super.setMaxYear(userId, { maxYear });
+    super.setMaxYear({ userId, username }, { maxYear });
   }
 
-  setUsername (userId, { username }) {
+  setUsername ({ userId }, { username }) {
     if (typeof username !== 'string') { return false; }
 
     if (!isAppropriateString(username)) {
@@ -332,57 +331,53 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername });
   }
 
-  toggleControlled (userId, { controlled }) {
+  toggleControlled ({ userId, username }, { controlled }) {
     if (this.settings.public) { return; }
     if (userId !== this.ownerId) { return; }
     this.settings.controlled = !!controlled;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-controlled', controlled, username });
   }
 
-  toggleEnableBonuses (userId, { enableBonuses }) {
+  toggleEnableBonuses ({ userId, username }, { enableBonuses }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
-    super.toggleEnableBonuses(userId, { enableBonuses });
+    super.toggleEnableBonuses({ userId, username }, { enableBonuses });
   }
 
-  toggleLock (userId, { lock }) {
+  toggleLock ({ userId, username }, { lock }) {
     if (this.settings.public || !this.allowed(userId)) { return; }
     this.settings.lock = lock;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-lock', lock, username });
   }
 
-  toggleLoginRequired (userId, { loginRequired }) {
+  toggleLoginRequired ({ userId, username }, { loginRequired }) {
     if (this.isVerified || this.settings.public || !this.allowed(userId)) { return; }
     this.settings.loginRequired = loginRequired;
-    const username = this.players[userId]?.username;
     this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
   }
 
-  toggleMute (userId, { targetId, targetUsername, muteStatus }) {
+  toggleMute ({ userId }, { targetId, targetUsername, muteStatus }) {
     if (userId !== this.ownerId) return;
     this.sendToSocket(userId, { type: 'mute-player', targetId, targetUsername, muteStatus });
   }
 
-  togglePowermarkOnly (userId, { powermarkOnly }) {
+  togglePowermarkOnly ({ userId, username }, { powermarkOnly }) {
     if (!this.allowed(userId)) { return; }
-    super.togglePowermarkOnly(userId, { powermarkOnly });
+    super.togglePowermarkOnly({ userId, username }, { powermarkOnly });
   }
 
-  toggleSkip (userId, { skip }) {
+  toggleSkip ({ userId, username }, { skip }) {
     if (!this.allowed(userId)) { return; }
-    super.toggleSkip(userId, { skip });
+    super.toggleSkip({ userId, username }, { skip });
   }
 
-  toggleStandardOnly (userId, { standardOnly }) {
+  toggleStandardOnly ({ userId, username }, { standardOnly }) {
     if (!this.allowed(userId)) { return; }
-    super.toggleStandardOnly(userId, { doNotFetch: false, standardOnly });
+    super.toggleStandardOnly({ userId, username }, { doNotFetch: false, standardOnly });
   }
 
-  togglePublic (userId, { public: isPublic }) {
+  togglePublic ({ userId, username }, { public: isPublic }) {
     if (this.isPermanent || this.settings.controlled) { return; }
     this.settings.public = isPublic;
-    const username = this.players[userId]?.username;
     if (isPublic) {
       this.settings.lock = false;
       this.settings.loginRequired = false;
@@ -391,17 +386,17 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.emitMessage({ type: 'toggle-public', public: isPublic, username });
   }
 
-  toggleRebuzz (userId, { rebuzz }) {
+  toggleRebuzz ({ userId, username }, { rebuzz }) {
     if (!this.allowed(userId)) { return false; }
-    super.toggleRebuzz(userId, { rebuzz });
+    super.toggleRebuzz({ userId, username }, { rebuzz });
   }
 
-  toggleTimer (userId, { timer }) {
+  toggleTimer ({ userId, username }, { timer }) {
     if (this.settings.public || !this.allowed(userId)) { return; }
-    super.toggleTimer(userId, { timer });
+    super.toggleTimer({ userId, username }, { timer });
   }
 
-  votekickInit (userId, { targetId }) {
+  votekickInit ({ userId }, { targetId }) {
     if (this.players[userId].tens === 0 && this.players[userId].powers === 0) { return; }
     if (!this.players[targetId]) { return; }
     const targetUsername = this.players[targetId].username;
@@ -436,7 +431,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     }
   }
 
-  votekickVote (userId, { targetId }) {
+  votekickVote ({ userId }, { targetId }) {
     if (this.players[userId].tens === 0 && this.players[userId].powers === 0) {
       this.emitMessage({ type: 'no-points-votekick-attempt', userId });
       return;
@@ -459,7 +454,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
 
-      setTimeout(() => this.closeConnection(userId), 1000);
+      setTimeout(() => this.closeConnection({ userId: targetId, username: targetUsername }), 1000);
 
       if (targetId === this.ownerId) {
         const onlinePlayers = Object.keys(this.players).filter(playerId => this.players[playerId].online && playerId !== targetId);

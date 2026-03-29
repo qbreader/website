@@ -46,22 +46,22 @@ export default class SoloTossupRoom extends TossupRoom {
     this.getPacketCount = api.getNumPackets;
   }
 
-  async message (userId, message) {
+  async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'toggle-ai-mode': return this.toggleAiMode(userId, message);
-      case 'toggle-correct': return this.toggleCorrect(userId, message);
-      case 'toggle-type-to-answer': return this.toggleTypeToAnswer(userId, message);
-      default: super.message(userId, message);
+      case 'toggle-ai-mode': return this.toggleAiMode({ userId, username }, message);
+      case 'toggle-correct': return this.toggleCorrect({ userId, username }, message);
+      case 'toggle-type-to-answer': return this.toggleTypeToAnswer({ userId, username }, message);
+      default: super.message({ userId, username }, message);
     }
   }
 
-  buzz (userId) {
+  buzz ({ userId, username }) {
     if (!this.settings.typeToAnswer && this.buzzes.includes(userId)) {
-      this.giveTossupAnswer(userId, { givenAnswer: this.tossup.answer_sanitized });
+      this.giveTossupAnswer({ userId, username }, { givenAnswer: this.tossup.answer_sanitized });
       return;
     }
 
-    super.buzz(userId);
+    super.buzz({ userId, username });
   }
 
   get liveAnswer () {
@@ -72,9 +72,9 @@ export default class SoloTossupRoom extends TossupRoom {
     document.getElementById('answer-input').value = value;
   }
 
-  toggleAiMode (userId, { aiMode }) {
+  toggleAiMode ({ userId, username }, { aiMode }) {
     this.settings.aiMode = aiMode;
-    this.emitMessage({ type: 'toggle-ai-mode', aiMode, userId });
+    this.emitMessage({ type: 'toggle-ai-mode', aiMode, userId, username });
   }
 
   /**
@@ -82,7 +82,7 @@ export default class SoloTossupRoom extends TossupRoom {
    * @param {boolean} params.correct whether the answer was correct. If `correct=true`, then the player's score increases after calling this function.
    * @returns
    */
-  toggleCorrect (userId, { correct }) {
+  toggleCorrect ({ userId, username }, { correct }) {
     if (userId !== this.previousTossup.userId) { return; }
 
     this.previousTossup.isCorrect = correct;
@@ -110,11 +110,11 @@ export default class SoloTossupRoom extends TossupRoom {
     this.players[userId].celerity.correct.total += multiplier * this.previousTossup.celerity;
     this.players[userId].celerity.correct.average = this.players[userId].celerity.correct.total / correctBuzzes;
 
-    this.emitMessage({ type: 'toggle-correct', correct, userId });
+    this.emitMessage({ type: 'toggle-correct', correct, userId, username });
   }
 
-  toggleTypeToAnswer (userId, { typeToAnswer }) {
+  toggleTypeToAnswer ({ userId, username }, { typeToAnswer }) {
     this.settings.typeToAnswer = typeToAnswer;
-    this.emitMessage({ type: 'toggle-type-to-answer', typeToAnswer, userId });
+    this.emitMessage({ type: 'toggle-type-to-answer', typeToAnswer, userId, username });
   }
 }

@@ -23,24 +23,24 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     };
   }
 
-  async message (userId, message) {
+  async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'give-answer': return this.giveBonusAnswer(userId, message);
-      case 'next': return this.next(userId, message);
-      case 'start-bonus-answer': return this.startBonusAnswer(userId, message);
-      case 'toggle-bonus-part': return this.toggleBonusPart(userId, message);
-      case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(userId, message);
-      default: return super.message(userId, message);
+      case 'give-answer': return this.giveBonusAnswer({ userId, username }, message);
+      case 'next': return this.next({ userId, username }, message);
+      case 'start-bonus-answer': return this.startBonusAnswer({ userId, username }, message);
+      case 'toggle-bonus-part': return this.toggleBonusPart({ userId, username }, message);
+      case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses({ userId, username }, message);
+      default: return super.message({ userId, username }, message);
     }
   }
 
-  clearStats (userId) {
+  clearStats ({ userId, username }) {
     const teamId = this.players[userId].teamId;
     this.teams[teamId].clearStats();
-    super.clearStats(userId);
+    super.clearStats({ userId, username });
   }
 
-  endCurrentBonus (userId) {
+  endCurrentBonus ({ userId }) {
     if (this.queryingQuestion) { return false; }
     if (this.bonusProgress === BONUS_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
 
@@ -64,7 +64,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     return this.bonus?.values?.[this.currentPartNumber] ?? 10;
   }
 
-  giveBonusAnswer (userId, { givenAnswer }) {
+  giveBonusAnswer ({ userId, username }, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
 
     this.liveAnswer = '';
@@ -78,7 +78,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
       this.startServerTimer(
         ANSWER_TIME_LIMIT * 10,
         (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
-        () => this.giveBonusAnswer(userId, { givenAnswer: this.liveAnswer })
+        () => this.giveBonusAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
       );
     } else {
       this.pointsPerPart.push(directive === 'accept' ? this.getPartValue() : 0);
@@ -87,12 +87,12 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     }
   }
 
-  async next (userId) {
+  async next ({ userId, username }) {
     if (this.bonusProgress === BONUS_PROGRESS_ENUM.NOT_STARTED) {
-      return await this.startNextBonus(userId);
+      return await this.startNextBonus({ userId, username });
     }
-    const allowed = this.endCurrentBonus(userId);
-    if (allowed) { await this.startNextBonus(userId); }
+    const allowed = this.endCurrentBonus({ userId, username });
+    if (allowed) { await this.startNextBonus({ userId, username }); }
   }
 
   revealLeadin () {
@@ -125,17 +125,16 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     });
   }
 
-  startBonusAnswer (userId) {
+  startBonusAnswer ({ userId, username }) {
     this.emitMessage({ type: 'start-bonus-answer', userId });
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,
       (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
-      () => this.giveBonusAnswer(userId, { givenAnswer: this.liveAnswer })
+      () => this.giveBonusAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
     );
   }
 
-  async startNextBonus (userId) {
-    const username = this.players[userId]?.username;
+  async startNextBonus ({ userId, username }) {
     this.bonus = await this.getNextQuestion('bonuses');
     this.queryingQuestion = false;
     if (!this.bonus) { return; }
@@ -147,14 +146,13 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.revealNextPart();
   }
 
-  toggleBonusPart (userId, { partNumber, correct }) {
+  toggleBonusPart ({ userId, username }, { partNumber, correct }) {
     if (typeof partNumber !== 'number') { return false; }
     if (partNumber < 0 || partNumber >= this.bonus.parts.length) { return false; }
     this.pointsPerPart[partNumber] = correct ? this.getPartValue(partNumber) : 0;
   }
 
-  toggleThreePartBonuses (userId, { threePartBonuses }) {
-    const username = this.players[userId]?.username;
+  toggleThreePartBonuses ({ username }, { threePartBonuses }) {
     this.query.threePartBonuses = threePartBonuses;
     this.adjustQuery(['threePartBonuses'], [threePartBonuses]);
     this.emitMessage({ type: 'toggle-three-part-bonuses', threePartBonuses, username });
