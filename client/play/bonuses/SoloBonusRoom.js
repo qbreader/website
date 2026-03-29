@@ -44,10 +44,10 @@ export default class SoloBonusRoom extends BonusRoom {
     };
   }
 
-  async message (userId, message) {
+  async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'toggle-type-to-answer': return this.toggleTypeToAnswer(userId, message);
-      default: super.message(userId, message);
+      case 'toggle-type-to-answer': return this.toggleTypeToAnswer({ userId, username }, message);
+      default: super.message({ userId, username }, message);
     }
   }
 
@@ -59,17 +59,18 @@ export default class SoloBonusRoom extends BonusRoom {
     document.getElementById('answer-input').value = value;
   }
 
-  startBonusAnswer (teamId) {
+  startBonusAnswer ({ userId, username }) {
+    const teamId = this.players[userId].teamId;
     if (!this.settings.typeToAnswer) {
-      this.giveBonusAnswer(teamId, { givenAnswer: this.bonus.answers_sanitized[this.currentPartNumber] });
+      this.giveBonusAnswer({ userId: teamId, username }, { givenAnswer: this.bonus.answers_sanitized[this.currentPartNumber] });
       return;
     }
 
-    super.startBonusAnswer(teamId);
+    super.startBonusAnswer({ userId: teamId, username });
   }
 
-  toggleTypeToAnswer (teamId, { typeToAnswer }) {
+  toggleTypeToAnswer ({ userId, username }, { typeToAnswer }) {
     this.settings.typeToAnswer = typeToAnswer;
-    this.emitMessage({ type: 'toggle-type-to-answer', typeToAnswer, teamId });
+    this.emitMessage({ type: 'toggle-type-to-answer', typeToAnswer });
   }
 }

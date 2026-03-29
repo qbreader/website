@@ -18,7 +18,7 @@ room.players[USER_ID] = new Player(USER_ID);
 room.players[USER_ID].teamId = TEAM_ID;
 room.teams[TEAM_ID] = new Team(TEAM_ID);
 
-const socket = { sendToServer: (message) => room.message(USER_ID, message) };
+const socket = { sendToServer: (message) => room.message({ userId: USER_ID, username: room.players[USER_ID]?.username }, message) };
 const client = new SoloBonusClient(room, USER_ID, socket);
 socket.send = (message) => client.onmessage(message);
 room.sockets[TEAM_ID] = socket;

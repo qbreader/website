@@ -15,35 +15,35 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
     this.bonusEligibleTeamId = null;
   }
 
-  async message (userId, message) {
+  async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'give-answer': return this.giveAnswer(userId, message);
-      case 'start-bonus-answer': return this.startBonusAnswer(userId, message);
-      case 'toggle-enable-bonuses': return this.toggleEnableBonuses(userId, message);
-      default: return super.message(userId, message);
+      case 'give-answer': return this.giveAnswer({ userId, username }, message);
+      case 'start-bonus-answer': return this.startBonusAnswer({ userId, username }, message);
+      case 'toggle-enable-bonuses': return this.toggleEnableBonuses({ userId, username }, message);
+      default: return super.message({ userId, username }, message);
     }
   }
 
-  canUserAnswerBonus (userId) {
+  canUserAnswerBonus ({ userId }) {
     return this.players[userId].teamId === this.bonusEligibleTeamId;
   }
 
-  giveAnswer (userId, { givenAnswer }) {
+  giveAnswer ({ userId, username }, { givenAnswer }) {
     switch (this.currentQuestionType) {
       case QUESTION_TYPE_ENUM.BONUS:
-        return this.giveBonusAnswer(userId, { givenAnswer });
+        return this.giveBonusAnswer({ userId, username }, { givenAnswer });
       case QUESTION_TYPE_ENUM.TOSSUP:
-        return this.giveTossupAnswer(userId, { givenAnswer });
+        return this.giveTossupAnswer({ userId, username }, { givenAnswer });
     }
   }
 
-  giveBonusAnswer (userId, { givenAnswer }) {
-    if (!this.canUserAnswerBonus(userId)) { return false; }
-    super.giveBonusAnswer(userId, { givenAnswer });
+  giveBonusAnswer ({ userId, username }, { givenAnswer }) {
+    if (!this.canUserAnswerBonus({ userId, username })) { return false; }
+    super.giveBonusAnswer({ userId, username }, { givenAnswer });
   }
 
-  giveTossupAnswer (userId, { givenAnswer }) {
-    super.giveTossupAnswer(userId, { givenAnswer });
+  giveTossupAnswer ({ userId, username }, { givenAnswer }) {
+    super.giveTossupAnswer({ userId, username }, { givenAnswer });
     const { directive } = this.scoreTossup({ givenAnswer });
     if (directive === 'accept') {
       const teamId = this.players[userId].teamId;
@@ -52,54 +52,53 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
     }
   }
 
-  async next (userId) {
+  async next ({ userId, username }) {
     const gameNotStarted = this.tossupProgress === TOSSUP_PROGRESS_ENUM.NOT_STARTED && this.bonusProgress === BONUS_PROGRESS_ENUM.NOT_STARTED;
-    const nextBonus = async (userId) => {
+    const nextBonus = async (currentUser) => {
       if (gameNotStarted) {
-        return await this.startNextBonus(userId);
+        return await this.startNextBonus(currentUser);
       }
-      const allowed = this.endCurrentBonus(userId);
+      const allowed = this.endCurrentBonus(currentUser);
       if (!allowed) { return; }
-      await this.startNextTossup(userId);
+      await this.startNextTossup(currentUser);
     };
 
-    const nextTossup = async (userId) => {
+    const nextTossup = async (currentUser) => {
       if (gameNotStarted) {
-        return await this.startNextTossup(userId);
+        return await this.startNextTossup(currentUser);
       }
-      const allowed = this.endCurrentTossup(userId);
+      const allowed = this.endCurrentTossup(currentUser);
       if (!allowed) { return; }
       if (this.bonusEligibleTeamId && this.settings.enableBonuses) {
-        await this.startNextBonus(userId);
+        await this.startNextBonus(currentUser);
       } else {
-        await this.startNextTossup(userId);
+        await this.startNextTossup(currentUser);
       }
     };
 
     switch (this.currentQuestionType) {
-      case QUESTION_TYPE_ENUM.BONUS: return await nextBonus(userId);
-      case QUESTION_TYPE_ENUM.TOSSUP: return await nextTossup(userId);
+      case QUESTION_TYPE_ENUM.BONUS: return await nextBonus({ userId, username });
+      case QUESTION_TYPE_ENUM.TOSSUP: return await nextTossup({ userId, username });
     }
   }
 
-  startBonusAnswer (userId) {
-    if (!this.canUserAnswerBonus(userId)) { return false; }
-    super.startBonusAnswer(userId);
+  startBonusAnswer ({ userId, username }) {
+    if (!this.canUserAnswerBonus({ userId, username })) { return false; }
+    super.startBonusAnswer({ userId, username });
   }
 
-  startNextBonus (userId) {
+  startNextBonus ({ userId, username }) {
     this.currentQuestionType = QUESTION_TYPE_ENUM.BONUS;
-    return super.startNextBonus(userId);
+    return super.startNextBonus({ userId, username });
   }
 
-  startNextTossup (userId) {
+  startNextTossup ({ userId, username }) {
     this.bonusEligibleTeamId = null;
     this.currentQuestionType = QUESTION_TYPE_ENUM.TOSSUP;
-    return super.startNextTossup(userId);
+    return super.startNextTossup({ userId, username });
   }
 
-  toggleEnableBonuses (userId, { enableBonuses }) {
-    const username = this.players[userId]?.username;
+  toggleEnableBonuses ({ username }, { enableBonuses }) {
     this.settings.enableBonuses = enableBonuses;
     this.emitMessage({ type: 'toggle-enable-bonuses', enableBonuses, username });
   }

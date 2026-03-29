@@ -7,14 +7,14 @@ export default class ServerTossupRoom extends ServerMultiplayerRoomMixin(TossupR
     super(name, ownerId, isPermanent, categoryManager, ['tossups']);
   }
 
-  giveAnswerLiveUpdate (userId, { givenAnswer }) {
+  giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
     if (userId !== this.buzzedIn) { return false; }
-    super.giveAnswerLiveUpdate(userId, { givenAnswer });
+    super.giveAnswerLiveUpdate({ userId, username }, { givenAnswer });
   }
 
-  next (userId) {
+  next ({ userId, username }) {
     // prevents spam-skipping trolls
     if (this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING && this.wordIndex < 3) { return false; }
-    super.next(userId);
+    super.next({ userId, username });
   }
 }
