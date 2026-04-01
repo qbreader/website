@@ -1,4 +1,4 @@
-import bonusToHTML from '../bonus-to-html.js';
+import bonusToHTML from '../../scripts/bonus-to-html.js';
 import mongoIdToDate from '../mongo-id-to-date.js';
 
 const bonusId = new URLSearchParams(window.location.search).get('_id');
