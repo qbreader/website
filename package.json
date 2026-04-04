@@ -1,13 +1,13 @@
 {
     "name": "qbreader",
-    "version": "7.6.8",
+    "version": "7.6.10",
     "type": "module",
     "scripts": {
         "build": "npm run webpack && npm run sass",
         "dev": "npm run build && npm run start",
-        "start": "node index.js",
         "lint": "npx semistandard --fix",
         "sass": "sass scss/custom.scss client/style.css --style compressed",
+        "start": "node index.js",
         "webpack": "webpack --config webpack.config.js"
     },
     "dependencies": {
