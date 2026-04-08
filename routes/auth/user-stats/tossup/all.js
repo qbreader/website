@@ -1,5 +1,5 @@
 import getUserId from '../../../../database/account-info/get-user-id.js';
-import getAllTossupStats from '../../../../database/account-info/user-stats/get-all-tossup-stats.js';
+import getAllTossupStats from './get-all-tossup-stats.js';
 
 import { Router } from 'express';
 const router = Router();

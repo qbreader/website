@@ -1,5 +1,5 @@
 import getDivisions from '../../../../../database/geoword/get-divisions.js';
-import getPacket from '../../../../../database/geoword/paid/results/get-packet.js';
+import getPacket from './get-packet.js';
 
 import { Router } from 'express';
 

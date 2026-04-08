@@ -1,7 +1,16 @@
+import { tossupStars } from '../../../database/account-info/collections.js';
 import getUserId from '../../../database/account-info/get-user-id.js';
-import clearTossupStars from '../../../database/account-info/stars/clear-tossup-stars.js';
-
 import { Router } from 'express';
+
+/**
+ *
+ * @param {ObjectId} userId
+ * @returns {Promise<number>} The number of tossup stars cleared.
+ */
+async function clearTossupStars (userId) {
+  const result = await tossupStars.deleteMany({ user_id: userId });
+  return result.deletedCount;
+}
 
 const router = Router();
 

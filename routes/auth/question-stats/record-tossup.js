@@ -1,5 +1,5 @@
 import getUserId from '../../../database/account-info/get-user-id.js';
-import recordTossupData from '../../../database/account-info/question-stats/record-tossup-data.js';
+import recordTossupData from './record-tossup-data.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';

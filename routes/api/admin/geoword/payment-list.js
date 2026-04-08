@@ -1,4 +1,4 @@
-import getPaymentList from '../../../../database/geoword/admin/get-payment-list.js';
+import getPaymentList from './get-payment-list.js';
 
 import { Router } from 'express';
 

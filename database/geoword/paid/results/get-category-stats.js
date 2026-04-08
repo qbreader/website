@@ -1,6 +1,6 @@
 import { buzzes } from '../../collections.js';
 
-import getUsername from '../../../account-info/get-username.js';
+import { getUsername } from '../../../../routes/auth/get-username.js';
 import getDivisions from '../../get-divisions.js';
 
 function getAggregation ({ division, includeInactive, packetName }) {

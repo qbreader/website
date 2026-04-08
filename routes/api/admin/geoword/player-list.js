@@ -1,4 +1,4 @@
-import getPlayerList from '../../../../database/geoword/get-player-list.js';
+import getPlayerList from './get-player-list.js';
 
 import { Router } from 'express';
 

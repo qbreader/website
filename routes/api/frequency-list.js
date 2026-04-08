@@ -1,4 +1,4 @@
-import getFrequencyList from '../../database/qbreader/get-frequency-list.js';
+import getFrequencyList from './get-frequency-list.js';
 import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, DIFFICULTIES } from '../../quizbowl/constants.js';
 
 import { Router } from 'express';

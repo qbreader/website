@@ -7,11 +7,11 @@ import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
 // import TossupRoom from '../../quizbowl/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
 
-import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
-import getRandomBonuses from '../../database/qbreader/get-random-bonuses.js';
+import getRandomTossups from '../../routes/api/get-random-tossups.js';
+import getRandomBonuses from '../../routes/api/get-random-bonuses.js';
 import getPacket from '../../database/qbreader/get-packet.js';
-import getSetList from '../../database/qbreader/get-set-list.js';
-import getNumPackets from '../../database/qbreader/get-num-packets.js';
+import getSetList from '../../routes/api/get-set-list.js';
+import getNumPackets from '../../routes/api/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
 import Team from '../../quizbowl/Team.js';

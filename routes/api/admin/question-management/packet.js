@@ -1,4 +1,4 @@
-import renamePacket from '../../../../database/qbreader/admin/rename-packet.js';
+import renamePacket from './rename-packet.js';
 
 import { Router } from 'express';
 

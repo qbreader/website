@@ -1,5 +1,5 @@
 import getUser from '../../../../database/account-info/get-user.js';
-import verifyEmail from '../../../../database/account-info/verify-email.js';
+import verifyEmail from './verify-email.js';
 
 import { Router } from 'express';
 

@@ -1,7 +1,49 @@
+import { buzzes, packets, tossups } from '../../../../../database/geoword/collections.js';
+import getDivisionChoice from '../../../../../database/geoword/get-division-choice.js';
+import isAdminById from '../../../../../database/account-info/is-admin-by-id.js';
 import getUserId from '../../../../../database/account-info/get-user-id.js';
-import recordBuzz from '../../../../../database/geoword/paid/play/record-buzz.js';
-
 import { Router } from 'express';
+
+/**
+ * @param {Object} params
+ * @param {Decimal} params.celerity
+ * @param {String} params.givenAnswer
+ * @param {Boolean} params.isCorrect
+ * @param {String} params.packetName
+ * @param {Number} params.questionNumber
+ * @param {ObjectId} params.user_id
+ * @param {String[]} params.prompts - whether or not the buzz is a prompt
+ */
+async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts, questionNumber, userId }) {
+  const [admin, division, packet, tossup] = await Promise.all([
+    isAdminById(userId),
+    getDivisionChoice(packetName, userId),
+    packets.findOne({ name: packetName }),
+    tossups.findOne({ 'packet.name': packetName, questionNumber })
+  ]);
+
+  const insertDocument = {
+    active: packet.active && !admin,
+    celerity,
+    division,
+    givenAnswer,
+    points,
+    packet: {
+      _id: packet._id,
+      name: packet.name
+    },
+    questionNumber,
+    tossup_id: tossup._id,
+    user_id: userId
+  };
+
+  if (prompts && typeof prompts === 'object' && prompts.length > 0) {
+    insertDocument.prompts = prompts;
+  }
+
+  return await buzzes.insertOne(insertDocument);
+}
+
 
 const router = Router();
 

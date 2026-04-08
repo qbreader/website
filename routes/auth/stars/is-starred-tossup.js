@@ -1,8 +1,13 @@
+import { tossupStars } from '../../../database/account-info/collections.js';
 import getUserId from '../../../database/account-info/get-user-id.js';
-import isStarredTossup from '../../../database/account-info/stars/is-starred-tossup.js';
-
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
+
+async function isStarredTossup (userId, tossupId) {
+  const count = await tossupStars.countDocuments({ user_id: userId, tossup_id: tossupId });
+  return count > 0;
+}
+
 
 const router = Router();
 

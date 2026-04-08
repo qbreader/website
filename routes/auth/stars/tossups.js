@@ -1,5 +1,5 @@
 import getUserId from '../../../database/account-info/get-user-id.js';
-import getTossupStars from '../../../database/account-info/stars/get-tossup-stars.js';
+import getTossupStars from './get-tossup-stars.js';
 
 import { Router } from 'express';
 

@@ -1,8 +1,18 @@
+import { bonusStars } from '../../../database/account-info/collections.js';
 import getUserId from '../../../database/account-info/get-user-id.js';
-import unstarBonus from '../../../database/account-info/stars/unstar-bonus.js';
-
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
+
+/**
+ *
+ * @param {ObjectId} userId
+ * @param {ObjectId} bonusId
+ * @returns {Promise<number>} - the number of bonus star documents deleted
+ */
+async function unstarBonus (userId, bonusId) {
+  return (await bonusStars.deleteMany({ user_id: userId, bonus_id: bonusId })).deletedCount;
+}
+
 
 const router = Router();
 

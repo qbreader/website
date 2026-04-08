@@ -2,7 +2,7 @@ import allRouter from './all.js';
 import graphRouter from './graph.js';
 
 import getUserId from '../../../../database/account-info/get-user-id.js';
-import getSummaryBonusStats from '../../../../database/account-info/user-stats/get-summary-bonus-stats.js';
+import getSummaryBonusStats from './get-summary-bonus-stats.js';
 import { sets } from '../../../../database/qbreader/collections.js';
 
 import { Router } from 'express';

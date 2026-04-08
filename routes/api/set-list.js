@@ -1,4 +1,4 @@
-import getSetList from '../../database/qbreader/get-set-list.js';
+import getSetList from './get-set-list.js';
 
 import { Router } from 'express';
 

@@ -1,7 +1,14 @@
+import { buzzes } from '../../../../../database/geoword/collections.js';
 import getUserId from '../../../../../database/account-info/get-user-id.js';
-import recordProtest from '../../../../../database/geoword/paid/play/record-protest.js';
-
 import { Router } from 'express';
+
+async function recordProtest (packetName, questionNumber, userId) {
+  return await buzzes.updateOne(
+    { 'packet.name': packetName, questionNumber, user_id: userId },
+    { $set: { pendingProtest: true } }
+  );
+}
+
 
 const router = Router();
 

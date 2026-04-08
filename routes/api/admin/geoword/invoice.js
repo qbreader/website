@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import getInvoice from '../../../../database/geoword/admin/get-invoice.js';
+import getInvoice from './get-invoice.js';
 
 import { Router } from 'express';
 import getCost from '../../../../database/geoword/get-cost.js';

@@ -1,7 +1,16 @@
+import { divisionChoices, packets } from '../../../../../database/geoword/collections.js';
 import getUserId from '../../../../../database/account-info/get-user-id.js';
-import recordDivision from '../../../../../database/geoword/paid/play/record-division.js';
-
 import { Router } from 'express';
+
+async function recordDivision (packetName, division, userId) {
+  const packet = await packets.findOne({ name: packetName });
+  return await divisionChoices.replaceOne(
+    { user_id: userId, 'packet.name': packetName },
+    { user_id: userId, packet: { _id: packet._id, name: packetName }, division },
+    { upsert: true }
+  );
+}
+
 
 const router = Router();
 

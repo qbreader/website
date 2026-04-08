@@ -1,5 +1,5 @@
 import getUserId from '../../../database/account-info/get-user-id.js';
-import recordBonusData from '../../../database/account-info/question-stats/record-bonus-data.js';
+import recordBonusData from './record-bonus-data.js';
 
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';

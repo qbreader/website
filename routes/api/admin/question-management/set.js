@@ -1,6 +1,6 @@
-import renameSet from '../../../../database/qbreader/admin/rename-set.js';
-import updateSetDifficulty from '../../../../database/qbreader/admin/update-set-difficulty.js';
-import updateSetStandardness from '../../../../database/qbreader/admin/update-set-standardness.js';
+import renameSet from './rename-set.js';
+import updateSetDifficulty from './update-set-difficulty.js';
+import updateSetStandardness from './update-set-standardness.js';
 import { DIFFICULTIES } from '../../../../quizbowl/constants.js';
 
 import { Router } from 'express';

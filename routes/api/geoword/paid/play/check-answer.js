@@ -1,4 +1,4 @@
-import getAnswer from '../../../../../database/geoword/paid/play/get-answer.js';
+import getAnswer from './get-answer.js';
 
 import { Router } from 'express';
 import checkAnswer from 'qb-answer-checker';

@@ -1,7 +1,21 @@
-import resolveProtest from '../../../../database/geoword/admin/resolve-protest.js';
-
+import { buzzes } from '../../../../database/geoword/collections.js';
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
+
+async function resolveProtest (buzzId, decision, reason) {
+  const updateDocument = { pendingProtest: false, decision, reason };
+
+  if (decision === 'accept') {
+    const buzz = await buzzes.findOne({ _id: buzzId });
+    updateDocument.points = 10 + Math.round(10 * buzz.celerity);
+  }
+
+  return await buzzes.updateOne(
+    { _id: buzzId },
+    { $set: updateDocument }
+  );
+}
+
 
 const router = Router();
 

@@ -1,8 +1,18 @@
+import { tossupStars } from '../../../database/account-info/collections.js';
 import getUserId from '../../../database/account-info/get-user-id.js';
-import unstarTossup from '../../../database/account-info/stars/unstar-tossup.js';
-
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
+
+/**
+ *
+ * @param {ObjectId} userId
+ * @param {ObjectId} tossupId
+ * @returns {Promise<number>} - the number of tossup star documents deleted
+ */
+async function unstarTossup (userId, tossupId) {
+  return (await tossupStars.deleteMany({ user_id: userId, tossup_id: tossupId })).deletedCount;
+}
+
 
 const router = Router();
 

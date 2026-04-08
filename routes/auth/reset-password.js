@@ -1,4 +1,4 @@
-import getUsername from '../../database/account-info/get-username.js';
+import { getUsername } from './get-username.js';
 import { updatePassword } from '../../server/authentication.js';
 
 import { Router } from 'express';
