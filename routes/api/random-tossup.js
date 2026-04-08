@@ -1,3 +1,4 @@
+import validateCategoryBundle from '../validators/category-bundle.js';
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
 
 import { Router } from 'express';
@@ -11,26 +12,7 @@ router.get('/', async (req, res) => {
     req.query.difficulties = undefined;
   }
 
-  if (typeof req.query.alternateSubcategories === 'string') {
-    req.query.alternateSubcategories = req.query.alternateSubcategories.split(',');
-    req.query.alternateSubcategories = req.query.alternateSubcategories.length ? req.query.alternateSubcategories : undefined;
-  } else {
-    req.query.alternateSubcategories = undefined;
-  }
-
-  if (typeof req.query.categories === 'string') {
-    req.query.categories = req.query.categories.split(',');
-    req.query.categories = req.query.categories.length ? req.query.categories : undefined;
-  } else {
-    req.query.categories = undefined;
-  }
-
-  if (typeof req.query.subcategories === 'string') {
-    req.query.subcategories = req.query.subcategories.split(',');
-    req.query.subcategories = req.query.subcategories.length ? req.query.subcategories : undefined;
-  } else {
-    req.query.subcategories = undefined;
-  }
+  req.query = validateCategoryBundle(req.query);
 
   req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
   req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);

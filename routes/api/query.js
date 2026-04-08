@@ -1,3 +1,4 @@
+import validateCategoryBundle from '../validators/category-bundle.js';
 import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
 import getQuery from '../../database/qbreader/get-query.js';
 
@@ -26,17 +27,7 @@ router.get('/', async (req, res) => {
       .map((difficulty) => parseInt(difficulty));
   }
 
-  if (req.query.alternateSubcategories) {
-    req.query.alternateSubcategories = req.query.alternateSubcategories.split(',');
-  }
-
-  if (req.query.categories) {
-    req.query.categories = req.query.categories.split(',');
-  }
-
-  if (req.query.subcategories) {
-    req.query.subcategories = req.query.subcategories.split(',');
-  }
+  req.query = validateCategoryBundle(req.query);
 
   if (req.query.setName) {
     req.query.setName = req.query.setName.split(',').map(s => s.trim());
