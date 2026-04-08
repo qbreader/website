@@ -1,6 +1,6 @@
 import { buzzes, packets, tossups } from '../../../../../database/geoword/collections.js';
 import getDivisionChoice from '../../../../../database/geoword/get-division-choice.js';
-import isAdminById from '../../../../../database/account-info/is-admin-by-id.js';
+import isAdminById from './is-admin-by-id.js';
 import getUserId from '../../../../../database/account-info/get-user-id.js';
 import { Router } from 'express';
 
@@ -43,7 +43,6 @@ async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts,
 
   return await buzzes.insertOne(insertDocument);
 }
-
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import { users } from './collections.js';
+import { users } from '../../../../../database/account-info/collections.js';
 
 async function isAdminById (userId) {
   const user = await users.findOne({ _id: userId });
