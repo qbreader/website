@@ -215,7 +215,8 @@ export default class SoloTossupClient extends TossupClient {
   updateStatDisplay ({ superpowers, powers, tens, negs, tuh, points, celerity }) {
     const averageCelerity = celerity.correct.average.toFixed(3);
     const plural = (tuh === 1) ? '' : 's';
-    document.getElementById('statline').innerHTML = `${superpowers}/${powers}/${tens}/${negs} with ${tuh} tossup${plural} seen (${points} pts, celerity: ${averageCelerity})`;
+    const statPrefix = superpowers > 0 ? `${superpowers}/${powers}/${tens}/${negs}` : `${powers}/${tens}/${negs}`;
+    document.getElementById('statline').innerHTML = `${statPrefix} with ${tuh} tossup${plural} seen (${points} pts, celerity: ${averageCelerity})`;
 
     // disable clear stats button if no stats
     document.getElementById('clear-stats').disabled = (tuh === 0);
