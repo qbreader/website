@@ -32,6 +32,7 @@ function getInconsistencyQuery () {
         category,
         $or: [
           { alternate_subcategory: null },
+          { alternate_subcategory: { $exists: false } },
           { alternate_subcategory: { $nin: validAlternateSubcategories } }
         ]
       });
