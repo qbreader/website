@@ -30,7 +30,10 @@ function getInconsistencyQuery () {
     if (validAlternateSubcategories.length > 0) {
       categoryQueries.push({
         category,
-        alternate_subcategory: { $nin: validAlternateSubcategories }
+        $or: [
+          { alternate_subcategory: null },
+          { alternate_subcategory: { $nin: validAlternateSubcategories } }
+        ]
       });
     } else {
       categoryQueries.push({
