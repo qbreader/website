@@ -42,8 +42,8 @@ export default class Room {
     const username = player.username;
     delete this.sockets[userId];
     if (!player.hasActivity()) {
-      delete this.players[userId];
-      delete this.teams[userId];
+      // delete this.players[userId];
+      // delete this.teams[userId];
       this.emitMessage({ type: 'leave', userId, username, remove: true });
     } else {
       player.online = false;
