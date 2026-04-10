@@ -21,56 +21,54 @@ import { mongoClient } from '../database/databases.js';
 let inconsistentCount = 0;
 
 /**
- * Check a single question and log it if inconsistent.
- * @param {object} question
+ * Build a MongoDB query that matches inconsistent alternate_subcategory values.
+ * @returns {object}
+ */
+function getInconsistencyQuery () {
+  const categoryQueries = [];
+  for (const [category, validAlternateSubcategories] of Object.entries(CATEGORY_TO_ALTERNATE_SUBCATEGORIES)) {
+    if (validAlternateSubcategories.length > 0) {
+      categoryQueries.push({
+        category,
+        $or: [
+          { alternate_subcategory: null },
+          { alternate_subcategory: { $exists: false } },
+          { alternate_subcategory: { $nin: validAlternateSubcategories } }
+        ]
+      });
+    } else {
+      categoryQueries.push({
+        category,
+        alternate_subcategory: { $exists: true, $ne: null }
+      });
+    }
+  }
+
+  return { $or: categoryQueries };
+}
+
+/**
+ * Log each inconsistent question for a given collection.
+ * @param {import('mongodb').Collection} collection
  * @param {'tossup'|'bonus'} type
  */
-function checkQuestion (question, type) {
-  const { _id, category, alternate_subcategory: alternateSubcategory, setName, packetNumber, questionNumber } = question;
-  const validAlternateSubcategories = CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category];
+async function logInconsistentQuestions (collection, type) {
+  const projection = { _id: 1, category: 1, alternate_subcategory: 1, setName: 1, packetNumber: 1, questionNumber: 1 };
+  const inconsistencyQuery = getInconsistencyQuery();
+  const cursor = collection.find(inconsistencyQuery, { projection });
 
-  if (validAlternateSubcategories === undefined) {
-    // Category not found in the mapping at all - skip
-    return;
-  }
-
-  const hasAlternateSubcategories = validAlternateSubcategories.length > 0;
-
-  let isInconsistent = false;
-
-  if (hasAlternateSubcategories) {
-    // null/undefined is NOT valid when the array is non-empty
-    if (alternateSubcategory === null || alternateSubcategory === undefined) {
-      isInconsistent = true;
-    } else if (!validAlternateSubcategories.includes(alternateSubcategory)) {
-      isInconsistent = true;
-    }
-  } else {
-    // Empty array: only null/undefined is valid; any set value is wrong
-    if (alternateSubcategory !== null && alternateSubcategory !== undefined) {
-      isInconsistent = true;
-    }
-  }
-
-  if (isInconsistent) {
+  for await (const question of cursor) {
+    const { _id, category, alternate_subcategory: alternateSubcategory, setName, packetNumber, questionNumber } = question;
     inconsistentCount++;
     console.log(`[${type}] _id=${_id} set="${setName}" packet=${packetNumber} question=${questionNumber} category="${category}" alternate_subcategory=${JSON.stringify(alternateSubcategory)}`);
   }
 }
 
-const projection = { _id: 1, category: 1, alternate_subcategory: 1, setName: 1, packetNumber: 1, questionNumber: 1 };
-
 console.log('Checking tossups...');
-const tossupCursor = tossups.find({}, { projection });
-for await (const tossup of tossupCursor) {
-  checkQuestion(tossup, 'tossup');
-}
+await logInconsistentQuestions(tossups, 'tossup');
 
 console.log('Checking bonuses...');
-const bonusCursor = bonuses.find({}, { projection });
-for await (const bonus of bonusCursor) {
-  checkQuestion(bonus, 'bonus');
-}
+await logInconsistentQuestions(bonuses, 'bonus');
 
 console.log(`\nDone. Found ${inconsistentCount} inconsistent question(s).`);
 
