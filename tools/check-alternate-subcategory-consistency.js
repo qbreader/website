@@ -5,9 +5,11 @@
  *
  * A question is inconsistent if:
  *   - The category's alternate subcategory list is non-empty AND
- *     the question's alternate_subcategory is null/undefined OR not in that list, OR
+ *     the question's alternate_subcategory is null/undefined, OR
  *   - The category's alternate subcategory list is non-empty AND
- *     the question's alternate_subcategory is set to a value that belongs to a different category.
+ *     the question's alternate_subcategory is not in that list, OR
+ *   - The category's alternate subcategory list is empty AND
+ *     the question's alternate_subcategory is set to a non-null/undefined value.
  *
  * null/undefined is only valid when the category's alternate subcategory array has length zero.
  */
