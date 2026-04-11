@@ -1,88 +1,25 @@
+import * as validateArray from '../validators/array.js';
+import * as validateEnum from '../validators/enum.js';
+import * as validateInt from '../validators/int.js';
 import getFrequencyList from '../../database/qbreader/get-frequency-list.js';
-import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, DIFFICULTIES } from '../../quizbowl/constants.js';
 
 import { Router } from 'express';
-
 const router = Router();
 
-/**
- * Validate the parameters for the frequency list API endpoint.
- * If a `category`, `subcategory`, and/or `alternateSubcategory` are provided, the frequency list will filter over questions that match all provided fields.
- * If neither `category` nor `subcategory` nor `alternateSubcategory` are provided, an empty array will be returned.
- * @param {object} params
- * @param {string} [params.alternateSubcategory] - The alternate subcategory to get the frequency list for, if any.
- * @param {string} [params.category] - The category to get the frequency list for, if any.
- * @param {string} [params.subcategory] - The subcategory to get the frequency list for, if any.
- * @param {number[] | string[] | number | string} [params.difficulties] - The difficulty levels to include in the frequency list. Can be an array of numbers or a comma-separated string of numbers. Default is all difficulties.
- * @param {number | string} [params.limit=50] - The maximum number of answers to return. Must be a number or a string representation of a number. Default is 50.
- * @param {number | string} [params.minYear] - The minimum year to include. Default is `DEFAULT_MIN_YEAR`.
- * @param {number | string} [params.maxYear] - The maximum year to include. Default is `DEFAULT_MAX_YEAR`.
- * @param {'tossup' | 'bonus' | 'all'} [params.questionType] - The type of question to include. Default is 'all'.
- * @returns {{
- *  alternateSubcategory: string | undefined,
- *  category: string | undefined,
- *  difficulties: number[],
- *  limit: number,
- *  minYear: number | undefined,
- *  maxYear: number | undefined,
- *  questionType: 'tossup' | 'bonus' | 'all',
- *  subcategory: string | undefined
- *  } | null} The validated parameters, or `null` if the parameters are invalid.
- */
-function validateParams ({
-  alternateSubcategory,
-  category,
-  subcategory,
-  difficulties = DIFFICULTIES,
-  limit = 50,
-  minYear = DEFAULT_MIN_YEAR,
-  maxYear = DEFAULT_MAX_YEAR,
-  questionType = 'all'
-}) {
-  if (typeof alternateSubcategory !== 'string' && alternateSubcategory !== undefined) {
-    return null;
-  }
-
-  if (typeof category !== 'string' && category !== undefined) {
-    return null;
-  }
-
-  limit = parseInt(limit);
-  if (isNaN(limit) || limit < 1) {
-    return null;
-  }
-
-  if (typeof difficulties === 'string') { difficulties = difficulties.split(','); }
-  if (!Array.isArray(difficulties)) { difficulties = [difficulties]; }
-  difficulties = difficulties.map(difficulty => parseInt(difficulty));
-  if (!Array.isArray(difficulties) || difficulties.some(difficulty => isNaN(difficulty) || difficulty < 0 || difficulty > 10)) {
-    return null;
-  }
-
-  if (!['tossup', 'bonus', 'all'].includes(questionType)) {
-    return null;
-  }
-
-  if (typeof subcategory !== 'string' && subcategory !== undefined) {
-    return null;
-  }
-
-  minYear = parseInt(minYear);
-  if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
-
-  maxYear = parseInt(maxYear);
-  if (isNaN(maxYear)) { maxYear = DEFAULT_MAX_YEAR; }
-
-  return { alternateSubcategory, category, difficulties, limit, minYear, maxYear, questionType, subcategory };
-}
-
 router.use('/', async (req, res) => {
-  const params = validateParams(req.query);
-  if (params === null) {
-    return res.status(400).send('Invalid parameters');
-  }
+  req.query = validateArray.difficulties(req.query);
+  req.query = validateEnum.alternateSubcategory(req.query);
+  req.query = validateEnum.category(req.query);
+  req.query = validateEnum.questionType(req.query);
+  req.query = validateEnum.subcategory(req.query);
+  req.query = validateInt.limit(req.query);
+  req.query = validateInt.maxYear(req.query);
+  req.query = validateInt.minYear(req.query);
 
-  const frequencyList = await getFrequencyList(params);
+  const frequencyList = await getFrequencyList(req.query);
+  if (frequencyList.length === 0) {
+    res.status(404);
+  }
   res.json({ frequencyList });
 });
 

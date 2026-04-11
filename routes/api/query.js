@@ -1,53 +1,34 @@
+import * as validateArray from '../validators/array.js';
+import * as validateBoolean from '../validators/boolean.js';
+import * as validateEnum from '../validators/enum.js';
+import * as validateInt from '../validators/int.js';
 import validateCategoryBundle from '../validators/category-bundle.js';
-import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
+
+import { MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
 import getQuery from '../../database/qbreader/get-query.js';
 
 import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  if (!req.query.questionType) {
-    req.query.questionType = 'all';
-  }
-
-  if (!req.query.searchType) {
-    req.query.searchType = 'all';
-  }
-
-  req.query.caseSensitive = (req.query.caseSensitive === 'true');
-  req.query.exactPhrase = (req.query.exactPhrase === 'true');
-  req.query.ignoreWordOrder = (req.query.ignoreWordOrder === 'true');
-  req.query.powermarkOnly = (req.query.powermarkOnly === 'true');
-  req.query.randomize = (req.query.randomize === 'true');
-  req.query.regex = (req.query.regex === 'true');
-
-  if (req.query.difficulties) {
-    req.query.difficulties = req.query.difficulties
-      .split(',')
-      .map((difficulty) => parseInt(difficulty));
-  }
-
+  req.query = validateArray.difficulties(req.query);
+  req.query = validateBoolean.caseSensitive(req.query);
+  req.query = validateBoolean.exactPhrase(req.query);
+  req.query = validateBoolean.ignoreWordOrder(req.query);
+  req.query = validateBoolean.powermarkOnly(req.query);
+  req.query = validateBoolean.randomize(req.query);
+  req.query = validateBoolean.regex(req.query);
+  req.query = validateEnum.questionType(req.query);
+  req.query = validateEnum.searchType(req.query);
+  req.query = validateInt.bonusPagination(req.query);
+  req.query = validateInt.maxReturnLength(req.query);
+  req.query = validateInt.maxYear(req.query);
+  req.query = validateInt.minYear(req.query);
+  req.query = validateInt.tossupPagination(req.query);
   req.query = validateCategoryBundle(req.query);
 
   if (req.query.setName) {
     req.query.setName = req.query.setName.split(',').map(s => s.trim());
-  }
-
-  if (!req.query.tossupPagination) {
-    req.query.tossupPagination = 1;
-  }
-
-  if (!req.query.bonusPagination) {
-    req.query.bonusPagination = 1;
-  }
-
-  if (!isFinite(req.query.tossupPagination) || !isFinite(req.query.bonusPagination)) {
-    res.status(400).send('Invalid pagination specified.');
-    return;
-  }
-
-  if (!req.query.maxReturnLength || isNaN(req.query.maxReturnLength)) {
-    req.query.maxReturnLength = DEFAULT_QUERY_RETURN_LENGTH;
   }
 
   const maxPagination = Math.floor(MAX_QUERY_RETURN_LENGTH / req.query.maxReturnLength);
@@ -57,9 +38,6 @@ router.get('/', async (req, res) => {
   req.query.bonusPagination = Math.min(parseInt(req.query.bonusPagination), maxPagination);
   req.query.tossupPagination = Math.max(req.query.tossupPagination, 1);
   req.query.bonusPagination = Math.max(req.query.bonusPagination, 1);
-
-  req.query.minYear = isNaN(req.query.minYear) ? undefined : parseInt(req.query.minYear);
-  req.query.maxYear = isNaN(req.query.maxYear) ? undefined : parseInt(req.query.maxYear);
 
   try {
     const queryResult = await getQuery(req.query);
