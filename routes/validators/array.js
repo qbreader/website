@@ -25,5 +25,5 @@ export default function validateArray (object, field, { allowedValues, defaultVa
 }
 
 export function difficulties (object) {
-  return validateArray(object, 'difficulties', { allowedValues: DIFFICULTIES, defaultValues: DIFFICULTIES }, parseInt);
+  return validateArray(object, 'difficulties', { allowedValues: DIFFICULTIES, defaultValues: DIFFICULTIES }, x => parseInt(x));
 }
