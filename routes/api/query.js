@@ -6,6 +6,7 @@ import validateCategoryBundle from '../validators/category-bundle.js';
 
 import { MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
 import getQuery from '../../database/qbreader/get-query.js';
+import { MIN_YEAR } from '../../quizbowl/constants.js';
 
 import { Router } from 'express';
 const router = Router();
@@ -23,7 +24,7 @@ router.get('/', async (req, res) => {
   req.query = validateInt.bonusPagination(req.query);
   req.query = validateInt.maxReturnLength(req.query);
   req.query = validateInt.maxYear(req.query);
-  req.query = validateInt.minYear(req.query);
+  req.query = validateInt.minYear(req.query, MIN_YEAR);
   req.query = validateInt.tossupPagination(req.query);
   req.query = validateCategoryBundle(req.query);
 

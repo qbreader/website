@@ -43,8 +43,8 @@ export function maxYear (object) {
   return validateInt(object, 'maxYear', { defaultValue: DEFAULT_MAX_YEAR, lowerBound: MIN_YEAR, upperBound: MAX_YEAR });
 }
 
-export function minYear (object) {
-  return validateInt(object, 'minYear', { defaultValue: DEFAULT_MIN_YEAR, lowerBound: MIN_YEAR, upperBound: MAX_YEAR });
+export function minYear (object, defaultMinYear = DEFAULT_MIN_YEAR) {
+  return validateInt(object, 'minYear', { defaultValue: defaultMinYear, lowerBound: MIN_YEAR, upperBound: MAX_YEAR });
 }
 
 export function number (object) {
