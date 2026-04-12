@@ -49,7 +49,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
     const lastPartRevealed = this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
     const pointsPerPart = this.pointsPerPart;
-    const teamId = this.players[userId].teamId;
+    const teamId = this.bonusEligibleTeamId ?? this.players[userId].teamId;
     if (lastPartRevealed) {
       this.teams[teamId].updateStats(this.pointsPerPart.reduce((a, b) => a + b, 0));
     }
