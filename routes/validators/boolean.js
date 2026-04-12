@@ -22,6 +22,10 @@ export function ignoreWordOrder (object) {
   return validateBoolean(object, 'ignoreWordOrder');
 }
 
+export function modaq (object) {
+  return validateBoolean(object, 'modaq');
+}
+
 export function powermarkOnly (object) {
   return validateBoolean(object, 'powermarkOnly');
 }

@@ -33,7 +33,7 @@ export default async function getBestBuzz (userId, query) {
 
   if (!data) { return null; }
 
-  data.tossup = await getTossup(data._id);
+  data.tossup = await getTossup({ _id: data._id });
   return {
     ...data.data,
     ...data

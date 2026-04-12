@@ -1,19 +1,14 @@
-import { Router } from 'express';
+import * as validateObjectId from '../validators/object-id.js';
 import getBonus from '../../database/qbreader/get-bonus.js';
-import { ObjectId } from 'mongodb';
 
+import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  if (!req.query._id && req.query.id) { req.query._id = req.query.id; }
-  if (!req.query._id) { return res.status(400).send('Bonus ID not specified'); }
-  let _id;
-  try { _id = new ObjectId(req.query._id); } catch (b) { return res.status(400).send('Invalid Bonus ID'); }
-  const bonus = await getBonus(_id);
-  if (bonus === null) {
-    return res.status(404).send(`Bonus with ID ${req.query._id} was not found`);
-  }
-
+  req.query = validateObjectId._id(req.query);
+  if (!req.query._id) { return res.status(400).send('Invalid Bonus ID'); }
+  const bonus = await getBonus(req.query);
+  if (bonus === null) { return res.sendStatus(404); }
   res.json({ bonus });
 });
 

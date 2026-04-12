@@ -10,7 +10,7 @@ import { ObjectId } from 'mongodb';
  * @param {ObjectId} _id - the id of the tossup
  * @returns {Promise<types.Tossup>}
  */
-async function getTossup (_id) {
+async function getTossup ({ _id }) {
   return await tossups.findOne({ _id });
 }
 

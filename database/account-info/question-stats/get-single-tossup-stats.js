@@ -2,11 +2,11 @@ import { perTossupData } from '../collections.js';
 
 /**
  * Get the stats for a single tossup.
- * @param {ObjectId} tossupId the tossup id
+ * @param {ObjectId} _id the tossup id
  * @returns {Promise<Document>} the tossup stats
  */
-async function getSingleTossupStats (tossupId) {
-  const document = await perTossupData.findOne({ _id: tossupId });
+async function getSingleTossupStats ({ _id }) {
+  const document = await perTossupData.findOne({ _id });
   if (!document) { return null; }
   const data = document.data;
   // data should always be an array
@@ -21,7 +21,7 @@ async function getSingleTossupStats (tossupId) {
   }
 
   return {
-    _id: tossupId,
+    _id,
     count: data.length,
     numCorrect: data.reduce((a, b) => a + (b.pointValue > 0 ? 1 : 0), 0),
     pptu: data.reduce((a, b) => a + b.pointValue, 0) / data.length,

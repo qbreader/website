@@ -2,11 +2,11 @@ import { perBonusData } from '../collections.js';
 
 /**
  * Get the stats for a single bonus.
- * @param {ObjectId} bonusId the bonus id
+ * @param {ObjectId} _id the bonus id
  * @returns {Promise<Document>} the bonus stats
  */
-async function getSingleBonusStats (bonusId) {
-  const document = await perBonusData.findOne({ _id: bonusId });
+async function getSingleBonusStats ({ _id }) {
+  const document = await perBonusData.findOne({ _id });
   if (!document) { return null; }
   const data = document.data;
   // data should always be an array
@@ -28,7 +28,7 @@ async function getSingleBonusStats (bonusId) {
   }
 
   return {
-    _id: bonusId,
+    _id,
     count: data.length,
     partConversion,
     ppb: data.reduce((a, b) => a + b.pointValue, 0) / data.length,

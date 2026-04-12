@@ -1,10 +1,10 @@
+import * as validateObjectId from '../validators/object-id.js';
 import { escapeHTML } from '../../client/scripts/utilities/strings.js';
 import getTossup from '../../database/qbreader/get-tossup.js';
 import queryRedirect from '../../server/query-redirect.js';
 
 import { Router } from 'express';
 import fs from 'fs';
-import { ObjectId } from 'mongodb';
 const router = Router();
 
 const head = fs.readFileSync('./client/head.html', 'utf8');
@@ -20,10 +20,9 @@ function removeParentheses (answer) {
 router.get('/', async (req, res) => {
   if (req.originalUrl.split('?')[0].at(-1) !== '/') { return queryRedirect('/db/tossup/')(req, res); }
 
-  let _id = new URLSearchParams(req.query).get('_id');
-  try { _id = new ObjectId(_id); } catch (e) { return res.status(400).send('Invalid ID'); }
-
-  const tossup = await getTossup(_id);
+  req.query = validateObjectId._id(req.query);
+  if (!req.query._id) { return res.status(400).send('Invalid Tossup ID'); }
+  const tossup = await getTossup(req.query);
   if (!tossup) { return res.sendStatus(404); }
 
   const description = `Tossup: ${escapeHTML(removeParentheses(tossup.answer_sanitized))} [${tossup.set.name}]`;
