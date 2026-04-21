@@ -42,7 +42,7 @@ function formatFrequencyListAsText () {
 function formatFrequencyListAsCSV () {
   let csv = 'rank,answer,frequency\n';
   for (const [index, { answer, count }] of currentFrequencyList.entries()) {
-    const escapedAnswer = `"${String(answer).replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
+    const escapedAnswer = `"${String(answer).replace(/"/g, '""').replace(/\r\n|\r|\n/g, '\\n')}"`;
     csv += `${index + 1},${escapedAnswer},${count}\n`;
   }
   return csv;
@@ -50,7 +50,7 @@ function formatFrequencyListAsCSV () {
 
 function addDownloadKeyboardHandler (element) {
   element.addEventListener('keydown', event => {
-    if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') { return; }
+    if (event.key !== 'Enter' && event.key !== ' ') { return; }
     event.preventDefault();
     element.click();
   });
