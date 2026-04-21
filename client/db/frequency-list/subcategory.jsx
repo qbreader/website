@@ -33,21 +33,27 @@ function getExportFilename (extension) {
 
 function formatFrequencyListAsText () {
   let text = '';
-  for (const index in currentFrequencyList) {
-    const { answer, count } = currentFrequencyList[index];
-    text += `${parseInt(index) + 1}. ${answer} (${count})\n`;
+  for (const [index, { answer, count }] of currentFrequencyList.entries()) {
+    text += `${index + 1}. ${answer} (${count})\n`;
   }
   return text;
 }
 
 function formatFrequencyListAsCSV () {
   let csv = 'rank,answer,frequency\n';
-  for (const index in currentFrequencyList) {
-    const { answer, count } = currentFrequencyList[index];
+  for (const [index, { answer, count }] of currentFrequencyList.entries()) {
     const escapedAnswer = `"${String(answer).replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
-    csv += `${parseInt(index) + 1},${escapedAnswer},${count}\n`;
+    csv += `${index + 1},${escapedAnswer},${count}\n`;
   }
   return csv;
+}
+
+function addDownloadKeyboardHandler (element) {
+  element.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') { return; }
+    event.preventDefault();
+    element.click();
+  });
 }
 
 function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, questionType) {
@@ -73,10 +79,9 @@ function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, ques
       currentFrequencyList = frequencyList;
       table.innerHTML = '';
 
-      for (const index in frequencyList) {
-        const { answer, count } = frequencyList[index];
+      for (const [index, { answer, count }] of frequencyList.entries()) {
         const row = table.insertRow();
-        row.insertCell().textContent = parseInt(index) + 1;
+        row.insertCell().textContent = index + 1;
         row.insertCell().textContent = answer;
         row.insertCell().textContent = count;
       }
@@ -94,6 +99,8 @@ document.getElementById('download-frequency-list-csv').addEventListener('click',
   if (currentFrequencyList.length === 0) { return; }
   downloadAsFile(getExportFilename('csv'), formatFrequencyListAsCSV());
 });
+addDownloadKeyboardHandler(document.getElementById('download-frequency-list-txt'));
+addDownloadKeyboardHandler(document.getElementById('download-frequency-list-csv'));
 
 document.getElementById('limit-select').addEventListener('change', event => {
   limit = event.target.value;
