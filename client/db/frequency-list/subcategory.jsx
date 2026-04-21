@@ -50,7 +50,7 @@ function formatFrequencyListAsCSV () {
 
 function addDownloadKeyboardHandler (element) {
   element.addEventListener('keydown', event => {
-    if (event.key !== 'Enter' && event.key !== ' ') { return; }
+    if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') { return; }
     event.preventDefault();
     element.click();
   });
