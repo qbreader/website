@@ -1,4 +1,5 @@
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
+import { downloadAsFile } from '../../scripts/download.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import filterParams from '../../scripts/utilities/filter-params.js';
 import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../quizbowl/constants.js';
@@ -9,10 +10,12 @@ let limit = 50;
 let minYear = DEFAULT_MIN_YEAR;
 let maxYear = DEFAULT_MAX_YEAR;
 let questionType = 'all';
+let currentFrequencyList = [];
 const searchParams = new URLSearchParams(window.location.search);
 const isAlternate = searchParams.get('alternate') === 'true';
 const isCategory = searchParams.get('category') === 'true';
-const subcategory = titleCase(searchParams.keys().next().value);
+const subcategoryQuery = searchParams.keys().next().value;
+const subcategory = titleCase(subcategoryQuery);
 
 function difficultyDropdownListener () {
   difficulties = getDropdownValues('difficulties');
@@ -24,9 +27,31 @@ function titleCase (name) {
   return name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
+function getExportFilename (extension) {
+  return `${subcategoryQuery}-${questionType}-frequency-list.${extension}`;
+}
+
+function formatFrequencyListAsText () {
+  let text = '';
+  for (const [index, { answer, count }] of currentFrequencyList.entries()) {
+    text += `${index + 1}. ${answer} (${count})\n`;
+  }
+  return text;
+}
+
+function formatFrequencyListAsCSV () {
+  let csv = 'rank,answer,frequency\n';
+  for (const [index, { answer, count }] of currentFrequencyList.entries()) {
+    const escapedAnswer = `"${String(answer).replace(/"/g, '""').replace(/\r\n|\r|\n/g, '\\n')}"`;
+    csv += `${index + 1},${escapedAnswer},${count}\n`;
+  }
+  return csv;
+}
+
 function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, questionType) {
   const table = document.getElementById('frequency-list');
   table.innerHTML = '';
+  currentFrequencyList = [];
 
   document.getElementsByClassName('spinner-border')[0].classList.remove('d-none');
 
@@ -43,12 +68,12 @@ function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, ques
     .then(response => response.json())
     .then(response => {
       const { frequencyList } = response;
+      currentFrequencyList = frequencyList;
       table.innerHTML = '';
 
-      for (const index in frequencyList) {
-        const { answer, count } = frequencyList[index];
+      for (const [index, { answer, count }] of frequencyList.entries()) {
         const row = table.insertRow();
-        row.insertCell().textContent = parseInt(index) + 1;
+        row.insertCell().textContent = index + 1;
         row.insertCell().textContent = answer;
         row.insertCell().textContent = count;
       }
@@ -56,6 +81,16 @@ function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, ques
       document.getElementsByClassName('spinner-border')[0].classList.add('d-none');
     });
 }
+
+document.getElementById('download-frequency-list-txt').addEventListener('click', () => {
+  if (currentFrequencyList.length === 0) { return; }
+  downloadAsFile(getExportFilename('txt'), formatFrequencyListAsText());
+});
+
+document.getElementById('download-frequency-list-csv').addEventListener('click', () => {
+  if (currentFrequencyList.length === 0) { return; }
+  downloadAsFile(getExportFilename('csv'), formatFrequencyListAsCSV());
+});
 
 document.getElementById('limit-select').addEventListener('change', event => {
   limit = event.target.value;
