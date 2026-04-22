@@ -48,14 +48,6 @@ function formatFrequencyListAsCSV () {
   return csv;
 }
 
-function addDownloadKeyboardHandler (element) {
-  element.addEventListener('keydown', event => {
-    if (event.key !== 'Enter' && event.key !== ' ') { return; }
-    event.preventDefault();
-    element.click();
-  });
-}
-
 function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, questionType) {
   const table = document.getElementById('frequency-list');
   table.innerHTML = '';
@@ -99,8 +91,6 @@ document.getElementById('download-frequency-list-csv').addEventListener('click',
   if (currentFrequencyList.length === 0) { return; }
   downloadAsFile(getExportFilename('csv'), formatFrequencyListAsCSV());
 });
-addDownloadKeyboardHandler(document.getElementById('download-frequency-list-txt'));
-addDownloadKeyboardHandler(document.getElementById('download-frequency-list-csv'));
 
 document.getElementById('limit-select').addEventListener('change', event => {
   limit = event.target.value;
