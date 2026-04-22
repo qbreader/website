@@ -15,7 +15,7 @@ import { ObjectId } from 'mongodb';
  * @param {string} params.folderPath - the folder that the packet is in. Defaults to the current directory.
  * @param {boolean} params.shiftPacketNumbers - whether to shift the packet numbers of existing packets. Defaults to `false`.
  */
-export default async function upsertPacket ({ setName, packetName, packetNumber, preserveCategory, zeroIndexQuestions, folderPath = './', shiftPacketNumbers = false }) {
+export default async function upsertPacket ({ setName, packetName, packetNumber, preserveCategory, zeroIndexQuestions = false, folderPath = './', shiftPacketNumbers = false }) {
   const tossupBulk = tossups.initializeUnorderedBulkOp();
   const bonusBulk = bonuses.initializeUnorderedBulkOp();
   const perTossupDataBulk = perTossupData.initializeUnorderedBulkOp();
