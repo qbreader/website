@@ -19,9 +19,10 @@ export default function filterParams (params) {
       if (value === false) { return false; }
       if (Array.isArray(value) && value.length === 0) { return false; }
       if (
+        Array.isArray(value) &&
         key === 'difficulties' &&
         value.length === DIFFICULTIES.length &&
-        value.every(val => DIFFICULTIES.includes(val))
+        DIFFICULTIES.every(d => value.includes(d))
       ) { return false; }
       if (key === 'minYear' && value === DEFAULT_MIN_YEAR) { return false; }
       if (key === 'maxYear' && value === DEFAULT_MAX_YEAR) { return false; }
