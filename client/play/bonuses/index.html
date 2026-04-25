@@ -88,6 +88,14 @@
                         <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-timer">Enable timer</label>
                     </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-read-bonus-like-a-tossup" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-read-bonus-like-a-tossup">Read bonus like a tossup</label>
+                    </div>
+                    <div class="d-none" id="reading-speed-container">
+                        <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                        <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5" value="50">
+                    </div>
                     <div class="mb-2"></div>
                     <label for="set-strictness">Strictness: <span id="strictness-display">7</span><br></label>
                     <input class="form-range" id="set-strictness" type="range" min="0" max="20" step="1" value="7">

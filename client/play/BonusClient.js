@@ -16,10 +16,13 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
       case 'reveal-leadin': return this.revealLeadin(data);
       case 'reveal-next-answer': return this.revealNextAnswer(data);
       case 'reveal-next-part': return this.revealNextPart(data);
+      case 'set-reading-speed': return this.setReadingSpeed(data);
       case 'start-bonus-answer': return this.startBonusAnswer(data);
       case 'start-next-bonus': return this.startNextBonus(data);
       case 'toggle-bonus-part': return this.toggleBonusPart(data);
+      case 'toggle-read-bonus-like-a-tossup': return this.toggleReadBonusLikeATossup(data);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
+      case 'update-bonus-question': return this.updateBonusQuestion(data);
       default: return super.onmessage(message);
     }
   }
@@ -60,8 +63,10 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
 
   revealNextPart ({ bonusEligibleTeamId, currentPartNumber, part, value }) {
     document.getElementById('reveal').disabled = !(
-      bonusEligibleTeamId === undefined ||
-      bonusEligibleTeamId === this.room.players[this.USER_ID]?.teamId
+      !this.room.settings.readBonusLikeATossup && (
+        bonusEligibleTeamId === undefined ||
+        bonusEligibleTeamId === this.room.players[this.USER_ID]?.teamId
+      )
     );
 
     const input = document.createElement('input');
@@ -120,6 +125,24 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
 
   toggleThreePartBonuses ({ threePartBonuses }) {
     document.getElementById('toggle-three-part-bonuses').checked = threePartBonuses;
+  }
+
+  toggleReadBonusLikeATossup ({ readBonusLikeATossup }) {
+    document.getElementById('toggle-read-bonus-like-a-tossup').checked = readBonusLikeATossup;
+    document.getElementById('reading-speed-container').classList.toggle('d-none', !readBonusLikeATossup);
+  }
+
+  setReadingSpeed ({ readingSpeed }) {
+    document.getElementById('reading-speed').value = readingSpeed;
+    document.getElementById('reading-speed-display').textContent = readingSpeed;
+  }
+
+  updateBonusQuestion ({ word, currentPartNumber }) {
+    if (currentPartNumber === -1) {
+      document.getElementById('leadin').innerHTML += word + ' ';
+    } else {
+      document.getElementById(`bonus-part-${currentPartNumber + 1}`).querySelector('p').innerHTML += word + ' ';
+    }
   }
 };
 
