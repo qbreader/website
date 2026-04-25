@@ -1,34 +1,19 @@
-import { ObjectId } from 'mongodb';
+import * as validateBoolean from '../validators/boolean.js';
+import * as validateInt from '../validators/int.js';
+import * as validateObjectId from '../validators/object-id.js';
+
 import getPacket from '../../database/qbreader/get-packet.js';
 
 import { Router } from 'express';
-
 const router = Router();
 
-function castObjectId (id) {
-  if (!id) { return null; }
-
-  try {
-    return new ObjectId(id);
-  } catch (e) {
-    return null;
-  }
-}
-
 router.get('/', async (req, res) => {
-  req.query._id = castObjectId(req.query._id);
-  let packet;
+  req.query = validateBoolean.modaq(req.query);
+  req.query = validateInt.packetNumber(req.query);
+  req.query = validateObjectId._id(req.query);
+  req.query.questionTypes = req.query.questionTypes ? req.query.questionTypes.split(',') : undefined;
 
-  const modaq = req.query.modaq === 'true';
-  const questionTypes = req.query.questionTypes ? req.query.questionTypes.split(',') : undefined;
-
-  if (req.query._id !== null) {
-    packet = await getPacket({ _id: req.query._id, modaq, questionTypes });
-  } else {
-    const setName = req.query.setName;
-    const packetNumber = parseInt(req.query.packetNumber);
-    packet = await getPacket({ setName, packetNumber, modaq, questionTypes });
-  }
+  const packet = await getPacket(req.query);
 
   if (packet.tossups.length === 0 && packet.bonuses.length === 0) {
     res.statusCode = 404;

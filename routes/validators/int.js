@@ -18,6 +18,7 @@ export default function validateInt (object, field, { defaultValue, lowerBound, 
   }
 
   function clampValue (value) {
+    if (isNaN(value)) { return value; }
     if (lowerBound !== undefined && value < lowerBound) { return lowerBound; }
     if (upperBound !== undefined && value > upperBound) { return upperBound; }
     return value;
@@ -49,6 +50,10 @@ export function minYear (object, defaultMinYear = DEFAULT_MIN_YEAR) {
 
 export function number (object) {
   return validateInt(object, 'number', { defaultValue: 1, lowerBound: 1 });
+}
+
+export function packetNumber (object) {
+  return validateInt(object, 'packetNumber', { lowerBound: 1 });
 }
 
 export function tossupPagination (object) {
