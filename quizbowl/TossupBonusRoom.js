@@ -44,6 +44,7 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
 
   giveTossupAnswer ({ userId, username }, { givenAnswer }) {
     super.giveTossupAnswer({ userId, username }, { givenAnswer });
+    if (Object.keys(this.tossup || {}).length === 0) { return; }
     const { directive } = this.scoreTossup({ givenAnswer });
     if (directive === 'accept') {
       const teamId = this.players[userId].teamId;
