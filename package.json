@@ -7,7 +7,7 @@
         "dev": "npm run build && npm run start",
         "lint": "npx semistandard --fix",
         "sass": "sass scss/custom.scss client/style.css --style compressed",
-        "start": "node index.js",
+        "start": "node server.js",
         "webpack": "webpack --config webpack.config.js"
     },
     "dependencies": {
