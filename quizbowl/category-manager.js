@@ -33,6 +33,13 @@ export default class CategoryManager {
         });
       });
     }
+    if (categories.length > 0 && alternateSubcategories.length === 0) {
+      categories.forEach(category => {
+        CATEGORY_TO_ALTERNATE_SUBCATEGORIES[category].forEach(alternateSubcategory => {
+          alternateSubcategories.push(alternateSubcategory);
+        });
+      });
+    }
 
     this.categories = categories;
     this.subcategories = subcategories;
