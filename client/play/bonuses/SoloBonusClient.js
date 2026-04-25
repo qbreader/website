@@ -119,6 +119,16 @@ export default class SoloBonusClient extends BonusClient {
     window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
+  toggleReadBonusLikeATossup ({ readBonusLikeATossup }) {
+    super.toggleReadBonusLikeATossup({ readBonusLikeATossup });
+    window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
+  }
+
+  setReadingSpeed ({ readingSpeed }) {
+    super.setReadingSpeed({ readingSpeed });
+    window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
+  }
+
   toggleTypeToAnswer ({ typeToAnswer }) {
     document.getElementById('type-to-answer').checked = typeToAnswer;
     window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
