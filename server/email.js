@@ -3,9 +3,9 @@
  * Any other functions relating to emails, such as active password reset tokens, are in server/authentication.js.
  */
 
-import { QBREADER_EMAIL_ADDRESS } from '../constants.js';
-
 import { createTransport } from 'nodemailer';
+
+export const QBREADER_EMAIL_ADDRESS = 'noreply@qbreader.org';
 
 const transporter = createTransport({
   host: 'smtp.mailersend.net',

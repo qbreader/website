@@ -1,4 +1,4 @@
-import { COOKIE_MAX_AGE } from '../../constants.js';
+import { COOKIE_MAX_AGE } from '../../server/constants.js';
 import getUser from '../../database/account-info/get-user.js';
 import createUser from '../../database/account-info/create-user.js';
 import { generateToken, saltAndHashPassword, sendVerificationEmail, validateUsername } from '../../server/authentication.js';

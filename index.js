@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import { ipFilterMiddleware } from './server/moderation/ip-filter.js';
-import { WEBSOCKET_MAX_PAYLOAD, COOKIE_MAX_AGE } from './constants.js';
+import { COOKIE_MAX_AGE } from './server/constants.js';
 import indexRouter from './routes/index.js';
 import webhookRouter from './routes/api/webhook.js';
 import handleWssConnection from './server/multiplayer/handle-wss-connection.js';
@@ -13,6 +13,8 @@ import express from 'express';
 import morgan from 'morgan';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
+
+export const WEBSOCKET_MAX_PAYLOAD = 1024 * 10 * 1; // 10 KB
 
 const app = express();
 const server = createServer(app);
