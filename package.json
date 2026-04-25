@@ -26,7 +26,7 @@
         "nodemailer": "^8.0.4",
         "qb-answer-checker": "^1.1.9",
         "stripe": "^12.10.0",
-        "uuid": "^8.3.2",
+        "uuid": "^14.0.0",
         "ws": "^8.8.0"
     },
     "devDependencies": {
