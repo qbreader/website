@@ -1,5 +1,4 @@
-import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
-import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, MAX_YEAR, MIN_YEAR } from '../../quizbowl/constants.js';
+import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH, DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, MAX_YEAR, MIN_YEAR } from '../../quizbowl/constants.js';
 
 /**
  * Validates that a field's value is an integer within specified bounds.

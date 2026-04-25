@@ -1,4 +1,4 @@
-import { COOKIE_MAX_AGE } from '../../constants.js';
+import { COOKIE_MAX_AGE } from '../../server/constants.js';
 import getUserField from '../../database/account-info/get-user-field.js';
 import { checkPassword, generateToken } from '../../server/authentication.js';
 
