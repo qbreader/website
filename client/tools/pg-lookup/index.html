@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!--#include virtual="/head.html" -->
+    <meta name="description" content="Look up pronunciation guides for words and phrases in the QB Reader database.">
+</head>
+
+<body>
+    <!--#include virtual="/nav/index.html" -->
+
+    <div class="container mt-3 mb-5">
+        <h2>Pronunciation Guide Lookup</h2>
+        <p>
+            Enter a word or phrase to find all pronunciation guides (PGs) for it in the database,
+            along with links to the source questions.
+        </p>
+        <form class="mb-3" id="form">
+            <div class="input-group mb-3">
+                <input
+                    type="text"
+                    class="form-control"
+                    id="word-input"
+                    placeholder="e.g. Goethe"
+                    aria-label="Word or phrase"
+                    autocomplete="off"
+                    required
+                >
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        <div id="results-container" class="d-none">
+            <h4 id="results-summary"></h4>
+            <div id="tossup-results"></div>
+            <div id="bonus-results" class="mt-3"></div>
+        </div>
+
+        <div id="no-results" class="d-none text-muted">
+            No pronunciation guides found.
+        </div>
+
+        <div id="loading" class="d-none">
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+            Searching&hellip;
+        </div>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>
