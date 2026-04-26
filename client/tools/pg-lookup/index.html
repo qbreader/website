@@ -17,32 +17,34 @@
         </p>
         <form class="mb-3" id="form">
             <div class="input-group mb-3">
-                <input
-                    type="text"
-                    class="form-control"
-                    id="word-input"
-                    placeholder="e.g. Goethe"
-                    aria-label="Word or phrase"
-                    autocomplete="off"
-                    required
-                >
+                <input type="text" class="form-control" id="word-input" placeholder="word to find pronounciation guide for"
+                    aria-label="Word or phrase" autocomplete="off" required>
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>
 
         <div id="results-container" class="d-none">
-            <h4 id="results-summary"></h4>
-            <div id="tossup-results"></div>
-            <div id="bonus-results" class="mt-3"></div>
+            <div id="results-summary"></div>
+            <table class="table table-hover" id="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Pronunciation Guide</th>
+                        <th scope="col">Set</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Link</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
         </div>
 
         <div id="no-results" class="d-none text-muted">
             No pronunciation guides found.
         </div>
 
-        <div id="loading" class="d-none">
-            <div class="spinner-border spinner-border-sm" role="status"></div>
-            Searching&hellip;
+        <div class="d-block mx-auto mt-3 spinner-border d-none" id="spinner" role="status">
+            <span class="d-none">Loading...</span>
         </div>
     </div>
 
