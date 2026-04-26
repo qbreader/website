@@ -126,8 +126,7 @@ async function search (word) {
   try {
     const response = await fetch('/api/pg-lookup?' + new URLSearchParams({ word }));
     if (!response.ok) {
-      const text = await response.text();
-      window.alert(`Error: ${text}`);
+      window.alert('An error occurred while searching. Please try again.');
       return;
     }
 
@@ -151,6 +150,6 @@ async function search (word) {
     resultsContainer.classList.remove('d-none');
   } catch (err) {
     loading.classList.add('d-none');
-    window.alert(`Error: ${err.message}`);
+    window.alert('An error occurred while searching. Please try again.');
   }
 }

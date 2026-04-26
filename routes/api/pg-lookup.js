@@ -11,9 +11,12 @@ router.get('/', async (req, res) => {
     return res.status(400).send('Missing or invalid "word" parameter.');
   }
 
-  const limit = req.query.limit ? parseInt(req.query.limit) : 50;
-  if (!Number.isInteger(limit) || limit <= 0) {
-    return res.status(400).send('Invalid "limit" parameter.');
+  let limit = 50;
+  if (req.query.limit !== undefined) {
+    limit = parseInt(req.query.limit);
+    if (!Number.isInteger(limit) || limit <= 0 || limit > 200) {
+      return res.status(400).send('Invalid "limit" parameter. Must be an integer between 1 and 200.');
+    }
   }
 
   const result = await getPgLookup({ word, limit });

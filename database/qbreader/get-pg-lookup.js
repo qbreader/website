@@ -53,6 +53,7 @@ export default async function getPgLookup ({ word, limit = 50 }) {
   limit = Math.min(limit, 200);
 
   // In the sanitized fields, curly quotes are normalized to regular ASCII double quotes.
+  // The 'i' (case-insensitive) flag is applied in the MongoDB query options below.
   const escapedWord = escapeRegExp(word);
   const sanitizedRegex = `${escapedWord}\\s*\\("[^"]*"\\)`;
 
