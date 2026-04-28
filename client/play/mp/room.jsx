@@ -40,6 +40,8 @@ const socket = new window.WebSocket(
       username: room.username
     }).toString()
 );
+window.__qbSocket = socket;
+window._qbSocket = socket;
 window.history.pushState({}, '', './' + encodeURIComponent(ROOM_NAME));
 
 // Ping server every 30 seconds to prevent socket disconnection
@@ -52,7 +54,12 @@ socket.sendToServer = (data) => socket.send(JSON.stringify(data));
 
 socket.onclose = function (event) {
   const { code } = event;
-  if (code !== 3000) { window.alert('Disconnected from server'); }
+  if (code !== 3000) {
+    const modal = new window.bootstrap.Modal(document.getElementById('disconnected-modal'));
+    modal.show();
+  }
+  delete window.__qbSocket;
+  delete window._qbSocket;
   clearInterval(PING_INTERVAL_ID);
 };
 

@@ -6,6 +6,7 @@
         "build": "npm run webpack && npm run sass",
         "dev": "npm run build && npm run start",
         "lint": "npx semistandard --fix",
+        "prestart": "npm run build",
         "sass": "sass scss/custom.scss client/style.css --style compressed",
         "start": "node index.js",
         "webpack": "webpack --config webpack.config.js"
