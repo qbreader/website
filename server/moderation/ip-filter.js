@@ -1,6 +1,15 @@
 import { accountInfo } from '../../database/databases.js';
 const ipBans = accountInfo.collection('ip-bans');
-const ips = await ipBans.find().toArray().then(results => results.map(result => result.ipv4));
+
+async function getBannedIps () {
+  try {
+    return await ipBans.find().toArray().then(results => results.map(result => result.ipv4));
+  } catch (error) {
+    return [];
+  }
+}
+
+const ips = await getBannedIps();
 
 export const clientIp = (req, _res) => {
   return req.headers['x-forwarded-for'] ? (req.headers['x-forwarded-for']).split(',')[0] : req.ip;
