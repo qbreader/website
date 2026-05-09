@@ -111,10 +111,10 @@ function renderResults () {
   filteredResults.forEach(result => {
     const existing = grouped.get(result.pg);
     if (existing) {
-      existing.sources.push(result);
+      existing.sources.push({ question: result.question, type: result.type });
       return;
     }
-    grouped.set(result.pg, { pg: result.pg, sources: [result] });
+    grouped.set(result.pg, { pg: result.pg, sources: [{ question: result.question, type: result.type }] });
   });
 
   const groupedResults = [...grouped.values()]
