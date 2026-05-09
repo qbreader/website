@@ -77,22 +77,25 @@ function createResultRow ({ pg, sources }) {
   summary.textContent = `${sources.length} source${sources.length === 1 ? '' : 's'}`;
   details.appendChild(summary);
 
-  const sourceList = document.createElement('div');
-  sourceList.classList.add('mt-2');
+  const sourceTable = document.createElement('table');
+  sourceTable.classList.add('table', 'table-sm', 'mt-2', 'mb-0');
+  const sourceTbody = document.createElement('tbody');
 
   sources.forEach(({ question, type }) => {
-    const sourceLine = document.createElement('div');
-    sourceLine.classList.add('mb-2');
-    sourceLine.textContent = `${question.set.name} | ${type} | difficulty ${question.difficulty} | ${question.category} / ${question.subcategory}${question.alternate_subcategory ? ` / ${question.alternate_subcategory}` : ''} `;
+    const sourceRow = sourceTbody.insertRow();
+    sourceRow.insertCell().textContent = question.set.name;
+    sourceRow.insertCell().textContent = type;
+    sourceRow.insertCell().textContent = String(question.difficulty);
+    sourceRow.insertCell().textContent = `${question.category} / ${question.subcategory}${question.alternate_subcategory ? ` / ${question.alternate_subcategory}` : ''}`;
 
     const a = document.createElement('a');
     a.href = `/db/${type}/?_id=${question._id}`;
     a.textContent = 'View';
-    sourceLine.appendChild(a);
-    sourceList.appendChild(sourceLine);
+    sourceRow.insertCell().appendChild(a);
   });
 
-  details.appendChild(sourceList);
+  sourceTable.appendChild(sourceTbody);
+  details.appendChild(sourceTable);
   row.insertCell().appendChild(details);
   return row;
 }
