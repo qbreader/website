@@ -4,9 +4,6 @@ const resultsContainer = document.getElementById('results-container');
 const resultsSummary = document.getElementById('results-summary');
 const noResults = document.getElementById('no-results');
 const tbody = document.getElementById('tbody');
-const setNameFilterInput = document.getElementById('set-name-filter');
-const minDifficultyFilterInput = document.getElementById('min-difficulty-filter');
-const maxDifficultyFilterInput = document.getElementById('max-difficulty-filter');
 
 let currentWord = '';
 let currentResults = [];
@@ -27,10 +24,6 @@ form.addEventListener('submit', function (e) {
   search(word);
 });
 
-setNameFilterInput.addEventListener('input', renderResults);
-minDifficultyFilterInput.addEventListener('input', renderResults);
-maxDifficultyFilterInput.addEventListener('input', renderResults);
-
 /**
  * @param {object} source
  * @param {string} source.pg
@@ -39,25 +32,10 @@ maxDifficultyFilterInput.addEventListener('input', renderResults);
  * @returns {boolean}
  */
 function passesFilters ({ question }) {
-  const setNameFilter = setNameFilterInput.value.trim().toLowerCase();
-  if (setNameFilter && !question.set.name.toLowerCase().includes(setNameFilter)) {
-    return false;
-  }
-
-  const minDifficulty = minDifficultyFilterInput.value.trim() === ''
-    ? null
-    : Number(minDifficultyFilterInput.value);
-  const maxDifficulty = maxDifficultyFilterInput.value.trim() === ''
-    ? null
-    : Number(maxDifficultyFilterInput.value);
-
-  if (Number.isFinite(minDifficulty) && question.difficulty < minDifficulty) {
-    return false;
-  }
-  if (Number.isFinite(maxDifficulty) && question.difficulty > maxDifficulty) {
-    return false;
-  }
-
+  const standardOnly = document.getElementById('toggle-standard-only').checked;
+  if (standardOnly && !question.set.standard) { return false; }
+  const includeMSHS = document.getElementById('toggle-include-ms-hs').checked;
+  if (!includeMSHS && question.difficulty <= 5) { return false; }
   return true;
 }
 
@@ -70,7 +48,6 @@ function passesFilters ({ question }) {
 function createResultRow ({ pg, sources }) {
   const row = tbody.insertRow();
   row.insertCell().textContent = pg;
-  row.insertCell().textContent = String(sources.length);
 
   const details = document.createElement('details');
   const summary = document.createElement('summary');
@@ -83,7 +60,7 @@ function createResultRow ({ pg, sources }) {
   sources.forEach(({ question, type }) => {
     const sourceLine = document.createElement('div');
     sourceLine.classList.add('mb-2');
-    sourceLine.textContent = `${question.set.name} | ${type} | difficulty ${question.difficulty} | ${question.category} / ${question.subcategory}${question.alternate_subcategory ? ` / ${question.alternate_subcategory}` : ''} `;
+    sourceLine.textContent = `${question.set.name} | ${type} | ${question.category} / ${question.subcategory}${question.alternate_subcategory ? ` / ${question.alternate_subcategory}` : ''} `;
 
     const a = document.createElement('a');
     a.href = `/db/${type}/?_id=${question._id}`;
@@ -160,3 +137,6 @@ async function search (word) {
     document.getElementById('spinner').classList.add('d-none');
   }
 }
+
+document.getElementById('toggle-standard-only').addEventListener('change', renderResults);
+document.getElementById('toggle-include-ms-hs').addEventListener('change', renderResults);
