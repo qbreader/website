@@ -79,6 +79,15 @@ function createResultRow ({ pg, sources }) {
 
   const sourceTable = document.createElement('table');
   sourceTable.classList.add('table', 'table-sm', 'mt-2', 'mb-0');
+  sourceTable.setAttribute('aria-label', 'Pronunciation guide source rows');
+  const sourceThead = sourceTable.createTHead();
+  const headerRow = sourceThead.insertRow();
+  ['Set', 'Type', 'Difficulty', 'Category', 'Link'].forEach(text => {
+    const th = document.createElement('th');
+    th.setAttribute('scope', 'col');
+    th.textContent = text;
+    headerRow.appendChild(th);
+  });
   const sourceTbody = document.createElement('tbody');
 
   sources.forEach(({ question, type }) => {
