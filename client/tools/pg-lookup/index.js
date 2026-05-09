@@ -34,8 +34,8 @@ form.addEventListener('submit', function (e) {
 function passesFilters ({ question }) {
   const standardOnly = document.getElementById('toggle-standard-only').checked;
   if (standardOnly && !question.set.standard) { return false; }
-  const includeMSHS = document.getElementById('toggle-include-ms-hs').checked;
-  if (!includeMSHS && question.difficulty <= 5) { return false; }
+  const excludeMSHS = document.getElementById('toggle-exclude-ms-hs').checked;
+  if (excludeMSHS && question.difficulty <= 5) { return false; }
   return true;
 }
 
@@ -60,15 +60,16 @@ function createResultRow ({ pg, sources }) {
 
   sources.forEach(({ question, type }) => {
     const sourceRow = sourceTbody.insertRow();
-    sourceRow.insertCell().textContent = question.set.name;
-    sourceRow.insertCell().textContent = type;
-    sourceRow.insertCell().textContent = String(question.difficulty);
-    sourceRow.insertCell().textContent = `${question.category} / ${question.subcategory}${question.alternate_subcategory ? ` / ${question.alternate_subcategory}` : ''}`;
-
     const a = document.createElement('a');
     a.href = `/db/${type}/?_id=${question._id}`;
-    a.textContent = 'View';
+    a.textContent = question.set.name;
     sourceRow.insertCell().appendChild(a);
+    const cell1 = sourceRow.insertCell();
+    cell1.textContent = type;
+    cell1.className = 'd-none d-md-table-cell';
+    const cell2 = sourceRow.insertCell();
+    cell2.textContent = `${question.category} / ${question.subcategory}${question.alternate_subcategory ? ` / ${question.alternate_subcategory}` : ''}`;
+    cell2.className = 'd-none d-lg-table-cell';
   });
 
   sourceTable.appendChild(sourceTbody);
@@ -99,6 +100,11 @@ function renderResults () {
 
   const groupedResults = [...grouped.values()]
     .sort((a, b) => b.sources.length - a.sources.length || a.pg.localeCompare(b.pg));
+
+  // within each group, sort sources by year (newest to oldest) then by set name
+  groupedResults.forEach(group => {
+    group.sources.sort((a, b) => b.question.set.year - a.question.set.year || a.question.set.name.localeCompare(b.question.set.name));
+  });
 
   resultsSummary.textContent = `Found ${filteredResults.length} result${filteredResults.length === 1 ? '' : 's'} across ${groupedResults.length} pronunciation guide${groupedResults.length === 1 ? '' : 's'} for ${currentWord}:`;
   groupedResults.forEach(createResultRow);
@@ -142,4 +148,4 @@ async function search (word) {
 }
 
 document.getElementById('toggle-standard-only').addEventListener('change', renderResults);
-document.getElementById('toggle-include-ms-hs').addEventListener('change', renderResults);
+document.getElementById('toggle-exclude-ms-hs').addEventListener('change', renderResults);
