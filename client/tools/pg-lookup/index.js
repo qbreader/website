@@ -1,10 +1,12 @@
-import sortTable from '../../scripts/utilities/tables.js';
-
 const form = document.getElementById('form');
 const wordInput = document.getElementById('word-input');
 const resultsContainer = document.getElementById('results-container');
 const resultsSummary = document.getElementById('results-summary');
 const noResults = document.getElementById('no-results');
+const tbody = document.getElementById('tbody');
+
+let currentWord = '';
+let currentResults = [];
 
 const params = new URLSearchParams(window.location.search);
 if (params.get('word')) {
@@ -22,30 +24,102 @@ form.addEventListener('submit', function (e) {
   search(word);
 });
 
-document.getElementById('table').querySelectorAll('th').forEach((th, index) => {
-  th.addEventListener('click', () => sortTable(index, false, 'tbody', 0, 0));
-});
+/**
+ * @param {object} source
+ * @param {string} source.pg
+ * @param {object} source.question
+ * @param {'tossup'|'bonus'} source.type
+ * @returns {boolean}
+ */
+function passesFilters ({ question }) {
+  const standardOnly = document.getElementById('toggle-standard-only').checked;
+  if (standardOnly && !question.set.standard) { return false; }
+  const excludeMSHS = document.getElementById('toggle-exclude-ms-hs').checked;
+  if (excludeMSHS && question.difficulty <= 5) { return false; }
+  return true;
+}
 
 /**
- * Creates a table row for a pronunciation guide result.
+ * Creates a table row for a grouped pronunciation guide result.
  * @param {string} pg - The pronunciation guide text.
- * @param {object} question - The source question object.
- * @param {'tossup'|'bonus'} type - The question type.
+ * @param {Array<{question: object, type: 'tossup'|'bonus'}>} sources
  * @returns {HTMLTableRowElement}
  */
-function createResultRow ({ pg, question, type }) {
-  const row = document.getElementById('tbody').insertRow();
+function createResultRow ({ pg, sources }) {
+  const row = tbody.insertRow();
   row.insertCell().textContent = pg;
-  row.insertCell().textContent = question.set.name;
-  row.insertCell().textContent = type;
-  row.insertCell().textContent = `${question.category} / ${question.subcategory}` + (question.alternate_subcategory ? ` / ${question.alternate_subcategory}` : '');
 
-  const a = document.createElement('a');
-  a.href = `/db/${type}/?_id=${question._id}`;
-  a.textContent = 'View';
+  const details = document.createElement('details');
+  const summary = document.createElement('summary');
+  summary.textContent = `${sources.length} source${sources.length === 1 ? '' : 's'}`;
+  details.appendChild(summary);
 
-  row.insertCell().appendChild(a);
+  const sourceTable = document.createElement('table');
+  sourceTable.classList.add('table', 'table-sm', 'mt-2', 'mb-0');
+  sourceTable.setAttribute('aria-label', 'Pronunciation guide source rows');
+  const sourceThead = sourceTable.createTHead();
+  const headerRow = sourceThead.insertRow();
+  [['Set', ''], ['Type', 'd-none d-md-table-cell'], ['Category', 'd-none d-lg-table-cell']].forEach(([text, className]) => {
+    const th = document.createElement('th');
+    th.setAttribute('scope', 'col');
+    th.textContent = text;
+    th.className = className;
+    headerRow.appendChild(th);
+  });
+  const sourceTbody = document.createElement('tbody');
+
+  sources.forEach(({ question, type }) => {
+    const sourceRow = sourceTbody.insertRow();
+    const a = document.createElement('a');
+    a.href = `/db/${type}/?_id=${question._id}`;
+    a.textContent = question.set.name;
+    sourceRow.insertCell().appendChild(a);
+    const cell1 = sourceRow.insertCell();
+    cell1.textContent = type;
+    cell1.className = 'd-none d-md-table-cell';
+    const cell2 = sourceRow.insertCell();
+    cell2.textContent = `${question.category} / ${question.subcategory}${question.alternate_subcategory ? ` / ${question.alternate_subcategory}` : ''}`;
+    cell2.className = 'd-none d-lg-table-cell';
+  });
+
+  sourceTable.appendChild(sourceTbody);
+  details.appendChild(sourceTable);
+  row.insertCell().appendChild(details);
   return row;
+}
+
+function renderResults () {
+  tbody.innerHTML = '';
+  const filteredResults = currentResults.filter(passesFilters);
+
+  if (filteredResults.length === 0) {
+    resultsContainer.classList.add('d-none');
+    noResults.classList.remove('d-none');
+    return;
+  }
+
+  const grouped = new Map();
+  filteredResults.forEach(result => {
+    const existing = grouped.get(result.pg);
+    if (existing) {
+      existing.sources.push({ question: result.question, type: result.type });
+      return;
+    }
+    grouped.set(result.pg, { pg: result.pg, sources: [{ question: result.question, type: result.type }] });
+  });
+
+  const groupedResults = [...grouped.values()]
+    .sort((a, b) => b.sources.length - a.sources.length || a.pg.localeCompare(b.pg));
+
+  // within each group, sort sources by year (newest to oldest) then by set name
+  groupedResults.forEach(group => {
+    group.sources.sort((a, b) => b.question.set.year - a.question.set.year || a.question.set.name.localeCompare(b.question.set.name));
+  });
+
+  resultsSummary.textContent = `Found ${filteredResults.length} result${filteredResults.length === 1 ? '' : 's'} across ${groupedResults.length} pronunciation guide${groupedResults.length === 1 ? '' : 's'} for ${currentWord}:`;
+  groupedResults.forEach(createResultRow);
+  resultsContainer.classList.remove('d-none');
+  noResults.classList.add('d-none');
 }
 
 async function search (word) {
@@ -61,18 +135,20 @@ async function search (word) {
     }
 
     const { tossups, bonuses } = await response.json();
-    const totalCount = tossups.length + bonuses.length;
+    const allResults = [
+      ...tossups.map(tossup => ({ pg: tossup.pg, question: tossup, type: 'tossup' })),
+      ...bonuses.map(bonus => ({ pg: bonus.pg, question: bonus, type: 'bonus' }))
+    ];
+    const totalCount = allResults.length;
 
     if (totalCount === 0) {
       noResults.classList.remove('d-none');
       return;
     }
 
-    resultsSummary.textContent = `Found ${totalCount} result${totalCount === 1 ? '' : 's'} for ${word}:`;
-    document.getElementById('tbody').innerHTML = '';
-    tossups.forEach(tossup => createResultRow({ pg: tossup.pg, question: tossup, type: 'tossup' }));
-    bonuses.forEach(bonus => createResultRow({ pg: bonus.pg, question: bonus, type: 'bonus' }));
-    resultsContainer.classList.remove('d-none');
+    currentWord = word;
+    currentResults = allResults;
+    renderResults();
   } catch (err) {
     window.alert('An error occurred while searching. Please try again.');
     throw err;
@@ -80,3 +156,6 @@ async function search (word) {
     document.getElementById('spinner').classList.add('d-none');
   }
 }
+
+document.getElementById('toggle-standard-only').addEventListener('change', renderResults);
+document.getElementById('toggle-exclude-ms-hs').addEventListener('change', renderResults);
