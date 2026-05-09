@@ -59,10 +59,11 @@ function createResultRow ({ pg, sources }) {
   sourceTable.setAttribute('aria-label', 'Pronunciation guide source rows');
   const sourceThead = sourceTable.createTHead();
   const headerRow = sourceThead.insertRow();
-  ['Set', 'Type', 'Difficulty', 'Category', 'Link'].forEach(text => {
+  [['Set', ''], ['Type', 'd-none d-md-table-cell'], ['Category', 'd-none d-lg-table-cell']].forEach(([text, className]) => {
     const th = document.createElement('th');
     th.setAttribute('scope', 'col');
     th.textContent = text;
+    th.className = className;
     headerRow.appendChild(th);
   });
   const sourceTbody = document.createElement('tbody');
