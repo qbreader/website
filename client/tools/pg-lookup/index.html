@@ -25,14 +25,26 @@
 
         <div id="results-container" class="d-none">
             <div id="results-summary"></div>
+            <div class="row g-2 mb-3 mt-1">
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="set-name-filter">Filter by set name</label>
+                    <input type="text" class="form-control" id="set-name-filter" placeholder="e.g. Terrapin">
+                </div>
+                <div class="col-6 col-md-3">
+                    <label class="form-label" for="min-difficulty-filter">Min difficulty</label>
+                    <input type="number" class="form-control" id="min-difficulty-filter" min="0" max="10" placeholder="0">
+                </div>
+                <div class="col-6 col-md-3">
+                    <label class="form-label" for="max-difficulty-filter">Max difficulty</label>
+                    <input type="number" class="form-control" id="max-difficulty-filter" min="0" max="10" placeholder="10">
+                </div>
+            </div>
             <table class="table table-hover" id="table">
                 <thead>
                     <tr>
                         <th scope="col">Pronunciation Guide</th>
-                        <th scope="col">Set</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Link</th>
+                        <th scope="col">Frequency</th>
+                        <th scope="col">Sources</th>
                     </tr>
                 </thead>
                 <tbody id="tbody"></tbody>
