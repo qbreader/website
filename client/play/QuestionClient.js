@@ -200,7 +200,8 @@ function setShowSetName (showSetName) {
   }
 }
 
-setShowSetName(window.localStorage.getItem('show-set-name') !== 'false');
+const storedShowSetName = window.localStorage.getItem('show-set-name');
+setShowSetName(storedShowSetName === null ? true : storedShowSetName === 'true');
 
 const banners = {};
 
