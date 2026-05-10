@@ -5,6 +5,8 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
   constructor (name, categoryManager, supportedQuestionTypes = ['bonuses']) {
     super(name, categoryManager, supportedQuestionTypes);
 
+    this.timeoutId = null;
+
     this.bonus = {};
     this.bonusProgress = BONUS_PROGRESS_ENUM.NOT_STARTED;
     /**
@@ -17,7 +19,6 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
      */
     this.pointsPerPart = [];
 
-    this.readingTimeoutID = null;
     this.bonusQuestionSplit = [];
     this.bonusWordIndex = 0;
 
@@ -40,7 +41,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
       case 'set-reading-speed': return this.setReadingSpeed({ userId, username }, message);
       case 'start-bonus-answer': return this.startBonusAnswer({ userId, username }, message);
       case 'toggle-bonus-part': return this.toggleBonusPart({ userId, username }, message);
-      case 'toggle-read-bonus-like-a-tossup': return this.toggleReadBonusLikeATossup({ userId, username }, message);
+      case 'toggle-read-bonuses-like-tossups': return this.toggleReadBonusesLikeTossups({ userId, username }, message);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses({ userId, username }, message);
       default: return super.message({ userId, username }, message);
     }
@@ -56,8 +57,8 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     if (this.queryingQuestion) { return false; }
     if (this.bonusProgress === BONUS_PROGRESS_ENUM.READING && !this.settings.skip) { return false; }
 
-    clearTimeout(this.readingTimeoutID);
     clearInterval(this.timer.interval);
+    clearTimeout(this.timeoutId);
     this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
 
     const lastPartRevealed = this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
@@ -82,6 +83,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
     this.liveAnswer = '';
     clearInterval(this.timer.interval);
+    clearTimeout(this.timeoutId);
     this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
     const { directive, directedPrompt } = this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
@@ -174,7 +176,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.bonus = await this.getNextQuestion('bonuses');
     this.queryingQuestion = false;
     if (!this.bonus) { return; }
-    clearTimeout(this.readingTimeoutID);
+    clearTimeout(this.timeoutId);
     this.emitMessage({ type: 'start-next-bonus', packetLength: this.packet.bonuses.length, bonus: this.bonus, userId, username });
     this.currentPartNumber = -1;
     this.pointsPerPart = [];
@@ -254,7 +256,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     time = time * 0.9 * (140 - this.settings.readingSpeed);
     const delay = time - Date.now() + expectedReadTime;
 
-    this.readingTimeoutID = setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
       this.readBonusWord(time + expectedReadTime, onComplete);
     }, delay);
   }
@@ -267,9 +269,9 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.emitMessage({ type: 'set-reading-speed', username, readingSpeed });
   }
 
-  toggleReadBonusLikeATossup ({ username }, { readBonusLikeATossup }) {
+  toggleReadBonusesLikeTossups ({ username }, { readBonusLikeATossup }) {
     this.settings.readBonusLikeATossup = !!readBonusLikeATossup;
-    this.emitMessage({ type: 'toggle-read-bonus-like-a-tossup', readBonusLikeATossup: this.settings.readBonusLikeATossup, username });
+    this.emitMessage({ type: 'toggle-read-bonuses-like-tossups', readBonusLikeATossup: this.settings.readBonusLikeATossup, username });
   }
 };
 

@@ -20,7 +20,7 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
       case 'start-bonus-answer': return this.startBonusAnswer(data);
       case 'start-next-bonus': return this.startNextBonus(data);
       case 'toggle-bonus-part': return this.toggleBonusPart(data);
-      case 'toggle-read-bonus-like-a-tossup': return this.toggleReadBonusLikeATossup(data);
+      case 'toggle-read-bonuses-like-tossups': return this.toggleReadBonusesLikeTossups(data);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
       case 'update-bonus-question': return this.updateBonusQuestion(data);
       default: return super.onmessage(message);
@@ -63,10 +63,8 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
 
   revealNextPart ({ bonusEligibleTeamId, currentPartNumber, part, value }) {
     document.getElementById('reveal').disabled = !(
-      !this.room.settings.readBonusLikeATossup && (
-        bonusEligibleTeamId === undefined ||
-        bonusEligibleTeamId === this.room.players[this.USER_ID]?.teamId
-      )
+      bonusEligibleTeamId === undefined ||
+      bonusEligibleTeamId === this.room.players[this.USER_ID]?.teamId
     );
 
     const input = document.createElement('input');
@@ -127,8 +125,8 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     document.getElementById('toggle-three-part-bonuses').checked = threePartBonuses;
   }
 
-  toggleReadBonusLikeATossup ({ readBonusLikeATossup }) {
-    document.getElementById('toggle-read-bonus-like-a-tossup').checked = readBonusLikeATossup;
+  toggleReadBonusesLikeTossups ({ readBonusLikeATossup }) {
+    document.getElementById('toggle-read-bonuses-like-tossups').checked = readBonusLikeATossup;
     document.getElementById('reading-speed-container').classList.toggle('d-none', !readBonusLikeATossup);
   }
 

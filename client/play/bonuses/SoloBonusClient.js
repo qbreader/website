@@ -119,8 +119,8 @@ export default class SoloBonusClient extends BonusClient {
     window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
-  toggleReadBonusLikeATossup ({ readBonusLikeATossup }) {
-    super.toggleReadBonusLikeATossup({ readBonusLikeATossup });
+  toggleReadBonusesLikeTossups ({ readBonusLikeATossup }) {
+    super.toggleReadBonusesLikeTossups({ readBonusLikeATossup });
     window.localStorage.setItem('singleplayer-bonus-settings', JSON.stringify({ ...this.room.settings, version: settingsVersion }));
   }
 
