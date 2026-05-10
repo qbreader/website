@@ -117,6 +117,11 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     }
   }
 
+  setReadingSpeed ({ readingSpeed }) {
+    document.getElementById('reading-speed').value = readingSpeed;
+    document.getElementById('reading-speed-display').textContent = readingSpeed;
+  }
+
   toggleBonusPart ({ partNumber, correct }) {
     document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
   }
@@ -128,11 +133,6 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
   toggleReadBonusesLikeTossups ({ readBonusLikeATossup }) {
     document.getElementById('toggle-read-bonuses-like-tossups').checked = readBonusLikeATossup;
     document.getElementById('reading-speed-container').classList.toggle('d-none', !readBonusLikeATossup);
-  }
-
-  setReadingSpeed ({ readingSpeed }) {
-    document.getElementById('reading-speed').value = readingSpeed;
-    document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
   updateBonusQuestion ({ word, currentPartNumber }) {
