@@ -192,16 +192,13 @@ function polyfillSetNameInput () {
 }
 polyfillSetNameInput();
 
-function setShowSetName (showSetName) {
-  document.getElementById('set-name-info')?.classList.toggle('d-none', !showSetName);
-  const toggle = document.getElementById('toggle-show-set-name');
-  if (toggle) {
-    toggle.checked = showSetName;
-  }
+function toggleShowSetName (showSetName) {
+  document.getElementById('set-name-info').classList.toggle('d-none', !showSetName);
+  document.getElementById('toggle-show-set-name').checked = showSetName;
 }
 
-const storedShowSetName = window.localStorage.getItem('show-set-name');
-setShowSetName(storedShowSetName === null ? true : storedShowSetName === 'true');
+const storedShowSetName = window.localStorage.getItem('toggle-show-set-name');
+toggleShowSetName(storedShowSetName === null ? true : storedShowSetName === 'true');
 
 const banners = {};
 
@@ -286,8 +283,8 @@ function attachEventListeners (room, socket) {
 
   document.getElementById('toggle-show-set-name')?.addEventListener('click', function () {
     this.blur();
-    setShowSetName(this.checked);
-    window.localStorage.setItem('show-set-name', this.checked);
+    toggleShowSetName(this.checked);
+    window.localStorage.setItem('toggle-show-set-name', this.checked);
   });
 
   document.getElementById('toggle-standard-only').addEventListener('click', function () {
