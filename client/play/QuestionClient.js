@@ -195,10 +195,13 @@ polyfillSetNameInput();
 function toggleShowSetName (showSetName) {
   document.getElementById('set-name-info').classList.toggle('d-none', !showSetName);
   document.getElementById('toggle-show-set-name').checked = showSetName;
+  document.getElementById('packet-number-info').classList.toggle('d-none', !showSetName);
+  document.getElementById('question-number-info').classList.toggle('d-none', !showSetName);
+  document.getElementById('packet-length-info').classList.toggle('d-none', !showSetName);
+  for (const e of document.getElementsByClassName('placeholder')) {
+    e.classList.toggle('d-none', showSetName);
+  }
 }
-
-const storedShowSetName = window.localStorage.getItem('toggle-show-set-name');
-toggleShowSetName(storedShowSetName === null ? true : storedShowSetName === 'true');
 
 const banners = {};
 
@@ -284,7 +287,6 @@ function attachEventListeners (room, socket) {
   document.getElementById('toggle-show-set-name')?.addEventListener('click', function () {
     this.blur();
     toggleShowSetName(this.checked);
-    window.localStorage.setItem('toggle-show-set-name', this.checked);
   });
 
   document.getElementById('toggle-standard-only').addEventListener('click', function () {
