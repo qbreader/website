@@ -6,10 +6,10 @@ import playRouter from './play/index.js';
 import userRouter from './user.js';
 
 import redirectsRouter from './redirects.js';
+import ssiMiddleware from './ssi-middleware.js';
 
 import cors from 'cors';
 import express, { Router } from 'express';
-import includeVirtualMiddleware from './include-virtual-middleware.js';
 const router = Router();
 
 router.get('/*.scss', (req, res) => res.sendFile(req.url, { root: './scss' }));
@@ -28,7 +28,7 @@ router.use('/user', userRouter);
 
 router.use('/quizbowl', express.static('quizbowl'));
 
-router.use(includeVirtualMiddleware);
+router.use(ssiMiddleware);
 router.use(express.static('client', { extensions: ['html'] }));
 router.use(express.static('node_modules'));
 
