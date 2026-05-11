@@ -5,10 +5,10 @@ import { QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constan
 export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(TossupBonusRoom) {
   constructor (name, ownerId, isPermanent, categoryManager, isVerified = false) {
     super(name, ownerId, isPermanent, categoryManager, ['tossups', 'bonuses'], isVerified);
+    this.EARLY_CORRECT_CELERITY_THRESHOLD = 0.85;
   }
 
   giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
-    // Allow live updates during bonuses (when buzzedIn is null) or from the user who buzzed
     switch (this.currentQuestionType) {
       case QUESTION_TYPE_ENUM.TOSSUP:
         if (userId !== this.buzzedIn) { return false; }
@@ -20,8 +20,30 @@ export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(To
     super.giveAnswerLiveUpdate({ userId, username }, { givenAnswer });
   }
 
+  giveTossupAnswer ({ userId, username }, { givenAnswer }) {
+    if (typeof givenAnswer !== 'string') { return false; }
+    if (this.buzzedIn !== userId) { return false; }
+
+    if (Object.keys(this.tossup || {}).length === 0) { return; }
+
+    const { celerity, directive } = this.scoreTossup({ givenAnswer });
+
+    if (directive === 'accept' && celerity >= this.EARLY_CORRECT_CELERITY_THRESHOLD) {
+      const shouldKick = this.players[userId].recordEarlyCorrect();
+      if (shouldKick) {
+        console.log(`Bot detected: User ${userId} (${username}) got 3 correct with abnormally high celerity. Kicking.`);
+        this.emitMessage({ type: 'bot-kicked', userId, username });
+        setTimeout(() => this.closeConnection({ userId, username }), 100);
+        return;
+      }
+    } else {
+      this.players[userId].resetBotDetectionCounter();
+    }
+
+    super.giveTossupAnswer({ userId, username }, { givenAnswer });
+  }
+
   next ({ userId, username }) {
-    // prevents spam-skipping trolls
     if (
       this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP &&
       this.tossupProgress === TOSSUP_PROGRESS_ENUM.READING &&
