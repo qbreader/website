@@ -5,6 +5,7 @@ import TossupBonusClient from '../TossupBonusClient.js';
 import { arrayToRange } from '../ranges.js';
 import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
+import { showAlert } from './alert.js';
 
 export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
@@ -50,19 +51,14 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   // if a banned/kicked user tries to join a this.room they were removed from this is the response
   ackRemovedFromRoom ({ removalType }) {
-    if (removalType === 'kick') {
-      window.alert('You were kicked from this room by room players, and cannot rejoin it.');
-    } else {
-      window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
-    }
-    setTimeout(() => {
-      window.location.replace('../');
-    }, 100);
+    const message = removalType === 'kick'
+      ? 'You were kicked from this room by room players, and cannot rejoin it.'
+      : 'You were banned from this room by the room owner, and cannot rejoin it.';
+    showAlert(message, () => window.location.replace('../'));
   }
 
   adminLock ({ message }) {
-    window.alert(message);
-    window.location.replace('/play/mp');
+    showAlert(message, () => window.location.replace('/play/mp'));
   }
 
   buzz ({ userId, username }) {
@@ -121,10 +117,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   confirmBan ({ targetId, targetUsername }) {
     if (targetId === this.USER_ID) {
-      window.alert('You were banned from this room by the room owner.');
-      setTimeout(() => {
-        window.location.replace('../');
-      }, 100);
+      showAlert('You were banned from this room by the room owner.', () => window.location.replace('../'));
     } else {
       this.logEventConditionally(targetUsername + ' has been banned from this room.');
     }
@@ -301,12 +294,12 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   failedVotekickPoints ({ userId }) {
     if (userId === this.USER_ID) {
-      window.alert('You can only votekick once you have answered a question correctly!');
+      showAlert('You can only votekick once you have answered a question correctly!');
     }
   }
 
   forceUsername ({ message, username }) {
-    window.alert(message);
+    showAlert(message);
     window.localStorage.setItem('multiplayer-username', username);
     document.querySelector('#username').value = username;
   }
@@ -378,8 +371,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   handleError ({ message }) {
     this.socket.close(3000);
-    window.alert(message);
-    window.location.href = '/multiplayer';
+    showAlert(message, () => { window.location.href = '/multiplayer'; });
   }
 
   join ({ isNew, team, user, userId, username }) {
@@ -764,10 +756,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   vkHandle ({ targetUsername, targetId }) {
     if (this.USER_ID === targetId) {
-      window.alert('You were vote kicked from this room by others.');
-      setTimeout(() => {
-        window.location.replace('../');
-      }, 100);
+      showAlert('You were vote kicked from this room by others.', () => window.location.replace('../'));
     } else {
       this.logEventConditionally(targetUsername + ' has been vote kicked from this room.');
     }
@@ -793,6 +782,5 @@ function attachEventListeners (room, socket, client) {
     });
   });
 }
-
 const MultiplayerTossupBonusClient = MultiplayerClientMixin(TossupBonusClient);
 export default MultiplayerTossupBonusClient;

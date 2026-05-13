@@ -9,6 +9,12 @@
     <!--#include virtual="/nav/index.html" -->
 
     <div class="container-fluid mt-3 mb-5 pb-5 px-xxl-5">
+        <div id="alert-box" role="alertdialog" aria-modal="true" aria-labelledby="alert-box-text" style="display: none;">
+            <div id="alert-box-dialog">
+                <p id="alert-box-text" class="alert-text"></p>
+                <button class="close-button btn btn-primary">OK</button>
+            </div>
+        </div>
         <div class="toast-container position-fixed top-0 end-0 p-3">
             <div id="star-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
