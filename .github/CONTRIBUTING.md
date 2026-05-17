@@ -2,6 +2,8 @@ Users interested in contributing to this repository should read this document be
 
 # Running the Server
 
+**Important:** Comment out lines 1-3 of [ip-filter.js](server\moderation\ip-filter.js) and add `const ips = [];` to that same file before running the server or you will get a MongoDB find error. 
+
 If you're interested in running the server locally or deploying a clone, please **contact me** on discord at [thedoge42](https://discord.com/users/298250592135020545) so I can give you (read-only) credentials to the MongoDB server.
 
 1. Clone the repository and navigate to its root directory.
