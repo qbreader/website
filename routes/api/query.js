@@ -4,9 +4,8 @@ import * as validateEnum from '../validators/enum.js';
 import * as validateInt from '../validators/int.js';
 import validateCategoryBundle from '../validators/category-bundle.js';
 
-import { MAX_QUERY_RETURN_LENGTH } from '../../constants.js';
+import { MAX_QUERY_RETURN_LENGTH, MIN_YEAR } from '../../quizbowl/constants.js';
 import getQuery from '../../database/qbreader/get-query.js';
-import { MIN_YEAR } from '../../quizbowl/constants.js';
 
 import { Router } from 'express';
 const router = Router();

@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
-    <!--#include virtual="/head.html" -->
+    <!--#include virtual="/ssi/head.html" -->
     <meta name="description" content="A text-based quizbowl packet reader to read bonuses to yourself.">
 </head>
 
 <body>
-    <!--#include virtual="/nav/index.html" -->
+    <!--#include virtual="/ssi/nav.html" -->
 
     <div class="container-fluid mt-3 mb-5 pb-5 px-xxl-5">
         <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -85,8 +85,20 @@
                         <label class="form-check-label" for="toggle-show-history">Show question history</label>
                     </div>
                     <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-show-set-name" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-show-set-name">Show set name</label>
+                    </div>
+                    <div class="form-check form-switch">
                         <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked>
                         <label class="form-check-label" for="toggle-timer">Enable timer</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-read-bonuses-like-tossups" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-read-bonuses-like-tossups">Read bonuses like tossups</label>
+                    </div>
+                    <div class="d-none" id="reading-speed-container">
+                        <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                        <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5" value="50">
                     </div>
                     <div class="mb-2"></div>
                     <label for="set-strictness">Strictness: <span id="strictness-display">7</span><br></label>
@@ -121,9 +133,9 @@
                     <span class="ps-5 me-lg-2" id="question-metadata">
                         <b id="question-info">
                             <span id="set-name-info"></span>
-                            Packet <span id="packet-number-info">-</span>
-                            Question <span id="question-number-info">-</span>
-                            of <span id="packet-length-info">-</span>
+                            Packet <span id="packet-number-info">-</span><span class="d-none placeholder">-</span>
+                            Question <span id="question-number-info">-</span><span class="d-none placeholder">-</span>
+                            of <span id="packet-length-info">-</span><span class="d-none placeholder">-</span>
                         </b>
                     </span>
                 </div>

@@ -192,6 +192,17 @@ function polyfillSetNameInput () {
 }
 polyfillSetNameInput();
 
+function toggleShowSetName (showSetName) {
+  document.getElementById('set-name-info').classList.toggle('d-none', !showSetName);
+  document.getElementById('toggle-show-set-name').checked = showSetName;
+  document.getElementById('packet-number-info').classList.toggle('d-none', !showSetName);
+  document.getElementById('question-number-info').classList.toggle('d-none', !showSetName);
+  document.getElementById('packet-length-info').classList.toggle('d-none', !showSetName);
+  for (const e of document.getElementsByClassName('placeholder')) {
+    e.classList.toggle('d-none', showSetName);
+  }
+}
+
 const banners = {};
 
 account.getUsername().then(username => {
@@ -271,6 +282,11 @@ function attachEventListeners (room, socket) {
   document.getElementById('toggle-show-history').addEventListener('click', function () {
     this.blur();
     document.getElementById('room-history').classList.toggle('d-none', !this.checked);
+  });
+
+  document.getElementById('toggle-show-set-name')?.addEventListener('click', function () {
+    this.blur();
+    toggleShowSetName(this.checked);
   });
 
   document.getElementById('toggle-standard-only').addEventListener('click', function () {

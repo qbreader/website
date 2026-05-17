@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="Look up pronunciation guides for words and phrases in the QB Reader database.">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container mt-3 mb-5">
+        <h2>Pronunciation Guide Lookup</h2>
+        <p>
+            Enter a word or phrase to find all pronunciation guides (PGs) for it in the database,
+            along with links to the source questions.
+        </p>
+        <form class="mb-3" id="form">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="word-input" placeholder="word to find pronounciation guide for"
+                    aria-label="Word or phrase" autocomplete="off" required>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+            <div class="form-check form-switch">
+                <input class='form-check-input' type='checkbox' role='switch' id='toggle-standard-only' checked />
+                <label class='form-check-label' for='toggle-standard-only'>Standard sets only</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class='form-check-input' type='checkbox' role='switch' id='toggle-exclude-ms-hs' />
+                <label class='form-check-label' for='toggle-exclude-ms-hs'>Exclude MS/HS sets</label>
+            </div>
+        </form>
+
+        <div id="results-container" class="d-none">
+            <div id="results-summary"></div>
+            <table class="table table-hover" id="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Pronunciation Guide</th>
+                        <th scope="col">Sources</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+
+        <div id="no-results" class="d-none text-muted">
+            No pronunciation guides found.
+        </div>
+
+        <div class="d-block mx-auto mt-3 spinner-border d-none" id="spinner" role="status">
+            <span class="d-none">Loading...</span>
+        </div>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>

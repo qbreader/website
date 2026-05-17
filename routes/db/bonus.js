@@ -7,11 +7,11 @@ import { Router } from 'express';
 import fs from 'fs';
 const router = Router();
 
-const head = fs.readFileSync('./client/head.html', 'utf8');
-const nav = fs.readFileSync('./client/nav/index.html', 'utf8');
+const head = fs.readFileSync('./client/ssi/head.html', 'utf8');
+const nav = fs.readFileSync('./client/ssi/nav.html', 'utf8');
 const file = fs.readFileSync('./client/db/bonus/index.html', 'utf8')
-  .replace('<!--#include virtual="/head.html" -->', head)
-  .replace('<!--#include virtual="/nav/index.html" -->', nav);
+  .replace('<!--#include virtual="/ssi/head.html" -->', head)
+  .replace('<!--#include virtual="/ssi/nav.html" -->', nav);
 
 function removeParentheses (answer) {
   return answer.replace(/[([].*/g, '');

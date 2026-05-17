@@ -3,6 +3,9 @@ export const MAX_YEAR = 2026;
 export const DEFAULT_MIN_YEAR = 2010;
 export const DEFAULT_MAX_YEAR = MAX_YEAR;
 
+export const DEFAULT_QUERY_RETURN_LENGTH = 25;
+export const MAX_QUERY_RETURN_LENGTH = 10000;
+
 export const DIFFICULTIES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const ANSWER_TIME_LIMIT = 10; // time to give answer after buzzing

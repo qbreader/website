@@ -34,6 +34,11 @@ function QueryForm () {
 
   // query form
   const initialParams = new window.URLSearchParams(window.location.search);
+  categoryManager.import({
+    categories: initialParams.get('categories') ? initialParams.get('categories').split(',') : [],
+    subcategories: initialParams.get('subcategories') ? initialParams.get('subcategories').split(',') : [],
+    alternateSubcategories: initialParams.get('alternateSubcategories') ? initialParams.get('alternateSubcategories').split(',') : []
+  });
   const [queryString, setQueryString] = React.useState(initialParams.get('queryString') ?? '');
   const [maxReturnLength, setMaxReturnLength] = React.useState(initialParams.get('maxReturnLength') ?? '');
   const [setName, setSetName] = React.useState(initialParams.get('setName') ?? '');

@@ -16,10 +16,13 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
       case 'reveal-leadin': return this.revealLeadin(data);
       case 'reveal-next-answer': return this.revealNextAnswer(data);
       case 'reveal-next-part': return this.revealNextPart(data);
+      case 'set-reading-speed': return this.setReadingSpeed(data);
       case 'start-bonus-answer': return this.startBonusAnswer(data);
       case 'start-next-bonus': return this.startNextBonus(data);
       case 'toggle-bonus-part': return this.toggleBonusPart(data);
+      case 'toggle-read-bonuses-like-tossups': return this.toggleReadBonusesLikeTossups(data);
       case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
+      case 'update-bonus-question': return this.updateBonusQuestion(data);
       default: return super.onmessage(message);
     }
   }
@@ -114,12 +117,30 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     }
   }
 
+  setReadingSpeed ({ readingSpeed }) {
+    document.getElementById('reading-speed').value = readingSpeed;
+    document.getElementById('reading-speed-display').textContent = readingSpeed;
+  }
+
   toggleBonusPart ({ partNumber, correct }) {
     document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
   }
 
   toggleThreePartBonuses ({ threePartBonuses }) {
     document.getElementById('toggle-three-part-bonuses').checked = threePartBonuses;
+  }
+
+  toggleReadBonusesLikeTossups ({ readBonusLikeATossup }) {
+    document.getElementById('toggle-read-bonuses-like-tossups').checked = readBonusLikeATossup;
+    document.getElementById('reading-speed-container').classList.toggle('d-none', !readBonusLikeATossup);
+  }
+
+  updateBonusQuestion ({ word, currentPartNumber }) {
+    if (currentPartNumber === -1) {
+      document.getElementById('leadin').innerHTML += word + ' ';
+    } else {
+      document.getElementById(`bonus-part-${currentPartNumber + 1}`).querySelector('p').innerHTML += word + ' ';
+    }
   }
 };
 

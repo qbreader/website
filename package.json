@@ -1,13 +1,13 @@
 {
     "name": "qbreader",
-    "version": "7.6.10",
+    "version": "26.04",
     "type": "module",
     "scripts": {
         "build": "npm run webpack && npm run sass",
         "dev": "npm run build && npm run start",
         "lint": "npx semistandard --fix",
         "sass": "sass scss/custom.scss client/style.css --style compressed",
-        "start": "node index.js",
+        "start": "node server.js",
         "webpack": "webpack --config webpack.config.js"
     },
     "dependencies": {
@@ -26,7 +26,7 @@
         "nodemailer": "^8.0.4",
         "qb-answer-checker": "^1.1.9",
         "stripe": "^12.10.0",
-        "uuid": "^8.3.2",
+        "uuid": "^14.0.0",
         "ws": "^8.8.0"
     },
     "devDependencies": {

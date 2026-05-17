@@ -9,7 +9,7 @@ import SoloBonusClient from './SoloBonusClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
-const settingsVersion = '2024-11-02';
+const settingsVersion = '2026-05-10';
 
 const USER_ID = 'user';
 const TEAM_ID = 'team';
@@ -38,9 +38,22 @@ document.getElementById('local-packet-input').addEventListener('change', functio
   reader.readAsText(file);
 });
 
+document.getElementById('reading-speed').addEventListener('change', function () {
+  socket.sendToServer({ type: 'set-reading-speed', readingSpeed: this.value });
+});
+
+document.getElementById('reading-speed').addEventListener('input', function () {
+  document.getElementById('reading-speed-display').textContent = this.value;
+});
+
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
+});
+
+document.getElementById('toggle-read-bonuses-like-tossups').addEventListener('click', function () {
+  this.blur();
+  socket.sendToServer({ type: 'toggle-read-bonuses-like-tossups', readBonusLikeATossup: this.checked });
 });
 
 document.getElementById('toggle-three-part-bonuses').addEventListener('click', function () {
@@ -114,6 +127,10 @@ if (window.localStorage.getItem('singleplayer-bonus-settings')) {
     socket.sendToServer({ type: 'set-strictness', ...savedSettings });
     socket.sendToServer({ type: 'toggle-timer', ...savedSettings });
     socket.sendToServer({ type: 'toggle-type-to-answer', ...savedSettings });
+    socket.sendToServer({ type: 'toggle-read-bonuses-like-tossups', readBonusLikeATossup: savedSettings.readBonusLikeATossup });
+    if (savedSettings.readingSpeed !== undefined) {
+      socket.sendToServer({ type: 'set-reading-speed', readingSpeed: savedSettings.readingSpeed });
+    }
   } catch {
     window.localStorage.removeItem('singleplayer-bonus-settings');
   }
