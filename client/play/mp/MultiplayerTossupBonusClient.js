@@ -115,7 +115,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     for (const field of ['celerity', 'negs', 'points', 'powers', 'tens', 'tuh', 'zeroes']) {
       player[field] = 0;
     }
-    upsertPlayerItem(player, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[player.teamId] });
+    const team = this.room.teams[player.teamId];
+    if (team) { team.bonusStats = { 0: 0, 10: 0, 20: 0, 30: 0 }; }
+    upsertPlayerItem(player, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team });
     this.sortPlayerListGroup();
   }
 
