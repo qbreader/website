@@ -6,6 +6,8 @@ export const USERNAME_MAX_LENGTH = 32;
 export const MAX_ONLINE_PLAYERS = 500;
 export const MAX_CONNECTIONS_PER_IP = 50;
 
+export const EARLY_CORRECT_CELERITY_THRESHOLD = 0.95;
+
 /**
  * List of multiplayer permanent room names.
  */

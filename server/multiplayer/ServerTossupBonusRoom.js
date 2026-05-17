@@ -1,3 +1,4 @@
+import { EARLY_CORRECT_CELERITY_THRESHOLD } from './constants.js';
 import ServerMultiplayerRoomMixin from './ServerMultiplayerRoomMixin.js';
 import TossupBonusRoom from '../../quizbowl/TossupBonusRoom.js';
 import { QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
@@ -5,7 +6,6 @@ import { QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constan
 export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(TossupBonusRoom) {
   constructor (name, ownerId, isPermanent, categoryManager, isVerified = false) {
     super(name, ownerId, isPermanent, categoryManager, ['tossups', 'bonuses'], isVerified);
-    this.EARLY_CORRECT_CELERITY_THRESHOLD = 0.85;
   }
 
   giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
@@ -28,7 +28,7 @@ export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(To
 
     const { celerity, directive } = this.scoreTossup({ givenAnswer });
 
-    if (directive === 'accept' && celerity >= this.EARLY_CORRECT_CELERITY_THRESHOLD) {
+    if (directive === 'accept' && celerity >= EARLY_CORRECT_CELERITY_THRESHOLD) {
       const shouldKick = this.players[userId].recordEarlyCorrect();
       if (shouldKick) {
         console.log(`Bot detected: User ${userId} (${username}) got 3 correct with abnormally high celerity. Kicking.`);
