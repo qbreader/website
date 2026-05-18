@@ -21,16 +21,22 @@ const DOMPurify = createDOMPurify(window);
 export const tossupBonusRooms = {};
 const connectionsByIp = new Map();
 for (const room of PERMANENT_ROOMS) {
-  const { name, categories, subcategories } = room;
-  tossupBonusRooms[name] = new ServerTossupBonusRoom(
+  const { name, categories, subcategories, difficulties, fixedDifficulties = false } = room;
+  const r = new ServerTossupBonusRoom(
     name, Symbol('unique permanent room owner'), true, new CategoryManager(categories, subcategories), false
   );
+  if (difficulties) { r.query.difficulties = difficulties; }
+  r.fixedDifficulties = fixedDifficulties;
+  tossupBonusRooms[name] = r;
 }
 for (const room of VERIFIED_ROOMS) {
-  const { name, categories, subcategories } = room;
-  tossupBonusRooms[name] = new ServerTossupBonusRoom(
+  const { name, categories, subcategories, difficulties, fixedDifficulties = false } = room;
+  const r = new ServerTossupBonusRoom(
     name, Symbol('unique verified room owner'), true, new CategoryManager(categories, subcategories), true
   );
+  if (difficulties) { r.query.difficulties = difficulties; }
+  r.fixedDifficulties = fixedDifficulties;
+  tossupBonusRooms[name] = r;
 }
 
 /**

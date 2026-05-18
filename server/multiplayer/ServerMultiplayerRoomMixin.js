@@ -24,6 +24,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.ownerId = ownerId;
     this.isPermanent = isPermanent;
     this.isVerified = isVerified;
+    this.fixedDifficulties = false;
     this.checkAnswer = checkAnswer;
     this.getPacketCount = getNumPackets;
 
@@ -148,6 +149,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       canBuzz: this.settings.rebuzz || !this.buzzes.includes(userId),
       currentQuestionType: this.currentQuestionType,
       isPermanent: this.isPermanent,
+      fixedDifficulties: this.fixedDifficulties,
       isVerified: this.isVerified,
       mode: this.mode,
       ownerId: this.ownerId,
@@ -278,7 +280,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   setDifficulties ({ userId, username }, { difficulties }) {
-    if (this.isPermanent || !this.allowed(userId)) { return; }
+    if (this.fixedDifficulties || !this.allowed(userId)) { return; }
     super.setDifficulties({ userId, username }, { difficulties });
   }
 

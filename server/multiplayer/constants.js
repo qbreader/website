@@ -13,17 +13,23 @@ export const PERMANENT_ROOMS = [
   {
     name: 'msquizbowl',
     categories: CATEGORIES,
-    subcategories: SUBCATEGORIES
+    subcategories: SUBCATEGORIES,
+    difficulties: [1],
+    fixedDifficulties: true
   },
   {
     name: 'hsquizbowl',
     categories: CATEGORIES,
-    subcategories: SUBCATEGORIES
+    subcategories: SUBCATEGORIES,
+    difficulties: [2, 3],
+    fixedDifficulties: true
   },
   {
     name: 'collegequizbowl',
     categories: CATEGORIES,
-    subcategories: SUBCATEGORIES
+    subcategories: SUBCATEGORIES,
+    difficulties: [7, 8, 9],
+    fixedDifficulties: true
   },
   {
     name: 'literature',
