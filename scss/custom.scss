@@ -152,36 +152,3 @@ a.list-group-item:hover {
     min-height: 90px;
 }
 
-#alert-box {
-    position: fixed;
-    inset: 0;
-    z-index: 1060;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 1;
-    transition: opacity 0.15s ease;
-}
-
-#alert-box-dialog {
-    background-color: var(--bs-body-bg);
-    color: var(--bs-body-color);
-    border: 1px solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius-lg);
-    padding: 1.5rem;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: var(--alert-dialog-shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    .alert-text {
-        margin: 0;
-    }
-
-    .close-button {
-        align-self: flex-end;
-    }
-}

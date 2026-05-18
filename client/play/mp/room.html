@@ -9,10 +9,17 @@
     <!--#include virtual="/ssi/nav.html" -->
 
     <div class="container-fluid mt-3 mb-5 pb-5 px-xxl-5">
-        <div id="alert-box" role="alertdialog" aria-modal="true" aria-labelledby="alert-box-text" style="display: none;">
-            <div id="alert-box-dialog">
-                <p id="alert-box-text" class="alert-text"></p>
-                <button class="close-button btn btn-primary">OK</button>
+        <div class="modal fade" id="alert-modal" tabindex="-1" aria-labelledby="alert-modal-text" aria-hidden="true"
+            data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p id="alert-modal-text" class="mb-0"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="alert-modal-close" data-bs-dismiss="modal" type="button">OK</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="toast-container position-fixed top-0 end-0 p-3">
