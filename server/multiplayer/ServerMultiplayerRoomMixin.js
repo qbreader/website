@@ -273,51 +273,51 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   setCategories ({ userId, username }, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setCategories({ userId, username }, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
   setDifficulties ({ userId, username }, { difficulties }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setDifficulties({ userId, username }, { difficulties });
   }
 
   setMode ({ userId, username }, { mode }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
     super.setMode({ userId, username }, { mode });
     this.adjustQuery(['setName'], [this.query.setName]);
   }
 
   setPacketNumbers ({ userId, username }, { packetNumbers }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setPacketNumbers({ userId, username }, { doNotFetch: false, packetNumbers });
   }
 
   setReadingSpeed ({ userId, username }, { readingSpeed }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return false; }
+    if (this.isPermanent || !this.allowed(userId)) { return false; }
     super.setReadingSpeed({ userId, username }, { readingSpeed });
   }
 
   async setSetName ({ userId, username }, { setName }) {
-    if (this.settings.controlled || !this.allowed(userId)) { return; }
+    if (!this.allowed(userId)) { return; }
     if (!this.packetList) { return; }
     if (!this.packetList.includes(setName)) { return; }
     super.setSetName({ userId, username }, { doNotFetch: false, setName });
   }
 
   setStrictness ({ userId, username }, { strictness }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setStrictness({ userId, username }, { strictness });
   }
 
   setMinYear ({ userId, username }, { minYear }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setMinYear({ userId, username }, { minYear });
   }
 
   setMaxYear ({ userId, username }, { maxYear }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.setMaxYear({ userId, username }, { maxYear });
   }
 
@@ -346,7 +346,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   toggleEnableBonuses ({ userId, username }, { enableBonuses }) {
-    if (this.isPermanent || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.isPermanent || !this.allowed(userId)) { return; }
     super.toggleEnableBonuses({ userId, username }, { enableBonuses });
   }
 
@@ -368,27 +368,27 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   togglePowermarkOnly ({ userId, username }, { powermarkOnly }) {
-    if (this.settings.controlled || !this.allowed(userId)) { return; }
+    if (!this.allowed(userId)) { return; }
     super.togglePowermarkOnly({ userId, username }, { powermarkOnly });
   }
 
   toggleSkip ({ userId, username }, { skip }) {
-    if (this.settings.controlled || !this.allowed(userId)) { return; }
+    if (!this.allowed(userId)) { return; }
     super.toggleSkip({ userId, username }, { skip });
   }
 
   toggleStandardOnly ({ userId, username }, { standardOnly }) {
-    if (this.settings.controlled || !this.allowed(userId)) { return; }
+    if (!this.allowed(userId)) { return; }
     super.toggleStandardOnly({ userId, username }, { doNotFetch: false, standardOnly });
   }
 
   toggleStopOnPower ({ userId, username }, { stopOnPower }) {
-    if (this.settings.controlled || !this.allowed(userId)) { return; }
+    if (!this.allowed(userId)) { return; }
     super.toggleStopOnPower({ userId, username }, { stopOnPower });
   }
 
   togglePublic ({ userId, username }, { public: isPublic }) {
-    if (this.isPermanent || this.settings.controlled) { return; }
+    if (this.isPermanent) { return; }
     this.settings.public = isPublic;
     if (isPublic) {
       this.settings.lock = false;
@@ -399,12 +399,12 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   toggleRebuzz ({ userId, username }, { rebuzz }) {
-    if (this.settings.controlled || !this.allowed(userId)) { return false; }
+    if (!this.allowed(userId)) { return false; }
     super.toggleRebuzz({ userId, username }, { rebuzz });
   }
 
   toggleTimer ({ userId, username }, { timer }) {
-    if (this.settings.public || this.settings.controlled || !this.allowed(userId)) { return; }
+    if (this.settings.public || !this.allowed(userId)) { return; }
     super.toggleTimer({ userId, username }, { timer });
   }
 

@@ -32,7 +32,7 @@ export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(To
       const shouldKick = this.players[userId].recordEarlyCorrect();
       if (shouldKick) {
         console.log(`Bot detected: User ${userId} (${username}) got 3 correct with abnormally high celerity. Kicking.`);
-        this.emitMessage({ type: 'bot-kicked', userId, username });
+        this.sendToSocket(userId, { type: 'alert', message: 'You were removed for suspected bot behavior.' });
         setTimeout(() => this.closeConnection({ userId, username }), 100);
         return;
       }
