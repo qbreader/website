@@ -175,6 +175,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       document.getElementById('set-strictness').disabled = true;
       document.getElementById('set-mode').disabled = true;
       document.getElementById('toggle-public').disabled = true;
+      document.getElementById('difficulties').querySelectorAll('input').forEach(input => { input.disabled = true; });
       if (isVerified) {
         document.getElementById('toggle-login-required').disabled = true;
       }

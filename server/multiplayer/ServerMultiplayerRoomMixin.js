@@ -277,6 +277,11 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     super.setCategories({ userId, username }, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
+  setDifficulties ({ userId, username }, { difficulties }) {
+    if (this.isPermanent || !this.allowed(userId)) { return; }
+    super.setDifficulties({ userId, username }, { difficulties });
+  }
+
   setMode ({ userId, username }, { mode }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
     if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
