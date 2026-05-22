@@ -1,14 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 
-const head = fs.readFileSync('./client/ssi/head.html', 'utf8');
-const nav = fs.readFileSync('./client/ssi/nav.html', 'utf8');
-const reportQuestionModal = fs.readFileSync('./client/ssi/report-question-modal.html', 'utf8');
+const ssiFileNames = [
+  'funny-toast.html',
+  'head.html',
+  'nav.html',
+  'report-question-modal.html',
+  'star-toast.html'
+];
+
+const ssiFiles = ssiFileNames.map(fileName => fs.readFileSync(`./client/ssi/${fileName}`, 'utf8'));
 
 export function replaceSSI (html) {
-  html = html.replace('<!--#include virtual="/ssi/head.html" -->', head);
-  html = html.replace('<!--#include virtual="/ssi/nav.html" -->', nav);
-  html = html.replace('<!--#include virtual="/ssi/report-question-modal.html" -->', reportQuestionModal);
+  for (let i = 0; i < ssiFileNames.length; i++) {
+    html = html.replace(`<!--#include virtual="/ssi/${ssiFileNames[i]}" -->`, ssiFiles[i]);
+  }
   return html;
 }
 
