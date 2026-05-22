@@ -12,7 +12,7 @@ export default function (req, res, next) {
   if (!filePath.startsWith(path.resolve('./client'))) { return next(); }
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) return next();
-    data = data.replace('<!--#include virtual="/head.html" -->', head);
+    data = data.replace('<!--#include virtual="/ssi/head.html" -->', head);
     data = data.replace('<!--#include virtual="/nav/index.html" -->', nav);
     res.send(data);
   });
