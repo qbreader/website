@@ -9,19 +9,6 @@
     <!--#include virtual="/ssi/nav.html" -->
 
     <div class="container-fluid mt-3 mb-5 pb-5 px-xxl-5">
-        <div class="modal fade" id="alert-modal" tabindex="-1" aria-labelledby="alert-modal-text" aria-hidden="true"
-            data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <p id="alert-modal-text" class="mb-0"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" id="alert-modal-close" data-bs-dismiss="modal" type="button">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="toast-container position-fixed top-0 end-0 p-3">
             <div id="star-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
@@ -259,6 +246,20 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" id="report-question-close" data-bs-dismiss="modal" type="button">Close</button>
                     <button class="btn btn-primary" id="report-question-submit" type="button">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="alert-modal" tabindex="-1" aria-labelledby="alert-modal-text" aria-hidden="true"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="alert-modal-text" class="mb-0"></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="alert-modal-close" data-bs-dismiss="modal" type="button">OK</button>
                 </div>
             </div>
         </div>
