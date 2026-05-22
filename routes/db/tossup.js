@@ -1,3 +1,4 @@
+import { replaceSSI } from '../ssi-middleware.js';
 import * as validateObjectId from '../validators/object-id.js';
 import { escapeHTML } from '../../client/scripts/utilities/strings.js';
 import getTossup from '../../database/qbreader/get-tossup.js';
@@ -7,15 +8,11 @@ import { Router } from 'express';
 import fs from 'fs';
 const router = Router();
 
-const head = fs.readFileSync('./client/ssi/head.html', 'utf8');
-const nav = fs.readFileSync('./client/ssi/nav.html', 'utf8');
-const file = fs.readFileSync('./client/db/tossup/index.html', 'utf8')
-  .replace('<!--#include virtual="/ssi/head.html" -->', head)
-  .replace('<!--#include virtual="/ssi/nav.html" -->', nav);
-
 function removeParentheses (answer) {
   return answer.replace(/[([].*/g, '');
 }
+
+const file = replaceSSI(fs.readFileSync('./client/db/tossup/index.html', 'utf8'));
 
 router.get('/', async (req, res) => {
   if (req.originalUrl.split('?')[0].at(-1) !== '/') { return queryRedirect('/db/tossup/')(req, res); }
