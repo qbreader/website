@@ -1,4 +1,5 @@
 import MultiplayerTossupBonusClient from './MultiplayerTossupBonusClient.js';
+import { showAlert } from './alert.js';
 
 import CategoryManager from '../../../quizbowl/category-manager.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
@@ -52,7 +53,7 @@ socket.sendToServer = (data) => socket.send(JSON.stringify(data));
 
 socket.onclose = function (event) {
   const { code } = event;
-  if (code !== 3000) { window.alert('Disconnected from server'); }
+  if (code !== 3000) { showAlert('Disconnected from server'); }
   clearInterval(PING_INTERVAL_ID);
 };
 
