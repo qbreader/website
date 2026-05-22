@@ -388,7 +388,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   }
 
   togglePublic ({ userId, username }, { public: isPublic }) {
-    if (this.isPermanent) { return; }
+    if (this.isPermanent || this.settings.controlled) { return; }
     this.settings.public = isPublic;
     if (isPublic) {
       this.settings.lock = false;
