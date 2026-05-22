@@ -132,7 +132,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case 'reject':
         this.buzzedIn = null;
         this.players[userId].updateStats(points, celerity);
-        if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
+        if (!this.settings.rebuzz && Object.keys(this.sockets).every(id => this.buzzes.includes(id))) {
           this.revealTossupAnswer();
           Object.values(this.players).forEach(player => { player.tuh++; });
         } else {
