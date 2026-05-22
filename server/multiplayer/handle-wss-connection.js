@@ -1,5 +1,6 @@
 import { MAX_ONLINE_PLAYERS, MAX_CONNECTIONS_PER_IP, PERMANENT_ROOMS, VERIFIED_ROOMS, ROOM_NAME_MAX_LENGTH } from './constants.js';
 import ServerTossupBonusRoom from './ServerTossupBonusRoom.js';
+import { configurePermanentRoomSettings } from './configure-permanent-room.js';
 import { checkToken } from '../authentication.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
 import getRandomName from '../../quizbowl/get-random-name.js';
@@ -22,15 +23,19 @@ export const tossupBonusRooms = {};
 const connectionsByIp = new Map();
 for (const room of PERMANENT_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupBonusRooms[name] = new ServerTossupBonusRoom(
+  const permanentRoom = new ServerTossupBonusRoom(
     name, Symbol('unique permanent room owner'), true, new CategoryManager(categories, subcategories), false
   );
+  configurePermanentRoomSettings(permanentRoom, name);
+  tossupBonusRooms[name] = permanentRoom;
 }
 for (const room of VERIFIED_ROOMS) {
   const { name, categories, subcategories } = room;
-  tossupBonusRooms[name] = new ServerTossupBonusRoom(
+  const verifiedRoom = new ServerTossupBonusRoom(
     name, Symbol('unique verified room owner'), true, new CategoryManager(categories, subcategories), true
   );
+  configurePermanentRoomSettings(verifiedRoom, name);
+  tossupBonusRooms[name] = verifiedRoom;
 }
 
 /**
