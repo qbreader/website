@@ -260,15 +260,6 @@ function attachEventListeners (room, socket) {
     socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
   });
 
-  document.getElementById('set-strictness').addEventListener('change', function () {
-    this.blur();
-    socket.sendToServer({ type: 'set-strictness', strictness: this.value });
-  });
-
-  document.getElementById('set-strictness').addEventListener('input', function () {
-    document.getElementById('strictness-display').textContent = this.value;
-  });
-
   document.getElementById('toggle-settings').addEventListener('click', function () {
     this.blur();
     document.getElementById('buttons').classList.toggle('col-lg-9');
