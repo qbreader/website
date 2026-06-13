@@ -103,8 +103,8 @@ export default class QuestionClient {
   }
 
   setStrictness ({ strictness }) {
-    document.getElementById('set-strictness').value = strictness;
-    document.getElementById('strictness-display').textContent = strictness;
+    // document.getElementById('set-strictness').value = strictness;
+    // document.getElementById('strictness-display').textContent = strictness;
   }
 
   setMaxYear ({ maxYear }) {
@@ -258,15 +258,6 @@ function attachEventListeners (room, socket) {
 
   document.getElementById('set-name').addEventListener('change', function () {
     socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
-  });
-
-  document.getElementById('set-strictness').addEventListener('change', function () {
-    this.blur();
-    socket.sendToServer({ type: 'set-strictness', strictness: this.value });
-  });
-
-  document.getElementById('set-strictness').addEventListener('input', function () {
-    document.getElementById('strictness-display').textContent = this.value;
   });
 
   document.getElementById('toggle-settings').addEventListener('click', function () {
