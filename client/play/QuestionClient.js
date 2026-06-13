@@ -103,8 +103,8 @@ export default class QuestionClient {
   }
 
   setStrictness ({ strictness }) {
-    document.getElementById('set-strictness').value = strictness;
-    document.getElementById('strictness-display').textContent = strictness;
+    // document.getElementById('set-strictness').value = strictness;
+    // document.getElementById('strictness-display').textContent = strictness;
   }
 
   setMaxYear ({ maxYear }) {
