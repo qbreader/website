@@ -39,7 +39,7 @@ function QueryForm () {
     subcategories: initialParams.get('subcategories') ? initialParams.get('subcategories').split(',') : [],
     alternateSubcategories: initialParams.get('alternateSubcategories') ? initialParams.get('alternateSubcategories').split(',') : []
   });
-  const [queryString, setQueryString] = React.useState(initialParams.get('q') ?? '');
+  const [queryString, setQueryString] = React.useState(initialParams.get('q') ?? initialParams.get('queryString') ?? '');
   const [maxReturnLength, setMaxReturnLength] = React.useState(initialParams.get('maxReturnLength') ?? '');
   const [setName, setSetName] = React.useState(initialParams.get('setName') ?? '');
   const [searchType, setSearchType] = React.useState(initialParams.get('searchType') ?? 'all');
