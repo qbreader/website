@@ -55,7 +55,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
-                        <code>queryString</code><code class="text-muted">: string</code>
+                        <code>q</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold">default: ""</code>
                     </div>
                     <div>
@@ -336,7 +336,7 @@
                     </div>
                     <div>
                         The exact string used to search the MongoDB database.
-                        This may differ from the queryString passed in as a parameter:
+                        This may differ from the queryString (q) passed in as a parameter:
                         <ul>
                             <li>If <code>regex</code> is <code>false</code>, then regex characters are escaped.</li>
                         </ul>

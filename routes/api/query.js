@@ -27,6 +27,8 @@ router.get('/', async (req, res) => {
   req.query = validateInt.tossupPagination(req.query);
   req.query = validateCategoryBundle(req.query);
 
+  req.query.queryString = req.query.q ?? req.query.queryString;
+
   if (req.query.setName) {
     req.query.setName = req.query.setName.split(',').map(s => s.trim());
   }
