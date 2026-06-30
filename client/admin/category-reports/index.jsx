@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 import QuestionCard from '../../scripts/components/QuestionCard.jsx';
 import { CATEGORY_TO_ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY } from '../../../quizbowl/categories.js';
@@ -23,9 +24,9 @@ function TossupCard ({ tossup }) {
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
         <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
-        <span dangerouslySetInnerHTML={{ __html: tossup.question }} />
+        <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(tossup.question) }} />
         <hr className='my-3' />
-        <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: tossup?.answer }} /></div>
+        <div><b>ANSWER:</b> <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(tossup?.answer ?? '') }} /></div>
       </div>
       <div className='card-footer clickable' onClick={onClick} id={`fix-category-${_id}`} data-bs-toggle='modal' data-bs-target='#fix-category-modal'>
         <small className='text-muted'>{packetName ? 'Packet ' + packetName : <span>&nbsp;</span>}</small>
@@ -62,13 +63,13 @@ function BonusCard ({ bonus }) {
     >
       <div className='card-body'>
         <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>
-        <span dangerouslySetInnerHTML={{ __html: bonus.leadin }} />
+        <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bonus.leadin) }} />
         {indices.map((i) =>
           <div key={`${bonus._id}-${i}`}>
             <hr />
-            <p>{getBonusPartLabel(i)} <span dangerouslySetInnerHTML={{ __html: bonus.parts[i] }} /></p>
+            <p>{getBonusPartLabel(i)} <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bonus.parts[i]) }} /></p>
             <b>ANSWER: </b>
-            <span dangerouslySetInnerHTML={{ __html: bonus?.answers[i] }} />
+            <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bonus?.answers[i] ?? '') }} />
           </div>
         )}
       </div>
