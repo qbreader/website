@@ -1,7 +1,7 @@
 import { COOKIE_MAX_AGE } from '../../server/constants.js';
 import getUser from '../../database/account-info/get-user.js';
 import createUser from '../../database/account-info/create-user.js';
-import { generateToken, saltAndHashPassword, sendVerificationEmail, validateUsername } from '../../server/authentication.js';
+import { generateToken, saltAndHashPassword, sendVerificationEmail, validateEmail, validateUsername } from '../../server/authentication.js';
 
 import { Router } from 'express';
 
@@ -30,8 +30,13 @@ router.post('/', async (req, res) => {
   req.session.token = generateToken(username);
   req.session.expires = expires;
 
-  const password = saltAndHashPassword(req.body.password);
   const email = req.body.email;
+  if (email && !validateEmail(email)) {
+    res.sendStatus(400);
+    return;
+  }
+
+  const password = saltAndHashPassword(req.body.password);
   await createUser(username, password, email);
   sendVerificationEmail(username);
   // console.log(`/api/auth: SIGNUP: User ${username} successfully signed up.`);
