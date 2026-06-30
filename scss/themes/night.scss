@@ -66,6 +66,11 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
         background: linear-gradient(#444, #333);
     }
 
+    .text-highlight {
+        background-color: rgba(248, 255, 0, 0.35);
+        color: inherit;
+    }
+
     // bootstrap
 
     @each $color, $value in $theme-colors-night {
