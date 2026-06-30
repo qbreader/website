@@ -418,7 +418,7 @@ function QueryForm () {
                   const isActive = tossupPaginationNumber === i + 1;
                   return (
                     <li key={`tossup-pagination-${i + 1}`} className='page-item'>
-                      <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleTossupPaginationClick(event, i + 1); }}>
+                      <a className={`page-link ${isActive ? 'active' : ''}`} aria-current={isActive ? 'page' : undefined} href='#' onClick={event => { handleTossupPaginationClick(event, i + 1); }}>
                         {i + 1}
                       </a>
                     </li>
@@ -477,7 +477,7 @@ function QueryForm () {
                 const isActive = bonusPaginationNumber === i + 1;
                 return (
                   <li key={`bonus-pagination-${i + 1}`} className='page-item'>
-                    <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleBonusPaginationClick(event, i + 1); }}>
+                    <a className={`page-link ${isActive ? 'active' : ''}`} aria-current={isActive ? 'page' : undefined} href='#' onClick={event => { handleBonusPaginationClick(event, i + 1); }}>
                       {i + 1}
                     </a>
                   </li>
