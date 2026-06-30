@@ -120,11 +120,16 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     }
 
     socket.on('message', message => {
-      if (this.rateLimiter(socket) && !this.rateLimitExceeded.has(username)) {
-        console.log(`Rate limit exceeded for ${username} in room ${this.name}`);
-        this.rateLimitExceeded.add(username);
+      if (this.rateLimiter(socket)) {
+        // Still over the limit: always drop the message, but only log once per burst.
+        if (!this.rateLimitExceeded.has(username)) {
+          console.log(`Rate limit exceeded for ${username} in room ${this.name}`);
+          this.rateLimitExceeded.add(username);
+        }
         return;
       }
+      // Back under the limit: clear the flag so the user recovers.
+      this.rateLimitExceeded.delete(username);
 
       try {
         message = JSON.parse(message);
