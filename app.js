@@ -30,7 +30,10 @@ app.use(express.json());
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
-  maxAge: COOKIE_MAX_AGE
+  maxAge: COOKIE_MAX_AGE,
+  httpOnly: true,
+  sameSite: 'lax',
+  secure: process.env.NODE_ENV === 'production'
 }));
 
 app.use(ipFilterMiddleware);
