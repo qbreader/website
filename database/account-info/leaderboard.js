@@ -1,7 +1,15 @@
 import { perTossupData, perBonusData } from '../../database/qbreader/collections.js';
 import mergeTwoSortedArrays from '../../server/merge-two-sorted-arrays.js';
 
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+let cachedOverall = null;
+let cachedAt = 0;
+
 export default async function leaderboard (limit) {
+  if (cachedOverall && Date.now() - cachedAt < CACHE_TTL) {
+    return cachedOverall.slice(0, limit);
+  }
+
   const tossupLeaderboard = await helper('tossup');
   const bonusLeaderboard = await helper('bonus');
   const overall = mergeTwoSortedArrays(
@@ -12,6 +20,8 @@ export default async function leaderboard (limit) {
   );
   // sort from most to least
   overall.sort((a, b) => b.total - a.total);
+  cachedOverall = overall;
+  cachedAt = Date.now();
   return overall.slice(0, limit);
 }
 
