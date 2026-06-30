@@ -4,7 +4,7 @@
 }
 
 .checkbox-menu {
-    background-color: #fff !important;
+    background-color: var(--bs-body-bg) !important;
 }
 
 .checkbox-menu li label {
@@ -13,7 +13,7 @@
     clear: both;
     font-weight: normal;
     line-height: 1.42857143;
-    color: #333;
+    color: var(--bs-body-color);
     white-space: nowrap;
     margin: 0;
     transition: background-color .4s ease;
@@ -32,7 +32,7 @@
 
 .checkbox-menu li label:hover,
 .checkbox-menu li label:focus {
-    background-color: #f5f5f5;
+    background-color: var(--bs-tertiary-bg);
 }
 
 .checkbox-menu li.active label:hover,
