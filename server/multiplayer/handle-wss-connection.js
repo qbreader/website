@@ -48,6 +48,8 @@ function createAndReturnRoom (roomName, userId, isPrivate = false, isControlled 
     // A room cannot be both public and controlled
     room.settings.public = !isPrivate && !isControlled;
     room.settings.controlled = isControlled;
+    // Remove the room once it empties out so it doesn't leak (see closeConnection).
+    room.onEmpty = () => { delete tossupBonusRooms[roomName]; };
     tossupBonusRooms[roomName] = room;
   }
 
