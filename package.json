@@ -4,6 +4,7 @@
     "type": "module",
     "scripts": {
         "build": "npm run webpack && npm run sass",
+        "create-indexes": "node database/create-indexes.js",
         "dev": "npm run build && npm run start",
         "lint": "npx semistandard --fix",
         "sass": "sass scss/custom.scss client/style.css --style compressed",
