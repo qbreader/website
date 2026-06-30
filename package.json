@@ -8,6 +8,7 @@
         "lint": "npx semistandard --fix",
         "sass": "sass scss/custom.scss client/style.css --style compressed",
         "start": "node server.js",
+        "test": "node --test",
         "webpack": "webpack --config webpack.config.js"
     },
     "dependencies": {
