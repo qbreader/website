@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
   req.session.token = generateToken(username);
   req.session.expires = expires;
 
-  const password = saltAndHashPassword(req.body.password);
+  const password = await saltAndHashPassword(req.body.password);
   const email = req.body.email;
   await createUser(username, password, email);
   sendVerificationEmail(username);
