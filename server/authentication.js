@@ -59,7 +59,7 @@ export function checkToken (username, token, checkEmailVerification = false) {
  * @returns A JWT token.
  */
 export function generateToken (username, verifiedEmail = false) {
-  return sign({ username, verifiedEmail }, secret);
+  return sign({ username, verifiedEmail }, secret, { expiresIn: '7d' });
 }
 
 /**
