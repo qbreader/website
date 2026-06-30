@@ -371,9 +371,9 @@ function QueryForm () {
             </div>
             <div className='float-end'>
               <b>Download this page:</b>
-              <a className='ms-2 clickable' onClick={() => { downloadQuestionsAsText({ tossups, bonuses }); }}>TXT</a>
-              <a className='ms-2 clickable' onClick={() => { downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses); }}>CSV</a>
-              <a className='ms-2 clickable' onClick={() => { downloadQuestionsAsJSON(tossups, bonuses); }}>JSON</a>
+              <a className='ms-2 clickable' role='button' tabIndex={0} onClick={() => { downloadQuestionsAsText({ tossups, bonuses }); }} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); downloadQuestionsAsText({ tossups, bonuses }); } }}>TXT</a>
+              <a className='ms-2 clickable' role='button' tabIndex={0} onClick={() => { downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses); }} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses); } }}>CSV</a>
+              <a className='ms-2 clickable' role='button' tabIndex={0} onClick={() => { downloadQuestionsAsJSON(tossups, bonuses); }} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); downloadQuestionsAsJSON(tossups, bonuses); } }}>JSON</a>
             </div>
           </div>
         </div>
@@ -388,7 +388,7 @@ function QueryForm () {
           ? <div className='float-row mb-3'>
             <span className='text-muted float-start'>Showing {tossups.length} of {tossupCount} results ({queryTime} seconds)</span>&nbsp;
             <span className='text-muted float-end'>
-              <a className='clickable' onClick={() => window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' })}>
+              <a className='clickable' role='button' tabIndex={0} onClick={() => window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' })} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' }); } }}>
                 Jump to bonuses
               </a>
             </span>
@@ -447,7 +447,7 @@ function QueryForm () {
           ? <div className='float-row mb-3'>
             <span className='text-muted float-start'>Showing {bonuses.length} of {bonusCount} results ({queryTime} seconds)</span>&nbsp;
             <span className='text-muted float-end'>
-              <a className='clickable' onClick={() => window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' })}>
+              <a className='clickable' role='button' tabIndex={0} onClick={() => window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' })} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' }); } }}>
                 Jump to tossups
               </a>
             </span>
