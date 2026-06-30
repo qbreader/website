@@ -45,20 +45,20 @@
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <button id="bd-theme" class="btn btn-link nav-link dropdown-toggle d-flex align-items-center"
-                            data-bs-toggle="dropdown">
+                            data-bs-toggle="dropdown" aria-haspopup="menu">
                             <span class="theme-icon-active"><i class="bi bi-moon-stars-fill"></i></span>
                             <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item d-flex" data-bs-theme-value="light">
+                            <button type="button" class="dropdown-item d-flex" data-bs-theme-value="light">
                                 <i class="bi bi-sun-fill me-2"></i>Light<i class="bi bi-check2 ms-auto d-none"></i>
-                            </a>
-                            <a class="dropdown-item d-flex" data-bs-theme-value="night">
+                            </button>
+                            <button type="button" class="dropdown-item d-flex" data-bs-theme-value="night">
                                 <i class="bi bi-moon-stars-fill me-2"></i>Night<i class="bi bi-check2 ms-auto d-none"></i>
-                            </a>
-                            <a class="dropdown-item d-flex active" data-bs-theme-value="auto">
+                            </button>
+                            <button type="button" class="dropdown-item d-flex active" data-bs-theme-value="auto">
                                 <i class="bi bi-circle-half me-2"></i>Auto<i class="bi bi-check2 ms-auto d-none"></i>
-                            </a>
+                            </button>
                         </ul>
                     </li>
                     <li class="nav-item">
