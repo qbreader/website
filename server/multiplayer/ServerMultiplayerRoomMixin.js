@@ -236,6 +236,8 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
         this.kickedUserList.delete(userId);
       }
     });
+
+    this.votekickList = this.votekickList.filter(votekick => now - votekick.createdAt <= BAN_DURATION);
   }
 
   closeConnection ({ userId, username }) {
@@ -437,6 +439,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     if (votekick.check()) {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
+      this.votekickList = this.votekickList.filter(vk => !vk.exists(targetId));
     } else {
       this.kickedUserList.set(targetId, Date.now());
       this.emitMessage({ type: 'initiated-vk', targetUsername, threshold });
@@ -465,6 +468,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     if (thisVotekick.check()) {
       this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
+      this.votekickList = this.votekickList.filter(vk => !vk.exists(targetId));
 
       setTimeout(() => this.closeConnection({ userId: targetId, username: targetUsername }), 1000);
 
