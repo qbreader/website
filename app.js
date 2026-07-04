@@ -11,14 +11,6 @@ import cookieSession from 'cookie-session';
 import express from 'express';
 import morgan from 'morgan';
 
-if (process.env.NODE_ENV === 'production') {
-  for (const key of ['SECRET', 'SALT', 'SECRET_KEY_1', 'SECRET_KEY_2']) {
-    if (!process.env[key]) {
-      throw new Error(`Missing required environment variable in production: ${key}`);
-    }
-  }
-}
-
 const app = express();
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
