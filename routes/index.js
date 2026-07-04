@@ -37,6 +37,6 @@ router.use(express.static('node_modules'));
  * 404 Error handler
  */
 const notFoundPage = replaceSSI(fs.readFileSync('./client/404.html', 'utf8'));
-router.use((_req, res) => res.send(notFoundPage));
+router.use((_req, res) => res.status(404).send(notFoundPage));
 
 export default router;
