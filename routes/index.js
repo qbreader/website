@@ -6,10 +6,11 @@ import playRouter from './play/index.js';
 import userRouter from './user.js';
 
 import redirectsRouter from './redirects.js';
-import ssiMiddleware from './ssi-middleware.js';
+import ssiMiddleware, { replaceSSI } from './ssi-middleware.js';
 
 import cors from 'cors';
 import express, { Router } from 'express';
+import fs from 'fs';
 const router = Router();
 
 router.get('/*.scss', (req, res) => res.sendFile(req.url, { root: './scss' }));
@@ -35,8 +36,7 @@ router.use(express.static('node_modules'));
 /**
  * 404 Error handler
  */
-router.use((_req, res) => {
-  res.sendFile('404.html', { root: './client' });
-});
+const notFoundPage = replaceSSI(fs.readFileSync('./client/404.html', 'utf8'));
+router.use((_req, res) => res.send(notFoundPage));
 
 export default router;
