@@ -17,6 +17,8 @@ router.get('/*.scss', (req, res) => res.sendFile(req.url, { root: './scss' }));
 
 router.use(redirectsRouter);
 
+router.get('/health', (req, res) => res.sendStatus(200));
+
 /**
  * Routes:
  */
