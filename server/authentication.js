@@ -135,6 +135,15 @@ export function updatePassword (username, newPassword) {
 
 /**
  *
+ * @param {string} email
+ * @returns {boolean} True if the email is valid, and false otherwise.
+ */
+export function validateEmail (email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/**
+ *
  * @param {string} username
  * @returns {boolean} True if the username is valid, and false otherwise.
  */
