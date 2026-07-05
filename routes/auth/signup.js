@@ -32,8 +32,7 @@ router.post('/', async (req, res) => {
 
   const email = req.body.email;
   if (email && !validateEmail(email)) {
-    res.sendStatus(400);
-    return;
+    return res.sendStatus(400);
   }
 
   const password = saltAndHashPassword(req.body.password);
