@@ -1,4 +1,4 @@
-import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
+import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
 
 export function highlightTossupQuery ({ tossup, regExp, searchType = 'all', ignoreWordOrder, queryString }) {
   const words = ignoreWordOrder

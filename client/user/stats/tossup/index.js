@@ -2,7 +2,7 @@ import tossupToHtml from './tossup-to-html.js';
 import { downloadAsFile } from '../../../scripts/download.js';
 import { attachDropdownChecklist, getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
 import sortTable from '../../../scripts/utilities/tables.js';
-import insertTokensIntoHTML from '../../../../quizbowl/insert-tokens-into-html.js';
+import insertTokensIntoHTML from '../../../../shared/insert-tokens-into-html.js';
 
 async function fetchTossupStats ({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
   const params = { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate };
