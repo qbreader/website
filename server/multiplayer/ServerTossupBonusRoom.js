@@ -1,7 +1,7 @@
 import { EARLY_CORRECT_CELERITY_THRESHOLD } from './constants.js';
 import ServerMultiplayerRoomMixin from './ServerMultiplayerRoomMixin.js';
 import TossupBonusRoom from '../../quizbowl/TossupBonusRoom.js';
-import { QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
+import { QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 
 export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(TossupBonusRoom) {
   constructor (name, ownerId, isPermanent, categoryManager, isVerified = false) {

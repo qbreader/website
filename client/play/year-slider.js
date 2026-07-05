@@ -1,4 +1,4 @@
-import { MIN_YEAR as GLOBAL_MIN_YEAR, MAX_YEAR as GLOBAL_MAX_YEAR, DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR } from '../../quizbowl/constants.js';
+import { MIN_YEAR as GLOBAL_MIN_YEAR, MAX_YEAR as GLOBAL_MAX_YEAR, DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR } from '../../shared/constants.js';
 
 function clip (value, min, max) {
   if (min > max) { throw new Error('clip: min cannot be greater than max'); }

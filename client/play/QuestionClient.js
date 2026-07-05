@@ -1,4 +1,4 @@
-import { MODE_ENUM } from '../../quizbowl/constants.js';
+import { MODE_ENUM } from '../../shared/constants.js';
 import account from '../scripts/accounts.js';
 import audio from './audio.js';
 import { arrayToRange, rangeToArray } from './ranges.js';

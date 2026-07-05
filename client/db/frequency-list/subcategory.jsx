@@ -2,7 +2,7 @@ import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx'
 import { downloadAsFile } from '../../scripts/download.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import filterParams from '../../scripts/utilities/filter-params.js';
-import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../quizbowl/constants.js';
+import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../shared/constants.js';
 import { setYear, addSliderEventListeners } from '../../play/year-slider.js';
 
 let difficulties = DIFFICULTIES;

@@ -1,4 +1,4 @@
-import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } from './constants.js';
+import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } from '../shared/constants.js';
 import insertTokensIntoHTML from './insert-tokens-into-html.js';
 import QuestionRoom from './QuestionRoom.js';
 

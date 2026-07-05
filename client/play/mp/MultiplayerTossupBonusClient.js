@@ -1,5 +1,5 @@
 
-import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../../quizbowl/constants.js';
+import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../../shared/constants.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import TossupBonusClient from '../TossupBonusClient.js';
 import { arrayToRange } from '../ranges.js';

@@ -1,4 +1,4 @@
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import { MODE_ENUM } from '../../../shared/constants.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import upsertPlayerItem from '../upsert-player-item.js';
 import TossupClient from '../TossupClient.js';
