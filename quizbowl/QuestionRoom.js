@@ -111,18 +111,25 @@ export default class QuestionRoom extends Room {
 
     if (doNotFetch) { return; }
 
-    switch (this.mode) {
-      case MODE_ENUM.SET_NAME:
-        this.packet = await this.getPacket({ setName: this.query.setName, packetNumber: this.query.packetNumbers[0] });
-        break;
-      case MODE_ENUM.RANDOM:
-        for (const s of this.supportedQuestionTypes) {
-          const query = { ...this.query, number: 1 };
-          this.randomQuestionCache[s] = this.categoryManager.percentView
-            ? []
-            : await this.getRandomQuestions(s, query);
-        }
-        break;
+    try {
+      switch (this.mode) {
+        case MODE_ENUM.SET_NAME:
+          this.packet = await this.getPacket({ setName: this.query.setName, packetNumber: this.query.packetNumbers[0] });
+          break;
+        case MODE_ENUM.RANDOM:
+          for (const s of this.supportedQuestionTypes) {
+            const query = { ...this.query, number: 1 };
+            this.randomQuestionCache[s] = this.categoryManager.percentView
+              ? []
+              : await this.getRandomQuestions(s, query);
+          }
+          break;
+      }
+    } catch (error) {
+      // adjustQuery is invoked fire-and-forget from message handlers, so a
+      // rejected DB call here would become an unhandled rejection and crash
+      // the process. Log and bail; the next getNextQuestion will refetch.
+      console.error(`adjustQuery failed to fetch questions in room ${this.name}:`, error);
     }
   }
 
