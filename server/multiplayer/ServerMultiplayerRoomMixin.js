@@ -423,8 +423,6 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       return;
     }
 
-    this.lastVotekickTime[userId] = currentTime;
-
     for (const votekick of this.votekickList) {
       if (votekick.exists(targetId)) { return; }
     }
@@ -436,6 +434,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     });
 
     const threshold = Math.max(Math.floor(activePlayers * 3 / 4), 2);
+    this.lastVotekickTime[userId] = currentTime;
     const votekick = new Votekick(targetId, threshold, []);
     votekick.vote(userId);
     this.votekickList.push(votekick);
