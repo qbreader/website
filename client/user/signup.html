@@ -30,8 +30,13 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <label class="form-label" for="password">Password</label>
-                    <input class="form-control" id="password" type="password" name="password" required>
-                    <div class="invalid-feedback">Enter your password.</div>
+                    <div class="input-group">
+                        <input class="form-control" id="password" type="password" name="password" required>
+                        <button class="btn btn-outline-secondary" id="toggle-password" type="button" aria-label="Show password">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <div class="invalid-feedback">Enter your password.</div>
+                    </div>
                     <div class="form-text">
                         By signing up, you agree to the <a href="/about/privacy-policy">privacy policy</a> and <a
                             href="/about/terms-of-service">terms of service</a>.
