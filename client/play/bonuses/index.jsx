@@ -3,7 +3,7 @@ import CategoryModal from '../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
 import CategoryManager from '../../../shared/category-manager.js';
 import Player from '../../../quizbowl/Player.js';
-import Team from '../../../quizbowl/Team.js';
+import Team from '../../../shared/Team.js';
 import SoloBonusRoom from './SoloBonusRoom.js';
 import SoloBonusClient from './SoloBonusClient.js';
 

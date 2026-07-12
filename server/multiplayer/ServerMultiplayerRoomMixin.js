@@ -14,7 +14,7 @@ import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
-import Team from '../../quizbowl/Team.js';
+import Team from '../../shared/Team.js';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
