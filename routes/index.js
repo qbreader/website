@@ -29,7 +29,7 @@ router.use('/db', dbRouter);
 router.use('/play', playRouter);
 router.use('/user', userRouter);
 
-router.use('/quizbowl', express.static('quizbowl'));
+router.use('/shared', express.static('shared'));
 
 router.use(ssiMiddleware);
 router.use(express.static('client', { extensions: ['html'] }));
