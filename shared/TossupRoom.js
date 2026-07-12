@@ -1,6 +1,6 @@
 import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } from './constants.js';
 import insertTokensIntoHTML from './insert-tokens-into-html.js';
-import QuestionRoom from '../quizbowl/QuestionRoom.js';
+import QuestionRoom from './QuestionRoom.js';
 
 export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoomClass {
   constructor (name, categoryManager, supportedQuestionTypes = ['tossup']) {

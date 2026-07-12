@@ -1,7 +1,7 @@
-import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../shared/categories.js';
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from '../shared/constants.js';
-import CategoryManager from '../shared/category-manager.js'; // eslint-disable-line no-unused-vars
-import Room from '../shared/Room.js';
+import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from './categories.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from './constants.js';
+import CategoryManager from './category-manager.js'; // eslint-disable-line no-unused-vars
+import Room from './Room.js';
 
 export default class QuestionRoom extends Room {
   /**

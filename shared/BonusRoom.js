@@ -1,5 +1,5 @@
 import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from './constants.js';
-import QuestionRoom from '../quizbowl/QuestionRoom.js';
+import QuestionRoom from './QuestionRoom.js';
 
 export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomClass {
   constructor (name, categoryManager, supportedQuestionTypes = ['bonuses']) {
