@@ -3,7 +3,7 @@ import ServerTossupBonusRoom from './ServerTossupBonusRoom.js';
 import { configurePermanentRoomSettings } from './configure-permanent-room.js';
 import { checkToken } from '../authentication.js';
 import CategoryManager from '../../quizbowl/category-manager.js';
-import getRandomName from '../../quizbowl/get-random-name.js';
+import getRandomName from '../../shared/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import { clientIp, isBannedIp } from '../moderation/ip-filter.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
