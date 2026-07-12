@@ -1,4 +1,4 @@
-import { ALTERNATE_SUBCATEGORIES, CATEGORIES, SUBCATEGORIES } from '../../quizbowl/categories.js';
+import { ALTERNATE_SUBCATEGORIES, CATEGORIES, SUBCATEGORIES } from '../../shared/categories.js';
 
 /**
  * Validates that a field's value is one of the allowed enum values.

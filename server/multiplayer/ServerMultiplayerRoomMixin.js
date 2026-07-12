@@ -4,7 +4,7 @@ import { HEADER, ENDC, OKCYAN, OKBLUE } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
-// import TossupRoom from '../../quizbowl/TossupRoom.js';
+// import TossupRoom from '../../shared/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
 
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
@@ -14,7 +14,7 @@ import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
-import Team from '../../quizbowl/Team.js';
+import Team from '../../shared/Team.js';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 

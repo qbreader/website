@@ -1,4 +1,4 @@
-import { CATEGORIES, CATEGORY_TO_SUBCATEGORY, SUBCATEGORIES } from '../../quizbowl/categories.js';
+import { CATEGORIES, CATEGORY_TO_SUBCATEGORY, SUBCATEGORIES } from '../../shared/categories.js';
 
 export const ROOM_NAME_MAX_LENGTH = 32;
 export const USERNAME_MAX_LENGTH = 32;
