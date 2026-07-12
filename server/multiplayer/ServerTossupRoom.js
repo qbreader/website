@@ -1,5 +1,5 @@
 import ServerMultiplayerRoomMixin from './ServerMultiplayerRoomMixin.js';
-import TossupRoom from '../../quizbowl/TossupRoom.js';
+import TossupRoom from '../../shared/TossupRoom.js';
 import { TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 
 export default class ServerTossupRoom extends ServerMultiplayerRoomMixin(TossupRoom) {

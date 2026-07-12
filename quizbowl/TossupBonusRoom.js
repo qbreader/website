@@ -1,6 +1,6 @@
 import { BONUS_PROGRESS_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../shared/constants.js';
 import { BonusRoomMixin } from './BonusRoom.js';
-import { TossupRoomMixin } from './TossupRoom.js';
+import { TossupRoomMixin } from '../shared/TossupRoom.js';
 import QuestionRoom from './QuestionRoom.js';
 
 export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(QuestionRoom)) {
