@@ -1,4 +1,4 @@
-import { CATEGORIES, CATEGORY_TO_SUBCATEGORY, CATEGORY_TO_ALTERNATE_SUBCATEGORIES } from './categories.js';
+import { CATEGORIES, CATEGORY_TO_SUBCATEGORY, CATEGORY_TO_ALTERNATE_SUBCATEGORIES } from '../shared/categories.js';
 
 export default class CategoryManager {
   /**

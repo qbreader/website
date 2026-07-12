@@ -1,6 +1,6 @@
 import { bonuses } from './collections.js';
 
-import { CATEGORIES, SUBCATEGORIES } from '../../quizbowl/categories.js';
+import { CATEGORIES, SUBCATEGORIES } from '../../shared/categories.js';
 import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../shared/constants.js';
 
 // eslint-disable-next-line no-unused-vars

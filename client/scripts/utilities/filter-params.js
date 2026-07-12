@@ -1,5 +1,5 @@
 import { DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, DIFFICULTIES } from '../../../shared/constants.js';
-import { CATEGORY_TO_SUBCATEGORY, CATEGORY_TO_ALTERNATE_SUBCATEGORIES } from '../../../quizbowl/categories.js';
+import { CATEGORY_TO_SUBCATEGORY, CATEGORY_TO_ALTERNATE_SUBCATEGORIES } from '../../../shared/categories.js';
 
 function removeRedundantCategories (params) {
   let { categories, subcategories, alternateSubcategories } = params;

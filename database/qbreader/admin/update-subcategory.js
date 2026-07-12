@@ -1,6 +1,6 @@
 import { tossups, perTossupData, bonuses, perBonusData } from '../collections.js';
 
-import { SUBCATEGORY_TO_CATEGORY } from '../../../quizbowl/categories.js';
+import { SUBCATEGORY_TO_CATEGORY } from '../../../shared/categories.js';
 
 /**
  *
