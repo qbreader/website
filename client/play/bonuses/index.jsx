@@ -1,7 +1,7 @@
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
-import CategoryManager from '../../../quizbowl/category-manager.js';
+import CategoryManager from '../../../shared/category-manager.js';
 import Player from '../../../quizbowl/Player.js';
 import Team from '../../../quizbowl/Team.js';
 import SoloBonusRoom from './SoloBonusRoom.js';

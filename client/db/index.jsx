@@ -8,7 +8,7 @@ import DifficultyDropdown from '../scripts/components/DifficultyDropdown.jsx';
 import Star from '../scripts/components/Star.jsx';
 import { getDropdownValues, setDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import filterParams from '../scripts/utilities/filter-params.js';
-import CategoryManager from '../../quizbowl/category-manager.js';
+import CategoryManager from '../../shared/category-manager.js';
 import reportQuestion from '../scripts/api/report-question.js';
 import getSetList from '../scripts/api/get-set-list.js';
 
