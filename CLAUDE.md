@@ -1,0 +1,1 @@
+ Project instructions are at`AGENTS.md`. Thoroughly review `AGENTS.md` before making edits.
