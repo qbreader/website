@@ -1,6 +1,6 @@
 import { replaceSSI } from '../ssi-middleware.js';
 import * as validateObjectId from '../validators/object-id.js';
-import { escapeHTML } from '../../client/scripts/utilities/strings.js';
+import { escapeHTML } from '../../shared/string-utils.js';
 import getBonus from '../../database/qbreader/get-bonus.js';
 import queryRedirect from '../../server/query-redirect.js';
 

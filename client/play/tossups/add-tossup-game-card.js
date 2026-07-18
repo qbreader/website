@@ -1,5 +1,5 @@
 import star from '../../scripts/auth/star.js';
-import { removeParentheses } from '../../scripts/utilities/strings.js';
+import { removeParentheses } from '../../../shared/string-utils.js';
 
 /**
  * Creates a card for a tossup question and appends it to the room history element.

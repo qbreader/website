@@ -1,5 +1,5 @@
 import star from '../../scripts/auth/star.js';
-import { removeParentheses } from '../../scripts/utilities/strings.js';
+import { removeParentheses } from '../../../shared/string-utils.js';
 import getBonusPartLabel from '../../scripts/utilities/get-bonus-part-label.js';
 
 /**

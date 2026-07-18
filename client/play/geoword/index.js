@@ -1,5 +1,5 @@
 import account from '../../scripts/accounts.js';
-import { titleCase } from '../../scripts/utilities/strings.js';
+import { titleCase } from '../../../shared/string-utils.js';
 
 account.getUsername().then(username => {
   if (username) {
