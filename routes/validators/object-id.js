@@ -19,6 +19,7 @@ export default function validateObjectId (object, field) {
 /**
  * Validates the '_id' field of an object as a MongoDB ObjectId.
  * Also allows for the 'id' field to be used as an alias for '_id' if '_id' is not present.
+ * @returns {{ _id: ObjectId | null }}
  */
 export function _id (object) {
   if (!object._id && object.id) { object._id = object.id; }
