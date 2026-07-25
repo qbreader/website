@@ -9,6 +9,11 @@ export default function validateString (object, field, { defaultValue = '' } = {
   return object;
 }
 
+export function queryString (object) {
+  if (object.q && !object.queryString) { object.queryString = object.q; }
+  return validateString(object, 'queryString', { defaultValue: '' });
+}
+
 export function setName (object) {
   return validateString(object, 'setName', { defaultValue: '' });
 }

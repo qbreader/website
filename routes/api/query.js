@@ -2,6 +2,7 @@ import * as validateArray from '../validators/array.js';
 import * as validateBoolean from '../validators/boolean.js';
 import * as validateEnum from '../validators/enum.js';
 import * as validateInt from '../validators/int.js';
+import * as validateString from '../validators/string.js';
 import validateCategoryBundle from '../validators/category-bundle.js';
 
 import { MAX_QUERY_RETURN_LENGTH, MIN_YEAR } from '../../shared/constants.js';
@@ -25,9 +26,8 @@ router.get('/', async (req, res) => {
   req.query = validateInt.maxYear(req.query);
   req.query = validateInt.minYear(req.query, MIN_YEAR);
   req.query = validateInt.tossupPagination(req.query);
+  req.query = validateString.queryString(req.query);
   req.query = validateCategoryBundle(req.query);
-
-  req.query.queryString = req.query.q ?? req.query.queryString;
 
   if (req.query.setName) {
     req.query.setName = req.query.setName.split(',').map(s => s.trim());
