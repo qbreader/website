@@ -28,7 +28,7 @@ export default function validateInt (object, field, { defaultValue, lowerBound, 
 }
 
 export function bonusPagination (object) {
-  return validateInt(object, 'bonusPagination', { defaultValue: 1 });
+  return validateInt(object, 'bonusPagination', { defaultValue: 1, lowerBound: 1 });
 }
 
 export function limit (object) {

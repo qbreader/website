@@ -35,11 +35,9 @@ router.get('/', async (req, res) => {
 
   const maxPagination = Math.floor(MAX_QUERY_RETURN_LENGTH / req.query.maxReturnLength);
 
-  // bound pagination between 1 and maxPagination
-  req.query.tossupPagination = Math.min(parseInt(req.query.tossupPagination), maxPagination);
-  req.query.bonusPagination = Math.min(parseInt(req.query.bonusPagination), maxPagination);
-  req.query.tossupPagination = Math.max(req.query.tossupPagination, 1);
-  req.query.bonusPagination = Math.max(req.query.bonusPagination, 1);
+  // upper bound pagination by maxPagination
+  req.query.tossupPagination = Math.min(req.query.tossupPagination, maxPagination);
+  req.query.bonusPagination = Math.min(req.query.bonusPagination, maxPagination);
 
   try {
     const queryResult = await getQuery(req.query);
