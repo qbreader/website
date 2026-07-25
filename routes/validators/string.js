@@ -9,6 +9,10 @@ export default function validateString (object, field, { defaultValue = '' } = {
   return object;
 }
 
+export function setName (object) {
+  return validateString(object, 'setName', { defaultValue: '' });
+}
+
 export function word (object) {
   return validateString(object, 'word', { defaultValue: '' });
 }
