@@ -1,6 +1,7 @@
 import addTossupGameCard from './tossups/add-tossup-game-card.js';
 import QuestionClient from './QuestionClient.js';
 import audio from './audio.js';
+import audioReader from './audio/AudioReaderController.js';
 import { MODE_ENUM } from '../../shared/constants.js';
 
 export const TossupClientMixin = (ClientClass) => class extends ClientClass {
@@ -12,13 +13,28 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'buzz': return this.buzz(data);
-      case 'end-current-tossup': return this.endCurrentTossup(data);
+      case 'buzz': {
+        audioReader.onBuzz();
+        return this.buzz(data);
+      }
+      case 'end-current-tossup': {
+        audioReader.onEndQuestion();
+        return this.endCurrentTossup(data);
+      }
       case 'give-tossup-answer': return this.giveTossupAnswer(data);
-      case 'pause': return this.pause(data);
-      case 'reveal-tossup-answer': return this.revealTossupAnswer(data);
+      case 'pause': {
+        audioReader.onPause(data.paused, this.room, this.socket);
+        return this.pause(data);
+      }
+      case 'reveal-tossup-answer': {
+        if (audioReader.tryDeferReveal(() => this.revealTossupAnswer(data))) return;
+        return this.revealTossupAnswer(data);
+      }
       case 'set-reading-speed': return this.setReadingSpeed(data);
-      case 'start-next-tossup': return this.startNextTossup(data);
+      case 'start-next-tossup': {
+        audioReader.onStartNextTossup(data.tossup, this.room.settings.readingSpeed, this.room, this.socket);
+        return this.startNextTossup(data);
+      }
       case 'toggle-powermark-only': return this.togglePowermarkOnly(data);
       case 'toggle-rebuzz': return this.toggleRebuzz(data);
       case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
@@ -76,6 +92,11 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
     document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
+  timerUpdate ({ timeRemaining }) {
+    if (audioReader.shouldSuppressTimer()) return;
+    super.timerUpdate({ timeRemaining });
+  }
+
   startNextTossup ({ tossup, packetLength }) {
     this.startNextQuestion({ question: tossup, packetLength });
     document.getElementById('buzz').textContent = 'Buzz';
@@ -98,6 +119,7 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   }
 
   updateQuestion ({ word }) {
+    if (audioReader.isReading()) return;
     if (word === '(*)' || word === '[*]' || word === '(+)') { return; }
     document.getElementById('question').innerHTML += word + ' ';
   }
@@ -139,6 +161,11 @@ function attachEventListeners (room, socket) {
   document.getElementById('toggle-stop-on-power').addEventListener('click', function () {
     this.blur();
     socket.sendToServer({ type: 'toggle-stop-on-power', stopOnPower: this.checked });
+  });
+
+  document.getElementById('toggle-audio-reader')?.addEventListener('click', function () {
+    this.blur();
+    audioReader.onToggleChanged(this.checked);
   });
 }
 
