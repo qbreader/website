@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - API Docs - Leaderboard</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="The API documentation for QB Reader.">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-4 row">
+        <div class="col-md-1"></div> <!-- empty column for some left margin -->
+        <!-- docs sidebar -->
+        <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
+            <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
+            <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                <a href="."><code>Overview</code></a>
+                <a href="./schemas"><code>Object Schemas</code></a>
+                <h5 class="mt-4 mb-2">Database</h5>
+                <a href="./query"><code>query</code></a>
+                <a href="./random-bonus"><code>random-bonus</code></a>
+                <a href="./random-tossup"><code>random-tossup</code></a>
+                <a href="./packet"><code>packet</code></a>
+                <a href="./num-packets"><code>num-packets</code></a>
+                <a href="./set-list"><code>set-list</code></a>
+                <a href="./bonus"><code>bonus</code></a>
+                <a href="./tossup"><code>tossup</code></a>
+                <a href="./frequency-list"><code>frequency-list</code></a>
+                <h5 class="mt-4 mb-2">Multiplayer</h5>
+                <a href="./multiplayer/room-list"><code>room-list</code></a>
+                <h5 class="mt-4 mb-2">Question Stats</h5>
+                <a href="./question-stats/bonus"><code>bonus</code></a>
+                <a href="./question-stats/tossup"><code>tossup</code></a>
+                <h5 class="mt-4 mb-2">Leaderboard</h5>
+                <a href="./leaderboard" class="active fw-semibold" aria-current="page"><code>leaderboard</code></a>
+                <h5 class="mt-4 mb-2">Other</h5>
+                <a href="./check-answer"><code>check-answer</code></a>
+                <a href="./random-name"><code>random-name</code></a>
+                <a href="./report-question"><code>report-question</code></a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-9">
+            <h3 class="md-4">
+                <div><code>GET</code> <code>qbreader.org/api/leaderboard</code></div>
+            </h3>
+
+            <p>
+                Rank every user by the number of questions they have heard.
+                Results are recomputed at most once every five minutes.
+            </p>
+
+            <a href="#parameters" class="text-body">
+                <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>limit</code><code class="text-muted">: number</code>
+                        <span class="text-muted">Optional</span>
+                    </div>
+                    <div>
+                        The maximum number of users to return.
+                        Defaults to <code>50</code>, and is clamped to the range 1&ndash;500.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>minQuestions</code><code class="text-muted">: number</code>
+                        <span class="text-muted">Optional</span>
+                    </div>
+                    <div>
+                        Exclude users who have heard fewer than this many questions.
+                        Defaults to <code>0</code>. Applied before <code>limit</code>.
+                    </div>
+                </li>
+            </ul>
+
+            <a href="#returns" class="text-body">
+                <h4 class="mt-4 md-2" id="returns">Returns</h4>
+            </a>
+            <div>
+                A JSON <code>object</code> with the following properties:
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>leaderboard</code><code class="text-muted">: Object[]</code>
+                    </div>
+                    <div>
+                        <p>
+                            An array of <code>objects</code>, sorted from most to least questions heard.
+                            Users who have been deleted are omitted.
+                        </p>
+                        <pre class="bg-dark p-3 rounded"><code class="text-light">{
+    _id: string                     // the user's id
+    username: string
+    tossupCount: number             // tossups heard
+    bonusCount: number              // bonuses heard
+    total: number                   // tossupCount + bonusCount
+    numCorrect: number              // tossups answered correctly
+    powers: number                  // tossups buzzed for 15 or more
+    tens: number                    // tossups buzzed for exactly 10
+    negs: number                    // tossups buzzed for a negative value
+    tossupPoints: number
+    bonusPoints: number
+    points: number                  // tossupPoints + bonusPoints
+    pptu: number                    // points per tossup heard
+    ppb: number                     // points per bonus heard
+    accuracy: number                // numCorrect / tossupCount, from 0 to 1
+    averageCorrectCelerity: number  // from 0 to 1; higher means an earlier buzz
+}</code></pre>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>count</code><code class="text-muted">: number</code>
+                    </div>
+                    <div>
+                        The number of users in <code>leaderboard</code>.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <code>generatedAt</code><code class="text-muted">: string</code>
+                    </div>
+                    <div>
+                        An ISO 8601 timestamp for when these rankings were computed.
+                    </div>
+                </li>
+            </ul>
+
+            <a href="#errors" class="text-body">
+                <h4 class="mt-4 md-2" id="errors">Errors</h4>
+            </a>
+            <div>
+                Returns <code>503</code> with a JSON <code>object</code> containing an
+                <code>error</code> string if the rankings cannot be computed.
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
