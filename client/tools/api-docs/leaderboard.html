@@ -52,10 +52,27 @@
                 Results are recomputed at most once every five minutes.
             </p>
 
+            <div class="alert alert-warning">
+                <strong>This endpoint is not open.</strong> It returns every user's
+                username alongside their play stats, so it requires a key. Contact
+                a maintainer for access; unauthorized requests receive
+                <code>401</code>.
+            </div>
+
             <a href="#parameters" class="text-body">
                 <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
             </a>
             <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>key</code><code class="text-muted">: string</code>
+                        <span class="text-muted">Required</span>
+                    </div>
+                    <div>
+                        The access key you were given. Requests with a missing or
+                        incorrect key receive <code>401</code>.
+                    </div>
+                </li>
                 <li class="list-group-item">
                     <div>
                         <code>limit</code><code class="text-muted">: number</code>
@@ -135,10 +152,19 @@
             <a href="#errors" class="text-body">
                 <h4 class="mt-4 md-2" id="errors">Errors</h4>
             </a>
-            <div>
-                Returns <code>503</code> with a JSON <code>object</code> containing an
-                <code>error</code> string if the rankings cannot be computed.
-            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <code>401</code>
+                    <div>The <code>key</code> parameter is missing or incorrect.</div>
+                </li>
+                <li class="list-group-item">
+                    <code>503</code>
+                    <div>
+                        The rankings could not be computed. Returns a JSON
+                        <code>object</code> containing an <code>error</code> string.
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 
