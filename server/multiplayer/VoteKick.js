@@ -3,6 +3,7 @@ export default class Votekick {
     this.targetId = targetId;
     this.voted = Array.isArray(voted) ? voted : [];
     this.threshold = threshold;
+    this.createdAt = Date.now();
   }
 
   exists (givenId) {
