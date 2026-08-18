@@ -1,67 +1,30 @@
-let sets = [];
-let sortKey = null;
-let sortAscending = true;
+import sortTable from '../../scripts/utilities/tables.js';
 
-function renderTable () {
-  const table = document.getElementById('set-metadata-list');
-  table.textContent = '';
-  sets.forEach(({ _id, setName, difficulty, standard, packetsCount, tossupsCount, bonusesCount }) => {
-    const row = table.insertRow(-1);
-    const a = document.createElement('a');
-    a.href = `../set/?_id=${_id}`;
-    a.textContent = setName;
-    row.insertCell(-1).appendChild(a);
-    row.insertCell(-1).textContent = difficulty;
-    row.insertCell(-1).textContent = standard;
-    row.insertCell(-1).textContent = packetsCount ?? '-';
-    row.insertCell(-1).textContent = tossupsCount ?? '-';
-    row.insertCell(-1).textContent = bonusesCount ?? '-';
-  });
-}
+const isNumericColumn = [false, true, false, true, true, true];
 
-function updateSortIcons () {
-  document.querySelectorAll('th[data-sort-key]').forEach(th => {
-    const icon = th.querySelector('i.bi');
-    if (th.dataset.sortKey !== sortKey) {
-      icon.className = 'bi bi-arrow-down-up text-muted';
-    } else {
-      icon.className = sortAscending ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill';
-    }
-  });
-}
-
-function compareRows (a, b, key) {
-  const valueA = a[key];
-  const valueB = b[key];
-  if (valueA == null && valueB == null) return 0;
-  if (valueA == null) return -1;
-  if (valueB == null) return 1;
-  if (typeof valueA === 'string') return valueA.localeCompare(valueB);
-  if (valueA < valueB) return -1;
-  if (valueA > valueB) return 1;
-  return 0;
-}
-
-function sortByKey (key) {
-  sortAscending = sortKey === key ? !sortAscending : true;
-  sortKey = key;
-  sets.sort((a, b) => compareRows(a, b, key) * (sortAscending ? 1 : -1));
-  renderTable();
-  updateSortIcons();
-}
-
-document.querySelectorAll('th[data-sort-key]').forEach(th => {
-  th.addEventListener('click', () => sortByKey(th.dataset.sortKey));
+document.querySelectorAll('th').forEach((th, index) => {
+  th.addEventListener('click', () => sortTable(index, isNumericColumn[index], 'set-metadata-list', 0, 0));
 });
-updateSortIcons();
 
 await fetch('/api/db-explorer/set-metadata?' + new URLSearchParams({ includeCounts: false }))
   .then(res => res.json())
   .then(data => data.data)
   .then(data => {
     document.getElementById('spinner').classList.add('d-none');
-    sets = data;
-    renderTable();
+    const table = document.getElementById('set-metadata-list');
+    data.forEach(({ _id, setName, difficulty, standard }) => {
+      const row = table.insertRow(-1);
+      row.dataset.setId = _id;
+      const a = document.createElement('a');
+      a.href = `../set/?_id=${_id}`;
+      a.textContent = setName;
+      row.insertCell(-1).appendChild(a);
+      row.insertCell(-1).textContent = difficulty;
+      row.insertCell(-1).textContent = standard;
+      row.insertCell(-1).textContent = '-';
+      row.insertCell(-1).textContent = '-';
+      row.insertCell(-1).textContent = '-';
+    });
   });
 
 fetch('/api/db-explorer/set-metadata?' + new URLSearchParams({ includeCounts: true }))
@@ -69,16 +32,15 @@ fetch('/api/db-explorer/set-metadata?' + new URLSearchParams({ includeCounts: tr
   .then(data => data.data)
   .then(data => {
     document.getElementById('spinner').classList.add('d-none');
-    const countsById = new Map(data.map(set => [set._id, set]));
-    sets.forEach(set => {
-      const counts = countsById.get(set._id);
-      if (!counts) return;
-      set.packetsCount = counts.packetsCount;
-      set.tossupsCount = counts.tossupsCount;
-      set.bonusesCount = counts.bonusesCount;
-    });
-    if (['packetsCount', 'tossupsCount', 'bonusesCount'].includes(sortKey)) {
-      sets.sort((a, b) => compareRows(a, b, sortKey) * (sortAscending ? 1 : -1));
+    const table = document.getElementById('set-metadata-list');
+    // Look rows up by set id instead of index: the user may have sorted the
+    // table while this request was in flight, which reorders the rows.
+    const rowsBySetId = new Map(Array.from(table.rows).map(row => [row.dataset.setId, row]));
+    for (const { _id, packetsCount, tossupsCount, bonusesCount } of data) {
+      const row = rowsBySetId.get(_id);
+      if (!row) { continue; }
+      row.cells[3].textContent = packetsCount;
+      row.cells[4].textContent = tossupsCount;
+      row.cells[5].textContent = bonusesCount;
     }
-    renderTable();
   });
