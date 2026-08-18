@@ -1,5 +1,5 @@
-<div class="d-none d-md-block col-2 h-100" id="docsSidebar">
-    <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
+<div class="d-none d-md-block col-2 h-100" id="docs-sidebar">
+    <h4 class="offcanvas-title" id="docs-sidebar-label">API Reference</h4>
     <div class="navbar-nav me-auto mb-2 mb-lg-0">
         <a href="/tools/api-docs"><code>Overview</code></a>
         <a href="/tools/api-docs/schemas"><code>Object Schemas</code></a>
@@ -27,7 +27,7 @@
 
 <script>
     // Highlight active nav link
-    document.querySelectorAll('#docsSidebar a').forEach(link => {
+    document.querySelectorAll('#docs-sidebar a').forEach(link => {
         const path = window.location.pathname;
         const href = link.getAttribute('href');
         if (href !== '/tools/api-docs' && path.startsWith(href)) {
