@@ -73,8 +73,7 @@
 
 <script>
     // Highlight active nav link
-    const links = document.querySelectorAll('#navbar-navigation a');
-    links.forEach(link => {
+    document.querySelectorAll('#navbar-navigation a').forEach(link => {
         const path = window.location.pathname;
         const href = link.getAttribute('href');
         if (link.textContent === 'Search') {

@@ -1,0 +1,37 @@
+<div class="d-none d-md-block col-2 h-100" id="docs-sidebar">
+    <h4 class="offcanvas-title" id="docs-sidebar-label">API Reference</h4>
+    <div class="navbar-nav me-auto mb-2 mb-lg-0">
+        <a href="/tools/api-docs"><code>Overview</code></a>
+        <a href="/tools/api-docs/schemas"><code>Object Schemas</code></a>
+        <h5 class="mt-4 mb-2">Database</h5>
+        <a href="/tools/api-docs/query"><code>query</code></a>
+        <a href="/tools/api-docs/random-bonus"><code>random-bonus</code></a>
+        <a href="/tools/api-docs/random-tossup"><code>random-tossup</code></a>
+        <a href="/tools/api-docs/packet"><code>packet</code></a>
+        <a href="/tools/api-docs/num-packets"><code>num-packets</code></a>
+        <a href="/tools/api-docs/set-list"><code>set-list</code></a>
+        <a href="/tools/api-docs/bonus" aria-current="page"><code>bonus</code></a>
+        <a href="/tools/api-docs/tossup"><code>tossup</code></a>
+        <a href="/tools/api-docs/frequency-list"><code>frequency-list</code></a>
+        <h5 class="mt-4 mb-2">Multiplayer</h5>
+        <a href="/tools/api-docs/multiplayer/room-list"><code>room-list</code></a>
+        <h5 class="mt-4 mb-2">Question Stats</h5>
+        <a href="/tools/api-docs/question-stats/bonus"><code>bonus</code></a>
+        <a href="/tools/api-docs/question-stats/tossup"><code>tossup</code></a>
+        <h5 class="mt-4 mb-2">Other</h5>
+        <a href="/tools/api-docs/check-answer"><code>check-answer</code></a>
+        <a href="/tools/api-docs/random-name"><code>random-name</code></a>
+        <a href="/tools/api-docs/report-question"><code>report-question</code></a>
+    </div>
+</div>
+
+<script>
+    // Highlight active nav link
+    document.querySelectorAll('#docs-sidebar a').forEach(link => {
+        const path = window.location.pathname;
+        const href = link.getAttribute('href');
+        if (href !== '/tools/api-docs' && path.startsWith(href)) {
+            link.classList.add('active', 'fw-semibold');
+        }
+    });
+</script>
