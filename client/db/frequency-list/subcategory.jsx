@@ -48,6 +48,37 @@ function formatFrequencyListAsCSV () {
   return csv;
 }
 
+function createAnswerLink (answer, difficulties, minYear, maxYear, questionType) {
+  const link = document.createElement('a');
+  link.textContent = answer;
+  link.className = 'clickable text-body text-decoration-none';
+  link.role = 'button';
+  link.tabIndex = 0;
+
+  const navigate = () => {
+    const params = {
+      q: answer,
+      searchType: 'exactAnswer',
+      questionType,
+      difficulties,
+      minYear,
+      maxYear,
+      [isCategory ? 'categories' : isAlternate ? 'alternateSubcategories' : 'subcategories']: subcategory
+    };
+    window.location.href = '/db/?' + new URLSearchParams(filterParams(params));
+  };
+
+  link.addEventListener('click', navigate);
+  link.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      navigate();
+    }
+  });
+
+  return link;
+}
+
 function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, questionType) {
   const table = document.getElementById('frequency-list');
   table.innerHTML = '';
@@ -74,7 +105,7 @@ function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, ques
       for (const [index, { answer, count }] of frequencyList.entries()) {
         const row = table.insertRow();
         row.insertCell().textContent = index + 1;
-        row.insertCell().textContent = answer;
+        row.insertCell().appendChild(createAnswerLink(answer, difficulties, minYear, maxYear, questionType));
         row.insertCell().textContent = count;
       }
 
