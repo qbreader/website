@@ -3,6 +3,7 @@ import { downloadAsFile } from '../../scripts/download.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import filterParams from '../../scripts/utilities/filter-params.js';
 import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../shared/constants.js';
+import { SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../../../shared/categories.js';
 import { setYear, addSliderEventListeners } from '../../play/year-slider.js';
 
 let difficulties = DIFFICULTIES;
@@ -65,6 +66,9 @@ function createAnswerLink (answer, difficulties, minYear, maxYear, questionType)
       maxYear,
       [isCategory ? 'categories' : isAlternate ? 'alternateSubcategories' : 'subcategories']: subcategory
     };
+    if (!isCategory) {
+      params.categories = isAlternate ? ALTERNATE_SUBCATEGORY_TO_CATEGORY[subcategory] : SUBCATEGORY_TO_CATEGORY[subcategory];
+    }
     window.location.href = '/db/?' + new URLSearchParams(filterParams(params));
   };
 

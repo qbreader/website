@@ -119,7 +119,7 @@ function QueryForm () {
     return handlePaginationClick(event, value, 'bonus');
   }
 
-  function handleSubmit (event = null, randomize = false, paginationUpdate = false) {
+  function handleSubmit (event = null, randomize = false, paginationUpdate = false, replaceState = false) {
     const startTime = window.performance.now();
 
     event?.preventDefault();
@@ -210,7 +210,12 @@ function QueryForm () {
         const timeElapsed = ((endTime - startTime) / 1000).toFixed(2);
         setQueryTime(timeElapsed);
 
-        window.history.pushState({ tossups, highlightedTossupArray, bonuses, highlightedBonusArray, timeElapsed, workingMaxReturnLength, randomize }, '', '?' + params);
+        const historyState = { tossups, highlightedTossupArray, bonuses, highlightedBonusArray, timeElapsed, workingMaxReturnLength, randomize };
+        if (replaceState) {
+          window.history.replaceState(historyState, '', '?' + params);
+        } else {
+          window.history.pushState(historyState, '', '?' + params);
+        }
       })
       .catch(error => {
         console.error('Error:', error);
@@ -289,7 +294,7 @@ function QueryForm () {
     if (window.location.search !== '') {
       const difficulties = initialParams.get('difficulties')?.split(',')?.map(difficulty => parseInt(difficulty));
       if (difficulties) { setDropdownValues('difficulties', difficulties); }
-      handleSubmit(null, initialParams.get('randomize') === 'true');
+      handleSubmit(null, initialParams.get('randomize') === 'true', false, true);
     }
   }, []);
 
