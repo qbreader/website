@@ -26,11 +26,17 @@
             <a href="#parameters" class="text-body">
                 <h4 class="mt-4 md-2" id="parameters">Parameters</h4>
             </a>
-            <div>
-                <p>
-                    This endpoint takes no parameters.
-                </p>
-            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <code>expand</code><code class="text-muted">: boolean</code>
+                    </div>
+                    <div>
+                        If <code>true</code>, returns an array of metadata objects instead of an array of set
+                        names (see below). Defaults to <code>false</code>.
+                    </div>
+                </li>
+            </ul>
 
             <a href="#returns" class="text-body">
                 <h4 class="mt-4 md-2" id="returns">Returns</h4>
@@ -41,10 +47,17 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
-                        <code>setList</code><code class="text-muted">: string[]</code>
+                        <code>setList</code><code class="text-muted">: string[] | object[]</code>
                     </div>
                     <div>
-                        An <code>array</code> of all the sets in the database, sorted in reverse alphanumeric order.
+                        By default, an <code>array</code> of all the set names in the database, sorted in reverse
+                        alphanumeric order.
+                    </div>
+                    <div>
+                        If <code>expand</code> is <code>true</code>, an <code>array</code> of objects instead, each
+                        with the following properties: <code>_id</code>, <code>setName</code>,
+                        <code>difficulty</code>, <code>standard</code>, <code>year</code>, <code>packetsCount</code>,
+                        <code>tossupsCount</code>, and <code>bonusesCount</code>.
                     </div>
                 </li>
             </ul>
