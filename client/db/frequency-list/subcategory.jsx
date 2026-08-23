@@ -62,14 +62,20 @@ function createAnswerLink (answer, difficulties, minYear, maxYear, questionType)
       searchType: 'exactAnswer',
       questionType,
       difficulties,
-      minYear,
-      maxYear,
       [isCategory ? 'categories' : isAlternate ? 'alternateSubcategories' : 'subcategories']: subcategory
     };
     if (!isCategory) {
       params.categories = isAlternate ? ALTERNATE_SUBCATEGORY_TO_CATEGORY[subcategory] : SUBCATEGORY_TO_CATEGORY[subcategory];
     }
-    window.location.href = '/db/?' + new URLSearchParams(filterParams(params));
+    // minYear/maxYear must always be sent explicitly: /api/query's implicit
+    // defaults (MIN_YEAR/MAX_YEAR) differ from the frequency list's slider
+    // defaults (DEFAULT_MIN_YEAR/DEFAULT_MAX_YEAR), so letting filterParams
+    // strip them here (as it does for the frequency list's own fetch) would
+    // widen the db search beyond what the frequency list actually reflects.
+    const filteredParams = filterParams(params);
+    filteredParams.minYear = minYear;
+    filteredParams.maxYear = maxYear;
+    window.location.href = '/db/?' + new URLSearchParams(filteredParams);
   };
 
   link.addEventListener('click', navigate);
