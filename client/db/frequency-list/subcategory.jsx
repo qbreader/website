@@ -67,11 +67,8 @@ function createAnswerLink (answer, difficulties, minYear, maxYear, questionType)
     if (!isCategory) {
       params.categories = isAlternate ? ALTERNATE_SUBCATEGORY_TO_CATEGORY[subcategory] : SUBCATEGORY_TO_CATEGORY[subcategory];
     }
-    // minYear/maxYear must always be sent explicitly: /api/query's implicit
-    // defaults (MIN_YEAR/MAX_YEAR) differ from the frequency list's slider
-    // defaults (DEFAULT_MIN_YEAR/DEFAULT_MAX_YEAR), so letting filterParams
-    // strip them here (as it does for the frequency list's own fetch) would
-    // widen the db search beyond what the frequency list actually reflects.
+    // minYear/maxYear must be sent explicitly, since otherwise filterParams
+    // would incorrectly strip them here since it uses different defaults
     const filteredParams = filterParams(params);
     filteredParams.minYear = minYear;
     filteredParams.maxYear = maxYear;
