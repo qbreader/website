@@ -1,6 +1,6 @@
 // Seeds the "soundtracks" demo packet: audio, tossups, test users, and teams.
 // Local development only - this writes to whatever database MONGODB_URI points at.
-import { audio, packets, teams, tossups } from '../database/geoword/collections.js';
+import { audio, packets, sampleAudio, teams, tossups } from '../database/geoword/collections.js';
 import { users } from '../database/account-info/collections.js';
 import { mongoClient } from '../database/databases.js';
 import { saltAndHashPassword } from '../server/authentication.js';
@@ -13,6 +13,8 @@ import { hideBin } from 'yargs/helpers';
 const PACKET_NAME = 'soundtracks';
 const DIVISION = 'open';
 const MAX_DOCUMENT_SIZE = 16 * 1024 * 1024;
+// The clip the "Test" button plays, so a player can check their volume before starting.
+const SAMPLE_FILENAME = 'sample.mp3';
 
 // Seeded players, so that a team's buzzes can be merged without a team-creation UI.
 // These are deliberately NOT admins: recordBuzz marks an admin's buzz `active: false`,
@@ -50,7 +52,9 @@ const argv = yargs(hideBin(process.argv))
  * @returns {Promise<Array<{ questionNumber: number, filename: string }>>} sorted by question number
  */
 async function findAudioFiles (folderPath) {
-  const filenames = (await readdir(folderPath)).filter(filename => filename.toLowerCase().endsWith('.mp3'));
+  const filenames = (await readdir(folderPath))
+    .filter(filename => filename.toLowerCase().endsWith('.mp3'))
+    .filter(filename => filename.toLowerCase() !== SAMPLE_FILENAME);
   const files = [];
 
   for (const filename of filenames) {
@@ -118,10 +122,18 @@ const existing = await packets.findOne({ name: PACKET_NAME });
 if (existing) {
   const oldTossups = await tossups.find({ 'packet.name': PACKET_NAME }, { projection: { audio_id: 1 } }).toArray();
   await audio.deleteMany({ _id: { $in: oldTossups.map(tossup => tossup.audio_id) } });
+  await sampleAudio.deleteOne({ _id: existing.sample_audio_id });
   await tossups.deleteMany({ 'packet.name': PACKET_NAME });
   await teams.deleteMany({ packetName: PACKET_NAME });
   await packets.deleteOne({ name: PACKET_NAME });
 }
+
+// The "Test" button plays this. Without it the button is silently a no-op, since the
+// route returns an empty 200 rather than a 404. Falls back to the first tossup's audio.
+const samplePath = files.some(file => file.filename.toLowerCase() === SAMPLE_FILENAME)
+  ? path.join(folderPath, SAMPLE_FILENAME)
+  : path.join(folderPath, files[0].filename);
+const { insertedId: sampleAudioId } = await sampleAudio.insertOne({ audio: await readFile(samplePath) });
 
 // `costInCents: 0` makes checkPayment pass without touching the Stripe path.
 // `test: false` keeps the packet visible, so non-admin players can reach it and their
@@ -132,7 +144,8 @@ const { insertedId: packetId } = await packets.insertOne({
   test: argv.test,
   active: true,
   divisions: [DIVISION],
-  order: 99
+  order: 99,
+  sample_audio_id: sampleAudioId
 });
 
 for (const { questionNumber, filename } of files) {
