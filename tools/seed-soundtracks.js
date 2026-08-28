@@ -15,11 +15,17 @@ const DIVISION = 'open';
 const MAX_DOCUMENT_SIZE = 16 * 1024 * 1024;
 
 // Seeded players, so that a team's buzzes can be merged without a team-creation UI.
+// These are deliberately NOT admins: recordBuzz marks an admin's buzz `active: false`,
+// and leaderboards only count active buzzes, so an admin's play never shows up in
+// standings. Playing as a normal user exercises the same path a real competitor will.
 const TEST_USERS = [
   { username: 'soundtracks-alice', password: 'password', team: 'Tracer Bullets' },
   { username: 'soundtracks-bob', password: 'password', team: 'Tracer Bullets' },
   { username: 'soundtracks-carol', password: 'password', team: 'Solo Act' }
 ];
+
+// A separate account for viewing results before the packet is finished.
+const ADMIN_USER = { username: 'soundtracks-admin', password: 'password' };
 
 const argv = yargs(hideBin(process.argv))
   .option('folderPath', {
@@ -28,10 +34,10 @@ const argv = yargs(hideBin(process.argv))
     type: 'string',
     default: './audio/soundtracks'
   })
-  .option('admin', {
-    description: 'whether the seeded users are admins, so they can reach a test packet',
+  .option('test', {
+    description: 'hide the packet from the public list, so only admins can reach it',
     type: 'boolean',
-    default: true
+    default: false
   })
   .help()
   .alias('help', 'h')
@@ -71,12 +77,16 @@ async function findAudioFiles (folderPath) {
  */
 async function upsertUsers () {
   const userIds = {};
+  const accounts = [
+    ...TEST_USERS.map(user => ({ ...user, admin: false })),
+    { ...ADMIN_USER, admin: true }
+  ];
 
-  for (const { username, password } of TEST_USERS) {
+  for (const { username, password, admin } of accounts) {
     await users.updateOne(
       { username },
       {
-        $set: { password: saltAndHashPassword(password), admin: argv.admin, verifiedEmail: true },
+        $set: { password: saltAndHashPassword(password), admin, verifiedEmail: true },
         $setOnInsert: { username, email: `${username}@example.com` }
       },
       { upsert: true }
@@ -114,11 +124,12 @@ if (existing) {
 }
 
 // `costInCents: 0` makes checkPayment pass without touching the Stripe path.
-// `test: true` keeps the packet off the public list, so only admins can reach it.
+// `test: false` keeps the packet visible, so non-admin players can reach it and their
+// buzzes count toward standings. Pass --test to hide it from the public list instead.
 const { insertedId: packetId } = await packets.insertOne({
   name: PACKET_NAME,
   costInCents: 0,
-  test: true,
+  test: argv.test,
   active: true,
   divisions: [DIVISION],
   order: 99
@@ -158,6 +169,7 @@ for (const teamName of teamNames) {
 }
 
 console.log(`\nSeeded "${PACKET_NAME}" with ${files.length} tossups and ${teamNames.length} teams.`);
-console.log(`Log in as ${TEST_USERS.map(user => user.username).join(' / ')} (password: "password").`);
+console.log(`Play as ${TEST_USERS.map(user => user.username).join(' / ')} (password: "password").`);
+console.log(`View results early as ${ADMIN_USER.username} (password: "password").`);
 
 await mongoClient.close();
