@@ -165,7 +165,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
         ? 'This is a verified room. Login is required and some settings have been restricted.'
         : 'This is a permanent room. Some settings have been restricted.';
       document.getElementById('reading-speed').disabled = true;
-      document.getElementById('set-strictness').disabled = true;
+      // document.getElementById('set-strictness').disabled = true;
       document.getElementById('set-mode').disabled = true;
       document.getElementById('toggle-public').disabled = true;
       if (isVerified) {
@@ -678,7 +678,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('category-select-button').disabled = controlled;
     document.getElementById('reading-speed').disabled = controlled;
     document.getElementById('set-mode').disabled = controlled;
-    document.getElementById('set-strictness').disabled = controlled;
+    // document.getElementById('set-strictness').disabled = controlled;
   }
 
   toggleEnableBonuses ({ enableBonuses, username }) {
