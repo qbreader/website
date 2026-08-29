@@ -31,13 +31,13 @@ export default function sortTable (n, numeric = false, tableId = 'table', header
               based on the direction, asc or desc: */
       if (dir === 'asc') {
         if (numeric) {
-          if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
+          if (parseFloat(x.textContent) < parseFloat(y.textContent)) {
             // If so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
           }
         } else {
-          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          if (x.textContent.toLowerCase() > y.textContent.toLowerCase()) {
             // If so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
@@ -45,13 +45,13 @@ export default function sortTable (n, numeric = false, tableId = 'table', header
         }
       } else if (dir === 'desc') {
         if (numeric) {
-          if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+          if (parseFloat(x.textContent) > parseFloat(y.textContent)) {
             // If so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
           }
         } else {
-          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          if (x.textContent.toLowerCase() < y.textContent.toLowerCase()) {
             // If so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
