@@ -1,7 +1,6 @@
 import adminRouter from './admin/index.js';
 import bonusRouter from './bonus.js';
 import checkAnswerRouter from './check-answer.js';
-import dbExplorerRouter from './db-explorer/index.js';
 import frequencyListRouter from './frequency-list.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer/index.js';
@@ -48,7 +47,6 @@ router.use((req, _res, next) => {
 router.use('/admin', adminRouter);
 router.use('/bonus', bonusRouter);
 router.use('/check-answer', checkAnswerRouter);
-router.use('/db-explorer', dbExplorerRouter);
 router.use('/frequency-list', frequencyListRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);
