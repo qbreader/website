@@ -1,4 +1,5 @@
 import * as validateBoolean from '../validators/boolean.js';
+import * as validateInt from '../validators/int.js';
 import getSetList from '../../database/qbreader/get-set-list.js';
 import getSetMetadata from '../../database/qbreader/set-metadata-list.js';
 
@@ -8,7 +9,9 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   req.query = validateBoolean.expand(req.query);
-  const setList = req.query.expand ? await getSetMetadata() : await getSetList();
+  req.query = validateBoolean.includeCounts(req.query);
+  req.query = validateInt.limit(req.query, { defaultValue: undefined });
+  const setList = req.query.expand ? await getSetMetadata(req.query) : await getSetList();
   return res.json({ setList });
 });
 
