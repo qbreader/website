@@ -31,8 +31,8 @@ export function bonusPagination (object) {
   return validateInt(object, 'bonusPagination', { defaultValue: 1, lowerBound: 1 });
 }
 
-export function limit (object) {
-  return validateInt(object, 'limit', { defaultValue: 50, lowerBound: 1 });
+export function limit (object, { defaultValue = 50 } = {}) {
+  return validateInt(object, 'limit', { defaultValue, lowerBound: 1 });
 }
 
 export function maxReturnLength (object) {
