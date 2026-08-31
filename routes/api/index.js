@@ -1,4 +1,5 @@
 import adminRouter from './admin/index.js';
+import audioRouter from './audio.js';
 import bonusRouter from './bonus.js';
 import checkAnswerRouter from './check-answer.js';
 import frequencyListRouter from './frequency-list.js';
@@ -45,6 +46,7 @@ router.use((req, _res, next) => {
 });
 
 router.use('/admin', adminRouter);
+router.use('/audio', audioRouter);
 router.use('/bonus', bonusRouter);
 router.use('/check-answer', checkAnswerRouter);
 router.use('/frequency-list', frequencyListRouter);
