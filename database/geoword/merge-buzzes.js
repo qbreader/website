@@ -54,12 +54,13 @@ export function bestBuzz (buzzes) {
  * Reduces a team's buzzes to one scoring buzz per question.
  * @param {Buzz[]} buzzes - a team's buzzes, across any number of questions
  * @param {function(Buzz[]): Buzz} [strategy] - how to pick when teammates both buzzed
- * @returns {Buzz[]} one buzz per question the team heard, ordered by question number
+ * @returns {Buzz[]} one correct buzz per question, ordered by question number
  */
 export default function mergeBuzzes (buzzes, strategy = earliestBuzz) {
   const byQuestion = new Map();
+  const correctBuzzes = buzzes.filter(buzz => buzz.points > 0);
 
-  for (const buzz of buzzes) {
+  for (const buzz of correctBuzzes) {
     const question = byQuestion.get(buzz.questionNumber) ?? [];
     question.push(buzz);
     byQuestion.set(buzz.questionNumber, question);
