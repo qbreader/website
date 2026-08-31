@@ -1,4 +1,4 @@
-import { escapeHTML } from '../scripts/utilities/strings.js';
+import { escapeHTML } from '../../shared/string-utils.js';
 
 /**
  * Upserts a player item to the DOM element with the id `player-list-group`.

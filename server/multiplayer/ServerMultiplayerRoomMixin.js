@@ -2,9 +2,8 @@ import ServerPlayer from './ServerPlayer.js';
 import Votekick from './VoteKick.js';
 import { HEADER, ENDC, OKCYAN, OKBLUE } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
-import { BONUS_PROGRESS_ENUM, MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../quizbowl/constants.js';
-import insertTokensIntoHTML from '../../quizbowl/insert-tokens-into-html.js';
-// import TossupRoom from '../../quizbowl/TossupRoom.js';
+import { BONUS_PROGRESS_ENUM, MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
+import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
 import RateLimit from '../RateLimit.js';
 
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
@@ -14,7 +13,7 @@ import getSetList from '../../database/qbreader/get-set-list.js';
 import getNumPackets from '../../database/qbreader/get-num-packets.js';
 
 import checkAnswer from 'qb-answer-checker';
-import Team from '../../quizbowl/Team.js';
+import Team from '../../shared/Team.js';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
@@ -120,11 +119,16 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     }
 
     socket.on('message', message => {
-      if (this.rateLimiter(socket) && !this.rateLimitExceeded.has(username)) {
-        console.log(`Rate limit exceeded for ${username} in room ${this.name}`);
-        this.rateLimitExceeded.add(username);
+      if (this.rateLimiter(socket)) {
+        // Still over the limit: always drop the message, but only log once per burst.
+        if (!this.rateLimitExceeded.has(username)) {
+          console.log(`Rate limit exceeded for ${username} in room ${this.name}`);
+          this.rateLimitExceeded.add(username);
+        }
         return;
       }
+      // Back under the limit: clear the flag so the user recovers.
+      this.rateLimitExceeded.delete(username);
 
       try {
         message = JSON.parse(message);
@@ -289,6 +293,11 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     super.setCategories({ userId, username }, { categories, subcategories, alternateSubcategories, percentView, categoryPercents });
   }
 
+  setDifficulties ({ userId, username }, { difficulties }) {
+    if (this.isPermanent || !this.allowed(userId)) { return; }
+    super.setDifficulties({ userId, username }, { difficulties });
+  }
+
   setMode ({ userId, username }, { mode }) {
     if (this.isPermanent || !this.allowed(userId)) { return; }
     if (this.mode !== MODE_ENUM.SET_NAME && this.mode !== MODE_ENUM.RANDOM) { return; }
@@ -389,6 +398,11 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     super.toggleStandardOnly({ userId, username }, { doNotFetch: false, standardOnly });
   }
 
+  toggleStopOnPower ({ userId, username }, { stopOnPower }) {
+    if (!this.allowed(userId)) { return; }
+    super.toggleStopOnPower({ userId, username }, { stopOnPower });
+  }
+
   togglePublic ({ userId, username }, { public: isPublic }) {
     if (this.isPermanent || this.settings.controlled) { return; }
     this.settings.public = isPublic;
@@ -420,8 +434,6 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       return;
     }
 
-    this.lastVotekickTime[userId] = currentTime;
-
     for (const votekick of this.votekickList) {
       if (votekick.exists(targetId)) { return; }
     }
@@ -433,6 +445,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     });
 
     const threshold = Math.max(Math.floor(activePlayers * 3 / 4), 2);
+    this.lastVotekickTime[userId] = currentTime;
     const votekick = new Votekick(targetId, threshold, []);
     votekick.vote(userId);
     this.votekickList.push(votekick);

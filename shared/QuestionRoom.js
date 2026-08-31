@@ -256,8 +256,8 @@ export default class QuestionRoom extends Room {
   }
 
   setStrictness ({ username }, { strictness }) {
-    this.settings.strictness = strictness;
-    this.emitMessage({ type: 'set-strictness', username, strictness });
+    // this.settings.strictness = strictness;
+    // this.emitMessage({ type: 'set-strictness', username, strictness });
   }
 
   startServerTimer (time, ontick, callback) {

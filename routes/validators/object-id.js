@@ -19,8 +19,20 @@ export default function validateObjectId (object, field) {
 /**
  * Validates the '_id' field of an object as a MongoDB ObjectId.
  * Also allows for the 'id' field to be used as an alias for '_id' if '_id' is not present.
+ * @returns {{ _id: ObjectId | null }}
  */
 export function _id (object) {
   if (!object._id && object.id) { object._id = object.id; }
   return validateObjectId(object, '_id');
+}
+
+/**
+ * Validates the 'set_id' field of an object as a MongoDB ObjectId.
+ * Allows for the 'setId' field to be used as an alias for 'set_id' if 'set_id' is not present.
+ * @returns {{ set_id: ObjectId | null }}
+ */
+// eslint-disable-next-line camelcase
+export function set_id (object, value) {
+  if (!object.set_id && object.setId) { object.set_id = object.setId; }
+  return validateObjectId(object, 'set_id');
 }

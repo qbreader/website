@@ -7,7 +7,7 @@ import {
   SUBCATEGORIES,
   SUBCATEGORY_TO_CATEGORY,
   CATEGORY_TO_ALTERNATE_SUBCATEGORIES
-} from '../../quizbowl/categories.js';
+} from '../../shared/categories.js';
 
 // eslint-disable-next-line no-unused-vars
 import express from 'express';

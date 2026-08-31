@@ -1,4 +1,4 @@
-import { titleCase } from '../../scripts/utilities/strings.js';
+import { titleCase } from '../../../shared/string-utils.js';
 import sortTable from '../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);

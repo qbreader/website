@@ -1,6 +1,6 @@
 import { tossups, bonuses } from './collections.js';
 
-import { CATEGORIES, SUBCATEGORIES } from '../../quizbowl/categories.js';
+import { CATEGORIES, SUBCATEGORIES } from '../../shared/categories.js';
 // eslint-disable-next-line no-unused-vars
 import * as types from '../../types.js';
 

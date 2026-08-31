@@ -1,8 +1,23 @@
 import fs from 'fs';
 import path from 'path';
 
-const head = fs.readFileSync('./client/ssi/head.html', 'utf8');
-const nav = fs.readFileSync('./client/ssi/nav.html', 'utf8');
+const ssiFileNames = [
+  'api-docs-sidebar.html',
+  'funny-toast.html',
+  'head.html',
+  'nav.html',
+  'report-question-modal.html',
+  'star-toast.html'
+];
+
+const ssiFiles = ssiFileNames.map(fileName => fs.readFileSync(`./client/ssi/${fileName}`, 'utf8'));
+
+export function replaceSSI (html) {
+  for (let i = 0; i < ssiFileNames.length; i++) {
+    html = html.replace(`<!--#include virtual="/ssi/${ssiFileNames[i]}" -->`, ssiFiles[i]);
+  }
+  return html;
+}
 
 export default function (req, res, next) {
   if (path.extname(req.path) !== '') { return next(); }
@@ -12,8 +27,7 @@ export default function (req, res, next) {
   if (!filePath.startsWith(path.resolve('./client'))) { return next(); }
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) return next();
-    data = data.replace('<!--#include virtual="/ssi/head.html" -->', head);
-    data = data.replace('<!--#include virtual="/ssi/nav.html" -->', nav);
+    data = replaceSSI(data);
     res.send(data);
   });
 }

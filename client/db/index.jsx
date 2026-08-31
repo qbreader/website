@@ -8,7 +8,7 @@ import DifficultyDropdown from '../scripts/components/DifficultyDropdown.jsx';
 import Star from '../scripts/components/Star.jsx';
 import { getDropdownValues, setDropdownValues } from '../scripts/utilities/dropdown-checklist.js';
 import filterParams from '../scripts/utilities/filter-params.js';
-import CategoryManager from '../../quizbowl/category-manager.js';
+import CategoryManager from '../../shared/category-manager.js';
 import reportQuestion from '../scripts/api/report-question.js';
 import getSetList from '../scripts/api/get-set-list.js';
 
@@ -39,7 +39,7 @@ function QueryForm () {
     subcategories: initialParams.get('subcategories') ? initialParams.get('subcategories').split(',') : [],
     alternateSubcategories: initialParams.get('alternateSubcategories') ? initialParams.get('alternateSubcategories').split(',') : []
   });
-  const [queryString, setQueryString] = React.useState(initialParams.get('queryString') ?? '');
+  const [queryString, setQueryString] = React.useState(initialParams.get('q') ?? initialParams.get('queryString') ?? '');
   const [maxReturnLength, setMaxReturnLength] = React.useState(initialParams.get('maxReturnLength') ?? '');
   const [setName, setSetName] = React.useState(initialParams.get('setName') ?? '');
   const [searchType, setSearchType] = React.useState(initialParams.get('searchType') ?? 'all');
@@ -133,7 +133,7 @@ function QueryForm () {
     }
 
     const unfilteredParams = {
-      queryString,
+      q: queryString,
       ...categoryManager.export(),
       difficulties: getDropdownValues('difficulties'),
       maxReturnLength,
@@ -371,9 +371,9 @@ function QueryForm () {
             </div>
             <div className='float-end'>
               <b>Download this page:</b>
-              <a className='ms-2 clickable' onClick={() => { downloadQuestionsAsText({ tossups, bonuses }); }}>TXT</a>
-              <a className='ms-2 clickable' onClick={() => { downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses); }}>CSV</a>
-              <a className='ms-2 clickable' onClick={() => { downloadQuestionsAsJSON(tossups, bonuses); }}>JSON</a>
+              <a className='ms-2 clickable' role='button' tabIndex={0} onClick={() => { downloadQuestionsAsText({ tossups, bonuses }); }} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); downloadQuestionsAsText({ tossups, bonuses }); } }}>TXT</a>
+              <a className='ms-2 clickable' role='button' tabIndex={0} onClick={() => { downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses); }} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); downloadTossupsAsCSV(tossups); downloadBonusesAsCSV(bonuses); } }}>CSV</a>
+              <a className='ms-2 clickable' role='button' tabIndex={0} onClick={() => { downloadQuestionsAsJSON(tossups, bonuses); }} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); downloadQuestionsAsJSON(tossups, bonuses); } }}>JSON</a>
             </div>
           </div>
         </div>
@@ -388,7 +388,7 @@ function QueryForm () {
           ? <div className='float-row mb-3'>
             <span className='text-muted float-start'>Showing {tossups.length} of {tossupCount} results ({queryTime} seconds)</span>&nbsp;
             <span className='text-muted float-end'>
-              <a className='clickable' onClick={() => window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' })}>
+              <a className='clickable' role='button' tabIndex={0} onClick={() => window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' })} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.scrollTo({ top: document.getElementById('bonuses').offsetTop, behavior: 'smooth' }); } }}>
                 Jump to bonuses
               </a>
             </span>
@@ -418,7 +418,7 @@ function QueryForm () {
                   const isActive = tossupPaginationNumber === i + 1;
                   return (
                     <li key={`tossup-pagination-${i + 1}`} className='page-item'>
-                      <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleTossupPaginationClick(event, i + 1); }}>
+                      <a className={`page-link ${isActive ? 'active' : ''}`} aria-current={isActive ? 'page' : undefined} href='#' onClick={event => { handleTossupPaginationClick(event, i + 1); }}>
                         {i + 1}
                       </a>
                     </li>
@@ -447,7 +447,7 @@ function QueryForm () {
           ? <div className='float-row mb-3'>
             <span className='text-muted float-start'>Showing {bonuses.length} of {bonusCount} results ({queryTime} seconds)</span>&nbsp;
             <span className='text-muted float-end'>
-              <a className='clickable' onClick={() => window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' })}>
+              <a className='clickable' role='button' tabIndex={0} onClick={() => window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' })} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.scrollTo({ top: document.getElementById('tossups').offsetTop, behavior: 'smooth' }); } }}>
                 Jump to tossups
               </a>
             </span>
@@ -477,7 +477,7 @@ function QueryForm () {
                 const isActive = bonusPaginationNumber === i + 1;
                 return (
                   <li key={`bonus-pagination-${i + 1}`} className='page-item'>
-                    <a className={`page-link ${isActive && 'active'}`} href='#' onClick={event => { handleBonusPaginationClick(event, i + 1); }}>
+                    <a className={`page-link ${isActive ? 'active' : ''}`} aria-current={isActive ? 'page' : undefined} href='#' onClick={event => { handleBonusPaginationClick(event, i + 1); }}>
                       {i + 1}
                     </a>
                   </li>

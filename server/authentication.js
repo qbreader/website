@@ -59,7 +59,7 @@ export function checkToken (username, token, checkEmailVerification = false) {
  * @returns A JWT token.
  */
 export function generateToken (username, verifiedEmail = false) {
-  return sign({ username, verifiedEmail }, secret);
+  return sign({ username, verifiedEmail }, secret, { expiresIn: '7d' });
 }
 
 /**
@@ -131,6 +131,15 @@ export async function sendVerificationEmail (username) {
 
 export function updatePassword (username, newPassword) {
   return updateUser(username, { password: saltAndHashPassword(newPassword) });
+}
+
+/**
+ *
+ * @param {string} email
+ * @returns {boolean} True if the email is valid, and false otherwise.
+ */
+export function validateEmail (email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 /**

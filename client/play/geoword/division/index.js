@@ -1,4 +1,4 @@
-import { titleCase } from '../../../scripts/utilities/strings.js';
+import { titleCase } from '../../../../shared/string-utils.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');

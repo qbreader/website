@@ -1,5 +1,5 @@
 import createTabs from '../../scripts/utilities/create-tabs.js';
-import { titleCase, kebabCase } from '../../scripts/utilities/strings.js';
+import { titleCase, kebabCase } from '../../../shared/string-utils.js';
 import sortTable from '../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);

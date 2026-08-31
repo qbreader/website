@@ -1,7 +1,6 @@
 import adminRouter from './admin/index.js';
 import bonusRouter from './bonus.js';
 import checkAnswerRouter from './check-answer.js';
-import dbExplorerRouter from './db-explorer/index.js';
 import frequencyListRouter from './frequency-list.js';
 import geowordRouter from './geoword/index.js';
 import multiplayerRouter from './multiplayer/index.js';
@@ -28,7 +27,7 @@ const router = Router();
 
 // Apply the rate limiting middleware to API calls only
 router.use(rateLimit({
-  windowMs: 1000, // 4 seconds
+  windowMs: 1000, // 1 second
   max: 20, // Limit each IP to 20 requests per `window`
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false // Disable the `X-RateLimit-*` headers
@@ -48,7 +47,6 @@ router.use((req, _res, next) => {
 router.use('/admin', adminRouter);
 router.use('/bonus', bonusRouter);
 router.use('/check-answer', checkAnswerRouter);
-router.use('/db-explorer', dbExplorerRouter);
 router.use('/frequency-list', frequencyListRouter);
 router.use('/geoword', geowordRouter);
 router.use('/multiplayer', multiplayerRouter);

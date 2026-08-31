@@ -2,6 +2,16 @@ import account from '../scripts/accounts.js';
 
 account.deleteUsername();
 
+const passwordInput = document.getElementById('password');
+const togglePassword = document.getElementById('toggle-password');
+togglePassword.addEventListener('click', () => {
+  const isPassword = passwordInput.type === 'password';
+  passwordInput.type = isPassword ? 'text' : 'password';
+  togglePassword.querySelector('i').classList.toggle('bi-eye', !isPassword);
+  togglePassword.querySelector('i').classList.toggle('bi-eye-slash', isPassword);
+  togglePassword.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+});
+
 const form = document.getElementById('login-form');
 form.addEventListener('submit', (event) => {
   event.preventDefault();

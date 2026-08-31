@@ -19,7 +19,7 @@ import rateLimit from 'express-rate-limit';
 
 const router = Router();
 router.use(rateLimit({
-  windowMs: 1000, // 4 seconds
+  windowMs: 1000, // 1 second
   max: 20, // Limit each IP to 20 requests per `window`
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false // Disable the `X-RateLimit-*` headers

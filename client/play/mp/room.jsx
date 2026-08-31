@@ -1,11 +1,12 @@
 import MultiplayerTossupBonusClient from './MultiplayerTossupBonusClient.js';
+import { showAlert } from './alert.js';
 
-import CategoryManager from '../../../quizbowl/category-manager.js';
+import CategoryManager from '../../../shared/category-manager.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import getRandomName from '../../../quizbowl/get-random-name.js';
+import { MODE_ENUM } from '../../../shared/constants.js';
+import getRandomName from '../../../shared/get-random-name.js';
 
 const room = {
   bonus: {},
@@ -52,7 +53,7 @@ socket.sendToServer = (data) => socket.send(JSON.stringify(data));
 
 socket.onclose = function (event) {
   const { code } = event;
-  if (code !== 3000) { window.alert('Disconnected from server'); }
+  if (code !== 3000) { showAlert('Disconnected from server'); }
   clearInterval(PING_INTERVAL_ID);
 };
 

@@ -1,4 +1,4 @@
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
+import { MODE_ENUM } from '../../../shared/constants.js';
 import questionStats from '../../scripts/auth/question-stats.js';
 import BonusClient from '../BonusClient.js';
 
