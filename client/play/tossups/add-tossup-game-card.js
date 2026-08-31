@@ -13,6 +13,10 @@ export default async function addTossupGameCard ({ roomHistoryId = 'room-history
   if (!tossup || Object.keys(tossup).length === 0) return;
 
   const { markedQuestion, answer, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id } = tossup;
+  const uniqueId = `${_id}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const questionId = `question-${uniqueId}`;
+  const reportQuestionId = `report-question-${uniqueId}`;
+  const starTossupId = `star-tossup-${uniqueId}`;
 
   starred = starred ?? await star.isStarredTossup(_id);
 
@@ -21,17 +25,17 @@ export default async function addTossupGameCard ({ roomHistoryId = 'room-history
   card.className = 'card my-2';
   card.innerHTML = `
     <div class="card-header d-flex justify-content-between">
-      <span class="card-header-clickable clickable" data-bs-toggle="collapse" data-bs-target="#question-${_id}" aria-expanded="true">
+      <span class="card-header-clickable clickable" data-bs-toggle="collapse" data-bs-target="#${questionId}" aria-expanded="true">
         ${removeParentheses(answer)}
       </span>
-      <a href="#" class="star-tossup ${starred ? 'selected' : ''}" id="star-tossup-${_id}">
+      <a href="#" class="star-tossup ${starred ? 'selected' : ''}" id="${starTossupId}">
         ${starred ? star.starredSvg : star.unstarredSvg}
       </a>
     </div>
-    <div class="card-container collapse" id="question-${_id}">
+    <div class="card-container collapse" id="${questionId}">
       <div class="card-body">
         ${markedQuestion}
-        <a class="user-select-none" href="#" id="report-question-${_id}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
+        <a class="user-select-none" href="#" id="${reportQuestionId}" data-bs-toggle="modal" data-bs-target="#report-question-modal">Report Question</a>
         <hr></hr>
         <div>ANSWER: ${answer}</div>
       </div>
@@ -44,11 +48,11 @@ export default async function addTossupGameCard ({ roomHistoryId = 'room-history
 
   document.getElementById(roomHistoryId).prepend(card);
 
-  document.getElementById('report-question-' + _id).addEventListener('click', function () {
+  document.getElementById(reportQuestionId).addEventListener('click', function () {
     document.getElementById('report-question-id').value = _id;
   });
 
-  document.getElementById('star-tossup-' + _id).addEventListener('click', async function (event) {
+  document.getElementById(starTossupId).addEventListener('click', async function (event) {
     event.preventDefault();
     event.stopPropagation();
 
