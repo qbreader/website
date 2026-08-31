@@ -2,9 +2,8 @@ import ServerPlayer from './ServerPlayer.js';
 import Votekick from './VoteKick.js';
 import { HEADER, ENDC, OKCYAN, OKBLUE } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
-import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
+import { BONUS_PROGRESS_ENUM, MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
-// import TossupRoom from '../../shared/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
 
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
@@ -47,7 +46,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     };
 
     getSetList().then(setList => { this.packetList = setList; });
-    setInterval(this.cleanupExpiredBansAndKicks.bind(this), 5 * 60 * 1000); // 5 minutes
+    this.cleanupInterval = setInterval(this.cleanupExpiredBansAndKicks.bind(this), 5 * 60 * 1000); // 5 minutes
   }
 
   async message ({ userId, username }, message) {
@@ -259,6 +258,18 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     }
 
     this.leave(userId);
+
+    // Reclaim non-permanent rooms once they empty out, so the room object and
+    // its cleanup interval don't leak. Skip while a question is in progress;
+    // its timers still hold a reference and the room will be reclaimed the next
+    // time it empties between questions.
+    const isEmpty = Object.keys(this.sockets).length === 0;
+    const isIdle = this.tossupProgress === TOSSUP_PROGRESS_ENUM.NOT_STARTED &&
+      this.bonusProgress === BONUS_PROGRESS_ENUM.NOT_STARTED;
+    if (isEmpty && isIdle && !this.isPermanent && !this.isVerified) {
+      clearInterval(this.cleanupInterval);
+      this.onEmpty?.();
+    }
   }
 
   giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
