@@ -1,9 +1,9 @@
 const setId = new URLSearchParams(window.location.search).get('_id');
-fetch('/api/db-explorer/packet-metadata?' + new URLSearchParams({ setId }))
+fetch('/api/packet-list?' + new URLSearchParams({ setId, expand: true }))
   .then(res => res.json())
   .then(data => {
     document.getElementById('set-name').textContent = data.setName;
-    return data.data;
+    return data.packetList;
   })
   .then(data => {
     document.getElementById('spinner').classList.add('d-none');
