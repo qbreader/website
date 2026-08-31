@@ -8,14 +8,8 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   req.query = validateBoolean.expand(req.query);
-
-  if (!req.query.expand) {
-    const setList = await getSetList();
-    return res.json({ setList });
-  }
-
-  const setList = await getSetMetadata();
-  res.json({ setList });
+  const setList = req.query.expand ? await getSetMetadata() : await getSetList();
+  return res.json({ setList });
 });
 
 export default router;
