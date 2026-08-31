@@ -54,10 +54,18 @@
                         alphanumeric order.
                     </div>
                     <div>
-                        If <code>expand</code> is <code>true</code>, an <code>array</code> of objects instead, each
-                        with the following properties: <code>_id</code>, <code>setName</code>,
-                        <code>difficulty</code>, <code>standard</code>, <code>year</code>, <code>packetsCount</code>,
-                        <code>tossupsCount</code>, and <code>bonusesCount</code>.
+                        If <code>expand</code> is <code>true</code>, this instead returns an <code>array</code> of objects with the
+                        following properties:
+                        <pre class="bg-dark p-3 rounded"><code class="text-light">{
+    _id: string,
+    setName: string,
+    difficulty: number,
+    standard: boolean,
+    year: number,
+    packetsCount: number,
+    tossupsCount: number,
+    bonusesCount: number
+}</code></pre>
                     </div>
                 </li>
             </ul>
