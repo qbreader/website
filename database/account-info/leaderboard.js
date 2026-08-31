@@ -5,9 +5,14 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 let cachedOverall = null;
 let cachedAt = 0;
 
+/**
+ * Rank every user by the number of questions they have heard.
+ * @param {Number} [limit] - the maximum number of rows to return; every row if falsy.
+ * @returns {Promise<Object[]>} sorted from most to least questions heard.
+ */
 export default async function leaderboard (limit) {
   if (cachedOverall && Date.now() - cachedAt < CACHE_TTL) {
-    return cachedOverall.slice(0, limit);
+    return limit ? cachedOverall.slice(0, limit) : cachedOverall;
   }
 
   const tossupLeaderboard = await helper('tossup');
@@ -22,7 +27,21 @@ export default async function leaderboard (limit) {
   overall.sort((a, b) => b.total - a.total);
   cachedOverall = overall;
   cachedAt = Date.now();
-  return overall.slice(0, limit);
+  return limit ? overall.slice(0, limit) : overall;
+}
+
+/**
+ * mergeTwoSortedArrays compares usernames with < and >, so both of its inputs
+ * must be ordered by that same comparison. A $sort stage orders strings by
+ * their UTF-8 bytes instead, which disagrees with < and > outside ASCII.
+ * @param {Object} a
+ * @param {Object} b
+ * @returns {Number}
+ */
+function byUsername (a, b) {
+  if (a.username < b.username) { return -1; }
+  if (a.username > b.username) { return 1; }
+  return 0;
 }
 
 /**
@@ -55,17 +74,19 @@ async function helper (type = 'tossup') {
         total: '$count'
       }
     },
-    { $sort: { username: 1 } }
+    // users deleted since their buzzes were recorded have no username to rank,
+    // and a null username compares as equal to every other one in the merge
+    { $match: { username: { $ne: null } } }
   ];
 
   switch (type) {
     case 'tossup': {
       const results = await perTossupData.aggregate(aggregation).toArray();
-      return results.map((result) => ({ ...result, tossupCount: result.total, bonusCount: 0 }));
+      return results.map((result) => ({ ...result, tossupCount: result.total, bonusCount: 0 })).sort(byUsername);
     }
     case 'bonus': {
       const results = await perBonusData.aggregate(aggregation).toArray();
-      return results.map((result) => ({ ...result, tossupCount: 0, bonusCount: result.total }));
+      return results.map((result) => ({ ...result, tossupCount: 0, bonusCount: result.total })).sort(byUsername);
     }
   }
 }
