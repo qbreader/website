@@ -18,12 +18,13 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col" class="clickable">Set Name</th>
-                    <th scope="col" class="clickable">Difficulty</th>
-                    <th scope="col" class="clickable">Standard</th>
-                    <th scope="col" class="clickable"># of Packets</th>
-                    <th scope="col" class="clickable"># of Tossups</th>
-                    <th scope="col" class="clickable"># of Bonuses</th>
+                    <th scope="col" class="clickable" aria-sort="none">Set Name <span class="sort-indicator"></span></th>
+                    <th scope="col" class="clickable" aria-sort="none">Difficulty <span class="sort-indicator"></span></th>
+                    <th scope="col" class="clickable" aria-sort="none">Standard <span class="sort-indicator"></span></th>
+                    <!-- The count columns only become sortable once their counts arrive; see index.js -->
+                    <th scope="col" class="text-body-tertiary" aria-sort="none"># of Packets <span class="sort-indicator"></span></th>
+                    <th scope="col" class="text-body-tertiary" aria-sort="none"># of Tossups <span class="sort-indicator"></span></th>
+                    <th scope="col" class="text-body-tertiary" aria-sort="none"># of Bonuses <span class="sort-indicator"></span></th>
                 </tr>
             </thead>
             <tbody class="table-group-divider" id="set-metadata-list"></tbody>
