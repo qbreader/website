@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Play - Geoword - Results - Team Leaderboard</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="Geoword team leaderboard.">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <p class="text-center lead">Team leaderboard for <span id="packet-name"></span>:</p>
+        <p class="d-flex justify-content-end"><a id="back-link">Back to stats page</a></p>
+        <p class="text-muted small">
+            Teammates play separately, so their buzzes are merged afterwards: on each
+            tossup only the earliest buzz counts, and it locks out the rest of the team
+            whether or not it was correct. Tossups heard counts every tossup at least
+            one teammate has played, so a team's average is provisional until all of its
+            members finish the packet.
+        </p>
+        <nav class="mb-3">
+            <div class="nav nav-tabs" id="tabs" role="tablist"></div>
+        </nav>
+        <div class="tab-content" id="tab-content"></div>
+    </div>
+
+    <script type="module" src="./team-leaderboard.js"></script>
+</body>
+
+</html>
