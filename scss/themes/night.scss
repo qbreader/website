@@ -14,6 +14,8 @@ $link-hover-color-night: shift-color($link-color-night, $link-shade-percentage);
 
 $border-color-night: $gray-600;
 
+$navbar-bg-night: #333333;
+
 /* redefine theme colors for dark theme */
 $blue-night: #375a7f;
 $green-night: #00bc8c;
@@ -55,7 +57,7 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
 
     --form-range-thumb-bg: #{$component-active-bg-night};
     --logo-prefix-color: #0080ff;
-    --logo-suffix-color: #000000;
+    --logo-suffix-color: #ffffff;
     --user-score-background: #4A90E2;
 
     .dropdown-checklist button {
@@ -190,10 +192,16 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
     }
 
     .navbar {
-        --#{$prefix}navbar-color: #{rgba($black, .55)};
-        --#{$prefix}navbar-hover-color: #{rgba($black, .8)};
-        --#{$prefix}navbar-active-color: #{rgba($black, 1)};
-        --#{$prefix}navbar-disabled-color: #{rgba($black, .3)};
+        --#{$prefix}navbar-color: #{$navbar-dark-color};
+        --#{$prefix}navbar-hover-color: #{$navbar-dark-hover-color};
+        --#{$prefix}navbar-active-color: #{$navbar-dark-active-color};
+        --#{$prefix}navbar-disabled-color: #{$navbar-dark-disabled-color};
+        --#{$prefix}navbar-brand-color: #{$navbar-dark-brand-color};
+        --#{$prefix}navbar-brand-hover-color: #{$navbar-dark-brand-hover-color};
+        --#{$prefix}navbar-toggler-border-color: #{rgba($white, .5)};
+        --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
+
+        background-color: $navbar-bg-night;
     }
 
     .pagination {
@@ -209,6 +217,6 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
     }
 
     .vr {
-        background-color: #{rgba($black, .55)};
+        background-color: #{rgba($white, .55)};
     }
 }
