@@ -13,7 +13,9 @@ export default async function addTossupGameCard ({ roomHistoryId = 'room-history
   if (!tossup || Object.keys(tossup).length === 0) return;
 
   const { markedQuestion, answer, category, subcategory, alternate_subcategory: alternateSubcategory, set, packet, number, _id } = tossup;
-  const uniqueId = `${_id}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const now = new Date();
+  const secondsSinceMidnight = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+  const uniqueId = `${_id}-${secondsSinceMidnight}`;
   const questionId = `question-${uniqueId}`;
   const reportQuestionId = `report-question-${uniqueId}`;
   const starTossupId = `star-tossup-${uniqueId}`;
