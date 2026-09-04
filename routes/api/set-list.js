@@ -10,7 +10,7 @@ const router = Router();
 router.get('/', async (req, res) => {
   req.query = validateBoolean.expand(req.query);
   req.query = validateBoolean.includeCounts(req.query);
-  req.query = validateInt.limit(req.query, { defaultValue: null });
+  req.query = validateInt.limit(req.query, { defaultValue: 10000 });
   const setList = req.query.expand ? await getSetMetadata(req.query) : await getSetList();
   return res.json({ setList });
 });
