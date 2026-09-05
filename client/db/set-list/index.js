@@ -15,11 +15,7 @@ function rowMatchesSearchQuery (row, searchQuery) {
 function applySetNameFilter (searchQuery) {
   const tableRows = document.getElementById('set-metadata-list').rows;
   for (const row of tableRows) {
-    if (rowMatchesSearchQuery(row, searchQuery)) {
-      row.classList.remove('d-none');
-    } else {
-      row.classList.add('d-none');
-    }
+    row.classList.toggle('d-none', !rowMatchesSearchQuery(row, searchQuery));
   }
 }
 
