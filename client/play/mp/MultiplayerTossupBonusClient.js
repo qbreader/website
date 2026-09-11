@@ -121,6 +121,11 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.sortPlayerListGroup();
   }
 
+  endCurrentTossup ({ starred, tossup }) {
+    super.endCurrentTossup({ starred, tossup });
+    moveChatMessagesToTop();
+  }
+
   confirmBan ({ targetId, targetUsername }) {
     if (targetId === this.USER_ID) {
       showAlert('You were banned from this room by the room owner.', () => window.location.replace('../'));
@@ -286,6 +291,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   endCurrentBonus ({ bonus, lastPartRevealed, pointsPerPart, starred, teamId }) {
     super.endCurrentBonus({ bonus, starred });
+    moveChatMessagesToTop();
     if (lastPartRevealed) {
       const points = pointsPerPart.reduce((a, b) => a + b, 0);
       this.room.teams[teamId].bonusStats[points]++;
@@ -437,6 +443,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     li.appendChild(i);
 
     document.getElementById('room-history').prepend(li);
+    moveChatMessagesToTop();
   }
 
   logGiveAnswer ({ directive = null, givenAnswer, questionType, username }) {
@@ -494,6 +501,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     }
 
     if (directive) { li.id = ''; }
+    moveChatMessagesToTop();
   }
 
   lostBuzzerRace ({ username, userId }) {
@@ -768,6 +776,14 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     }
   }
 };
+
+function moveChatMessagesToTop () {
+  const roomHistory = document.getElementById('room-history');
+  const chatMessages = Array.from(roomHistory.getElementsByClassName('chat-message'));
+  chatMessages.reverse().forEach(chatMessage => {
+    roomHistory.prepend(chatMessage);
+  });
+}
 
 function attachEventListeners (room, socket, client) {
   document.getElementById('toggle-distraction-free-mode').addEventListener('change', (event) => {
