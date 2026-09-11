@@ -28,6 +28,14 @@ async function getPacket ({ setName, packetNumber }) {
 }
 
 export default class SoloTossupRoom extends TossupRoom {
+  // Overrides QuestionRoom's data-access hooks (see shared/QuestionRoom.js) with the solo,
+  // browser-side implementations backed by the /api endpoints.
+  checkAnswer = api.checkAnswer;
+  getPacket = getPacket;
+  getPacketCount = api.getNumPackets;
+  getRandomTossups = async (args) => await api.getRandomTossup({ ...args });
+  getStarredTossup = getStarredTossup;
+
   constructor (name, categoryManager) {
     super(name, categoryManager, ['tossups']);
 
@@ -38,12 +46,6 @@ export default class SoloTossupRoom extends TossupRoom {
       showHistory: true,
       typeToAnswer: true
     };
-
-    this.checkAnswer = api.checkAnswer;
-    this.getRandomTossups = async (args) => await api.getRandomTossup({ ...args });
-    this.getPacket = getPacket;
-    this.getStarredTossup = getStarredTossup;
-    this.getPacketCount = api.getNumPackets;
   }
 
   async message ({ userId, username }, message) {

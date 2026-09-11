@@ -3,6 +3,9 @@ import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from './constants.js';
 import CategoryManager from './category-manager.js'; // eslint-disable-line no-unused-vars
 import Room from './Room.js';
 
+// eslint-disable-next-line no-unused-vars
+import * as types from '../types.js';
+
 export default class QuestionRoom extends Room {
   /**
    * @param {*} name
@@ -11,14 +14,6 @@ export default class QuestionRoom extends Room {
    */
   constructor (name, categoryManager, supportedQuestionTypes) {
     super(name);
-
-    this.checkAnswer = function checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); };
-    this.getRandomBonuses = async function getRandomBonuses (args) { throw new Error('Not implemented'); };
-    this.getRandomTossups = async function getRandomTossups (args) { throw new Error('Not implemented'); };
-    this.getPacket = async function getPacket (args) { throw new Error('Not implemented'); };
-    this.getPacketCount = async function getPacketCount (setName) { throw new Error('Not implemented'); };
-    this.getStarredTossup = async function getStarredTossup () { throw new Error('Not implemented'); };
-    this.getStarredBonus = async function getStarredBonus () { throw new Error('Not implemented'); };
 
     if (!Array.isArray(supportedQuestionTypes) || supportedQuestionTypes.length === 0) {
       throw new Error('supportedQuestionTypes must be a non-empty array');
@@ -126,6 +121,21 @@ export default class QuestionRoom extends Room {
     }
   }
 
+  /**
+   * Checks whether a given answer is correct for the given answerline.
+   *
+   * This is a data-access hook: `QuestionRoom` has no way to judge answers itself, so every
+   * concrete room must supply an implementation. See `server/multiplayer/ServerMultiplayerRoomMixin.js`
+   * (multiplayer, backed by `qb-answer-checker`), `client/play/tossups/SoloTossupRoom.js`, and
+   * `client/play/bonuses/SoloBonusRoom.js` (solo, backed by the `/api` answer-checking endpoint).
+   * @abstract
+   * @param {string} answerline
+   * @param {string} givenAnswer
+   * @param {number} [strictness]
+   * @returns {{directive: 'accept' | 'reject' | 'prompt', directedPrompt?: string}}
+   */
+  checkAnswer (answerline, givenAnswer, strictness = 7) { throw new Error('Not implemented'); }
+
   async getNextQuestion (questionType) {
     if (!this.supportedQuestionTypes.includes(questionType)) { return; }
     this.queryingQuestion = true;
@@ -184,9 +194,58 @@ export default class QuestionRoom extends Room {
     return this.localPacket[questionType].shift();
   }
 
+  /**
+   * Fetches one packet's worth of questions. Data-access hook — see `checkAnswer` above for why
+   * this is a required override rather than a real implementation.
+   * @abstract
+   * @param {object} args
+   * @param {string} args.setName
+   * @param {number} args.packetNumber - one-indexed packet number
+   * @returns {Promise<{tossups?: types.Tossup[], bonuses?: types.Bonus[]}>}
+   */
+  async getPacket (args) { throw new Error('Not implemented'); }
+
+  /**
+   * Returns how many packets exist for a given set. Data-access hook — see `checkAnswer` above.
+   * @abstract
+   * @param {string} setName
+   * @returns {Promise<number>}
+   */
+  async getPacketCount (setName) { throw new Error('Not implemented'); }
+
+  /**
+   * Fetches random bonuses matching a query. Data-access hook — see `checkAnswer` above.
+   * @abstract
+   * @param {object} args
+   * @returns {Promise<types.Bonus[]>}
+   */
+  async getRandomBonuses (args) { throw new Error('Not implemented'); }
+
   getRandomQuestions (questionType, query) {
     return questionType === 'tossups' ? this.getRandomTossups(query) : this.getRandomBonuses(query);
   }
+
+  /**
+   * Fetches random tossups matching a query. Data-access hook — see `checkAnswer` above.
+   * @abstract
+   * @param {object} args
+   * @returns {Promise<types.Tossup[]>}
+   */
+  async getRandomTossups (args) { throw new Error('Not implemented'); }
+
+  /**
+   * Fetches the current user's next starred bonus. Data-access hook — see `checkAnswer` above.
+   * @abstract
+   * @returns {Promise<types.Bonus | null>}
+   */
+  async getStarredBonus () { throw new Error('Not implemented'); }
+
+  /**
+   * Fetches the current user's next starred tossup. Data-access hook — see `checkAnswer` above.
+   * @abstract
+   * @returns {Promise<types.Tossup | null>}
+   */
+  async getStarredTossup () { throw new Error('Not implemented'); }
 
   setCategories ({ username }, { categories, subcategories, alternateSubcategories, percentView, categoryPercents }) {
     if (!Array.isArray(categories)) { return; }

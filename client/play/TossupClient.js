@@ -3,6 +3,10 @@ import QuestionClient from './QuestionClient.js';
 import audio from './audio.js';
 import { MODE_ENUM } from '../../shared/constants.js';
 
+/**
+ * @template {typeof QuestionClient} TBase
+ * @param {TBase} ClientClass
+ */
 export const TossupClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
     super(room, userId, socket);

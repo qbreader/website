@@ -2,6 +2,10 @@ import addBonusGameCard from './bonuses/add-bonus-game-card.js';
 import QuestionClient from './QuestionClient.js';
 import { MODE_ENUM } from '../../shared/constants.js';
 
+/**
+ * @template {typeof QuestionClient} TBase
+ * @param {TBase} ClientClass
+ */
 export const BonusClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
     super(room, userId, socket);

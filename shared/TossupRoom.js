@@ -2,6 +2,10 @@ import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } f
 import insertTokensIntoHTML from './insert-tokens-into-html.js';
 import QuestionRoom from './QuestionRoom.js';
 
+/**
+ * @template {typeof QuestionRoom} TBase
+ * @param {TBase} QuestionRoomClass
+ */
 export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoomClass {
   constructor (name, categoryManager, supportedQuestionTypes = ['tossup']) {
     super(name, categoryManager, supportedQuestionTypes);

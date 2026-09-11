@@ -1,6 +1,10 @@
 import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from './constants.js';
 import QuestionRoom from './QuestionRoom.js';
 
+/**
+ * @template {typeof QuestionRoom} TBase
+ * @param {TBase} QuestionRoomClass
+ */
 export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomClass {
   constructor (name, categoryManager, supportedQuestionTypes = ['bonuses']) {
     super(name, categoryManager, supportedQuestionTypes);

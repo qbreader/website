@@ -4,8 +4,10 @@ import { HEADER, ENDC, OKCYAN, OKBLUE } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
 import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
-// import TossupRoom from '../../shared/TossupRoom.js';
 import RateLimit from '../RateLimit.js';
+
+// eslint-disable-next-line no-unused-vars
+import QuestionRoom from '../../shared/QuestionRoom.js';
 
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
 import getRandomBonuses from '../../database/qbreader/get-random-bonuses.js';
@@ -18,19 +20,25 @@ import Team from '../../shared/Team.js';
 
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
+/**
+ * @template {typeof QuestionRoom} TBase
+ * @param {TBase} RoomClass
+ */
 const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
+  // Overrides QuestionRoom's data-access hooks (see shared/QuestionRoom.js) with the real,
+  // database-backed implementations. Declared as class fields rather than constructor
+  // assignments so they show up as real (overridden) members in the editor.
+  checkAnswer = checkAnswer;
+  getPacket = getPacket;
+  getPacketCount = getNumPackets;
+  getRandomBonuses = getRandomBonuses;
+  getRandomTossups = getRandomTossups;
+
   constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes, isVerified = false) {
     super(name, categoryManager, supportedQuestionTypes);
     this.ownerId = ownerId;
     this.isPermanent = isPermanent;
     this.isVerified = isVerified;
-    this.checkAnswer = checkAnswer;
-    this.getPacketCount = getNumPackets;
-
-    this.getRandomTossups = getRandomTossups;
-    this.getRandomBonuses = getRandomBonuses;
-
-    this.getPacket = getPacket;
     this.bannedUserList = new Map();
     this.kickedUserList = new Map();
     this.votekickList = [];

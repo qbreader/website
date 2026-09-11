@@ -7,6 +7,10 @@ import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
 import { showAlert } from './alert.js';
 
+/**
+ * @template {typeof TossupBonusClient} TBase
+ * @param {TBase} ClientClass
+ */
 export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
     super(room, userId, socket);
