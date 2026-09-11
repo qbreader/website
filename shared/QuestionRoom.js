@@ -122,12 +122,6 @@ export default class QuestionRoom extends Room {
   }
 
   /**
-   * Checks whether a given answer is correct for the given answerline.
-   *
-   * This is a data-access hook: `QuestionRoom` has no way to judge answers itself, so every
-   * concrete room must supply an implementation. See `server/multiplayer/ServerMultiplayerRoomMixin.js`
-   * (multiplayer, backed by `qb-answer-checker`), `client/play/tossups/SoloTossupRoom.js`, and
-   * `client/play/bonuses/SoloBonusRoom.js` (solo, backed by the `/api` answer-checking endpoint).
    * @abstract
    * @param {string} answerline
    * @param {string} givenAnswer
@@ -195,8 +189,6 @@ export default class QuestionRoom extends Room {
   }
 
   /**
-   * Fetches one packet's worth of questions. Data-access hook — see `checkAnswer` above for why
-   * this is a required override rather than a real implementation.
    * @abstract
    * @param {object} args
    * @param {string} args.setName
@@ -206,7 +198,6 @@ export default class QuestionRoom extends Room {
   async getPacket (args) { throw new Error('Not implemented'); }
 
   /**
-   * Returns how many packets exist for a given set. Data-access hook — see `checkAnswer` above.
    * @abstract
    * @param {string} setName
    * @returns {Promise<number>}
@@ -214,7 +205,6 @@ export default class QuestionRoom extends Room {
   async getPacketCount (setName) { throw new Error('Not implemented'); }
 
   /**
-   * Fetches random bonuses matching a query. Data-access hook — see `checkAnswer` above.
    * @abstract
    * @param {object} args
    * @returns {Promise<types.Bonus[]>}
@@ -226,7 +216,6 @@ export default class QuestionRoom extends Room {
   }
 
   /**
-   * Fetches random tossups matching a query. Data-access hook — see `checkAnswer` above.
    * @abstract
    * @param {object} args
    * @returns {Promise<types.Tossup[]>}
@@ -234,14 +223,12 @@ export default class QuestionRoom extends Room {
   async getRandomTossups (args) { throw new Error('Not implemented'); }
 
   /**
-   * Fetches the current user's next starred bonus. Data-access hook — see `checkAnswer` above.
    * @abstract
    * @returns {Promise<types.Bonus | null>}
    */
   async getStarredBonus () { throw new Error('Not implemented'); }
 
   /**
-   * Fetches the current user's next starred tossup. Data-access hook — see `checkAnswer` above.
    * @abstract
    * @returns {Promise<types.Tossup | null>}
    */

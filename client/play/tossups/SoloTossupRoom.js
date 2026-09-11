@@ -28,8 +28,6 @@ async function getPacket ({ setName, packetNumber }) {
 }
 
 export default class SoloTossupRoom extends TossupRoom {
-  // Overrides QuestionRoom's data-access hooks (see shared/QuestionRoom.js) with the solo,
-  // browser-side implementations backed by the /api endpoints.
   checkAnswer = api.checkAnswer;
   getPacket = getPacket;
   getPacketCount = api.getNumPackets;

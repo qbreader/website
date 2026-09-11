@@ -25,9 +25,6 @@ const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
  * @param {TBase} RoomClass
  */
 const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
-  // Overrides QuestionRoom's data-access hooks (see shared/QuestionRoom.js) with the real,
-  // database-backed implementations. Declared as class fields rather than constructor
-  // assignments so they show up as real (overridden) members in the editor.
   checkAnswer = checkAnswer;
   getPacket = getPacket;
   getPacketCount = getNumPackets;
