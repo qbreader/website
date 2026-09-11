@@ -61,6 +61,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       case 'chat': return this.chat({ userId, username }, message);
       case 'chat-live-update': return this.chatLiveUpdate({ userId, username }, message);
       case 'give-answer-live-update': return this.giveAnswerLiveUpdate({ userId, username }, message);
+      case 'mark-tossup-answer-correct': return this.markTossupAnswerCorrect({ userId, username }, message);
       case 'toggle-controlled': return this.toggleControlled({ userId, username }, message);
       case 'toggle-lock': return this.toggleLock({ userId, username }, message);
       case 'toggle-login-required': return this.toggleLoginRequired({ userId, username }, message);
@@ -270,6 +271,59 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     if (typeof givenAnswer !== 'string') { return false; }
     this.liveAnswer = givenAnswer;
     this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username });
+  }
+
+  markTossupAnswerCorrect ({ userId, username }, { targetId, targetUsername }) {
+    if (this.settings.public || userId !== this.ownerId) { return false; }
+    if (typeof targetId !== 'string') { return false; }
+    if (!this.players[targetId]) { return false; }
+    if (this.currentQuestionType !== QUESTION_TYPE_ENUM.TOSSUP || this.tossupProgress !== TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { return false; }
+    if (!this.previousTossup || this.previousTossup.userId !== targetId || this.previousTossup.isCorrect || this.buzzedIn) { return false; }
+
+    this.previousTossup.isCorrect = true;
+    const player = this.players[targetId];
+    const score = this.previousTossup.inSuperpower
+      ? this.previousTossup.superpowerValue
+      : (this.previousTossup.inPower ? this.previousTossup.powerValue : 10);
+    const removedScore = this.previousTossup.endOfQuestion ? 0 : this.previousTossup.negValue;
+    const scoreAdjustment = score - removedScore;
+    player.points += scoreAdjustment;
+
+    if (this.previousTossup.endOfQuestion) {
+      player.zeroes = Math.max(0, player.zeroes - 1);
+    } else {
+      player.negs = Math.max(0, player.negs - 1);
+    }
+
+    if (this.previousTossup.inSuperpower) {
+      player.superpowers++;
+    } else if (this.previousTossup.inPower) {
+      player.powers++;
+    } else {
+      player.tens++;
+    }
+
+    const correctBuzzes = player.superpowers + player.powers + player.tens;
+    player.celerity.correct.total += this.previousTossup.celerity;
+    player.celerity.correct.average = correctBuzzes > 0 ? player.celerity.correct.total / correctBuzzes : 0;
+
+    const teamId = player.teamId;
+    if (teamId && this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP && 'bonusEligibleTeamId' in this) {
+      this.bonusEligibleTeamId = teamId;
+      this.emitMessage({ type: 'set-bonus-eligible-team-id', teamId });
+    }
+
+    this.emitMessage({
+      type: 'mark-tossup-answer-correct',
+      celerity: player.celerity.correct.average,
+      removedScore,
+      scoreAdjustment,
+      score,
+      targetId,
+      targetUsername,
+      teamId,
+      username
+    });
   }
 
   removeAllPlayers () {

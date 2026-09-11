@@ -39,6 +39,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case 'join': return this.join(data);
       case 'leave': return this.leave(data);
       case 'lost-buzzer-race': return this.lostBuzzerRace(data);
+      case 'mark-tossup-answer-correct': return this.markTossupAnswerCorrect(data);
       case 'mute-player': return this.mutePlayer(data);
       case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
       case 'owner-change': return this.ownerChange(data);
@@ -499,6 +500,41 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   lostBuzzerRace ({ username, userId }) {
     this.logEventConditionally(username, 'lost the buzzer race');
     if (userId === this.USER_ID) { document.getElementById('answer-input-group').classList.add('d-none'); }
+  }
+
+  markTossupAnswerCorrect ({ celerity, removedScore, score, scoreAdjustment, targetId, targetUsername, teamId, username }) {
+    this.logEventConditionally(username, `marked ${targetUsername} as correct`);
+    if (!this.room.players[targetId]) { return; }
+
+    this.room.players[targetId].points += scoreAdjustment;
+    this.room.players[targetId].celerity = celerity;
+
+    if (score === 20) {
+      this.room.players[targetId].superpowers++;
+    } else if (score === 15) {
+      this.room.players[targetId].powers++;
+    } else {
+      this.room.players[targetId].tens++;
+    }
+
+    if (removedScore < 0) {
+      this.room.players[targetId].negs = Math.max(0, this.room.players[targetId].negs - 1);
+    } else {
+      this.room.players[targetId].zeroes = Math.max(0, this.room.players[targetId].zeroes - 1);
+    }
+
+    if (teamId) {
+      this.room.bonusEligibleTeamId = teamId;
+    }
+    upsertPlayerItem(this.room.players[targetId], {
+      callerId: this.USER_ID,
+      distractionFreeMode: this.distractionFreeMode,
+      ownerId: this.room.ownerId,
+      socket: this.socket,
+      isPublic: this.room.public,
+      team: this.room.teams[this.room.players[targetId].teamId]
+    });
+    this.sortPlayerListGroup();
   }
 
   mutePlayer ({ targetId, targetUsername, muteStatus }) {

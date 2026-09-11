@@ -88,10 +88,11 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
   `);
   document.getElementById('player-list-group').appendChild(playerItem);
   const banTrigger = isMultiplayer && (ownerId === callerId) && userId !== ownerId && !isPublic;
+  const correctTrigger = isMultiplayer && (ownerId === callerId) && userId !== ownerId && !isPublic;
   const muteTrigger = isMultiplayer && userId !== callerId && !isPublic;
   const vkTrigger = isMultiplayer && userId !== callerId && (isPublic || userId !== ownerId);
 
-  if (banTrigger || muteTrigger || vkTrigger) {
+  if (banTrigger || correctTrigger || muteTrigger || vkTrigger) {
     const dropdownContainer = document.createElement('div');
     dropdownContainer.className = 'ms-1';
 
@@ -152,6 +153,20 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
 
       banButton.addEventListener('click', () => {
         socket.send(JSON.stringify({ type: 'ban', targetId: userId, targetUsername: username }));
+      });
+    }
+
+    if (correctTrigger) {
+      const correctItem = document.createElement('li');
+      const correctButton = document.createElement('button');
+      correctButton.className = 'btn btn-success btn-sm mt-2 me-1 dropdown-item';
+      correctButton.title = 'Mark this player\'s most recent tossup answer as correct.';
+      correctButton.textContent = 'I was correct';
+      correctItem.appendChild(correctButton);
+      dropdownMenu.appendChild(correctItem);
+
+      correctButton.addEventListener('click', () => {
+        socket.send(JSON.stringify({ type: 'mark-tossup-answer-correct', targetId: userId, targetUsername: username }));
       });
     }
 
