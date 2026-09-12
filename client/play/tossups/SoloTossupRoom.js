@@ -49,7 +49,6 @@ export default class SoloTossupRoom extends TossupRoom {
   async message ({ userId, username }, message) {
     switch (message.type) {
       case 'toggle-ai-mode': return this.toggleAiMode({ userId, username }, message);
-      case 'toggle-correct': return this.toggleCorrect({ userId, username }, message);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer({ userId, username }, message);
       default: super.message({ userId, username }, message);
     }
@@ -75,42 +74,6 @@ export default class SoloTossupRoom extends TossupRoom {
   toggleAiMode ({ userId, username }, { aiMode }) {
     this.settings.aiMode = aiMode;
     this.emitMessage({ type: 'toggle-ai-mode', aiMode, userId, username });
-  }
-
-  /**
-   * @param {object} params
-   * @param {boolean} params.correct whether the answer was correct. If `correct=true`, then the player's score increases after calling this function.
-   * @returns
-   */
-  toggleCorrect ({ userId, username }, { correct }) {
-    if (userId !== this.previousTossup.userId) { return; }
-
-    this.previousTossup.isCorrect = correct;
-    const multiplier = correct ? 1 : -1;
-
-    if (this.previousTossup.inSuperpower) {
-      this.players[userId].superpowers += multiplier * 1;
-      this.players[userId].points += multiplier * this.previousTossup.superpowerValue;
-    } else if (this.previousTossup.inPower) {
-      this.players[userId].powers += multiplier * 1;
-      this.players[userId].points += multiplier * this.previousTossup.powerValue;
-    } else {
-      this.players[userId].tens += multiplier * 1;
-      this.players[userId].points += multiplier * 10;
-    }
-
-    if (this.previousTossup.endOfQuestion) {
-      this.players[userId].dead += multiplier * -1;
-    } else {
-      this.players[userId].negs += multiplier * -1;
-      this.players[userId].points += multiplier * -this.previousTossup.negValue;
-    }
-
-    const correctBuzzes = this.players[userId].superpowers + this.players[userId].powers + this.players[userId].tens;
-    this.players[userId].celerity.correct.total += multiplier * this.previousTossup.celerity;
-    this.players[userId].celerity.correct.average = this.players[userId].celerity.correct.total / correctBuzzes;
-
-    this.emitMessage({ type: 'toggle-correct', correct, userId, username });
   }
 
   toggleTypeToAnswer ({ userId, username }, { typeToAnswer }) {
