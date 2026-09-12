@@ -22,6 +22,7 @@ export default class Room {
   async message ({ userId, username }, message) {
     switch (message.type) {
       case ROOM_MESSAGE_TYPE.CLEAR_STATS: return this.clearStats({ userId, username }, message);
+      case ROOM_MESSAGE_TYPE.SET_USERNAME: return this.setUsername({ userId, username }, message);
     }
   }
 

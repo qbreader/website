@@ -2,7 +2,6 @@ import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATE
 import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from './constants.js';
 import CategoryManager from './category-manager.js'; // eslint-disable-line no-unused-vars
 import Room from './Room.js';
-import { ROOM_MESSAGE_TYPE } from './protocol/room.js';
 import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
 
 // eslint-disable-next-line no-unused-vars
@@ -82,7 +81,6 @@ export default class QuestionRoom extends Room {
       case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_SET_NAME: return this.setSetName({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_STRICTNESS: return this.setStrictness({ userId, username }, message);
-      case ROOM_MESSAGE_TYPE.SET_USERNAME: return this.setUsername({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR: return this.setMaxYear({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MIN_YEAR: return this.setMinYear({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_RANDOMIZE_ORDER: return this.toggleRandomizeOrder({ userId, username }, message);
