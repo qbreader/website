@@ -2,7 +2,6 @@ import addTossupGameCard from './tossups/add-tossup-game-card.js';
 import QuestionClient from './QuestionClient.js';
 import audio from './audio.js';
 import { MODE_ENUM } from '../../shared/constants.js';
-import { QUESTION_ROOM_MESSAGE_TYPE } from '../../shared/protocol/question-room.js';
 import { TOSSUP_ROOM_MESSAGE_TYPE } from '../../shared/protocol/tossup-room.js';
 
 /**
@@ -23,7 +22,6 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
       case TOSSUP_ROOM_MESSAGE_TYPE.GIVE_TOSSUP_ANSWER: return this.giveTossupAnswer(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.PAUSE: return this.pause(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.REVEAL_TOSSUP_ANSWER: return this.revealTossupAnswer(data);
-      case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.START_NEXT_TOSSUP: return this.startNextTossup(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_POWERMARK_ONLY: return this.togglePowermarkOnly(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_REBUZZ: return this.toggleRebuzz(data);
@@ -122,14 +120,6 @@ function attachEventListeners (room, socket) {
     const tenths = parseFloat(document.querySelector('.timer .fraction').textContent);
     const pausedTime = (seconds + tenths) * 10;
     socket.sendToServer({ type: TOSSUP_ROOM_MESSAGE_TYPE.PAUSE, pausedTime });
-  });
-
-  document.getElementById('reading-speed').addEventListener('change', function () {
-    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED, readingSpeed: this.value });
-  });
-
-  document.getElementById('reading-speed').addEventListener('input', function () {
-    document.getElementById('reading-speed-display').textContent = this.value;
   });
 
   document.getElementById('toggle-powermark-only').addEventListener('click', function () {

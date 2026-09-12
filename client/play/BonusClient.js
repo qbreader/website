@@ -1,7 +1,6 @@
 import addBonusGameCard from './bonuses/add-bonus-game-card.js';
 import QuestionClient from './QuestionClient.js';
 import { MODE_ENUM } from '../../shared/constants.js';
-import { QUESTION_ROOM_MESSAGE_TYPE } from '../../shared/protocol/question-room.js';
 import { BONUS_CLIENT_MESSAGE_TYPE, BONUS_ROOM_MESSAGE_TYPE } from '../../shared/protocol/bonus-room.js';
 
 /**
@@ -22,7 +21,6 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
       case BONUS_CLIENT_MESSAGE_TYPE.REVEAL_LEADIN: return this.revealLeadin(data);
       case BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_ANSWER: return this.revealNextAnswer(data);
       case BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_PART: return this.revealNextPart(data);
-      case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed(data);
       case BONUS_ROOM_MESSAGE_TYPE.START_BONUS_ANSWER: return this.startBonusAnswer(data);
       case BONUS_CLIENT_MESSAGE_TYPE.START_NEXT_BONUS: return this.startNextBonus(data);
       case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_BONUS_PART: return this.toggleBonusPart(data);
@@ -121,11 +119,6 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
         document.getElementById('toggle-three-part-bonuses').disabled = false;
         break;
     }
-  }
-
-  setReadingSpeed ({ readingSpeed }) {
-    document.getElementById('reading-speed').value = readingSpeed;
-    document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
   toggleBonusPart ({ partNumber, correct }) {

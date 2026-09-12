@@ -28,6 +28,7 @@ export default class QuestionClient {
       case QUESTION_ROOM_MESSAGE_TYPE.SET_DIFFICULTIES: return this.setDifficulties(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MODE: return this.setMode(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS: return this.setPacketNumbers(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_SET_NAME: return this.setSetName(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_STRICTNESS: return this.setStrictness(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR: return this.setMaxYear(data);
@@ -125,6 +126,11 @@ export default class QuestionClient {
     document.getElementById('packet-number-info').textContent = question.packet.number;
     document.getElementById('question-number-info').textContent = question.number;
     document.getElementById('set-name-info').textContent = question.set.name;
+  }
+
+  setReadingSpeed ({ readingSpeed }) {
+    document.getElementById('reading-speed').value = readingSpeed;
+    document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
   timerUpdate ({ timeRemaining }) {
@@ -243,6 +249,14 @@ function attachEventListeners (room, socket) {
     }
     document.getElementById('packet-number').classList.remove('is-invalid');
     socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS, packetNumbers: range });
+  });
+
+  document.getElementById('reading-speed').addEventListener('change', function () {
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED, readingSpeed: this.value });
+  });
+
+  document.getElementById('reading-speed').addEventListener('input', function () {
+    document.getElementById('reading-speed-display').textContent = this.value;
   });
 
   document.getElementById('report-question-submit').addEventListener('click', function () {

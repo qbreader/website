@@ -38,14 +38,6 @@ document.getElementById('local-packet-input').addEventListener('change', functio
   reader.readAsText(file);
 });
 
-document.getElementById('reading-speed').addEventListener('change', function () {
-  socket.sendToServer({ type: 'set-reading-speed', readingSpeed: this.value });
-});
-
-document.getElementById('reading-speed').addEventListener('input', function () {
-  document.getElementById('reading-speed-display').textContent = this.value;
-});
-
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {
   this.blur();
   socket.sendToServer({ type: 'toggle-randomize-order', randomizeOrder: this.checked });
