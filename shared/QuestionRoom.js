@@ -79,6 +79,7 @@ export default class QuestionRoom extends Room {
       case QUESTION_ROOM_MESSAGE_TYPE.SET_DIFFICULTIES: return this.setDifficulties({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MODE: return this.setMode({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS: return this.setPacketNumbers({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_SET_NAME: return this.setSetName({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_STRICTNESS: return this.setStrictness({ userId, username }, message);
       case ROOM_MESSAGE_TYPE.SET_USERNAME: return this.setUsername({ userId, username }, message);
@@ -295,6 +296,14 @@ export default class QuestionRoom extends Room {
     if (packetNumbers.some(value => typeof value !== 'number' || value < 1 || value > this.packetCount)) { return false; }
     this.adjustQuery(['packetNumbers'], [packetNumbers], doNotFetch);
     this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS, username, packetNumbers });
+  }
+
+  setReadingSpeed ({ username }, { readingSpeed }) {
+    if (isNaN(readingSpeed)) { return false; }
+    if (readingSpeed > 100) { readingSpeed = 100; }
+    if (readingSpeed < 0) { readingSpeed = 0; }
+    this.settings.readingSpeed = readingSpeed;
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED, username, readingSpeed });
   }
 
   async setSetName ({ username }, { doNotFetch = false, setName }) {

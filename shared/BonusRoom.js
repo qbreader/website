@@ -48,7 +48,6 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     switch (message.type) {
       case QUESTION_ROOM_MESSAGE_TYPE.GIVE_ANSWER: return this.giveBonusAnswer({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.NEXT: return this.next({ userId, username }, message);
-      case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed({ userId, username }, message);
       case BONUS_ROOM_MESSAGE_TYPE.START_BONUS_ANSWER: return this.startBonusAnswer({ userId, username }, message);
       case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_BONUS_PART: return this.toggleBonusPart({ userId, username }, message);
       case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_READ_BONUSES_LIKE_TOSSUPS: return this.toggleReadBonusesLikeTossups({ userId, username }, message);
@@ -269,14 +268,6 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.timeoutId = setTimeout(() => {
       this.readBonusWord(time + expectedReadTime, onComplete);
     }, delay);
-  }
-
-  setReadingSpeed ({ username }, { readingSpeed }) {
-    if (isNaN(readingSpeed)) { return false; }
-    if (readingSpeed > 100) { readingSpeed = 100; }
-    if (readingSpeed < 0) { readingSpeed = 0; }
-    this.settings.readingSpeed = readingSpeed;
-    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED, username, readingSpeed });
   }
 
   toggleReadBonusesLikeTossups ({ username }, { readBonusLikeATossup }) {

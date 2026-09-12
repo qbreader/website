@@ -65,7 +65,6 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case QUESTION_ROOM_MESSAGE_TYPE.GIVE_ANSWER: return this.giveTossupAnswer({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.NEXT: return this.next({ userId, username }, message);
       case TOSSUP_ROOM_MESSAGE_TYPE.PAUSE: return this.pause({ userId, username }, message);
-      case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed({ userId, username }, message);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_POWERMARK_ONLY: return this.togglePowermarkOnly({ userId, username }, message);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_REBUZZ: return this.toggleRebuzz({ userId, username }, message);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_STOP_ON_POWER: return this.toggleStopOnPower({ userId, username }, message);
@@ -281,15 +280,6 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     };
 
     return { celerity, directive, directedPrompt, endOfQuestion, inPower, inSuperpower, points };
-  }
-
-  setReadingSpeed ({ username }, { readingSpeed }) {
-    if (isNaN(readingSpeed)) { return false; }
-    if (readingSpeed > 100) { readingSpeed = 100; }
-    if (readingSpeed < 0) { readingSpeed = 0; }
-
-    this.settings.readingSpeed = readingSpeed;
-    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED, username, readingSpeed });
   }
 
   async startNextTossup ({ userId, username }) {
