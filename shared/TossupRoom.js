@@ -3,7 +3,7 @@ import insertTokensIntoHTML from './insert-tokens-into-html.js';
 import QuestionRoom from './QuestionRoom.js';
 import { CLIENT_MESSAGE_TYPE } from './protocol/room.js';
 import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
-import { TOSSUP_ROOM_MESSAGE_TYPE } from './protocol/tossup-room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from './protocol/tossup-room.js';
 
 /**
  * @template {typeof QuestionRoom} TBase
@@ -77,7 +77,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING) { return; }
 
     if (this.buzzedIn) {
-      return this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.LOST_BUZZER_RACE, userId, username });
+      return this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.LOST_BUZZER_RACE, userId, username });
     }
 
     clearTimeout(this.timeoutID);
@@ -88,7 +88,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.paused = false;
 
     this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.BUZZ, userId, username });
-    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.UPDATE_QUESTION, word: '(#)' });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.UPDATE_QUESTION, word: '(#)' });
 
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,
@@ -115,7 +115,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { this.revealTossupAnswer(); }
 
     const starred = this.mode === MODE_ENUM.STARRED ? true : (this.mode === MODE_ENUM.LOCAL ? false : null);
-    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.END_CURRENT_TOSSUP, isSkip, starred, tossup: this.tossup });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.END_CURRENT_TOSSUP, isSkip, starred, tossup: this.tossup });
     return true;
   }
 
@@ -157,7 +157,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     }
 
     this.emitMessage({
-      type: TOSSUP_ROOM_MESSAGE_TYPE.GIVE_TOSSUP_ANSWER,
+      type: TOSSUP_CLIENT_MESSAGE_TYPE.GIVE_TOSSUP_ANSWER,
       userId,
       username,
       givenAnswer,
@@ -223,7 +223,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     }
 
     this.wordIndex++;
-    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.UPDATE_QUESTION, word });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.UPDATE_QUESTION, word });
 
     // calculate time needed before reading next word
     let time = Math.log(word.length) + 1;
@@ -249,7 +249,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED;
     this.tossup.markedQuestion = insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices });
     this.emitMessage({
-      type: TOSSUP_ROOM_MESSAGE_TYPE.REVEAL_TOSSUP_ANSWER,
+      type: TOSSUP_CLIENT_MESSAGE_TYPE.REVEAL_TOSSUP_ANSWER,
       question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices }),
       answer: this.tossup.answer
     });
@@ -286,7 +286,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.tossup = await this.getNextQuestion('tossups');
     this.queryingQuestion = false;
     if (!this.tossup) { return; }
-    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.START_NEXT_TOSSUP, packetLength: this.packet.tossups.length, tossup: this.tossup, userId, username });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.START_NEXT_TOSSUP, packetLength: this.packet.tossups.length, tossup: this.tossup, userId, username });
     this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;

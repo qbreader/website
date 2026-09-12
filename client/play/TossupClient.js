@@ -2,7 +2,7 @@ import addTossupGameCard from './tossups/add-tossup-game-card.js';
 import QuestionClient from './QuestionClient.js';
 import audio from './audio.js';
 import { MODE_ENUM } from '../../shared/constants.js';
-import { TOSSUP_ROOM_MESSAGE_TYPE } from '../../shared/protocol/tossup-room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../../shared/protocol/tossup-room.js';
 
 /**
  * @template {typeof QuestionClient} TBase
@@ -18,15 +18,15 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
     const data = JSON.parse(message);
     switch (data.type) {
       case TOSSUP_ROOM_MESSAGE_TYPE.BUZZ: return this.buzz(data);
-      case TOSSUP_ROOM_MESSAGE_TYPE.END_CURRENT_TOSSUP: return this.endCurrentTossup(data);
-      case TOSSUP_ROOM_MESSAGE_TYPE.GIVE_TOSSUP_ANSWER: return this.giveTossupAnswer(data);
+      case TOSSUP_CLIENT_MESSAGE_TYPE.END_CURRENT_TOSSUP: return this.endCurrentTossup(data);
+      case TOSSUP_CLIENT_MESSAGE_TYPE.GIVE_TOSSUP_ANSWER: return this.giveTossupAnswer(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.PAUSE: return this.pause(data);
-      case TOSSUP_ROOM_MESSAGE_TYPE.REVEAL_TOSSUP_ANSWER: return this.revealTossupAnswer(data);
-      case TOSSUP_ROOM_MESSAGE_TYPE.START_NEXT_TOSSUP: return this.startNextTossup(data);
+      case TOSSUP_CLIENT_MESSAGE_TYPE.REVEAL_TOSSUP_ANSWER: return this.revealTossupAnswer(data);
+      case TOSSUP_CLIENT_MESSAGE_TYPE.START_NEXT_TOSSUP: return this.startNextTossup(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_POWERMARK_ONLY: return this.togglePowermarkOnly(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_REBUZZ: return this.toggleRebuzz(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_STOP_ON_POWER: return this.toggleStopOnPower(data);
-      case TOSSUP_ROOM_MESSAGE_TYPE.UPDATE_QUESTION: return this.updateQuestion(data);
+      case TOSSUP_CLIENT_MESSAGE_TYPE.UPDATE_QUESTION: return this.updateQuestion(data);
       default: return super.onmessage(message);
     }
   }
@@ -111,7 +111,7 @@ function attachEventListeners (room, socket) {
   document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     socket.sendToServer({ type: TOSSUP_ROOM_MESSAGE_TYPE.BUZZ });
-    socket.sendToServer({ type: TOSSUP_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer: '' });
+    socket.sendToServer({ type: TOSSUP_CLIENT_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer: '' });
   });
 
   document.getElementById('pause').addEventListener('click', function () {
