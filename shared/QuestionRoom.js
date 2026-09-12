@@ -2,6 +2,8 @@ import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATE
 import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from './constants.js';
 import CategoryManager from './category-manager.js'; // eslint-disable-line no-unused-vars
 import Room from './Room.js';
+import { ROOM_MESSAGE_TYPE } from './protocol/room.js';
+import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
 
 // eslint-disable-next-line no-unused-vars
 import * as types from '../types.js';
@@ -68,22 +70,25 @@ export default class QuestionRoom extends Room {
     };
   }
 
+  /**
+   * @param {{userId: string, username: string}} player
+   */
   message ({ userId, username }, message) {
     switch (message.type) {
-      case 'set-categories': return this.setCategories({ userId, username }, message);
-      case 'set-difficulties': return this.setDifficulties({ userId, username }, message);
-      case 'set-mode': return this.setMode({ userId, username }, message);
-      case 'set-packet-numbers': return this.setPacketNumbers({ userId, username }, message);
-      case 'set-set-name': return this.setSetName({ userId, username }, message);
-      case 'set-strictness': return this.setStrictness({ userId, username }, message);
-      case 'set-username': return this.setUsername({ userId, username }, message);
-      case 'set-max-year': return this.setMaxYear({ userId, username }, message);
-      case 'set-min-year': return this.setMinYear({ userId, username }, message);
-      case 'toggle-randomize-order': return this.toggleRandomizeOrder({ userId, username }, message);
-      case 'toggle-skip': return this.toggleSkip({ userId, username }, message);
-      case 'toggle-standard-only': return this.toggleStandardOnly({ userId, username }, message);
-      case 'toggle-timer': return this.toggleTimer({ userId, username }, message);
-      case 'upload-local-packet': return this.uploadLocalPacket({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_CATEGORIES: return this.setCategories({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_DIFFICULTIES: return this.setDifficulties({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_MODE: return this.setMode({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS: return this.setPacketNumbers({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_SET_NAME: return this.setSetName({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_STRICTNESS: return this.setStrictness({ userId, username }, message);
+      case ROOM_MESSAGE_TYPE.SET_USERNAME: return this.setUsername({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR: return this.setMaxYear({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_MIN_YEAR: return this.setMinYear({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_RANDOMIZE_ORDER: return this.toggleRandomizeOrder({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_SKIP: return this.toggleSkip({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_STANDARD_ONLY: return this.toggleStandardOnly({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_TIMER: return this.toggleTimer({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.UPLOAD_LOCAL_PACKET: return this.uploadLocalPacket({ userId, username }, message);
       default: return super.message({ userId, username }, message);
     }
   }
@@ -144,7 +149,7 @@ export default class QuestionRoom extends Room {
         this.randomQuestionCache[questionType] = await this.getRandomQuestions(questionType, { ...this.query, number: cacheSize });
       }
       if (this.randomQuestionCache[questionType]?.length === 0) {
-        return this.emitMessage({ type: 'no-questions-found' });
+        return this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.NO_QUESTIONS_FOUND });
       }
       return this.randomQuestionCache[questionType].pop();
     }
@@ -157,7 +162,7 @@ export default class QuestionRoom extends Room {
             this.query.packetNumbers.shift();
             const packetNumber = this.query.packetNumbers[0];
             if (packetNumber === undefined) {
-              return this.emitMessage({ type: 'end-of-set' });
+              return this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.END_OF_SET });
             }
             this.packet = await this.getPacket({ setName: this.query.setName, packetNumber });
           }
@@ -174,7 +179,7 @@ export default class QuestionRoom extends Room {
           break;
       }
 
-      if (!question) { return this.emitMessage({ type: 'no-questions-found' }); }
+      if (!question) { return this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.NO_QUESTIONS_FOUND }); }
     } while (!this.categoryManager.isValidCategory(question));
     return question;
   }
@@ -253,14 +258,14 @@ export default class QuestionRoom extends Room {
       ['categories', 'subcategories', 'alternateSubcategories', 'percentView', 'categoryPercents'],
       [categories, subcategories, alternateSubcategories, percentView, categoryPercents]
     );
-    this.emitMessage({ type: 'set-categories', ...this.categoryManager.export(), username });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_CATEGORIES, ...this.categoryManager.export(), username });
   }
 
   setDifficulties ({ username }, { difficulties }) {
     const invalid = difficulties.some(value => typeof value !== 'number' || isNaN(value) || value < 0 || value > 10);
     if (invalid) { return false; }
     this.adjustQuery(['difficulties'], [difficulties]);
-    this.emitMessage({ type: 'set-difficulties', username, difficulties });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_DIFFICULTIES, username, difficulties });
   }
 
   setMaxYear ({ username }, { maxYear, doNotFetch = false }) {
@@ -268,7 +273,7 @@ export default class QuestionRoom extends Room {
     if (isNaN(maxYear)) { maxYear = DEFAULT_MAX_YEAR; }
     maxYear = Math.max(maxYear, this.query.minYear);
     this.adjustQuery(['maxYear'], [maxYear], doNotFetch);
-    this.emitMessage({ type: 'set-max-year', maxYear, username });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR, maxYear, username });
   }
 
   setMinYear ({ username }, { minYear, doNotFetch = false }) {
@@ -276,20 +281,20 @@ export default class QuestionRoom extends Room {
     if (isNaN(minYear)) { minYear = DEFAULT_MIN_YEAR; }
     minYear = Math.min(minYear, this.query.maxYear);
     this.adjustQuery(['minYear'], [minYear], doNotFetch);
-    this.emitMessage({ type: 'set-min-year', minYear, username });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_MIN_YEAR, minYear, username });
   }
 
   setMode ({ username }, { mode }) {
     if (!Object.values(MODE_ENUM).includes(mode)) { return; }
     this.mode = mode;
-    this.emitMessage({ type: 'set-mode', mode, username });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_MODE, mode, username });
   }
 
   setPacketNumbers ({ username }, { doNotFetch = false, packetNumbers }) {
     if (!Array.isArray(packetNumbers)) { return false; }
     if (packetNumbers.some(value => typeof value !== 'number' || value < 1 || value > this.packetCount)) { return false; }
     this.adjustQuery(['packetNumbers'], [packetNumbers], doNotFetch);
-    this.emitMessage({ type: 'set-packet-numbers', username, packetNumbers });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS, username, packetNumbers });
   }
 
   async setSetName ({ username }, { doNotFetch = false, setName }) {
@@ -298,12 +303,12 @@ export default class QuestionRoom extends Room {
     const packetNumbers = [];
     for (let i = 1; i <= this.packetCount; i++) { packetNumbers.push(i); }
     this.adjustQuery(['setName', 'packetNumbers'], [setName, packetNumbers], doNotFetch);
-    this.emitMessage({ type: 'set-set-name', username, setName, setLength: this.packetCount });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_SET_NAME, username, setName, setLength: this.packetCount });
   }
 
   setStrictness ({ username }, { strictness }) {
     // this.settings.strictness = strictness;
-    // this.emitMessage({ type: 'set-strictness', username, strictness });
+    // this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_STRICTNESS, username, strictness });
   }
 
   startServerTimer (time, ontick, callback) {
@@ -313,23 +318,23 @@ export default class QuestionRoom extends Room {
 
   toggleRandomizeOrder ({ username }, { randomizeOrder }) {
     this.settings.randomizeOrder = randomizeOrder;
-    this.emitMessage({ type: 'toggle-randomize-order', randomizeOrder, username });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_RANDOMIZE_ORDER, randomizeOrder, username });
   }
 
   toggleSkip ({ username }, { skip }) {
     this.settings.skip = skip;
-    this.emitMessage({ type: 'toggle-skip', skip, username });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_SKIP, skip, username });
   }
 
   toggleStandardOnly ({ username }, { doNotFetch = false, standardOnly }) {
     this.query.standardOnly = standardOnly;
     this.adjustQuery(['standardOnly'], [standardOnly], doNotFetch);
-    this.emitMessage({ type: 'toggle-standard-only', standardOnly, username });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_STANDARD_ONLY, standardOnly, username });
   }
 
   toggleTimer ({ username }, { timer }) {
     this.settings.timer = timer;
-    this.emitMessage({ type: 'toggle-timer', timer, username });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_TIMER, timer, username });
   }
 
   uploadLocalPacket ({ userId }, { filename, packet }) {
@@ -357,6 +362,6 @@ export default class QuestionRoom extends Room {
       this.localPacket[s] = questions;
     }
 
-    this.emitMessage({ type: 'alert', message: `Successfully uploaded ${this.localPacket.tossups.length} tossups and ${this.localPacket.bonuses.length} bonuses.`, userId });
+    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.ALERT, message: `Successfully uploaded ${this.localPacket.tossups.length} tossups and ${this.localPacket.bonuses.length} bonuses.`, userId });
   }
 }
