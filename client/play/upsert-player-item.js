@@ -33,7 +33,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
   player.username = escapeHTML(player.username);
 
   const { userId, username, superpowers = 0, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
-  const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
+  const celerity = player?.celerity?.correct?.average ?? NaN;
 
   const { bonusStats = { 0: 0, 10: 0, 20: 0, 30: 0 } } = team;
   const bonusPoints = Object.entries(bonusStats).map(([pointValue, count]) => pointValue * count).reduce((a, b) => a + b, 0);

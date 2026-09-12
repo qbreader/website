@@ -269,7 +269,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
     this.liveAnswer = givenAnswer;
-    this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username });
+    this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username, userId });
   }
 
   removeAllPlayers () {

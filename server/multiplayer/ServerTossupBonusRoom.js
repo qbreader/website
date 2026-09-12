@@ -51,4 +51,11 @@ export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(To
     ) { return false; }
     super.next({ userId, username });
   }
+
+  toggleCorrect ({ userId, username }, { targetUserId }) {
+    if (this.currentQuestionType !== QUESTION_TYPE_ENUM.TOSSUP) { return; }
+    if (this.settings.public) { return; }
+    if (userId !== this.ownerId) { return; }
+    super.toggleCorrect({ userId, username }, { targetUserId });
+  }
 }

@@ -52,7 +52,7 @@ document.getElementById('toggle-ai-mode').addEventListener('click', function () 
 
 document.getElementById('toggle-correct').addEventListener('click', function () {
   this.blur();
-  socket.sendToServer({ type: 'toggle-correct', correct: this.textContent === 'I was right' });
+  socket.sendToServer({ type: 'toggle-correct', correct: this.textContent === 'I was right', targetUserId: USER_ID });
 });
 
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {

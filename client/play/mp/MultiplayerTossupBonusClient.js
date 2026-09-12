@@ -44,6 +44,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case 'owner-change': return this.ownerChange(data);
       case 'set-username': return this.setUsername(data);
       case 'successful-vk': return this.vkHandle(data);
+      case 'toggle-correct': return this.toggleCorrect(data);
       case 'toggle-controlled': return this.toggleControlled(data);
       case 'toggle-lock': return this.toggleLock(data);
       case 'toggle-login-required': return this.toggleLoginRequired(data);
@@ -179,7 +180,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
     for (const userId of Object.keys(players)) {
       const teamId = players[userId].teamId;
-      players[userId].celerity = players[userId].celerity.correct.average;
       this.room.players[userId] = players[userId];
       this.room.teams[teamId] = teams[teamId];
       upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[teamId] });
@@ -311,7 +311,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   async giveBonusAnswer ({ currentPartNumber, directive, directedPrompt, givenAnswer, score, userId, username }) {
-    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.BONUS, username });
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.BONUS, userId, username });
     if (directive === 'prompt' && directedPrompt) {
       this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
@@ -321,7 +321,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   async giveTossupAnswer ({ celerity, tossup, perQuestionCelerity, directive, directedPrompt, givenAnswer, score, userId, username }) {
-    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, username });
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, userId, username });
     if (directive === 'prompt' && directedPrompt) {
       this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
@@ -359,7 +359,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
     this.room.players[userId].points += score;
     this.room.players[userId].tuh++;
-    this.room.players[userId].celerity = celerity;
+    this.room.players[userId].celerity.correct.average = celerity;
 
     upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[this.room.players[userId].teamId] });
     this.sortPlayerListGroup();
@@ -387,7 +387,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.room.teams[user.teamId] = team;
 
     if (isNew) {
-      user.celerity = user.celerity.correct.average;
       upsertPlayerItem(user, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[user.teamId] });
       this.sortPlayerListGroup();
     } else {
@@ -439,7 +438,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('room-history').prepend(li);
   }
 
-  logGiveAnswer ({ directive = null, givenAnswer, questionType, username }) {
+  logGiveAnswer ({ directive = null, givenAnswer, questionType, username, userId }) {
     const badge = document.createElement('span');
     badge.textContent = questionType === QUESTION_TYPE_ENUM.TOSSUP ? 'Buzz' : 'Answer';
     switch (directive) {
@@ -491,6 +490,25 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
       li.appendChild(document.createTextNode(' '));
       li.appendChild(secondBadge);
+
+      if (this.room.ownerId === this.USER_ID) {
+        for (const element of document.getElementsByClassName('toggle-correct')) {
+          element.remove();
+        }
+        const thirdBadge = document.createElement('span');
+        thirdBadge.className = 'badge text-light bg-primary clickable toggle-correct';
+        thirdBadge.classList.toggle('d-none', this.room.public);
+        thirdBadge.textContent = 'Toggle Correct';
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(thirdBadge);
+
+        thirdBadge.addEventListener('click', () => {
+          this.socket.send(JSON.stringify({
+            type: 'toggle-correct',
+            targetUserId: userId
+          }));
+        });
+      }
     }
 
     if (directive) { li.id = ''; }
@@ -685,6 +703,12 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     // document.getElementById('set-strictness').disabled = controlled;
   }
 
+  toggleCorrect ({ correct, targetUserId, player }) {
+    this.logEventConditionally(`The room owner ${correct ? 'accepted' : 'rejected'} the answer of ${this.room.players[targetUserId].username}`);
+    this.room.players[targetUserId] = player;
+    upsertPlayerItem(this.room.players[targetUserId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[this.room.players[targetUserId].teamId] });
+  }
+
   toggleEnableBonuses ({ enableBonuses, username }) {
     this.logEventConditionally(username, `${enableBonuses ? 'enabled' : 'disabled'} bonuses`);
     super.toggleEnableBonuses({ enableBonuses });
@@ -738,6 +762,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('toggle-login-required').disabled = isPublic;
     document.getElementById('toggle-public').checked = isPublic;
     document.getElementById('toggle-timer').disabled = isPublic;
+    for (const element of document.getElementsByClassName('toggle-correct')) {
+      element.classList.toggle('d-none', isPublic);
+    }
     this.room.public = isPublic;
     if (isPublic) {
       document.getElementById('toggle-lock').checked = false;
