@@ -1,4 +1,4 @@
-import { ROOM_MESSAGE_TYPE } from './protocol/room.js';
+import { CLIENT_MESSAGE_TYPE, ROOM_MESSAGE_TYPE } from './protocol/room.js';
 
 export default class Room {
   /**
@@ -50,10 +50,10 @@ export default class Room {
     if (!player.hasActivity()) {
       // delete this.players[userId];
       // delete this.teams[userId];
-      this.emitMessage({ type: ROOM_MESSAGE_TYPE.LEAVE, userId, username, remove: true });
+      this.emitMessage({ type: CLIENT_MESSAGE_TYPE.LEAVE, userId, username, remove: true });
     } else {
       player.online = false;
-      this.emitMessage({ type: ROOM_MESSAGE_TYPE.LEAVE, userId, username });
+      this.emitMessage({ type: CLIENT_MESSAGE_TYPE.LEAVE, userId, username });
     }
   }
 

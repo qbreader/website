@@ -1,6 +1,6 @@
 import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from './constants.js';
 import QuestionRoom from './QuestionRoom.js';
-import { ROOM_MESSAGE_TYPE } from './protocol/room.js';
+import { CLIENT_MESSAGE_TYPE } from './protocol/room.js';
 import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
 import { BONUS_CLIENT_MESSAGE_TYPE, BONUS_ROOM_MESSAGE_TYPE } from './protocol/bonus-room.js';
 
@@ -68,7 +68,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
     clearInterval(this.timer.interval);
     clearTimeout(this.timeoutId);
-    this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: 0 });
+    this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: 0 });
 
     const lastPartRevealed = this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
     const pointsPerPart = this.pointsPerPart;
@@ -93,7 +93,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.liveAnswer = '';
     clearInterval(this.timer.interval);
     clearTimeout(this.timeoutId);
-    this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: ANSWER_TIME_LIMIT * 10 });
+    this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
     const { directive, directedPrompt } = this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
     this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.GIVE_BONUS_ANSWER, currentPartNumber: this.currentPartNumber, directive, directedPrompt, givenAnswer, userId });
@@ -101,7 +101,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     if (directive === 'prompt') {
       this.startServerTimer(
         ANSWER_TIME_LIMIT * 10,
-        (time) => this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
+        (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
         () => this.giveBonusAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
       );
     } else {
@@ -176,7 +176,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.START_BONUS_ANSWER, userId });
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,
-      (time) => this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
+      (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
       () => this.giveBonusAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
     );
   }

@@ -1,7 +1,7 @@
 import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } from './constants.js';
 import insertTokensIntoHTML from './insert-tokens-into-html.js';
 import QuestionRoom from './QuestionRoom.js';
-import { ROOM_MESSAGE_TYPE } from './protocol/room.js';
+import { CLIENT_MESSAGE_TYPE } from './protocol/room.js';
 import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
 import { TOSSUP_ROOM_MESSAGE_TYPE } from './protocol/tossup-room.js';
 
@@ -92,7 +92,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,
-      (time) => this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
+      (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
       () => this.giveTossupAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
     );
   }
@@ -105,7 +105,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     clearInterval(this.timer.interval);
     clearTimeout(this.timeoutID);
-    this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: 0 });
+    this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: 0 });
 
     this.buzzedIn = null;
     this.buzzes = [];
@@ -125,7 +125,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     this.liveAnswer = '';
     clearInterval(this.timer.interval);
-    this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: ANSWER_TIME_LIMIT * 10 });
+    this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
     if (Object.keys(this.tossup || {}).length === 0) { return; }
 
@@ -151,7 +151,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case 'prompt':
         this.startServerTimer(
           ANSWER_TIME_LIMIT * 10,
-          (time) => this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
+          (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
           () => this.giveTossupAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
         );
     }
@@ -190,7 +190,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     } else if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
         this.timer.timeRemaining,
-        (time) => this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
+        (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
     } else {
@@ -204,7 +204,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
         DEAD_TIME_LIMIT * 10,
-        (time) => this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
+        (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
       return;
@@ -216,7 +216,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if ((word === '(*)' || word === '[*]') && this.settings.stopOnPower) {
       this.stopOnPowerEnded = true;
       this.startServerTimer(DEAD_TIME_LIMIT * 10,
-        (time) => this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
+        (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
       return;

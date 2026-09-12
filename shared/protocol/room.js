@@ -1,8 +1,11 @@
+export const CLIENT_MESSAGE_TYPE = Object.freeze({
+  LEAVE: 'leave',
+  TIMER_UPDATE: 'timer-update'
+});
+
 export const ROOM_MESSAGE_TYPE = Object.freeze({
   CLEAR_STATS: 'clear-stats',
-  LEAVE: 'leave',
-  SET_USERNAME: 'set-username',
-  TIMER_UPDATE: 'timer-update'
+  SET_USERNAME: 'set-username'
 });
 
 /**
