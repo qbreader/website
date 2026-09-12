@@ -2,7 +2,7 @@ import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from './constants.j
 import QuestionRoom from './QuestionRoom.js';
 import { ROOM_MESSAGE_TYPE } from './protocol/room.js';
 import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
-import { BONUS_ROOM_MESSAGE_TYPE } from './protocol/bonus-room.js';
+import { BONUS_CLIENT_MESSAGE_TYPE, BONUS_ROOM_MESSAGE_TYPE } from './protocol/bonus-room.js';
 
 /**
  * @template {typeof QuestionRoom} TBase
@@ -79,7 +79,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
     const stats = this.teams[teamId].bonusStats;
     const starred = this.mode === MODE_ENUM.STARRED ? true : (this.mode === MODE_ENUM.LOCAL ? false : null);
-    this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.END_CURRENT_BONUS, bonus: this.bonus, lastPartRevealed, pointsPerPart, starred, stats, teamId });
+    this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.END_CURRENT_BONUS, bonus: this.bonus, lastPartRevealed, pointsPerPart, starred, stats, teamId });
     return true;
   }
 
@@ -96,7 +96,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.emitMessage({ type: ROOM_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
     const { directive, directedPrompt } = this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
-    this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.GIVE_BONUS_ANSWER, currentPartNumber: this.currentPartNumber, directive, directedPrompt, givenAnswer, userId });
+    this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.GIVE_BONUS_ANSWER, currentPartNumber: this.currentPartNumber, directive, directedPrompt, givenAnswer, userId });
 
     if (directive === 'prompt') {
       this.startServerTimer(
@@ -121,13 +121,13 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
   revealLeadin () {
     if (this.settings.readBonusLikeATossup) {
-      this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.REVEAL_LEADIN, leadin: '' });
+      this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_LEADIN, leadin: '' });
       const leadinSanitized = this.bonus.leadin_sanitized ?? '';
       this.startReadingBonusText(leadinSanitized, () => {
         this.revealNextPart();
       });
     } else {
-      this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.REVEAL_LEADIN, leadin: this.bonus.leadin });
+      this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_LEADIN, leadin: this.bonus.leadin });
     }
   }
 
@@ -137,7 +137,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
       this.bonusProgress = BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
     }
     this.emitMessage({
-      type: BONUS_ROOM_MESSAGE_TYPE.REVEAL_NEXT_ANSWER,
+      type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_ANSWER,
       answer: this.bonus.answers[this.currentPartNumber],
       currentPartNumber: this.currentPartNumber,
       lastPartRevealed
@@ -151,7 +151,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
     if (this.settings.readBonusLikeATossup) {
       this.emitMessage({
-        type: BONUS_ROOM_MESSAGE_TYPE.REVEAL_NEXT_PART,
+        type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_PART,
         bonusEligibleTeamId: this.bonusEligibleTeamId,
         currentPartNumber: this.currentPartNumber,
         part: '',
@@ -163,7 +163,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
       });
     } else {
       this.emitMessage({
-        type: BONUS_ROOM_MESSAGE_TYPE.REVEAL_NEXT_PART,
+        type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_PART,
         bonusEligibleTeamId: this.bonusEligibleTeamId,
         currentPartNumber: this.currentPartNumber,
         part: this.bonus.parts[this.currentPartNumber],
@@ -186,7 +186,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.queryingQuestion = false;
     if (!this.bonus) { return; }
     clearTimeout(this.timeoutId);
-    this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.START_NEXT_BONUS, packetLength: this.packet.bonuses.length, bonus: this.bonus, userId, username });
+    this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.START_NEXT_BONUS, packetLength: this.packet.bonuses.length, bonus: this.bonus, userId, username });
     this.currentPartNumber = -1;
     this.pointsPerPart = [];
     this.bonusProgress = BONUS_PROGRESS_ENUM.READING;
@@ -252,7 +252,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     }
 
     const word = this.bonusQuestionSplit[this.bonusWordIndex++];
-    this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.UPDATE_BONUS_QUESTION, word, currentPartNumber: this.currentPartNumber });
+    this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.UPDATE_BONUS_QUESTION, word, currentPartNumber: this.currentPartNumber });
 
     let time = Math.log(word.length) + 1;
     if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123) ||
