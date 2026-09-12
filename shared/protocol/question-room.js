@@ -1,9 +1,12 @@
-export const QUESTION_ROOM_MESSAGE_TYPE = Object.freeze({
+export const QUESTION_CLIENT_MESSAGE_TYPE = Object.freeze({
   ALERT: 'alert',
   END_OF_SET: 'end-of-set',
+  NO_QUESTIONS_FOUND: 'no-questions-found'
+});
+
+export const QUESTION_ROOM_MESSAGE_TYPE = Object.freeze({
   GIVE_ANSWER: 'give-answer',
   NEXT: 'next',
-  NO_QUESTIONS_FOUND: 'no-questions-found',
   SET_CATEGORIES: 'set-categories',
   SET_DIFFICULTIES: 'set-difficulties',
   SET_MAX_YEAR: 'set-max-year',
@@ -21,5 +24,6 @@ export const QUESTION_ROOM_MESSAGE_TYPE = Object.freeze({
 });
 
 /**
+ * @typedef {typeof QUESTION_CLIENT_MESSAGE_TYPE[keyof typeof QUESTION_CLIENT_MESSAGE_TYPE]} QuestionClientMessageType
  * @typedef {typeof QUESTION_ROOM_MESSAGE_TYPE[keyof typeof QUESTION_ROOM_MESSAGE_TYPE]} QuestionRoomMessageType
  */

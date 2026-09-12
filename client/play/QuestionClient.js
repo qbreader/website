@@ -6,7 +6,7 @@ import getSetList from '../scripts/api/get-set-list.js';
 import reportQuestion from '../scripts/api/report-question.js';
 import { addSliderEventListeners, setYear } from './year-slider.js';
 import { ROOM_MESSAGE_TYPE } from '../../shared/protocol/room.js';
-import { QUESTION_ROOM_MESSAGE_TYPE } from '../../shared/protocol/question-room.js';
+import { QUESTION_CLIENT_MESSAGE_TYPE, QUESTION_ROOM_MESSAGE_TYPE } from '../../shared/protocol/question-room.js';
 
 const SET_LIST = await getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
@@ -21,9 +21,9 @@ export default class QuestionClient {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case QUESTION_ROOM_MESSAGE_TYPE.ALERT: return window.alert(data.message);
-      case QUESTION_ROOM_MESSAGE_TYPE.END_OF_SET: return this.endOfSet(data);
-      case QUESTION_ROOM_MESSAGE_TYPE.NO_QUESTIONS_FOUND: return this.noQuestionsFound(data);
+      case QUESTION_CLIENT_MESSAGE_TYPE.ALERT: return window.alert(data.message);
+      case QUESTION_CLIENT_MESSAGE_TYPE.END_OF_SET: return this.endOfSet(data);
+      case QUESTION_CLIENT_MESSAGE_TYPE.NO_QUESTIONS_FOUND: return this.noQuestionsFound(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_CATEGORIES: return this.setCategories(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_DIFFICULTIES: return this.setDifficulties(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MODE: return this.setMode(data);

@@ -2,7 +2,7 @@ import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATE
 import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from './constants.js';
 import CategoryManager from './category-manager.js'; // eslint-disable-line no-unused-vars
 import Room from './Room.js';
-import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
+import { QUESTION_CLIENT_MESSAGE_TYPE, QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
 
 // eslint-disable-next-line no-unused-vars
 import * as types from '../types.js';
@@ -76,13 +76,13 @@ export default class QuestionRoom extends Room {
     switch (message.type) {
       case QUESTION_ROOM_MESSAGE_TYPE.SET_CATEGORIES: return this.setCategories({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_DIFFICULTIES: return this.setDifficulties({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR: return this.setMaxYear({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_MIN_YEAR: return this.setMinYear({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MODE: return this.setMode({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS: return this.setPacketNumbers({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_SET_NAME: return this.setSetName({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_STRICTNESS: return this.setStrictness({ userId, username }, message);
-      case QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR: return this.setMaxYear({ userId, username }, message);
-      case QUESTION_ROOM_MESSAGE_TYPE.SET_MIN_YEAR: return this.setMinYear({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_RANDOMIZE_ORDER: return this.toggleRandomizeOrder({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_SKIP: return this.toggleSkip({ userId, username }, message);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_STANDARD_ONLY: return this.toggleStandardOnly({ userId, username }, message);
@@ -148,7 +148,7 @@ export default class QuestionRoom extends Room {
         this.randomQuestionCache[questionType] = await this.getRandomQuestions(questionType, { ...this.query, number: cacheSize });
       }
       if (this.randomQuestionCache[questionType]?.length === 0) {
-        return this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.NO_QUESTIONS_FOUND });
+        return this.emitMessage({ type: QUESTION_CLIENT_MESSAGE_TYPE.NO_QUESTIONS_FOUND });
       }
       return this.randomQuestionCache[questionType].pop();
     }
@@ -161,7 +161,7 @@ export default class QuestionRoom extends Room {
             this.query.packetNumbers.shift();
             const packetNumber = this.query.packetNumbers[0];
             if (packetNumber === undefined) {
-              return this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.END_OF_SET });
+              return this.emitMessage({ type: QUESTION_CLIENT_MESSAGE_TYPE.END_OF_SET });
             }
             this.packet = await this.getPacket({ setName: this.query.setName, packetNumber });
           }
@@ -178,7 +178,7 @@ export default class QuestionRoom extends Room {
           break;
       }
 
-      if (!question) { return this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.NO_QUESTIONS_FOUND }); }
+      if (!question) { return this.emitMessage({ type: QUESTION_CLIENT_MESSAGE_TYPE.NO_QUESTIONS_FOUND }); }
     } while (!this.categoryManager.isValidCategory(question));
     return question;
   }
@@ -369,6 +369,6 @@ export default class QuestionRoom extends Room {
       this.localPacket[s] = questions;
     }
 
-    this.emitMessage({ type: QUESTION_ROOM_MESSAGE_TYPE.ALERT, message: `Successfully uploaded ${this.localPacket.tossups.length} tossups and ${this.localPacket.bonuses.length} bonuses.`, userId });
+    this.emitMessage({ type: QUESTION_CLIENT_MESSAGE_TYPE.ALERT, message: `Successfully uploaded ${this.localPacket.tossups.length} tossups and ${this.localPacket.bonuses.length} bonuses.`, userId });
   }
 }
