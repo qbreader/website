@@ -497,6 +497,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
         }
         const thirdBadge = document.createElement('span');
         thirdBadge.className = 'badge text-light bg-primary clickable toggle-correct';
+        thirdBadge.classList.toggle('d-none', this.room.public);
         thirdBadge.textContent = 'Toggle Correct';
         li.appendChild(document.createTextNode(' '));
         li.appendChild(thirdBadge);
@@ -761,6 +762,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('toggle-login-required').disabled = isPublic;
     document.getElementById('toggle-public').checked = isPublic;
     document.getElementById('toggle-timer').disabled = isPublic;
+    for (const element of document.getElementsByClassName('toggle-correct')) {
+      element.classList.toggle('d-none', isPublic);
+    }
     this.room.public = isPublic;
     if (isPublic) {
       document.getElementById('toggle-lock').checked = false;
