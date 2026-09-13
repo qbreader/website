@@ -1,9 +1,6 @@
-import sortTable from '../../scripts/utilities/tables.js';
+import { attachTableEventListeners } from '../../scripts/utilities/tables.js';
 
-const isNumericColumn = [false, true, false, true, true, true];
 const COUNT_COLUMNS = [3, 4, 5];
-const COUNT_PLACEHOLDER = '-';
-
 const table = document.getElementById('set-metadata-list');
 const headerCells = Array.from(table.closest('table').querySelectorAll('thead th'));
 
@@ -14,36 +11,6 @@ let countsLoaded = false;
 function isSortable (index) {
   return countsLoaded || !COUNT_COLUMNS.includes(index);
 }
-
-function updateSortIndicators () {
-  const sortedColumn = table.dataset.sortColumn;
-  const ascending = table.dataset.sortAscending === 'true';
-  headerCells.forEach((th, index) => {
-    const indicator = th.querySelector('.sort-indicator');
-    if (String(index) === sortedColumn) {
-      th.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
-      indicator.className = `sort-indicator bi bi-caret-${ascending ? 'up' : 'down'}-fill`;
-    } else {
-      th.setAttribute('aria-sort', 'none');
-      indicator.className = 'sort-indicator';
-    }
-  });
-}
-
-function enableCountSorting () {
-  countsLoaded = true;
-  for (const index of COUNT_COLUMNS) {
-    headerCells[index].classList.replace('text-body-tertiary', 'clickable');
-  }
-}
-
-headerCells.forEach((th, index) => {
-  th.addEventListener('click', () => {
-    if (!isSortable(index)) { return; }
-    sortTable(index, isNumericColumn[index], 'set-metadata-list', 0, 0);
-    updateSortIndicators();
-  });
-});
 
 const searchInput = document.getElementById('set-name-search');
 const initialSearchQuery = new URLSearchParams(window.location.search).get('q') || '';
@@ -97,9 +64,9 @@ await fetch('/api/set-list?' + new URLSearchParams({ expand: true }))
       row.insertCell(-1).appendChild(a);
       row.insertCell(-1).textContent = difficulty;
       row.insertCell(-1).textContent = standard;
-      row.insertCell(-1).textContent = COUNT_PLACEHOLDER;
-      row.insertCell(-1).textContent = COUNT_PLACEHOLDER;
-      row.insertCell(-1).textContent = COUNT_PLACEHOLDER;
+      row.insertCell(-1).textContent = '-';
+      row.insertCell(-1).textContent = '-';
+      row.insertCell(-1).textContent = '-';
     });
     applySetNameFilter(searchInput.value);
   });
@@ -118,5 +85,17 @@ fetch('/api/set-list?' + new URLSearchParams({ expand: true, includeCounts: true
       row.cells[4].textContent = tossupsCount;
       row.cells[5].textContent = bonusesCount;
     }
-    enableCountSorting();
+
+    countsLoaded = true;
+    for (const index of COUNT_COLUMNS) {
+      headerCells[index].classList.replace('text-body-tertiary', 'clickable');
+    }
   });
+
+attachTableEventListeners({
+  tableId: 'set-metadata-list',
+  isNumericColumn: [false, true, false, true, true, true],
+  isSortable,
+  headers: 0,
+  footers: 0
+});

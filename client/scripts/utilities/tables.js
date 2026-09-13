@@ -97,3 +97,31 @@ function compareKeys (a, b, ascending) {
   const order = typeof a === 'number' ? a - b : collator.compare(a, b);
   return ascending ? order : -order;
 }
+
+export function attachTableEventListeners ({ tableId, isNumericColumn, headers, footers, isSortable = () => true }) {
+  const table = document.getElementById(tableId);
+  const headerCells = Array.from(table.closest('table').querySelectorAll('thead th'));
+
+  function updateSortIndicators () {
+    const sortedColumn = table.dataset.sortColumn;
+    const ascending = table.dataset.sortAscending === 'true';
+    headerCells.forEach((th, index) => {
+      const indicator = th.querySelector('.sort-indicator');
+      if (String(index) === sortedColumn) {
+        th.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+        indicator.className = `sort-indicator bi bi-caret-${ascending ? 'up' : 'down'}-fill`;
+      } else {
+        th.setAttribute('aria-sort', 'none');
+        indicator.className = 'sort-indicator';
+      }
+    });
+  }
+
+  headerCells.forEach((th, index) => {
+    th.addEventListener('click', () => {
+      if (!isSortable(index)) { return; }
+      sortTable(index, isNumericColumn[index], tableId, headers, footers);
+      updateSortIndicators();
+    });
+  });
+}
