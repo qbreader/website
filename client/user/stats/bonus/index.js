@@ -1,6 +1,6 @@
 import { downloadAsFile } from '../../../scripts/download.js';
 import { attachDropdownChecklist, getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
-import sortTable from '../../../scripts/utilities/tables.js';
+import { attachTableEventListeners } from '../../../scripts/utilities/tables.js';
 
 async function fetchBonusStats ({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
   const data = await fetch('/auth/user-stats/bonus?' + new URLSearchParams({ difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate }))
@@ -70,20 +70,32 @@ fetchBonusStats();
 
 const isNumericColumn = [false, true, true, true, true, true, true, true];
 
-document.getElementById('set-stats').querySelectorAll('th').forEach((th, index) => {
-  th.addEventListener('click', () => sortTable(index, isNumericColumn[index], 'set-stats-body', 0, 0));
+attachTableEventListeners({
+  tableId: 'set-stats',
+  isNumericColumn,
+  headers: 1,
+  footers: 1
 });
 
-document.getElementById('category-stats').querySelectorAll('th').forEach((th, index) => {
-  th.addEventListener('click', () => sortTable(index, isNumericColumn[index], 'category-stats-body', 0, 0));
+attachTableEventListeners({
+  tableId: 'category-stats',
+  isNumericColumn,
+  headers: 1,
+  footers: 1
 });
 
-document.getElementById('subcategory-stats').querySelectorAll('th').forEach((th, index) => {
-  th.addEventListener('click', () => sortTable(index, isNumericColumn[index], 'subcategory-stats-body', 0, 0));
+attachTableEventListeners({
+  tableId: 'subcategory-stats',
+  isNumericColumn,
+  headers: 1,
+  footers: 1
 });
 
-document.getElementById('alternate-subcategory-stats').querySelectorAll('th').forEach((th, index) => {
-  th.addEventListener('click', () => sortTable(index, isNumericColumn[index], 'alternate-subcategory-stats-body', 0, 0));
+attachTableEventListeners({
+  tableId: 'alternate-subcategory-stats',
+  isNumericColumn,
+  headers: 1,
+  footers: 1
 });
 
 let csvData = '';
