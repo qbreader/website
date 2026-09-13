@@ -3,6 +3,7 @@
  * collator.compare('science', 'Science'); // 0
  */
 const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+const originalRows = new WeakMap();
 
 /**
  * Sorts a table by the values in a specified column.
@@ -29,7 +30,28 @@ export default function sortTable (n, numeric = false, tableId = 'table', header
   const body = rows.slice(headers, rows.length - footers);
   if (body.length < 2) { return; }
 
-  const ascending = !(table.dataset.sortColumn === String(n) && table.dataset.sortAscending === 'true');
+  const previousColumn = table.dataset.sortColumn;
+  const previousAscending = table.dataset.sortAscending === 'true';
+  const savedRows = originalRows.get(table);
+  if (!savedRows || savedRows.length !== body.length || savedRows.some(row => !body.includes(row))) {
+    originalRows.set(table, body.slice());
+    delete table.dataset.sortColumn;
+    delete table.dataset.sortAscending;
+  }
+
+  // clicking on a column sorted in descending order restores the table to its original
+  if (previousColumn === String(n) && !previousAscending) {
+    const parent = body[0].parentNode;
+    const fragment = document.createDocumentFragment();
+    for (const row of originalRows.get(table)) { fragment.appendChild(row); }
+    const footer = rows[rows.length - footers];
+    parent.insertBefore(fragment, footer && footer.parentNode === parent ? footer : null);
+    delete table.dataset.sortColumn;
+    delete table.dataset.sortAscending;
+    return;
+  }
+
+  const ascending = !(previousColumn === String(n) && previousAscending);
   const keyed = body.map(row => ({ row, key: sortKey(row.cells[n], numeric) }));
   keyed.sort((a, b) => compareKeys(a.key, b.key, ascending));
 
