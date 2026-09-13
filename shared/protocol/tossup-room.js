@@ -1,6 +1,5 @@
 export const TOSSUP_CLIENT_MESSAGE_TYPE = Object.freeze({
   END_CURRENT_TOSSUP: 'end-current-tossup',
-  GIVE_ANSWER_LIVE_UPDATE: 'give-answer-live-update',
   GIVE_TOSSUP_ANSWER: 'give-tossup-answer',
   LOST_BUZZER_RACE: 'lost-buzzer-race',
   REVEAL_TOSSUP_ANSWER: 'reveal-tossup-answer',

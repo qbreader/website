@@ -111,7 +111,6 @@ function attachEventListeners (room, socket) {
   document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     socket.sendToServer({ type: TOSSUP_ROOM_MESSAGE_TYPE.BUZZ });
-    socket.sendToServer({ type: TOSSUP_CLIENT_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer: '' });
   });
 
   document.getElementById('pause').addEventListener('click', function () {

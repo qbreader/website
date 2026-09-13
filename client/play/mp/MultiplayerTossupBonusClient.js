@@ -797,6 +797,11 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 };
 
 function attachEventListeners (room, socket, client) {
+  document.getElementById('buzz').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: 'give-answer-live-update', givenAnswer: '' });
+  });
+
   document.getElementById('toggle-distraction-free-mode').addEventListener('change', (event) => {
     client.distractionFreeMode = event.target.checked;
 
