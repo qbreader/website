@@ -7,7 +7,7 @@ import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
 import RateLimit from '../RateLimit.js';
 
 // eslint-disable-next-line no-unused-vars
-import QuestionRoom from '../../shared/QuestionRoom.js';
+import TossupBonusRoom from '../../shared/TossupBonusRoom.js';
 
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
 import getRandomBonuses from '../../database/qbreader/get-random-bonuses.js';
@@ -21,7 +21,7 @@ import Team from '../../shared/Team.js';
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
 /**
- * @template {typeof QuestionRoom} TBase
+ * @template {typeof TossupBonusRoom} TBase
  * @param {TBase} RoomClass
  */
 const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
