@@ -108,8 +108,8 @@ fetch('/api/set-list?' + new URLSearchParams({ expand: true, includeCounts: true
   .then(res => res.json())
   .then(({ setList }) => {
     document.getElementById('spinner').classList.add('d-none');
-    // Look rows up by set id instead of index: the user may have sorted the
-    // table while this request was in flight, which reorders the rows.
+    // The user may have sorted the table while this request was in flight, which reorders the rows.
+    // rowsBySetId is a Map<SetId, HTMLTableRowElement>
     const rowsBySetId = new Map(Array.from(table.rows).map(row => [row.dataset.setId, row]));
     for (const { _id, packetsCount, tossupsCount, bonusesCount } of setList) {
       const row = rowsBySetId.get(_id);
@@ -119,9 +119,4 @@ fetch('/api/set-list?' + new URLSearchParams({ expand: true, includeCounts: true
       row.cells[5].textContent = bonusesCount;
     }
     enableCountSorting();
-  })
-  .catch(error => {
-    // Leave the placeholders and the columns unsortable rather than offering a
-    // sort over data that never arrived.
-    console.error('Could not load set counts:', error);
   });

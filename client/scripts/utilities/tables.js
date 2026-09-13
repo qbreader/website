@@ -1,5 +1,7 @@
-// Set names contain years and edition numbers, so compare them naturally
-// ("Set 9" before "Set 10") and case-insensitively.
+/**
+ * collator.compare('Set 9', 'Set 10'); // -1
+ * collator.compare('science', 'Science'); // 0
+ */
 const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 
 /**
@@ -31,14 +33,12 @@ export default function sortTable (n, numeric = false, tableId = 'table', header
   const keyed = body.map(row => ({ row, key: sortKey(row.cells[n], numeric) }));
   keyed.sort((a, b) => compareKeys(a.key, b.key, ascending));
 
-  // Moving the rows through a fragment detaches and reinserts each row once,
-  // instead of reflowing the table on every individual swap. Insert relative to
-  // the rows' own parent: when `tableId` names a <table>, its rows actually live
-  // in a <tbody>, so the table itself is the wrong node to insert into.
+  // Insert into fragment to avoid multiple reflows
   const parent = body[0].parentNode;
   const footer = rows[rows.length - footers];
   const fragment = document.createDocumentFragment();
   for (const { row } of keyed) { fragment.appendChild(row); }
+  // If the table has a footer, insert before it; otherwise, append to the end of the parent.
   parent.insertBefore(fragment, footer && footer.parentNode === parent ? footer : null);
 
   table.dataset.sortColumn = n;
