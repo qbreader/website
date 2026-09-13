@@ -5,6 +5,7 @@ import isAppropriateString from '../moderation/is-appropriate-string.js';
 import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
 import RateLimit from '../RateLimit.js';
+import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
 
 // eslint-disable-next-line no-unused-vars
 import TossupBonusRoom from '../../shared/TossupBonusRoom.js';
@@ -60,7 +61,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       case 'ban': return this.ban({ userId, username }, message);
       case 'chat': return this.chat({ userId, username }, message);
       case 'chat-live-update': return this.chatLiveUpdate({ userId, username }, message);
-      case 'give-answer-live-update': return this.giveAnswerLiveUpdate({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE: return this.giveAnswerLiveUpdate({ userId, username }, message);
       case 'toggle-controlled': return this.toggleControlled({ userId, username }, message);
       case 'toggle-lock': return this.toggleLock({ userId, username }, message);
       case 'toggle-login-required': return this.toggleLoginRequired({ userId, username }, message);
@@ -269,7 +270,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
     if (typeof givenAnswer !== 'string') { return false; }
     this.liveAnswer = givenAnswer;
-    this.emitMessage({ type: 'give-answer-live-update', givenAnswer, username, userId });
+    this.emitMessage({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer, username, userId });
   }
 
   removeAllPlayers () {

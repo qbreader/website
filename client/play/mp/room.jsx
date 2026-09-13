@@ -1,4 +1,5 @@
 import MultiplayerTossupBonusClient from './MultiplayerTossupBonusClient.js';
+import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
 import { showAlert } from './alert.js';
 
 import CategoryManager from '../../../shared/category-manager.js';
@@ -61,7 +62,7 @@ const client = new MultiplayerTossupBonusClient(room, USER_ID, socket);
 socket.onmessage = (message) => client.onmessage(message);
 
 document.getElementById('answer-input').addEventListener('input', function () {
-  socket.send(JSON.stringify({ type: 'give-answer-live-update', givenAnswer: this.value }));
+  socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer: this.value }));
 });
 
 document.getElementById('chat').addEventListener('click', function () {

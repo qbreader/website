@@ -6,6 +6,7 @@ import { arrayToRange } from '../ranges.js';
 import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
 import { showAlert } from './alert.js';
+import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
 
 /**
  * @template {typeof TossupBonusClient} TBase
@@ -34,7 +35,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case 'enforcing-removal': return this.ackRemovedFromRoom(data);
       case 'error': return this.handleError(data);
       case 'force-username': return this.forceUsername(data);
-      case 'give-answer-live-update': return this.logGiveAnswer(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE: return this.logGiveAnswer(data);
       case 'initiated-vk': return this.vkInit(data);
       case 'join': return this.join(data);
       case 'leave': return this.leave(data);
@@ -799,7 +800,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 function attachEventListeners (room, socket, client) {
   document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
-    socket.sendToServer({ type: 'give-answer-live-update', givenAnswer: '' });
+    socket.sendToServer({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer: '' });
   });
 
   document.getElementById('toggle-distraction-free-mode').addEventListener('change', (event) => {
