@@ -58,17 +58,17 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
   async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'ban': return this.ban({ userId, username }, message);
-      case 'chat': return this.chat({ userId, username }, message);
-      case 'chat-live-update': return this.chatLiveUpdate({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.BAN: return this.ban({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT: return this.chat({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE: return this.chatLiveUpdate({ userId, username }, message);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE: return this.giveAnswerLiveUpdate({ userId, username }, message);
-      case 'toggle-controlled': return this.toggleControlled({ userId, username }, message);
-      case 'toggle-lock': return this.toggleLock({ userId, username }, message);
-      case 'toggle-login-required': return this.toggleLoginRequired({ userId, username }, message);
-      case 'toggle-mute': return this.toggleMute({ userId, username }, message);
-      case 'toggle-public': return this.togglePublic({ userId, username }, message);
-      case 'votekick-init': return this.votekickInit({ userId, username }, message);
-      case 'votekick-vote': return this.votekickVote({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED: return this.toggleControlled({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK: return this.toggleLock({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED: return this.toggleLoginRequired({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_MUTE: return this.toggleMute({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_PUBLIC: return this.togglePublic({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.VOTEKICK_INIT: return this.votekickInit({ userId, username }, message);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.VOTEKICK_VOTE: return this.votekickVote({ userId, username }, message);
       default: super.message({ userId, username }, message);
     }
   }
@@ -223,14 +223,14 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     if (this.settings.public && !this.settings.loginRequired) { return false; }
     if (typeof message !== 'string') { return false; }
     if (!isAppropriateString(message)) { return false; }
-    this.emitMessage({ type: 'chat', message, username, userId });
+    this.emitMessage({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT, message, username, userId });
   }
 
   chatLiveUpdate ({ userId, username }, { message }) {
     if (this.settings.public && !this.settings.loginRequired) { return false; }
     if (typeof message !== 'string') { return false; }
     if (!isAppropriateString(message)) { return false; }
-    this.emitMessage({ type: 'chat-live-update', message, username, userId });
+    this.emitMessage({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE, message, username, userId });
   }
 
   cleanupExpiredBansAndKicks () {
@@ -353,7 +353,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     if (this.settings.public) { return; }
     if (userId !== this.ownerId) { return; }
     this.settings.controlled = !!controlled;
-    this.emitMessage({ type: 'toggle-controlled', controlled, username });
+    this.emitMessage({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED, controlled, username });
   }
 
   toggleEnableBonuses ({ userId, username }, { enableBonuses }) {
@@ -364,13 +364,13 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   toggleLock ({ userId, username }, { lock }) {
     if (this.settings.public || !this.allowed(userId)) { return; }
     this.settings.lock = lock;
-    this.emitMessage({ type: 'toggle-lock', lock, username });
+    this.emitMessage({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK, lock, username });
   }
 
   toggleLoginRequired ({ userId, username }, { loginRequired }) {
     if (this.isVerified || this.settings.public || !this.allowed(userId)) { return; }
     this.settings.loginRequired = loginRequired;
-    this.emitMessage({ type: 'toggle-login-required', loginRequired, username });
+    this.emitMessage({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED, loginRequired, username });
   }
 
   toggleMute ({ userId }, { targetId, targetUsername, muteStatus }) {
@@ -406,7 +406,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       this.settings.loginRequired = false;
       this.settings.timer = true;
     }
-    this.emitMessage({ type: 'toggle-public', public: isPublic, username });
+    this.emitMessage({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_PUBLIC, public: isPublic, username });
   }
 
   toggleRebuzz ({ userId, username }, { rebuzz }) {

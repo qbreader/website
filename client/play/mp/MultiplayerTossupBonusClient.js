@@ -25,8 +25,8 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     const data = JSON.parse(event.data);
     switch (data.type) {
       case 'admin-lock': return this.adminLock(data);
-      case 'chat': return this.chat(data, false);
-      case 'chat-live-update': return this.chat(data, true);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT: return this.chat(data, false);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE: return this.chat(data, true);
       case 'clear-stats': return this.clearStats(data);
       case 'confirm-ban': return this.confirmBan(data);
       case 'connection-acknowledged': return this.connectionAcknowledged(data);
@@ -46,10 +46,10 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case 'set-username': return this.setUsername(data);
       case 'successful-vk': return this.vkHandle(data);
       case 'toggle-correct': return this.toggleCorrect(data);
-      case 'toggle-controlled': return this.toggleControlled(data);
-      case 'toggle-lock': return this.toggleLock(data);
-      case 'toggle-login-required': return this.toggleLoginRequired(data);
-      case 'toggle-public': return this.togglePublic(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED: return this.toggleControlled(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK: return this.toggleLock(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED: return this.toggleLoginRequired(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_PUBLIC: return this.togglePublic(data);
       case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
       default: return super.onmessage(event.data);
     }

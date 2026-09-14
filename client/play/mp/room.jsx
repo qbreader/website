@@ -69,7 +69,7 @@ document.getElementById('chat').addEventListener('click', function () {
   this.blur();
   document.getElementById('chat-input-group').classList.remove('d-none');
   document.getElementById('chat-input').focus();
-  socket.send(JSON.stringify({ type: 'chat-live-update', message: '' }));
+  socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE, message: '' }));
 });
 
 document.getElementById('chat-form').addEventListener('submit', function (event) {
@@ -81,11 +81,11 @@ document.getElementById('chat-form').addEventListener('submit', function (event)
   document.getElementById('chat-input-group').classList.add('d-none');
   document.getElementById('chat-input').blur();
 
-  socket.send(JSON.stringify({ type: 'chat', message }));
+  socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT, message }));
 });
 
 document.getElementById('chat-input').addEventListener('input', function () {
-  socket.send(JSON.stringify({ type: 'chat-live-update', message: this.value }));
+  socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE, message: this.value }));
 });
 
 const styleSheet = document.createElement('style');
@@ -103,17 +103,17 @@ document.getElementById('toggle-offline-players').addEventListener('click', func
 
 document.getElementById('toggle-controlled').addEventListener('click', function () {
   this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-controlled', controlled: this.checked }));
+  socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED, controlled: this.checked }));
 });
 
 document.getElementById('toggle-lock').addEventListener('click', function () {
   this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-lock', lock: this.checked }));
+  socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK, lock: this.checked }));
 });
 
 document.getElementById('toggle-login-required').addEventListener('click', function () {
   this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-login-required', loginRequired: this.checked }));
+  socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED, loginRequired: this.checked }));
 });
 
 document.getElementById('toggle-skip').addEventListener('click', function () {
@@ -123,7 +123,7 @@ document.getElementById('toggle-skip').addEventListener('click', function () {
 
 document.getElementById('toggle-public').addEventListener('click', function () {
   this.blur();
-  socket.send(JSON.stringify({ type: 'toggle-public', public: this.checked }));
+  socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_PUBLIC, public: this.checked }));
 });
 
 document.getElementById('username').addEventListener('change', function () {
@@ -138,7 +138,7 @@ document.addEventListener('keydown', (event) => {
     document.getElementById('chat-input').value = '';
     document.getElementById('chat-input-group').classList.add('d-none');
     document.getElementById('chat-input').blur();
-    socket.send(JSON.stringify({ type: 'chat', message: '' }));
+    socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT, message: '' }));
   }
 
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
