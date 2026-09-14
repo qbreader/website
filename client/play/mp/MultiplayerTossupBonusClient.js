@@ -7,6 +7,7 @@ import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
 import { showAlert } from './alert.js';
 import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
+import { ROOM_MESSAGE_TYPE } from '../../../shared/protocol/room.js';
 
 /**
  * @template {typeof TossupBonusClient} TBase
@@ -46,6 +47,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case 'set-username': return this.setUsername(data);
       case 'successful-vk': return this.vkHandle(data);
       case 'toggle-correct': return this.toggleCorrect(data);
+      case ROOM_MESSAGE_TYPE.SET_USERNAME: return this.setUsername(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED: return this.toggleControlled(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK: return this.toggleLock(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED: return this.toggleLoginRequired(data);

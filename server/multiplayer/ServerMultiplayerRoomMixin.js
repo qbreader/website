@@ -344,9 +344,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       return;
     }
 
-    const oldUsername = this.players[userId]?.username;
-    const newUsername = this.players[userId].safelySetUsername(username);
-    this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername });
+    super.setUsername({ userId }, { username });
   }
 
   toggleControlled ({ userId, username }, { controlled }) {

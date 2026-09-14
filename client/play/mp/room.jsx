@@ -1,5 +1,6 @@
 import MultiplayerTossupBonusClient from './MultiplayerTossupBonusClient.js';
 import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
+import { ROOM_MESSAGE_TYPE } from '../../../shared/protocol/room.js';
 import { showAlert } from './alert.js';
 
 import CategoryManager from '../../../shared/category-manager.js';
@@ -127,7 +128,7 @@ document.getElementById('toggle-public').addEventListener('click', function () {
 });
 
 document.getElementById('username').addEventListener('change', function () {
-  socket.send(JSON.stringify({ type: 'set-username', userId: USER_ID, username: this.value }));
+  socket.send(JSON.stringify({ type: ROOM_MESSAGE_TYPE.SET_USERNAME, userId: USER_ID, username: this.value }));
   room.username = this.value;
   window.localStorage.setItem('multiplayer-username', room.username);
 });
