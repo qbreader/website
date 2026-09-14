@@ -7,6 +7,7 @@ import getRandomName from '../../shared/get-random-name.js';
 import hasValidCharacters from '../moderation/has-valid-characters.js';
 import { clientIp, isBannedIp } from '../moderation/ip-filter.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
+import { MULTIPLAYER_CLIENT_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
 
 import createDOMPurify from 'dompurify';
 // below is used for type annotation
@@ -76,7 +77,7 @@ export default function handleWssConnection (ws, req) {
 
   if (!hasValidCharacters(roomName)) {
     ws.send(JSON.stringify({
-      type: 'error',
+      type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR,
       message: 'The room name contains an invalid character. Only A-Z, a-z, 0-9, - and _ are allowed.'
     }));
     return false;
@@ -84,7 +85,7 @@ export default function handleWssConnection (ws, req) {
 
   if (!isAppropriateString(roomName)) {
     ws.send(JSON.stringify({
-      type: 'error',
+      type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR,
       message: 'The room name contains an inappropriate word.'
     }));
     return false;
@@ -95,7 +96,7 @@ export default function handleWssConnection (ws, req) {
 
   if (room.settings.lock === true) {
     ws.send(JSON.stringify({
-      type: 'error',
+      type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR,
       message: 'The room is locked.',
       roomOwner
     }));
@@ -113,7 +114,7 @@ export default function handleWssConnection (ws, req) {
 
     if (!valid) {
       ws.send(JSON.stringify({
-        type: 'error',
+        type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR,
         message: 'You must be logged in with a verified email to join this room.',
         roomOwner
       }));
@@ -124,7 +125,7 @@ export default function handleWssConnection (ws, req) {
   if (!isAppropriateString(username)) {
     username = getRandomName();
     ws.send(JSON.stringify({
-      type: 'force-username',
+      type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.FORCE_USERNAME,
       username,
       message: 'Your username contains an inappropriate word, so it has been reset.'
     }));
@@ -132,7 +133,7 @@ export default function handleWssConnection (ws, req) {
 
   if (MAX_ONLINE_PLAYERS <= Object.values(room.players).filter(p => p.online).length) {
     ws.send(JSON.stringify({
-      type: 'error',
+      type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR,
       message: `The room has hit the maximum online players of ${MAX_ONLINE_PLAYERS}.`,
       roomOwner
     }));
@@ -145,7 +146,7 @@ export default function handleWssConnection (ws, req) {
   const ipConnections = connectionsByIp.get(ip) ?? 0;
   if (ipConnections >= MAX_CONNECTIONS_PER_IP) {
     ws.send(JSON.stringify({
-      type: 'error',
+      type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR,
       message: `Too many connections from your IP address. The limit is ${MAX_CONNECTIONS_PER_IP}.`
     }));
     return false;

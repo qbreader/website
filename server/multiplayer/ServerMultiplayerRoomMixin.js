@@ -5,7 +5,7 @@ import isAppropriateString from '../moderation/is-appropriate-string.js';
 import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
 import RateLimit from '../RateLimit.js';
-import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
+import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
 
 // eslint-disable-next-line no-unused-vars
 import TossupBonusRoom from '../../shared/TossupBonusRoom.js';
@@ -81,7 +81,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     console.log('Ban request received. Target ' + targetId);
     if (this.ownerId !== userId) { return; }
 
-    this.emitMessage({ type: 'confirm-ban', targetId, targetUsername });
+    this.emitMessage({ type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONFIRM_BAN, targetId, targetUsername });
     this.bannedUserList.set(targetId, Date.now());
 
     setTimeout(() => this.closeConnection({ userId: targetId, username: targetUsername }), 1000);
@@ -98,7 +98,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     this.cleanupExpiredBansAndKicks();
 
     if (this.sockets[userId]) {
-      this.sendToSocket(userId, { type: 'error', message: 'You joined on another tab' });
+      this.sendToSocket(userId, { type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR, message: 'You joined on another tab' });
       setTimeout(() => this.closeConnection({ userId, username }), 5000);
     }
 
@@ -115,13 +115,13 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
     if (this.bannedUserList.has(userId)) {
       console.log(`Banned user ${userId} (${username}) tried to join a room`);
-      this.sendToSocket(userId, { type: 'enforcing-removal', removalType: 'ban' });
+      this.sendToSocket(userId, { type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ENFORCING_REMOVAL, removalType: 'ban' });
       return;
     }
 
     if (this.kickedUserList.has(userId)) {
       console.log(`Kicked user ${userId} (${username}) tried to join a room`);
-      this.sendToSocket(userId, { type: 'enforcing-removal', removalType: 'kick' });
+      this.sendToSocket(userId, { type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ENFORCING_REMOVAL, removalType: 'kick' });
       return;
     }
 
@@ -149,7 +149,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     socket.on('close', this.closeConnection.bind(this, { userId, username }));
 
     socket.send(JSON.stringify({
-      type: 'connection-acknowledged',
+      type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED,
       teamId: this.players[userId].teamId,
       userId,
 
@@ -170,9 +170,9 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       settings: this.settings
     }));
 
-    socket.send(JSON.stringify({ type: 'connection-acknowledged-query', ...this.query, ...this.categoryManager.export() }));
+    socket.send(JSON.stringify({ type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUERY, ...this.query, ...this.categoryManager.export() }));
     socket.send(JSON.stringify({
-      type: 'connection-acknowledged-question',
+      type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUESTION,
       currentQuestionType: this.currentQuestionType,
       question: this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ? this.tossup : this.bonus
     }));
@@ -215,7 +215,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       }
     }
 
-    this.emitMessage({ type: 'join', isNew, team: this.teams[this.players[userId].teamId], userId, username, user: this.players[userId] });
+    this.emitMessage({ type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.JOIN, isNew, team: this.teams[this.players[userId].teamId], userId, username, user: this.players[userId] });
   }
 
   chat ({ userId, username }, { message }) {
@@ -277,7 +277,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     for (const userId of Object.keys(this.players)) {
       this.players[userId].online = false;
       if (Object.keys(this.sockets).includes(userId)) {
-        this.sendToSocket(userId, { type: 'admin-lock', message: 'An admin has locked this room.' });
+        this.sendToSocket(userId, { type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.ADMIN_LOCK, message: 'An admin has locked this room.' });
         delete this.sockets[userId];
       }
     }
@@ -337,7 +337,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
     if (!isAppropriateString(username)) {
       this.sendToSocket(userId, {
-        type: 'force-username',
+        type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.FORCE_USERNAME,
         username: this.players[userId].username,
         message: 'Your username contains an inappropriate word, so it has been reverted.'
       });
@@ -373,7 +373,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
   toggleMute ({ userId }, { targetId, targetUsername, muteStatus }) {
     if (userId !== this.ownerId) return;
-    this.sendToSocket(userId, { type: 'mute-player', targetId, targetUsername, muteStatus });
+    this.sendToSocket(userId, { type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.MUTE_PLAYER, targetId, targetUsername, muteStatus });
   }
 
   togglePowermarkOnly ({ userId, username }, { powermarkOnly }) {
@@ -443,17 +443,17 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     votekick.vote(userId);
     this.votekickList.push(votekick);
     if (votekick.check()) {
-      this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
+      this.emitMessage({ type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.SUCCESSFUL_VK, targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
     } else {
       this.kickedUserList.set(targetId, Date.now());
-      this.emitMessage({ type: 'initiated-vk', targetUsername, threshold });
+      this.emitMessage({ type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.INITIATED_VK, targetUsername, threshold });
     }
   }
 
   votekickVote ({ userId }, { targetId }) {
     if (this.players[userId].tens === 0 && this.players[userId].powers === 0) {
-      this.emitMessage({ type: 'no-points-votekick-attempt', userId });
+      this.emitMessage({ type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.NO_POINTS_VOTEKICK_ATTEMPT, userId });
       return;
     }
     if (!this.players[targetId]) { return; }
@@ -471,7 +471,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
     thisVotekick.vote(userId);
     if (thisVotekick.check()) {
-      this.emitMessage({ type: 'successful-vk', targetUsername, targetId });
+      this.emitMessage({ type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.SUCCESSFUL_VK, targetUsername, targetId });
       this.kickedUserList.set(targetId, Date.now());
 
       setTimeout(() => this.closeConnection({ userId: targetId, username: targetUsername }), 1000);
@@ -486,7 +486,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
         this.ownerId = newHost;
 
-        this.emitMessage({ type: 'owner-change', newOwner: newHost });
+        this.emitMessage({ type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.OWNER_CHANGE, newOwner: newHost });
       }
     }
   }
