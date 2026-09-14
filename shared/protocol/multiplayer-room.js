@@ -1,3 +1,24 @@
+export const MULTIPLAYER_CLIENT_MESSAGE_TYPE = Object.freeze({
+  ADMIN_LOCK: 'admin-lock',
+  CLEAR_STATS: 'clear-stats',
+  CONFIRM_BAN: 'confirm-ban',
+  CONNECTION_ACKNOWLEDGED: 'connection-acknowledged',
+  CONNECTION_ACKNOWLEDGED_QUERY: 'connection-acknowledged-query',
+  CONNECTION_ACKNOWLEDGED_QUESTION: 'connection-acknowledged-question',
+  ENFORCING_REMOVAL: 'enforcing-removal',
+  ERROR: 'error',
+  FORCE_USERNAME: 'force-username',
+  INITIATED_VK: 'initiated-vk',
+  JOIN: 'join',
+  LEAVE: 'leave',
+  LOST_BUZZER_RACE: 'lost-buzzer-race',
+  MUTE_PLAYER: 'mute-player',
+  NO_POINTS_VOTEKICK_ATTEMPT: 'no-points-votekick-attempt',
+  OWNER_CHANGE: 'owner-change',
+  SUCCESSFUL_VK: 'successful-vk',
+  TOGGLE_CORRECT: 'toggle-correct'
+});
+
 export const MULTIPLAYER_ROOM_MESSAGE_TYPE = Object.freeze({
   BAN: 'ban',
   CHAT: 'chat',
