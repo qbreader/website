@@ -50,7 +50,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK: return this.toggleLock(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED: return this.toggleLoginRequired(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_PUBLIC: return this.togglePublic(data);
-      case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
       default: return super.onmessage(event.data);
     }
   }
