@@ -7,7 +7,8 @@ import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
 import { showAlert } from './alert.js';
 import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
-import { ROOM_MESSAGE_TYPE } from '../../../shared/protocol/room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE } from '../../../shared/protocol/tossup-room.js';
+import { CLIENT_MESSAGE_TYPE, ROOM_MESSAGE_TYPE } from '../../../shared/protocol/room.js';
 
 /**
  * @template {typeof TossupBonusClient} TBase
@@ -28,7 +29,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.ADMIN_LOCK: return this.adminLock(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT: return this.chat(data, false);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE: return this.chat(data, true);
-      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CLEAR_STATS: return this.clearStats(data);
+      case ROOM_MESSAGE_TYPE.CLEAR_STATS: return this.clearStats(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONFIRM_BAN: return this.confirmBan(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED: return this.connectionAcknowledged(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUERY: return this.connectionAcknowledgedQuery(data);
@@ -39,14 +40,14 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE: return this.logGiveAnswer(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.INITIATED_VK: return this.vkInit(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.JOIN: return this.join(data);
-      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.LEAVE: return this.leave(data);
-      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.LOST_BUZZER_RACE: return this.lostBuzzerRace(data);
+      case CLIENT_MESSAGE_TYPE.LEAVE: return this.leave(data);
+      case TOSSUP_CLIENT_MESSAGE_TYPE.LOST_BUZZER_RACE: return this.lostBuzzerRace(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.MUTE_PLAYER: return this.mutePlayer(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.NO_POINTS_VOTEKICK_ATTEMPT: return this.failedVotekickPoints(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.OWNER_CHANGE: return this.ownerChange(data);
       case ROOM_MESSAGE_TYPE.SET_USERNAME: return this.setUsername(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.SUCCESSFUL_VK: return this.vkHandle(data);
-      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.TOGGLE_CORRECT: return this.toggleCorrect(data);
+      case 'toggle-correct': return this.toggleCorrect(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED: return this.toggleControlled(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK: return this.toggleLock(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED: return this.toggleLoginRequired(data);
