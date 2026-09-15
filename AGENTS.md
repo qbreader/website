@@ -86,7 +86,7 @@ The core abstraction is a **Room** that receives typed messages and emits typed 
 
 **Solo play** (`client/play/tossups/`, `client/play/bonuses/`): the room class runs *in the browser* (`SoloTossupRoom`), wired to a fake socket object whose `sendToServer` calls `room.message(...)` directly and whose `send` calls the client's `onmessage`. No server round-trips during gameplay.
 
-**Multiplayer** (`server/multiplayer/`): `ServerTossupRoom` etc. extend the same shared classes, adding persistence, moderation, vote-kick, and real WebSocket sockets (`handle-wss-connection.js`). The browser side (`client/play/mp/`) uses a real WebSocket with the same message protocol.
+**Multiplayer** (`server/multiplayer/`): `ServerTossupBonusRoom` etc. extend the same shared classes, adding persistence, moderation, vote-kick, and real WebSocket sockets (`handle-wss-connection.js`). The browser side (`client/play/mp/`) uses a real WebSocket with the same message protocol.
 
 Client counterparts live in `client/play/*Client.js` (`QuestionClient` → `TossupClient` → …): they receive room messages and update the DOM. When you add a message type, you must handle it in the room class (game state), the client class (DOM), and — for multiplayer — confirm it serializes over the wire (10 KB max WebSocket payload).
 

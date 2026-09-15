@@ -70,8 +70,8 @@ export default class Room {
   setUsername ({ userId }, { username }) {
     if (typeof username !== 'string') { return false; }
     const oldUsername = this.players[userId].username;
-    this.players[userId].username = username;
-    this.emitMessage({ type: ROOM_MESSAGE_TYPE.SET_USERNAME, userId, oldUsername, newUsername: username });
+    const newUsername = this.players[userId].safelySetUsername(username);
+    this.emitMessage({ type: ROOM_MESSAGE_TYPE.SET_USERNAME, userId, oldUsername, newUsername });
   }
 
   /**

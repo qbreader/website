@@ -23,6 +23,7 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
       case TOSSUP_ROOM_MESSAGE_TYPE.PAUSE: return this.pause(data);
       case TOSSUP_CLIENT_MESSAGE_TYPE.REVEAL_TOSSUP_ANSWER: return this.revealTossupAnswer(data);
       case TOSSUP_CLIENT_MESSAGE_TYPE.START_NEXT_TOSSUP: return this.startNextTossup(data);
+      case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT: return this.toggleCorrect(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_POWERMARK_ONLY: return this.togglePowermarkOnly(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_REBUZZ: return this.toggleRebuzz(data);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_STOP_ON_POWER: return this.toggleStopOnPower(data);
@@ -89,6 +90,10 @@ export const TossupClientMixin = (ClientClass) => class extends ClientClass {
     this.room.tossup = tossup;
   }
 
+  toggleCorrect ({ isCorrect, targetUserId, player }) {
+    throw new Error('toggleCorrect should be implemented in a subclass of TossupClientMixin');
+  }
+
   togglePowermarkOnly ({ powermarkOnly }) {
     document.getElementById('toggle-powermark-only').checked = powermarkOnly;
   }
@@ -111,7 +116,6 @@ function attachEventListeners (room, socket) {
   document.getElementById('buzz').addEventListener('click', function () {
     this.blur();
     socket.sendToServer({ type: TOSSUP_ROOM_MESSAGE_TYPE.BUZZ });
-    socket.sendToServer({ type: TOSSUP_CLIENT_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer: '' });
   });
 
   document.getElementById('pause').addEventListener('click', function () {

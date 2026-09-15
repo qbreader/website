@@ -16,9 +16,7 @@ export default class SoloTossupClient extends TossupClient {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'clear-stats': return this.clearStats(data);
       case 'toggle-ai-mode': return this.toggleAiMode(data);
-      case 'toggle-correct': return this.toggleCorrect(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
       default: return super.onmessage(message);
     }

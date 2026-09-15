@@ -2,6 +2,7 @@ import { EARLY_CORRECT_CELERITY_THRESHOLD } from './constants.js';
 import ServerMultiplayerRoomMixin from './ServerMultiplayerRoomMixin.js';
 import TossupBonusRoom from '../../shared/TossupBonusRoom.js';
 import { QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
+import { QUESTION_CLIENT_MESSAGE_TYPE } from '../../shared/protocol/question-room.js';
 
 export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(TossupBonusRoom) {
   constructor (name, ownerId, isPermanent, categoryManager, isVerified = false) {
@@ -32,7 +33,7 @@ export default class ServerTossupBonusRoom extends ServerMultiplayerRoomMixin(To
       const shouldKick = this.players[userId].recordEarlyCorrect();
       if (shouldKick) {
         console.log(`Bot detected: User ${userId} (${username}) got 3 correct with abnormally high celerity. Kicking.`);
-        this.sendToSocket(userId, { type: 'alert', message: 'You were removed for suspected bot behavior.' });
+        this.sendToSocket(userId, { type: QUESTION_CLIENT_MESSAGE_TYPE.ALERT, message: 'You were removed for suspected bot behavior.' });
         setTimeout(() => this.closeConnection({ userId, username }), 100);
         return;
       }

@@ -6,6 +6,8 @@ import { arrayToRange } from '../ranges.js';
 import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
 import { showAlert } from './alert.js';
+import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/tossup-room.js';
 
 /**
  * @template {typeof TossupBonusClient} TBase
@@ -23,33 +25,28 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   onmessage (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
-      case 'admin-lock': return this.adminLock(data);
-      case 'chat': return this.chat(data, false);
-      case 'chat-live-update': return this.chat(data, true);
-      case 'clear-stats': return this.clearStats(data);
-      case 'confirm-ban': return this.confirmBan(data);
-      case 'connection-acknowledged': return this.connectionAcknowledged(data);
-      case 'connection-acknowledged-query': return this.connectionAcknowledgedQuery(data);
-      case 'connection-acknowledged-question': return this.connectionAcknowledgedQuestion(data);
-      case 'enforcing-removal': return this.ackRemovedFromRoom(data);
-      case 'error': return this.handleError(data);
-      case 'force-username': return this.forceUsername(data);
-      case 'give-answer-live-update': return this.logGiveAnswer(data);
-      case 'initiated-vk': return this.vkInit(data);
-      case 'join': return this.join(data);
-      case 'leave': return this.leave(data);
-      case 'lost-buzzer-race': return this.lostBuzzerRace(data);
-      case 'mute-player': return this.mutePlayer(data);
-      case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
-      case 'owner-change': return this.ownerChange(data);
-      case 'set-username': return this.setUsername(data);
-      case 'successful-vk': return this.vkHandle(data);
-      case 'toggle-correct': return this.toggleCorrect(data);
-      case 'toggle-controlled': return this.toggleControlled(data);
-      case 'toggle-lock': return this.toggleLock(data);
-      case 'toggle-login-required': return this.toggleLoginRequired(data);
-      case 'toggle-public': return this.togglePublic(data);
-      case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.ADMIN_LOCK: return this.adminLock(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT: return this.chat(data, false);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE: return this.chat(data, true);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONFIRM_BAN: return this.confirmBan(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED: return this.connectionAcknowledged(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUERY: return this.connectionAcknowledgedQuery(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUESTION: return this.connectionAcknowledgedQuestion(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.ENFORCING_REMOVAL: return this.ackRemovedFromRoom(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR: return this.handleError(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.FORCE_USERNAME: return this.forceUsername(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE: return this.logGiveAnswer(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.INITIATED_VK: return this.vkInit(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.JOIN: return this.join(data);
+      case TOSSUP_CLIENT_MESSAGE_TYPE.LOST_BUZZER_RACE: return this.lostBuzzerRace(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.MUTE_PLAYER: return this.mutePlayer(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.NO_POINTS_VOTEKICK_ATTEMPT: return this.failedVotekickPoints(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.OWNER_CHANGE: return this.ownerChange(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.SUCCESSFUL_VK: return this.vkHandle(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED: return this.toggleControlled(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK: return this.toggleLock(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED: return this.toggleLoginRequired(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_PUBLIC: return this.togglePublic(data);
       default: return super.onmessage(event.data);
     }
   }
@@ -504,7 +501,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
         thirdBadge.addEventListener('click', () => {
           this.socket.send(JSON.stringify({
-            type: 'toggle-correct',
+            type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT,
             targetUserId: userId
           }));
         });
@@ -797,6 +794,11 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 };
 
 function attachEventListeners (room, socket, client) {
+  document.getElementById('buzz').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer: '' });
+  });
+
   document.getElementById('toggle-distraction-free-mode').addEventListener('change', (event) => {
     client.distractionFreeMode = event.target.checked;
 
