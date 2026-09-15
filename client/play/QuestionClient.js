@@ -5,16 +5,15 @@ import { arrayToRange, rangeToArray } from './ranges.js';
 import getSetList from '../scripts/api/get-set-list.js';
 import reportQuestion from '../scripts/api/report-question.js';
 import { addSliderEventListeners, setYear } from './year-slider.js';
-import { CLIENT_MESSAGE_TYPE, ROOM_MESSAGE_TYPE } from '../../shared/protocol/room.js';
 import { QUESTION_CLIENT_MESSAGE_TYPE, QUESTION_ROOM_MESSAGE_TYPE } from '../../shared/protocol/question-room.js';
+import Client from './Client.js';
 
 const SET_LIST = await getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
-export default class QuestionClient {
+export default class QuestionClient extends Client {
   constructor (room, userId, socket) {
-    this.room = room;
-    this.USER_ID = userId;
+    super(room, userId, socket);
     attachEventListeners(room, socket);
   }
 
@@ -33,7 +32,6 @@ export default class QuestionClient {
       case QUESTION_ROOM_MESSAGE_TYPE.SET_STRICTNESS: return this.setStrictness(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR: return this.setMaxYear(data);
       case QUESTION_ROOM_MESSAGE_TYPE.SET_MIN_YEAR: return this.setMinYear(data);
-      case CLIENT_MESSAGE_TYPE.TIMER_UPDATE: return this.timerUpdate(data);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_SKIP: return this.toggleSkip(data);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_STANDARD_ONLY: return this.toggleStandardOnly(data);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_TIMER: return this.toggleTimer(data);
@@ -133,13 +131,6 @@ export default class QuestionClient {
     document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
-  timerUpdate ({ timeRemaining }) {
-    const seconds = Math.floor(timeRemaining / 10);
-    const tenths = timeRemaining % 10;
-    document.querySelector('.timer .face').textContent = seconds;
-    document.querySelector('.timer .fraction').textContent = '.' + tenths;
-  }
-
   toggleSkip ({ skip }) {
     document.getElementById('toggle-skip').checked = skip;
     document.getElementById('next').disabled = !skip && document.getElementById('next').textContent === 'Skip';
@@ -229,11 +220,6 @@ function attachEventListeners (room, socket) {
     event.stopPropagation();
     const answer = document.getElementById('answer-input').value;
     socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.GIVE_ANSWER, givenAnswer: answer });
-  });
-
-  document.getElementById('clear-stats').addEventListener('click', function () {
-    this.blur();
-    socket.sendToServer({ type: ROOM_MESSAGE_TYPE.CLEAR_STATS });
   });
 
   document.getElementById('next').addEventListener('click', function () {

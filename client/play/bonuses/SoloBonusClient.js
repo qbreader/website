@@ -10,7 +10,6 @@ export default class SoloBonusClient extends BonusClient {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'clear-stats': return this.clearStats(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
       default: return super.onmessage(message);
     }
