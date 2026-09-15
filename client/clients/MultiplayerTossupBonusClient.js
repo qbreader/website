@@ -1,13 +1,13 @@
 
-import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../../shared/constants.js';
-import questionStats from '../../scripts/auth/question-stats.js';
-import TossupBonusClient from '../TossupBonusClient.js';
-import { arrayToRange } from '../ranges.js';
-import upsertPlayerItem from '../upsert-player-item.js';
-import { setYear } from '../year-slider.js';
-import { showAlert } from './alert.js';
-import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
-import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/tossup-room.js';
+import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
+import questionStats from '../scripts/auth/question-stats.js';
+import TossupBonusClient from './TossupBonusClient.js';
+import { arrayToRange } from '../play/ranges.js';
+import upsertPlayerItem from '../play/upsert-player-item.js';
+import { setYear } from '../play/year-slider.js';
+import { showAlert } from '../play/mp/alert.js';
+import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../../shared/protocol/tossup-room.js';
 
 /**
  * @template {typeof TossupBonusClient} TBase

@@ -1,4 +1,4 @@
-import MultiplayerTossupBonusClient from './MultiplayerTossupBonusClient.js';
+import MultiplayerTossupBonusClient from '../../clients/MultiplayerTossupBonusClient.js';
 import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
 import { ROOM_MESSAGE_TYPE } from '../../../shared/protocol/room.js';
 import { showAlert } from './alert.js';

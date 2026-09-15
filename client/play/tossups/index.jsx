@@ -6,7 +6,7 @@ import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx'
 import aiBots from './ai-mode/ai-bots.js';
 import AIBot from './ai-mode/AIBot.js';
 import SoloTossupRoom from './SoloTossupRoom.js';
-import SoloTossupClient from './SoloTossupClient.js';
+import SoloTossupClient from '../../clients/SoloTossupClient.js';
 import { TOSSUP_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/tossup-room.js';
 
 const modeVersion = '2025-01-14';

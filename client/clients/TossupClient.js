@@ -1,6 +1,6 @@
-import addTossupGameCard from './tossups/add-tossup-game-card.js';
+import addTossupGameCard from '../play/tossups/add-tossup-game-card.js';
 import QuestionClient from './QuestionClient.js';
-import audio from './audio.js';
+import audio from '../play/audio.js';
 import { MODE_ENUM } from '../../shared/constants.js';
 import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../../shared/protocol/tossup-room.js';
 

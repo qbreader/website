@@ -1,4 +1,4 @@
-import addBonusGameCard from './bonuses/add-bonus-game-card.js';
+import addBonusGameCard from '../play/bonuses/add-bonus-game-card.js';
 import QuestionClient from './QuestionClient.js';
 import { MODE_ENUM } from '../../shared/constants.js';
 import { BONUS_CLIENT_MESSAGE_TYPE, BONUS_ROOM_MESSAGE_TYPE } from '../../shared/protocol/bonus-room.js';
