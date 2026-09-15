@@ -1,11 +1,11 @@
-import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from './categories.js';
-import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from './constants.js';
-import CategoryManager from './category-manager.js'; // eslint-disable-line no-unused-vars
+import { CATEGORIES, SUBCATEGORIES, ALTERNATE_SUBCATEGORIES, SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../categories.js';
+import { DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR, MODE_ENUM } from '../constants.js';
+import CategoryManager from '../category-manager.js'; // eslint-disable-line no-unused-vars
 import Room from './Room.js';
-import { QUESTION_CLIENT_MESSAGE_TYPE, QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
+import { QUESTION_CLIENT_MESSAGE_TYPE, QUESTION_ROOM_MESSAGE_TYPE } from '../protocol/question-room.js';
 
 // eslint-disable-next-line no-unused-vars
-import * as types from '../types.js';
+import * as types from '../../types.js';
 
 export default class QuestionRoom extends Room {
   /**

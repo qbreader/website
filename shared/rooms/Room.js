@@ -1,4 +1,4 @@
-import { CLIENT_MESSAGE_TYPE, ROOM_MESSAGE_TYPE } from './protocol/room.js';
+import { CLIENT_MESSAGE_TYPE, ROOM_MESSAGE_TYPE } from '../protocol/room.js';
 
 export default class Room {
   /**

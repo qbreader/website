@@ -8,7 +8,7 @@ import RateLimit from '../RateLimit.js';
 import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
 
 // eslint-disable-next-line no-unused-vars
-import TossupBonusRoom from '../../shared/TossupBonusRoom.js';
+import TossupBonusRoom from '../../shared/rooms/TossupBonusRoom.js';
 
 import getRandomTossups from '../../database/qbreader/get-random-tossups.js';
 import getRandomBonuses from '../../database/qbreader/get-random-bonuses.js';

@@ -1,7 +1,7 @@
-import { MODE_ENUM } from '../../../shared/constants.js';
-import questionStats from '../../scripts/auth/question-stats.js';
-import upsertPlayerItem from '../upsert-player-item.js';
-import TossupClient from '../TossupClient.js';
+import { MODE_ENUM } from '../../shared/constants.js';
+import questionStats from '../scripts/auth/question-stats.js';
+import upsertPlayerItem from '../play/upsert-player-item.js';
+import TossupClient from './TossupClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';

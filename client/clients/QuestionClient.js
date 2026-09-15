@@ -1,10 +1,10 @@
 import { MODE_ENUM } from '../../shared/constants.js';
 import account from '../scripts/accounts.js';
-import audio from './audio.js';
-import { arrayToRange, rangeToArray } from './ranges.js';
+import audio from '../play/audio.js';
+import { arrayToRange, rangeToArray } from '../play/ranges.js';
 import getSetList from '../scripts/api/get-set-list.js';
 import reportQuestion from '../scripts/api/report-question.js';
-import { addSliderEventListeners, setYear } from './year-slider.js';
+import { addSliderEventListeners, setYear } from '../play/year-slider.js';
 import { QUESTION_CLIENT_MESSAGE_TYPE, QUESTION_ROOM_MESSAGE_TYPE } from '../../shared/protocol/question-room.js';
 import Client from './Client.js';
 

@@ -1,8 +1,8 @@
-import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from './constants.js';
+import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from '../constants.js';
 import QuestionRoom from './QuestionRoom.js';
-import { CLIENT_MESSAGE_TYPE } from './protocol/room.js';
-import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
-import { BONUS_CLIENT_MESSAGE_TYPE, BONUS_ROOM_MESSAGE_TYPE } from './protocol/bonus-room.js';
+import { CLIENT_MESSAGE_TYPE } from '../protocol/room.js';
+import { QUESTION_ROOM_MESSAGE_TYPE } from '../protocol/question-room.js';
+import { BONUS_CLIENT_MESSAGE_TYPE, BONUS_ROOM_MESSAGE_TYPE } from '../protocol/bonus-room.js';
 
 /**
  * @template {typeof QuestionRoom} TBase

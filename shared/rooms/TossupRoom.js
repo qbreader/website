@@ -1,9 +1,9 @@
-import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } from './constants.js';
-import insertTokensIntoHTML from './insert-tokens-into-html.js';
+import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } from '../constants.js';
+import insertTokensIntoHTML from '../insert-tokens-into-html.js';
 import QuestionRoom from './QuestionRoom.js';
-import { CLIENT_MESSAGE_TYPE } from './protocol/room.js';
-import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
-import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from './protocol/tossup-room.js';
+import { CLIENT_MESSAGE_TYPE } from '../protocol/room.js';
+import { QUESTION_ROOM_MESSAGE_TYPE } from '../protocol/question-room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../protocol/tossup-room.js';
 
 /**
  * @template {typeof QuestionRoom} TBase

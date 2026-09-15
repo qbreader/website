@@ -1,10 +1,10 @@
-import { BONUS_PROGRESS_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from './constants.js';
+import { BONUS_PROGRESS_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../constants.js';
 import { BonusRoomMixin } from './BonusRoom.js';
 import { TossupRoomMixin } from './TossupRoom.js';
 import QuestionRoom from './QuestionRoom.js';
-import { QUESTION_ROOM_MESSAGE_TYPE } from './protocol/question-room.js';
-import { BONUS_ROOM_MESSAGE_TYPE } from './protocol/bonus-room.js';
-import { TOSSUP_BONUS_ROOM_MESSAGE_TYPE } from './protocol/tossup-bonus-room.js';
+import { QUESTION_ROOM_MESSAGE_TYPE } from '../protocol/question-room.js';
+import { BONUS_ROOM_MESSAGE_TYPE } from '../protocol/bonus-room.js';
+import { TOSSUP_BONUS_ROOM_MESSAGE_TYPE } from '../protocol/tossup-bonus-room.js';
 
 export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(QuestionRoom)) {
   constructor (name, categoryManager, supportedQuestionTypes = ['tossups', 'bonuses']) {
