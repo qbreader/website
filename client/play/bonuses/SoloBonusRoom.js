@@ -1,4 +1,4 @@
-import BonusRoom from '../../../shared/BonusRoom.js';
+import BonusRoom from '../../../shared/rooms/BonusRoom.js';
 import api from '../../scripts/api/index.js';
 
 async function getPacket ({ setName, packetNumber }) {
