@@ -68,7 +68,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_POWERMARK_ONLY: return this.togglePowermarkOnly({ userId, username }, message);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_REBUZZ: return this.toggleRebuzz({ userId, username }, message);
       case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_STOP_ON_POWER: return this.toggleStopOnPower({ userId, username }, message);
-      case 'toggle-correct': return this.toggleCorrect({ userId, username }, message);
+      case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT: return this.toggleCorrect({ userId, username }, message);
       default: return super.message({ userId, username }, message);
     }
   }
@@ -334,7 +334,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.players[targetUserId].celerity.correct.total += multiplier * this.previousTossup.celerity;
     this.players[targetUserId].celerity.correct.average = this.players[targetUserId].celerity.correct.total / correctBuzzes;
 
-    this.emitMessage({ type: 'toggle-correct', correct, targetUserId, player: this.players[targetUserId] });
+    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT, correct, targetUserId, player: this.players[targetUserId] });
   }
 
   togglePowermarkOnly ({ username }, { powermarkOnly }) {

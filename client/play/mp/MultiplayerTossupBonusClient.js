@@ -7,7 +7,7 @@ import upsertPlayerItem from '../upsert-player-item.js';
 import { setYear } from '../year-slider.js';
 import { showAlert } from './alert.js';
 import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/multiplayer-room.js';
-import { TOSSUP_CLIENT_MESSAGE_TYPE } from '../../../shared/protocol/tossup-room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/tossup-room.js';
 
 /**
  * @template {typeof TossupBonusClient} TBase
@@ -43,7 +43,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.NO_POINTS_VOTEKICK_ATTEMPT: return this.failedVotekickPoints(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.OWNER_CHANGE: return this.ownerChange(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.SUCCESSFUL_VK: return this.vkHandle(data);
-      case 'toggle-correct': return this.toggleCorrect(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED: return this.toggleControlled(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK: return this.toggleLock(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED: return this.toggleLoginRequired(data);
@@ -502,7 +501,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
         thirdBadge.addEventListener('click', () => {
           this.socket.send(JSON.stringify({
-            type: 'toggle-correct',
+            type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT,
             targetUserId: userId
           }));
         });

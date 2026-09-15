@@ -10,6 +10,7 @@ export const TOSSUP_CLIENT_MESSAGE_TYPE = Object.freeze({
 export const TOSSUP_ROOM_MESSAGE_TYPE = Object.freeze({
   BUZZ: 'buzz',
   PAUSE: 'pause',
+  TOGGLE_CORRECT: 'toggle-correct',
   TOGGLE_POWERMARK_ONLY: 'toggle-powermark-only',
   TOGGLE_REBUZZ: 'toggle-rebuzz',
   TOGGLE_STOP_ON_POWER: 'toggle-stop-on-power'
