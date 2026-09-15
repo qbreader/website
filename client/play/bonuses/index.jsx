@@ -4,7 +4,7 @@ import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx'
 import CategoryManager from '../../../shared/category-manager.js';
 import Player from '../../../shared/Player.js';
 import Team from '../../../shared/Team.js';
-import SoloBonusRoom from './SoloBonusRoom.js';
+import SoloBonusRoom from '../../rooms/SoloBonusRoom.js';
 import SoloBonusClient from '../../clients/SoloBonusClient.js';
 
 const modeVersion = '2025-01-14';
