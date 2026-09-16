@@ -1,6 +1,13 @@
-import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from './constants.js';
+import { ANSWER_TIME_LIMIT, BONUS_PROGRESS_ENUM, MODE_ENUM } from '../constants.js';
 import QuestionRoom from './QuestionRoom.js';
+import { CLIENT_MESSAGE_TYPE } from '../protocol/room.js';
+import { QUESTION_ROOM_MESSAGE_TYPE } from '../protocol/question-room.js';
+import { BONUS_CLIENT_MESSAGE_TYPE, BONUS_ROOM_MESSAGE_TYPE } from '../protocol/bonus-room.js';
 
+/**
+ * @template {typeof QuestionRoom} TBase
+ * @param {TBase} QuestionRoomClass
+ */
 export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomClass {
   constructor (name, categoryManager, supportedQuestionTypes = ['bonuses']) {
     super(name, categoryManager, supportedQuestionTypes);
@@ -34,15 +41,17 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     };
   }
 
+  /**
+   * @param {{userId: string, username: string}} player
+   */
   async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'give-answer': return this.giveBonusAnswer({ userId, username }, message);
-      case 'next': return this.next({ userId, username }, message);
-      case 'set-reading-speed': return this.setReadingSpeed({ userId, username }, message);
-      case 'start-bonus-answer': return this.startBonusAnswer({ userId, username }, message);
-      case 'toggle-bonus-part': return this.toggleBonusPart({ userId, username }, message);
-      case 'toggle-read-bonuses-like-tossups': return this.toggleReadBonusesLikeTossups({ userId, username }, message);
-      case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.GIVE_ANSWER: return this.giveBonusAnswer({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.NEXT: return this.next({ userId, username }, message);
+      case BONUS_ROOM_MESSAGE_TYPE.START_BONUS_ANSWER: return this.startBonusAnswer({ userId, username }, message);
+      case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_BONUS_PART: return this.toggleBonusPart({ userId, username }, message);
+      case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_READ_BONUSES_LIKE_TOSSUPS: return this.toggleReadBonusesLikeTossups({ userId, username }, message);
+      case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_THREE_PART_BONUSES: return this.toggleThreePartBonuses({ userId, username }, message);
       default: return super.message({ userId, username }, message);
     }
   }
@@ -59,7 +68,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
     clearInterval(this.timer.interval);
     clearTimeout(this.timeoutId);
-    this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
+    this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: 0 });
 
     const lastPartRevealed = this.bonusProgress === BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
     const pointsPerPart = this.pointsPerPart;
@@ -70,7 +79,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
     const stats = this.teams[teamId].bonusStats;
     const starred = this.mode === MODE_ENUM.STARRED ? true : (this.mode === MODE_ENUM.LOCAL ? false : null);
-    this.emitMessage({ type: 'end-current-bonus', bonus: this.bonus, lastPartRevealed, pointsPerPart, starred, stats, teamId });
+    this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.END_CURRENT_BONUS, bonus: this.bonus, lastPartRevealed, pointsPerPart, starred, stats, teamId });
     return true;
   }
 
@@ -84,15 +93,15 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.liveAnswer = '';
     clearInterval(this.timer.interval);
     clearTimeout(this.timeoutId);
-    this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
+    this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
     const { directive, directedPrompt } = this.checkAnswer(this.bonus.answers[this.currentPartNumber], givenAnswer);
-    this.emitMessage({ type: 'give-bonus-answer', currentPartNumber: this.currentPartNumber, directive, directedPrompt, givenAnswer, userId });
+    this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.GIVE_BONUS_ANSWER, currentPartNumber: this.currentPartNumber, directive, directedPrompt, givenAnswer, userId });
 
     if (directive === 'prompt') {
       this.startServerTimer(
         ANSWER_TIME_LIMIT * 10,
-        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
         () => this.giveBonusAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
       );
     } else {
@@ -112,13 +121,13 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
   revealLeadin () {
     if (this.settings.readBonusLikeATossup) {
-      this.emitMessage({ type: 'reveal-leadin', leadin: '' });
+      this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_LEADIN, leadin: '' });
       const leadinSanitized = this.bonus.leadin_sanitized ?? '';
       this.startReadingBonusText(leadinSanitized, () => {
         this.revealNextPart();
       });
     } else {
-      this.emitMessage({ type: 'reveal-leadin', leadin: this.bonus.leadin });
+      this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_LEADIN, leadin: this.bonus.leadin });
     }
   }
 
@@ -128,7 +137,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
       this.bonusProgress = BONUS_PROGRESS_ENUM.LAST_PART_REVEALED;
     }
     this.emitMessage({
-      type: 'reveal-next-answer',
+      type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_ANSWER,
       answer: this.bonus.answers[this.currentPartNumber],
       currentPartNumber: this.currentPartNumber,
       lastPartRevealed
@@ -142,7 +151,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
 
     if (this.settings.readBonusLikeATossup) {
       this.emitMessage({
-        type: 'reveal-next-part',
+        type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_PART,
         bonusEligibleTeamId: this.bonusEligibleTeamId,
         currentPartNumber: this.currentPartNumber,
         part: '',
@@ -154,7 +163,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
       });
     } else {
       this.emitMessage({
-        type: 'reveal-next-part',
+        type: BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_PART,
         bonusEligibleTeamId: this.bonusEligibleTeamId,
         currentPartNumber: this.currentPartNumber,
         part: this.bonus.parts[this.currentPartNumber],
@@ -164,10 +173,10 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
   }
 
   startBonusAnswer ({ userId, username }) {
-    this.emitMessage({ type: 'start-bonus-answer', userId });
+    this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.START_BONUS_ANSWER, userId });
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,
-      (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+      (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
       () => this.giveBonusAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
     );
   }
@@ -177,7 +186,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     this.queryingQuestion = false;
     if (!this.bonus) { return; }
     clearTimeout(this.timeoutId);
-    this.emitMessage({ type: 'start-next-bonus', packetLength: this.packet.bonuses.length, bonus: this.bonus, userId, username });
+    this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.START_NEXT_BONUS, packetLength: this.packet.bonuses.length, bonus: this.bonus, userId, username });
     this.currentPartNumber = -1;
     this.pointsPerPart = [];
     this.bonusProgress = BONUS_PROGRESS_ENUM.READING;
@@ -196,7 +205,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
   toggleThreePartBonuses ({ username }, { threePartBonuses }) {
     this.query.threePartBonuses = threePartBonuses;
     this.adjustQuery(['threePartBonuses'], [threePartBonuses]);
-    this.emitMessage({ type: 'toggle-three-part-bonuses', threePartBonuses, username });
+    this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.TOGGLE_THREE_PART_BONUSES, threePartBonuses, username });
   }
 
   /**
@@ -243,7 +252,7 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     }
 
     const word = this.bonusQuestionSplit[this.bonusWordIndex++];
-    this.emitMessage({ type: 'update-bonus-question', word, currentPartNumber: this.currentPartNumber });
+    this.emitMessage({ type: BONUS_CLIENT_MESSAGE_TYPE.UPDATE_BONUS_QUESTION, word, currentPartNumber: this.currentPartNumber });
 
     let time = Math.log(word.length) + 1;
     if ((word.endsWith('.') && word.charCodeAt(word.length - 2) > 96 && word.charCodeAt(word.length - 2) < 123) ||
@@ -261,17 +270,9 @@ export const BonusRoomMixin = (QuestionRoomClass) => class extends QuestionRoomC
     }, delay);
   }
 
-  setReadingSpeed ({ username }, { readingSpeed }) {
-    if (isNaN(readingSpeed)) { return false; }
-    if (readingSpeed > 100) { readingSpeed = 100; }
-    if (readingSpeed < 0) { readingSpeed = 0; }
-    this.settings.readingSpeed = readingSpeed;
-    this.emitMessage({ type: 'set-reading-speed', username, readingSpeed });
-  }
-
   toggleReadBonusesLikeTossups ({ username }, { readBonusLikeATossup }) {
     this.settings.readBonusLikeATossup = !!readBonusLikeATossup;
-    this.emitMessage({ type: 'toggle-read-bonuses-like-tossups', readBonusLikeATossup: this.settings.readBonusLikeATossup, username });
+    this.emitMessage({ type: BONUS_ROOM_MESSAGE_TYPE.TOGGLE_READ_BONUSES_LIKE_TOSSUPS, readBonusLikeATossup: this.settings.readBonusLikeATossup, username });
   }
 };
 

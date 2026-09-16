@@ -1,4 +1,4 @@
-import { escapeHTML, titleCase } from '../../../scripts/utilities/strings.js';
+import { escapeHTML, titleCase } from '../../../../shared/string-utils.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -57,6 +57,7 @@ fetch('/api/geoword/paid/results/stats?' + new URLSearchParams({ packetName }))
   });
 
 document.getElementById('leaderboard-link').href = `./leaderboard?packetName=${packetName}`;
+document.getElementById('team-leaderboard-link').href = `./team-leaderboard?packetName=${packetName}`;
 document.getElementById('packet-link').href = `./packet?packetName=${packetName}`;
 
 function getPromptString (buzz) {

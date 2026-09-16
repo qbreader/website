@@ -5,7 +5,7 @@ import { sets } from './collections.js';
  *
  * @param {Object} [options={}] - Configuration options
  * @param {number} [options.limit] - Maximum number of results to return (must be finite and > 0)
- * @param {boolean} [options.includeCounts=true] - Whether to include packet, tossup, and bonus counts
+ * @param {boolean} [options.includeCounts] - Whether to include packet, tossup, and bonus counts
  * @returns {Promise<Array<Object>>} Array of set metadata objects containing:
  *   - _id: Set identifier
  *   - setName: Name of the set
@@ -18,7 +18,7 @@ import { sets } from './collections.js';
  *
  * Results are sorted by year (descending) then by set name (ascending).
  */
-export default async function getSetMetadata ({ limit, includeCounts = true } = {}) {
+export default async function getSetMetadata ({ limit, includeCounts } = {}) {
   let aggregation = [
     {
       $group: {

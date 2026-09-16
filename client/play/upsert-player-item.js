@@ -1,4 +1,5 @@
-import { escapeHTML } from '../scripts/utilities/strings.js';
+import { escapeHTML } from '../../shared/string-utils.js';
+import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
 
 /**
  * Upserts a player item to the DOM element with the id `player-list-group`.
@@ -33,7 +34,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
   player.username = escapeHTML(player.username);
 
   const { userId, username, superpowers = 0, powers = 0, tens = 0, negs = 0, tuh = 0, points = 0, online } = player;
-  const celerity = player?.celerity?.correct?.average ?? player?.celerity ?? 0;
+  const celerity = player?.celerity?.correct?.average ?? NaN;
 
   const { bonusStats = { 0: 0, 10: 0, 20: 0, 30: 0 } } = team;
   const bonusPoints = Object.entries(bonusStats).map(([pointValue, count]) => pointValue * count).reduce((a, b) => a + b, 0);
@@ -115,7 +116,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
       dropdownMenu.appendChild(muteItem);
 
       muteButton.addEventListener('click', () => {
-        socket.send(JSON.stringify({ type: 'toggle-mute', targetId: userId, targetUsername: player.username, muteStatus: muteButton.textContent }));
+        socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_MUTE, targetId: userId, targetUsername: player.username, muteStatus: muteButton.textContent }));
         muteButton.textContent = muteButton.textContent === 'Unmute' ? 'Mute' : 'Unmute';
       });
     }
@@ -130,8 +131,8 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
       dropdownMenu.appendChild(kickItem);
 
       vkButton.addEventListener('click', () => {
-        socket.send(JSON.stringify({ type: 'votekick-vote', targetId: userId }));
-        socket.send(JSON.stringify({ type: 'votekick-init', targetId: userId }));
+        socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.VOTEKICK_VOTE, targetId: userId }));
+        socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.VOTEKICK_INIT, targetId: userId }));
         vkButton.disabled = true;
         vkButton.textContent = 'Cooldown';
         setTimeout(() => {
@@ -151,7 +152,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
       dropdownMenu.appendChild(banItem);
 
       banButton.addEventListener('click', () => {
-        socket.send(JSON.stringify({ type: 'ban', targetId: userId, targetUsername: username }));
+        socket.send(JSON.stringify({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.BAN, targetId: userId, targetUsername: username }));
       });
     }
 

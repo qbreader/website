@@ -1,11 +1,11 @@
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
-import CategoryManager from '../../../quizbowl/category-manager.js';
-import Player from '../../../quizbowl/Player.js';
-import Team from '../../../quizbowl/Team.js';
-import SoloBonusRoom from './SoloBonusRoom.js';
-import SoloBonusClient from './SoloBonusClient.js';
+import CategoryManager from '../../../shared/category-manager.js';
+import Player from '../../../shared/Player.js';
+import Team from '../../../shared/Team.js';
+import SoloBonusRoom from '../../rooms/SoloBonusRoom.js';
+import SoloBonusClient from '../../clients/SoloBonusClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
@@ -36,14 +36,6 @@ document.getElementById('local-packet-input').addEventListener('change', functio
     }
   };
   reader.readAsText(file);
-});
-
-document.getElementById('reading-speed').addEventListener('change', function () {
-  socket.sendToServer({ type: 'set-reading-speed', readingSpeed: this.value });
-});
-
-document.getElementById('reading-speed').addEventListener('input', function () {
-  document.getElementById('reading-speed-display').textContent = this.value;
 });
 
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {

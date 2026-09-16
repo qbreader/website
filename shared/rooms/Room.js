@@ -1,3 +1,5 @@
+import { CLIENT_MESSAGE_TYPE, ROOM_MESSAGE_TYPE } from '../protocol/room.js';
+
 export default class Room {
   /**
    * @param {string} name - The name of the room
@@ -14,15 +16,19 @@ export default class Room {
     };
   }
 
+  /**
+   * @param {{userId: string, username: string}} player
+   */
   async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'clear-stats': return this.clearStats({ userId, username }, message);
+      case ROOM_MESSAGE_TYPE.CLEAR_STATS: return this.clearStats({ userId, username }, message);
+      case ROOM_MESSAGE_TYPE.SET_USERNAME: return this.setUsername({ userId, username }, message);
     }
   }
 
   clearStats ({ userId }) {
     this.players[userId].clearStats();
-    this.emitMessage({ type: 'clear-stats', userId });
+    this.emitMessage({ type: ROOM_MESSAGE_TYPE.CLEAR_STATS, userId });
   }
 
   /**
@@ -44,10 +50,10 @@ export default class Room {
     if (!player.hasActivity()) {
       // delete this.players[userId];
       // delete this.teams[userId];
-      this.emitMessage({ type: 'leave', userId, username, remove: true });
+      this.emitMessage({ type: CLIENT_MESSAGE_TYPE.LEAVE, userId, username, remove: true });
     } else {
       player.online = false;
-      this.emitMessage({ type: 'leave', userId, username });
+      this.emitMessage({ type: CLIENT_MESSAGE_TYPE.LEAVE, userId, username });
     }
   }
 
@@ -64,8 +70,8 @@ export default class Room {
   setUsername ({ userId }, { username }) {
     if (typeof username !== 'string') { return false; }
     const oldUsername = this.players[userId].username;
-    this.players[userId].username = username;
-    this.emitMessage({ type: 'set-username', userId, oldUsername, newUsername: username });
+    const newUsername = this.players[userId].safelySetUsername(username);
+    this.emitMessage({ type: ROOM_MESSAGE_TYPE.SET_USERNAME, userId, oldUsername, newUsername });
   }
 
   /**

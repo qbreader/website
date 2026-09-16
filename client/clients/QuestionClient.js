@@ -1,39 +1,40 @@
-import { MODE_ENUM } from '../../quizbowl/constants.js';
+import { MODE_ENUM } from '../../shared/constants.js';
 import account from '../scripts/accounts.js';
-import audio from './audio.js';
-import { arrayToRange, rangeToArray } from './ranges.js';
+import audio from '../play/audio.js';
+import { arrayToRange, rangeToArray } from '../play/ranges.js';
 import getSetList from '../scripts/api/get-set-list.js';
 import reportQuestion from '../scripts/api/report-question.js';
-import { addSliderEventListeners, setYear } from './year-slider.js';
+import { addSliderEventListeners, setYear } from '../play/year-slider.js';
+import { QUESTION_CLIENT_MESSAGE_TYPE, QUESTION_ROOM_MESSAGE_TYPE } from '../../shared/protocol/question-room.js';
+import Client from './Client.js';
 
 const SET_LIST = await getSetList();
 document.getElementById('set-list').innerHTML = SET_LIST.map(setName => `<option>${setName}</option>`).join('');
 
-export default class QuestionClient {
+export default class QuestionClient extends Client {
   constructor (room, userId, socket) {
-    this.room = room;
-    this.USER_ID = userId;
+    super(room, userId, socket);
     attachEventListeners(room, socket);
   }
 
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'alert': return window.alert(data.message);
-      case 'end-of-set': return this.endOfSet(data);
-      case 'no-questions-found': return this.noQuestionsFound(data);
-      case 'set-categories': return this.setCategories(data);
-      case 'set-difficulties': return this.setDifficulties(data);
-      case 'set-mode': return this.setMode(data);
-      case 'set-packet-numbers': return this.setPacketNumbers(data);
-      case 'set-set-name': return this.setSetName(data);
-      case 'set-strictness': return this.setStrictness(data);
-      case 'set-max-year': return this.setMaxYear(data);
-      case 'set-min-year': return this.setMinYear(data);
-      case 'timer-update': return this.timerUpdate(data);
-      case 'toggle-skip': return this.toggleSkip(data);
-      case 'toggle-standard-only': return this.toggleStandardOnly(data);
-      case 'toggle-timer': return this.toggleTimer(data);
+      case QUESTION_CLIENT_MESSAGE_TYPE.ALERT: return window.alert(data.message);
+      case QUESTION_CLIENT_MESSAGE_TYPE.END_OF_SET: return this.endOfSet(data);
+      case QUESTION_CLIENT_MESSAGE_TYPE.NO_QUESTIONS_FOUND: return this.noQuestionsFound(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_CATEGORIES: return this.setCategories(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_DIFFICULTIES: return this.setDifficulties(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_MODE: return this.setMode(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS: return this.setPacketNumbers(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED: return this.setReadingSpeed(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_SET_NAME: return this.setSetName(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_STRICTNESS: return this.setStrictness(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR: return this.setMaxYear(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.SET_MIN_YEAR: return this.setMinYear(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_SKIP: return this.toggleSkip(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_STANDARD_ONLY: return this.toggleStandardOnly(data);
+      case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_TIMER: return this.toggleTimer(data);
     }
   }
 
@@ -103,8 +104,8 @@ export default class QuestionClient {
   }
 
   setStrictness ({ strictness }) {
-    document.getElementById('set-strictness').value = strictness;
-    document.getElementById('strictness-display').textContent = strictness;
+    // document.getElementById('set-strictness').value = strictness;
+    // document.getElementById('strictness-display').textContent = strictness;
   }
 
   setMaxYear ({ maxYear }) {
@@ -125,11 +126,9 @@ export default class QuestionClient {
     document.getElementById('set-name-info').textContent = question.set.name;
   }
 
-  timerUpdate ({ timeRemaining }) {
-    const seconds = Math.floor(timeRemaining / 10);
-    const tenths = timeRemaining % 10;
-    document.querySelector('.timer .face').textContent = seconds;
-    document.querySelector('.timer .fraction').textContent = '.' + tenths;
+  setReadingSpeed ({ readingSpeed }) {
+    document.getElementById('reading-speed').value = readingSpeed;
+    document.getElementById('reading-speed-display').textContent = readingSpeed;
   }
 
   toggleSkip ({ skip }) {
@@ -220,17 +219,12 @@ function attachEventListeners (room, socket) {
     event.preventDefault();
     event.stopPropagation();
     const answer = document.getElementById('answer-input').value;
-    socket.sendToServer({ type: 'give-answer', givenAnswer: answer });
-  });
-
-  document.getElementById('clear-stats').addEventListener('click', function () {
-    this.blur();
-    socket.sendToServer({ type: 'clear-stats' });
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.GIVE_ANSWER, givenAnswer: answer });
   });
 
   document.getElementById('next').addEventListener('click', function () {
     this.blur();
-    socket.sendToServer({ type: 'next' });
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.NEXT });
   });
 
   document.getElementById('packet-number').addEventListener('change', function () {
@@ -240,7 +234,15 @@ function attachEventListeners (room, socket) {
       return;
     }
     document.getElementById('packet-number').classList.remove('is-invalid');
-    socket.sendToServer({ type: 'set-packet-numbers', packetNumbers: range });
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_PACKET_NUMBERS, packetNumbers: range });
+  });
+
+  document.getElementById('reading-speed').addEventListener('change', function () {
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_READING_SPEED, readingSpeed: this.value });
+  });
+
+  document.getElementById('reading-speed').addEventListener('input', function () {
+    document.getElementById('reading-speed-display').textContent = this.value;
   });
 
   document.getElementById('report-question-submit').addEventListener('click', function () {
@@ -253,20 +255,11 @@ function attachEventListeners (room, socket) {
 
   document.getElementById('set-mode').addEventListener('change', function () {
     this.blur();
-    socket.sendToServer({ type: 'set-mode', mode: this.value });
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_MODE, mode: this.value });
   });
 
   document.getElementById('set-name').addEventListener('change', function () {
-    socket.sendToServer({ type: 'set-set-name', setName: this.value.trim() });
-  });
-
-  document.getElementById('set-strictness').addEventListener('change', function () {
-    this.blur();
-    socket.sendToServer({ type: 'set-strictness', strictness: this.value });
-  });
-
-  document.getElementById('set-strictness').addEventListener('input', function () {
-    document.getElementById('strictness-display').textContent = this.value;
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.SET_SET_NAME, setName: this.value.trim() });
   });
 
   document.getElementById('toggle-settings').addEventListener('click', function () {
@@ -291,15 +284,16 @@ function attachEventListeners (room, socket) {
 
   document.getElementById('toggle-standard-only').addEventListener('click', function () {
     this.blur();
-    socket.sendToServer({ type: 'toggle-standard-only', standardOnly: this.checked });
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_STANDARD_ONLY, standardOnly: this.checked });
   });
 
   document.getElementById('toggle-timer').addEventListener('click', function () {
     this.blur();
-    socket.sendToServer({ type: 'toggle-timer', timer: this.checked });
+    socket.sendToServer({ type: QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_TIMER, timer: this.checked });
   });
 
   addSliderEventListeners((year, which) => {
-    socket.sendToServer({ type: `set-${which}`, [which === 'min-year' ? 'minYear' : 'maxYear']: year });
+    const type = which === 'min-year' ? QUESTION_ROOM_MESSAGE_TYPE.SET_MIN_YEAR : QUESTION_ROOM_MESSAGE_TYPE.SET_MAX_YEAR;
+    socket.sendToServer({ type, [which === 'min-year' ? 'minYear' : 'maxYear']: year });
   });
 }

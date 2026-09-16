@@ -1,7 +1,14 @@
-import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } from './constants.js';
-import insertTokensIntoHTML from './insert-tokens-into-html.js';
+import { ANSWER_TIME_LIMIT, DEAD_TIME_LIMIT, MODE_ENUM, TOSSUP_PROGRESS_ENUM } from '../constants.js';
+import insertTokensIntoHTML from '../insert-tokens-into-html.js';
 import QuestionRoom from './QuestionRoom.js';
+import { CLIENT_MESSAGE_TYPE } from '../protocol/room.js';
+import { QUESTION_ROOM_MESSAGE_TYPE } from '../protocol/question-room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../protocol/tossup-room.js';
 
+/**
+ * @template {typeof QuestionRoom} TBase
+ * @param {TBase} QuestionRoomClass
+ */
 export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoomClass {
   constructor (name, categoryManager, supportedQuestionTypes = ['tossup']) {
     super(name, categoryManager, supportedQuestionTypes);
@@ -49,16 +56,19 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     };
   }
 
+  /**
+   * @param {{userId: string, username: string}} player
+   */
   async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'buzz': return this.buzz({ userId, username }, message);
-      case 'give-answer': return this.giveTossupAnswer({ userId, username }, message);
-      case 'next': return this.next({ userId, username }, message);
-      case 'pause': return this.pause({ userId, username }, message);
-      case 'set-reading-speed': return this.setReadingSpeed({ userId, username }, message);
-      case 'toggle-powermark-only': return this.togglePowermarkOnly({ userId, username }, message);
-      case 'toggle-rebuzz': return this.toggleRebuzz({ userId, username }, message);
-      case 'toggle-stop-on-power': return this.toggleStopOnPower({ userId, username }, message);
+      case TOSSUP_ROOM_MESSAGE_TYPE.BUZZ: return this.buzz({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.GIVE_ANSWER: return this.giveTossupAnswer({ userId, username }, message);
+      case QUESTION_ROOM_MESSAGE_TYPE.NEXT: return this.next({ userId, username }, message);
+      case TOSSUP_ROOM_MESSAGE_TYPE.PAUSE: return this.pause({ userId, username }, message);
+      case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_POWERMARK_ONLY: return this.togglePowermarkOnly({ userId, username }, message);
+      case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_REBUZZ: return this.toggleRebuzz({ userId, username }, message);
+      case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_STOP_ON_POWER: return this.toggleStopOnPower({ userId, username }, message);
+      case TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT: return this.toggleCorrect({ userId, username }, message);
       default: return super.message({ userId, username }, message);
     }
   }
@@ -68,7 +78,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING) { return; }
 
     if (this.buzzedIn) {
-      return this.emitMessage({ type: 'lost-buzzer-race', userId, username });
+      return this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.LOST_BUZZER_RACE, userId, username });
     }
 
     clearTimeout(this.timeoutID);
@@ -78,12 +88,12 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.buzzpointIndices.push(this.questionSplit.slice(0, this.wordIndex).join(' ').length);
     this.paused = false;
 
-    this.emitMessage({ type: 'buzz', userId, username });
-    this.emitMessage({ type: 'update-question', word: '(#)' });
+    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.BUZZ, userId, username });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.UPDATE_QUESTION, word: '(#)' });
 
     this.startServerTimer(
       ANSWER_TIME_LIMIT * 10,
-      (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+      (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
       () => this.giveTossupAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
     );
   }
@@ -96,7 +106,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     clearInterval(this.timer.interval);
     clearTimeout(this.timeoutID);
-    this.emitMessage({ type: 'timer-update', timeRemaining: 0 });
+    this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: 0 });
 
     this.buzzedIn = null;
     this.buzzes = [];
@@ -106,7 +116,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (this.tossupProgress !== TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED) { this.revealTossupAnswer(); }
 
     const starred = this.mode === MODE_ENUM.STARRED ? true : (this.mode === MODE_ENUM.LOCAL ? false : null);
-    this.emitMessage({ type: 'end-current-tossup', isSkip, starred, tossup: this.tossup });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.END_CURRENT_TOSSUP, isSkip, starred, tossup: this.tossup });
     return true;
   }
 
@@ -116,7 +126,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
 
     this.liveAnswer = '';
     clearInterval(this.timer.interval);
-    this.emitMessage({ type: 'timer-update', timeRemaining: ANSWER_TIME_LIMIT * 10 });
+    this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: ANSWER_TIME_LIMIT * 10 });
 
     if (Object.keys(this.tossup || {}).length === 0) { return; }
 
@@ -132,7 +142,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case 'reject':
         this.buzzedIn = null;
         this.players[userId].updateStats(points, celerity);
-        if (!this.settings.rebuzz && this.buzzes.length === Object.keys(this.sockets).length) {
+        if (!this.settings.rebuzz && Object.keys(this.sockets).every(id => this.buzzes.includes(id))) {
           this.revealTossupAnswer();
           Object.values(this.players).forEach(player => { player.tuh++; });
         } else {
@@ -142,13 +152,13 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       case 'prompt':
         this.startServerTimer(
           ANSWER_TIME_LIMIT * 10,
-          (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+          (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
           () => this.giveTossupAnswer({ userId, username }, { givenAnswer: this.liveAnswer })
         );
     }
 
     this.emitMessage({
-      type: 'give-tossup-answer',
+      type: TOSSUP_CLIENT_MESSAGE_TYPE.GIVE_TOSSUP_ANSWER,
       userId,
       username,
       givenAnswer,
@@ -181,13 +191,13 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     } else if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
         this.timer.timeRemaining,
-        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
     } else {
       this.readTossup(Date.now());
     }
-    this.emitMessage({ type: 'pause', paused: this.paused, username });
+    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.PAUSE, paused: this.paused, username });
   }
 
   async readTossup (expectedReadTime) {
@@ -195,7 +205,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if (this.wordIndex >= this.questionSplit.length) {
       this.startServerTimer(
         DEAD_TIME_LIMIT * 10,
-        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
       return;
@@ -207,14 +217,14 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     if ((word === '(*)' || word === '[*]') && this.settings.stopOnPower) {
       this.stopOnPowerEnded = true;
       this.startServerTimer(DEAD_TIME_LIMIT * 10,
-        (time) => this.emitMessage({ type: 'timer-update', timeRemaining: time }),
+        (time) => this.emitMessage({ type: CLIENT_MESSAGE_TYPE.TIMER_UPDATE, timeRemaining: time }),
         () => this.revealTossupAnswer()
       );
       return;
     }
 
     this.wordIndex++;
-    this.emitMessage({ type: 'update-question', word });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.UPDATE_QUESTION, word });
 
     // calculate time needed before reading next word
     let time = Math.log(word.length) + 1;
@@ -240,7 +250,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.ANSWER_REVEALED;
     this.tossup.markedQuestion = insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices });
     this.emitMessage({
-      type: 'reveal-tossup-answer',
+      type: TOSSUP_CLIENT_MESSAGE_TYPE.REVEAL_TOSSUP_ANSWER,
       question: insertTokensIntoHTML(this.tossup.question, this.tossup.question_sanitized, { ' (#) ': this.buzzpointIndices }),
       answer: this.tossup.answer
     });
@@ -266,27 +276,21 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       inPower,
       inSuperpower,
       isCorrect,
-      tossup: this.tossup,
-      userId: this.buzzedIn
+      tossup: this.tossup
     };
 
+    if (this.buzzedIn) {
+      this.previousTossup.userId = this.buzzedIn;
+    }
+
     return { celerity, directive, directedPrompt, endOfQuestion, inPower, inSuperpower, points };
-  }
-
-  setReadingSpeed ({ username }, { readingSpeed }) {
-    if (isNaN(readingSpeed)) { return false; }
-    if (readingSpeed > 100) { readingSpeed = 100; }
-    if (readingSpeed < 0) { readingSpeed = 0; }
-
-    this.settings.readingSpeed = readingSpeed;
-    this.emitMessage({ type: 'set-reading-speed', username, readingSpeed });
   }
 
   async startNextTossup ({ userId, username }) {
     this.tossup = await this.getNextQuestion('tossups');
     this.queryingQuestion = false;
     if (!this.tossup) { return; }
-    this.emitMessage({ type: 'start-next-tossup', packetLength: this.packet.tossups.length, tossup: this.tossup, userId, username });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.START_NEXT_TOSSUP, packetLength: this.packet.tossups.length, tossup: this.tossup, userId, username });
     this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;
@@ -294,20 +298,59 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.readTossup(Date.now());
   }
 
+  /**
+   * @param {object} params
+   * @param {boolean} params.correct whether the answer was correct. If `correct=true`, then the player's score increases after calling this function.
+   * @param {string} params.targetUserId the ID of the user whose answer is being toggled.
+   * @returns
+   */
+  toggleCorrect ({ userId, username }, { targetUserId }) {
+    if (targetUserId !== this.previousTossup.userId) { return; }
+    if (!this.players[targetUserId]) { return; }
+
+    const correct = !this.previousTossup.isCorrect;
+    this.previousTossup.isCorrect = correct;
+    const multiplier = correct ? 1 : -1;
+
+    if (this.previousTossup.inSuperpower) {
+      this.players[targetUserId].superpowers += multiplier * 1;
+      this.players[targetUserId].points += multiplier * this.previousTossup.superpowerValue;
+    } else if (this.previousTossup.inPower) {
+      this.players[targetUserId].powers += multiplier * 1;
+      this.players[targetUserId].points += multiplier * this.previousTossup.powerValue;
+    } else {
+      this.players[targetUserId].tens += multiplier * 1;
+      this.players[targetUserId].points += multiplier * 10;
+    }
+
+    if (this.previousTossup.endOfQuestion) {
+      this.players[targetUserId].dead += multiplier * -1;
+    } else {
+      this.players[targetUserId].negs += multiplier * -1;
+      this.players[targetUserId].points += multiplier * -this.previousTossup.negValue;
+    }
+
+    const correctBuzzes = this.players[targetUserId].superpowers + this.players[targetUserId].powers + this.players[targetUserId].tens;
+    this.players[targetUserId].celerity.correct.total += multiplier * this.previousTossup.celerity;
+    this.players[targetUserId].celerity.correct.average = this.players[targetUserId].celerity.correct.total / correctBuzzes;
+
+    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT, correct, targetUserId, player: this.players[targetUserId] });
+  }
+
   togglePowermarkOnly ({ username }, { powermarkOnly }) {
     this.query.powermarkOnly = powermarkOnly;
     this.adjustQuery(['powermarkOnly'], [powermarkOnly]);
-    this.emitMessage({ type: 'toggle-powermark-only', powermarkOnly, username });
+    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_POWERMARK_ONLY, powermarkOnly, username });
   }
 
   toggleRebuzz ({ username }, { rebuzz }) {
     this.settings.rebuzz = rebuzz;
-    this.emitMessage({ type: 'toggle-rebuzz', rebuzz, username });
+    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_REBUZZ, rebuzz, username });
   }
 
   toggleStopOnPower ({ username }, { stopOnPower }) {
     this.settings.stopOnPower = stopOnPower;
-    this.emitMessage({ type: 'toggle-stop-on-power', stopOnPower, username });
+    this.emitMessage({ type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_STOP_ON_POWER, stopOnPower, username });
   }
 };
 

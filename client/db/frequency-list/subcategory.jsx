@@ -2,7 +2,8 @@ import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx'
 import { downloadAsFile } from '../../scripts/download.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import filterParams from '../../scripts/utilities/filter-params.js';
-import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../quizbowl/constants.js';
+import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../shared/constants.js';
+import { SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../../../shared/categories.js';
 import { setYear, addSliderEventListeners } from '../../play/year-slider.js';
 
 let difficulties = DIFFICULTIES;
@@ -48,6 +49,43 @@ function formatFrequencyListAsCSV () {
   return csv;
 }
 
+function createAnswerLink (answer, difficulties, minYear, maxYear, questionType) {
+  const link = document.createElement('a');
+  link.textContent = answer;
+  link.className = 'clickable text-body text-decoration-none';
+  link.role = 'button';
+  link.tabIndex = 0;
+
+  const navigate = () => {
+    const params = {
+      q: answer,
+      searchType: 'exactAnswer',
+      questionType,
+      difficulties,
+      [isCategory ? 'categories' : isAlternate ? 'alternateSubcategories' : 'subcategories']: subcategory
+    };
+    if (!isCategory) {
+      params.categories = isAlternate ? ALTERNATE_SUBCATEGORY_TO_CATEGORY[subcategory] : SUBCATEGORY_TO_CATEGORY[subcategory];
+    }
+    // minYear/maxYear must be sent explicitly, since otherwise filterParams
+    // would incorrectly strip them here since it uses different defaults
+    const filteredParams = filterParams(params);
+    filteredParams.minYear = minYear;
+    filteredParams.maxYear = maxYear;
+    window.location.href = '/db/?' + new URLSearchParams(filteredParams);
+  };
+
+  link.addEventListener('click', navigate);
+  link.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      navigate();
+    }
+  });
+
+  return link;
+}
+
 function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, questionType) {
   const table = document.getElementById('frequency-list');
   table.innerHTML = '';
@@ -74,7 +112,7 @@ function updateFrequencyListDisplay (difficulties, limit, minYear, maxYear, ques
       for (const [index, { answer, count }] of frequencyList.entries()) {
         const row = table.insertRow();
         row.insertCell().textContent = index + 1;
-        row.insertCell().textContent = answer;
+        row.insertCell().appendChild(createAnswerLink(answer, difficulties, minYear, maxYear, questionType));
         row.insertCell().textContent = count;
       }
 

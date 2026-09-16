@@ -1,5 +1,6 @@
 // write a command-line tool that calls upsert-set.js
 import upsertSet from './upsert-set.js';
+import { mongoClient } from '../../database/databases.js';
 
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
@@ -56,3 +57,4 @@ const argv = yargs(hideBin(process.argv))
 const setAlreadyExists = await upsertSet(argv.setName, argv.difficulty, { preserveCategory: argv.preserveCategory, standard: argv.standard, zeroIndexQuestions: argv.zeroIndexQuestions, folderPath: argv.folderPath });
 console.log(`Uploaded ${argv.setName} with parameters: preserveCategory=${argv.preserveCategory}, standard=${argv.standard}, zeroIndexQuestions=${argv.zeroIndexQuestions}`);
 console.log(setAlreadyExists ? 'Set already exists. Updated existing set.' : 'Set did not already exist. Created new set.');
+await mongoClient.close();

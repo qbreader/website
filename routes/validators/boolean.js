@@ -18,6 +18,14 @@ export function exactPhrase (object) {
   return validateBoolean(object, 'exactPhrase');
 }
 
+export function expand (object) {
+  return validateBoolean(object, 'expand');
+}
+
+export function includeCounts (object) {
+  return validateBoolean(object, 'includeCounts');
+}
+
 export function ignoreWordOrder (object) {
   return validateBoolean(object, 'ignoreWordOrder');
 }

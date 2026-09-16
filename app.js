@@ -16,6 +16,15 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
+app.use((req, res, next) => {
+  res.set({
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'SAMEORIGIN',
+    'Referrer-Policy': 'strict-origin-when-cross-origin'
+  });
+  next();
+});
+
 // https://stackoverflow.com/questions/10348906/how-to-know-if-a-request-is-http-or-https-in-node-js
 app.enable('trust proxy');
 app.use(hostnameRedirection);
@@ -30,7 +39,10 @@ app.use(express.json());
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.SECRET_KEY_1 ?? 'secretKey1', process.env.SECRET_KEY_2 ?? 'secretKey2'],
-  maxAge: COOKIE_MAX_AGE
+  maxAge: COOKIE_MAX_AGE,
+  httpOnly: true,
+  sameSite: 'lax',
+  secure: process.env.NODE_ENV === 'production'
 }));
 
 app.use(ipFilterMiddleware);

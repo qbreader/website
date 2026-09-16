@@ -1,7 +1,10 @@
-import { BONUS_PROGRESS_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from './constants.js';
+import { BONUS_PROGRESS_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../constants.js';
 import { BonusRoomMixin } from './BonusRoom.js';
 import { TossupRoomMixin } from './TossupRoom.js';
 import QuestionRoom from './QuestionRoom.js';
+import { QUESTION_ROOM_MESSAGE_TYPE } from '../protocol/question-room.js';
+import { BONUS_ROOM_MESSAGE_TYPE } from '../protocol/bonus-room.js';
+import { TOSSUP_BONUS_ROOM_MESSAGE_TYPE } from '../protocol/tossup-bonus-room.js';
 
 export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(QuestionRoom)) {
   constructor (name, categoryManager, supportedQuestionTypes = ['tossups', 'bonuses']) {
@@ -15,11 +18,15 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
     this.bonusEligibleTeamId = null;
   }
 
+  /**
+   * @param {{userId: string, username: string}} player
+   */
   async message ({ userId, username }, message) {
     switch (message.type) {
-      case 'give-answer': return this.giveAnswer({ userId, username }, message);
-      case 'start-bonus-answer': return this.startBonusAnswer({ userId, username }, message);
-      case 'toggle-enable-bonuses': return this.toggleEnableBonuses({ userId, username }, message);
+      // sadly this needs to be here to prevent parent classes from calling a different function on give-answer
+      case QUESTION_ROOM_MESSAGE_TYPE.GIVE_ANSWER: return this.giveAnswer({ userId, username }, message);
+      case BONUS_ROOM_MESSAGE_TYPE.START_BONUS_ANSWER: return this.startBonusAnswer({ userId, username }, message);
+      case TOSSUP_BONUS_ROOM_MESSAGE_TYPE.TOGGLE_ENABLE_BONUSES: return this.toggleEnableBonuses({ userId, username }, message);
       default: return super.message({ userId, username }, message);
     }
   }
@@ -49,7 +56,7 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
     if (directive === 'accept') {
       const teamId = this.players[userId].teamId;
       this.bonusEligibleTeamId = teamId;
-      this.emitMessage({ type: 'set-bonus-eligible-team-id', teamId });
+      this.emitMessage({ type: TOSSUP_BONUS_ROOM_MESSAGE_TYPE.SET_BONUS_ELIGIBLE_TEAM_ID, teamId });
     }
   }
 
@@ -101,6 +108,6 @@ export default class TossupBonusRoom extends BonusRoomMixin(TossupRoomMixin(Ques
 
   toggleEnableBonuses ({ username }, { enableBonuses }) {
     this.settings.enableBonuses = enableBonuses;
-    this.emitMessage({ type: 'toggle-enable-bonuses', enableBonuses, username });
+    this.emitMessage({ type: TOSSUP_BONUS_ROOM_MESSAGE_TYPE.TOGGLE_ENABLE_BONUSES, enableBonuses, username });
   }
 }

@@ -1,6 +1,6 @@
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import questionStats from '../../scripts/auth/question-stats.js';
-import BonusClient from '../BonusClient.js';
+import { MODE_ENUM } from '../../shared/constants.js';
+import questionStats from '../scripts/auth/question-stats.js';
+import BonusClient from './BonusClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
@@ -10,7 +10,6 @@ export default class SoloBonusClient extends BonusClient {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'clear-stats': return this.clearStats(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
       default: return super.onmessage(message);
     }

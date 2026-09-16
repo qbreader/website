@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import { ObjectId } from 'mongodb';
+/** @typedef {import('mongodb').ObjectId} ObjectId */
 
 /**
  * @typedef {object} Question

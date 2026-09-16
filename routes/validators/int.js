@@ -1,4 +1,4 @@
-import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH, DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, MAX_YEAR, MIN_YEAR } from '../../quizbowl/constants.js';
+import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH, DEFAULT_MAX_YEAR, DEFAULT_MIN_YEAR, MAX_YEAR, MIN_YEAR } from '../../shared/constants.js';
 
 /**
  * Validates that a field's value is an integer within specified bounds.
@@ -28,11 +28,11 @@ export default function validateInt (object, field, { defaultValue, lowerBound, 
 }
 
 export function bonusPagination (object) {
-  return validateInt(object, 'bonusPagination', { defaultValue: 1 });
+  return validateInt(object, 'bonusPagination', { defaultValue: 1, lowerBound: 1 });
 }
 
-export function limit (object) {
-  return validateInt(object, 'limit', { defaultValue: 50, lowerBound: 1 });
+export function limit (object, { defaultValue = 50 } = {}) {
+  return validateInt(object, 'limit', { defaultValue, lowerBound: 1 });
 }
 
 export function maxReturnLength (object) {

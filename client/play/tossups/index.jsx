@@ -1,12 +1,13 @@
-import CategoryManager from '../../../quizbowl/category-manager.js';
-import Player from '../../../quizbowl/Player.js';
+import CategoryManager from '../../../shared/category-manager.js';
+import Player from '../../../shared/Player.js';
 import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js';
 import CategoryModal from '../../scripts/components/CategoryModal.jsx';
 import DifficultyDropdown from '../../scripts/components/DifficultyDropdown.jsx';
 import aiBots from './ai-mode/ai-bots.js';
 import AIBot from './ai-mode/AIBot.js';
-import SoloTossupRoom from './SoloTossupRoom.js';
-import SoloTossupClient from './SoloTossupClient.js';
+import SoloTossupRoom from '../../rooms/SoloTossupRoom.js';
+import SoloTossupClient from '../../clients/SoloTossupClient.js';
+import { TOSSUP_ROOM_MESSAGE_TYPE } from '../../../shared/protocol/tossup-room.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
@@ -52,7 +53,7 @@ document.getElementById('toggle-ai-mode').addEventListener('click', function () 
 
 document.getElementById('toggle-correct').addEventListener('click', function () {
   this.blur();
-  socket.sendToServer({ type: 'toggle-correct', correct: this.textContent === 'I was right' });
+  socket.sendToServer({ type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT, correct: this.textContent === 'I was right', targetUserId: USER_ID });
 });
 
 document.getElementById('toggle-randomize-order').addEventListener('click', function () {

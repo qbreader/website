@@ -1,5 +1,5 @@
 import { bonuses, tossups } from '../../database/qbreader/collections.js';
-import { CATEGORIES } from '../../quizbowl/categories.js';
+import { CATEGORIES } from '../../shared/categories.js';
 
 export default async function categoryValidation () {
   let total = 0;

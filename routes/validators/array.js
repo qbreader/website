@@ -1,4 +1,4 @@
-import { DIFFICULTIES } from '../../quizbowl/constants.js';
+import { DIFFICULTIES } from '../../shared/constants.js';
 
 /**
  * @template T

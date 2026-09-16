@@ -1,11 +1,18 @@
 
-import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../../quizbowl/constants.js';
-import questionStats from '../../scripts/auth/question-stats.js';
-import TossupBonusClient from '../TossupBonusClient.js';
-import { arrayToRange } from '../ranges.js';
-import upsertPlayerItem from '../upsert-player-item.js';
-import { setYear } from '../year-slider.js';
+import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
+import questionStats from '../scripts/auth/question-stats.js';
+import TossupBonusClient from './TossupBonusClient.js';
+import { arrayToRange } from '../play/ranges.js';
+import upsertPlayerItem from '../play/upsert-player-item.js';
+import { setYear } from '../play/year-slider.js';
+import { showAlert } from '../play/mp/alert.js';
+import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
+import { TOSSUP_CLIENT_MESSAGE_TYPE, TOSSUP_ROOM_MESSAGE_TYPE } from '../../shared/protocol/tossup-room.js';
 
+/**
+ * @template {typeof TossupBonusClient} TBase
+ * @param {TBase} ClientClass
+ */
 export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
     super(room, userId, socket);
@@ -18,51 +25,42 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   onmessage (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
-      case 'admin-lock': return this.adminLock(data);
-      case 'chat': return this.chat(data, false);
-      case 'chat-live-update': return this.chat(data, true);
-      case 'clear-stats': return this.clearStats(data);
-      case 'confirm-ban': return this.confirmBan(data);
-      case 'connection-acknowledged': return this.connectionAcknowledged(data);
-      case 'connection-acknowledged-query': return this.connectionAcknowledgedQuery(data);
-      case 'connection-acknowledged-question': return this.connectionAcknowledgedQuestion(data);
-      case 'enforcing-removal': return this.ackRemovedFromRoom(data);
-      case 'error': return this.handleError(data);
-      case 'force-username': return this.forceUsername(data);
-      case 'give-answer-live-update': return this.logGiveAnswer(data);
-      case 'initiated-vk': return this.vkInit(data);
-      case 'join': return this.join(data);
-      case 'leave': return this.leave(data);
-      case 'lost-buzzer-race': return this.lostBuzzerRace(data);
-      case 'mute-player': return this.mutePlayer(data);
-      case 'no-points-votekick-attempt': return this.failedVotekickPoints(data);
-      case 'owner-change': return this.ownerChange(data);
-      case 'set-username': return this.setUsername(data);
-      case 'successful-vk': return this.vkHandle(data);
-      case 'toggle-controlled': return this.toggleControlled(data);
-      case 'toggle-lock': return this.toggleLock(data);
-      case 'toggle-login-required': return this.toggleLoginRequired(data);
-      case 'toggle-public': return this.togglePublic(data);
-      case 'toggle-stop-on-power': return this.toggleStopOnPower(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.ADMIN_LOCK: return this.adminLock(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT: return this.chat(data, false);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE: return this.chat(data, true);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONFIRM_BAN: return this.confirmBan(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED: return this.connectionAcknowledged(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUERY: return this.connectionAcknowledgedQuery(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUESTION: return this.connectionAcknowledgedQuestion(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.ENFORCING_REMOVAL: return this.ackRemovedFromRoom(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.ERROR: return this.handleError(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.FORCE_USERNAME: return this.forceUsername(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE: return this.logGiveAnswer(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.INITIATED_VK: return this.vkInit(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.JOIN: return this.join(data);
+      case TOSSUP_CLIENT_MESSAGE_TYPE.LOST_BUZZER_RACE: return this.lostBuzzerRace(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.MUTE_PLAYER: return this.mutePlayer(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.NO_POINTS_VOTEKICK_ATTEMPT: return this.failedVotekickPoints(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.OWNER_CHANGE: return this.ownerChange(data);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.SUCCESSFUL_VK: return this.vkHandle(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_CONTROLLED: return this.toggleControlled(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOCK: return this.toggleLock(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_LOGIN_REQUIRED: return this.toggleLoginRequired(data);
+      case MULTIPLAYER_ROOM_MESSAGE_TYPE.TOGGLE_PUBLIC: return this.togglePublic(data);
       default: return super.onmessage(event.data);
     }
   }
 
   // if a banned/kicked user tries to join a this.room they were removed from this is the response
   ackRemovedFromRoom ({ removalType }) {
-    if (removalType === 'kick') {
-      window.alert('You were kicked from this room by room players, and cannot rejoin it.');
-    } else {
-      window.alert('You were banned from this room by the room owner, and cannot rejoin it.');
-    }
-    setTimeout(() => {
-      window.location.replace('../');
-    }, 100);
+    const message = removalType === 'kick'
+      ? 'You were kicked from this room by room players, and cannot rejoin it.'
+      : 'You were banned from this room by the room owner, and cannot rejoin it.';
+    showAlert(message, () => window.location.replace('../'));
   }
 
   adminLock ({ message }) {
-    window.alert(message);
-    window.location.replace('/play/mp');
+    showAlert(message, () => window.location.replace('/play/mp'));
   }
 
   buzz ({ userId, username }) {
@@ -123,10 +121,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   confirmBan ({ targetId, targetUsername }) {
     if (targetId === this.USER_ID) {
-      window.alert('You were banned from this room by the room owner.');
-      setTimeout(() => {
-        window.location.replace('../');
-      }, 100);
+      showAlert('You were banned from this room by the room owner.', () => window.location.replace('../'));
     } else {
       this.logEventConditionally(targetUsername + ' has been banned from this room.');
     }
@@ -172,7 +167,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
         ? 'This is a verified room. Login is required and some settings have been restricted.'
         : 'This is a permanent room. Some settings have been restricted.';
       document.getElementById('reading-speed').disabled = true;
-      document.getElementById('set-strictness').disabled = true;
+      // document.getElementById('set-strictness').disabled = true;
       document.getElementById('set-mode').disabled = true;
       document.getElementById('toggle-public').disabled = true;
       if (isVerified) {
@@ -182,7 +177,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
     for (const userId of Object.keys(players)) {
       const teamId = players[userId].teamId;
-      players[userId].celerity = players[userId].celerity.correct.average;
       this.room.players[userId] = players[userId];
       this.room.teams[teamId] = teams[teamId];
       upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[teamId] });
@@ -303,18 +297,18 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   failedVotekickPoints ({ userId }) {
     if (userId === this.USER_ID) {
-      window.alert('You can only votekick once you have answered a question correctly!');
+      showAlert('You can only votekick once you have answered a question correctly!');
     }
   }
 
   forceUsername ({ message, username }) {
-    window.alert(message);
+    showAlert(message);
     window.localStorage.setItem('multiplayer-username', username);
     document.querySelector('#username').value = username;
   }
 
   async giveBonusAnswer ({ currentPartNumber, directive, directedPrompt, givenAnswer, score, userId, username }) {
-    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.BONUS, username });
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.BONUS, userId, username });
     if (directive === 'prompt' && directedPrompt) {
       this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
@@ -324,7 +318,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
   }
 
   async giveTossupAnswer ({ celerity, tossup, perQuestionCelerity, directive, directedPrompt, givenAnswer, score, userId, username }) {
-    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, username });
+    this.logGiveAnswer({ directive, givenAnswer, questionType: QUESTION_TYPE_ENUM.TOSSUP, userId, username });
     if (directive === 'prompt' && directedPrompt) {
       this.logEventConditionally(username, `was prompted with "${directedPrompt}"`);
     } else if (directive === 'prompt') {
@@ -362,7 +356,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
     this.room.players[userId].points += score;
     this.room.players[userId].tuh++;
-    this.room.players[userId].celerity = celerity;
+    this.room.players[userId].celerity.correct.average = celerity;
 
     upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[this.room.players[userId].teamId] });
     this.sortPlayerListGroup();
@@ -380,8 +374,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   handleError ({ message }) {
     this.socket.close(3000);
-    window.alert(message);
-    window.location.href = '/multiplayer';
+    showAlert(message, () => { window.location.href = '/multiplayer'; });
   }
 
   join ({ isNew, team, user, userId, username }) {
@@ -391,7 +384,6 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     this.room.teams[user.teamId] = team;
 
     if (isNew) {
-      user.celerity = user.celerity.correct.average;
       upsertPlayerItem(user, { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[user.teamId] });
       this.sortPlayerListGroup();
     } else {
@@ -443,7 +435,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('room-history').prepend(li);
   }
 
-  logGiveAnswer ({ directive = null, givenAnswer, questionType, username }) {
+  logGiveAnswer ({ directive = null, givenAnswer, questionType, username, userId }) {
     const badge = document.createElement('span');
     badge.textContent = questionType === QUESTION_TYPE_ENUM.TOSSUP ? 'Buzz' : 'Answer';
     switch (directive) {
@@ -495,6 +487,25 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
       li.appendChild(document.createTextNode(' '));
       li.appendChild(secondBadge);
+
+      if (this.room.ownerId === this.USER_ID) {
+        for (const element of document.getElementsByClassName('toggle-correct')) {
+          element.remove();
+        }
+        const thirdBadge = document.createElement('span');
+        thirdBadge.className = 'badge text-light bg-primary clickable toggle-correct';
+        thirdBadge.classList.toggle('d-none', this.room.public);
+        thirdBadge.textContent = 'Toggle Correct';
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(thirdBadge);
+
+        thirdBadge.addEventListener('click', () => {
+          this.socket.send(JSON.stringify({
+            type: TOSSUP_ROOM_MESSAGE_TYPE.TOGGLE_CORRECT,
+            targetUserId: userId
+          }));
+        });
+      }
     }
 
     if (directive) { li.id = ''; }
@@ -686,7 +697,13 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('category-select-button').disabled = controlled;
     document.getElementById('reading-speed').disabled = controlled;
     document.getElementById('set-mode').disabled = controlled;
-    document.getElementById('set-strictness').disabled = controlled;
+    // document.getElementById('set-strictness').disabled = controlled;
+  }
+
+  toggleCorrect ({ correct, targetUserId, player }) {
+    this.logEventConditionally(`The room owner ${correct ? 'accepted' : 'rejected'} the answer of ${this.room.players[targetUserId].username}`);
+    this.room.players[targetUserId] = player;
+    upsertPlayerItem(this.room.players[targetUserId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[this.room.players[targetUserId].teamId] });
   }
 
   toggleEnableBonuses ({ enableBonuses, username }) {
@@ -742,6 +759,9 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
     document.getElementById('toggle-login-required').disabled = isPublic;
     document.getElementById('toggle-public').checked = isPublic;
     document.getElementById('toggle-timer').disabled = isPublic;
+    for (const element of document.getElementsByClassName('toggle-correct')) {
+      element.classList.toggle('d-none', isPublic);
+    }
     this.room.public = isPublic;
     if (isPublic) {
       document.getElementById('toggle-lock').checked = false;
@@ -766,10 +786,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 
   vkHandle ({ targetUsername, targetId }) {
     if (this.USER_ID === targetId) {
-      window.alert('You were vote kicked from this room by others.');
-      setTimeout(() => {
-        window.location.replace('../');
-      }, 100);
+      showAlert('You were vote kicked from this room by others.', () => window.location.replace('../'));
     } else {
       this.logEventConditionally(targetUsername + ' has been vote kicked from this room.');
     }
@@ -777,6 +794,11 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
 };
 
 function attachEventListeners (room, socket, client) {
+  document.getElementById('buzz').addEventListener('click', function () {
+    this.blur();
+    socket.sendToServer({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.GIVE_ANSWER_LIVE_UPDATE, givenAnswer: '' });
+  });
+
   document.getElementById('toggle-distraction-free-mode').addEventListener('change', (event) => {
     client.distractionFreeMode = event.target.checked;
 
@@ -795,6 +817,5 @@ function attachEventListeners (room, socket, client) {
     });
   });
 }
-
 const MultiplayerTossupBonusClient = MultiplayerClientMixin(TossupBonusClient);
 export default MultiplayerTossupBonusClient;

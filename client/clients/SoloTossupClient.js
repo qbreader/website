@@ -1,7 +1,7 @@
-import { MODE_ENUM } from '../../../quizbowl/constants.js';
-import questionStats from '../../scripts/auth/question-stats.js';
-import upsertPlayerItem from '../upsert-player-item.js';
-import TossupClient from '../TossupClient.js';
+import { MODE_ENUM } from '../../shared/constants.js';
+import questionStats from '../scripts/auth/question-stats.js';
+import upsertPlayerItem from '../play/upsert-player-item.js';
+import TossupClient from './TossupClient.js';
 
 const modeVersion = '2025-01-14';
 const queryVersion = '2025-05-07';
@@ -16,9 +16,7 @@ export default class SoloTossupClient extends TossupClient {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'clear-stats': return this.clearStats(data);
       case 'toggle-ai-mode': return this.toggleAiMode(data);
-      case 'toggle-correct': return this.toggleCorrect(data);
       case 'toggle-type-to-answer': return this.toggleTypeToAnswer(data);
       default: return super.onmessage(message);
     }

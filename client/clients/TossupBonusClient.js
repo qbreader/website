@@ -1,6 +1,7 @@
 import { BonusClientMixin } from './BonusClient.js';
 import { TossupClientMixin } from './TossupClient.js';
 import QuestionClient from './QuestionClient.js';
+import { TOSSUP_BONUS_ROOM_MESSAGE_TYPE } from '../../shared/protocol/tossup-bonus-room.js';
 
 export default class TossupBonusClient extends BonusClientMixin(TossupClientMixin(QuestionClient)) {
   constructor (room, userId, socket) {
@@ -12,8 +13,8 @@ export default class TossupBonusClient extends BonusClientMixin(TossupClientMixi
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'set-bonus-eligible-team-id': return this.setBonusEligibleTeamId(data);
-      case 'toggle-enable-bonuses': return this.toggleEnableBonuses(data);
+      case TOSSUP_BONUS_ROOM_MESSAGE_TYPE.SET_BONUS_ELIGIBLE_TEAM_ID: return this.setBonusEligibleTeamId(data);
+      case TOSSUP_BONUS_ROOM_MESSAGE_TYPE.TOGGLE_ENABLE_BONUSES: return this.toggleEnableBonuses(data);
       default: return super.onmessage(message);
     }
   }
@@ -40,6 +41,6 @@ export default class TossupBonusClient extends BonusClientMixin(TossupClientMixi
 function attachEventListeners (room, socket) {
   document.getElementById('toggle-enable-bonuses').addEventListener('click', function () {
     this.blur();
-    socket.sendToServer({ type: 'toggle-enable-bonuses', enableBonuses: this.checked });
+    socket.sendToServer({ type: TOSSUP_BONUS_ROOM_MESSAGE_TYPE.TOGGLE_ENABLE_BONUSES, enableBonuses: this.checked });
   });
 }

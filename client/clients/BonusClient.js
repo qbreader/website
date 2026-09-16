@@ -1,7 +1,12 @@
-import addBonusGameCard from './bonuses/add-bonus-game-card.js';
+import addBonusGameCard from '../play/bonuses/add-bonus-game-card.js';
 import QuestionClient from './QuestionClient.js';
-import { MODE_ENUM } from '../../quizbowl/constants.js';
+import { MODE_ENUM } from '../../shared/constants.js';
+import { BONUS_CLIENT_MESSAGE_TYPE, BONUS_ROOM_MESSAGE_TYPE } from '../../shared/protocol/bonus-room.js';
 
+/**
+ * @template {typeof QuestionClient} TBase
+ * @param {TBase} ClientClass
+ */
 export const BonusClientMixin = (ClientClass) => class extends ClientClass {
   constructor (room, userId, socket) {
     super(room, userId, socket);
@@ -11,18 +16,17 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
   onmessage (message) {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'end-current-bonus': return this.endCurrentBonus(data);
-      case 'give-bonus-answer': return this.giveBonusAnswer(data);
-      case 'reveal-leadin': return this.revealLeadin(data);
-      case 'reveal-next-answer': return this.revealNextAnswer(data);
-      case 'reveal-next-part': return this.revealNextPart(data);
-      case 'set-reading-speed': return this.setReadingSpeed(data);
-      case 'start-bonus-answer': return this.startBonusAnswer(data);
-      case 'start-next-bonus': return this.startNextBonus(data);
-      case 'toggle-bonus-part': return this.toggleBonusPart(data);
-      case 'toggle-read-bonuses-like-tossups': return this.toggleReadBonusesLikeTossups(data);
-      case 'toggle-three-part-bonuses': return this.toggleThreePartBonuses(data);
-      case 'update-bonus-question': return this.updateBonusQuestion(data);
+      case BONUS_CLIENT_MESSAGE_TYPE.END_CURRENT_BONUS: return this.endCurrentBonus(data);
+      case BONUS_CLIENT_MESSAGE_TYPE.GIVE_BONUS_ANSWER: return this.giveBonusAnswer(data);
+      case BONUS_CLIENT_MESSAGE_TYPE.REVEAL_LEADIN: return this.revealLeadin(data);
+      case BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_ANSWER: return this.revealNextAnswer(data);
+      case BONUS_CLIENT_MESSAGE_TYPE.REVEAL_NEXT_PART: return this.revealNextPart(data);
+      case BONUS_ROOM_MESSAGE_TYPE.START_BONUS_ANSWER: return this.startBonusAnswer(data);
+      case BONUS_CLIENT_MESSAGE_TYPE.START_NEXT_BONUS: return this.startNextBonus(data);
+      case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_BONUS_PART: return this.toggleBonusPart(data);
+      case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_READ_BONUSES_LIKE_TOSSUPS: return this.toggleReadBonusesLikeTossups(data);
+      case BONUS_ROOM_MESSAGE_TYPE.TOGGLE_THREE_PART_BONUSES: return this.toggleThreePartBonuses(data);
+      case BONUS_CLIENT_MESSAGE_TYPE.UPDATE_BONUS_QUESTION: return this.updateBonusQuestion(data);
       default: return super.onmessage(message);
     }
   }
@@ -117,11 +121,6 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
     }
   }
 
-  setReadingSpeed ({ readingSpeed }) {
-    document.getElementById('reading-speed').value = readingSpeed;
-    document.getElementById('reading-speed-display').textContent = readingSpeed;
-  }
-
   toggleBonusPart ({ partNumber, correct }) {
     document.getElementById(`checkbox-${partNumber + 1}`).checked = correct;
   }
@@ -147,7 +146,7 @@ export const BonusClientMixin = (ClientClass) => class extends ClientClass {
 function attachEventListeners (room, socket) {
   document.getElementById('reveal').addEventListener('click', function () {
     this.blur();
-    socket.sendToServer({ type: 'start-bonus-answer' });
+    socket.sendToServer({ type: BONUS_ROOM_MESSAGE_TYPE.START_BONUS_ANSWER });
   });
 }
 

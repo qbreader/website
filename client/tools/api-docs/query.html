@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <title>QBReader - API Docs - Query</title>
     <!--#include virtual="/ssi/head.html" -->
     <meta name="description" content="The API documentation for QB Reader.">
 </head>
@@ -11,33 +12,7 @@
 
     <div class="container-xl mt-3 mb-4 row">
         <div class="col-md-1"></div> <!-- empty column for some left margin -->
-        <!-- docs sidebar -->
-        <div class="d-none d-md-block col-2 h-100" id="docsSidebar">
-            <h4 class="offcanvas-title" id="docsSidebarLabel">API Reference</h4>
-            <div class="navbar-nav me-auto mb-2 mb-lg-0">
-                <a href="."><code>Overview</code></a>
-                <a href="./schemas"><code>Object Schemas</code></a>
-                <h5 class="mt-4 mb-2">Database</h5>
-                <a href="./query" class="active fw-semibold" aria-current="page"><code>query</code></a>
-                <a href="./random-bonus"><code>random-bonus</code></a>
-                <a href="./random-tossup"><code>random-tossup</code></a>
-                <a href="./packet"><code>packet</code></a>
-                <a href="./num-packets"><code>num-packets</code></a>
-                <a href="./set-list"><code>set-list</code></a>
-                <a href="./bonus"><code>bonus</code></a>
-                <a href="./tossup"><code>tossup</code></a>
-                <a href="./frequency-list"><code>frequency-list</code></a>
-                <h5 class="mt-4 mb-2">Multiplayer</h5>
-                <a href="./multiplayer/room-list"><code>room-list</code></a>
-                <h5 class="mt-4 mb-2">Question Stats</h5>
-                <a href="./question-stats/bonus"><code>bonus</code></a>
-                <a href="./question-stats/tossup"><code>tossup</code></a>
-                <h5 class="mt-4 mb-2">Other</h5>
-                <a href="./check-answer"><code>check-answer</code></a>
-                <a href="./random-name"><code>random-name</code></a>
-                <a href="./report-question"><code>report-question</code></a>
-            </div>
-        </div>
+        <!--#include virtual="/ssi/api-docs-sidebar.html" -->
 
         <div class="col-12 col-md-9">
             <h3 class="md-4">
@@ -54,7 +29,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div>
-                        <code>queryString</code><code class="text-muted">: string</code>
+                        <code>q</code><code class="text-muted">: string</code>
                         <code class="text-muted float-end fw-semibold">default: ""</code>
                     </div>
                     <div>
@@ -335,7 +310,7 @@
                     </div>
                     <div>
                         The exact string used to search the MongoDB database.
-                        This may differ from the queryString passed in as a parameter:
+                        This may differ from the queryString (q) passed in as a parameter:
                         <ul>
                             <li>If <code>regex</code> is <code>false</code>, then regex characters are escaped.</li>
                         </ul>

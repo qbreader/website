@@ -1,4 +1,4 @@
-import { kebabCase } from './strings.js';
+import { kebabCase } from '../../../shared/string-utils.js';
 
 export default function createTabs ({ tabNames, navId = 'tabs', tabContentId = 'tab-content' }) {
   const tabContents = {};
