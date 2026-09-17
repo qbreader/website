@@ -51,12 +51,14 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
   playerItem.className = `list-group-item clickable ${userId === callerId ? 'user-score' : ''} ${online === false && 'offline'}`;
   playerItem.id = `list-group-${userId}`;
   const displayUsername = distractionFreeMode ? 'Player' : username;
-  const crown = (playerIsOwner && !isPublic) ? '👑' : '';
+  const crown = (playerIsOwner && !isPublic)
+    ? '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" class="crown-icon me-1" viewBox="0 0 24 24" role="img" aria-label="Room owner"><path fill="#F5C518" stroke="#B8860B" stroke-width="1" stroke-linejoin="round" d="M2 8l4.5 3L12 4l5.5 7L22 8l-2 11H4L2 8z"/></svg>'
+    : '';
 
   playerItem.innerHTML = `
   <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center">
-          ${crown} <span id="username-${userId}" class="me-1 player-item-display-username" data-username="${username.replace(/"/g, '&quot;')}">${displayUsername}</span>
+          ${crown}<span id="username-${userId}" class="me-1 player-item-display-username" data-username="${username.replace(/"/g, '&quot;')}">${displayUsername}</span>
           <!-- Dropdown  -->
       </div>
       <span><span id="points-${userId}" class="badge rounded-pill ${online ? 'bg-success' : 'bg-secondary'}">${points + bonusPoints}</span></span>
