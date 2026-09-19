@@ -35,6 +35,7 @@ export default class QuestionClient extends Client {
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_SKIP: return this.toggleSkip(data);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_STANDARD_ONLY: return this.toggleStandardOnly(data);
       case QUESTION_ROOM_MESSAGE_TYPE.TOGGLE_TIMER: return this.toggleTimer(data);
+      default: return super.onmessage(message);
     }
   }
 
