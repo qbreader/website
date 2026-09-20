@@ -268,14 +268,16 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
 
     this.leave(userId);
 
-    // Reclaim non-permanent rooms once they empty out, so the room object and
-    // its cleanup interval don't leak. Skip while a question is in progress;
-    // its timers still hold a reference and the room will be reclaimed the next
-    // time it empties between questions.
     const isEmpty = Object.keys(this.sockets).length === 0;
-    const isIdle = this.tossupProgress === TOSSUP_PROGRESS_ENUM.NOT_STARTED &&
-      this.bonusProgress === BONUS_PROGRESS_ENUM.NOT_STARTED;
-    if (isEmpty && isIdle && !this.isPermanent && !this.isVerified) {
+    const isIdle = this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING &&
+      this.bonusProgress !== BONUS_PROGRESS_ENUM.READING;
+    const tuh = Object.values(this.players).reduce((total, player) => total + (player.tuh || 0), 0);
+    if (
+      isEmpty &&
+      isIdle &&
+      !this.isPermanent &&
+      tuh <= 5
+    ) {
       clearInterval(this.cleanupInterval);
       this.onEmpty?.();
     }
