@@ -2,7 +2,7 @@ import ServerPlayer from './ServerPlayer.js';
 import Votekick from './VoteKick.js';
 import { HEADER, ENDC, OKCYAN, OKBLUE } from '../bcolors.js';
 import isAppropriateString from '../moderation/is-appropriate-string.js';
-import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
+import { BONUS_PROGRESS_ENUM, MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 import insertTokensIntoHTML from '../../shared/insert-tokens-into-html.js';
 import RateLimit from '../RateLimit.js';
 import { MULTIPLAYER_CLIENT_MESSAGE_TYPE, MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
@@ -53,7 +53,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     };
 
     getSetList().then(setList => { this.packetList = setList; });
-    setInterval(this.cleanupExpiredBansAndKicks.bind(this), 5 * 60 * 1000); // 5 minutes
+    this.cleanupInterval = setInterval(this.cleanupExpiredBansAndKicks.bind(this), 5 * 60 * 1000); // 5 minutes
   }
 
   async message ({ userId, username }, message) {
@@ -267,6 +267,20 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     }
 
     this.leave(userId);
+
+    const isEmpty = Object.keys(this.sockets).length === 0;
+    const isIdle = this.tossupProgress !== TOSSUP_PROGRESS_ENUM.READING &&
+      this.bonusProgress !== BONUS_PROGRESS_ENUM.READING;
+    const tuh = Object.values(this.players).reduce((total, player) => total + (player.tuh || 0), 0);
+    if (
+      isEmpty &&
+      isIdle &&
+      !this.isPermanent &&
+      tuh <= 5
+    ) {
+      clearInterval(this.cleanupInterval);
+      this.onEmpty?.();
+    }
   }
 
   giveAnswerLiveUpdate ({ userId, username }, { givenAnswer }) {
