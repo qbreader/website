@@ -276,7 +276,8 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
       isEmpty &&
       isIdle &&
       !this.isPermanent &&
-      tuh <= 5
+      this.settings.public &&
+      tuh <= 2
     ) {
       clearInterval(this.cleanupInterval);
       this.onEmpty?.();
