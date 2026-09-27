@@ -21,5 +21,17 @@ const port = process.env.PORT || 3000;
 const wss = new WebSocketServer({ server, maxPayload: WEBSOCKET_MAX_PAYLOAD, handshakeTimeout: 30000 });
 wss.on('connection', handleWssConnection);
 
+wss.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`Port is already in use`);
+    process.exit(1);
+  } else if (error.code === 'EACCES') {
+    console.error(`Permission denied to bind to port ${port}`);
+    process.exit(1);
+  } else {
+    throw error;
+  }
+});
+
 // listen on ipv4 instead of ipv6
 server.listen({ port, host: '0.0.0.0' }, () => { console.log(`listening at port=${port}`); });
