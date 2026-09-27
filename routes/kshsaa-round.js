@@ -41,13 +41,18 @@ const HEADROOM = 3;
 
 /**
  * @param {boolean} includeConverted whether to draw on the converted-quizbowl sets too
+ * @param {boolean} includeGenerated whether to draw on the SJA Generated sets too
  * @returns {Promise<{round: object[], short: string[]}>} the round, plus a label
  * for each category the archive could not fill
  */
-async function buildRound (includeConverted) {
-  const setFilter = includeConverted
-    ? {}
-    : { 'set.name': { $not: { $regex: '^QB Converted' } } };
+async function buildRound (includeConverted, includeGenerated) {
+  // Both extra sources are opt-in, so exclude whichever was not asked for.
+  const excluded = [];
+  if (!includeConverted) { excluded.push('^QB Converted'); }
+  if (!includeGenerated) { excluded.push('^SJA Generated'); }
+  const setFilter = excluded.length
+    ? { 'set.name': { $not: { $regex: excluded.join('|') } } }
+    : {};
 
   const samples = await Promise.all(DISTRIBUTION.map(([, count, filter]) => tossups
     .aggregate([
@@ -78,7 +83,7 @@ async function buildRound (includeConverted) {
 
 router.get('/generate', async (req, res) => {
   try {
-    const { round, short } = await buildRound(req.query.converted === '1');
+    const { round, short } = await buildRound(req.query.converted === '1', req.query.generated === '1');
     res.json({ round, short });
   } catch (e) {
     console.error('kshsaa-round error', e);
@@ -115,6 +120,7 @@ const PAGE = `<!DOCTYPE html>
       <a href="/kshsaa-play">Read a round</a>
       <a href="/kshsaa-round" class="active">Download packet</a>
       <a href="/kshsaa-stats">Practice stats</a>
+      <a href="/kshsaa-questions">Question bank</a>
     </span>
   </div>
 </div>
@@ -129,6 +135,12 @@ const PAGE = `<!DOCTYPE html>
       <input class="form-check-input" type="checkbox" id="conv">
       <label class="form-check-label" for="conv">
         Include converted quizbowl questions (bigger pool, slightly rougher wording)
+      </label>
+    </div>
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="gen">
+      <label class="form-check-label" for="gen">
+        Include questions written for this team (<a href="/kshsaa-questions">question bank</a>)
       </label>
     </div>
     <button class="btn btn-primary" id="go">Generate a round</button>
@@ -167,7 +179,8 @@ $('go').onclick = async () => {
   $('status').textContent = 'building...';
   $('go').disabled = true;
   try {
-    const r = await fetch('/kshsaa-round/generate?converted=' + ($('conv').checked ? '1' : '0'));
+    const r = await fetch('/kshsaa-round/generate?converted=' + ($('conv').checked ? '1' : '0') +
+      '&generated=' + ($('gen').checked ? '1' : '0'));
     const data = await r.json();
     if (data.error) throw new Error(data.error);
     current = data.round;

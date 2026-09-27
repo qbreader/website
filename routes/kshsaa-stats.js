@@ -31,7 +31,7 @@ const SQUADS = ['Varsity Blue', 'Varsity Crimson', 'JV Blue', 'JV Crimson', 'JV 
 // ---------- auth ----------
 
 const authed = req => Boolean(req.session && req.session.kshsaaStats);
-const requireAuth = (req, res, next) =>
+export const requireAuth = (req, res, next) =>
   authed(req) ? next() : res.status(401).json({ error: 'not logged in' });
 
 // one shared password that never rotates is worth a guessing cap
@@ -470,6 +470,7 @@ const PAGE = `<!DOCTYPE html>
       <a href="/kshsaa-play">Read a round</a>
       <a href="/kshsaa-round">Download packet</a>
       <a href="/kshsaa-stats" class="active">Practice stats</a>
+      <a href="/kshsaa-questions">Question bank</a>
     </span>
   </div>
 </div>

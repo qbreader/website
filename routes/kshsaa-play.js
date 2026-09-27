@@ -90,6 +90,7 @@ const PAGE = `<!DOCTYPE html>
       <a href="/kshsaa-play" class="active">Read a round</a>
       <a href="/kshsaa-round">Download packet</a>
       <a href="/kshsaa-stats">Practice stats</a>
+      <a href="/kshsaa-questions">Question bank</a>
     </span>
   </div>
 </div>
@@ -140,6 +141,11 @@ const PAGE = `<!DOCTYPE html>
     <div class="form-check mt-3">
       <input class="form-check-input" type="checkbox" id="conv">
       <label class="form-check-label small" for="conv">Include converted quizbowl questions (Varsity questions)</label>
+    </div>
+
+    <div class="form-check mt-2">
+      <input class="form-check-input" type="checkbox" id="gen">
+      <label class="form-check-label small" for="gen">Include questions written for this team</label>
     </div>
 
     <div id="nameCheck" class="alert alert-warning mt-3 d-none"></div>
@@ -624,7 +630,8 @@ $('go').onclick = async () => {
   $('go').disabled = true;
   $('status').textContent = 'building round...';
   try {
-    const res = await fetch('/kshsaa-round/generate?converted=' + ($('conv').checked ? '1' : '0'));
+    const res = await fetch('/kshsaa-round/generate?converted=' + ($('conv').checked ? '1' : '0') +
+      '&generated=' + ($('gen').checked ? '1' : '0'));
     const data = await res.json();
     if (data.error) throw new Error(data.error);
 
