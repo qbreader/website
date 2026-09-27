@@ -11,6 +11,3 @@ node_modules
 
 # local audio assets (Geoword/Soundtracks source files)
 audio/
-
-# graft's local graph cache — regenerable, not committed (run `graft build`).
-/graft/
