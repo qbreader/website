@@ -140,7 +140,7 @@ const PAGE = `<!DOCTYPE html>
     <div class="form-check mb-3">
       <input class="form-check-input" type="checkbox" id="gen">
       <label class="form-check-label" for="gen">
-        Include questions written for this team (<a href="/kshsaa-questions">question bank</a>)
+        Include generated questions (<a href="/kshsaa-questions">question bank</a>)
       </label>
     </div>
     <button class="btn btn-primary" id="go">Generate a round</button>

@@ -346,6 +346,10 @@ const PAGE = `<!DOCTYPE html>
     <p class="note">Approving writes the question into the live collection immediately, along with
     its stats document. Generated questions land in a <code>SJA Generated</code> set, so the round
     pages leave them out unless you tick the box for them.</p>
+    <div class="mb-2">
+      <button class="btn btn-sm btn-outline-success" id="approveAll">Approve everything below</button>
+      <span class="ms-2 small" id="bulkMsg"></span>
+    </div>
     <div id="queue"></div>
 
     <h2>Write your own</h2>
@@ -480,6 +484,38 @@ function loadQueue () {
     });
   });
 }
+
+$('approveAll').onclick = function () {
+  var cards = [].slice.call(document.querySelectorAll('.qcard:not(.done)'));
+  if (!cards.length) { $('bulkMsg').textContent = 'nothing to approve'; return; }
+  if (!window.confirm('Approve all ' + cards.length + ' questions below? Each is written straight into the question bank.')) { return; }
+  $('approveAll').disabled = true;
+  var done = 0;
+  var failed = 0;
+  // sequential on purpose: each still goes through the same claim-then-publish
+  // path as a single approval, so one failure stops at one question
+  var step = function (i) {
+    if (i >= cards.length) {
+      $('bulkMsg').innerHTML = '<span class="text-success">approved ' + done + '</span>' +
+        (failed ? ' <span class="text-danger">(' + failed + ' failed)</span>' : '');
+      $('approveAll').disabled = false;
+      loadPool();
+      return;
+    }
+    $('bulkMsg').textContent = 'approving ' + (i + 1) + ' of ' + cards.length + '...';
+    cards[i].querySelector('.approve').click();
+    var waited = 0;
+    var poll = setInterval(function () {
+      waited += 120;
+      if (cards[i].classList.contains('done') || waited > 15000) {
+        clearInterval(poll);
+        if (cards[i].classList.contains('done')) { done++; } else { failed++; }
+        step(i + 1);
+      }
+    }, 120);
+  };
+  step(0);
+};
 
 $('addBtn').onclick = function () {
   var body = {
