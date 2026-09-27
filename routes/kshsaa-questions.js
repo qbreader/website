@@ -292,9 +292,9 @@ const PAGE = `<!DOCTYPE html>
  .kshsaa-bar a:hover{color:#1f3864;text-decoration:underline}
  .kshsaa-bar a.active{color:#1f3864;font-weight:600}
  .kshsaa-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.25rem}
- .kshsaa-nav .kshsaa-links{grid-column:2}
+ .kshsaa-nav .kshsaa-links{grid-column:2;display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem 0}
  .kshsaa-home{justify-self:start;margin-left:0 !important;white-space:nowrap}
- @media (max-width:575px){
+ @media (max-width:900px){
    .kshsaa-nav{grid-template-columns:1fr;justify-items:center;gap:.35rem}
    .kshsaa-nav .kshsaa-links{grid-column:1}
  }
@@ -317,6 +317,7 @@ const PAGE = `<!DOCTYPE html>
       <a href="/kshsaa-round">Download packet</a>
       <a href="/kshsaa-stats">Practice stats</a>
       <a href="/kshsaa-questions" class="active">Question bank</a>
+      <a href="/kshsaa-spanish/">Spanish Practice</a>
     </span>
   </div>
 </div>
