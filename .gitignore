@@ -11,3 +11,6 @@ node_modules
 
 # local audio assets (Geoword/Soundtracks source files)
 audio/
+
+.claude
+graft

@@ -1,5 +1,6 @@
 export const MULTIPLAYER_CLIENT_MESSAGE_TYPE = Object.freeze({
   ADMIN_LOCK: 'admin-lock',
+  CHAT_WARNING: 'chat-warning',
   CONFIRM_BAN: 'confirm-ban',
   CONNECTION_ACKNOWLEDGED: 'connection-acknowledged',
   CONNECTION_ACKNOWLEDGED_QUERY: 'connection-acknowledged-query',
