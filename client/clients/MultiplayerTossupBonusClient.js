@@ -1,4 +1,3 @@
-
 import { MODE_ENUM, QUESTION_TYPE_ENUM, TOSSUP_PROGRESS_ENUM } from '../../shared/constants.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import TossupBonusClient from './TossupBonusClient.js';
@@ -28,6 +27,7 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.ADMIN_LOCK: return this.adminLock(data);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT: return this.chat(data, false);
       case MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT_LIVE_UPDATE: return this.chat(data, true);
+      case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CHAT_WARNING: return this.showChatWarning(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONFIRM_BAN: return this.confirmBan(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED: return this.connectionAcknowledged(data);
       case MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUERY: return this.connectionAcknowledgedQuery(data);
@@ -640,6 +640,10 @@ export const MultiplayerClientMixin = (ClientClass) => class extends ClientClass
       document.getElementById('username').value = this.room.username;
     }
     upsertPlayerItem(this.room.players[userId], { callerId: this.USER_ID, distractionFreeMode: this.distractionFreeMode, ownerId: this.room.ownerId, socket: this.socket, isPublic: this.room.public, team: this.room.teams[this.room.players[userId].teamId] });
+  }
+
+  showChatWarning ({ message }) {
+    showAlert(message);
   }
 
   sortPlayerListGroup (descending = true) {
