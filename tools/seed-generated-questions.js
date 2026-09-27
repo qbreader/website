@@ -1,4 +1,9 @@
-// Load batches of computational math questions into the KSHSAA review queue.
+// Load batches of computational questions into the KSHSAA review queue.
+//
+// Covers Mathematics, plus the computational physics and chemistry that KSHSAA
+// files under Science/Health -- projectiles, kinematics, forces, energy,
+// momentum, circuits, molar mass. The archive holds only 56 timed
+// Science/Health questions, so that vein is as thin as the math was.
 //
 // The archive is thinnest in Mathematics -- 1220 questions against 3 per round,
 // and the converted-quizbowl sets add none at all -- so this fills the gap.
@@ -57,10 +62,14 @@ const near = (a, b, tol = 1e-7) => Math.abs(a - b) < tol;
 const fact = n => (n <= 1 ? 1 : n * fact(n - 1));
 const choose = (n, k) => fact(n) / (fact(k) * fact(n - k));
 const PYTH = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 40, 41], [6, 8, 10], [9, 12, 15], [10, 24, 26], [12, 16, 20]];
+/** "1 ampere" but "2 amperes" -- some of these answers can land on 1. */
+const unit = (n, sing, plur) => `${n} ${String(n) === '1' ? sing : plur}`;
 const spell = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
 
 // ---------- templates ----------
-// each: { topic, secs, make(r) -> { q, a, why, verify? } }
+// each: { subject?, topic, secs, make(r) -> { q, a, why, verify? } }
+// subject defaults to Mathematics; physics and chemistry computation belong to
+// Science/Health, which is where the KSHSAA manual files them.
 
 const T = [
   // ===== Miscellaneous / arithmetic =====
@@ -141,7 +150,48 @@ const T = [
   { topic: 'Calculus', secs: 30, make: r => { const a = int(r, 1, 5); const b = int(r, 1, 9); const x = int(r, 1, 5); const d = 2 * a * x + b; return { q: `If f of x equals ${a} x squared plus ${b} x, what is f prime of ${x}?`, a: String(d), why: `f'(x) = ${2 * a}x + ${b}, so f'(${x}) = ${d}.`, verify: v => { const f = t => a * t * t + b * t; const h = 1e-6; return near((f(x + h) - f(x - h)) / (2 * h), v, 1e-4); } }; } },
   { topic: 'Calculus', secs: 30, make: r => { const c = int(r, 1, 6); const n = int(r, 1, 4); const u = int(r, 1, 4); const val = c * u ** (n + 1) / (n + 1); return { skipIf: () => !Number.isInteger(val), q: `Evaluate the integral from 0 to ${u} of ${c === 1 ? '' : c + ' '}x${n === 1 ? '' : ' to the ' + n + 'th power'}, with respect to x.`, a: String(val), why: `Antiderivative ${c}/${n + 1} x^${n + 1}, evaluated at ${u}, gives ${val}.`, verify: v => { let s = 0; const N = 200000; for (let i = 0; i < N; i++) { const x = (i + 0.5) * u / N; s += c * x ** n * (u / N); } return Math.abs(s - v) < 1e-3; } }; } },
   { topic: 'Calculus', secs: 45, make: r => { const a = int(r, 2, 9); return { q: `What is the limit, as x approaches ${a}, of the quantity x squared minus ${a * a}, all over x minus ${a}?`, a: String(2 * a), why: `The numerator factors as (x-${a})(x+${a}), leaving x+${a}, which approaches ${2 * a}.`, verify: v => { const f = x => (x * x - a * a) / (x - a); return near(f(a + 1e-7), v, 1e-4); } }; } },
-  { topic: 'Calculus', secs: 30, make: r => { const a = int(r, 1, 4); const b = int(r, 1, 9); return { q: `What is the slope of the line tangent to the curve y equals ${a} x squared at the point where x equals ${b}?`, a: String(2 * a * b), why: `y' = ${2 * a}x, so at x = ${b} the slope is ${2 * a * b}.`, verify: v => { const f = x => a * x * x; const h = 1e-6; return near((f(b + h) - f(b - h)) / (2 * h), v, 1e-4); } }; } }
+  { topic: 'Calculus', secs: 30, make: r => { const a = int(r, 1, 4); const b = int(r, 1, 9); return { q: `What is the slope of the line tangent to the curve y equals ${a} x squared at the point where x equals ${b}?`, a: String(2 * a * b), why: `y' = ${2 * a}x, so at x = ${b} the slope is ${2 * a * b}.`, verify: v => { const f = x => a * x * x; const h = 1e-6; return near((f(b + h) - f(b - h)) / (2 * h), v, 1e-4); } }; } },
+
+  // ===== Science/Health: kinematics =====
+  // The archive states gravity explicitly as 10 m/s^2, which also keeps answers whole.
+  { subject: 'Science/Health', topic: 'Physics - kinematics', secs: 30, make: r => { const t = int(r, 2, 6); const h = 5 * t * t; return { q: `Using acceleration due to gravity as 10 meters per second squared, a rock is thrown horizontally off a cliff ${h} meters high. How many seconds does it take to reach the ground?`, a: unit(t, 'second', 'seconds'), why: `h = (1/2)g t^2, so ${h} = 5 t^2 and t = ${t}.`, verify: v => near(5 * v * v, h) }; } },
+  { subject: 'Science/Health', topic: 'Physics - kinematics', secs: 45, make: r => { const t = int(r, 2, 5); const h = 5 * t * t; const vx = int(r, 5, 25); return { q: `Using acceleration due to gravity as 10 meters per second squared, a rock is thrown horizontally at ${vx} meters per second off a cliff ${h} meters high. How many meters from the base of the cliff does it land?`, a: `${vx * t} meters`, why: `It falls for ${t} s, so the range is ${vx} * ${t} = ${vx * t} m.`, verify: v => near(v, vx * Math.sqrt(h / 5)) }; } },
+  { subject: 'Science/Health', topic: 'Physics - kinematics', secs: 30, make: r => { const t = int(r, 2, 6); return { q: `Using acceleration due to gravity as 10 meters per second squared, an object is dropped from rest. What is its speed, in meters per second, after ${t} seconds?`, a: `${10 * t} meters per second`, why: `v = g t = 10 * ${t} = ${10 * t}.`, verify: v => near(v, 10 * t) }; } },
+  { subject: 'Science/Health', topic: 'Physics - kinematics', secs: 30, make: r => { const v0 = int(r, 2, 20); const a = int(r, 2, 8); const t = int(r, 2, 6); return { q: `A car moving at ${v0} meters per second accelerates at ${a} meters per second squared for ${t} seconds. What is its final speed, in meters per second?`, a: `${v0 + a * t} meters per second`, why: `v = ${v0} + (${a})(${t}) = ${v0 + a * t}.`, verify: v => near(v, v0 + a * t) }; } },
+  { subject: 'Science/Health', topic: 'Physics - kinematics', secs: 45, make: r => { const v0 = int(r, 10, 30); const v1 = v0 + int(r, 3, 24); const t = pick(r, [2, 3, 4, 6]); return { q: `A car speeds up from ${v0} meters per second to ${v1} meters per second in ${t} seconds. What is its acceleration, in meters per second squared?`, a: unit((v1 - v0) / t, 'meter per second squared', 'meters per second squared'), why: `(${v1} - ${v0}) / ${t} = ${(v1 - v0) / t}.`, verify: v => near(v * t, v1 - v0), skipIf: () => (v1 - v0) % t !== 0 }; } },
+
+  // ===== Science/Health: forces =====
+  { subject: 'Science/Health', topic: 'Physics - forces', secs: 30, make: r => { const m = int(r, 2, 40); const a = int(r, 2, 10); return { q: `What net force, in newtons, is required to give a ${m} kilogram mass an acceleration of ${a} meters per second squared?`, a: `${m * a} newtons`, why: `F = m a = ${m} * ${a} = ${m * a}.`, verify: v => near(v, m * a) }; } },
+  { subject: 'Science/Health', topic: 'Physics - forces', secs: 30, make: r => { const m = int(r, 2, 50); return { q: `Using acceleration due to gravity as 10 meters per second squared, what is the weight, in newtons, of a ${m} kilogram object?`, a: `${10 * m} newtons`, why: `W = m g = ${m} * 10 = ${10 * m}.`, verify: v => near(v, 10 * m) }; } },
+  { subject: 'Science/Health', topic: 'Physics - forces', secs: 30, make: r => { const m = int(r, 3, 30); const w = m * int(r, 2, 12); return { q: `On another planet a ${m} kilogram object weighs ${w} newtons. What is the gravitational field strength there, in newtons per kilogram?`, a: unit(w / m, 'newton per kilogram', 'newtons per kilogram'), why: `${w} / ${m} = ${w / m}.`, verify: v => near(v * m, w) }; } },
+  { subject: 'Science/Health', topic: 'Physics - forces', secs: 45, make: r => { const m = int(r, 2, 10); const v0 = pick(r, [2, 4, 5, 6, 10]); const rad = pick(r, [1, 2, 4, 5]); const f = m * v0 * v0 / rad; return { q: `A ${m} kilogram object moves in a circle of radius ${rad} meters at ${v0} meters per second. What is the centripetal force, in newtons?`, a: `${f} newtons`, why: `F = m v^2 / r = ${m} * ${v0 * v0} / ${rad} = ${f}.`, verify: v => near(v * rad, m * v0 * v0), skipIf: () => !Number.isInteger(f) }; } },
+
+  // ===== Science/Health: energy and power =====
+  { subject: 'Science/Health', topic: 'Physics - energy', secs: 30, make: r => { const m = pick(r, [2, 4, 6, 8, 10]); const v0 = pick(r, [2, 4, 6, 10]); return { q: `What is the kinetic energy, in joules, of a ${m} kilogram object moving at ${v0} meters per second?`, a: `${0.5 * m * v0 * v0} joules`, why: `(1/2) m v^2 = 0.5 * ${m} * ${v0 * v0} = ${0.5 * m * v0 * v0}.`, verify: v => near(2 * v, m * v0 * v0) }; } },
+  { subject: 'Science/Health', topic: 'Physics - energy', secs: 30, make: r => { const m = int(r, 2, 20); const h = int(r, 2, 20); return { q: `Using acceleration due to gravity as 10 meters per second squared, what is the gravitational potential energy, in joules, of a ${m} kilogram object raised ${h} meters?`, a: `${m * 10 * h} joules`, why: `m g h = ${m} * 10 * ${h} = ${m * 10 * h}.`, verify: v => near(v, m * 10 * h) }; } },
+  { subject: 'Science/Health', topic: 'Physics - energy', secs: 30, make: r => { const f = int(r, 5, 60); const d = int(r, 2, 20); return { q: `How much work, in joules, is done by a force of ${f} newtons pushing an object ${d} meters in the direction of the force?`, a: `${f * d} joules`, why: `W = F d = ${f} * ${d} = ${f * d}.`, verify: v => near(v, f * d) }; } },
+  { subject: 'Science/Health', topic: 'Physics - energy', secs: 45, make: r => { const w = int(r, 2, 40) * 10; const t = pick(r, [2, 4, 5, 10]); return { q: `A machine does ${w} joules of work in ${t} seconds. What is its power output, in watts?`, a: `${w / t} watts`, why: `P = W / t = ${w} / ${t} = ${w / t}.`, verify: v => near(v * t, w), skipIf: () => w % t !== 0 }; } },
+
+  // ===== Science/Health: momentum =====
+  { subject: 'Science/Health', topic: 'Physics - momentum', secs: 30, make: r => { const m = int(r, 2, 30); const v0 = int(r, 2, 20); return { q: `What is the momentum, in kilogram meters per second, of a ${m} kilogram object moving at ${v0} meters per second?`, a: `${m * v0} kilogram meters per second`, why: `p = m v = ${m} * ${v0} = ${m * v0}.`, verify: v => near(v, m * v0) }; } },
+  { subject: 'Science/Health', topic: 'Physics - momentum', secs: 60, make: r => { const m1 = pick(r, [2, 4, 5, 6]); const v1 = pick(r, [3, 6, 9, 12]); const m2 = pick(r, [4, 6, 8, 10]); const vf = (m1 * v1) / (m1 + m2); return { q: `A ${m1} kilogram block moving at ${v1} meters per second collides with and sticks to a stationary ${m2} kilogram block. What is their combined speed, in meters per second?`, a: unit(vf, 'meter per second', 'meters per second'), why: `Momentum is conserved: ${m1 * v1} / ${m1 + m2} = ${vf}.`, verify: v => near(v * (m1 + m2), m1 * v1), skipIf: () => !Number.isInteger(vf * 10) }; } },
+
+  // ===== Science/Health: electricity =====
+  { subject: 'Science/Health', topic: 'Physics - electricity', secs: 30, make: r => { const i = pick(r, [2, 3, 4, 5]); const rr = int(r, 2, 20); return { q: `What voltage is needed to drive a current of ${i} amperes through a resistance of ${rr} ohms?`, a: `${i * rr} volts`, why: `V = I R = ${i} * ${rr} = ${i * rr}.`, verify: v => near(v, i * rr) }; } },
+  { subject: 'Science/Health', topic: 'Physics - electricity', secs: 30, make: r => { const rr = pick(r, [2, 4, 5, 10, 20]); const v0 = rr * int(r, 2, 12); return { q: `How much current, in amperes, flows through a ${rr} ohm resistor connected to a ${v0} volt source?`, a: unit(v0 / rr, 'ampere', 'amperes'), why: `I = V / R = ${v0} / ${rr} = ${v0 / rr}.`, verify: v => near(v * rr, v0) }; } },
+  { subject: 'Science/Health', topic: 'Physics - electricity', secs: 45, make: r => { const rr = pick(r, [5, 10, 20]); const v0 = pick(r, [10, 20, 40, 100]); const p = v0 * v0 / rr; return { q: `How much power, in watts, does a ${rr} ohm resistor dissipate across a ${v0} volt source?`, a: `${p} watts`, why: `P = V^2 / R = ${v0 * v0} / ${rr} = ${p}.`, verify: v => near(v * rr, v0 * v0), skipIf: () => !Number.isInteger(p) }; } },
+  { subject: 'Science/Health', topic: 'Physics - electricity', secs: 30, make: r => { const p = pick(r, [60, 100, 120, 240]); const v0 = pick(r, [12, 24, 120]); return { q: `How much current, in amperes, does a ${p} watt bulb draw from a ${v0} volt supply?`, a: unit(frac(p, v0), 'ampere', 'amperes'), why: `I = P / V = ${p} / ${v0} = ${frac(p, v0)}.`, verify: v => near(v * v0, p) }; } },
+
+  // ===== Science/Health: waves and density =====
+  { subject: 'Science/Health', topic: 'Physics - waves', secs: 30, make: r => { const f = pick(r, [2, 4, 5, 10, 20]); const w = pick(r, [2, 3, 5, 10]); return { q: `A wave has a frequency of ${f} hertz and a wavelength of ${w} meters. What is its speed, in meters per second?`, a: unit(f * w, 'meter per second', 'meters per second'), why: `v = f lambda = ${f} * ${w} = ${f * w}.`, verify: v => near(v, f * w) }; } },
+  { subject: 'Science/Health', topic: 'Physics - density', secs: 30, make: r => { const d = pick(r, [2, 3, 4, 5, 8]); const vol = int(r, 2, 25); return { q: `What is the mass, in grams, of ${vol} cubic centimeters of a substance with a density of ${d} grams per cubic centimeter?`, a: `${d * vol} grams`, why: `m = d V = ${d} * ${vol} = ${d * vol}.`, verify: v => near(v, d * vol) }; } },
+  { subject: 'Science/Health', topic: 'Physics - density', secs: 30, make: r => { const d = pick(r, [2, 4, 5, 10]); const vol = int(r, 2, 20); const m = d * vol; return { q: `A sample has a mass of ${m} grams and a volume of ${vol} cubic centimeters. What is its density, in grams per cubic centimeter?`, a: `${d} grams per cubic centimeter`, why: `${m} / ${vol} = ${d}.`, verify: v => near(v * vol, m) }; } },
+
+  // ===== Science/Health: chemistry computation =====
+  { subject: 'Science/Health', topic: 'Chemistry', secs: 30, make: r => { const c = pick(r, [['H2O', 18, 'water'], ['CO2', 44, 'carbon dioxide'], ['NaCl', 58.5, 'sodium chloride'], ['CH4', 16, 'methane'], ['NH3', 17, 'ammonia'], ['C6H12O6', 180, 'glucose'], ['H2SO4', 98, 'sulfuric acid'], ['CaCO3', 100, 'calcium carbonate']]); return { q: `What is the molar mass, in grams per mole, of ${c[2]}, formula ${c[0]}?`, a: `${c[1]} grams per mole`, why: `Summing the atomic masses in ${c[0]} gives about ${c[1]} g/mol.`, verify: v => near(v, c[1], 0.6) }; } },
+  { subject: 'Science/Health', topic: 'Chemistry', secs: 30, make: r => { const c = pick(r, [['calcium nitrate', 'Ca(NO3)2', 9], ['aluminum carbonate', 'Al2(CO3)3', 14], ['ammonium sulfate', '(NH4)2SO4', 15], ['magnesium hydroxide', 'Mg(OH)2', 5], ['sodium bicarbonate', 'NaHCO3', 6]]); return { q: `How many atoms are there in one formula unit of ${c[0]}, formula ${c[1]}?`, a: String(c[2]), why: `Counting every atom in ${c[1]} gives ${c[2]}.`, verify: v => near(v, c[2]) }; } },
+  { subject: 'Science/Health', topic: 'Chemistry', secs: 45, make: r => { const c = pick(r, [['water', 18, 16, 'oxygen'], ['carbon dioxide', 44, 32, 'oxygen'], ['methane', 16, 12, 'carbon'], ['ammonia', 17, 14, 'nitrogen']]); const pct = (c[2] / c[1]) * 100; return { q: `To the nearest whole percent, what percent of the mass of ${c[0]} is ${c[3]}?`, a: `${Math.round(pct)} percent`, why: `${c[2]} of ${c[1]} g/mol is about ${pct.toFixed(1)}%.`, verify: v => Math.abs(v - pct) < 1 }; } },
+  { subject: 'Science/Health', topic: 'Chemistry', secs: 30, make: r => { const u = pick(r, [['kilometers', 'meters', 1000], ['meters', 'centimeters', 100], ['kilograms', 'grams', 1000], ['liters', 'milliliters', 1000], ['meters', 'millimeters', 1000]]); const n = int(r, 2, 40); return { q: `How many ${u[1]} are there in ${n} ${u[0]}?`, a: String(n * u[2]), why: `${n} * ${u[2]} = ${n * u[2]}.`, verify: v => near(v, n * u[2]) }; } }
 ];
 
 // ---------- build + verify ----------
@@ -173,6 +223,7 @@ const argv = yargs(process.argv.slice(2))
   .option('per', { type: 'number', default: 3, description: 'instances per template' })
   .option('seed', { type: 'number', default: 20260926, description: 'RNG seed' })
   .option('show', { type: 'number', default: 6, description: 'how many samples to print on a dry run' })
+  .option('subject', { type: 'string', description: 'only this subject, e.g. "Science/Health"' })
   .help()
   .argv;
 
@@ -182,6 +233,7 @@ const failed = [];
 const seen = new Set();
 
 for (const t of T) {
+  if (argv.subject && (t.subject ?? 'Mathematics') !== argv.subject) { continue; }
   let made = 0;
   for (let attempt = 0; attempt < argv.per * 8 && made < argv.per; attempt++) {
     let inst;
@@ -202,7 +254,7 @@ for (const t of T) {
     seen.add(key);
     made++;
     built.push({
-      subject: 'Mathematics',
+      subject: t.subject ?? 'Mathematics',
       topic: t.topic,
       question: `[${t.secs} sec] ${inst.q}`,
       answer: inst.a,
@@ -216,7 +268,7 @@ for (const t of T) {
 }
 
 const byTopic = {};
-built.forEach(b => { byTopic[b.topic] = (byTopic[b.topic] ?? 0) + 1; });
+built.forEach(b => { byTopic[b.subject + ' / ' + b.topic] = (byTopic[b.subject + ' / ' + b.topic] ?? 0) + 1; });
 
 console.log(`templates: ${T.length}`);
 console.log(`built and verified: ${built.length}`);
@@ -225,7 +277,7 @@ if (failed.length) {
   failed.slice(0, 10).forEach(f => console.log(`   ! ${f.topic}: ${f.q} -> "${f.a}"`));
 }
 console.log('\nby topic:');
-Object.entries(byTopic).sort().forEach(([t, n]) => console.log(`  ${t.padEnd(26)}${n}`));
+Object.entries(byTopic).sort().forEach(([t, n]) => console.log(`  ${t.padEnd(42)}${n}`));
 
 if (!argv.write) {
   console.log('\nDRY RUN - pass --write to insert. Sample:');
