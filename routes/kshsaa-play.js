@@ -27,9 +27,9 @@ const PAGE = `<!DOCTYPE html>
  /* three columns so the section links stay centred on the page no matter how
     wide the "back to QBReader" link on the left happens to be */
  .kshsaa-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.25rem}
- .kshsaa-nav .kshsaa-links{grid-column:2}
+ .kshsaa-nav .kshsaa-links{grid-column:2;display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem 0}
  .kshsaa-home{justify-self:start;margin-left:0 !important;white-space:nowrap}
- @media (max-width:575px){
+ @media (max-width:900px){
    .kshsaa-nav{grid-template-columns:1fr;justify-items:center;gap:.35rem}
    .kshsaa-nav .kshsaa-links{grid-column:1}
  }
@@ -91,6 +91,7 @@ const PAGE = `<!DOCTYPE html>
       <a href="/kshsaa-round">Download packet</a>
       <a href="/kshsaa-stats">Practice stats</a>
       <a href="/kshsaa-questions">Question bank</a>
+      <a href="/kshsaa-spanish/">Spanish Practice</a>
     </span>
   </div>
 </div>
