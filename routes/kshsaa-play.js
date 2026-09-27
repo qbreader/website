@@ -145,7 +145,7 @@ const PAGE = `<!DOCTYPE html>
 
     <div class="form-check mt-2">
       <input class="form-check-input" type="checkbox" id="gen">
-      <label class="form-check-label small" for="gen">Include generated questions</label>
+      <label class="form-check-label small" for="gen">Include generated questions for math</label>
     </div>
 
     <div id="nameCheck" class="alert alert-warning mt-3 d-none"></div>
