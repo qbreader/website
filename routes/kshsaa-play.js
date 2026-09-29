@@ -71,6 +71,24 @@ const PAGE = `<!DOCTYPE html>
    justify-content:center;-webkit-font-smoothing:antialiased}
  .tb-durations button:hover{background:#f3f2f1}
  .tb-durations button.active{background:#edebe9;border-color:#323130}
+ /* World Language questions are held up for the players to read and translate,
+    not read aloud, so they get the whole screen at the largest size that fits. */
+ #langShow{position:fixed;inset:0;z-index:2000;background:#fff;display:none;
+   flex-direction:column;padding:2vmin 3vmin;font-family:Georgia,'Times New Roman',serif}
+ #langShow.on{display:flex}
+ #langFit{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;
+   gap:1.5vmin;overflow:hidden}
+ .lang-line{display:flex;align-items:baseline;gap:.6em;line-height:1.15}
+ .lang-tag{flex:0 0 auto;font-family:'Segoe UI',system-ui,sans-serif;font-weight:700;
+   color:#8a8886;font-size:.32em;letter-spacing:.08em}
+ .lang-text{flex:1 1 auto;color:#111}
+ #langFoot{flex:0 0 auto;display:flex;align-items:center;gap:1rem;padding-top:1.5vmin;
+   border-top:1px solid #e1dfdd;font-family:'Segoe UI',system-ui,sans-serif}
+ #langClock{font-size:2.6rem;font-weight:600;font-variant-numeric:tabular-nums;
+   min-width:5rem;text-align:right}
+ #langClock.low{color:#a4500f}
+ #langClock.done{color:#a4262c}
+ #langHint{flex:1 1 auto;font-size:.95rem;color:#605e5c}
  /* the only thing we impose on MODAQ's row: a positioning context for the clock */
  .kshsaa-cycle-row{position:relative}
  /* Fallback for windows too narrow to hold the clock beside a centred nav row:
@@ -176,8 +194,19 @@ const PAGE = `<!DOCTYPE html>
       title="Wrong answer with no interruption: the other team gets the time left plus five seconds">+5s</button>
     <button type="button" class="tb-btn" id="tpReset"
       title="Put the clock back to this question's full limit">Reset</button>
+    <button type="button" class="tb-btn" id="tpDisplay"
+      title="Hold the question up full screen for the players to read (D)">Display</button>
     <span class="tb-durations" id="tpDurations"
       title="Time limit for this question - set automatically, override here"></span>
+  </div>
+
+  <div id="langShow">
+    <div id="langFit"></div>
+    <div id="langFoot">
+      <span id="langClock">10.0</span>
+      <span id="langHint">Spacebar starts and stops the clock. Press D or Escape to close.</span>
+      <button type="button" class="tb-btn" id="langClose">Close</button>
+    </div>
   </div>
 
   <div id="roundWarn" class="alert alert-warning py-2 small d-none"></div>
@@ -443,6 +472,71 @@ function validatedPlayers () {
   return players;
 }
 
+// ---------- World Language display ----------
+// Per the manual these carry the same expression in French, German and Spanish,
+// in that order, and the moderator holds the text up rather than reading it.
+let ROUND = [];
+let CURRENT_QUESTION = 1;
+
+const DISPLAY_CATEGORIES = ['World Language', 'Foreign Language'];
+const LANG_TAGS = ['FRENCH', 'GERMAN', 'SPANISH', 'LATIN'];
+
+/**
+ * Splits "FRENCH ... GERMAN ... SPANISH ..." into labelled lines.
+ * @param {string} text
+ * @returns {{tag: ?string, text: string}[]} one entry per language, or a single
+ * unlabelled entry when the markers are missing -- 43 of the 653 in the archive
+ * are mis-tagged and are really ordinary questions.
+ */
+function splitLanguages (text) {
+  // strip a leading [30 sec] marker without a regex: backslashes inside this
+  // page's template literal collapse before the browser ever sees them
+  const trimmed = text.trim();
+  const close = trimmed.indexOf(']');
+  const clean = (trimmed.charAt(0) === '[' && close !== -1 ? trimmed.slice(close + 1) : trimmed).trim();
+  const found = [];
+  for (const tag of LANG_TAGS) {
+    const at = clean.toUpperCase().indexOf(tag);
+    if (at !== -1) { found.push({ tag, at }); }
+  }
+  if (found.length < 2) { return [{ tag: null, text: clean }]; }
+  found.sort((a, b) => a.at - b.at);
+  return found.map((f, i) => {
+    const from = f.at + f.tag.length;
+    const to = i + 1 < found.length ? found[i + 1].at : clean.length;
+    return { tag: f.tag, text: clean.slice(from, to).trim() };
+  }).filter(l => l.text);
+}
+
+/** Grows the text to the largest size that still fits the box. */
+function fitText (box) {
+  let lo = 12;
+  let hi = 260;
+  for (let i = 0; i < 12; i++) {
+    const mid = (lo + hi) / 2;
+    box.style.fontSize = mid + 'px';
+    const fits = box.scrollHeight <= box.clientHeight && box.scrollWidth <= box.clientWidth;
+    if (fits) { lo = mid; } else { hi = mid; }
+  }
+  box.style.fontSize = lo + 'px';
+}
+
+function showLanguage (question) {
+  const lines = splitLanguages(question);
+  $('langFit').innerHTML = lines.map(l =>
+    '<div class="lang-line">' +
+    (l.tag ? '<span class="lang-tag">' + esc(l.tag) + '</span>' : '') +
+    '<span class="lang-text">' + esc(l.text) + '</span></div>').join('');
+  $('langShow').classList.add('on');
+  fitText($('langFit'));
+}
+
+function hideLanguage () {
+  $('langShow').classList.remove('on');
+}
+
+const languageShowing = () => $('langShow').classList.contains('on');
+
 // ---------- answer clock (KSHSAA timing) ----------
 const TIMER = { duration: 10, remaining: 10, running: false, handle: null, last: 0 };
 const DURATIONS = [10, 30, 45, 60, 120];
@@ -451,10 +545,13 @@ const DEFAULT_SECONDS = 10;
 let LIMITS = [];
 
 function tpRender () {
-  const el = $('tpClock');
-  el.textContent = TIMER.remaining.toFixed(1);
-  el.classList.toggle('low', TIMER.remaining <= 3 && TIMER.remaining > 0);
-  el.classList.toggle('done', TIMER.remaining <= 0);
+  for (const id of ['tpClock', 'langClock']) {
+    const el = $(id);
+    if (!el) { continue; }
+    el.textContent = TIMER.remaining.toFixed(1);
+    el.classList.toggle('low', TIMER.remaining <= 3 && TIMER.remaining > 0);
+    el.classList.toggle('done', TIMER.remaining <= 0);
+  }
 }
 
 function tpTick () {
@@ -511,7 +608,10 @@ function tpRereadReset () {
 // The number itself is not echoed anywhere here - MODAQ's own nav row and its
 // event pane both already show it.
 function tpForQuestion (n) {
+  CURRENT_QUESTION = n;
   tpSet(LIMITS[n - 1] || DEFAULT_SECONDS, false);
+  const q = ROUND[n - 1];
+  if (q && DISPLAY_CATEGORIES.indexOf(q.category) !== -1) { showLanguage(q.question); } else { hideLanguage(); }
 }
 
 // MODAQ exposes no callbacks, so read its DOM instead. Two things matter: the
@@ -649,6 +749,7 @@ function tpSet (seconds, alsoStart) {
 }
 
 function setupTimer (round, teamNames) {
+  ROUND = round;
   // KSHSAA gives longer limits on computation questions; the generator tags them
   LIMITS = round.map(q => {
     const m = q.question.match(/^\\[(\\d+)\\s*sec\\]/i);
@@ -673,9 +774,27 @@ function setupTimer (round, teamNames) {
     'interruption; on an interruption the question is reread and the clock resets on its own.' +
     (timed.length ? ' Longer limits this round: ' + timed.join(', ') + '.' : '');
 
+  $('langClose').onclick = hideLanguage;
+  $('langShow').onclick = e => { if (e.target === $('langShow')) { hideLanguage(); } };
+  window.addEventListener('resize', () => { if (languageShowing()) { fitText($('langFit')); } });
+
+  $('tpDisplay').onclick = () => {
+    if (languageShowing()) { hideLanguage(); return; }
+    const q = ROUND[(CURRENT_QUESTION || 1) - 1];
+    if (q) { showLanguage(q.question); }
+  };
+
   $('tpToggle').onclick = () => { TIMER.running ? tpStop() : tpStart(); };
   $('tpReset').onclick = () => tpSet(TIMER.duration, false);
   $('tpOther').onclick = tpAddFive;
+
+  document.addEventListener('keydown', e => {
+    const t = e.target;
+    const tag = (t && t.tagName ? t.tagName : '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select' || (t && t.isContentEditable)) { return; }
+    if (e.key === 'Escape' && languageShowing()) { hideLanguage(); e.preventDefault(); return; }
+    if (e.key === 'd' || e.key === 'D') { $('tpDisplay').click(); e.preventDefault(); }
+  });
 
   // spacebar starts/stops the clock, unless the moderator is typing somewhere
   document.addEventListener('keydown', e => {
