@@ -212,7 +212,24 @@ router.post('/roster/remove', requireAuth, async (req, res) => {
 
 // ---------- parsing MODAQ exports ----------
 
-function parseQbj (m, cats) {
+/**
+ * Celerity, as qbreader defines it: the share of the question still unread when
+ * the buzz came, so 1.0 is a first-word buzz and 0 is a buzz at the very end.
+ * qbreader measures that in characters; a word index is proportional to it and
+ * is what MODAQ gives us, so use the word position against the buzzable-word
+ * count the reader sent. Returns null when the denominator is unknown, which is
+ * the case for games exported from MODAQ somewhere else.
+ * @param {?number} wordIndex
+ * @param {?number} wordCount
+ * @returns {?number}
+ */
+function celerityOf (wordIndex, wordCount) {
+  if (wordIndex == null || !wordCount || wordCount < 2) { return null; }
+  const c = 1 - wordIndex / (wordCount - 1);
+  return Math.min(1, Math.max(0, Number(c.toFixed(4))));
+}
+
+function parseQbj (m, cats, denominators) {
   const teams = [];
   const heardByPlayer = {};
   for (const mt of m.match_teams || []) {
@@ -235,14 +252,16 @@ function parseQbj (m, cats) {
         questionNumber: num,
         category: categoryFor(num, cats),
         value: b.result?.value ?? 0,
-        wordIndex: b.buzz_position?.word_index ?? null
+        wordIndex: b.buzz_position?.word_index ?? null,
+        wordCount: denominators?.words?.[num - 1] ?? null,
+        charCount: denominators?.chars?.[num - 1] ?? null
       });
     }
   }
   return { teams, buzzes, heardByPlayer, tossupsRead: m.tossups_read || (m.match_questions || []).length };
 }
 
-function parseRaw (o, cats) {
+function parseRaw (o, cats, denominators) {
   const teams = {};
   for (const p of o.players || []) {
     const t = p.teamName || 'Unknown team';
@@ -261,7 +280,9 @@ function parseRaw (o, cats) {
         questionNumber: num,
         category: categoryFor(num, cats),
         value: typeof marker.points === 'number' ? marker.points : fallback,
-        wordIndex: typeof marker.position === 'number' ? marker.position : null
+        wordIndex: typeof marker.position === 'number' ? marker.position : null,
+        wordCount: denominators?.words?.[num - 1] ?? null,
+        charCount: denominators?.chars?.[num - 1] ?? null
       });
     };
     add(cycle.correctBuzz, 10);
@@ -270,10 +291,10 @@ function parseRaw (o, cats) {
   return { teams: Object.values(teams), buzzes, heardByPlayer: {}, tossupsRead: (o.cycles || []).length };
 }
 
-function normalize (raw, label, cats) {
+function normalize (raw, label, cats, denominators) {
   let parsed;
-  if (raw && (raw.match_teams || raw.match_questions)) parsed = parseQbj(raw, cats);
-  else if (raw && raw.cycles) parsed = parseRaw(raw, cats);
+  if (raw && (raw.match_teams || raw.match_questions)) parsed = parseQbj(raw, cats, denominators);
+  else if (raw && raw.cycles) parsed = parseRaw(raw, cats, denominators);
   else throw new Error('unrecognized export format - use MODAQ\'s QBJ or JSON export');
 
   const byTeam = {};
@@ -289,6 +310,9 @@ function normalize (raw, label, cats) {
     playedAt: new Date(),
     tossupsRead: parsed.tossupsRead,
     categories: cats || null,
+    // kept so celerity can be recalculated later without replaying anything
+    wordCounts: denominators?.words ?? null,
+    charCounts: denominators?.chars ?? null,
     teams: parsed.teams,
     heardByPlayer: parsed.heardByPlayer,
     buzzes: parsed.buzzes
@@ -299,12 +323,16 @@ function normalize (raw, label, cats) {
 
 router.post('/upload', requireAuth, async (req, res) => {
   try {
-    const { game, label, categories } = req.body || {};
+    const { game, label, categories, wordCounts, charCounts } = req.body || {};
     if (!game) return res.status(400).json({ error: 'no game data' });
     const cats = Array.isArray(categories)
       ? categories.map(c => String(c == null ? '' : c).trim().slice(0, 60)).filter(Boolean)
       : null;
-    const doc = normalize(game, label, cats && cats.length ? cats : null);
+    const counts = arr => (Array.isArray(arr)
+      ? arr.map(n => (Number.isFinite(Number(n)) && Number(n) > 0 ? Math.round(Number(n)) : null))
+      : null);
+    const denominators = { words: counts(wordCounts), chars: counts(charCounts) };
+    const doc = normalize(game, label, cats && cats.length ? cats : null, denominators);
 
     // backstop against duplicate players: if a name already exists with different
     // capitalization or stray spaces, store it under the existing spelling
@@ -320,6 +348,28 @@ router.post('/upload', requireAuth, async (req, res) => {
   } catch (e) {
     res.status(400).json({ error: String(e.message || e) });
   }
+});
+
+// Lineups from recent games. Tryouts run the same people repeatedly with one
+// side swapping out, so the reader offers these instead of retyping a roster.
+router.get('/lineups', requireAuth, async (req, res) => {
+  const recent = await games
+    .find({}, { projection: { label: 1, playedAt: 1, 'teams.name': 1, 'teams.players': 1 } })
+    .sort({ playedAt: -1 })
+    .limit(25)
+    .toArray();
+  res.json({
+    games: recent
+      .map(g => ({
+        id: String(g._id),
+        label: g.label,
+        playedAt: g.playedAt,
+        teams: (g.teams || [])
+          .map(t => ({ name: t.name, players: (t.players || []).filter(Boolean) }))
+          .filter(t => t.players.length)
+      }))
+      .filter(g => g.teams.length)
+  });
 });
 
 // full record of one game, for download/backup
@@ -356,6 +406,16 @@ router.get('/data', requireAuth, async (req, res) => {
   for (const g of all) {
     const gid = String(g._id);
     const gLabel = g.label + ' (' + new Date(g.playedAt).toLocaleDateString() + ')';
+
+    // how many tossups each player was actually in the room for. MODAQ reports
+    // it per player in its QBJ export, keyed "team|player"; without it fall back
+    // to the whole round, which is what a full game of play amounts to.
+    const heardThisGame = {};
+    for (const key of Object.keys(g.heardByPlayer || {})) {
+      const name = key.slice(key.indexOf('|') + 1);
+      heardThisGame[name] = Math.max(heardThisGame[name] ?? 0, g.heardByPlayer[key]);
+    }
+
     for (const b of g.buzzes) {
       const p = players[b.player] || (players[b.player] = {
         name: b.player,
@@ -363,16 +423,22 @@ router.get('/data', requireAuth, async (req, res) => {
         correct: 0,
         neg: 0,
         points: 0,
-        positions: [],
+        celerities: [],
+        heard: 0,
         byCategory: {},
         perGame: {}
       });
-      p.games.add(gid);
+      if (!p.games.has(gid)) {
+        p.games.add(gid);
+        p.heard += heardThisGame[b.player] ?? g.tossupsRead ?? 0;
+      }
       const pg = p.perGame[gid] || (p.perGame[gid] = { id: gid, label: gLabel, points: 0, correct: 0, neg: 0 });
       const pc = p.byCategory[b.category] || (p.byCategory[b.category] = { correct: 0, neg: 0 });
       if (b.value > 0) {
         p.correct++; pc.correct++; pg.correct++;
-        if (b.wordIndex != null) p.positions.push(b.wordIndex);
+        // celerity is only meaningful on a correct buzz, same as qbreader
+        const c = celerityOf(b.wordIndex, b.wordCount);
+        if (c != null) { p.celerities.push(c); }
       } else if (b.value < 0) { p.neg++; pc.neg++; pg.neg++; }
       p.points += b.value || 0;
       pg.points += b.value || 0;
@@ -381,8 +447,8 @@ router.get('/data', requireAuth, async (req, res) => {
 
   const playerRows = Object.values(players).map(p => {
     const buzzes = p.correct + p.neg;
-    const avgPos = p.positions.length
-      ? Math.round(p.positions.reduce((a, b) => a + b, 0) / p.positions.length)
+    const avgCelerity = p.celerities.length
+      ? +(p.celerities.reduce((a, b) => a + b, 0) / p.celerities.length).toFixed(3)
       : null;
     const squad = squadByName[p.name.trim().toLowerCase()];
     return {
@@ -394,9 +460,13 @@ router.get('/data', requireAuth, async (req, res) => {
       points: p.points,
       ppg: p.games.size ? +(p.points / p.games.size).toFixed(1) : 0,
       accuracy: buzzes ? Math.round((p.correct / buzzes) * 100) : null,
-      avgBuzzWord: avgPos,
-      posSum: p.positions.reduce((a, b) => a + b, 0),
-      posCount: p.positions.length,
+      celerity: avgCelerity,
+      celeritySum: p.celerities.reduce((a, b) => a + b, 0),
+      celerityCount: p.celerities.length,
+      heard: p.heard,
+      // points per tossup heard -- a fairer rate than points per game when
+      // players rotate in and out mid-round
+      ppth: p.heard ? +(p.points / p.heard).toFixed(2) : null,
       byCategory: p.byCategory,
       perGame: Object.values(p.perGame)
     };
@@ -752,7 +822,8 @@ function render (d) {
     '<table class="table table-sm table-hover align-middle"><thead><tr>' +
     '<th>Player</th><th>Team</th><th class="num">Games</th><th class="num">Correct</th>' +
     '<th class="num">Negs</th><th class="num">Points</th><th class="num">Points/game</th>' +
-    '<th class="num">Buzz accuracy</th><th class="num">Avg buzz (word #)</th>' +
+    '<th class="num">Buzz accuracy</th><th class="num">Celerity</th>' +
+    '<th class="num">Questions seen</th><th class="num">Points/question</th>' +
     '</tr></thead><tbody id="ptbody">';
   d.players.forEach(function (p) {
     h += '<tr class="rowlink prow" data-name="' + esc(p.name) + '" data-squad="' + esc(p.team) + '">' +
@@ -762,11 +833,16 @@ function render (d) {
       '<td class="num text-danger">' + p.negs + '</td>' +
       '<td class="num fw-semibold">' + p.points + '</td><td class="num">' + p.ppg + '</td>' +
       '<td class="num">' + (p.accuracy == null ? '-' : p.accuracy + '%') + '</td>' +
-      '<td class="num">' + (p.avgBuzzWord == null ? '-' : p.avgBuzzWord) + '</td></tr>';
+      '<td class="num">' + (p.celerity == null ? '-' : p.celerity.toFixed(3)) + '</td>' +
+      '<td class="num">' + (p.heard || '-') + '</td>' +
+      '<td class="num">' + (p.ppth == null ? '-' : p.ppth) + '</td></tr>';
   });
   h += '</tbody></table></div></div></div>' +
     '<p class="note">Click a player for their charts. Buzz accuracy = correct buzzes as a share of all buzzes; ' +
-    'avg buzz = how many words into the question they buzz correctly (lower is earlier).</p>' +
+    'Celerity is how early a correct buzz came, on the quizbowl 0 to 1 scale where 1.0 is the first word ' +
+    'and 0 is the last &mdash; higher is better. Questions seen counts the tossups a player was in the room for, ' +
+    'so points per question is fairer than points per game when people rotate in and out. Celerity and questions ' +
+    'seen need a game read on this site; games uploaded from elsewhere show a dash.</p>' +
     '<div id="spotlight"></div>';
 
   // category heat grid - same section, its own table so neither gets squished
@@ -911,14 +987,15 @@ function renderSquadSummary () {
   var members = DATA.players.filter(function (p) { return p.team === SQUAD; });
   if (!members.length) { box.innerHTML = ''; return; }
 
-  var totals = { correct: 0, negs: 0, points: 0, posSum: 0, posCount: 0, byCategory: {} };
+  var totals = { correct: 0, negs: 0, points: 0, celSum: 0, celCount: 0, heard: 0, byCategory: {} };
   var gameIds = {};
   members.forEach(function (p) {
     totals.correct += p.correct;
     totals.negs += p.negs;
     totals.points += p.points;
-    totals.posSum += p.posSum || 0;
-    totals.posCount += p.posCount || 0;
+    totals.celSum += p.celeritySum || 0;
+    totals.celCount += p.celerityCount || 0;
+    totals.heard += p.heard || 0;
     p.perGame.forEach(function (g) { gameIds[g.id] = true; });
     DATA.categoryNames.forEach(function (c) {
       var v = p.byCategory[c] || { correct: 0, neg: 0 };
@@ -943,7 +1020,8 @@ function renderSquadSummary () {
     stat('Correct', totals.correct) +
     stat('Negs', totals.negs) +
     stat('Buzz accuracy', buzzes ? Math.round((totals.correct / buzzes) * 100) + '%' : '-') +
-    stat('Avg buzz (word #)', totals.posCount ? Math.round(totals.posSum / totals.posCount) : '-') +
+    stat('Celerity', totals.celCount ? (totals.celSum / totals.celCount).toFixed(3) : '-') +
+    stat('Questions seen', totals.heard || '-') +
     '</div><div class="table-responsive mt-2"><table class="table table-sm mb-0"><thead><tr>';
   DATA.categoryNames.forEach(function (c) { h += '<th class="text-center">' + esc(c) + '</th>'; });
   h += '</tr></thead><tbody><tr>';
@@ -1020,7 +1098,9 @@ function compare () {
     ['Points', a.points, b.points],
     ['Points per game', a.ppg, b.ppg],
     ['Buzz accuracy', a.accuracy == null ? '-' : a.accuracy + '%', b.accuracy == null ? '-' : b.accuracy + '%'],
-    ['Avg buzz (word #)', a.avgBuzzWord == null ? '-' : a.avgBuzzWord, b.avgBuzzWord == null ? '-' : b.avgBuzzWord]
+    ['Celerity', a.celerity == null ? '-' : a.celerity.toFixed(3), b.celerity == null ? '-' : b.celerity.toFixed(3)],
+    ['Questions seen', a.heard || '-', b.heard || '-'],
+    ['Points per question', a.ppth == null ? '-' : a.ppth, b.ppth == null ? '-' : b.ppth]
   ];
   DATA.categoryNames.forEach(function (c) {
     var va = a.byCategory[c] || { correct: 0, neg: 0 }, vb = b.byCategory[c] || { correct: 0, neg: 0 };
@@ -1029,7 +1109,7 @@ function compare () {
   var h = '<div class="table-responsive"><table class="table table-sm mb-0"><thead><tr><th></th>' +
     '<th class="num">' + esc(a.name) + '</th><th class="num">' + esc(b.name) + '</th></tr></thead><tbody>';
   rows.forEach(function (r, i) {
-    h += '<tr' + (i < 7 ? '' : ' class="small"') + '><td>' + esc(r[0]) + '</td>' +
+    h += '<tr' + (i < 9 ? '' : ' class="small"') + '><td>' + esc(r[0]) + '</td>' +
       '<td class="num">' + r[1] + '</td><td class="num">' + r[2] + '</td></tr>';
   });
   $('cmpOut').innerHTML = h + '</tbody></table></div>';
