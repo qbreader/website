@@ -716,10 +716,18 @@ $('go').onclick = async () => {
     // instead of inferring it from the slot number
     const categories = data.round.map(q => q.category);
 
+    const teamNames = [...new Set(players.map(p => p.teamName))];
+
+    $('status').textContent = 'loading reader...';
+    const [React, ReactDOM, Modaq] = await Promise.all([
+      import(REACT), import(REACTDOM), import(MODAQ)
+    ]);
+
     // Celerity needs a denominator. MODAQ reports a buzz as an index into the
     // question's BUZZABLE words -- a pronunciation guide is skipped -- so count
-    // the same way, using MODAQ's own tokeniser, and send the character length
-    // too, since qbreader defines celerity by characters remaining.
+    // the same way, with MODAQ's own tokeniser. This has to come after the
+    // import above: Modaq is const, so touching it earlier hits the temporal
+    // dead zone and the round never builds.
     const buzzableWords = (text) => {
       const tokens = Modaq.splitFormattedTextIntoWords(text)
         .map(w => Array.prototype.reduce.call(w, (acc, s) => acc + s.text, ''));
@@ -736,12 +744,6 @@ $('go').onclick = async () => {
     };
     const wordCounts = data.round.map(q => buzzableWords(q.question));
     const charCounts = data.round.map(q => q.question.length);
-    const teamNames = [...new Set(players.map(p => p.teamName))];
-
-    $('status').textContent = 'loading reader...';
-    const [React, ReactDOM, Modaq] = await Promise.all([
-      import(REACT), import(REACTDOM), import(MODAQ)
-    ]);
 
     $('setup').style.display = 'none';
     if (data.short && data.short.length) {
