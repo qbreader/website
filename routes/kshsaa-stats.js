@@ -822,7 +822,7 @@ function render (d) {
     '<div class="card"><div class="card-body p-0"><div class="table-responsive">' +
     '<table class="table table-sm table-hover align-middle"><thead><tr>' +
     '<th>Player</th><th>Team</th><th class="num">Games</th><th class="num">Correct</th>' +
-    '<th class="num">Negs</th><th class="num">Points</th><th class="num">Points/game</th>' +
+    '<th class="num">Negs</th><th class="num">Points</th>' +
     '<th class="num">Buzz accuracy</th><th class="num">Celerity</th>' +
     '<th class="num">Questions seen</th><th class="num">Points/question</th>' +
     '</tr></thead><tbody id="ptbody">';
@@ -832,18 +832,13 @@ function render (d) {
       '<td class="text-secondary">' + esc(p.team) + '</td>' +
       '<td class="num">' + p.games + '</td><td class="num">' + p.correct + '</td>' +
       '<td class="num text-danger">' + p.negs + '</td>' +
-      '<td class="num fw-semibold">' + p.points + '</td><td class="num">' + p.ppg + '</td>' +
+      '<td class="num fw-semibold">' + p.points + '</td>' +
       '<td class="num">' + (p.accuracy == null ? '-' : p.accuracy + '%') + '</td>' +
       '<td class="num">' + (p.celerity == null ? '-' : p.celerity.toFixed(3)) + '</td>' +
       '<td class="num">' + (p.heard || '-') + '</td>' +
       '<td class="num">' + (p.ppth == null ? '-' : p.ppth) + '</td></tr>';
   });
   h += '</tbody></table></div></div></div>' +
-    '<p class="note">Click a player for their charts. Buzz accuracy = correct buzzes as a share of all buzzes; ' +
-    'Celerity is how early a correct buzz came, on the quizbowl 0 to 1 scale where 1.0 is the first word ' +
-    'and 0 is the last &mdash; higher is better. Questions seen counts the tossups a player was in the room for, ' +
-    'so points per question is fairer than points per game when people rotate in and out. Celerity and questions ' +
-    'seen need a game read on this site; games uploaded from elsewhere show a dash.</p>' +
     '<div id="spotlight"></div>';
 
   // category heat grid - same section, its own table so neither gets squished
@@ -861,9 +856,7 @@ function render (d) {
     });
     h += '</tr>';
   });
-  h += '</tbody></table></div></div></div>' +
-    '<p class="note">Correct buzzes, then negs after the slash. Green = converts most buzzes in that category, ' +
-    'red = more misses than hits, grey = never buzzed there.</p>';
+  h += '</tbody></table></div></div></div>';
 
   // ---- compare ----
   var opts = d.players.map(function (p) { return '<option>' + esc(p.name) + '</option>'; }).join('');
@@ -1017,7 +1010,7 @@ function renderSquadSummary () {
     stat('Players', members.length) +
     stat('Games', gameCount) +
     stat('Points', totals.points) +
-    stat('Points/game', gameCount ? (totals.points / gameCount).toFixed(1) : '-') +
+
     stat('Correct', totals.correct) +
     stat('Negs', totals.negs) +
     stat('Buzz accuracy', buzzes ? Math.round((totals.correct / buzzes) * 100) + '%' : '-') +
@@ -1097,7 +1090,7 @@ function compare () {
     ['Correct buzzes', a.correct, b.correct],
     ['Negs', a.negs, b.negs],
     ['Points', a.points, b.points],
-    ['Points per game', a.ppg, b.ppg],
+
     ['Buzz accuracy', a.accuracy == null ? '-' : a.accuracy + '%', b.accuracy == null ? '-' : b.accuracy + '%'],
     ['Celerity', a.celerity == null ? '-' : a.celerity.toFixed(3), b.celerity == null ? '-' : b.celerity.toFixed(3)],
     ['Questions seen', a.heard || '-', b.heard || '-'],
