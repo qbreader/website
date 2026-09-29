@@ -505,6 +505,10 @@ const PAGE = `<!DOCTYPE html>
  .note{font-size:.83rem;color:#6b7280;margin:.5rem 0 0}
  table{font-size:.9rem;margin-bottom:0}
  thead th{font-weight:600;color:#4b5563;border-bottom:1px solid #e4e8ee;white-space:nowrap}
+ thead th.sortable{cursor:pointer;user-select:none}
+ thead th.sortable:hover{color:#1f2937}
+ thead th.sorted{color:#1f2937}
+ .sortarrow{font-size:.7em;margin-left:.25em}
  th,td{padding:.5rem .65rem !important;vertical-align:middle}
  .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
  .heat{display:inline-block;min-width:3rem;padding:.15rem .4rem;border-radius:.25rem;
@@ -604,6 +608,55 @@ const PAGE = `<!DOCTYPE html>
 <script>
 var $ = function (id) { return document.getElementById(id); };
 var DATA = null, SELECTED = null, CHARTS = {}, SQUADS = [], SQUAD = '';
+var SEARCH = '', CMP = null;
+// points per question is the default: it orders identically to raw points when
+// everyone hears the same tossups, and stays fair once players rotate in and out
+var SORT = { key: 'ppth', dir: -1 };
+var SORT_COLS = [
+  { key: 'name', label: 'Player', text: true },
+  { key: 'team', label: 'Team', text: true },
+  { key: 'games', label: 'Games' },
+  { key: 'correct', label: 'Correct' },
+  { key: 'negs', label: 'Negs' },
+  { key: 'points', label: 'Points' },
+  { key: 'accuracy', label: 'Buzz accuracy' },
+  { key: 'celerity', label: 'Celerity' },
+  { key: 'heard', label: 'Questions seen' },
+  { key: 'ppth', label: 'Points/question' }
+];
+
+function sortColumnText (key) {
+  for (var i = 0; i < SORT_COLS.length; i++) {
+    if (SORT_COLS[i].key === key) return !!SORT_COLS[i].text;
+  }
+  return false;
+}
+
+function sortColumn () {
+  for (var i = 0; i < SORT_COLS.length; i++) {
+    if (SORT_COLS[i].key === SORT.key) return SORT_COLS[i];
+  }
+  return SORT_COLS[SORT_COLS.length - 1];
+}
+
+function sortPlayers (list) {
+  var col = sortColumn();
+  return list.slice().sort(function (a, b) {
+    var x = a[col.key], y = b[col.key];
+    if (col.text) {
+      var t = String(x || '').localeCompare(String(y || ''));
+      if (t) return t * SORT.dir;
+    } else if (x == null || y == null) {
+      // a player with no reading for this column sits at the bottom either way
+      if (x != null) return -1;
+      if (y != null) return 1;
+    } else if (x !== y) {
+      return (x < y ? -1 : 1) * SORT.dir;
+    }
+    if (b.points !== a.points) return b.points - a.points;
+    return String(a.name).localeCompare(String(b.name));
+  });
+}
 
 function show (a) {
   $('login').classList.toggle('d-none', a);
@@ -804,6 +857,7 @@ function render (d) {
   var h = '';
 
   // ---- players ----
+  d.players = sortPlayers(d.players);
   var squadsPresent = [];
   d.players.forEach(function (p) {
     if (squadsPresent.indexOf(p.team) === -1) squadsPresent.push(p.team);
@@ -812,19 +866,24 @@ function render (d) {
 
   h += '<h2>Players</h2>' +
     '<div class="mb-2" id="squadChips">' +
-    '<button class="btn btn-sm btn-outline-secondary me-1 mb-1 chip active" data-squad="">All squads</button>' +
+    '<button class="btn btn-sm btn-outline-secondary me-1 mb-1 chip' + (SQUAD ? '' : ' active') +
+    '" data-squad="">All squads</button>' +
     squadsPresent.map(function (s) {
-      return '<button class="btn btn-sm btn-outline-secondary me-1 mb-1 chip" data-squad="' + esc(s) + '">' +
+      return '<button class="btn btn-sm btn-outline-secondary me-1 mb-1 chip' +
+        (SQUAD === s ? ' active' : '') + '" data-squad="' + esc(s) + '">' +
         esc(s) + '</button>';
     }).join('') + '</div>' +
     '<div id="squadSummary"></div>' +
     '<input class="form-control form-control-sm mb-2" id="search" placeholder="Search players...">' +
     '<div class="card"><div class="card-body p-0"><div class="table-responsive">' +
     '<table class="table table-sm table-hover align-middle"><thead><tr>' +
-    '<th>Player</th><th>Team</th><th class="num">Games</th><th class="num">Correct</th>' +
-    '<th class="num">Negs</th><th class="num">Points</th>' +
-    '<th class="num">Buzz accuracy</th><th class="num">Celerity</th>' +
-    '<th class="num">Questions seen</th><th class="num">Points/question</th>' +
+    SORT_COLS.map(function (c) {
+      var on = SORT.key === c.key;
+      return '<th class="sortable' + (c.text ? '' : ' num') + (on ? ' sorted' : '') +
+        '" data-sort="' + c.key + '" title="Sort by ' + esc(c.label) + '">' + esc(c.label) +
+        '<span class="sortarrow">' + (on ? (SORT.dir < 0 ? '&#9660;' : '&#9650;') : '') +
+        '</span></th>';
+    }).join('') +
     '</tr></thead><tbody id="ptbody">';
   d.players.forEach(function (p) {
     h += '<tr class="rowlink prow" data-name="' + esc(p.name) + '" data-squad="' + esc(p.team) + '">' +
@@ -896,7 +955,21 @@ function render (d) {
 
   $('content').innerHTML = h;
 
-  $('search').oninput = applyFilters;
+  $('search').value = SEARCH;
+  $('search').oninput = function () { SEARCH = $('search').value; applyFilters(); };
+  Array.prototype.forEach.call(document.querySelectorAll('th.sortable'), function (th) {
+    th.onclick = function () {
+      var key = th.getAttribute('data-sort');
+      if (SORT.key === key) {
+        SORT.dir = -SORT.dir;
+      } else {
+        SORT.key = key;
+        // names read best A-Z, every number reads best biggest-first
+        SORT.dir = sortColumnText(key) ? 1 : -1;
+      }
+      render(DATA);
+    };
+  });
   Array.prototype.forEach.call(document.querySelectorAll('#squadChips .chip'), function (chip) {
     chip.onclick = function () {
       SQUAD = chip.getAttribute('data-squad');
@@ -928,7 +1001,14 @@ function render (d) {
     };
   });
   if (d.players.length > 1) $('cmpB').selectedIndex = 1;
-  $('cmpA').onchange = $('cmpB').onchange = compare;
+  if (CMP && playerByName(CMP[0]) && playerByName(CMP[1])) {
+    $('cmpA').value = CMP[0];
+    $('cmpB').value = CMP[1];
+  }
+  $('cmpA').onchange = $('cmpB').onchange = function () {
+    CMP = [$('cmpA').value, $('cmpB').value];
+    compare();
+  };
   compare();
   if (SELECTED && playerByName(SELECTED)) selectPlayer(SELECTED);
 }
@@ -964,7 +1044,7 @@ function downloadGame (id, format) {
 }
 
 function applyFilters () {
-  var q = ($('search') && $('search').value || '').toLowerCase();
+  var q = SEARCH.toLowerCase();
   Array.prototype.forEach.call(document.querySelectorAll('.prow'), function (row) {
     var name = row.getAttribute('data-name').toLowerCase();
     var squad = row.getAttribute('data-squad') || '';
