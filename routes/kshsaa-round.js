@@ -17,15 +17,33 @@ import { tossups } from '../database/qbreader/collections.js';
 
 const router = Router();
 
+// A World Language question is the same expression written in all three
+// languages, so its text always names all three. 43 of the 653 questions tagged
+// as World Language in the archive are actually Language Arts -- Emerson,
+// Dickens, subjunctive mood -- and 8 real language questions are tagged as Fine
+// Arts or Social Studies. Matching on the text as well as the tag keeps a
+// literature question out of slot 1 and a translation out of the other slots,
+// without waiting on the data being re-tagged.
+const THREE_LANGUAGES = [
+  { question: { $regex: 'FRENCH', $options: 'i' } },
+  { question: { $regex: 'GERMAN', $options: 'i' } },
+  { question: { $regex: 'SPANISH', $options: 'i' } }
+];
+const IS_LANGUAGE_QUESTION = { $and: THREE_LANGUAGES };
+const NOT_A_LANGUAGE_QUESTION = { $nor: [{ $and: THREE_LANGUAGES }] };
+
 // [label, count, filter] - official KSHSAA round shape, 16 questions
 const DISTRIBUTION = [
-  ['World Language', 1, { kshsaa_category: { $regex: 'foreign language|world language', $options: 'i' } }],
-  ['Language Arts', 3, { category: 'Literature' }],
-  ['Science/Health', 3, { category: 'Science', alternate_subcategory: { $ne: 'Math' } }],
-  ['Social Studies', 3, { category: 'Social Science' }],
-  ['Mathematics', 3, { alternate_subcategory: 'Math' }],
-  ['Fine Arts', 2, { category: 'Fine Arts' }],
-  ['Year in Review', 1, { category: 'Current Events' }]
+  ['World Language', 1, {
+    kshsaa_category: { $regex: 'foreign language|world language', $options: 'i' },
+    ...IS_LANGUAGE_QUESTION
+  }],
+  ['Language Arts', 3, { category: 'Literature', ...NOT_A_LANGUAGE_QUESTION }],
+  ['Science/Health', 3, { category: 'Science', alternate_subcategory: { $ne: 'Math' }, ...NOT_A_LANGUAGE_QUESTION }],
+  ['Social Studies', 3, { category: 'Social Science', ...NOT_A_LANGUAGE_QUESTION }],
+  ['Mathematics', 3, { alternate_subcategory: 'Math', ...NOT_A_LANGUAGE_QUESTION }],
+  ['Fine Arts', 2, { category: 'Fine Arts', ...NOT_A_LANGUAGE_QUESTION }],
+  ['Year in Review', 1, { category: 'Current Events', ...NOT_A_LANGUAGE_QUESTION }]
 ];
 
 /** Category label of every slot in a full round, in reading order. */
