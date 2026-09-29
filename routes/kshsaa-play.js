@@ -50,24 +50,24 @@ const PAGE = `<!DOCTYPE html>
  #timerBar{position:absolute;left:100%;top:0;margin-left:10px;
    display:inline-flex;align-items:center;flex-wrap:nowrap;gap:.3rem;
    user-select:none;font-family:'Segoe UI',system-ui,sans-serif}
- .tb-clock{font-size:1.35rem;font-weight:600;font-variant-numeric:tabular-nums;color:#201f1e;
-   min-width:3.1rem;text-align:right;line-height:32px}
+ .tb-clock{font-size:1.3rem;font-weight:600;font-variant-numeric:tabular-nums;color:#201f1e;
+   min-width:2.9rem;text-align:right;line-height:32px}
  .tb-clock.low{color:#a4500f}
  .tb-clock.done{color:#a4262c}
  .tb-clock.flash{animation:tpflash .45s ease-in-out 3}
  @keyframes tpflash{0%,100%{opacity:1}50%{opacity:.25}}
  .tb-btn{box-sizing:border-box;height:32px;border:1px solid #8a8886;
-   background:#fff;color:#323130;border-radius:2px;font-size:14px;font-weight:600;
-   font-family:inherit;padding:0 10px;display:inline-flex;align-items:center;
+   background:#fff;color:#323130;border-radius:2px;font-size:13px;font-weight:600;
+   font-family:inherit;padding:0 8px;display:inline-flex;align-items:center;
    justify-content:center;-webkit-font-smoothing:antialiased;white-space:nowrap}
  .tb-btn:hover{background:#f3f2f1}
  .tb-btn:active{background:#edebe9}
- .tb-btn-primary{background:#0078d4;border-color:#0078d4;color:#fff;min-width:66px}
+ .tb-btn-primary{background:#0078d4;border-color:#0078d4;color:#fff;min-width:56px}
  .tb-btn-primary:hover{background:#106ebe;border-color:#106ebe;color:#fff}
  .tb-durations{display:inline-flex;gap:4px}
  .tb-durations button{box-sizing:border-box;height:32px;border:1px solid #8a8886;
-   background:#fff;color:#323130;border-radius:2px;font-size:14px;font-weight:600;
-   font-family:inherit;padding:0 8px;min-width:42px;display:inline-flex;align-items:center;
+   background:#fff;color:#323130;border-radius:2px;font-size:13px;font-weight:600;
+   font-family:inherit;padding:0 5px;min-width:34px;display:inline-flex;align-items:center;
    justify-content:center;-webkit-font-smoothing:antialiased}
  .tb-durations button:hover{background:#f3f2f1}
  .tb-durations button.active{background:#edebe9;border-color:#323130}
@@ -95,9 +95,8 @@ const PAGE = `<!DOCTYPE html>
     back into the flow, where the whole cluster centres together and wraps
     rather than running under MODAQ's event pane. Applied by measurement, not a
     guessed breakpoint - how much room there is depends on MODAQ's own layout. */
- #timerBar.tb-inflow{position:static;margin-left:0}
- .kshsaa-cycle-row.tb-row-inflow{display:flex;align-items:center;justify-content:center;
-   gap:8px;flex-wrap:wrap}
+ #timerBar.tb-inflow{left:auto;right:0;margin-left:0}
+ /* reserve the row the clock now sits in, so it cannot cover the question */
 </style>
 </head><body>
 
@@ -667,12 +666,36 @@ function watchReader (teamNames) {
   // MODAQ's event pane begins - drop back into the flow.
   const fitToRow = row => {
     bar.classList.remove('tb-inflow');
-    row.classList.remove('tb-row-inflow');
+    row.style.minHeight = '';
     const host = row.parentElement;
     if (!host) return;
+    host.style.height = '';
     const fits = bar.getBoundingClientRect().right <= host.getBoundingClientRect().right;
     bar.classList.toggle('tb-inflow', !fits);
-    row.classList.toggle('tb-row-inflow', !fits);
+    // The row itself computes to a few pixels tall and lets the nav buttons
+    // overflow it, so neither top:100% nor its own height clears them. Measure
+    // how far down the buttons actually reach.
+    const top = row.getBoundingClientRect().top;
+    let bottom = top;
+    for (const node of row.querySelectorAll('*')) {
+      if (node === bar || bar.contains(node)) continue;
+      const r = node.getBoundingClientRect();
+      if (r.height > 0 && r.bottom > bottom) bottom = r.bottom;
+    }
+    if (fits) {
+      bar.style.top = '';
+      return;
+    }
+    const offset = Math.round(bottom - top) + 6;
+    bar.style.top = offset + 'px';
+    // The bar is absolutely positioned, so the row has to grow to contain it
+    // or the question card renders underneath. Size from the bar's own offset
+    // rather than the row's height, which MODAQ keeps changing under us.
+    const height = Math.round(bar.getBoundingClientRect().height);
+    row.style.minHeight = (offset + height + 12) + 'px';
+    // MODAQ pins the chooser to a fixed height, so the taller row alone would
+    // not move the question card down
+    host.style.height = 'auto';
   };
 
   // React owns that row and rebuilds it, so treat placement as something to
@@ -774,7 +797,9 @@ function setupTimer (round, teamNames) {
 
   // the override list has to include any limit this round actually uses, or
   // tpSet could not highlight the value it just applied
-  const choices = [...new Set(DURATIONS.concat(LIMITS))].sort((a, b) => a - b);
+  // only the limits this round actually uses, so the bar stays narrow enough to
+  // sit beside the nav row instead of being pushed under it
+  const choices = [...new Set([DEFAULT_SECONDS, ...LIMITS])].sort((a, b) => a - b);
   $('tpDurations').innerHTML = choices
     .map(s => '<button type="button" data-secs="' + s + '">' + s + 's</button>').join('');
   Array.from($('tpDurations').children).forEach(b => {
