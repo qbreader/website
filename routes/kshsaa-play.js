@@ -124,6 +124,14 @@ const PAGE = `<!DOCTYPE html>
       <div class="form-text">Saved with the stats so you can find this game later.</div>
     </div>
 
+    <div class="mb-3 d-none" id="lineupBox">
+      <label class="form-label fw-semibold">Reuse a lineup</label>
+      <select class="form-select form-select-sm mb-2" id="lineupGame"></select>
+      <div id="lineupTeams"></div>
+      <div class="form-text">Load one side and retype the other, or load both. Team names come
+      along with the players.</div>
+    </div>
+
     <div class="row g-4">
       <div class="col-md-6">
         <input class="form-control mb-2 fw-semibold" id="t1" placeholder="Team 1" aria-label="Team 1 name">
@@ -238,6 +246,66 @@ document.querySelectorAll('[data-add]').forEach(btn => {
   btn.onclick = () => addPlayerBox(btn.getAttribute('data-add')).focus();
 });
 
+let LINEUPS = [];
+
+// replace one side's roster wholesale, keeping a few blank rows to add to
+function fillSide (boxId, teamInputId, teamName, playerNames) {
+  $(teamInputId).value = teamName || '';
+  const box = $(boxId);
+  box.innerHTML = '';
+  for (const name of playerNames.slice(0, 12)) { addPlayerBox(boxId).value = name; }
+  while (box.querySelectorAll('.pname').length < 5) { addPlayerBox(boxId); }
+  renumber(boxId);
+}
+
+function renderLineupChoices () {
+  const game = LINEUPS[Number($('lineupGame').value)];
+  const box = $('lineupTeams');
+  if (!game) { box.innerHTML = ''; return; }
+  let h = '';
+  game.teams.forEach((t, i) => {
+    h += '<div class="d-flex align-items-center gap-2 mb-1">' +
+      '<span class="small flex-grow-1"><strong>' + esc(t.name) + '</strong> &mdash; ' +
+      esc(t.players.join(', ')) + '</span>' +
+      '<button type="button" class="btn btn-sm btn-outline-secondary loadSide" data-team="' + i +
+      '" data-side="1">&rarr; Team 1</button>' +
+      '<button type="button" class="btn btn-sm btn-outline-secondary loadSide" data-team="' + i +
+      '" data-side="2">&rarr; Team 2</button></div>';
+  });
+  if (game.teams.length >= 2) {
+    h += '<button type="button" class="btn btn-sm btn-outline-primary mt-1" id="loadBoth">Load both sides</button>';
+  }
+  box.innerHTML = h;
+
+  Array.from(box.querySelectorAll('.loadSide')).forEach(btn => {
+    btn.onclick = () => {
+      const t = game.teams[Number(btn.dataset.team)];
+      const side = btn.dataset.side === '1' ? ['p1', 't1'] : ['p2', 't2'];
+      fillSide(side[0], side[1], t.name, t.players);
+    };
+  });
+  const both = box.querySelector('#loadBoth');
+  if (both) {
+    both.onclick = () => {
+      fillSide('p1', 't1', game.teams[0].name, game.teams[0].players);
+      fillSide('p2', 't2', game.teams[1].name, game.teams[1].players);
+    };
+  }
+}
+
+function loadLineups () {
+  fetch('/kshsaa-stats/lineups').then(r => r.ok ? r.json() : null).then(d => {
+    LINEUPS = (d && d.games) || [];
+    if (!LINEUPS.length) return;
+    $('lineupGame').innerHTML = LINEUPS.map((g, i) =>
+      '<option value="' + i + '">' + esc(g.label) + ' — ' +
+      new Date(g.playedAt).toLocaleDateString() + '</option>').join('');
+    $('lineupGame').onchange = renderLineupChoices;
+    renderLineupChoices();
+    $('lineupBox').classList.remove('d-none');
+  }).catch(() => {});
+}
+
 // login gate: names must be loaded before a round starts, so duplicates can't slip in
 function startApp () {
   $('gate').classList.add('d-none');
@@ -259,6 +327,7 @@ function startApp () {
     $('go').disabled = false;
     $('status').textContent = '';
   });
+  loadLineups();
 }
 
 fetch('/kshsaa-stats/me').then(r => r.json()).then(d => {
@@ -646,6 +715,27 @@ $('go').onclick = async () => {
     // sent with the game so stats read the real category of each question
     // instead of inferring it from the slot number
     const categories = data.round.map(q => q.category);
+
+    // Celerity needs a denominator. MODAQ reports a buzz as an index into the
+    // question's BUZZABLE words -- a pronunciation guide is skipped -- so count
+    // the same way, using MODAQ's own tokeniser, and send the character length
+    // too, since qbreader defines celerity by characters remaining.
+    const buzzableWords = (text) => {
+      const tokens = Modaq.splitFormattedTextIntoWords(text)
+        .map(w => Array.prototype.reduce.call(w, (acc, s) => acc + s.text, ''));
+      let depth = 0;
+      let count = 0;
+      for (const token of tokens) {
+        const opens = token.split('(').length - 1;
+        const closes = token.split(')').length - 1;
+        const insideGuide = depth > 0 || opens > 0;
+        depth = Math.max(0, depth + opens - closes);
+        if (!insideGuide) { count++; }
+      }
+      return count;
+    };
+    const wordCounts = data.round.map(q => buzzableWords(q.question));
+    const charCounts = data.round.map(q => q.question.length);
     const teamNames = [...new Set(players.map(p => p.teamName))];
 
     $('status').textContent = 'loading reader...';
@@ -675,7 +765,7 @@ $('go').onclick = async () => {
             const post = () => fetch('/kshsaa-stats/upload', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ game: match, label, categories })
+              body: JSON.stringify({ game: match, label, categories, wordCounts, charCounts })
             });
             try {
               let r = await post();
