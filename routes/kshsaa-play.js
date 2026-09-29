@@ -195,7 +195,7 @@ const PAGE = `<!DOCTYPE html>
     <button type="button" class="tb-btn" id="tpReset"
       title="Put the clock back to this question's full limit">Reset</button>
     <button type="button" class="tb-btn" id="tpDisplay"
-      title="Hold the question up full screen for the players to read (D)">Display</button>
+      title="Hold this question up full screen (D)">Enlarge</button>
     <span class="tb-durations" id="tpDurations"
       title="Time limit for this question - set automatically, override here"></span>
   </div>
@@ -204,8 +204,8 @@ const PAGE = `<!DOCTYPE html>
     <div id="langFit"></div>
     <div id="langFoot">
       <span id="langClock">10.0</span>
-      <span id="langHint">Spacebar starts and stops the clock. Press D or Escape to close.</span>
-      <button type="button" class="tb-btn" id="langClose">Close</button>
+      <span id="langHint">Spacebar starts and stops the clock. Escape or D exits.</span>
+      <button type="button" class="tb-btn" id="langClose">Exit</button>
     </div>
   </div>
 
@@ -610,8 +610,24 @@ function tpRereadReset () {
 function tpForQuestion (n) {
   CURRENT_QUESTION = n;
   tpSet(LIMITS[n - 1] || DEFAULT_SECONDS, false);
+  // never opens on its own - the moderator presses Enlarge when they are ready
+  // to hold the question up. Close it on a question change so it cannot linger
+  // over the next one.
+  hideLanguage();
+  markDisplayButton(n);
+}
+
+// a World Language question is the one that gets held up rather than read, so
+// make the button obvious on those without forcing the panel open
+function markDisplayButton (n) {
   const q = ROUND[n - 1];
-  if (q && DISPLAY_CATEGORIES.indexOf(q.category) !== -1) { showLanguage(q.question); } else { hideLanguage(); }
+  const wanted = Boolean(q) && DISPLAY_CATEGORIES.indexOf(q.category) !== -1;
+  const btn = $('tpDisplay');
+  if (!btn) { return; }
+  btn.classList.toggle('tb-btn-primary', wanted);
+  btn.title = wanted
+    ? 'This one is held up for the players to read, not read aloud (D)'
+    : 'Hold this question up full screen (D)';
 }
 
 // MODAQ exposes no callbacks, so read its DOM instead. Two things matter: the
