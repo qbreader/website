@@ -159,7 +159,7 @@ server. Two consequences:
 
 1. **Every backslash is consumed once by Node before the browser sees it.** A
    regex written as `/:\s*-?\d+/` arrives as `/:s*-?d+/` — still valid
-   JavaScript, silently matching the wrong thing. Double every escape (`\d`) or
+   JavaScript, silently matching the wrong thing. Double every escape (`\\d`) or
    avoid regex entirely (`split('(').length - 1`, `String.includes`).
    `npm run lint` catches most cases through `no-useless-escape`, so lint is the
    detector here, not just a style gate.
