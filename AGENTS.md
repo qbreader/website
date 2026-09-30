@@ -133,6 +133,78 @@ Lint must pass (`npm run lint` — it auto-fixes most issues). Then actually exe
 - **`docs/` is not documentation** — it's static assets for GitHub Pages. Real contributor docs are `README.md` and `.github/CONTRIBUTING.md`.
 - The MongoDB data itself is shared infrastructure. Tools in `tools/` mutate the live database — never run them speculatively.
 
+## KSHSAA Fork (this checkout only)
+
+`Adncoder/website` is a fork adding KSHSAA Scholars Bowl practice tooling.
+Everything under `routes/kshsaa-*.js` is fork-only and does not exist upstream;
+the rest of this document describes the upstream codebase and still applies.
+
+| File | Page |
+| --- | --- |
+| `routes/kshsaa-play.js` | The reader: MODAQ plus a timer bar, the World Language full-screen display, lineup reuse, and stats export |
+| `routes/kshsaa-round.js` | Builds a 16-question round from MongoDB; exports `CATEGORY_BY_QUESTION` and `CATEGORIES` |
+| `routes/kshsaa-stats.js` | Password-gated practice stats: upload, rosters, lineups, players table, per-game views |
+| `routes/kshsaa-questions.js` | Question bank: review, approve, reject, add |
+| `routes/kshsaa-spanish.js` | Spanish practice |
+
+Round structure follows the official KSHSAA manual, verified against 117 real
+packets: 1 World Language, 3 Language Arts, 3 Science/Health, 3 Social Studies,
+3 Mathematics, 2 Fine Arts, 1 Year in Review.
+
+### These pages are template literals, not client files
+
+Each page is a **single template literal inside its route file**. There is no
+webpack entry, no `.jsx`, and no build step — edit the route file and restart the
+server. Two consequences:
+
+1. **Every backslash is consumed once by Node before the browser sees it.** A
+   regex written as `/:\s*-?\d+/` arrives as `/:s*-?d+/` — still valid
+   JavaScript, silently matching the wrong thing. Double every escape (`\d`) or
+   avoid regex entirely (`split('(').length - 1`, `String.includes`).
+   `npm run lint` catches most cases through `no-useless-escape`, so lint is the
+   detector here, not just a style gate.
+2. **The server does not hot-reload them.** Restart after every edit, and kill the
+   previous listener first — a stale process serves the old page and makes a
+   working fix look broken.
+
+### MODAQ
+
+`kshsaa-play.js` embeds MODAQ 1.41.1 from esm.sh. Points worth knowing before
+touching the reader:
+
+- Anything using the `Modaq` namespace must appear **after** its dynamic import,
+  or round building dies with `Cannot access 'Modaq' before initialization`.
+- `persistState` is `false` on purpose: MODAQ writes no localStorage, which is
+  what keeps multiple simultaneous reader tabs independent for running several
+  tryout rooms at once.
+- MODAQ indexes buzzes against **buzzable** words, excluding pronunciation guides
+  in parentheses. Celerity inputs must be computed the same way.
+- Its cycle row has a fixed `height: 45px` and computes ~8px tall while its
+  buttons overflow to 32px, and React rebuilds it. Measure its descendants and
+  re-apply placement continuously; do not restructure its layout.
+
+### Stats
+
+Celerity is accumulated **only on correct buzzes**, matching qbreader's
+`celerity.correct.average`. That makes it a poor ranking metric on its own — one
+lucky early buzz tops the board — so the players table defaults to points per
+question.
+
+A `per-tossup-data` document must exist for a tossup or `recordTossupData`
+silently drops the buzz. `publishQuestion()` writes one; if stats look empty,
+check for that document before suspecting auth or the upload path.
+
+### Local testing
+
+```sh
+PORT=3028 STATS_PASSWORD=claude-test-pw node server.js
+```
+
+Use a throwaway password rather than the real one from `.env`. Lint passing is
+not verification for these pages: load the page, generate a round, and click the
+flow you changed. For layout work, assert measured element rects rather than
+eyeballing a screenshot.
+
 ## How to Approach a Task
 
 1. **Locate by URL.** Given a page or endpoint, the file is where the URL says it is: `/api/query` → `routes/api/query.js`; `/play/tossups` → `client/play/tossups/`.
