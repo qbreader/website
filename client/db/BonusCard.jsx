@@ -25,6 +25,11 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
     navigator.clipboard.writeText(new URL(link, window.location.origin).toString());
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
+
+    const icon = e.currentTarget.querySelector('i');
+    const originalClassName = icon.className;
+    icon.className = 'bi bi-check-lg';
+    setTimeout(() => { icon.className = originalClassName; }, 1500);
   }
 
   function onClickFooter () {
