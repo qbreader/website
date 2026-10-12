@@ -72,6 +72,11 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
       onClickHeader={clickToCopy}
       question={bonus}
       topRightComponent={topRightComponent}
+      topLeftComponent={
+        <a href={link} onClick={copyLinkToClipboard} aria-label='Copy bonus link' title='Copy bonus link'>
+          <i className='bi bi-link-45deg' />
+        </a>
+      }
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
         <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>
@@ -95,10 +100,6 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
           <small className='text-muted'>
             <a href={`/db/bonus/?_id=${_id}`} onClick={e => e.stopPropagation()}>
               Link to bonus
-            </a>
-            <span> | </span>
-            <a href={link} onClick={copyLinkToClipboard}>
-              Copy link
             </a>
             <span> | </span>
             <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>

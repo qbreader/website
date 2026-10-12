@@ -67,6 +67,11 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
       onClickHeader={clickToCopy}
       question={tossup}
       topRightComponent={topRightComponent}
+      topLeftComponent={
+        <a href={link} onClick={copyLinkToClipboard} aria-label='Copy tossup link' title='Copy tossup link'>
+          <i className='bi bi-link-45deg' />
+        </a>
+      }
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
         <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
@@ -86,10 +91,6 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
           <small className='text-muted'>
             <a href={`/db/tossup/?_id=${_id}`} onClick={e => e.stopPropagation()}>
               Link to tossup
-            </a>
-            <span> | </span>
-            <a href={link} onClick={copyLinkToClipboard}>
-              Copy link
             </a>
             <span> | </span>
             <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
