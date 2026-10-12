@@ -69,7 +69,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
       topRightComponent={topRightComponent}
       topLeftComponent={
         <a href={link} onClick={copyLinkToClipboard} aria-label='Copy tossup link' title='Copy tossup link'>
-          <i className='bi bi-link-45deg' />
+          <i className='bi bi-copy' />
         </a>
       }
     >

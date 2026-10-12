@@ -74,7 +74,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
       topRightComponent={topRightComponent}
       topLeftComponent={
         <a href={link} onClick={copyLinkToClipboard} aria-label='Copy bonus link' title='Copy bonus link'>
-          <i className='bi bi-link-45deg' />
+          <i className='bi bi-copy' />
         </a>
       }
     >
