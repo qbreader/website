@@ -3,10 +3,19 @@ import QuestionCard from '../scripts/components/QuestionCard.jsx';
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = tossup._id;
+  const link = `/db/tossup/?_id=${_id}`;
 
   function clickToCopy () {
     const textdata = stringifyTossup(tossup);
     navigator.clipboard.writeText(textdata);
+    const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
+    toast.show();
+  }
+
+  function copyLinkToClipboard (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(new URL(link, window.location.origin).toString());
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
@@ -77,6 +86,10 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
           <small className='text-muted'>
             <a href={`/db/tossup/?_id=${_id}`} onClick={e => e.stopPropagation()}>
               Link to tossup
+            </a>
+            <span> | </span>
+            <a href={link} onClick={copyLinkToClipboard}>
+              Copy link
             </a>
             <span> | </span>
             <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>

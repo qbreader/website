@@ -16,10 +16,20 @@ document.getElementById('set-name').textContent = bonus.set.name;
 document.getElementById('bonus').appendChild(bonusToHTML(bonus));
 
 document.getElementById('_id').textContent = bonus._id;
+const copyLinkButton = document.getElementById('copy-link-button');
 document.getElementById('difficulty').textContent = bonus.difficulty;
 document.getElementById('standard').textContent = bonus.set.standard;
 document.getElementById('time-created').textContent = mongoIdToDate(bonus._id).toLocaleString();
 document.getElementById('last-modified').textContent = new window.Date(bonus.updatedAt).toLocaleString();
+
+copyLinkButton.addEventListener('click', async () => {
+  const questionLink = new window.URL('/db/bonus/?' + new URLSearchParams({ _id: bonus._id }), window.location.origin).toString();
+  await navigator.clipboard.writeText(questionLink);
+  copyLinkButton.textContent = 'Copied!';
+  window.setTimeout(() => {
+    copyLinkButton.textContent = 'Copy link';
+  }, 1500);
+});
 
 const { stats } = await fetch('/api/question-stats/bonus?' + new URLSearchParams({ _id: bonus._id })).then(response => response.json());
 

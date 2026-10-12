@@ -4,6 +4,7 @@ import QuestionCard from '../scripts/components/QuestionCard.jsx';
 
 export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = bonus._id;
+  const link = `/db/bonus/?_id=${_id}`;
   const bonusLength = bonus.parts.length;
   const indices = [];
 
@@ -14,6 +15,14 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
   function clickToCopy () {
     const textdata = stringifyBonus(bonus);
     navigator.clipboard.writeText(textdata);
+    const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
+    toast.show();
+  }
+
+  function copyLinkToClipboard (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(new URL(link, window.location.origin).toString());
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
   }
@@ -86,6 +95,10 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
           <small className='text-muted'>
             <a href={`/db/bonus/?_id=${_id}`} onClick={e => e.stopPropagation()}>
               Link to bonus
+            </a>
+            <span> | </span>
+            <a href={link} onClick={copyLinkToClipboard}>
+              Copy link
             </a>
             <span> | </span>
             <a href='#' onClick={onClickFooter} id={`report-question-${_id}`} data-bs-toggle='modal' data-bs-target='#report-question-modal'>
