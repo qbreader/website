@@ -80,7 +80,15 @@ const argv = yargs(hideBin(process.argv))
     type: 'boolean',
     default: false
   })
-  .epilog(`Examples:
+  .epilog(`Folder layout (--folderPath):
+  audio/soundtracks/
+  ├── answers.json     [{ "questionNumber": 1, "answer": "...", "clipBoundaries": [...] }, ...]
+  ├── sample.mp3       optional: the clip the "Test" button plays (else the first tossup's audio)
+  ├── 01.mp3           one per tossup; the last number in the filename is the question number,
+  ├── 02.mp3           so "Tiebreakers - Tossup 1.mp3" is question 1
+  └── ...              every .mp3 needs an answers.json entry, and each file must be under 16 MB
+
+Examples:
   node tools/geoword/upload-packet.js --mode test -n soundtracks
       Seed a local demo: free, public, with test users and teams
   node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500
