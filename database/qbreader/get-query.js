@@ -84,8 +84,9 @@ function validateOptions ({
   }
 
   if (exactPhrase && !regex) {
-    queryString = `\\b${queryString}\\b`;
+    // with ignoreWordOrder, wrap each token (not the whole phrase) so that clients splitting queryString on spaces get correct tokens
     words = words.map(word => `\\b${word}\\b`);
+    queryString = ignoreWordOrder ? words.join(' ') : words[0];
   }
 
   if (!searchType) {
