@@ -91,6 +91,7 @@ function next () {
   document.getElementById('record-protest-confirmation').classList.add('d-none');
   document.getElementById('protest-text').classList.add('d-none');
   document.getElementById('question-info').classList.add('d-none');
+  document.getElementById('instructions').classList.add('d-none');
   document.getElementById('next').disabled = true;
 
   questionNumber++;
@@ -108,6 +109,22 @@ function next () {
     new URLSearchParams({ packetName, division, questionNumber })
   ));
   currentAudio.play();
+  showInstructions(questionNumber);
+}
+
+/**
+ * Shows the question's instructions, if it has any, while its audio plays.
+ * Instructions are optional, so an empty response leaves the section hidden.
+ */
+function showInstructions (number) {
+  fetch('/api/geoword/paid/play/get-instructions?' + new URLSearchParams({ packetName, division, questionNumber: number }))
+    .then(response => response.json())
+    .then(({ instructions }) => {
+      // The player may have buzzed and moved on before this response arrived.
+      if (!instructions || number !== questionNumber) { return; }
+      document.getElementById('instructions-text').innerHTML = instructions;
+      document.getElementById('instructions').classList.remove('d-none');
+    });
 }
 
 function recordProtest (packetName, questionNumber) {
