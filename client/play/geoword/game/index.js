@@ -91,6 +91,7 @@ function next () {
   document.getElementById('record-protest-confirmation').classList.add('d-none');
   document.getElementById('protest-text').classList.add('d-none');
   document.getElementById('question-info').classList.add('d-none');
+  document.getElementById('instructions').classList.add('d-none');
   document.getElementById('next').disabled = true;
 
   questionNumber++;
@@ -100,14 +101,49 @@ function next () {
     return;
   }
 
-  document.getElementById('buzz').disabled = false;
   document.getElementById('start').disabled = true;
 
   currentAudio = new Audio(encodeURI(
     '/api/geoword/paid/play/audio/question.mp3?' +
     new URLSearchParams({ packetName, division, questionNumber })
   ));
-  currentAudio.play();
+  const audioToPlay = currentAudio;
+
+  audioToPlay.play().catch(() => {});
+  audioToPlay.pause();
+
+  showInstructions(questionNumber).then(pauseMs => {
+    setTimeout(() => {
+      audioToPlay.play()
+        .then(() => { document.getElementById('buzz').disabled = false; })
+        .catch(console.error);
+    }, pauseMs);
+  });
+}
+
+/**
+ * Shows the question's instructions, if it has any.
+ * Instructions are optional, so a missing one leaves the section hidden.
+ * @param {number} number - the question number
+ * @returns {Promise<number>} how long to wait before starting the audio, in milliseconds
+ */
+async function showInstructions (number) {
+  const { instructions } = await fetch('/api/geoword/paid/play/get-instructions?' + new URLSearchParams({ packetName, division, questionNumber: number }))
+    .then(response => response.json())
+    .catch(() => ({}));
+
+  if (!instructions) { return 0; }
+
+  const text = document.getElementById('instructions-text');
+  text.innerHTML = instructions;
+  document.getElementById('instructions').classList.remove('d-none');
+
+  const wordsPerSecond = 5;
+  const paddingMs = 500;
+  const maxPauseMs = 10000;
+
+  const wordCount = text.textContent.split(/\s+/).filter(Boolean).length;
+  return Math.min(maxPauseMs, paddingMs + 1000 * wordCount / wordsPerSecond);
 }
 
 function recordProtest (packetName, questionNumber) {

@@ -21,6 +21,7 @@ const SAMPLE_FILENAME = 'sample.mp3';
 // Copied from each answers.json entry onto its tossup. Prod mode requires all of them;
 // test mode takes whichever are present, so a bare `{ questionNumber, answer }` still seeds.
 const TOSSUP_TEXT_FIELDS = ['question', 'category', 'subcategory', 'answer_sanitized', 'answer'];
+const OPTIONAL_TOSSUP_FIELDS = ['instructions'];
 
 // Seeded players, so that a team's buzzes can be merged without a team-creation UI.
 // These are deliberately NOT admins: recordBuzz marks an admin's buzz `active: false`,
@@ -88,6 +89,7 @@ const argv = yargs(hideBin(process.argv))
   ├── answers.json     [{ "questionNumber": 1, "question": "...", "category": "...",
   │                      "subcategory": "...", "answer": "...", "answer_sanitized": "..." }, ...]
   │                    prod requires all of those; test mode only needs questionNumber and answer
+  │                    optional: "instructions" (shown above the question while it plays)
   ├── sample.mp3       optional: the clip the "Test" button plays (else the first tossup's audio)
   ├── 01.mp3           one per tossup; the last number in the filename is the question number,
   ├── 02.mp3           so "Tiebreakers - Tossup 1.mp3" is question 1
@@ -290,7 +292,7 @@ for (const { questionNumber, filename } of files) {
     packet: { _id: packetId, name: PACKET_NAME },
     division: argv.division,
     questionNumber,
-    ...Object.fromEntries(TOSSUP_TEXT_FIELDS.filter(field => entry[field] !== undefined).map(field => [field, entry[field]])),
+    ...Object.fromEntries([...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS].filter(field => entry[field] !== undefined).map(field => [field, entry[field]])),
     audio_id: audioId,
     // Unused for now; scoring is continuous celerity. Recorded for per-clip scoring later.
     ...(clipBoundaries && { clipBoundaries })
