@@ -3,6 +3,7 @@ import path from 'path';
 
 const ssiFileNames = [
   'api-docs-sidebar.html',
+  'clipboard-toast.html',
   'funny-toast.html',
   'head.html',
   'nav.html',
