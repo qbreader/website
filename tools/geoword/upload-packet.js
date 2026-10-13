@@ -18,6 +18,9 @@ const DIVISION = 'open';
 const MAX_DOCUMENT_SIZE = 16 * 1024 * 1024;
 // The clip the "Test" button plays, so a player can check their volume before starting.
 const SAMPLE_FILENAME = 'sample.mp3';
+// Copied from each answers.json entry onto its tossup. Prod mode requires all of them;
+// test mode takes whichever are present, so a bare `{ questionNumber, answer }` still seeds.
+const TOSSUP_TEXT_FIELDS = ['question', 'category', 'subcategory', 'answer_sanitized', 'answer'];
 
 // Seeded players, so that a team's buzzes can be merged without a team-creation UI.
 // These are deliberately NOT admins: recordBuzz marks an admin's buzz `active: false`,
@@ -82,7 +85,9 @@ const argv = yargs(hideBin(process.argv))
   })
   .epilog(`Folder layout (--folderPath):
   audio/soundtracks/
-  ├── answers.json     [{ "questionNumber": 1, "answer": "...", "clipBoundaries": [...] }, ...]
+  ├── answers.json     [{ "questionNumber": 1, "question": "...", "category": "...",
+  │                      "subcategory": "...", "answer": "...", "answer_sanitized": "..." }, ...]
+  │                    prod requires all of those; test mode only needs questionNumber and answer
   ├── sample.mp3       optional: the clip the "Test" button plays (else the first tossup's audio)
   ├── 01.mp3           one per tossup; the last number in the filename is the question number,
   ├── 02.mp3           so "Tiebreakers - Tossup 1.mp3" is question 1
@@ -219,6 +224,12 @@ for (const { questionNumber, filename } of files) {
   if (!answersByNumber[questionNumber]) {
     throw new Error(`"${filename}" is question ${questionNumber}, but answers.json has no entry for it.`);
   }
+  if (PROD) {
+    const missing = TOSSUP_TEXT_FIELDS.filter(field => typeof answersByNumber[questionNumber][field] !== 'string' || answersByNumber[questionNumber][field] === '');
+    if (missing.length > 0) {
+      throw new Error(`answers.json entry for question ${questionNumber} is missing: ${missing.join(', ')}.`);
+    }
+  }
 }
 
 // Test mode is re-runnable: clear this packet's documents before inserting, so iterating
@@ -272,13 +283,14 @@ for (const { questionNumber, filename } of files) {
   }
 
   const { insertedId: audioId } = await audio.insertOne({ audio: buffer });
-  const { answer, clipBoundaries } = answersByNumber[questionNumber];
+  const entry = answersByNumber[questionNumber];
+  const { clipBoundaries } = entry;
 
   await tossups.insertOne({
     packet: { _id: packetId, name: PACKET_NAME },
     division: argv.division,
     questionNumber,
-    answer,
+    ...Object.fromEntries(TOSSUP_TEXT_FIELDS.filter(field => entry[field] !== undefined).map(field => [field, entry[field]])),
     audio_id: audioId,
     // Unused for now; scoring is continuous celerity. Recorded for per-clip scoring later.
     ...(clipBoundaries && { clipBoundaries })
