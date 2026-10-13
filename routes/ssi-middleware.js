@@ -1,17 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-const ssiFileNames = [
-  'api-docs-sidebar.html',
-  'clipboard-toast.html',
-  'funny-toast.html',
-  'head.html',
-  'nav.html',
-  'report-question-modal.html',
-  'star-toast.html'
-];
+const ssiDirectory = './ssi';
+const ssiFileNames = fs.readdirSync(ssiDirectory).filter(fileName => path.extname(fileName) === '.html');
 
-const ssiFiles = ssiFileNames.map(fileName => fs.readFileSync(`./client/ssi/${fileName}`, 'utf8'));
+const ssiFiles = ssiFileNames.map(fileName => fs.readFileSync(`${ssiDirectory}/${fileName}`, 'utf8'));
 
 export function replaceSSI (html) {
   for (let i = 0; i < ssiFileNames.length; i++) {
