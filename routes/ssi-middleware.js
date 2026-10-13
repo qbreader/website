@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const ssiDirectory = './client/ssi';
+const ssiDirectory = './ssi';
 const ssiFileNames = fs.readdirSync(ssiDirectory).filter(fileName => path.extname(fileName) === '.html');
 
 const ssiFiles = ssiFileNames.map(fileName => fs.readFileSync(`${ssiDirectory}/${fileName}`, 'utf8'));

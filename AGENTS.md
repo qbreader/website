@@ -44,8 +44,9 @@ client/                Everything served to the browser (static, no server code)
   db/                  Question database explorer (React)
   scripts/             Shared client utilities, api wrappers, React components
   user/                Account pages (login, signup, stats, stars)
-  ssi/                 HTML fragments injected server-side (nav, head, modals)
   admin/, settings/, about/, tools/  Misc pages
+
+ssi/                   HTML fragments injected server-side (nav, head, modals); not served statically
 
 shared/                Isomorphic game engine + constants (client AND server)
   Room.js → QuestionRoom.js → TossupRoom.js / BonusRoom.js / TossupBonusRoom.js
@@ -55,7 +56,7 @@ routes/                Express routers; folder structure mirrors URL structure
   api/                 Public JSON API (/api/tossup, /api/query, …)
   auth/                Account endpoints (login, signup, password reset, stars)
   validators/          Query-param validation helpers (int, enum, string, …)
-  ssi-middleware.js    Injects client/ssi/ fragments into served HTML
+  ssi-middleware.js    Injects ssi/ fragments into served HTML
 
 database/              All MongoDB access, one function per file
   databases.js         MongoClient connection (top-level await on import)
@@ -108,7 +109,7 @@ Requirements and gotchas:
 - **Build artifacts are gitignored.** `**.min.js`, `**.css`, `**.css.map` are never committed. If a page looks broken or unstyled, run `npm run build` first. Never edit a `.min.js` or `client/style.css` directly — edit the `.jsx` or `scss/` source.
 - React pages are only the six webpack entries in `webpack.config.js` (tossups, bonuses, mp room, db explorer, frequency list, category reports). Everything else is plain JS/HTML served as-is — **plain `.js` client files are not transpiled or bundled**, so they must be valid browser ES modules as written.
 - Some client files import directly from CDNs (e.g. `qb-answer-checker` from jsdelivr in `client/scripts/api/index.js`); this is intentional.
-- HTML pages use a homegrown SSI system: `<!--#include virtual="/ssi/nav.html" -->` comments are replaced server-side (`routes/ssi-middleware.js`) with fragments from `client/ssi/`. New pages should include `head.html` and `nav.html` the same way.
+- HTML pages use a homegrown SSI system: `<!--#include virtual="/ssi/nav.html" -->` comments are replaced server-side (`routes/ssi-middleware.js`) with fragments from the top-level `ssi/` folder (not served statically; every `.html` file in it is picked up automatically). New pages should include `head.html` and `nav.html` the same way.
 
 ### Verification expectations
 
