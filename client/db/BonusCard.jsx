@@ -4,7 +4,6 @@ import QuestionCard from '../scripts/components/QuestionCard.jsx';
 
 export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = bonus._id;
-  const link = `/db/bonus/?_id=${_id}`;
   const bonusLength = bonus.parts.length;
   const indices = [];
 
@@ -17,19 +16,6 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
-  }
-
-  function copyLinkToClipboard (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    navigator.clipboard.writeText(new URL(link, window.location.origin).toString());
-    const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
-    toast.show();
-
-    const icon = e.currentTarget.querySelector('i');
-    const originalClassName = icon.className;
-    icon.className = 'bi bi-check-lg';
-    setTimeout(() => { icon.className = originalClassName; }, 1500);
   }
 
   function onClickFooter () {
@@ -77,11 +63,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
       onClickHeader={clickToCopy}
       question={bonus}
       topRightComponent={topRightComponent}
-      topLeftComponent={
-        <a href={link} onClick={copyLinkToClipboard} aria-label='Copy bonus link' title='Copy bonus link'>
-          <i className='bi bi-copy' />
-        </a>
-      }
+      type='bonus'
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
         <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>

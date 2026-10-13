@@ -20,6 +20,7 @@ function TossupCard ({ tossup }) {
     <QuestionCard
       onClickHeader='collapse'
       question={tossup}
+      type='tossup'
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
         <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
@@ -59,6 +60,7 @@ function BonusCard ({ bonus }) {
     <QuestionCard
       onClickHeader='collapse'
       question={bonus}
+      type='bonus'
     >
       <div className='card-body'>
         <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>

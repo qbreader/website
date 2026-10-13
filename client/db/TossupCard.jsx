@@ -3,26 +3,12 @@ import QuestionCard from '../scripts/components/QuestionCard.jsx';
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = tossup._id;
-  const link = `/db/tossup/?_id=${_id}`;
 
   function clickToCopy () {
     const textdata = stringifyTossup(tossup);
     navigator.clipboard.writeText(textdata);
     const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
     toast.show();
-  }
-
-  function copyLinkToClipboard (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    navigator.clipboard.writeText(new URL(link, window.location.origin).toString());
-    const toast = new bootstrap.Toast(document.getElementById('clipboard-toast'));
-    toast.show();
-
-    const icon = e.currentTarget.querySelector('i');
-    const originalClassName = icon.className;
-    icon.className = 'bi bi-check-lg';
-    setTimeout(() => { icon.className = originalClassName; }, 1500);
   }
 
   function onClickFooter () {
@@ -72,11 +58,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
       onClickHeader={clickToCopy}
       question={tossup}
       topRightComponent={topRightComponent}
-      topLeftComponent={
-        <a href={link} onClick={copyLinkToClipboard} aria-label='Copy tossup link' title='Copy tossup link'>
-          <i className='bi bi-copy' />
-        </a>
-      }
+      type='tossup'
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
         <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>
