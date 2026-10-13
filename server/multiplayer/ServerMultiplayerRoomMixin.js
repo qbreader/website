@@ -222,7 +222,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     // prevent chat messages if room is public, since they can still be sent with API
     if (this.settings.public && !this.settings.loginRequired) { return false; }
     if (typeof message !== 'string') { return false; }
-    if (!isAppropriateString(message)) { this.showChatWarning(userId); return false; }
+    if (!isAppropriateString(message)) { return this.showChatWarning(userId); }
     this.emitMessage({ type: MULTIPLAYER_ROOM_MESSAGE_TYPE.CHAT, message, username, userId });
   }
 
