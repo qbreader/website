@@ -80,6 +80,27 @@ const argv = yargs(hideBin(process.argv))
     type: 'boolean',
     default: false
   })
+  .epilog(`Examples:
+  node tools/geoword/upload-packet.js --mode test -n soundtracks
+      Seed a local demo: free, public, with test users and teams
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500
+      Upload a real round for $5.00, hidden from players
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks --publish
+      Make the uploaded real round public
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500 --replace
+      Re-upload a real round nobody has played or paid for yet
+
+Modes:
+                          test                      prod
+  Test users and teams    created                   never created
+  --cost                  optional (defaults to 0)  required
+  Visibility              public by default         hidden by default
+  Packet already exists   deleted and recreated     refused unless --replace
+  --replace               not needed                refused if packet is used
+
+Override visibility in either mode with --hidden or --no-hidden.
+This writes to whatever MONGODB_URI points at.`)
+  .wrap(100)
   .help()
   .alias('help', 'h')
   .argv;
