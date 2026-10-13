@@ -58,6 +58,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
       onClickHeader={clickToCopy}
       question={tossup}
       topRightComponent={topRightComponent}
+      type='tossup'
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
         <span style={{ fontWeight: tossup.question.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{tossup.number}. </span>

@@ -63,6 +63,7 @@ export default function BonusCard ({ bonus, highlightedBonus, hideAnswerlines, h
       onClickHeader={clickToCopy}
       question={bonus}
       topRightComponent={topRightComponent}
+      type='bonus'
     >
       <div className='card-body' style={{ fontSize: `${fontSize}px` }}>
         <span style={{ fontWeight: bonus.leadin.substring(0, 3) === '<b>' ? 'bold' : 'normal' }}>{bonus.number}. </span>

@@ -16,10 +16,22 @@ document.getElementById('set-name').textContent = tossup.set.name;
 document.getElementById('tossup').appendChild(tossupToHTML(tossup));
 
 document.getElementById('_id').textContent = tossup._id;
+const copyLinkButton = document.getElementById('copy-link-button');
 document.getElementById('difficulty').textContent = tossup.difficulty;
 document.getElementById('standard').textContent = tossup.set.standard;
 document.getElementById('time-created').textContent = mongoIdToDate(tossup._id).toLocaleString();
 document.getElementById('last-modified').textContent = new window.Date(tossup.updatedAt).toLocaleString();
+
+copyLinkButton.addEventListener('click', async (event) => {
+  event.preventDefault();
+  const questionLink = new window.URL('/db/tossup/?' + new URLSearchParams({ _id: tossup._id }), window.location.origin).toString();
+  await navigator.clipboard.writeText(questionLink);
+  const icon = copyLinkButton.querySelector('i');
+  icon.className = 'bi bi-check-lg';
+  window.setTimeout(() => {
+    icon.className = 'bi bi-copy';
+  }, 1500);
+});
 
 const { stats } = await fetch('/api/question-stats/tossup?' + new URLSearchParams({ _id: tossup._id })).then(response => response.json());
 
