@@ -1,16 +1,19 @@
-// Seeds the "soundtracks" demo packet: audio, tossups, test users, and teams.
-// Local development only - this writes to whatever database MONGODB_URI points at.
-import { audio, packets, sampleAudio, teams, tossups } from '../database/geoword/collections.js';
-import { users } from '../database/account-info/collections.js';
-import { mongoClient } from '../database/databases.js';
-import { saltAndHashPassword } from '../server/authentication.js';
+// Uploads a Geoword packet (audio, tossups, sample clip) to whatever database MONGODB_URI points at.
+//
+// --mode test: a demo setup for local development. Also creates test users and teams, and
+//              freely deletes and recreates the packet.
+// --mode prod: a real round. Creates no users or teams, requires an explicit --cost, hides
+//              the packet until published, and refuses to replace a packet anyone has used.
+import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, teams, tossups } from '../../database/geoword/collections.js';
+import { users } from '../../database/account-info/collections.js';
+import { geoword, mongoClient } from '../../database/databases.js';
+import { saltAndHashPassword } from '../../server/authentication.js';
 
 import { readdir, readFile } from 'fs/promises';
 import path from 'path';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 
-const PACKET_NAME = 'soundtracks';
 const DIVISION = 'open';
 const MAX_DOCUMENT_SIZE = 16 * 1024 * 1024;
 // The clip the "Test" button plays, so a player can check their volume before starting.
@@ -30,20 +33,59 @@ const TEST_USERS = [
 const ADMIN_USER = { username: 'soundtracks-admin', password: 'password' };
 
 const argv = yargs(hideBin(process.argv))
+  .option('mode', {
+    description: 'test seeds demo users and teams for local development; prod uploads a real round',
+    choices: ['test', 'prod'],
+    demandOption: true
+  })
+  .option('name', {
+    alias: 'n',
+    description: 'the packet name',
+    type: 'string',
+    demandOption: true
+  })
   .option('folderPath', {
     alias: 'f',
     description: 'the folder holding the .mp3 files and answers.json',
     type: 'string',
     default: './audio/soundtracks'
   })
-  .option('test', {
-    description: 'hide the packet from the public list, so only admins can reach it',
+  .option('cost', {
+    alias: 'c',
+    description: 'the cost in cents (USD); 0 makes the packet free and skips Stripe. Required in prod mode, defaults to 0 in test mode',
+    type: 'number'
+  })
+  .option('division', {
+    alias: 'd',
+    description: 'the division these tossups belong to',
+    type: 'string',
+    default: DIVISION
+  })
+  .option('order', {
+    description: 'position in the packet list (lower is earlier)',
+    type: 'number',
+    default: 99
+  })
+  .option('hidden', {
+    description: 'hide the packet from the public list, so only admins can reach it. Defaults to true in prod mode and false in test mode',
+    type: 'boolean'
+  })
+  .option('replace', {
+    description: "prod mode only: delete the packet's tossups and audio first; refused once anyone has played or paid",
+    type: 'boolean',
+    default: false
+  })
+  .option('publish', {
+    description: 'only make an existing packet public, uploading nothing',
     type: 'boolean',
     default: false
   })
   .help()
   .alias('help', 'h')
   .argv;
+
+const PROD = argv.mode === 'prod';
+const PACKET_NAME = argv.name;
 
 /**
  * Pairs each .mp3 with its question number, taken from the last number in the filename.
@@ -76,6 +118,19 @@ async function findAudioFiles (folderPath) {
 }
 
 /**
+ * @returns {Promise<string|null>} why the packet cannot be safely replaced, or null if it can
+ */
+async function whyNotReplaceable (packetName) {
+  const counts = {
+    buzzes: await buzzes.countDocuments({ 'packet.name': packetName }),
+    payments: await payments.countDocuments({ 'packet.name': packetName }),
+    'division choices': await divisionChoices.countDocuments({ 'packet.name': packetName })
+  };
+  const used = Object.entries(counts).filter(([, count]) => count > 0);
+  return used.length === 0 ? null : used.map(([label, count]) => `${count} ${label}`).join(', ');
+}
+
+/**
  * Creates the seeded players if they don't exist, and returns their ids by username.
  * @returns {Promise<Object<string, ObjectId>>}
  */
@@ -101,6 +156,26 @@ async function upsertUsers () {
   return userIds;
 }
 
+console.log(`Mode: ${argv.mode}. Target database: "${geoword.databaseName}", packet "${PACKET_NAME}"`);
+
+const costInCents = argv.cost ?? (PROD ? undefined : 0);
+if (!Number.isInteger(costInCents) || costInCents < 0) {
+  throw new Error(PROD ? '--cost is required in prod mode: a whole number of cents, 0 or more.' : '--cost must be a whole number of cents, 0 or more.');
+}
+const hidden = argv.hidden ?? PROD;
+
+const existing = await packets.findOne({ name: PACKET_NAME });
+
+if (argv.publish) {
+  if (!existing) {
+    throw new Error(`Packet "${PACKET_NAME}" does not exist.`);
+  }
+  await packets.updateOne({ _id: existing._id }, { $set: { test: false } });
+  console.log(`"${PACKET_NAME}" is now public.`);
+  await mongoClient.close();
+  process.exit(0);
+}
+
 const folderPath = argv.folderPath;
 const files = await findAudioFiles(folderPath);
 
@@ -117,14 +192,26 @@ for (const { questionNumber, filename } of files) {
   }
 }
 
-// Re-runnable: clear this packet's documents before inserting, so iterating doesn't duplicate.
-const existing = await packets.findOne({ name: PACKET_NAME });
+// Test mode is re-runnable: clear this packet's documents before inserting, so iterating
+// doesn't duplicate. Prod mode only does so on request, and never over player data.
 if (existing) {
+  if (PROD) {
+    if (!argv.replace) {
+      throw new Error(`Packet "${PACKET_NAME}" already exists. Pass --replace to overwrite it.`);
+    }
+    const reason = await whyNotReplaceable(PACKET_NAME);
+    if (reason) {
+      throw new Error(`Refusing to replace "${PACKET_NAME}": it already has ${reason}. Replacing would orphan them.`);
+    }
+  }
+
   const oldTossups = await tossups.find({ 'packet.name': PACKET_NAME }, { projection: { audio_id: 1 } }).toArray();
   await audio.deleteMany({ _id: { $in: oldTossups.map(tossup => tossup.audio_id) } });
   await sampleAudio.deleteOne({ _id: existing.sample_audio_id });
   await tossups.deleteMany({ 'packet.name': PACKET_NAME });
-  await teams.deleteMany({ packetName: PACKET_NAME });
+  if (!PROD) {
+    await teams.deleteMany({ packetName: PACKET_NAME });
+  }
   await packets.deleteOne({ name: PACKET_NAME });
 }
 
@@ -135,16 +222,16 @@ const samplePath = files.some(file => file.filename.toLowerCase() === SAMPLE_FIL
   : path.join(folderPath, files[0].filename);
 const { insertedId: sampleAudioId } = await sampleAudio.insertOne({ audio: await readFile(samplePath) });
 
-// `costInCents: 0` makes checkPayment pass without touching the Stripe path.
+// A cost of 0 makes checkPayment pass without touching the Stripe path.
 // `test: false` keeps the packet visible, so non-admin players can reach it and their
-// buzzes count toward standings. Pass --test to hide it from the public list instead.
+// buzzes count toward standings. `test: true` hides it from the public list instead.
 const { insertedId: packetId } = await packets.insertOne({
   name: PACKET_NAME,
-  costInCents: 0,
-  test: argv.test,
+  costInCents,
+  test: hidden,
   active: true,
-  divisions: [DIVISION],
-  order: 99,
+  divisions: [argv.division],
+  order: argv.order,
   sample_audio_id: sampleAudioId
 });
 
@@ -160,7 +247,7 @@ for (const { questionNumber, filename } of files) {
 
   await tossups.insertOne({
     packet: { _id: packetId, name: PACKET_NAME },
-    division: DIVISION,
+    division: argv.division,
     questionNumber,
     answer,
     audio_id: audioId,
@@ -171,18 +258,25 @@ for (const { questionNumber, filename } of files) {
   console.log(`question ${questionNumber}: ${filename} (${(buffer.length / 1024).toFixed(0)} KB)`);
 }
 
-const userIds = await upsertUsers();
-const teamNames = [...new Set(TEST_USERS.map(user => user.team))];
+if (PROD) {
+  console.log(`\nUploaded "${PACKET_NAME}" with ${files.length} tossups, cost ${costInCents} cents, ${hidden ? 'hidden (admins only)' : 'public'}.`);
+  if (hidden) {
+    console.log(`Make it public later with: node tools/geoword/upload-packet.js --mode prod -n "${PACKET_NAME}" --publish`);
+  }
+} else {
+  const userIds = await upsertUsers();
+  const teamNames = [...new Set(TEST_USERS.map(user => user.team))];
 
-for (const teamName of teamNames) {
-  const members = TEST_USERS.filter(user => user.team === teamName).map(user => userIds[user.username]);
-  // `members` is an array, so a team can be any size.
-  await teams.insertOne({ packetName: PACKET_NAME, division: DIVISION, teamName, members });
-  console.log(`team "${teamName}": ${members.length} member(s)`);
+  for (const teamName of teamNames) {
+    const members = TEST_USERS.filter(user => user.team === teamName).map(user => userIds[user.username]);
+    // `members` is an array, so a team can be any size.
+    await teams.insertOne({ packetName: PACKET_NAME, division: argv.division, teamName, members });
+    console.log(`team "${teamName}": ${members.length} member(s)`);
+  }
+
+  console.log(`\nSeeded "${PACKET_NAME}" with ${files.length} tossups and ${teamNames.length} teams.`);
+  console.log(`Play as ${TEST_USERS.map(user => user.username).join(' / ')} (password: "password").`);
+  console.log(`View results early as ${ADMIN_USER.username} (password: "password").`);
 }
-
-console.log(`\nSeeded "${PACKET_NAME}" with ${files.length} tossups and ${teamNames.length} teams.`);
-console.log(`Play as ${TEST_USERS.map(user => user.username).join(' / ')} (password: "password").`);
-console.log(`View results early as ${ADMIN_USER.username} (password: "password").`);
 
 await mongoClient.close();
