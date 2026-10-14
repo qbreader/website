@@ -8,16 +8,16 @@ const router = Router();
 router.get('/', async (req, res) => {
   const { username } = req.session;
 
-  req.query.celerity = parseFloat(req.query.celerity);
-  req.query.points = parseInt(req.query.points);
+  req.query.celerity = Math.min(1, Math.max(0, parseFloat(req.query.celerity) || 0));
+  req.query.isCorrect = req.query.isCorrect === 'true';
   req.query.questionNumber = parseInt(req.query.questionNumber);
   if (req.query.prompts) {
     req.query.prompts = req.query.prompts.split(',');
   }
 
   const userId = await getUserId(username);
-  const { celerity, givenAnswer, packetName, points, prompts, questionNumber } = req.query;
-  const result = await recordBuzz({ celerity, givenAnswer, packetName, points, prompts, questionNumber, userId });
+  const { celerity, givenAnswer, isCorrect, packetName, prompts, questionNumber } = req.query;
+  const result = await recordBuzz({ celerity, givenAnswer, isCorrect, packetName, prompts, questionNumber, userId });
 
   if (result) {
     res.sendStatus(200);

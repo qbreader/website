@@ -1,6 +1,7 @@
 import { buzzes, packets, tossups } from '../../collections.js';
 import getDivisionChoice from '../../get-division-choice.js';
 
+import scoreBuzz from '../../../../shared/geoword-scoring.js';
 import isAdminById from '../../../account-info/is-admin-by-id.js';
 
 /**
@@ -13,7 +14,7 @@ import isAdminById from '../../../account-info/is-admin-by-id.js';
  * @param {ObjectId} params.user_id
  * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
-async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts, questionNumber, userId }) {
+async function recordBuzz ({ celerity, givenAnswer, isCorrect, packetName, prompts, questionNumber, userId }) {
   const [admin, division, packet, tossup] = await Promise.all([
     isAdminById(userId),
     getDivisionChoice(packetName, userId),
@@ -26,7 +27,8 @@ async function recordBuzz ({ celerity, givenAnswer, packetName, points, prompts,
     celerity,
     division,
     givenAnswer,
-    points,
+    isCorrect,
+    points: scoreBuzz(packet.scoring, { celerity, isCorrect }),
     packet: {
       _id: packet._id,
       name: packet.name

@@ -1,11 +1,15 @@
-import { buzzes } from '../collections.js';
+import { buzzes, packets } from '../collections.js';
+
+import scoreBuzz from '../../../shared/geoword-scoring.js';
 
 async function resolveProtest (buzzId, decision, reason) {
   const updateDocument = { pendingProtest: false, decision, reason };
 
   if (decision === 'accept') {
     const buzz = await buzzes.findOne({ _id: buzzId });
-    updateDocument.points = 10 + Math.round(10 * buzz.celerity);
+    const packet = await packets.findOne({ _id: buzz.packet._id });
+    updateDocument.isCorrect = true;
+    updateDocument.points = scoreBuzz(packet.scoring, { celerity: buzz.celerity, isCorrect: true });
   }
 
   return await buzzes.updateOne(

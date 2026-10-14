@@ -51,10 +51,10 @@ document.getElementById('form').addEventListener('submit', event => {
         const myBuzz = myBuzzes[i];
         const opponentBuzz = opponentBuzzes[i];
 
-        if (myBuzz.points > 0 && opponentBuzz.points === 0) {
+        if (myBuzz.points > 0 && opponentBuzz.points <= 0) {
           myPoints += myBuzz.points;
           myTossupCount++;
-        } else if (myBuzz.points === 0 && opponentBuzz.points > 0) {
+        } else if (myBuzz.points <= 0 && opponentBuzz.points > 0) {
           opponentPoints += opponentBuzz.points;
           opponentTossupCount++;
         } else if (myBuzz.points > 0 && opponentBuzz.points > 0) {

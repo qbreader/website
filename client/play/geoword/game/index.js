@@ -1,6 +1,7 @@
 /* globals Audio */
 
 import { titleCase } from '../../../../shared/string-utils.js';
+import scoreBuzz from '../../../../shared/geoword-scoring.js';
 import audio from '../../audio.js';
 
 const search = new URLSearchParams(window.location.search);
@@ -17,6 +18,7 @@ let division;
 let numberCorrect = 0;
 let points = 0;
 let prompts = [];
+let scoring;
 let totalCorrectCelerity = 0;
 let tossupsHeard = 0;
 
@@ -25,7 +27,7 @@ document.getElementById('geoword-stats').href = '../results/?packetName=' + pack
 fetch('/api/geoword/paid/play/get-progress?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
-    ({ division, numberCorrect, points, totalCorrectCelerity, tossupsHeard } = data);
+    ({ division, numberCorrect, points, scoring, totalCorrectCelerity, tossupsHeard } = data);
 
     document.getElementById('packet-name').textContent = `${packetTitle} (${division})`;
 
@@ -154,20 +156,20 @@ function recordProtest (packetName, questionNumber) {
   });
 }
 
-function recordBuzz (packetName, questionNumber, celerity, points, givenAnswer, prompts = []) {
+function recordBuzz (packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts = []) {
   fetch('/api/geoword/paid/play/record-buzz?' + new URLSearchParams({
     packetName,
     questionNumber,
     celerity,
-    points,
+    isCorrect,
     givenAnswer,
     prompts
   }));
 }
 
 function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
-  const celerity = 1 - currentAudio.currentTime / currentAudio.duration;
-  const currentPoints = isCorrect ? 10 + Math.round(10 * celerity) : 0;
+  const celerity = Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
+  const currentPoints = scoreBuzz(scoring, { celerity, isCorrect });
 
   if (isCorrect) {
     audio.correct.play();
@@ -177,7 +179,7 @@ function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
     document.getElementById('protest-text').classList.remove('d-none');
   }
 
-  recordBuzz(packetName, questionNumber, celerity, currentPoints, givenAnswer, prompts);
+  recordBuzz(packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts);
 
   points += currentPoints;
   tossupsHeard++;
