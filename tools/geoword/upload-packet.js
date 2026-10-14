@@ -2,12 +2,13 @@
 //
 // --mode test: a demo setup for local development. Also creates test users and teams, and
 //              freely deletes and recreates the packet.
-// --mode prod: a real round. Creates no users or teams, requires an explicit --cost, hides
+// --mode prod: a real round. Creates no teams or players (just a throwaway admin), requires an explicit --cost, hides
 //              the packet until published, and refuses to replace a packet anyone has used.
 import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, teams, tossups } from '../../database/geoword/collections.js';
 import { users } from '../../database/account-info/collections.js';
 import { geoword, mongoClient } from '../../database/databases.js';
 import { saltAndHashPassword } from '../../server/authentication.js';
+import getRandomName from '../../shared/get-random-name.js';
 import { DEFAULT_SCORING_SCHEME, SCORING_SCHEMES } from '../../shared/geoword-scoring.js';
 
 import { readdir, readFile } from 'fs/promises';
@@ -34,8 +35,13 @@ const TEST_USERS = [
   { username: 'soundtracks-carol', password: 'password', team: 'Solo Act' }
 ];
 
-// A separate account for viewing results before the packet is finished.
-const ADMIN_USER = { username: 'soundtracks-admin', password: 'password' };
+
+/**
+ * @returns {string} four random words joined by dashes, e.g. `brave-otter-vivid-falcon`
+ */
+function generatePassphrase () {
+  return `${getRandomName()}-${getRandomName()}`;
+}
 
 const argv = yargs(hideBin(process.argv))
   .option('mode', {
@@ -114,6 +120,7 @@ Examples:
 Modes:
                           test                      prod
   Test users and teams    created                   never created
+  Admin account           fixed password            random passphrase, printed
   --cost                  optional (defaults to 0)  required
   Visibility              public by default         hidden by default
   Packet already exists   deleted and recreated     refused unless --replace
@@ -128,6 +135,10 @@ This writes to whatever MONGODB_URI points at.`)
 
 const PROD = argv.mode === 'prod';
 const PACKET_NAME = argv.name;
+
+// A separate account for viewing results before the packet is finished.
+const ADMIN_USERNAME = PROD ? 'soundtracks-admin-prod' : 'soundtracks-admin';
+const ADMIN_USER = { username: ADMIN_USERNAME, password: 'password' };
 
 /**
  * Pairs each .mp3 with its question number, taken from the last number in the filename.
@@ -173,15 +184,13 @@ async function whyNotReplaceable (packetName) {
 }
 
 /**
- * Creates the seeded players if they don't exist, and returns their ids by username.
+ * Creates the given accounts if they don't exist (resetting their passwords if they do),
+ * and returns their ids by username.
+ * @param {Array<{ username: string, password: string, admin: boolean }>} accounts
  * @returns {Promise<Object<string, ObjectId>>}
  */
-async function upsertUsers () {
+async function upsertUsers (accounts) {
   const userIds = {};
-  const accounts = [
-    ...TEST_USERS.map(user => ({ ...user, admin: false })),
-    { ...ADMIN_USER, admin: true }
-  ];
 
   for (const { username, password, admin } of accounts) {
     await users.updateOne(
@@ -313,8 +322,16 @@ if (PROD) {
   if (hidden) {
     console.log(`Make it public later with: node tools/geoword/upload-packet.js --mode prod -n "${PACKET_NAME}" --publish`);
   }
+
+  // A throwaway admin for checking the round in prod. Its password is reset on every run.
+  const adminPassword = generatePassphrase();
+  await upsertUsers([{ username: ADMIN_USERNAME, password: adminPassword, admin: true }]);
+  console.log(`\nTest admin account: ${ADMIN_USERNAME} (password: "${adminPassword}").`);
 } else {
-  const userIds = await upsertUsers();
+  const userIds = await upsertUsers([
+    ...TEST_USERS.map(user => ({ ...user, admin: false })),
+    { ...ADMIN_USER, admin: true }
+  ]);
   const teamNames = [...new Set(TEST_USERS.map(user => user.team))];
 
   for (const teamName of teamNames) {
