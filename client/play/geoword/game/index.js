@@ -168,7 +168,7 @@ function recordBuzz (packetName, questionNumber, celerity, isCorrect, givenAnswe
 }
 
 function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
-  const celerity = 1 - currentAudio.currentTime / currentAudio.duration;
+  const celerity = Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
   const currentPoints = scoreBuzz(scoring, { celerity, isCorrect });
 
   if (isCorrect) {

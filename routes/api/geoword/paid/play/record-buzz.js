@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', async (req, res) => {
   const { username } = req.session;
 
-  req.query.celerity = parseFloat(req.query.celerity);
+  req.query.celerity = Math.min(1, Math.max(0, parseFloat(req.query.celerity) || 0));
   req.query.isCorrect = req.query.isCorrect === 'true';
   req.query.questionNumber = parseInt(req.query.questionNumber);
   if (req.query.prompts) {
