@@ -2,7 +2,7 @@
 //
 // --mode test: a demo setup for local development. Also creates test users and teams, and
 //              freely deletes and recreates the packet.
-// --mode prod: a real round. Creates no teams or players (just a throwaway admin), requires an explicit --cost, hides
+// --mode prod: a real round. Creates no teams or players (just a special user), requires an explicit --cost, hides
 //              the packet until published, and refuses to replace a packet anyone has used.
 import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, teams, tossups } from '../../database/geoword/collections.js';
 import { users } from '../../database/account-info/collections.js';
@@ -34,7 +34,6 @@ const TEST_USERS = [
   { username: 'soundtracks-bob', password: 'password', team: 'Tracer Bullets' },
   { username: 'soundtracks-carol', password: 'password', team: 'Solo Act' }
 ];
-
 
 /**
  * @returns {string} four random words joined by dashes, e.g. `brave-otter-vivid-falcon`
@@ -120,7 +119,7 @@ Examples:
 Modes:
                           test                      prod
   Test users and teams    created                   never created
-  Admin account           fixed password            random passphrase, printed
+  Special user password   "password"                random passphrase, printed
   --cost                  optional (defaults to 0)  required
   Visibility              public by default         hidden by default
   Packet already exists   deleted and recreated     refused unless --replace
@@ -136,9 +135,9 @@ This writes to whatever MONGODB_URI points at.`)
 const PROD = argv.mode === 'prod';
 const PACKET_NAME = argv.name;
 
-// A separate account for viewing results before the packet is finished.
+// A separate account for viewing the packet before it is published. It is NOT a site admin:
+// the packet lists it in `specialUsers`, which grants access to this one packet only.
 const ADMIN_USERNAME = PROD ? 'soundtracks-admin-prod' : 'soundtracks-admin';
-const ADMIN_USER = { username: ADMIN_USERNAME, password: 'password' };
 
 /**
  * Pairs each .mp3 with its question number, taken from the last number in the filename.
@@ -186,17 +185,17 @@ async function whyNotReplaceable (packetName) {
 /**
  * Creates the given accounts if they don't exist (resetting their passwords if they do),
  * and returns their ids by username.
- * @param {Array<{ username: string, password: string, admin: boolean }>} accounts
+ * @param {Array<{ username: string, password: string }>} accounts
  * @returns {Promise<Object<string, ObjectId>>}
  */
 async function upsertUsers (accounts) {
   const userIds = {};
 
-  for (const { username, password, admin } of accounts) {
+  for (const { username, password } of accounts) {
     await users.updateOne(
       { username },
       {
-        $set: { password: saltAndHashPassword(password), admin, verifiedEmail: true },
+        $set: { password: saltAndHashPassword(password), verifiedEmail: true },
         $setOnInsert: { username, email: `${username}@example.com` }
       },
       { upsert: true }
@@ -279,6 +278,14 @@ const samplePath = files.some(file => file.filename.toLowerCase() === SAMPLE_FIL
   : path.join(folderPath, files[0].filename);
 const { insertedId: sampleAudioId } = await sampleAudio.insertOne({ audio: await readFile(samplePath) });
 
+// Create the accounts before the packet, which lists the special user by id.
+const adminPassword = PROD ? generatePassphrase() : 'password';
+const accounts = [
+  ...(PROD ? [] : TEST_USERS.map(({ username, password }) => ({ username, password }))),
+  { username: ADMIN_USERNAME, password: adminPassword }
+];
+const userIds = await upsertUsers(accounts);
+
 // A cost of 0 makes checkPayment pass without touching the Stripe path.
 // `test: false` keeps the packet visible, so non-admin players can reach it and their
 // buzzes count toward standings. `test: true` hides it from the public list instead.
@@ -290,6 +297,7 @@ const { insertedId: packetId } = await packets.insertOne({
   divisions: [argv.division],
   order: argv.order,
   scoring: argv.scoring,
+  specialUsers: [userIds[ADMIN_USERNAME]],
   sample_audio_id: sampleAudioId
 });
 
@@ -323,15 +331,9 @@ if (PROD) {
     console.log(`Make it public later with: node tools/geoword/upload-packet.js --mode prod -n "${PACKET_NAME}" --publish`);
   }
 
-  // A throwaway admin for checking the round in prod. Its password is reset on every run.
-  const adminPassword = generatePassphrase();
-  await upsertUsers([{ username: ADMIN_USERNAME, password: adminPassword, admin: true }]);
-  console.log(`\nTest admin account: ${ADMIN_USERNAME} (password: "${adminPassword}").`);
+  // The password is reset on every run.
+  console.log(`\nSpecial user (can view this packet while hidden; not a site admin): ${ADMIN_USERNAME} (password: "${adminPassword}").`);
 } else {
-  const userIds = await upsertUsers([
-    ...TEST_USERS.map(user => ({ ...user, admin: false })),
-    { ...ADMIN_USER, admin: true }
-  ]);
   const teamNames = [...new Set(TEST_USERS.map(user => user.team))];
 
   for (const teamName of teamNames) {
@@ -343,7 +345,7 @@ if (PROD) {
 
   console.log(`\nSeeded "${PACKET_NAME}" with ${files.length} tossups and ${teamNames.length} teams.`);
   console.log(`Play as ${TEST_USERS.map(user => user.username).join(' / ')} (password: "password").`);
-  console.log(`View results early as ${ADMIN_USER.username} (password: "password").`);
+  console.log(`View the packet early as ${ADMIN_USERNAME} (password: "password").`);
 }
 
 await mongoClient.close();

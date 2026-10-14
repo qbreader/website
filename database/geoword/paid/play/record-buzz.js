@@ -2,7 +2,7 @@ import { buzzes, packets, tossups } from '../../collections.js';
 import getDivisionChoice from '../../get-division-choice.js';
 
 import scoreBuzz from '../../../../shared/geoword-scoring.js';
-import isAdminById from '../../../account-info/is-admin-by-id.js';
+import hasPacketPrivileges from '../../has-packet-privileges.js';
 
 /**
  * @param {Object} params
@@ -15,15 +15,15 @@ import isAdminById from '../../../account-info/is-admin-by-id.js';
  * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
 async function recordBuzz ({ celerity, givenAnswer, isCorrect, packetName, prompts, questionNumber, userId }) {
-  const [admin, division, packet, tossup] = await Promise.all([
-    isAdminById(userId),
+  const [privileged, division, packet, tossup] = await Promise.all([
+    hasPacketPrivileges(packetName, userId),
     getDivisionChoice(packetName, userId),
     packets.findOne({ name: packetName }),
     tossups.findOne({ 'packet.name': packetName, questionNumber })
   ]);
 
   const insertDocument = {
-    active: packet.active && !admin,
+    active: packet.active && !privileged,
     celerity,
     division,
     givenAnswer,

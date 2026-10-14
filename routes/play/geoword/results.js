@@ -1,5 +1,6 @@
 import paidMiddleware from './paid-middleware.js';
 import getUser from '../../../database/account-info/get-user.js';
+import hasPacketPrivileges from '../../../database/geoword/has-packet-privileges.js';
 import getBuzzCount from '../../../database/geoword/get-buzz-count.js';
 import getQuestionCount from '../../../database/geoword/get-question-count.js';
 
@@ -14,12 +15,13 @@ router.use(/^\/[^.]*$/, async (req, res, next) => {
   const { packetName } = req.query;
   const user = await getUser(username);
 
-  const [buzzCount, questionCount] = await Promise.all([
+  const [privileged, buzzCount, questionCount] = await Promise.all([
+    hasPacketPrivileges(packetName, user?._id),
     getBuzzCount(packetName, user?._id),
     getQuestionCount(packetName)
   ]);
 
-  if (!user.admin && buzzCount < questionCount) {
+  if (!privileged && buzzCount < questionCount) {
     return res.status(403).send('You must finish the game before viewing results.');
   }
 
