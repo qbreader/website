@@ -8,6 +8,7 @@ import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, teams, 
 import { users } from '../../database/account-info/collections.js';
 import { geoword, mongoClient } from '../../database/databases.js';
 import { saltAndHashPassword } from '../../server/authentication.js';
+import { DEFAULT_SCORING_SCHEME, SCORING_SCHEMES } from '../../shared/geoword-scoring.js';
 
 import { readdir, readFile } from 'fs/promises';
 import path from 'path';
@@ -73,6 +74,11 @@ const argv = yargs(hideBin(process.argv))
   .option('hidden', {
     description: 'hide the packet from the public list, so only admins can reach it. Defaults to true in prod mode and false in test mode',
     type: 'boolean'
+  })
+  .option('scoring', {
+    description: 'how buzzes are scored: celerity is 10-20 points for a correct answer, neg5 is +10 / -5 (0 once the audio has ended)',
+    choices: Object.keys(SCORING_SCHEMES),
+    default: DEFAULT_SCORING_SCHEME
   })
   .option('replace', {
     description: "prod mode only: delete the packet's tossups and audio first; refused once anyone has played or paid",
@@ -274,6 +280,7 @@ const { insertedId: packetId } = await packets.insertOne({
   active: true,
   divisions: [argv.division],
   order: argv.order,
+  scoring: argv.scoring,
   sample_audio_id: sampleAudioId
 });
 
