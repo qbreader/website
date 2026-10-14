@@ -1,11 +1,11 @@
 import { packets, payments } from './collections.js';
 
-import isAdminById from '../account-info/is-admin-by-id.js';
+import hasPacketPrivileges from './has-packet-privileges.js';
 
 /**
  * @param {String} packetName
  * @param {String} username
- * @returns {Promise<Boolean>} true if the user has paid for the packet, if the packet is free, or if the user is an admin.
+ * @returns {Promise<Boolean>} true if the user has paid for the packet, if the packet is free, or if the user has privileges on the packet (an admin or special user).
  */
 async function checkPayment (packetName, userId) {
   const packet = await packets.findOne({ name: packetName });
@@ -16,7 +16,7 @@ async function checkPayment (packetName, userId) {
     return true;
   }
 
-  if (await isAdminById(userId)) {
+  if (await hasPacketPrivileges(packetName, userId)) {
     return true;
   }
 

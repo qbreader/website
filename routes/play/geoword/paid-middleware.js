@@ -1,5 +1,5 @@
 import getUserId from '../../../database/account-info/get-user-id.js';
-import isAdmin from '../../../database/account-info/is-admin.js';
+import hasPacketPrivileges from '../../../database/geoword/has-packet-privileges.js';
 import checkPayment from '../../../database/geoword/check-payment.js';
 import getPacketStatus from '../../../database/geoword/get-packet-status.js';
 import { checkToken } from '../../../server/authentication.js';
@@ -20,12 +20,11 @@ export default async function paidMiddleware (req, res, next) {
     return res.redirect('/play/geoword');
   }
 
-  const admin = await isAdmin(username);
-  if (status === false && !admin) {
+  const userId = await getUserId(username);
+  if (status === false && !(await hasPacketPrivileges(packetName, userId))) {
     return res.redirect('/play/geoword');
   }
 
-  const userId = await getUserId(username);
   const paid = await checkPayment(packetName, userId);
 
   if (!paid) {
