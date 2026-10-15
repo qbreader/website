@@ -22,7 +22,7 @@ const MAX_DOCUMENT_SIZE = 16 * 1024 * 1024;
 const SAMPLE_FILENAME = 'sample.mp3';
 // Copied from each answers.json entry onto its tossup. Prod mode requires all of them;
 // test mode takes whichever are present, so a bare `{ questionNumber, answer }` still seeds.
-const TOSSUP_TEXT_FIELDS = ['question', 'category', 'subcategory', 'answer_sanitized', 'answer'];
+const TOSSUP_TEXT_FIELDS = ['question', 'question_sanitized', 'category', 'subcategory', 'answer_sanitized', 'answer'];
 const OPTIONAL_TOSSUP_FIELDS = ['instructions'];
 
 // Seeded players, so that a team's buzzes can be merged without a team-creation UI.
