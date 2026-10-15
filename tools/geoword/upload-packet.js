@@ -95,6 +95,11 @@ const argv = yargs(hideBin(process.argv))
     type: 'boolean',
     default: false
   })
+  .option('sampleOnly', {
+    description: "only replace an existing packet's sample clip with sample.mp3 from --folderPath, uploading nothing else",
+    type: 'boolean',
+    default: false
+  })
   .epilog(`Folder layout (--folderPath):
   audio/soundtracks/
   ├── answers.json     [{ "questionNumber": 1, "question": "...", "category": "...",
@@ -115,6 +120,8 @@ Examples:
       Make the uploaded real round public
   node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500 --replace
       Re-upload a real round nobody has played or paid for yet
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks --sample-only
+      Swap just the sample clip, even on a round players have used
 
 Modes:
                           test                      prod
@@ -208,10 +215,6 @@ async function upsertUsers (accounts) {
 
 console.log(`Mode: ${argv.mode}. Target database: "${geoword.databaseName}", packet "${PACKET_NAME}"`);
 
-const costInCents = argv.cost ?? (PROD ? undefined : 0);
-if (!Number.isInteger(costInCents) || costInCents < 0) {
-  throw new Error(PROD ? '--cost is required in prod mode: a whole number of cents, 0 or more.' : '--cost must be a whole number of cents, 0 or more.');
-}
 const hidden = argv.hidden ?? PROD;
 
 const existing = await packets.findOne({ name: PACKET_NAME });
@@ -227,6 +230,28 @@ if (argv.publish) {
 }
 
 const folderPath = argv.folderPath;
+
+if (argv.sampleOnly) {
+  if (!existing) {
+    throw new Error(`Packet "${PACKET_NAME}" does not exist.`);
+  }
+  const sampleFilename = (await readdir(folderPath)).find(filename => filename.toLowerCase() === SAMPLE_FILENAME);
+  if (!sampleFilename) {
+    throw new Error(`No ${SAMPLE_FILENAME} in ${folderPath}.`);
+  }
+  const { insertedId: sampleAudioId } = await sampleAudio.insertOne({ audio: await readFile(path.join(folderPath, sampleFilename)) });
+  await packets.updateOne({ _id: existing._id }, { $set: { sample_audio_id: sampleAudioId } });
+  await sampleAudio.deleteOne({ _id: existing.sample_audio_id });
+  console.log(`Replaced the sample clip of "${PACKET_NAME}".`);
+  await mongoClient.close();
+  process.exit(0);
+}
+
+const costInCents = argv.cost ?? (PROD ? undefined : 0);
+if (!Number.isInteger(costInCents) || costInCents < 0) {
+  throw new Error(PROD ? '--cost is required in prod mode: a whole number of cents, 0 or more.' : '--cost must be a whole number of cents, 0 or more.');
+}
+
 const files = await findAudioFiles(folderPath);
 
 if (files.length === 0) {
@@ -273,9 +298,8 @@ if (existing) {
 
 // The "Test" button plays this. Without it the button is silently a no-op, since the
 // route returns an empty 200 rather than a 404. Falls back to the first tossup's audio.
-const samplePath = files.some(file => file.filename.toLowerCase() === SAMPLE_FILENAME)
-  ? path.join(folderPath, SAMPLE_FILENAME)
-  : path.join(folderPath, files[0].filename);
+const sampleFilename = (await readdir(folderPath)).find(filename => filename.toLowerCase() === SAMPLE_FILENAME);
+const samplePath = path.join(folderPath, sampleFilename ?? files[0].filename);
 const { insertedId: sampleAudioId } = await sampleAudio.insertOne({ audio: await readFile(samplePath) });
 
 // Create the accounts before the packet, which lists the special user by id.
