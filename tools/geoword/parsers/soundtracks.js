@@ -5,8 +5,9 @@
 //     ending in the question's category tag, e.g. `<b><u>Pavement</u></b> <rock>`
 //   - a packet .docx, where each question has a line starting "Clues:" listing the songs played
 //
-// The tag becomes the tossup's category (and is removed from the answer, where the browser would
-// hide it as an unknown HTML tag), the prompt becomes its instructions, and the clues its question.
+// The tag becomes the tossup's category, and is removed from the answer, where the browser would
+// hide it as an unknown HTML tag. There is no subcategory, since the whole tournament is music.
+// The prompt becomes the tossup's instructions, and the clues its question.
 import readDocxParagraphs from './read-docx-paragraphs.js';
 import { escapeHTML } from '../../../shared/string-utils.js';
 
@@ -24,7 +25,6 @@ const CATEGORIES = {
   'rap/hip-hop/contemporary r&b': 'Rap/Hip-Hop/Contemporary R&B',
   'mixed/other': 'Mixed/Other'
 };
-const SUBCATEGORY = 'Music';
 
 const argv = yargs(hideBin(process.argv))
   .option('metadata', {
@@ -139,7 +139,6 @@ const answers = metadata.map(({ questionNumber, prompt, answer: taggedAnswer }) 
     question: escapeHTML(clues[questionNumber]),
     question_sanitized: clues[questionNumber],
     category,
-    subcategory: SUBCATEGORY,
     answer: html,
     answer_sanitized: text,
     instructions: prompt.trim()
@@ -149,6 +148,6 @@ const answers = metadata.map(({ questionNumber, prompt, answer: taggedAnswer }) 
 await writeFile(argv.out, JSON.stringify(answers, null, 2) + '\n');
 
 for (const { questionNumber, category, answer_sanitized: answerSanitized } of answers) {
-  console.log(`question ${questionNumber}: ${category} / ${SUBCATEGORY}: ${answerSanitized}`);
+  console.log(`question ${questionNumber}: <${category}> ${answerSanitized}`);
 }
 console.log(`\nWrote ${answers.length} questions to ${argv.out}.`);

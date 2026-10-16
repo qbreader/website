@@ -25,8 +25,9 @@ const MAX_DOCUMENT_SIZE = 16 * 1024 * 1024;
 const SAMPLE_FILENAME = 'sample.mp3';
 // Copied from each answers.json entry onto its tossup. Prod mode requires all of them;
 // test mode takes whichever are present, so a bare `{ questionNumber, answer }` still seeds.
-const TOSSUP_TEXT_FIELDS = ['question', 'question_sanitized', 'category', 'subcategory', 'answer_sanitized', 'answer'];
-const OPTIONAL_TOSSUP_FIELDS = ['instructions'];
+const TOSSUP_TEXT_FIELDS = ['question', 'question_sanitized', 'category', 'answer_sanitized', 'answer'];
+// A single-subject tournament may have no subcategories; the results pages then show only the category.
+const OPTIONAL_TOSSUP_FIELDS = ['subcategory', 'instructions'];
 // Everything --upsert keeps in sync with answers.json. Audio is deliberately not here.
 const UPSERTED_TOSSUP_FIELDS = [...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS, 'clipBoundaries'];
 
@@ -120,10 +121,10 @@ const argv = yargs(hideBin(process.argv))
   })
   .epilog(`Folder layout (--folderPath):
   audio/soundtracks/
-  ├── answers.json     [{ "questionNumber": 1, "question": "...", "category": "...",
-  │                      "subcategory": "...", "answer": "...", "answer_sanitized": "..." }, ...]
+  ├── answers.json     [{ "questionNumber": 1, "question": "...", "question_sanitized": "...",
+  │                      "category": "...", "answer": "...", "answer_sanitized": "..." }, ...]
   │                    prod requires all of those; test mode only needs questionNumber and answer
-  │                    optional: "instructions" (shown above the question while it plays)
+  │                    optional: "subcategory", and "instructions" (shown above the question while it plays)
   │                    tools/geoword/parsers/ has scripts that write this from a tournament's own files
   ├── sample.mp3       optional: the clip the "Test" button plays (else the first tossup's audio)
   ├── 01.mp3           one per tossup; the last number in the filename is the question number,
