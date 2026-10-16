@@ -4,6 +4,8 @@
 //              freely deletes and recreates the packet.
 // --mode prod: a real round. Creates no teams or players (just a special user), requires an explicit --cost, hides
 //              the packet until published, and refuses to replace a packet anyone has used.
+// --upsert:    in either mode, updates an existing packet's tossups in place instead, which is safe
+//              even after people have played it. Creates the packet if it doesn't exist yet.
 import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, teams, tossups } from '../../database/geoword/collections.js';
 import { users } from '../../database/account-info/collections.js';
 import { geoword, mongoClient } from '../../database/databases.js';
@@ -13,6 +15,7 @@ import { DEFAULT_SCORING_SCHEME, SCORING_SCHEMES } from '../../shared/geoword-sc
 
 import { readdir, readFile } from 'fs/promises';
 import path from 'path';
+import { isDeepStrictEqual } from 'util';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -24,6 +27,8 @@ const SAMPLE_FILENAME = 'sample.mp3';
 // test mode takes whichever are present, so a bare `{ questionNumber, answer }` still seeds.
 const TOSSUP_TEXT_FIELDS = ['question', 'question_sanitized', 'category', 'subcategory', 'answer_sanitized', 'answer'];
 const OPTIONAL_TOSSUP_FIELDS = ['instructions'];
+// Everything --upsert keeps in sync with answers.json. Audio is deliberately not here.
+const UPSERTED_TOSSUP_FIELDS = [...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS, 'clipBoundaries'];
 
 // Seeded players, so that a team's buzzes can be merged without a team-creation UI.
 // These are deliberately NOT admins: recordBuzz marks an admin's buzz `active: false`,
@@ -90,6 +95,19 @@ const argv = yargs(hideBin(process.argv))
     type: 'boolean',
     default: false
   })
+  .option('upsert', {
+    description: "create the packet, or if it exists, update its tossups' text fields from answers.json in place, keeping their audio, ids (so buzzes stay attached), and the packet's settings. Allowed once anyone has played",
+    type: 'boolean',
+    default: false
+  })
+  // Not .conflicts(): yargs counts a boolean's default `false` as set, so it would always trip.
+  .check(argv => {
+    const combined = ['replace', 'publish', 'sampleOnly'].filter(option => argv[option]);
+    if (argv.upsert && combined.length > 0) {
+      throw new Error(`--upsert cannot be combined with --${combined.join(', --')}.`);
+    }
+    return true;
+  })
   .option('publish', {
     description: 'only make an existing packet public, uploading nothing',
     type: 'boolean',
@@ -120,6 +138,8 @@ Examples:
       Make the uploaded real round public
   node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500 --replace
       Re-upload a real round nobody has played or paid for yet
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500 --upsert
+      Apply answers.json edits (answers, categories, ...) to a real round, even one players have used
   node tools/geoword/upload-packet.js --mode prod -n soundtracks --sample-only
       Swap just the sample clip, even on a round players have used
 
@@ -129,8 +149,9 @@ Modes:
   Special user password   "password"                random passphrase, printed
   --cost                  optional (defaults to 0)  required
   Visibility              public by default         hidden by default
-  Packet already exists   deleted and recreated     refused unless --replace
+  Packet already exists   deleted and recreated     refused unless --replace or --upsert
   --replace               not needed                refused if packet is used
+  --upsert                updates tossups in place  updates tossups in place
 
 Override visibility in either mode with --hidden or --no-hidden.
 This writes to whatever MONGODB_URI points at.`)
@@ -213,6 +234,87 @@ async function upsertUsers (accounts) {
   return userIds;
 }
 
+/**
+ * Uploads one question's audio and inserts its tossup.
+ * @param {ObjectId} packetId
+ * @param {{ questionNumber: number, filename: string }} file
+ * @param {Object} entry - the question's answers.json entry
+ */
+async function insertTossup (packetId, { questionNumber, filename }, entry) {
+  const buffer = await readFile(path.join(argv.folderPath, filename));
+
+  if (buffer.length >= MAX_DOCUMENT_SIZE) {
+    throw new Error(`"${filename}" is ${(buffer.length / 1024 / 1024).toFixed(1)} MB, over MongoDB's 16 MB document limit.`);
+  }
+
+  const { insertedId: audioId } = await audio.insertOne({ audio: buffer });
+  const { clipBoundaries } = entry;
+
+  await tossups.insertOne({
+    packet: { _id: packetId, name: PACKET_NAME },
+    division: argv.division,
+    questionNumber,
+    ...Object.fromEntries([...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS].filter(field => entry[field] !== undefined).map(field => [field, entry[field]])),
+    audio_id: audioId,
+    // Unused for now; scoring is continuous celerity. Recorded for per-clip scoring later.
+    ...(clipBoundaries && { clipBoundaries })
+  });
+
+  console.log(`question ${questionNumber}: ${filename} (${(buffer.length / 1024).toFixed(0)} KB)`);
+}
+
+/**
+ * Brings an existing packet's tossups in line with answers.json without deleting anything.
+ * Each tossup is updated in place, so its _id (which buzzes point at) and audio are kept;
+ * a field missing from its entry is removed. A question with no tossup yet is inserted.
+ * Tossups with no audio file in the folder are reported, not deleted.
+ * @param {ObjectId} packetId
+ * @param {Array<{ questionNumber: number, filename: string }>} files
+ * @param {Object<number, Object>} answersByNumber
+ */
+async function upsertTossups (packetId, files, answersByNumber) {
+  for (const file of files) {
+    const { questionNumber } = file;
+    const entry = answersByNumber[questionNumber];
+    const tossup = await tossups.findOne({ 'packet.name': PACKET_NAME, division: argv.division, questionNumber });
+
+    if (!tossup) {
+      await insertTossup(packetId, file, entry);
+      continue;
+    }
+
+    const $set = {};
+    const $unset = {};
+    for (const field of UPSERTED_TOSSUP_FIELDS) {
+      if (entry[field] === undefined) {
+        if (tossup[field] !== undefined) { $unset[field] = ''; }
+      } else if (!isDeepStrictEqual(entry[field], tossup[field])) {
+        $set[field] = entry[field];
+      }
+    }
+
+    const changed = [...Object.keys($set), ...Object.keys($unset)];
+    if (changed.length === 0) {
+      console.log(`question ${questionNumber}: unchanged`);
+      continue;
+    }
+
+    await tossups.updateOne({ _id: tossup._id }, {
+      ...(Object.keys($set).length > 0 && { $set }),
+      ...(Object.keys($unset).length > 0 && { $unset })
+    });
+    console.log(`question ${questionNumber}: updated ${changed.join(', ')}`);
+  }
+
+  const strays = await tossups.find(
+    { 'packet.name': PACKET_NAME, division: argv.division, questionNumber: { $nin: files.map(file => file.questionNumber) } },
+    { projection: { questionNumber: 1 } }
+  ).toArray();
+  for (const { questionNumber } of strays) {
+    console.warn(`question ${questionNumber}: in the database but has no audio file here; left as is.`);
+  }
+}
+
 console.log(`Mode: ${argv.mode}. Target database: "${geoword.databaseName}", packet "${PACKET_NAME}"`);
 
 const hidden = argv.hidden ?? PROD;
@@ -273,12 +375,20 @@ for (const { questionNumber, filename } of files) {
   }
 }
 
+if (argv.upsert && existing) {
+  await upsertTossups(existing._id, files, answersByNumber);
+  console.log(`
+Upserted "${PACKET_NAME}" (${argv.division}). Audio and packet settings were left unchanged.`);
+  await mongoClient.close();
+  process.exit(0);
+}
+
 // Test mode is re-runnable: clear this packet's documents before inserting, so iterating
 // doesn't duplicate. Prod mode only does so on request, and never over player data.
 if (existing) {
   if (PROD) {
     if (!argv.replace) {
-      throw new Error(`Packet "${PACKET_NAME}" already exists. Pass --replace to overwrite it.`);
+      throw new Error(`Packet "${PACKET_NAME}" already exists. Pass --replace to overwrite it, or --upsert to update it in place.`);
     }
     const reason = await whyNotReplaceable(PACKET_NAME);
     if (reason) {
@@ -325,28 +435,8 @@ const { insertedId: packetId } = await packets.insertOne({
   sample_audio_id: sampleAudioId
 });
 
-for (const { questionNumber, filename } of files) {
-  const buffer = await readFile(path.join(folderPath, filename));
-
-  if (buffer.length >= MAX_DOCUMENT_SIZE) {
-    throw new Error(`"${filename}" is ${(buffer.length / 1024 / 1024).toFixed(1)} MB, over MongoDB's 16 MB document limit.`);
-  }
-
-  const { insertedId: audioId } = await audio.insertOne({ audio: buffer });
-  const entry = answersByNumber[questionNumber];
-  const { clipBoundaries } = entry;
-
-  await tossups.insertOne({
-    packet: { _id: packetId, name: PACKET_NAME },
-    division: argv.division,
-    questionNumber,
-    ...Object.fromEntries([...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS].filter(field => entry[field] !== undefined).map(field => [field, entry[field]])),
-    audio_id: audioId,
-    // Unused for now; scoring is continuous celerity. Recorded for per-clip scoring later.
-    ...(clipBoundaries && { clipBoundaries })
-  });
-
-  console.log(`question ${questionNumber}: ${filename} (${(buffer.length / 1024).toFixed(0)} KB)`);
+for (const file of files) {
+  await insertTossup(packetId, file, answersByNumber[file.questionNumber]);
 }
 
 if (PROD) {
