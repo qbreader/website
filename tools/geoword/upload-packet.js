@@ -124,6 +124,7 @@ const argv = yargs(hideBin(process.argv))
   │                      "subcategory": "...", "answer": "...", "answer_sanitized": "..." }, ...]
   │                    prod requires all of those; test mode only needs questionNumber and answer
   │                    optional: "instructions" (shown above the question while it plays)
+  │                    tools/geoword/parsers/ has scripts that write this from a tournament's own files
   ├── sample.mp3       optional: the clip the "Test" button plays (else the first tossup's audio)
   ├── 01.mp3           one per tossup; the last number in the filename is the question number,
   ├── 02.mp3           so "Tiebreakers - Tossup 1.mp3" is question 1
