@@ -22,7 +22,7 @@ fetch('/api/geoword/paid/results/packet?' + new URLSearchParams({ packetName }))
       for (const tossup of packet) {
         innerHTML += `<div>${tossup.questionNumber}. ${tossup.question}</div>`;
         innerHTML += `<div>ANSWER: ${tossup.answer}</div>`;
-        innerHTML += `<p>&lt;${tossup.category} / ${tossup.subcategory}&gt;</p>`;
+        innerHTML += `<p>&lt;${tossup.category}${tossup.subcategory ? ` / ${tossup.subcategory}` : ''}&gt;</p>`;
         innerHTML += '<hr class="my-3"></hr>';
       }
       div.innerHTML += innerHTML;

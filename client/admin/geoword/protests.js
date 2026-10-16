@@ -22,7 +22,7 @@ fetch('/api/admin/geoword/protests?' + new URLSearchParams({ packetName }))
         const { questionNumber } = tossup;
         innerHTML += `<div>${tossup.questionNumber}. ${tossup.question}</div>`;
         innerHTML += `<div>ANSWER: ${tossup.answer}</div>`;
-        innerHTML += `<p>&lt;${tossup.category} / ${tossup.subcategory}&gt;</p>`;
+        innerHTML += `<p>&lt;${tossup.category}${tossup.subcategory ? ` / ${tossup.subcategory}` : ''}&gt;</p>`;
 
         if (protests.filter(protest => protest.questionNumber === questionNumber).length === 0) {
           innerHTML += '<hr>';
