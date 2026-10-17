@@ -1,4 +1,4 @@
-import getAudio from '../../../../../database/geoword/paid/play/get-audio.js';
+import getAudio from '../../../../../database/geoword/get-audio.js';
 import getSampleAudio from '../../../../../database/geoword/paid/play/get-sample-audio.js';
 
 import { Router } from 'express';
