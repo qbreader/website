@@ -27,7 +27,7 @@ const SAMPLE_FILENAME = 'sample.mp3';
 // test mode takes whichever are present, so a bare `{ questionNumber, answer }` still seeds.
 const TOSSUP_TEXT_FIELDS = ['question', 'question_sanitized', 'category', 'answer_sanitized', 'answer'];
 // A single-subject tournament may have no subcategories; the results pages then show only the category.
-const OPTIONAL_TOSSUP_FIELDS = ['subcategory', 'instructions'];
+const OPTIONAL_TOSSUP_FIELDS = ['subcategory', 'instructions', 'clues'];
 // Everything --upsert keeps in sync with answers.json. Audio is deliberately not here.
 const UPSERTED_TOSSUP_FIELDS = [...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS, 'clipBoundaries'];
 
@@ -125,6 +125,8 @@ const argv = yargs(hideBin(process.argv))
   │                      "category": "...", "answer": "...", "answer_sanitized": "..." }, ...]
   │                    prod requires all of those; test mode only needs questionNumber and answer
   │                    optional: "subcategory", and "instructions" (shown above the question while it plays)
+  │                    optional: "clues", e.g. ["\\"Vienna\\"", ...], and "clipBoundaries", the second each
+  │                      clue starts at, e.g. [0, 10, 21, ...]; the results page lists the clues to jump to
   ├── sample.mp3       optional: the clip the "Test" button plays (else the first tossup's audio)
   ├── 01.mp3           one per tossup; the last number in the filename is the question number,
   ├── 02.mp3           so "Tiebreakers - Tossup 1.mp3" is question 1
@@ -257,7 +259,8 @@ async function insertTossup (packetId, { questionNumber, filename }, entry) {
     questionNumber,
     ...Object.fromEntries([...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS].filter(field => entry[field] !== undefined).map(field => [field, entry[field]])),
     audio_id: audioId,
-    // Unused for now; scoring is continuous celerity. Recorded for per-clip scoring later.
+    // The results Packet page uses these to jump between clues. Scoring is continuous celerity,
+    // so they could also serve per-clip scoring later.
     ...(clipBoundaries && { clipBoundaries })
   });
 
