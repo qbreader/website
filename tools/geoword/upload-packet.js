@@ -2,8 +2,8 @@
 //
 // --mode test: a demo setup for local development. Also creates test users and teams, and
 //              freely deletes and recreates the packet.
-// --mode prod: a real round. Creates no teams or players (just a special user), requires an explicit --cost, hides
-//              the packet until published, and refuses to replace a packet anyone has used.
+// --mode prod: a real round. Creates no teams or players (just a special user), requires an explicit --cost (unless the packet exists, whose cost is
+//              kept), hides the packet until published, and refuses to replace a packet anyone has used.
 // --upsert:    in either mode, updates an existing packet's tossups in place instead, which is safe
 //              even after people have played it. Creates the packet if it doesn't exist yet.
 import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, teams, tossups } from '../../database/geoword/collections.js';
@@ -67,7 +67,7 @@ const argv = yargs(hideBin(process.argv))
   })
   .option('cost', {
     alias: 'c',
-    description: 'the cost in cents (USD); 0 makes the packet free and skips Stripe. Required in prod mode, defaults to 0 in test mode',
+    description: 'the cost in cents (USD); 0 makes the packet free and skips Stripe. Required in prod mode when creating a packet; --replace and --upsert keep the existing packet\'s cost if omitted. Defaults to 0 in test mode',
     type: 'number'
   })
   .option('division', {
@@ -149,7 +149,7 @@ Modes:
                           test                      prod
   Test users and teams    created                   never created
   Special user password   "password"                random passphrase, printed
-  --cost                  optional (defaults to 0)  required
+  --cost                  optional (defaults to 0)  required for a new packet; else kept
   Visibility              public by default         hidden by default
   Packet already exists   deleted and recreated     refused unless --replace or --upsert
   --replace               not needed                refused if packet is used
@@ -352,9 +352,18 @@ if (argv.sampleOnly) {
   process.exit(0);
 }
 
-const costInCents = argv.cost ?? (PROD ? undefined : 0);
+let costInCents = argv.cost;
+if (costInCents === undefined) {
+  if (!PROD) {
+    costInCents = 0;
+  } else if (existing) {
+    // --replace and --upsert on an existing prod packet can leave --cost off and keep the one it has.
+    costInCents = existing.costInCents;
+    console.log(`No --cost given; keeping "${PACKET_NAME}"'s existing cost of ${costInCents} cents.`);
+  }
+}
 if (!Number.isInteger(costInCents) || costInCents < 0) {
-  throw new Error(PROD ? '--cost is required in prod mode: a whole number of cents, 0 or more.' : '--cost must be a whole number of cents, 0 or more.');
+  throw new Error(PROD ? '--cost is required in prod mode when creating a packet: a whole number of cents, 0 or more.' : '--cost must be a whole number of cents, 0 or more.');
 }
 
 const files = await findAudioFiles(folderPath);
