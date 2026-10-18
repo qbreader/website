@@ -7,31 +7,12 @@ const packetTitle = titleCase(packetName);
 
 const tabContent = document.getElementById('tab-content');
 
-/** Every question number in the packet, in order */
-let questionNumbers = [];
-
 /**
  * @param {number} seconds
  * @returns {string} e.g. "1:05"
  */
 function formatTime (seconds) {
   return `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
-}
-
-/**
- * @param {number} questionNumber
- * @returns {string} the URL of this page showing that question
- */
-function getQuestionURL (questionNumber) {
-  return '?' + new URLSearchParams({ packetName, question: questionNumber });
-}
-
-/**
- * @returns {number} the question the URL asks for, or the first question if it asks for none that exists
- */
-function getQuestionFromURL () {
-  const questionNumber = parseInt(new URLSearchParams(window.location.search).get('question'));
-  return questionNumbers.includes(questionNumber) ? questionNumber : questionNumbers[0];
 }
 
 /**
@@ -77,100 +58,38 @@ function getCluesHTML (tossup) {
 }
 
 /**
- * A link to another question, or a disabled placeholder if there is none.
- * @param {number | undefined} questionNumber
- * @param {string} role - which link this is, so focus can follow it to the next question
- * @param {string} text
- * @param {string} label
- * @returns {string}
- */
-function getPageItemHTML (questionNumber, role, text, label) {
-  if (questionNumber === undefined) {
-    return `<li class="page-item disabled"><span class="page-link" aria-hidden="true">${text}</span></li>`;
-  }
-  return `<li class="page-item"><a class="page-link" href="${getQuestionURL(questionNumber)}" data-question="${questionNumber}" data-role="${role}" aria-label="${label}">${text}</a></li>`;
-}
-
-/**
- * @param {number} current - the question this pager is shown with
- * @param {number | undefined} previous
- * @param {number | undefined} next
- * @returns {string} HTML for the row of question links above a tossup
- */
-function getPagerHTML (current, previous, next) {
-  // The arrows sit either side of the numbers, so only the numbers wrap on a narrow screen
-  let html = '<nav class="d-flex justify-content-center align-items-start gap-1 mb-4" aria-label="Questions">';
-  html += `<ul class="pagination pagination-equal mb-0">${getPageItemHTML(previous, 'previous', '&lsaquo;', `Previous: question ${previous}`)}</ul>`;
-  html += '<ul class="pagination pagination-equal pagination-rows-of-ten justify-content-center flex-wrap mb-0">';
-  for (const questionNumber of questionNumbers) {
-    if (questionNumber === current) {
-      html += `<li class="page-item active"><a class="page-link" href="${getQuestionURL(questionNumber)}" data-question="${questionNumber}" data-role="number" aria-current="page">${questionNumber}</a></li>`;
-    } else {
-      html += getPageItemHTML(questionNumber, 'number', questionNumber, `Question ${questionNumber}`);
-    }
-  }
-  html += '</ul>';
-  html += `<ul class="pagination pagination-equal mb-0">${getPageItemHTML(next, 'next', '&rsaquo;', `Next: question ${next}`)}</ul>`;
-  return html + '</nav>';
-}
-
-/**
- * @param {number | undefined} previous
- * @param {number | undefined} next
- * @returns {string} HTML for the previous and next buttons below a tossup
- */
-function getBottomLinksHTML (previous, next) {
-  const link = (questionNumber, role, html) => questionNumber === undefined
-    ? '<span></span>'
-    : `<a class="btn btn-primary" href="${getQuestionURL(questionNumber)}" data-question="${questionNumber}" data-role="${role}">${html}</a>`;
-
-  return `
-    <div class="d-flex justify-content-between mt-4">
-      ${link(previous, 'bottom', `&lsaquo; Question ${previous}`)}
-      ${link(next, 'bottom', `Question ${next} &rsaquo;`)}
-    </div>`;
-}
-
-/**
  * @param {object} tossup
  * @param {string} division
  * @param {string} id - the section's id
- * @returns {string} HTML for one tossup: its pager, heading, prompt, player, clues, and answer
+ * @returns {string} HTML for one tossup: its heading, prompt, player, clues, and answer
  */
 function getTossupHTML (tossup, division, id) {
-  const index = questionNumbers.indexOf(tossup.questionNumber);
-  const previous = questionNumbers[index - 1];
-  const next = questionNumbers[index + 1];
   const category = escapeHTML(tossup.category) + (tossup.subcategory ? ` / ${escapeHTML(tossup.subcategory)}` : '');
   const audioSrc = '/api/geoword/paid/results/audio/question.mp3?' + new URLSearchParams({ packetName, division, questionNumber: tossup.questionNumber });
 
   return `
-    <section class="d-none" id="${id}" data-question="${tossup.questionNumber}" aria-labelledby="${id}-heading">
-      ${getPagerHTML(tossup.questionNumber, previous, next)}
-      <h2 class="h5 d-flex flex-wrap justify-content-between align-items-baseline gap-2" id="${id}-heading" tabindex="-1">
-        <span>Question ${tossup.questionNumber}</span>
-        <span class="fs-6 fw-normal text-body-secondary">${category}</span>
-      </h2>
+    <section class="mb-5" style="scroll-margin-top: 1rem" id="${id}" aria-labelledby="${id}-heading">
+      <h2 class="h5" id="${id}-heading">Question ${tossup.questionNumber}</h2>
       ${tossup.instructions ? `<div class="alert alert-info small-alert mb-2"><b>Prompt:</b> ${tossup.instructions}</div>` : ''}
       <!-- With no download, speed, or cast items left, Chrome hides the overflow menu -->
       <audio controls controlslist="nodownload noplaybackrate" disableremoteplayback preload="none" class="w-100 mb-2" src="${audioSrc}"></audio>
       ${getCluesHTML(tossup)}
       <div><b>ANSWER:</b> ${tossup.answer}</div>
-      ${getBottomLinksHTML(previous, next)}
+      <div>&lt;${category}&gt;</div>
     </section>`;
 }
 
 /**
- * Shows one question, in every division, and stops whatever was playing.
- * @param {number} questionNumber
+ * @param {object[]} tossups - one division's tossups
+ * @param {(tossup: object) => string} getId
+ * @returns {string} HTML for a row of links that jump to each question
  */
-function showQuestion (questionNumber) {
-  for (const audio of tabContent.querySelectorAll('audio')) {
-    audio.pause();
+function getNavHTML (tossups, getId) {
+  let html = '<nav aria-label="Questions"><ul class="pagination flex-wrap justify-content-center mb-4">';
+  for (const tossup of tossups) {
+    html += `<li class="page-item"><a class="page-link" href="#${getId(tossup)}" aria-label="Jump to question ${tossup.questionNumber}">${tossup.questionNumber}</a></li>`;
   }
-  for (const section of tabContent.querySelectorAll('section')) {
-    section.classList.toggle('d-none', parseInt(section.dataset.question) !== questionNumber);
-  }
+  return html + '</ul></nav>';
 }
 
 /**
@@ -202,29 +121,6 @@ function getCurrentClue (audio) {
 }
 
 tabContent.addEventListener('click', event => {
-  const link = event.target.closest('a[data-question]');
-  // Let modified clicks open the question in a new tab as usual
-  if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.button !== 0) { return; }
-  event.preventDefault();
-
-  const questionNumber = parseInt(link.dataset.question);
-  const { role } = link.dataset;
-  showQuestion(questionNumber);
-  window.history.pushState(null, '', getQuestionURL(questionNumber));
-
-  // The clicked link is now hidden, so move focus to its counterpart in the question shown
-  const section = link.closest('.tab-pane').querySelector(`section[data-question="${questionNumber}"]`);
-  if (role === 'bottom') {
-    section.scrollIntoView({ block: 'start' });
-    section.querySelector('h2').focus({ preventScroll: true });
-  } else {
-    // A number link becomes the current page; previous or next may be disabled on the new question
-    const counterpart = role === 'number' ? null : section.querySelector(`[data-role="${role}"]`);
-    (counterpart ?? section.querySelector('[aria-current="page"]')).focus();
-  }
-});
-
-tabContent.addEventListener('click', event => {
   const button = event.target.closest('button[data-start]');
   if (!button) { return; }
 
@@ -249,8 +145,6 @@ for (const type of ['play', 'pause', 'timeupdate']) {
   }, true);
 }
 
-window.addEventListener('popstate', () => showQuestion(getQuestionFromURL()));
-
 document.getElementById('back-link').href = `./?packetName=${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
 
@@ -260,7 +154,6 @@ fetch('/api/geoword/paid/results/packet?' + new URLSearchParams({ packetName }))
     const { packets } = data;
     const divisions = Object.keys(packets);
     const tossups = Object.values(packets).flat();
-    questionNumbers = [...new Set(tossups.map(tossup => tossup.questionNumber))].sort((a, b) => a - b);
 
     // Tabs only help when there is more than one division to choose between
     if (divisions.length === 1) {
@@ -274,12 +167,11 @@ fetch('/api/geoword/paid/results/packet?' + new URLSearchParams({ packetName }))
     const divs = createTabs({ tabNames: divisions });
 
     for (const division of divisions) {
-      let innerHTML = '';
+      const getId = tossup => `${kebabCase(division)}-question-${tossup.questionNumber}`;
+      let innerHTML = getNavHTML(packets[division], getId);
       for (const tossup of packets[division]) {
-        innerHTML += getTossupHTML(tossup, division, `${kebabCase(division)}-question-${tossup.questionNumber}`);
+        innerHTML += getTossupHTML(tossup, division, getId(tossup));
       }
       divs[division].innerHTML += innerHTML;
     }
-
-    showQuestion(getQuestionFromURL());
   });

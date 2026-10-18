@@ -111,26 +111,6 @@ code {
     background-color: #dfebfb;
 }
 
-// equal-width page links, wide enough for two digits and a comfortable touch target,
-// spaced apart so that a row which wraps on a narrow screen still looks like a grid
-.pagination-equal {
-    gap: .25rem;
-}
-
-.pagination-equal .page-item .page-link {
-    width: 2.75rem;
-    margin-left: 0;
-    padding-left: 0;
-    padding-right: 0;
-    border-radius: var(--#{$prefix}pagination-border-radius);
-    text-align: center;
-}
-
-// wraps a 20-question packet into two even rows of ten
-.pagination-equal.pagination-rows-of-ten {
-    max-width: calc(10 * 2.75rem + 9 * .25rem);
-}
-
 .room-history {
     border-top: .5px solid lightgray;
 }
