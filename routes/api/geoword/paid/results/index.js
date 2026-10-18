@@ -3,6 +3,7 @@ import hasPacketPrivileges from '../../../../../database/geoword/has-packet-priv
 import getBuzzCount from '../../../../../database/geoword/get-buzz-count.js';
 import getQuestionCount from '../../../../../database/geoword/get-question-count.js';
 
+import audioRouter from './audio.js';
 import categoryStatsRouter from './category-stats.js';
 import compareRouter from './compare.js';
 import leaderboardRouter from './leaderboard.js';
@@ -33,6 +34,7 @@ router.use(async (req, res, next) => {
   next();
 });
 
+router.use('/audio', audioRouter);
 router.use('/category-stats', categoryStatsRouter);
 router.use('/compare', compareRouter);
 router.use('/leaderboard', leaderboardRouter);

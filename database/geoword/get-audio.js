@@ -1,4 +1,4 @@
-import { audio, tossups } from '../../collections.js';
+import { audio, tossups } from './collections.js';
 
 /**
  * @param {object} options
