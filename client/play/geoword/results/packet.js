@@ -122,7 +122,7 @@ function getPagerHTML (current, previous, next) {
 function getBottomLinksHTML (previous, next) {
   const link = (questionNumber, role, html) => questionNumber === undefined
     ? '<span></span>'
-    : `<a class="btn btn-outline-primary" href="${getQuestionURL(questionNumber)}" data-question="${questionNumber}" data-role="${role}">${html}</a>`;
+    : `<a class="btn btn-primary" href="${getQuestionURL(questionNumber)}" data-question="${questionNumber}" data-role="${role}">${html}</a>`;
 
   return `
     <div class="d-flex justify-content-between mt-4">
