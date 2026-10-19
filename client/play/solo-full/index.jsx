@@ -10,7 +10,7 @@ import SoloTossupBonusRoom from '../../rooms/SoloTossupBonusRoom.js';
 import SoloTossupBonusClient, { storage } from '../../clients/SoloTossupBonusClient.js';
 
 const USER_ID = 'user';
-// the team id must equal the user id, as in multiplayer: TossupBonusClient compares the two
+// the team id must equal the user id, this is the same system that multiplayer uses
 const TEAM_ID = USER_ID;
 
 const room = new SoloTossupBonusRoom('', new CategoryManager());

@@ -10,7 +10,7 @@ async function fetchShuffledIds (url) {
       return response.json();
     });
 
-  // random shuffle
+  // shuffle ids
   ids?.sort(() => Math.random() - 0.5);
   return ids;
 }
@@ -102,10 +102,7 @@ export default class SoloTossupBonusRoom extends TossupBonusRoom {
     super.startBonusAnswer({ userId, username });
   }
 
-  /**
-   * Unlike multiplayer, the player can overrule the answer checker on a tossup,
-   * so the bonus must follow the final verdict rather than the first one.
-   */
+  // users can toggle correct in solo bonuses, so the bonus must follow the final decision by the player if it was toggled.
   toggleCorrect ({ userId, username }, { targetUserId }) {
     if (this.currentQuestionType !== QUESTION_TYPE_ENUM.TOSSUP) { return; }
     // previousTossup is stale if the player never buzzed on the current tossup
