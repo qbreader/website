@@ -23,7 +23,6 @@ router.use(async (req, res, next) => {
   next();
 });
 
-// Every team route acts within one set, named by `setName` in the body or query.
 router.use(async (req, res, next) => {
   const { setName } = validate({ setName: req.body?.setName ?? req.query.setName }, { setName: rules.string() });
   res.locals.set = await getSet(setName);

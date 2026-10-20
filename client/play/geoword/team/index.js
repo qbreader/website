@@ -15,8 +15,6 @@ function showTeam ({ teamName, code, memberCount }) {
 }
 
 document.getElementById('form').addEventListener('submit', async event => {
-  // Need event.preventDefault() for firefox only!!!
-  // See https://stackoverflow.com/a/70780452
   event.preventDefault();
   event.stopPropagation();
 

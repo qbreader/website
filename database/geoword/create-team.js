@@ -17,8 +17,8 @@ const MAX_CODE_ATTEMPTS = 5;
  * @param {Object} options
  * @param {{ _id: ObjectId, name: string }} options.set
  * @param {String} options.teamName
- * @param {ObjectId} options.userId - the creator
- * @returns {Promise<Object>} the new team
+ * @param {ObjectId} options.userId
+ * @returns {Promise<Object>}
  */
 async function createTeam ({ set, teamName, userId }) {
   for (let attempt = 1; ; attempt++) {
