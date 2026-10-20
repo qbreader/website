@@ -1,7 +1,5 @@
-// Minimal service worker that makes the site installable and shows an offline page.
-// It deliberately never caches pages, scripts, styles or API responses: the site is
-// redeployed daily and every page is built from live data, so stale copies would be worse
-// than an error. Only the offline fallback page is stored.
+// Service worker that makes the site installable and shows an offline page.
+//It doesn't cache pages, scripts, styles, or API responses to avoid stale copies from redeploys
 
 /* global self */
 
@@ -25,7 +23,7 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // Only page navigations get a fallback. API calls, scripts and WebSockets are untouched.
+  // Fallback is only for page navigations
   if (event.request.mode !== 'navigate') { return; }
 
   event.respondWith(
