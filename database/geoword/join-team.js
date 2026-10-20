@@ -18,8 +18,8 @@ function safeEqual (a, b) {
  * Adds a user to the team with the given name in a set, if the code matches.
  *
  * A wrong name and a wrong code are indistinguishable to the caller, so names can't be probed.
- * Does not check that the user is on no other team: the unique index on `members` from
- * tools/geoword/create-indexes.js does, and a violation surfaces as a MongoServerError with code 11000.
+ * Does not check that the user is on no other team: the unique index on `members` (see createTeam)
+ * does, and a violation surfaces as a MongoServerError with code 11000.
  *
  * @param {Object} options
  * @param {ObjectId} options.setId

@@ -2,7 +2,7 @@ import { teams } from './collections.js';
 
 /**
  * Renames a team, if the user owns it. A name another team in the set already has surfaces as a
- * MongoServerError with code 11000, from the unique index in tools/geoword/create-indexes.js.
+ * MongoServerError with code 11000, from the unique index on names (see createTeam).
  * @param {Object} options
  * @param {ObjectId} options.setId
  * @param {ObjectId} options.ownerId
