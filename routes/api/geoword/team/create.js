@@ -1,5 +1,4 @@
 import createTeam from '../../../../database/geoword/create-team.js';
-import getSetDivisions from '../../../../database/geoword/get-set-divisions.js';
 import isAppropriateString from '../../../../server/moderation/is-appropriate-string.js';
 import validate, { rules } from '../../../validators/schema.js';
 
@@ -18,10 +17,7 @@ router.use(rateLimit({
 }));
 
 router.post('/', async (req, res) => {
-  const { teamName: rawTeamName, division } = validate(req.body, {
-    teamName: rules.string(),
-    division: rules.string()
-  });
+  const { teamName: rawTeamName } = validate(req.body, { teamName: rules.string() });
   const teamName = rawTeamName.replace(/\s+/g, ' ');
 
   if (teamName.length < MIN_TEAM_NAME_LENGTH || teamName.length > MAX_TEAM_NAME_LENGTH) {
@@ -32,13 +28,9 @@ router.post('/', async (req, res) => {
   }
 
   const { set } = res.locals;
-  if (!(await getSetDivisions(set._id)).includes(division)) {
-    return res.status(400).send('Choose a division.');
-  }
-
   try {
-    const team = await createTeam({ set, teamName, division, userId: res.locals.userId });
-    res.status(201).json({ team: { teamName: team.teamName, division: team.division } });
+    const team = await createTeam({ set, teamName, userId: res.locals.userId });
+    res.status(201).json({ team: { teamName: team.teamName } });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
     // Which unique index was violated: see createTeam.

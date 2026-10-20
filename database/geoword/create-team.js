@@ -12,12 +12,11 @@ import { teams } from './collections.js';
  * @param {Object} options
  * @param {{ _id: ObjectId, name: string }} options.set
  * @param {String} options.teamName
- * @param {String} options.division
  * @param {ObjectId} options.userId - the creator
  * @returns {Promise<Object>} the new team
  */
-async function createTeam ({ set, teamName, division, userId }) {
-  const team = { set: { _id: set._id, name: set.name }, division, teamName, members: [userId] };
+async function createTeam ({ set, teamName, userId }) {
+  const team = { set: { _id: set._id, name: set.name }, teamName, members: [userId] };
   const { insertedId } = await teams.insertOne(team);
   return { _id: insertedId, ...team };
 }
