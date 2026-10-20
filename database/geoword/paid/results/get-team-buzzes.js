@@ -1,17 +1,11 @@
 import { buzzes } from '../../collections.js';
 
 /**
- * Every member's buzz on each question of a packet, in one division.
- *
- * Callers are responsible for only showing this to someone who has finished the packet:
- * it includes the answerlines.
- *
  * @param {Object} options
  * @param {String} options.packetName
  * @param {String} options.division
- * @param {Object} options.team - a document from the `teams` collection
+ * @param {Object} options.team
  * @returns {Promise<Array<{ questionNumber: number, answer_sanitized: string, buzzes: Array<{ user_id: ObjectId, givenAnswer: string, points: number, celerity: number }> }>>}
- * one entry per question that any member has buzzed on, ordered by question number
  */
 async function getTeamBuzzes ({ packetName, division, team }) {
   return await buzzes.aggregate([

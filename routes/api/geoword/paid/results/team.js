@@ -14,16 +14,6 @@ import { Router } from 'express';
 
 const router = Router();
 
-/**
- * How everyone on the player's team did on each question of a packet.
- * Only for a player on a team in the packet's set who has finished the packet themselves: the
- * answerlines are in the response. It shows the teammates who played the same division as the
- * player, since divisions have different questions. This is stricter than the results router,
- * which also lets packet admins through.
- *
- * Packet admins (admins and the packet's special users) can instead pass a `teamName` and a
- * `division` to view any team in the packet's set, whether or not they are on it or have finished.
- */
 router.get('/', async (req, res) => {
   const { packetName } = req.query;
   const userId = await getUserId(req.session.username);
