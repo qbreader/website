@@ -10,7 +10,7 @@ for (const [index, th] of Array.from(document.getElementsByTagName('th')).entrie
   th.addEventListener('click', () => sortTable(index, false, 'payment-table'));
 }
 
-fetch('/api/admin/geoword/payment-list?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/admin/payment-list?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
     const { payments } = data;
@@ -32,7 +32,7 @@ document.getElementById('record-payment-form').addEventListener('submit', event 
   const username = document.getElementById('username').value;
   document.getElementById('username').value = '';
 
-  fetch('/api/admin/geoword/record-payment', {
+  fetch('/api/geoword/admin/record-payment', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, packetName })

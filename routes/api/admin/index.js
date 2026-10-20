@@ -1,5 +1,4 @@
 import clearReportsRouter from './clear-reports.js';
-import geowordRouter from './geoword/index.js';
 import listReportsRouter from './list-reports.js';
 import leaderboardRouter from './leaderboard.js';
 import multiplayerRouter from './multiplayer/index.js';
@@ -13,8 +12,6 @@ import { checkToken } from '../../../server/authentication.js';
 import { Router } from 'express';
 
 const router = Router();
-
-router.use('/geoword', geowordRouter);
 
 router.use(async (req, res, next) => {
   const { username, token } = req.session;

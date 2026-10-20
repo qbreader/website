@@ -8,7 +8,7 @@ const packetTitle = titleCase(packetName);
 
 document.getElementById('packet-name').textContent = packetTitle;
 
-fetch('/api/admin/geoword/leaderboard?' + new URLSearchParams({ packetName, includeInactive: true }))
+fetch('/api/geoword/admin/leaderboard?' + new URLSearchParams({ packetName, includeInactive: true }))
   .then(response => response.json())
   .then(data => {
     const { leaderboard } = data;

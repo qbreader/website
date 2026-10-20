@@ -10,7 +10,7 @@ document.getElementById('packet-name').textContent = packetTitle;
 
 let leaderboards;
 
-fetch('/api/admin/geoword/category-stats?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/admin/category-stats?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
     leaderboards = data.leaderboards;

@@ -7,7 +7,7 @@ const packetTitle = titleCase(packetName);
 
 document.getElementById('packet-name').textContent = packetTitle;
 
-fetch('/api/admin/geoword/stats?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/admin/stats?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
     const { stats } = data;

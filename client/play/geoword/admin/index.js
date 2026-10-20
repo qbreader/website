@@ -1,6 +1,6 @@
 import { titleCase } from '../../../../shared/string-utils.js';
 
-fetch('/api/admin/geoword/packet-list')
+fetch('/api/geoword/admin/packet-list')
   .then(response => response.json())
   .then(data => {
     const { packetList } = data;

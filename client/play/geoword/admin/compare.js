@@ -26,7 +26,7 @@ function updatePlayerLists (packetName, division) {
   document.getElementById('spinner').classList.remove('d-none');
   document.getElementById('player-list-1').innerHTML = '';
   document.getElementById('player-list-2').innerHTML = '';
-  fetch('/api/admin/geoword/player-list?' + new URLSearchParams({ packetName, division }))
+  fetch('/api/geoword/admin/player-list?' + new URLSearchParams({ packetName, division }))
     .then(response => response.json())
     .then(data => {
       const { players } = data;
@@ -41,7 +41,7 @@ function updatePlayerLists (packetName, division) {
     });
 }
 
-fetch('/api/admin/geoword/packet-list')
+fetch('/api/geoword/admin/packet-list')
   .then(response => response.json())
   .then(data => {
     const { packetList } = data;
@@ -63,7 +63,7 @@ document.getElementById('form').addEventListener('submit', event => {
   const player1 = document.getElementById('player-1').value;
   const player2 = document.getElementById('player-2').value;
 
-  fetch('/api/admin/geoword/compare?' + new URLSearchParams({ packetName, division, player1, player2 }))
+  fetch('/api/geoword/admin/compare?' + new URLSearchParams({ packetName, division, player1, player2 }))
     .then(response => response.json())
     .then(data => {
       const { player1Buzzes, player2Buzzes } = data;
