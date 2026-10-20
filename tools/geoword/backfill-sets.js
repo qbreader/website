@@ -11,12 +11,12 @@ import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 
 const SETS = {
-  'First Folio': ['opus-1', 'opus-2', 'opus-3', 'opus-4', 'opus-5', 'opus-6'],
-  'Second Folio': ['opus-7', 'opus-8', 'opus-9', 'opus-10'].flatMap(opus => [`${opus}-division-1`, `${opus}-division-2`]),
-  'Geoword samples': ['beterword-sample', 'division-1-sample', 'division-2-sample', 'high-school-sample'],
-  'Community Packet': ['community-packet'],
-  Geojazz: ['geojazz'],
-  '2025 NFL Season Special': ['2025 NFL Season Special']
+  'first-folio': ['opus-1', 'opus-2', 'opus-3', 'opus-4', 'opus-5', 'opus-6'],
+  'second-folio': ['opus-7', 'opus-8', 'opus-9', 'opus-10'].flatMap(opus => [`${opus}-division-1`, `${opus}-division-2`]),
+  'geoword-samples': ['beterword-sample', 'division-1-sample', 'division-2-sample', 'high-school-sample'],
+  'community-packet': ['community-packet'],
+  geojazz: ['geojazz'],
+  '2025-nfl-season-special': ['2025 NFL Season Special']
 };
 
 const argv = yargs(hideBin(process.argv))
