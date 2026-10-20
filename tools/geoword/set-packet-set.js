@@ -1,7 +1,6 @@
 // Puts existing Geoword packets in a set, for data created before sets existed.
 //
-// For the usual one-time migration of every existing packet, see backfill-sets.js. See
-// putPacketsInSet for what is written.
+// See putPacketsInSet for what is written.
 import { sets } from '../../database/geoword/collections.js';
 import putPacketsInSet from '../../database/geoword/put-packets-in-set.js';
 import { geoword, mongoClient } from '../../database/databases.js';
