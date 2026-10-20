@@ -30,3 +30,15 @@ fetch('/api/geoword/packet-list')
       document.getElementById('packet-list').appendChild(li);
     });
   });
+
+fetch('/api/geoword/set-list')
+  .then(response => response.json())
+  .then(data => {
+    const { setList } = data;
+    document.getElementById('team-links').replaceChildren(...setList.flatMap(({ name }, index) => {
+      const a = document.createElement('a');
+      a.href = './team/?' + new URLSearchParams({ setName: name });
+      a.textContent = name;
+      return index === 0 ? [a] : [', ', a];
+    }));
+  });
