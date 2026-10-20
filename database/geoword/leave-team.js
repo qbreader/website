@@ -1,26 +1,27 @@
 import { teams } from './collections.js';
+import getTeam from './get-team.js';
 
 /**
- * Removes a user from their team in a set, deleting the team if they were its last member.
- * A team's owner can only leave once they are the last member; until then they hand over ownership first.
+ * Removes a user from their team in a set. A team always keeps at least one member, so its last member cannot leave.
+ * A team's owner can only leave after handing over ownership.
  * @param {ObjectId} setId
  * @param {ObjectId} userId
- * @returns {Promise<'left' | 'owner' | 'not-a-member'>} `owner` if the user is stopped for owning a team that still has other members
+ * @returns {Promise<'left' | 'only-member' | 'owner' | 'not-a-member'>}
  */
 async function leaveTeam (setId, userId) {
-  // A sole member takes the team with them. Deleting it, rather than pulling the member out, never
-  // leaves an empty `members` array, which the unique index would treat as a clash between empty teams.
-  const { deletedCount } = await teams.deleteOne({ 'set._id': setId, members: [userId] });
-  if (deletedCount > 0) {
-    return 'left';
-  }
-
-  const { modifiedCount } = await teams.updateOne({ 'set._id': setId, members: userId, owner: { $ne: userId } }, { $pull: { members: userId } });
+  const { modifiedCount } = await teams.updateOne(
+    { 'set._id': setId, members: userId, owner: { $ne: userId }, 'members.1': { $exists: true } },
+    { $pull: { members: userId } }
+  );
   if (modifiedCount > 0) {
     return 'left';
   }
 
-  return await teams.countDocuments({ 'set._id': setId, members: userId }) > 0 ? 'owner' : 'not-a-member';
+  const team = await getTeam(setId, userId);
+  if (!team) {
+    return 'not-a-member';
+  }
+  return team.members.length === 1 ? 'only-member' : 'owner';
 }
 
 export default leaveTeam;
