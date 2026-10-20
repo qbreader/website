@@ -1,9 +1,8 @@
 import getUsername from '../../../../database/account-info/get-username.js';
 
 /**
- * The view of a team that its members get.
- * @param {Object} team - a document from the `teams` collection
- * @param {ObjectId} userId - the member viewing it
+ * @param {Object} team
+ * @param {ObjectId} userId
  * @returns {Promise<Object>}
  */
 export default async function formatTeam (team, userId) {

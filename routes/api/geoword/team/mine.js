@@ -5,9 +5,6 @@ import { Router } from 'express';
 
 const router = Router();
 
-/**
- * The player's team in a set, or null.
- */
 router.get('/', async (req, res) => {
   const { set, userId } = res.locals;
   const team = await getTeam(set._id, userId);
