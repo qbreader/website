@@ -5,7 +5,7 @@ async function getPacketList () {
     { test: { $ne: true } },
     {
       sort: { order: 1 },
-      projection: { name: 1, divisions: 1, _id: 0 }
+      projection: { name: 1, divisions: 1, 'set.name': 1, _id: 0 }
     }
   ).toArray();
 }
