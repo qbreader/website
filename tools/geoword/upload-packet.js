@@ -490,7 +490,7 @@ if (PROD) {
   for (const teamName of teamNames) {
     const members = TEST_USERS.filter(user => user.team === teamName).map(user => userIds[user.username]);
     // `members` is an array, so a team can be any size.
-    await teams.insertOne({ set: SET, division: argv.division, teamName, members });
+    await teams.insertOne({ set: SET, teamName, members });
     console.log(`team "${teamName}": ${members.length} member(s)`);
   }
 
