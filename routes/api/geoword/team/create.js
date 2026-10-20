@@ -1,5 +1,4 @@
 import createTeam from '../../../../database/geoword/create-team.js';
-import getSetDivisions from '../../../../database/geoword/get-set-divisions.js';
 import formatTeam from './format-team.js';
 import validateTeamName from './validate-team-name.js';
 import validate, { rules } from '../../../validators/schema.js';
@@ -16,22 +15,16 @@ router.use(rateLimit({
 }));
 
 router.post('/', async (req, res) => {
-  const { teamName: rawTeamName, division } = validate(req.body, {
-    teamName: rules.string(),
-    division: rules.string()
-  });
+  const { teamName: rawTeamName } = validate(req.body, { teamName: rules.string() });
   const { teamName, error: nameError } = validateTeamName(rawTeamName);
   if (nameError) {
     return res.status(400).send(nameError);
   }
 
   const { set } = res.locals;
-  if (!(await getSetDivisions(set._id)).includes(division)) {
-    return res.status(400).send('Choose a division.');
-  }
 
   try {
-    const team = await createTeam({ set, teamName, division, userId: res.locals.userId });
+    const team = await createTeam({ set, teamName, userId: res.locals.userId });
     res.status(201).json({ team: await formatTeam(team, res.locals.userId) });
   } catch (error) {
     if (error.code !== 11000) { throw error; }

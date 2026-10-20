@@ -17,13 +17,12 @@ const MAX_CODE_ATTEMPTS = 5;
  * @param {Object} options
  * @param {{ _id: ObjectId, name: string }} options.set
  * @param {String} options.teamName
- * @param {String} options.division
  * @param {ObjectId} options.userId - the creator
  * @returns {Promise<Object>} the new team
  */
-async function createTeam ({ set, teamName, division, userId }) {
+async function createTeam ({ set, teamName, userId }) {
   for (let attempt = 1; ; attempt++) {
-    const team = { set: { _id: set._id, name: set.name }, division, teamName, code: generateTeamCode(), owner: userId, members: [userId] };
+    const team = { set: { _id: set._id, name: set.name }, teamName, code: generateTeamCode(), owner: userId, members: [userId] };
     try {
       const { insertedId } = await teams.insertOne(team);
       return { _id: insertedId, ...team };
