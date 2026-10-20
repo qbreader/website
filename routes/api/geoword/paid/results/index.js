@@ -9,6 +9,7 @@ import compareRouter from './compare.js';
 import leaderboardRouter from './leaderboard.js';
 import packetRouter from './packet.js';
 import statsRouter from './stats.js';
+import teamRouter from './team.js';
 import teamLeaderboardRouter from './team-leaderboard.js';
 
 import { Router } from 'express';
@@ -40,6 +41,7 @@ router.use('/compare', compareRouter);
 router.use('/leaderboard', leaderboardRouter);
 router.use('/packet', packetRouter);
 router.use('/stats', statsRouter);
+router.use('/team', teamRouter);
 router.use('/team-leaderboard', teamLeaderboardRouter);
 
 export default router;
