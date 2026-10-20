@@ -79,7 +79,7 @@ document.getElementById('resolve-protest-submit').addEventListener('click', () =
   fetch('/api/admin/geoword/resolve-protest', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ buzz_id: _id, decision, reason })
+    body: JSON.stringify({ packetName, buzz_id: _id, decision, reason })
   }).then(response => {
     if (response.status === 200) {
       window.location.reload();

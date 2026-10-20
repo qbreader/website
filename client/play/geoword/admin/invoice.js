@@ -1,7 +1,8 @@
 const search = new URLSearchParams(window.location.search);
 const _id = search.get('_id');
+const packetName = search.get('packetName');
 
-fetch('/api/admin/geoword/invoice?' + new URLSearchParams({ _id }))
+fetch('/api/admin/geoword/invoice?' + new URLSearchParams({ _id, packetName }))
   .then(response => response.json())
   .then(data => {
     const { amount, payment } = data;

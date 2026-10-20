@@ -16,7 +16,7 @@ fetch('/api/admin/geoword/payment-list?' + new URLSearchParams({ packetName }))
     const { payments } = data;
     for (const { _id, username, createdAt, manual } of payments) {
       const row = document.getElementById('payment-table').insertRow();
-      row.insertCell().innerHTML = `<a href="/play/geoword/admin/invoice?_id=${_id}">${username}</a>`;
+      row.insertCell().innerHTML = `<a href="/play/geoword/admin/invoice?_id=${_id}&packetName=${packetName}">${username}</a>`;
       row.insertCell().textContent = new Date(createdAt).toLocaleString();
       row.insertCell().textContent = manual ? 'Manual' : 'Automatic';
       row.insertCell().textContent = 'None';
