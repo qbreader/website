@@ -1,5 +1,4 @@
 import createTeam from '../../../../database/geoword/create-team.js';
-import getSet from '../../../../database/geoword/get-set.js';
 import getSetDivisions from '../../../../database/geoword/get-set-divisions.js';
 import formatTeam from './format-team.js';
 import validateTeamName from './validate-team-name.js';
@@ -17,20 +16,16 @@ router.use(rateLimit({
 }));
 
 router.post('/', async (req, res) => {
-  const { setName, teamName: rawTeamName, division } = validate(req.body, {
-    setName: rules.string(),
+  const { teamName: rawTeamName, division } = validate(req.body, {
     teamName: rules.string(),
     division: rules.string()
   });
-  const { teamName, error } = validateTeamName(rawTeamName);
-  if (error) {
-    return res.status(400).send(error);
+  const { teamName, error: nameError } = validateTeamName(rawTeamName);
+  if (nameError) {
+    return res.status(400).send(nameError);
   }
 
-  const set = await getSet(setName);
-  if (!set) {
-    return res.status(404).send('That set does not exist.');
-  }
+  const { set } = res.locals;
   if (!(await getSetDivisions(set._id)).includes(division)) {
     return res.status(400).send('Choose a division.');
   }

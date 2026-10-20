@@ -9,7 +9,7 @@ import getUsername from '../../../../database/account-info/get-username.js';
 export default async function formatTeam (team, userId) {
   const members = await Promise.all(team.members.map(async member => ({
     username: await getUsername(member),
-    isOwner: String(member) === String(team.owner)
+    isOwner: member.equals(team.owner)
   })));
 
   return {
@@ -17,6 +17,6 @@ export default async function formatTeam (team, userId) {
     division: team.division,
     code: team.code,
     members,
-    isOwner: String(team.owner) === String(userId)
+    isOwner: !!team.owner?.equals(userId)
   };
 }

@@ -7,7 +7,9 @@ import renameRouter from './rename.js';
 import transferRouter from './transfer.js';
 
 import getUserId from '../../../../database/account-info/get-user-id.js';
+import getSet from '../../../../database/geoword/get-set.js';
 import { checkToken } from '../../../../server/authentication.js';
+import validate, { rules } from '../../../validators/schema.js';
 
 import { Router } from 'express';
 
@@ -21,6 +23,17 @@ router.use(async (req, res, next) => {
   }
 
   res.locals.userId = await getUserId(username);
+  next();
+});
+
+// Every team route acts within one set, named by `setName` in the body or query.
+router.use(async (req, res, next) => {
+  const { setName } = validate({ setName: req.body?.setName ?? req.query.setName }, { setName: rules.string() });
+  res.locals.set = await getSet(setName);
+  if (!res.locals.set) {
+    return res.status(404).send('That set does not exist.');
+  }
+
   next();
 });
 

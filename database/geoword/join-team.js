@@ -1,4 +1,5 @@
 import { teams } from './collections.js';
+import getTeamByName from './get-team-by-name.js';
 
 import { timingSafeEqual } from 'crypto';
 
@@ -25,16 +26,15 @@ function safeEqual (a, b) {
  * @param {String} options.teamName - matched ignoring case
  * @param {String} options.code - matched exactly, after upper-casing
  * @param {ObjectId} options.userId
- * @returns {Promise<Object | null>} the team joined, or null if no team in the set has that name and code
+ * @returns {Promise<Object | null>} the team with the user added, or null if no team in the set has that name and code
  */
 async function joinTeam ({ setId, teamName, code, userId }) {
-  const team = await teams.findOne({ 'set._id': setId, teamName }, { collation: { locale: 'en', strength: 2 } });
+  const team = await getTeamByName(setId, teamName);
   if (!team?.code || !safeEqual(team.code, code.toUpperCase())) {
     return null;
   }
 
-  await teams.updateOne({ _id: team._id }, { $addToSet: { members: userId } });
-  return team;
+  return await teams.findOneAndUpdate({ _id: team._id }, { $addToSet: { members: userId } }, { returnDocument: 'after' });
 }
 
 export default joinTeam;
