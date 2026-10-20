@@ -2,6 +2,8 @@ import { titleCase } from '../../../../shared/string-utils.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
+// Only packet admins can ask for a team other than their own; the server ignores it otherwise.
+const teamName = search.get('teamName');
 
 document.getElementById('packet-name').textContent = titleCase(packetName);
 document.getElementById('back-link').href = `./?packetName=${packetName}`;
@@ -29,16 +31,16 @@ function createBuzzCell (buzz) {
   return cell;
 }
 
-const response = await fetch('/api/geoword/paid/results/team?' + new URLSearchParams({ packetName }));
+const response = await fetch('/api/geoword/paid/results/team?' + new URLSearchParams(teamName ? { packetName, teamName } : { packetName }));
 
 if (!response.ok) {
   const error = document.getElementById('error');
   error.textContent = response.status === 401 ? 'You must log in first.' : await response.text();
   error.classList.remove('d-none');
 } else {
-  const { teamName, members, questions } = await response.json();
+  const { teamName: viewedTeamName, members, questions } = await response.json();
 
-  document.getElementById('team-name').textContent = teamName;
+  document.getElementById('team-name').textContent = viewedTeamName;
 
   const headRow = document.createElement('tr');
   headRow.append(createCell('#', 'th'), createCell('Answer', 'th'));

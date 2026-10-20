@@ -9,6 +9,7 @@ import protestsRouter from './protests.js';
 import recordPaymentrouter from './record-payment.js';
 import resolveProtestRouter from './resolve-protest.js';
 import statsRouter from './stats.js';
+import teamListRouter from './team-list.js';
 
 import getUserId from '../../../../database/account-info/get-user-id.js';
 import hasAnyPacketPrivileges from '../../../../database/geoword/has-any-packet-privileges.js';
@@ -58,5 +59,6 @@ router.use('/protests', protestsRouter);
 router.use('/record-payment', recordPaymentrouter);
 router.use('/resolve-protest', resolveProtestRouter);
 router.use('/stats', statsRouter);
+router.use('/team-list', teamListRouter);
 
 export default router;
