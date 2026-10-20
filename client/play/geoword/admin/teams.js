@@ -4,23 +4,25 @@ const packetName = new URLSearchParams(window.location.search).get('packetName')
 
 document.getElementById('packet-name').textContent = titleCase(packetName);
 
-const { teamList } = await fetch('/api/geoword/admin/team-list?' + new URLSearchParams({ packetName })).then(response => response.json());
+const { teamList, divisions } = await fetch('/api/geoword/admin/team-list?' + new URLSearchParams({ packetName })).then(response => response.json());
 
-document.getElementById('team-table-body').replaceChildren(...teamList.map(({ teamName, division, memberCount }) => {
-  const link = document.createElement('a');
-  link.href = '/play/geoword/results/team?' + new URLSearchParams({ packetName, teamName });
-  link.textContent = teamName;
-
-  const nameCell = document.createElement('td');
-  nameCell.appendChild(link);
+document.getElementById('team-table-body').replaceChildren(...teamList.map(({ teamName, memberCount }) => {
+  const links = document.createElement('td');
+  for (const division of divisions) {
+    const link = document.createElement('a');
+    link.className = 'me-3';
+    link.href = '/play/geoword/results/team?' + new URLSearchParams({ packetName, teamName, division });
+    link.textContent = division;
+    links.appendChild(link);
+  }
 
   const row = document.createElement('tr');
-  for (const text of [division, memberCount]) {
+  for (const text of [teamName, memberCount]) {
     const cell = document.createElement('td');
     cell.textContent = text;
     row.appendChild(cell);
   }
-  row.prepend(nameCell);
+  row.appendChild(links);
   return row;
 }));
 

@@ -66,7 +66,7 @@ async function runMemberAction (action, username) {
   }
 }
 
-function showTeam ({ teamName, division, code, members, isOwner }) {
+function showTeam ({ teamName, code, members, isOwner }) {
   document.getElementById('form').classList.add('d-none');
   document.getElementById('join-form').classList.add('d-none');
   document.getElementById('team-code').textContent = code;
@@ -75,7 +75,6 @@ function showTeam ({ teamName, division, code, members, isOwner }) {
   document.getElementById('rename-team-name').value = teamName;
   document.getElementById('team-details').classList.remove('d-none');
   document.getElementById('current-team-name').textContent = teamName;
-  document.getElementById('current-team-division').textContent = division;
   document.getElementById('current-team').classList.remove('d-none');
 }
 
@@ -89,8 +88,7 @@ document.getElementById('form').addEventListener('submit', async event => {
   document.getElementById('submit').disabled = true;
 
   const response = await postTeamAction('create', {
-    teamName: document.getElementById('team-name').value,
-    division: document.getElementById('division').value
+    teamName: document.getElementById('team-name').value
   });
 
   if (response.ok) {
@@ -156,21 +154,13 @@ const response = await fetch('/api/geoword/team/mine?' + new URLSearchParams({ s
 if (response.status === 401) {
   document.getElementById('login-warning').classList.remove('d-none');
 } else if (response.ok) {
-  const { team, teamsEnabled, divisions } = await response.json();
+  const { team, teamsEnabled } = await response.json();
 
   if (team) {
     showTeam(team);
   } else if (!teamsEnabled) {
     document.getElementById('teams-disabled').classList.remove('d-none');
   } else {
-    for (const division of divisions) {
-      const option = document.createElement('option');
-      option.value = division;
-      option.textContent = division;
-      document.getElementById('division').appendChild(option);
-    }
-    // A set with one division needs no choice.
-    document.getElementById('division-container').classList.toggle('d-none', divisions.length === 1);
     document.getElementById('form').classList.remove('d-none');
     document.getElementById('join-form').classList.remove('d-none');
   }
