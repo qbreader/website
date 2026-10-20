@@ -1,4 +1,4 @@
-import { packets } from '../../../../database/geoword/collections.js';
+import getPacketSet from '../../../../database/geoword/get-packet-set.js';
 import getTeamList from '../../../../database/geoword/get-team-list.js';
 
 import { Router } from 'express';
@@ -6,9 +6,8 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const { packetName } = req.query;
-  const packet = await packets.findOne({ name: packetName }, { projection: { set: 1 } });
-  const teamList = packet?.set ? await getTeamList(packet.set._id) : [];
+  const set = await getPacketSet(req.query.packetName);
+  const teamList = set ? await getTeamList(set._id) : [];
   res.json({ teamList });
 });
 

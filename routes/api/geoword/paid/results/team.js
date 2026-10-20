@@ -4,9 +4,10 @@ import getBuzzCount from '../../../../../database/geoword/get-buzz-count.js';
 import getDivisionChoice from '../../../../../database/geoword/get-division-choice.js';
 import getQuestionCount from '../../../../../database/geoword/get-question-count.js';
 import hasPacketPrivileges from '../../../../../database/geoword/has-packet-privileges.js';
+import getPacketSet from '../../../../../database/geoword/get-packet-set.js';
 import getTeam from '../../../../../database/geoword/get-team.js';
+import getTeamByName from '../../../../../database/geoword/get-team-by-name.js';
 import getTeamBuzzes from '../../../../../database/geoword/paid/results/get-team-buzzes.js';
-import { packets, teams } from '../../../../../database/geoword/collections.js';
 
 import { Router } from 'express';
 
@@ -25,13 +26,12 @@ router.get('/', async (req, res) => {
   const { packetName } = req.query;
   const userId = await getUserId(req.session.username);
 
-  const packet = await packets.findOne({ name: packetName }, { projection: { set: 1 } });
+  const set = await getPacketSet(packetName);
   const adminView = typeof req.query.teamName === 'string' && await hasPacketPrivileges(packetName, userId);
-  const team = !packet?.set
-    ? null
-    : adminView
-      ? await teams.findOne({ 'set._id': packet.set._id, teamName: req.query.teamName }, { collation: { locale: 'en', strength: 2 } })
-      : await getTeam(packet.set._id, userId);
+  let team = null;
+  if (set) {
+    team = adminView ? await getTeamByName(set._id, req.query.teamName) : await getTeam(set._id, userId);
+  }
   if (!team) {
     return res.status(404).send(adminView ? 'No team has that name.' : 'You are not on a team for this packet.');
   }
@@ -53,8 +53,8 @@ router.get('/', async (req, res) => {
   const teamBuzzes = await getTeamBuzzes({ packetName, team });
   const members = await Promise.all(team.members.map(async member => ({
     username: await getUsername(member),
-    isYou: String(member) === String(userId),
-    buzzCount: teamBuzzes.filter(question => question.buzzes.some(buzz => String(buzz.user_id) === String(member))).length
+    isYou: member.equals(userId),
+    finished: teamBuzzes.filter(question => question.buzzes.some(buzz => buzz.user_id.equals(member))).length >= questionCount
   })));
 
   const questions = await Promise.all(teamBuzzes.map(async question => ({
@@ -72,7 +72,7 @@ router.get('/', async (req, res) => {
     teamName: team.teamName,
     division: team.division,
     questionCount,
-    members: members.map(({ username, isYou, buzzCount }) => ({ username, isYou, finished: buzzCount >= questionCount })),
+    members,
     questions
   });
 });
