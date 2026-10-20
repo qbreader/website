@@ -16,8 +16,8 @@ fetch('/api/geoword/has-admin-access')
   });
 
 /**
- * @param {Array<{ name: string, set?: { name: string } }>} packetList - in play order
- * @returns {Map<string, object[]>} the packets of each set, with sets in the order they first appear
+ * @param {Array<{ name: string, set?: { name: string } }>} packetList
+ * @returns {Map<string, object[]>}
  */
 function groupBySet (packetList) {
   const packetsBySet = new Map();
@@ -30,9 +30,9 @@ function groupBySet (packetList) {
 
 /**
  * @param {string} setName
- * @param {object[]} packetList - the set's packets
- * @param {boolean} hasTeams - whether to link to the set's team page
- * @returns {HTMLDivElement} a grid column holding the set's card: a button per packet, and a team link if it has teams
+ * @param {object[]} packetList
+ * @param {boolean} hasTeams
+ * @returns {HTMLDivElement}
  */
 function createSetCard (setName, packetList, hasTeams) {
   const title = document.createElement('h5');
