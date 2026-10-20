@@ -1,4 +1,4 @@
-import { titleCase } from '../../../shared/string-utils.js';
+import { titleCase } from '../../../../shared/string-utils.js';
 
 fetch('/api/geoword/packet-list')
   .then(response => response.json())
@@ -17,7 +17,7 @@ fetch('/api/geoword/packet-list')
 
       for (const field of ['stats', 'category-stats', 'protests', 'leaderboard', 'manage-payments']) {
         const a = document.createElement('a');
-        a.href = `/admin/geoword/${field}?packetName=${name}`;
+        a.href = `/play/geoword/admin/${field}?packetName=${name}`;
         a.textContent = titleCase(field);
 
         listGroupItem.appendChild(a);

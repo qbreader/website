@@ -6,6 +6,8 @@ const router = Router();
 /**
  * Redirects:
  */
+router.get('/admin/geoword', queryRedirect('/play/geoword/admin/'));
+router.get('/admin/geoword/:param', (req, res) => queryRedirect('/play/geoword/admin/' + req.params.param)(req, res));
 router.get('/bonuses', (_req, res) => res.redirect('/play/bonuses/'));
 router.get('/multiplayer', (_req, res) => res.redirect('/play/mp'));
 router.get('/multiplayer/:param', (req, res) => queryRedirect('/play/mp/' + req.params.param)(req, res));
