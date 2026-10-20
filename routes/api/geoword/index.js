@@ -1,3 +1,4 @@
+import adminRouter from './admin/index.js';
 import costRouter from './cost.js';
 import createPaymentIntentRouter from './create-payment-intent.js';
 import getDivisionsRouter from './get-divisions.js';
@@ -8,6 +9,7 @@ import { Router } from 'express';
 
 const router = Router();
 
+router.use('/admin', adminRouter);
 router.use('/cost', costRouter);
 router.use('/create-payment-intent', createPaymentIntentRouter);
 router.use('/get-divisions', getDivisionsRouter);

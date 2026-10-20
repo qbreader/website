@@ -7,7 +7,7 @@ const packetTitle = titleCase(packetName);
 
 document.getElementById('packet-name').textContent = packetTitle;
 
-fetch('/api/admin/geoword/protests?' + new URLSearchParams({ packetName }))
+fetch('/api/geoword/admin/protests?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
     const { protests: allProtests } = data;
@@ -76,7 +76,7 @@ document.getElementById('resolve-protest-submit').addEventListener('click', () =
   const decision = document.getElementById('resolve-protest-decision').value;
   const reason = document.getElementById('resolve-protest-reason').value;
 
-  fetch('/api/admin/geoword/resolve-protest', {
+  fetch('/api/geoword/admin/resolve-protest', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ packetName, buzz_id: _id, decision, reason })
