@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
 
   try {
     const team = await createTeam({ set, teamName, division, userId: res.locals.userId });
-    res.status(201).json({ team: { teamName: team.teamName, division: team.division } });
+    res.status(201).json({ team: { teamName: team.teamName, division: team.division, code: team.code, memberCount: 1 } });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
     // Which unique index was violated: see tools/geoword/create-indexes.js.
