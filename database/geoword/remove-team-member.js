@@ -10,7 +10,7 @@ import { teams } from './collections.js';
  * @returns {Promise<Boolean>} whether the user owns a team in the set with that other member on it
  */
 async function removeTeamMember ({ setId, ownerId, memberId }) {
-  if (String(ownerId) === String(memberId)) {
+  if (ownerId.equals(memberId)) {
     return false;
   }
 

@@ -9,7 +9,7 @@ import { teams } from './collections.js';
  * @returns {Promise<Boolean>} whether the user owns a team in the set with that other member on it
  */
 async function transferTeamOwnership ({ setId, ownerId, newOwnerId }) {
-  if (String(ownerId) === String(newOwnerId)) {
+  if (ownerId.equals(newOwnerId)) {
     return false;
   }
 
