@@ -1,7 +1,7 @@
 import isAppropriateString from '../../../../server/moderation/is-appropriate-string.js';
 
 export const MIN_TEAM_NAME_LENGTH = 3;
-export const MAX_TEAM_NAME_LENGTH = 32;
+export const MAX_TEAM_NAME_LENGTH = 64;
 
 /**
  * @param {String} teamName
