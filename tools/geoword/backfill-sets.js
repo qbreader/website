@@ -13,6 +13,7 @@ import { hideBin } from 'yargs/helpers';
 const SETS = {
   'first-folio': ['opus-1', 'opus-2', 'opus-3', 'opus-4', 'opus-5', 'opus-6'],
   'second-folio': ['opus-7', 'opus-8', 'opus-9', 'opus-10'].flatMap(opus => [`${opus}-division-1`, `${opus}-division-2`]),
+  september: ['september-sample'],
   'geoword-samples': ['beterword-sample', 'division-1-sample', 'division-2-sample', 'high-school-sample'],
   'community-packet': ['community-packet'],
   geojazz: ['geojazz'],
