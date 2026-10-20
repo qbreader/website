@@ -61,8 +61,9 @@ const argv = yargs(hideBin(process.argv))
     demandOption: true
   })
   .option('set', {
-    description: 'the name of the set this packet belongs to. Required to create a packet; the set must already exist in the sets collection (test mode creates it if missing)',
-    type: 'string'
+    description: 'the name of the set this packet belongs to, e.g. september; created if it does not exist yet. An existing packet must already be in this set',
+    type: 'string',
+    demandOption: true
   })
   .option('folderPath', {
     alias: 'f',
@@ -373,21 +374,12 @@ if (!Number.isInteger(costInCents) || costInCents < 0) {
 }
 
 /**
- * Finds the set a new packet joins. Test mode creates it when missing; prod mode requires it to exist.
  * @param {String} setName
- * @returns {Promise<{ _id: ObjectId, name: string }>}
+ * @returns {Promise<{ _id: ObjectId, name: string }>} the set with that name, created if it doesn't exist yet
  */
-async function findSet (setName) {
-  if (!setName) {
-    throw new Error('--set is required to create a packet.');
-  }
-  const found = PROD
-    ? await sets.findOne({ name: setName })
-    : await sets.findOneAndUpdate({ name: setName }, { $setOnInsert: { name: setName } }, { upsert: true, returnDocument: 'after' });
-  if (!found) {
-    throw new Error(`Set "${setName}" does not exist in the sets collection.`);
-  }
-  return { _id: found._id, name: found.name };
+async function getOrCreateSet (setName) {
+  const set = await sets.findOneAndUpdate({ name: setName }, { $setOnInsert: { name: setName } }, { upsert: true, returnDocument: 'after' });
+  return { _id: set._id, name: set.name };
 }
 
 const files = await findAudioFiles(folderPath);
@@ -411,15 +403,12 @@ for (const { questionNumber, filename } of files) {
   }
 }
 
-// An upserted packet stays in its set; every other path creates the packet, so it needs one.
-if (argv.upsert && existing && !existing.set) {
-  throw new Error(`Packet "${PACKET_NAME}" has no set yet. Run tools/geoword/set-packet-set.js first.`);
+// The set every document this run creates belongs to. --upsert keeps the packet, so it must already be in it;
+// every other path recreates the packet.
+const SET = await getOrCreateSet(argv.set);
+if (argv.upsert && existing && String(existing.set?._id) !== String(SET._id)) {
+  throw new Error(`Packet "${PACKET_NAME}" is in set "${existing.set?.name}", not "${SET.name}". Run tools/geoword/set-packet-set.js to place it.`);
 }
-if (argv.upsert && existing && argv.set && argv.set !== existing.set.name) {
-  throw new Error(`Packet "${PACKET_NAME}" is in set "${existing.set.name}", not "${argv.set}".`);
-}
-// The set every document this run creates belongs to.
-const SET = argv.upsert && existing ? existing.set : await findSet(argv.set);
 
 if (argv.upsert && existing) {
   await upsertTossups(existing._id, files, answersByNumber);
