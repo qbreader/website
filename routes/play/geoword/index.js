@@ -1,4 +1,4 @@
-import adminRouter from '../../admin.js';
+import adminRouter from './admin.js';
 import divisionRouter from './division.js';
 import gameRouter from './game.js';
 import paymentRouter from './payment.js';
