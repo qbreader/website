@@ -171,7 +171,7 @@ const PROD = argv.mode === 'prod';
 const PACKET_NAME = argv.name;
 
 // A separate account for viewing the packet before it is published. It is NOT a site admin:
-// the packet lists it in `specialUsers`, which grants access to this one packet only.
+// the packet's set lists it in `specialUsers`, which grants access to the packets in that set only.
 const ADMIN_USERNAME = PROD ? 'soundtracks-admin-prod' : 'soundtracks-admin';
 
 /**
@@ -455,7 +455,7 @@ const sampleFilename = (await readdir(folderPath)).find(filename => filename.toL
 const samplePath = path.join(folderPath, sampleFilename ?? files[0].filename);
 const { insertedId: sampleAudioId } = await sampleAudio.insertOne({ audio: await readFile(samplePath) });
 
-// Create the accounts before the packet, which lists the special user by id.
+// Create the accounts before the packet, whose set lists the special user by id.
 const adminPassword = PROD ? generatePassphrase() : 'password';
 const accounts = [
   ...(PROD ? [] : TEST_USERS.map(({ username, password }) => ({ username, password }))),
@@ -466,6 +466,8 @@ const userIds = await upsertUsers(accounts);
 // A cost of 0 makes checkPayment pass without touching the Stripe path.
 // `test: false` keeps the packet visible, so non-admin players can reach it and their
 // buzzes count toward standings. `test: true` hides it from the public list instead.
+await sets.updateOne({ _id: SET._id }, { $addToSet: { specialUsers: userIds[ADMIN_USERNAME] } });
+
 const { insertedId: packetId } = await packets.insertOne({
   name: PACKET_NAME,
   set: SET,
@@ -475,7 +477,6 @@ const { insertedId: packetId } = await packets.insertOne({
   divisions: [argv.division],
   order: argv.order,
   scoring: argv.scoring,
-  specialUsers: [userIds[ADMIN_USERNAME]],
   sample_audio_id: sampleAudioId
 });
 
