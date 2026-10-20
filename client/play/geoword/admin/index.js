@@ -24,11 +24,17 @@ fetch('/api/geoword/admin/packet-list')
         listGroupItem.appendChild(document.createTextNode(' | '));
       }
 
-      const a = document.createElement('a');
-      a.href = `/play/geoword/results/packet?packetName=${name}`;
-      a.textContent = 'Packet';
+      const packetLink = document.createElement('a');
+      packetLink.href = `/play/geoword/results/packet?packetName=${name}`;
+      packetLink.textContent = 'Packet';
 
-      listGroupItem.appendChild(a);
+      const teamLeaderboardLink = document.createElement('a');
+      teamLeaderboardLink.href = `/play/geoword/results/team-leaderboard?packetName=${name}`;
+      teamLeaderboardLink.textContent = 'Team Leaderboard';
+
+      listGroupItem.appendChild(packetLink);
+      listGroupItem.appendChild(document.createTextNode(' | '));
+      listGroupItem.appendChild(teamLeaderboardLink);
 
       gameListSelect.appendChild(listGroupItem);
     });
