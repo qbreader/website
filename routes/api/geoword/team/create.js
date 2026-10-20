@@ -10,8 +10,8 @@ const MAX_TEAM_NAME_LENGTH = 32;
 
 const router = Router();
 router.use(rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 30, // Limit each IP to 30 requests per window
+  windowMs: 60 * 60 * 1000,
+  max: 30,
   standardHeaders: true,
   legacyHeaders: false
 }));
@@ -33,7 +33,6 @@ router.post('/', async (req, res) => {
     res.status(201).json({ team: { teamName: team.teamName } });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
-    // Which unique index was violated: see createTeam.
     return res.status(409).send(error.keyPattern?.members
       ? 'You are already on a team in this set.'
       : 'That team name is taken.');
