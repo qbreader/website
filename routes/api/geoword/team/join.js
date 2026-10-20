@@ -2,6 +2,7 @@ import getSet from '../../../../database/geoword/get-set.js';
 import getTeam from '../../../../database/geoword/get-team.js';
 import joinTeam from '../../../../database/geoword/join-team.js';
 import { TEAM_CODE_LENGTH } from '../../../../database/geoword/generate-team-code.js';
+import formatTeam from './format-team.js';
 import validate, { rules } from '../../../validators/schema.js';
 
 import { Router } from 'express';
@@ -40,11 +41,11 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const team = await joinTeam({ setId: set._id, teamName: teamName.replace(/\s+/g, ' '), code, userId: res.locals.userId });
-    if (!team) {
+    const joined = await joinTeam({ setId: set._id, teamName: teamName.replace(/\s+/g, ' '), code, userId: res.locals.userId });
+    if (!joined) {
       return invalid();
     }
-    res.json({ team: { teamName: team.teamName, division: team.division, code: team.code, memberCount: team.members.length + 1 } });
+    res.json({ team: await formatTeam(await getTeam(set._id, res.locals.userId), res.locals.userId) });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
     // Lost a race with another join or create by the same player: see tools/geoword/create-indexes.js.

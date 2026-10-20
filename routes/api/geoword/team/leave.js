@@ -13,8 +13,11 @@ router.post('/', async (req, res) => {
     return res.status(404).send('That set does not exist.');
   }
 
-  const left = await leaveTeam(set._id, res.locals.userId);
-  res.sendStatus(left ? 200 : 404);
+  const result = await leaveTeam(set._id, res.locals.userId);
+  if (result === 'owner') {
+    return res.status(409).send('Make another member the owner before you leave.');
+  }
+  res.sendStatus(result === 'left' ? 200 : 404);
 });
 
 export default router;

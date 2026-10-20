@@ -4,7 +4,7 @@ import generateTeamCode from './generate-team-code.js';
 const MAX_CODE_ATTEMPTS = 5;
 
 /**
- * Creates a team with its creator as the only member.
+ * Creates a team with its creator as the only member and its owner.
  *
  * Does not check that the name is free or that the user is on no other team: the unique indexes
  * from tools/geoword/create-indexes.js do, atomically, so concurrent requests cannot both succeed.
@@ -20,7 +20,7 @@ const MAX_CODE_ATTEMPTS = 5;
  */
 async function createTeam ({ set, teamName, division, userId }) {
   for (let attempt = 1; ; attempt++) {
-    const team = { set: { _id: set._id, name: set.name }, division, teamName, code: generateTeamCode(), members: [userId] };
+    const team = { set: { _id: set._id, name: set.name }, division, teamName, code: generateTeamCode(), owner: userId, members: [userId] };
     try {
       const { insertedId } = await teams.insertOne(team);
       return { _id: insertedId, ...team };

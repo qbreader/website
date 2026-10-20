@@ -1,14 +1,12 @@
 import createTeam from '../../../../database/geoword/create-team.js';
 import getSet from '../../../../database/geoword/get-set.js';
 import getSetDivisions from '../../../../database/geoword/get-set-divisions.js';
-import isAppropriateString from '../../../../server/moderation/is-appropriate-string.js';
+import formatTeam from './format-team.js';
+import validateTeamName from './validate-team-name.js';
 import validate, { rules } from '../../../validators/schema.js';
 
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
-
-const MIN_TEAM_NAME_LENGTH = 3;
-const MAX_TEAM_NAME_LENGTH = 32;
 
 const router = Router();
 router.use(rateLimit({
@@ -24,13 +22,9 @@ router.post('/', async (req, res) => {
     teamName: rules.string(),
     division: rules.string()
   });
-  const teamName = rawTeamName.replace(/\s+/g, ' ');
-
-  if (teamName.length < MIN_TEAM_NAME_LENGTH || teamName.length > MAX_TEAM_NAME_LENGTH) {
-    return res.status(400).send(`Team names must be ${MIN_TEAM_NAME_LENGTH}-${MAX_TEAM_NAME_LENGTH} characters.`);
-  }
-  if (/\p{C}/u.test(teamName) || !isAppropriateString(teamName)) {
-    return res.status(400).send('That team name is not allowed.');
+  const { teamName, error } = validateTeamName(rawTeamName);
+  if (error) {
+    return res.status(400).send(error);
   }
 
   const set = await getSet(setName);
@@ -43,7 +37,7 @@ router.post('/', async (req, res) => {
 
   try {
     const team = await createTeam({ set, teamName, division, userId: res.locals.userId });
-    res.status(201).json({ team: { teamName: team.teamName, division: team.division, code: team.code, memberCount: 1 } });
+    res.status(201).json({ team: await formatTeam(team, res.locals.userId) });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
     // Which unique index was violated: see tools/geoword/create-indexes.js.

@@ -1,6 +1,7 @@
 import getSet from '../../../../database/geoword/get-set.js';
 import getSetDivisions from '../../../../database/geoword/get-set-divisions.js';
 import getTeam from '../../../../database/geoword/get-team.js';
+import formatTeam from './format-team.js';
 import validate, { rules } from '../../../validators/schema.js';
 
 import { Router } from 'express';
@@ -22,11 +23,8 @@ router.get('/', async (req, res) => {
     getSetDivisions(set._id)
   ]);
 
-  // The code is for members only: it is what lets someone else join.
-  res.json({
-    team: team && { teamName: team.teamName, division: team.division, code: team.code, memberCount: team.members.length },
-    divisions
-  });
+  // Members only see the team's details: the code is what lets someone else join.
+  res.json({ team: team && await formatTeam(team, res.locals.userId), divisions });
 });
 
 export default router;
