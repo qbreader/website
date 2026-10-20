@@ -1,3 +1,4 @@
+import adminRouter from './admin.js';
 import divisionRouter from './division.js';
 import gameRouter from './game.js';
 import paymentRouter from './payment.js';
@@ -7,7 +8,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.use('/admin', (req, res) => res.redirect('/admin/geoword' + req.url));
+router.use('/admin', adminRouter);
 router.use('/division', divisionRouter);
 router.use('/game', gameRouter);
 router.use('/payment', paymentRouter);

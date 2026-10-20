@@ -1,5 +1,5 @@
-import { titleCase } from '../../../shared/string-utils.js';
-import sortTable from '../../scripts/utilities/tables.js';
+import { titleCase } from '../../../../shared/string-utils.js';
+import sortTable from '../../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -16,7 +16,7 @@ fetch('/api/admin/geoword/payment-list?' + new URLSearchParams({ packetName }))
     const { payments } = data;
     for (const { _id, username, createdAt, manual } of payments) {
       const row = document.getElementById('payment-table').insertRow();
-      row.insertCell().innerHTML = `<a href="/admin/geoword/invoice?_id=${_id}">${username}</a>`;
+      row.insertCell().innerHTML = `<a href="/play/geoword/admin/invoice?_id=${_id}">${username}</a>`;
       row.insertCell().textContent = new Date(createdAt).toLocaleString();
       row.insertCell().textContent = manual ? 'Manual' : 'Automatic';
       row.insertCell().textContent = 'None';

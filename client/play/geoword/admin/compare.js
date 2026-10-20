@@ -1,4 +1,4 @@
-import { escapeHTML } from '../../../shared/string-utils.js';
+import { escapeHTML } from '../../../../shared/string-utils.js';
 
 function removeParentheses (answer) {
   return answer.replace(/[([].*/g, '');
