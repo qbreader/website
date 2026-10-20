@@ -156,10 +156,12 @@ const response = await fetch('/api/geoword/team/mine?' + new URLSearchParams({ s
 if (response.status === 401) {
   document.getElementById('login-warning').classList.remove('d-none');
 } else if (response.ok) {
-  const { team, divisions } = await response.json();
+  const { team, teamsEnabled, divisions } = await response.json();
 
   if (team) {
     showTeam(team);
+  } else if (!teamsEnabled) {
+    document.getElementById('teams-disabled').classList.remove('d-none');
   } else {
     for (const division of divisions) {
       const option = document.createElement('option');

@@ -65,6 +65,10 @@ const argv = yargs(hideBin(process.argv))
     type: 'string',
     demandOption: true
   })
+  .option('teams', {
+    description: 'open (--teams) or close (--no-teams) team registration for the set. Left as is if omitted, except that test mode opens it',
+    type: 'boolean'
+  })
   .option('folderPath', {
     alias: 'f',
     description: 'the folder holding the .mp3 files and answers.json',
@@ -140,8 +144,8 @@ const argv = yargs(hideBin(process.argv))
 Examples:
   node tools/geoword/upload-packet.js --mode test -n soundtracks --set september
       Seed a local demo: free, public, with test users and teams
-  node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september -c 500
-      Upload a real round for $5.00, hidden from players
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september --teams -c 500
+      Upload a real round for $5.00, hidden from players, and open team registration for its set
   node tools/geoword/upload-packet.js --mode prod -n soundtracks --publish
       Make the uploaded real round public
   node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september -c 500 --replace
@@ -375,10 +379,12 @@ if (!Number.isInteger(costInCents) || costInCents < 0) {
 
 /**
  * @param {String} setName
- * @returns {Promise<{ _id: ObjectId, name: string }>} the set with that name, created if it doesn't exist yet
+ * @returns {Promise<{ _id: ObjectId, name: string }>} the set with that name, created if it doesn't exist yet, with team registration set per `--teams`
  */
 async function getOrCreateSet (setName) {
-  const set = await sets.findOneAndUpdate({ name: setName }, { $setOnInsert: { name: setName } }, { upsert: true, returnDocument: 'after' });
+  const teamsEnabled = argv.teams ?? (PROD ? undefined : true);
+  const update = { $setOnInsert: { name: setName }, ...(teamsEnabled !== undefined && { $set: { teamsEnabled } }) };
+  const set = await sets.findOneAndUpdate({ name: setName }, update, { upsert: true, returnDocument: 'after' });
   return { _id: set._id, name: set.name };
 }
 

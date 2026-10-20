@@ -7,7 +7,7 @@ import { Router } from 'express';
 const router = Router();
 
 /**
- * The player's team in a set (or null), and the divisions a new team there can pick from.
+ * The player's team in a set (or null), whether the set has team registration open, and the divisions a new team there can pick from.
  */
 router.get('/', async (req, res) => {
   const { set, userId } = res.locals;
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     getSetDivisions(set._id)
   ]);
 
-  res.json({ team: team && await formatTeam(team, userId), divisions });
+  res.json({ team: team && await formatTeam(team, userId), teamsEnabled: !!set.teamsEnabled, divisions });
 });
 
 export default router;
