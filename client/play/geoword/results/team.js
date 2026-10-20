@@ -2,7 +2,6 @@ import { titleCase } from '../../../../shared/string-utils.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
-// Only packet admins can ask for a team other than their own; the server ignores it otherwise.
 const teamName = search.get('teamName');
 const division = search.get('division');
 
@@ -21,7 +20,7 @@ function createCell (text, tag = 'td') {
 }
 
 /**
- * @param {object} buzz - a member's buzz on one question, or undefined if they haven't heard it
+ * @param {object} buzz
  * @returns {HTMLTableCellElement}
  */
 function createBuzzCell (buzz) {
