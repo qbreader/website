@@ -6,7 +6,7 @@ import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 
 const MIN_TEAM_NAME_LENGTH = 3;
-const MAX_TEAM_NAME_LENGTH = 32;
+const MAX_TEAM_NAME_LENGTH = 64;
 
 const router = Router();
 router.use(rateLimit({
