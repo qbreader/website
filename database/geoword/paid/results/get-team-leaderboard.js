@@ -1,5 +1,4 @@
-import { buzzes, teams } from '../../collections.js';
-import getDivisions from '../../get-divisions.js';
+import { buzzes, packets, teams } from '../../collections.js';
 import mergeBuzzes from '../../merge-buzzes.js';
 
 /**
@@ -30,7 +29,8 @@ function scoreTeam (team, teamBuzzes) {
 }
 
 /**
- * Team standings for a packet, by division.
+ * Team standings for a packet, by division. Teams belong to the packet's set, so the same
+ * teams are ranked on every packet in it.
  *
  * Individual buzzes are never modified: a team's score is derived at read time, so
  * changing the merge rule re-scores the tournament without touching stored data.
@@ -41,13 +41,14 @@ function scoreTeam (team, teamBuzzes) {
  * @returns {Promise<Object<string, Object[]>>} division name -> standings, best first
  */
 export default async function getTeamLeaderboard ({ packetName, includeInactive = false }) {
-  const divisions = await getDivisions(packetName);
+  const packet = await packets.findOne({ name: packetName });
+  const divisions = packet?.divisions;
   if (!divisions || divisions.length === 0) {
     return {};
   }
 
   const standings = await Promise.all(divisions.map(async division => {
-    const teamList = await teams.find({ packetName, division }).toArray();
+    const teamList = await teams.find({ 'set._id': packet.set._id, division }).toArray();
     if (teamList.length === 0) { return []; }
 
     // One query per division rather than one per team.

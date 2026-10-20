@@ -1,10 +1,11 @@
-// Deletes a Geoword packet: its tossups, their audio, the sample clip, its teams, and the packet itself.
+// Deletes a Geoword packet: its tossups, their audio, the sample clip, and the packet itself.
+// Teams belong to the packet's set, not the packet, so they are left alone.
 //
 // Refuses if anyone has played, picked a division, or paid, since deleting would orphan that data.
 // --force deletes buzzes and division choices anyway (test data, mostly), but payments are never
 // deleted: a paid packet has to be dealt with by hand.
 // The special user (e.g. soundtracks-admin-prod) is left alone; it may be shared across packets.
-import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, teams, tossups } from '../../database/geoword/collections.js';
+import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, tossups } from '../../database/geoword/collections.js';
 import { geoword, mongoClient } from '../../database/databases.js';
 
 import yargs from 'yargs/yargs';
@@ -66,9 +67,8 @@ if (used.length > 0 && !argv.force) {
 }
 
 const packetTossups = await tossups.find(filter, { projection: { audio_id: 1 } }).toArray();
-const teamCount = await teams.countDocuments({ packetName: PACKET_NAME });
 
-console.log(`Will delete ${packetTossups.length} tossups (and their audio), the sample clip, ${teamCount} teams${used.length > 0 ? `, ${used.join(', ')}` : ''}, and the packet.`);
+console.log(`Will delete ${packetTossups.length} tossups (and their audio), the sample clip${used.length > 0 ? `, ${used.join(', ')}` : ''}, and the packet.`);
 
 if (argv.dryRun) {
   console.log('Dry run: nothing deleted.');
@@ -79,7 +79,6 @@ if (argv.dryRun) {
 await audio.deleteMany({ _id: { $in: packetTossups.map(tossup => tossup.audio_id) } });
 await sampleAudio.deleteOne({ _id: packet.sample_audio_id });
 await tossups.deleteMany(filter);
-await teams.deleteMany({ packetName: PACKET_NAME });
 if (argv.force) {
   await buzzes.deleteMany(filter);
   await divisionChoices.deleteMany(filter);

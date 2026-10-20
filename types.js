@@ -59,3 +59,12 @@
  * @property {number} year
  * @property {0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10} difficulty
  */
+
+/**
+ * A Geoword set: a group of packets played by the same teams. Lives in the `geoword` database,
+ * and is referenced by `set: { _id, name }` on packets, tossups, buzzes, payments, division
+ * choices and teams. Deliberately holds no arrays, so it never grows with the packets in it.
+ * @typedef {object} GeowordSet
+ * @property {ObjectId} _id
+ * @property {string} name
+ */

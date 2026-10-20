@@ -33,6 +33,7 @@ async function recordBuzz ({ celerity, givenAnswer, isCorrect, packetName, promp
       _id: packet._id,
       name: packet.name
     },
+    set: packet.set,
     questionNumber,
     tossup_id: tossup._id,
     user_id: userId
