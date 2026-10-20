@@ -413,7 +413,7 @@ for (const { questionNumber, filename } of files) {
 // every other path recreates the packet.
 const SET = await getOrCreateSet(argv.set);
 if (argv.upsert && existing && String(existing.set?._id) !== String(SET._id)) {
-  throw new Error(`Packet "${PACKET_NAME}" is in set "${existing.set?.name}", not "${SET.name}". Run tools/geoword/set-packet-set.js to place it.`);
+  throw new Error(`Packet "${PACKET_NAME}" is not in set "${SET.name}" (its set is ${existing.set ? `"${existing.set.name}"` : 'unset'}).`);
 }
 
 if (argv.upsert && existing) {
