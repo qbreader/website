@@ -41,7 +41,7 @@ function updatePlayerLists (packetName, division) {
     });
 }
 
-fetch('/api/geoword/packet-list')
+fetch('/api/admin/geoword/packet-list')
   .then(response => response.json())
   .then(data => {
     const { packetList } = data;

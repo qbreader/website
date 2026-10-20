@@ -14,6 +14,8 @@ import { Router } from 'express';
 
 const router = Router();
 
+router.use('/geoword', geowordRouter);
+
 router.use(async (req, res, next) => {
   const { username, token } = req.session;
   if (!checkToken(username, token)) {
@@ -32,7 +34,6 @@ router.use(async (req, res, next) => {
 });
 
 router.use('/clear-reports', clearReportsRouter);
-router.use('/geoword', geowordRouter);
 router.use('/list-reports', listReportsRouter);
 router.use('/leaderboard', leaderboardRouter);
 router.use('/multiplayer', multiplayerRouter);
