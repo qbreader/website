@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
     res.status(201).json({ team: await formatTeam(team, res.locals.userId) });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
-    // Which unique index was violated: see tools/geoword/create-indexes.js.
+    // Which unique index was violated: see createTeam.
     return res.status(409).send(error.keyPattern?.members
       ? 'You are already on a team in this set.'
       : 'That team name is taken.');
