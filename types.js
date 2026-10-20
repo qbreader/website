@@ -67,5 +67,5 @@
  * @typedef {object} GeowordSet
  * @property {ObjectId} _id
  * @property {string} name
- * @property {ObjectId[]} [specialUsers] - users with special access to every packet in the set (see hasPacketPrivileges)
+ * @property {ObjectId[]} [specialUsers] - users with special access to every packet in the set (see hasPacketPrivileges); packets have no such list
  */

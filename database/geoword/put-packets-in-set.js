@@ -4,8 +4,8 @@ import { buzzes, divisionChoices, packets, payments, sets, teams, tossups } from
  * Puts existing packets in a set, for data created before sets existed.
  * Writes `set: { _id, name }` onto each packet and every tossup, buzz, payment and division choice of
  * those packets. Teams used to belong to a packet (`packetName`); they now belong to a set, so the
- * packets' teams move to the set too and lose `packetName`. Special users listed on the packets are
- * added to the set's `specialUsers` (the packets keep theirs). Idempotent.
+ * packets' teams move to the set too and lose `packetName`. Special users listed on the packets move
+ * to the set's `specialUsers`; packets no longer have their own. Idempotent.
  * @param {Object} options
  * @param {{ _id: ObjectId, name: string }} options.set
  * @param {String[]} options.packetNames
@@ -51,7 +51,7 @@ async function putPacketsInSet ({ set, packetNames, dryRun = false }) {
     if (specialUsers.length > 0) {
       await sets.updateOne({ _id: set._id }, { $addToSet: { specialUsers: { $each: specialUsers } } });
     }
-    await packets.updateMany({ name: { $in: packetNames } }, { $set: { set } });
+    await packets.updateMany({ name: { $in: packetNames } }, { $set: { set }, $unset: { specialUsers: '' } });
     await teams.updateMany({ packetName: { $in: packetNames } }, { $set: { set }, $unset: { packetName: '' } });
   }
 
