@@ -19,7 +19,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-const PACKETLESS_PATHS = ['/invoice', '/packet-list', '/resolve-protest'];
+const PACKETLESS_PATHS = ['/packet-list'];
 
 router.use(async (req, res, next) => {
   const { username, token } = req.session;
