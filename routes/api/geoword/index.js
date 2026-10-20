@@ -2,6 +2,7 @@ import adminRouter from './admin/index.js';
 import costRouter from './cost.js';
 import createPaymentIntentRouter from './create-payment-intent.js';
 import getDivisionsRouter from './get-divisions.js';
+import hasAdminAccessRouter from './has-admin-access.js';
 import packetListRouter from './packet-list.js';
 import paidRouter from './paid/index.js';
 
@@ -13,6 +14,7 @@ router.use('/admin', adminRouter);
 router.use('/cost', costRouter);
 router.use('/create-payment-intent', createPaymentIntentRouter);
 router.use('/get-divisions', getDivisionsRouter);
+router.use('/has-admin-access', hasAdminAccessRouter);
 router.use('/packet-list', packetListRouter);
 router.use('/paid', paidRouter);
 

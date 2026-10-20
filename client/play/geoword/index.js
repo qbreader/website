@@ -7,6 +7,14 @@ account.getUsername().then(username => {
   }
 });
 
+fetch('/api/geoword/has-admin-access')
+  .then(response => response.json())
+  .then(data => {
+    if (data.hasAdminAccess) {
+      document.getElementById('admin-link-container').classList.remove('d-none');
+    }
+  });
+
 fetch('/api/geoword/packet-list')
   .then(response => response.json())
   .then(data => {
