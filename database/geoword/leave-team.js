@@ -2,7 +2,6 @@ import { teams } from './collections.js';
 import getTeam from './get-team.js';
 
 /**
- * Removes a user from their team in a set. A team always keeps at least one member, so its last member cannot leave.
  * @param {ObjectId} setId
  * @param {ObjectId} userId
  * @returns {Promise<'left' | 'only-member' | 'not-a-member'>}
