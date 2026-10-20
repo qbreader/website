@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
     res.json({ team: { teamName: team.teamName, division: team.division, code: team.code, memberCount: team.members.length } });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
-    // Lost a race with another join or create by the same player: see tools/geoword/create-indexes.js.
+    // Lost a race with another join or create by the same player: see createTeam.
     res.status(409).send('You are already on a team in this set.');
   }
 });
