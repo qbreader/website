@@ -2,7 +2,7 @@ import { teams } from './collections.js';
 
 /**
  * @param {ObjectId} setId
- * @returns {Promise<Array<{ teamName: string, memberCount: number }>>} every team in the set, by name
+ * @returns {Promise<Array<{ teamName: string, memberCount: number }>>}
  */
 async function getTeamList (setId) {
   return await teams.aggregate([

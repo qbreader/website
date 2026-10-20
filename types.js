@@ -61,12 +61,9 @@
  */
 
 /**
- * A Geoword set: a group of packets played by the same teams. Lives in the `geoword` database,
- * and is referenced by `set: { _id, name }` on packets, tossups, buzzes, payments, division
- * choices and teams. The name is lowercase kebab-case, like a packet's; clients title-case it for display.
  * @typedef {object} GeowordSet
  * @property {ObjectId} _id
  * @property {string} name
- * @property {boolean} [teamsEnabled] - whether players can create and join teams in the set; absent means no
- * @property {ObjectId[]} [specialUsers] - users with special access to every packet in the set (see hasPacketPrivileges); packets have no such list
+ * @property {boolean} [teamsEnabled]
+ * @property {ObjectId[]} [specialUsers]
  */

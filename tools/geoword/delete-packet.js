@@ -1,5 +1,4 @@
 // Deletes a Geoword packet: its tossups, their audio, the sample clip, and the packet itself.
-// Teams belong to the packet's set, not the packet, so they are left alone.
 //
 // Refuses if anyone has played, picked a division, or paid, since deleting would orphan that data.
 // --force deletes buzzes and division choices anyway (test data, mostly), but payments are never

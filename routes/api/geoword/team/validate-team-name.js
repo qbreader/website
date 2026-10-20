@@ -4,17 +4,16 @@ export const MIN_TEAM_NAME_LENGTH = 3;
 export const MAX_TEAM_NAME_LENGTH = 32;
 
 /**
- * @param {String} teamName - already trimmed
- * @returns {String} the name with each run of whitespace collapsed to one space, as names are stored
+ * @param {String} teamName
+ * @returns {String}
  */
 export function normalizeTeamName (teamName) {
   return teamName.replace(/\s+/g, ' ');
 }
 
 /**
- * Cleans up a team name and checks that it is allowed.
- * @param {String} teamName - already trimmed
- * @returns {{ teamName: string, error?: string }} the cleaned name, and why it is not allowed, if so
+ * @param {String} teamName
+ * @returns {{ teamName: string, error?: string }}
  */
 export default function validateTeamName (teamName) {
   teamName = normalizeTeamName(teamName);

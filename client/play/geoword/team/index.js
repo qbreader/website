@@ -5,9 +5,8 @@ const setName = new URLSearchParams(window.location.search).get('setName') ?? ''
 document.getElementById('set-name').textContent = titleCase(setName);
 
 /**
- * POSTs a team action as JSON.
- * @param {string} action - the endpoint under /api/geoword/team/
- * @param {object} [body] - sent along with the set name
+ * @param {string} action
+ * @param {object} [body]
  * @returns {Promise<Response>}
  */
 function postTeamAction (action, body = {}) {
@@ -79,8 +78,6 @@ function showTeam ({ teamName, code, members, isOwner }) {
 }
 
 document.getElementById('form').addEventListener('submit', async event => {
-  // Need event.preventDefault() for firefox only!!!
-  // See https://stackoverflow.com/a/70780452
   event.preventDefault();
   event.stopPropagation();
 

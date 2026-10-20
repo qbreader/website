@@ -29,8 +29,7 @@ function scoreTeam (team, teamBuzzes) {
 }
 
 /**
- * Team standings for a packet, by division. Teams belong to the packet's set, so the same
- * teams are ranked on every packet in it, in each division where a member played.
+ * Team standings for a packet, by division.
  *
  * Individual buzzes are never modified: a team's score is derived at read time, so
  * changing the merge rule re-scores the tournament without touching stored data.
@@ -70,7 +69,6 @@ export default async function getTeamLeaderboard ({ packetName, includeInactive 
 
     return teamList
       .map(team => scoreTeam(team, team.members.flatMap(member => buzzesByUser.get(String(member)) ?? [])))
-      // Divisions belong to packets, not teams: a team is ranked in the divisions its members played.
       .filter(row => row.tossupsHeard > 0)
       .sort((a, b) => b.points - a.points || b.numberCorrect - a.numberCorrect);
   }));

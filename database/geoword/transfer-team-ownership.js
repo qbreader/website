@@ -1,12 +1,11 @@
 import { teams } from './collections.js';
 
 /**
- * Hands the team the user owns to another of its members.
  * @param {Object} options
  * @param {ObjectId} options.setId
  * @param {ObjectId} options.ownerId
  * @param {ObjectId} options.newOwnerId
- * @returns {Promise<Boolean>} whether the user owns a team in the set with that other member on it
+ * @returns {Promise<Boolean>}
  */
 async function transferTeamOwnership ({ setId, ownerId, newOwnerId }) {
   if (ownerId.equals(newOwnerId)) {
