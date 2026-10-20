@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
     if (!team) {
       return res.status(404).send('No team has that name and code.');
     }
-    res.json({ team: { teamName: team.teamName, division: team.division, code: team.code, memberCount: team.members.length } });
+    res.json({ team: { teamName: team.teamName, code: team.code, memberCount: team.members.length } });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
     // Lost a race with another join or create by the same player: see createTeam.
