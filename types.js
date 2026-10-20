@@ -64,6 +64,6 @@
  * @typedef {object} GeowordSet
  * @property {ObjectId} _id
  * @property {string} name
- * @property {boolean} [teamsEnabled] - whether players can create and join teams in the set; absent means no
- * @property {ObjectId[]} [specialUsers] - users with special access to every packet in the set (see hasPacketPrivileges); packets have no such list
+ * @property {boolean} [teamsEnabled]
+ * @property {ObjectId[]} [specialUsers]
  */

@@ -1,7 +1,7 @@
 import { packets } from './collections.js';
 
 /**
- * @returns {Promise<Array<{ name: string }>>} the sets with team registration open and at least one public packet, in packet order
+ * @returns {Promise<Array<{ name: string }>>}
  */
 async function getSetList () {
   return await packets.aggregate([

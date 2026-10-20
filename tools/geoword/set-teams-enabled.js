@@ -1,5 +1,3 @@
-// Opens or closes team registration for a Geoword set. Closing it blocks creating and joining teams;
-// players already on a team keep access to theirs.
 import { sets } from '../../database/geoword/collections.js';
 import { geoword, mongoClient } from '../../database/databases.js';
 

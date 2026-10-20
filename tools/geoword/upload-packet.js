@@ -378,7 +378,7 @@ if (!Number.isInteger(costInCents) || costInCents < 0) {
 
 /**
  * @param {String} setName
- * @returns {Promise<{ _id: ObjectId, name: string }>} the set with that name, created if it doesn't exist yet, with team registration set per `--teams`
+ * @returns {Promise<{ _id: ObjectId, name: string }>}
  */
 async function getOrCreateSet (setName) {
   const teamsEnabled = argv.teams ?? (PROD ? undefined : true);
