@@ -8,7 +8,6 @@ import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 
 const router = Router();
-// Keyed by account, not IP, so a wrong guess costs the guesser's account wherever they come from.
 router.use(rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
@@ -30,7 +29,6 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    // The same answer for a missing team and a wrong code.
     const team = await joinTeam({ setId: set._id, teamName: normalizeTeamName(teamName), code, userId });
     if (!team) {
       return res.status(404).send('No team has that name and code.');
@@ -38,7 +36,6 @@ router.post('/', async (req, res) => {
     res.json({ team: await formatTeam(team, userId) });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
-    // Lost a race with another join or create by the same player: see createTeam.
     res.status(409).send('You are already on a team in this set.');
   }
 });
