@@ -1,6 +1,8 @@
+import { titleCase } from '../../../../shared/string-utils.js';
+
 const setName = new URLSearchParams(window.location.search).get('setName') ?? '';
 
-document.getElementById('set-name').textContent = setName;
+document.getElementById('set-name').textContent = titleCase(setName);
 
 /**
  * POSTs a team action as JSON.

@@ -38,7 +38,7 @@ fetch('/api/geoword/set-list')
     document.getElementById('team-links').replaceChildren(...setList.flatMap(({ name }, index) => {
       const a = document.createElement('a');
       a.href = './team/?' + new URLSearchParams({ setName: name });
-      a.textContent = name;
+      a.textContent = titleCase(name);
       return index === 0 ? [a] : [', ', a];
     }));
   });
